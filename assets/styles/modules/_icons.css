@@ -1,0 +1,148 @@
+.icon {
+ 
+    &__site-header--search {
+        display: inline;
+        font-size: 1rem;
+        color: $mainLightBlack;
+
+        &:hover {
+            color: $mainPaleBlue;
+        }
+    }
+
+    &__site-header--favorites {
+        position: absolute;
+        font-size: .875rem;
+        top: 25%;
+        transform: translate(-50%);
+        color: $mainLightRed;
+
+        @mixin atSmall{
+            font-size: .875rem;
+            top: 25%;
+        }
+
+        @mixin atMedium{
+            font-size: 1rem;
+            top: 25%;
+        }
+
+        @mixin atLarge{
+            font-size: 1.2rem;;
+            top: 25%;
+        }
+    }
+
+    &__site-header--shares {
+        font-size: .875rem;
+        position: absolute;
+        top: 25%;
+        transform: translate(-50%);
+        color: $mainLightBlue;
+
+        @mixin atSmall{
+            font-size: .875rem;
+            top: 25%;
+        }
+
+        @mixin atMedium{
+            font-size: 1rem;
+            top: 22%;
+        }
+
+        @mixin atLarge{
+            font-size: 1rem;;
+            top: 25%;
+        }
+    }
+
+    &__site-header--addNew {
+        position: absolute;
+        font-size: .875rem;
+        top: 25%;
+        transform: translate(-50%);
+        color: #fff;
+        right: 2px;
+
+        @mixin atSmall {
+            font-size: .875rem;
+            top: 25%;
+        }
+
+        @mixin atMedium {
+            font-size: 1rem;
+            top: 22%;
+        }
+
+        @mixin atLarge{
+            font-size: .9375rem;
+            top: 22%;
+        }
+    }
+
+    &__site-header--bell {
+        position: absolute;
+        font-size: .875rem;
+        top: 25%;
+        transform: translate(-50%);
+        color: $mainLightBlack;
+
+        @mixin atSmall {
+            font-size: .875rem;
+            top: 25%;
+        }
+
+        @mixin atMedium {
+            font-size: 1rem;
+            top: 22%;
+        }
+        @mixin atLarge{
+            font-size: 1.2rem;
+            top: 25%;
+        }
+    }
+
+    &__site-header--list {
+        position: absolute;
+        font-size: .875rem;
+        top: 25%;
+        transform: translate(-50%);
+        color: $mainLightBlack;
+
+        @mixin atSmall {
+            font-size: .875rem;
+            top: 25%;
+        }
+
+        @mixin atMedium {
+            font-size: 1rem;
+            top: 22%;
+        }
+
+        @mixin atLarge{
+            font-size: 1rem;
+            top: 25%;
+        }
+    }
+
+    &__site-header--login {
+        font-size: .875rem;
+        color: #E4DEDE;
+        margin: 0 .25rem 0 0;
+
+        @mixin atSmall {
+            font-size: .875rem;
+        }
+        @mixin atMedium {
+            font-size: .9375rem;
+        }
+    }
+
+    &--bars {
+        display: block;
+        @mixin atMedium {
+            display: none;
+        }
+    }
+
+}
