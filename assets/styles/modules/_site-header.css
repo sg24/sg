@@ -14,7 +14,7 @@
     }
     @mixin atMedium {
         background-color: $mainHeaderColor;
-        padding: 0rem 0;
+        padding: .625rem 0;
         /* background-color: blue; */
     }
     @mixin atLarge {
@@ -24,10 +24,10 @@
     &__logo {
         position: relative;
         width: 65px;
-        height: 20px;
+        height: 30px;
         background: #fff;
         float: left;
-        /* left: 0; */
+        left: 0;
     }
 
     &__form {
@@ -35,7 +35,9 @@
         position: relative;
         margin: 0 .625rem 0 1.25rem;
         @mixin clearfix;
+        padding: 0;
         width: 1.563rem;
+        display: none;
         /* box-shadow: 0 0 .2594rem .0531rem rgba(203, 209, 207, 0.65);
         -ms-box-shadow: 0 0 .2594rem  .0531rem rgba(203, 209, 207, 0.65);
         -webkit-box-shadow: 0 0 .2594rem  .0531rem rgba(203, 209, 207, 0.65);
@@ -72,8 +74,8 @@
             display: inline;
             float: right;
             text-align: center;
-            /* width: 100%; */
-            /* padding: .395rem 0 .395rem 0; */
+            width: 100%;
+            padding: .395rem 0 .395rem 0;
             cursor: pointer;
             border-radius: 0;
             border-top-right-radius: 0;
@@ -164,11 +166,9 @@
             margin: 0;
             padding: 0;
             @mixin clearfix;
-            font-size: .875rem;
-            margin: .288rem 0;
+            font-size: .9375rem; 
             overflow: hidden;
-            position: relative;
-            left: 2%;
+            /* background: #fff; */
 
             @mixin atSmall {
                 position: relative;
@@ -212,11 +212,7 @@
             }
 
         &:first-child {
-            margin-right: 0rem;
-
-            @mixin atSmall {
-                margin-right: 1.45rem;
-            }
+            margin-right: 1.45rem;
         }
 
         @mixin atSmall {
