@@ -1,12 +1,12 @@
 .wrapper {
-    overflow: hidden;
+    /* overflow: hidden; */
     max-width: 1200px;
     margin: 0 auto;
     padding-left: 0px;
     padding-right: 0px;
     display: flex;
     justify-content: center;
-    
+
     @mixin atSmall {
         padding-left: 18px;
         padding-right: 18px;

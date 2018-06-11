@@ -5,6 +5,7 @@
     width: 100%;
     top: 0;
     padding: .625rem 0;
+    z-index: 2;
    
     &__logo {
         position: relative;
@@ -179,7 +180,7 @@
         li {
             float: left;
             margin: .588rem 0;
-
+            /* overflow: hidden; */
             a {
                 text-decoration: none;
                 cursor: pointer;
@@ -194,11 +195,11 @@
 
                 @mixin atMedium {
                     color: $mainFontColor;
-                    padding: 4.8rem .6rem;
+                    padding: .4rem .6rem;
                 }
 
                 @mixin atLarge {
-                    padding: 4.8rem 1.225rem;
+                    padding: .4rem 1.225rem;
                 }
                 &:hover {
                     background-color: #fff;
@@ -340,7 +341,6 @@
             height: 28px;
             margin: .285rem  0 0 1rem;
             background-color: rgba($mainLightGray, .7);
-            overflow: hidden;
             display: inline;
             text-align: center;
             position: relative;
@@ -379,7 +379,6 @@
             height: 28px;
             margin: .285rem  0 0 1rem;
             background-color: rgba($mainLightGray, .7);
-            overflow: hidden;
             display: inline;
             text-align: center;
             position: relative;
@@ -488,7 +487,7 @@
               }
 
               @mixin atSmall {
-                margin: 0 0 0 1.9rem;
+                margin: 0 0 0 2.163rem;
                 width: auto;
                 height: auto;
                 padding: .165rem;
