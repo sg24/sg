@@ -5,26 +5,11 @@
     width: 100%;
     top: 0;
     padding: .625rem 0;
-    background-color: blue;
-
-    @mixin atSmall {
-        /* background-color: blue; */
-        background-color: $mainHeaderColor;
-        padding: .3125rem 0 1.9rem 0;
-    }
-    @mixin atMedium {
-        background-color: $mainHeaderColor;
-        padding: .625rem 0;
-        /* background-color: blue; */
-    }
-    @mixin atLarge {
-        background-color: $mainHeaderColor;
-    }
-
+   
     &__logo {
         position: relative;
         width: 65px;
-        height: 30px;
+        height: 32px;
         background: #fff;
         float: left;
         left: 0;
@@ -129,11 +114,21 @@
         border-radius: 2px;
         margin: .45rem 0 0 .5rem;
         width: 5.25rem;
+        display: none;
+
+        @mixin atExtraSmall {
+            display: block;
+            margin-top: .1rem;
+        }
+
+        @mixin atMiniSmall {
+            margin: .1rem 1.15rem 0 1.5rem;
+        }
 
         @mixin atSmall {
+            display: block;
             margin: .15rem 0 0 .5rem;
             width: 5.25rem;
-            /* display: none; */
         }
 
         @mixin atMedium {
@@ -153,28 +148,30 @@
         margin-top: .175rem;
         font-family: "poppins" , Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
         position: absolute;
-        top: 40px;
+        top: 45px;
         width: 100%;
-        /* transform: translateY(-100px); */
+        padding-left: 1px;
        left: 0;
-       /* border-top: 1px solid $mainDarkGray; */
-        background: $mainLightBlue;
+       background: $mainMiddleDarkBlue;
         
 
         ul {
+            display: flex;
+            justify-content: center;
+         
             list-style: none;
             margin: 0;
             padding: 0;
             @mixin clearfix;
-            font-size: .9375rem; 
+            font-size: .875rem; 
             overflow: hidden;
-            /* background: #fff; */
 
             @mixin atSmall {
-                position: relative;
-                left: 22%;
+                display: flex;
+                justify-content: center;
             }
             @mixin atMedium {
+                display: inline;
                 border-top: none;
                 left: 0;
             }
@@ -182,15 +179,13 @@
         li {
             float: left;
             margin: .588rem 0;
-            /* background-color: blue; */
 
             a {
                 text-decoration: none;
                 cursor: pointer;
-                color: $mainFontColor;
-                /* color: #fff; */
+                color: #fff;
                 padding: 6.8rem .6rem;
-                /* background-color: $mainDarkRed; */
+             
                 
                 @mixin atSmall {
                     padding: .8rem .6rem;
@@ -212,21 +207,29 @@
             }
 
         &:first-child {
-            margin-right: 1.45rem;
+            margin-right: 0rem;
+
+            @mixin atSmall {
+                margin-right: 1.45rem;
+            }
+        }
+
+        &:last-child {
+            display: none;
+            @mixin atSmall {
+                display: block;
+            }
         }
 
         @mixin atSmall {
             font-size: .875rem;
-            margin: .288rem 0;
+            margin: .488rem 0;
         }
 
         @mixin atMedium {
             margin: .588rem 0;
         }
-
-        @mixin atLarge {
-            /* padding: 0 1.25rem; */
-        }
+     
       }
 
       &--bars {
@@ -236,6 +239,23 @@
           @mixin atMedium {
               display: none;
           }
+      }
+
+      &--search-mini {
+          display: inline;
+          padding:  0 0 0 .2rem;
+          @mixin atSmall {
+              display: none;
+          }
+
+          &__content {
+            background-color: $mainExtraLightGray;
+          }
+      }
+
+      @mixin atSmall {
+        padding-left: 0;
+        top: 45px;
       }
 
       @mixin atMedium {
@@ -251,27 +271,51 @@
     }
 
     &__menu {
-        /* background-color: #fff; */
-        /* width: 34%; */
+
+        &--mini-space {
+
+            @mixin atExtraSmall {
+                display: none;
+            }
+
+            @mixin atMiniSmall{
+                display: block;
+                float: left;
+                width: 16px;
+                height: 24px;
+                margin: .285rem  0rem 0 0rem;
+                background-color: transparent;
+                opacity: 0;
+                z-index: -3333;
+            }
+
+            @mixin atSmall {
+                display: none;
+            }
+        }
 
         &--favorites {
             float: left;
             border-radius: 14px;
             width: 28px;
             height: 28px;
-            margin: .185rem  0rem auto 1.825rem;
+            margin: .285rem  0rem 0 .825rem;
             background-color: rgba($mainLightGray, .7);
-            overflow: hidden;
+            /* overflow: hidden; */
             display: inline;
             text-align: center;
             position: relative;
             cursor: pointer;
 
+            @mixin atExtraSmall {
+                margin: .2rem   0rem 0 .825rem;
+            }
+
             @mixin atSmall {
                 border-radius: 14px;
                 width: 28px;
                 height: 28px;
-                margin: .185rem  0rem auto 1.825rem;
+                margin: .11rem  0rem 0 1.825rem;
             }
 
             @mixin atMedium {
@@ -294,7 +338,7 @@
             border-radius: 14px;
             width: 28px;
             height: 28px;
-            margin: .185rem  0 0 1rem;
+            margin: .285rem  0 0 1rem;
             background-color: rgba($mainLightGray, .7);
             overflow: hidden;
             display: inline;
@@ -302,11 +346,15 @@
             position: relative;
             cursor: pointer;
 
+            @mixin atExtraSmall {
+                margin: .2rem   0rem 0 .825rem;
+            }
+
             @mixin atSmall {
                 border-radius: 14px;
                 width: 28px;
                 height: 28px;
-                margin: .185rem  .5rem 0 1rem;
+                margin: .11rem  .5rem 0 1rem;
             }
 
             @mixin atMedium {
@@ -329,7 +377,7 @@
             border-radius: 14px;
             width: 28px;
             height: 28px;
-            margin: .185rem  0 0 1rem;
+            margin: .285rem  0 0 1rem;
             background-color: rgba($mainLightGray, .7);
             overflow: hidden;
             display: inline;
@@ -337,11 +385,15 @@
             position: relative;
             cursor: pointer;
 
+            @mixin atExtraSmall {
+                margin: .2rem   0rem 0 .825rem;
+            }
+            
             @mixin atSmall {
                 border-radius: 14px;
                 width: 28px;
                 height: 28px;
-                margin: .185rem  0 0 1rem;
+                margin: .11rem  0 0 1rem;
             }
             
             @mixin atMedium {
@@ -367,16 +419,17 @@
             margin: .185rem  .5rem auto 1rem;
             background-color: rgba($mainLightGray, .7);
             overflow: hidden;
-            display: inline;
+            display: none;
             text-align: center;
             position: relative;
             cursor: pointer;
 
             @mixin atSmall {
+                display: block;
                 border-radius: 14px;
                 width: 28px;
                 height: 28px;
-                margin: .185rem  .5rem auto 1rem;
+                margin: .11rem  .5rem 0 1rem;
             }
 
             @mixin atMedium {
@@ -400,27 +453,26 @@
             overflow: hidden;
             text-align: center;
             display: inline;
-            width: 40px;
-            height: 40px;
             position: relative;
-            margin: 0rem auto 0 2.563rem;
+            margin: 0 0 0 1.763rem;
             padding: .1875rem;
             cursor: pointer;
 
             &__img {
                 float: left;
-                border-radius: 17px;
+                border-radius: 14px;
                 background-color: $mainExtraLightGray;
                 overflow: hidden;
                 text-align: center;
-                width: 34px;
-                height: 34px;
+                width: 1.75rem;
+                height: 1.75rem;
+                padding: .0625rem;
                 position: relative;
 
                 @mixin atSmall {
-                    border-radius: 15px;
-                    width: 1.875rem;
-                    height: 1.875rem;
+                    border-radius: 14px;
+                    width: 1.75rem;
+                    height: 1.75rem;
                     padding: .0625rem;
                 }
 
@@ -431,11 +483,15 @@
                 }
               }
 
+              @mixin atExtraSmall {
+                margin: 0 0 0 0.9rem;
+              }
+
               @mixin atSmall {
-                margin: 0 0 0 1.163rem;
+                margin: 0 0 0 1.9rem;
                 width: auto;
                 height: auto;
-                padding: .175rem;
+                padding: .165rem;
             }
 
             @mixin atMedium {
@@ -465,7 +521,8 @@
             float: left;
             margin: 0rem 0 0 2rem; 
             font-family: "poppins" , Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
-            display: none;
+            position: absolute;
+            right: 4px;
 
             ul {
                 list-style: none;
@@ -477,9 +534,9 @@
             li {
                 margin: 0;
                 float: left;
-                padding: .475rem .3125rem;
+                padding: .375rem .3125rem;
                 background-color: $mainDarkRed;
-                margin-left: 10px;
+                margin-left: .625rem;
                 font-size: .9375rem; 
                 border: 1px solid $mainLightGray;
 
@@ -496,14 +553,33 @@
                     cursor: pointer;
                 }
 
+                @mixin atExtraSmall {
+                    padding: .375rem .3125rem;
+                    font-size: .875rem; 
+                    margin-left: .525rem;
+                }
+
                 @mixin atSmall {
-                   font-size: .875rem 
+                   font-size: .875rem; 
+                   margin-left: .625rem;
                 }
 
                 @mixin atMedium {
                     font-size: .9375rem; 
                     padding: .675rem .3125rem;
                 }
+        }
+
+        @mixin atExtraSmall{
+            position: relative;
+            right: 0;
+            display: block;
+            margin: 0rem 0 0 1rem; 
+        }
+
+        @mixin atMiniSmall{
+            display: block;
+            margin: 0rem 0 0 1.2rem; 
         }
 
         @mixin atSmall{
@@ -521,7 +597,3 @@
     }
 }
 
-div.both:hover .icon{
-    background-color: #e3e5ed;
-    box-shadow: 0 0 4px green;
-}

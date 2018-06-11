@@ -11,3 +11,46 @@ img {
 * {
     box-sizing: border-box;
 }
+
+.active {
+    /* border-radius: 20px;
+    height: 40px;
+    width: 40px; */
+    /* position: absolute;
+    right: 10px;
+    background-color: #f22613;
+    z-index: 10;
+    top: 20px; */
+    z-index: 1000 !important;
+    position: absolute;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: 100%;
+        border-radius: 10px;
+        transform: translateX(-100%);
+        width: 20px;
+        height: 20px;
+        background: blue;
+        overflow: hidden;
+    }
+
+    & > span {
+        display: inline;
+        color: #fff;
+        position: absolute;
+        top: -7px;
+        left: 100%;
+        border-radius: 10px;
+        transform: translateX(-100%);
+        font-size: .875rem;
+        overflow: hidden;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        white-space: nowrap;
+        word-overflow: hidden;
+    }
+}

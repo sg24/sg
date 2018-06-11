@@ -88,7 +88,7 @@
         color: $mainLightBlack;
 
         @mixin atSmall {
-            font-size: .875rem;
+            font-size: .895rem;
             top: 25%;
         }
 
@@ -140,9 +140,17 @@
 
     &--bars {
         display: block;
+        font-size: .875rem;
         @mixin atMedium {
             display: none;
         }
     }
 
+    &--search-mini {
+        font-size: .875rem;
+
+        @mixin atSmall {
+            display: none;
+        }
+    }
 }
