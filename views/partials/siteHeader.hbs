@@ -5,14 +5,23 @@
                 LOGO
             </div>
         </div>
-         <div class="site-header__form">
-            <input type="text" class="site-header__form--input" autofocus autocomplete="on">
+         <form class="site-header__form">
+            <input type="text" class="site-header__form--input" autocomplete="on">
             <span class="site-header__form--search">
                 <i class="fas fa-search icon icon__site-header--search"></i>
             </span>
-        </div>
+        </form>
         <div class="site-header__addNew">
             <span class="site-header__addNew--content">Add New <i class="fas fa-angle-down icon__site-header--addNew"></i></span>
+            <ul class="site-header__addNew--list">
+                <li>Post</li>
+                <li>Question</li>
+                <li>Group</li>
+                <li>Timed Question</li>
+                <li>Answer</li>
+                <li>Quote</li>
+                <li>Items</li>
+            </ul>
         </div>
         <div class="site-header__list">
             <ul>
@@ -20,7 +29,7 @@
                 <li><a href="">Questions</a></li>
                 <li><a href="">Posts</a></li>
                 <li><a href="">Groups</a></li>
-                <li class="site-header__list--search-mini"><a href="" class="site-header__list--search-mini__content"><i class="fas fa-search icon icon__site-header--search-mini"></i></a></li>
+                <li class="site-header__list--search-mini"><a class="site-header__list--search-mini__content"><i class="fas fa-search icon icon__site-header--search-mini"></i></a></li>
                 <li><a href="">Quotes</a></li>
             </ul>
         </div>
@@ -28,17 +37,143 @@
             <div class="site-header__menu--mini-space"> </div>
             <div class="site-header__menu--favorites">
                 <i class="far fa-heart icon icon__site-header--favorites"></i>
+                <ul class="site-header__menu--favorites__tool-tip">
+                    <li>Favorites</li>
+                </ul>
             </div>
             <div class="site-header__menu--shares active">
-                <span class="">99</span>
+                <span class="">9</span>
                 <i class="fas fa-location-arrow icon icon__site-header--shares"></i>
+                <ul class="site-header__menu--shares__tool-tip">
+                    <li>Shared with me</li>
+                </ul>
             </div>
             <div class="site-header__menu--notification active">
-                <span class="">99</span>
+                <span class="">9</span>
                 <i class="far fa-bell icon icon__site-header--bell"></i>
+                <ul class="site-header__menu--notification__tool-tip">
+                    <li>Notification</li>
+                </ul>
+                <div class="site-header__menu--notification__wrapper-header">
+                    <span class="site-header__menu--notification__wrapper-header--settings">
+                        <i class="fas fa-cogs icon icon__site-header--notification__settings"></i>
+                    </span>
+                </div>
+                <div class="site-header__menu--notification__wrapper">
+                    <div class="site-header__menu--notification__wrapper--content 22">
+                        <span class="site-header__menu--notification__wrapper--category">f</span>
+                        <p class="site-header__menu--notification__wrapper--title">
+                        <a href=""> what is your view about all this stuffs
+                        <span class="site-header__menu--notification__wrapper--viewmore">
+                            . . .
+                        </span>
+                        </a>
+                        </p>
+                        <i class="far fa-clock icon icon__site-header--notification__clock"></i>
+                        <span class="site-header__menu--notification__wrapper--dts">
+                            <i class="fas fa-circle icon icon__site-header--notification--circle"></i>
+                            <i class="fas fa-circle icon icon__site-header--notification--circle"></i>
+                            <i class="fas fa-circle icon icon__site-header--notification--circle"></i>
+                        </span>
+                        <p class="site-header__menu--notification__wrapper--Viewers">
+                            <i class="far fa-eye icon icon__site-header__menu--notification--details__eye"></i>: 345k
+                        </p>
+                        <p class="site-header__menu--notification__wrapper--favorite">
+                            <i class="far fa-heart icon icon__site-header__menu--notification--details__heart"></i>: 345k
+                        </p>
+                        <p class="site-header__menu--notification__wrapper--comment">
+                            <i class="far fa-comment icon icon__site-header__menu--notification--details__comment"></i>: 345k
+                        </p>
+                    </div>
+                    <div class="site-header__menu--notification__wrapper--content 23">
+                        <span class="site-header__menu--notification__wrapper--category">f</span>
+                        <p class="site-header__menu--notification__wrapper--title">
+                        <a href=""> what is your view about all this stuffs
+                        <span class="site-header__menu--notification__wrapper--viewmore">
+                            . . .
+                        </span>
+                        </a>
+                        </p>
+                        <i class="far fa-clock icon icon__site-header--notification__clock"></i>
+                        <span class="site-header__menu--notification__wrapper--dts">
+                            <i class="fas fa-circle icon icon__site-header--notification--circle"></i>
+                            <i class="fas fa-circle icon icon__site-header--notification--circle"></i>
+                            <i class="fas fa-circle icon icon__site-header--notification--circle"></i>
+                        </span>
+                        <p class="site-header__menu--notification__wrapper--Viewers">
+                            <i class="far fa-eye icon icon__site-header__menu--notification--details__eye"></i>: 345k
+                        </p>
+                        <p class="site-header__menu--notification__wrapper--favorite">
+                            <i class="far fa-heart icon icon__site-header__menu--notification--details__heart"></i>: 345k
+                        </p>
+                        <p class="site-header__menu--notification__wrapper--comment">
+                            <i class="far fa-comment icon icon__site-header__menu--notification--details__comment"></i>: 345k
+                        </p>
+                    </div>
+                    <div class="site-header__menu--notification__wrapper--content 24">
+                        <span class="site-header__menu--notification__wrapper--category">f</span>
+                        <p class="site-header__menu--notification__wrapper--title">
+                        <a href=""> what is your view about all this stuffs
+                        <span class="site-header__menu--notification__wrapper--viewmore">
+                            . . .
+                        </span>
+                        </a>
+                        </p>
+                        <i class="far fa-clock icon icon__site-header--notification__clock"></i>
+                        <span class="site-header__menu--notification__wrapper--dts">
+                            <i class="fas fa-circle icon icon__site-header--notification--circle"></i>
+                            <i class="fas fa-circle icon icon__site-header--notification--circle"></i>
+                            <i class="fas fa-circle icon icon__site-header--notification--circle"></i>
+                        </span>
+                        <p class="site-header__menu--notification__wrapper--Viewers">
+                            <i class="far fa-eye icon icon__site-header__menu--notification--details__eye"></i>: 345k
+                        </p>
+                        <p class="site-header__menu--notification__wrapper--favorite">
+                            <i class="far fa-heart icon icon__site-header__menu--notification--details__heart"></i>: 345k
+                        </p>
+                        <p class="site-header__menu--notification__wrapper--comment">
+                            <i class="far fa-comment icon icon__site-header__menu--notification--details__comment"></i>: 345k
+                        </p>
+                    </div>
+                </div>
+                <div class="site-header__menu--notification--ct">
+                    <div class="site-header__menu--notification--ct__details 22">
+                        <div class="site-header__menu--notification--ct__details--user">
+                            <p>Category: <a href="">Question</a></p>
+                            <p>author : <a href="">User User User User</a></p>
+                        </div>
+                        <p class="site-header__menu--notification--ct__details--viewLater">
+                            <i class="far fa-clock icon icon__site-header--notifcation__viewLater"></i> 
+                            <span class="site-header__menu--notification--ct__details--viewLater__text">25minute ago</span>
+                        </p>
+                    </div>
+                    <div class="site-header__menu--notification--ct__details 23">
+                        <div class="site-header__menu--notification--ct__details--user">
+                            <p>Category: <a href="">Question</a></p>
+                            <p>author : <a href="">User User User User</a></p>
+                        </div>
+                        <p class="site-header__menu--notification--ct__details--viewLater">
+                            <i class="far fa-clock icon icon__site-header--notifcation__viewLater"></i> 
+                            <span class="site-header__menu--notification--ct__details--viewLater__text">25minute ago</span>
+                        </p>
+                    </div>
+                    <div class="site-header__menu--notification--ct__details 24">
+                        <div class="site-header__menu--notification--ct__details--user">
+                            <p>Category: <a href="">Question</a></p>
+                            <p>author : <a href="">User User User User</a></p>
+                        </div>
+                        <p class="site-header__menu--notification--ct__details--viewLater">
+                            <i class="far fa-clock icon icon__site-header--notifcation__viewLater"></i> 
+                            <span class="site-header__menu--notification--ct__details--viewLater__text">25minute ago</span>
+                        </p>
+                    </div>
+                </div>
             </div>
             <div class="site-header__menu--nav">
                 <i class="fas fa-bars icon icon__site-header--list"></i>
+                <ul class="site-header__menu--nav__tool-tip">
+                    <li>Options</li>
+                </ul>
             </div>
             <div class="site-header__menu--user">
                 <div class="site-header__menu--user__img"></div>
@@ -50,6 +185,22 @@
                     <li><a href="">Signup</a></li>
                 </ul>
             </div> --}}
-
+        
+        <form class="site-header__miniForm">
+            <div class="site-header__miniForm--logo">
+                <div class="site-header__miniForm--logo__graphics">
+                    LOGO
+                </div>
+            </div>
+            <div class="site-header__miniForm--wrapper">
+                <input type="text" class="site-header__miniForm--wrapper__input" autofocus autocomplete="on">
+                <span class="site-header__miniForm--wrapper__search">
+                    <i class="fas fa-search icon icon__site-header--search"></i>
+                </span>
+            </div>
+            <div class="site-header__miniForm--close">
+                <i class="fas fa-times icon icon__site-header--miniForm__close"></i>
+            </div>
+        </form>
     </div>
 </header>
