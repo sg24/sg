@@ -13,15 +13,7 @@ img {
 }
 
 .active {
-    /* border-radius: 20px;
-    height: 40px;
-    width: 40px; */
-    /* position: absolute;
-    right: 10px;
-    background-color: #f22613;
-    z-index: 10;
-    top: 20px; */
-    z-index: 1000 !important;
+    z-index: 1 ;
     position: absolute;
 
     &::before {
@@ -46,10 +38,10 @@ img {
         display: inline;
         color: #fff;
         position: absolute;
-        top: -8px;
-        right: -4.4px;
+        top: -7px;
+        right: -5px;
         border-radius: 10px;
-        font-size: .8125rem;
+        font-size: .75rem;
         overflow: hidden;
         width: 20px;
         height: 20px;
@@ -57,13 +49,18 @@ img {
         white-space: nowrap;
 
         @mixin atMedium {
-            width: 19px;
-            right: -4.4px;
+            /* width: 19px;
+            right: -4.4px; */
+            top: -8px;
+            right: -5px;
+            font-size: .8125rem;
         }
 
         @mixin atLarge {
+            font-size: .8125rem;
             top: -7px;
             right: -3px;
         }
     }
 }
+
