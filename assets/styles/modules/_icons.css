@@ -60,7 +60,7 @@
         position: absolute;
         font-size: .875rem;
         top: 25%;
-        transform: translate(-50%);
+        transform: translate(-55%);
         color: #fff;
         right: 2px;
 
@@ -70,13 +70,14 @@
         }
 
         @mixin atMedium {
-            font-size: 1rem;
-            top: 22%;
+            font-size: .875rem;
+            top: 25%;
         }
 
         @mixin atLarge{
+            transform: translate(-50%);
             font-size: .9375rem;
-            top: 22%;
+            top: 25%;
         }
     }
 
@@ -128,13 +129,11 @@
     &__site-header--login {
         font-size: .875rem;
         color: #E4DEDE;
-        margin: 0 .25rem 0 0;
+        display: none;
 
-        @mixin atSmall {
-            font-size: .875rem;
-        }
-        @mixin atMedium {
-            font-size: .9375rem;
+        @mixin atLarge {
+            margin: 0 .25rem 0 0;
+            display: inline;
         }
     }
 
@@ -152,5 +151,61 @@
         @mixin atSmall {
             display: none;
         }
+    }
+
+    &__site-header--miniForm__close {
+        font-size: .8125rem;
+        color: $mainLightBlack;
+    }
+
+    &__site-header--notification__clock {
+        position: absolute;
+        font-size: .875rem;
+        top: 5px;
+        right: 5px;
+        color: $mainDarkGray;
+        cursor: pointer;
+    }
+
+    &__site-header--notification--circle {
+        font-size: .35rem; 
+        color: $mainDarkGray;
+        margin-left: .125rem;
+    }
+
+    &__site-header--notification__settings {
+        color: $mainDarkBlue;
+        font-size: .5rem;
+        position: absolute;
+        top: 25%;
+        transform: translate(-50%);
+    }
+
+    &__site-header__menu--notification--details__icon {
+        font-size: .8125rem;
+    }
+
+    &__site-header__menu--notification--details__eye {
+        font-size: .75rem;
+    }
+
+    &__site-header__menu--notification--details__heart {
+        font-size: .75rem;
+        cursor: pointer;
+    }
+
+    &__site-header__menu--notification--details__comment {
+        font-size: .75rem;
+        cursor: pointer;
+    }
+
+    &__site-header--notifcation__viewLater {
+        font-size: .8125rem;
+    }
+
+    &__site-header__menu--nav-icon {
+        font-size: 14px;
+        color: $mainLightBlack;
+        margin-right: 3px;
     }
 }

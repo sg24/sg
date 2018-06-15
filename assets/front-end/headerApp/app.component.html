@@ -1,0 +1,42 @@
+<div class="site-header__menu--notification__wrapper" [ngClass]="getOverflow()" >
+    <div class="site-header__menu--notification__wrapper--content 22" *ngFor="let notify of notifies; let i = index">
+        <span class="site-header__menu--notification__wrapper--category">{{notify.categoryIcon}}</span>
+        <p class="site-header__menu--notification__wrapper--title">
+           <a href=""> {{notify.title}}
+           <span class="site-header__menu--notification__wrapper--viewmore">
+            . . .
+        </span>
+          </a>
+        </p>
+        <i class="far fa-clock icon icon__site-header--notification__clock"></i>
+        <!-- <span class="site-header__menu--notification__wrapper--dts" (click)="getId(i)">
+            <i class="fas fa-circle icon icon__site-header--notification--circle"></i>
+            <i class="fas fa-circle icon icon__site-header--notification--circle"></i>
+            <i class="fas fa-circle icon icon__site-header--notification--circle"></i>
+        </span> -->
+         <p class="site-header__menu--notification__wrapper--Viewers">
+             <i class="far fa-eye icon icon__site-header__menu--notification--details__eye"></i>: {{notify.viewers}}
+         </p>
+          <p class="site-header__menu--notification__wrapper--favorite">
+             <i class="far fa-heart icon icon__site-header__menu--notification--details__heart"></i>: {{notify.favorites}}
+         </p>
+         <p class="site-header__menu--notification__wrapper--comment">
+             <i class="far fa-comment icon icon__site-header__menu--notification--details__comment"></i>: {{notify.comment}}
+         </p>
+         <!-- <div class="site-header__menu--notification--ct">
+            <span *ngIf="i === indexId">
+            <div class="site-header__menu--notification--ct__details" [ngClass]="getClass()">
+                <div class="site-header__menu--notification--ct__details--user">
+                    <p>Category: <a href="">{{notify.category}}</a></p>
+                    <p>author : <a href="">{{notify.author}}</a></p>
+                </div>
+                <p class="site-header__menu--notification--ct__details--viewLater">
+                    <i class="far fa-clock icon icon__site-header--notifcation__viewLater"></i> 
+                    <span class="site-header__menu--notification--ct__details--viewLater__text">{{notify.date}}</span>
+                </p>
+            </div>
+            </span>
+        </div> -->
+    </div>
+</div>
+

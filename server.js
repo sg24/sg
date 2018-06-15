@@ -41,5 +41,4 @@ app.use(function (req, res, next) {
     return res.render('index');
 });
 
-
 module.exports = {app};
