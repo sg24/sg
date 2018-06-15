@@ -13,6 +13,7 @@
         </form>
         <div class="site-header__addNew">
             <span class="site-header__addNew--content">Add New <i class="fas fa-angle-down icon__site-header--addNew"></i></span>
+            <span class="site-header__addNew--content-sm">Add<i class="fas fa-angle-down icon__site-header--addNew"></i></span>
             <ul class="site-header__addNew--list">
                 <li>Post</li>
                 <li>Question</li>
@@ -25,7 +26,7 @@
         </div>
         <div class="site-header__list">
             <ul>
-                <li class="site-header__list--bars"><a href=""><i class="fas fa-bars"></i></a></li>
+                <li class="site-header__list--bars"><a><i class="fas fa-bars"></i></a></li>
                 <li><a href="">Questions</a></li>
                 <li><a href="">Posts</a></li>
                 <li><a href="">Groups</a></li>
@@ -49,8 +50,8 @@
                 </ul>
             </div>
             <div class="site-header__menu--notification active">
-                <span class="">9</span>
-                <i class="far fa-bell icon icon__site-header--bell"></i>
+                <span class="site-header__menu--notification__icon--number">9</span>
+                <div class="site-header__menu--notification__icon"><i class="fas fa-bell icon icon__site-header--bell"></i></div>
                 <ul class="site-header__menu--notification__tool-tip">
                     <li>Notification</li>
                 </ul>
@@ -103,38 +104,36 @@
                 </div>
             </div>
             <div class="site-header__menu--nav">
-                <i class="fas fa-bars icon icon__site-header--list"></i>
+                <div class="site-header__menu--nav__icon"><i class="fas fa-bars icon icon__site-header--list"></i></div>
                 <ul class="site-header__menu--nav__tool-tip">
                     <li>Options</li>
                 </ul>
                 <div class="site-header__menu--nav__list">
                     <ul class="site-header__menu--nav__list--options">
-                        <li class="site-header__menu--nav__list--options__firstitems"><i class="fas fa-newspaper icon icon__site-header__menu--list-icon"></i> News <i class="fas fa-angle-down site-header__menu--list-icon"></i>
-                            {{!-- <ul>
-                                <li>Entertainment</li>
+                        <li class="site-header__menu--nav__list--options__firstitems site-header__menu--nav__list--options__firstdropdown"><i class="fas fa-newspaper icon icon__site-header__menu--nav-icon"></i> News <i class="fas fa-angle-down site-header__menu--list-icon"></i>
+                            <ul class="site-header__menu--nav__list--options__firstItemsDetails">
                                 <li>Sport</li>
                                 <li>Scholarships</li>
-                                <li>more</li>
-                            </ul> --}}
+                                <li>Entertainment</li>
+                                {{!-- <li>more</li> --}}
+                            </ul>
                         </li>
-                        <li class="site-header__menu--nav__list--options__firstitems"><i class="fas fa-users icon icon__site-header__menu--list-icon"></i> Groups</li>
-                        <li class="site-header__menu--nav__list--options__firstitems"><i class="fas fa-coffee icon icon__site-header__menu--list-icon"></i> Online Questions</li>
+                        <li class="site-header__menu--nav__list--options__firstitems"><i class="fas fa-users icon icon__site-header__menu--nav-icon"></i> Groups</li>
+                        <li class="site-header__menu--nav__list--options__firstitems"><i class="fas fa-coffee icon icon__site-header__menu--nav-icon"></i> Online Questions</li>
                     </ul>
                     <ul class="site-header__menu--nav__list--options">
-                        <li class="site-header__menu--nav__list--options__seconditems"><i class="fas fa-clone icon icon__site-header__menu--list-icon"></i> posts</li>
-                        <li class="site-header__menu--nav__list--options__seconditems"><i class="fas fa-people-carry icon icon__site-header__menu--list-icon"></i> Communities <i class="fas fa-angle-down site-header__menu--toggleIcon"></i>
-                            <ul>
+                        <li class="site-header__menu--nav__list--options__seconditems"><i class="fas fa-clone icon icon__site-header__menu--nav-icon"></i> posts</li>
+                        <li class="site-header__menu--nav__list--options__seconditems site-header__menu--nav__list--options__seconddropdown"><i class="fas fa-people-carry icon icon__site-header__menu--nav-icon"></i> Communities <i class="fas fa-angle-down site-header__menu--toggleIcon"></i>
+                            <ul class="site-header__menu--nav__list--options__secondItemsDetails">
                                 <li>Education</li>
                                 <li>Programmers</li>
                                 <li>Designers</li>
                             </ul>
                         </li>
-                        <li class="site-header__menu--nav__list--options__seconditems"><i class="fas fa-book icon icon__site-header__menu--list-icon"></i> Scholars Field</li>
+                        <li class="site-header__menu--nav__list--options__seconditems"><i class="fas fa-book icon icon__site-header__menu--nav-icon"></i> Scholars Field</li>
                     </ul>
-                    <ul  class="site-header__menu--nav__list--options">
-                        <li class="site-header__menu--nav__list--options__seconitems"><i class="fas fa-store icon icon__site-header__menu--list-icon"></i> My Store</li>
-                        <li class="site-header__menu--nav__list--options__seconitems"><i class="fas fa-store icon icon__site-header__menu--list-icon"></i> My Store</li>
-                        <li class="site-header__menu--nav__list--options__seconitems"><i class="fas fa-store icon icon__site-header__menu--list-icon"></i> My Store</li>
+                     <ul class="site-header__menu--nav__list--options">
+                        <li class="site-header__menu--nav__list--options__thirditems"><i class="fas fa-store icon icon__site-header__menu--nav-icon"></i> My Store</li>
                     </ul>
                 </div>
             </div>

@@ -204,7 +204,7 @@
     }
 
     &__site-header__menu--nav-icon {
-        font-size: 14px;
+        font-size: .8125rem;
         color: $mainLightBlack;
         margin-right: 3px;
     }
