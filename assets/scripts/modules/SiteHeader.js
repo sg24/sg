@@ -14,12 +14,12 @@ class SiteHeader {
        this.siteHeaderMiniFormClose = $(".site-header__miniForm--close");
        this.siteHeaderMini = $(".site-header__list--search-minis");
        this.siteHeaderNav = $(".site-header__menu--nav__icon, .site-header__list--bars");
-       this.siteHeaderNavList = $(".site-header__menu--nav__list");
+       this.siteHeaderNavList = $(".nav__list");
        this.siteHeaderMenuNavToolTips = $(".site-header__menu--nav__tool-tip");
-       this.siteHeaderNavListFirstItem = $(".site-header__menu--nav__list--options__firstdropdown");
-       this.siteHeaderNavListFirstItemDetails = $(".site-header__menu--nav__list--options__firstItemsDetails");
-       this.siteHeaderNavListSecondItem = $(".site-header__menu--nav__list--options__seconddropdown");
-       this.siteHeaderNavListSecondItemDetails = $(".site-header__menu--nav__list--options__secondItemsDetails");
+       this.siteHeaderNavListFirstItem = $(".nav__list--options__firstdropdown");
+       this.siteHeaderNavListFirstItemDetails = $(".nav__list--options__firstItemsDetails");
+       this.siteHeaderNavListSecondItem = $(".nav__list--options__seconddropdown");
+       this.siteHeaderNavListSecondItemDetails = $(".nav__list--options__secondItemsDetails");
        this.sitewrapper = $(".site-header__menu--notification--ct__details");
        this.siteHeaderNotify = $(".site-header__menu--notification__notify-content");
        this.events();
@@ -54,7 +54,7 @@ class SiteHeader {
     this.siteHeaderSearchBtn.removeClass("site-header__form--search__formExpanded");
     this.siteHeaderInput.removeClass("site-header__form--input__formExpanded");
     this.siteHeaderMiniForm.removeClass("site-header__miniForm--miniForm__expanded");
-    this.siteHeaderNavList.removeClass("site-header__menu--nav__list--visible");
+    this.siteHeaderNavList.removeClass("nav__list--visible");
     this.siteHeaderMenuNavToolTips.removeClass("site-header__menu--nav__tool-tip--openIcons");
     this.siteHeaderAddNewList.removeClass("site-header__addNew--list__opened");
    }
@@ -68,19 +68,19 @@ class SiteHeader {
     }
 
    toggleNav() {
-    this.siteHeaderNavList.toggleClass("site-header__menu--nav__list--visible");
+    this.siteHeaderNavList.toggleClass("nav__list--visible");
     this.siteHeaderMenuNavToolTips.removeClass("site-header__menu--nav__tool-tip--openIcons");
     this.siteHeaderNotify.removeClass("site-header__menu--notification__notify-content--open");
    }
 
    toggleNavFirstItem () {
-       this.siteHeaderNavListFirstItem.toggleClass("site-header__menu--nav__list--options__firstitems--addHeight");
-       this.siteHeaderNavListFirstItemDetails.toggleClass("site-header__menu--nav__list--options__firstItemsDetails--visible");
+       this.siteHeaderNavListFirstItem.toggleClass("nav__list--options__firstitems--addHeight");
+       this.siteHeaderNavListFirstItemDetails.toggleClass("nav__list--options__firstItemsDetails--visible");
    }
 
    toggleNavSecondItem () {
-    this.siteHeaderNavListSecondItem.toggleClass("site-header__menu--nav__list--options__seconditems--addHeight");
-    this.siteHeaderNavListSecondItemDetails.toggleClass("site-header__menu--nav__list--options__secondItemsDetails--visible");
+    this.siteHeaderNavListSecondItem.toggleClass("nav__list--options__seconditems--addHeight");
+    this.siteHeaderNavListSecondItemDetails.toggleClass("nav__list--options__secondItemsDetails--visible");
 }
 }
 

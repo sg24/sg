@@ -37,7 +37,7 @@
         <div class="site-header__menu">
             <div class="site-header__menu--mini-space"> </div>
             <div class="site-header__menu--favorites">
-                <i class="far fa-heart icon icon__site-header--favorites"></i>
+                <i class="fas fa-heart icon icon__site-header--favorites"></i>
                 <ul class="site-header__menu--favorites__tool-tip">
                     <li>Favorites</li>
                 </ul>
@@ -108,32 +108,36 @@
                 <ul class="site-header__menu--nav__tool-tip">
                     <li>Options</li>
                 </ul>
-                <div class="site-header__menu--nav__list">
-                    <ul class="site-header__menu--nav__list--options">
-                        <li class="site-header__menu--nav__list--options__firstitems site-header__menu--nav__list--options__firstdropdown"><i class="fas fa-newspaper icon icon__site-header__menu--nav-icon"></i> News <i class="fas fa-angle-down site-header__menu--list-icon"></i>
-                            <ul class="site-header__menu--nav__list--options__firstItemsDetails">
-                                <li>Sport</li>
-                                <li>Scholarships</li>
-                                <li>Entertainment</li>
+                <div class="nav nav__list">
+                    <ul class="nav__list--options">
+                        <li class="nav__list--options__firstitems nav__list--options__firstdropdown"><i class="fas fa-newspaper icon icon__site-header__menu--nav-icon"></i> News <i class="fas fa-angle-down site-header__menu--list-icon"></i>
+                            <ul class="nav__list--options__firstItemsDetails">
+                                <li><a href="">Sport</a></li>
+                                <li><a href="">Scholarships</a></li>
+                                <li><a href="">Entertainment</a></li>
                                 {{!-- <li>more</li> --}}
                             </ul>
                         </li>
-                        <li class="site-header__menu--nav__list--options__firstitems"><i class="fas fa-users icon icon__site-header__menu--nav-icon"></i> Groups</li>
-                        <li class="site-header__menu--nav__list--options__firstitems"><i class="fas fa-coffee icon icon__site-header__menu--nav-icon"></i> Online Questions</li>
+                        <li class="nav__list--options__firstitems nav__list--options__firstitems--hide-sm"><a href=""><i class="fas fa-users icon icon__site-header__menu--nav-icon"></i> Groups</a></li>
+                        <li class="nav__list--options__firstitems"><a href=""><i class="fas fa-coffee icon icon__site-header__menu--nav-icon"></i>Online Questions</a></li>
                     </ul>
-                    <ul class="site-header__menu--nav__list--options">
-                        <li class="site-header__menu--nav__list--options__seconditems"><i class="fas fa-clone icon icon__site-header__menu--nav-icon"></i> posts</li>
-                        <li class="site-header__menu--nav__list--options__seconditems site-header__menu--nav__list--options__seconddropdown"><i class="fas fa-people-carry icon icon__site-header__menu--nav-icon"></i> Communities <i class="fas fa-angle-down site-header__menu--toggleIcon"></i>
-                            <ul class="site-header__menu--nav__list--options__secondItemsDetails">
-                                <li>Education</li>
-                                <li>Programmers</li>
-                                <li>Designers</li>
+                    <ul class="nav__list--options">
+                        <li class="nav__list--options__seconditems"><a href=""><i class="fas fa-clone icon icon__site-header__menu--nav-icon"></i> posts</a></li>
+                        <li class="nav__list--options__seconditems nav__list--options__seconditems--addmargin-sm nav__list--options__seconddropdown"><i class="fas fa-people-carry icon icon__site-header__menu--nav-icon"></i> Communities <i class="fas fa-angle-down site-header__menu--toggleIcon"></i>
+                            <ul class="nav__list--options__secondItemsDetails">
+                                <li><a href="">Education</a></li>
+                                <li><a href="">Programmers</a></li>
+                                <li><a href="">Designers</a></li>
                             </ul>
                         </li>
-                        <li class="site-header__menu--nav__list--options__seconditems"><i class="fas fa-book icon icon__site-header__menu--nav-icon"></i> Scholars Field</li>
+                        <li class="nav__list--options__seconditems nav__list--options__seconditems--hide-sm"><a href=""><i class="fas fa-book icon icon__site-header__menu--nav-icon"></i> Scholars Field</a></li>
                     </ul>
-                     <ul class="site-header__menu--nav__list--options">
-                        <li class="site-header__menu--nav__list--options__thirditems"><i class="fas fa-store icon icon__site-header__menu--nav-icon"></i> My Store</li>
+                     <ul class="nav__list--options">
+                        <li class="nav__list--options__thirditems"><a href=""><i class="fas fa-store icon icon__site-header__menu--nav-icon"></i> My Store</a></li>
+                        <li class="nav__list--options__thirditems nav__list--options__thirditems--show-sm"><a href=""><i class="fas fa-users icon icon__site-header__menu--nav-icon"></i> Groups</a></li>
+                    </ul>
+                    <ul class="nav__list--options nav__list--options__hide--sm">
+                        <li class="nav__list--options__thirditems"><a href=""><i class="fas fa-book icon icon__site-header__menu--nav-icon"></i> Scholars Field</a></li>
                     </ul>
                 </div>
             </div>

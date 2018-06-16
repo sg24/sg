@@ -1,36 +1,44 @@
 .nav{
-    /* font-family: "poppins" , Segoe UI, Tahoma, Geneva, Verdana, sans-serif; */
-position: absolute;
-left: 0;
-right: 0;
+    font-family: "poppins" , Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+
+   
+
     &__list {
         position: absolute;
-        /* top: 50px; */
-        left: -30px;
+        top: 69px;
+        left: -190px;
         background-color: #fff;
         padding: 10px;
         @mixin clearfix;
-        width: 420px;
+        width: 15rem;
         border: 1px solid $mainDarkGray;
-        /* opacity: 0;
+        opacity: 0;
         z-index: -33;
         visibility: hidden;
-        cursor: default; */
+        cursor: default;
         transform: scale(.8);
         transition: all .3s ease-out;
 
         &::after {
             content: "";
             position: absolute;
-            right: 30px;
-            top: -20px;
+            right: auto;
+            left: 5px;
+            top: -14px;
             border-color: transparent;
             border-bottom-color: #fff;
-            border-width: 10px;
+            border-width: 7px;
             border-style: solid;
 
-            @mixin atMedium {
-                /* right: 29px;                         */
+            @mixin atExtraSmall {
+                left: 14px;
+            }
+
+            @mixin atSmall {
+                right: 30px;     
+                left: auto;
+                top: -20px;
+                border-width: 10px;
             }
             @mixin atLarge {
                 right: 30px;  
@@ -40,15 +48,23 @@ right: 0;
         &::before {
             content: "";
             position: absolute;
-            right: 29px;
-            top: -22px;
+            right: auto;
+            left: 4px;
+            top: -16px;
             border-color: transparent;
             border-bottom-color: $mainDarkGray;
-            border-width: 11px;
+            border-width: 8px;
             border-style: solid;
 
-            @mixin atMedium {
-                /* right: 28px; */
+            @mixin atExtraSmall {
+                left: 13px;
+            }
+
+            @mixin atSmall {
+                left: auto;
+                right: 29px;
+                top: -22px;
+                border-width: 11px;
             }
             @mixin atLarge {
                 right: 29px;
@@ -59,9 +75,14 @@ right: 0;
             list-style: none;
             margin: 0 0 10px 0;
             padding: 0;
-            font-size: 15px;
+            font-size: .8125rem;
             cursor: pointer;
             @mixin clearfix;
+
+            a {
+             text-decoration: none;
+             color: $mainFontColor;   
+            }
 
             &__firstitems {
                 float: left;
@@ -70,17 +91,31 @@ right: 0;
                 position: relative;
 
                 &:hover {
-                    background-color: #fff;
+                   
+                }
+
+
+                &:first-child {
+                    margin-right: 3px;
+                    @mixin atExtraSmall {
+                        margin-right: 33px;
+                    }
+                }
+
+                &:last-child {
+                    margin-right: 0;
+                    margin-left: 10px;
                 }
 
                 &--addHeight {
                     height: 100px;
                 }
 
-
-                &:last-child {
-                    margin-right: 0;
-                    margin-left: 10px;
+                &--hide-sm {
+                    display: none;
+                    @mixin atSmall {
+                        display: block;
+                    }
                 }
             }
 
@@ -102,14 +137,53 @@ right: 0;
                 &--addHeight {
                     height: 100px;
                 }
+
+                &--addmargin-sm  {
+                    margin-left: 0px;
+                    margin-right: 0;
+
+                    @mixin atExtraSmall {
+                        margin-left: 30px;
+                        margin-right: 0;
+                    }
+
+                    @mixin atSmall {
+                        margin-left: 0;
+                        margin-right: 30px;
+                    }
+                }
+
+                &--hide-sm {
+                    display: none;
+
+                    @mixin atSmall {
+                        display: block;
+                    }
+                }
             }
 
             &__thirditems {
                 float: left;
                 padding: 5px 5px 5px 5px;
 
+                &--show-sm {
+                    display: block;
+                    margin-left: 30px;
+
+                    @mixin atExtraSmall {
+                        display: block;
+                        margin-left: 54px;
+                    }
+
+                    @mixin atSmall {
+                        display: none;
+                        margin-left: 0;
+                    }
+                }
+
                 &:hover {
-                    background-color: #fff;
+                    background-color: blue;
+                    color: #fff !important;
                 }
             }
             
@@ -171,6 +245,13 @@ right: 0;
                 }
             }
 
+            &__hide--sm {
+                display: block;
+                @mixin atSmall {
+                    display: none;
+                }
+            }
+
         }
 
         &--visible {
@@ -181,9 +262,15 @@ right: 0;
             transition: all .3s ease-out;
         }
 
+        @mixin atExtraSmall {
+            left: -240px;
+            width: 17.5rem;
+        }
+
         @mixin atSmall {
             top: 36px;
             left: -324px;
+            width: 380px;
         }
 
         @mixin atMedium {
@@ -192,8 +279,9 @@ right: 0;
         }
 
         @mixin atLarge {
-            top: 35px;
-            left: -290px;
+            top: 46px;
+            left: -320px;
         }
     }
+
 }
