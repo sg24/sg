@@ -208,4 +208,14 @@
         color: $mainLightBlack;
         margin-right: 3px;
     }
+
+    &__site-header--menu__user--icons {
+        font-size: .8125rem;
+        color: $mainLightBlack;
+        margin-right: 10px;
+
+        @mixin atSmall {
+            font-size: .875rem;
+        }
+    }
 }

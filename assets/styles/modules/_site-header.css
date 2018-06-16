@@ -336,6 +336,7 @@
                 @mixin atSmall {
                     padding: .8rem .6rem;
                     color: #fff;
+                    font-size: .875rem;
                 }
 
                 @mixin atMedium {
@@ -1245,7 +1246,6 @@
         &--user{
             float: left;
             background-color: $mainLightBlue;
-            overflow: hidden;
             text-align: center;
             display: inline;
             position: relative;
@@ -1275,6 +1275,161 @@
                     border-radius: 1.0625rem;
                     width: 2.125rem;
                     height: 2.125rem;
+                }
+              }
+
+              &__details {
+                position: absolute;
+                width: 180px;
+                background-color: #fff;
+                top: 38px;
+                left: -148px;
+                border: 1px solid $mainDarkGray;
+                font-size: .8125rem;
+                padding: 5px 0 0 0;
+                margin: 0;
+                list-style: none; 
+                text-align: left;
+                z-index: -33;
+                opacity: 0;
+                transform: scale(.5);
+                visibility: hidden;
+                transition: all .3s ease-out;
+                
+                &::after {
+                    content: "";
+                    position: absolute;
+                    right: 6px;
+                    top: -10px;
+                    border-color: transparent;
+                    border-bottom-color: #fff;
+                    border-width: 5px;
+                    border-style: solid;
+
+                    @mixin atExtraSmall {
+                        border-width: 5px;
+                        top: -10px;
+                        right: 15px;
+                    }
+
+                    @mixin atMiniSmall {
+                        border-width: 5px;
+                        top: -10px;
+                        right: 19px;
+                    }
+
+                    @mixin atMedium {
+                        border-width: 9px;
+                        top: -18px; 
+                    }
+                }
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    right: 5px;
+                    top: -12px;
+                    border-color: transparent;
+                    border-bottom-color: $mainDarkGray;
+                    border-width: 6px;
+                    border-style: solid;
+
+                    @mixin atExtraSmall {
+                        border-width: 6px;
+                        top: -12px;
+                        right: 14px;
+                    }
+
+                    @mixin atMiniSmall {
+                        border-width: 6px;
+                        top: -12px;
+                        right: 18px;
+                    }
+
+                    @mixin atMedium {
+                        top: -20px;
+                        border-width: 10px;
+                    }
+                }
+
+                li {
+                    padding: 10px 10px;
+        
+                    &:first-child {
+                        padding: 5px 10px;
+                    }
+
+                    &:last-child {
+                        background-color: $mainExtraLightGray;
+                        padding-left: 15px;
+                    }
+
+                    a {
+                        text-decoration: none;
+                        color: $mainFontColor;
+                    }
+
+                    @mixin atSmall {
+                        padding: 13px 10px;
+                    }
+                }
+
+                &--portal {
+                    position: relative;
+
+                    &__img {
+                        border-radius: 15px;
+                        height: 30px;
+                        width: 30px;
+                        background-color: $mainDarkGray;
+                        overflow: hidden;
+                    }
+
+                    p {
+                        display: inline;
+                        margin: 0;
+                        padding: 0;
+                        position: absolute;
+                        top: 13px;
+                        left: 55px;
+                    }
+                }
+
+                &--account {
+                    padding: 10px 10px 10px 15px !important;
+
+                    @mixin atSmall {
+                        padding: 13px 10px 13px 15px !important;
+                    }
+                }
+
+                &--visible {
+                    z-index: 4;
+                    visibility: visible;
+                    opacity: 1;
+                    transform: scale(1);
+                    transition: all .3s ease-out;
+                }
+
+                @mixin atExtraSmall {
+                    top: 38px;
+                    left: -160px;
+                    width: 200px;
+                }
+
+                @mixin atMiniSmall {
+                    top: 38px;
+                    left: -155px;
+                }
+
+                @mixin atSmall {
+                    top: 38px;
+                    left: -155px;
+                    font-size: .875rem;
+                }
+                @mixin atMedium {
+                    top: 50px;
+                    left: -150px;
                 }
               }
 

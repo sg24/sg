@@ -725,6 +725,19 @@ img {
   margin-right: 3px;
 }
 
+.icon__site-header--menu__user--icons {
+  font-size: .8125rem;
+  color: #777;
+  margin-right: 10px;
+}
+
+@media (min-width: 530px) {
+
+  .icon__site-header--menu__user--icons {
+    font-size: .875rem;
+  }
+}
+
 .tool-tip {
     list-style: none;
     margin: 0;
@@ -1612,6 +1625,7 @@ img {
   .site-header__list li a {
     padding: .8rem .6rem;
     color: #fff;
+    font-size: .875rem;
   }
 }
 
@@ -2747,7 +2761,6 @@ img {
 .site-header__menu--user{
   float: left;
   background-color: #15a4fa;
-  overflow: hidden;
   text-align: center;
   display: inline;
   position: relative;
@@ -2784,6 +2797,198 @@ img {
     border-radius: 1.0625rem;
     width: 2.125rem;
     height: 2.125rem;
+  }
+}
+
+.site-header__menu--user__details {
+  position: absolute;
+  width: 180px;
+  background-color: #fff;
+  top: 38px;
+  left: -148px;
+  border: 1px solid #dcdbdc;
+  font-size: .8125rem;
+  padding: 5px 0 0 0;
+  margin: 0;
+  list-style: none;
+  text-align: left;
+  z-index: -33;
+  opacity: 0;
+  transform: scale(.5);
+  visibility: hidden;
+  transition: all .3s ease-out;
+}
+
+.site-header__menu--user__details::after {
+  content: "";
+  position: absolute;
+  right: 6px;
+  top: -10px;
+  border-color: transparent;
+  border-bottom-color: #fff;
+  border-width: 5px;
+  border-style: solid;
+}
+
+@media (min-width: 335px) {
+
+  .site-header__menu--user__details::after {
+    border-width: 5px;
+    top: -10px;
+    right: 15px;
+  }
+}
+
+@media (min-width: 380px) {
+
+  .site-header__menu--user__details::after {
+    border-width: 5px;
+    top: -10px;
+    right: 19px;
+  }
+}
+
+@media (min-width: 800px) {
+
+  .site-header__menu--user__details::after {
+    border-width: 9px;
+    top: -18px;
+  }
+}
+
+.site-header__menu--user__details::before {
+  content: "";
+  position: absolute;
+  right: 5px;
+  top: -12px;
+  border-color: transparent;
+  border-bottom-color: #dcdbdc;
+  border-width: 6px;
+  border-style: solid;
+}
+
+@media (min-width: 335px) {
+
+  .site-header__menu--user__details::before {
+    border-width: 6px;
+    top: -12px;
+    right: 14px;
+  }
+}
+
+@media (min-width: 380px) {
+
+  .site-header__menu--user__details::before {
+    border-width: 6px;
+    top: -12px;
+    right: 18px;
+  }
+}
+
+@media (min-width: 800px) {
+
+  .site-header__menu--user__details::before {
+    top: -20px;
+    border-width: 10px;
+  }
+}
+
+.site-header__menu--user__details li {
+  padding: 10px 10px;
+}
+
+.site-header__menu--user__details li:first-child {
+  padding: 5px 10px;
+}
+
+.site-header__menu--user__details li:last-child {
+  background-color: #f2f2f2;
+  padding-left: 15px;
+}
+
+.site-header__menu--user__details li a {
+  text-decoration: none;
+  color: #333;
+}
+
+@media (min-width: 530px) {
+
+  .site-header__menu--user__details li {
+    padding: 13px 10px;
+  }
+}
+
+.site-header__menu--user__details--portal {
+  position: relative;
+}
+
+.site-header__menu--user__details--portal__img {
+  border-radius: 15px;
+  height: 30px;
+  width: 30px;
+  background-color: #dcdbdc;
+  overflow: hidden;
+}
+
+.site-header__menu--user__details--portal p {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 13px;
+  left: 55px;
+}
+
+.site-header__menu--user__details--account {
+  padding: 10px 10px 10px 15px !important;
+}
+
+@media (min-width: 530px) {
+
+  .site-header__menu--user__details--account {
+    padding: 13px 10px 13px 15px !important;
+  }
+}
+
+.site-header__menu--user__details--visible {
+  z-index: 4;
+  visibility: visible;
+  opacity: 1;
+  transform: scale(1);
+  transition: all .3s ease-out;
+}
+
+@media (min-width: 335px) {
+
+  .site-header__menu--user__details {
+    top: 38px;
+    left: -160px;
+    width: 200px;
+  }
+}
+
+@media (min-width: 380px) {
+
+  .site-header__menu--user__details {
+    top: 38px;
+    left: -155px;
+  }
+}
+
+@media (min-width: 530px) {
+
+  .site-header__menu--user__details {
+    top: 38px;
+    left: -155px;
+    font-size: .875rem;
+  }
+}
+
+@media (min-width: 800px) {
+
+  .site-header__menu--user__details {
+    top: 50px;
+    left: -150px;
   }
 }
 

@@ -10,6 +10,7 @@ class Notify {
         this.siteHeaderMenuNotificationToolTips = $(".site-header__menu--notification__tool-tip");
         this.siteHeaderMenuNavToolTips = $(".site-header__menu--nav__tool-tip");
         this.siteHeaderNavList = $(".nav__list");
+        this.siteHeaderUserDetails = $(".site-header__menu--user__details");
         this.events();
     }
 
@@ -28,6 +29,7 @@ class Notify {
         this.siteHeaderMenuNotificationToolTips.removeClass("site-header__menu--favorites__tool-tip--openIcons");
         this.siteHeaderMenuNavToolTips.removeClass("site-header__menu--nav__tool-tip--openIcons");
         this.siteHeaderNavList.removeClass("nav__list--visible");
+        this.siteHeaderUserDetails.removeClass("site-header__menu--user__details--visible");
     }
 
     removeNotifyToolTip() {
