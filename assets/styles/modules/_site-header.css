@@ -784,12 +784,12 @@
                 }
 
                 @mixin atMedium {
-                    top: 42px;
-                    left: -38px;
+                    top: 44.5px;
+                    left: -39px;
                 }
 
                 @mixin atLarge {
-                    top: 46px;
+                    top: 48px;
                     left: -36px;
                 }
             }
@@ -890,7 +890,7 @@
 
                 @mixin atLarge {
                     top: 36px;
-                    left: -231px;
+                    left: -233px;
                 }
             }
 

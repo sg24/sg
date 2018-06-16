@@ -2192,15 +2192,15 @@ img {
 @media (min-width: 800px) {
 
   .site-header__menu--notification__tool-tip {
-    top: 42px;
-    left: -38px;
+    top: 44.5px;
+    left: -39px;
   }
 }
 
 @media (min-width: 1010px) {
 
   .site-header__menu--notification__tool-tip {
-    top: 46px;
+    top: 48px;
     left: -36px;
   }
 }
@@ -2325,7 +2325,7 @@ img {
 
   .site-header__menu--notification__wrapper-header {
     top: 36px;
-    left: -231px;
+    left: -233px;
   }
 }
 
