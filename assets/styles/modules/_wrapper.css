@@ -13,7 +13,14 @@
         max-width: 1236px;
         display: flex;
         justify-content: center;
-        
         /* align-items: center; */
+    }
+
+    &__main {
+        padding-left: 18px;
+        padding-right: 18px;
+        max-width: 1236px;
+        @mixin clearfix;
+        
     }
 }

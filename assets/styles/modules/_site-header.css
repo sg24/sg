@@ -735,6 +735,7 @@
                     border-style: solid;
                     border-bottom-color: #fff;
                     top: -20px;
+                    pointer-events: none;
 
                     @mixin atExtraSmall {
                         border-width: 8px;
@@ -756,7 +757,8 @@
                     border-width: 11px;
                     border-style: solid;
                     border-bottom-color: $mainDarkGray;
-
+                    pointer-events: none;
+                    
                     @mixin atExtraSmall {
                         border-width: 9px;
                         top: -18px;
@@ -1292,7 +1294,7 @@
                 text-align: left;
                 z-index: -33;
                 opacity: 0;
-                transform: scale(.5);
+                transform: scale(.8);
                 visibility: hidden;
                 transition: all .3s ease-out;
                 

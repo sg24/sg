@@ -2,7 +2,7 @@ import $ from 'jquery';
 
 class Notify {
     constructor() {
-        this.siteBody = $(".site-hero");
+        this.siteBody = $(".site-hero, .site-main");
         this.siteHeaderBell = $(".site-header__menu--notification__icon, .site-header__menu--notification__icon--number");
         this.siteHeaderNotify = $(".site-header__menu--notification__notify-content");
         this.siteHeaderMenuFavoritesToolTips = $(".site-header__menu--favorites__tool-tip");

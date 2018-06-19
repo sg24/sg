@@ -1,8 +1,15 @@
 .icon {
+
+    &--rotate {
+        svg {
+            transform: rotate(180deg);
+            transition: all .3s ease-out;
+        }
+    }
  
     &__site-header--search {
         display: inline;
-        font-size: 1rem;
+        font-size: .875rem;
         color: $mainLightBlack;
 
         &:hover {
@@ -217,5 +224,85 @@
         @mixin atSmall {
             font-size: .875rem;
         }
+    }
+
+    &__site-main--details__footer--icons {
+        color: $mainLightBlack;
+        cursor: pointer;
+    }
+
+    &__site-main--loadmore--circle {
+        font-size: .35rem; 
+        color: $mainLightBlack;
+        margin-left: .125rem;
+    }
+
+    &__site-main--share {
+        position: absolute;
+        top: 27%;
+        transform: translate(-54%);
+        z-index: 3;
+        color: #fff;
+    }
+
+    &__site-main--details__options-icon {
+        margin-right: 10px;
+    }
+
+    &__site-main--details__options-toggleicon {
+        margin-left: 10px;
+        transition: all .3s ease-out;
+    }
+
+    &__site-main--details__share--selectuserarrow {
+        margin-left: 5px;
+        font-size: .875rem;
+        transition: all .3s ease-out;
+    }
+
+    &__site-main--details__share--facebook {
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        color: $mainLightBlue;
+        float: left;
+    }
+
+    &__site-main--details__share--googleplus {
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        color: $mainDarkRed;
+        float: right;
+    }
+
+    &__site-main--share__userCounterIcon {
+        color: rgba($mainLightBlack, .7);
+        margin-right: 3px;
+    }
+
+    &__site-main--share__locationIcon {
+        margin-right: 5px;
+        font-size: .75rem;
+    }
+
+    &__site-main--share__userSelectedCloseIcon {
+        font-size: .6875rem;
+        top: 0px;
+        transform: translateY(0px);
+        right: -2px;
+        color: $mainLightBlack;
+    }
+
+    &__site-main--share__userSelectedCloseMainIcon {
+        top: 1px;
+        left: 8px;
+        font-size: .6875rem;
+        color: $mainLightBlack;
+    }
+
+    &__site-main--share__userSelectedIcon {
+        color: rgba($mainLightBlack, .7);
+        margin-right: 5px;
     }
 }
