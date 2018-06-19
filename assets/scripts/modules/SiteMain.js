@@ -19,6 +19,7 @@ class SiteMain {
         this.userCounter = $(".site-main__content--details__header--share__userCounter");
         this.userCounterViewAll = $(".site-main__content--details__header--share__userCounter__viewall");
         this.userSelected = $(".site-main__content--details__header--share__userSelected");
+        this.userSelectedClosed = $(".site-main__content--details__header--share__userSelected--mainclose");
         this.events(); 
     }
 
@@ -31,22 +32,19 @@ class SiteMain {
         this.SelectuserWrapper.click(this.clicktoggleSelectIcon.bind(this));
         this.contentDetails.click(this.toggleContentDetails.bind(this));
         this.contentItemsOption.click(this.toggleContentItemOption.bind(this));
-        this.userCounterViewAll.click(this.toggleAllUsers.bind(this));
+        this.userCounterViewAll.click(this.showSelectedUsers.bind(this));
+        this.userSelectedClosed.click(this.closeAllUserSelected.bind(this));
     }
 
     clearAll() {
-        this.userList.removeClass("site-main__content--details__header--share__content__visible");
-        this.selectUserArrow.removeClass("icon--rotate");
-        this.shareSocialIcons.removeClass("site-main__content--details__header--share__options--socialIcons__socialIconHide"); 
         this.shareUserOption.removeClass("site-main__content--details__header--share__options--visible");
-        this.selectUserCheckIcon.removeClass("site-main__content--details__header--share__content--user__selectIcon--visible");
-        this.SelectuserWrapper.removeClass("site-main__content--details__header--share__content--user__wrapper--borderHoverVisible");
-        this.selectUserCheckIconChecked.removeClass("site-main__content--details__header--share__content--user__selectIconClicked--visible");
-        this.SelectuserWrapper.removeClass("site-main__content--details__header--share__content--user__wrapper--borderVisible");
+        this.userSelected.removeClass("site-main__content--details__header--share__userSelected--visible");
+        this.contentDetailsOptions.removeClass("site-main__content--details__footer--details__options--visible");
     }
 
     toggleShareUserIcon() {
         this.shareUserOption.toggleClass("site-main__content--details__header--share__options--visible");
+        this.contentDetailsOptions.removeClass("site-main__content--details__footer--details__options--visible");
     }
 
     toggleUserList () {
@@ -54,6 +52,7 @@ class SiteMain {
         this.selectUserArrow.toggleClass("icon--rotate");
         this.shareSocialIcons.toggleClass("site-main__content--details__header--share__options--socialIcons__socialIconHide");
         this.userCounter.toggleClass("site-main__content--details__header--share__userCounter--visible");
+        this.userSelected.removeClass("site-main__content--details__header--share__userSelected--visible");
     }
 
     addUserSelectIcon() {
@@ -75,6 +74,7 @@ class SiteMain {
 
     toggleContentDetails() {
         this.contentDetailsOptions.toggleClass("site-main__content--details__footer--details__options--visible");
+        this.shareUserOption.removeClass("site-main__content--details__header--share__options--visible");
     }
 
     toggleContentItemOption() {
@@ -82,8 +82,12 @@ class SiteMain {
         this.contentItemsOptionList.toggleClass("site-main__content--details__footer--details__options--toggle__opened");
     }
 
-    toggleAllUsers() {
+    showSelectedUsers() {
         this.userSelected.toggleClass("site-main__content--details__header--share__userSelected--visible");
+    }
+
+    closeAllUserSelected() {
+        this.userSelected.removeClass("site-main__content--details__header--share__userSelected--visible");
     }
 }
 

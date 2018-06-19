@@ -75,6 +75,9 @@
 
                 &--category {
                     margin-left: 10px;
+                    a {
+                        color: $mainFontColor;
+                    }
                 }
 
                 &--share {
@@ -102,9 +105,9 @@
                         background-color:#fff;
                         border: 1px solid $mainDarkGray;
                         @mixin clearfix;
-                        /* opacity: 0;
+                        opacity: 0;
                         visibility: hidden;
-                        z-index: -33; */
+                        z-index: -33;
                         transition: all .3s ease-out;
 
                         &::after {
@@ -340,10 +343,8 @@
                         padding: 10px;
                         list-style: none;
                         background-color: #fff;
-                        /* box-shadow:  0px 0px 4px 0px rgba(2, 132, 168, 0.68); */
                         cursor: default;
                         border-radius: 3px;
-                        /* border: 1px solid rgba($mainDarkBlue, .3); */
                         box-shadow: 0px 0px 4.15px 0.85px rgba(67, 125, 163, 0.65);
                         -o-box-shadow: 0px 0px 4.15px 0.85px rgba(67, 125, 163, 0.65);
                         -moz-box-shadow: 0px 0px 4.15px 0.85px rgba(67, 125, 163, 0.65);
@@ -422,7 +423,6 @@
                                             margin: 0 10px 0 9px !important;
                                             background-color: $mainDarkBlue;
                                             color: #fff;
-                                            /* box-shadow: 0px 1px 7.53px 1.47px rgba(67, 125, 163, 0.47); */
                                             box-shadow:  0px 0px 4px 0px rgba(2, 132, 168, 0.68);
                                             -ms-box-shadow:  0px 0px 4px 0px rgba(2, 132, 168, 0.68);
                                             -o-box-shadow:  0px 0px 4px 0px rgba(2, 132, 168, 0.68);
@@ -436,11 +436,6 @@
                                             margin: 0 14px 0 5px;   
                                             background-color: #fff;
                                             color: $mainFontColor;
-                                            /* box-shadow: 0px 1px 5.53px 1.07px rgba($mainLightBlue, 0.47);
-                                            -o-box-shadow: 0px 1px 5.53px 1.07px rgba($mainLightBlue, 0.47);
-                                            -webkit-box-shadow: 0px 1px 5.53px 1.07px rgba($mainLightBlue, 0.47);
-                                            -ms-box-shadow: 0px 1px 5.53px 1.07px rgba($mainLightBlue, 0.47);
-                                            -moz-box-shadow: 0px 1px 5.53px 1.07px rgba($mainLightBlue, 0.47); */
                                             border: 1px solid $mainDarkGray
                                         }
                                     }
@@ -473,7 +468,9 @@
                         z-index: -1;
                         visibility: hidden;
                         opacity: 0;
-                        transition: all .3s ease-in
+                        transform: scale(1.2);
+                        transition: all .3s ease-in;
+                        
 
                         p {
                             text-align: center;
@@ -487,7 +484,7 @@
                             overflow: hidden;
                             overflow-x: hidden;
                             overflow-y: auto;
-
+                            
                             &__content {
                                 @mixin clearfix;
                                 border: 1px solid $mainLightGray;
@@ -496,6 +493,7 @@
                                 margin: 10px 0;
                                 padding: 5px 0 8px 3px;
                                 max-width: 10.625rem;
+                                /* border: 1px solid rgba($mainDarkRed, .2); */
                             }
                         }
 
@@ -597,6 +595,7 @@
                             opacity: 1;
                             visibility: visible;
                             z-index: 1;
+                            transform: scale(1);
                             transition: all .3s ease-in
                         }
                     }
@@ -688,7 +687,7 @@
 
                         li {
                             padding: 10px;
-                            margin: 10px 10px;
+                            margin: 10px;
                             background-color: $mainDarkRed;
                             font-weight: 300;
                             color: #fff;
