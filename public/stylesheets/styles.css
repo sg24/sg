@@ -3428,8 +3428,6 @@ img {
     font-family: "Roboto",Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.site-main__removeClass {}
-
 .site-main__content {
   width: 60%;
   float: left;
@@ -3470,9 +3468,23 @@ img {
   background-color: blue;
 }
 
+@media (min-width: 800px) {
+
+  .site-main__content--header li {
+    padding: 15px 15px;
+  }
+}
+
+@media (min-width: 1010px) {
+
+  .site-main__content--header li {
+    padding: 15px 22.3px;
+  }
+}
+
 .site-main__content--details {
   margin: 20px 20px;
-  border-radius: 20px;
+  border-radius: 10px;
   background-color: #fff;/* box-shadow: 0px 0px 4.15px 0.85px rgba(21, 164, 250, 0.29);
             -o-box-shadow: 0px 0px 4.15px 0.85px rgba(21, 164, 250, 0.29);
             -ms-box-shadow: 0px 0px 4.15px 0.85px rgba(21, 164, 250, 0.29);
@@ -3489,7 +3501,7 @@ img {
   font-size: .8125rem;
   background-color: #f9fafb;
   position: relative;
-  border-radius: 20px;
+  border-radius: 10px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -3508,6 +3520,18 @@ img {
   position: relative;
 }
 
+.site-main__content--details__header li:first-child {
+  overflow: hidden;
+  position: relative;
+  padding: 15px 0 15px 15px;
+}
+
+.site-main__content--details__header li:first-child::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
 .site-main__content--details__header li:last-child {
   display: -ms-flexbox;
   display: flex;
@@ -3515,12 +3539,35 @@ img {
       justify-content: center;
 }
 
-.site-main__content--details__header--category {
-  margin-left: 10px;
+.site-main__content--details__header--category__img {
+  position: absolute;
+  height: 36px;
+  width: 36px;
+  border-radius: 18px;
+  background-color: #dcdbdc;
+  top: 2px;
+  left: 20px;
 }
 
-.site-main__content--details__header--category a {
-  color: #333;
+.site-main__content--details__header--category__spaceHolderImg {
+  float: left;
+  width: 45px;
+  height: 1px;
+}
+
+.site-main__content--details__header--category__title {
+  margin-left: 10px;
+  float: left;
+  width: 55%;
+  overflow: hidden;
+  word-wrap: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.site-main__content--details__header--category__title a {
+  color: #333
 }
 
 .site-main__content--details__header--share {
@@ -4081,7 +4128,7 @@ img {
   padding: 10px 0;
   text-align: center;
   font-weight: 500;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #333;
   cursor: pointer;
 }
@@ -4090,7 +4137,7 @@ img {
   margin: 0 10px 10px 20px;
   padding: 0;
   text-align: center;
-  font-size: 1rem;
+  font-size: .9375rem;
   line-height: 1.5;
   text-decoration: underline;
   overflow: hidden;
@@ -4105,7 +4152,7 @@ img {
 .site-main__content--details__footer {
   background-color: #f9fafb;
   position: relative;
-  border-radius: 20px;
+  border-radius: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
@@ -4126,7 +4173,7 @@ img {
 
 .site-main__content--details__footer--list li {
   float: left;
-  padding: 15px 50px;
+  padding: 15px 30px;
   font-style: italic;
   color: #333;
 }
@@ -4244,15 +4291,40 @@ img {
   transition: all .3s ease-out;
 }
 
+@media (min-width: 530px) {
+
+  .site-main__content {
+    width: 80%;
+    position: relative;/* left: 50%; *//* transform: translateX(-50%); */
+  }
+}
+
+@media (min-width: 800px) {
+
+  .site-main__content {
+    width: 70%;
+    position: relative;
+  }
+}
+
+@media (min-width: 1010px) {
+
+  .site-main__content {
+    width: 60%;
+    float: left;
+    padding-right: 40px;
+    left: 0;
+    transform: translateX(0);
+  }
+}
+
 .site-main__nav {
   width: 40%;
   background-color: #15a4fa;
   color: #fff;
   float: left;
+  display: none;
 }
-
-/* display: flex;
-        justify-content: center; */
 
 .site-main__nav--header {
   list-style: none;
@@ -4273,4 +4345,42 @@ img {
 .site-main__nav--header li:last-child {
   position: absolute;
   right: 8%;
+}
+
+@media (min-width: 1010px) {
+
+  .site-main__nav {
+    display: block;
+  }
+}
+
+.site-main__nav--md {
+  display: none;
+}
+
+@media (min-width: 530px) {
+
+  .site-main__nav--md {
+    display: block;
+    float: left;
+    list-style: none;
+    margin: 0;
+    width: 15%;
+    background-color: blue;
+    padding: 0;
+  }
+}
+
+@media (min-width: 800px) {
+
+  .site-main__nav--md {
+    width: 30%;
+  }
+}
+
+@media (min-width: 1010px) {
+
+  .site-main__nav--md {
+    display: none;
+  }
 }

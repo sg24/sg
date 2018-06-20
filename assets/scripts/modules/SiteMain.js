@@ -45,6 +45,7 @@ class SiteMain {
     toggleShareUserIcon() {
         this.shareUserOption.toggleClass("site-main__content--details__header--share__options--visible");
         this.contentDetailsOptions.removeClass("site-main__content--details__footer--details__options--visible");
+        this.userSelected.removeClass("site-main__content--details__header--share__userSelected--visible");
     }
 
     toggleUserList () {

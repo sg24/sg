@@ -2,7 +2,6 @@
     position: relative;
     top: 80px;
     font-family: "Roboto",Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
-    &__removeClass {}
 
     &__content {
         width: 60%;
@@ -33,12 +32,20 @@
                 &:hover {
                     background-color: blue;
                 }
+
+                @mixin atMedium {
+                    padding: 15px 15px;
+                }
+
+                @mixin atLarge {
+                    padding: 15px 22.3px;
+                }
             }
         }
 
         &--details {
             margin: 20px 20px;
-            border-radius: 20px;
+            border-radius: 10px;
             background-color: #fff;
             /* box-shadow: 0px 0px 4.15px 0.85px rgba(21, 164, 250, 0.29);
             -o-box-shadow: 0px 0px 4.15px 0.85px rgba(21, 164, 250, 0.29);
@@ -56,7 +63,7 @@
                 @mixin clearfix;
                 background-color: $mainContentHeaderColor;
                 position: relative;
-                border-radius: 20px;
+                border-radius: 10px;
                 border-bottom-left-radius: 0;
                 border-bottom-right-radius: 0;
 
@@ -66,6 +73,14 @@
                     width: 33.333%;
                     padding: 15px 0;
                     position: relative;
+                   
+
+                    &:first-child {
+                        overflow: hidden;
+                        position: relative;
+                        @mixin clearfix; 
+                        padding: 15px 0 15px 15px;
+                    }
 
                     &:last-child {
                         display: flex;
@@ -74,10 +89,35 @@
                 }
 
                 &--category {
+                   &__img {
+                       position: absolute;
+                        height: 36px;
+                        width: 36px;
+                        border-radius: 18px;
+                        background-color: $mainDarkGray;
+                        top: 2px;
+                        left: 20px;
+                   }
+
+                   &__spaceHolderImg {
+                    float: left;
+                    width: 45px;
+                    height: 1px;
+                   }
+
+                   &__title {
                     margin-left: 10px;
+                    float: left;
+                    width: 55%;
+                    overflow: hidden;
+                    word-wrap: none;
+                    text-overflow: ellipsis; 
+                    white-space: nowrap;  
+                    text-align: left;
                     a {
-                        color: $mainFontColor;
+                        color: $mainFontColor
                     }
+                   }
                 }
 
                 &--share {
@@ -618,7 +658,7 @@
                 padding: 10px 0;
                 text-align: center;
                 font-weight: 500;
-                font-size: 1.2rem;
+                font-size: 1rem;
                 color: $mainFontColor;
                 cursor: pointer;
             }
@@ -627,7 +667,7 @@
                 margin: 0 10px 10px 20px;
                 padding: 0;
                 text-align: center;
-                font-size: 1rem;
+                font-size: .9375rem;
                 line-height: 1.5;
                 text-decoration: underline;
                 overflow: hidden;
@@ -642,7 +682,7 @@
             &__footer {
                 background-color: $mainContentHeaderColor;
                 position: relative;
-                border-radius: 20px;
+                border-radius: 10px;
                 border-top-left-radius: 0;
                 border-top-right-radius: 0;
                 
@@ -656,7 +696,7 @@
 
                     li {
                         float: left;
-                        padding: 15px 50px;
+                        padding: 15px 30px;
                         font-style: italic;
                         color: $mainFontColor;
                     }
@@ -775,6 +815,28 @@
                 }
             }
         }
+        
+
+        @mixin atSmall {
+            width: 80%;
+            position: relative;
+            /* left: 50%; */
+            /* transform: translateX(-50%); */
+        }
+
+        @mixin atMedium {
+            width: 70%;
+            position: relative;
+        }
+
+        @mixin atLarge {
+            width: 60%;
+            float: left;
+            padding-right: 40px;
+            left: 0;
+            transform: translateX(0);
+        }
+
     }
 
     &__nav {
@@ -782,8 +844,7 @@
         background-color: $mainLightBlue;
         color: #fff;
         float: left;
-        /* display: flex;
-        justify-content: center; */
+        display: none;
 
         &--header {
             list-style: none;
@@ -806,6 +867,31 @@
                 position: absolute;
                 left: 130px;
             } */
+        }
+        @mixin atLarge {
+            display: block;
+        }
+    }
+
+    &__nav--md {
+        display: none;
+        
+        @mixin atSmall {
+            display: block;
+            float: left;
+            list-style: none;
+            margin: 0;
+            width: 15%;
+            background-color: blue;
+            padding: 0;
+        }
+
+        @mixin atMedium {
+            width: 30%;
+        }
+
+        @mixin atLarge {
+            display: none;
         }
     }
 }
