@@ -5,12 +5,17 @@
                 <img src="/" alt="">
             </div>
             <div class="site-main__content--details__header--category__spaceHolderImg"></div>
-            <div class="site-main__content--details__header--category__title"><a href="">User User</a></div></li>
-        <li>Published: <span class="site-main__content--details__header--category">A minute Ago</span></li>
+            <div class="site-main__content--details__header--category__userDetails">
+                <div class="site-main__content--details__header--category__userDetails--name"><a href="">User User </a></div>
+                <div class="site-main__content--details__header--category__userDetails--timePosted">@ 2m ago</div> 
+            </div>
+        </li>
+        {{!-- <li>Published: <span class="site-main__content--details__header--category">A minute Ago</span></li> --}}
         <li>
             <div class="site-main__content--details__header--share">
                 <i class="fas fa-location-arrow icon icon__site-main--share"></i>
             </div>
+            <p class="site-main__content--details__header--share__category"><a href=""><i class="fas fa-bars icon icon__site-main--share__categoryBarIcon"></i> Social</a></p>
             <ul class="site-main__content--details__header--share__options">
                 <li>
                     <div class="site-main__content--details__header--share__options--item">
@@ -71,8 +76,11 @@
             </ul>
         </li>
     </ul>
+    {{!-- ( category: Social) --}}
     <div class="site-main__content--details__img">
-        <img  alt="" src="/">
+        <div class="site-main__content--details__img--wrapper">
+            <img  alt="" src="/">
+        </div>
     </div>
     <p class="site-main__content--details__title">What is your view about all this stuffs</p>
     <p class="site-main__content--details__description">
@@ -82,11 +90,12 @@
         this is rendered to the database <span>...</span>
         </a>
     </p>
+    
     <div class="site-main__content--details__footer">
             <ul class="site-main__content--details__footer--list">
-                <li><i class="far fa-eye icon icon__site-main--details__footer--icons"></i> ~  1223K</li>
-                <li><i class="far fa-comments icon icon__site-main--details__footer--icons"></i> ~  12m</li>
-                <li><i class="far fa-heart icon icon__site-main--details__footer--icons"></i> ~ 222m</li>
+                <li><i class="far fa-eye icon icon__site-main--details__footer--icons__eye"></i>  1223K</li>
+                <li class="site-main__content--details__footer--list__item-middle"><i class="far fa-comments icon icon__site-main--details__footer--icons__chats"></i>  12m</li>
+                <li><i class="far fa-heart icon icon__site-main--details__footer--icons__heart"></i> 222m</li>
             </ul>
             <span class="site-main__content--details__footer--details">
                 <i class="fas fa-circle icon icon__site-main--loadmore--circle"></i>

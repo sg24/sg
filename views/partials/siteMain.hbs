@@ -1,18 +1,50 @@
 <div class="site-main">
     <div class="wrapper__main">
+        <div class="site-main__nav--md">
+            <ul>
+                <li>Options</li>
+                <li>
+                    <div class="site-main__nav--md__contentHolder">
+                        <i class="fas fa-coffee icon icon__site-main__nav--md__contentIcon"></i>
+                    </div>
+                </li>
+                <li>
+                    <div class="site-main__nav--md__contentHolder">
+                        <i class="fas fa-pills icon icon__site-main__nav--md__contentIcon"></i>
+                    </div>
+                </li>
+                <li>
+                    <div class="site-main__nav--md__contentHolder">
+                        <i class="fas fa-comment-dots icon icon__site-main__nav--md__contentIcon"></i>
+                    </div>
+                </li>
+                <li>
+                    <div class="site-main__nav--md__contentHolder">
+                        <i class="fas fa-pencil-alt icon icon__site-main__nav--md__contentIcon"></i>
+                    </div>
+                </li>
+                <li>
+                    <div class="site-main__nav--md__contentHolder">
+                        <i class="fas fa-people-carry icon icon__site-main__nav--md__contentIcon"></i>
+                    </div>
+                </li>
+            </ul>
+        </div>
         <div class="site-main__content">
-            <ul class="site-main__content--header">
+            <div class="site-main__content--wrapper">
+                <ul class="site-main__content--header">
                     <li>Post</li>
                     <li>Questions</li>
                     <li>Groups</li>
                     <li>Help Me</li>
                     <li>Communities</li>
-            </ul>
-            <div class="post-section">
-                {{> partialPost}}
-            </div>
-            <div class="question-section">
-                {{> partialQuestion}}
+                </ul>
+                <div class="post-section">
+                    {{> partialPost}}
+                </div>
+                <div class="question-section">
+                    {{> partialQuestion}}
+                </div>
             </div>
         </div>
         <div class="site-main__nav">
@@ -22,14 +54,6 @@
                 <li><i class="fas fa-exchange-alt"></i></li>
             </ul>
         </div>
-        <div class="site-main__nav--md">
-            <ul>
-                <li><i class="fas fa-coffee"></i></li>
-                <li><i class="fas fa-pills"></i></li>
-                <li><i class="fas fa-comment-dots"></i></li>
-                <li><i class="fas fa-pencil-alt"></i></li>
-                <li><i class="fas fa-people-carry"></i></li>
-            </ul>
-        </div>
+        
     </div>
 </div>

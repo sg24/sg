@@ -4,47 +4,100 @@
     font-family: "Roboto",Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
 
     &__content {
-        width: 60%;
-        float: left;
-        padding-right: 40px;
+        width: 100%;
+        float: none;
+
+        &--wrapper {
+            background-color:$mainContentHeaderColor;
+            padding-bottom: 20px;
+        }
         
         &--header {
-            background-color: $mainLightBlue;
+            background-color: $mainMiddleDarkBlue;
             color: #fff;
             list-style: none;
             margin: 0;
             padding: 0;
-            font-size: .9375rem;
+            font-size: .8125rem;
             @mixin clearfix;
+            font-weight: 300;
             /* display: flex;
             justify-content: center; */
+            width: 100%;
+            overflow: hidden;
 
             li {
                 float: left;
                 text-align: center;
-                padding: 15px 22.3px;
-                /* width: 20%; */
+                padding: 11px 0;
+                width: 25%;
+                cursor: pointer;
 
-                &:first-child {
-                    padding-left: 40px;
+                &:last-child {
+                    width: 0%;
+                    display: none;
                 }
 
                 &:hover {
-                    background-color: blue;
+                    background-color: $mainPaleBlue;
+                }
+
+                @mixin atExtraSmall {
+                    width: 25%;
+                    font-size: .8125rem;
+                    &:first-child {
+                        /* width: 13%; */
+                    }
+
+                    &:last-child {
+                        width: 27%;
+                        /* display: block; */
+                    }
+                }
+
+                @mixin atSmall {
+                    font-size: .875rem;
+                    width: 20%;
+                    &:first-child {
+                        width: 15%;
+                    }
+
+                    &:last-child {
+                        width: 25%;
+                        display: block;
+                    }
                 }
 
                 @mixin atMedium {
-                    padding: 15px 15px;
+                    padding: 15px 0px;
+                    font-size: .9375rem;
+
+                    &:first-child {
+                        width: 15%;
+                    }
+
+                    &:last-child {
+                        width: 25%;
+                    }
                 }
 
                 @mixin atLarge {
-                    padding: 15px 22.3px;
+                    padding: 15px 0px;
+                    font-size: .9375rem;
+
+                    &:first-child {
+                        width: 16%;
+                    }
+
+                    &:last-child {
+                        width: 24%;
+                    }
                 }
             }
         }
 
         &--details {
-            margin: 20px 20px;
+            margin: 20px 10px;
             border-radius: 10px;
             background-color: #fff;
             /* box-shadow: 0px 0px 4.15px 0.85px rgba(21, 164, 250, 0.29);
@@ -61,7 +114,7 @@
                 text-align: center;
                 font-size: .8125rem;
                 @mixin clearfix;
-                background-color: $mainContentHeaderColor;
+                background-color: $mainHeaderColor;
                 position: relative;
                 border-radius: 10px;
                 border-bottom-left-radius: 0;
@@ -72,19 +125,28 @@
                     float: left;
                     width: 33.333%;
                     padding: 15px 0;
-                    position: relative;
                    
 
                     &:first-child {
-                        overflow: hidden;
                         position: relative;
                         @mixin clearfix; 
                         padding: 15px 0 15px 15px;
+                        width: 97%;
+
+                        @mixin atSmall {
+                            width: 70%;
+                        }
                     }
 
                     &:last-child {
-                        display: flex;
-                        justify-content: center;
+                        right: 0;
+                        width: 1px;
+                        position: relative;
+                        padding: 15px 0;
+                        @mixin atSmall {
+                            width: 30%;
+                            padding: 7px 0;
+                        }
                     }
                 }
 
@@ -96,38 +158,65 @@
                         border-radius: 18px;
                         background-color: $mainDarkGray;
                         top: 2px;
-                        left: 20px;
+                        left: 5px;
+
+                        @mixin atSmall {
+                            left: 20px;
+                        }
                    }
 
                    &__spaceHolderImg {
                     float: left;
-                    width: 45px;
+                    width: 20px;
                     height: 1px;
+
+                    @mixin atSmall {
+                        width: 45px;
+                    }
                    }
 
-                   &__title {
-                    margin-left: 10px;
-                    float: left;
-                    width: 55%;
+                   &__userDetails {
+                    max-width: 180px;
                     overflow: hidden;
                     word-wrap: none;
-                    text-overflow: ellipsis; 
-                    white-space: nowrap;  
-                    text-align: left;
-                    a {
-                        color: $mainFontColor
+                    @mixin clearfix;
+
+                    &--name {
+                        margin-left: 10px;
+                        padding-right: 3px;
+                        float: left;
+                        max-width: 100px;
+                        overflow: hidden;
+                        word-wrap: none;
+                        text-overflow: ellipsis; 
+                        white-space: nowrap;  
+                        text-align: left;
+                        
+                        a {
+                            color: $mainPaleBlue;
+                        }
+                       }
+
+                       &--timePosted {
+                        float: left;
+                        max-width: 80px;
+                        overflow: hidden;
+                        word-wrap: none;
+                        text-overflow: ellipsis; 
+                        white-space: nowrap;
+                        color: $mainMiddleDarkBlue;  
                     }
                    }
                 }
 
                 &--share {
                     position: absolute;
-                    border-radius: 16px;
-                    height: 32px;
-                    width: 32px;
-                    background-color: $mainLightBlue;
+                    border-radius: 12px;
+                    height: 24px;
+                    width: 24px;
+                    background-color: $mainMiddleDarkBlue;
                     top: 5px;
-                    left: 90px;
+                    left: -20px;
                     cursor: pointer;
 
                     &:hover {
@@ -135,19 +224,41 @@
                         transition: all .3s ease-in;
                     }
 
+                    &__category {
+                        margin: 0 40px 0 0;
+                        max-width: 90%;
+                        background-color: #fff;
+                        padding: 8px 8px;
+                        border: 1px solid $mainDarkGray;
+                        cursor: pointer;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        word-wrap: none;
+                        text-overflow: ellipsis;
+                        display: none;
+
+                        a {
+                            color: $mainDarkBlue;
+                        }
+                        
+                        @mixin atSmall {
+                            display: block;
+                        }
+                    }
+
                     &__options {
                         position: absolute;
                         list-style: none;
                         margin: 0;
-                        left: -120px;
-                        top: 4px;
+                        left: -80px;
+                        top: -15px;
                         padding: 10px;
                         background-color:#fff;
                         border: 1px solid $mainDarkGray;
                         @mixin clearfix;
-                        opacity: 0;
+                        /* opacity: 0;
                         visibility: hidden;
-                        z-index: -33;
+                        z-index: -33; */
                         transition: all .3s ease-out;
 
                         &::after {
@@ -190,11 +301,13 @@
                                 text-align: left !important;
                                 color: #fff;
                                 cursor: pointer;
+                                width: 100%;
                             }
                             &:last-child {
                                 display: block;
                                 padding: 10px 25px 0 20px;
                                 @mixin clearfix;
+                                width: 100%;
                             }
                         }
 
@@ -639,28 +752,87 @@
                             transition: all .3s ease-in
                         }
                     }
+
+                    @mixin atExtraSmall {
+                        border-radius: 12px;
+                        height: 24px;
+                        width: 24px;
+                        top: 5px;
+                        left: -20px;
+                    }
+
+                    @mixin atSmall {
+                        border-radius: 12px;
+                        height: 24px;
+                        width: 24px;
+                        top: 5px;
+                        left: 70px;
+                    }
+
+                    @mixin atSmall {
+                        border-radius: 15px;
+                        height: 30px;
+                        width: 30px;
+                        top: -10px;
+                        left: 85%;
+                    }
+
+                    @mixin atMedium {
+                        border-radius: 16px;
+                        height: 32px;
+                        width: 32px;
+                    }
+
+                    @mixin atLarge {
+                        border-radius: 16px;
+                        height: 32px;
+                        width: 32px;
+                        top: -10px;
+                        left: 85%;
+                    }
                 }
             }
 
             &__img {
-                width: 92%;
-                margin: 10px 20px;
-                height: 200px;
-                background-color: $mainExtraLightGray;
-                overflow: hidden;
-                overflow-x: hidden;
-                overflow-y: auto;
-                /* display: none; */
+                width: 100%;
+                display: flex;
+                justify-content: center;
+
+                &--wrapper {
+                    width: 92%;
+                    margin: 10px 10px;
+                    height: 200px;
+                    background-color: $mainDarkBlue;
+                    overflow: hidden;
+                    overflow-x: hidden;
+                    overflow-y: auto;
+                }
+
+                @mixin atExtraSmall {
+                    /* margin: 10px 11px; */
+                }
+
+                @mixin atMiniSmall {
+                    /* margin: 10px 15px; */
+                }
+
+                @mixin atSmall {
+                    /* margin: 10px 20px;  */
+                }
             }
 
             &__title {
-                margin: 0;
+                margin: 0 5px;
                 padding: 10px 0;
                 text-align: center;
-                font-weight: 500;
+                font-weight: 400;
                 font-size: 1rem;
-                color: $mainFontColor;
+                color: $mainMiddleDarkBlue;
                 cursor: pointer;
+
+                @mixin atMedium {
+                    font-size: 1.2rem;
+                }
             }
 
             &__description {
@@ -672,15 +844,19 @@
                 text-decoration: underline;
                 overflow: hidden;
                 text-overflow: ellipsis;
-
+                
                 a {
                     color: $mainFontColor;
                     cursor: pointer;
                 }
+
+                @mixin atMedium {
+                    font-size: 1rem;
+                }
             }
 
             &__footer {
-                background-color: $mainContentHeaderColor;
+                background-color: $mainHeaderColor;
                 position: relative;
                 border-radius: 10px;
                 border-top-left-radius: 0;
@@ -693,31 +869,59 @@
                     font-size: .8125rem;
                     @mixin clearfix;
                     position: relative;
-
+                    
                     li {
                         float: left;
-                        padding: 15px 30px;
+                        padding: 15px 12px;
                         font-style: italic;
                         color: $mainFontColor;
+
+                        &:first-child {
+                            padding-left: 5px;
+
+                            @mixin atExtraSmall {
+                                padding-left: 8px;
+                            }
+
+                            @mixin atSmall {
+                                padding-left: 18px;
+                            }
+                        }
+                        @mixin atSmall {
+                            padding: 18px;
+                        }
+
+                        @mixin atMedium {
+                            padding: 15px 30px;
+                        }
+                    }
+
+                    &__item-middle {
+                        display: none;
+
+                        @mixin atExtraSmall {
+                            display: block;
+                        }
                     }
                 }
 
                 &--details {
                     position: absolute;
                     top: 12px;
-                    right: 40px;
+                    right: 20px;
                     cursor: pointer;
 
                     &__options {
                         position: absolute;
                         list-style: none;
-                        top: -7.5px;
-                        right: 100px;
+                        top: -38.5px;
+                        right: 64px;
                         padding: 0;
                         margin: 0;
                         background-color: #fff;
+                        /* box-shadow: 0px 0px 4.15px 0.85px rgba(2, 132, 168, 0.29); */
                         border: 1px solid $mainDarkGray;
-                        font-size: .875rem;
+                        font-size: .8125rem;
                         margin-bottom: 40px;
                         opacity: 0;
                         visibility: hidden;
@@ -750,7 +954,7 @@
                         &::after {
                             position: absolute;
                             content: "";
-                            top: 19px;
+                            top: 50px;
                             right: -24px;
                             border-color: transparent;
                             border-width: 12px;
@@ -758,12 +962,18 @@
                             border-style: solid;
                             transform: rotate(90deg);
                             pointer-events: none;
+
+                            
+                            /* @mixin atSmall {
+                                top: 19px;
+                                right: -24px;
+                            } */
                         }
 
                         &::before {
                             position: absolute;
                             content: "";
-                            top: 18px;
+                            top: 49px;
                             right: -26px;
                             border-color: transparent;
                             border-width: 13px;
@@ -771,12 +981,16 @@
                             border-style: solid;
                             transform: rotate(90deg);
                             pointer-events: none;
+
+                            /* @mixin atSmall {
+                                top: 18px;
+                            } */
                         }
                         &--toggle {
                             position: absolute;
                             margin: 0;
                             padding: 0;
-                            top: 138px;
+                            top: 134px;
                             left: 10px;
                             list-style: none;
                             opacity: 0;
@@ -786,13 +1000,17 @@
 
                             li {
                                 margin: 0;
-                                padding: 5px 43px;
+                                padding: 5px 40px;
                                 background-color: #fff !important;
                                 border: 1px solid $mainDarkGray;
                                 color: $mainFontColor;
 
                                 &:first-child {
                                     border-bottom: none;
+                                }
+
+                                @mixin atSmall {
+                                    padding: 5px 42.5px;
                                 }
                             }
 
@@ -801,6 +1019,11 @@
                                 visibility: visible;
                                 z-index: 1;
                                 transition: all .3s ease-in;
+                            }
+
+                            @mixin atSmall {
+                                top: 138px;
+                                left: 10px;
                             }
                         }
 
@@ -811,22 +1034,44 @@
                             transform: scale(1);
                             transition: all .3s ease-out;
                         }
+
+                        @mixin atSmall {
+                            font-size: .875rem;
+                            right: 90px;
+                        }
+
+
+                    }
+
+                    @mixin atSmall {
+                        right: 40px;
                     }
                 }
             }
+
+            @mixin atSmall {
+                margin: 20px;
+            }
         }
         
+        @mixin atExtraSmall {
+            width: 100%;
+            position: relative;
+        }
 
         @mixin atSmall {
-            width: 80%;
+            width: 86%;
             position: relative;
+            padding-right: 0px;
+            float: left;;
             /* left: 50%; */
             /* transform: translateX(-50%); */
         }
 
         @mixin atMedium {
-            width: 70%;
+            width: 60%;
             position: relative;
+            padding-right: 30px;
         }
 
         @mixin atLarge {
@@ -841,10 +1086,11 @@
 
     &__nav {
         width: 40%;
-        background-color: $mainLightBlue;
+        background-color: $mainMiddleDarkBlue;
         color: #fff;
         float: left;
         display: none;
+        font-weight: 300;
 
         &--header {
             list-style: none;
@@ -868,7 +1114,7 @@
                 left: 130px;
             } */
         }
-        @mixin atLarge {
+        @mixin atMedium {
             display: block;
         }
     }
@@ -876,21 +1122,51 @@
     &__nav--md {
         display: none;
         
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            li {
+                padding: 45px 0;
+                text-align: center;
+                font-size: .875rem;
+                border-bottom: 1px solid $mainLightGray;
+                border-left: 1px solid $mainLightGray;
+                border-right: 1px solid $mainDarkGray;
+                cursor: pointer;
+                position: relative;
+
+                &:first-child {
+                    padding: 11px 0;
+                    background-color: $mainDarkBlue;
+                    color: #fff;
+                    border: none;
+                }
+            }
+        }
+        &__contentHolder {
+            height: 50px;
+            width: 50px;
+            border-radius: 25px;
+            background-color: $mainLightGray;
+            position: absolute;
+            top: 18%;
+            left: 20%;
+            /* transform: translateX(50%) */
+        }
+
         @mixin atSmall {
             display: block;
             float: left;
             list-style: none;
             margin: 0;
-            width: 15%;
-            background-color: blue;
+            width: 14%;
+            font-size: .875rem;
+            background-color: #fff;
             padding: 0;
         }
-
         @mixin atMedium {
-            width: 30%;
-        }
-
-        @mixin atLarge {
             display: none;
         }
     }

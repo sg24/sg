@@ -17,10 +17,27 @@
     }
 
     &__main {
-        padding-left: 18px;
-        padding-right: 18px;
-        max-width: 1236px;
+        padding-left: 0px;
+        padding-right: 0px;
+        max-width: 1200px;
         @mixin clearfix;
         
+        @mixin atSmall {
+            padding-left: 0px;
+            padding-right: 0px;
+            max-width: 1200px;
+        }
+
+        @mixin atMedium {
+            padding-left: 10px;
+            padding-right: 10px;
+            max-width: 1220px;
+        }
+
+        @mixin atLarge {
+            padding-left: 18px;
+            padding-right: 18px;
+            max-width: 1236px;
+        }
     }
 }

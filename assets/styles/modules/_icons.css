@@ -226,7 +226,17 @@
         }
     }
 
-    &__site-main--details__footer--icons {
+    &__site-main--details__footer--icons__eye {
+        color: $mainLightBlack;
+        cursor: pointer;
+    }
+
+    &__site-main--details__footer--icons__chats {
+        color: $mainLightBlack;
+        cursor: pointer;
+    }
+
+    &__site-main--details__footer--icons__heart {
         color: $mainLightBlack;
         cursor: pointer;
     }
@@ -243,6 +253,15 @@
         transform: translate(-54%);
         z-index: 3;
         color: #fff;
+        font-size: .75rem;
+
+        @mixin atSmall {
+            font-size: .9375rem;
+        }
+    }
+
+    &__site-main--share__categoryBarIcon {
+        margin-right: 5px;
     }
 
     &__site-main--details__options-icon {
@@ -304,5 +323,13 @@
     &__site-main--share__userSelectedIcon {
         color: rgba($mainLightBlack, .7);
         margin-right: 5px;
+    }
+
+    &__site-main__nav--md__contentIcon {
+        color: rgba($mainMediumLightBlack, .9);
+        position: absolute;
+        top: 25%;
+        transform: translate(-50%);
+        font-size: 1.2rem;
     }
 }
