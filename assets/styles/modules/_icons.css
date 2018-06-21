@@ -333,4 +333,8 @@
         transform: translate(-50%);
         font-size: 1.2rem;
     }
+
+    &__site-main--userCounter-sm {
+        margin-right: 10px;
+    }
 }

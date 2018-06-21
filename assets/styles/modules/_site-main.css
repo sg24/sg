@@ -260,8 +260,8 @@
                         position: absolute;
                         list-style: none;
                         margin: 0;
-                        left: -190px;
-                        top: -24px;
+                        left: -195px;
+                        top: -16px;
                         padding: 10px;
                         background-color:#fff;
                         border: 1px solid $mainDarkGray;
@@ -355,11 +355,11 @@
                         }
 
                         @mixin atMedium {
-                            left: -190px;
+                            left: -192px;
                         }
 
                         @mixin atLarge {
-                            left: -210px;
+                            left: -200px;
                         }
                         
                     }
@@ -395,6 +395,8 @@
                             overflow-y: auto;
                             max-height: 17.5rem;
                             margin: 10px 0;
+                            border-top: 1px solid $mainDarkGray;
+                            padding: 10px 0 0 0;
 
                             &__wrapper {
                                 margin-bottom: 10px;
@@ -814,8 +816,126 @@
                             right: 8.2px;
                             top: -12px;
                         }
+                    }
 
+                    &__userCounter-sm {
+                        position: absolute;
+                        left: 170px;
+                        width: 60px;
+                        top: 85px;
+                        background-color: #fff;
+                        border: 1px solid $mainDarkGray;
+                        margin: 0;
+                        padding: 0;
+                        list-style: none;
+                        cursor: default;
+                        border-radius: 3px;
+                        opacity: 0;
+                        visibility: hidden;
+                        z-index: -33;
+                        transition: all .3s ease-out;
+
+                        li {
+                            margin: 0;
+                            padding: 8px 0;
+                            cursor: default;
+
+                            &:first-child {
+                                background-color: #fff;
+                                margin: 0 0 10px 0;
+                                padding: 0;
+                                border-bottom: 1px solid $mainDarkGray;
+                                p {
+                                    background-color: $mainDarkBlue;
+                                    padding: 10px 0;
+                                    margin: 0;
+                                    text-align: center;
+                                    font-size: .8125rem;
+                                    color: #fff
+                                }
+
+                            }
+
+                            &:last-child {
+                                margin: 5px 5px;
+                                padding: 8px 0;
+                                background-color: $mainDarkRed;
+                                box-shadow: inset 0px 0px 4px 0px rgba(126, 30, 21, 0.68);
+                                -o-box-shadow: inset 0px 0px 4px 0px rgba(126, 30, 21, 0.68);
+                                -ms-box-shadow: inset 0px 0px 4px 0px rgba(126, 30, 21, 0.68);
+                                -webkit-box-shadow: inset 0px 0px 4px 0px rgba(126, 30, 21, 0.68);
+                                -moz-box-shadow: inset 0px 0px 4px 0px rgba(126, 30, 21, 0.68);
+                                display: flex;
+                                justify-content: center;
+                                width: 80%;
+                                cursor: pointer;
+
+                                @mixin atExtraSmall {
+                                    margin: 5px 8px;
+                                }
+                            }
+
+                        }
+                        &--userSelected {
+                            color: $mainFontColor;
+                            text-align: center;
+                            width: 100%;
+                            display: flex;
+                            justify-content: center;
+                            padding: 5px 0;
+                            font-size: .875rem;
+                        }
+
+                        &--secondItem {
+                            margin: 30px 5px 10px 5px!important;
+                            padding: 8px 0;
+                            background-color: #fff;
+                            display: flex;
+                            justify-content: center;
+                            width: 80% !important;
+                            border: 1px solid $mainDarkGray;
+                            cursor: pointer !important;
+                            color: $mainFontColor;
+
+                            @mixin atExtraSmall {
+                                margin: 30px 8px 10px 8px!important;
+                            }
+                        }
                         
+                        &--thirdItem {
+                            margin: 5px 5px 10px 5px!important;
+                            padding: 8px 0;
+                            background-color: $mainLightBlue;
+                            display: flex;
+                            justify-content: center;
+                            width: 80% !important;
+                            box-shadow: 0px 2px 3.72px 2.28px rgba(51, 152, 219, 0.29);
+                            -o-box-shadow: 0px 2px 3.72px 2.28px rgba(51, 152, 219, 0.29);
+                            -ms-box-shadow: 0px 2px 3.72px 2.28px rgba(51, 152, 219, 0.29);
+                            -webkit-box-shadow: 0px 2px 3.72px 2.28px rgba(51, 152, 219, 0.29);
+                            -moz-box-shadow: 0px 2px 3.72px 2.28px rgba(51, 152, 219, 0.29);
+                            cursor: pointer !important;
+
+                            @mixin atExtraSmall {
+                                margin: 5px 8px 10px 8px!important;
+                            }
+                        }
+
+                        &--visible {
+                            opacity: 1;
+                            visibility: visible;
+                            z-index: 1;
+                            transition: all .3s ease-out;
+                        }
+
+                        @mixin atExtraSmall {
+                            left: -83px;
+                            width: 78px;
+                        }
+
+                        @mixin atSmall {
+                            display: none;
+                        }
                     }
 
                     @mixin atExtraSmall {
