@@ -38,14 +38,12 @@ class SiteMain {
 
     clearAll() {
         this.shareUserOption.removeClass("site-main__content--details__header--share__options--visible");
-        this.userSelected.removeClass("site-main__content--details__header--share__userSelected--visible");
         this.contentDetailsOptions.removeClass("site-main__content--details__footer--details__options--visible");
     }
 
     toggleShareUserIcon() {
         this.shareUserOption.toggleClass("site-main__content--details__header--share__options--visible");
         this.contentDetailsOptions.removeClass("site-main__content--details__footer--details__options--visible");
-        this.userSelected.removeClass("site-main__content--details__header--share__userSelected--visible");
     }
 
     toggleUserList () {
@@ -85,10 +83,12 @@ class SiteMain {
 
     showSelectedUsers() {
         this.userSelected.toggleClass("site-main__content--details__header--share__userSelected--visible");
+        this.userList.toggleClass("site-main__content--details__header--share__content__visible");
     }
 
     closeAllUserSelected() {
         this.userSelected.removeClass("site-main__content--details__header--share__userSelected--visible");
+        this.userList.toggleClass("site-main__content--details__header--share__content__visible");
     }
 }
 

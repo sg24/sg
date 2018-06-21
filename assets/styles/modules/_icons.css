@@ -307,15 +307,16 @@
 
     &__site-main--share__userSelectedCloseIcon {
         font-size: .6875rem;
-        top: 0px;
-        transform: translateY(0px);
-        right: -2px;
         color: $mainLightBlack;
+        position: absolute;
+        top: 1.5px;
+        left: 4px;
     }
 
     &__site-main--share__userSelectedCloseMainIcon {
-        top: 1px;
-        left: 8px;
+        position: absolute;
+        top: 1.5px;
+        left: 4px;
         font-size: .6875rem;
         color: $mainLightBlack;
     }
