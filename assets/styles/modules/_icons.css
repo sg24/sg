@@ -337,4 +337,64 @@
     &__site-main--userCounter-sm {
         margin-right: 10px;
     }
+
+    &__site-main--group__Headeruser {
+        position: absolute;
+        font-size: .75rem;
+        top: 25%;
+        left: 4.2px;
+        color: $mainLightBlue;
+
+        @mixin atSmall {
+            font-size: 1.25rem;
+            left: 8px;
+        }
+    }
+
+    &__site-main--group__Headeradd {
+        position: absolute;
+        font-size: .6rem;
+        top: 22%;
+        left: 5.6px;
+        color: rgba($mainMediumLightBlack, .6);
+
+        @mixin atSmall {
+            font-size: .8rem;
+            top: 22%;
+            left: 7.3px;
+        }
+    }
+
+    &__site-main--group__mainContentAddSm {
+        position: absolute;
+        font-size: .6rem;
+        top: 22%;
+        left: 5.6px;
+        color: rgba($mainMediumLightBlack, .6);
+    }
+
+    &__site-main--group__calendar {
+        margin-right: 5px;
+        font-size: .875rem;
+    }
+
+    &__site-main--group__comments {
+        margin-right: 5px;
+    }
+
+    &__site-main--group__usersAdded {
+        margin-right: 5px;
+    }
+
+    &__site-main--group__userOnline {
+        margin-right: 5px;
+    }
+
+    &__site-main--group__times {
+        position: absolute;
+        top: 2.5px;
+        left: 5px;
+        font-size: .725rem;
+        color: rgba($mainMediumLightBlack, .8);
+    }
 }
