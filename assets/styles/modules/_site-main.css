@@ -37,7 +37,9 @@
                 }
 
                 &:hover {
-                    background-color: $mainPaleBlue;
+                    background-color: #fff;
+                    color: $mainFontColor;
+                    border-top: 4px solid $mainDarkBlue;
                 }
 
                 @mixin atExtraSmall {

@@ -1,4 +1,16 @@
 <div class="site-main__group">
+    <div class="site-main__group--filter">
+        <p>Filter</p>
+        <input type="text" placeholder="Enter group name">
+        <div class="site-main__group--filter__category">
+            <h3>Select Category <i class="fas fa-angle-down"></i></h3>
+            <ul class="site-main__group--filter__category--option">
+                <li>English</li>
+                <li>Mathmatics</li>
+            </ul>
+        </div>
+    </div>
+
     <div class="site-main__group--wrapper">
         <ul class="site-main__group--header">
             <li>
@@ -38,11 +50,13 @@
                     <p><i class="fas fa-users"></i>   mathematics excel multi purpose group</p>
                 </li>
                 <li class="site-main__group--mainContent__desc--postCreator">
+                    {{!-- <span class="site-main__group--mainContent__desc--postCreator__admin">
+                        <i class="fas fa-admin"></i>    
+                    </span> --}}
                     <div class="site-main__group--mainContent__desc--postCreator__userImg">
                         <img src="/" alt="">
                     </div>
                     <div class="site-main__group--mainContent__desc--postCreator__detailsWrapper">
-                         Created By: 
                         <p class="site-main__group--mainContent__desc--postCreator__name">
                             <a href="">User user  </a>
                         </p>
@@ -83,4 +97,6 @@
             </li>
         </ul>
     </div>
+
+    
 </div>
