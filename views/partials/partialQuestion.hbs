@@ -1,4 +1,4 @@
-<div class="site-main__content--details">
+<div class="site-main__content--details site-main__content--details__question">
     <ul class="site-main__content--details__header">
         <li>
             <div class="site-main__content--details__header--category__img">
@@ -15,7 +15,7 @@
             <div class="site-main__content--details__header--share">
                 <i class="fas fa-location-arrow icon icon__site-main--share"></i>
             </div>
-            <p class="site-main__content--details__header--share__category"><a href=""> Social</a></p>
+            <p class="site-main__content--details__header--share__category"><i class="fas fa-tags"></i><a href=""> Social</a></p>
             <div class="site-main__content--details__header--share__optionsWrapper">
                 <ul class="site-main__content--details__header--share__options">
                     <li>
@@ -90,25 +90,21 @@
             </div>
         </li>
     </ul>
-    {{!-- ( category: Social) --}}
-    <div class="site-main__content--details__img">
-        <div class="site-main__content--details__img--wrapper">
-            <img  alt="" src="/">
+
+    <div class="site-main__question">
+        <div class="site-main__question--content">
+            <p class="site-main__question--content__title">
+                What is your view about all this stuffs
+            </p>
+            <div class="site-main__question--content__img">
+                <img  alt="" src="/">
+            </div>
         </div>
     </div>
-    <p class="site-main__content--details__title">What is your view about all this stuffs</p>
-    <p class="site-main__content--details__description">
-        <a href="">
-            The is a description of the sites to be used when
-        this is rendered to the database, The is a description of the sites to be used when
-        this is rendered to the database <span>...</span>
-        </a>
-    </p>
-    
     <div class="site-main__content--details__footer">
             <ul class="site-main__content--details__footer--list">
-                <li><i class="far fa-eye icon icon__site-main--details__footer--icons__eye"></i>  1223K</li>
-                <li class="site-main__content--details__footer--list__item-middle"><i class="far fa-comments icon icon__site-main--details__footer--icons__chats"></i>  12m</li>
+                <li><i class="far fa-thumbs-up icon icon__site-main--details__footer--icons__eye"></i>  1223K</li>
+                <li class="site-main__content--details__footer--list__item-middle"><i class="far fa-thumbs-down icon icon__site-main--details__footer--icons__chats"></i>  12m</li>
                 <li><i class="far fa-heart icon icon__site-main--details__footer--icons__heart"></i> 222m</li>
             </ul>
             <span class="site-main__content--details__footer--details">
@@ -117,12 +113,12 @@
                 <i class="fas fa-circle icon icon__site-main--loadmore--circle"></i>
             </span>
             <ul class="site-main__content--details__footer--details__options">
-                <li><a href=""><i class="far fa-edit icon icon__site-main--details__options-icon"></i>Edit Post</a></li>
-                <li><a href=""><i class="far fa-trash-alt icon icon__site-main--details__options-icon"></i>Delete Post</a></li>
+                <li><a href=""><i class="far fa-edit icon icon__site-main--details__options-icon"></i>Edit Question</a></li>
+                <li><a href=""><i class="far fa-trash-alt icon icon__site-main--details__options-icon"></i>Delete Question</a></li>
                 <li class="site-main__content--details__footer--details__options--item">Change Status <i class="fas fa-angle-down icon icon__site-main--details__options-toggleicon"></i>
-                    <ul class="site-main__content--details__footer--details__options--toggle">
+                    <ul class="site-main__content--details__footer--details__options--toggle site-main__content--details__footer--details__options--toggleQuestion">
                         <li>Draft</li>
-                        <li>Publish</li>
+                        <li>Submit</li>
                     </ul>
                 </li>
             </ul>

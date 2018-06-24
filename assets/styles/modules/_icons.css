@@ -243,7 +243,7 @@
 
     &__site-main--loadmore--circle {
         font-size: .35rem; 
-        color: $mainLightBlack;
+        color: $mainDarkBlue;
         margin-left: .125rem;
     }
 
@@ -251,7 +251,7 @@
         position: absolute;
         top: 27%;
         transform: translate(-54%);
-        z-index: 3;
+        z-index: 1;
         color: #fff;
         font-size: .75rem;
 
@@ -376,6 +376,8 @@
     &__site-main--group__calendar {
         margin-right: 5px;
         font-size: .8125rem;
+        /* color: rgba($mainMediumLightBlack, .8); */
+        color: rgba($mainDarkPaleBlue, .6);
 
         @mixin atSmall {    
             font-size: .875rem;
@@ -388,10 +390,14 @@
 
     &__site-main--group__usersAdded {
         margin-right: 5px;
+        /* color: rgba($mainMediumLightBlack, .8); */
+        color: rgba($mainDarkPaleBlue, .6);
     }
 
     &__site-main--group__userOnline {
         margin-right: 5px;
+        /* color: rgba($mainMediumLightBlack, .8); */
+        color: rgba($mainDarkPaleBlue, .6);
     }
 
     &__site-main--group__times {
@@ -400,5 +406,17 @@
         left: 5px;
         font-size: .725rem;
         color: rgba($mainMediumLightBlack, .8);
+    }
+
+    &__site-main--group__filterIcon {
+        margin-left: 5px;
+    }
+
+    &__site-main--group__optionsTabFriends {
+        margin-right: 5px;
+    }
+
+    &__site-main--group__optionsTabIconGroups {
+        margin-right: 5px;
     }
 }

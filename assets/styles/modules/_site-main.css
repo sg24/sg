@@ -8,7 +8,7 @@
         float: none;
 
         &--wrapper {
-            background-color:$mainContentHeaderColor;
+            background-color: #fff;
             padding-bottom: 20px;
         }
         
@@ -96,8 +96,21 @@
             margin: 20px 10px;
             border-radius: 10px;
             background-color: #fff;
-            border: 1px solid $mainLightGray;
-              
+            box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
+            -o-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
+            -ms-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
+            -webkit-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
+            -moz-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
+
+            &__question {
+                box-shadow: 0px 2px 9px 2px rgba($mainDarkGray, .9) !important;
+                -o-box-shadow: 0px 2px 9px 2px rgba($mainDarkGray, .9) !important;
+                -ms-box-shadow: 0px 2px 9px 2px rgba($mainDarkGray, .9) !important;
+                -webkit-box-shadow: 0px 2px 9px 2px rgba($mainDarkGray, .9) !important;
+                -moz-box-shadow: 0px 2px 9px 2px rgba($mainDarkGray, .9) !important;
+            }
+
+
             &__header {
                 list-style: none;
                 margin: 0;
@@ -105,7 +118,13 @@
                 text-align: center;
                 font-size: .8125rem;
                 @mixin clearfix;
-                background-color: $mainHeaderColor;
+                background-color: #fff;
+                border-bottom: 1px solid $mainLightGray;
+                /* box-shadow: 0px 1px 2px 0px rgba($mainLightGray, 0.87); */
+                /* -o-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57); */
+                /* -ms-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57); */
+                /* -webkit-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57); */
+                /* box-shadow: 0px 2px 9px 0px rgba($mainDarkGray, 0.57); */
                 position: relative;
                 border-radius: 10px;
                 border-bottom-left-radius: 0;
@@ -135,10 +154,10 @@
                         right: 0;
                         width: 1px;
                         position: relative;
-                        padding: 15px 0;
+                        padding: 3px 0;
                         @mixin atSmall {
                             width: 30%;
-                            padding: 7px 0;
+                            /* padding: 7px 0; */
                         }
                     }
                 }
@@ -150,7 +169,7 @@
                         width: 36px;
                         border-radius: 18px;
                         background-color: $mainDarkGray;
-                        top: 2px;
+                        top: 3px;
                         left: 5px;
 
                         @mixin atSmall {
@@ -186,7 +205,7 @@
                         text-align: left;
                         
                         a {
-                            color: $mainPaleBlue;
+                            color: $mainDarkBlue;
                         }
                        }
 
@@ -211,6 +230,11 @@
                     top: 5px;
                     left: -20px;
                     cursor: pointer;
+                    box-shadow: 0px 0px 3.1px 1.9px rgba(67, 125, 163, 0.26);
+                    -o-box-shadow: 0px 0px 3.1px 1.9px rgba(67, 125, 163, 0.26);
+                    -ms-box-shadow: 0px 0px 3.1px 1.9px rgba(67, 125, 163, 0.26);
+                    -webkit-box-shadow: 0px 0px 3.1px 1.9px rgba(67, 125, 163, 0.26);
+                    -moz-box-shadow: 0px 0px 3.1px 1.9px rgba(67, 125, 163, 0.26);
 
                     &:hover {
                         transform: rotate(-90deg);
@@ -222,16 +246,18 @@
                         max-width: 90% !important;
                         background-color: #fff;
                         padding: 8px 8px;
-                        border: 1px solid $mainDarkGray;
+                        /* border: 1px solid $mainDarkGray; */
                         cursor: pointer;
                         overflow: hidden;
                         white-space: nowrap;
                         word-wrap: none;
                         text-overflow: ellipsis;
                         display: none;
+                        position: relative;
+                        top: 3px;
 
                         a {
-                            color: $mainDarkBlue;
+                            color: $mainFontColor;
                             text-decoration: none;
                         }
                         
@@ -506,7 +532,7 @@
                         &__visible {
                             opacity: 1;
                             visibility: visible;
-                            z-index: 1;
+                            z-index: 2;
                             transition: all .3s ease-out;
                         }
                     }
@@ -814,7 +840,7 @@
                         position: absolute;
                         left: 170px;
                         width: 60px;
-                        top: 85px;
+                        top: 5px;
                         background-color: #fff;
                         border: 1px solid $mainDarkGray;
                         margin: 0;
@@ -977,7 +1003,7 @@
 
                 &--wrapper {
                     width: 92%;
-                    margin: 10px 10px;
+                    margin: 10px 10px 0 10px;
                     height: 200px;
                     background-color: $mainDarkBlue;
                     overflow: hidden;
@@ -1022,7 +1048,9 @@
             }
 
             &__footer {
-                background-color: $mainHeaderColor;
+                background-color: #fff;
+                border-top: 1px solid $mainLightGray;
+                /* box-shadow: 0px -2px 9px 0px rgba($mainDarkGray, 0.57); */
                 position: relative;
                 border-radius: 10px;
                 border-top-left-radius: 0;
@@ -1041,6 +1069,7 @@
                         padding: 15px 12px;
                         font-style: italic;
                         color: $mainFontColor;
+                        border-right: 1px solid $mainLightGray;
 
                         &:first-child {
                             padding-left: 5px;
@@ -1054,7 +1083,7 @@
                             }
                         }
                         @mixin atSmall {
-                            padding: 18px;
+                            padding: 15px;
                         }
 
                         @mixin atMedium {
@@ -1179,6 +1208,12 @@
                             @mixin atSmall {
                                 top: 138px;
                                 left: 10px;
+                            }
+                        }
+
+                        &--toggleQuestion {
+                            li {
+                                padding: 5px 46px !important;
                             }
                         }
 

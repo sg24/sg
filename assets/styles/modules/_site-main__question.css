@@ -1,0 +1,30 @@
+.site-main__question {
+    &--content {
+        @mixin clearfix;
+        margin: 10px 0;
+        padding: 0 10px;
+        display: flex;
+        justify-content: center;
+
+        &__title {
+            float: left;
+            max-width: 60%;
+            padding: 0;
+            padding-right: 10px;
+            margin: 0;
+            max-height: 98px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.2;
+            text-align: center;
+        }
+        &__img {
+            float: left;
+            max-width: 40%;
+            background-color: rgba($mainLightGray, .56);
+            max-height: 100px;
+            overflow: hidden;
+            overflow-y: auto;
+        }
+    }
+}
