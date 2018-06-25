@@ -13,7 +13,7 @@
         }
         
         &--header {
-            background-color: $mainMiddleDarkBlue;
+            /* background-color: $mainMiddleDarkBlue; */
             color: #fff;
             list-style: none;
             margin: 0;
@@ -23,6 +23,8 @@
             font-weight: 300;
             width: 100%;
             overflow: hidden;
+            /* border-top: 1px solid $mainDarkBlue;
+            border-right: 1px solid $mainDarkBlue; */
 
             li {
                 float: left;
@@ -30,16 +32,20 @@
                 padding: 11px 0;
                 width: 25%;
                 cursor: pointer;
+                position: relative;
+                background-color: $mainMiddleDarkBlue;
+                border-top: 1px solid $mainDarkBlue;
+                border-left: 1px solid rgba(#fff, .2);
+                border-left: 1px solid rgba(#fff, .2);
+
+                &:first-child {
+                    border-left: none;
+                }
 
                 &:last-child {
                     width: 0%;
                     display: none;
-                }
-
-                &:hover {
-                    background-color: #fff;
-                    color: $mainFontColor;
-                    border-top: 4px solid $mainDarkBlue;
+                     border-right: 1px solid $mainDarkBlue;
                 }
 
                 @mixin atExtraSmall {
@@ -1070,6 +1076,7 @@
                         font-style: italic;
                         color: $mainFontColor;
                         border-right: 1px solid $mainLightGray;
+                        cursor: default;
 
                         &:first-child {
                             padding-left: 5px;
@@ -1082,6 +1089,7 @@
                                 padding-left: 18px;
                             }
                         }
+                        
                         @mixin atSmall {
                             padding: 15px;
                         }
@@ -1309,6 +1317,7 @@
             list-style: none;
             margin: 0;
             padding: 0;
+            width: 100%;
 
             li {
                 padding: 45px 0;
@@ -1319,6 +1328,8 @@
                 border-right: 1px solid $mainDarkGray;
                 cursor: pointer;
                 position: relative;
+                display: flex;
+                justify-content: center;
 
                 &:first-child {
                     padding: 11px 0;
@@ -1333,9 +1344,10 @@
             width: 50px;
             border-radius: 25px;
             background-color: $mainLightGray;
-            position: absolute;
+            /* position: absolute;
             top: 18%;
-            left: 20%;
+            left: 20%; */
+            position: relative;
         }
 
         @mixin atSmall {
@@ -1347,6 +1359,9 @@
             font-size: .875rem;
             background-color: #fff;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
         }
         @mixin atMedium {
             display: none;

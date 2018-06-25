@@ -1,4 +1,4 @@
-.site-main__group {
+.site-main__communities {
     margin-top: 20px;
     padding: 0 10px;
 
@@ -19,11 +19,11 @@
         border-radius: 10px;
         /* box-shadow: 0px 0px 1px 0px rgba(42, 129, 164, 0.26); */
         background-color: #fff;  
-        box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
-        -o-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
-        -ms-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
-        -webkit-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
-        -moz-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
+        box-shadow: 0px 2px 9px 0px rgba($mainExtraLightBlue, 0.57);
+        /* -o-box-shadow: 0px 2px 9px 0px rgba($mainMiddleDarkBlue, 0.57);
+        -ms-box-shadow: 0px 2px 9px 0px rgba($mainMiddleDarkBlue, 0.57);
+        -webkit-box-shadow: 0px 2px 9px 0px rgba($mainMiddleDarkBlue, 0.57);
+        -moz-box-shadow: 0px 2px 9px 0px rgba($mainMiddleDarkBlue, 0.57); */
     }
 
     &--header {
@@ -37,7 +37,12 @@
         border-bottom-right-radius: 0;
         @mixin clearfix;
         /* under */
-        border-bottom: 1px solid  $mainLightGray;
+        /* border-bottom: 1px solid  $mainLightGray; */
+        box-shadow: 0px 1px 5px 0px rgba($mainDarkPaleBlue, 0.27);
+        -o-box-shadow: 0px 1px 5px 0px rgba($mainDarkPaleBlue, 0.27);
+        -ms-box-shadow: 0px 1px 5px 0px rgba($mainDarkPaleBlue, 0.27);
+        -webkit-box-shadow: 0px 1px 5px 0px rgba($mainDarkPaleBlue, 0.27);
+        -moz-box-shadow: 0px 1px 5px 0px rgba($mainDarkPaleBlue, 0.27);
 
         li {
             position: relative;
@@ -107,7 +112,7 @@
 
             @mixin atSmall {
                 font-size: .875rem;
-                margin-left: 85px;
+                margin-left: 70px;
             }
         }
 
@@ -482,30 +487,33 @@
         @mixin clearfix;
         font-size: .8125rem;
         /* under */
-        border-top: 1px solid  $mainLightGray;
+        /* border-top: 1px solid  $mainLightGray; */
+         box-shadow: 0px -1px 5px 0px rgba($mainDarkPaleBlue, 0.27);
+        -o-box-shadow: 0px -1px 5px 0px rgba($mainDarkPaleBlue, 0.27);
+        -ms-box-shadow: 0px -1px 5px 0px rgba($mainDarkPaleBlue, 0.27);
+        -webkit-box-shadow: 0px -1px 5px 0px rgba($mainDarkPaleBlue, 0.27);
+        -moz-box-shadow: 0px -1px 5px 0px rgba($mainDarkPaleBlue, 0.27);
 
         li {
             float: left;
-            width: 50%;
             text-align: center;
-            /* color: #fff; */
             color: $mainFontColor;
             padding: 8px 0; 
             margin: 0;
+            width: 25%;
+            border-right: 1px solid rgba($mainLightGray, .9);
             
-
             &:first-child {
-                /* border-right: 1px solid rgba(#fff, .5); */
-                border-right: 1px solid rgba($mainLightGray, .9);
-                /* background-color: rgba($mainMiddleDarkBlue, .6); */
                 margin: 0 !important;
-                /* border-bottom-left-radius: 10px; */
+                width: 25%;
             }
 
             &:last-child {
                 position: relative;
                 @mixin clearfix;
                 overflow: hidden;
+                width: 50%;
+                border-right: none;
 
                 @mixin atExtraSmall {
                     position: relative;
@@ -545,7 +553,6 @@
         }
     }
     
-
     &--filter {
         @mixin clearfix;
         padding-bottom: 10px;
@@ -631,29 +638,41 @@
 
             &--option {
                 list-style: none;
-                padding: 0;
+                padding: 3px 0 0 0;
                 margin: 0 0 0 35px;
                 font-size: .8125rem;
                 background-color: #fff;
                 border: 1px solid $mainLightGray;
                 position: absolute;
                 width: 100%;
-                max-height: 220px;
-                overflow: hidden;
-                overflow-y: auto;
                 opacity: 0;
                 visibility: hidden;
                 z-index: -33;
                 transition: all .3s ease-out;
-                
+                max-height: 220px;
+                overflow: hidden;
+                overflow-y: auto;
 
                 li {
                     padding: 5px 0 5px 5px;
                     border-bottom: 1px solid $mainLightGray;
                     cursor: pointer;
 
+                    &:first-child {
+                        border-top: 1px solid $mainLightGray;
+                    }
+
                     &:last-child {
                         border-bottom: none;
+                        background-color: $mainLightBlue;
+                        margin-left: 0;
+                        padding-left: 0;
+                        text-align: center;
+                        
+                        a {
+                            text-decoration: none;
+                            color: #fff;
+                        }
                     }
                 }
 
@@ -694,22 +713,26 @@
         background-color: $mainHeaderColor;
 
         li {
-            float: left;
+            float: none;
             cursor: pointer;
 
             &:first-child {
                 color: $mainFontColor;
                 padding:  8px 10px;
-                border: 1px solid rgba($mainMediumLightBlack, .4);
-                border-bottom: none;
-                border-left: none;
-                border-top: none;
+                border-bottom: 1px solid rgba($mainMediumLightBlack, .2);
                 
-
-                @mixin atMiniSmall {
-                    padding:  8px 20px;
+                @mixin atExtraSmall {
+                    padding:  8px 18px;
+                    border: 1px solid rgba($mainMediumLightBlack, .4);
+                    border-bottom: none;
+                    border-left: none;
+                    border-top: none;
                 }
                 @mixin atMiniSmall {
+                    padding:  8px 30px;
+                }
+
+                @mixin atSmall {
                     padding:  8px 35px;
                 }
             }
@@ -724,11 +747,18 @@
                 border-right: none;
 
                 @mixin atExtraSmall {
-                    padding:  8px 0 8px 20px;
+                    padding:  8px 0 8px 18px;
                 }
                 @mixin atMiniSmall {
+                    padding:  8px 28px;
+                }
+                @mixin atSmall {
                     padding:  8px 35px;
                 }
+            }
+
+            @mixin atExtraSmall {
+                float: left;
             }
         }
     }
@@ -832,4 +862,5 @@
             flex-direction: row;
         }
     }
+
 }

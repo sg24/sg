@@ -17,6 +17,10 @@
             text-overflow: ellipsis;
             line-height: 1.2;
             text-align: center;
+
+            a {
+                color: $mainDarkBlue;
+            }
         }
         &__img {
             float: left;

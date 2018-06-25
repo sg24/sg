@@ -369,7 +369,7 @@
         position: absolute;
         font-size: .6rem;
         top: 22%;
-        left: 5.6px;
+        left: 6px;
         color: rgba($mainMediumLightBlack, .6);
     }
 
@@ -418,5 +418,111 @@
 
     &__site-main--group__optionsTabIconGroups {
         margin-right: 5px;
+    }
+
+    &__site-main--noaccount__groupIcon {
+        font-size: 1.4rem;
+        position: absolute;
+        top: 30%;
+        transform: translate(65%);
+        color: $mainDarkGray;
+
+        @mixin atSmall {
+            font-size: 1.675rem;
+            top: 27%;
+            transform: translate(55%);
+        }
+
+        @mixin atMedium {
+            font-size: 1.875rem;
+            top: 27%;
+            transform: translate(55%);
+        }
+    }
+
+    &__site-main--noaccount__handIcon {
+        font-size: 1.4rem;
+        position: absolute;
+        top: 30%;
+        transform: translate(20px);
+        color: $mainDarkGray;
+
+        @mixin atSmall {
+            font-size: 1.675rem;
+            top: 27%;
+            transform: translate(22px);
+        }
+
+        @mixin atMedium {
+            font-size: 1.875rem;
+            top: 27%;
+            transform: translate(25px);
+        }
+    }
+
+    &__site-main--helpMe__filterIcon {
+        margin-left: 5px;
+    }
+
+    &__site-main--communities__filterIcon {
+        margin-left: 5px;
+    }
+
+    &__site-main--group__peopleCarry {
+        position: absolute;
+        font-size: .75rem;
+        top: 25%;
+        left: 4.2px;
+        color: $mainLightBlue;
+
+        @mixin atSmall {
+            font-size: 1.25rem;
+            left: 6px;
+            top: 22%;
+        }
+    }
+
+
+    &__site-main--noaccount__peoplecarryIcon {
+        font-size: 1.4rem;
+        position: absolute;
+        top: 30%;
+        transform: translate(20px);
+        color: $mainDarkGray;
+
+        @mixin atSmall {
+            font-size: 1.675rem;
+            top: 27%;
+            transform: translate(22px);
+        }
+
+        @mixin atMedium {
+            font-size: 1.875rem;
+            top: 27%;
+            transform: translate(22px);
+        }
+    }
+
+    &__site-main--communities__usersAdded {
+        margin-right: 5px;
+        /* color: rgba($mainMediumLightBlack, .8); */
+        color: rgba($mainDarkPaleBlue, .6);
+    }
+
+    &__site-main--communities__userOnline {
+        margin-right: 5px;
+        /* color: rgba($mainMediumLightBlack, .8); */
+        color: rgba($mainDarkPaleBlue, .6);
+    }
+
+    &__site-main--communities__calendar {
+        margin-right: 5px;
+        font-size: .8125rem;
+        /* color: rgba($mainMediumLightBlack, .8); */
+        color: rgba($mainDarkPaleBlue, .6);
+
+        @mixin atSmall {    
+            font-size: .875rem;
+        }
     }
 }

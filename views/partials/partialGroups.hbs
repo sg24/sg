@@ -1,17 +1,37 @@
 <div class="site-main__group">
 
-    <ul class="site-main__group--optionsTab">
-        <li><i class="fas fa-user-friends icon icon__site-main--group__optionsTabFriends"></i>   My Groups</li>
-        <li><i class="fas fa-users icon icon__site-main--group__optionsTabIconGroups"></i> Groups</li>
-    </ul>
+    {{!-- <div class="site-main__group--noaccount">
+        <div class="site-main__group--noaccount__img">
+            <i class="fas fa-users icon icon__site-main--noaccount__groupIcon"></i>
+        </div>
+        <div class="site-main__group--noaccount__title">
+            <p>You are not logged in.</p>
+            <p>Pls <a href="" class="site-main__group--noaccount__title--login">login in</a> or <a href="" class="site-main__group--noaccount__title--signup">sign up</a></p>
+        </div>
+        <div class="site-main__group--noaccount__title">
+            <p>You have not added any group yet!</p>
+            <p>Pls add switch to next tab or create New <a href="">Group</a> </p>
+        </div>  
+    </div> --}}
+    <div class="site-main__group--wrapperBorder">
+        <ul class="site-main__group--optionsTab">
+            <li><i class="fas fa-user-friends icon icon__site-main--group__optionsTabFriends"></i>   My Groups</li>
+            <li><i class="fas fa-users icon icon__site-main--group__optionsTabIconGroups"></i> Groups</li>
+        </ul>
 
     <div class="site-main__group--filter">
         <div class="site-main__group--filter__search">
             <p class="site-main__group--filter__search--title">Filter</p>
-        <input class="site-main__group--filter__search--input" type="text" placeholder="Enter group name">
+            <input class="site-main__group--filter__search--input" type="text" placeholder="Enter group name" autofocus>
         </div>
         <div class="site-main__group--filter__category">
-            <p class="site-main__group--filter__category--header">Category 
+            <p class="site-main__group--filter__category--header">
+                <span class="site-main__group--filter__category--header__Md">
+                    Group Categories
+                </span>
+                <span class="site-main__group--filter__category--header__Sm">
+                    Categories 
+                </span>
                 <span class="site-main__group--filter__category--header__toggleIcon">
                     <i class="fas fa-angle-down icon icon__site-main--group__filterIcon"></i>
                 </span> 
@@ -64,8 +84,8 @@
                     </li>
                     <li class="site-main__group--mainContent__desc--postCreator">
                         {{!-- <span class="site-main__group--mainContent__desc--postCreator__admin">
-                            <i class="fas fa-admin"></i>    
-                        </span> --}}
+                            founder
+                        </span>  --}}
                         <div class="site-main__group--mainContent__desc--postCreator__userImg">
                             <img src="/" alt="">
                         </div>
@@ -77,7 +97,7 @@
                     </li>
                     <li class="site-main__group--mainContent__desc--options">
                         <ul>
-                            <li>Details <i class="fas fa-angle-double-right icon icon__site-main--group__arrows"></i></li>
+                            <li class="site-main__group--mainContent__desc--options__firstItem">Details <i class="fas fa-angle-double-right icon icon__site-main--group__arrows"></i></li>
                             <li><a href=""><i class="fas fa-comment-dots icon icon__site-main--group__comments"></i>Chat Now </a></li>
                         </ul>
                     </li>
@@ -93,7 +113,9 @@
                             <div class="site-main__group--mainContent__desc--options__details--ratings">
                                 <i class="far fa-thumbs-up icon icon__site-main--group__thumbup"></i> ratings: 
                                 <span class="site-main__group--mainContent__desc--options__details--ratings__number">
-                                    4.5
+                                   {{!-- <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>  <i class="fas fa-star"></i>
+                                     <i class="fas fa-star-half"></i> --}}
                                 </span>
                             </div>
                         </div>
@@ -110,5 +132,6 @@
                 </li>
             </ul>
         </div>
+    </div>
     </div>
 </div>
