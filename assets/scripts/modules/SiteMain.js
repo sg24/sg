@@ -38,8 +38,8 @@ class SiteMain {
     }
 
     clearAll() {
-        this.shareUserOption.removeClass("site-main__content--details__header--share__options--visible");
-        this.contentDetailsOptions.removeClass("site-main__content--details__footer--details__options--visible");
+        // this.shareUserOption.removeClass("site-main__content--details__header--share__options--visible");
+        // this.contentDetailsOptions.removeClass("site-main__content--details__footer--details__options--visible");
     }
 
     toggleShareUserIcon() {

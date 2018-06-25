@@ -525,4 +525,58 @@
             font-size: .875rem;
         }
     }
+
+    &__site-main--nav__topTreding--icon {
+        margin-right: 3px;
+        color: $mainDarkBlue;
+    }
+
+    &__site-main--nav__topTreding--tagIcon {
+        margin-right: 3px;
+        color: rgba($mainMediumLightBlack, .6);
+    }
+
+    &__site-main--nav__clock {
+        margin-right: 5px;
+    }
+
+    &__site-main--nav__angleDown {
+        margin-left: 5px;
+    }
+
+    &__site-main__nav--quote__quoteIcon {
+        font-size: .8125rem;
+        color: rgba($mainMediumLightBlack, .5);
+        position: absolute;
+        top: 3.5px;
+        left: 4.4px;
+    }
+
+    &__site-main__nav--quote__quotesecondIcon {
+        font-size: .8125rem;
+        color: rgba($mainMediumLightBlack, .6);
+        position: absolute;
+        top: 5px;
+        left: 4.4px;
+    }
+
+    &__site-main__nav--quote__footer--smile {
+        margin-right: 5px;
+    }
+
+    &__site-main__nav--quote__footer--heart {
+        margin-right: 5px;
+    }
+
+    &__site-main__nav--quote__footer--comments {
+        margin-right: 5px;
+    }
+
+    &__site-main__nav--quote--share {
+        position: absolute;
+        top: 25%;
+        left: 6px;
+        font-size: .875rem;
+        cursor: pointer;
+    }
 }

@@ -1280,36 +1280,6 @@
 
     }
 
-    &__nav {
-        width: 40%;
-        background-color: $mainMiddleDarkBlue;
-        color: #fff;
-        float: left;
-        display: none;
-        font-weight: 300;
-
-        &--header {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            position: relative;
-            font-size: .9375rem;
-
-            li {
-                float: left;
-                padding: 15px 27.2px;
-
-                &:last-child {
-                    position: absolute;
-                    right: 8%;
-                }
-            }
-        }
-        @mixin atMedium {
-            display: block;
-        }
-    }
-
     &__nav--md {
         display: none;
         

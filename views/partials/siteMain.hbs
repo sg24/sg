@@ -57,12 +57,17 @@
             </div>
         </div>
         <div class="site-main__nav">
-            <ul class="site-main__nav--header">
-                <li>Daily Quote</li>
-                <li>Online Questions</li>
-                <li><i class="fas fa-exchange-alt"></i></li>
-            </ul>
+            <div class="site-main__nav--wrapper">
+                <ul class="site-main__nav--header">
+                    <li>Daily Quote</li>
+                    <li>Online Questions</li>
+                    <li><i class="fas fa-exchange-alt"></i></li>
+                </ul>
+                <div class="site-main__nav--contentOutlet">
+                    {{!-- {{> partialTopTrending}} --}}
+                    {{> partialDailyQuo}}
+                </div>
+            </div>
         </div>
-        
     </div>
 </div>

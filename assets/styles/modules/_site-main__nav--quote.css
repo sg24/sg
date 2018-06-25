@@ -1,0 +1,116 @@
+.site-main__nav--quote {
+    font-weight: 400;
+    box-shadow: 0px 1px 9px 1px rgba(217, 217, 217, 0.981);
+    margin: 20px;
+    border-radius: 10px;
+    position: relative;
+    /* border-top-right-radius: 0; */
+    
+    &__header-share {
+        position: absolute;
+        width: 28px;
+        height: 28px;
+        border-radius: 14px;
+        background-color: $mainDarkBlue;
+        right: -6px;
+        top: -6px;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    &__content {
+        color: $mainFontColor;
+        padding: 10px 10px;
+        width: 100%;
+        position: relative;
+
+        &--timePosted {
+            position: absolute;
+            right: 25px;
+            font-size: .75rem;
+            font-style: italic;
+            color: $mainDarkBlue;
+            top: 12px;
+        }
+
+        &--firstquoteIcon {
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            border: 1px solid rgba($mainDarkBlack, .1);
+            position: relative;
+            top: -2px;
+        }
+
+        &--secondquoteIcon {
+            width: 100%;
+            position: relative;
+            margin-bottom: 20px;
+
+            &__user {
+                font-size: .8125rem;
+                position: absolute;
+                right: 38px;
+                top: 6px;
+                color: rgba($mainDarkPaleBlue, .8);
+            }
+
+            a {
+                color: rgba($mainDarkPaleBlue, .8);
+            }
+
+            &__wrapper {
+                width: 24px;
+                height: 24px;
+                border-radius: 12px;
+                border: 1px solid rgba($mainDarkBlack, .1);
+                position: absolute;
+                right: 0;
+                top: 5px;
+            }
+        }
+
+        &--title {
+            font-size: .875rem;
+            margin: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            line-height: 1.5;
+
+            &__wrapper {
+                width: 90%;
+                font-style: italic;
+            }
+        }
+    }
+
+    &__footer {
+        margin: 10px 0;
+        color: $mainFontColor;
+        list-style: none;
+        @mixin clearfix;
+        border-top: 1px solid $mainLightGray;
+        font-size: .8125rem;
+        padding: 0;
+
+            li {
+            float: left;
+            width: 33.333%;
+            border-right: 1px solid $mainLightGray;
+            text-align: center;
+            padding: 8px 0;
+
+            &:first-child {
+                border-right: 1px solid $mainLightGray;
+                width: 33.333%;
+            }
+
+            &:last-child {
+                border-right: none;
+            }
+        }
+    }
+}
