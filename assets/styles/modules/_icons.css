@@ -579,4 +579,59 @@
         font-size: .875rem;
         cursor: pointer;
     }
+
+
+    &__site-main--nav__details--share__facebook {
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        color: $mainLightBlue;
+        float: left;
+    }
+
+    &__site-main--nav__details--share__googleplus {
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        color: $mainDarkRed;
+        float: right;
+    }
+
+
+    &__site-main--nav__details--share__selectuserarrow {
+        margin-left: 5px;
+        font-size: .875rem;
+        transition: all .3s ease-out;       
+    }
+
+    &__site-main--nav__details--share__userCounterIcon {
+        color: rgba($mainLightBlack, .7);
+        margin-right: 3px;
+    }
+
+    &__site-main--nav__details--share__locationIcon {
+        margin-right: 5px;
+        font-size: .75rem;
+    }
+
+    &__site-main--nav__details--share__userSelectedIcon {
+        color: rgba($mainLightBlack, .7);
+        margin-right: 5px;
+    }
+
+    &__site-main--nav__details--share__userSelectedCloseIcon {
+        font-size: .6875rem;
+        color: $mainLightBlack;
+        position: absolute;
+        top: 1.5px;
+        left: 4px;
+    }
+
+    &__site-main--nav__details--share__userSelectedCloseMainIcon {
+        position: absolute;
+        top: 1.5px;
+        left: 4px;
+        font-size: .6875rem;
+        color: $mainLightBlack;
+    }
 }
