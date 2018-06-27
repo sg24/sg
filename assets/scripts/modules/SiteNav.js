@@ -5,19 +5,19 @@ class SiteNav {
         this.timedQue = $(".site-main__nav--timedQues__category--title");
         this.timedQueCategory = $(".site-main__nav--timedQues__category--title__item");
         this.timedQueToggleIcon = $(".site-main__nav--timedQues__category--title__toggleIcon");
-        this.shareUser = $(".site-main__nav--quote__header-share");
-        this.shareUserOption = $(".site-main__nav--quote__header-share__content--options");
-        this.shareSocialIcons = $(".site-main__nav--quote__header-share__content--options__socialIcons");
-        this.selectUser = $(".site-main__nav--quote__header-share__content--options--item");
+        this.shareUser = $(".site-main__share");
+        this.shareUserOption = $(".site-main__share--content__options");
+        this.shareSocialIcons = $(".site-main__share--content__options--socialIcons");
+        this.selectUser = $(".site-main__share--content__options--item");
         this.selectUserArrow = $(".userarrowicon");
-        this.userList = $(".site-main__nav--quote__header-share__content--options__details"); 
-        this.SelectuserWrapper = $(".site-main__nav--quote__header-share__content--options__details--user__wrapper");
-        this.selectUserCheckIcon = $(".site-main__nav--quote__header-share__content--options__details--user__selectIcon");
-        this.selectUserCheckIconChecked = $(".site-main__nav--quote__header-share__content--options__details--user__selectIconClicked");
-        this.userCounter = $(".site-main__nav--quote__header-share__content--options__userCounter");
-        this.userCounterViewAll = $(".site-main__nav--quote__header-share__content--options__userCounter--viewall");
-        this.userSelected = $(".site-main__nav--quote__header-share__content--options__userSelected");
-        this.userSelectedClosed = $(".site-main__nav--quote__header-share__content--options__userSelected--mainclose");
+        this.userList = $(".site-main__share--content__options--details"); 
+        this.SelectuserWrapper = $(".site-main__share--content__options--details__user--wrapper");
+        this.selectUserCheckIcon = $(".site-main__share--content__options--details__user--selectIcon");
+        this.selectUserCheckIconChecked = $(".site-main__share--content__options--details__user--selectIconClicked");
+        this.userCounter = $(".site-main__share--content__options--userCounter");
+        this.userCounterViewAll = $(".site-main__share--content__options--userCounter__viewall");
+        this.userSelected = $(".site-main__share--content__options--userSelected");
+        this.userSelectedClosed = $(".site-main__share--content__options--userSelected__mainclose");
         this.events();
     }
 
@@ -38,43 +38,43 @@ class SiteNav {
     }
 
     toggleShareUserIcon() {
-        this.shareUserOption.toggleClass("site-main__nav--quote__header-share__content--options__visible");
+        this.shareUserOption.toggleClass("site-main__share--content__options--visible");
         this.shareUser.toggleClass("icon--rotate");
     }
 
     toggleUserList () {
-        this.userList.toggleClass("site-main__nav--quote__header-share__content--options__details--visible");
+        this.userList.toggleClass("site-main__share--content__options--details__visible");
         this.selectUserArrow.toggleClass("icon--rotate");
-        this.shareSocialIcons.toggleClass("site-main__nav--quote__header-share__content--options__socialIcons--socialIconHide");
-        this.userCounter.toggleClass("site-main__nav--quote__header-share__content--options__userCounter--visible");
-        this.userSelected.removeClass("site-main__nav--quote__header-share__content--options__userSelected--visible");
+        this.shareSocialIcons.toggleClass("site-main__share--content__options--socialIcons__socialIconHide");
+        this.userCounter.toggleClass("site-main__share--content__options--userCounter__visible");
+        this.userSelected.removeClass("site-main__share--content__options--userSelected__visible");
     }
 
     addUserSelectIcon() {
-        this.selectUserCheckIcon.addClass("site-main__nav--quote__header-share__content--options__details--user__selectIcon--visible");
-        this.SelectuserWrapper.addClass("site-main__nav--quote__header-share__content--options__details--user__wrapper--borderHoverVisible");
+        this.selectUserCheckIcon.addClass("site-main__share--content__options--details__user--selectIcon__visible");
+        this.SelectuserWrapper.addClass("site-main__share--content__options--details__user--wrapper__borderHoverVisible");
     }
 
     removeUserSelectIcon() {
-        this.selectUserCheckIcon.removeClass("site-main__nav--quote__header-share__content--options__details--user__selectIcon--visible");
-        this.SelectuserWrapper.removeClass("site-main__nav--quote__header-share__content--options__details--user__wrapper--borderHoverVisible");
+        this.selectUserCheckIcon.removeClass("site-main__share--content__options--details__user--selectIcon__visible");
+        this.SelectuserWrapper.removeClass("site-main__share--content__options--details__user--wrapper__borderHoverVisible");
     }
 
     clicktoggleSelectIcon () {
-        this.selectUserCheckIconChecked.toggleClass("site-main__nav--quote__header-share__content--options__details--user__selectIconClicked--visible");
-        this.SelectuserWrapper.toggleClass("site-main__nav--quote__header-share__content--options__details--user__wrapper--borderVisible");
-        this.selectUserCheckIcon.removeClass("site-main__nav--quote__header-share__content--options__details--user__selectIcon--visible");
-        this.SelectuserWrapper.removeClass("site-main__nav--quote__header-share__content--options__details--user__wrapper--borderHoverVisible");
+        this.selectUserCheckIconChecked.toggleClass("site-main__share--content__options--details__user--selectIconClicked__visible");
+        this.SelectuserWrapper.toggleClass("site-main__share--content__options--details__user--wrapper__borderVisible");
+        this.selectUserCheckIcon.removeClass("site-main__share--content__options--details__user--selectIcon__visible");
+        this.SelectuserWrapper.removeClass("site-main__share--content__options--details__user--wrapper__borderHoverVisible");
     }
 
     showSelectedUsers() {
-        this.userSelected.toggleClass("site-main__nav--quote__header-share__content--options__userSelected--visible");
-        this.userList.toggleClass("site-main__nav--quote__header-share__content--options__details--visible");
+        this.userSelected.toggleClass("site-main__share--content__options--userSelected__visible");
+        this.userList.toggleClass("site-main__share--content__options--details__visible");
     }
 
     closeAllUserSelected() {
-        this.userSelected.removeClass("site-main__nav--quote__header-share__content--options__userSelected--visible");
-        this.userList.toggleClass("site-main__nav--quote__header-share__content--options__details--visible");
+        this.userSelected.removeClass("site-main__share--content__options--userSelected__visible");
+        this.userList.toggleClass("site-main__share--content__options--details__visible");
     }
 
 }

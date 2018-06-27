@@ -572,7 +572,7 @@
         margin-right: 5px;
     }
 
-    &__site-main__nav--quote--share {
+    &__site-main--share__shareIcon {
         position: absolute;
         top: 25%;
         left: 6px;
@@ -581,7 +581,7 @@
     }
 
 
-    &__site-main--nav__details--share__facebook {
+    &__site-main--share__facebook {
         font-size: 28px;
         padding: 0;
         margin: 0;
@@ -589,7 +589,7 @@
         float: left;
     }
 
-    &__site-main--nav__details--share__googleplus {
+    &__site-main--share__googleplus {
         font-size: 28px;
         padding: 0;
         margin: 0;
@@ -598,28 +598,28 @@
     }
 
 
-    &__site-main--nav__details--share__selectuserarrow {
+    &__site-main--share__selectuserarrow {
         margin-left: 5px;
         font-size: .875rem;
         transition: all .3s ease-out;       
     }
 
-    &__site-main--nav__details--share__userCounterIcon {
+    &__site-main--share__userCounterIcon {
         color: rgba($mainLightBlack, .7);
         margin-right: 3px;
     }
 
-    &__site-main--nav__details--share__locationIcon {
+    &__site-main--share__locationIcon {
         margin-right: 5px;
         font-size: .75rem;
     }
 
-    &__site-main--nav__details--share__userSelectedIcon {
+    &__site-main--share__userSelectedIcon {
         color: rgba($mainLightBlack, .7);
         margin-right: 5px;
     }
-
-    &__site-main--nav__details--share__userSelectedCloseIcon {
+ 
+    &__site-main--share__userSelectedCloseIcon {
         font-size: .6875rem;
         color: $mainLightBlack;
         position: absolute;
@@ -627,11 +627,36 @@
         left: 4px;
     }
 
-    &__site-main--nav__details--share__userSelectedCloseMainIcon {
+    &__site-main--share__userSelectedCloseMainIcon {
         position: absolute;
         top: 1.5px;
         left: 4px;
         font-size: .6875rem;
         color: $mainLightBlack;
+    }
+
+    &__site-main__nav--onlineQue__filterIcon {
+        margin-left: 5px;
+        color: $mainFontColor
+    }
+
+    &__site-main__nav--onlineQue__durationClock {
+        margin-right: 3px;
+        color: $mainDarkBlue;
+    }
+
+    &__site-main--nav__onlineQue--footerIcon {
+        margin-right: 5px;
+    }
+
+    &__site-main--nav__onlineQue--userIcon {
+        margin-right: 5px;
+        color: $mainLightBlue;
+    }
+
+    &__site-main--nav__onlineQue--timeIcon {
+        margin-right: 3px;
+        /* color: $mainFontColor; */
+        color: $mainLightBlue;
     }
 }
