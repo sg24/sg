@@ -578,6 +578,7 @@
         left: 6px;
         font-size: .875rem;
         cursor: pointer;
+        color: #fff;
     }
 
 
@@ -649,6 +650,10 @@
         margin-right: 5px;
     }
 
+    &__site-main--nav__onlineQue--footerHeartIcon {
+        margin-right: 5px;
+        cursor: pointer;
+    }
     &__site-main--nav__onlineQue--userIcon {
         margin-right: 5px;
         color: $mainLightBlue;

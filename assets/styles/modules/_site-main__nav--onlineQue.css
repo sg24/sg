@@ -36,6 +36,7 @@
              font-weight: 400;
              padding-bottom: 20px;
              border-bottom: 1px solid $mainDarkGray;
+            position: relative;
 
             &__option {
                 float: left;
@@ -45,6 +46,45 @@
                 cursor: pointer;
                 background-color: $mainHeaderColor;
                 color: $mainFontColor;
+                position: relative;
+                font-size: .8125rem;
+
+                &--item {
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+                    position: absolute;
+                    background-color: #fff;
+                    width: 100%;
+                    left: 0;
+                    top: 26px;
+                    border: 1px solid $mainDarkGray;
+                    z-index: -1;
+                    visibility: hidden;
+                    opacity: 0;
+                    transition: all .3s ease-in;
+
+                    li {
+                        padding: 5px 0 5px 10px;
+                        font-size: .8125rem;
+                        border-bottom: 1px solid $mainDarkGray;
+
+                        &:last-child {
+                            background-color: $mainLightBlue;
+                            color: #fff;
+                            padding: 5px 0 5px 15px;
+                            border-bottom: none;
+                            /* text-align: center; */
+                        }
+                    }
+
+                    &__visible {
+                        z-index: 1;
+                        visibility: visible;
+                        opacity: 1;
+                        transition: all .3s ease-in;
+                    }
+                }
             }   
 
             &__duration {
@@ -90,7 +130,7 @@
                        position: absolute;
                        list-style: none;
                        background-color: #fff;
-                       top: 28px;
+                       top: 26px;
                        border: 1px solid $mainDarkGray;
                        width: 100%;
                        margin: 0;
@@ -122,10 +162,10 @@
                            }
                        }
 
-                       &__visible {
+                       &--visible {
                            opacity: 1;
                            visibility: visible;
-                           z-index: 1;
+                           z-index: 2;
                            transition: all .3s ease-out;
                        }
                    }
@@ -143,8 +183,13 @@
 
     &__contentwrapper {
         /* background-color: #C9C9C9; */
-        box-shadow: 0px 1px 5px .2px rgba(#D1CACA, .9);
-        border-radius: 10px;  
+        /* box-shadow: 0px 1px 5px .2px rgba(#D1CACA, .9); */
+        border-radius: 10px; 
+        box-shadow: 0px 1px 5px 1px rgba(217, 217, 217, 0.981);
+        -o-box-shadow: 0px 1px 5px 1px rgba(217, 217, 217, 0.981);
+        -ms-box-shadow: 0px 1px 5px 1px rgba(217, 217, 217, 0.981);
+        -moz-box-shadow: 0px 1px 5px 1px rgba(217, 217, 217, 0.981);
+        -webkit-box-shadow: 0px 1px 5px 1px rgba(217, 217, 217, 0.981); 
 
     }
 
@@ -246,6 +291,7 @@
             padding: 10px 0;
             border-right: 1px solid $mainDarkGray;
             color: $mainFontColor;
+            cursor: default;
 
             &:last-child {
                 background-color: $mainDarkBlue;
@@ -254,5 +300,6 @@
                 border-right: none;
             }
         }
+
     }
 }

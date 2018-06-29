@@ -19,10 +19,10 @@
 
         &__options {
             list-style: none;
-            margin: 0 !important;
+            margin: 0;
             background-color: #fff;
             color: #fff;
-            padding: 10px !important;
+            padding: 10px;
             width: 194px;
             border: 1px solid $mainDarkGray;
             position: absolute;
@@ -60,18 +60,20 @@
             }
 
             li {
-                float: none !important;
+                float: none;
                 position: relative;
 
                 &:first-child {
                     text-align: left !important;
                     cursor: pointer;
                     width: 100%;
+                    float: none;
+                    padding: 0;
                 }
 
                 &:last-child {
                     display: block;
-                    padding: 10px 25px 0 20px !important;
+                    padding: 10px 25px 0 20px;
                     @mixin clearfix;
                 }
             }
