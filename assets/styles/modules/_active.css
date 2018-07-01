@@ -122,3 +122,41 @@
         }
     }
 }
+
+.activeChat {
+    position: absolute;
+    z-index: 2;
+    
+    &::before {
+        content: "";
+        position: absolute;
+        background-color: $mainLightRed;
+        overflow: hidden;
+
+        @mixin atLarge {
+            top: -8px;
+            right: -55px !important;
+            border-radius: 12px;
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    & > span {
+        display: inline;
+        color: #fff;
+        position: absolute;
+        border-radius: 12px;
+        overflow: hidden;
+        width: 24px;
+        height: 24px;
+        text-align: center;
+        white-space: nowrap;
+
+        @mixin atLarge {
+            font-size: .875rem;
+            top: -3.5px;
+            right: -56px;
+        }
+    }
+}

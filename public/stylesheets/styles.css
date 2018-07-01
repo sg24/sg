@@ -1307,6 +1307,38 @@ img {
   transform: translateX(-50%);
 }
 
+.icon__chats--log__maincloseIcon {
+  font-size: .75rem;
+  position: absolute;
+  top: 22%;
+  transform: translateY(-22%);
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(119,119,119, .7);
+}
+
+.icon__site-main__nav--chatLog__searchClose {
+  font-size: .75rem;
+  position: absolute;
+  top: 22%;
+  transform: translateY(-22%);
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(119,119,119, .7);
+}
+
+.icon__site-main__nav--chatLog__eyeIcon {
+  font-size: .9375rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  z-index: 2;
+  cursor: pointer;
+}
+
 .tool-tip {
     list-style: none;
     margin: 0;
@@ -1494,6 +1526,50 @@ img {
     font-size: .8125rem;
     top: -11px;
     right: -15.5px;
+  }
+}
+
+.activeChat {
+    position: absolute;
+    z-index: 2;
+}
+
+.activeChat::before {
+  content: "";
+  position: absolute;
+  background-color: #ff1600;
+  overflow: hidden;
+}
+
+@media (min-width: 1010px) {
+
+  .activeChat::before {
+    top: -8px;
+    right: -55px !important;
+    border-radius: 12px;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.activeChat > span {
+  display: inline;
+  color: #fff;
+  position: absolute;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+@media (min-width: 1010px) {
+
+  .activeChat > span {
+    font-size: .875rem;
+    top: -3.5px;
+    right: -56px;
   }
 }
 
@@ -9901,25 +9977,26 @@ img {
 
 .chats__logs {
     position: absolute;
-    background-color: #005cc6;
+    /* background-color: #2d6589; */
+    /* background-color: #4582a9; */
+    /* background-color: #4f88ad; */
+    background-color: #4186AD;
+    border-top: 1px solid #fff;
     top: 0; 
     bottom: 0;
 }
 
-/* background-image: -moz-radial-gradient( 50% 50%, circle closest-side, rgb(0,128,255) 0%, rgb(0,143,235) 50%, rgb(0,143,235) 100%);
-        background-image: -webkit-radial-gradient( 50% 50%, circle closest-side, rgb(0,128,255) 0%, rgb(0,143,235) 50%, rgb(0,143,235) 100%);
-        background-image: -ms-radial-gradient( 50% 50%, circle closest-side, rgb(0,128,255) 0%, rgb(0,143,235) 50%, rgb(0,143,235) 100%); */
-
 .chats__logs--mainclose {
   position: absolute;
-  top: 5px;
-  right: 10px;
+  top: 4px;
+  right: 4px;
   width: 18px;
   height: 18px;
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 9px;
   text-align: center;
   font-size: .8125rem;
+  cursor: pointer;
 }
 
 .chats__logs--header {
@@ -9939,7 +10016,16 @@ img {
 .chats__logs--header li {
   float: left;
   font-size: .875rem;
-  margin: 0 8px;
+  margin: 0 10px;
+}
+
+.chats__logs--header li:first-child {
+  margin-right: 10px
+}
+
+.chats__logs--header li:last-child {
+  margin: 0 41.3px 0 20px !important;
+  cursor: pointer;
 }
 
 .chats__logs--header__notifyHolder {
@@ -9961,6 +10047,7 @@ img {
 
 .chats__logs--header__notifyOnline {
   background-color: #16cf27;
+  border: .5px solid rgba(22,207,39, .5);
 }
 
 .chats__logs--header__notifyOffline {
@@ -9974,23 +10061,44 @@ img {
   position: relative;
   top: 7px;
   color: #fff;
+  left: 6px;
   font-weight: 400;
 }
 
 .chats__logs--header__searchChat {
-  background-color: rgba(85,85,85, .15);
-  font-size: .875rem;
+  position: relative;
 }
 
-.chats__logs--userOnline {
+.chats__logs--header__searchChat--input {
+  width: 130px;
+  border: 1px solid #dcdbdc;
+  outline: none;
+  padding: 6px 30px 6px 12px;
+  border-radius: 12px;
+  box-shadow: 0 3px 4px rgba(0,92,198, .6);
+  border-top-right-radius: 13.5px;
+  border-bottom-right-radius: 13.5px;
+  font-size: .8125rem;
+}
+
+.chats__logs--header__searchChat--searchIcon {
+  background-color: rgba(2,132,168, .7);
+  font-size: .875rem;
+  position: absolute;
+  top: 20px;
+  right: 40.6px;/* border: 1px solid $mainDarkBlue; */
+}
+
+.chats__logs--userOnline, .chats__logs--userOffline {
   border-top: none;
   margin: 10px 10px 0 10px;
   padding: 0;
-  background-color: rgba(85,85,85, .15);
+  background-color: rgba(85,85,85, .2);
   border: 1px solid rgba(255, 255, 255, .45);
+  position: relative;
 }
 
-.chats__logs--userOnline__header {
+.chats__logs--userOnline__header, .chats__logs--userOffline__header {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -9998,13 +10106,13 @@ img {
   font-size: .875rem;
 }
 
-.chats__logs--userOnline__header::after {
+.chats__logs--userOnline__header::after, .chats__logs--userOffline__header::after {
   content: "";
   clear: both;
   display: table;
 }
 
-.chats__logs--userOnline__header li {
+.chats__logs--userOnline__header li, .chats__logs--userOffline__header li {
   float: left;
   width: 50%;
   font-weight: 300;
@@ -10015,47 +10123,74 @@ img {
   cursor: pointer;
 }
 
-.chats__logs--userOnline__header li:first-child {
+.chats__logs--userOnline__header li:first-child, .chats__logs--userOffline__header li:first-child {
   float: none;
   width: 100%;
   padding: 1.5px;
   background-color: #fff;
   position: relative;
   top: 0px;
-  box-shadow: 0px 1px 8.16px 7.84px rgba(0, 66, 179, 0.46);
+  box-shadow: 0px 1px 8.16px 7.84px rgba(67,125,163, 0.46);
   cursor: default;
 }
 
-.chats__logs--userOnline__header li:last-child {
+.chats__logs--userOnline__header li:last-child, .chats__logs--userOffline__header li:last-child {
   background-color: #fff;
   color: #0284a8;
   font-weight: 400;
 }
 
-.chats__logs--userOnline__wrapper {
-  margin: 10px 10px;
+.chats__logs--userOnline__outlet, .chats__logs--userOffline__outlet {
+  max-height: 375px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.chats__logs--userOnline__wrapper, .chats__logs--userOffline__wrapper {
+  padding: 10px 10px;
   border-bottom: 1px solid rgba(255, 255, 255, .45);
 }
 
-.chats__logs--userOnline__wrapper::after {
+.chats__logs--userOnline__wrapper::after, .chats__logs--userOffline__wrapper::after {
   content: "";
   clear: both;
   display: table;
 }
 
-.chats__logs--userOnline__wrapper:last-child {
+.chats__logs--userOnline__wrapper:last-child, .chats__logs--userOffline__wrapper:last-child {
   border: none;
 }
 
-.chats__logs--userOnline__img {
+.chats__logs--userOnline__img, .chats__logs--userOffline__img {
   float: left;
   width: 50px;
   height: 50px;
   border-radius: 25px;
   background-color: #fff;
+  cursor: pointer;
+  position: relative;
 }
 
-.chats__logs--userOnline__details {
+.chats__logs--userOnline__img--holder, .chats__logs--userOffline__img--holder {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.chats__logs--userOnline__view--userDetails, .chats__logs--userOffline__view--userDetails {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0, .5);
+  border-radius: 25px;
+  border: .5px solid rgba(0,0,0, .1);
+}
+
+.chats__logs--userOnline__details, .chats__logs--userOffline__details {
   float: left;
   margin: 0 0 0 20px;
   padding: 0;
@@ -10064,27 +10199,58 @@ img {
   top: 5px;
 }
 
-.chats__logs--userOnline__details li {
+.chats__logs--userOnline__details li, .chats__logs--userOffline__details li {
   float: none;
   font-size: .875rem;
 }
 
-.chats__logs--userOnline__details li:first-child::after {
+.chats__logs--userOnline__details li:first-child::after, .chats__logs--userOffline__details li:first-child::after {
   content: "";
   clear: both;
   display: table;
 }
 
-.chats__logs--userOnline__details--title {
+.chats__logs--userOnline__details--title, .chats__logs--userOffline__details--title {
   float: left;
   margin: 0;
   padding: 0;
   color: #fff;
   font-weight: 300;
   font-size: .8125rem;
-  max-width: 77px;
+  max-width: 105px;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.chats__logs--userOnline__details--timeLeft, .chats__logs--userOffline__details--timeLeft {
+  float: left;
+  margin: 0 0 0 10px;
+  padding: 0;
+  color: #fff;
+  font-size: .8125rem;
+  font-style: italic;
+  max-width: 60px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.chats__logs--userOnline__details--lastMessage, .chats__logs--userOffline__details--lastMessage {
+  padding: 0;
+  margin: 10px 0 0 0;
+  color: #fff;
+  font-weight: 400;
+  max-width: 263px;
+  overflow: hidden;
+  white-space: nowrap;
+  word-break: break-all !important;
+}
+
+.chats__logs--userOnline__details--userStatus {
+  float: left;
+  margin:  0 ;
+  padding: 0;
+  color: #fff;
+  font-size: .8125rem;
 }
 
 .chats__logs--userOnline__details--statusIcon {
@@ -10093,26 +10259,39 @@ img {
   width: 6px;
   border-radius: 3px;
   background-color: #16cf27;
-  margin: 0  10px 0 40px;
+  margin: 0  10px 0 105px;
   position: relative;
   top: 3px;
   font-weight: 300;
 }
 
-.chats__logs--userOnline__details--timeLeft {
+.chats__logs--userOnline__details--userTyping {
+  color: #fff;
+  font-size: .8125rem;
+  padding: 3px 0;
+  margin: 7px 0 3px 0;
+  background-color: #15a4fa;
+  width: 100px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.chats__logs--userOffline__details--userStatus {
   float: left;
-  margin: 0;
-  padding: 0;
+  margin:  0 0 0 0px !important;
+  padding: 0 !important;
   color: #fff;
   font-size: .8125rem;
 }
 
-.chats__logs--userOnline__details--lastMessage {
-  padding: 0;
-  margin: 10px 0 0 0;
-  color: #fff;
-  font-weight: 400;
-  max-width: 185px;
-  overflow: hidden;
-  white-space: nowrap;
+.chats__logs--userOffline__details--statusIcon {
+  float: left;
+  height: 6px;
+  width: 6px;
+  border-radius: 3px;
+  background-color: #ff1600;
+  margin: 0  10px 0 40px;
+  position: relative;
+  top: 3px;
+  font-weight: 300;
 }

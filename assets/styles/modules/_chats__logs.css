@@ -1,23 +1,24 @@
 .chats__logs {
     position: absolute;
-    background-color: $mainChatLogColor;
+    /* background-color: #2d6589; */
+    /* background-color: #4582a9; */
+    /* background-color: #4f88ad; */
+    background-color: #4186AD;
+    border-top: 1px solid #fff;
     top: 0; 
     bottom: 0; 
-    
-    /* background-image: -moz-radial-gradient( 50% 50%, circle closest-side, rgb(0,128,255) 0%, rgb(0,143,235) 50%, rgb(0,143,235) 100%);
-        background-image: -webkit-radial-gradient( 50% 50%, circle closest-side, rgb(0,128,255) 0%, rgb(0,143,235) 50%, rgb(0,143,235) 100%);
-        background-image: -ms-radial-gradient( 50% 50%, circle closest-side, rgb(0,128,255) 0%, rgb(0,143,235) 50%, rgb(0,143,235) 100%); */
 
     &--mainclose {
         position: absolute;
-        top: 5px;
-        right: 10px; 
+        top: 4px;
+        right: 4px; 
         width: 18px;
         height: 18px;
         background-color: #fff;
-        border-radius: 8px;
+        border-radius: 9px;
         text-align: center;
         font-size: .8125rem;
+        cursor: pointer;
     }
 
     &--header {
@@ -31,7 +32,16 @@
         li {
             float: left;
             font-size: .875rem;
-            margin: 0 8px; 
+            margin: 0 10px; 
+
+            &:first-child {
+                margin-right: 10px 
+            }
+            
+            &:last-child {
+                margin: 0 41.3px 0 20px !important;
+                cursor: pointer;
+            }
         }
 
         &__notifyHolder {
@@ -53,6 +63,7 @@
 
         &__notifyOnline {
             background-color: $mainLightGreen;
+            border: .5px solid rgba($mainLightGreen, .5);
         }
 
         &__notifyOffline {
@@ -66,23 +77,45 @@
             position: relative;
             top: 7px;
             color: #fff;
+            left: 6px;
             font-weight: 400;
         }
 
         &__searchChat {
-            background-color: rgba($mainMediumLightBlack, .15);
-            font-size: .875rem;
+            position: relative;
+
+            &--input {
+                width: 130px;
+                border: 1px solid $mainDarkGray;
+                outline: none;
+                padding: 6px 30px 6px 12px;
+                border-radius: 12px;
+                box-shadow: 0 3px 4px rgba($mainChatLogColor, .6);
+                border-top-right-radius: 13.5px;
+                border-bottom-right-radius: 13.5px;
+                font-size: .8125rem;
+            }
+
+            &--searchIcon {
+                background-color: rgba($mainDarkBlue, .7);
+                font-size: .875rem;
+                position: absolute;
+                top: 20px;
+                right: 40.6px;
+                /* border: 1px solid $mainDarkBlue; */
+            }
         }
 
     }
 
-    &--userOnline {
+    &--userOnline, &--userOffline {
        
         border-top: none;
         margin: 10px 10px 0 10px;
         padding: 0;
-        background-color: rgba($mainMediumLightBlack, .15);
+        background-color: rgba($mainMediumLightBlack, .2);
         border: 1px solid rgba(255, 255, 255, .45);
+        position: relative;
 
         &__header {
             list-style: none;
@@ -109,7 +142,7 @@
                     background-color: #fff;
                     position: relative;
                     top: 0px;
-                    box-shadow: 0px 1px 8.16px 7.84px rgba(0, 66, 179, 0.46);
+                    box-shadow: 0px 1px 8.16px 7.84px rgba($mainMiddleDarkBlue, 0.46);
                     cursor: default;
                 }
 
@@ -121,9 +154,15 @@
             }
         }
 
+        &__outlet {
+            max-height: 375px;
+            overflow: hidden;
+            overflow-y: auto;
+        }
+
         &__wrapper {
             @mixin clearfix;
-            margin: 10px 10px;
+            padding: 10px 10px;
             border-bottom: 1px solid rgba(255, 255, 255, .45);
             
             &:last-child {
@@ -137,6 +176,29 @@
             height: 50px;
             border-radius: 25px;
             background-color: #fff;
+            cursor: pointer;
+            position: relative;
+
+            &--holder {
+                width: 50px;
+                height: 50px;
+                border-radius: 25px;
+                cursor: pointer;
+                overflow: hidden;
+            }
+        }
+
+        &__view {
+            &--userDetails {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba($mainDarkBlack, .5);
+                border-radius: 25px;
+                border: .5px solid rgba($mainDarkBlack, .1);
+            }
         }
 
         &__details {
@@ -146,6 +208,7 @@
             list-style: none;
             position: relative;
             top: 5px;
+            
 
             li {
                 float: none;
@@ -163,29 +226,22 @@
                 color: #fff;
                 font-weight: 300;
                 font-size: .8125rem;
-                max-width: 77px;
+                max-width: 105px;
                 white-space: nowrap;
                 overflow: hidden;
             }
 
-            &--statusIcon {
-                float: left;
-                height: 6px;
-                width: 6px;
-                border-radius: 3px;
-                background-color: $mainLightGreen;
-                margin: 0  10px 0 40px;
-                position: relative;
-                top: 3px;
-                font-weight: 300;
-            }
 
             &--timeLeft {
                 float: left;
-                margin: 0;
+                margin: 0 0 0 10px;
                 padding: 0;
                 color: #fff;
                 font-size: .8125rem;
+                font-style: italic;
+                max-width: 60px;
+                overflow: hidden;
+                white-space: nowrap;
             }   
             
             &--lastMessage {
@@ -193,11 +249,71 @@
                 margin: 10px 0 0 0;
                 color: #fff;
                 font-weight: 400;
-                max-width: 185px;
+                max-width: 263px;
                 overflow: hidden;
                 white-space: nowrap;
+                word-break: break-all !important;
             }
         }
 
+    }
+
+    &--userOnline {
+        &__details { 
+            &--userStatus {
+                float: left;
+                margin:  0 ;
+                padding: 0;
+                color: #fff;
+                font-size: .8125rem;
+            }  
+
+            &--statusIcon {
+                float: left;
+                height: 6px;
+                width: 6px;
+                border-radius: 3px;
+                background-color: $mainLightGreen;
+                margin: 0  10px 0 105px;
+                position: relative;
+                top: 3px;
+                font-weight: 300;
+            }
+
+            &--userTyping {
+                color: #fff;
+                font-size: .8125rem;
+                padding: 3px 0;
+                margin: 7px 0 3px 0;
+                background-color: $mainLightBlue;
+                width: 100px;
+                border-radius: 20px;
+                text-align: center;
+            }
+        }
+    }
+
+    &--userOffline {
+        &__details { 
+            &--userStatus {
+                float: left;
+                margin:  0 0 0 0px !important;
+                padding: 0 !important;
+                color: #fff;
+                font-size: .8125rem;
+            }
+            
+            &--statusIcon {
+                float: left;
+                height: 6px;
+                width: 6px;
+                border-radius: 3px;
+                background-color: $mainLightRed;
+                margin: 0  10px 0 40px;
+                position: relative;
+                top: 3px;
+                font-weight: 300;
+            }
+        }
     }
 }

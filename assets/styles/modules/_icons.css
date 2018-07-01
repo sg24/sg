@@ -723,4 +723,36 @@
         left: 50%;
         transform: translateX(-50%);
     }
+
+    &__chats--log__maincloseIcon {
+        font-size: .75rem;
+        position: absolute;
+        top: 22%;
+        transform: translateY(-22%);
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba($mainLightBlack, .7);
+    }
+
+    &__site-main__nav--chatLog__searchClose {
+        font-size: .75rem;
+        position: absolute;
+        top: 22%;
+        transform: translateY(-22%);
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba($mainLightBlack, .7);
+    }
+
+    &__site-main__nav--chatLog__eyeIcon {
+        font-size: .9375rem;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff;
+        z-index: 2;
+        cursor: pointer;
+    }
 }
