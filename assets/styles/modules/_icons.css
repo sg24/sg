@@ -664,4 +664,63 @@
         /* color: $mainFontColor; */
         color: $mainLightBlue;
     }
+
+    &__site-main--nav__grouplist--angledown {
+        margin: 0  0 0 8px;
+        position: relative;
+        top: 1px;
+    }
+
+    &__site-main--nav__chatIcon {
+        color: $mainDarkBlue;
+    }
+
+    &__site-main--nav__micIcon {
+        position: absolute;
+        top: 20%;
+        left: 9px;
+    }
+
+    &__site-main--nav__clipIcon {
+        color: $mainExtraDarkPaleBlue;
+        cursor: pointer;
+    }
+
+    &__site-main--nav__smileIcon {
+        color: $mainExtraDarkPaleBlue;
+        cursor: pointer;
+    }
+
+    &__site-main__nav--chaticon {
+        position: absolute;
+        top: 25%;
+        transform: translateX(-25%);
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    &__site-main__nav--chatimageicon {
+        position: absolute;
+        top: 28%;
+        transform: translateX(-28%);
+        left: 54%;
+        transform: translateX(-54%);
+    }
+
+    &__site-main__nav--chatlocationicon {
+        position: absolute;
+        top: 28%;
+        transform: translateX(-28%);
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    &__site-main__nav--chatLog__searchIcon {
+        font-size: .875rem;
+        position: absolute;
+        top: 22%;
+        transform: translateY(-22%);
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }

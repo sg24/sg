@@ -1,6 +1,6 @@
 .site-main__nav {
         width: 40%;
-        border: 1px solid $mainLightGray;
+        border: .5px solid $mainDarkGray;
         color: #fff;
         float: left;
         display: none;

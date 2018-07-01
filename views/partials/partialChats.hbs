@@ -1,20 +1,182 @@
 <div class="site-main__nav--chats">
-    <ul class="site-main__nav--chats__headerIcon">
-        <li><i class="fas fa-location-arrow"></i></li>
-        <li><i class="far fa-edit"></i></li>
-        <li><i class="far fa-heart"></i></li>
-        <li><i class="far fa-trash-alt"></i> </li>
-        <li><i class="fas fa-search"></i></li>
-    </ul>
+    <div class="site-main__nav--chats__headerWrapper">
+        <ul class="site-main__nav--chats__userStatus">
+            <li><i class="fas fa-users"></i>  278K</li>
+            <li><i class="fas fa-users"></i> 344m</li>
+        </ul> 
+        <ul class="site-main__nav--chats__headerIcon">
+            <li class="disabled"><i class="fas fa-location-arrow"></i></li>
+            <li class="disabled"><i class="far fa-edit"></i></li>
+            <li class="disabled"><i class="far fa-heart"></i></li>
+            <li class="disabled"><i class="far fa-trash-alt"></i> </li>
+            <li><i class="fas fa-search"></i></li>
+        </ul>
+    </div> 
+
     <ul class="site-main__nav--chats__groupList">
-        <li>Top Groups</li>
-        <li>Poeters group for all <i class="fas fa-angle-down"></i></li>
-    </ul>
-    <ul class="site-main__nav--chats__userStatus">
-        <li>278K students</li>
-        <li>344m Students</li>
+        <li>Groups</li>
+        <li>Poeters group for all <i class="fas fa-angle-down icon icon__site-main--nav__grouplist--angledown"></i></li>
     </ul>
     <div class="site-main__nav--chats__currentday">
-        Today
+        <i class="far fa-comment-dots icon icon__site-main--nav__chatIcon"></i>   Today
+    </div>
+    <div class="site-main__nav--chats__firstChatBox">
+        <div class="site-main__nav--chats__firstChatBox--wrapper">
+            <p class="site-main__nav--chats__firstChatBox--content">
+                Am i speeking with the guy n red today?
+                immediate response pls....
+            </p>
+            <div class="site-main__nav--chats__firstChatBox--footer">
+                <div class="site-main__nav--chats__firstChatBox--footer__details">
+                    <div class="site-main__nav--chats__firstChatBox--footer__details--middle"></div>
+                </div>
+                <div class="site-main__nav--chats__firstChatBox--footer__user">
+                    <div class="site-main__nav--chats__firstChatBox--footer__user--title">
+                     User User
+                    </div>
+                    <div class="site-main__nav--chats__firstChatBox--footer__user--img">
+                        <img src="/" alt="">
+                    </div>
+                </div>
+            </div>
+            <ul class="site-main__nav--chats__firstChatBox--postDetails">
+                <li>11:12 PM</li>
+                <li>3m ago</li>
+            </ul>
+        </div>
+    </div>
+    <div class="site-main__nav--chats__secondChatBox">
+        <div class="site-main__nav--chats__secondChatBox--wrapper">
+            <p class="site-main__nav--chats__secondChatBox--content">
+                Am i speeking with the guy n red today?
+                immediate response pls....
+            </p>
+            <div class="site-main__nav--chats__secondChatBox--footer">
+                 <div class="site-main__nav--chats__secondChatBox--footer__user">
+                    <div class="site-main__nav--chats__secondChatBox--footer__user--title">
+                     User User
+                    </div>
+                    <div class="site-main__nav--chats__secondChatBox--footer__user--img">
+                        <img src="/" alt="">
+                    </div>
+                </div>
+                <div class="site-main__nav--chats__secondChatBox--footer__details">
+                    <div class="site-main__nav--chats__secondChatBox--footer__details--middle"></div>
+                </div>
+            </div>
+             <ul class="site-main__nav--chats__secondChatBox--postDetails">
+                <li>11:12 PM</li>
+                <li>3m ago</li>
+            </ul>
+        </div>
+    </div>
+    <div class="site-main__nav--chats__inputWrapper">
+        <div class="site-main__nav--chats__micWrapper">
+            <div class="site-main__nav--chats__mic">
+                <i class="fas fa-microphone icon icon__site-main--nav__micIcon"></i>
+            </div>
+        </div>
+        <textarea placeholder="Type something here" class="site-main__nav--chats__input"></textarea> 
+        <div class="site-main__nav--chats__clip">
+            <i class="fas fa-paperclip icon icon__site-main--nav__clipIcon"></i>
+        </div>
+        <div class="site-main__nav--chats__smile">
+            <i class="far fa-smile icon icon__site-main--nav__smileIcon"></i>
+        </div>
+    </div>
+    <div class="site-main__nav--chats__attachWrapper">
+        <div class="site-main__nav--chats__attachContent">
+            <ul class="site-main__nav--chats__attach">
+                <li>
+                    <div class="site-main__nav--chats__attach--iconHolder site-main__nav--chats__attach--camicon">
+                        <i class="fas fa-camera icon icon__site-main__nav--chaticon"></i>
+                    </div>
+                    <p class="site-main__nav--chats__attach--title">Camera</p>
+                </li>
+                <li>
+                    <div class="site-main__nav--chats__attach--iconHolder site-main__nav--chats__attach--videoicon">
+                        <i class="fas fa-video icon icon__site-main__nav--chaticon"></i>
+                    </div>    
+                     <p class="site-main__nav--chats__attach--title">Video recorder</p>
+                </li>
+                <li>
+                    <div class="site-main__nav--chats__attach--iconHolder site-main__nav--chats__attach--imageicon">
+                        <i class="fas fa-images icon icon__site-main__nav--chatimageicon"></i>
+                    </div> 
+                     <p class="site-main__nav--chats__attach--title">Picture picker</p>     
+                </li>
+            </ul>
+            <ul class="site-main__nav--chats__attach site-main__nav--chats__secondattach">
+                <li>
+                    <div class="site-main__nav--chats__attach--iconHolder site-main__nav--chats__attach--locationicon">
+                    <i class="fas fa-map-marker-alt icon icon__site-main__nav--chatlocationicon"></i>
+                    </div> 
+                     <p class="site-main__nav--chats__attach--title">Share location</p>
+                </li>
+                <li>
+                    <div class="site-main__nav--chats__attach--iconHolder site-main__nav--chats__attach--fileicon">
+                        <i class="fas fa-file icon icon__site-main__nav--chaticon"></i>
+                    </div>
+                     <p class="site-main__nav--chats__attach--title">Documents</p>
+                </li>
+                <li>
+                    <div class="site-main__nav--chats__attach--iconHolder site-main__nav--chats__attach--audioicon">
+                        <i class="fas fa-headphones icon icon__site-main__nav--chaticon"></i>
+                    </div>
+                     <p class="site-main__nav--chats__attach--title">Audio picker</p>
+                </li>
+            </ul> 
+        </div>
+    </div>
+
+    <div class="chats__logs">
+        <div class="chats__logs--mainclose">
+            <i class="fas fa-minus icon icon__chats--log__maincloseIcon"></i>
+        </div>
+        <ul class="chats__logs--header">
+            <li class="chats__logs--header__notifyHolder chats__logs--header__notifyOnline">
+                <div class="chats__logs--header__notifyHolder--content">
+                    2
+                </div>
+            </li>
+            <li class="chats__logs--header__notifyHolder chats__logs--header__notifyOffline">
+                <div class="chats__logs--header__notifyHolder--content">
+                    12
+                </div>
+            </li>
+            <li>
+                <p class="chats__logs--header__title">Chats Logs</p>
+            </li>
+            <li class="chats__logs--header__notifyHolder chats__logs--header__searchChat">
+                <i class="fas fa-search icon icon__site-main__nav--chatLog__searchIcon"></i>
+            </li>
+        </ul>
+        <div class="chats__logs--userOnline">
+            <ul class="chats__logs--userOnline__header">
+                <li></li>
+                <li> Online</li>
+                <li>Offline</li>
+            </ul>
+            <div class="chats__logs--userOnline__outlet">
+                <div class="chats__logs--userOnline__wrapper">
+                    <div class="chats__logs--userOnline__img">
+                        <img src="/" alt="">
+                    </div>
+                    <ul class="chats__logs--userOnline__details">
+                        <li> 
+                            <p class="chats__logs--userOnline__details--title">The user userThe user user The user user</p>
+                            <div class="chats__logs--userOnline__details--statusIcon"></div>
+                            <p class="chats__logs--userOnline__details--timeLeft"> Online</p>
+                        </li>
+                        <li>
+                            <p class="chats__logs--userOnline__details--lastMessage">Pls do you know the response Pls do you know the response</p>
+                            {{!-- <p class="site-main__nav--chats__logs--userOnline__details--userTyping">
+                                Typing
+                            </p> --}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
