@@ -7,6 +7,7 @@ import SiteMainHelpMe from './modules/SiteMainHelpMe';
 import SiteMainCommunities from './modules/SiteMainCommunities';
 import SiteNav from './modules/SiteNav';
 import SiteMainOnlineQue from './modules/SiteMainOnlineQue';
+import SiteMainChat from './modules/SiteMainChat';
 
 var user = new SiteHeader();
 var toolTips = new ToolTips();
@@ -17,3 +18,5 @@ var siteMainHelpMe = new SiteMainHelpMe();
 var siteMainCommunities = new SiteMainCommunities();
 var siteNav = new SiteNav();
 var siteOnlineQue = new SiteMainOnlineQue();
+var siteMainChat = new SiteMainChat();
+

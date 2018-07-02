@@ -26,32 +26,26 @@
 
             &:first-child {
                padding: 10px  10px 5px 0;
-            }
+                cursor: pointer;
 
-            &:last-child {
-                padding: 10px 0 5px 10px;
-                &::before {
+                 &::after {
                     content: "";
                     position: absolute;
-                    width: 10px;
-                    height: 10px;
-                    border-radius: 5px;
-                    background-color: $mainLightRed;
-                    left: 25px;
-                    top: -5px;
+                    width: 28px;
+                    height: 28px;
+                    /* border-radius: 15px; */
+                    border-radius: 3px;
+                    background-color: $mainMiddleDarkBlue;
+                    left: 0px;
+                    top: -1px;
                 }
             }
+        }
 
-            &::before {
-                content: "";
-                position: absolute;
-                width: 10px;
-                height: 10px;
-                border-radius: 5px;
-                background-color: $mainLightGreen;
-                left: 25px;
-                top: -5px;
-            }
+        &--title {
+            margin-left: 35px;
+            position: relative;
+            top: -4px;
         }
     }
 
@@ -107,6 +101,9 @@
             }
         }
 
+        &--firstitems {
+            cursor: pointer;
+        }
     }
 
     &__groupList {
@@ -118,24 +115,76 @@
         font-size: .8125rem;
 
         li {
-            width: 120px;
+            /* width: 120px; */
             text-align: center;
             float: left;
             padding: 5px 0;
 
             &:last-child {
-                width: 160px;
-                border: 1px solid $mainLightGray;
-                background-color: $mainDarkBlue;
-                color: #fff;
+                max-width: 230px;
+                border: 1px solid rgba($mainLightBlue, .2);
+                background-color: $mainContentHeaderColor;
+                color: $mainFontColor;
+                padding: 5px 10px; 
+                margin: 0 0 0 20px;
+                white-space: nowrap;
+                cursor: pointer;
+                position: relative;
+            }
+        }
+
+        &--options {
+            position: absolute;
+            background-color: #fff;
+            list-style: none;
+            margin: 0;
+            padding: 3px 0;
+            @mixin clearfix !important;
+            width: 100%;
+            left: 0 !important;
+            top: 26px;
+            cursor: default;
+            border: 1px solid rgba($mainLightBlue, .2);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1;
+            transition: all .3s ease-out;
+
+            li {
+                float: none;
+                padding: 5px 0 5px 10px;
+                text-align: left;
+                cursor: pointer;
+
+                &:first-child {
+                    float: none;
+                    padding: 5px 0 5px 10px;
+                    text-align: left;
+                }
+
+                &:last-child {
+                    float: none;
+                    border: 0;
+                    background: transparent;
+                    padding: 5px 0 5px 10px;
+                    margin: 0;
+                    text-align: left !important;
+                }
+            }
+
+            &__visible {
+                opacity: 1;
+                visibility: visible;
+                z-index: 1;
+                transition: all .3s ease-out;
             }
         }
     }
 
     &__currentday {
-        font-size: .875rem;
-        padding-bottom: 10px;
-        border-bottom: 1px solid $mainDarkGray;
+        font-size: .8125rem;
+        padding-bottom: 5px;
+        border-bottom: 1px solid rgba($mainDarkBlue, .6);
         margin: 10px 20px 20px 20px;
     }
 
@@ -147,12 +196,17 @@
         display: flex;
         justify-content: flex-end;
         padding: 0 20px 0 0;
+        
         &--wrapper {
             color: $mainFontColor;
             width: 85%;
             border-radius: 10px;
             background-color: #fff;
             box-shadow: 0px 1px 4px .5px rgba($mainDarkPaleBlue, 0.3);
+            -o-box-shadow: 0px 1px 4px .5px rgba($mainDarkPaleBlue, 0.3);
+            -ms-box-shadow: 0px 1px 4px .5px rgba($mainDarkPaleBlue, 0.3);
+            -webkit-box-shadow: 0px 1px 4px .5px rgba($mainDarkPaleBlue, 0.3);
+            -moz-box-shadow: 0px 1px 4px .5px rgba($mainDarkPaleBlue, 0.3);
             position: relative;
 
             @mixin atLarge {
@@ -170,6 +224,10 @@
             line-height: 1.5;
             /* box-shadow: 0px 1px 0px blue; */
             box-shadow: 0px 1px 2px 0px rgba($mainDarkGray, 0.5);
+            -o-box-shadow: 0px 1px 2px 0px rgba($mainDarkGray, 0.5);
+            -moz-box-shadow: 0px 1px 2px 0px rgba($mainDarkGray, 0.5);
+            -webkit-box-shadow: 0px 1px 2px 0px rgba($mainDarkGray, 0.5);
+            -ms-box-shadow: 0px 1px 2px 0px rgba($mainDarkGray, 0.5);
         }
 
         &--footer {
@@ -231,6 +289,10 @@
                     right: -13px;
                     top: -15px;
                     box-shadow: 0px 1px 10px .5px rgba($mainDarkBlue, 0.52);
+                    -o-box-shadow: 0px 1px 10px .5px rgba($mainDarkBlue, 0.52);
+                    -ms-box-shadow: 0px 1px 10px .5px rgba($mainDarkBlue, 0.52);
+                    -webkit-box-shadow: 0px 1px 10px .5px rgba($mainDarkBlue, 0.52);
+                    -moz-box-shadow: 0px 1px 10px .5px rgba($mainDarkBlue, 0.52);
                 }
             }
         }
@@ -270,8 +332,12 @@
             color: #fff;
             width: 85%;
             border-radius: 10px;
-            background-color: $mainExtraDarkPaleBlue;
+            background-color: $mainDarkPaleBlue;
             box-shadow: 0px 1px 4px .5px rgba($mainDarkPaleBlue, 0.3);
+            -moz-box-shadow: 0px 1px 4px .5px rgba($mainDarkPaleBlue, 0.3);
+            -webkit-box-shadow: 0px 1px 4px .5px rgba($mainDarkPaleBlue, 0.3);
+            -o-box-shadow: 0px 1px 4px .5px rgba($mainDarkPaleBlue, 0.3);
+            -ms-box-shadow: 0px 1px 4px .5px rgba($mainDarkPaleBlue, 0.3);
             position: relative;
 
             @mixin atLarge {
@@ -289,6 +355,10 @@
             line-height: 1.5;
             /* box-shadow: 0px 1px 0px blue; */
             box-shadow: 0px 1px 2px 0px rgba($mainDarkGray, 0.5);
+            -o-box-shadow: 0px 1px 2px 0px rgba($mainDarkGray, 0.5);
+            -ms-box-shadow: 0px 1px 2px 0px rgba($mainDarkGray, 0.5);
+            -webkit-box-shadow: 0px 1px 2px 0px rgba($mainDarkGray, 0.5);
+            -moz-box-shadow: 0px 1px 2px 0px rgba($mainDarkGray, 0.5);
         }
 
         &--footer {
@@ -353,6 +423,10 @@
                     left: -13px;
                     top: -15px;
                     box-shadow: 0px 1px 10px .5px rgba($mainDarkBlue, 0.52);
+                    -moz-box-shadow: 0px 1px 10px .5px rgba($mainDarkBlue, 0.52);
+                    -ms-box-shadow: 0px 1px 10px .5px rgba($mainDarkBlue, 0.52);
+                    -webkit-box-shadow: 0px 1px 10px .5px rgba($mainDarkBlue, 0.52);
+                    -o-box-shadow: 0px 1px 10px .5px rgba($mainDarkBlue, 0.52);
                 }
             }
         }
@@ -388,6 +462,12 @@
         @mixin clearfix;
         /* z-index: 2; */
     
+        &--zindex {
+            z-index: 2;
+            /* border-right: 4px solid #fff; */
+            box-shadow:  .5px 0 rgba($mainMediumLightBlack, .8);
+            width: 100%;
+        }
     }
 
     &__input {
@@ -423,10 +503,23 @@
         border-radius: 15px;
         background-color: $mainDarkBlue;
         box-shadow: 0px 0px 2.1px 3.9px rgba($mainDarkBlue, 0.23);
+        -o-box-shadow: 0px 0px 2.1px 3.9px rgba($mainDarkBlue, 0.23);
+        -ms-box-shadow: 0px 0px 2.1px 3.9px rgba($mainDarkBlue, 0.23);
+        -webkit-box-shadow: 0px 0px 2.1px 3.9px rgba($mainDarkBlue, 0.23);
+        -moz-box-shadow: 0px 0px 2.1px 3.9px rgba($mainDarkBlue, 0.23);
         color: #fff;
         cursor: pointer;
         font-size: 1rem;
         position: relative;
+
+        &--active {
+            background-color: $mainDarkRed;
+            box-shadow: 0px 0px 2.1px 3.9px rgba($mainDarkRed, 0.23);
+            -o-box-shadow: 0px 0px 2.1px 3.9px rgba($mainDarkRed, 0.23);
+            -ms-box-shadow: 0px 0px 2.1px 3.9px rgba($mainDarkRed, 0.23);
+            -webkit-box-shadow: 0px 0px 2.1px 3.9px rgba($mainDarkRed, 0.23);
+            -moz-box-shadow: 0px 0px 2.1px 3.9px rgba($mainDarkRed, 0.23);
+        }
     }
 
     &__clip {
@@ -451,11 +544,11 @@
 
     &__attachWrapper {
         position: absolute;
-        left: 0;
+        left: 1px;
         bottom: 0;
-        right: 0;
+        right: 1px;
         background-color: rgba($mainDarkBlack, .6);
-        z-index: -33;
+        z-index: 1;
         opacity: 0;
         visibility: hidden;
         transition: all .3s ease-in;
@@ -486,6 +579,7 @@
         width: 340px;
         background-color: #fff;
         font-size: 1.5625rem;
+        z-index: 2;
 
         li {    
             float: left;

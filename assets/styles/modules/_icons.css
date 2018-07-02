@@ -669,10 +669,20 @@
         margin: 0  0 0 8px;
         position: relative;
         top: 1px;
+        color: $mainFontColor;
+    }
+
+    &__site-main__nav--chats__usericon {
+        position: absolute;
+        z-index: 1;
+        top: 6.5px;
+        left: 6px;
+        color: #fff;
     }
 
     &__site-main--nav__chatIcon {
         color: $mainDarkBlue;
+        margin-right: 5px;
     }
 
     &__site-main--nav__micIcon {
@@ -754,5 +764,17 @@
         color: #fff;
         z-index: 2;
         cursor: pointer;
+    }
+
+    &__chats--logs__share--options__Icons {
+        margin:  0 14px 0 12px;
+        position: relative;
+        top: 1px;
+    }
+
+    &__chats--logs__share--options__lastIcons {
+        margin:  0 13px 0 12px;
+        position: relative;
+        top: 2px;
     }
 }
