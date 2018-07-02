@@ -688,7 +688,7 @@
     &__site-main--nav__micIcon {
         position: absolute;
         top: 20%;
-        left: 9px;
+        left: 10px;
     }
 
     &__site-main--nav__clipIcon {
@@ -773,7 +773,7 @@
     }
 
     &__chats--logs__share--options__lastIcons {
-        margin:  0 13px 0 12px;
+        margin:  0 10px 0 15px;
         position: relative;
         top: 2px;
     }

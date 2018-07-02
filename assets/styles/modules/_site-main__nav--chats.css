@@ -332,7 +332,7 @@
             color: #fff;
             width: 85%;
             border-radius: 10px;
-            background-color: $mainDarkPaleBlue;
+            background-color: $mainDarkBlue;
             box-shadow: 0px 1px 4px .5px rgba($mainDarkPaleBlue, 0.3);
             -moz-box-shadow: 0px 1px 4px .5px rgba($mainDarkPaleBlue, 0.3);
             -webkit-box-shadow: 0px 1px 4px .5px rgba($mainDarkPaleBlue, 0.3);
@@ -530,15 +530,16 @@
         background-color: #fff;
         width: 10%;
         text-align: center;
+        padding-left: 8px;
         padding-top: 15px;
     }
 
     &__smile {
         float: left;
         height: 50px;
-        background-color: #fff;
         width: 10%;
         text-align: center;
+        /* padding-left: 5px; */
         padding-top: 15px;
     }
 

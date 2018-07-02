@@ -5,14 +5,12 @@
     /* background-color: #4f88ad; */
     background-color: #4186AD;
     border-top: 1px solid #fff;
-    /* top: -80px;  */
-    top: 0;
+    top: -80px; 
     bottom: 0; 
-    /* width: 250px; */
-    /* opacity: 0;
+    opacity: 0;
     visibility: hidden;
     z-index: -1;
-    transition: all .3s ease-in; */
+    transition: all .3s ease-in;
 
     &--mainclose {
         position: absolute;
@@ -190,6 +188,11 @@
             }
 
             &--borderhover {
+                background-color: rgba($mainLightBlue, .25);
+                transition: all .3s ease-in;
+            }
+
+            &--bgactive {
                 background-color: rgba($mainLightBlue, .25);
                 transition: all .3s ease-in;
             }
@@ -390,7 +393,7 @@
             transform: all .3s ease-in;
         }
     }
-
+    
     &--share {
         width: 100%;
         position: absolute;
@@ -412,6 +415,8 @@
                 width: 55%;
                 padding: 0;
                 margin: 0;
+                position: relative;
+                top: 1px;
             }
 
             &--totalwrapper {
@@ -423,15 +428,15 @@
             }
 
             &--total {
-                width: 30px;
-                height: 30px;
-                border-radius: 15px;
+                width: 28px;
+                height: 28px;
+                border-radius: 14px;
                 background-color: #fff;
                 text-align: center;
                 font-size: 500;
                 position: absolute;
                 left: 10px;
-                top: -8px;
+                top: -7px;
                 box-shadow: 0 1px 9px 0 rgba($mainPaleBlue, .7);
                 -o-box-shadow: 0 1px 9px 0 rgba($mainPaleBlue, .7);
                 -webkit-box-shadow: 0 1px 9px 0 rgba($mainPaleBlue, .7);
@@ -439,7 +444,7 @@
                 -ms-box-shadow: 0 1px 9px 0 rgba($mainPaleBlue, .7);
 
                 &__content {
-                    font-size: 1rem;
+                    font-size: .9375rem;
                     color: $mainDarkBlue;
                     font-weight: 500;
                     position: absolute;
@@ -491,6 +496,7 @@
                 transform: translateX(50%);
                 border-radius: 3px;
                 font-size: .875rem;
+                color: $mainDarkBlue;
                 cursor: pointer;
                 box-shadow: 0px 1px 6px 0 rgba($mainMediumLightBlack, .5);
                 -o-box-shadow: 0px 1px 6px 0 rgba($mainMediumLightBlack, .5);
@@ -498,6 +504,16 @@
                 -webkit-box-shadow: 0px 1px 6px 0 rgba($mainMediumLightBlack, .5);
                 -moz-box-shadow: 0px 1px 6px 0 rgba($mainMediumLightBlack, .5);
             }
+        }
+    }
+
+    &--viewuser {
+        &__item {
+            width: 100% !important;
+        }   
+
+        &__wrappergap {
+            padding-bottom: 10px !important;
         }
     }
 
