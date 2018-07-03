@@ -55,6 +55,7 @@
         list-style: none;
         @mixin clearfix;
         float: right;
+        position: relative;
 
         li {
             float: left;
@@ -84,6 +85,7 @@
                     pointer-events: none;
                     top: -2px;
                     left: -8px;
+                    /* box-shadow: inset 0px 1px 9px 0 blue; */
                 }     
             }
 
@@ -101,8 +103,66 @@
             }
         }
 
+        &--items {
+            opacity: 1;
+            visibility: visible;
+            z-index: 1;
+            transition: all .2s ease-in;
+
+            &__notvisible {
+                opacity: 0;
+                visibility: hidden;
+                z-index: -33;
+                transition: all .2s ease-in;
+            }
+        }
+
         &--firstitems {
             cursor: pointer;
+        }
+
+        &--inputitem {
+            position: absolute !important;
+            width: 100px;
+            right: 20px;
+            float: none !important;
+            top: -17px !important;
+            opacity: 0;
+            visibility: hidden;
+            z-index: -33;
+            transition: all .3s ease-in;
+
+            &::after {
+                display: none;
+            }
+
+            &__visible {
+                opacity: 1;
+                visibility: visible;
+                width: 215px;
+                z-index: 1;
+                transition: all .3s ease-in;
+            }
+        }
+
+        &--search {
+            cursor: pointer;
+
+            /* &::after {
+                background-color: $mainDarkBlue !important;
+                color: #fff;
+            } */
+        }
+
+        &--input {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid rgba($mainDarkBlack, .3);
+            border-radius: 3px;
+            border-right: none;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            outline: none;
         }
     }
 
@@ -122,7 +182,7 @@
 
             &:last-child {
                 max-width: 230px;
-                border: 1px solid rgba($mainLightBlue, .2);
+                border: 1px solid $mainDarkGray;
                 background-color: $mainContentHeaderColor;
                 color: $mainFontColor;
                 padding: 5px 10px; 
@@ -144,7 +204,7 @@
             left: 0 !important;
             top: 26px;
             cursor: default;
-            border: 1px solid rgba($mainLightBlue, .2);
+            border: 1px solid $mainDarkGray;
             opacity: 0;
             visibility: hidden;
             z-index: 1;
@@ -465,7 +525,7 @@
         &--zindex {
             z-index: 2;
             /* border-right: 4px solid #fff; */
-            box-shadow:  .5px 0 rgba($mainMediumLightBlack, .8);
+            /* box-shadow:  .5px 0 rgba($mainMediumLightBlack, .8); */
             width: 100%;
         }
     }
@@ -530,7 +590,7 @@
         background-color: #fff;
         width: 10%;
         text-align: center;
-        padding-left: 8px;
+        /* padding-left: 8px; */
         padding-top: 15px;
     }
 
@@ -541,6 +601,7 @@
         text-align: center;
         /* padding-left: 5px; */
         padding-top: 15px;
+        background-color: #fff;
     }
 
     &__attachWrapper {

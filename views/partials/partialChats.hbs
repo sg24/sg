@@ -5,11 +5,12 @@
                 <li class="site-main__nav--chats__userStatus--item"><i class="fas fa-users icon icon__site-main__nav--chats__usericon"></i><span class="site-main__nav--chats__userStatus--title">Users Status</span></li>
             </ul> 
             <ul class="site-main__nav--chats__headerIcon">
-                <li class="disabled site-main__nav--chats__headerIcon--firstitems"><i class="fas fa-location-arrow"></i></li>
+                <li class="disabled site-main__nav--chats__headerIcon--items site-main__nav--chats__headerIcon--firstitems"><i class="fas fa-location-arrow"></i></li>
                 <li class="disabled site-main__nav--chats__headerIcon--items"><i class="far fa-edit"></i></li>
                 <li class="disabled site-main__nav--chats__headerIcon--items"><i class="far fa-heart"></i></li>
                 <li class="disabled site-main__nav--chats__headerIcon--items"><i class="far fa-trash-alt"></i> </li>
-                <li><i class="fas fa-search"></i></li>
+                <li class="site-main__nav--chats__headerIcon--inputitem"><input type="text" class="site-main__nav--chats__headerIcon--input" placeholder="search chats"></li>
+                <li class="site-main__nav--chats__headerIcon--search"><i class="fas fa-search"></i></li>
             </ul>
             
         </div> 
@@ -88,7 +89,9 @@
         </div>
         <textarea placeholder="Type something here" class="site-main__nav--chats__input"></textarea> 
         <div class="site-main__nav--chats__clip">
-            <i class="fas fa-paperclip icon icon__site-main--nav__clipIcon"></i>
+            <span class="site-main__nav--chats__clip--wrapper">
+                <i class="fas fa-paperclip icon icon__site-main--nav__clipIcon"></i>
+            </span>
         </div>
         <div class="site-main__nav--chats__smile">
             <i class="far fa-smile icon icon__site-main--nav__smileIcon"></i>

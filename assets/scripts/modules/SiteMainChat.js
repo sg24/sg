@@ -9,7 +9,7 @@ class SiteMainChat {
         this.clickUser = $(".chats__logs--userOnline__view--userDetails");
         this.selectGroup = $(".site-main__nav--chats__groupList--item");
         this.selectGroupOption = $(".site-main__nav--chats__groupList--options");
-        this.attachFile = $(".site-main__nav--chats__clip");
+        this.attachFile = $(".site-main__nav--chats__clip--wrapper");
         this.attachWrapper = $(".site-main__nav--chats__attachWrapper");
         this.toggleInputWrapper = $(".site-main__nav--chats__inputWrapper");
         this.closeallAttach = $(".site-main__nav--chats__input, .site-main__nav--chats__micWrapper, .site-main__nav--chats__smile, .site-main__nav--chats__attachWrapper");
@@ -18,6 +18,10 @@ class SiteMainChat {
         this.selectWrapper = $(".chats__logs--userOnline__wrapper, .chats__logs--userOffline__wrapper");
         this.selectUser = $(".chats__logs--selectIcon");
         this.selectUserActive = $(".chats__logs--selectIconActive");
+        this.searchChatBtn = $(".site-main__nav--chats__headerIcon--search");
+        this.inputSearch = $(".site-main__nav--chats__headerIcon--inputitem");
+        this.removeInputSearch = $(".site-main__nav--chats__secondChatBox,.site-main__nav--chats__firstChatBox, .site-main__nav--chats__inputWrapper");
+        this.toggleHeaderIcon = $(".site-main__nav--chats__headerIcon--items");
         this.events();
     }
 
@@ -34,6 +38,8 @@ class SiteMainChat {
         this.selectWrapper.mouseenter(this.addSelectUser.bind(this));
         this.selectWrapper.mouseleave(this.removeSelectUser.bind(this));
         this.selectWrapper.click(this.toggleClickUser.bind(this));
+        this.searchChatBtn.click(this.toggleInputSearch.bind(this)); 
+        this.removeInputSearch.click(this.closeInputSearch.bind(this));
     }
 
     toggleShareChat() {
@@ -90,6 +96,17 @@ class SiteMainChat {
         this.selectWrapper.toggleClass("chats__logs--userOnline__wrapper--bordervisible");
         this.selectUser.removeClass("chats__logs--selectIcon__visible");
         this.selectWrapper.removeClass("chats__logs--userOnline__wrapper--borderhover");
+    }
+
+    toggleInputSearch() {
+        this.inputSearch.toggleClass("site-main__nav--chats__headerIcon--inputitem__visible");
+        this.toggleHeaderIcon.toggleClass("site-main__nav--chats__headerIcon--items__notvisible");
+        this.searchChatBtn.toggleClass("site-main__nav--chats__headerIcon--search__notvisible");
+    }
+
+    closeInputSearch() {
+        this.inputSearch.removeClass("site-main__nav--chats__headerIcon--inputitem__visible");
+        this.toggleHeaderIcon.removeClass("site-main__nav--chats__headerIcon--items__notvisible");
     }
 
 }
