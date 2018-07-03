@@ -464,6 +464,7 @@ img {
   padding-left: 0px;
   padding-right: 0px;
   max-width: 1200px;
+  margin: 0 auto;
 }
 
 .wrapper__main::after {
