@@ -5634,6 +5634,12 @@ img {
         font-weight: 300;
 }
 
+.site-main__nav--waypoint {
+  top: 60px;
+  position: -webkit-sticky;
+  position: sticky;
+}
+
 .site-main__nav--header {
   background-color: #437da3;
   list-style: none;

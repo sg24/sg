@@ -5,7 +5,12 @@
         float: left;
         display: none;
         font-weight: 300;
-
+ 
+       
+        &--waypoint {
+            top: 60px;
+            position: sticky;
+        }
         &--header {
             background-color: $mainMiddleDarkBlue;
             list-style: none;
