@@ -7,12 +7,22 @@
     <meta name="description" content="sg provides everythings you are looking for">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700">
     <title>SG</title>
-    <link rel='stylesheet' href='/stylesheets/styles.css'/>
+    <link rel='stylesheet' href='/stylesheets/view.css'/>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
 </head>
     <body>
-    {{> siteHeader}}
+    {{> siteHeader}} 
+        <div class="viewall">
+            <div class="wrapper__main">
+                <div class="viewall__contentwrapper">
+                    {{> content}}
+                </div>
+                <div class="viewall__nav">
+                    {{> nav}}
+                </div>
+            </div>
+        </div>
     <script src="/js/app/bundle.js"></script>
-    <script src="/js/app/appScript.js"></script>
+    <script src="/js/app/view.js"></script>
     </body>
 </html>

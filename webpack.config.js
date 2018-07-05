@@ -2,12 +2,14 @@ var path = require('path');
 
 module.exports = {
   
-    entry: "./assets/scripts/appScript.js",
+    entry: {
+      appScript: "./assets/scripts/appScript.js",
+      view: "./assets/viewscript/viewScript.js"
+    },
     output: {
       path: path.resolve(__dirname + '/public/js/app'),
       publicPath: "/js/app/",
-      filename: 'appScript.js',
-      chunkFilename: '[id].chunk.js'
+      filename: '[name].js'
     },
     module: {
       rules: [

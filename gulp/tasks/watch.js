@@ -19,6 +19,10 @@ gulp.task('watch', function() {
         gulp.start('cssInject')
     });
 
+    watch('./assets/viewstyle/**/*.css', function() {
+        gulp.start('viewcss')
+    });
+
     // watch('./apps.js', function() {
     //     gulp.start('scriptsRefresh');
     // });
@@ -27,6 +31,11 @@ gulp.task('watch', function() {
 
 gulp.task('cssInject',['styles'], function() {
     return gulp.src("./assets/styles/styles.css")
+    .pipe(browserSyc.stream());
+});
+
+gulp.task('viewcss',['viewstyles'], function() {
+    return gulp.src("./assets/viewstyle/view.css")
     .pipe(browserSyc.stream());
 });
 

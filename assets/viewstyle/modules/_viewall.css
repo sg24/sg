@@ -1,0 +1,306 @@
+.viewall {
+    position: relative;
+    top: 62px;
+
+    &__contentwrapper {
+        width: 62%;
+        float: left;
+        padding: 0 50px;
+    }
+
+    &__content {
+        background-color: #fff;
+
+        &--title {
+            font-weight: 400;
+            font-size: 24px;
+            margin: 0;
+            padding: 20px 10px;
+        }
+
+        &--details {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            @mixin clearfix;
+            color: $mainFontColor;
+
+            li {
+                float: left;
+                font-size: .875rem;
+                width: 35%;   
+                text-align: center;
+
+                &:first-child {
+                    text-align: left;
+                    width: 35%;
+                }
+                &:last-child {
+                    @mixin clearfix;
+                    width: 30%;
+                    text-align: center;
+                }
+            }
+
+            &__title {
+                margin-right: 5px;
+                padding: 0 10px;
+            }
+
+            &__time {
+                color: $mainMiddleDarkBlue;
+            }
+
+            &__soln {
+                float: left;
+                margin: 0;
+                text-align: center;
+                width: 100%;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                @mixin clearfix;
+
+
+                &--title {
+                    margin: 0;
+                    padding: 0;
+                    float: left;
+                }
+            }
+
+            &__solnAdded {
+                float: left;
+                position: relative;
+                width: 28px;
+                height: 28px;
+                background-color: $mainLightRed;
+                border-radius: 14px;
+                top: -8px;
+                padding: 0;
+                margin: 0 0 0 10px;
+                box-shadow: 0px 2px 1px rgba($mainDarkBlack, .4);
+                /* right: 15%; */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                &--num {
+                   position: relative;
+                   color: #fff;
+                   text-align: center;
+                   padding: 0;
+                   margin: 0;
+                }
+            }
+
+            &__viewer {
+                padding-left: 5px;
+            }
+        }
+
+        &--view {
+            line-height: 2;
+            word-break: break-all;
+            margin: 10px 0 15px 0;
+            padding: 5px 10px;
+            border-top: 1px solid $mainDarkGray;
+        }
+
+        &--userdetails {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            @mixin clearfix;
+
+            li {
+                font-size: .875rem;
+                @mixin clearfix;
+
+                &:first-child {
+                    float: left;
+                }
+
+                &:last-child {
+                    float: right;
+                    position: relative;
+                    @mixin clearfix ;
+
+                    p {
+                        float: left;
+                        margin: 0;
+                        padding: 0;
+                    }
+                }
+
+            }
+
+            &__edit {
+                margin: 0;
+                padding: 0 10px;
+                color: $mainFontColor;
+
+                &--time {
+                    margin-left: 5px;
+                }
+            }
+
+            &__imgwrapper {
+                float: left;
+                width: 80px;
+                height: 1px;
+                background-color: transparent;
+                position: relative;
+            }
+
+            &__img {
+                width: 50px;
+                height: 50px;
+                border-radius: 25px;
+                background-color: $mainLightGray;
+                position: absolute;
+                overflow: hidden;
+                top: -20px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            &__status {
+                float: left;
+                padding: 0 20px 0 0;
+                margin: 0;
+                list-style: none;
+                @mixin clearfix;
+                position: relative;
+                top: -13px;
+
+               li {
+                   float: none !important;
+                   margin-bottom: 6px;
+
+                   &:first-child {
+                       font-weight: 400;
+
+                       a {
+                        color: $mainDarkBlue;
+                        text-decoration: none;
+                       }
+                   }
+
+                   &:last-child {
+                       margin: 0;
+                       position: relative;
+                       padding-left: 20px;
+                       color: $mainFontColor;
+
+                       &::before {
+                           content: "";
+                           position: absolute;
+                           width: 8px;
+                           height: 8px;
+                           border-radius: 4px;
+                           background-color: $mainLightGreen;
+                           left: 0;
+                           top: 4px;
+                       }
+                   }
+               }
+
+               &--details {
+                   &__offline {
+                        &::before {
+                            background-color: $mainDarkRed !important;
+                        }
+                   }
+               }
+            }
+        }
+
+        &--footer {
+            margin: 0;
+            padding: 0;
+            border: 1px solid $mainLightGray;
+            border-left: 0;
+            border-right: 0;
+            list-style: none;
+            @mixin clearfix;
+            color: $mainFontColor;
+
+            li {
+                float: left;
+                width: 30%;
+                padding: 10px 0;
+                font-size: .875rem;
+                position: relative;
+                text-align: center;
+
+                &:first-child {
+                    @mixin clearfix;
+                    width: 40%;
+                }
+
+            }
+
+            &__share {
+                float: left;
+                width: 50%;
+                text-align: left;
+                position: relative;
+                padding-left: 45px;
+
+                &--shareIcon {
+                    position: absolute;
+                    width: 26px;
+                    height: 26px;
+                    border-radius: 13px;
+                    background-color: $mainDarkBlue;
+                    left: 10px;
+                    top: -6px;
+                }
+            }
+
+            &__favorite {
+                float: left;
+                width: 50%;
+                text-align: center;
+                padding-right: 10px;
+            }
+
+            &__item {
+                width: 30% !important;
+                background-color: $mainDarkPaleBlue;
+                color: #fff;
+                cursor: pointer;
+            }
+
+            &__loadmorewrapper {
+                float: left;
+                width: 50% !important;
+                @mixin clearfix;
+                border-radius: 3px;
+                text-align: center;
+                position: relative;
+                left: 40px;
+            }
+
+            
+            &__firstloadmore {
+                margin: 0 10px 0 0px;
+            }
+
+            &__secondloadmore {
+                padding: 0;
+            }
+
+            &__lastloadmore {
+                margin: 0 0 0 10px;
+                margin-right: 0;
+            }
+        }
+    }
+
+    &__nav {
+        width: 35%;
+        float: left;
+    }
+}
