@@ -812,4 +812,43 @@
         font-size: .625rem;
         color: rgba($mainDarkBlue, .5);
     }
+
+    &__viewall--comments__commentIcon {
+        color: rgba($mainDarkBlack, .6);
+        font-size: 1rem;
+        margin-right: 5px;
+    }
+
+    &__viewall--comments__box-arrowIcon {
+        color: #fff;
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        font-size: .8123rem;
+    }
+
+    &__viewall--comments__box-thumbIcon {
+        color: rgba($mainMediumLightBlack, .8);
+        cursor: pointer;
+    }
+
+    &__viewall--comments__box--footer__circleIcon {
+        margin-right: 5px;
+        color: rgba($mainDarkBlue, .5);
+        font-size: .625rem;
+    }
+
+    &__viewall__comments--box__reply--headericon {
+        margin: 0 10px;
+    }
+
+    &__viewall--form__header--penIcon {
+        margin-right: 10px;
+        font-size: 1.1rem;
+    }
+
+    &__viewall--form__field--addIcon {
+        color: $mainLightGreen;
+        margin-right: 5px;
+    }
 }
