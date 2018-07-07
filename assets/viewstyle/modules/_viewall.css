@@ -211,6 +211,7 @@
                }
 
                &--details {
+
                    &__offline {
                         &::before {
                             background-color: $mainDarkRed !important;
@@ -450,6 +451,10 @@
                             background-color: $mainLightRed !important;
                         }
                     }
+
+                    &__title {
+                        cursor: pointer;
+                    }
                 }
 
                 &--soln {
@@ -571,6 +576,63 @@
                     }
                 }
 
+                &--lastItem {
+                    position: relative;
+
+                    &__options{
+                        font-size: .8125rem; 
+                        list-style: none;
+                        margin: 0;
+                        padding: 0;  
+                        position: absolute;
+                        background-color: #fff;
+                        border: 1px solid $mainDarkGray;
+                        /* left: -35px; */
+                        text-align: center;
+                        z-index: 1;
+                        top: 0;
+                        right: -35px;
+                        @mixin clearfix;
+                        
+                        li {
+                            font-size: .8125rem; 
+                            float: none !important;
+                            padding: 8px 18px;
+                            cursor: pointer;
+
+                            &:first-child {
+                               border-bottom: 1px solid $mainDarkGray;
+                            }
+
+                            &:last-child {
+                             }
+                        }
+
+                        &--view {
+                            color: $mainDarkBlue;
+                        }
+
+                        &--teacher {
+                            background-color: $mainDarkBlue !important;
+                            color: #fff;
+                        }
+
+                        &--edit {
+                            background-color: #fff !important;
+                            color: $mainDarkBlue;
+                        }
+
+                        &--delete {
+                            background-color: $mainDarkRed!important;
+                            color: #fff;
+                        }
+
+                        &--reply {
+                            right: -42px;
+                        }
+                    }  
+                }
+
                 &--loadmorewrapper {
                     width: 53px;
                     position: relative;
@@ -600,8 +662,6 @@
                         }
                     }
                 }
-
-               
             }
         }
     }

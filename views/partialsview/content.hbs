@@ -70,7 +70,7 @@
                     <img src="" alt="">
                 </div>
                 <ul class="viewall__comments--box__header--userdetails">
-                    <li>User user</li>
+                    <li><span class="viewall__comments--box__header--userdetails__title">User user</span></li>
                     <li>online <span class="viewall__comments--box__header--userdetails__lastItem">2m ago</span></li>
                      {{!-- <li class="viewall__comments--box__header--userdetails__offline">offline <span class="viewall__comments--box__header--userdetails__lastItem">2m ago</span></li> --}}
                 </ul>
@@ -96,31 +96,21 @@
                     <li>24</li>
                 </ul>
             </li>
-            <li>
+            <li class="viewall__comments--box__footer--lastItem">
                 <div class="viewall__comments--box__footer--loadmorewrapper">
                     <i class="fas fa-circle  icon icon__viewall--comments__box--footer__circleIcon"></i>
                     <i class="fas fa-circle  icon icon__viewall--comments__box--footer__circleIcon"></i>
                     <i class="fas fa-circle  icon icon__viewall--comments__box--footer__circleIcon"></i>
                 </div>
-            </li>
-        </ul>
-        <ul class="viewuser">
-            <li class="viewuser--comment"><i class="far fa-comments"></i> Chat Now</li>
-            <li class="viewuser--students">
-                <ul>
-                    <li><i class="fas fa-users"></i> Students</li>
-                    {{!-- <li><i class="fas fa-users"></i>Friends</li> --}}
-                    <li>222k</li>
+                <ul class="viewall__comments--box__footer--lastItem__options">
+                    {{!-- <li class="viewall__comments--box__footer--lastItem__options--view"><i class="far fa-eye icon icon__viewall--comments__box--footer__eyeicon"></i> View Profile</li>
+                    <li class="viewall__comments--box__footer--lastItem__options--teacher"><i class="fas fa-chalkboard-teacher icon icon__viewall--comments__box--footer__icon"></i> Add as teacher</li> --}}
+                    <li class="viewall__comments--box__footer--lastItem__options--edit"><i class="fas fa-edit icon icon__viewall--comments__box--footer__icon"></i> Edit Answer</li>
+                    <li class="viewall__comments--box__footer--lastItem__options--delete"><i class="fas fa-trash-alt icon icon__viewall--comments__box--footer__icon"></i> Delete Answer</li> 
                 </ul>
             </li>
-            <li class="viewuser--items">
-                <ul>
-                    <li>Items</li>
-                    <li>222k</li>
-                </ul>
-            </li>
-            <li>View more</li>
         </ul>
+
     </div>
 
     <div class="viewall__comments--box__replywrapper">
@@ -138,7 +128,7 @@
                         <img src="" alt="">
                     </div>
                     <ul class="viewall__comments--box__header--userdetails">
-                        <li>User user</li>
+                        <li><span class="viewall__comments--box__header--userdetails__title">User user</span></li>
                         <li>online <span class="viewall__comments--box__header--userdetails__lastItem">2m ago</span></li>
                         {{!-- <li class="viewall__comments--box__header--userdetails__offline">offline <span class="viewall__comments--box__header--userdetails__lastItem">2m ago</span></li> --}}
                     </ul>
@@ -164,14 +154,21 @@
                         <li>24</li>
                     </ul>
                 </li>
-                <li>
+                <li class="viewall__comments--box__footer--lastItem">
                     <div class="viewall__comments--box__footer--loadmorewrapper">
                         <i class="fas fa-circle  icon icon__viewall--comments__box--footer__circleIcon"></i>
                         <i class="fas fa-circle  icon icon__viewall--comments__box--footer__circleIcon"></i>
                         <i class="fas fa-circle  icon icon__viewall--comments__box--footer__circleIcon"></i>
                     </div>
+                    <ul class="viewall__comments--box__footer--lastItem__options viewall__comments--box__footer--lastItem__options--reply">
+                        {{!-- <li class="viewall__comments--box__footer--lastItem__options--view"><i class="far fa-eye icon icon__viewall--comments__box--footer__eyeicon"></i> View Profile</li>
+                        <li class="viewall__comments--box__footer--lastItem__options--teacher"><i class="fas fa-chalkboard-teacher icon icon__viewall--comments__box--footer__icon"></i> Add as teacher</li> --}}
+                        <li class="viewall__comments--box__footer--lastItem__options--edit"><i class="fas fa-edit icon icon__viewall--comments__box--footer__icon"></i> Edit Answer</li>
+                        <li class="viewall__comments--box__footer--lastItem__options--delete"><i class="fas fa-trash-alt icon icon__viewall--comments__box--footer__icon"></i> Delete Answer</li> 
+                    </ul>
                 </li>
             </ul>
+            
         </div>
     </div>
 </div>
@@ -182,7 +179,7 @@
         <h4 class="viewall__tips--subtitle">Not satisfied with the solution</h4>
         <ul>
             <li>Check <span>chats</span> for related question and answers or chat to ask question inside the chats</li>
-            <li>For materials released by the teacher, click the teacher image or name for options</li>
+            <li>For Items released by the teacher, click the teacher image or name for options</li>
         </ul>
         <p class="viewall__tips--note"><span> Notes</span> No direct chats </p>
         <p class="viewall__tips--note__details">All question should be asked by clicking <span><i class="fas fa-reply"></i> reply </span> or <span><i class="fas fa-comments"></i> chats</span> </p>
