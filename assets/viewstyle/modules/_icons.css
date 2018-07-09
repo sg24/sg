@@ -242,14 +242,36 @@
     &__viewall--content__shareIcon{
         color: #fff;
         position: absolute;
-        top: 6px;
-        left: 6px;
-        font-size: .8123rem;
+        top: 5px;
+        left: 5px;
+        font-size: .7rem;
+
+        @mixin atMedium {
+            font-size: .8123rem;
+            top: 6px;
+            left: 6px;
+        }
     }
 
     &__viewall--content__favIcon {
         margin-right: 5px;
         color: rgba($mainLightBlack, .7);
+        position: absolute;
+        font-size: 1rem ;
+        right: -30px ;
+        top: -1.5px;
+
+        @mixin atSmall {
+            right: -30px ;
+            top: -3px;
+            font-size: 1.2rem ;
+        }
+
+        @mixin atMedium {
+            right: -30px ;
+            top: -3px;
+            font-size: 1.2rem ;
+        }
     }
 
     &__viewall--content__pencilIcon {
@@ -257,8 +279,13 @@
     }
 
     &__viewall--content__circleIcon {
-        font-size: .625rem;
+        font-size: .5rem;
         color: rgba($mainDarkBlue, .5);
+
+        @mixin atMedium {
+            font-size: .625rem;
+            color: rgba($mainDarkBlue, .5);
+        }
     }
 
     &__viewall--comments__commentIcon {
@@ -326,5 +353,91 @@
         margin-right: 5px;
         position: relative;
         top: 2px;
+    }
+
+    &__share--facebook {
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        color: $mainLightBlue;
+        float: left;
+    }
+
+    &__share--googleplus {
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        color: $mainDarkRed;
+        float: right;
+    }
+
+    &__share--userCounterIcon {
+        color: rgba($mainLightBlack, .7);
+        margin-right: 3px;
+    }
+
+    &__share--userSelectedIcon {
+        color: #fff;
+        margin-right: 5px;
+    }
+ 
+    &__share--userSelectedCloseIcon {
+        font-size: .6875rem;
+        color: $mainLightBlack;
+        position: absolute;
+        top: 1.6px;
+        left: 4px;
+    }
+
+    &__share--userSelectedCloseMainIcon {
+        position: absolute;
+        top: 2px;
+        left: 4.5px;
+        font-size: .6875rem;
+        color: $mainLightBlack;
+    }
+
+    &__viewall--exchange__alt {
+        color: #fff;
+        font-size: 1rem;
+    }
+
+    &__viewall--nav__clock {
+        font-size: .9375rem;
+        margin-right: 5px;
+    }
+    
+    &__viewall--nav__angleDown {
+        margin-left: 5px;
+    }
+
+    &__viewall--nav__peoplecarry {
+        position: relative;
+        top: 6px;
+        left: 1px;
+    }
+
+    &__viewall--nav__comIcon {
+        margin-right: 10px;
+        color: rgba($mainDarkBlue, .9);
+    }
+
+    &__viewall--nav__groupIcon {
+        margin-right: 10px;
+        color: rgba($mainDarkBlue, .9);
+    }
+
+    &__viewall--nav__userIcon {
+        margin-right: 5px; 
+        color: rgba($mainDarkBlack, .5);
+    }
+
+    &__viewall--nav__coffeeIcon {
+        margin-right: 5px;
+        color: rgba($mainDarkBlack, .5);
+    }
+
+    &__viewall--nav__footer--timedIcon {
+        margin-right: 5px;
     }
 }

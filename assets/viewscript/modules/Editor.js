@@ -1,4 +1,4 @@
-import Quill from 'Quill';
+// import Quill from 'Quill';
 
 class Editor {
     constructor() {
@@ -6,7 +6,7 @@ class Editor {
     }
 
     editor() { 
-        var quill = new Quill('.editor')
+        // var quill = new Quill('.editor')
         
     }
 }
