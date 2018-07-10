@@ -34,7 +34,7 @@
         position: relative;
 
         &--title {
-            color: $mainFontColor;
+            color: $mainDarkBlack;
             font-weight: 400;
             font-size: 1.1rem;
             margin: 0;
@@ -214,18 +214,18 @@
                 }
 
                 @mixin atSmall {
-                    width: 28px;
-                    height: 28px;
-                    border-radius: 14px;
-                    top: -8px;
-                    right: 28px;
+                    width: 26px;
+                    height: 26px;
+                    border-radius: 13px;
+                    top: -6.5px;
+                    right: 34px;
                 }
 
                 @mixin atMedium {
-                    width: 28px;
-                    height: 28px;
-                    border-radius: 14px;
-                    top: -7px;
+                    width: 26px;
+                    height: 26px;
+                    border-radius: 13px;
+                    top: -6.5px;
                     right: 40px;
                 }
 
@@ -249,6 +249,7 @@
             padding: 5px 10px;
             border-top: 1px solid $mainDarkGray;
             font-size: .9375rem;
+            color: $mainFontColor;
 
             @mixin atSmall {
                 font-size: .9375rem;
@@ -315,11 +316,16 @@
                 height: 44px;
                 border-radius: 22px;
                 top: -16px;
-                left: 50%;
-                transform: translateX(-50%);
+                left: 85%;
+                transform: translateX(-85%);
                 background-color: $mainLightGray;
                 position: absolute;
                 overflow: hidden;
+
+                @mixin atExtraSmall {
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
 
                 @mixin atSmall {
                     width: 44px;
@@ -448,15 +454,11 @@
                     border-radius: 11px;
                     background-color: $mainDarkBlue;
                     left: 10px;
-                    top: -6px;
+                    top: -4px;
                     cursor: pointer;
 
                     &__hidesm {
                         display: none;
-
-                        /* @mixin atSmall {
-                            display: block;
-                        } */
                     }
 
                     @mixin atSmall {
@@ -489,10 +491,6 @@
 
                 &--hidesm {
                     display: none;
-
-                    /* @mixin atSmall {
-                        display: block;
-                    } */
                 }
             }
 
@@ -500,14 +498,14 @@
                 width: 40% !important;
                 background-color: $mainDarkPaleBlue;
                 color: #fff;
-                cursor: pointer;
                 font-size: .5rem !important;
 
                 a {
                     text-decoration: none;
+                    cursor: pointer;
                     color: #fff;
                     font-size: .75rem !important;
-                    
+
                     @mixin atMiniSmall {
                         font-size: .8125rem !important;
                     }
@@ -529,7 +527,7 @@
 
             &__lastitem {
                 width: 30% !important;
-                
+
                 @mixin atMiniSmall {
                     width: 36% !important;
                 }
@@ -537,31 +535,41 @@
                 @mixin atSmall {
                     width: 33.33% !important;
                 }
-
-                /* @mixin atMedium {
-                    width: 30%;
-                } */
             }
 
             &__loadmorewrapper {
                 float: left;
-                width: 100%;
+                width: 60px;
                 @mixin clearfix;
                 border-radius: 3px;
                 text-align: center;
                 position: relative;
-                left: 0;
+                left: 6px;
                 cursor: pointer;
 
+                @mixin atExtraSmall {
+                    width: 60px;
+                    left: 24px;
+                }
+
                 @mixin atMiniSmall {
-                    width: 50% !important;
-                    left: 40px;
+                    width: 60px;
+                    left: 44px;
+                }
+
+                @mixin atSmall {
+                    width: 60px;
+                    left: 55px;
                 }
             }
 
             
             &__firstloadmore {
-                margin: 0 10px 0 0px;
+                margin: 0 5px 0 0px;
+
+                @mixin atExtraSmall {
+                    margin: 0 10px 0 0px; 
+                }
             }
 
             &__secondloadmore {
@@ -569,8 +577,12 @@
             }
 
             &__lastloadmore {
-                margin: 0 0 0 10px;
+                margin: 0 0 0 5px;
                 margin-right: 0;
+                
+                @mixin atExtraSmall {
+                    margin: 0 0 0 10px;
+                } 
             }
         }
     }
@@ -580,10 +592,11 @@
 
         &--wrapper {
             position: relative;
+            margin: 0 10px;
         }
 
         &--header {
-            font-size: .875rem;
+            font-size: .8125rem;
             margin: 40px 0 20px 0;
             background-color: $mainDarkPaleBlue;
             color: #fff;
@@ -593,15 +606,25 @@
                 text-align: center;
                 padding: 5px 0;
                 margin: 0;
+                position: relative;
             }
 
             &__askQue {
                 padding: 5px 10px;
-                margin: 0 0 0 20px;
+                margin: 0 0 0 10px;
                 color: $mainDarkBlue;
                 background-color: #fff !important;
                 border-radius: 3px;
                 text-decoration: none;
+
+                @mixin atExtraSmall {
+                    margin: 0 0 0 20px;
+                }
+            }
+
+
+            @mixin atSmall {
+                font-size: .875rem;
             }
         }
 
@@ -637,8 +660,13 @@
                         background-color: $mainDarkBlue;
                         border-radius: 10px;
                         color: #fff;
-                        font-size: .875rem;
+                        font-weight: 300;
+                        font-size: .8125rem;
                         padding: 2px 0;
+
+                        @mixin atSmall {
+                            font-size: .875rem;
+                        }
                     }
                 }
             }
@@ -670,13 +698,26 @@
                 }
 
                 &--img {
-                    float: left;
                     width: 40px;
                     height: 40px;
                     border-radius: 20px;
-                    background-color: $mainLightGray;
-                    border: 1px solid $mainDarkBlue;
+                    background-color: #fff;
+                    box-shadow:0 2px 9px 1px rgba($mainDarkBlue, .9);
+                    -o-box-shadow:0 2px 9px 1px rgba($mainDarkBlue, .9);
+                    -ms-box-shadow:0 2px 9px 1px rgba($mainDarkBlue, .9);
+                    -moz-box-shadow:0 2px 9px 1px rgba($mainDarkBlue, .9);
+                    -webkit-box-shadow:0 2px 9px 1px rgba($mainDarkBlue, .9);
                     overflow: hidden;
+                    position: relative;
+                    left: 20px;
+
+                    @mixin atExtraSmall {
+                        float: left;
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 20px;
+                        left: auto;
+                    }
                 }
 
                 &--userdetails {
@@ -696,7 +737,7 @@
                         }
                         &:last-child {
                             padding: 2px 0 0 10px;
-                            margin: 4px 0 0 10px;
+                            margin: 4px 0 0 15px;
                             position: relative;
                             width: auto;
                             font-size: .8125rem;
@@ -717,13 +758,21 @@
 
                     &__lastItem {
                         color: $mainDarkBlue;
-                        font-size: .8125rem;
+                        font-size: .75rem;
+                        margin-left: 3px;
                     }
 
                     &__offline {
+                        color: $mainFontColor;
                         &::before {
                             background-color: $mainLightRed !important;
                         }
+                    }
+
+                    &__online {
+                        color: $mainFontColor;
+                        position: relative;
+                        left: -5px;
                     }
 
                     &__title {
@@ -733,26 +782,53 @@
 
                 &--soln {
                     position: relative;
-                    padding: 14px 0  0 0 ;
+                    padding: 0;
+                    font-size: .8125rem;
+                    position: relative;
+                    top: 3px;
+
                     &__time {
                         color: $mainLightBlue;
-                        margin-left: 5px;
+                        display: block;
+                        margin-top: 8px;
+                        font-size: .75rem;
+
+                        @mixin atMedium {
+                            display: inline;
+                            margin-left: 5px;
+                            margin-top: 0;
+                            font-size: .8125rem;
+                        }
+                    }
+
+                    @mixin atMedium {
+                        padding: 14px 0  0 0 ;
+                        font-size: .875rem;
+                        position: relative;
+                        top: 0;
                     }
                 }
             }
 
             &__content {
+                color: $mainFontColor;
                 margin: 0;
                 padding: 5px 10px;
+                font-size: .875rem;
                 line-height: 1.8;
-                font-size: .9375rem;
+                
 
                 &--chats {
-                    
+                    font-size: .9375rem;
+
                     &__title {
                         color: $mainLightBlue;
                         cursor: pointer;
                     }
+                }
+
+                @mixin atSmall {
+                    font-size: .9375rem;
                 }
             }
 
@@ -771,76 +847,105 @@
 
                 li {
                     float: left;
-                    width: 40%;
                     padding: 5px 0;
 
-                    &:first-child {
-                        width: 30%;
-
-                        ul {
-                            @mixin clearfix;
-                            position: relative;
-
-                            li {
-                                float: left;
-                                text-align: center;
-                                color: rgba($mainMediumLightBlack, .9);
-                                margin: 0 0 0 70px;
-                                font-size: 1.2rem;
-                                cursor: pointer;
-
-                                &:first-child {
-                                    width: 30px;
-                                    height: 30px;
-                                    border-radius: 15px;
-                                    background-color: $mainMiddleDarkBlue;
-                                    color: #fff;
-                                    position: absolute;
-                                    top: 50%;
-                                    transform: translateY(-50%);
-                                    padding: 0;
-                                    margin: 0;
-                                    left: 8px;
-                                }
-
-                                &:last-child {
-                                    margin: 0 0 0 35px;
-                                    color: rgba($mainMediumLightBlack, .7);
-                                }
-                            }
-                        }
-
-                        @mixin atMedium {
-                            width: 45%;
-                        }
-
-                        @mixin atLarge {
-                            width: 30%;
-                        }
-                    }
-
-                    &:last-child {
-                        width: 30%;
-                        margin: 0;
-                        
-                        @mixin atMedium {
-                            width: 25%;
-                        }
-                        @mixin atLarge {
-                            width: 30%;
-                        }
+                    @mixin atSmall {
+                        padding: 3px 0;
                     }
 
                     @mixin atMedium {
-                        width: 30%;
+                        padding: 5px 0;
                     }
-                    @mixin atLarge {
-                        width: 40%;
+
+                    ul {
+                        list-style: none;
+                        margin: 0;
+                        padding: 0;
                     }
                 }
 
                 &--firstitem {
+                    width: 60%;
                     position: relative;
+
+                    ul {
+                        @mixin clearfix;
+                        position: relative;
+
+                        li {
+                            float: left;
+                            text-align: center;
+                            color: rgba($mainMediumLightBlack, .9);
+                            font-size: 1rem;
+                            cursor: pointer;
+                            font-size: 1rem;
+                            margin: 0 0 0 50px;
+
+                            &:first-child {
+                                width: 22px;
+                                height: 22px;
+                                border-radius: 11px; 
+                                background-color: $mainMiddleDarkBlue;
+                                color: blue;
+                                position: absolute;
+                                top: 50%;
+                                transform: translateY(-50%);
+                                padding: 0;
+                                margin: 0;
+                                left: 8px;
+
+                                @mixin atExtraSmall {
+                                    width: 22px;
+                                    height: 22px;
+                                    border-radius: 11px; 
+                                }
+
+                                @mixin atSmall {
+                                    width: 26px;
+                                    height: 26px;
+                                    border-radius: 13px;
+                                }
+
+                                @mixin atMedium {
+                                    width: 30px;
+                                    height: 30px;
+                                    border-radius: 15px;
+                                }
+                            }
+
+                            &:last-child {
+                                margin: 0 0 0 20px;
+                                color: rgba($mainMediumLightBlack, .7);
+
+                                @mixin atExtraSmall {
+                                    margin: 0 0 0 22px;
+                                }
+
+                                @mixin atSmall {
+                                    margin: 0 0 0 35px;
+                                }
+
+                                @mixin atMedium {
+                                    margin: 0 0 0 35px;
+                                }
+                            }
+
+                            @mixin atExtraSmall {
+                                font-size: 1rem;
+                                margin: 0 0 0 55px;
+                            }
+
+                            @mixin atSmall {
+                                font-size: 1.1rem;
+                                margin: 0 0 0 70px;
+                            }
+
+                            @mixin atMedium {
+                                font-size: 1.2rem;
+                                margin: 0 0 0 70px;
+                            }
+                        }
+                    }
 
                     &__share {
                         z-index: 1;
@@ -849,62 +954,125 @@
                             z-index: 2;
                         }
                     }
+
+                    @mixin atMiniSmall {
+                        width: 36%;
+                    }
+
+                    @mixin atSmall {
+                        width: 36%;
+                    }
+
+                    @mixin atMedium {
+                        width: 36%;
+                    }
+
+                    @mixin atLarge {
+                        width: 36%;
+                    }
                 }
+
 
 
                 &--middleitem {
                     text-align: center;
+                    width: 40%;
+                    display: none;
 
                     ul {
                         position: relative;
+                       
 
                         li {
-                            
-
                             &:first-child {
-                                width: 60% !important;
+                                width: 100%;
+                                text-align: left;
+                                position: relative;
+                                left: 50px;
+
+                                @mixin atExtraSmall {
+                                    left: 30px;
+                                }
+
+                                @mixin atSmall {
+                                    left: 50px;
+                                }
 
                                 @mixin atMedium {
-                                    width: 20% !important;
+                                    left: 34px;
                                 }
 
                                 @mixin atLarge {
-                                    width: 60% !important;
+                                    left: 32px;
                                 }
                             }
 
                             &:last-child {
-                                width: 30px !important;
+                                width: 30px;
                                 height: 30px;
                                 border-radius: 15px;
                                 background-color: $mainLightGray;
                                 color: $mainLightBlue;
                                 position: absolute;
-                                top: 50%;
-                                transform: translateY(-50%);
+                               top: 1px;
                                 padding: 0;
                                 margin: 0;
-                                left: 40%;
-                                font-size: .9375rem;
+                                left: 78px;
+                                font-size: 1rem;
                                 display: flex;
                                 justify-content: center;
                                 align-items: center;
 
+                                @mixin atExtraSmall {
+                                    width: 26px;
+                                    height: 26px;
+                                    border-radius: 13px;
+                                    font-size: .8125rem;
+                                    left: 56px;
+                                }
+
+                                @mixin atSmall {
+                                    width: 26px;
+                                    height: 26px;
+                                    border-radius: 13px;
+                                    font-size: .875rem;
+                                    left: 78px;
+                                }
+
                                 @mixin atMedium {
-                                    left: 25%;
+                                    left: 32%;
+                                    width: 30px;
+                                    height: 30px;
+                                    border-radius: 15px;
+                                    font-size: .875rem;
                                 }
 
                                 @mixin atLarge {
-                                    left: 40%;
+                                    left: 28%;
                                 }
                             }
                         }
                     }
+
+                    @mixin atMiniSmall {
+                        width: 40%;
+                        display: block;
+                    }
+
+                    @mixin atSmall {
+                        width: 40%;
+                    }
+
+                    @mixin atMedium {
+                        width: 40%;
+                    }
                 }
 
                 &--lastItem {
+                    width: 40%;
+                    margin: 0;
                     position: relative;
-
+                    
                     &__options{
                         font-size: .8125rem; 
                         list-style: none;
@@ -913,15 +1081,16 @@
                         position: absolute;
                         background-color: #fff;
                         text-align: center;
-                        border-top: 1px solid $mainDarkGray;
+                        cursor: default !important;
+                        border: 1px solid $mainDarkGray;
                         z-index: 1;
                         top:  30px;      
                         width: 149.5px;
-                        left: -51px;
+                        left: -90px;
                         @mixin clearfix;
                         opacity: 0;
                         visibility: hidden;
-                        z-index: -1;
+                        z-index: 1;
                         transition: all .3s ease-in;
                         
                         li {
@@ -929,16 +1098,17 @@
                             float: none !important;
                             padding: 8px 18px;
                             cursor: pointer;
-                            
+                            border-bottom: 1px solid $mainLightGray;
                             
                             &:first-child {
-                               border: 1px solid $mainDarkGray;
-                               border-bottom: none;
-                               border-top: none;
+                                border-top: none;
+                                cursor: default;
                             }
 
                             &:last-child {
-                             }
+                                border: 1px solid $mainLightGray;
+                                border: none;
+                            }
                         }
 
                         &--view {
@@ -956,7 +1126,8 @@
                         }
 
                         &--delete {
-                            background-color: $mainDarkRed!important;
+                            background-color: $mainDarkRed !important;
+                            border: 1px solid $mainDarkGray;
                             color: #fff;
                         }
 
@@ -964,68 +1135,116 @@
                             right: -42px;
                         }
 
+                        &--fav {
+                           position: relative;
+                           color: $mainFontColor;
+                           
+                           &__title {
+                                position: relative;
+                                left: -20px;
+                           }
+
+                            &__total {
+                                position: absolute;
+                                height: 26px;
+                                width: 26px;
+                                border-radius: 13px;
+                                font-size: .8125rem;
+                                background-color: $mainDarkGray;
+                                color: $mainLightBlue;
+                                right: 40px;
+                                top: 2px;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                            }
+
+                            @mixin atMiniSmall {
+                                display: none;
+                            }
+                        }
                         &::after {
                             content: "";
                             position: absolute;
                             top: -24px;
-                            left: 63px;
+                            right: 25px;
                             border-color: transparent;
                             border-bottom-color: #fff;
                             border-width: 12px;
                             border-style: solid;
                             pointer-events: none;
+
+                            @mixin atExtraSmall {
+                                right: auto;
+                                left: 63px;
+                            }
                         }
 
                         &::before {
                             content: "";
                             position: absolute;
                             top: -26px;
-                            left: 62px;
+                            left: auto;
+                            right: 24px;
                             border-color: transparent;
                             border-bottom-color: $mainDarkGray;
                             border-width: 13px;
                             border-style: solid;
                             pointer-events: none;
+
+                            @mixin atExtraSmall {
+                                right: auto;
+                                left: 62px;
+                            }
                         }
 
                         &--visible {
                             opacity: 1;
                             visibility: visible;
-                            z-index: 2;
+                            z-index: 1;
                             transition: all .3s ease-in;
                         }
+
+                        @mixin atExtraSmall {
+                            left: -54px;
+                        }
                     }  
+
+                    @mixin atMiniSmall {
+                        width: 24%;
+                    }
+
+                    @mixin atSmall {
+                        width: 24%;
+                    }
+
+                    @mixin atMedium {
+                        width: 24%;
+                    }
+                    @mixin atLarge {
+                        width: 24%;
+                    }
                 }
 
                 &--loadmorewrapper {
                     width: 53px;
                     position: relative;
                     cursor: pointer;
-                    margin: 6px 0 6px 30px;
+                    margin: 0;
+                    top: 2.5px;
+                    left: 30px;
+
+                    @mixin atMiniSmall {
+                        left: -5px;
+                    }
+                    
+                    @mixin atMedium {
+                        margin: 6px 0 6px 30px;
+                        top: 0;
+                        left: -35px;
+                    }
                 } 
 
-                ul {
-                    list-style: none;
-                    margin: 0;
-                    padding: 0;
-                    font-size: 1.2rem;
-                    @mixin clearfix;
-
-                    li {
-                        float: left;
-                        text-align: center;
-                        width: auto;
-
-                        &:first-child {
-                            background-color: transparent;
-                            width: auto;
-                        }
-
-                        &:last-child {
-                            width: auto;
-                        }
-                    }
-                }
             }
         }
     }
@@ -1064,6 +1283,7 @@
             padding: 5px 20px;
             margin: 0;
             color: $mainDarkBlue;
+            font-size: .9375rem;
             list-style-type: square;
             border-bottom: 1px solid $mainDarkGray;
 
@@ -1073,6 +1293,10 @@
                 & > span {
                     color: $mainDarkRed;
                 }
+            }
+
+            @mixin atSmall {
+                font-size: 1rem;
             }
         }
 
@@ -1227,7 +1451,6 @@
                     a {
                         text-decoration: none;
                         color: $mainFontColor;
-                        /* word-break: break-all; */
                     }
                 }
             }

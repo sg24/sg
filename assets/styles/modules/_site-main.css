@@ -961,6 +961,7 @@
                             display: none;
                         }
                     }
+                    
 
                     @mixin atExtraSmall {
                         border-radius: 12px;

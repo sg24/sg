@@ -289,7 +289,7 @@
     }
 
     &__viewall--comments__commentIcon {
-        color: rgba($mainDarkBlack, .6);
+        color: rgba($mainDarkBlack, .5);
         font-size: 1rem;
         margin-right: 5px;
     }
@@ -297,24 +297,60 @@
     &__viewall--comments__box-arrowIcon {
         color: #fff;
         position: absolute;
-        top: 8px;
-        left: 8px;
-        font-size: .8123rem;
+        top: 6px;
+        left: 4px;
+        font-size: .75rem;
+
+        @mixin atExtraSmall {
+            top: 6px;
+            left: 4px;
+            font-size: .75rem;
+        }
+
+        @mixin atSmall {
+            top: 7px;
+            left: 6px;
+            font-size: .75rem;
+        }
+
+        @mixin atMedium {
+            top: 8px;
+            left: 8px;
+            font-size: .8123rem;
+        }
     }
 
     &__viewall--comments__box-thumbIcon {
         color: rgba($mainMediumLightBlack, .8);
         cursor: pointer;
+        font-size: 1rem;
+
+        @mixin atSmall {
+            font-size: 1.1rem;
+        }
+
+        @mixin atMedium {
+            font-size: 1.2rem;
+        }
     }
 
     &__viewall--comments__box--footer__circleIcon {
         margin-right: 5px;
         color: rgba($mainDarkBlue, .5);
-        font-size: .625rem;
+        font-size: .5rem;
+
+        @mixin atSmall {
+            font-size: .5rem;
+        }
+
+        @mixin atMedium {
+            font-size: .625rem;
+        }
     }
 
     &__viewall__comments--box__reply--headericon {
         margin: 0 10px;
+        fon-size: .875rem;
     }
 
     &__viewall--form__header--penIcon {
@@ -347,6 +383,12 @@
 
     &__viewall--comments__box--footer__icon {
         margin-right: 5px;
+    }
+
+    &__viewall--comments__box--footer__thumbsicon {
+        margin-right: 5px;
+        color: $mainDarkBlue;
+        cursor: pointer;
     }
 
     &__viewall--comments__box--footer__eyeicon {
@@ -395,6 +437,10 @@
         left: 4.5px;
         font-size: .6875rem;
         color: $mainLightBlack;
+    }
+
+    &__share--content__userCounter-smIcon {
+        margin-right: 5px;
     }
 
     &__viewall--exchange__alt {

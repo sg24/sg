@@ -9,11 +9,12 @@ class Content {
         this.shareOptDet = $(".share--content__options--details");
         this.shareOptSocial = $(".share--content__options--socialIcons");
         this.userCounter = $(".share--content__options--userCounter");
-        this.userSelectedToggler = $(".share--content__options--userCounter__viewall");
+        this.userSelectedToggler = $(".share--content__options--userCounter__viewall, .share--content__options--userCounter-sm__secondItem, .share--content__options--details__user--options__view");
         this.userSelected = $(".share--content__options--userSelected");
         this.closeSelected = $(".share--content__options--userSelected__mainclose");
         this.moreOptToggler = $(".viewall__comments--box__footer--loadmorewrapper");
         this.moreOpt = $(".viewall__comments--box__footer--lastItem__options");
+        this.userCounterSm = $(".share--content__options--userCounter-sm");
         this.events();
     }
 
@@ -30,6 +31,7 @@ class Content {
         this.shareOpt.toggleClass("share--visible");
         this.shareOverlay.toggleClass("viewall__overlay");
         this.shareToggler.toggleClass("viewall__comments--box__footer--firstitem__share--zindex");
+        this.moreOpt.removeClass("viewall__comments--box__footer--lastItem__options--visible");
     }
 
     removeShareOverlay() {
@@ -43,6 +45,7 @@ class Content {
         this.shareOptDetToggler.toggleClass("icon--rotate");
         this.shareOptSocial.toggleClass("share--content__options--socialIcons__socialIconHide");
         this.userCounter.toggleClass("share--content__options--userCounter__visible")
+        this.userCounterSm.toggleClass("share--content__options--userCounter-sm__visible");
     }
 
     toggleUserSelected() {

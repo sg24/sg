@@ -2,7 +2,7 @@ import $ from 'jquery';
 
 class SiteHeader {
     constructor () {
-       this.siteBody = $(".site-hero, .site-main");
+       this.siteBody = $(".viewall");
        this.siteHeaderForm = $(".site-header__form");
        this.siteHeaderInput = $(".site-header__form--input");
        this.siteHeaderAddnew = $(".site-header__addNew");
@@ -24,6 +24,7 @@ class SiteHeader {
        this.siteHeaderNotify = $(".site-header__menu--notification__notify-content");
        this.siteHeaderUser = $(".site-header__menu--user");
        this.siteHeaderUserDetails = $(".site-header__menu--user__details");
+       this.siteHeaderNotify = $(".site-header__menu--notification__notify-content");
        this.events();
     }
 
@@ -61,6 +62,7 @@ class SiteHeader {
     this.siteHeaderMenuNavToolTips.removeClass("site-header__menu--nav__tool-tip--openIcons");
     this.siteHeaderAddNewList.removeClass("site-header__addNew--list__opened");
     this.siteHeaderUserDetails.removeClass("site-header__menu--user__details--visible");
+    this.siteHeaderNotify.removeClass("site-header__menu--notification__notify-content--open");
    }
 
    toggleForm() {
@@ -93,6 +95,7 @@ class SiteHeader {
     this.siteHeaderUserDetails.toggleClass("site-header__menu--user__details--visible");
     this.siteHeaderNotify.removeClass("site-header__menu--notification__notify-content--open");
    }
+
 }
 
 export default SiteHeader;

@@ -1,7 +1,7 @@
 .share {
     position: absolute;
-    bottom: 0px;
-    left: 54px;
+    bottom: 40px;
+    left: 10px;
     z-index: -1;
     opacity: 0;
     visibility: hidden;
@@ -15,29 +15,45 @@
         &::after {
             content: "";
             position: absolute;
-            bottom: 11px;
-            left: -19px;
+            bottom: -18px;
+            left: 2px;
             border-color: transparent;
             border-width: 10px;
             border-bottom-color: #fff;
             border-style: solid;
-            transform: rotate(-90deg);
+            transform: rotate(180deg);
             pointer-events: none;
-            z-index: 1;
+            
+
+            @mixin atExtraSmall {
+                bottom: 11px;
+                left: -19px;
+                border-width: 10px;
+                transform: rotate(-90deg);
+                z-index: 1;
+            }
         }
 
         &::before {
             content: "";
             position: absolute;
-            bottom: 10px;
-            left: -22px;
+            bottom: -18px;
+            left: 3px;
             border-color: transparent;
-            border-width: 11px;
+            border-width: 9px;
             border-bottom-color: $mainDarkGray;
             border-style: solid;
-            transform: rotate(-90deg);
+            transform: rotate(180deg);
             pointer-events: none;
-            z-index: 1;
+           
+
+            @mixin atExtraSmall {
+                bottom: 10px;
+                left: -22px;
+                transform: rotate(-90deg);
+                border-width: 11px;
+                z-index: 1;
+            }
         }
 
 
@@ -95,9 +111,8 @@
                 cursor: default; 
                 opacity: 0;
                 visibility: hidden;
-                z-index: -33;
+                z-index: -1;
                 transition: all .3s ease-out;
-                z-index: 4;
 
                 &__search {
                     padding: 10px;
@@ -114,6 +129,38 @@
                     margin: 10px 0;
                     border-top: 1px solid $mainDarkGray;
                     padding: 10px 0 0 0;
+
+                    &--options {
+                        @mixin clearfix;
+
+                        & > div {
+                            float: left;
+                            padding: 5px 8px;
+                            margin-right: 3px;
+                            cursor: pointer;
+                        }
+
+                        &__send {
+                            border: 1px solid $mainDarkGray;
+                            color: $mainFontColor;
+                            background-color: #fff;
+                        }
+
+                        &__view {
+                            background-color: $mainLightBlue;
+                            border: 1px solid $mainLightBlue;
+                        } 
+
+                        &__reset {
+                            background-color: $mainDarkRed;
+                            border: 1px solid $mainDarkRed;;
+                            margin-right: 0;
+                        }
+
+                        @mixin atExtraSmall {
+                            display: none;
+                        }
+                    }
 
                     &--wrapper {
                         margin-bottom: 10px;
@@ -208,7 +255,7 @@
                             }
 
                             a {
-                                color: $mainFontColor;
+                                color: $mainDarkBlue;
                             }
                         }
                     }
@@ -373,6 +420,130 @@
                     left: 184px;
                 }
             }
+
+
+            &--userCounter-sm {
+                position: absolute;
+                left: 170px;
+                width: 60px;
+                top: 5px;
+                background-color: #fff;
+                border: 1px solid $mainDarkGray;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                cursor: default;
+                border-radius: 3px;
+                display: none;
+                opacity: 0;
+                visibility: hidden;
+                z-index: -33;
+                transition: all .3s ease-out;
+
+                li {
+                    margin: 0;
+                    padding: 8px 0;
+                    cursor: default;
+
+                    &:first-child {
+                        background-color: #fff;
+                        margin: 0 0 10px 0;
+                        padding: 0;
+                        border-bottom: 1px solid $mainDarkGray;
+                        p {
+                            background-color: $mainDarkBlue;
+                            padding: 10px 0;
+                            margin: 0;
+                            text-align: center;
+                            font-size: .8125rem;
+                            color: #fff
+                        }
+
+                    }
+
+                    &:last-child {
+                        margin: 5px 5px;
+                        padding: 8px 0;
+                        background-color: $mainDarkRed;
+                        box-shadow: inset 0px 0px 4px 0px rgba(126, 30, 21, 0.68);
+                        -o-box-shadow: inset 0px 0px 4px 0px rgba(126, 30, 21, 0.68);
+                        -ms-box-shadow: inset 0px 0px 4px 0px rgba(126, 30, 21, 0.68);
+                        -webkit-box-shadow: inset 0px 0px 4px 0px rgba(126, 30, 21, 0.68);
+                        -moz-box-shadow: inset 0px 0px 4px 0px rgba(126, 30, 21, 0.68);
+                        display: flex;
+                        justify-content: center;
+                        width: 80%;
+                        cursor: pointer;
+
+                        @mixin atExtraSmall {
+                            margin: 5px 8px;
+                        }
+                    }
+
+                }
+                &__userSelected {
+                    color: $mainFontColor;
+                    text-align: center;
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    padding: 5px 0;
+                    font-size: .875rem;
+                }
+
+                &__secondItem {
+                    margin: 30px 5px 10px 5px !important;
+                    padding: 8px 0;
+                    background-color: #fff;
+                    display: flex;
+                    justify-content: center;
+                    width: 80% !important;
+                    border: 1px solid $mainDarkGray;
+                    cursor: pointer !important;
+                    color: $mainFontColor;
+
+                    @mixin atExtraSmall {
+                        margin: 30px 8px 10px 8px !important;
+                    }
+                }
+                
+                &__thirdItem {
+                    margin: 5px 5px 10px 5px !important;
+                    padding: 8px 0;
+                    background-color: $mainLightBlue;
+                    display: flex;
+                    justify-content: center;
+                    width: 80% !important;
+                    box-shadow: 0px 2px 3.72px 2.28px rgba(51, 152, 219, 0.29);
+                    -o-box-shadow: 0px 2px 3.72px 2.28px rgba(51, 152, 219, 0.29);
+                    -ms-box-shadow: 0px 2px 3.72px 2.28px rgba(51, 152, 219, 0.29);
+                    -webkit-box-shadow: 0px 2px 3.72px 2.28px rgba(51, 152, 219, 0.29);
+                    -moz-box-shadow: 0px 2px 3.72px 2.28px rgba(51, 152, 219, 0.29);
+                    cursor: pointer !important;
+
+                    @mixin atExtraSmall {
+                        margin: 5px 8px 10px 8px!important;
+                    }
+                }
+
+                &__visible {
+                    opacity: 1;
+                    visibility: visible;
+                    z-index: 1;
+                    transition: all .3s ease-out;
+                }
+
+                @mixin atExtraSmall {
+                    left: 182px;
+                    display: block;
+                }
+
+
+                @mixin atSmall {
+                    display: none;
+                }
+            }
+
 
             &--userSelected {
                 position: absolute;
@@ -539,5 +710,20 @@
         visibility: visible;
         z-index: 1;
         transition: all .3s ease-out;
+    }
+
+    @mixin atExtraSmall {
+        left: 44px;
+        bottom: -1px;
+    }
+
+    @mixin atSmall {
+        left: 48px;
+        bottom: -1px;
+    }
+
+    @mixin atMedium {
+        left: 54px;
+        bottom: 0px;
     }
 }
