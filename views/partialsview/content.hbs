@@ -55,6 +55,11 @@
                 <i class="fas fa-circle viewall__content--footer__firstloadmore icon icon__viewall--content__circleIcon"></i>
                 <i class="fas fa-circle viewall__content--footer__secondloadmore icon icon__viewall--content__circleIcon"></i>
                 <i class="fas fa-circle viewall__content--footer__lastloadmore icon icon__viewall--content__circleIcon"></i>
+
+                <ul class="viewall__content--footer__loadmorewrapper--options">
+                    <li class="viewall__content--footer__loadmorewrapper--options__edit"><i class="fas fa-edit icon icon__viewall--footer__loadmorewrapper--editicon"></i> Edit Question</li>
+                    <li class="viewall__content--footer__loadmorewrapper--options__delete"><i class="fas fa-trash-alt icon icon__viewall--footer__loadmorewrapper--deleteicon"></i> Delete Question</li>
+                </ul>
             </div>
         </li>
     </ul>
@@ -122,7 +127,7 @@
 
 <div class="viewall__comments">
     <div class="viewall__comments--header">
-        <p class="viewall__comments--header__ans">Answers Section <a href="" class="viewall__comments--header__askQue">Ask Question</a></p>
+        <p class="viewall__comments--header__ans">Answer Section <a href="" class="viewall__comments--header__askQue">Ask Question</a></p>
     </div> 
     <div class="viewall__comments--wrapper">
         <div class="viewall__comments--wrapper__overlay">
@@ -151,7 +156,7 @@
                     <ul>
                         <li class="viewall__comments--box__footer--firstitem__share viewall__comments--box__footer--firstitem__innerItem"><i class="fas fa-location-arrow icon icon__viewall--comments__box-arrowIcon"></i></li>
                         <li><i class="far fa-heart"></i></li>
-                        <li><i class="fas fa-reply"></i></li>
+                        <li class="viewall__comments--box__footer--reply"><i class="fas fa-reply"></i></li>
                     </ul>
                 </li>
                 <li class="viewall__comments--box__footer--middleitem">
@@ -177,6 +182,28 @@
                     </div>
                 </li>
             </ul>
+
+            <div class="viewall__comments--box__chats">
+               
+            </div>
+
+            <div class="viewall__comments--box__replyBox">
+                <div class="viewall__comments--box__replyBox--mainClose">
+                    <i class="fas fa-times icon icon__viewall--box__reply--mainclose"></i>
+                </div>
+                <ul class="viewall__comments--box__replyBox--header">
+                    <li><div class="viewall__comments--box__replyBox--header__iconholder"><i class="fas fa-image icon icon__viewall--box__reply--headericon"></i></div></li>
+                    <li><div class="viewall__comments--box__replyBox--header__iconholder"><i class="fas fa-camera icon icon__viewall--box__reply--headericon"></i></div></li>
+                    <li><div class="viewall__comments--box__replyBox--header__iconholder"><i class="fas fa-microphone icon icon__viewall--box__reply--headermicicon"></i></div></li>
+                    <li><div class="viewall__comments--box__replyBox--header__iconholder"><i class="fas fa-file icon icon__viewall--box__reply--headericon"></i></div></li>
+                </ul>
+                <div class="viewall__comments--box__replyBox--content">
+                    <textarea class="viewall__comments--box__replyBox--content__input" name="" placeholder="Type something here"></textarea>
+                </div>
+                <div class="viewall__comments--box__replyBox--footer">
+                    <a href=""><i class="fas fa-reply icon icon__viewall--box__reply--replyIcon"></i>Reply</a>
+                </div>
+            </div>
 
             <div class="share">
                 <div class="share--content">
@@ -276,6 +303,7 @@
             </ul>
         </div>
 
+
         </div>
 
         <div class="viewall__comments--box__replywrapper">
@@ -310,7 +338,7 @@
                     <ul>
                         <li class="viewall__comments--box__footer--firstitem__share viewall__comments--box__footer--firstitem__innerItem"><i class="fas fa-location-arrow icon icon__viewall--comments__box-arrowIcon"></i></li>
                         <li><i class="far fa-heart"></i></li>
-                        <li><i class="fas fa-reply"></i></li>
+                        <li class="viewall__comments--box__footer--reply"><i class="fas fa-reply"></i></li>
                     </ul>
                 </li>
                 <li class="viewall__comments--box__footer--middleitem">
@@ -334,6 +362,23 @@
                 </li>
             </ul>
                 
+                <div class="viewall__comments--box__replyBox">
+                <div class="viewall__comments--box__replyBox--mainClose">
+                    <i class="fas fa-times icon icon__viewall--box__reply--mainclose"></i>
+                </div>
+                <ul class="viewall__comments--box__replyBox--header">
+                    <li><div class="viewall__comments--box__replyBox--header__iconholder"><i class="fas fa-image icon icon__viewall--box__reply--headericon"></i></div></li>
+                    <li><div class="viewall__comments--box__replyBox--header__iconholder"><i class="fas fa-camera icon icon__viewall--box__reply--headericon"></i></div></li>
+                    <li><div class="viewall__comments--box__replyBox--header__iconholder"><i class="fas fa-microphone icon icon__viewall--box__reply--headermicicon"></i></div></li>
+                    <li><div class="viewall__comments--box__replyBox--header__iconholder"><i class="fas fa-file icon icon__viewall--box__reply--headericon"></i></div></li>
+                </ul>
+                <div class="viewall__comments--box__replyBox--content">
+                    <textarea class="viewall__comments--box__replyBox--content__input" name="" placeholder="Type something here"></textarea>
+                </div>
+                <div class="viewall__comments--box__replyBox--footer">
+                    <a href=""><i class="fas fa-reply icon icon__viewall--box__reply--replyIcon"></i>Reply</a>
+                </div>
+            </div>
 
                 <div class="share">
                     <div class="share--content">
@@ -393,6 +438,28 @@
                             <li class="share--content__options--socialIcons"><a href=""><i class="fab fa-facebook-square icon icon__share--facebook"></i></a><a href=""><i class="fab fa-google-plus-square icon icon__share--googleplus"></i></a></li>
                         </ul>
                     </div>
+                </div>
+
+                <div class="viewuser">
+                    {{!-- <div class="viewuser__overlay"></div> --}}
+                    <ul class="viewuser__wrapper">
+                        <div class="viewuser--mainclose"><i class="fas fa-times icon icon__viewuser--mainclose"></i></div>
+                        <li class="viewuser--comment"><i class="fas fa-comments"></i> Chat Now</li>
+                        <li class="viewuser--students">
+                            <ul>
+                                <li><i class="fas fa-user-graduate icon icon__viewuser--studIcon"></i> Students</li>
+                                {{!-- <li><i class="fas fa-users icon icon__viewuser--studIcon"></i>Friends</li> --}}
+                                <li><span><a href="">222k</a></span></li>
+                            </ul>
+                        </li>
+                        <li class="viewuser--items">
+                            <ul>
+                                <li><i class="fas fa-store icon icon__viewuser--storeIcon"></i> Items</li>
+                                <li><span><a href="">222k</a></span></li>
+                            </ul>
+                        </li>
+                        <li class="viewuser--viewmore">View more</li>
+                    </ul>
                 </div>
 
             </div>

@@ -15,6 +15,14 @@ class Content {
         this.moreOptToggler = $(".viewall__comments--box__footer--loadmorewrapper");
         this.moreOpt = $(".viewall__comments--box__footer--lastItem__options");
         this.userCounterSm = $(".share--content__options--userCounter-sm");
+        this.quePostToggler = $(".viewall__content--footer__loadmorewrapper");
+        this.quePosted = $(".viewall__content--footer__loadmorewrapper--options");
+        this.replyTogger = $(".viewall__comments--box__footer--reply");
+        this.reply = $(".viewall__comments--box__replyBox");
+        this.closeallReply = $(".viewall__comments--box__replyBox--mainClose");
+        this.viewUserToggler = $(".viewall__comments--box__header--img, .viewall__comments--box__header--userdetails__title");
+        this.viewUser = $(".viewuser");
+        this.closeallViewuser = $(".viewuser--mainclose");
         this.events();
     }
 
@@ -25,6 +33,11 @@ class Content {
         this.userSelectedToggler.click(this.toggleUserSelected.bind(this));
         this.closeSelected.click(this.closeUserSelected.bind(this));
         this.moreOptToggler.click(this.toggleMoreOpt.bind(this));
+        this.quePostToggler.click(this.toggleQuePosted.bind(this));
+        this.replyTogger.click(this.toggleReply.bind(this));
+        this.closeallReply.click(this.closeReply.bind(this));
+        this.viewUserToggler.click(this.toggleViewUser.bind(this));
+        this.closeallViewuser.click(this.closeViewUser.bind(this));
     }
 
     toggleShare() {
@@ -62,6 +75,25 @@ class Content {
         this.moreOpt.toggleClass("viewall__comments--box__footer--lastItem__options--visible");
     }
 
+    toggleQuePosted() {
+        this.quePosted.toggleClass("viewall__content--footer__loadmorewrapper--options__visible");
+    }
+
+    toggleReply() {
+        this.reply.toggleClass("viewall__comments--box__replyBox--visible");
+    }
+
+    closeReply() {
+        this.reply.removeClass("viewall__comments--box__replyBox--visible");
+    }
+
+    toggleViewUser() {
+        this.viewUser.toggleClass("viewuser--visible");
+    }
+
+    closeViewUser() {
+        this.viewUser.removeClass("viewuser--visible");
+    }
 }
 
 export default  Content;

@@ -1,16 +1,17 @@
-.site-main__nav--chats {
+.nav__chats {
     color: $mainFontColor;
     padding: 10px 0 0 0 ;
-    display: none;
+    /* display: none; */
     position: relative;
+    border: 1px solid $mainDarkGray;
 
-    &__headerWrapper {
+    &--headerWrapper {
         margin: 8px 20px 0 20px;
         border-bottom: 1px solid $mainDarkGray;
         @mixin clearfix;
     }
 
-    &__userStatus {
+    &--userStatus {
         list-style: none;
         margin: 0;
         padding: 0;
@@ -41,7 +42,7 @@
             }
         }
 
-        &--title {
+        &__title {
             margin-left: 35px;
             position: relative;
             top: -4px;
@@ -60,7 +61,7 @@
         }
     }
 
-    &__headerIcon {
+    &--headerIcon {
         margin: 0;
         padding: 0px 0 0px 10px;
         list-style: none;
@@ -118,13 +119,13 @@
             }
         }
 
-        &--items {
+        &__items {
             opacity: 1;
             visibility: visible;
             z-index: 1;
             transition: all .2s ease-in;
 
-            &__notvisible {
+            &--notvisible {
                 opacity: 0;
                 visibility: hidden;
                 z-index: -33;
@@ -132,11 +133,11 @@
             }
         }
 
-        &--firstitems {
+        &__firstitems {
             cursor: pointer;
         }
 
-        &--inputitem {
+        &__inputitem {
             position: absolute !important;
             width: 100px;
             right: 20px;
@@ -152,7 +153,7 @@
                 display: none;
             }
 
-            &__visible {
+            &--visible {
                 opacity: 1;
                 visibility: visible;
                 width: 215px;
@@ -161,11 +162,11 @@
             }
         }
 
-        &--search {
+        &__search {
             cursor: pointer;
         }
 
-        &--inputcalendar {
+        &__inputcalendar {
             position: absolute;
             left: 2px;
             color: $mainFontColor;
@@ -182,7 +183,7 @@
             border-right: .5px solid $mainDarkGray;
         }
 
-        &--input {
+        &__input {
             width: 100%;
             padding: 6px 6px 6px 45px;
             border: 1px solid rgba($mainDarkBlack, .2);
@@ -194,7 +195,7 @@
         }
     }
 
-    &__groupList {
+    &--groupList {
         list-style: none;
         padding: 0;
         margin: 10px 20px 10px 20px;
@@ -221,7 +222,7 @@
             }
         }
 
-        &--options {
+        &__options {
             position: absolute;
             background-color: #fff;
             list-style: none;
@@ -260,7 +261,7 @@
                 }
             }
 
-            &__visible {
+            &--visible {
                 opacity: 1;
                 visibility: visible;
                 z-index: 1;
@@ -269,17 +270,17 @@
         }
     }
 
-    &__currentday {
+    &--currentday {
         font-size: .8125rem;
         padding-bottom: 5px;
         border-bottom: 1px solid rgba($mainDarkBlue, .6);
         margin: 10px 20px 20px 20px;
     }
 
-    &__holder {
+    &--holder {
         position: relative;
 
-        &--overlay {
+        &__overlay {
             position: absolute;
             top: 0;
             bottom: 0;
@@ -290,8 +291,9 @@
             background-attachment: fixed;
         }
     }
-    &__wrapper {
-        height: 60vh;
+
+    &--wrapper {
+        height: 54vh;
         overflow: hidden;
         overflow-y: auto;
         position: relative;
@@ -299,16 +301,16 @@
         border-top: 1px solid $mainDarkGray;
     }
 
-    &__firstChatBox {
+    &--firstChatBox {
         margin: 10px 0 60px 0;
         font-weight: 400;
-        font-size: .9375rem;
+        font-size: .875rem;
         width: 100%;
         display: flex;
         justify-content: flex-end;
         padding: 0 20px 0 0;
         
-        &--wrapper {
+        &__wrapper {
             color: $mainFontColor;
             width: 85%;
             border-radius: 10px;
@@ -325,7 +327,7 @@
             }
         }
 
-        &--content {
+        &__content {
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
 
@@ -341,14 +343,14 @@
             -ms-box-shadow: 0px 1px 2px 0px rgba($mainDarkGray, 0.5);
         }
 
-        &--footer {
+        &__footer {
             @mixin clearfix;
 
-            &__details {
+            &--details {
                 float: left;
                 position: relative;
 
-                &--middle {
+                &__middle {
                     content: "";
                     position: absolute;
                     width: 8px;
@@ -381,17 +383,17 @@
                     top: 7px;
                 }
             }
-            &__user {
+            &--user {
                 float: right;
                 position: relative;
-                font-size: .875rem;
+                font-size: .8125rem;
 
-                &--title {
+                &__title {
                     float: left;
                     padding: 4px 40px 4px 0;
                 }
 
-                &--img {
+                &__img {
                     position: absolute;
                     width: 50px;
                     height: 50px;
@@ -408,7 +410,7 @@
             }
         }
 
-        &--postDetails {
+        &__postDetails {
             list-style: none;
             margin: 0;
             padding: 0;
@@ -430,16 +432,16 @@
         }
     }
 
-    &__secondChatBox {
+    &--secondChatBox {
         margin: 60px 0 60px 0;
         font-weight: 400;
-        font-size: .9375rem;
+        font-size: .875rem;
         width: 100%;
         display: flex;
         justify-content: flex-start;
         padding: 0  0 0 20px;
 
-        &--wrapper {
+        &__wrapper {
             color: #fff;
             width: 85%;
             border-radius: 10px;
@@ -456,7 +458,7 @@
             }
         }
 
-        &--content {
+        &__content {
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
 
@@ -472,15 +474,15 @@
             -moz-box-shadow: 0px 1px 2px 0px rgba($mainDarkGray, 0.5);
         }
 
-        &--footer {
+        &__footer {
             @mixin clearfix;
 
-            &__details {
+            &--details {
                 width: 100px;
                 float: right;
                 position: relative;
 
-                &--middle {
+                &__middle {
                     content: "";
                     position: absolute;
                     width: 8px;
@@ -514,17 +516,17 @@
                 }
             }
 
-            &__user {
+            &--user {
                 float: left;
                 position: relative;
-                font-size: .875rem;
+                font-size: .8125rem;
 
-                &--title {
+                &__title {
                     float: left;
                     padding: 4px 0px 4px 40px;
                 }
 
-                &--img {
+                &__img {
                     position: absolute;
                     width: 50px;
                     height: 50px;
@@ -542,12 +544,12 @@
             }
         }
 
-        &--postDetails {
+        &__postDetails {
             list-style: none;
             margin: 0;
             padding: 0;
             @mixin clearfix;
-            font-size: .8125rem;
+            font-size: .75rem;
             position: absolute;
             bottom: -22px;
             right: 10px;
@@ -567,7 +569,7 @@
         }
     }
 
-    &__topspace {
+    &--topspace {
         height: 1px;
         width: 100%;
         opacity: 0;
@@ -575,7 +577,7 @@
         z-index: -33;
     }
 
-    &__bottomspace {
+    &--bottomspace {
         height: 3px;
         width: 100%;
         opacity: 0;
@@ -583,13 +585,13 @@
         z-index: -33;
     }
 
-    &__inputWrapper {
+    &--inputWrapper {
         position: relative;
         border-top: 1px solid $mainDarkGray;
         @mixin clearfix;
         /* z-index: 2; */
     
-        &--zindex {
+        &__zindex {
             z-index: 2;
             /* border-right: 4px solid #fff; */
             /* box-shadow:  .5px 0 rgba($mainMediumLightBlack, .8); */
@@ -597,7 +599,7 @@
         }
     }
 
-    &__input {
+    &--input {
         float: left;
         padding: 8px 0 5px 10px;
         margin: 0;
@@ -614,7 +616,7 @@
         font-weight: 400;
     }
 
-    &__micWrapper {
+    &--micWrapper {
         float: left;
         background-color: #fff;
         height: 50px;
@@ -624,7 +626,7 @@
         justify-content: center;
     }
 
-    &__mic {
+    &--mic {
         height: 30px;
         width: 30px;
         border-radius: 15px;
@@ -639,7 +641,7 @@
         font-size: 1rem;
         position: relative;
 
-        &--active {
+        &__active {
             background-color: $mainDarkRed;
             box-shadow: 0px 0px 2.1px 3.9px rgba($mainDarkRed, 0.23);
             -o-box-shadow: 0px 0px 2.1px 3.9px rgba($mainDarkRed, 0.23);
@@ -649,7 +651,7 @@
         }
     }
 
-    &__clip {
+    &--clip {
         float: left;
         /* border-left: 1px solid rgba(0, 143, 235, 0.149);  */
         height: 50px;
@@ -661,7 +663,7 @@
         padding-top: 15px;
     }
 
-    &__smile {
+    &--smile {
         float: left;
         height: 50px;
         width: 10%;
@@ -671,7 +673,7 @@
         background-color: #fff;
     }
 
-    &__attachWrapper {
+    &--attachWrapper {
         position: absolute;
         left: 1px;
         bottom: 0;
@@ -682,7 +684,7 @@
         visibility: hidden;
         transition: all .3s ease-in;
 
-        &--visible {
+        &__visible {
             top: 0;
             opacity: 1;
             visibility: visible;
@@ -691,10 +693,10 @@
         }
     }
 
-    &__attachContent {
+    &--attachContent {
     }
 
-    &__attach {
+    &--attach {
         position: absolute;
         margin: 0;
         padding: 0;
@@ -719,7 +721,7 @@
             width: 33.33%;
         }
 
-        &--iconHolder {
+        &__iconHolder {
             width: 54px;
             height: 54px;
             border-radius: 27px;
@@ -728,7 +730,7 @@
             transform: translateX(-50%);
         }
 
-        &--title {
+        &__title {
             margin: 0px 0 0 0;
             padding: 12px  0 0 0;
             font-size: .8123rem;
@@ -736,7 +738,7 @@
             font-weight: 400;
         }
 
-        &--camicon {
+        &__camicon {
             font-size: 1.5rem;
             color: #fff;
             background: radial-gradient(circle closest-side, rgb(255,47,0) 30%, rgba(5,87,139, .55) 33%, rgb(29,120,179) 81%, rgb(53,152,219) 84%);
@@ -748,7 +750,7 @@
     
         }
 
-        &--videoicon {
+        &__videoicon {
             font-size: 1.5rem;
             color: #fff;
             background: linear-gradient( 0deg, rgb(24,205,202) 8%, rgb(12,149,200) 8%, rgba($mainDarkBlue, .9) 9%, rgba($mainDarkBlue, .9) 49%, rgb(0,118,217) 75%, rgb(0,143,235) 90%, rgb(128,95,118) 90%, rgb(255,47,0) 92%);
@@ -758,7 +760,7 @@
             background: -ms-linear-gradient( 0deg, rgb(24,205,202) 8%, rgb(12,149,200) 8%, rgba($mainDarkBlue, .9) 9%, rgba($mainDarkBlue, .9) 49%, rgb(0,118,217) 75%, rgb(0,143,235) 90%, rgb(128,95,118) 90%, rgb(255,47,0) 92%);     
         }
 
-        &--imageicon {
+        &__imageicon {
             font-size: 1.5rem;
             color: #fff;
             background: radial-gradient(circle closest-side, rgba($mainLightGreen,.9) 40%, rgb(5,87,139) 11%, rgb(0,143,235) 100%);
@@ -768,7 +770,7 @@
             background: -ms-radial-gradient(circle closest-side, rgba($mainLightGreen,.9) 40%, rgb(5,87,139) 11%, rgb(0,143,235) 100%);
         }
 
-        &--locationicon {
+        &__locationicon {
             font-size: 1.5rem;
             color: #fff;
             background: radial-gradient(circle closest-side, rgb(255,46,0) 25%, rgb(130,67,70) 11%, rgb(5,87,139) 11%, rgb(0,143,235) 100%);
@@ -778,7 +780,7 @@
             background: -o-radial-gradient(circle closest-side, rgb(255,46,0) 25%, rgb(130,67,70) 11%, rgb(5,87,139) 11%, rgb(0,143,235) 100%);
         }
 
-        &--fileicon {
+        &__fileicon {
             font-size: 1.5rem;
             background-color: blue;
             color: #fff;
@@ -789,7 +791,7 @@
             background: -o-linear-gradient( 0deg, rgb(47,168,232) 25%, rgb(24,130,215) 36%, rgb(0,92,198) 56%, rgb(47,168,232) 88%);
         }
 
-        &--audioicon {
+        &__audioicon {
             font-size: 1.5rem;
             background-color: blue;
             color: #fff;
@@ -802,7 +804,7 @@
 
     }
 
-    &__secondattach {
+    &--secondattach {
         bottom: 50px;
         border-top: 0;
         border-bottom: 1px solid $mainDarkGray;
