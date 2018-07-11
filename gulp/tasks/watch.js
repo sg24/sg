@@ -15,6 +15,10 @@ gulp.task('watch', function() {
         browserSyc.reload();
     });
 
+    watch('./assets/globalstyle/**/*.css', function() {
+        gulp.start('globalcss')
+    });
+
     watch('./assets/styles/**/*.css', function() {
         gulp.start('cssInject')
     });
@@ -23,10 +27,18 @@ gulp.task('watch', function() {
         gulp.start('viewcss')
     });
 
+    watch('./assets/comtystyle/**/*.css', function() {
+        gulp.start('comtycss')
+    });
     // watch('./apps.js', function() {
     //     gulp.start('scriptsRefresh');
     // });
 
+});
+
+gulp.task('globalcss',['globalstyles'], function() {
+    return gulp.src("./assets/globalstyle/global.css")
+    .pipe(browserSyc.stream());
 });
 
 gulp.task('cssInject',['styles'], function() {
@@ -36,6 +48,11 @@ gulp.task('cssInject',['styles'], function() {
 
 gulp.task('viewcss',['viewstyles'], function() {
     return gulp.src("./assets/viewstyle/view.css")
+    .pipe(browserSyc.stream());
+});
+
+gulp.task('comtycss',['comtystyles'], function() {
+    return gulp.src("./assets/comtystyle/comty.css")
     .pipe(browserSyc.stream());
 });
 

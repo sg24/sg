@@ -1,0 +1,43 @@
+.site-main {
+    position: relative;
+    top: 62px;
+    font-family: "Roboto",Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+
+    &__content {
+        width: 100%;
+        float: none;
+
+        &--wrapper {
+            background-color: #fff;
+            padding-bottom: 20px;
+        }
+        
+        @mixin atExtraSmall {
+            width: 100%;
+            position: relative;
+        }
+
+        @mixin atSmall {
+            width: 86%;
+            position: relative;
+            padding-right: 0px;
+            float: left;
+        }
+
+        @mixin atMedium {
+            width: 60%;
+            position: relative;
+            padding-right: 30px;
+        }
+
+        @mixin atLarge {
+            width: 60%;
+            float: left;
+            padding-right: 40px;
+            left: 0;
+            transform: translateX(0);
+        }
+
+    }
+
+}

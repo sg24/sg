@@ -29,3 +29,26 @@ gulp.task('viewstyles', function() {
     })
     .pipe(gulp.dest('./public/stylesheets'));
 });
+
+
+gulp.task('globalstyles', function() {
+    return gulp.src('./assets/globalstyle/global.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) {
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
+gulp.task('comtystyles', function() {
+    return gulp.src('./assets/comtystyle/comty.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) {
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});

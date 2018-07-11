@@ -1,0 +1,305 @@
+.site-main__nav--onlineQue {
+    color: $mainFontColor;
+    padding: 20px;
+    font-weight: 400;
+
+    &__filter { 
+
+         &--header {
+             @mixin clearfix;
+             width: 100%;
+             font-size: .8123rem;
+             padding-bottom: 10px;
+
+            p {
+                margin: 0;
+                padding: 5px 0;
+                text-align: center;
+                float: left;
+                width: 20%;
+                position: relative;
+                top: 4px;
+            }
+
+            &__input {
+                float: left;
+                width: 80%;
+                padding: 6px 0 6px 3px;
+                border-radius: 3px;
+                border: 1px solid $mainDarkGray;
+            }
+         }
+
+         &--category {
+             @mixin clearfix;
+             font-size: .875rem;
+             font-weight: 400;
+             padding-bottom: 20px;
+             border-bottom: 1px solid $mainDarkGray;
+            position: relative;
+
+            &__option {
+                float: left;
+                text-align: left;
+                padding: 5px 10px;
+                border: 1px solid $mainDarkGray;
+                cursor: pointer;
+                background-color: $mainHeaderColor;
+                color: $mainFontColor;
+                position: relative;
+                font-size: .8125rem;
+
+                &--item {
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+                    position: absolute;
+                    background-color: #fff;
+                    width: 100%;
+                    left: 0;
+                    top: 26px;
+                    border: 1px solid $mainDarkGray;
+                    z-index: -1;
+                    visibility: hidden;
+                    opacity: 0;
+                    transition: all .3s ease-in;
+
+                    li {
+                        padding: 5px 0 5px 10px;
+                        font-size: .8125rem;
+                        border-bottom: 1px solid $mainDarkGray;
+
+                        &:last-child {
+                            background-color: $mainLightBlue;
+                            color: #fff;
+                            padding: 5px 0 5px 15px;
+                            border-bottom: none;
+                            /* text-align: center; */
+                        }
+                    }
+
+                    &__visible {
+                        z-index: 1;
+                        visibility: visible;
+                        opacity: 1;
+                        transition: all .3s ease-in;
+                    }
+                }
+            }   
+
+            &__duration {
+                float: right;
+                font-size: .8125rem;
+                list-style: none;
+                margin: 0 0 0 10px;
+                padding: 0;
+                @mixin clearfix;
+
+               li {
+                   float: left;
+                   margin: 0;
+
+                   &:first-child {
+                    position: relative;
+                    top: 6px;
+                    margin-right: 10px;
+                   }
+
+                   &:last-child {
+                       border: 1px solid $mainDarkGray;
+                       padding: 0;
+                       margin-left: 20px;
+                       @mixin clearfix;
+                       position: relative;
+                   }
+               }
+
+               &--inputField {
+                   width: 50px;
+                   border: 1px solid $mainDarkGray;
+                   padding: 5px 0 5px 3px;
+                   margin: 0;
+               }
+
+               &--timeframe {
+                   float: left;
+                   padding: 5px 15px;
+                   cursor: default;
+
+                   &__option {
+                       position: absolute;
+                       list-style: none;
+                       background-color: #fff;
+                       top: 26px;
+                       border: 1px solid $mainDarkGray;
+                       width: 100%;
+                       margin: 0;
+                       padding: 0;
+                       opacity: 0;
+                       visibility: hidden;
+                       z-index: -33;
+                       transition: all .3s ease-out;
+
+                       li {
+                           padding: 0;
+                           margin: 0;
+                           cursor: pointer;
+
+                        &:first-child {
+                            width: 100%;
+                            padding: 5px 0;
+                            margin: 0;
+                            text-align: center;
+                            border-bottom: 1px solid $mainLightGray;
+                            position: relative;
+                            top: 0 !important;
+                           }
+    
+                           &:last-child {
+                               border: none;
+                               width: 100%;
+                               padding: 5px;
+                           }
+                       }
+
+                       &--visible {
+                           opacity: 1;
+                           visibility: visible;
+                           z-index: 2;
+                           transition: all .3s ease-out;
+                       }
+                   }
+               }
+               &--icon{
+                   float: left;
+                   padding: 5px;
+                   background-color: $mainLightGray;
+                   cursor: pointer;
+                   border-left: 1px solid $mainDarkGray;
+               }
+            }
+         }
+    }
+
+    &__contentwrapper {
+        /* background-color: #C9C9C9; */
+        /* box-shadow: 0px 1px 5px .2px rgba(#D1CACA, .9); */
+        border-radius: 10px; 
+        box-shadow: 0px 1px 5px 1px rgba(217, 217, 217, 0.981);
+        -o-box-shadow: 0px 1px 5px 1px rgba(217, 217, 217, 0.981);
+        -ms-box-shadow: 0px 1px 5px 1px rgba(217, 217, 217, 0.981);
+        -moz-box-shadow: 0px 1px 5px 1px rgba(217, 217, 217, 0.981);
+        -webkit-box-shadow: 0px 1px 5px 1px rgba(217, 217, 217, 0.981); 
+
+    }
+
+    &__header {
+        @mixin clearfix;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        margin-top: 20px;
+        font-size: .875rem;
+        border-bottom: 1px solid $mainLightGray;
+        position: relative;
+
+        li {
+            position: relative;
+            float: right;
+            padding: 10px 0;
+
+            &:first-child {
+                float: left;
+            }
+
+            &:last-child {
+                float: none;
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+        &--quesNumber {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            background-color: $mainDarkRed;
+            border: 1px solid rgba(#fff, .3);
+            text-align: center;
+            top: 3px;
+            left: 10px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        &--title {
+            margin-left: 45px;
+        }
+
+        &--quesTime {
+            margin-right: 30px;
+        }
+    }
+
+    &__content {
+        padding: 5px 10px;
+        border-bottom: 1px solid $mainDarkGray;
+
+        &--title {
+            text-align: center;
+            color: $mainDarkBlue;
+            font-weight: 500;
+            font-size: .9375rem;
+
+            a {
+                text-decoration: none;
+                color: $mainDarkBlue;
+            }
+        }
+        &--posted {
+            width: 100%;
+
+            &__user {
+                text-align: right;
+                font-size: .8125rem;
+
+                a {
+                    text-decoration: none;
+                    color: $mainDarkBlue;
+                }
+            }
+        }
+    }
+
+    &__footer {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        @mixin clearfix;
+        font-size: .8125rem;
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+
+        li {
+            float: left;
+            width: 33.333%;
+            text-align: center;
+            padding: 10px 0;
+            border-right: 1px solid $mainDarkGray;
+            color: $mainFontColor;
+            cursor: default;
+
+            &:last-child {
+                background-color: $mainDarkBlue;
+                color: #fff;
+                border-bottom-right-radius: 10px;
+                border-right: none;
+            }
+        }
+
+    }
+}

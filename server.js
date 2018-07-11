@@ -15,6 +15,8 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 hbs.registerPartials(__dirname + '/views/partials');
 hbs.registerPartials(__dirname + '/views/partialsview');
+hbs.registerPartials(__dirname + '/views/partialscomty');
+hbs.registerPartials(__dirname + '/views/partialsglobal')
 // app.engine('hbs', hbs({
 //     defaultLayout: 'main'
 // }));
