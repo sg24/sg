@@ -16,6 +16,11 @@ app.set('views', path.join(__dirname, 'views'));
 hbs.registerPartials(__dirname + '/views/partials');
 hbs.registerPartials(__dirname + '/views/partialsview');
 hbs.registerPartials(__dirname + '/views/partialscomty');
+hbs.registerPartials(__dirname + '/views/partialspost');
+hbs.registerPartials(__dirname + '/views/partialsgroup');
+hbs.registerPartials(__dirname + '/views/partialsquote');
+hbs.registerPartials(__dirname + '/views/partialsonlineque');
+hbs.registerPartials(__dirname + '/views/partialsquestion');
 hbs.registerPartials(__dirname + '/views/partialsglobal')
 // app.engine('hbs', hbs({
 //     defaultLayout: 'main'

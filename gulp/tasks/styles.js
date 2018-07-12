@@ -52,3 +52,37 @@ gulp.task('comtystyles', function() {
     })
     .pipe(gulp.dest('./public/stylesheets'));
 });
+
+gulp.task('poststyles', function() {
+    return gulp.src('./assets/poststyle/post.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) {
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
+gulp.task('groupstyles', function() {
+    return gulp.src('./assets/groupstyle/group.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) {
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
+
+gulp.task('questionstyles', function() {
+    return gulp.src('./assets/questionstyle/question.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) {
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});

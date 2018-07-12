@@ -1,0 +1,835 @@
+.site-main__group {
+    margin-top: 5px;
+    padding: 0 10px;
+
+    &--wrapperBorder {
+        /* border: 1px solid $mainLightGray; */
+    }
+
+    &--main-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    &--wrapper {
+        width: 95%;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        /* box-shadow: 0px 0px 1px 0px rgba(42, 129, 164, 0.26); */
+        background-color: #fff;  
+        box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
+        -o-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
+        -ms-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
+        -webkit-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
+        -moz-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
+    }
+
+    &--header {
+        list-style: none;
+        margin: 0;
+        padding: 8px 0;
+        /* background-color: $mainDarkBlue; */
+        background-color: #fff; 
+        border-radius: 10px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        @mixin clearfix;
+        /* under */
+        border-bottom: 1px solid  $mainLightGray;
+
+        li {
+            position: relative;
+            float: left;
+
+            &:first-child {
+                position: relative;
+            }
+
+            &:last-child {
+                float: right;
+            }
+        }
+
+        &__imgHolder {
+            height: 24px;
+            width: 24px;
+            position: absolute;
+            border-radius: 12px;
+            background-color: #fff;
+            /* under */
+            border: 1px solid $mainLightGray;
+            top: -5px;
+            left: 17px;
+
+            @mixin atSmall {
+                height: 40px;
+                width: 40px;
+                border-radius: 20px;
+                top: -12px;
+            }
+        }
+
+        &__add {
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0px 0px 8.1px 1.9px rgba(67, 125, 163, 0.26);
+            -o-box-shadow: 0px 0px 8.1px 1.9px rgba(67, 125, 163, 0.26);
+            -ms-box-shadow: 0px 0px 8.1px 1.9px rgba(67, 125, 163, 0.26);
+            -webkit-box-shadow: 0px 0px 8.1px 1.9px rgba(67, 125, 163, 0.26);
+            -moz-box-shadow: 0px 0px 8.1px 1.9px rgba(67, 125, 163, 0.26);
+            cursor: pointer;
+            display: none;
+
+            @mixin atSmall {
+                /* display: block; */
+                height: 26px;
+                width: 26px;
+                border-radius: 13px;
+                right: 2px;
+                top: -13px;
+            }
+        }
+
+        &__category {
+            margin-left: 46px;
+            font-size: .8125rem;
+
+            a {
+                text-decoration: none;
+                /* color: #fff; */
+                color: $mainFontColor;
+            }
+
+            @mixin atSmall {
+                font-size: .875rem;
+                margin-left: 85px;
+            }
+        }
+
+        &__dateCreated {
+            /* color: #fff; */
+            color: $mainFontColor;
+            font-size: .8125rem;
+            margin-right: 10px;
+            font-style: italic;
+
+            @mixin atSmall {
+                font-size: .875rem;
+                margin-right: 20px;
+            }
+        }
+
+        @mixin atSmall {
+            padding: 15px 0;
+        }
+    }
+
+    &--mainContent {
+        margin: 10px 0;
+        @mixin clearfix;
+        position: relative;
+        /* display: flex;
+        justify-content: center;
+        align-items: center; */
+
+        &__addSm {
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            border-radius: 10px;
+            background-color: #fff;
+            left: 5px;
+            top: -8.5px;
+            box-shadow: 0px 0px 8.1px 1.9px rgba(67, 125, 163, 0.26);
+            -o-box-shadow: 0px 0px 8.1px 1.9px rgba(67, 125, 163, 0.26);
+            -ms-box-shadow: 0px 0px 8.1px 1.9px rgba(67, 125, 163, 0.26);
+            -webkit-box-shadow: 0px 0px 8.1px 1.9px rgba(67, 125, 163, 0.26);
+            -moz-box-shadow: 0px 0px 8.1px 1.9px rgba(67, 125, 163, 0.26);
+            cursor: pointer;
+            z-index: 1;
+
+            @mixin atExtraSmall {
+                left: 5px;
+                top: -8.5px;
+            }
+
+            @mixin atSmall {
+                left: 5px;
+                top: -5.5px;
+            }
+
+            @mixin atLarge {
+                /* display: none; */
+                left: 20px;
+                top: -5.5px;
+            }
+        }
+
+        &__imgWrapper {
+            float: left;
+            width: 30%;
+            height: 100px;
+            /* position: relative; */
+            display: flex;
+            justify-content: center;
+
+            &--img {
+                position: relative;
+                width: 60px;
+                background-color: #fff;
+                height: 60px;
+                border-radius: 30px;
+                border: 1px solid $mainExtraLightGray;
+                overflow: hidden;
+                top: 5px;
+                /* box-shadow: 0px 0px 3px 1px rgba(42, 129, 164, 0.26);   */
+
+                /* box-shadow: 0px 0px 8.1px 1.9px rgba(67, 125, 163, 0.26);
+                -o-box-shadow: 0px 0px 8.1px 1.9px rgba(67, 125, 163, 0.26);
+                -ms-box-shadow: 0px 0px 8.1px 1.9px rgba(67, 125, 163, 0.26);
+                -webkit-box-shadow: 0px 0px 8.1px 1.9px rgba(67, 125, 163, 0.26);
+                -moz-box-shadow: 0px 0px 8.1px 1.9px rgba(67, 125, 163, 0.26); */
+                box-shadow: 0px 0px 20px 0px rgba($mainDarkGray, 0.57);
+                -o-box-shadow: 0px 0px 20px 0px rgba($mainDarkGray, 0.57);
+                -ms-box-shadow: 0px 0px 20px 0px rgba($mainDarkGray, 0.57);
+                -webkit-box-shadow: 0px 0px 20px 0px rgba($mainDarkGray, 0.57);
+                -moz-box-shadow: 0px 0px 20px 0px rgba($mainDarkGray, 0.57);
+
+                @mixin atSmall {
+                    width: 90px;
+                    height: 90px;
+                    border-radius: 45px;
+                    top: 0;
+                }
+            }
+
+            @mixin atSmall {
+                width: 35%;
+                /* background-color: $mainDarkGray */
+            }
+
+            @mixin atMedium {
+                align-items: center;
+            }
+
+            @mixin atLarge {
+                align-items: center;
+            }
+        }
+
+        &__desc {
+            float: left;
+            margin: 0;
+            padding: 0 5px 0 5px;
+            list-style: none;
+            width: 70%;
+            position: relative;
+
+            &--title {
+                p {
+                    font-size: .875rem;
+                    margin: 0;
+                    padding: 0 0 10px 0;
+                    font-weight: 500;
+                    color: $mainDarkBlue;
+                    /* word-wrap: break-word; */
+                    /* width: 100%; */
+
+                    @mixin atSmall {
+                        font-size: .9375rem;
+                    }
+                }
+            }
+
+            &--postCreator {
+                background-color: transparent;
+                padding: 0;
+                font-size: .875rem;
+                @mixin clearfix;
+
+                &__admin {
+                    float: left;
+                    margin-right: 10px;
+                    position: relative;
+                    top: 8px;
+                }
+                &__userImg {
+                    width: 26px;
+                    height: 26px;
+                    background-color: $mainLightGray;
+                    border-radius: 13px;
+                    float: left;
+                    margin-right: 5px;
+                    /* border: 1px solid rgba($mainDarkBlue, .2); */
+                    box-shadow: 0px 0px 20px 0px rgba($mainDarkGray, 0.57);
+                    -o-box-shadow: 0px 0px 20px 0px rgba($mainDarkGray, 0.57);
+                    -ms-box-shadow: 0px 0px 20px 0px rgba($mainDarkGray, 0.57);
+                    -webkit-box-shadow: 0px 0px 20px 0px rgba($mainDarkGray, 0.57);
+                    -moz-box-shadow: 0px 0px 20px 0px rgba($mainDarkGray, 0.57);
+
+                    @mixin atSmall {
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 15px;
+                        margin-right: 10px;
+                    }
+                }
+
+                &__detailsWrapper {
+                    float: left;
+                    position: relative;
+                    top: 5px;
+                    width: 60%;
+                    overflow: hidden;
+                    word-wrap: none;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    font-size: .8125rem;
+
+                    @mixin atSmall {
+                        top: 8px; 
+                        font-size: .875rem;
+                    }
+                }
+
+                &__name {
+                    margin: 0;
+                    padding: 0;
+                    display: inline;
+                    overflow: hidden;
+                    word-wrap: none;
+                    text-overflow: ellipsis;
+                    
+                    a {
+                        color: $mainFontColor;
+                    }
+                }
+
+                @mixin atSmall {
+                    /* padding: 0 0 0 10px; */
+                }
+            }
+
+            &--options {
+                ul {
+                    list-style: none;
+                    margin: 10px 0 0 0;
+                    padding: 0;
+                    @mixin clearfix;
+                    font-size: .75rem;
+
+                    li {
+                        padding: 8px;
+                        margin-right: 20px;
+                        float: none;
+                        cursor: pointer;
+
+                        &:first-child {
+                            color: $mainFontColor;
+                            background-color: #fff;
+                            border: 1px solid $mainDarkGray;
+                            border-radius: 3px;
+                            width: 55%;
+                            margin-bottom: 10px;
+                            text-align: center;
+
+                            @mixin atExtraSmall {
+                                width: auto;
+                                margin-bottom: 0;
+                            }
+                        }
+
+                        &:last-child {
+                            margin-right: 0;
+                            color: #fff;
+                            border-radius: 3px;
+                            background-color: $mainDarkPaleBlue;
+                            box-shadow: 0px 0px 14.4px 1.6px rgba($mainDarkPaleBlue, 0.26);
+                            width: 70%;
+                            text-align: center;
+
+                            @mixin atExtraSmall {
+                                width: auto;
+                                
+                            }
+                        }
+
+                        a {
+                            text-decoration: none;
+                            color: #fff;
+                        }
+
+                        @mixin atExtraSmall {
+                            float: left;
+                        }
+
+                        @mixin atSmall {
+                            padding: 8px;
+                            margin-right: 20px;
+                            font-size: .875rem;
+                        }
+                    }
+                    @mixin atSmall {
+                        margin: 10px 0 0 0;
+                        font-size: .875rem;
+                    }
+                }
+
+                &__details{
+                    position: relative;
+                    top: 0;
+                    max-width: 95%;
+                    max-height: 95%;
+                    background-color: #fff;
+                    border: 1px solid $mainDarkGray;
+                    cursor: default;
+                    overflow: hidden;
+                    /* transform: translateX(40px); */
+
+                    &--title {
+                        margin: 0;
+                        padding: 5px 2px;
+                        text-align: center;
+                        background-color: $mainDarkBlue;
+                        box-shadow: 0px 6px 10px 0px rgba(19, 51, 97, 0.26);
+                        color: #fff;
+                        font-size: .8125rem;
+                        line-height: 1.4;
+                        max-height: 58px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        display: none;
+
+                        @mixin atExtraSmall {
+                            display: block;
+                        }
+                    }
+
+                    &--ratings {
+                        margin: 10px 0;
+                        text-align: center;
+                        font-size: .875rem;
+                        padding: 0 5px;
+                        color: $mainDarkBlue;
+                    }
+                }
+            }
+            @mixin atSmall {
+                width: 65%;
+                padding: 0 20px 0 0;
+            }
+        }
+
+        &__overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 5%;
+            background-color: rgba($mainDarkBlack, .7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba($mainDarkBlack, .2);
+            opacity: 0;
+            visibility: hidden;
+            z-index: -33;
+            transform: scale(.1);
+            transition: all .3s ease-in;
+
+            &--close {
+                position: absolute;
+                top: -8px;
+                right: -5px;
+                font-size: .8125rem;
+                background-color: #fff;
+                border-radius: 10px;
+                height: 20px;
+                width: 20px;
+                border: 1px solid rgba($mainDarkBlack, .4);
+                z-index: 1;
+                cursor: pointer;
+            }
+
+            &--visible {
+                opacity: 1;
+                visibility: visible;
+                z-index: 1;
+                width: 95%;
+                transform: scale(1);
+                transition: all .3s ease-in;
+            }
+
+        }
+    }
+    &--footer {
+        width: 100%; 
+        /* background-color: $mainDarkBlue; */
+        background-color: #fff;
+        border-radius: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        margin: 0 !important;
+        padding: 0;
+        list-style: none;
+        @mixin clearfix;
+        font-size: .8125rem;
+        /* under */
+        border-top: 1px solid  $mainLightGray;
+
+        li {
+            float: left;
+            width: 50%;
+            text-align: center;
+            /* color: #fff; */
+            color: $mainFontColor;
+            padding: 8px 0; 
+            margin: 0;
+            
+
+            &:first-child {
+                /* border-right: 1px solid rgba(#fff, .5); */
+                border-right: 1px solid rgba($mainLightGray, .9);
+                /* background-color: rgba($mainMiddleDarkBlue, .6); */
+                margin: 0 !important;
+                /* border-bottom-left-radius: 10px; */
+            }
+
+            &:last-child {
+                position: relative;
+                @mixin clearfix;
+                overflow: hidden;
+
+                @mixin atExtraSmall {
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    @mixin clearfix;
+                }
+            }
+
+            @mixin atSmall {
+                padding: 15px 0;
+            }
+        }
+
+        &__userOnline {
+            text-align: center;
+            float: left;
+            &--status {
+            margin-left: 4px;
+            width: 8px;
+            height: 8px;
+            border-radius: 5px;
+            background-color: $mainLightGreen;
+            float: left;
+            position: relative;
+            top: -6px;
+            display: none;
+
+            @mixin atExtraSmall {
+                display: block;
+            }
+            }
+        }
+
+        @mixin atSmall {
+            font-size: .875rem;
+        }
+    }
+    
+
+    &--filter {
+        @mixin clearfix;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid $mainLightGray;
+        padding-left: 10px;
+
+        &__search {
+            float: none;
+            @mixin clearfix;
+
+            &--title {
+                padding: 0;
+                margin: 0 10px 0 0;
+                float: left;
+                font-size: .8125rem;
+                position: relative;
+                top: 8px;
+            }
+
+            &--input {
+                float: left;
+                display: inline;
+                padding: 6px 0 6px 3px;
+                border-radius: 3px;
+                border: none;
+                border: 1px solid $mainDarkGray;
+                font-size: .8125rem;
+                width: 135px;
+
+                @mixin atExtraSmall {
+                    padding: 6px 0 6px 3px;
+                }
+
+                @mixin atMiniSmall {
+                    padding: 6px 0 6px 3px;
+                }
+            }
+
+            @mixin atExtraSmall {
+                float: left;
+            }
+        }
+
+        &__category {
+            float: none;
+            padding: 0;
+            position: relative;
+            margin:  0 0 0 5px;
+            width: 100px;
+           
+
+            &--header {
+                margin: 5px 0 0 35px;
+                padding: 6px 10px;
+                width: 100px;
+                font-size: .8125rem;
+                background-color: $mainDarkBlue;
+                color: #fff;
+                cursor: pointer;
+                position: relative;
+                top: .5px;
+
+                &__Md {
+                    display: none;
+                    @mixin atSmall {
+                        display: inline;
+                    }
+                }
+
+                &__Sm {
+                    display: inline;
+                    @mixin atSmall {
+                        display: none;
+                    }
+                }
+
+                @mixin atExtraSmall {
+                    width: auto;
+                    margin: 0;
+                }
+            }
+
+            &--option {
+                list-style: none;
+                padding: 0;
+                margin: 0 0 0 35px;
+                font-size: .8125rem;
+                background-color: #fff;
+                border: 1px solid $mainLightGray;
+                position: absolute;
+                width: 100%;
+                max-height: 220px;
+                overflow: hidden;
+                overflow-y: auto;
+                opacity: 0;
+                visibility: hidden;
+                z-index: -33;
+                transition: all .3s ease-out;
+                
+
+                li {
+                    padding: 5px 0 5px 5px;
+                    border-bottom: 1px solid $mainLightGray;
+                    cursor: pointer;
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                }
+
+                &__visible {
+                    opacity: 1;
+                    visibility: visible;
+                    z-index: 1;
+                    transition: all .3s ease-out;
+                }
+
+                @mixin atExtraSmall {
+                    margin: 0;
+                }
+            }
+
+            @mixin atExtraSmall {
+                margin:  0 0 0 10px;
+                float: left;
+                width: auto;
+            }
+            @mixin atSmall {
+                margin:  0 0 0 40px;
+            }
+        }
+    }
+
+    &--optionsTab {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 10px 0;
+        @mixin clearfix;
+        font-size: .8125rem;
+        background-color: #fff;
+        border: 1px solid $mainLightGray;
+        border-top: none;
+        border-right: none;
+        border-left: none;
+        background-color: $mainHeaderColor;
+
+        li {
+            float: left;
+            cursor: pointer;
+
+            &:first-child {
+                color: $mainFontColor;
+                padding:  8px 10px;
+                border: 1px solid rgba($mainMediumLightBlack, .4);
+                border-bottom: none;
+                border-left: none;
+                border-top: none;
+                
+
+                @mixin atMiniSmall {
+                    padding:  8px 20px;
+                }
+                @mixin atMiniSmall {
+                    padding:  8px 35px;
+                }
+            }
+
+            &:last-child {
+                color: $mainFontColor;
+                padding:  8px 0 8px 10px;
+                border: 1px solid $mainLightGray;
+                border-bottom: none;
+                border-left: none;
+                border-top: none;
+                border-right: none;
+
+                @mixin atExtraSmall {
+                    padding:  8px 0 8px 20px;
+                }
+                @mixin atMiniSmall {
+                    padding:  8px 35px;
+                }
+            }
+        }
+    }
+
+    &--noaccount {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+
+        &__img {
+            width: 64px;
+            height: 64px;
+            border-radius: 32px;
+            background-color: $mainExtraLightGray;
+            position: relative;
+            opacity: .9;
+            display: flex;
+            align-self: center;
+
+            @mixin atExtraSmall {
+                width: 64px;
+                height: 64px;
+                border-radius: 32px;
+            }
+
+            @mixin atSmall {
+                width: 70px;
+                height: 70px;
+                border-radius: 35px;
+            }
+
+            @mixin atMedium {
+                width: 80px;
+                height: 80px;
+                border-radius: 40px;
+            }
+        }
+
+        &__title {
+            text-align: center;
+            font-size: .8125rem;
+            padding: 0;
+            margin: 0 0 0 5px;
+            position: relative;
+            top: -3px;
+            
+            a {
+                text-decoration: none;
+            }
+
+            p{
+            }
+
+            &--login {
+                padding: 4px 6px;
+                background-color: $mainLightGray;
+                border: 1px solid $mainLightGray;
+                color: rgba($mainFontColor, .8);
+                border-radius: 3px;
+                margin: 0 5px;
+            }
+
+            &--signup {
+                padding: 4px 6px;
+                background-color: $mainDarkBlue;
+                color: #fff;
+                border-radius: 3px;
+                margin: 0 0 0 5px;
+                font-weight: 300;
+            }
+
+            &--groups {
+                padding: 4px 6px;
+                background-color: $mainDarkBlue;
+                color: #fff;
+                border-radius: 3px;
+                margin: 0 0 0 5px;
+                font-weight: 300;
+            }
+
+            @mixin atMiniSmall {
+                margin: 0 0 0 20px;
+                /* font-size: .9375rem; */
+                top: -1px;
+            }
+
+            @mixin atSmall {
+                font-size: 1rem;
+                top: -2px;
+            }
+
+            @mixin atMedium {
+                font-size: 1rem;
+                top: 1px;
+            }
+        }
+        @mixin atExtraSmall {
+            flex-direction: row;
+        }
+    }
+}

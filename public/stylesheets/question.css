@@ -1,0 +1,7 @@
+ 
+@import "modules/_icon";.site-main__question--content {margin: 10px 0;padding: 0 10px;display: -ms-flexbox;display: flex;-ms-flex-pack: center;justify-content: center;
+}.site-main__question--content::after{content: "";clear: both;display: table;
+}.site-main__question--content__title {float: left;max-width: 60%;padding: 0;padding-right: 10px;margin: 0;max-height: 98px;overflow: hidden;text-overflow: ellipsis;line-height: 1.2;text-align: center;
+}.site-main__question--content__title a {color: #0284a8;
+}.site-main__question--content__img {float: left;max-width: 40%;background-color: rgba(233,235,242, .56);max-height: 100px;overflow: hidden;overflow-y: auto;
+}    

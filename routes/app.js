@@ -9,12 +9,25 @@ router.get('/view', (req, res, next) => {
     res.render('view');
 });
 
+router.get('/post', (req, res, next) => {
+    res.render('post');
+});
+
+router.get('/quote', (req, res, next) => {
+    res.render('quote');
+});
+
+router.get('/group', (req, res, next) => {
+    res.render('group');
+});
+
+
 router.get('/question', (req, res, next) => {
     res.render('question');
 });
 
-router.get('/post', (req, res, next) => {
-    res.render('post');
+router.get('/onlineexam', (req, res, next) => {
+    res.render('onlineexam');
 });
 
 router.get('/community', (req, res, next) => {
