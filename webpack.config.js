@@ -5,7 +5,9 @@ module.exports = {
     entry: {
       appScript: "./assets/scripts/appScript.js",
       view: "./assets/viewscript/viewScript.js",
-      globalScript: "./assets/globalscript/GlobalScript.js" 
+      globalScript: "./assets/globalscript/GlobalScript.js",
+      post: "./assets/postscript/Post.js",
+      question: "./assets/questionscript/Question" 
     },
     output: {
       path: path.resolve(__dirname + '/public/js/app'),

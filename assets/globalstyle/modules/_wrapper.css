@@ -16,16 +16,16 @@
         /* align-items: center; */
     }
 
-    &__main {
-        padding-left: 0px;
-        padding-right: 0px;
+    &__exmain {
+        padding-left: 10px;
+        padding-right: 10px;
         max-width: 1200px;
         margin: 0 auto;
         @mixin clearfix;
         
         @mixin atSmall {
-            padding-left: 0px;
-            padding-right: 0px;
+            padding-left: 40px;
+            padding-right: 40px;
             max-width: 1200px;
         }
 

@@ -150,6 +150,7 @@
                        &--timePosted {
                         float: left;
                         max-width: 80px;
+                        padding-right: 2px;
                         overflow: hidden;
                         word-wrap: none;
                         text-overflow: ellipsis; 

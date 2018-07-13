@@ -1,0 +1,157 @@
+.icon {
+    
+    &--rotate {
+        svg {
+            transform: rotate(180deg);
+            transition: all .3s ease-out;
+        }
+    }
+
+    &__site-main--details__header--tags {
+        color: $mainLightBlack;
+        cursor: pointer;
+    }
+    
+    &__site-main--details__footer--icons__thumbup {
+        color: $mainLightBlack;
+        cursor: pointer;
+    }
+
+    &__site-main--details__footer--icons__thumbdown {
+        color: $mainLightBlack;
+        cursor: pointer;
+    }
+
+    &__site-main--details__footer--icons__heart {
+        color: $mainLightBlack;
+        cursor: pointer;
+    }
+
+    &__site-main--loadmore--circle {
+        font-size: .35rem; 
+        color: $mainDarkBlue;
+        margin-left: .125rem;
+    }
+
+    &__site-main--share {
+        position: absolute;
+        top: 27%;
+        transform: translate(-54%);
+        z-index: .7;
+        color: #fff;
+        font-size: .75rem;
+
+        @mixin atSmall {
+            font-size: .9375rem;
+        }
+    }
+
+    &__site-main--share__categoryBarIcon {
+        margin-right: 5px;
+    }
+
+    &__site-main--details__options-icon {
+        margin-right: 10px;
+    }
+
+    &__site-main--details__options-toggleicon {
+        margin-left: 10px;
+        transition: all .3s ease-out;
+    }
+
+    &__site-main--details__share--selectuserarrow {
+        margin-left: 5px;
+        font-size: .875rem;
+        transition: all .3s ease-out;
+    }
+
+    &__site-main--details__share--facebook {
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        color: $mainLightBlue;
+        float: left;
+    }
+
+    &__site-main--details__share--googleplus {
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        color: $mainDarkRed;
+        float: right;
+    }
+
+    &__site-main--share__userCounterIcon {
+        color: rgba($mainLightBlack, .7);
+        margin-right: 3px;
+    }
+
+    &__site-main--share__locationIcon {
+        margin-right: 5px;
+        font-size: .75rem;
+    }
+
+    &__site-main--share__userSelectedCloseIcon {
+        font-size: .6875rem;
+        color: $mainLightBlack;
+        position: absolute;
+        top: 1.5px;
+        left: 4px;
+    }
+
+    &__site-main--share__userSelectedCloseMainIcon {
+        position: absolute;
+        top: 1.5px;
+        left: 4px;
+        font-size: .6875rem;
+        color: $mainLightBlack;
+    }
+
+    &__site-main--share__userSelectedIcon {
+        color: rgba($mainLightBlack, .7);
+        margin-right: 5px;
+    }
+
+    &__site-main--userCounter-sm {
+        margin-right: 10px;
+    }
+
+    &__exquestion--angleicon {
+        margin-left: 5px;
+        color:$mainFontColor;
+    }
+
+    &__exquestion--filter__calend {
+       font-size: 1.2rem;
+       position: relative;
+       color: rgba($mainDarkBlack, .6);
+       cursor: pointer;
+
+       @mixin atExtraSmall {
+        font-size: 1.3rem;
+       }
+
+       @mixin atSmall {
+        font-size: 1.4rem;
+       }
+    }
+  
+    &__exquestion--filter__alt--comment {
+        color: rgba($mainDarkBlack, .6);
+        margin-right: 8px;
+    }
+
+    &__exquestion--filter__alt--eye{
+        color: rgba($mainDarkBlue, .8);
+        margin-right: 8px;
+    }
+
+    &__exquestion--filter__alt--heart {
+        color: rgba($mainDarkRed, .8);
+        margin-right: 8px;
+    }
+
+    &__exquestion--filter__categsm--angleicon {
+        margin-left: 10px;
+    }
+}
