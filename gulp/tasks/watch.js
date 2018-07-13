@@ -42,6 +42,11 @@ gulp.task('watch', function() {
     watch('./assets/questionstyle/**/*.css', function() {
         gulp.start('questioncss')
     });
+
+    watch('./assets/quotestyle/**/*.css', function() {
+        gulp.start('quotecss')
+    });
+
     // watch('./apps.js', function() {
     //     gulp.start('scriptsRefresh');
     // });
@@ -83,6 +88,11 @@ gulp.task('questioncss',['questionstyles'], function() {
     .pipe(browserSyc.stream());
 });
 
+
+gulp.task('quotecss',['quotestyles'], function() {
+    return gulp.src("./assets/quotestyle/quote.css")
+    .pipe(browserSyc.stream());
+});
 
 // gulp.task('scriptsRefresh',['scripts'], function() {
 //     browserSyc.reload();
