@@ -8,7 +8,8 @@ module.exports = {
       globalScript: "./assets/globalscript/GlobalScript.js",
       post: "./assets/postscript/Post.js",
       question: "./assets/questionscript/Question.js",
-      quote: "./assets/quotescript/quote.js" 
+      quote: "./assets/quotescript/quote.js",
+      onlineque: "./assets/onlinequescript/onlineque.js" 
     },
     output: {
       path: path.resolve(__dirname + '/public/js/app'),

@@ -1,4 +1,4 @@
-.quotefilter {
+.onlinequefilter {
     width: 100%;
     position: relative;
     padding: 0 10px;
@@ -14,7 +14,7 @@
 
         &--total {
             color: $mainDarkBlue;
-            margin-left: 20px; 
+            margin-left: 20px;
         }
 
         @mixin atExtraSmall {
@@ -129,10 +129,7 @@
             top: 100px;
             background-color: #fff;
             box-shadow: 0px 1px 6px 2px rgba(51, 51, 51, .2);
-           -o-box-shadow: 0px 1px 6px 2px rgba(51, 51, 51, .2);
-           -ms-box-shadow: 0px 1px 6px 2px rgba(51, 51, 51, .2);
-           -moz-box-shadow: 0px 1px 6px 2px rgba(51, 51, 51, .2);
-           -webkit-box-shadow: 0px 1px 6px 2px rgba(51, 51, 51, .2);
+            /* -o-box-shadow: 0px 1px 10px 5px rgba($mainDarkGray, .8); */
             padding: 10px;
             width: 100%;
             z-index: 1;
@@ -324,6 +321,7 @@
                 &__option {
                     list-style: none;
                     margin: 0;
+                    margin-bottom: 20px;
                     padding: 5px 0;
                     border: 1px solid $mainDarkGray;
                     font-size: .8125rem;
@@ -339,7 +337,7 @@
                             padding: 8px 0;
                             
                             text-align: center;
-
+                            
                             & > span {
                                 margin-right: 5px;
                                 color: $mainFontColor;
@@ -373,7 +371,7 @@
                 }
 
                 @mixin atExtraSmall {
-                    width: 33.33%;
+                    width: 50%;
                     float: left;
                     margin-bottom: 0;
                     left: auto;
@@ -514,11 +512,11 @@
         }
 
         @mixin atExtraSmall {
-            padding: 7px 8px;
+            padding: 7px 7px;
         }
 
         @mixin atMiniSmall {
-            padding: 7px 20px;
+            padding: 7px 15px;
         }
 
         @mixin atSmall {
@@ -535,7 +533,7 @@
         border-top: 3px solid $mainDarkRed;
         color: $mainFontColor;
         margin: 0;
-        margin-left: 10px;
+        margin-left: 5px;
         position: relative;
         padding: 7px 35px 7px 15px;
         text-align: left;
@@ -564,12 +562,13 @@
         }
 
         @mixin atExtraSmall {
-            padding: 7px 35px 7px 10px;
+            padding: 7px 30px 7px 5px;
             display: block;
         }
         
         @mixin atMiniSmall {
             padding: 7px 35px 7px 15px;
+            margin-left: 10px;
         }
 
         @mixin atSmall {
@@ -585,18 +584,22 @@
         margin-left: 10px;
         position: relative;
         top: 0px;
-        padding: 9px 10px;
+        padding: 9px 8px;
         margin-right: 0px;
         text-align: center;
         border-radius: 2px;
         font-size: .8125rem;
-        background-color: $mainDarkBlue;
+        background-color: $mainDarkPaleBlue;
         box-shadow: 0px 2px 5px 0px rgba(51, 51, 51, 0.53);
         cursor: pointer;
 
         @mixin atExtraSmall {
             margin-left: 0;
             top: 0;
+        }
+
+        @mixin atMiniSmall {
+            padding: 9px 10px;
         }
 
         @mixin atSmall {

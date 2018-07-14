@@ -414,7 +414,7 @@
 }
 
 .exquestion__filter--options__search--alt {
-    width: 50%;
+    width: 70%;
     float: none;
     font-size: .875rem;
     margin-bottom: 20px;
@@ -468,6 +468,7 @@
 
 .exquestion__filter--options__search--alt__option ul li > span {
     margin-right: 5px;
+    color: #182427;
 }
 
 .exquestion__filter--options__search--alt__option ul li:first-child {

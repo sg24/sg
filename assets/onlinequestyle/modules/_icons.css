@@ -1,0 +1,76 @@
+.icon {
+  
+    &__site-main__nav--onlineQue__filterIcon {
+        margin-left: 5px;
+        color: $mainFontColor
+    }
+
+    &__site-main--onlineQue__durationClock {
+        margin-right: 3px;
+        color: $mainDarkBlue;
+    }
+
+    &__site-main--onlineQue__footerIcon {
+        margin-right: 5px;
+    }
+
+    &__site-main--onlineQue__footerHeartIcon {
+        margin-right: 5px;
+        cursor: pointer;
+    }
+    &__site-main--onlineQue__userIcon {
+        margin-right: 5px;
+        color: $mainLightBlue;
+    }
+
+    &__site-main--onlineQue__timeIcon {
+        margin-right: 3px;
+        /* color: $mainFontColor; */
+        color: $mainLightBlue;
+    }
+
+    &__onlinequefilter--angleicon {
+        margin-left: 5px;
+        color:$mainFontColor;
+    }
+
+    &__onlinequefilter--filter__calend {
+       font-size: 1.2rem;
+       position: relative;
+       color: rgba($mainDarkBlack, .6);
+       cursor: pointer;
+
+       @mixin atExtraSmall {
+        font-size: 1.3rem;
+       }
+
+       @mixin atSmall {
+        font-size: 1.4rem;
+       }
+    }
+  
+    &__onlinequefilter--filter__alt--type {
+        color: rgba($mainDarkBlack, .6);
+        margin-right: 8px;
+    }
+
+    &__onlinequefilter--filter__alt--comment{
+        color: rgba($mainDarkBlue, .8);
+        margin-right: 8px;
+    }
+
+    &__onlinequefilter--filter__alt--heart {
+        color: rgba($mainDarkRed, .8);
+        margin-right: 8px;
+    }
+
+    &__onlinequefilter--filter__alt--duration {
+        color: rgba($mainDarkRed, .8);
+        margin-right: 8px;
+    }
+
+    &__onlinequefilter--filter__categsm--angleicon {
+        margin-left: 10px;
+    }
+   
+}

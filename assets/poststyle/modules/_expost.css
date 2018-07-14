@@ -297,7 +297,7 @@
             }
 
             &--alt {
-                width: 50%;
+                width: 70%;
                 float: none;
                 font-size: .875rem;
                 margin-bottom: 20px;
@@ -340,6 +340,7 @@
 
                             & > span {
                                 margin-right: 5px;
+                                color: $mainFontColor;
                             }
 
                             &:first-child {

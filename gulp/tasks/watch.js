@@ -47,6 +47,14 @@ gulp.task('watch', function() {
         gulp.start('quotecss')
     });
 
+    watch('./assets/quotestyle/**/*.css', function() {
+        gulp.start('quotecss')
+    });
+
+    watch('./assets/onlinequestyle/**/*.css', function() {
+        gulp.start('onlinequecss')
+    });
+
     // watch('./apps.js', function() {
     //     gulp.start('scriptsRefresh');
     // });
@@ -93,6 +101,12 @@ gulp.task('quotecss',['quotestyles'], function() {
     return gulp.src("./assets/quotestyle/quote.css")
     .pipe(browserSyc.stream());
 });
+
+gulp.task('onlinequecss',['onlinequestyles'], function() {
+    return gulp.src("./assets/onlinequestyle/onlineque.css")
+    .pipe(browserSyc.stream());
+});
+
 
 // gulp.task('scriptsRefresh',['scripts'], function() {
 //     browserSyc.reload();

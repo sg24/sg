@@ -1,49 +1,228 @@
-<div class="site-main__nav--onlineQue">
-    <div class="site-main__nav--onlineQue__filter">
-        {{!-- <div class="site-main__nav--onlineQue__filter--header">
-            <p>Filter</p> <input type="text" placeholder="Enter question title" class="site-main__nav--onlineQue__filter--header__input">
-        </div>  --}} 
-         <div class="site-main__nav--onlineQue__filter--category">
-             <div class="site-main__nav--onlineQue__filter--category__option">
-                 Select category <i class="fas fa-angle-down icon icon__site-main__nav--onlineQue__filterIcon"></i>
-                 <ul class="site-main__nav--onlineQue__filter--category__option--item">
-                     <li>Prose</li>
-                     <li>Social</li>
-                     <li>Scholarship</li>
-                     <li>Add Category</li>
-                 </ul>
-             </div> 
-                <ul class="site-main__nav--onlineQue__filter--category__duration">
-                    <li><i class="fas fa-clock icon icon__site-main__nav--onlineQue__durationClock"></i> Duration</li>
-                    <li><input type="text" class="site-main__nav--onlineQue__filter--category__duration--inputField" placeholder="time"></li>
-                    <li>
-                    <div class="site-main__nav--onlineQue__filter--category__duration--timeframe">hrs</div> 
-                    <div class="site-main__nav--onlineQue__filter--category__duration--icon"><i class="fas fa-angle-down"></i></div>
-                    <ul class="site-main__nav--onlineQue__filter--category__duration--timeframe__option">
-                        <li>Min</li>
-                        <li>Hrs</li>
-                    </ul>
-                    </li>
+<div class="onlinequefilter">
+    <h3 class="onlinequefilter__found">Online Question found <span class="onlinequefilter__found--total"> 2222k </span></h3>
+
+    <div class="onlinequefilter__wrapper">
+        <div class="onlinequefilter__wrapper--options">
+            <div class="onlinequefilter__category">
+                Category <i class="fas fa-angle-down icon icon__onlinequefilter--angleicon"></i>
+                <ul class="onlinequefilter__category--item">
+                    <li>Peom</li>
+                    <li>Prose</li>
+                    <li>Entertainment</li>
                 </ul>
-         </div>
+            </div>
+
+            <div class="onlinequefilter__filter">
+                Filter <i class="fas fa-angle-down icon icon__onlinequefilter--angleicon"></i>
+            </div>
+            
+
+            <div class="onlinequefilter__filter--options">
+                    <div class="onlinequefilter__filter--options__search">
+                        <div class="onlinequefilter__filter--options__search--field">
+                            <div class="onlinequefilter__filter--options__search--field__inputcalendar"><i class="far fa-calendar-alt icon icon__onlinequefilter--filter__calend"></i></div> <input type="text" class="onlinequefilter__filter--options__search--field__input" placeholder="Enter Online Question Title">
+                        </div>
+                        <div class="onlinequefilter__filter--options__search--middlewrapper">
+                            <div class="onlinequefilter__filter--options__search--found">
+                                <div class="onlinequefilter__filter--options__search--found__title">Total Found</div>
+                                <div class="onlinequefilter__filter--options__search--found__total">255</div>
+                            </div>
+                            <div class="onlinequefilter__filter--options__search--more">OR</div>
+                        </div>
+                        <div class="onlinequefilter__filter--options__search--altwrapper onlinequefilter__filter--options__search--altwrapper__space">
+                            <div class="onlinequefilter__filter--options__search--alt">
+                                <h3 class="onlinequefilter__filter--options__search--alt__title"><i class="fas fa-pencil-alt icon icon__onlinequefilter--filter__alt--type"></i> Write</h3>
+                                <ul class="onlinequefilter__filter--options__search--alt__option">
+                                    <li>
+                                        <ul>
+                                            <li>Low</li>
+                                            <li><span><</span> 10</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <ul>
+                                            <li>Average</li>
+                                            <li><span>></span> 20 </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <ul>
+                                            <li>High</li>
+                                            <li><span>></span> 30</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="onlinequefilter__filter--options__search--alt">
+                                <h3 class="onlinequefilter__filter--options__search--alt__title"><i class="far fa-comment-dots icon icon__onlinequefilter--filter__alt--comment"></i> Comment</h3>
+                                <ul class="onlinequefilter__filter--options__search--alt__option">
+                                    <li>
+                                        <ul>
+                                            <li>Low</li>
+                                            <li> <span><</span> 20 </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <ul>
+                                            <li>Average</li>
+                                            <li> <span>></span> 40 </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <ul>
+                                            <li>High</li>
+                                            <li> <span>></span> 60</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="onlinequefilter__filter--options__search--alt">
+                                <h3 class="onlinequefilter__filter--options__search--alt__title exquestion__filter--options__search--alt__title--sm"><i class="fas fa-heart icon icon__onlinequefilter--filter__alt--heart"></i>   Favorites</h3>
+                                <ul class="onlinequefilter__filter--options__search--alt__option">
+                                    <li>
+                                        <ul>
+                                            <li>Low</li>
+                                            <li><span><</span> 12 </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <ul>
+                                            <li>Average</li>
+                                            <li><span>></span>22 </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <ul>
+                                            <li>High</li>
+                                            <li><span>></span> 32</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="onlinequefilter__filter--options__search--alt">
+                                <h3 class="onlinequefilter__filter--options__search--alt__title"><i class="far fa-clone icon icon__onlinequefilter--filter__alt--comment"></i> Questions</h3>
+                                <ul class="onlinequefilter__filter--options__search--alt__option">
+                                    <li>
+                                        <ul>
+                                            <li>Low</li>
+                                            <li> <span><</span> 50 </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <ul>
+                                            <li>Average</li>
+                                            <li> <span>></span> 50 </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <ul>
+                                            <li>High</li>
+                                            <li> <span>></span> 100</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="onlinequefilter__filter--options__search--alt">
+                                <h3 class="onlinequefilter__filter--options__search--alt__title"><i class="far fa-clock icon icon__onlinequefilter--filter__alt--duration"></i> Duration</h3>
+                                <ul class="onlinequefilter__filter--options__search--alt__option">
+                                    <li>
+                                        <ul>
+                                            <li>Low</li>
+                                            <li> <span><</span> 40 min </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <ul>
+                                            <li>Average</li>
+                                            <li> <span>></span> 40 to 1hr</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <ul>
+                                            <li>High</li>
+                                            <li> <span>></span> 1hr </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="onlinequefilter__filter--options__search--alt">
+                                <h3 class="onlinequefilter__filter--options__search--alt__title"><i class="fas fa-coffee icon icon__onlinequefilter--filter__alt--type"></i> Type</h3>
+                                <ul class="onlinequefilter__filter--options__search--alt__option">
+                                    <li>
+                                        <ul>
+                                            <li>easy</li>
+                                            <li> <input type="checkbox" name="">  </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <ul>
+                                            <li>Intermediate</li>
+                                            <li> <input type="checkbox" name="" ></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <ul>
+                                            <li>Difficult</li>
+                                            <li> <input type="checkbox" name=""> </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        <div class="onlinequefilter__filter--options__search--categsm">
+                            <p class="onlinequefilter__filter--options__search--categsm__title">Select Category <i class="fas fa-angle-down icon icon__onlinequefilter--filter__categsm--angleicon"></i></p>
+                            <ul class="onlinequefilter__filter--options__search--categsm__item">
+                                <li>Scholarships</li>
+                                <li>Sport</li>
+                                <li>Entertainment</li>
+                            </ul>
+                        </div>
+
+                        <button class="onlinequefilter__filter--options__search--btn">
+                            <span class="onlinequefilter__filter--options__search--btn__cancel">Cancel</span>
+                            <span class="onlinequefilter__filter--options__search--btn__ok">Ok</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="onlinequefilter__myque">
+                My Questions 
+                <div class="onlinequefilter__myque--total">
+                    99
+                </div>
+            </div>
+        </div>
+        <div class="onlinequefilter__addque onlinequefilter__wrapper--altoption">
+            Add Question
+        </div>
     </div>
-    <div class="site-main__nav--onlineQue__contentwrapper">
-        <ul class="site-main__nav--onlineQue__header">
+</div>
+
+
+<div class="site-main__onlineQue">
+    <div class="site-main__onlineQue--contentwrapper">
+        <ul class="site-main__onlineQue--header">
             <li>
-                <div class="site-main__nav--onlineQue__header--quesNumber">
+                <div class="site-main__onlineQue--header__quesNumber">
                     100
                 </div>
-                <div class="site-main__nav--onlineQue__header--title">
-                    Questions
+                <div class="site-main__onlineQue--header__title">
+                    Questions 
                 </div>
             </li>
             <li>
-                <div class="site-main__nav--onlineQue__header--quesTime">
-                    <i class="far fa-clock icon icon__site-main--nav__onlineQue--timeIcon"></i> 22hrs
+                <div class="site-main__onlineQue--header__quesTime">
+                    <i class="far fa-clock icon icon__site-main--onlineQue__timeIcon"></i> 22hrs
                 </div>
             </li>
             <li>
-                <div class="site-main__share">
+ <div class="site-main__share">
         <i class="fas fa-location-arrow icon icon__site-main--share__shareIcon"></i>
     </div>
     <div class="site-main__share--content">
@@ -105,20 +284,20 @@
     </div>
             </li>
         </ul>
-        <div class="site-main__nav--onlineQue__content">
-            <p class="site-main__nav--onlineQue__content--title">
+        <div class="site-main__onlineQue--content">
+            <p class="site-main__onlineQue--content__title">
                 <a href="">The new exam set for the inter state</a>
             </p>
-            <div class="site-main__nav--onlineQue__content--posted">
-                <p class="site-main__nav--onlineQue__content--posted__user">
-                    <i class="far fa-user icon icon__site-main--nav__onlineQue--userIcon"></i><a href="">User User</a>@ 2m ago
+            <div class="site-main__onlineQue--content__posted">
+                <p class="site-main__onlineQue--content__posted--user">
+                    <i class="far fa-user icon icon__site-main--onlineQue__userIcon"></i><a href="">User User</a>@ 2m ago
                 </p>
             </div>
         </div>
-        <ul class="site-main__nav--onlineQue__footer">
-            <li><i class="far fa-comment-dots icon icon__site-main--nav__onlineQue--footerIcon"></i> 111k</li>
-            <li><i class="far fa-heart icon icon__site-main--nav__onlineQue--footerHeartIcon"></i> 455m</li>
-            <li><i class="fas fa-pencil-alt icon icon__site-main--nav__onlineQue--footerIcon"></i> 222k</li>
+        <ul class="site-main__onlineQue--footer">
+            <li><i class="far fa-comment-dots icon icon__site-main--onlineQue__footerIcon"></i> 111k</li>
+            <li><i class="far fa-heart icon icon__site-main--onlineQue__footerHeartIcon"></i> 455m</li>
+            <li><i class="fas fa-pencil-alt icon icon__site-main--onlineQue__footerIcon"></i> 222k</li>
         </ul>
     </div>
 </div>
