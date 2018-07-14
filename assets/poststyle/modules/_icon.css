@@ -112,5 +112,46 @@
     &__site-main--userCounter-sm {
         margin-right: 10px;
     }
+
+
+    
+    &__expost--angleicon {
+        margin-left: 5px;
+        color:$mainFontColor;
+    }
+
+    &__expost--filter__calend {
+       font-size: 1.2rem;
+       position: relative;
+       color: rgba($mainDarkBlack, .6);
+       cursor: pointer;
+
+       @mixin atExtraSmall {
+        font-size: 1.3rem;
+       }
+
+       @mixin atSmall {
+        font-size: 1.4rem;
+       }
+    }
+  
+    &__expost--filter__alt--comment {
+        color: rgba($mainDarkBlack, .6);
+        margin-right: 8px;
+    }
+
+    &__expost--filter__alt--eye{
+        color: rgba($mainDarkBlue, .8);
+        margin-right: 8px;
+    }
+
+    &__expost--filter__alt--heart {
+        color: rgba($mainDarkRed, .8);
+        margin-right: 8px;
+    }
+
+    &__expost--filter__categsm--angleicon {
+        margin-left: 10px;
+    }
   
 }

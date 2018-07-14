@@ -2,6 +2,7 @@
     width: 100%;
     position: relative;
    /* background-color: blue; */
+   padding: 0 10px;
 
     &__found {
         font-size: .875rem;
@@ -103,7 +104,7 @@
 
         }
 
-        @mixin atSmall {
+        @mixin atLarge {
             padding: 10px 15px;
             display: block;
         }
@@ -246,7 +247,7 @@
                 text-align: center;
                 font-size: .8125rem;
                 color: rgba($mainDarkBlack, .7);
-                background-color: $mainLightGray;
+                background-color: $mainContentHeaderColor;
                 border: 1px solid $mainLightGray;
                 float: none;
                 width: 100%;
@@ -386,7 +387,7 @@
                 transform: translateX(-50%);
 
                 &__title {
-                    background-color: $mainDarkGray;
+                    background-color: $mainLightGray;
                     color: $mainFontColor;
                     text-align: left;
                     font-size: .8125rem;
@@ -534,6 +535,7 @@
         font-size: .8125rem;
         background-color: rgb(255, 255, 255);
         cursor: pointer;
+        display: none;
 
         &--total {
             position: absolute; 
@@ -551,6 +553,10 @@
             top: 50%;
             transform: translateY(-50%);
             color: $mainDarkBlue;
+        }
+
+        @mixin atExtraSmall {
+            display: block;
         }
 
         @mixin atSmall {

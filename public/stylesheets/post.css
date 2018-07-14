@@ -53,15 +53,10 @@
     font-size: .8125rem;
     background-color: #fff;
     border-bottom: 1px solid #e9ebf2;
-
     /* box-shadow: 0px 1px 2px 0px rgba($mainLightGray, 0.87); */
-
     /* -o-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57); */
-
     /* -ms-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57); */
-
     /* -webkit-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57); */
-
     /* box-shadow: 0px 2px 9px 0px rgba($mainDarkGray, 0.57); */
     position: relative;
     border-radius: 10px;
@@ -116,7 +111,6 @@
 
     .site-main__content--details__header li:last-child {
         width: 30%;
-
         /* padding: 7px 0; */
     }
 }
@@ -215,7 +209,6 @@
     max-width: 90% !important;
     background-color: #fff;
     padding: 8px 8px;
-
     /* border: 1px solid $mainDarkGray; */
     cursor: pointer;
     overflow: hidden;
@@ -841,7 +834,6 @@
     font-size: .875rem;
     position: relative;
     box-shadow: inset 0px 0px 2.12px .2px rgba(242, 38, 19, 0.47);
-
     /* -o-box-shadow: 0px 0px 2.12px .2px rgba(242, 38, 19, 0.47);
                             -webkit-box-shadow: 0px 0px 2.12px .2px rgba(242, 38, 19, 0.47);
                             -moz-box-shadow: 0px 0px 2.12px .2px rgba(242, 38, 19, 0.47);
@@ -1121,7 +1113,6 @@
 .site-main__content--details__footer {
     background-color: #fff;
     border-top: 1px solid #e9ebf2;
-
     /* box-shadow: 0px -2px 9px 0px rgba($mainDarkGray, 0.57); */
     position: relative;
     border-radius: 10px;
@@ -1352,9 +1343,9 @@
 .expost {
     width: 100%;
     position: relative;
+   /* background-color: blue; */
+   padding: 0 10px;
 }
-
-/* background-color: blue; */
 
 .expost__found {
     font-size: .875rem;
@@ -1470,7 +1461,7 @@
     transition: all .3s ease-in;
 }
 
-@media (min-width: 530px) {
+@media (min-width: 1010px) {
 
     .expost__category {
         padding: 10px 15px;
@@ -1499,13 +1490,11 @@
     top: 100px;
     background-color: #fff;
     box-shadow: 0px 1px 6px 2px rgba(51, 51, 51, .2);
-
     /* -o-box-shadow: 0px 1px 10px 5px rgba($mainDarkGray, .8); */
     padding: 10px;
     width: 100%;
     z-index: -1;
     visibility: hidden;
-
     /* opacity: 0; */
     transition: all .3s ease-in;
 }
@@ -1603,7 +1592,6 @@
     float: left;
     padding: 5px 0;
     font-size: .8125rem;
-
     /* width: 100px; */
     text-align: center;
     position: relative;
@@ -1655,12 +1643,11 @@
     text-align: center;
     font-size: .8125rem;
     color: rgba(0,0,0, .7);
-    background-color: #e9ebf2;
+    background-color: #f9fafb;
     border: 1px solid #e9ebf2;
     float: none;
     width: 100%;
     position: relative;
-
     /* left: 30px; */
     top: 14px;
     font-style: italic;
@@ -1840,7 +1827,7 @@
 }
 
 .expost__filter--options__search--categsm__title {
-    background-color: #dcdbdc;
+    background-color: #e9ebf2;
     color: #182427;
     text-align: left;
     font-size: .8125rem;
@@ -1939,7 +1926,6 @@
     background-color: #fff !important;
     color: #182427;
     font-weight: 400;
-
     /* box-shadow: 0 1px 5px 1px rgba($mainDarkRed, .4) !important; */
     margin-right: 10px;
     border: 1px solid rgba(242,38,19, .4);
@@ -2007,6 +1993,7 @@
     font-size: .8125rem;
     background-color: rgb(255, 255, 255);
     cursor: pointer;
+    display: none;
 }
 
 .expost__mypost--total {
@@ -2028,6 +2015,13 @@
     top: 50%;
     transform: translateY(-50%);
     color: #0284a8;
+}
+
+@media (min-width: 335px) {
+
+    .expost__mypost {
+        display: block;
+    }
 }
 
 @media (min-width: 530px) {
@@ -2181,4 +2175,49 @@
 
 .icon__site-main--userCounter-sm {
     margin-right: 10px;
+}
+
+.icon__expost--angleicon {
+    margin-left: 5px;
+    color:#182427;
+}
+
+.icon__expost--filter__calend {
+    font-size: 1.2rem;
+    position: relative;
+    color: rgba(0,0,0, .6);
+    cursor: pointer;
+}
+
+@media (min-width: 335px) {
+
+    .icon__expost--filter__calend {
+        font-size: 1.3rem;
+    }
+}
+
+@media (min-width: 530px) {
+
+    .icon__expost--filter__calend {
+        font-size: 1.4rem;
+    }
+}
+
+.icon__expost--filter__alt--comment {
+    color: rgba(0,0,0, .6);
+    margin-right: 8px;
+}
+
+.icon__expost--filter__alt--eye{
+    color: rgba(2,132,168, .8);
+    margin-right: 8px;
+}
+
+.icon__expost--filter__alt--heart {
+    color: rgba(242,38,19, .8);
+    margin-right: 8px;
+}
+
+.icon__expost--filter__categsm--angleicon {
+    margin-left: 10px;
 }   

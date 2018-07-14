@@ -63,18 +63,23 @@
         }
 
         &--title {
-            font-size: .875rem;
+            font-size: .9375rem;
             margin: 0;
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            line-height: 1.5;
+            line-height: 1.8;
 
             &__wrapper {
                 width: 90%;
                 font-style: italic;
+
+                a {
+                    color: $mainDarkPaleBlue;
+                    text-decoration: none;
+                }
             }
         }
     }

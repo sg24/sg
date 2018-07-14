@@ -42,6 +42,7 @@
 .exquestion {
     width: 100%;
     position: relative;
+    padding: 0 10px;
 }
 
 .exquestion__found {
@@ -187,13 +188,11 @@
     top: 100px;
     background-color: #fff;
     box-shadow: 0px 1px 6px 2px rgba(51, 51, 51, .2);
-
     /* -o-box-shadow: 0px 1px 10px 5px rgba($mainDarkGray, .8); */
     padding: 10px;
     width: 100%;
     z-index: 1;
     visibility: hidden;
-
     /* opacity: 0; */
     transition: all .3s ease-in;
 }
@@ -291,7 +290,6 @@
     float: left;
     padding: 5px 0;
     font-size: .8125rem;
-
     /* width: 100px; */
     text-align: center;
     position: relative;
@@ -343,12 +341,11 @@
     text-align: center;
     font-size: .8125rem;
     color: rgba(0,0,0, .7);
-    background-color: #e9ebf2;
+    background-color: #f9fafb;
     border: 1px solid #e9ebf2;
     float: none;
     width: 100%;
     position: relative;
-
     /* left: 30px; */
     top: 14px;
     font-style: italic;
@@ -528,7 +525,7 @@
 }
 
 .exquestion__filter--options__search--categsm__title {
-    background-color: #dcdbdc;
+    background-color: #e9ebf2;
     color: #182427;
     text-align: left;
     font-size: .8125rem;
@@ -623,7 +620,6 @@
     background-color: #fff !important;
     color: #182427;
     font-weight: 400;
-
     /* box-shadow: 0 1px 5px 1px rgba($mainDarkRed, .4) !important; */
     margin-right: 10px;
     border: 1px solid rgba(242,38,19, .4);
@@ -672,14 +668,14 @@
 @media (min-width: 335px) {
 
     .exquestion__filter {
-        padding: 7px 8px;
+        padding: 7px 7px;
     }
 }
 
 @media (min-width: 380px) {
 
     .exquestion__filter {
-        padding: 7px 20px;
+        padding: 7px 15px;
     }
 }
 
@@ -698,7 +694,7 @@
     border-top: 3px solid #0284a8;
     color: #182427;
     margin: 0;
-    margin-left: 10px;
+    margin-left: 5px;
     position: relative;
     padding: 7px 35px 7px 15px;
     text-align: left;
@@ -706,9 +702,8 @@
     font-size: .8125rem;
     background-color: rgb(255, 255, 255);
     cursor: pointer;
+    display: none;
 }
-
-/* display: none; */
 
 .exquestion__myque--total {
     position: absolute;
@@ -734,7 +729,8 @@
 @media (min-width: 335px) {
 
     .exquestion__myque {
-        padding: 7px 35px 7px 10px;
+        padding: 7px 30px 7px 5px;
+        display: block;
     }
 }
 
@@ -742,6 +738,7 @@
 
     .exquestion__myque {
         padding: 7px 35px 7px 15px;
+        margin-left: 10px;
     }
 }
 
@@ -757,10 +754,10 @@
     display: inline;
     color: #fff;
     margin: 0;
-    margin-left: 0px;
+    margin-left: 10px;
     position: relative;
     top: 0px;
-    padding: 9px 10px;
+    padding: 9px 8px;
     margin-right: 0px;
     text-align: center;
     border-radius: 2px;
@@ -775,6 +772,13 @@
     .exquestion__addque {
         margin-left: 0;
         top: 0;
+    }
+}
+
+@media (min-width: 380px) {
+
+    .exquestion__addque {
+        padding: 9px 10px;
     }
 }
 
@@ -841,15 +845,10 @@
     font-size: .8125rem;
     background-color: #fff;
     border-bottom: 1px solid #e9ebf2;
-
     /* box-shadow: 0px 1px 2px 0px rgba($mainLightGray, 0.87); */
-
     /* -o-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57); */
-
     /* -ms-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57); */
-
     /* -webkit-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57); */
-
     /* box-shadow: 0px 2px 9px 0px rgba($mainDarkGray, 0.57); */
     position: relative;
     border-radius: 10px;
@@ -904,7 +903,6 @@
 
     .site-main__content--details__header li:last-child {
         width: 30%;
-
         /* padding: 7px 0; */
     }
 }
@@ -1004,7 +1002,6 @@
     max-width: 90% !important;
     background-color: #fff;
     padding: 8px 8px;
-
     /* border: 1px solid $mainDarkGray; */
     cursor: pointer;
     overflow: hidden;
@@ -1630,7 +1627,6 @@
     font-size: .875rem;
     position: relative;
     box-shadow: inset 0px 0px 2.12px .2px rgba(242, 38, 19, 0.47);
-
     /* -o-box-shadow: 0px 0px 2.12px .2px rgba(242, 38, 19, 0.47);
                             -webkit-box-shadow: 0px 0px 2.12px .2px rgba(242, 38, 19, 0.47);
                             -moz-box-shadow: 0px 0px 2.12px .2px rgba(242, 38, 19, 0.47);
@@ -1910,7 +1906,6 @@
 .site-main__content--details__footer {
     background-color: #fff;
     border-top: 1px solid #e9ebf2;
-
     /* box-shadow: 0px -2px 9px 0px rgba($mainDarkGray, 0.57); */
     position: relative;
     border-radius: 10px;

@@ -4715,7 +4715,7 @@ img {
 }
 
 .site-main__nav--quote__content--title {
-  font-size: .875rem;
+  font-size: .9375rem;
   margin: 0;
   width: 100%;
   display: -ms-flexbox;
@@ -4725,12 +4725,17 @@ img {
   -ms-flex-align: center;
       align-items: center;
   text-align: center;
-  line-height: 1.5;
+  line-height: 1.8;
 }
 
 .site-main__nav--quote__content--title__wrapper {
   width: 90%;
   font-style: italic;
+}
+
+.site-main__nav--quote__content--title__wrapper a {
+  color: #05578b;
+  text-decoration: none;
 }
 
 .site-main__nav--quote__footer {

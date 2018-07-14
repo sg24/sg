@@ -1,6 +1,7 @@
-.quote {
+.quotefilter {
     width: 100%;
     position: relative;
+    padding: 0 10px;
 
     &__found {
         font-size: .875rem;
@@ -128,7 +129,10 @@
             top: 100px;
             background-color: #fff;
             box-shadow: 0px 1px 6px 2px rgba(51, 51, 51, .2);
-            /* -o-box-shadow: 0px 1px 10px 5px rgba($mainDarkGray, .8); */
+           -o-box-shadow: 0px 1px 6px 2px rgba(51, 51, 51, .2);
+           -ms-box-shadow: 0px 1px 6px 2px rgba(51, 51, 51, .2);
+           -moz-box-shadow: 0px 1px 6px 2px rgba(51, 51, 51, .2);
+           -webkit-box-shadow: 0px 1px 6px 2px rgba(51, 51, 51, .2);
             padding: 10px;
             width: 100%;
             z-index: 1;
@@ -245,7 +249,7 @@
                 text-align: center;
                 font-size: .8125rem;
                 color: rgba($mainDarkBlack, .7);
-                background-color: $mainLightGray;
+                background-color: $mainContentHeaderColor;
                 border: 1px solid $mainLightGray;
                 float: none;
                 width: 100%;
@@ -385,7 +389,7 @@
                 transform: translateX(-50%);
 
                 &__title {
-                    background-color: $mainDarkGray;
+                    background-color: $mainLightGray;
                     color: $mainFontColor;
                     text-align: left;
                     font-size: .8125rem;
@@ -526,8 +530,8 @@
   
     &__myque {
         float: left;
-        border: 1px solid rgba($mainDarkBlue, .2) !important;
-        border-top: 3px solid $mainDarkBlue;
+        border: 1px solid rgba($mainDarkRed, .2) !important;
+        border-top: 3px solid $mainDarkRed;
         color: $mainFontColor;
         margin: 0;
         margin-left: 10px;
@@ -538,7 +542,7 @@
         font-size: .8125rem;
         background-color: rgb(255, 255, 255);
         cursor: pointer;
-        /* display: none; */
+        display: none;
 
         &--total {
             position: absolute; 
@@ -546,7 +550,7 @@
             width: 24px;
             height: 24px;
             border-radius: 12px;
-            background-color: $mainDarkBlue;
+            background-color: $mainDarkRed;
             color: #fff !important;
             font-size: .8125rem;
             display: flex;
@@ -560,6 +564,7 @@
 
         @mixin atExtraSmall {
             padding: 7px 35px 7px 10px;
+            display: block;
         }
         
         @mixin atMiniSmall {
@@ -576,7 +581,7 @@
         display: inline;
         color: #fff;
         margin: 0;
-        margin-left: 0px;
+        margin-left: 10px;
         position: relative;
         top: 0px;
         padding: 9px 10px;
@@ -584,7 +589,7 @@
         text-align: center;
         border-radius: 2px;
         font-size: .8125rem;
-        background-color: $mainDarkRed;
+        background-color: $mainDarkBlue;
         box-shadow: 0px 2px 5px 0px rgba(51, 51, 51, 0.53);
         cursor: pointer;
 

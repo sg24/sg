@@ -5,14 +5,14 @@
     -ms-box-shadow: 0px 1px 5px 1px rgba(217, 217, 217, 0.981);
     -moz-box-shadow: 0px 1px 5px 1px rgba(217, 217, 217, 0.981);
     -webkit-box-shadow: 0px 1px 5px 1px rgba(217, 217, 217, 0.981);
-    margin: 20px;
+    margin: 20px 10px;
     border-radius: 10px;
     position: relative;
     /* border-top-right-radius: 0; */
 
     &--content {
         color: $mainFontColor;
-        padding: 10px 10px !important;
+        padding: 10px 10px;
         width: 100%;
         position: relative;
 
@@ -70,11 +70,20 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            line-height: 1.5;
+            line-height: 1.8;
 
             &--wrapper {
-                width: 100% !important;
+                width: 90%;
                 font-style: italic;
+
+                a {
+                    color: $mainDarkPaleBlue;
+                    text-decoration: none;
+                }
+            }
+
+            @mixin atExtraSmall {
+                font-size: .9375rem;
             }
         }
     }

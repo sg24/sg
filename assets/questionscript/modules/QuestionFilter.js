@@ -26,6 +26,8 @@ class QuestionFilter {
         this.categToggler.toggleClass("icon--rotate");
         this.filter.removeClass("exquestion__filter--options__visible");
         this.filterToggler.removeClass("icon--rotate");
+        this.seleCateg.removeClass("exquestion__filter--options__search--categsm__item--visible");
+        this.seleCategIcon.removeClass("icon--rotate");
     }
 
     toggleFilter() {
@@ -33,12 +35,16 @@ class QuestionFilter {
         this.filterToggler.toggleClass("icon--rotate");
         this.categ.removeClass("exquestion__category--item__visible");
         this.categToggler.removeClass("icon--rotate");
+        this.seleCateg.removeClass("exquestion__filter--options__search--categsm__item--visible");
+        this.seleCategIcon.removeClass("icon--rotate");
         // this.filterOverlay.toggleClass("site-main__content--details__overlay--visible");
     }
 
     closeAllFilter() {
         this.filter.removeClass("exquestion__filter--options__visible");
         this.filterToggler.removeClass("icon--rotate");
+        this.seleCateg.removeClass("exquestion__filter--options__search--categsm__item--visible");
+        this.seleCategIcon.removeClass("icon--rotate");
         // this.filterOverlay.removeClass("site-main__content--details__overlay--visible");
     }
 

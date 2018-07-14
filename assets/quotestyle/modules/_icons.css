@@ -7,244 +7,8 @@
         }
     }
  
-    &__site-header--search {
-        display: inline;
-        font-size: .875rem;
-        color: $mainLightBlack;
 
-        &:hover {
-            color: $mainPaleBlue;
-        }
-    }
-
-    &__site-header--favorites {
-        position: absolute;
-        font-size: .875rem;
-        top: 25%;
-        transform: translate(-50%);
-        color: $mainLightRed;
-
-        @mixin atSmall{
-            font-size: .875rem;
-            top: 25%;
-        }
-
-        @mixin atMedium{
-            font-size: 1rem;
-            top: 25%;
-        }
-
-        @mixin atLarge{
-            font-size: 1.2rem;;
-            top: 25%;
-        }
-    }
-
-    &__site-header--shares {
-        font-size: .875rem;
-        position: absolute;
-        top: 25%;
-        transform: translate(-50%);
-        color: $mainLightBlue;
-
-        @mixin atSmall{
-            font-size: .875rem;
-            top: 25%;
-        }
-
-        @mixin atMedium{
-            font-size: 1rem;
-            top: 22%;
-        }
-
-        @mixin atLarge{
-            font-size: 1rem;;
-            top: 25%;
-        }
-    }
-
-    &__site-header--addNew {
-        position: absolute;
-        font-size: .875rem;
-        top: 25%;
-        transform: translate(-55%);
-        color: #fff;
-        right: 2px;
-
-        @mixin atSmall {
-            font-size: .875rem;
-            top: 25%;
-        }
-
-        @mixin atMedium {
-            font-size: .875rem;
-            top: 25%;
-        }
-
-        @mixin atLarge{
-            transform: translate(-50%);
-            font-size: .9375rem;
-            top: 25%;
-        }
-    }
-
-    &__site-header--bell {
-        position: absolute;
-        font-size: .875rem;
-        top: 25%;
-        transform: translate(-50%);
-        color: $mainLightBlack;
-
-        @mixin atSmall {
-            font-size: .895rem;
-            top: 25%;
-        }
-
-        @mixin atMedium {
-            font-size: 1rem;
-            top: 22%;
-        }
-        @mixin atLarge{
-            font-size: 1.2rem;
-            top: 25%;
-        }
-    }
-
-    &__site-header--list {
-        position: absolute;
-        font-size: .875rem;
-        top: 25%;
-        transform: translate(-50%);
-        color: $mainLightBlack;
-
-        @mixin atSmall {
-            font-size: .875rem;
-            top: 25%;
-        }
-
-        @mixin atMedium {
-            font-size: 1rem;
-            top: 22%;
-        }
-
-        @mixin atLarge{
-            font-size: 1rem;
-            top: 25%;
-        }
-    }
-
-    &__site-header--login {
-        font-size: .875rem;
-        color: #E4DEDE;
-        display: none;
-
-        @mixin atLarge {
-            margin: 0 .25rem 0 0;
-            display: inline;
-        }
-    }
-
-    &--bars {
-        display: block;
-        font-size: .875rem;
-        @mixin atMedium {
-            display: none;
-        }
-    }
-
-    &--search-mini {
-        font-size: .875rem;
-
-        @mixin atSmall {
-            display: none;
-        }
-    }
-
-    &__site-header--miniForm__close {
-        font-size: .8125rem;
-        color: $mainLightBlack;
-    }
-
-    &__site-header--notification__clock {
-        position: absolute;
-        font-size: .875rem;
-        top: 5px;
-        right: 5px;
-        color: $mainDarkGray;
-        cursor: pointer;
-    }
-
-    &__site-header--notification--circle {
-        font-size: .35rem; 
-        color: $mainDarkGray;
-        margin-left: .125rem;
-    }
-
-    &__site-header--notification__settings {
-        color: $mainDarkBlue;
-        font-size: .5rem;
-        position: absolute;
-        top: 25%;
-        transform: translate(-50%);
-    }
-
-    &__site-header__menu--notification--details__icon {
-        font-size: .8125rem;
-    }
-
-    &__site-header__menu--notification--details__eye {
-        font-size: .75rem;
-    }
-
-    &__site-header__menu--notification--details__heart {
-        font-size: .75rem;
-        cursor: pointer;
-    }
-
-    &__site-header__menu--notification--details__comment {
-        font-size: .75rem;
-        cursor: pointer;
-    }
-
-    &__site-header--notifcation__viewLater {
-        font-size: .8125rem;
-    }
-
-    &__site-header__menu--nav-icon {
-        font-size: .8125rem;
-        color: $mainLightBlack;
-        margin-right: 3px;
-    }
-
-    &__site-header--menu__user--icons {
-        font-size: .8125rem;
-        color: $mainLightBlack;
-        margin-right: 10px;
-
-        @mixin atSmall {
-            font-size: .875rem;
-        }
-    }
-
-    &__site-main--nav__topTreding--icon {
-        margin-right: 3px;
-        color: $mainDarkBlue;
-    }
-
-    &__site-main--nav__topTreding--tagIcon {
-        margin-right: 3px;
-        color: rgba($mainMediumLightBlack, .6);
-    }
-
-    &__site-main--nav__clock {
-        margin-right: 5px;
-    }
-
-    &__site-main--nav__angleDown {
-        margin-left: 5px;
-    }
-
-    &__site-main__nav--quote__quoteIcon {
+    &__site-main__quote--quoteIcon {
         font-size: .8125rem;
         color: rgba($mainMediumLightBlack, .5);
         position: absolute;
@@ -252,7 +16,7 @@
         left: 4.4px;
     }
 
-    &__site-main__nav--quote__quotesecondIcon {
+    &__site-main__quote--quotesecondIcon {
         font-size: .8125rem;
         color: rgba($mainMediumLightBlack, .6);
         position: absolute;
@@ -260,222 +24,55 @@
         left: 4.4px;
     }
 
-    &__site-main__nav--quote__footer--smile {
+    &__site-main__quote--footer__smile {
         margin-right: 5px;
     }
 
-    &__site-main__nav--quote__footer--heart {
+    &__site-main__quote--footer__heart {
         margin-right: 5px;
     }
 
-    &__site-main__nav--quote__footer--comments {
+    &__site-main__quote--footer__comments {
         margin-right: 5px;
     }
 
-    &__site-main--share__shareIcon {
-        position: absolute;
-        top: 25%;
-        left: 6px;
-        font-size: .875rem;
-        cursor: pointer;
-        color: #fff;
-    }
-
-
-    &__site-main--share__facebook {
-        font-size: 28px;
-        padding: 0;
-        margin: 0;
-        color: $mainLightBlue;
-        float: left;
-    }
-
-    &__site-main--share__googleplus {
-        font-size: 28px;
-        padding: 0;
-        margin: 0;
-        color: $mainDarkRed;
-        float: right;
-    }
-
-
-    &__site-main--share__selectuserarrow {
+    
+    &__quotefilter--angleicon {
         margin-left: 5px;
-        font-size: .875rem;
-        transition: all .3s ease-out;       
+        color:$mainFontColor;
     }
 
-    &__site-main--share__userCounterIcon {
-        color: rgba($mainLightBlack, .7);
-        margin-right: 3px;
+    &__quotefilter--filter__calend {
+       font-size: 1.2rem;
+       position: relative;
+       color: rgba($mainDarkBlack, .6);
+       cursor: pointer;
+
+       @mixin atExtraSmall {
+        font-size: 1.3rem;
+       }
+
+       @mixin atSmall {
+        font-size: 1.4rem;
+       }
+    }
+  
+    &__quotefilter--filter__alt--comment {
+        color: rgba($mainDarkBlack, .6);
+        margin-right: 8px;
     }
 
-    &__site-main--share__locationIcon {
-        margin-right: 5px;
-        font-size: .75rem;
+    &__quotefilter--filter__alt--eye{
+        color: rgba($mainDarkBlue, .8);
+        margin-right: 8px;
     }
 
-    &__site-main--share__userSelectedIcon {
-        color: rgba($mainLightBlack, .7);
-        margin-right: 5px;
-    }
- 
-    &__site-main--share__userSelectedCloseIcon {
-        font-size: .6875rem;
-        color: $mainLightBlack;
-        position: absolute;
-        top: 1.5px;
-        left: 4px;
+    &__quotefilter--filter__alt--heart {
+        color: rgba($mainDarkRed, .8);
+        margin-right: 8px;
     }
 
-    &__site-main--share__userSelectedCloseMainIcon {
-        position: absolute;
-        top: 1.5px;
-        left: 4px;
-        font-size: .6875rem;
-        color: $mainLightBlack;
+    &__quotefilter--filter__categsm--angleicon {
+        margin-left: 10px;
     }
-
-    &__site-main__nav--onlineQue__filterIcon {
-        margin-left: 5px;
-        color: $mainFontColor
-    }
-
-    &__site-main__nav--onlineQue__durationClock {
-        margin-right: 3px;
-        color: $mainDarkBlue;
-    }
-
-    &__site-main--nav__onlineQue--footerIcon {
-        margin-right: 5px;
-    }
-
-    &__site-main--nav__onlineQue--footerHeartIcon {
-        margin-right: 5px;
-        cursor: pointer;
-    }
-    &__site-main--nav__onlineQue--userIcon {
-        margin-right: 5px;
-        color: $mainLightBlue;
-    }
-
-    &__site-main--nav__onlineQue--timeIcon {
-        margin-right: 3px;
-        /* color: $mainFontColor; */
-        color: $mainLightBlue;
-    }
-
-    &__site-main--nav__grouplist--angledown {
-        margin: 0  0 0 8px;
-        position: relative;
-        top: 1px;
-        color: $mainFontColor;
-    }
-
-    &__site-main__nav--chats__usericon {
-        position: absolute;
-        z-index: 1;
-        top: 6.5px;
-        left: 6px;
-        color: #fff;
-    }
-
-    &__site-main--nav__chatIcon {
-        color: $mainDarkBlue;
-        margin-right: 5px;
-    }
-
-    &__site-main--nav__micIcon {
-        position: absolute;
-        top: 20%;
-        left: 10px;
-    }
-
-    &__site-main--nav__clipIcon {
-        color: $mainExtraDarkPaleBlue;
-        cursor: pointer;
-    }
-
-    &__site-main--nav__smileIcon {
-        color: $mainExtraDarkPaleBlue;
-        cursor: pointer;
-    }
-
-    &__site-main__nav--chaticon {
-        position: absolute;
-        top: 25%;
-        transform: translateX(-25%);
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    &__site-main__nav--chatimageicon {
-        position: absolute;
-        top: 28%;
-        transform: translateX(-28%);
-        left: 54%;
-        transform: translateX(-54%);
-    }
-
-    &__site-main__nav--chatlocationicon {
-        position: absolute;
-        top: 28%;
-        transform: translateX(-28%);
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    &__site-main__nav--chatLog__searchIcon {
-        font-size: .875rem;
-        position: absolute;
-        top: 22%;
-        transform: translateY(-22%);
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    &__chats--log__maincloseIcon {
-        font-size: .75rem;
-        position: absolute;
-        top: 22%;
-        transform: translateY(-22%);
-        left: 50%;
-        transform: translateX(-50%);
-        color: rgba($mainLightBlack, .7);
-    }
-
-    &__site-main__nav--chatLog__searchClose {
-        font-size: .75rem;
-        position: absolute;
-        top: 22%;
-        transform: translateY(-22%);
-        left: 50%;
-        transform: translateX(-50%);
-        color: rgba($mainLightBlack, .7);
-    }
-
-    &__site-main__nav--chatLog__eyeIcon {
-        font-size: .9375rem;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 50%;
-        transform: translateX(-50%);
-        color: #fff;
-        z-index: 2;
-        cursor: pointer;
-    }
-
-    &__chats--logs__share--options__Icons {
-        margin:  0 14px 0 12px;
-        position: relative;
-        top: 1px;
-    }
-
-    &__chats--logs__share--options__lastIcons {
-        margin:  0 10px 0 15px;
-        position: relative;
-        top: 2px;
-    }
-   
 }

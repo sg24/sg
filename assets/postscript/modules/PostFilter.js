@@ -26,6 +26,8 @@ class PostFilter {
         this.categToggler.toggleClass("icon--rotate");
         this.filter.removeClass("expost__filter--options__visible");
         this.filterToggler.removeClass("icon--rotate");
+        this.seleCateg.removeClass("expost__filter--options__search--categsm__item--visible");
+        this.seleCategIcon.removeClass("icon--rotate");
     }
 
     toggleFilter() {
@@ -33,13 +35,17 @@ class PostFilter {
         this.filterToggler.toggleClass("icon--rotate");
         this.categ.removeClass("expost__category--item__visible");
         this.categToggler.removeClass("icon--rotate");
+        this.seleCateg.removeClass("expost__filter--options__search--categsm__item--visible");
+        this.seleCategIcon.removeClass("icon--rotate");
         // this.filterOverlay.toggleClass("site-main__content--details__overlay--visible");
     }
 
     closeAllFilter() {
         this.filter.removeClass("expost__filter--options__visible");
         this.filterToggler.removeClass("icon--rotate");
-        this.filterOverlay.removeClass("site-main__content--details__overlay--visible");
+        // this.filterOverlay.removeClass("site-main__content--details__overlay--visible");
+        this.seleCateg.removeClass("expost__filter--options__search--categsm__item--visible");
+        this.seleCategIcon.removeClass("icon--rotate");
     }
 
     toggleSelecCate() {
