@@ -1,6 +1,6 @@
 .site-main__onlineQue {
     color: $mainFontColor;
-    padding: 20px;
+    margin: 20px 0px;
     font-weight: 400;
 
     &--contentwrapper {
@@ -123,5 +123,9 @@
             }
         }
 
+    }
+
+    @mixin atSmall {
+        margin: 30px  0;
     }
 }

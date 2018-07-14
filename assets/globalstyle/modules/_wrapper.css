@@ -17,8 +17,8 @@
     }
 
     &__exmain {
-        padding-left: 10px;
-        padding-right: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
         max-width: 1200px;
         margin: 0 auto;
         @mixin clearfix;

@@ -83,7 +83,7 @@
     -ms-box-shadow: 0px 1px 5px 1px rgba(217, 217, 217, 0.981);
     -moz-box-shadow: 0px 1px 5px 1px rgba(217, 217, 217, 0.981);
     -webkit-box-shadow: 0px 1px 5px 1px rgba(217, 217, 217, 0.981);
-    margin: 20px 10px;
+    margin: 20px 0px;
     border-radius: 10px;
     position: relative;
 }
@@ -206,10 +206,17 @@
     border-right: none;
 }
 
+@media (min-width: 530px) {
+
+    .site-main__quote {
+        margin: 30px 0;
+    }
+}
+
 .quotefilter {
     width: 100%;
     position: relative;
-    padding: 0 10px;
+    margin: 0 auto;
 }
 
 .quotefilter__found {
@@ -361,10 +368,9 @@
     -webkit-box-shadow: 0px 1px 6px 2px rgba(51, 51, 51, .2);
     padding: 10px;
     width: 100%;
-    z-index: 1;
+    z-index: -1;
     visibility: hidden;
-
-    /* opacity: 0; */
+    opacity: 0;
     transition: all .3s ease-in;
 }
 
@@ -813,7 +819,7 @@
 .quotefilter__filter--options__visible {
     opacity: 1;
     visibility: visible;
-    z-index: 2;
+    z-index: 1;
     transition: all .3s ease-in;
 }
 
@@ -858,8 +864,14 @@
 
     .quotefilter__filter {
         padding: 10px 20px;
-        margin-left: 10px;
         margin-right: 10px;
+    }
+}
+
+@media (min-width: 1010px) {
+
+    .quotefilter__filter {
+        margin-left: 10px;
     }
 }
 
@@ -954,6 +966,13 @@
     .quotefilter__addque {
         margin-top: 0;
         padding: 12px 20px;
+    }
+}
+
+@media (min-width: 530px) {
+
+    .quotefilter {
+        padding: 0;
     }
 }
 

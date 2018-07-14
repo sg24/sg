@@ -461,8 +461,8 @@ img {
 }
 
 .wrapper__exmain {
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -3758,6 +3758,18 @@ img {
     top: 62px;
     font-family: "Roboto",Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
 
+
+}
+
+.site-main__expage {
+  top: 82px !important;
+}
+
+@media (min-width: 800px) {
+
+  .site-main__expage {
+    top: 65px !important;
+  }
 }
 
 .site-main__content {
