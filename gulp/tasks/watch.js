@@ -55,6 +55,10 @@ gulp.task('watch', function() {
         gulp.start('onlinequecss')
     });
 
+    watch('./assets/chatstyle/**/*.css', function() {
+        gulp.start('groupchatcss')
+    });
+
     // watch('./apps.js', function() {
     //     gulp.start('scriptsRefresh');
     // });
@@ -107,6 +111,10 @@ gulp.task('onlinequecss',['onlinequestyles'], function() {
     .pipe(browserSyc.stream());
 });
 
+gulp.task('groupchatcss',['groupchatstyles'], function() {
+    return gulp.src("./assets/chatstyle/groupchat.css")
+    .pipe(browserSyc.stream());
+});
 
 // gulp.task('scriptsRefresh',['scripts'], function() {
 //     browserSyc.reload();

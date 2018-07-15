@@ -1,0 +1,44 @@
+.wrapper {
+    /* overflow: hidden; */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 0px;
+    padding-right: 0px;
+    display: flex;
+    justify-content: center;
+
+    @mixin atSmall {
+        padding-left: 18px;
+        padding-right: 18px;
+        max-width: 1236px;
+        display: flex;
+        justify-content: center;
+        /* align-items: center; */
+    }
+
+    &__exmain {
+        padding-left: 20px;
+        padding-right: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        @mixin clearfix;
+        
+        @mixin atSmall {
+            padding-left: 40px;
+            padding-right: 40px;
+            max-width: 1200px;
+        }
+
+        @mixin atMedium {
+            padding-left: 10px;
+            padding-right: 10px;
+            max-width: 1220px;
+        }
+
+        @mixin atLarge {
+            padding-left: 18px;
+            padding-right: 18px;
+            max-width: 1236px;
+        }
+    }
+}

@@ -30,6 +30,10 @@ router.get('/onlineexam', (req, res, next) => {
     res.render('onlineexam');
 });
 
+router.get('/chat', (req, res, next) => {
+    res.render('groupchat');
+});
+
 router.get('/community', (req, res, next) => {
     res.render('community');
 });

@@ -1,0 +1,6 @@
+.disabled {
+    &::after {
+        background-color: $mainExtraLightBlue !important;
+    }
+    cursor: not-allowed !important;
+}

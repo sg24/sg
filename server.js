@@ -21,7 +21,8 @@ hbs.registerPartials(__dirname + '/views/partialsgroup');
 hbs.registerPartials(__dirname + '/views/partialsquote');
 hbs.registerPartials(__dirname + '/views/partialsonlineque');
 hbs.registerPartials(__dirname + '/views/partialsquestion');
-hbs.registerPartials(__dirname + '/views/partialsglobal')
+hbs.registerPartials(__dirname + '/views/partialsglobal');
+hbs.registerPartials(__dirname + '/views/partialschat');
 // app.engine('hbs', hbs({
 //     defaultLayout: 'main'
 // }));

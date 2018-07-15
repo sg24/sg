@@ -109,3 +109,14 @@ gulp.task('onlinequestyles', function() {
     })
     .pipe(gulp.dest('./public/stylesheets'));
 });
+
+gulp.task('groupchatstyles', function() {
+    return gulp.src('./assets/chatstyle/groupchat.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) {
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});

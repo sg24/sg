@@ -1,0 +1,215 @@
+
+.activeMd {
+    position: absolute;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: -11px;
+        right: -9px;
+        border-radius: 9px;
+        width: 18px;
+        height: 18px;
+        background-color: #f22613;
+        overflow: hidden;
+
+        @mixin atExtraSmall {
+            top: -11px;
+            right: -15px;
+        }
+
+        @mixin atMedium {
+            top: -14px;
+            right: -15px;
+        }
+
+        @mixin atLarge {
+            border-radius: 10px;
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    & > span {
+        display: inline;
+        color: #fff;
+        position: absolute;
+        top: -8px;
+        right: -9px;
+        border-radius: 10px;
+        font-size: .75rem;
+        overflow: hidden;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        white-space: nowrap;
+
+        @mixin atExtraSmall {
+            top: -8px;
+            right: -15.5px;
+        }
+
+        @mixin atSmall {
+            top: -8px;
+            right: -16px;
+        }
+
+        @mixin atMedium {
+            top: -12px;
+            right: -15px;
+            font-size: .8125rem;
+        }
+
+        @mixin atLarge {
+            font-size: .8125rem;
+            top: -11px;
+            right: -15.5px;
+        }
+    }
+}
+
+.activeChat {
+    position: absolute;
+    z-index: 2;
+    
+    &::before {
+        content: "";
+        position: absolute;
+        background-color: $mainLightRed;
+        overflow: hidden;
+
+        @mixin atLarge {
+            top: -8px;
+            right: -55px !important;
+            border-radius: 12px;
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    & > span {
+        display: inline;
+        color: #fff;
+        position: absolute;
+        border-radius: 12px;
+        overflow: hidden;
+        width: 24px;
+        height: 24px;
+        text-align: center;
+        white-space: nowrap;
+
+        @mixin atLarge {
+            font-size: .875rem;
+            top: -3.5px;
+            right: -56px;
+        }
+    }
+}
+
+
+
+.active__main {
+    position: absolute;
+    background-color: $mainDarkRed;
+    color: #fff;
+    font-size: .875rem;
+  
+
+    &--header {
+        z-index: 1 ;
+        top: -10px;
+        right: -4px;
+        border-radius: 9px;
+        width: 18px;
+        height: 18px;
+        border: 1px solid rgba(#fff, .25);
+        overflow: hidden;
+        
+        & > div {
+            position: absolute;
+            top: 50%;
+            transform:translateY(-50%);
+            width: 100%;
+            text-align: center;
+            font-size: .75rem;
+
+            @mixin atMedium {
+                font-size: .8125rem;
+            }
+        }
+
+
+        @mixin atLarge {
+            border-radius: 10px;
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    &--group {
+        top: 4px;
+        right: -24px;
+        width: 20px;
+        height: 20px;
+        font-size: .75rem;
+        border-radius: 10px;
+        border: 1px solid rgba(#fff, .25);
+       
+        > div {
+            position: absolute;
+            top: 50%;
+            transform:translateY(-50%);
+            width: 100%;
+            text-align: center;
+        }
+
+        @mixin atExtraSmall {
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            top: 5px;
+            right: -10px;
+            font-size: .8125rem;
+        }
+
+        @mixin atSmall {
+            width: 26px;
+            height: 26px;
+            border-radius: 13px;
+            right: -5px;
+            top: 10px;
+        }
+    }
+
+    &--group-content {
+        top: -20px;
+        right: -20px;
+        width: 20px;
+        font-size: .75rem;
+        height: 20px;
+        border-radius: 10px;
+        border: 1px solid rgba(#fff, .25);
+       
+        > div {
+            position: absolute;
+            top: 50%;
+            transform:translateY(-50%);
+            width: 100%;
+            text-align: center;
+        }
+
+        @mixin atExtraSmall {
+            font-size: .8125rem;
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+        }
+
+        @mixin atSmall {
+            width: 26px;
+            height: 26px;
+            border-radius: 13px;
+        }
+    }
+
+}
