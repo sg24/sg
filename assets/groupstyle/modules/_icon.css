@@ -77,9 +77,6 @@
         color: rgba($mainMediumLightBlack, .8);
     }
 
-    &__site-main--group__filterIcon {
-        margin-left: 5px;
-    }
 
     &__site-main--group__optionsTabFriends {
         margin-right: 5px;
@@ -151,5 +148,31 @@
         }
     }
 
+    &__site-main--group__filter--angleicon {
+        color: $mainFontColor;
+        margin-left: 5px;
+    }
+
+    &__site-main--group__filter--groupicon {
+        color: $mainDarkBlue;
+        margin-right: 5px;
+    }
+
+    &__site-main--group__filter--usericon {
+        color: $mainLightGreen;
+        margin-right: 5px;
+    }
     
+    &__site-main--group__innercateg--angleicon {
+        margin: 0 10px 0 20px;
+    }
+
+    &__site-main--group__categ--angleicon {
+        position: relative;
+        margin-left: 8px;
+
+        @mixin atSmall {
+            margin-left: 15px;
+        }
+    }
 }

@@ -9,7 +9,8 @@ module.exports = {
       post: "./assets/postscript/Post.js",
       question: "./assets/questionscript/Question.js",
       quote: "./assets/quotescript/quote.js",
-      onlineque: "./assets/onlinequescript/onlineque.js" 
+      onlineque: "./assets/onlinequescript/onlineque.js",
+      group: "./assets/groupscript/group.js" 
     },
     output: {
       path: path.resolve(__dirname + '/public/js/app'),
