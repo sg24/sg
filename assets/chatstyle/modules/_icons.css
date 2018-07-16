@@ -527,4 +527,19 @@
         margin-right: 40px;
         color: rgba($mainLightGray, .4);
     }
+
+    &__site-main--groupchat__typing--up {
+        color: $mainLightGreen;
+        margin: 0 30px;
+    }
+
+    &__site-main--groupchat__typing--lasticon {
+        margin-right: 30px;
+    }
+
+    &__site-main--groupchat__typing--down {
+        color: $mainDarkPaleBlue;
+        position: relative;
+        top: 10px;
+    }
 }

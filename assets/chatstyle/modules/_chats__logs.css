@@ -4,20 +4,28 @@
     /* background-color: #4582a9; */
     /* background-color: #4f88ad; */
     background-color: #4186AD;
-    border-top: 1px solid #fff;
-    /* float: left; */
-    height: 90.6vh;
+    position: absolute;
     display: flex;
     flex-direction: column;
-    margin-top: 62px;
-   
-    /* bottom: 0; 
-    position: absolute;
-    top: -80px; 
-    opacity: 0;
-    visibility: hidden;
-    z-index: -1;
-    transition: all .3s ease-in; */
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+
+    &--shad {
+        position: absolute;
+        width: 1px;
+        top: 0;
+        right: -1px;
+        bottom: 0;
+        z-index: 1;
+        background-color: transparent;
+        box-shadow: -5px 0px 8.32px 4.68px rgba(255, 255, 255, 0.44);
+        -o-box-shadow: -5px 0px 8.32px 4.68px rgba(255, 255, 255, 0.44);
+        -webkit-box-shadow: -5px 0px 8.32px 4.68px rgba(255, 255, 255, 0.44);
+        -moz-box-shadow: -5px 0px 8.32px 4.68px rgba(255, 255, 255, 0.44);
+        -ms-box-shadow: -5px 0px 8.32px 4.68px rgba(255, 255, 255, 0.44);
+    }
 
     &--mainclose {
         position: absolute;
@@ -129,6 +137,7 @@
         overflow: hidden;
         overflow-y: auto;
         margin-top: 10px;
+        margin-bottom: 100px;
     }
 
     &--userOnline, &--userOffline {
@@ -411,6 +420,8 @@
         width: 100%;
         margin-top: 10px;
         border-top: 1px solid rgba(#fff, .3);
+        position: absolute;
+        bottom: 0;
 
         &__userselected {
             @mixin clearfix;

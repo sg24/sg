@@ -3,17 +3,14 @@
     padding: 0px 0 0 0 ;
     position: relative;
     height: 90.6vh;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    margin-top: 62px;
+    margin-top: 62px; 
     border: 1px solid $mainDarkGray;
     border-left: none;
-    box-shadow: 0px 0px 8.32px 4.68px rgba(255, 255, 255, 0.44);
-    -o-box-shadow: 0px 0px 8.32px 4.68px rgba(255, 255, 255, 0.44);
-    -webkit-box-shadow: 0px 0px 8.32px 4.68px rgba(255, 255, 255, 0.44);
-    -moz-box-shadow: 0px 0px 8.32px 4.68px rgba(255, 255, 255, 0.44);
-    -ms-box-shadow: 0px 0px 8.32px 4.68px rgba(255, 255, 255, 0.44);
+    width: 100%;
+
+    &--mainwrapper {
+        padding-left: 370px;
+    }
 
     &--header {
         background-color: #4186AD;
@@ -49,7 +46,7 @@
                 float: left;
                 list-style: none;
                 margin: 0;
-                padding: 0 0 0 30px;
+                padding: 0 0 0 40px;
                 font-size: .875rem;
                 position: relative;
                 @mixin clearfix;
@@ -109,7 +106,7 @@
                 width: 33.333%;
                 color: #fff;
                 font-size: .875rem;
-                padding: 4px 30px 4px 0;
+                padding: 4px 40px 4px 0;
             }
         }
 
@@ -124,7 +121,7 @@
             float: left;
             font-size: .875rem;
             border-radius: 5px;
-            margin-left: 20px;
+            margin-left: 40px;
             position: relative;
 
             &--calend {
@@ -170,7 +167,7 @@
                 border: 1px solid #fff;
 
                 &:last-child {
-                    margin-right: 20px;
+                    margin-right: 30px;
                 }
             }
 
@@ -193,8 +190,14 @@
     }
 
     &--chatbox {
-        padding: 0 20px;
+        padding: 0 40px;
         background-color: $mainHeaderColor;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow: hidden;
+        overflow-y: auto;
+
 
         &__chatdate {
             position: relative;
@@ -212,7 +215,7 @@
 
         &__firstchat {
             /* width: 100%; */
-            /* display: flex; */
+            display: flex;
             justify-content: flex-end;
             padding: 20px 0 40px 0;
 
@@ -224,12 +227,13 @@
             &--content {
                 padding: 20px 10px;
                 text-align: center;
-                color: $mainFontColor;
+                color: rgba($mainDarkBlack, .7);
                 background-color: rgb(255, 255, 255);
                 box-shadow: 0px 2px 7px 0px rgba(137, 190, 213, 0.53);
                 border-radius: 20px;
                 line-height: 1.5;
                 word-break: break-word;
+                font-weight: 500;
             }
 
             &--footer {
@@ -246,12 +250,17 @@
                 &__chattime {
                     float: left;
                     padding-left: 15px;
+                    color: $mainLightBlue;
+                    font-weight: 400;
                 }
 
                 &__user {
                     float: right;
                     position: relative;
                     padding-right: 40px;
+                    cursor: pointer;
+                    color: $mainLightBlue;
+                    font-weight: 500;
 
                     &--img {
                         position: absolute;
@@ -261,8 +270,95 @@
                         background-color: $mainDarkBlue;
                         top: -30px;
                         right: -10px;
+                        cursor: pointer;
+                        overflow: hidden;
                     }
                 }
+            }
+        }
+
+        
+        &__secondchat {
+            /* width: 100%; */
+            display: flex;
+            justify-content: flex-start;
+            padding: 20px 0 40px 10px;
+           
+
+            &--wrapper {
+                width: 70%;
+                font-size: .9375rem;
+            }
+
+            &--content {
+                padding: 20px 10px;
+                text-align: center;
+                border-radius: 20px;
+                background-color: $mainDarkPaleBlue;
+                line-height: 1.5;
+                word-break: break-word;
+                color: #fff;  
+                background-image: radial-gradient(circle closest-side, rgba($mainDarkPaleBlue, .8) 20%, rgba($$mainMiddleDarkBlue, .9) 50%, rgba($mainDarkPaleBlue, .9) 100%);
+                box-shadow: 0px 3px 2px 0px rgba($mainDarkBlack, 0.34);
+
+            }
+
+            &--footer {
+                list-style: none;
+                margin: 10px 0 0 0;
+                padding: 0;
+                @mixin clearfix;
+                background-color: transparent;
+
+                li {
+                    font-size: .875rem;
+                }
+
+                &__chattime {
+                    float: right;
+                    padding-right: 15px;
+                    color: $mainDarkPaleBlue;
+                    font-weight: 500;
+                }
+
+                &__user {
+                    float: left;
+                    position: relative;
+                    padding-left: 40px;
+                    cursor: pointer;
+                    color: $mainDarkPaleBlue;
+                    font-weight: 500;
+
+                    &--img {
+                        position: absolute;
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 25px;
+                        background-color: $mainDarkBlue;
+                        top: -30px;
+                        left: -10px;
+                        cursor: pointer;
+                        overflow: hidden;
+                    }
+                }
+            }
+        }
+    }
+
+    &--typing {
+        font-size: .625rem;
+        width: 100%;
+        padding: 0 40px;
+
+        &__wrapper {
+            text-align: center;
+
+            &--content {
+                padding: 10px 0;
+                background-color: #fff;
+                border-radius: 10px;
+                border: 1px solid $mainLightGray;
+                /* box-shadow: 0 2px 2px 2px rgba($mainDarkBlue, .7); */
             }
         }
     }
