@@ -5,8 +5,11 @@
     /* background-color: #4f88ad; */
     background-color: #4186AD;
     border-top: 1px solid #fff;
-    float: left;
-    height: 99vh;
+    /* float: left; */
+    height: 90.6vh;
+    display: flex;
+    flex-direction: column;
+    margin-top: 62px;
    
     /* bottom: 0; 
     position: absolute;
@@ -31,8 +34,8 @@
 
     &--header {
         list-style: none;
-        margin: 20px 0 0 0;
-        padding: 0 0 8px 0;
+        margin: 25px 0 0 0;
+        padding: 0 0 15px 0;
         width: 100%;
         border-bottom: 1px solid rgba(#fff, .3);
         @mixin clearfix;
@@ -123,13 +126,15 @@
     &--mainOutlet {
         display: flex;
         flex-grow: 1;
-        width: 100%;
+        overflow: hidden;
+        overflow-y: auto;
+        margin-top: 10px;
     }
 
     &--userOnline, &--userOffline {
        
         border-top: none;
-        margin: 10px 10px 0 10px;
+        margin: 0px 10px 0 10px;
         padding: 0;
         background-color: rgba($mainMediumLightBlack, .2);
         border: 1px solid rgba(255, 255, 255, .45);
@@ -177,10 +182,7 @@
         }
 
         &__outlet {
-            /* max-height: 375px;
-            overflow: hidden;
-            overflow-y: auto; */
-            margin-bottom: 30px;
+            /* margin-bottom: 30px; */
         }
 
         &__wrapper {
@@ -407,7 +409,7 @@
     
     &--share {
         width: 100%;
-        margin-top: 20px;
+        margin-top: 10px;
         border-top: 1px solid rgba(#fff, .3);
 
         &__userselected {
