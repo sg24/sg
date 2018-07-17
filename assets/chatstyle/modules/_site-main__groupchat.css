@@ -2,20 +2,25 @@
     color: $mainFontColor;
     padding: 0px 0 0 0 ;
     position: relative;
-    height: 90.6vh;
-    margin-top: 62px; 
-    border: 1px solid $mainDarkGray;
+    height: 100vh;
     border-left: none;
     width: 100%;
+    box-shadow:  0px 2px 2px 1px rgba($mainDarkPaleBlue, .5);
+    -o-box-shadow:  0px 2px 2px 1px rgba($mainDarkPaleBlue, .5);
+    -ms-box-shadow:  0px 2px 2px 1px rgba($mainDarkPaleBlue, .5);
+    -webkit-box-shadow:  0px 2px 2px 1px rgba($mainDarkPaleBlue, .5);
+    -moz-box-shadow:  0px 2px 2px 1px rgba($mainDarkPaleBlue, .5);
 
     &--mainwrapper {
         padding-left: 370px;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        padding-top: 62px;
     }
 
     &--header {
         background-color: #4186AD;
-        /* box-shadow: 0px 0px 8.32px 4.68px rgba(255, 255, 255, 0.44); */
-        /* box-shadow: 1px 0px 10px 4px rgba($mainDarkPaleBlue, .6); */
         box-shadow: 0px 2px 4px 0px rgba($mainDarkPaleBlue, 0.53);
         -o-box-shadow: 0px 2px 4px 0px rgba($mainDarkPaleBlue, 0.53);
         -ms-box-shadow: 0px 2px 4px 0px rgba($mainDarkPaleBlue, 0.53);
@@ -31,7 +36,6 @@
             padding: 10px 0;
             font-weight: 400;
             margin: 0 auto;
-            /* margin: 0; */
             border-bottom: 1px solid rgba($mainDarkGray, .3);
         }
 
@@ -95,6 +99,10 @@
                     width: 100px; 
                     margin: 0 auto;
                     box-shadow: 0 2px rgba($mainLightBlue, .4);
+                    -o-box-shadow: 0 2px rgba($mainLightBlue, .4);
+                    -webkit-box-shadow: 0 2px rgba($mainLightBlue, .4);
+                    -moz-box-shadow: 0 2px rgba($mainLightBlue, .4);
+                    -ms-box-shadow: 0 2px rgba($mainLightBlue, .4);
                     cursor: pointer;         
                 }
 
@@ -230,10 +238,15 @@
                 color: rgba($mainDarkBlack, .7);
                 background-color: rgb(255, 255, 255);
                 box-shadow: 0px 2px 7px 0px rgba(137, 190, 213, 0.53);
+                -o-box-shadow: 0px 2px 7px 0px rgba(137, 190, 213, 0.53);
+                -ms-box-shadow: 0px 2px 7px 0px rgba(137, 190, 213, 0.53);
+                -webkit-box-shadow: 0px 2px 7px 0px rgba(137, 190, 213, 0.53);
+                -moz-box-shadow: 0px 2px 7px 0px rgba(137, 190, 213, 0.53);
                 border-radius: 20px;
                 line-height: 1.5;
                 word-break: break-word;
                 font-weight: 500;
+                cursor: pointer;
             }
 
             &--footer {
@@ -298,9 +311,13 @@
                 line-height: 1.5;
                 word-break: break-word;
                 color: #fff;  
-                background-image: radial-gradient(circle closest-side, rgba($mainDarkPaleBlue, .8) 20%, rgba($$mainMiddleDarkBlue, .9) 50%, rgba($mainDarkPaleBlue, .9) 100%);
+                /* background-image: radial-gradient(circle closest-side, rgba($mainDarkPaleBlue, .8) 20%, rgba($mainMiddleDarkBlue, .9) 50%, rgba($mainDarkPaleBlue, .9) 100%); */
                 box-shadow: 0px 3px 2px 0px rgba($mainDarkBlack, 0.34);
-
+                -o-box-shadow: 0px 3px 2px 0px rgba($mainDarkBlack, 0.34);
+                -ms-box-shadow: 0px 3px 2px 0px rgba($mainDarkBlack, 0.34);
+                -moz-box-shadow: 0px 3px 2px 0px rgba($mainDarkBlack, 0.34);
+                -webkit-box-shadow: 0px 3px 2px 0px rgba($mainDarkBlack, 0.34);
+                cursor: pointer;
             }
 
             &--footer {
@@ -343,22 +360,132 @@
                 }
             }
         }
+
+        &__typing {
+            font-size: .625rem;
+            width: 100%;
+            margin: 40px 0;
+            padding: 0 40px;
+    
+            &--wrapper {
+                text-align: center;
+    
+                &__content {
+                    padding: 10px 0 20px 0;
+                    background-color: #fff;
+                    border-radius: 10px;
+                    border: 1px solid $mainLightGray;
+                    /* box-shadow: 0 2px 2px 2px rgba($mainDarkBlue, .7); */
+                }
+            }
+        }
     }
 
-    &--typing {
-        font-size: .625rem;
-        width: 100%;
-        padding: 0 40px;
+    &--footer {
+        @mixin clearfix;
+        background-color: #4186AD;
+        padding: 5px 20px;
 
-        &__wrapper {
-            text-align: center;
+        &__mic {
+            float: left;
+            width: 15%;
+            position: relative;
+            cursor: pointer;
 
-            &--content {
-                padding: 10px 0;
+            &--wrapper {
+                width: 40px;
+                height: 40px;
                 background-color: #fff;
-                border-radius: 10px;
-                border: 1px solid $mainLightGray;
-                /* box-shadow: 0 2px 2px 2px rgba($mainDarkBlue, .7); */
+                border-radius: 20px;
+                margin: 0 auto;
+                text-align: center;
+                position: relative;
+                top: 10px;
+            }
+        }
+
+        &__input {
+            float: left;
+            background-color: #fff;
+            @mixin clearfix;
+            width: 70%;
+            display: flex;
+            align-items: center;
+            box-shadow: 0px 2px 9px 4px rgba($mainDarkPaleBlue, .4);
+            -o-box-shadow: 0px 2px 9px 4px rgba($mainDarkPaleBlue, .4);
+            -webkit-box-shadow: 0px 2px 9px 4px rgba($mainDarkPaleBlue, .4);
+            -ms-box-shadow: 0px 2px 9px 4px rgba($mainDarkPaleBlue, .4);
+            -moz-box-shadow: 0px 2px 9px 4px rgba($mainDarkPaleBlue, .4);
+
+            &--field {
+                float: left;
+                width: 80%;
+                padding: 8px 5px; 
+                font-size: .875rem;
+                resize: none;
+                margin: 0;
+                border: none;
+                outline: none;
+                line-height: 1.5;
+                font-weight: 500;
+                color: $mainFontColor;
+                overflow: hidden;
+                overflow-y: auto;
+            }
+
+            &--mousein {
+                float: left;
+                width: 10%;
+                text-align: center;
+                padding: 14px 0; 
+                border-right: 1px solid rgba($mainDarkBlue, .3);
+                display: none;
+
+                &__visible {
+                    display: block;
+                    transition: all .3s ease-in;
+                }
+            }
+
+            &--mouseout {
+                float: left;
+                width: 10%;
+                text-align: center;
+                padding: 14px 0; 
+                border-right: 1px solid rgba($mainDarkBlue, .3);
+                /* display: none; */
+
+                &__hidden {
+                    display: none;
+                    transition: all .3s ease-in;
+                }
+            }
+
+            &--smile {
+                float: left;
+                width: 10%;
+                text-align: center;
+                padding: 14px 0;
+            }
+        }
+
+        &__camera {
+            float: left;
+            width: 10%;
+            text-align: center;
+            position: relative;
+            left: 20px;
+            cursor: pointer;
+
+            &--wrapper {
+                width: 40px;
+                height: 40px;
+                background-color: $mainDarkPaleBlue;
+                border-radius: 20px;
+                margin: 0 auto;
+                text-align: center;
+                position: relative;
+                top: 10px;
             }
         }
     }

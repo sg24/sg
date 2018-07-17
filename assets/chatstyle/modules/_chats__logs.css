@@ -11,6 +11,7 @@
     left: 0;
     bottom: 0;
     z-index: 1;
+    padding-top: 62px;
 
     &--shad {
         position: absolute;
@@ -29,8 +30,8 @@
 
     &--mainclose {
         position: absolute;
-        top: 4px;
-        right: 4px; 
+        top: 70px;
+        right: 10px; 
         width: 18px;
         height: 18px;
         background-color: #fff;
@@ -60,6 +61,7 @@
             &:last-child {
                 margin: 0 41.3px 0 20px !important;
                 cursor: pointer;
+                position: relative;
             }
         }
 
@@ -123,8 +125,9 @@
                 background-color: rgba($mainDarkBlue, .7);
                 font-size: .875rem;
                 position: absolute;
-                top: 20px;
-                right: 40.6px;
+                top: 0px;
+                /* right: 40.6px; */
+                right: -1px;
                 /* border: 1px solid $mainDarkBlue; */
             }
         }

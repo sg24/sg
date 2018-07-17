@@ -542,4 +542,61 @@
         position: relative;
         top: 10px;
     }
+
+    &__site-main__groupchat--footer__mic {
+        color: $mainDarkPaleBlue;
+        font-size: 1.2rem;
+        position: relative;
+        top: 40%;
+        transform: translateY(-40%);
+    }
+
+    &__site-main__groupchat--footer__camera {
+        color: #fff;
+        font-size: 1.2rem;
+        position: relative;
+        top: 40%;
+        transform: translateY(-40%);
+    }
+
+    &__site-main--groupchat__footer--sharearrow {
+        color: $mainDarkBlue;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+
+    &__site-main--groupchat__footer--clip {
+        color: $mainDarkBlue;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+
+    &__site-main--groupchat__footer--smile {
+        color: $mainDarkBlue;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+
+    
+    &__chats--log__maincloseIcon {
+        font-size: .75rem;
+        position: relative;
+        top: 2px;
+        left: 4.5px;
+        color: rgba($mainLightBlack, .7);
+    }
+
+    &__chats--logs__share--options__Icons {
+        margin:  0 14px 0 12px;
+        position: relative;
+        top: 0px;
+        left: 4px;
+    }
+
+    &__chats--logs__share--options__lastIcons {
+        margin:  0 10px 0 15px;
+        position: relative;
+        top: 0px;
+    }
+
 }
