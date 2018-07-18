@@ -610,4 +610,16 @@
         top: 22%;
         transform: translateY(-22%);
     }
+
+    &__site-main--userdetails__cancelopt {
+        color: $mainLightRed;
+    }
+
+    &__site-main__userdetails--main__details--icon {
+        color: $mainDarkBlue;
+    }
+
+    &__site-main__userdetails--main__details--iconstore {
+        color: #fff;
+    }
 }
