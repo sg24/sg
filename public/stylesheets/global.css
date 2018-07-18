@@ -1328,6 +1328,43 @@ img {
   }
 }
 
+.active__main--group-item {
+  top: -20px;
+  right: -20px;
+  width: 20px;
+  font-size: .75rem;
+  height: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255, .25);
+}
+
+.active__main--group-item > div {
+  position: absolute;
+  top: 50%;
+  transform:translateY(-50%);
+  width: 100%;
+  text-align: center;
+}
+
+@media (min-width: 335px) {
+
+  .active__main--group-item {
+    font-size: .8125rem;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+  }
+}
+
+@media (min-width: 530px) {
+
+  .active__main--group-item {
+    width: 26px;
+    height: 26px;
+    border-radius: 13px;
+  }
+}
+
 .disabled {
     cursor: not-allowed !important;
 }

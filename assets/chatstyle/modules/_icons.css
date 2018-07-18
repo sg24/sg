@@ -490,7 +490,7 @@
         color: $mainDarkGray;
     }
    
-    &__site-main__groupchat--option__calend {
+    &__site-main--groupchat__chatbox--calend{
         color: $mainDarkPaleBlue; 
         font-size: 1rem;
         position: relative;
@@ -599,4 +599,15 @@
         top: 0px;
     }
 
+    &__site-main--groupchat--option__caret {
+        margin-left: 5px;
+    }
+
+    &__site-main--groupchat__chatbox--searchicon {
+        font-size: .75rem;
+        color: rgba($mainDarkBlack, .45);
+        position: relative;
+        top: 22%;
+        transform: translateY(-22%);
+    }
 }

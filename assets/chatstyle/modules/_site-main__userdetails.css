@@ -1,0 +1,12 @@
+.site-main__userdetails {
+    background-color: #4186AD;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    padding-top: 62px;
+    display: none;
+}

@@ -2,114 +2,75 @@ import $ from 'jquery';
 
 class SiteMainChat {
     constructor() {
-        this.shareChats = $(".site-main__chats--headerIcon__firstitems, .site-main__chats--userStatus__item");
-        this.chatlogs = $(".chats__logs");
-        this.chatlogsClose = $(".chats__logs--mainclose, .site-main__chat--groupList, .site-main__chats--firstChatBox, .site-main__chats--secondChatBox, .site-main__chats--inputWrapper");
-        this.viewUser = $(".chats__logs--userOnline__img");
-        this.clickUser = $(".chats__logs--userOnline__view--userDetails");
-        this.selectGroup = $(".site-main__chats--groupList__item");
-        this.selectGroupOption = $(".site-main__chats--groupList__options");
-        this.attachFile = $(".site-main__chats--clip__wrapper");
-        this.attachWrapper = $(".site-main__chats--attachWrapper");
-        this.toggleInputWrapper = $(".site-main__chats--inputWrapper");
-        this.closeallAttach = $(".site-main__chats--input, .site-main__chats--micWrapper, .site-main__chats--smile, .site-main__chats--attachWrapper");
-        this.inputMic = $(".site-main__chats--mic");
-        this.removeMic = $(".site-main__chats--input, .site-main__nav--chats__smile, .site-main__nav--chats__clip, .site-main__chats--clicklistening");
-        this.selectWrapper = $(".chats__logs--userOnline__wrapper, .chats__logs--userOffline__wrapper");
-        this.selectUser = $(".chats__logs--selectIcon");
-        this.selectUserActive = $(".chats__logs--selectIconActive");
-        this.searchChatBtn = $(".site-main__chats--headerIcon__search");
-        this.inputSearch = $(".site-main__chats--headerIcon__inputitem");
-        this.removeInputSearch = $(".site-main__chats--secondChatBox, .site-main__chats--firstChatBox, .site-main__chats--inputWrapper");
-        this.toggleHeaderIcon = $(".site-main__chats--headerIcon__items");
+        this.chatOpt = $(".site-main__groupchat--header__options--list");
+        this.chatOptToggler = $(".site-main__groupchat--header__options--circle");
+        this.searchChat = $(".site-main__groupchat--chatbox__search");
+        this.searchChatToggler = $(".site-main__groupchat--header__options--list__search");
+        this.removeSearchChat = $(".site-main__groupchat--chatbox__search--close");
+        this.switchGroupToggler = $(".site-main__groupchat--header__options--list__switGroup");
+        this.switchGroup = $(".site-main__groupchat--header__options--group");
+        this.removeSwitchGroup = $(".site-main__groupchat--header__options--group__content--wrapper");
+        this.currentChatToggler = $(".site-main__groupchat--header__options--currentclk");
+        this.currentChat = $(".site-main__groupchat--header__options--current");
+        this.searchUserToggler = $(".site-main__groupchat--header__options--searchuser");
+        this.searchUser = $(".site-main__groupchat--header__options--search");
         this.events();
     }
 
     events() {
-        this.shareChats.click(this.toggleShareChat.bind(this));
-        this.chatlogsClose.click(this.closeShareChat.bind(this));
-        this.viewUser.mouseenter(this.showUser.bind(this));
-        this.viewUser.mouseleave(this.removeUser.bind(this));
-        this.attachFile.click(this.toggleAttachFile.bind(this));
-        this.closeallAttach.click(this.closeAttachFile.bind(this));
-        this.inputMic.click(this.toggleMic.bind(this));
-        this.removeMic.click(this.removeToggleMic.bind(this));
-        this.selectGroup.click(this.toggleSelectGroup.bind(this));
-        this.selectWrapper.mouseenter(this.addSelectUser.bind(this));
-        this.selectWrapper.mouseleave(this.removeSelectUser.bind(this));
-        this.selectWrapper.click(this.toggleClickUser.bind(this));
-        this.searchChatBtn.click(this.toggleInputSearch.bind(this)); 
-        this.removeInputSearch.click(this.closeInputSearch.bind(this));
+        this.chatOptToggler.click(this.toggleChatOpt.bind(this));
+        this.searchChatToggler.click(this.toggleSearchChat.bind(this));
+        this.removeSearchChat.click(this.closeSearchChat.bind(this));
+        this.switchGroupToggler.mouseenter(this.openSwitchGroup.bind(this));
+        this.switchGroupToggler.mouseleave(this.closeSwitchGroup.bind(this));
+        this.currentChatToggler.mouseenter(this.openCurrentChat.bind(this));
+        this.currentChatToggler.mouseleave(this.closeCurrentChat.bind(this));
+        this.searchUserToggler.mouseenter(this.openSearchUser.bind(this));
+        this.searchUserToggler.mouseleave(this.closeSearchUser.bind(this));
+        this.removeSwitchGroup.click(this.closeChatOpt.bind(this));
     }
 
-    toggleShareChat() {
-        this.chatlogs.toggleClass("chats__logs--visible");
+    toggleChatOpt() {
+        this.chatOpt.toggleClass("site-main__groupchat--header__options--list__visible");
     }
 
-    closeShareChat() {
-        this.chatlogs.removeClass("chats__logs--visible");
+    closeChatOpt() {
+        this.switchGroup.removeClass("site-main__groupchat--header__options--group__visible");
+        this.chatOpt.removeClass("site-main__groupchat--header__options--list__visible");
     }
 
-    showUser() {
-        this.clickUser.addClass("chats__logs--userOnline__view--userDetails__visible");
+    toggleSearchChat() {
+        this.searchChat.toggleClass("site-main__groupchat--chatbox__search--visible");
+        this.chatOpt.toggleClass("site-main__groupchat--header__options--list__visible");
     }
 
-    removeUser() {
-        this.clickUser.removeClass("chats__logs--userOnline__view--userDetails__visible")
+    closeSearchChat() {
+        this.searchChat.removeClass("site-main__groupchat--chatbox__search--visible");
     }
 
-    toggleSelectGroup() {
-        this.selectGroupOption.toggleClass("site-main__chats--groupList__options--visible");
-        this.selectGroup.toggleClass("icon--rotate");
+    openSwitchGroup() {
+        this.switchGroup.addClass("site-main__groupchat--header__options--group__visible");
     }
 
-    toggleAttachFile() {
-        this.attachWrapper.toggleClass("site-main__chats--attachWrapper__visible");
-        this.toggleInputWrapper.toggleClass("site-main__chats--inputWrapper__zindex");
-        this.inputMic.removeClass("site-main__chats--mic__active");
+    closeSwitchGroup() {
+        this.switchGroup.removeClass("site-main__groupchat--header__options--group__visible");
     }
 
-    closeAttachFile() {
-        this.attachWrapper.removeClass("site-main__chats--attachWrapper__visible");
-        this.toggleInputWrapper.removeClass("site-main__chats--inputWrapper__zindex");
+    openCurrentChat() {
+        this.currentChat.addClass("site-main__groupchat--header__options--current__visible");
     }
 
-    toggleMic() {
-        this.inputMic.toggleClass("site-main__chats--mic__active");
+    closeCurrentChat() {
+        this.currentChat.removeClass("site-main__groupchat--header__options--current__visible");
     }
 
-    removeToggleMic() {
-        this.inputMic.removeClass("site-main__chats--mic__active");
+    openSearchUser() {
+        this.searchUser.addClass("site-main__groupchat--header__options--search__visible");
     }
 
-    addSelectUser() {
-        this.selectUser.addClass("chats__logs--selectIcon__visible");
-        this.selectWrapper.addClass("chats__logs--userOnline__wrapper--borderhover");
+    closeSearchUser() {
+        this.searchUser.removeClass("site-main__groupchat--header__options--search__visible");
     }
-
-    removeSelectUser() {
-        this.selectUser.removeClass("chats__logs--selectIcon__visible");
-        this.selectWrapper.removeClass("chats__logs--userOnline__wrapper--borderhover");
-    }
-
-    toggleClickUser() {
-        this.selectUserActive.toggleClass("chats__logs--selectIconActive__visible");
-        this.selectWrapper.toggleClass("chats__logs--userOnline__wrapper--bordervisible");
-        this.selectUser.removeClass("chats__logs--selectIcon__visible");
-        this.selectWrapper.removeClass("chats__logs--userOnline__wrapper--borderhover");
-    }
-
-    toggleInputSearch() {
-        this.inputSearch.toggleClass("site-main__chats--headerIcon__inputitem--visible");
-        this.toggleHeaderIcon.toggleClass("site-main__chats--headerIcon__items--notvisible");
-        this.searchChatBtn.toggleClass("site-main__chats--headerIcon__search--notvisible");
-    }
-
-    closeInputSearch() {
-        this.inputSearch.removeClass("site-main__chats--headerIcon__inputitem--visible");
-        this.toggleHeaderIcon.removeClass("site-main__chats--headerIcon__items--notvisible");
-    }
-
 }
 
 export default SiteMainChat;
