@@ -1,21 +1,23 @@
 .site-main__userdetails {
     background-color: #4186AD;
     position: absolute;
-    display: flex;
-    flex-direction: column;
     top: 0;
-    left: 374px;
+    left: 0px;
     bottom: 0; 
-    z-index: 1;
     padding-top: 62px;
     box-shadow: 1px 0px 4.32px 4.68px rgba($mainDarkBlue, 0.64);
-    width: 450px;
+    width: 470px;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 0;
+    transition: all .3s ease-in;
 
     &--header {
         @mixin clearfix;
-        padding: 10px 20px 16px 10px;
+        padding: 10px 30px 16px 30px;
         margin-top: 12px;
         float: left;
         background-color: #4186AD;
@@ -27,7 +29,13 @@
             list-style: none;
             position: relative;
             float: left;
-    
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            z-index: -333;
+            
+           
+
             &--switcher {
                 position: absolute;
                 width: 36px;
@@ -61,7 +69,7 @@
         &__title {
             @mixin clearfix;
             float: left;
-            margin: 0 40px;
+            margin: 0 40px 0 30px;
             position: relative;
             top: -50%;
             transform: translateY(50%);
@@ -92,6 +100,13 @@
             padding: 0;
             list-style: none;
             position: relative;
+            cursor: pointer;
+            position: relative;
+            left: 25px;
+            /* opacity: 0;
+            visibility: hidden;
+            z-index: -333;
+             */
 
             &--title {
                 color: rgba(#fff, .5);
@@ -135,7 +150,7 @@
     &--status {
         text-align: right;
         color: #fff;
-        padding: 10px 20px 0 0;
+        padding: 10px 30px 0 0;
         font-size: .875rem;
         position: relative;
 
@@ -146,14 +161,14 @@
             height: 8px;
             border-radius: 4px;
             background-color: $mainLightGreen;
-            right: 70px;
+            right: 80px;
             top: 15px;
         }
     }
 
     &--sub-main {
-        padding: 0 20px;
-
+        padding: 0 30px; 
+        
         &__header {
             @mixin clearfix;
             position: relative;
@@ -238,7 +253,7 @@
         flex-direction: column;
         overflow: hidden;
         overflow-y: auto;
-        margin: 0 20px;
+        margin: 0 30px;
         border: 1px solid $mainDarkBlue;
         font-size: .875rem;
         color: #fff;
@@ -345,7 +360,8 @@
                 background-color: $mainLightBlue;
                 display: inline;
                 color: #fff;
-                margin-right: 20px;
+                margin-right: 10px;
+                cursor: pointer;
             }
         }
 
@@ -361,7 +377,20 @@
                 background-color: $mainDarkRed;
                 display: inline;
                 color: #fff;
+                margin-left: 20px;
+                cursor: pointer;
             }
         }
+    }
+
+    &--visible {
+        display: flex;
+        flex-direction: column;
+        width: 470px;
+        left: 374px;
+        opacity: 1;
+        visibility: visible;
+        z-index: 1;
+        transition: all .3s ease-in;
     }
 }

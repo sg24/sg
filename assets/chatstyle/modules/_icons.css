@@ -454,16 +454,26 @@
         color: rgba($mainLightBlack, .7);
     }
 
-    &__site-main__nav--chatLog__eyeIcon {
-        font-size: .9375rem;
+    &__site-main__nav--chatLog__eyeicon {
+        font-size: .875rem;
         position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
+        top: 60%;
+        transform: translateY(-60%);
         left: 50%;
         transform: translateX(-50%);
         color: #fff;
         z-index: 2;
         cursor: pointer;
+    }
+
+    &__site-main__nav--chatLog__chaticon {
+        font-size: .875rem;
+        position: absolute;
+        top: 15%;
+        transform: translateY(-15%);
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff;
     }
 
     &__chats--logs__share--options__Icons {
@@ -559,6 +569,14 @@
         transform: translateY(-40%);
     }
 
+    &__site-main__groupchat--footer__clip {
+        color: #fff;
+        font-size: 1.2rem;
+        position: relative;
+        top: 40%;
+        transform: translateY(-40%);
+    }
+
     &__site-main--groupchat__footer--sharearrow {
         color: $mainDarkBlue;
         font-size: 1.2rem;
@@ -597,6 +615,16 @@
         margin:  0 10px 0 15px;
         position: relative;
         top: 0px;
+    }
+
+    &__chats--logs__share-chat--user {
+        margin-right: 10px;
+    }
+
+    &__chats--logs__share-chat--sharearrow {
+        margin-right: 5px;
+        position: relative;
+        top: -1px;
     }
 
     &__site-main--groupchat--option__caret {
