@@ -2,6 +2,7 @@
     color: $mainFontColor;
     padding: 0px 0 0 0 ;
     position: relative;
+    margin: 0;
     height: 100vh;
     border-left: none;
     width: 100%;
@@ -10,16 +11,26 @@
     -ms-box-shadow:  0px 2px 2px 1px rgba($mainDarkPaleBlue, .5);
     -webkit-box-shadow:  0px 2px 2px 1px rgba($mainDarkPaleBlue, .5);
     -moz-box-shadow:  0px 2px 2px 1px rgba($mainDarkPaleBlue, .5);
- 
+
     &--mainwrapper {
-        padding-left: 370px;
+        margin: 0;
+        padding-left: 0px;
         display: flex;
         flex-direction: column;
         height: 100vh;
-        padding-top: 62px;
+        padding-top: 52px;
+
+        @mixin atMedium {
+            padding-top: 62px;
+        }
+
+        @mixin atLarge {
+            padding-left: 370px;
+        }
     }
 
     &--header {
+        display: none;
         background-color: #4186AD;
         box-shadow: 0px 2px 4px 0px rgba($mainDarkPaleBlue, 0.53);
         -o-box-shadow: 0px 2px 4px 0px rgba($mainDarkPaleBlue, 0.53);
@@ -27,17 +38,26 @@
         -webkit-box-shadow: 0px 2px 4px 0px rgba($mainDarkPaleBlue, 0.53);
         -moz-box-shadow: 0px 2px 4px 0px rgba($mainDarkPaleBlue, 0.53);
         position: relative;
-
+        
         &__title {
             font-size: .9375rem;
             color: #fff;
             text-align: center;
-            width: 90%;
+            width: 92%;
             white-space: nowrap;
             padding: 10px 0;
             font-weight: 400;
             margin: 0 auto;
             border-bottom: 1px solid rgba($mainDarkGray, .3);
+
+            @mixin atMedium {
+                font-size: .9375rem;
+                width: 90%;
+            }
+
+            @mixin atMedium {
+                font-size: .9375rem;
+            }
         }
 
         &__details {
@@ -51,8 +71,8 @@
                 float: left;
                 list-style: none;
                 margin: 0;
-                padding: 0 0 0 40px;
-                font-size: .875rem;
+                padding: 0 0 0 20px;
+                font-size: .8125rem;
                 position: relative;
                 @mixin clearfix;
 
@@ -79,7 +99,16 @@
                 &__total {
                     padding: 4px 0 4px 34px;
                     color: #fff;
+                    font-size: .8125rem;
+
+                    @mixin atMedium {
+                        font-size: .875rem;
+                    }
+                }
+
+                @mixin atMedium {
                     font-size: .875rem;
+                    padding: 0 0 0 40px;
                 }
             }
 
@@ -91,11 +120,11 @@
                 margin: 0;
                 padding: 0;
 
-                &__more {
+                &__sh-more-lg {
                     background-color: $mainDarkPaleBlue;   
                     padding: 4px 20px;   
                     border-radius: 20px;
-                    font-size: .875rem; 
+                    font-size: .8125rem; 
                     font-weight: 300;   
                     width: 100px; 
                     margin: 0 auto;
@@ -104,9 +133,36 @@
                     -webkit-box-shadow: 0 2px rgba($mainLightBlue, .4);
                     -moz-box-shadow: 0 2px rgba($mainLightBlue, .4);
                     -ms-box-shadow: 0 2px rgba($mainLightBlue, .4);
-                    cursor: pointer;         
+                    cursor: pointer;   
+                    display: none;
+
+                    @mixin atLarge {
+                        font-size: .875rem;
+                        display: block;
+                    }
                 }
 
+                &__sh-more-sm {
+                    background-color: $mainDarkPaleBlue;   
+                    padding: 4px 20px;   
+                    border-radius: 20px;
+                    font-size: .8125rem; 
+                    font-weight: 300;   
+                    width: 100px; 
+                    margin: 0 auto;
+                    box-shadow: 0 2px rgba($mainLightBlue, .4);
+                    -o-box-shadow: 0 2px rgba($mainLightBlue, .4);
+                    -webkit-box-shadow: 0 2px rgba($mainLightBlue, .4);
+                    -moz-box-shadow: 0 2px rgba($mainLightBlue, .4);
+                    -ms-box-shadow: 0 2px rgba($mainLightBlue, .4);
+                    cursor: pointer;   
+                    display: block;
+
+                    @mixin atLarge {
+                        font-size: .875rem;
+                        display: none;
+                    }
+                }
             }
 
             &--lastdetails {
@@ -114,8 +170,13 @@
                 text-align: right;
                 width: 33.333%;
                 color: #fff;
-                font-size: .875rem;
-                padding: 4px 40px 4px 0;
+                font-size: .8125rem;
+                padding: 4px 20px 4px 0;
+
+                @mixin atMedium {
+                    font-size: .875rem;
+                    padding: 4px 40px 4px 0;
+                }
             }
         }
 
@@ -188,6 +249,10 @@
                 border-bottom-right-radius: 0;
                 background-color: #fff;
                 box-shadow: 0px 3px 7px 2px rgba(137, 190, 213, 0.4);
+                -o-box-shadow: 0px 3px 7px 2px rgba(137, 190, 213, 0.4);
+                -ms-box-shadow: 0px 3px 7px 2px rgba(137, 190, 213, 0.4);
+                -moz-box-shadow: 0px 3px 7px 2px rgba(137, 190, 213, 0.4);
+                -webkit-box-shadow: 0px 3px 7px 2px rgba(137, 190, 213, 0.4);
                 top: 100%;
                 right: 0px;
                 z-index: 1;
@@ -205,6 +270,10 @@
                     &:hover {
                         background-color: $mainLightGray;
                     }
+
+                    @mixin atMedium {
+                        font-size: .875rem;
+                    }
                 }
 
                 &__visible {
@@ -217,15 +286,19 @@
                 right: 100%;
                 background-color: #fff;
                 box-shadow: 0px 1px 7px 2px rgba($mainDarkBlue, 0.4);
+                -o-box-shadow: 0px 1px 7px 2px rgba($mainDarkBlue, 0.4);
+                -webkit-box-shadow: 0px 1px 7px 2px rgba($mainDarkBlue, 0.4);
+                -ms-box-shadow: 0px 1px 7px 2px rgba($mainDarkBlue, 0.4);
+                -moz-box-shadow: 0px 1px 7px 2px rgba($mainDarkBlue, 0.4);
                 padding: 10px;
                 top: 32px;
                 max-width: 365px;
                 cursor: default;
                 display: none;
+                font-size: .8125rem;
 
                 &__input {
                     padding: 10px;
-                    /* box-shadow: 0 2px 9px rgba($mainDarkBlue, .5); */
                     border-radius: 5px;
                     border: none;
                     border: 1px solid $mainDarkGray;
@@ -251,6 +324,10 @@
                         position: relative;
                         background-color: rgb(255, 255, 255);
                         box-shadow: 0px 1px 8px 3px rgba($mainDarkGray, 0.94);
+                        -o-box-shadow: 0px 1px 8px 3px rgba($mainDarkGray, 0.94);
+                        -ms-box-shadow: 0px 1px 8px 3px rgba($mainDarkGray, 0.94);
+                        -webkit-box-shadow: 0px 1px 8px 3px rgba($mainDarkGray, 0.94);
+                        -moz-box-shadow: 0px 1px 8px 3px rgba($mainDarkGray, 0.94);
                     }
 
                     &--img {
@@ -283,7 +360,6 @@
                         &__title {
                             padding: 10px 10px 5px 0 !important;
                             margin: 0 !important;
-                            /* border-bottom: 1px solid $mainDarkGray; */
                             overflow: hidden;
                             text-overflow: ellipsis;
                             white-space: nowrap;
@@ -307,6 +383,10 @@
                                     color: #fff;
                                     border-radius: 20px;
                                     box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
+                                    -ms-box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
+                                    -moz-box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
+                                    -webkit-box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
+                                    -o-box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
                                 }
                             }
 
@@ -337,6 +417,10 @@
                  width: 365px;
                  background-color: #fff;
                  box-shadow: 0px 1px 7px 2px rgba($mainDarkBlue, 0.4);
+                 -o-box-shadow: 0px 1px 7px 2px rgba($mainDarkBlue, 0.4);
+                 -ms-box-shadow: 0px 1px 7px 2px rgba($mainDarkBlue, 0.4);
+                 -moz-box-shadow: 0px 1px 7px 2px rgba($mainDarkBlue, 0.4);
+                 -webkit-box-shadow: 0px 1px 7px 2px rgba($mainDarkBlue, 0.4);
                  position: absolute;
                  right: 100%;
                  top: 72px;
@@ -371,12 +455,16 @@
                     @mixin clearfix;
                     position: relative;
                     margin: 10px 0 10px 0;
-                    font-size: .875rem;
+                    font-size: .8125rem;
                     border-radius: 0px;
                     cursor: default;
                     border-bottom-left-radius: 0;
                     border-bottom-right-radius: 0;
                     box-shadow: 0px 1.5px 1px 0px rgba($mainDarkBlue, 0.44);
+                    -ms-box-shadow: 0px 1.5px 1px 0px rgba($mainDarkBlue, 0.44);
+                    -webkit-box-shadow: 0px 1.5px 1px 0px rgba($mainDarkBlue, 0.44);
+                    -moz-box-shadow: 0px 1.5px 1px 0px rgba($mainDarkBlue, 0.44);
+                    -o-box-shadow: 0px 1.5px 1px 0px rgba($mainDarkBlue, 0.44);
 
                     &--img {
                         width: 50px;
@@ -404,7 +492,6 @@
                             width: 100%;
                             @mixin clearfix;
                             border-top-right-radius: 10px;
-                            /* border-bottom: 1px solid $mainDarkBlue; */
 
                             li {
 
@@ -466,7 +553,11 @@
                         text-overflow: ellipsis;
                         color: $mainDarkBlue;
                         cursor: pointer;
-                        font-weight: 500;
+                        font-weight: 500; 
+                    }
+
+                    @mixin atSmall {
+                        font-size: .875rem;
                     }
                 }
 
@@ -481,6 +572,10 @@
                     border-bottom-left-radius: 0;
                     border-bottom-right-radius: 0;
                     box-shadow: 0px 1.5px 1px 0px rgba($mainDarkBlue, 0.54);
+                    -o-box-shadow: 0px 1.5px 1px 0px rgba($mainDarkBlue, 0.54);
+                    -ms-box-shadow: 0px 1.5px 1px 0px rgba($mainDarkBlue, 0.54);
+                    -webkit-box-shadow: 0px 1.5px 1px 0px rgba($mainDarkBlue, 0.54);
+                    -moz-box-shadow: 0px 1.5px 1px 0px rgba($mainDarkBlue, 0.54);
                     
                     &--img {
                         width: 50px;
@@ -513,7 +608,6 @@
                         &__title {
                             padding: 10px 10px 5px 0 !important;
                             margin: 0 !important;
-                            /* border-bottom: 1px solid $mainDarkGray; */
                             overflow: hidden;
                             text-overflow: ellipsis;
                             white-space: nowrap;
@@ -537,6 +631,10 @@
                                     color: #fff;
                                     border-radius: 20px;
                                     box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
+                                    -o-box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
+                                    -ms-box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
+                                    -webkit-box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
+                                    -moz-box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
                                 }
                             }
 
@@ -551,6 +649,10 @@
                                     color: #fff;
                                     border-radius: 20px;
                                     box-shadow: inset 0 -1px 1px 0px rgba($mainDarkBlack, .4);
+                                    -ms-box-shadow: inset 0 -1px 1px 0px rgba($mainDarkBlack, .4);
+                                    -webkit-box-shadow: inset 0 -1px 1px 0px rgba($mainDarkBlack, .4);
+                                    -moz-box-shadow: inset 0 -1px 1px 0px rgba($mainDarkBlack, .4);
+                                    -o-box-shadow: inset 0 -1px 1px 0px rgba($mainDarkBlack, .4);
                                 }
                             }
                         }
@@ -566,6 +668,10 @@
                 width: 365px;
                 background-color: #fff;
                 box-shadow: -1px 1px 7px 5px rgba($mainDarkBlue, 0.4);
+                -o-box-shadow: -1px 1px 7px 5px rgba($mainDarkBlue, 0.4);
+                -ms-box-shadow: -1px 1px 7px 5px rgba($mainDarkBlue, 0.4);
+                -moz-box-shadow: -1px 1px 7px 5px rgba($mainDarkBlue, 0.4);
+                -webkit-box-shadow: -1px 1px 7px 5px rgba($mainDarkBlue, 0.4);
                 position: absolute;
                 right: 100%;
                 top: 95px;
@@ -590,6 +696,10 @@
                     height: 30vh;
                     margin-top: 5px;
                     box-shadow: 0px .1px 1px 0px rgba($mainDarkBlue, 0.44);
+                    -webkit-box-shadow: 0px .1px 1px 0px rgba($mainDarkBlue, 0.44);
+                    -moz-box-shadow: 0px .1px 1px 0px rgba($mainDarkBlue, 0.44);
+                    -o-box-shadow: 0px .1px 1px 0px rgba($mainDarkBlue, 0.44);
+                    -ms-box-shadow: 0px .1px 1px 0px rgba($mainDarkBlue, 0.44);
                     overflow: hidden;
                     overflow-y: auto;
                     padding: 5px 10px;
@@ -605,6 +715,10 @@
                     border-radius: 10px;
                     cursor: default;
                     box-shadow: 0px 1.5px 8px 0px rgba($mainDarkBlue, 0.44);
+                    -o-box-shadow: 0px 1.5px 8px 0px rgba($mainDarkBlue, 0.44);
+                    -ms-box-shadow: 0px 1.5px 8px 0px rgba($mainDarkBlue, 0.44);
+                    -webkit-box-shadow: 0px 1.5px 8px 0px rgba($mainDarkBlue, 0.44);
+                    -moz-box-shadow: 0px 1.5px 8px 0px rgba($mainDarkBlue, 0.44);
 
                     &--switch {
                         position: absolute;
@@ -612,7 +726,7 @@
                         right: -4px;
                         background-color: $mainDarkBlue;
                         color: #fff;
-                        font-size: .8123rem;
+                        font-size: .8125rem;
                         height: 20px;
                         width: 20px;
                         border-radius: 10px;
@@ -642,7 +756,7 @@
                         border-bottom-left-radius: 10px;
                         border-bottom-right-radius: 10px;
                         background-color: #fff;
-                        font-size: .875rem;
+                        font-size: .8125rem;
                         
                         ul {
                             list-style: none;
@@ -706,6 +820,10 @@
                                     right: auto;
                                 }
                             }
+                        }
+
+                        @mixin atMedium {
+                            font-size: .875rem;
                         }
                     }
 
@@ -741,6 +859,11 @@
         background-color: transparent;
         height: 0;
         width: 100%;
+        opacity: 0;
+        visibility: hidden;
+        top: -200px;
+        z-index: 0;
+        transition: all .3s ease-in;
 
         &__wrapper {
             position: absolute;
@@ -750,8 +873,11 @@
             padding: 0 30px;
             left: 65%;
             transform: translateX(-65%);
-            border-bottom: 2px solid $mainDarkGray;
-            /* box-shadow: 0px -10px 0px rgba($mainDarkBlue, .6); */
+            box-shadow: 0px 1px 2px rgba($mainDarkBlue, .6);
+            -o-box-shadow: 0px 1px 2px rgba($mainDarkBlue, .6);
+            -webkit-box-shadow: 0px 1px 2px rgba($mainDarkBlue, .6);
+            -moz-box-shadow: 0px 1px 2px rgba($mainDarkBlue, .6);
+            -ms-box-shadow: 0px 1px 2px rgba($mainDarkBlue, .6);
         }
 
         &__header {
@@ -807,6 +933,10 @@
             width: 60%;
             margin: 0 auto;
             box-shadow: 0 2px 9px rgba($mainDarkBlue, .6);
+            -webkit-box-shadow: 0 2px 9px rgba($mainDarkBlue, .6);
+            -moz-box-shadow: 0 2px 9px rgba($mainDarkBlue, .6);
+            -ms-box-shadow: 0 2px 9px rgba($mainDarkBlue, .6);
+            -o-box-shadow: 0 2px 9px rgba($mainDarkBlue, .6);
             
             &--header {
                 padding: 5px 0;
@@ -912,7 +1042,7 @@
                     & > span {
                         color: $mainDarkBlue;
                         font-weight: 500;
-                        margin-left: 5px;
+                        margin: 0 5px;
                     }
                 }
 
@@ -935,10 +1065,18 @@
                     & > span {
                         color: $mainDarkBlue;
                         font-weight: 400;
-                        margin-left: 5px;
+                        margin: 0 5px;
                     }
                 }
             }
+        }
+
+        &__visible {
+            opacity: 1;
+            visibility: visible;
+            z-index: 2;
+            top: 0;
+           transition: all .3s ease-in;
         }
     }
 
@@ -995,7 +1133,7 @@
     }
 
     &--chatbox {
-        padding: 0 40px;
+        padding: 0 20px;
         background-color: $mainHeaderColor;
         display: flex;
         flex-direction: column;
@@ -1004,12 +1142,22 @@
         overflow-y: auto;
 
         &__search {
-            width: 40%;
-            font-size: .875rem;
-            border-radius: 5px;
-            position: relative;
-            margin: 20px auto;
+            width: 100%;
+            padding: 20px 0;
+            /* background-color: $mainLightGray; */
             display: none;
+
+            &--wrapper {
+                width: 60%;
+                font-size: .875rem;
+                border-radius: 5px;
+                position: relative;
+                margin: 0px auto;
+
+                @mixin atMedium {
+                    width: 40%;
+                }
+            }
 
             &--close {
                 width: 20px;
@@ -1057,6 +1205,7 @@
             position: relative;
             border-bottom: 1px solid $mainDarkGray;
             margin-top: 40px;
+            font-size: .8125rem;
 
             &--current {
                 position: absolute;
@@ -1065,21 +1214,32 @@
                 color: $mainFontColor;
                 bottom: 0;
             }
+
+            @mixin atMedium {
+                font-size: .875rem;
+            }
         }
 
         &__firstchat {
-            /* width: 100%; */
             display: flex;
             justify-content: flex-end;
             padding: 20px 0 40px 0;
 
             &--wrapper {
-                width: 70%;
-                font-size: .9375rem;
+                width: 80%;
+                font-size: .875rem;
+
+                @mixin atSmall {
+                    width: 70%;
+                }
+
+                @mixin atMedium {
+                    font-size: .9375rem;
+                }
             }
 
             &--content {
-                padding: 20px 10px;
+                padding: 10px;
                 text-align: center;
                 color: rgba($mainDarkBlack, .7);
                 background-color: rgb(255, 255, 255);
@@ -1089,10 +1249,15 @@
                 -webkit-box-shadow: 0px 2px 7px 0px rgba(137, 190, 213, 0.53);
                 -moz-box-shadow: 0px 2px 7px 0px rgba(137, 190, 213, 0.53);
                 border-radius: 20px;
-                line-height: 1.5;
+                line-height: 2;
                 word-break: break-word;
                 font-weight: 500;
                 cursor: pointer;
+
+                @mixin atMedium {
+                    line-height: 2;
+                    padding: 10px;
+                }
             }
 
             &--footer {
@@ -1103,7 +1268,11 @@
                 background-color: transparent;
 
                 li {
-                    font-size: .875rem;
+                    font-size: .8125rem;
+
+                    @mixin atMedium {
+                        font-size: .875rem;
+                    }
                 }
 
                 &__chattime {
@@ -1138,23 +1307,30 @@
 
         
         &__secondchat {
-            /* width: 100%; */
             display: flex;
             justify-content: flex-start;
             padding: 20px 0 40px 10px;
            
 
             &--wrapper {
-                width: 70%;
-                font-size: .9375rem;
+                width: 80%;
+                font-size: .875rem;
+                
+                @mixin atSmall {
+                    width: 70%;
+                }
+
+                @mixin atMedium {
+                    font-size: .9375rem;
+                }
             }
 
             &--content {
-                padding: 20px 10px;
+                padding: 10px;
                 text-align: center;
                 border-radius: 20px;
                 background-color: $mainDarkPaleBlue;
-                line-height: 1.5;
+                line-height: 2;
                 word-break: break-word;
                 color: #fff;  
                 /* background-image: radial-gradient(circle closest-side, rgba($mainDarkPaleBlue, .8) 20%, rgba($mainMiddleDarkBlue, .9) 50%, rgba($mainDarkPaleBlue, .9) 100%); */
@@ -1164,6 +1340,10 @@
                 -moz-box-shadow: 0px 3px 2px 0px rgba($mainDarkBlack, 0.34);
                 -webkit-box-shadow: 0px 3px 2px 0px rgba($mainDarkBlack, 0.34);
                 cursor: pointer;
+
+                @mixin atMedium {
+                    line-height: 2;
+                }
             }
 
             &--footer {
@@ -1174,7 +1354,11 @@
                 background-color: transparent;
 
                 li {
-                    font-size: .875rem;
+                    font-size: .8125rem;
+
+                    @mixin atMedium {
+                        font-size: .875rem;
+                    }
                 }
 
                 &__chattime {
@@ -1218,18 +1402,6 @@
                 position: relative;
                 @mixin clearfix;
 
-                &__img {
-                    position: relative;
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 20px;
-                    background-color: $mainDarkGray;
-                    left: 30%;
-                    transform:translateX(-30%);
-                    float: left;
-                    top: -10px;
-                }
-
                 &__content {
                     padding: 10px 0 20px 0;
                     background-color: #fff;
@@ -1239,12 +1411,16 @@
                 }
             }
         }
+
+        @mixin atMedium {
+            padding: 0 40px;
+        }
     }
 
     &--footer {
         @mixin clearfix;
         background-color: #4186AD;
-        padding: 5px 20px;
+        padding: 5px 0px;
 
         &__mic {
             float: left;
@@ -1253,14 +1429,21 @@
             cursor: pointer;
 
             &--wrapper {
-                width: 40px;
-                height: 40px;
+                width: 36px;
+                height: 36px;
                 background-color: #fff;
-                border-radius: 20px;
+                border-radius: 18px;
                 margin: 0 auto;
                 text-align: center;
                 position: relative;
-                top: 10px;
+                top: 8px;
+
+                @mixin atMedium {
+                    top: 10px;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 20px;
+                }
             }
         }
 
@@ -1268,7 +1451,7 @@
             float: left;
             background-color: #fff;
             @mixin clearfix;
-            width: 70%;
+            width: 66%;
             display: flex;
             align-items: center;
             box-shadow: 0px 2px 9px 4px rgba($mainDarkPaleBlue, .4);
@@ -1276,11 +1459,12 @@
             -webkit-box-shadow: 0px 2px 9px 4px rgba($mainDarkPaleBlue, .4);
             -ms-box-shadow: 0px 2px 9px 4px rgba($mainDarkPaleBlue, .4);
             -moz-box-shadow: 0px 2px 9px 4px rgba($mainDarkPaleBlue, .4);
+            margin-left: 5px;
 
             &--field {
                 float: left;
                 width: 80%;
-                padding: 8px 5px; 
+                padding: 4px 5px; 
                 font-size: .875rem;
                 resize: none;
                 margin: 0;
@@ -1291,6 +1475,10 @@
                 color: $mainFontColor;
                 overflow: hidden;
                 overflow-y: auto;
+
+                @mixin atMedium {
+                    padding: 8px 5px; 
+                }
             }
 
             &--mousein {
@@ -1308,7 +1496,7 @@
 
             &--mouseout {
                 float: left;
-                width: 10%;
+                width: 20px;
                 text-align: center;
                 padding: 14px 0; 
                 border-right: 1px solid rgba($mainDarkBlue, .3);
@@ -1316,63 +1504,120 @@
                 &__hidden {
                     display: none;
                 }
+
+                @mixin atExtraSmall {
+                    width: 10%;
+                }
             }
 
             &--smile {
                 float: left;
-                width: 10%;
+                width: 20px;
                 text-align: center;
                 padding: 14px 0;
+
+                @mixin atExtraSmall {
+                    width: 10%;
+                }
+            }
+
+            @mixin atExtraSmall {
+                width: 70%;
+                margin-left: 0;
             }
         }
 
         &__camera {
             float: left;
-            width: 10%;
+            width: 4%;
             text-align: center;
             position: relative;
-            left: 20px;
+            left: 9px;
 
             &--wrapper {
-                width: 40px;
-                height: 40px;
+                width: 36px;
+                height: 36px;
                 background-color: $mainDarkPaleBlue;
-                border-radius: 20px;
+                border-radius: 18px;
                 margin: 0 auto;
                 text-align: center;
                 position: relative;
-                top: 10px;
+                top: 8px;
                 cursor: pointer;
+
+                @mixin atMedium {
+                    top: 10px;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 20px;
+                }
             }
 
             &--hidden {
                 display: none;
             }
+
+            @mixin atExtraSmall {
+                left: 10px;
+                width: 10%;
+            }
+
+            @mixin atMiniSmall {
+                left: 15px;
+            }
+
+            @mixin atSmall {
+                left: 20px;
+            }
         }
 
         &__clip {
             float: left;
-            width: 10%;
+            width: 4%;
             text-align: center;
             position: relative;
-            left: 20px;
+            left: 9px;
             display: none;
 
             &--wrapper {
-                width: 40px;
-                height: 40px;
+                width: 36px;
+                height: 36px;
                 background-color: $mainDarkPaleBlue;
-                border-radius: 20px;
+                border-radius: 18px;
                 margin: 0 auto;
                 text-align: center;
                 position: relative;
-                top: 10px;
+                top: 8px;
                 cursor: pointer;
+
+                @mixin atMedium {
+                    width: 40px;
+                    height: 40px;
+                    top: 10px;
+                    border-radius: 20px;
+                }
             }
 
             &--visible {
                 display: block;
             }
+
+            @mixin atExtraSmall {
+                left: 10px;
+                width: 10%;
+            }
+
+            @mixin atMiniSmall {
+                left: 15px;
+            }
+
+            @mixin atSmall {
+                left: 20px;
+            }
+        }
+
+        @mixin atMedium {
+            padding: 5px 20px;   
         }
     }
 
@@ -1408,11 +1653,11 @@
         border: 1px solid $mainDarkGray;
         border-bottom: none;
         list-style: none;
-        bottom: 190px;
+        bottom: 300px;
         width: 100%;
-        left: 70%;
-        transform: translateX(-70%);
-        width: 340px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 240px;
         background-color: #fff;
         font-size: 1.5625rem;
         z-index: 2;
@@ -1420,9 +1665,27 @@
         li {    
             float: left;
             color: $mainDarkBlue;
-            margin: 20px 0;
+            margin: 20px 0 20px 20px;
             position: relative;
             width: 33.33%;
+
+            @mixin atMiniSmall {
+                margin: 20px 0;
+            }
+        }
+
+        &__pic {
+            display: none;
+            @mixin atMiniSmall {
+                display: block;
+            }
+        }
+
+        &__audio {
+            display: none;
+            @mixin atMiniSmall {
+                display: block;
+            }
         }
 
         &__iconHolder {
@@ -1507,12 +1770,51 @@
             background: -o-linear-gradient( 0deg, rgb(47,168,232) 25%, rgb(24,130,215) 36%, rgb(0,92,198) 56%, rgb(47,168,232) 88%);
         }
 
+        @mixin atMiniSmall {
+            bottom: 180px;
+            width: 340px;
+        }
+
+        @mixin atMedium {
+            bottom: 190px;
+        }
+
+        @mixin atLarge {
+            left: 70%;
+            transform: translateX(-70%);
+        }
+
     }
 
     &--secondattach {
-        bottom: 70px;
+        bottom: 180px;
         border-top: 0;
         border-bottom: 1px solid $mainDarkGray;
+
+        @mixin atMiniSmall {
+            bottom: 60px;
+        }
+
+        @mixin atMedium {
+            bottom: 70px;
+        }
     }
 
+    &--smattach {
+        bottom: 60px;
+        border-top: 0;
+        border-bottom: 1px solid $mainDarkGray;
+
+        @mixin atMiniSmall {
+            display: none;
+        }
+    }
+
+    @mixin atMedium {
+        padding: 0;
+    }
+
+    @mixin atLarge {
+        padding: 0px 0 0 0 ;
+    }
 }

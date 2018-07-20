@@ -1,10 +1,12 @@
 <div class="site-main__groupchat">
-    
+     
      <div class="site-main__userdetails">
         <div class="site-main__userdetails--header">
-            <ul class="site-main__userdetails--header__backopt">
-                <li class="site-main__userdetails--header__backopt--switcher"><i class="fas fa-angle-double-right"></i></li>
-                <li class="site-main__userdetails--header__backopt--title">back</li>
+            <ul class="site-main__userdetails--header__canceloptsm">
+                <li class="site-main__userdetails--header__canceloptsm--title">close</li>
+                <li class="site-main__userdetails--header__canceloptsm--switcher">
+                    <div><i class="fas fa-times icon icon__site-main--userdetails__cancelopt"></i></div>
+                </li>
             </ul>
              <div class="site-main__userdetails--header__title">
                 <div class="site-main__userdetails--header__title--icon">
@@ -57,7 +59,7 @@
                     <i class="fas fa-coffee icon icon__site-main__userdetails--main__details--icon"></i>
                 </div>
                 <ul class="site-main__userdetails--main__details--content">
-                    <li>Online Questions <button class="site-main__userdetails--main__details--btn site-main__userdetails--main__details--btn__total">2222</button> <button class="site-main__userdetails--main__details--btn site-main__userdetails--main__details--btn__view">view all</button></li>
+                    <li>Online Questions <span class="site-main__userdetails--main__details--content__onlineque"><button class="site-main__userdetails--main__details--btn site-main__userdetails--main__details--btn__total">2222</button> <button class="site-main__userdetails--main__details--btn site-main__userdetails--main__details--btn__view">view all</button></li></span>
                 </ul>
             </div>
             <div class="site-main__userdetails--main__details">
@@ -116,7 +118,7 @@
     </div>
     
     <div class="outlet">
-         {{> partialsharechat}}
+         {{> partialchatroom}}
     </div>
     
 <div class="site-main__groupchat--mainwrapper">
@@ -130,7 +132,12 @@
                 <li class="site-main__groupchat--header__details--firstdetails__total"><span>222k</span>   users</li>
             </ul>
             <div class="site-main__groupchat--header__details--seconddetails">
-                <div class="site-main__groupchat--header__details--seconddetails__more">details</div>
+                <div class="site-main__groupchat--header__details--seconddetails__sh-more-lg">
+                    <span>details</span>
+                </div>
+                <div class="site-main__groupchat--header__details--seconddetails__sh-more-sm">
+                    <span>chat room</span>
+                </div>
             </div>
             <div class="site-main__groupchat--header__details--lastdetails">
                 <span><i class="far fa-calendar-alt icon icon__site-main--groupchat__calend"></i> created 23/4/18</span>
@@ -210,7 +217,7 @@
                                     </div>
                                 </div>
                             </div>
-                             {{!-- <div class="site-main__groupchat--header__options--current__group">
+                             <div class="site-main__groupchat--header__options--current__group">
                                 <div class="site-main__groupchat--header__options--current__group--img"><img src="/" alt=""></div>
                                 <ul class="site-main__groupchat--header__options--current__group--details">
                                     <li class="site-main__groupchat--header__options--current__group--details__title">The real community for programmers The real community for programmers The real community for programmers</li>
@@ -219,7 +226,7 @@
                                         <div class="site-main__groupchat--header__options--current__group--details__status--offline"><span>2k</span> offline</div> 
                                     </li>
                                 </ul>
-                            </div> --}}
+                            </div>
                         </div>
                     </div>
                 </li>
@@ -327,13 +334,15 @@
     <div class="site-main__groupchat--chatbox">
        <div class="site-main__groupchat--chatbox__wrapper">
             <div class="site-main__groupchat--chatbox__search">
-                <div class="site-main__groupchat--chatbox__search--close">
+                <div class="site-main__groupchat--chatbox__search--wrapper">
+                    <div class="site-main__groupchat--chatbox__search--close">
                     <i class="fas fa-times icon icon__site-main--groupchat__chatbox--searchicon"></i>
+                    </div>
+                    <div class="site-main__groupchat--chatbox__search--calend">
+                        <i class="far fa-calendar-alt icon icon__site-main--groupchat__chatbox--calend"></i>
+                    </div>
+                    <input type="text" placeholder="search chat" class="site-main__groupchat--chatbox__search--input">
                 </div>
-                <div class="site-main__groupchat--chatbox__search--calend">
-                    <i class="far fa-calendar-alt icon icon__site-main--groupchat__chatbox--calend"></i>
-                </div>
-                <input type="text" placeholder="search chat" class="site-main__groupchat--chatbox__search--input">
             </div>   
             <div class="site-main__groupchat--chatbox__chatdate">
                 <div class="site-main__groupchat--chatbox__chatdate--current">today</div> 
@@ -378,9 +387,6 @@
             </div>
             <div class="site-main__groupchat--chatbox__typing">
                 <div class="site-main__groupchat--chatbox__typing--wrapper">
-                    <div class="site-main__groupchat--chatbox__typing--wrapper__img">
-                        <img src="/" alt="">
-                    </div>
                     <span class="site-main__groupchat--chatbox__typing--wrapper__content">
                         <i class="fas fa-circle icon  icon__site-main--groupchat__typing--up"></i>
                         <i class="fas fa-circle icon  icon__site-main--groupchat__typing--down"></i>
@@ -430,7 +436,7 @@
                     </div>    
                      <p class="site-main__groupchat--attach__title">Video recorder</p>
                 </li>
-                <li>
+                <li class="site-main__groupchat--attach__pic">
                     <div class="site-main__groupchat--attach__iconHolder site-main__groupchat--attach__imageicon">
                         <i class="fas fa-images icon icon__site-main__nav--chatimageicon"></i>
                     </div> 
@@ -449,6 +455,20 @@
                             <i class="fas fa-file icon icon__site-main__nav--chaticon"></i>
                         </div>
                         <p class="site-main__groupchat--attach__title">Documents</p>
+                    </li>
+                    <li class="site-main__groupchat--attach__audio">
+                        <div class="site-main__groupchat--attach__iconHolder site-main__groupchat--attach__audioicon">
+                            <i class="fas fa-headphones icon icon__site-main__nav--chaticon"></i>
+                        </div>
+                        <p class="site-main__groupchat--attach__title">Audio picker</p>
+                    </li>
+                </ul> 
+                <ul class="site-main__groupchat--attach site-main__groupchat--smattach">
+                    <li>
+                        <div class="site-main__groupchat--attach__iconHolder site-main__groupchat--attach__imageicon">
+                            <i class="fas fa-images icon icon__site-main__nav--chatimageicon"></i>
+                        </div> 
+                        <p class="site-main__groupchat--attach__title">Picture picker</p>     
                     </li>
                     <li>
                         <div class="site-main__groupchat--attach__iconHolder site-main__groupchat--attach__audioicon">

@@ -4,14 +4,19 @@
     /* background-color: #4f88ad; */
     background-color: #4186AD;
     position: absolute;
-    display: flex;
-    flex-direction: column;
+    overflow: hidden;
     top: 0;
-    left: 0;
-    bottom: 0;
     z-index: 1;
+    left: 0;
+    /* left: -398px; */
+    bottom: 0;
+    right: 0;
+    /* z-index: 1;
     padding-top: 62px;
     width: 398px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s ease-in; */
 
     &--shad {
         position: absolute;
@@ -146,12 +151,14 @@
         overflow-y: auto;
         margin-top: 10px;
         margin-bottom: 50px;
+        margin-left: 10px;
+        margin-right: 10px;
     }
 
     &--userOnline, &--userOffline {
        width: 100%;
         border-top: none;
-        margin: 0px 10px 0 10px;
+        margin: 0;
         padding: 0;
         /* background-color: rgba($mainMediumLightBlack, .2); */
         /* border: 1px solid rgba(255, 255, 255, .45); */
@@ -264,7 +271,7 @@
             border-radius: 25px;
             background-color: #fff;
             cursor: pointer;
-            position: relative;
+            position: absolute;
 
             &--holder {
                 width: 50px;
@@ -302,8 +309,8 @@
 
         &__details {
             float: left;
-            margin: 0 0 0 20px;
-            padding: 0;
+            margin: 0;
+            padding: 0 0px 0 60px;
             list-style: none;
             position: relative;
             top: 5px;
@@ -332,7 +339,7 @@
 
 
             &--timeLeft {
-                float: left;
+                float: right;
                 margin: 0 0 0 10px;
                 padding: 0;
                 color: #fff;
@@ -348,10 +355,18 @@
                 margin: 10px 0 0 0;
                 color: #fff;
                 font-weight: 400;
-                max-width: 263px;
+                max-width: 100%;
                 overflow: hidden;
                 white-space: nowrap;
                 word-break: break-all !important;
+
+                @mixin atSmall {
+                    max-width: 263px;
+                }
+            }
+
+            @mixin atSmall {
+                padding: 0 0 0 20px;
             }
         }
 
@@ -424,8 +439,32 @@
     }
 
     &--visible {
-
+        display: flex;
+        flex-direction: column;
+        left: 0;
+        opacity: 1;
+        visibility:visible;
+        z-index: 1;
+        width: 398px;
+        transition: all .3s ease-in;
     }
 
+    @mixin atExtraSmall {
+        width: 100%;
+    }
+
+    @mixin atSmall {
+        width: 398px;
+    }
+
+    @mixin atLarge {
+        display: flex;
+        flex-direction: column;
+        left: 0;
+        opacity: 1;
+        visibility:visible;
+        z-index: 1;
+        transition: all .3s ease-in;
+    }
 
 }

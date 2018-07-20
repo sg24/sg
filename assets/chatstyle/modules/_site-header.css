@@ -298,8 +298,7 @@
         padding-left: 1px;
        left: 0;
        background-color: $mainDarkBlue;
-        
-
+       
         ul {
             display: flex;
             justify-content: center;
@@ -417,6 +416,10 @@
             }
         }
 
+        @mixin atSmall {
+            display: none;
+        }
+
       @mixin atMedium {
         position: relative;
         top: 0;
@@ -425,6 +428,7 @@
         width: auto;
         border-top: none;
         background: transparent;
+        display: inline;
       }
 
     }

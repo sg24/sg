@@ -16,7 +16,7 @@ class SiteMainChat {
         this.searchUser = $(".site-main__groupchat--header__options--search");
         this.userDetailsToggler = $(".chats__logs--userOnline__view--userDetails__user");
         this.userDetails = $(".site-main__userdetails");
-        this.closeUserDetails = $(".site-main__userdetails--header__cancelopt");
+        this.closeUserDetails = $(".site-main__userdetails--header__cancelopt, .site-main__groupchat--mainwrapper, .site-main__userdetails--header__canceloptsm");
         this.attachToggler = $(".site-main__groupchat--footer__input--mouseout, .site-main__groupchat--footer__clip");
         this.attach = $(".site-main__groupchat--attachWrapper");
         this.switchIconToggler = $(".site-main__groupchat--footer__input--field");
@@ -28,6 +28,12 @@ class SiteMainChat {
         this.sendChat = $(".site-main__groupchat--options");
         this.userOptToggler = $(".chats__logs--userOnline__img");
         this.userOpt = $(".chats__logs--userOnline__view--userDetails");
+        this.chatdetToggler = $(".site-main__groupchat--header__details--seconddetails__sh-more-lg");
+        this.chatdetails = $(".site-main__groupchat--detail");
+        this.closeChatDet = $(".site-main__groupchat--chatbox, .site-main__groupchat--footer");
+        this.chatRoomToggler = $(".site-main__groupchat--header__details--seconddetails__sh-more-sm");
+        this.chatRoom = $(".chats__logs");
+        this.closeChatRoom = $(".chats__logs--mainclose, .site-main__groupchat--detail, .site-main__groupchat--chatbox, .site-main__groupchat--footer");
         this.events();
     }
 
@@ -50,6 +56,10 @@ class SiteMainChat {
         this.sendChatToggler.click(this.toggleSendChat.bind(this));
         this.userOptToggler.mouseenter(this.addUserOpt.bind(this));
         this.userOptToggler.mouseleave(this.removeUserOpt.bind(this));
+        this.chatdetToggler.click(this.toggleChatDet.bind(this));
+        this.closeChatDet.click(this.removeChatDet.bind(this));
+        this.chatRoomToggler.click(this.toggleChatRoom.bind(this));
+        this.closeChatRoom.click(this.removeChatRoom.bind(this));
     }
 
     toggleChatOpt() {
@@ -100,6 +110,7 @@ class SiteMainChat {
         this.userDetails.addClass("site-main__userdetails--visible");
         this.switchGroup.removeClass("site-main__groupchat--header__options--group__visible");
         this.chatOpt.removeClass("site-main__groupchat--header__options--list__visible");
+        this.chatRoom.removeClass("chats__logs--visible");
     }
 
     removeUserDetails() {
@@ -129,8 +140,26 @@ class SiteMainChat {
     addUserOpt() {
         this.userOpt.addClass("chats__logs--userOnline__view--userDetails__visible");
     }
+
     removeUserOpt() {
         this.userOpt.removeClass("chats__logs--userOnline__view--userDetails__visible");
+    }
+
+    toggleChatDet() {
+        this.chatdetails.toggleClass("site-main__groupchat--detail__visible");
+    }
+
+    removeChatDet() {
+        this.chatdetails.removeClass("site-main__groupchat--detail__visible");
+    }
+
+    toggleChatRoom() {
+        this.chatRoom.toggleClass("chats__logs--visible");
+        this.userDetails.removeClass("site-main__userdetails--visible");
+    }
+
+    removeChatRoom() {
+        this.chatRoom.removeClass("chats__logs--visible");
     }
 }
 

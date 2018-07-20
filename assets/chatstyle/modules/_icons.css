@@ -555,44 +555,74 @@
 
     &__site-main__groupchat--footer__mic {
         color: $mainDarkPaleBlue;
-        font-size: 1.2rem;
+        font-size: 1rem;
         position: relative;
-        top: 40%;
-        transform: translateY(-40%);
+        top: 50%;
+        transform: translateY(-50%);
+
+        @mixin atMedium {
+            font-size: 1.2rem;
+            top: 40%;
+            transform: translateY(-40%);
+        }
     }
 
     &__site-main__groupchat--footer__camera {
         color: #fff;
-        font-size: 1.2rem;
+        font-size: 1rem;
         position: relative;
-        top: 40%;
-        transform: translateY(-40%);
+        top: 50%;
+        transform: translateY(-50%);
+
+        @mixin atMedium {
+            font-size: 1.2rem;
+            top: 40%;
+            transform: translateY(-40%);
+        }
     }
 
     &__site-main__groupchat--footer__clip {
         color: #fff;
-        font-size: 1.2rem;
+        font-size: 1rem;
         position: relative;
-        top: 40%;
-        transform: translateY(-40%);
+        top: 50%;
+        transform: translateY(-50%);
+
+        @mixin atMedium {
+            font-size: 1.2rem;
+            top: 40%;
+            transform: translateY(-40%);
+        }
     }
 
     &__site-main--groupchat__footer--sharearrow {
         color: $mainDarkBlue;
-        font-size: 1.2rem;
+        font-size: 1rem;
         cursor: pointer;
+
+        @mixin atMedium {
+            font-size: 1.2rem;
+        }
     }
 
     &__site-main--groupchat__footer--clip {
         color: $mainDarkBlue;
-        font-size: 1.2rem;
+        font-size: 1rem;
         cursor: pointer;
+
+        @mixin atMedium {
+            font-size: 1.2rem;
+        }
     }
 
     &__site-main--groupchat__footer--smile {
         color: $mainDarkBlue;
-        font-size: 1.2rem;
+        font-size: 1rem;
         cursor: pointer;
+
+        @mixin atMedium {
+            font-size: 1.2rem;
+        }
     }
 
     
