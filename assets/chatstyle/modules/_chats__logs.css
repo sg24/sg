@@ -7,7 +7,6 @@
     overflow: hidden;
     top: 0;
     z-index: 1;
-    left: 0; 
     display: flex;
     flex-direction: column;
     left: -398px;
@@ -348,7 +347,7 @@
 
                 &__userStatus {
                     margin: 0;
-                    padding: 0;
+                    padding: 0 0 0 10px;
                     float: right;
                     width: 50%;
                     overflow: hidden;

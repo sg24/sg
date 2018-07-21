@@ -4,6 +4,7 @@ class ShareChat {
     constructor() {
         this.shareChatToggler = $(".chats__logs--user__wrapper");
         this.shareChat = $(".chats__logs--selectIcon");
+        this.shareChatActive = $(".chats__logs--selectIconActive");
         this.events(); 
     }
 
@@ -25,7 +26,7 @@ class ShareChat {
 
     toggleShareChat() {
         this.shareChatToggler.toggleClass("chats__logs--user__wrapper--bgactive");
-        this.shareChat.toggleClass("chats__logs--selectIconActive__visible");
+        this.shareChatActive.toggleClass("chats__logs--selectIconActive__visible");
         this.shareChat.removeClass("chats__logs--selectIcon__visible");
         this.shareChatToggler.removeClass("chats__logs--user__wrapper--borderhover");
     }

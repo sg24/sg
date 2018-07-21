@@ -693,7 +693,34 @@
         color: $mainDarkBlue;
     }
 
+    &__site-main__userdetails--main__details--coffee {
+        color: $mainDarkRed;
+    }
+
+    &__site-main__userdetails--main__details--post {
+        color: $mainDarkPaleBlue;
+    }
+    &__site-main__userdetails--main__details--peopcarry {
+        color: $mainLightGreen;
+    }
+
     &__site-main__userdetails--main__details--iconstore {
         color: #fff;
+    }
+
+    &__site-main--userdetails__header--circleleft {
+        color: rgba($mainDarkPaleBlue, .6);
+        position: relative;
+        top: 0px;
+        font-size: .625rem; 
+        margin-right: 10px;
+    }
+
+    &__site-main--userdetails__header--circleright {
+        color: rgba($mainDarkPaleBlue, .6);
+        position: relative;
+        top: 0px;
+        font-size: .625rem; 
+        margin-left: 10px;
     }
 }

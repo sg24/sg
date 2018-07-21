@@ -17,6 +17,7 @@ class SiteMainChat {
         this.userDetailsToggler = $(".chats__logs--user__view--userdetails__user");
         this.userDetails = $(".site-main__userdetails");
         this.closeUserDetails = $(".site-main__userdetails--header__cancelopt, .site-main__groupchat--mainwrapper, .site-main__userdetails--header__canceloptsm");
+        this.switchUserDetails = $(".site-main__userdetails--header__backopt");
         this.attachToggler = $(".site-main__groupchat--footer__input--mouseout, .site-main__groupchat--footer__clip");
         this.attach = $(".site-main__groupchat--attachWrapper");
         this.switchIconToggler = $(".site-main__groupchat--footer__input--field");
@@ -60,6 +61,7 @@ class SiteMainChat {
         this.closeChatDet.click(this.removeChatDet.bind(this));
         this.chatRoomToggler.click(this.toggleChatRoom.bind(this));
         this.closeChatRoom.click(this.removeChatRoom.bind(this));
+        this.switchUserDetails.click(this.UserDetailSwitch.bind(this));
     }
 
     toggleChatOpt() {
@@ -117,6 +119,11 @@ class SiteMainChat {
         this.userDetails.removeClass("site-main__userdetails--visible");
     }
 
+    UserDetailSwitch() {
+        this.chatRoom.addClass("chats__logs--visible");
+        this.userDetails.removeClass("site-main__userdetails--visible");
+    }
+
     toggleAttach() {
         this.attach.addClass("site-main__groupchat--attachWrapper__visible")
     }
@@ -156,6 +163,7 @@ class SiteMainChat {
     toggleChatRoom() {
         this.chatRoom.toggleClass("chats__logs--visible");
         this.userDetails.removeClass("site-main__userdetails--visible");
+        this.chatOpt.removeClass("site-main__groupchat--header__options--list__visible");
     }
 
     removeChatRoom() {
