@@ -6182,6 +6182,7 @@ img {
     /* left: -398px; */
     bottom: 0;
     right: 0;
+    padding-top: 62px;
 
 }
 
@@ -6245,54 +6246,75 @@ img {
 .chats__logs--header li {
   float: left;
   font-size: .875rem;
-  margin: 0 10px;
-}
-
-.chats__logs--header li:first-child {
-  margin-right: 10px
-}
-
-.chats__logs--header li:last-child {
-  margin: 0 41.3px 0 20px !important;
-  cursor: pointer;
-  position: relative;
 }
 
 .chats__logs--header__notifyHolder {
+  width: 33.33%;
+  background-color: transparent;
+}
+
+.chats__logs--header__notifyHolder::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.chats__logs--header__notifyHolder::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.chats__logs--header__notifyHolder--content {
+  width: 50%;
+  float: left;
+}
+
+.chats__logs--header__notifyOnline {
+  background-color: #16cf27;
+  border: .5px solid rgba(22,207,39, .5);
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: center;
+      justify-content: center;
+  position: relative;
   width: 28px;
   height: 28px;
   border-radius: 14px;
   color: #fff;
   text-align: center;
   position: relative;
-}
-
-.chats__logs--header__notifyHolder--content {
-  position: absolute;
-  top: 22%;
-  transform: translateY(-22%);
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.chats__logs--header__notifyOnline {
-  background-color: #16cf27;
-  border: .5px solid rgba(22,207,39, .5);
+  margin: 0 auto;/* position: absolute; */
 }
 
 .chats__logs--header__notifyOffline {
   background-color: #ff1600;
   border: .5px solid rgba(255,255,255, .5);
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: center;
+      justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  margin: 0 auto;
 }
 
 .chats__logs--header__title {
-  padding: 0;
-  margin: 0;
-  position: relative;
-  top: 7px;
-  color: #fff;
-  left: 6px;
-  font-weight: 400;
+  width: 33.33%;
+  text-align: center;
+  margin: 0
+}
+
+.chats__logs--header__input {
+  width: 33.33%;
 }
 
 .chats__logs--header__searchChat {
@@ -6300,7 +6322,7 @@ img {
 }
 
 .chats__logs--header__searchChat--input {
-  width: 130px;
+  width: 100%;
   border: 1px solid #dcdbdc;
   outline: none;
   padding: 6px 30px 6px 12px;

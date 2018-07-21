@@ -11,6 +11,7 @@
     /* left: -398px; */
     bottom: 0;
     right: 0;
+    padding-top: 62px;
     /* z-index: 1;
     padding-top: 62px;
     width: 398px;
@@ -62,61 +63,67 @@
         li {
             float: left;
             font-size: .875rem;
-            margin: 0 10px; 
-
-            &:first-child {
-                margin-right: 10px 
-            }
-            
-            &:last-child {
-                margin: 0 41.3px 0 20px !important;
-                cursor: pointer;
-                position: relative;
-            }
         }
 
         &__notifyHolder {
-            width: 28px;
-            height: 28px;
-            border-radius: 14px;
-            color: #fff;
-            text-align: center;
-            position: relative;
+           width: 33.33%;
+            @mixin clearfix;
+            background-color: transparent;
+            @mixin clearfix;
 
             &--content {
-                position: absolute;
-                top: 22%;
-                transform: translateY(-22%);
-                left: 50%;
-                transform: translateX(-50%);
+                width: 50%;
+                float: left;
             }
         }
 
         &__notifyOnline {
             background-color: $mainLightGreen;
             border: .5px solid rgba($mainLightGreen, .5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 28px;
+            height: 28px;
+            border-radius: 14px;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            margin: 0 auto;
+            /* position: absolute; */
         }
 
         &__notifyOffline {
             background-color: $mainLightRed;
             border: .5px solid rgba(#fff, .5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 14px;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            margin: 0 auto;
         }
 
         &__title {
-            padding: 0;
-            margin: 0;
-            position: relative;
-            top: 7px;
-            color: #fff;
-            left: 6px;
-            font-weight: 400;
+            width: 33.33%;
+            text-align: center;
+            margin: 0
+        }
+
+        &__input {
+            width: 33.33%;
         }
 
         &__searchChat {
             position: relative;
 
             &--input {
-                width: 130px;
+                width: 100%;
                 border: 1px solid $mainDarkGray;
                 outline: none;
                 padding: 6px 30px 6px 12px;
