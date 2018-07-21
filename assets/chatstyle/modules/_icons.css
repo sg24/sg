@@ -723,4 +723,73 @@
         font-size: .625rem; 
         margin-left: 10px;
     }
+
+    &__site-main__groupchat--curretchat__statusoff {
+        font-size: .5rem; 
+        margin-right: 5px;
+        color: $mainLightRed;
+    }
+
+    &__site-main__groupchat--curretchat__statuson {
+        font-size: .5rem; 
+        margin-right: 5px;
+        color: $mainLightGreen;
+    }
+
+    &__site-main__groupchat--currentchat__eyeicon {
+        font-size: .875rem;
+        position: absolute;
+        top: 60%;
+        transform: translateY(-60%);
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff;
+        z-index: 2;
+        cursor: pointer;
+    }
+
+    &__site-main__groupchat--currentchat__chaticon {
+        font-size: .875rem;
+        position: absolute;
+        top: 15%;
+        transform: translateY(-15%);
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff;
+    }
+
+    &__site-main__searchchat--curretchat__statuson {
+        font-size: .5rem; 
+        margin-right: 5px;
+        color: $mainLightGreen;
+    }
+
+    &__site-main__searchchat--curretchat__statusoff {
+        font-size: .5rem; 
+        margin-right: 5px;
+        color: $mainLightRed;
+    }
+
+    &__site-main__groupchat--searchuser__eyeicon {
+        font-size: .875rem;
+        position: absolute;
+        top: 60%;
+        transform: translateY(-60%);
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff;
+        z-index: 2;
+        cursor: pointer;
+    }
+
+    &__site-main__groupchat--searchuser__chaticon {
+        font-size: .875rem;
+        position: absolute;
+        top: 15%;
+        transform: translateY(-15%);
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff;
+    }
+
 }
