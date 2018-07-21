@@ -14,7 +14,7 @@ class SiteMainChat {
         this.currentChat = $(".site-main__groupchat--header__options--current");
         this.searchUserToggler = $(".site-main__groupchat--header__options--searchuser");
         this.searchUser = $(".site-main__groupchat--header__options--search");
-        this.userDetailsToggler = $(".chats__logs--userOnline__view--userDetails__user");
+        this.userDetailsToggler = $(".chats__logs--user__view--userdetails__user");
         this.userDetails = $(".site-main__userdetails");
         this.closeUserDetails = $(".site-main__userdetails--header__cancelopt, .site-main__groupchat--mainwrapper, .site-main__userdetails--header__canceloptsm");
         this.attachToggler = $(".site-main__groupchat--footer__input--mouseout, .site-main__groupchat--footer__clip");
@@ -26,8 +26,8 @@ class SiteMainChat {
         this.switchClip = $(".site-main__groupchat--footer__clip");
         this.sendChatToggler = $(".site-main__groupchat--chatbox__firstchat--content, .site-main__groupchat--chatbox__secondchat--content");
         this.sendChat = $(".site-main__groupchat--options");
-        this.userOptToggler = $(".chats__logs--userOnline__img");
-        this.userOpt = $(".chats__logs--userOnline__view--userDetails");
+        this.userOptToggler = $(".chats__logs--user__img");
+        this.userOpt = $(".chats__logs--user__view--userdetails");
         this.chatdetToggler = $(".site-main__groupchat--header__details--seconddetails__sh-more-lg");
         this.chatdetails = $(".site-main__groupchat--detail");
         this.closeChatDet = $(".site-main__groupchat--chatbox, .site-main__groupchat--footer");
@@ -138,11 +138,11 @@ class SiteMainChat {
     }
 
     addUserOpt() {
-        this.userOpt.addClass("chats__logs--userOnline__view--userDetails__visible");
+        this.userOpt.addClass("chats__logs--user__view--userdetails__visible");
     }
 
     removeUserOpt() {
-        this.userOpt.removeClass("chats__logs--userOnline__view--userDetails__visible");
+        this.userOpt.removeClass("chats__logs--user__view--userdetails__visible");
     }
 
     toggleChatDet() {

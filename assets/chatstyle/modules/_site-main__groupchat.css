@@ -30,7 +30,7 @@
     }
 
     &--header {
-        display: none;
+        /* display: none; */
         background-color: #4186AD;
         box-shadow: 0px 2px 4px 0px rgba($mainDarkPaleBlue, 0.53);
         -o-box-shadow: 0px 2px 4px 0px rgba($mainDarkPaleBlue, 0.53);

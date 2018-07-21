@@ -1041,6 +1041,22 @@ img {
   top: 2px;
 }
 
+.icon__chats--logs__user--details__online {
+  font-size: .5rem;
+  color: #16cf27;
+  margin-right: 5px;
+  position: relative;
+  top: -2px;
+}
+
+.icon__chats--logs__user--details__offline {
+  font-size: .5rem;
+  color: #ff1600;
+  margin-right: 5px;
+  position: relative;
+  top: -2px;
+}
+
 .icon__site-main--groupchat__header--user {
   position: relative;
   top: 45%;
@@ -4170,8 +4186,7 @@ img {
   }
 }
 
-.site-main__groupchat--header {
-  display: none;
+.site-main__groupchat--header {/* display: none; */
   background-color: #4186AD;
   box-shadow: 0px 2px 4px 0px rgba(5,87,139, 0.53);
   -o-box-shadow: 0px 2px 4px 0px rgba(5,87,139, 0.53);
@@ -6179,19 +6194,19 @@ img {
     top: 0;
     z-index: 1;
     left: 0;
-    /* left: -398px; */
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+        flex-direction: column;
+    left: -398px;
     bottom: 0;
-    right: 0;
-    padding-top: 62px;
-
-}
-
-/* z-index: 1;
     padding-top: 62px;
     width: 398px;
     opacity: 0;
     visibility: hidden;
-    transition: all .3s ease-in; */
+    transition: all .3s ease-in;
+
+}
 
 .chats__logs--shad {
   position: absolute;
@@ -6235,6 +6250,10 @@ img {
   padding: 0 0 15px 0;
   width: 100%;
   border-bottom: 1px solid rgba(255,255,255, .3);
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
 }
 
 .chats__logs--header::after {
@@ -6249,7 +6268,7 @@ img {
 }
 
 .chats__logs--header__notifyHolder {
-  width: 33.33%;
+  width: 30%;
   background-color: transparent;
 }
 
@@ -6308,13 +6327,18 @@ img {
 }
 
 .chats__logs--header__title {
-  width: 33.33%;
+  width: 30%;
   text-align: center;
-  margin: 0
+  padding: 0;
+  margin: 0;
+  position: relative;/* top: 7px; */
+  color: #fff;/* left: 6px; */
+  font-weight: 400;
 }
 
 .chats__logs--header__input {
-  width: 33.33%;
+  width: 35%;
+  position: relative;
 }
 
 .chats__logs--header__searchChat {
@@ -6341,8 +6365,12 @@ img {
   background-color: rgba(2,132,168, .7);
   font-size: .875rem;
   position: absolute;
-  top: 0px;/* right: 40.6px; */
-  right: -1px;/* border: 1px solid $mainDarkBlue; */
+  top: 0px;
+  right: -1px;
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  color: #fff;
 }
 
 .chats__logs--mainOutlet {
@@ -6358,7 +6386,7 @@ img {
   margin-right: 10px;
 }
 
-.chats__logs--userOnline, .chats__logs--userOffline {
+.chats__logs--user {
   width: 100%;
   border-top: none;
   margin: 0;
@@ -6366,7 +6394,7 @@ img {
   position: relative;
 }
 
-.chats__logs--userOnline__header, .chats__logs--userOffline__header {
+.chats__logs--user__header {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -6377,13 +6405,13 @@ img {
   width: 100%;
 }
 
-.chats__logs--userOnline__header::after, .chats__logs--userOffline__header::after {
+.chats__logs--user__header::after {
   content: "";
   clear: both;
   display: table;
 }
 
-.chats__logs--userOnline__header li, .chats__logs--userOffline__header li {
+.chats__logs--user__header li {
   float: left;
   width: 50%;
   font-weight: 300;
@@ -6394,7 +6422,7 @@ img {
   cursor: pointer;
 }
 
-.chats__logs--userOnline__header li:first-child, .chats__logs--userOffline__header li:first-child {
+.chats__logs--user__header li:first-child {
   float: none;
   width: 100%;
   padding: 1.5px;
@@ -6409,17 +6437,17 @@ img {
   cursor: default;
 }
 
-.chats__logs--userOnline__header li:last-child, .chats__logs--userOffline__header li:last-child {
+.chats__logs--user__header li:last-child {
   background-color: #fff;
   color: #0284a8;
   font-weight: 400;
 }
 
-.chats__logs--userOnline__header--online, .chats__logs--userOffline__header--online {
+.chats__logs--user__header--online {
   position: relative;
 }
 
-.chats__logs--userOnline__header--online__leftspace, .chats__logs--userOffline__header--online__leftspace {
+.chats__logs--user__header--online__leftspace {
   background-color: #16cf27;
   padding: 2px 10px;
   position: absolute;
@@ -6428,7 +6456,7 @@ img {
   transform: translateY(-50%);
 }
 
-.chats__logs--userOnline__header--online__rightspace, .chats__logs--userOffline__header--online__rightspace {
+.chats__logs--user__header--online__rightspace {
   background-color: #16cf27;
   padding: 2px 10px;
   position: absolute;
@@ -6437,7 +6465,7 @@ img {
   transform: translateY(-50%);
 }
 
-.chats__logs--userOnline__header--online__bottomspace, .chats__logs--userOffline__header--online__bottomspace {
+.chats__logs--user__header--online__bottomspace {
   position: absolute;
   bottom: 0px;
   width: 100%;/* border: 1px solid rgba(255, 255, 255, .45); */
@@ -6447,35 +6475,35 @@ img {
   background-color: rgba(255, 255, 255, .45);
 }
 
-.chats__logs--userOnline__header--online__title, .chats__logs--userOffline__header--online__title {
+.chats__logs--user__header--online__title {
   width: 100%;
   margin: 0 auto;
   text-align: center;
 }
 
-.chats__logs--userOnline__outlet, .chats__logs--userOffline__outlet {
+.chats__logs--user__outlet {
   background-color: rgba(85,85,85, .2);
   border: 1px solid rgba(255, 255, 255, .45);
   border-top: none;
 }
 
-.chats__logs--userOnline__wrapper, .chats__logs--userOffline__wrapper {
+.chats__logs--user__wrapper {
   padding: 10px 10px;
   border-bottom: 1px solid rgba(255, 255, 255, .45);
   position: relative;
 }
 
-.chats__logs--userOnline__wrapper::after, .chats__logs--userOffline__wrapper::after {
+.chats__logs--user__wrapper::after {
   content: "";
   clear: both;
   display: table;
 }
 
-.chats__logs--userOnline__wrapper:last-child, .chats__logs--userOffline__wrapper:last-child {
+.chats__logs--user__wrapper:last-child {
   border: none;
 }
 
-.chats__logs--userOnline__img, .chats__logs--userOffline__img {
+.chats__logs--user__img {
   float: left;
   width: 50px;
   height: 50px;
@@ -6485,7 +6513,7 @@ img {
   position: absolute;
 }
 
-.chats__logs--userOnline__img--holder, .chats__logs--userOffline__img--holder {
+.chats__logs--user__img--holder {
   width: 50px;
   height: 50px;
   border-radius: 25px;
@@ -6493,7 +6521,7 @@ img {
   overflow: hidden;
 }
 
-.chats__logs--userOnline__view--userDetails, .chats__logs--userOffline__view--userDetails {
+.chats__logs--user__view--userdetails {
   position: absolute;
   top: 0;
   left: 0;
@@ -6508,7 +6536,7 @@ img {
   transition: all .3s ease-in;
 }
 
-.chats__logs--userOnline__view--userDetails__visible, .chats__logs--userOffline__view--userDetails__visible {
+.chats__logs--user__view--userdetails__visible {
   opacity: 1;
   visibility: visible;
   z-index: 0;
@@ -6516,124 +6544,62 @@ img {
   transition: all .3s ease-in;
 }
 
-.chats__logs--userOnline__details, .chats__logs--userOffline__details {
-  float: left;
-  margin: 0;
-  padding: 0 0px 0 60px;
-  list-style: none;
-  position: relative;
-  top: 5px;
+.chats__logs--user__details {
+  width: 100%;
+  padding: 0 10px 0 60px;
 }
 
-.chats__logs--userOnline__details li, .chats__logs--userOffline__details li {
-  float: none;
-  font-size: .875rem;
+.chats__logs--user__details--header {
+  width: 100%;
+  font-size: .75rem;
+  padding-bottom: 5px;
 }
 
-.chats__logs--userOnline__details li:first-child::after, .chats__logs--userOffline__details li:first-child::after {
+.chats__logs--user__details--header::after {
   content: "";
   clear: both;
   display: table;
 }
 
-.chats__logs--userOnline__details--title, .chats__logs--userOffline__details--title {
-  float: left;
+.chats__logs--user__details--header__title {
   margin: 0;
   padding: 0;
-  color: #fff;
-  font-weight: 300;
-  font-size: .8125rem;
-  max-width: 105px;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.chats__logs--userOnline__details--timeLeft, .chats__logs--userOffline__details--timeLeft {
-  float: right;
-  margin: 0 0 0 10px;
-  padding: 0;
-  color: #fff;
-  font-size: .8125rem;
-  font-style: italic;
-  max-width: 60px;
+  float: left;
+  width: 50%;
   overflow: hidden;
   white-space: nowrap;
-}
-
-.chats__logs--userOnline__details--lastMessage, .chats__logs--userOffline__details--lastMessage {
-  padding: 0;
-  margin: 10px 0 0 0;
-  color: #fff;
+  color: #dcdbdc;
   font-weight: 400;
-  max-width: 100%;
+}
+
+.chats__logs--user__details--header__userStatus {
+  margin: 0;
+  padding: 0;
+  float: right;
+  width: 50%;
   overflow: hidden;
   white-space: nowrap;
-  word-break: break-all !important;
-}
-
-@media (min-width: 530px) {
-
-  .chats__logs--userOnline__details--lastMessage, .chats__logs--userOffline__details--lastMessage {
-    max-width: 263px;
-  }
-}
-
-@media (min-width: 530px) {
-
-  .chats__logs--userOnline__details, .chats__logs--userOffline__details {
-    padding: 0 0 0 20px;
-  }
-}
-
-.chats__logs--userOnline__details--userStatus {
-  float: left;
-  margin:  0 ;
-  padding: 0;
-  color: #fff;
-  font-size: .8125rem;
-}
-
-.chats__logs--userOnline__details--statusIcon {
-  float: left;
-  height: 8px;
-  width: 8px;
-  border-radius: 4px;
-  background-color: #16cf27;
-  margin: 0  10px 0 105px;
-  position: relative;
-  top: 3px;
+  text-overflow: ellipsis;
+  color: #dcdbdc;
   font-weight: 300;
+  text-align: right;
 }
 
-.chats__logs--userOnline__details--userTyping {
+.chats__logs--user__details--mssage >  p {
+  font-size: .875rem;
+  padding: 8px 0 5px 0;
+  margin: 0;
   color: #fff;
-  font-size: .8125rem;
-  padding: 3px 0;
-  margin: 7px 0 3px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chats__logs--user__details--mssage__usertyping > span {
   background-color: #15a4fa;
-  width: 100px;
-  border-radius: 20px;
-  text-align: center;
-}
-
-.chats__logs--userOffline__details--userStatus {
-  float: left;
-  margin:  0 0 0 0px !important;
-  padding: 0 !important;
-  color: #fff;
+  padding: 5px 10px !important;
+  border-radius: 40px;
   font-size: .8125rem;
-}
-
-.chats__logs--userOffline__details--statusIcon {
-  float: left;
-  height: 6px;
-  width: 6px;
-  border-radius: 3px;
-  background-color: #ff1600;
-  margin: 0  10px 0 40px;
-  position: relative;
-  top: 3px;
-  font-weight: 300;
 }
 
 .chats__logs--footer {
@@ -6673,10 +6639,6 @@ img {
 @media (min-width: 1010px) {
 
   .chats__logs {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: column;
-        flex-direction: column;
     left: 0;
     opacity: 1;
     visibility: visible;
@@ -6694,7 +6656,7 @@ img {
     left: -470px;
     bottom: 0; 
     padding-top: 62px;
-    width: 100% !important;
+    width: 100%;
     overflow: hidden;
     opacity: 0;
     visibility: hidden;

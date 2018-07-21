@@ -488,6 +488,22 @@
         top: 2px;
     }
 
+    &__chats--logs__user--details__online {
+        font-size: .5rem;
+        color: $mainLightGreen;
+        margin-right: 5px;
+        position: relative;
+        top: -2px;
+    }
+
+    &__chats--logs__user--details__offline {
+        font-size: .5rem;
+        color: $mainLightRed;
+        margin-right: 5px;
+        position: relative;
+        top: -2px;
+    }
+
     &__site-main--groupchat__header--user {
         position: relative;
         top: 45%;
