@@ -1,18 +1,20 @@
 .chats__logs {
-    /* background-color: #2d6589; */
-    /* background-color: #4582a9; */
-    /* background-color: #4f88ad; */
-    background-color: #4186AD;
+   background-color: #4186AD;
     position: absolute;
+    overflow: hidden;
+    top: 0;
+    z-index: 1;
+    left: 0;
     display: flex;
     flex-direction: column;
-    top: 0;
-    left: 0;
+    /* left: -398px; */
     bottom: 0;
-    z-index: 1;
     padding-top: 62px;
-    width: 398px;
-
+    width: 100%;
+    /* opacity: 0;
+    visibility: hidden;
+    transition: all .3s ease-in; */
+    
     &--shad {
         position: absolute;
         width: 1px;
@@ -53,65 +55,42 @@
         width: 100%;
         border-bottom: 1px solid rgba(#fff, .3);
         @mixin clearfix;
+        display: flex;
+        align-items: center;
 
         li {
             float: left;
             font-size: .875rem;
-            margin: 0 10px; 
-
-            &:first-child {
-                margin-right: 10px 
-            }
-            
-            &:last-child {
-                margin: 0 0 0 20px !important;
-                cursor: pointer;
-                position: relative;
-            }
-        }
-
-        &__notifyHolder {
-            width: 28px;
-            height: 28px;
-            border-radius: 14px;
-            color: #fff;
-            text-align: center;
-            position: relative;
-
-            &--content {
-                position: absolute;
-                top: 22%;
-                transform: translateY(-22%);
-                left: 50%;
-                transform: translateX(-50%);
-            }
-        }
-
-        &__notifyOnline {
-            background-color: $mainLightGreen;
-            border: .5px solid rgba($mainLightGreen, .5);
-        }
-
-        &__notifyOffline {
-            background-color: $mainLightRed;
-            border: .5px solid rgba(#fff, .5);
         }
 
         &__title {
-            padding: 0;
+            width: 30%;
+            text-align: center;
+            padding: 0 0 0 10px;
             margin: 0;
             position: relative;
-            top: 7px;
+            white-space: nowrap;
             color: #fff;
-            left: 6px;
             font-weight: 400;
+        }
+
+        &__input {
+            width: 50%;
+            position: relative;
+            padding: 0 0 0 20px;
+            margin: 0 0 0 20px;
+
+            @mixin atExtraSmall {
+                width: 60%;
+                margin: 0;
+            }
         }
 
         &__searchChat {
             position: relative;
 
             &--input {
-                width: 230px;
+                width: 100%;
                 border: 1px solid $mainDarkGray;
                 outline: none;
                 padding: 6px 30px 6px 12px;
@@ -131,9 +110,11 @@
                 font-size: .875rem;
                 position: absolute;
                 top: 0px;
-                /* right: 40.6px; */
                 right: -1px;
-                /* border: 1px solid $mainDarkBlue; */
+                width: 28px;
+                height: 28px;
+                border-radius: 14px;
+                color: #fff;
             }
         }
 
@@ -145,13 +126,15 @@
         overflow: hidden;
         overflow-y: auto;
         margin-top: 10px;
-        margin-bottom: 100px;
+        margin-bottom: 50px;
+        margin-left: 10px;
+        margin-right: 10px;
     }
 
-    &--userOnline, &--userOffline {
+    &--user {
        width: 100%;
         border-top: none;
-        margin: 0px 10px 0 10px;
+        margin: 0;
         padding: 0;
         position: relative;
 
@@ -168,7 +151,7 @@
 
             li {
                 float: left;
-                width: 100%;
+                width: 50%;
                 font-weight: 300;
                 color: #fff;
                 text-align: center;
@@ -195,8 +178,55 @@
                     background-color: #fff;
                     color: $mainDarkBlue;
                     font-weight: 400;
-                    padding: 8px 0;
-                    font-size: .875rem;
+                }
+            }
+
+            &--online {
+                position: relative;
+
+                &__leftspace {
+                    background-color: $mainLightGreen;
+                    padding: 2px 10px;
+                    position: absolute;
+                    left: 10%;
+                    transform: translateX(-10%);
+                    top: 50%;
+                    transform: translateY(-50%);
+
+                    @mixin atExtraSmall {
+                        left: 20%;
+                        transform: translateX(-20%); 
+                    }
+                }
+
+                &__rightspace {
+                    background-color: $mainLightGreen;
+                    padding: 2px 10px;
+                    position: absolute;
+                    right: 10%;
+                    top: 50%;
+                    transform: translateY(-50%);
+
+                    @mixin atExtraSmall {
+                        right: 20%;
+                    }
+                }
+
+                &__bottomspace {
+                    position: absolute;
+                    bottom: 0px;
+                    width: 100%;
+                    /* border: 1px solid rgba(255, 255, 255, .45); */
+                    border-right: none;
+                    border-left: none;
+                    padding: .5px;
+                    background-color: rgba(255, 255, 255, .45);
+                }
+
+                &__title {
+                    width: 100%;
+                    margin: 0 auto;
+                    text-align: center;
                 }
             }
         }
@@ -216,21 +246,6 @@
             &:last-child {
                 border: none;
             }
-
-            &--bordervisible {
-                background-color: rgba($mainLightBlue, .25);
-                transition: all .3s ease-in;
-            }
-
-            &--borderhover {
-                background-color: rgba($mainLightBlue, .25);
-                transition: all .3s ease-in;
-            }
-
-            &--bgactive {
-                background-color: rgba($mainLightBlue, .25);
-                transition: all .3s ease-in;
-            }
         }
 
         &__img {
@@ -240,7 +255,7 @@
             border-radius: 25px;
             background-color: #fff;
             cursor: pointer;
-            position: relative;
+            position: absolute;
 
             &--holder {
                 width: 50px;
@@ -252,7 +267,7 @@
         }
 
         &__view {
-            &--userDetails {
+            &--userdetails {
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -277,120 +292,77 @@
         }
 
         &__details {
-            float: left;
-            margin: 0 0 0 20px;
-            padding: 0;
-            list-style: none;
-            position: relative;
-            top: 5px;
-            
+            width: 100%;
+            padding: 0 10px 0 60px;
 
-            li {
-                float: none;
-                font-size: .875rem;
 
-                &:first-child {
-                    @mixin clearfix;
+            &--header {
+                width: 100%;
+                @mixin clearfix;
+                font-size: .75rem;
+                padding-bottom: 5px;
+
+                &__title {
+                    margin: 0;
+                    padding: 0;
+                    float: left;
+                    width: 50%;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    color: $mainDarkGray;
+                    font-weight: 400;
+                } 
+
+                &__userStatus {
+                    margin: 0;
+                    padding: 0;
+                    float: right;
+                    width: 50%;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    color: $mainDarkGray;
+                    font-weight: 300;
+                    text-align: right;
                 }
-            }
-
-            &--title {
-                float: left;
-                margin: 0;
-                padding: 0;
-                color: #fff;
-                font-weight: 300;
-                font-size: .8125rem;
-                max-width: 105px;
-                white-space: nowrap;
-                overflow: hidden;
-            }
-
-
-            &--timeLeft {
-                float: left;
-                margin: 0 0 0 10px;
-                padding: 0;
-                color: #fff;
-                font-size: .8125rem;
-                font-style: italic;
-                max-width: 60px;
-                overflow: hidden;
-                white-space: nowrap;
-            }   
-            
-            &--lastMessage {
-                padding: 0;
-                margin: 10px 0 0 0;
-                color: #fff;
-                font-weight: 400;
-                max-width: 263px;
-                overflow: hidden;
-                white-space: nowrap;
-                word-break: break-all !important;
-            }
-        }
-
-    }
-
-    &--userOnline {
-        &__details { 
-            &--userStatus {
-                float: left;
-                margin:  0 ;
-                padding: 0;
-                color: #fff;
-                font-size: .8125rem;
             }  
 
-            &--statusIcon {
-                float: left;
-                height: 8px;
-                width: 8px;
-                border-radius: 4px;
-                background-color: $mainLightGreen;
-                margin: 0  10px 0 105px;
-                position: relative;
-                top: 3px;
-                font-weight: 300;
-            }
+            &--mssage {
 
-            &--userTyping {
-                color: #fff;
-                font-size: .8125rem;
-                padding: 3px 0;
-                margin: 7px 0 3px 0;
-                background-color: $mainLightBlue;
-                width: 100px;
-                border-radius: 20px;
-                text-align: center;
+               & >  p {
+                    font-size: .875rem;
+                    padding: 8px 0 5px 0;
+                    margin: 0;
+                    color: #fff;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+   
+                &__usertyping {
+                    & > span {
+                        background-color: $mainLightBlue;
+                        padding: 5px 10px !important;
+                        border-radius: 40px;
+                        font-size: .8125rem;
+                    }
+                }
             }
         }
+
     }
 
-    &--userOffline {
-        &__details { 
-            &--userStatus {
-                float: left;
-                margin:  0 0 0 0px !important;
-                padding: 0 !important;
-                color: #fff;
-                font-size: .8125rem;
-            }
-            
-            &--statusIcon {
-                float: left;
-                height: 8px;
-                width: 8px;
-                border-radius: 4px;
-                background-color: $mainLightRed;
-                margin: 0  10px 0 40px;
-                position: relative;
-                top: 3px;
-                font-weight: 300;
-            }
-        }
-    }
+
+
+
+
+
+
+
+
+
+
 
     &--selectIcon {
        position: absolute;
@@ -438,27 +410,20 @@
 
         &__userselected {
             @mixin clearfix;
-            margin: 20px 0 15px 0;
+            margin: 20px auto 15px auto;
+            position: relative;
+
 
             &--title {
-                float: left;
-                text-align: right;
+                text-align: center;
                 color: #fff;
                 font-weight: 400;
                 font-size: .9375rem;
-                width: 55%;
-                padding: 0;
-                margin: 0;
+                width: 170px;
+                padding: 0 40px 0 0;
                 position: relative;
                 top: 1px;
-            }
-
-            &--totalwrapper {
-                float: left;
-                text-align: left;
-                width: 45%;
-                font-size: .875rem;
-                position: relative;
+                margin: 0 auto 0 auto;
             }
 
             &--total {
@@ -469,8 +434,8 @@
                 text-align: center;
                 font-size: 500;
                 position: absolute;
-                left: 10px;
-                top: -7px;
+                top: -6px;
+                right: 0;
                 box-shadow: 0 1px 9px 0 rgba($mainPaleBlue, .7);
                 -o-box-shadow: 0 1px 9px 0 rgba($mainPaleBlue, .7);
                 -webkit-box-shadow: 0 1px 9px 0 rgba($mainPaleBlue, .7);
@@ -509,8 +474,7 @@
                 width: 90px;
                 padding: 5px 0px;
                 background-color: $mainExtraDarkPaleBlue;
-                left: -50%;
-                transform: translateX(50%);
+                margin: 0 auto;
                 border-radius: 3px;
                 color: #fff;
                 font-size: .875rem;
@@ -526,8 +490,7 @@
                 width: 90px;
                 padding: 5px 0;
                 background-color: #fff;
-                left: -50%;
-                transform: translateX(50%);
+                margin: 0 auto;
                 border-radius: 3px;
                 font-size: .875rem;
                 color: $mainDarkBlue;
@@ -552,17 +515,31 @@
     }
 
     &--visible {
-        @mixin atSmall {
-            /* opacity: 1;
-            visibility: visible;
-            left: 0;
-            z-index: 1;
-            top: 0;
-            width: auto; */
-            /* transform: scale(1); */
-            /* transition: all .3s ease-in; */
-        }
+        display: flex;
+        flex-direction: column;
+        left: 0;
+        opacity: 1;
+        visibility:visible;
+        z-index: 1;
+        transition: all .3s ease-in;
     }
+
+    @mixin atExtraSmall {
+        width: 100%;
+    }
+
+    @mixin atSmall {
+        width: 398px;
+    }
+
+    @mixin atLarge {
+        left: 0;
+        opacity: 1;
+        visibility:visible;
+        z-index: 1;
+        transition: all .3s ease-in;
+    }
+
 
 
 }
