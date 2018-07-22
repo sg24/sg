@@ -6,7 +6,7 @@ class SiteMainChat {
         this.chatOptToggler = $(".site-main__groupchat--header__options--circle");
         this.searchChat = $(".site-main__groupchat--search");
         this.searchChatToggler = $(".site-main__groupchat--header__options--list__search");
-        this.removeSearchChat = $(".site-main__groupchat--chatbox__search--close, .site-main__groupchat--chatbox, .site-main__groupchat--footer");
+        this.removeSearchChat = $(".site-main__groupchat--search__close, .site-main__groupchat--chatbox, .site-main__groupchat--footer");
         this.switchGroupToggler = $(".site-main__groupchat--header__options--list__switGroup");
         this.switchGroup = $(".site-main__groupchat--switchgroup");
         this.closeSwitchGroup = $(".site-main__groupchat--chatbox, .site-main__groupchat--footer");
@@ -32,7 +32,7 @@ class SiteMainChat {
         this.sendChat = $(".site-main__groupchat--options");
         this.userOptToggler = $(".chats__logs--user__img");
         this.userOpt = $(".chats__logs--user__view--userdetails");
-        this.chatdetToggler = $(".site-main__groupchat--header__details--seconddetails__sh-more-lg");
+        this.chatdetToggler = $(".site-main__groupchat--header__details--seconddetails__sh-more-lg, .site-main__groupchat--header__options--grupdetail");
         this.chatdetails = $(".site-main__groupchat--detail");
         this.closeChatDet = $(".site-main__groupchat--chatbox, .site-main__groupchat--footer");
         this.chatRoomToggler = $(".site-main__groupchat--header__details--seconddetails__sh-more-sm");
@@ -187,6 +187,11 @@ class SiteMainChat {
 
     toggleChatDet() {
         this.chatdetails.toggleClass("site-main__groupchat--detail__visible");
+        this.searchUser.removeClass("site-main__groupchat--searchuser__visible");
+        this.currentChat.removeClass("site-main__groupchat--currentchat__visible");
+        this.chatOpt.removeClass("site-main__groupchat--header__options--list__visible");
+        this.switchGroup.removeClass("site-main__groupchat--switchgroup__visible");
+        this.searchChat.removeClass("site-main__groupchat--search__visible");
     }
 
     removeChatDet() {

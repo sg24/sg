@@ -8,7 +8,7 @@
     flex-direction: column;
     left: -398px;
     bottom: 0;
-    padding-top: 62px;
+    padding-top: 70px;
     width: 100%;
     opacity: 0;
     visibility: hidden;
@@ -31,7 +31,7 @@
 
     &--mainclose {
         position: absolute;
-        top: 70px;
+        top: 85px;
         right: 10px; 
         width: 18px;
         height: 18px;
@@ -42,6 +42,10 @@
         cursor: pointer;
         display: block;
 
+        @mixin atSmall {
+            top: 60px;
+        }
+
         @mixin atLarge {
             display: none;
         }
@@ -49,8 +53,8 @@
 
     &--header {
         list-style: none;
-        margin: 25px 0 0 0;
-        padding: 0 0 15px 0;
+        margin: 40px 0 0 0;
+        padding: 0 0 10px 0;
         width: 100%;
         border-bottom: 1px solid rgba(#fff, .3);
         @mixin clearfix;
@@ -117,6 +121,10 @@
             }
         }
 
+        @mixin atSmall {
+            margin: 10px 0 0 0;
+            padding: 0 0 10px 0;
+        }
     }
 
     &--mainOutlet {

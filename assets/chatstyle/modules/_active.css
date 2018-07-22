@@ -230,14 +230,15 @@
 
     &--chat_main {
         z-index: 0;
-        top: 5px;
+        top: 15px;
         right: 0px;
         width: 20px;
         height: 20px;
         border-radius: 10px;
         border: 1px solid rgba(#fff, .25);
         overflow: hidden;
-        
+        display: none;
+
         & > div {
             position: absolute;
             top: 50%;
