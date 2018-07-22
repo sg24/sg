@@ -32,7 +32,7 @@ class SiteMainChat {
         this.sendChat = $(".site-main__groupchat--options");
         this.userOptToggler = $(".chats__logs--user__img");
         this.userOpt = $(".chats__logs--user__view--userdetails");
-        this.chatdetToggler = $(".site-main__groupchat--header__details--seconddetails__sh-more-lg, .site-main__groupchat--header__options--grupdetail");
+        this.chatdetToggler = $(".site-main__groupchat--header__details--seconddetails__sh-more-lg, .site-main__groupchat--header__options--grupdetails");
         this.chatdetails = $(".site-main__groupchat--detail");
         this.closeChatDet = $(".site-main__groupchat--chatbox, .site-main__groupchat--footer");
         this.chatRoomToggler = $(".site-main__groupchat--header__details--seconddetails__sh-more-sm");
@@ -79,6 +79,7 @@ class SiteMainChat {
         this.chatOpt.toggleClass("site-main__groupchat--header__options--list__visible");
         this.userDetails.removeClass("site-main__userdetails--visible");
         this.sendChat.removeClass("site-main__groupchat--options__visible");
+        this.chatdetails.removeClass("site-main__groupchat--detail__visible");
     }
 
     closeChatOpt() {

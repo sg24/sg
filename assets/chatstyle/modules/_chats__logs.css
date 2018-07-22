@@ -13,9 +13,9 @@
     bottom: 0;
     padding-top: 70px;
     width: 100%;
-    opacity: 0;
+    opacity: 1;
     visibility: hidden;
-    transition: all .3s ease-in;
+    transition: all .8s ease-in;
 
     &--shad {
         position: absolute;
@@ -417,7 +417,7 @@
         opacity: 1;
         visibility:visible;
         z-index: 1;
-        transition: all .3s ease-in;
+        transition: all .8s ease-in;
 
         @mixin atSmall {
             width: 398px;
@@ -439,7 +439,7 @@
         opacity: 1;
         visibility:visible;
         z-index: 1;
-        transition: all .3s ease-in;
+        /* transition: all .3s ease-in; */
     }
 
 }
