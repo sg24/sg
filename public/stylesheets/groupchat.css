@@ -2110,7 +2110,7 @@ img {
     width: 100%;
     top: 0;
     padding: .625rem 0;
-    z-index: 2;
+    z-index: 3;
 }
 
 .site-header::after {
@@ -5178,7 +5178,7 @@ img {
 
 .site-main__groupchat--detail {
   position: absolute;
-  top: 130px;
+  top: -200px;
   background-color: #fff;
   width: 100%;
   padding-left: 0px;
@@ -5537,7 +5537,7 @@ img {
 .site-main__groupchat--detail__visible {
   opacity: 1;
   visibility: visible;
-  z-index: .5;
+  z-index: 1;
   top: 80px;
   transition: all .3s ease-in;
 }
@@ -5572,7 +5572,7 @@ img {
 
 .site-main__groupchat--search {
   position: absolute;
-  top: -50px;
+  top: -200px;
   box-shadow: 0px 2px 2px 0px rgba(2,132,168, 0.4);
   -o-box-shadow: 0px 2px 2px 0px rgba(2,132,168, 0.4);
   -webkit-box-shadow: 0px 2px 2px 0px rgba(2,132,168, 0.4);
@@ -5649,7 +5649,7 @@ img {
 .site-main__groupchat--search__visible {
   opacity: 1;
   visibility: visible;
-  z-index: .5;
+  z-index: 1;
   top: 80px;
   transition: all .3s ease-in;
 }
@@ -5684,7 +5684,7 @@ img {
 
 .site-main__groupchat--switchgroup {
   position: absolute;
-  top: -50px;
+  top: -200px;
   background-color: #fff;
   box-shadow: 0px 2px 2px 0px rgba(2,132,168, 0.4);
   -o-box-shadow: 0px 2px 2px 0px rgba(2,132,168, 0.4);
@@ -5879,7 +5879,7 @@ img {
 .site-main__groupchat--switchgroup__visible {
   opacity: 1;
   visibility: visible;
-  z-index: .5;
+  z-index: 1;
   top: 80px;
   transition: all .3s ease-in;
 }
@@ -5914,7 +5914,7 @@ img {
 
 .site-main__groupchat--currentchat {
   width: 100%;
-  top: -50px;
+  top: -200px;
   background-color: #fff;
   box-shadow: 0px 2px 2px 0px rgba(2,132,168, 0.4);
   -o-box-shadow: 0px 2px 2px 0px rgba(2,132,168, 0.4);
@@ -6245,7 +6245,7 @@ img {
 .site-main__groupchat--currentchat__visible {
   opacity: 1;
   visibility: visible;
-  z-index: .5;
+  z-index: 1;
   top: 80px;
   transition: all .3s ease-in;
 }
@@ -6531,7 +6531,7 @@ img {
 .site-main__groupchat--searchuser__visible {
   opacity: 1;
   visibility: visible;
-  z-index: .5;
+  z-index: 1;
   top: 80px;
   transition: all .3s ease-in;
 }
@@ -6782,7 +6782,7 @@ img {
     position: absolute;
     overflow: hidden;
     top: 0;
-    z-index: 1;
+    z-index: 2;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-direction: column;
@@ -7236,7 +7236,7 @@ img {
   left: 0;
   opacity: 1;
   visibility:visible;
-  z-index: 1;
+  z-index: 2;
   transition: all .8s ease-in;
 }
 
@@ -7269,7 +7269,7 @@ img {
     left: 0;
     opacity: 1;
     visibility: visible;
-    z-index: 1;/* transition: all .3s ease-in; */
+    z-index: 2;
   }
 }
 
@@ -7936,6 +7936,10 @@ img {
 
   .site-main__userdetails--visible {
     bottom: 0;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+        flex-direction: column;
   }
 }
 

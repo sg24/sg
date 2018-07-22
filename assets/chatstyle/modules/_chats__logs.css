@@ -6,7 +6,7 @@
     position: absolute;
     overflow: hidden;
     top: 0;
-    z-index: 1;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     left: -398px;
@@ -416,7 +416,7 @@
         left: 0;
         opacity: 1;
         visibility:visible;
-        z-index: 1;
+        z-index: 2;
         transition: all .8s ease-in;
 
         @mixin atSmall {
@@ -438,8 +438,7 @@
         left: 0;
         opacity: 1;
         visibility:visible;
-        z-index: 1;
-        /* transition: all .3s ease-in; */
+        z-index: 2;
     }
 
 }

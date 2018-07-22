@@ -34,7 +34,7 @@ class SiteMainChat {
         this.userOpt = $(".chats__logs--user__view--userdetails");
         this.chatdetToggler = $(".site-main__groupchat--header__details--seconddetails__sh-more-lg, .site-main__groupchat--header__options--grupdetails");
         this.chatdetails = $(".site-main__groupchat--detail");
-        this.closeChatDet = $(".site-main__groupchat--chatbox, .site-main__groupchat--footer");
+        this.closeChatDet = $(".site-main__groupchat--chatbox, .site-main__groupchat--footer, .site-main__groupchat--detail__wrapper");
         this.chatRoomToggler = $(".site-main__groupchat--header__details--seconddetails__sh-more-sm");
         this.chatRoom = $(".chats__logs");
         this.closeChatRoom = $(".chats__logs--mainclose, .site-main__groupchat--detail, .site-main__groupchat--chatbox, .site-main__groupchat--footer");
@@ -80,6 +80,10 @@ class SiteMainChat {
         this.userDetails.removeClass("site-main__userdetails--visible");
         this.sendChat.removeClass("site-main__groupchat--options__visible");
         this.chatdetails.removeClass("site-main__groupchat--detail__visible");
+        this.searchChat.removeClass("site-main__groupchat--search__visible");
+        this.switchGroup.removeClass("site-main__groupchat--switchgroup__visible");
+        this.currentChat.removeClass("site-main__groupchat--currentchat__visible");
+        this.searchUser.removeClass("site-main__groupchat--searchuser__visible");
     }
 
     closeChatOpt() {
