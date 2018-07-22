@@ -7696,6 +7696,7 @@ img {
   border: 1px solid #0284a8;
   font-size: .875rem;
   color: #fff;
+  overflow: hidden;
 }
 
 .site-main__userdetails--main__details {
