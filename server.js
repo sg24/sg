@@ -23,6 +23,7 @@ hbs.registerPartials(__dirname + '/views/partialsonlineque');
 hbs.registerPartials(__dirname + '/views/partialsquestion');
 hbs.registerPartials(__dirname + '/views/partialsglobal');
 hbs.registerPartials(__dirname + '/views/partialsgroupchat');
+hbs.registerPartials(__dirname + '/views/partialsprivatechat');
 // app.engine('hbs', hbs({
 //     defaultLayout: 'main'
 // }));

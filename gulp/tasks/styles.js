@@ -120,3 +120,14 @@ gulp.task('groupchatstyles', function() {
     })
     .pipe(gulp.dest('./public/stylesheets'));
 });
+
+gulp.task('privatechatstyles', function() {
+    return gulp.src('./assets/privatechatstyle/privatechat.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) {
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});

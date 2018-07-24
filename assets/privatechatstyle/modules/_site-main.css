@@ -1,0 +1,15 @@
+.site-main {
+    position: relative;
+    top: 62px;
+    font-family: "Roboto",Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+
+    &__expage {
+        top: 82px !important;
+
+        @mixin atMedium {
+            top: 65px !important;
+        }
+    }
+
+
+}

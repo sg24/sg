@@ -38,5 +38,8 @@ router.get('/community', (req, res, next) => {
     res.render('community');
 });
 
+router.get('/privatechat', (req, res, next) => {
+    res.render('privatechat');
+});
 
 module.exports = router;
