@@ -35,4 +35,54 @@
         font-size: 14px;
         padding: 8px 8px;
     }
+
+    &__recieve {
+        top: 30px;
+        background-color: $mainDarkGray;
+        color: $mainDarkBlue;
+        opacity: 0;
+        visibility: hidden;
+        z-index: -33;
+        transition: all .3s ease-in;
+
+        &::after {
+            display: none;
+        }
+    
+        &::before {
+            display: none
+        }
+
+        &--visible {
+            opacity: 1;
+            visibility: visible;
+            z-index: 1;
+            transition: all .3s ease-in;
+        }
+    }
+
+    &__sent {
+        top: 30px;
+        background-color: $mainDarkBlue;
+        color: #fff;
+        opacity: 0;
+        visibility: hidden;
+        z-index: -33;
+        transition: all .3s ease-in;
+
+        &::after {
+            display: none;
+        }
+    
+        &::before {
+            display: none
+        }
+
+        &--visible {
+            opacity: 1;
+            visibility: visible;
+            z-index: 1;
+            transition: all .3s ease-in;
+        }
+    }
 }

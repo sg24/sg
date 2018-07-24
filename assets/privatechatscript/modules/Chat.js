@@ -11,6 +11,10 @@ class Chat {
         this.chatOpt = $(".site-main__pvtchat--main__options--searchuser__chat--img__userdetails");
         this.srchUserToggler = $(".site-main__pvtchat--main__options--create");
         this.srchUser = $(".site-main__pvtchat--main__options--searchuser");
+        this.recTooltipToggler = $(".site-main__pvtchat--main__msg--header__secondwrapper--recieve");
+        this.recTooltip  = $(".tool-tip__recieve");
+        this.sentTooltipToggler = $(".site-main__pvtchat--main__msg--header__secondwrapper--sent");
+        this.sentTooltip  = $(".tool-tip__sent");
         this.events();
     }
 
@@ -21,6 +25,10 @@ class Chat {
         this.chatOptToggler.mouseenter(this.addChatOpt.bind(this));
         this.chatOptToggler.mouseleave(this.removeChatOpt.bind(this));
         this.srchUserToggler.click(this.toggleSrchUser.bind(this));
+        this.recTooltipToggler.mouseenter(this.addRecTooltip.bind(this));
+        this.recTooltipToggler.mouseleave(this.removeRecTooltip.bind(this));
+        this.sentTooltipToggler.mouseenter(this.addSentTooltip.bind(this));
+        this.sentTooltipToggler.mouseleave(this.removeSentTooltip.bind(this));
     }
 
     togglePvtChat() {
@@ -45,6 +53,22 @@ class Chat {
 
     toggleSrchUser() {
         this.srchUser.toggleClass("site-main__pvtchat--main__options--searchuser__visible");
+    }
+
+    addRecTooltip() {
+        this.recTooltip.addClass("tool-tip__recieve--visible");
+    }
+
+    removeRecTooltip() {
+        this.recTooltip.removeClass("tool-tip__recieve--visible");
+    }
+
+    addSentTooltip() {
+        this.sentTooltip.addClass("tool-tip__sent--visible");
+    }
+
+    removeSentTooltip() {
+        this.sentTooltip.removeClass("tool-tip__sent--visible");
     }
 }
 

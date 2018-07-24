@@ -913,6 +913,56 @@ img {
   padding: 8px 8px;
 }
 
+.tool-tip__recieve {
+  top: 30px;
+  background-color: #dcdbdc;
+  color: #0284a8;
+  opacity: 0;
+  visibility: hidden;
+  z-index: -33;
+  transition: all .3s ease-in;
+}
+
+.tool-tip__recieve::after {
+  display: none;
+}
+
+.tool-tip__recieve::before {
+  display: none
+}
+
+.tool-tip__recieve--visible {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+  transition: all .3s ease-in;
+}
+
+.tool-tip__sent {
+  top: 30px;
+  background-color: #0284a8;
+  color: #fff;
+  opacity: 0;
+  visibility: hidden;
+  z-index: -33;
+  transition: all .3s ease-in;
+}
+
+.tool-tip__sent::after {
+  display: none;
+}
+
+.tool-tip__sent::before {
+  display: none
+}
+
+.tool-tip__sent--visible {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+  transition: all .3s ease-in;
+}
+
 .active__main {
     position: absolute;
     background-color: #f22613;
@@ -4274,6 +4324,7 @@ img {
   padding: 5px 10px;
   border-radius: 20px;
   font-size: .75rem;
+  cursor: pointer;
 }
 
 .site-main__pvtchat--main__msg--header__secondwrapper--recieve {
