@@ -2,9 +2,11 @@
   <div class="site-main__pvtchat--main">
       <div class="site-main__pvtchat--main__headerwrapper">
           <div class="site-main__pvtchat--main__header"> 
-            All Conversations
+            <div class="site-main__pvtchat--main__header--title">
+                All Conversations
+                <div class="active__main active__main--pvtchat"><div>99</div></div>
+            </div>
             <span class="site-main__pvtchat--main__header--search"><i class="fas fa-search"></i></span>
-            <div class="active__main active__main--pvtchat"><div>99</div></div>
         </div>
         <div class="site-main__pvtchat--main__search">
             <div class="site-main__pvtchat--main__search--wrapper">
@@ -33,7 +35,81 @@
           <button class="site-main__pvtchat--main__options--create"><i class="fas fa-edit icon icon__site-main--pvtchat__main--options__icon"></i> create New</button>
            <button class="site-main__pvtchat--main__options--delete"><i class="fas fa-trash-alt icon icon__site-main--pvtchat__main--options__icon"></i> Delete All</button>
            <button class="site-main__pvtchat--main__options--neigh"><i class="fas fa-people-carry icon icon__site-main--pvtchat__main--options__icon"></i> Neighbours</button>
+
+    <div class="site-main__pvtchat--main__options--searchuser">
+        <div class="site-main__pvtchat--main__options--searchuser__wrapper">
+            <div class="site-main__pvtchat--main__options--searchuser__header">
+                <input type="text" class="site-main__pvtchat--main__options--searchuser__header--input" placeholder="search user....">
+            </div>
+            <div class="site-main__pvtchat--main__options--searchuser__outlet">
+                <div class="site-main__pvtchat--main__options--searchuser__chat">
+                    <div class="site-main__pvtchat--main__options--searchuser__chat--switch">
+                        <i class="far fa-comment-dots"></i>
+                    </div>
+                    <div class="site-main__pvtchat--main__options--searchuser__chat--img">
+                        <div class="active__main active__main--pvt-notify"><div>9</div></div>
+                        <div class="site-main__pvtchat--main__options--searchuser__chat--img__userdetails">
+                            <a href=""><i class="fas fa-comment-dots icon icon__site-main--pvtchat__searchuser--chaticon"></i></a> 
+                            <a href=""><i class="fas fa-eye icon icon__site-main--pvtchat__searchuser--eyeicon"></i></a> 
+                        </div>
+                        <img src="/" alt="">
+                    </div>
+                    <div class="site-main__pvtchat--main__options--searchuser__chat--details">
+                        <ul>
+                            <li class="site-main__pvtchat--main__options--searchuser__chat--details__title"><a href="">Users user</a></li>
+                            <li class="site-main__pvtchat--main__options--searchuser__chat--details__status">
+                                <i class="fas fa-circle icon icon__site-main--pvtchat__searchchat--statuson"></i>
+                                online                
+                            </li>
+
+                            {{!-- <li class="site-main__groupchat--searchuser__chat--details__status">
+                               <i class="fas fa-circle icon icon__site-main--pvtchat__searchchat--statusoff"></i> 
+                               offline 2m ago
+                            </li> --}}
+                        </ul>
+                        <div class="site-main__pvtchat--main__options--searchuser__chat--lastmssge">
+                           <a href=""> What is the real defination pls, i need it</a>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="site-main__pvtchat--main__options--searchuser__chat">
+                <div class="site-main__pvtchat--main__options--searchuser__chat--switch">
+                    <i class="far fa-comment-dots"></i>
+                </div>
+                <div class="site-main__pvtchat--main__options--searchuser__chat--img">
+                    <div class="active__main active__main--pvt-notify"><div>9</div></div>
+                        <div class="site-main__pvtchat--main__options--searchuser__chat--img__userdetails">
+                            <a href=""><i class="fas fa-comment-dots icon icon__site-main--pvtchat__searchuser--chaticon"></i></a> 
+                            <a href=""><i class="fas fa-eye icon icon__site-main--pvtchat__searchuser--eyeicon"></i></a> 
+                        </div>
+                        <img src="/" alt="">
+                    </div>
+                    <div class="site-main__pvtchat--main__options--searchuser__chat--details">
+                        <ul>
+                            <li class="site-main__pvtchat--main__options--searchuser__chat--details__title"><a href="">Users user</a></li>
+                            {{!-- <li class="site-main__pvtchat--main__options--searchuser__chat--details__status">
+                                <i class="fas fa-circle icon icon__site-main--pvtchat__searchchat--statuson"></i>
+                                online                
+                            </li> --}}
+
+                            <li class="site-main__pvtchat--main__options--searchuser__chat--details__status">
+                               <i class="fas fa-circle icon icon__site-main--pvtchat__searchchat--statusoff"></i> 
+                               offline 2m ago
+                            </li>
+                        </ul>
+                        <div class="site-main__pvtchat--main__options--searchuser__chat--nomssge">
+                            Occupation: <span>teacher</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
       </div>
+
       <div class="site-main__pvtchat--main__chatdate">
           <div>Today</div>
       </div>
@@ -51,7 +127,7 @@
                   </ul>
               </div>
               <div class="site-main__pvtchat--main__msg--header__secondwrapper">
-                  <span>sent 2m ago</span>
+                  <span class="site-main__pvtchat--main__msg--header__secondwrapper--recieve"><i class="fas fa-location-arrow icon icon__site-main--pvtvhat__main--recieve"></i>  2m ago</span>
               </div>
               <div class="active__main active__main--msg"><div>New</div></div>
           </div>
@@ -59,7 +135,7 @@
               <div class="site-main__pvtchat--main__msg--content__holder">
                   <a href="">Do you know the reason while i sent it to you? 
                   if you don't know the reason reply now!,  if you don't kno!</a>
-                  <span class="site-main__pvtchat--main__msg--content__total">99</span>
+                  <span class="site-main__pvtchat--main__msg--content__total"><i class="fas fa-comment-dots icon icon__site-main--pvtchat__main--msg"></i>  99</span>
               </div>
           </div>
           <div class="site-main__pvtchat--main__msg--footer">
@@ -85,15 +161,14 @@
                   </ul>
               </div>
               <div class="site-main__pvtchat--main__msg--header__secondwrapper">
-                  <span>sent 2m ago</span>
+                  <span><i class="fas fa-location-arrow icon icon__site-main--pvtvhat__main--sent"></i> 2m ago</span>
               </div>
-              <div class="active__main active__main--msgread"><div>Viewed</div></div>
           </div>
           <div class="site-main__pvtchat--main__msg--content">
               <div class="site-main__pvtchat--main__msg--content__holder">
                   <a href="">Do you know the reason while i sent it to you? 
                   if you don't know the reason reply now!,  if you don't kno!</a>
-                  <span class="site-main__pvtchat--main__msg--content__total">99</span>
+                  <span class="site-main__pvtchat--main__msg--content__viewed">viewed</span>
               </div>
           </div>
           <div class="site-main__pvtchat--main__msg--footer">

@@ -263,4 +263,59 @@
         color: rgba($mainDarkBlue, .8);
     }
 
+    &__site-main--pvtchat__main--msg {
+        margin:0 5px;
+        white-space: nowrap;
+    }
+
+    &__site-main--pvtvhat__main--recieve {
+        margin-right: 5px;
+        font-size: .75rem;
+        transform: rotate(-189deg);
+        position: relative;
+        top: -2px;
+    }
+
+    &__site-main--pvtvhat__main--sent {
+        margin-right: 5px;
+    }
+
+    &__site-main--pvtchat__searchchat--statuson {
+        font-size: .5rem; 
+        margin-right: 5px;
+        color: $mainLightGreen;
+        position: relative;
+        top: -1px;
+    }
+
+    &__site-main--pvtchat__searchchat--statusoff {
+        font-size: .5rem; 
+        margin-right: 5px;
+        color: $mainLightRed;
+        position: relative;
+        top: -1px;
+    }
+
+    &__site-main--pvtchat__searchuser--chaticon {
+        font-size: .875rem;
+        position: absolute;
+        top: 15%;
+        transform: translateY(-15%);
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff;
+    }
+
+    &__site-main--pvtchat__searchuser--eyeicon {
+        font-size: .875rem;
+        position: absolute;
+        top: 60%;
+        transform: translateY(-60%);
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff;
+        z-index: 2;
+        cursor: pointer;
+    }
+
 }
