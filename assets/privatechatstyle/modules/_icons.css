@@ -260,6 +260,7 @@
 
     &__site-main--pvtchat__nav--user {
         margin-right: 8px;
+        color: rgba($mainDarkBlue, .8);
     }
 
 }

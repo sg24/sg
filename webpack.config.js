@@ -11,7 +11,8 @@ module.exports = {
       quote: "./assets/quotescript/quote.js",
       onlineque: "./assets/onlinequescript/onlineque.js",
       group: "./assets/groupscript/group.js",
-      groupchat: "./assets/chatscript/groupchat.js"
+      groupchat: "./assets/chatscript/groupchat.js",
+      privatechat: "./assets/privatechatscript/privatechat.js"
     },
     output: {
       path: path.resolve(__dirname + '/public/js/app'),

@@ -1,6 +1,6 @@
 .site-main__pvtchat--nav {
     width: 40%;
-    border: 1px solid $mainDarkGray;
+    /* border: 1px solid $mainDarkGray; */
     color: #fff;
     float: left;
     display: none;
@@ -15,6 +15,8 @@
         color: #fff;
         font-weight: 300;
         width: 100%;
+        border: 1px solid $mainDarkGray;
+        border-bottom: none;
         @mixin clearfix;
 
         li {
@@ -31,22 +33,30 @@
 
     &__content {
         padding: 5px 10px 0 10px;
+        border: 1px solid $mainDarkGray;
+        border-top: none;
 
         &--main {
             background-color: rgb(255, 255, 255);
-            box-shadow: 0px 0px 14.56px 1.44px rgba(220, 219, 220, 0.6);
-            margin: 10px 0;
+            box-shadow: 0px 0px 4px .4px rgba(220, 219, 220, 0.6);
+            margin: 10px 0 30px 0;
             border-radius: 5px;
 
             &__header {
-                color: $mainLightBlue;
-                font-weight: 400;
+                font-weight: 500;
                 text-align: center;
                 padding: 20px 10px;
                 border-top-left-radius: 5px;
                 border-top-right-radius: 5px;
                 border: 1px solid $mainDarkGray;
                 border-bottom: none;
+                font-size: .875rem;
+
+                a {
+                    color: rgba($mainDarkBlack, .7);
+                    cursor: pointer;
+                    text-decoration: none;
+                }
             }
 
             &__footer {
@@ -58,8 +68,7 @@
                 background-color: $mainExtraLightGray;
                 border-bottom-left-radius: 5px;
                 border-bottom-right-radius: 5px;
-                border-left: 1px solid $mainDarkGray;
-                border-bottom: 1px solid $mainDarkGray;
+                border: 1px solid $mainDarkGray;
                 @mixin clearfix;
 
                 li {
@@ -69,21 +78,25 @@
                     padding: 8px 0;
 
                     &:first-child {
-                        box-shadow: inset 0 1px $mainDarkGray;
-                        -o-box-shadow: inset 0 1px $mainDarkGray;
-                        -webkit-box-shadow: inset 0 1px $mainDarkGray;
-                        -moz-box-shadow: inset 0 1px $mainDarkGray;
-                        -ms-box-shadow: inset 0 1px $mainDarkGray;
+                        border-right: 1px solid $mainDarkGray;
                     }
                     
                     &:last-child {
-                        background-color: $mainDarkBlue;
-                        color: #fff;
+                        color: $mainFontColor;
                         border-bottom-right-radius: 5px;
                     }
                 }
             }
         }
+    }
+
+    &__viewmore {
+        padding: 5px 0;
+        text-align: center;
+        background-color: $mainMiddleDarkBlue;
+        color: #fff;
+        font-size: .875rem;
+        border: 1px solid $mainMiddleDarkBlue;
     }
 
     @mixin atMedium {

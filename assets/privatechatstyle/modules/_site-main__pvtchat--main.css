@@ -20,6 +20,7 @@
 
         & > span {
             float: right;
+            cursor: pointer;
         }
     }
 
@@ -211,9 +212,9 @@
 
     &__msg {
         background-color: rgb(255, 255, 255);
-        box-shadow: 0px 2px 9px 0px rgba(104, 188, 241, 0.6);
-        border-top: 8px solid $mainDarkBlue;
+        /* box-shadow: 0px 2px 9px 0px rgba(104, 188, 241, 0.6); */
         border-radius: 10px;
+        box-shadow: 0 1px 2px 2px rgba($mainDarkBlue, .3);
         margin: 20px 10px 60px 10px;
 
 
@@ -225,8 +226,9 @@
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
             background-color: rgb(255, 255, 255);
-            box-shadow: 0px 5px 10px 0px rgba(104, 188, 241, 0.6); 
+            box-shadow: 0 2px 4px .4px rgba($mainDarkBlue, .3);
             position: relative;       
+            /* background-color: $mainHeaderColor; */
 
             &__firstwrapper {
                 float: left;
@@ -260,6 +262,8 @@
                         &:last-child {
                             position: relative;
                             margin: 0 0 0 20px;
+                            font-size: .8125rem;
+                            color: rgba($mainDarkBlack, .7);
 
                             &::before {
                                 content: "";
@@ -267,11 +271,22 @@
                                 width: 8px;
                                 height: 8px;
                                 border-radius: 4px;
-                                background-color: $mainDarkRed;
                                 top: 50%;
                                 transform: translateY(-50%);
                                 left: -20px;
                             }
+                        }
+                    }
+
+                    &__offline {
+                        &::before {
+                            background-color: $mainDarkRed
+                        }
+                    }
+
+                    &__online {
+                        &::before {
+                            background-color: $mainLightGreen;
                         }
                     }
                 }
@@ -295,9 +310,9 @@
 
         &--content {
             padding: 10px;
+            background-color: $mainHeaderColor;
 
             &__holder {
-                color: rgba($mainDarkBlack, .7);
                 padding: 10px;
                 font-size: .9375rem;
                 line-height: 1.8;
@@ -308,26 +323,29 @@
 
                 a {
                     cursor: pointer;
-                    color: $mainDarkBlue;
+                    color: rgba($mainDarkPaleBlue, .8);
+                    text-decoration: none;
                 }
             }
 
             &__total {
-                border-radius: 5px;
+                border-radius: 1px;
                 background-color: $mainDarkRed;
                 color: #fff;
-                font-size: .875rem;
-                padding: 5px 10px;
+                font-size: .8125rem;
+                padding: 4px 8px;
                 margin-left: 20px;
+                cursor: pointer;
             }
         }
 
         &--footer {
             width: 100%;
             margin-bottom: 0px;
-            background-color: $mainDarkBlue;
+            /* background-color: $mainHeaderColor; */
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
+            box-shadow: 0 -2px 3px  rgba($mainDarkBlue, .15);
             @mixin clearfix;
             
             &__content {
@@ -336,16 +354,13 @@
                 background-color: transparent;
                 cursor: pointer;
 
-                &:hover {
-                    background-color: $mainDarkPaleBlue;
-                    border-bottom-right-radius: 10px;
-                }
+
                 &::before {
                     content: "";
                     position: absolute;
                     top: 50%;
                     transform: translateY(-50%);
-                    background-color: #fff;
+                    background-color: rgba($mainDarkPaleBlue, .7);
                     height: 8px;
                     width: 8px;
                     border-radius: 4px;
@@ -357,7 +372,7 @@
                     position: absolute;
                     top: 50%;
                     transform: translateY(-50%);
-                    background-color: #fff;
+                    background-color: rgba($mainDarkPaleBlue, .7);
                     height: 8px;
                     width: 8px;
                     border-radius: 4px;
@@ -365,7 +380,7 @@
                 }
 
                 &--loadmore {
-                    background-color: #fff;
+                    background-color: rgba($mainDarkPaleBlue, .7);
                     height: 8px;
                     width: 8px;
                     border-radius: 4px;
@@ -383,6 +398,10 @@
                     border: 1px solid $mainDarkGray;
                     text-align: center;
                     left: -20px;
+                    opacity: 0;
+                    visibility: hidden;
+                    z-index: -33;
+                    transition: all .3s ease-in;
                     
                     li {
                         float: none;
@@ -400,6 +419,13 @@
                             background-color: $mainDarkRed;
                             color: #fff;
                         }
+                    }
+
+                    &__visible {
+                        opacity: 1;
+                        visibility: visible;
+                        z-index: 1;
+                        transition: all .3s ease-in;
                     }
                 }
             }

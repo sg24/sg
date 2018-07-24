@@ -816,6 +816,7 @@ img {
 
 .icon__site-main--pvtchat__nav--user {
   margin-right: 8px;
+  color: rgba(2,132,168, .8);
 }
 
 .tool-tip {
@@ -903,8 +904,10 @@ img {
 
 .active__main--pvtchat {
   z-index: 1 ;
-  top: 0px;
-  right: -10px;
+  top: 20%;
+  transform: translateY(-20%);
+  left: 65%;
+  transform: translateX(-65%);/* right: -10px; */
   border-radius: 9px;
   width: 18px;
   height: 18px;
@@ -937,10 +940,9 @@ img {
   }
 }
 
-.active__main--msg {
-  z-index: 1;
-  top: -20px;
-  right: -10px;
+.active__main--msg {/* z-index: 1; */
+  top: -10px;
+  right: -12px;
   width: 100px;
   height: 30px;
   border-top-left-radius: 40px;
@@ -968,8 +970,8 @@ img {
 @media (min-width: 1010px) {
 
   .active__main--msg {
-    width: 100px;
-    height: 30px;
+    width: 80px;
+    height: 20px;
     border-top-left-radius: 40px;
     border-bottom-right-radius: 40px;/* box-shadow: inset 0 1px 2px 1px rgba($mainDarkBlack, .2) !important; */
   }
@@ -978,7 +980,8 @@ img {
 .active__main--chattotal {
   z-index: 1 ;/* top: 0px; */
   right: 0px;
-  bottom: 0;/* border-radius: 9px; */
+  bottom: 0;
+  border-radius: 9px;
   width: 18px;
   height: 18px;
   border: 1px solid rgba(255,255,255, .25);
@@ -1003,7 +1006,7 @@ img {
 
 @media (min-width: 1010px) {
 
-  .active__main--chattotal {/* border-radius: 12px; */
+  .active__main--chattotal {
     width: 24px;
     height: 24px;
   }
@@ -3535,6 +3538,7 @@ img {
 
 .site-main__pvtchat--main__header > span {
   float: right;
+  cursor: pointer;
 }
 
 .site-main__pvtchat--main__search {
@@ -3724,10 +3728,9 @@ img {
 }
 
 .site-main__pvtchat--main__msg {
-  background-color: rgb(255, 255, 255);
-  box-shadow: 0px 2px 9px 0px rgba(104, 188, 241, 0.6);
-  border-top: 8px solid #0284a8;
+  background-color: rgb(255, 255, 255);/* box-shadow: 0px 2px 9px 0px rgba(104, 188, 241, 0.6); */
   border-radius: 10px;
+  box-shadow: 0 1px 2px 2px rgba(2,132,168, .3);
   margin: 20px 10px 60px 10px;
 }
 
@@ -3738,7 +3741,7 @@ img {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   background-color: rgb(255, 255, 255);
-  box-shadow: 0px 5px 10px 0px rgba(104, 188, 241, 0.6);
+  box-shadow: 0 2px 4px .4px rgba(2,132,168, .3);
   position: relative;
 }
 
@@ -3747,6 +3750,8 @@ img {
   clear: both;
   display: table;
 }
+
+/* background-color: $mainHeaderColor; */
 
 .site-main__pvtchat--main__msg--header__firstwrapper {
   float: left;
@@ -3783,6 +3788,8 @@ img {
 .site-main__pvtchat--main__msg--header__firstwrapper--title li:last-child {
   position: relative;
   margin: 0 0 0 20px;
+  font-size: .8125rem;
+  color: rgba(0,0,0, .7);
 }
 
 .site-main__pvtchat--main__msg--header__firstwrapper--title li:last-child::before {
@@ -3791,10 +3798,17 @@ img {
   width: 8px;
   height: 8px;
   border-radius: 4px;
-  background-color: #f22613;
   top: 50%;
   transform: translateY(-50%);
   left: -20px;
+}
+
+.site-main__pvtchat--main__msg--header__firstwrapper--title__offline::before {
+  background-color: #f22613
+}
+
+.site-main__pvtchat--main__msg--header__firstwrapper--title__online::before {
+  background-color: #16cf27;
 }
 
 .site-main__pvtchat--main__msg--header__secondwrapper {
@@ -3814,10 +3828,10 @@ img {
 
 .site-main__pvtchat--main__msg--content {
   padding: 10px;
+  background-color: #f9f9f9;
 }
 
 .site-main__pvtchat--main__msg--content__holder {
-  color: rgba(0,0,0, .7);
   padding: 10px;
   font-size: .9375rem;
   line-height: 1.8;
@@ -3829,24 +3843,26 @@ img {
 
 .site-main__pvtchat--main__msg--content__holder a {
   cursor: pointer;
-  color: #0284a8;
+  color: rgba(5,87,139, .8);
+  text-decoration: none;
 }
 
 .site-main__pvtchat--main__msg--content__total {
-  border-radius: 5px;
+  border-radius: 1px;
   background-color: #f22613;
   color: #fff;
-  font-size: .875rem;
-  padding: 5px 10px;
+  font-size: .8125rem;
+  padding: 4px 8px;
   margin-left: 20px;
+  cursor: pointer;
 }
 
 .site-main__pvtchat--main__msg--footer {
   width: 100%;
-  margin-bottom: 0px;
-  background-color: #0284a8;
+  margin-bottom: 0px;/* background-color: $mainHeaderColor; */
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  box-shadow: 0 -2px 3px  rgba(2,132,168, .15);
 }
 
 .site-main__pvtchat--main__msg--footer::after {
@@ -3862,17 +3878,12 @@ img {
   cursor: pointer;
 }
 
-.site-main__pvtchat--main__msg--footer__content:hover {
-  background-color: #05578b;
-  border-bottom-right-radius: 10px;
-}
-
 .site-main__pvtchat--main__msg--footer__content::before {
   content: "";
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: #fff;
+  background-color: rgba(5,87,139, .7);
   height: 8px;
   width: 8px;
   border-radius: 4px;
@@ -3884,7 +3895,7 @@ img {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: #fff;
+  background-color: rgba(5,87,139, .7);
   height: 8px;
   width: 8px;
   border-radius: 4px;
@@ -3892,7 +3903,7 @@ img {
 }
 
 .site-main__pvtchat--main__msg--footer__content--loadmore {
-  background-color: #fff;
+  background-color: rgba(5,87,139, .7);
   height: 8px;
   width: 8px;
   border-radius: 4px;
@@ -3910,6 +3921,10 @@ img {
   border: 1px solid #dcdbdc;
   text-align: center;
   left: -20px;
+  opacity: 0;
+  visibility: hidden;
+  z-index: -33;
+  transition: all .3s ease-in;
 }
 
 .site-main__pvtchat--main__msg--footer__content--details li {
@@ -3928,6 +3943,13 @@ img {
 .site-main__pvtchat--main__msg--footer__content--details li:last-child {
   background-color: #f22613;
   color: #fff;
+}
+
+.site-main__pvtchat--main__msg--footer__content--details__visible {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+  transition: all .3s ease-in;
 }
 
 @media (min-width: 335px) {
@@ -3964,7 +3986,7 @@ img {
 
 .site-main__pvtchat--nav {
     width: 40%;
-    border: 1px solid #dcdbdc;
+    /* border: 1px solid $mainDarkGray; */
     color: #fff;
     float: left;
     display: none;
@@ -3980,6 +4002,8 @@ img {
   color: #fff;
   font-weight: 300;
   width: 100%;
+  border: 1px solid #dcdbdc;
+  border-bottom: none;
 }
 
 .site-main__pvtchat--nav__tab::after {
@@ -4001,24 +4025,32 @@ img {
 
 .site-main__pvtchat--nav__content {
   padding: 5px 10px 0 10px;
+  border: 1px solid #dcdbdc;
+  border-top: none;
 }
 
 .site-main__pvtchat--nav__content--main {
   background-color: rgb(255, 255, 255);
-  box-shadow: 0px 0px 14.56px 1.44px rgba(220, 219, 220, 0.6);
-  margin: 10px 0;
+  box-shadow: 0px 0px 4px .4px rgba(220, 219, 220, 0.6);
+  margin: 10px 0 30px 0;
   border-radius: 5px;
 }
 
 .site-main__pvtchat--nav__content--main__header {
-  color: #15a4fa;
-  font-weight: 400;
+  font-weight: 500;
   text-align: center;
   padding: 20px 10px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   border: 1px solid #dcdbdc;
   border-bottom: none;
+  font-size: .875rem;
+}
+
+.site-main__pvtchat--nav__content--main__header a {
+  color: rgba(0,0,0, .7);
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .site-main__pvtchat--nav__content--main__footer {
@@ -4030,8 +4062,7 @@ img {
   background-color: #f2f2f2;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  border-left: 1px solid #dcdbdc;
-  border-bottom: 1px solid #dcdbdc;
+  border: 1px solid #dcdbdc;
 }
 
 .site-main__pvtchat--nav__content--main__footer::after {
@@ -4048,17 +4079,21 @@ img {
 }
 
 .site-main__pvtchat--nav__content--main__footer li:first-child {
-  box-shadow: inset 0 1px #dcdbdc;
-  -o-box-shadow: inset 0 1px #dcdbdc;
-  -webkit-box-shadow: inset 0 1px #dcdbdc;
-  -moz-box-shadow: inset 0 1px #dcdbdc;
-  -ms-box-shadow: inset 0 1px #dcdbdc;
+  border-right: 1px solid #dcdbdc;
 }
 
 .site-main__pvtchat--nav__content--main__footer li:last-child {
-  background-color: #0284a8;
-  color: #fff;
+  color: #182427;
   border-bottom-right-radius: 5px;
+}
+
+.site-main__pvtchat--nav__viewmore {
+  padding: 5px 0;
+  text-align: center;
+  background-color: #437da3;
+  color: #fff;
+  font-size: .875rem;
+  border: 1px solid #437da3;
 }
 
 @media (min-width: 800px) {
