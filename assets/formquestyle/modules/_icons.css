@@ -237,7 +237,24 @@
 
    &__site-main--queform__opt--angle {
         margin-left: 5px;
-        /* display: none; */
    }
 
+   &__site-main--queform__selec--angle {
+        margin-left: 5px;
+   }
+
+   &__site-main--queform__img {
+       margin-right: 10px;
+       font-size: .9375rem;
+   }
+
+   &__site-main--queform__angledouble {
+        margin-right: 5px;
+   }
+
+   &__site-main--queform__error--circle {
+       font-size: .625rem;
+       margin-right: 5px;
+       color: $mainDarkRed;
+   }
 }

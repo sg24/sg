@@ -48,6 +48,7 @@
             border-radius: 3px;
             cursor: pointer;
             top: 5px;
+            margin-right: 5px;
        }
    }
 
@@ -72,9 +73,11 @@
                 @mixin clearfix;
                 position: relative;
 
+                /* box-shadow: 0 .1px 1px .1px rgba($mainDarkBlue, .5); */
+
                 &__opt {
                     float: left;
-                    border: 1px solid $mainLightGray;
+                    border: 1px solid $mainDarkGray;
                     padding: 8px 20px 8px 10px;
                     background-color: $mainExtraLightGray;
                     cursor: pointer;
@@ -82,10 +85,8 @@
 
                 &__alt {
                     padding: 8px 10px;
-                    /* background-color: $mainExtraLightGray;
-                    color: rgba($mainDarkBlack, .6); */
-                    background-color: $mainDarkPaleBlue;
-                    color: rgba(255,255,255, .9);
+                    background-color: $mainExtraLightGray;
+                    color: rgba($mainDarkBlue, .6);
                     position: absolute;
                     font-weight: 500;
                     top: 22%;
@@ -97,7 +98,9 @@
                 &__input {
                     float: right;
                     padding: 8px 10px;
-                    border: 1px solid $mainLightGray;
+                    border: 1px solid $mainDarkGray;
+                    /* border: none; */
+                    /* box-shadow: 0 .1px 1px .1px rgba($mainDarkPaleBlue, .5); */
                 }
             }
         }
@@ -116,7 +119,7 @@
                 height: 200px;
                 resize: none;
                 padding: 10px;
-                margin: 0;
+                margin: 10px 0 0 0;
                 overflow: hidden;
                 overflow-y: auto;
                 border-radius: 3px;
@@ -140,6 +143,7 @@
                 background-color: $mainHeaderColor;
                 text-align: center;
                 padding: 30px 0;
+                color: $mainDarkBlue;
                 border: 2px dashed $mainDarkGray;
 
                 &__file {
@@ -178,13 +182,20 @@
 
                 &__title {
                     padding-bottom: 5px;
+                    color: $mainDarkBlue;
                 }
 
                 &__input {
                     border: none;
-                    border-bottom: 1px solid $mainDarkGray;
+                    border-bottom: 1px solid rgba($mainDarkBlue, .6);
                     width: 100%;
                     outline: none;
+                }
+
+                &__img {
+                    margin: 20px 0;
+                    padding: 10px;
+                    background-color: $mainLightGray;
                 }
             }
         }
@@ -209,9 +220,9 @@
 
                 &__selec {
                     float: left;
-                    border: 1px solid $mainLightGray;
+                    border: 1px solid $mainDarkGray;
                     padding: 8px 20px 8px 10px;
-                    background-color: $mainHeaderColor;
+                    background-color: $mainExtraLightGray;
                     cursor: pointer;
                     position: relative;
 
@@ -227,8 +238,8 @@
 
                 &__alt {
                     padding: 8px 10px;
-                    background-color: $mainDarkPaleBlue;
-                    color: rgba(255,255,255, .6);
+                    background-color: $mainExtraLightGray;
+                    color: rgba($mainDarkBlue, .6);
                     position: absolute;
                     font-weight: 500;
                     top: 22%;
@@ -242,6 +253,8 @@
                     padding: 8px 10px;
                     border: 1px solid $mainLightGray;
                     cursor: pointer;
+                    background-color: $mainDarkBlue;
+                    color: #fff;
                 }
             }
         }
@@ -252,25 +265,25 @@
             margin-top: 20px;
             @mixin clearfix;
 
-            &--ask {
-                text-align: center;
+            &--draft {
                 float: left;
                 width: 150px;
-                border-radius: 5px;
-                background-color: $mainLightGreen;
-                box-shadow: 0px 10px 25.92px 1.08px rgba($mainLightGreen, 0.65);
-                padding: 20px 0px;
-                cursor: pointer;
-            }
-
-            &--draft {
-                position: absolute;
-                width: 150px;
-                border-radius: 5px;
+                border-radius: 3px;
                 text-align: center;
                 background-color: rgb(0, 191, 255);
                 box-shadow: 0px 6px 25.92px 1.08px rgba(1, 79, 101, 0.65);
-                padding: 20px 0px;
+                padding: 15px 0px;
+                cursor: pointer;
+            }
+
+            &--ask {
+                position: absolute;
+                text-align: center;
+                width: 150px;
+                border-radius: 3px;
+                background-color: $mainLightGreen;
+                box-shadow: 0px 10px 25.92px 1.08px rgba($mainLightGreen, 0.65);
+                padding: 15px 0px;
                 left: 50%;
                 transform: translateX(-50%);
                 cursor: pointer;
@@ -280,10 +293,10 @@
                 float: right;
                 width: 150px;
                 text-align: center;
-                border-radius: 5px;
-                background-color: rgb(242, 38, 19);
+                border-radius: 3px;
+                background-color: $mainDarkRed;
                 box-shadow: 0px 6px 23.28px 0.72px rgba(242, 38, 19, 0.65);
-                padding: 20px 0px;
+                padding: 15px 0px;
                 cursor: pointer;
             }
         }

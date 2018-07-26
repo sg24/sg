@@ -1,0 +1,47 @@
+.error {
+    position: absolute;
+    background-color: $mainDarkRed;
+    /* border: 1px solid rgba($mainDarkRed, .2); */
+    font-size: .875rem;
+    width: 100%;
+    padding: 5px 0;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 300;
+
+    &__form {
+        color: #fff;
+        width: 50%;
+        top: 0;
+    }
+
+    &__categ {
+        width: 40%;
+        color: #fff;
+        top: 10px;
+    }
+
+    &__ask {
+        max-width: 350px !important;
+        top: -85px;
+        font-weight: 400;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        background-color: #fff;
+        border: 1px solid $mainDarkGray;
+
+        li {
+            float: none;
+            padding: 5px 0;
+            color: $mainFontColor;
+
+            &:first-child {
+                border-bottom: 1px solid $mainDarkGray;
+                color: #fff;
+                background-color: $mainDarkRed;
+            }
+        }
+    }
+}
