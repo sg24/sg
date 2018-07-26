@@ -257,4 +257,29 @@
        margin-right: 5px;
        color: $mainDarkRed;
    }
+
+   &__site-main--queform__view--calend {
+       position: relative;
+       top: 40%;
+       transform: translateY(-40%);
+       color: $mainDarkBlue;
+   }
+
+   &__site-main--queform__view--que__tag {
+        color: rgba($mainDarkBlack, .6);
+        margin-right: 5px;
+        font-size: .75rem;
+   }
+
+   &__site-main--queform__view--footer__fav {
+        margin-right: 5px;
+        color: $mainDarkBlue;
+        font-size: .8125rem;
+   }
+
+   &__site-main--queform__view--footer__eye {
+       color: rgba($mainDarkBlack, .6);
+       margin-right: 5px;
+       font-size: .8125rem;
+   }
 }

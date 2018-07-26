@@ -814,6 +814,31 @@ img {
   color: #f22613;
 }
 
+.icon__site-main--queform__view--calend {
+  position: relative;
+  top: 40%;
+  transform: translateY(-40%);
+  color: #0284a8;
+}
+
+.icon__site-main--queform__view--que__tag {
+  color: rgba(0,0,0, .6);
+  margin-right: 5px;
+  font-size: .75rem;
+}
+
+.icon__site-main--queform__view--footer__fav {
+  margin-right: 5px;
+  color: #0284a8;
+  font-size: .8125rem;
+}
+
+.icon__site-main--queform__view--footer__eye {
+  color: rgba(0,0,0, .6);
+  margin-right: 5px;
+  font-size: .8125rem;
+}
+
 .tool-tip {
     list-style: none;
     margin: 0;
@@ -3543,7 +3568,7 @@ img {
    background-color: #fff;
     /* background-color: rgb(0, 191, 255); */
     box-shadow: 0px 1px 10.92px 1.08px rgba(1, 79, 101, 0.65);
-
+    position: relative;
 }
 
 .site-main__queform--header {
@@ -3849,4 +3874,190 @@ img {
   box-shadow: 0px 6px 23.28px 0.72px rgba(242, 38, 19, 0.65);
   padding: 15px 0px;
   cursor: pointer;
+}
+
+.site-main__queform--view {
+  position: absolute;
+  font-size: .875rem;
+  color: #182427;
+  background-color: #fff;
+  border: 1px solid #dcdbdc;
+  z-index: 1;
+  width: 400px;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  padding: 20px;
+}
+
+.site-main__queform--view__search {
+  position: relative;
+  border: 1px solid #dcdbdc;
+  border-radius: 5px;
+}
+
+.site-main__queform--view__search--calend {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 0 20px;
+  background-color: #e9ebf2;
+  text-align: center;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.site-main__queform--view__search--input {
+  padding: 8px 5px 8px 60px;
+  border: none;
+  width: 100%;
+  outline: none;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.site-main__queform--view__tab {
+  list-style: none;
+  margin: 20px 0 0 0;
+  padding:0;
+  font-weight: 300;
+  background-color: #05578b;
+  color: #fff;
+}
+
+.site-main__queform--view__tab::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.site-main__queform--view__tab li {
+  padding: 10px 0;
+  text-align: center;
+  float: left;
+  width: 50%;
+  cursor: pointer;
+}
+
+.site-main__queform--view__tab li:first-child {
+  border-right: 1px solid rgba(255,255,255, .45);
+}
+
+.site-main__queform--view__quewrapper {
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.site-main__queform--view__que {
+  border-radius: 10px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0px 0px 1px 0px rgba(124, 127, 128, 0.6);
+}
+
+.site-main__queform--view__que--header {
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+  font-size: .8125rem;
+  border-bottom: 1px solid #e9ebf2;
+  color: #182427;
+}
+
+.site-main__queform--view__que--header::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.site-main__queform--view__que--header li {
+  float: left;
+  width: 50%;
+  text-align: right;
+}
+
+.site-main__queform--view__que--header li:first-child {
+  text-align: left;
+  color: #0284a8;
+}
+
+.site-main__queform--view__que--content {
+  text-align: center;
+  padding: 10px;
+  font-size: .9375rem;
+}
+
+.site-main__queform--view__que--footer {
+  position: relative;
+  border-top: 1px solid #e9ebf2;
+  font-size: .875rem;
+  text-align: center;
+}
+
+.site-main__queform--view__que--footer::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.site-main__queform--view__que--footer__total {
+  float: left;
+  list-style: none;
+  margin: 0;
+  padding: 5px 0 5px 40px;
+  white-space: nowrap;
+  width: 33.33%;
+  border-right: 1px solid #dcdbdc;
+}
+
+.site-main__queform--view__que--footer__total::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.site-main__queform--view__que--footer__total li {
+  float: left;
+}
+
+.site-main__queform--view__que--footer__total li:first-child {
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  border-radius: 10px;
+  background-color: #f22613;
+  color: #fff;
+  font-size: .8125rem;
+  left: 10px;
+  top: 40%;
+  transform: translateY(-40%);
+  text-align: center;
+}
+
+.site-main__queform--view__que--footer__total li:first-child > div {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.site-main__queform--view__que--footer__fav {
+  float: left;
+  white-space: nowrap;
+  width: 33.33%;
+  border-right: 1px solid #dcdbdc;
+  padding: 5px 0;
+}
+
+.site-main__queform--view__que--footer__viewer {
+  float: left;
+  white-space: nowrap;
+  width: 33.33%;
+  padding: 5px 0;
+}
+
+.site-main__queform--view__que--footer__opt {
+  display: none;
 }  

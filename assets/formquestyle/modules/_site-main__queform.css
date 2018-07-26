@@ -5,7 +5,7 @@
    background-color: #fff;
     /* background-color: rgb(0, 191, 255); */
     box-shadow: 0px 1px 10.92px 1.08px rgba(1, 79, 101, 0.65);
- 
+    position: relative;
 
    &--header {
        font-weight: 500;
@@ -302,4 +302,169 @@
         }
    }
 
+   &--view {
+       position: absolute;
+       font-size: .875rem;
+       color: $mainFontColor;
+       background-color: #fff;
+       border: 1px solid $mainDarkGray;
+       z-index: 1;
+       width: 400px;
+       bottom: 0;
+       top: 0;
+       right: 0;
+       padding: 20px;
+
+       &__search {
+           position: relative;
+           border: 1px solid $mainDarkGray;
+           border-radius: 5px;
+
+           &--calend {
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                padding: 0 20px;
+                background-color: $mainLightGray;
+                text-align: center;
+                font-size: 1rem;
+                cursor: pointer;
+           }
+
+           &--input {
+                padding: 8px 5px 8px 60px;
+                border: none;
+                width: 100%;
+                outline: none;
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
+       }
+
+       &__tab {
+        list-style: none;
+        margin: 20px 0 0 0;
+        padding:0;
+        font-weight: 300;
+        @mixin clearfix;
+        background-color: $mainDarkPaleBlue;
+        color: #fff;
+
+            li {
+                padding: 10px 0;
+                text-align: center;
+                float: left;
+                width: 50%;
+                cursor: pointer;
+
+                &:first-child {
+                    border-right: 1px solid rgba(255,255,255, .45);
+                }
+            }
+        }
+
+        &__quewrapper {
+            padding: 10px;
+            background-color: $mainHeaderColor;
+        }
+
+        &__que {
+            border-radius: 10px;
+            background-color: rgb(255, 255, 255);
+            box-shadow: 0px 0px 1px 0px rgba(124, 127, 128, 0.6);
+
+            &--header {
+                list-style: none;
+                margin: 0;
+                padding: 10px;
+                font-size: .8125rem;
+                border-bottom: 1px solid $mainLightGray;
+                color: $mainFontColor;
+                @mixin clearfix;
+
+                li {
+                    float: left;
+                    width: 50%;
+                    text-align: right;
+
+                    &:first-child {
+                        text-align: left;
+                        color: $mainDarkBlue;
+                    }
+                }
+            }
+
+            &--content {
+                text-align: center;
+                padding: 10px;
+                font-size: .9375rem;
+            }
+
+            &--footer {
+                position: relative;
+                border-top: 1px solid $mainLightGray;
+                @mixin clearfix;
+                font-size: .875rem;
+                text-align: center;
+
+                &__total {
+                    float: left;
+                    list-style: none;
+                    margin: 0;
+                    padding: 5px 0 5px 40px;
+                    white-space: nowrap;
+                    width: 33.33%;
+                    border-right: 1px solid $mainDarkGray;
+                    @mixin clearfix;
+
+                    li {
+                        float: left;
+
+                        &:first-child {
+                            position: absolute;
+                            height: 20px;
+                            width: 20px;
+                            border-radius: 10px;
+                            background-color: $mainDarkRed;
+                            color: #fff;
+                            font-size: .8125rem;
+                            left: 10px;
+                            top: 40%;
+                            transform: translateY(-40%);
+                            text-align: center;
+
+                            & > div {
+                                position: absolute;
+                                top: 50%;
+                                transform: translateY(-50%);
+                                width: 100%;
+                                white-space: nowrap;
+                                overflow: hidden;
+                            }
+                        }
+                    }
+                }
+
+                &__fav {
+                    float: left;
+                    white-space: nowrap;
+                    width: 33.33%;
+                    border-right: 1px solid $mainDarkGray;
+                    padding: 5px 0;
+                }
+
+                &__viewer {
+                    float: left;
+                    white-space: nowrap;
+                    width: 33.33%;
+                    padding: 5px 0;
+                }
+
+                &__opt {
+                    display: none;
+                } 
+            }
+        }
+   }
 }
