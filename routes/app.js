@@ -42,4 +42,8 @@ router.get('/privatechat', (req, res, next) => {
     res.render('privatechat');
 });
 
+router.get('/add/question', (req, res, next) => {
+    res.render('formQue');
+});
+
 module.exports = router;

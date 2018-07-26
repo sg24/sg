@@ -1,0 +1,72 @@
+<div class="site-main__queform">
+    <h3 class="site-main__queform--header">
+        <i class="fas fa-edit icon icon__site-main--queform__edit"></i>Add Question
+    </h3>
+    <div class="site-main__queform--que">
+        <div class="site-main__queform--que__total">Question Asked <div class="active__main active__main--queform"><div>24</div></div> </div>
+        <span class="site-main__queform--que__viewall">
+            <i class="fas fa-eye icon icon__site-main--queform__eye"></i>
+            All Questions
+        </span>
+    </div>
+    <form action="" class="site-main__queform--form">
+        <div class="site-main__queform--form__categ">
+            <label for="category" class="site-main__queform--form__categ--label">Category</label>  
+            <div class="site-main__queform--form__categ--content">
+                <div class="site-main__queform--form__categ--content__opt">
+                    select category
+                    <i class="fas fa-angle-down icon icon__site-main--queform__opt--angle"></i>
+                </div>
+                <span class="site-main__queform--form__categ--content__alt">OR</span>
+                <input type="text" class="site-main__queform--form__categ--content__input" placeholder="Add New">
+            </div>
+        </div>
+
+        <div class="site-main__queform--form__que">
+            <label for="question" class="site-main__queform--form__que--label">Question</label>
+            <div class="error__form">Error Question content must be geater than 5</div>
+            <textarea class="site-main__queform--form__que--content">  
+            </textarea>
+        </div>
+
+        <div class="site-main__queform--form__img">
+            <p class="site-main__queform--form__img--title">Optional (Add Image)</p>
+            <div class="site-main__queform--form__img--content">
+                <span><i class="far fa-image"></i> Select Image</span>
+                <input type="file" class="site-main__queform--form__img--content__file">
+            </div>
+            <div class="site-main__queform--form__img--alt">
+                <span>OR</span>
+            </div>
+            <div class="site-main__queform--form__img--link">
+                <div class="site-main__queform--form__img--link__title">Paste Link</div>
+                <input type="text" class="site-main__queform--form__img--link__input">
+            </div>
+        </div>
+
+        <div class="site-main__queform--form__user">
+            <div class="site-main__queform--form__user--title">Optional (Select Teachcer)</div>
+            <div class="site-main__queform--form__user--content">
+                <div class="site-main__queform--form__user--content__selec">
+                    choose a teacher
+                    <i class="fas fa-angle-down"></i>
+                    <div class="site-main__queform--form__user--content__selec--total">25</div>
+                </div>
+                <span class="site-main__queform--form__user--content__alt">OR</span>
+                <botton class="site-main__queform--form__user--content__btn">Add Teacher</botton>
+            </div>
+        </div>
+
+        <div class="site-main__queform--form__footer">
+            <div class="site-main__queform--form__footer--ask">
+                Ask Question
+            </div>
+            <div class="site-main__queform--form__footer--draft">
+                Add to Drafts
+            </div>
+            <div class="site-main__queform--form__footer--exit">
+                <i class="fas fa-angle-double-right"></i> Close Form
+            </div>
+        </div>
+    </form>
+</div>

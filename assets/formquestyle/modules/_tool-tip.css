@@ -1,0 +1,88 @@
+.tool-tip {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 48px;
+    left: -30px;
+    background-color: #fff;
+    border: 1px solid $mainDarkGray;
+    max-width: auto;
+
+    &::after {
+        content: "";
+        position: absolute;
+        right: 13px;
+        border-color: transparent;
+        border-width: 10px;
+        border-style: solid;
+        border-bottom-color: #fff;
+        top: -20px;
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        right: 12px;
+        top: -22px;
+        border-color: transparent;
+        border-width: 11px;
+        border-style: solid;
+        border-bottom-color: $mainDarkGray;
+    }
+
+    li {
+        font-size: 14px;
+        padding: 8px 8px;
+    }
+
+    &__recieve {
+        top: 30px;
+        background-color: $mainDarkGray;
+        color: $mainDarkBlue;
+        opacity: 0;
+        visibility: hidden;
+        z-index: -33;
+        transition: all .3s ease-in;
+
+        &::after {
+            display: none;
+        }
+    
+        &::before {
+            display: none
+        }
+
+        &--visible {
+            opacity: 1;
+            visibility: visible;
+            z-index: 1;
+            transition: all .3s ease-in;
+        }
+    }
+
+    &__sent {
+        top: 30px;
+        background-color: $mainDarkBlue;
+        color: #fff;
+        opacity: 0;
+        visibility: hidden;
+        z-index: -33;
+        transition: all .3s ease-in;
+
+        &::after {
+            display: none;
+        }
+    
+        &::before {
+            display: none
+        }
+
+        &--visible {
+            opacity: 1;
+            visibility: visible;
+            z-index: 1;
+            transition: all .3s ease-in;
+        }
+    }
+}

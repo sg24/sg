@@ -131,3 +131,14 @@ gulp.task('privatechatstyles', function() {
     })
     .pipe(gulp.dest('./public/stylesheets'));
 });
+
+gulp.task('queformstyles', function() {
+    return gulp.src('./assets/formquestyle/queform.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) {
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
