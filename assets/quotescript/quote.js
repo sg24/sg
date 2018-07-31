@@ -1,3 +1,3 @@
-import QuoteFilter from './modules/QuoteFilter';
+import PtwritFilter from './modules/PtwritFilter';
 
-var quoteFilter = new QuoteFilter();
+var ptwritFilter = new PtwritFilter();

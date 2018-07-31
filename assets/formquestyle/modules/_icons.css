@@ -282,4 +282,38 @@
        margin-right: 5px;
        font-size: .8125rem;
    }
+
+   &__site-main--queform__footer--option__edit {
+       margin: 0  15px;
+   }
+   
+    &__site-main--queform__footer--option__eye {
+        margin: 0  15px;
+    }
+
+    &__site-main--queform__footer--option__del {
+        margin: 0  15px;
+    }
+
+    &__site-main--queform__footer--option__eyeopen {
+        margin: 0  15px;   
+    }
+
+    &__site-main--queform__view--close {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba($mainDarkBlack, .7);
+    }
+
+    &__site-main--queform__teach--teacher {
+        margin-right: 10px;
+    }
+
+    &__site-main--queform__teach--calend {
+        position: relative;
+        top: 40%;
+        transform: translateY(-40%);
+    }
+
 }

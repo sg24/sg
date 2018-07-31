@@ -35,7 +35,7 @@
             background-color: rgb(255, 255, 255);
             padding: .675rem 0 .675rem .125rem;
             float: left;
-            width: 75%;
+            width: 70%;
             border: none;
             border-radius: 5px;
             border-top-right-radius: 0;
@@ -83,7 +83,7 @@
 
             @mixin atLarge {
                 text-align: center;
-                width: 25%;
+                width: 30%;
             }
 
             &__formExpanded {
@@ -118,7 +118,7 @@
         }
 
         @mixin atLarge {
-            width: 8.5%;
+            width: 6.5%;
             border-radius: 0;
         }
     }
@@ -261,29 +261,25 @@
         @mixin atExtraSmall {
             display: block;
             margin-top: .1rem;
-            width: 3.85rem;
+            width: 3.5rem;
         }
 
         @mixin atMiniSmall {
             margin: .1rem .3rem 0 .5rem;
-            width: 3.85rem;
         }
 
         @mixin atSmall {
             /* display: block; */
             margin: .15rem .5rem 0 1.2rem;
-            width: 3.85rem;
         }
 
         @mixin atMedium {
             margin: .35rem .85rem 0 .8rem;
             padding: .6rem 0 .6rem .613rem;
-            width: 3.85rem;
         }
 
         @mixin atLarge{
             margin: .35rem 1.2rem 0 1rem;
-            width: 5.25rem;
         }
 
     }

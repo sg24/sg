@@ -11,6 +11,8 @@
     </div>
     <div class="site-main__queform--outlet">
         <div class="site-main__queform--view">
+            <div class="site-main__queform--view__close"><i class="fas fa-times icon icon__site-main--queform__view--close"></i></div>
+            <p class="site-main__queform--view__title">My Questions</p>
             <div class="site-main__queform--view__search">
                 <div class="site-main__queform--view__search--calend">
                     <i class="far fa-calendar-alt icon icon__site-main--queform__view--calend"></i>
@@ -39,18 +41,48 @@
                         <div class="site-main__queform--view__que--footer__viewer">
                             <i class="fas fa-eye icon icon__site-main--queform__view--footer__eye"></i> 13k
                             <div class="site-main__queform--view__que--footer__opt">
-                                <div></div>
+                                <div class="site-main__queform--view__que--footer__opt--middlecircle"></div>
 
                                 <ul class="site-main__queform--view__que--footer__opt--items">
-                                    <li class="site-main__queform--view__que--footer__opt--items__edit">Edit</li>
-                                    <li class="site-main__queform--view__que--footer__opt--items__dft">Draft</li>
-                                    <li class="site-main__queform--view__que--footer__opt--items__psh">Publish</li>
-                                    <li class="site-main__queform--view__que--footer__opt--items__del">Delete</li>
+                                    <li class="site-main__queform--view__que--footer__opt--items__edit"><i class="fas fa-edit icon icon__site-main--queform__footer--option__edit"></i> Edit</li>
+                                    <li class="site-main__queform--view__que--footer__opt--items__dft"><i class="fas fa-eye-slash icon icon__site-main--queform__footer--option__eye"></i> Draft</li>
+                                    <li class="site-main__queform--view__que--footer__opt--items__del"><i class="far fa-trash-alt icon icon__site-main--queform__footer--option__del"></i>Delete</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="site-main__queform--view__que">
+                    <ul class="site-main__queform--view__que--header">
+                        <li>Asked <span>2m ago</span></li>
+                        <li><i class="fas fa-tags icon icon__site-main--queform__view--que__tag"></i> social</li>
+                    </ul>
+                    <div class="site-main__queform--view__que--content">
+                        what is the best peom written this year
+                    </div>
+                    <div class="site-main__queform--view__que--footer">
+                        <ul class="site-main__queform--view__que--footer__total">
+                            <li><div>25</div></li>
+                            <li>Answers</li>
+                        </ul>
+                        <div class="site-main__queform--view__que--footer__fav"><i class="fas fa-heart icon icon__site-main--queform__view--footer__fav"></i> 12k</div>
+                        <div class="site-main__queform--view__que--footer__viewer">
+                            <i class="fas fa-eye icon icon__site-main--queform__view--footer__eye"></i> 13k
+                            <div class="site-main__queform--view__que--footer__opt">
+                                <div class="site-main__queform--view__que--footer__opt--middlecircle"></div>
+
+                                <ul class="site-main__queform--view__que--footer__opt--items">
+                                    <li class="site-main__queform--view__que--footer__opt--items__edit"><i class="fas fa-edit icon icon__site-main--queform__footer--option__edit"></i> Edit</li>
+                                    <li class="site-main__queform--view__que--footer__opt--items__psh"><i class="fas fa-eye icon icon__site-main--queform__footer--option__eyeopen"></i>Publish</li>
+                                    <li class="site-main__queform--view__que--footer__opt--items__del"><i class="far fa-trash-alt icon icon__site-main--queform__footer--option__del"></i>Delete</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
 
@@ -62,6 +94,10 @@
                     <div class="site-main__queform--form__categ--content__opt">
                         select category
                         <i class="fas fa-angle-down icon icon__site-main--queform__opt--angle"></i>
+                        <ul class="site-main__queform--form__categ--content__opt--item">
+                            <li>Mathemtics</li>
+                            <li>Peom</li>
+                        </ul>
                     </div>
                     <span class="site-main__queform--form__categ--content__alt">OR</span>
                     <input type="text" class="site-main__queform--form__categ--content__input" placeholder="Add new category">
@@ -95,6 +131,31 @@
 
             <div class="site-main__queform--form__user">
                 <div class="site-main__queform--form__user--title">Optional (Select Teachcer)</div>
+                
+                <div class="site-main__queform--form__user--teach">
+                    <div class="site-main__queform--form__user--teach__title"><i class="fas fa-chalkboard-teacher icon icon__site-main--queform__teach--teacher"></i> Select Teacher</div>
+                    <div class="site-main__queform--form__user--teach__search">
+                        <div class="site-main__queform--form__user--teach__search--calend">
+                            <i class="far fa-calendar-alt icon icon__site-main--queform__teach--calend"></i>
+                        </div>
+                        <input type="text" class="site-main__queform--form__user--teach__search--input" placeholder="Search teacher">
+                    </div>
+                    <ul class="site-main__queform--form__user--teach__tab">
+                        <li>Online</li>
+                        <li>Offine</li>
+                    </ul>
+                    <div class="site-main__queform--form__user--teach__user">
+                        <div class="site-main__queform--form__user--teach__user-im">
+                            <img src="/" alt="">
+                        </div>
+                        <ul class="site-main__queform--form__user--teach__user--opt">
+                            <li>user user</li>
+                            <li>25 students</li>
+                            <li>25 question answered</li>
+                        </ul>
+                    </div>
+                </div>
+
                 <div class="site-main__queform--form__user--content">
                     <div class="site-main__queform--form__user--content__selec">
                         choose a teacher

@@ -18,7 +18,7 @@ hbs.registerPartials(__dirname + '/views/partialsview');
 hbs.registerPartials(__dirname + '/views/partialscomty');
 hbs.registerPartials(__dirname + '/views/partialspost');
 hbs.registerPartials(__dirname + '/views/partialsgroup');
-hbs.registerPartials(__dirname + '/views/partialsquote');
+hbs.registerPartials(__dirname + '/views/partialspoeters');
 hbs.registerPartials(__dirname + '/views/partialsonlineque');
 hbs.registerPartials(__dirname + '/views/partialsquestion');
 hbs.registerPartials(__dirname + '/views/partialsglobal');

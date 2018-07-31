@@ -13,8 +13,8 @@ router.get('/post', (req, res, next) => {
     res.render('post');
 });
 
-router.get('/quote', (req, res, next) => {
-    res.render('quote');
+router.get('/poet&writer', (req, res, next) => {
+    res.render('poetwriter');
 });
 
 router.get('/group', (req, res, next) => {

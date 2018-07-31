@@ -8,41 +8,41 @@
     }
  
 
-    &__site-main__quote--quoteIcon {
+    &__site-main__ptwrit--ptwritIcon {
         font-size: .8125rem;
-        color: rgba($mainMediumLightBlack, .5);
+        color: $mainDarkBlue;
         position: absolute;
         top: 3.5px;
         left: 4.4px;
     }
 
-    &__site-main__quote--quotesecondIcon {
+    &__site-main__ptwrit--ptwritsecondIcon {
         font-size: .8125rem;
-        color: rgba($mainMediumLightBlack, .6);
+        color: $mainDarkBlue;
         position: absolute;
         top: 5px;
         left: 4.4px;
     }
 
-    &__site-main__quote--footer__smile {
+    &__site-main__ptwrit--footer__smile {
         margin-right: 5px;
     }
 
-    &__site-main__quote--footer__heart {
+    &__site-main__ptwrit--footer__heart {
         margin-right: 5px;
     }
 
-    &__site-main__quote--footer__comments {
+    &__site-main__ptwrit--footer__comments {
         margin-right: 5px;
     }
 
     
-    &__quotefilter--angleicon {
+    &__ptwritfilter--angleicon {
         margin-left: 5px;
         color:$mainFontColor;
     }
 
-    &__quotefilter--filter__calend {
+    &__ptwritfilter--filter__calend {
        font-size: 1.2rem;
        position: relative;
        color: rgba($mainDarkBlack, .6);
@@ -57,22 +57,52 @@
        }
     }
   
-    &__quotefilter--filter__alt--comment {
+    &__ptwritfilter--filter__alt--comment {
         color: rgba($mainDarkBlack, .6);
         margin-right: 8px;
     }
 
-    &__quotefilter--filter__alt--eye{
+    &__ptwritfilter--filter__alt--eye{
         color: rgba($mainDarkBlue, .8);
         margin-right: 8px;
     }
 
-    &__quotefilter--filter__alt--heart {
+    &__ptwritfilter--filter__alt--heart {
         color: rgba($mainDarkRed, .8);
         margin-right: 8px;
     }
 
-    &__quotefilter--filter__categsm--angleicon {
+    &__ptwritfilter--filter__categsm--angleicon {
         margin-left: 10px;
+    }
+
+    &__site-main--ptwrit__header--pencil {
+        font-size: 1.2rem;
+    }
+
+    &__site-main--ptwrit__header--quoteleft {
+        font-size: .5rem;
+        position: relative;
+        top: -6px;
+        margin-right: 5px;
+    }
+
+    &__site-main--ptwrit__header--quoteright {
+        font-size: .5rem;
+        position: relative;
+        bottom: -6px;
+        margin-left: 5px;
+    }
+
+    &__site-main--ptwrit__header--angle {
+        margin-left: 5px;
+    }
+
+    &__site-main__ptwrit--quote {
+        margin: 0  10px 0 0;
+    }
+
+    &__site-main__ptwrit--time {
+        margin-right: 5px;
     }
 }

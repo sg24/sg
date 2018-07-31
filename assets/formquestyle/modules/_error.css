@@ -9,6 +9,7 @@
     left: 50%;
     transform: translateX(-50%);
     font-weight: 300;
+    display: none;
 
     &__form {
         color: #fff;
