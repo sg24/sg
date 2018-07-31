@@ -5,6 +5,14 @@
         color: $mainFontColor
     }
 
+    &__site-main--onlineque__tab {
+        margin-right: 5px;
+    }
+
+    &__site-main--onlineque__shared {
+        margin-right: 5px;
+    }
+
     &__site-main--onlineQue__durationClock {
         margin-right: 3px;
         color: $mainDarkBlue;

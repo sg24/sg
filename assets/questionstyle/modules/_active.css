@@ -1,0 +1,42 @@
+.active__main {
+    position: absolute;
+    background-color: $mainDarkRed;
+    color: #fff;
+    font-size: .875rem;
+  
+
+    &--helpme {
+        top: 12px;
+        right: 25%;
+        width: 20px;
+        height: 20px;
+        font-size: .75rem;
+        border-radius: 10px;
+        border: 1px solid rgba(#fff, .25);
+       
+        > div {
+            position: absolute;
+            top: 50%;
+            transform:translateY(-50%);
+            width: 100%;
+            text-align: center;
+        }
+
+        @mixin atExtraSmall {
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            top: 10px;
+            right: -10px;
+            font-size: .8125rem;
+        }
+
+        @mixin atSmall {
+            width: 26px;
+            height: 26px;
+            border-radius: 13px;
+            right: -5px;
+            top: 10px;
+        }
+    }
+}
