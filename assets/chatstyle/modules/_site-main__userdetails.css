@@ -346,10 +346,14 @@
         margin: 0 10px;
         border: 1px solid $mainDarkBlue;
         font-size: .875rem;
-        color: #fff;
-        overflow: hidden;
+        color: #fff; 
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        overflow: hidden;   
+        overflow-y: auto;   
 
-        &__details {
+        &__details {  
             @mixin clearfix;
             padding: 10px 0 0 0;
             margin: 0;
@@ -498,11 +502,6 @@
 
         @mixin atSmall {
             margin: 0 30px;
-            display: flex;
-            flex-grow: 1;
-            flex-direction: column;
-            overflow: hidden;
-            overflow-y: auto;
         }
     }
 
@@ -548,14 +547,14 @@
       opacity: 1;
       visibility: visible;
       z-index: 1;
-      bottom: auto;
+      bottom: 0; 
       transition: all .8s ease-in;
       left: 0;
-
+      display: flex;
+      flex-direction: column;
+       
         @mixin atSmall {
-            bottom: 0;
-            display: flex;
-            flex-direction: column;
+            /* bottom: 0; */ 
         }
 
         @mixin atLarge {

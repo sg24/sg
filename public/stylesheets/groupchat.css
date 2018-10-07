@@ -6779,7 +6779,7 @@ img {
     /* background-color: #4582a9; */
     /* background-color: #4f88ad; */
     background-color: #4186AD;
-    position: absolute;
+    position: absolute; 
     overflow: hidden;
     top: 0;
     z-index: 2;
@@ -7696,7 +7696,14 @@ img {
   border: 1px solid #0284a8;
   font-size: .875rem;
   color: #fff;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-positive: 1;
+      flex-grow: 1;
+  -ms-flex-direction: column;
+      flex-direction: column;
   overflow: hidden;
+  overflow-y: auto;
 }
 
 .site-main__userdetails--main__details {
@@ -7871,14 +7878,6 @@ img {
 
   .site-main__userdetails--main {
     margin: 0 30px;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-positive: 1;
-        flex-grow: 1;
-    -ms-flex-direction: column;
-        flex-direction: column;
-    overflow: hidden;
-    overflow-y: auto;
   }
 }
 
@@ -7928,19 +7927,18 @@ img {
   opacity: 1;
   visibility: visible;
   z-index: 1;
-  bottom: auto;
+  bottom: 0;
   transition: all .8s ease-in;
   left: 0;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
 }
 
 @media (min-width: 530px) {
 
-  .site-main__userdetails--visible {
-    bottom: 0;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: column;
-        flex-direction: column;
+  .site-main__userdetails--visible {/* bottom: 0; */
   }
 }
 
