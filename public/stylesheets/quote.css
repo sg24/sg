@@ -106,6 +106,10 @@
     margin-right: 5px;
 }
 
+.icon__site-main--ptwrit__arrowicon {
+    margin-right: 5px;
+}
+
 /* border-top-right-radius: 0; */
 
 .site-main__ptwrit--header {
@@ -309,9 +313,10 @@
     list-style: none;
     margin: 10px 0 0 0;
     padding: 0;
-    background-color: #0284a8;
+    background-color: #437da3;
     color: #fff;
     font-size: .9375rem;
+    font-weight: 300;
 }
 
 .site-main__ptwrit--tab::after {
@@ -322,14 +327,15 @@
 
 .site-main__ptwrit--tab li {
     float: left;
-    width: 50%;
+    width: 33.33%;
     padding: 10px 0;
     cursor: pointer;
     text-align: center;
+    border-right: 1px solid rgba(255,255,255, .45);
 }
 
-.site-main__ptwrit--tab li:first-child {
-    border-right: 1px solid rgba(255,255,255, .45);
+.site-main__ptwrit--tab li:last-child {
+    border-right: none;
 }
 
 .site-main__ptwrit--wrapper {
@@ -345,14 +351,13 @@
     position: relative;
 }
 
-.site-main__ptwrit--content {
-    color: #182427;
-    padding: 10px 10px;
-    width: 100%;
+.site-main__ptwrit--mainheader {
     position: relative;
+    border-bottom: 1px solid #dcdbdc;
+    padding: 8px 0;
 }
 
-.site-main__ptwrit--content__timePosted {
+.site-main__ptwrit--mainheader__timePosted {
     position: absolute;
     right: 25px;
     font-size: .75rem;
@@ -361,18 +366,19 @@
     top: 14px;
 }
 
-.site-main__ptwrit--content__tag {
+.site-main__ptwrit--mainheader__tag {
     font-size: .875rem;
-    margin-left: 3px;
+    margin-left: 10px;
     padding: 5px 10px;
-    background-color: #e9ebf2;
+
+    /* background-color: $mainLightGray; */
     color: #0284a8;
     border-radius: 3px;
     white-space: nowrap;
     width: 85px;
 }
 
-.site-main__ptwrit--content__tag > span {
+.site-main__ptwrit--mainheader__tag > span {
     font-size: .875rem;
     margin-left: 30px;
     padding: 5px 10px;
@@ -382,6 +388,13 @@
     white-space: nowrap;
     position: relative;
     top: 2px;
+}
+
+.site-main__ptwrit--content {
+    color: #182427;
+    padding: 10px 10px;
+    width: 100%;
+    position: relative;
 }
 
 .site-main__ptwrit--content__firstptwritIcon {

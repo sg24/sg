@@ -183,19 +183,21 @@
         margin: 10px 0 0 0;
         padding: 0;
         @mixin clearfix;
-        background-color: $mainDarkBlue;
+        background-color: $mainMiddleDarkBlue;
         color: #fff;
         font-size: .9375rem;
+        font-weight: 300;
 
         li {
             float: left;
-            width: 50%;
+            width: 33.33%;
             padding: 10px 0;
             cursor: pointer;
             text-align: center;
+            border-right: 1px solid rgba(255,255,255, .45);
 
-            &:first-child {
-                border-right: 1px solid rgba(255,255,255, .45);
+            &:last-child {
+                border-right: none;
             }
         }
     }
@@ -212,11 +214,10 @@
         position: relative;
     }
 
-    &--content {
-        color: $mainFontColor;
-        padding: 10px 10px;
-        width: 100%;
+    &--mainheader {
         position: relative;
+        border-bottom: 1px solid $mainDarkGray;
+        padding: 8px 0;
 
         &__timePosted {
             position: absolute;
@@ -229,9 +230,9 @@
 
         &__tag {
             font-size: .875rem;
-            margin-left: 3px;
+            margin-left: 10px;
             padding: 5px 10px;
-            background-color: $mainLightGray;
+            /* background-color: $mainLightGray; */
             color: $mainDarkBlue;
             border-radius: 3px;
             white-space: nowrap;
@@ -249,7 +250,14 @@
                 top: 2px;
             }
 
-        }
+        } 
+    }
+
+    &--content {
+        color: $mainFontColor;
+        padding: 10px 10px;
+        width: 100%;
+        position: relative;
 
         &__firstptwritIcon {
             width: 24px;

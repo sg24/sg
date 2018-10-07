@@ -105,4 +105,8 @@
     &__site-main__ptwrit--time {
         margin-right: 5px;
     }
+
+    &__site-main--ptwrit__arrowicon {
+        margin-right: 5px;
+    }
 }
