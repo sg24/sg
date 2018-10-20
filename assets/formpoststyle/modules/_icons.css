@@ -226,9 +226,14 @@
         }
     }
  
-   &__site-main--queform__edit {
+   &__site-main--exform__edit {
        margin-right: 10px;
        color: $mainDarkRed;
+   }
+
+   &__site-main--exform__clone {
+        margin-right: 5px; 
+        color: $mainDarkBlue; 
    }
 
    &__site-main--queform__eye {
