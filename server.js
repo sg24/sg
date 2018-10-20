@@ -25,6 +25,7 @@ hbs.registerPartials(__dirname + '/views/partialsglobal');
 hbs.registerPartials(__dirname + '/views/partialsgroupchat');
 hbs.registerPartials(__dirname + '/views/partialsprivatechat');
 hbs.registerPartials(__dirname + '/views/partialsFormQue');
+hbs.registerPartials(__dirname + '/views/partialsFormPost');
 // app.engine('hbs', hbs({
 //     defaultLayout: 'main'
 // }));

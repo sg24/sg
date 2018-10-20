@@ -1,0 +1,8 @@
+.disabled {
+    position: relative;
+
+    &__ask {
+        opacity: .7;
+        cursor: not-allowed !important;
+    }
+}

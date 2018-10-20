@@ -46,4 +46,8 @@ router.get('/add/question', (req, res, next) => {
     res.render('formQue');
 });
 
+router.get('/add/post', (req, res, next) => {
+    res.render('formPost'); 
+});
+
 module.exports = router;

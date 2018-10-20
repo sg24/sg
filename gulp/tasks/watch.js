@@ -67,6 +67,10 @@ gulp.task('watch', function() {
         gulp.start('queformcss')
     });
 
+    watch('./assets/formpoststyle/**/*.css', function() {
+        gulp.start('postformcss')
+    });
+
     // watch('./apps.js', function() {
     //     gulp.start('scriptsRefresh');
     // });
@@ -133,6 +137,11 @@ gulp.task('queformcss',['queformstyles'], function() {
     return gulp.src("./assets/formquestyle/queform.css")
     .pipe(browserSyc.stream());
 });
+
+gulp.task('postformcss',['postformstyles'], function() {
+    return gulp.src("./assets/formpoststyle/postform.css")
+    .pipe(browserSyc.stream());
+}); 
 
 // gulp.task('scriptsRefresh',['scripts'], function() {
 //     browserSyc.reload();

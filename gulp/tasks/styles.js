@@ -142,3 +142,14 @@ gulp.task('queformstyles', function() {
     })
     .pipe(gulp.dest('./public/stylesheets'));
 });
+
+gulp.task('postformstyles', function() {
+    return gulp.src('./assets/formpoststyle/postform.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) {
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
