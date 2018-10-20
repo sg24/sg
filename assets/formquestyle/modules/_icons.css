@@ -236,7 +236,11 @@
    }
 
    &__site-main--queform__opt--angle {
-        margin-left: 5px;
+        margin-left: 15px; 
+
+        @mixin atMedium {
+            margin-left: 5px;
+        }
    }
 
    &__site-main--queform__selec--angle {
@@ -316,4 +320,33 @@
         transform: translateY(-40%);
     }
 
+    &__site-main--queform__teach--usericon {
+        color: rgba($mainDarkBlack, .5);
+        margin-right: 5px; 
+    }
+
+    &__site-main--queform__teach--userstatus {
+        font-size: .5rem;  
+        margin-right: 5px;
+        
+        &__on {
+            color: $mainLightGreen;  
+        }
+
+        &__off {
+            color: $mainLightRed;
+        } 
+    }   
+    
+    &__site-main--queform__teach--det {
+        margin-right: 5px; 
+    }
+
+    &__site-main--queform__teach--close {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%); 
+        color: rgba($mainDarkBlack, .4); 
+        font-size: .875rem; 
+    }
 }

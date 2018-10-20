@@ -6,10 +6,11 @@
         <div class="site-main__queform--que__total">Question Asked <div class="active__main active__main--queform"><div>24</div></div> </div>
         <span class="site-main__queform--que__viewall">
             <i class="fas fa-eye icon icon__site-main--queform__eye"></i>
-            All Questions
+            All <span class="site-main__queform--que__viewall--sm">Questions</span> 
         </span>
     </div>
     <div class="site-main__queform--outlet">
+ 
         <div class="site-main__queform--view">
             <div class="site-main__queform--view__close"><i class="fas fa-times icon icon__site-main--queform__view--close"></i></div>
             <p class="site-main__queform--view__title">My Questions</p>
@@ -28,14 +29,16 @@
                     <ul class="site-main__queform--view__que--header">
                         <li>Asked <span>2m ago</span></li>
                         <li><i class="fas fa-tags icon icon__site-main--queform__view--que__tag"></i> social</li>
-                    </ul>
+                    </ul> 
                     <div class="site-main__queform--view__que--content">
                         what is the best peom written this year
-                    </div>
+                        what is the best peom written this year
+                        what is the best peom written this year
+                    </div> 
                     <div class="site-main__queform--view__que--footer">
                         <ul class="site-main__queform--view__que--footer__total">
                             <li><div>25</div></li>
-                            <li>Answers</li>
+                            <li>Answer</li>  
                         </ul>
                         <div class="site-main__queform--view__que--footer__fav"><i class="fas fa-heart icon icon__site-main--queform__view--footer__fav"></i> 12k</div>
                         <div class="site-main__queform--view__que--footer__viewer">
@@ -64,7 +67,7 @@
                     <div class="site-main__queform--view__que--footer">
                         <ul class="site-main__queform--view__que--footer__total">
                             <li><div>25</div></li>
-                            <li>Answers</li>
+                            <li>Answer</li> 
                         </ul>
                         <div class="site-main__queform--view__que--footer__fav"><i class="fas fa-heart icon icon__site-main--queform__view--footer__fav"></i> 12k</div>
                         <div class="site-main__queform--view__que--footer__viewer">
@@ -84,7 +87,7 @@
 
 
             </div>
-        </div>
+        </div>  
 
         <form action="" class="site-main__queform--form">
             <div class="site-main__queform--form__categ">
@@ -133,6 +136,9 @@
                 <div class="site-main__queform--form__user--title">Optional (Select Teachcer)</div>
                 
                 <div class="site-main__queform--form__user--teach">
+                    <div class="site-main__queform--form__user--teach__close">
+                        <i class="fas fa-times icon icon__site-main--queform__teach--close"></i>
+                    </div>
                     <div class="site-main__queform--form__user--teach__title"><i class="fas fa-chalkboard-teacher icon icon__site-main--queform__teach--teacher"></i> Select Teacher</div>
                     <div class="site-main__queform--form__user--teach__search">
                         <div class="site-main__queform--form__user--teach__search--calend">
@@ -140,21 +146,75 @@
                         </div>
                         <input type="text" class="site-main__queform--form__user--teach__search--input" placeholder="Search teacher">
                     </div>
-                    <ul class="site-main__queform--form__user--teach__tab">
-                        <li>Online</li>
-                        <li>Offine</li>
-                    </ul>
-                    <div class="site-main__queform--form__user--teach__user">
-                        <div class="site-main__queform--form__user--teach__user-im">
-                            <img src="/" alt="">
-                        </div>
-                        <ul class="site-main__queform--form__user--teach__user--opt">
-                            <li>user user</li>
-                            <li>25 students</li>
-                            <li>25 question answered</li>
+                    <div class="site-main__queform--form__user--teach__outlet">
+                        <ul class="site-main__queform--form__user--teach__tab">
+                            <li> Online</li>
+                            <li>Offine</li>      
                         </ul>
+                        <div class="site-main__queform--form__user--teach__user">
+                            <div class="site-main__queform--form__user--teach__user--wrapper">
+                                <div class="site-main__queform--form__user--teach__user--img"> 
+                                    <img src="/" alt=""> 
+                                </div>
+                                <ul class="site-main__queform--form__user--teach__user--opt">    
+                                    <li>user user <span class="site-main__queform--form__user--teach__user--opt__status"><i class="fas fa-circle icon icon__site-main--queform__teach--userstatus icon__site-main--queform__teach--userstatus__on"></i> online</span></li>           
+                                    <li><div><i class="fas fa-users icon icon__site-main--queform__teach--usericon"></i> Students <div class="site-main__queform--form__user--teach__user--opt__wrapper  site-main__queform--form__user--teach__user--opt__first">500</div></div> </li> 
+                                    <li><div><i class="fas fa-edit icon icon__site-main--queform__teach--usericon"></i>  Answered<div class="site-main__queform--form__user--teach__user--opt__wrapper site-main__queform--form__user--teach__user--opt__last">500</div></div></li> 
+                                </ul> 
+                                <div class="site-main__queform--form__user--teach__user--selectIcon"><i class="fas fa-check-circle"></i></div> 
+                                <div class="site-main__queform--form__user--teach__user--selectIconActive"><i class="fas fa-check-circle"></i></div> 
+                            </div>  
+                            <div class="site-main__queform--form__user--teach__user--wrapper">
+                                <div class="site-main__queform--form__user--teach__user--img"> 
+                                    <img src="/" alt=""> 
+                                </div> 
+                                <ul class="site-main__queform--form__user--teach__user--opt">
+                                    <li>user user <span><i class="fas fa-circle icon icon__site-main--queform__teach--userstatus icon__site-main--queform__teach--userstatus__off"></i> offline</span></li>   
+                                    <li><div><i class="fas fa-users icon icon__site-main--queform__teach--usericon"></i>Students <div class="site-main__queform--form__user--teach__user--opt__wrapper  site-main__queform--form__user--teach__user--opt__first">500</div></div> </li> 
+                                    <li><div><i class="fas fa-edit icon icon__site-main--queform__teach--usericon"></i>  Answered<div class="site-main__queform--form__user--teach__user--opt__wrapper site-main__queform--form__user--teach__user--opt__last">500</div></div></li> 
+                                </ul> 
+                                 <div class="site-main__queform--form__user--teach__user--selectIcon"><i class="fas fa-check-circle"></i></div> 
+                                <div class="site-main__queform--form__user--teach__user--selectIconActive"><i class="fas fa-check-circle"></i></div> 
+                            </div>      
+                        </div> 
+
+                        {{!-- <div class="site-main__queform--form__user--teach__selecTitle"> 
+                            <div>Teacher's Selected <span><i class="fas fa-exchange-alt"></i></span>  </div>   
+                        </div>
+                        <div class="site-main__queform--form__user--teach__user">
+                            <div class="site-main__queform--form__user--teach__user--wrapper site-main__queform--form__user--teach__user--wrapper__borderactive">
+                                <div class="site-main__queform--form__user--teach__user--img"> 
+                                    <img src="/" alt=""> 
+                                </div>
+                                <ul class="site-main__queform--form__user--teach__user--opt">    
+                                    <li>user user <span class="site-main__queform--form__user--teach__user--opt__status"><i class="fas fa-circle icon icon__site-main--queform__teach--userstatus icon__site-main--queform__teach--userstatus__on"></i> online</span></li>           
+                                    <li><div><i class="fas fa-users icon icon__site-main--queform__teach--usericon"></i> Students <div class="site-main__queform--form__user--teach__user--opt__wrapper  site-main__queform--form__user--teach__user--opt__first">500</div></div> </li> 
+                                    <li><div><i class="fas fa-edit icon icon__site-main--queform__teach--usericon"></i>  Answered<div class="site-main__queform--form__user--teach__user--opt__wrapper site-main__queform--form__user--teach__user--opt__last">500</div></div></li> 
+                                </ul> 
+                                <div class="site-main__queform--form__user--teach__user--selectIconActive site-main__queform--form__user--teach__user--selectIconActive__visible"><i class="fas fa-check-circle"></i></div> 
+                            </div>  
+                            <div class="site-main__queform--form__user--teach__user--wrapper site-main__queform--form__user--teach__user--wrapper__borderactive">
+                                <div class="site-main__queform--form__user--teach__user--img"> 
+                                    <img src="/" alt=""> 
+                                </div> 
+                                <ul class="site-main__queform--form__user--teach__user--opt">
+                                    <li>user user <span><i class="fas fa-circle icon icon__site-main--queform__teach--userstatus icon__site-main--queform__teach--userstatus__off"></i> offline</span></li>   
+                                    <li><div><i class="fas fa-users icon icon__site-main--queform__teach--usericon"></i>Students <div class="site-main__queform--form__user--teach__user--opt__wrapper  site-main__queform--form__user--teach__user--opt__first">500</div></div> </li> 
+                                    <li><div><i class="fas fa-edit icon icon__site-main--queform__teach--usericon"></i>  Answered<div class="site-main__queform--form__user--teach__user--opt__wrapper site-main__queform--form__user--teach__user--opt__last">500</div></div></li> 
+                                </ul> 
+                                <div class="site-main__queform--form__user--teach__user--selectIconActive site-main__queform--form__user--teach__user--selectIconActive__visible"><i class="fas fa-check-circle"></i></div>  
+                            </div>      
+                        </div> --}}
                     </div>
-                </div>
+                    <div class="site-main__queform--form__user--teach__det">
+                        <div class="site-main__queform--form__user--teach__det--total">
+                            Seleceted <span>20</span>
+                        </div>
+                        <div class="site-main__queform--form__user--teach__det--view"> 
+                            <i class="fas fa-eye icon icon__site-main--queform__teach--det"></i> View  
+                        </div>
+                    </div>
+                </div> 
 
                 <div class="site-main__queform--form__user--content">
                     <div class="site-main__queform--form__user--content__selec">
@@ -168,15 +228,15 @@
             </div>
 
             <div class="site-main__queform--form__footer">
-                <botton class="site-main__queform--form__footer--draft">
+                <button class="site-main__queform--form__footer--draft">
                     Add to Drafts
-                </botton>
-                <botton class="site-main__queform--form__footer--ask disabled__ask">
+                </button>
+                <button class="site-main__queform--form__footer--ask disabled__ask">
                     Ask Question
-                </botton>
-                <botton class="site-main__queform--form__footer--exit">
-                    <i class="fas fa-angle-double-right icon icon__site-main--queform__angledouble"></i> Close Form
-                </botton>
+                </button> 
+                <button class="site-main__queform--form__footer--exit" >
+                    <i class="fas fa-angle-double-right icon icon__site-main--queform__angledouble"></i> <span class="site-main__queform--form__footer--exit__sm">Close Form</span>   
+                </button> 
                 <ul class="error error__ask">
                     <li>Errors</li>
                     {{!-- <li><i class="fas fa-circle icon icon__site-main--queform__error--circle"></i> Question content must be geater than 10 letters</li> --}}

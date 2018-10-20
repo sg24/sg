@@ -3,10 +3,11 @@
     position: fixed;
     @mixin clearfix;
     width: 100%;
-    top: 0;
+    top: 0; 
     padding: .625rem 0;
-    z-index: 2;
-   
+    z-index: 2; 
+    box-shadow: 0 1px 2px 1px rgba($mainDarkBlack, .2);  
+          
     &__logo {
         position: relative;
         width: 65px;

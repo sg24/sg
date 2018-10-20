@@ -12,8 +12,9 @@ module.exports = {
       onlineque: "./assets/onlinequescript/onlineque.js",
       group: "./assets/groupscript/group.js",
       groupchat: "./assets/chatscript/groupchat.js",
-      privatechat: "./assets/privatechatscript/privatechat.js"
-    },
+      privatechat: "./assets/privatechatscript/privatechat.js",
+      formque: "./assets/formquescript/formque.js"
+    }, 
     output: {
       path: path.resolve(__dirname + '/public/js/app'),
       publicPath: "/js/app/",

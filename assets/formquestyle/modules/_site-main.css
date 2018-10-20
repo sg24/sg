@@ -1,15 +1,33 @@
 .site-main {
     position: relative;
-    top: 62px;
+    padding-top: 62px; 
     font-family: "Roboto",Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
 
-    &__expage {
-        top: 82px !important;
+    &__expage { 
+        padding-top: 82px !important; 
+        /* background-color: rgba($mainDarkBlack, .9);  */
 
         @mixin atMedium {
-            top: 65px !important;
+            padding-top: 65px !important;
         }
     }
 
+    &__overlay {
+        position: absolute;
+        top: 0; 
+        bottom: 0;
+        right: 0; 
+        left: 0;
+        background-color: rgba($mainDarkBlack, .55); 
+        z-index: 1;  
+        opacity: 0;
+        visibility: hidden; 
+
+        &--visible {
+            opacity: 1;
+            visibility: visible;
+            transition: all .3s ease-out;
+        }
+    } 
 
 }
