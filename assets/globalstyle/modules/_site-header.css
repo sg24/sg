@@ -3,11 +3,15 @@
     position: fixed;
     @mixin clearfix;
     width: 100%;
-    top: 0; 
+    top: 0;
     padding: .625rem 0;
     z-index: 2; 
-    box-shadow: 0 1px 2px 1px rgba($mainDarkBlack, .2);  
-          
+    box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2); 
+    -o-box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2);
+    -ms-box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2);
+    -webkit-box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2);
+    -moz-box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2);
+   
     &__logo {
         position: relative;
         width: 65px;
@@ -98,10 +102,10 @@
 
         &--expanded{
             width: auto !important;
-            
+              
             @mixin atLarge {
                 display: block !important;
-                width: 550px !important;
+                width: 540px !important;  
                 transition: width .01s ease-out;
             }
         }
@@ -161,9 +165,9 @@
             padding: 0;
             position: absolute;
             background-color: #fff;
-            top: 36px;
+            top: 36px;   
             width: 130px;
-            left: -78px;
+            left: -84px;      
             border: 1px solid $mainDarkGray;
             opacity: 0;
             /* transform: scale(.9); */
@@ -238,13 +242,9 @@
             }
 
             @mixin atMedium {
-                top: 42px;
-                left: -73px;
-            }
-
-            @mixin atLarge {
-                left: -50px;
-            }
+                top: 43px;    
+                left: -80px;  
+            } 
         }
 
         &--formExpanded {
@@ -254,7 +254,7 @@
 
             @mixin atLarge {
                 opacity: 1;
-                transition: all .2sec ease-out;
+                transition: all .2s ease-out;
                 display: none !important;
             }
         }
@@ -1666,4 +1666,3 @@
         }
     }
 }
-

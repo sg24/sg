@@ -160,3 +160,79 @@
         }
     }
 }
+
+
+
+.active__main {
+    position: absolute;
+    background-color: $mainDarkRed;
+    color: #fff;
+    font-size: .875rem;
+  
+
+    &--header {
+        z-index: 1 ;
+        top: -10px;
+        right: -4px;
+        border-radius: 9px;
+        width: 18px;
+        height: 18px;
+        border: 1px solid rgba(#fff, .25);
+        overflow: hidden;
+        
+        & > div {
+            position: absolute;
+            top: 50%;
+            transform:translateY(-50%);
+            width: 100%;
+            text-align: center;
+            font-size: .75rem;
+
+            @mixin atMedium {
+                font-size: .8125rem;
+            }
+        }
+
+
+        @mixin atLarge {
+            border-radius: 10px;
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    &--group {
+        top: 10px;
+        right: -5px;
+        width: 26px;
+        height: 26px;
+        border-radius: 13px;
+        border: 1px solid rgba(#fff, .25);
+       
+        > div {
+            position: absolute;
+            top: 50%;
+            transform:translateY(-50%);
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    &--group-content {
+        top: -20px;
+        right: -20px;
+        width: 26px;
+        height: 26px;
+        border-radius: 13px;
+        border: 1px solid rgba(#fff, .25);
+       
+        > div {
+            position: absolute;
+            top: 50%;
+            transform:translateY(-50%);
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+} 
