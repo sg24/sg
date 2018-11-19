@@ -40,7 +40,7 @@
                     <li>Communities</li>
                 </ul>
                 <div class="post-section">
-                    {{> partialPost}}
+                    {{> partialPost}} 
                 </div>
                 <div class="question-section">
                     {{!-- {{> partialQuestion}} --}}
@@ -59,16 +59,17 @@
         <div class="site-main__nav">
             <div class="site-main__nav--wrapper">
                 <ul class="site-main__nav--header">
-                    <li>Poeter/Writer</li>
-                    <li>Online Questions</li>
+                    {{!-- <li>Poeter/Writer</li> --}} 
+                    <li>Online Questions</li>  
+                    {{!-- <li>Latest Post</li> --}}
                     <li><i class="fas fa-exchange-alt"></i></li>
                 </ul>
                 <div class="site-main__nav--contentOutlet">
-                    {{!-- {{> partialTopTrending}} --}}
+                    {{> partialTopTrending}} 
                     {{!-- {{> partialDailyQuo}} --}}
                     {{!-- {{> partialOnlineQue}} --}}
-                    {{> partialChats}}
-                </div>
+                    {{!-- {{> partialChats}} --}}
+                </div> 
             </div>
         </div>
     </div>

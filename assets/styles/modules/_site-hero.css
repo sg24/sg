@@ -6,6 +6,10 @@
     overflow: hidden;
     background-color: #006699;
     /* border-top: 5px solid #fff; */
+
+    &__hidden {
+        display: none; 
+    }
 }
 
 

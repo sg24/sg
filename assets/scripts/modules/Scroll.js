@@ -4,29 +4,47 @@ import waypoints from 'waypoints/lib/noframework.waypoints';
 class Scroll {
     constructor() {
         this.item = $(".site-main__nav");
+        this.menu = $(".site-main");
+        this.siteHeaderList = $(".site-header__list");
+        this.siteNav = $(".site-main__nav--md");
+        this.siteMain = $(".site-main__content--header");
         this.scrollItems();
+        this.siteHeaderScroll(); 
     }
+ 
 
-
-    getElementTop() {
-
+    siteHeaderScroll() {
+        var that = this;
+        new Waypoint({
+            element: this.menu[0],
+            handler: function(direction) {
+                if (direction == "down") {
+                    that.siteHeaderList.addClass("site-header__list--hidden");
+                    that.siteNav.addClass("site-main__nav--md__sticky"); 
+                    that.siteMain.addClass("site-main__content--header__sticky");
+                } else { 
+                    that.siteHeaderList.removeClass("site-header__list--hidden");
+                    that.siteNav.removeClass("site-main__nav--md__sticky");
+                    that.siteMain.removeClass("site-main__content--header__sticky");
+                }
+            },
+            offset:  "12%"             
+        })
     }
 
     scrollItems() {
         var that = this;
         new Waypoint({
-            element: this.item[0],
+            element: this.menu[0],
             handler: function(direction) {
                 if (direction == "down") {
                     that.item.addClass("site-main__nav--waypoint");
-                     that.item.innerHeight()
+                    that.item.innerHeight()
                 } else {
                     that.item.removeClass("site-main__nav--waypoint");
                 }
             },
-            offset: function() {
-                return -this.element.clientHeight
-            }
+            offset: "10%"
         })
     }
 }

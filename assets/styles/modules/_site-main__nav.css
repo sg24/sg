@@ -5,12 +5,19 @@
         float: left;
         display: none;
         font-weight: 300;
- 
-       
+        
         &--waypoint {
-            top: 60px;
+            top: 70px; 
             position: sticky;
+            height: 92vh;        
+            overflow: hidden;   
         }
+        
+        &--wrapper {
+            display: flex;
+            flex-direction: column; 
+        }
+
         &--header {
             background-color: $mainMiddleDarkBlue;
             list-style: none;
@@ -31,27 +38,51 @@
             }
         }
 
+        &--contentOutlet {
+            display: flex;
+            flex-direction: column;
+        }
+
         &--topTreding {
             color: $mainFontColor;
             text-align: center;
-            padding: 0px 20px;
-            font-weight: 400;
+            margin: 10px 20px 0 20px;  
+            font-weight: 400;           
+            background-color: rgba($mainHeaderColor, .6);     
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;            
+            box-shadow: 0 0 .2px .2px rgba($mainDarkBlack, .2);
+            /* -o-box-shadow: 0 0 .5px .5px rgba($mainDarkBlack, .2);
+            -ms-box-shadow: 0 0 .5px .5px rgba($mainDarkBlack, .2);
+            -webkit-box-shadow: 0 0 .5px .5px rgba($mainDarkBlack, .2);
+            -moz-box-shadow: 0 0 .5px .5px rgba($mainDarkBlack, .2);  */
 
             p {
-                padding: 5px 20px;
-                background-color: $mainHeaderColor;
+                padding: 5px 20px; 
+                background-color: $mainDarkGray;
+                margin: 0 0 0 0; 
+                box-shadow: 0 .5px 1px 1px rgba($mainDarkBlack, .2);
             }
 
-            &__items {
+            &__items {  
+               /* background-color:  $mainHeaderColor; */
+               padding: 20px 10px 0 10px;
+               margin: 0; 
+               height: 100vh;      
+               overflow: hidden;
+               overflow-y: auto;  
                
-                &--wrapper {
-                   box-shadow: 0px .3px 5px 2px rgba($mainDarkBlue, .3);
-                   -o-box-shadow: 0px .3px 5px 2px rgba($mainDarkBlue, .3);
+                &--wrapper {     
+                   box-shadow: 0px .3px 1px 1px rgba($mainDarkBlue, .3); 
+                   /* -o-box-shadow: 0px .3px 5px 2px rgba($mainDarkBlue, .3);
                    -webkit-box-shadow: 0px .3px 5px 2px rgba($mainDarkBlue, .3);
                    -moz-box-shadow: 0px .3px 5px 2px rgba($mainDarkBlue, .3);
-                   -ms-box-shadow: 0px .3px 5px 2px rgba($mainDarkBlue, .3);
-                    margin: 10px  0 20px 0;
+                   -ms-box-shadow: 0px .3px 5px 2px rgba($mainDarkBlue, .3); */
+                    margin: 0px 0 20px 0;
+                    padding-top: 10px;  
                     border-radius: 3px;
+                    background-color: #fff;  
                 }
 
                 &--title {
@@ -82,6 +113,7 @@
                     font-size: .9375rem;
                     padding: 10px;
                     text-align: left;
+                    color: $mainFontColor;  
                 }
 
                 &--details {
@@ -177,15 +209,15 @@
                         margin: 0;
                         padding: 0;
                         list-style: none;
-                        position: absolute;
-                        box-shadow:  0 0 .5px .2px rgba($mainDarkBlue, .8);
-                        -moz-box-shadow:  0 0 .5px .2px rgba($mainDarkBlue, .8);
-                        -webkit-box-shadow:  0 0 .5px .2px rgba($mainDarkBlue, .8);
-                        -ms-box-shadow:  0 0 .5px .2px rgba($mainDarkBlue, .8);
-                        -o-box-shadow:  0 0 .5px .2px rgba($mainDarkBlue, .8);
+                        position: absolute; 
+                        box-shadow: 0 0 1px 2px rgba($mainDarkBlack, .2);
+                        -o-box-shadow: 0 0 1px 2px rgba($mainDarkBlack, .2);
+                        -webkit-box-shadow: 0 0 1px 2px rgba($mainDarkBlack, .2);
+                        -moz-box-shadow: 0 0 1px 2px rgba($mainDarkBlack, .2);
+                        -webkit-box-shadow: 0 0 1px 2px rgba($mainDarkBlack, .2); 
                         width: 100%;
                         background-color: #fff;
-                        bottom: 25px;
+                        bottom: 26px;   
                         max-height: 200px;
                         overflow: hidden;
                         overflow-y: auto;
@@ -198,8 +230,12 @@
 
                         li {
                             /* border-bottom: 1px solid $mainLightGray; */
-                            padding: 5px 0;
-                            box-shadow: inset 0 .5px .2px 0px rgba($mainDarkBlue, .8);
+                            padding: 5px 0;  
+                            box-shadow: inset 0 .5px .2px 0px rgba($mainDarkBlack, .2);
+                            -o-box-shadow: inset 0 .5px .2px 0px rgba($mainDarkBlack, .2);
+                            -moz-box-shadow: inset 0 .5px .2px 0px rgba($mainDarkBlack, .2);
+                            -webkit-box-shadow: inset 0 .5px .2px 0px rgba($mainDarkBlack, .2);
+                            -ms-box-shadow: inset 0 .5px .2px 0px rgba($mainDarkBlack, .2);
 
                             &:first-child {
                                 margin-top: 3px;
@@ -224,6 +260,7 @@
         }
         
     @mixin atMedium {
-        display: block;
+        display: flex;
+        flex-direction: column;
     }
 }
