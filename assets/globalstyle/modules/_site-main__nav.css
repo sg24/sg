@@ -5,12 +5,16 @@
         float: left;
         display: none;
         font-weight: 300;
+        margin-top: 10px;
+        height: 92vh;       
  
        
-        &--waypoint {
-            top: 60px;
-            position: sticky;
+        &--sticky { 
+            top: 70px; 
+            position: sticky;      
+            overflow: hidden;   
         }
+
         &--header {
             background-color: $mainMiddleDarkBlue;
             list-style: none;

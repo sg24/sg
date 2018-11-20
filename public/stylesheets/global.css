@@ -3715,11 +3715,14 @@ img {
         float: left;
         display: none;
         font-weight: 300;
+        margin-top: 10px;
+        height: 92vh;
 }
-.site-main__nav--waypoint {
-  top: 60px;
+.site-main__nav--sticky {
+  top: 70px;
   position: -webkit-sticky;
   position: sticky;
+  overflow: hidden;
 }
 .site-main__nav--header {
   background-color: #437da3;

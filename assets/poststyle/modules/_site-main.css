@@ -1,5 +1,5 @@
 .site-main {
-
+    
     &__content { 
   
         &--wrapper {
@@ -57,6 +57,16 @@
                 }
             }
 
+            &__top { 
+                @mixin atLarge {
+                    padding-top: 10px;  
+                    background-color: #fff;
+                    position: sticky; 
+                    top: 60px;     
+                    z-index: 2;   
+                }
+             }
+
             &__tab {
                 list-style: none;
                 margin: 0;
@@ -64,7 +74,9 @@
                 background-color: $mainMiddleDarkBlue;
                 @mixin clearfix;
                 font-size: .875rem;
-                font-weight: 300; 
+                font-weight: 300;
+                position: relative; 
+                z-index: 2;   
 
                 li {
                     float: none;
@@ -78,9 +90,9 @@
                     &:first-child { 
                         border-bottom: 1px solid rgba(255,255,255, .45);
 
-                        @mixin atExtraSmall {
+                        @mixin atExtraSmall { 
                             border-bottom: none;  
-                            border-left: 1px solid rgba(255,255,255, .45);
+                            border-right: 1px solid rgba(255,255,255, .45);
                         }
                     }
 
@@ -98,13 +110,6 @@
                     }
                 }
 
-                &--header {
-                   &__visible {
-                    padding: 10px 0; 
-                    background-color:#fff; 
-                   }
-                }
-
                 &--sticky {
                     position: sticky;
                     top: 52px;         
@@ -117,12 +122,11 @@
                     
                     @mixin atMedium {
                         position: sticky; 
-                        top: 60px;    
+                        top: 61px;    
                     }
 
                     @mixin atLarge {
-                        top: 50px;   
-                        margin-top: 20px; 
+                        top: 70px;     
                     }
                 }
 
