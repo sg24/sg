@@ -224,7 +224,7 @@
             }
         }
         
-    @mixin atMedium {
-        display: block;
+    @mixin atLarge {
+        display: block; 
     }
 }

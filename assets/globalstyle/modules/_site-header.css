@@ -3,9 +3,9 @@
     position: fixed;
     @mixin clearfix;
     width: 100%;
-    top: 0;
+    top: -1px; 
     padding: .625rem 0;
-    z-index: 2; 
+    z-index: 3; 
     box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2); 
     -o-box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2);
     -ms-box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2);
@@ -413,6 +413,14 @@
                 display: none !important;
             }
         }
+
+    &--hidden {
+        display: none;
+        
+        @mixin atMedium {
+            display: inline;  
+        }
+    } 
 
       @mixin atMedium {
         position: relative;

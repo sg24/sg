@@ -259,8 +259,8 @@
             }
         }
         
-    @mixin atMedium {
+    @mixin atLarge {
         display: flex;
         flex-direction: column;
-    }
+    } 
 }

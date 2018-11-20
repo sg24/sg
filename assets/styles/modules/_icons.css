@@ -227,7 +227,7 @@
     }
 
     &__site-main--details__footer--icons__eye {
-        color: $mainDarkBlack;  
+        color: $mainDarkBlack;   
         cursor: pointer;
     }
 
