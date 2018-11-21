@@ -1,30 +1,28 @@
 .site-main__group {
-    /* margin-top: 5px; */
-    padding: 0 0px;
-
-    &--wrapperBorder {
-        /* border: 1px solid $mainLightGray; */
-        /* background-color: $mainContentHeaderColor; */
-    }
 
     &--main-wrapper {
-        /* display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column; */
+        margin: 20px 15px;   
+        
+        @mixin atSmall { 
+            margin: 40px 20px 60px 20px;
+        }
     }
 
     &--wrapper {
         width: 100%;
-        margin-bottom: 20px;
         border-radius: 10px;
         /* box-shadow: 0px 0px 1px 0px rgba(42, 129, 164, 0.26); */
         background-color: #fff;  
-        box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
+        box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+        -o-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+        -ms-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+        -webkit-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+        -moz-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+        /* box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
         -o-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
         -ms-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
         -webkit-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
-        -moz-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57);
+        -moz-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.57); */
     }
 
     &--header {
@@ -553,10 +551,11 @@
     
 
     &--filter {
-        padding: 10px 0;
         position: relative;
         @mixin clearfix;
         font-size: .8125rem;
+        margin: 0 auto;  
+        padding: 20px 20px 10px 20px ;   
 
        &__alt {
            float: left;
@@ -946,73 +945,86 @@
             }
         }
 
+        @mixin atSmall { 
+            padding: 20px 20px 10px 20px ;         
+        }
     }
 
+    &--top { 
+        @mixin atLarge {
+            padding-top: 10px;  
+            background-color: #fff;
+            position: sticky; 
+            top: 60px;     
+            z-index: 2;   
+        }
+     }
 
     &--optionsTab {
         list-style: none;
+        margin: 0;
         padding: 0;
-        margin: 0 0 0px 0;
-        @mixin clearfix;
-        font-size: .8125rem;
-        border-top: none;
-        border-right: none;
-        border-left: none;
-        font-weight: 300;
         background-color: $mainMiddleDarkBlue;
-        color: #fff;
+        @mixin clearfix;
+        font-size: .875rem;
+        font-weight: 300;
+        position: relative; 
+        z-index: 2;   
 
         li {
-            float: left;
+            float: none;
+            text-align: center;
+            color: #fff;
             cursor: pointer;
+            padding: 11px 35px; 
+            position: relative;
+            font-size: .8125rem; 
+               
+            &:first-child { 
+                border-bottom: 1px solid rgba(255,255,255, .45);
 
-            &:first-child {
-                padding:  8px 10px;
-                border: 1px solid rgba(255,255,255, .4);
-                border-bottom: none;
-                border-left: none;
-                border-top: none;
-                
-
-                @mixin atExtraSmall {
-                    padding:  10px 20px;
-                }
-                @mixin atMiniSmall {
-                    padding:  10px 35px;
-                }
-                @mixin atSmall {
-                    padding:  15px 35px;
+                @mixin atExtraSmall { 
+                    border-bottom: none;  
+                    border-right: 1px solid rgba(255,255,255, .45);
                 }
             }
 
-            &:last-child {
-                /* color: $mainFontColor; */
-                padding:  8px 0 8px 10px;
-                border: 1px solid $mainLightGray;
-                border-bottom: none;
-                border-left: none;
-                border-top: none;
-                border-right: none;
-                position: relative;
-                
-                @mixin atExtraSmall {
-                    padding:  10px  20px;
-                }
-                @mixin atMiniSmall {
-                    padding:  10px 35px;
-                }
-                @mixin atSmall {
-                    padding:  15px 35px;
-                }
+            @mixin atExtraSmall {
+                float: left;
+            }
+
+            @mixin atSmall {
+                font-size: .875rem; 
+            }
+
+            @mixin atMedium {
+                padding: 15px 35px;
+                font-size: .9375rem;
+            }
+        }
+
+        &__sticky {
+            position: sticky;
+            top: 52px;         
+            z-index: 2;  
+            box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
+            -o-box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
+            -ms-box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
+            -webkit-box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
+            -moz-box-shadow: 0 2px 2px rgba($mainDarkBlack, .2);  
+            
+            @mixin atMedium {
+                position: sticky; 
+                top: 61px;    
+            }
+
+            @mixin atLarge {
+                top: 70px;     
             }
         }
 
         @mixin atSmall {
-            font-size: .875rem;
-        }
-
-        @mixin atMedium {
-            font-size: .9375rem;
+            font-size: .9375rem !important;
         }
     }
 

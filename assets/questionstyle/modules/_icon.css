@@ -13,17 +13,17 @@
     }
     
     &__site-main--details__footer--icons__thumbup {
-        color: $mainLightBlack;
+        color: $mainDarkBlue;
         cursor: pointer;
     }
 
     &__site-main--details__footer--icons__thumbdown {
-        color: $mainLightBlack;
+        color: $mainDarkBlack;
         cursor: pointer;
     }
 
     &__site-main--details__footer--icons__heart {
-        color: $mainLightBlack;
+        color: $mainLightRed;
         cursor: pointer;
     }
 

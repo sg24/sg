@@ -18,13 +18,20 @@
         color: $mainDarkBlue;
     }
 
-    &__site-main--onlineQue__footerIcon {
+    &__site-main--onlineQue__pen {
         margin-right: 5px;
+        color: #fff;
     }
 
-    &__site-main--onlineQue__footerHeartIcon {
+    &__site-main--onlineQue__comment {
+        margin-right: 5px;
+        color: $mainDarkBlack;
+    }
+
+    &__site-main--onlineQue__heart {
         margin-right: 5px;
         cursor: pointer;
+        color: $mainLightRed;
     }
     &__site-main--onlineQue__userIcon {
         margin-right: 5px;

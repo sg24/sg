@@ -32,11 +32,8 @@
         }
 
         @mixin atSmall {
-            width: 26px;
-            height: 26px;
-            border-radius: 13px;
-            right: 0; 
-            top: 4px; 
+            right: 8px; 
+            top: 4px;  
         }
     }
 }

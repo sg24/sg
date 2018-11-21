@@ -22,6 +22,7 @@
                 color: $mainDarkBlue;
             }
         }
+
         &__img {
             float: left;
             max-width: 40%;
@@ -29,6 +30,39 @@
             max-height: 100px;
             overflow: hidden;
             overflow-y: auto;
+        }
+    }
+
+    &--ans {
+        @mixin clearfix; 
+        font-family: 'poppins', Roboto, Segoe UI, Tahoma, Geneva, Verdana, sans-serif; 
+
+        &__wrapper {
+            float: right; 
+            margin-right: 5px;
+            position: relative; 
+            font-size: .8125rem; 
+            /* background-color: $mainLightGray; */
+            border-radius: 5px;
+            overflow: hidden;
+            padding: 10px 10px 10px 30px;
+        }
+
+        &__total {
+            position: absolute;
+            left: 0;
+            background-color: $mainLightRed;
+            color: #fff;
+            /* font-size: .875rem; */
+            width: 22px;
+            height: 22px;
+            border-radius: 11px;
+            text-align: center;
+            top: 50%; 
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center; 
         }
     }
 }

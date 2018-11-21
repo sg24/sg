@@ -2,6 +2,8 @@
     width: 100%;
     position: relative;
     margin: 0 auto;
+    padding: 0 15px; 
+    overflow: hidden;     
 
     &__found {
         font-size: .875rem;
@@ -614,7 +616,7 @@
         }
     }
 
-    @mixin atSmall {
-        padding: 0;
-    }
+    @mixin atSmall { 
+        padding: 0 20px;         
+    } 
 }

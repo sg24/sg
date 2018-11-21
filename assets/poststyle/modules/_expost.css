@@ -604,10 +604,5 @@
     @mixin atSmall { 
         padding: 0 20px;         
     }
-
-    @mixin atMedium {
-        /* padding: 0 40px;     */ 
-    }  
-
     
 }

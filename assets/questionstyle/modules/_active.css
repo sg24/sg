@@ -26,17 +26,14 @@
             width: 24px;
             height: 24px;
             border-radius: 12px;
-            top: 10px;
-            right: -10px;
+            top: 4px; 
+            right: 0px; 
             font-size: .8125rem;
         }
 
         @mixin atSmall {
-            width: 26px;
-            height: 26px;
-            border-radius: 13px;
-            right: -5px;
-            top: 10px;
-        }
+            right: 8px; 
+            top: 4px;  
+        } 
     }
 }
