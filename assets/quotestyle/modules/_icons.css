@@ -26,14 +26,19 @@
 
     &__site-main__ptwrit--footer__smile {
         margin-right: 5px;
+        color: $mainDarkBlue;  
     }
 
     &__site-main__ptwrit--footer__heart {
         margin-right: 5px;
+        color: $mainLightRed;
+        cursor: pointer;
     }
 
     &__site-main__ptwrit--footer__comments {
         margin-right: 5px;
+        color: $mainDarkBlack;
+     
     }
 
     
@@ -99,7 +104,7 @@
     }
 
     &__site-main__ptwrit--quote {
-        margin: 0  10px 0 0;
+        margin: 0 5px 0 0;
     }
 
     &__site-main__ptwrit--time {
@@ -109,4 +114,12 @@
     &__site-main--ptwrit__arrowicon {
         margin-right: 5px;
     }
+
+    &__site-main--ptwrit__note--circle {
+        color: $mainLightRed; 
+        font-size: .625rem; 
+        margin-right: 10px; 
+        top: -1px;
+        position: relative;
+    } 
 }

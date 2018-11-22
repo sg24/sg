@@ -1,7 +1,7 @@
 .site-main__group {
 
     &--main-wrapper {
-        margin: 20px 15px;   
+        margin: 40px 15px;   
         
         @mixin atSmall { 
             margin: 40px 20px 60px 20px;

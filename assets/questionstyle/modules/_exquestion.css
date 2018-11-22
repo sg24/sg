@@ -2,8 +2,7 @@
     width: 100%;
     position: relative;
     margin: 0 auto;
-    padding: 0 15px; 
-    overflow: hidden;     
+    padding: 0 15px;     
 
     &__found {
         font-size: .875rem;

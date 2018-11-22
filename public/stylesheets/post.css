@@ -1,7 +1,7 @@
 .site-main__content--wrapper {
     width: 100%;
     background-color: rgba(249,249,249, .4);
-    box-shadow: inset 0px 0 1px 0px rgba(119,119,119, .5);
+    box-shadow: inset 0px 0 2px 0px rgba(119,119,119, .5);
     -o-box-shadow: inset 0px 0 2px 0px rgba(119,119,119, .5);
     -ms-box-shadow: inset 0px 0 2px 0px rgba(119,119,119, .5);
     -webkit-box-shadow: inset 0px 0 2px 0px rgba(119,119,119, .5);
@@ -24,7 +24,7 @@
 .site-main__content--details__overlaywrapper {
     position: relative;
     padding: 0 15px;
-    margin: 20px 0;
+    margin: 40px 0;
     
 }
 
@@ -1648,8 +1648,7 @@
     width: 100%;
     position: relative;
     margin: 0 auto;  
-    padding: 0 15px;           
-    overflow: hidden;
+    padding: 0 15px;
     
 }
 

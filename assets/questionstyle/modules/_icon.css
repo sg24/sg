@@ -23,7 +23,7 @@
     }
 
     &__site-main--details__footer--icons__heart {
-        color: $mainLightRed;
+        color: $mainLightRed; 
         cursor: pointer;
     }
 

@@ -1,5 +1,5 @@
 .site-main__group--main-wrapper {
-    margin: 20px 15px; 
+    margin: 40px 15px; 
 }
 
 @media (min-width: 530px) {
@@ -1680,7 +1680,7 @@
 .site-main__content--wrapper {
     width: 100%;
     background-color: rgba(249,249,249, .4);
-    box-shadow: inset 0px 0 1px 0px rgba(119,119,119, .5);
+    box-shadow: inset 0px 0 2px 0px rgba(119,119,119, .5);
     -o-box-shadow: inset 0px 0 2px 0px rgba(119,119,119, .5);
     -ms-box-shadow: inset 0px 0 2px 0px rgba(119,119,119, .5);
     -webkit-box-shadow: inset 0px 0 2px 0px rgba(119,119,119, .5);
