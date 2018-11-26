@@ -3,7 +3,6 @@
     position: relative;
     margin: 0 auto;
     padding: 0 15px; 
-    overflow: hidden;
 
 
     &__found {
@@ -32,6 +31,7 @@
 
     &__wrapper {
         @mixin clearfix;
+        position: relative;
 
         &--options {
             float: left;
@@ -100,7 +100,7 @@
             &__visible {
                 opacity: 1;
                 visibility: visible;
-                z-index: 1;
+                z-index: 3;
                 transition: all .3s ease-in;
             }
 
@@ -129,7 +129,7 @@
 
         &--options {
             position: absolute;
-            top: 100px;
+            top: 0;
             background-color: #fff;
             box-shadow: 0px 1px 6px 2px rgba(51, 51, 51, .2);
             -o-box-shadow: 0px 1px 6px 2px rgba(51, 51, 51, .2);
@@ -498,7 +498,7 @@
           &__visible {
             opacity: 1;
             visibility: visible;
-            z-index: 1;
+            z-index: 2;
             transition: all .3s ease-in;
         }
 
@@ -507,7 +507,7 @@
           }
 
           @mixin atSmall {
-            top: 100px;
+            top: 5px;
             padding: 20px;
           }
 

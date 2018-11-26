@@ -7,11 +7,56 @@
         -o-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
         -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
         -webkit-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
-        -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);  
-        
+        -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+         position: relative;
+
         &__hidden { 
             box-shadow: none; 
             background-color: transparent; 
+        }
+
+        &__overlay {
+            position: absolute;
+            top: 0;
+            bottom: -60px;
+            right: 0;
+            left: 0;
+            background-color: rgba($mainDarkBlack, .6);
+            z-index: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: all .3s ease-in;
+    
+            &--visible {
+                z-index: 1;
+                opacity: 1;
+                visibility: visible;
+                transition: all .3s ease-in;
+            }
+
+            @mixin atSmall {
+                bottom: -80px;
+            }
+        }
+    }
+
+    &--overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background-color: rgba($mainDarkBlack, .6);
+        z-index: 0;
+        opacity: 0;
+        visibility: hidden;
+        transition: all .3s ease-in;
+
+        &__visible {
+            z-index: 1;
+            opacity: 1;
+            visibility: visible;
+            transition: all .3s ease-in;
         }
     }
 
@@ -207,7 +252,7 @@
             background-color: #fff;
             position: sticky; 
             top: 60px;     
-            z-index: 2;   
+            z-index: 3;   
         }
     }
 
@@ -257,7 +302,7 @@
         &__sticky {
             position: sticky;
             top: 52px;         
-            z-index: 2;  
+            z-index: 3;  
             box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
             -o-box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
             -ms-box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 

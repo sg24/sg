@@ -7,7 +7,7 @@ class QuestionFilter {
         this.filterToggler = $(".exquestion__filter");
         this.filter = $(".exquestion__filter--options");
         this.filterOverlay =$(".site-main__content--details__overlay");
-        this.filterClose = $(".exquestion__filter--options__search--found__total, .exquestion__filter--options__search--btn__ok, .exquestion__filter--options__search--btn__cancel");
+        this.filterClose = $(".site-main__content--details__overlay,.exquestion__filter--options__search--found__total, .exquestion__filter--options__search--btn__ok, .exquestion__filter--options__search--btn__cancel");
         this.seleToggler = $(".exquestion__filter--options__search--categsm");
         this.seleCateg = $(".exquestion__filter--options__search--categsm__item");
         this.seleCategIcon = $(".exquestion__filter--options__search--categsm__title");
@@ -28,6 +28,7 @@ class QuestionFilter {
         this.filterToggler.removeClass("icon--rotate");
         this.seleCateg.removeClass("exquestion__filter--options__search--categsm__item--visible");
         this.seleCategIcon.removeClass("icon--rotate");
+        this.filterOverlay.toggleClass("site-main__content--details__overlay--visible");
     }
 
     toggleFilter() {
@@ -37,7 +38,7 @@ class QuestionFilter {
         this.categToggler.removeClass("icon--rotate");
         this.seleCateg.removeClass("exquestion__filter--options__search--categsm__item--visible");
         this.seleCategIcon.removeClass("icon--rotate");
-        // this.filterOverlay.toggleClass("site-main__content--details__overlay--visible");
+        this.filterOverlay.toggleClass("site-main__content--details__overlay--visible");
     }
 
     closeAllFilter() {
@@ -45,7 +46,9 @@ class QuestionFilter {
         this.filterToggler.removeClass("icon--rotate");
         this.seleCateg.removeClass("exquestion__filter--options__search--categsm__item--visible");
         this.seleCategIcon.removeClass("icon--rotate");
-        // this.filterOverlay.removeClass("site-main__content--details__overlay--visible");
+        this.filterOverlay.removeClass("site-main__content--details__overlay--visible");
+        this.categ.removeClass("exquestion__category--item__visible");
+        this.categToggler.removeClass("icon--rotate");
     }
 
     toggleSelecCate() {

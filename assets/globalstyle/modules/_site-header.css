@@ -5,7 +5,7 @@
     width: 100%;
     top: -1px; 
     padding: .625rem 0;
-    z-index: 3; 
+    z-index: 4;  
     box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2); 
     -o-box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2);
     -ms-box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2);

@@ -11,6 +11,7 @@
                 -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
                 -webkit-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
                 -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);   
+                position: relative; 
             }
         }
     }
