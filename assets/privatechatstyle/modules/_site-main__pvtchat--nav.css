@@ -5,6 +5,15 @@
     float: left;
     display: none;
     font-weight: 300;
+    margin-top: 10px;
+    height: 92vh;  
+
+      
+    &--sticky { 
+        top: 70px; 
+        position: sticky;      
+        overflow: hidden;   
+    }
 
     &__tab {
         list-style: none;
@@ -32,6 +41,9 @@
     }
 
     &__content {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
         padding: 5px 10px 0 10px;
         border: 1px solid $mainDarkGray;
         border-top: none;
@@ -100,6 +112,7 @@
     }
 
     @mixin atMedium {
-        display: block;
+        display: flex;
+        flex-direction: column; 
     }
 }

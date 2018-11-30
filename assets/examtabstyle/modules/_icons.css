@@ -1,0 +1,649 @@
+.icon {
+
+    &--rotate {
+        svg {
+            transform: rotate(180deg);
+            transition: all .3s ease-out;
+        }
+    }
+ 
+    &__site-header--search {
+        display: inline;
+        font-size: .875rem;
+        color: $mainLightBlack;
+
+        &:hover {
+            color: $mainPaleBlue;
+        }
+    }
+
+    &__site-header--favorites {
+        position: absolute;
+        font-size: .875rem;
+        top: 25%;
+        transform: translate(-50%);
+        color: $mainLightRed;
+
+        @mixin atSmall{
+            font-size: .875rem;
+            top: 25%;
+        }
+
+        @mixin atMedium{
+            font-size: 1rem;
+            top: 25%;
+        }
+
+        @mixin atLarge{
+            font-size: 1.2rem;;
+            top: 25%;
+        }
+    }
+
+    &__site-header--shares {
+        font-size: .875rem;
+        position: absolute;
+        top: 25%;
+        transform: translate(-50%);
+        color: $mainLightBlue;
+
+        @mixin atSmall{
+            font-size: .875rem;
+            top: 25%;
+        }
+
+        @mixin atMedium{
+            font-size: 1rem;
+            top: 22%;
+        }
+
+        @mixin atLarge{
+            font-size: 1rem;;
+            top: 25%;
+        }
+    }
+
+    &__site-header--addNew {
+        position: absolute;
+        font-size: .875rem;
+        top: 25%;
+        transform: translate(-55%);
+        color: #fff;
+        right: 2px;
+
+        @mixin atSmall {
+            font-size: .875rem;
+            top: 25%;
+        }
+
+        @mixin atMedium {
+            font-size: .875rem;
+            top: 25%;
+        }
+
+        @mixin atLarge{
+            transform: translate(-50%);
+            font-size: .9375rem;
+            top: 25%;
+        }
+    }
+
+    &__site-header--bell {
+        position: absolute;
+        font-size: .875rem;
+        top: 25%;
+        transform: translate(-50%);
+        color: $mainLightBlack;
+
+        @mixin atSmall {
+            font-size: .895rem;
+            top: 25%;
+        }
+
+        @mixin atMedium {
+            font-size: 1rem;
+            top: 22%;
+        }
+        @mixin atLarge{
+            font-size: 1.2rem;
+            top: 25%;
+        }
+    }
+
+    &__site-header--list {
+        position: absolute;
+        font-size: .875rem;
+        top: 25%;
+        transform: translate(-50%);
+        color: $mainLightBlack;
+
+        @mixin atSmall {
+            font-size: .875rem;
+            top: 25%;
+        }
+
+        @mixin atMedium {
+            font-size: 1rem;
+            top: 22%;
+        }
+
+        @mixin atLarge{
+            font-size: 1rem;
+            top: 25%;
+        }
+    }
+
+    &__site-header--login {
+        font-size: .875rem;
+        color: #E4DEDE;
+        display: none;
+
+        @mixin atLarge {
+            margin: 0 .25rem 0 0;
+            display: inline;
+        }
+    }
+
+    &--bars {
+        display: block;
+        font-size: .875rem;
+        @mixin atMedium {
+            display: none;
+        }
+    }
+
+    &--search-mini {
+        font-size: .875rem;
+
+        @mixin atSmall {
+            display: none;
+        }
+    }
+
+    &__site-header--miniForm__close {
+        font-size: .8125rem;
+        color: $mainLightBlack;
+    }
+
+    &__site-header--notification__clock {
+        position: absolute;
+        font-size: .875rem;
+        top: 5px;
+        right: 5px;
+        color: $mainDarkGray;
+        cursor: pointer;
+    }
+
+    &__site-header--notification--circle {
+        font-size: .35rem; 
+        color: $mainDarkGray;
+        margin-left: .125rem;
+    }
+
+    &__site-header--notification__settings {
+        color: $mainDarkBlue;
+        font-size: .5rem;
+        position: absolute;
+        top: 25%;
+        transform: translate(-50%);
+    }
+
+    &__site-header__menu--notification--details__icon {
+        font-size: .8125rem;
+    }
+
+    &__site-header__menu--notification--details__eye {
+        font-size: .75rem;
+    }
+
+    &__site-header__menu--notification--details__heart {
+        font-size: .75rem;
+        cursor: pointer;
+    }
+
+    &__site-header__menu--notification--details__comment {
+        font-size: .75rem;
+        cursor: pointer;
+    }
+
+    &__site-header--notifcation__viewLater {
+        font-size: .8125rem;
+    }
+
+    &__site-header__menu--nav-icon {
+        font-size: .8125rem;
+        color: $mainLightBlack;
+        margin-right: 3px;
+    }
+
+    &__site-header--menu__user--icons {
+        font-size: .8125rem;
+        color: $mainLightBlack;
+        margin-right: 10px;
+
+        @mixin atSmall {
+            font-size: .875rem;
+        }
+    }
+
+    &__view--content__editicon {
+        color: $mainDarkPaleBlue;
+    }
+
+    &__viewall--content__viewerIcon {
+        color: $mainDarkBlue;
+        margin-right: 5px;
+    }
+
+    &__viewall--content__clockIcon {
+        color: $mainDarkBlue;
+    }
+
+    &__viewall--content__shareIcon{
+        color: #fff;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        font-size: .7rem;
+
+        @mixin atMedium {
+            font-size: .8123rem;
+            top: 6px;
+            left: 6px;
+        }
+    }
+
+    &__viewall--content__favIcon {
+        margin-right: 5px;
+        color: rgba($mainLightBlack, .7);
+        position: absolute;
+        font-size: 1rem ;
+        right: -30px ;
+        top: -1.5px;
+
+        @mixin atSmall {
+            right: -30px ;
+            top: -3px;
+            font-size: 1.2rem ;
+        }
+
+        @mixin atMedium {
+            right: -30px ;
+            top: -3px;
+            font-size: 1.2rem ;
+        }
+    }
+
+    &__viewall--content__pencilIcon {
+        margin-right: 5px;
+    }
+
+    &__viewall--content__circleIcon {
+        font-size: .5rem;
+        color: rgba($mainDarkBlue, .5);
+
+        @mixin atMedium {
+            font-size: .625rem;
+            color: rgba($mainDarkBlue, .5);
+        }
+    }
+
+    &__viewall--comments__commentIcon {
+        color: rgba($mainDarkBlack, .5);
+        font-size: 1rem;
+        margin-right: 5px;
+    }
+
+    &__viewall--comments__box-arrowIcon {
+        color: #fff;
+        position: absolute;
+        top: 6px;
+        left: 4px;
+        font-size: .75rem;
+
+        @mixin atExtraSmall {
+            top: 6px;
+            left: 4px;
+            font-size: .75rem;
+        }
+
+        @mixin atSmall {
+            top: 7px;
+            left: 6px;
+            font-size: .75rem;
+        }
+
+        @mixin atMedium {
+            top: 8px;
+            left: 8px;
+            font-size: .8123rem;
+        }
+    }
+
+    &__viewall--comments__box-thumbIcon {
+        color: rgba($mainMediumLightBlack, .8);
+        cursor: pointer;
+        font-size: 1rem;
+
+        @mixin atSmall {
+            font-size: 1.1rem;
+        }
+
+        @mixin atMedium {
+            font-size: 1.2rem;
+        }
+    }
+
+    &__viewall--comments__box--footer__circleIcon {
+        margin-right: 5px;
+        color: rgba($mainDarkBlue, .5);
+        font-size: .5rem;
+
+        @mixin atSmall {
+            font-size: .5rem;
+        }
+
+        @mixin atMedium {
+            font-size: .625rem;
+        }
+    }
+
+    &__viewall__comments--box__reply--headericon {
+        margin: 0 10px;
+        fon-size: .875rem;
+    }
+
+    &__viewall--form__header--penIcon {
+        margin-right: 10px;
+        font-size: 1.1rem;
+    }
+
+    &__viewall--form__field--addIcon {
+        color: $mainLightGreen;
+        margin-right: 5px;
+    }
+
+    &__viewuser--studIcon {
+        color: $mainLightBlue;
+        margin-right: 5px;
+    }
+
+    &__viewuser--storeIcon {
+        color: $mainLightBlue;
+        margin-right: 5px;
+    }
+
+    &__viewuser--mainclose {
+        position: absolute;
+        top: 2.2px;
+        left: 4.85px;
+        font-size: .8125rem;
+        color: rgba($mainLightBlack, .6);
+    }
+
+    &__viewall--comments__box--footer__icon {
+        margin-right: 5px;
+    }
+
+    &__viewall--comments__box--footer__thumbsicon {
+        margin-right: 5px;
+        color: $mainDarkBlue;
+        cursor: pointer;
+    }
+
+    &__viewall--comments__box--footer__eyeicon {
+        margin-right: 5px;
+        position: relative;
+        top: 2px;
+    }
+
+    &__share--facebook {
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        color: $mainLightBlue;
+        float: left;
+    }
+
+    &__share--googleplus {
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        color: $mainDarkRed;
+        float: right;
+    }
+
+    &__share--userCounterIcon {
+        color: rgba($mainLightBlack, .7);
+        margin-right: 3px;
+    }
+
+    &__share--userSelectedIcon {
+        color: #fff;
+        margin-right: 5px;
+    }
+ 
+    &__share--userSelectedCloseIcon {
+        font-size: .6875rem;
+        color: $mainLightBlack;
+        position: absolute;
+        top: 1.6px;
+        left: 4px;
+    }
+
+    &__share--userSelectedCloseMainIcon {
+        position: absolute;
+        top: 2px;
+        left: 4.5px;
+        font-size: .6875rem;
+        color: $mainLightBlack;
+    }
+
+    &__share--content__userCounter-smIcon {
+        margin-right: 5px;
+    }
+
+    &__viewall--exchange__alt {
+        color: #fff;
+        font-size: 1rem;
+        display: none;
+        cursor: pointer;
+
+        @mixin atLarge {
+            display: inline;
+        }
+    }
+
+    &__viewall--nav__clock {
+        font-size: .9375rem;
+        margin-right: 5px;
+    }
+    
+    &__viewall--nav__angleDown {
+        margin-left: 5px;
+    }
+
+    &__viewall--nav__peoplecarry {
+        position: relative;
+        top: 6px;
+        left: 1px;
+    }
+
+    &__viewall--nav__comIcon {
+        margin-right: 10px;
+        color: rgba($mainDarkBlue, .9);
+    }
+
+    &__viewall--nav__groupIcon {
+        margin-right: 10px;
+        color: rgba($mainDarkBlue, .9);
+    }
+
+    &__viewall--nav__userIcon {
+        margin-right: 5px; 
+        color: rgba($mainDarkBlack, .5);
+    }
+
+    &__viewall--nav__coffeeIcon {
+        margin-right: 5px;
+        color: rgba($mainDarkBlack, .5);
+    }
+
+    &__viewall--nav__footer--timedIcon {
+        margin-right: 5px;
+    }
+
+    &__viewall--footer__loadmorewrapper--editicon {
+        margin-right: 5px;
+    }
+
+    &__viewall--footer__loadmorewrapper--deleteicon {
+        margin-right: 5px;
+    }
+
+
+    &__nav--chats__grouplist--angledown {
+        margin: 0  0 0 8px;
+        position: relative;
+        top: 1px;
+        color: $mainFontColor;
+    }
+    
+    &__nav--chats__usericon {
+        position: absolute;
+        z-index: 1;
+        top: 6.5px;
+        left: 6px;
+        color: #fff;
+    }
+
+    &__nav--chats__chatIcon {
+        color: $mainDarkBlue;
+        margin-right: 5px;
+    }
+
+    &__nav--chats__micIcon {
+        position: absolute;
+        top: 20%;
+        left: 10px;
+    }
+
+    &__nav--chats__clipIcon {
+        color: $mainExtraDarkPaleBlue;
+        cursor: pointer;
+    }
+
+    &__nav--chats__smileIcon {
+        color: $mainExtraDarkPaleBlue;
+        cursor: pointer;
+    }
+
+    &__nav--chats__chaticon {
+        position: absolute;
+        top: 25%;
+        transform: translateX(-25%);
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    &__nav--chats__chatimageicon {
+        position: absolute;
+        top: 28%;
+        transform: translateX(-28%);
+        left: 54%;
+        transform: translateX(-54%);
+    }
+
+    &__nav--chats__chatlocationicon {
+        position: absolute;
+        top: 28%;
+        transform: translateX(-28%);
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    &__viewall--box__reply--mainclose {
+        color:rgba($mainDarkBlack, .4) ;
+        font-size: .875rem;
+        position: relative;
+        top: 1px;
+        left: 0px;
+        cursor: pointer;
+
+        @mixin atSmall {
+            left: 1px;
+        }
+    }
+
+    &__viewall--box__reply--headericon {
+        position: relative;
+        top: 9px;
+        color: $mainLightBlue;
+    }
+
+
+    &__viewall--box__reply--headermicicon {
+        position: relative;
+        top: 9px;
+        color: $mainDarkRed;
+    }
+    
+
+    &__viewall--box__reply--replyIcon {
+        margin-right: 10px;
+    }
+
+    &__site-main__nav--chatLog__searchIcon {
+        font-size: .875rem;
+        position: absolute;
+        top: 22%;
+        transform: translateY(-22%);
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    &__chats--log__maincloseIcon {
+        font-size: .75rem;
+        position: absolute;
+        top: 22%;
+        transform: translateY(-22%);
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba($mainLightBlack, .7);
+    }
+
+    &__site-main__nav--chatLog__searchClose {
+        font-size: .75rem;
+        position: absolute;
+        top: 22%;
+        transform: translateY(-22%);
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba($mainLightBlack, .7);
+    }
+
+    &__site-main__nav--chatLog__eyeIcon {
+        font-size: .9375rem;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff;
+        z-index: 2;
+        cursor: pointer;
+    }
+ 
+    &__chats--logs__share--options__Icons {
+        margin:  0 14px 0 12px;
+        position: relative;
+        top: 1px;
+    }
+
+    &__chats--logs__share--options__lastIcons {
+        margin:  0 10px 0 15px;
+        position: relative;
+        top: 2px;
+    }
+    
+}

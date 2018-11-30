@@ -1,6 +1,25 @@
 .site-main__pvtchat--main {
     width: 100%;
     float: none;
+    
+    &__wrapper {
+        background-color: rgba($mainHeaderColor, .4);    
+        box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+        -o-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+        -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+        -webkit-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+        -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);   
+    }
+
+    &__top { 
+        @mixin atLarge {
+            padding-top: 10px;  
+            background-color: #fff;
+            position: sticky; 
+            top: 60px;     
+            z-index: 3;   
+        }
+     }
 
     &__headerwrapper {
         position: relative;
@@ -12,7 +31,7 @@
         font-weight: 300;
         color: #fff;
         text-align: center;
-        padding: 10px 40px;
+        padding: 11px 40px; 
         background-color: $mainMiddleDarkBlue;
         position: relative;
         width: 100%;
@@ -51,7 +70,12 @@
         }
 
         @mixin atSmall {
-            font-size: .9375rem; 
+            font-size: .875rem; 
+        }
+
+        @mixin atMedium {
+            font-size: .9375rem;
+            padding: 15px 35px; 
         }
     }
 

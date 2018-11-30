@@ -5,7 +5,12 @@
     width: 100%;
     top: 0;
     padding: .625rem 0;
-    z-index: 4;
+    z-index: 2; 
+    box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2); 
+    -o-box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2);
+    -ms-box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2);
+    -webkit-box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2);
+    -moz-box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2);
    
     &__logo {
         position: relative;
@@ -35,7 +40,7 @@
             background-color: rgb(255, 255, 255);
             padding: .675rem 0 .675rem .125rem;
             float: left;
-            width: 75%;
+            width: 70%;
             border: none;
             border-radius: 5px;
             border-top-right-radius: 0;
@@ -83,7 +88,7 @@
 
             @mixin atLarge {
                 text-align: center;
-                width: 25%;
+                width: 30%;
             }
 
             &__formExpanded {
@@ -97,10 +102,10 @@
 
         &--expanded{
             width: auto !important;
-            
+              
             @mixin atLarge {
                 display: block !important;
-                width: 550px !important;
+                width: 540px !important;  
                 transition: width .01s ease-out;
             }
         }
@@ -118,7 +123,7 @@
         }
 
         @mixin atLarge {
-            width: 8.5%;
+            width: 6.5%;
             border-radius: 0;
         }
     }
@@ -160,9 +165,9 @@
             padding: 0;
             position: absolute;
             background-color: #fff;
-            top: 36px;
+            top: 36px;   
             width: 130px;
-            left: -78px;
+            left: -84px;      
             border: 1px solid $mainDarkGray;
             opacity: 0;
             /* transform: scale(.9); */
@@ -237,13 +242,9 @@
             }
 
             @mixin atMedium {
-                top: 42px;
-                left: -73px;
-            }
-
-            @mixin atLarge {
-                left: -50px;
-            }
+                top: 43px;    
+                left: -80px;  
+            } 
         }
 
         &--formExpanded {
@@ -253,7 +254,7 @@
 
             @mixin atLarge {
                 opacity: 1;
-                transition: all .2sec ease-out;
+                transition: all .2s ease-out;
                 display: none !important;
             }
         }
@@ -261,29 +262,25 @@
         @mixin atExtraSmall {
             display: block;
             margin-top: .1rem;
-            width: 3.85rem;
+            width: 3.5rem;
         }
 
         @mixin atMiniSmall {
             margin: .1rem .3rem 0 .5rem;
-            width: 3.85rem;
         }
 
         @mixin atSmall {
             /* display: block; */
             margin: .15rem .5rem 0 1.2rem;
-            width: 3.85rem;
         }
 
         @mixin atMedium {
             margin: .35rem .85rem 0 .8rem;
             padding: .6rem 0 .6rem .613rem;
-            width: 3.85rem;
         }
 
         @mixin atLarge{
             margin: .35rem 1.2rem 0 1rem;
-            width: 5.25rem;
         }
 
     }
@@ -1669,4 +1666,3 @@
         }
     }
 }
-

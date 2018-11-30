@@ -436,6 +436,7 @@ img {
 }
 
 .wrapper {
+    /* overflow: hidden; */
     max-width: 1200px;
     margin: 0 auto;
     padding-left: 0px;
@@ -455,14 +456,14 @@ img {
     display: -ms-flexbox;
     display: flex;
     -ms-flex-pack: center;
-        justify-content: center;
+        justify-content: center;/* align-items: center; */
   }
 }
 
 .wrapper__exmain {
-  padding-left: 20px;
-  padding-right: 20px;
-  max-width: 1240px;
+  padding-left: 0px;
+  padding-right: 0px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -470,24 +471,6 @@ img {
   content: "";
   clear: both;
   display: table;
-}
-
-@media (min-width: 530px) {
-
-  .wrapper__exmain {
-    padding-left: 40px;
-    padding-right: 40px;
-    max-width: 1280px;
-  }
-}
-
-@media (min-width: 800px) {
-
-  .wrapper__exmain {
-    padding-left: 10px;
-    padding-right: 10px;
-    max-width: 1220px;
-  }
 }
 
 @media (min-width: 1010px) {
@@ -1518,7 +1501,7 @@ img {
     width: 100%;
     top: 0;
     padding: .625rem 0;
-    z-index: 2;
+    z-index: 4;
 }
 
 .site-header::after {
@@ -3663,6 +3646,27 @@ img {
     float: none;
 }
 
+.site-main__pvtchat--main__wrapper {
+  background-color: rgba(249,249,249, .4);
+  box-shadow: inset 0px 0 2px 0px rgba(119,119,119, .5);
+  -o-box-shadow: inset 0px 0 2px 0px rgba(119,119,119, .5);
+  -ms-box-shadow: inset 0px 0 2px 0px rgba(119,119,119, .5);
+  -webkit-box-shadow: inset 0px 0 2px 0px rgba(119,119,119, .5);
+  -ms-box-shadow: inset 0px 0 2px 0px rgba(119,119,119, .5);
+}
+
+@media (min-width: 1010px) {
+
+  .site-main__pvtchat--main__top {
+    padding-top: 10px;
+    background-color: #fff;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 60px;
+    z-index: 3;
+  }
+}
+
 .site-main__pvtchat--main__headerwrapper {
   position: relative;
 }
@@ -3673,7 +3677,7 @@ img {
   font-weight: 300;
   color: #fff;
   text-align: center;
-  padding: 10px 40px;
+  padding: 11px 40px;
   background-color: #437da3;
   position: relative;
   width: 100%;
@@ -3732,7 +3736,15 @@ img {
 @media (min-width: 530px) {
 
   .site-main__pvtchat--main__header {
+    font-size: .875rem;
+  }
+}
+
+@media (min-width: 800px) {
+
+  .site-main__pvtchat--main__header {
     font-size: .9375rem;
+    padding: 15px 35px;
   }
 }
 
@@ -4546,6 +4558,15 @@ img {
     float: left;
     display: none;
     font-weight: 300;
+    margin-top: 10px;
+    height: 92vh;
+}
+
+.site-main__pvtchat--nav--sticky {
+  top: 70px;
+  position: -webkit-sticky;
+  position: sticky;
+  overflow: hidden;
 }
 
 .site-main__pvtchat--nav__tab {
@@ -4579,6 +4600,12 @@ img {
 }
 
 .site-main__pvtchat--nav__content {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-positive: 1;
+      flex-grow: 1;
   padding: 5px 10px 0 10px;
   border: 1px solid #dcdbdc;
   border-top: none;
@@ -4654,6 +4681,9 @@ img {
 @media (min-width: 800px) {
 
   .site-main__pvtchat--nav {
-    display: block;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+        flex-direction: column;
   }
 }

@@ -50,4 +50,7 @@ router.get('/add/post', (req, res, next) => {
     res.render('formPost'); 
 });
 
+router.get('/examtab', (req, res, next) => {
+    res.render('examtab');
+});
 module.exports = router;
