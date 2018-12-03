@@ -11,7 +11,7 @@
             padding-top: 65px !important;
         }
     }
-
+ 
     &__overlay {
         position: absolute;
         top: 0; 
@@ -30,4 +30,17 @@
         }
     } 
 
+    /* &__content { 
+        
+        &--wrapper {
+            width: 100%;
+            background-color: rgba($mainHeaderColor, .4);    
+            box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+            -o-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+            -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+            -webkit-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+            -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);  
+            position: relative; 
+        }
+    } */
 }
