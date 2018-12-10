@@ -1,20 +1,16 @@
 .viewall {
     position: relative;
     top: 80px;
-
+    background-color: #fff;  
+ 
     &__contentwrapper {
         width: 100%;
+        overflow: hidden; 
     
-        @mixin atMedium {
-            float: left;
-            width: 64%;
-            padding: 0 30px 0 5px;
-        }
-
         @mixin atLarge {
             width: 62%;
             float: left;
-            padding: 0 50px 0 30px;
+            padding: 0 50px 0 0px;
         }
     }
 
@@ -32,14 +28,21 @@
     &__content {
         background-color: #fff;
         position: relative;
+        margin-top: 15px;
+        /* border: 1px solid $mainDarkGray;  */
+ 
+        &--header {
+            /* background-color: $mainHeaderColor;  */
+        }
 
         &--title {
             color: $mainDarkBlack;
             font-weight: 400;
             font-size: 1.1rem;
             margin: 0;
-            padding: 20px 10px;
-
+            padding: 0px 10px 10px 10px;
+            line-height: 1.8;
+ 
             @mixin atExtraSmall {
                 font-size: 1.125rem;
             }
@@ -47,19 +50,11 @@
             @mixin atSmall {
                 font-size: 1.25rem;
             }
-
-            @mixin atMedium {
-                font-size: 1.3rem;;
-            }
-
-            @mixin atMedium {
-                font-size: 1.5rem;
-            }
         }
 
         &--details {
             margin: 0;
-            padding: 0;
+            padding: 0 0 15px 0;
             list-style: none;
             @mixin clearfix;
             color: $mainFontColor;
@@ -67,60 +62,24 @@
             li {
                 font-size: .8125rem;;   
                 text-align: center;
-
-                &:first-child {
-                    float: left;
-                    text-align: left;
-                    width: 190px;
-
-                    @mixin atSmall {
-                        width: 190px;
-                    }
-
-                    @mixin atLarge{
-                        width: 35%;
-                    }
-                }
-                &:last-child {
-                    float: left;
-                    @mixin clearfix;
-                    width: 100px;
-                    text-align: left;
-                    padding: 0;
-
-                    @mixin atMiniSmall {
-                        width: 120px;
-                        text-align: left;
-                        padding: 30px 0 0 10px;
-                        float: none;
-                    }
-
-                    @mixin atSmall {
-                        width: 100px;
-                        padding: 0;
-                        float: left;
-                    }
-                    @mixin atMedium {
-                        width: 120px;
-                    }
-                    @mixin atLarge {
-                        width: 35%;
-                        padding: 0 0 0 30px;
-                    }
-                }
-
-                @mixin atSmall {
-                    font-size: .8125rem;
+                float: left;
+                margin-right: 15px;
+               
+                @mixin atMiniSmall {
+                    margin-right: 30px;
                 }
 
                 @mixin atMedium {
                     font-size: .875rem;
                 }
+
+                &:last-child {
+                    margin: 0 0 0 30px;
+                }
             }
 
             &__title {
-                margin-right: 5px;
-                padding: 0 10px;
+                padding-left: 10px;
             }
 
             &__time {
@@ -128,31 +87,15 @@
             }
 
             &__middleItem {
-                width: 120px;
                 text-align: left;
-                padding: 30px 0 0 10px;
-                float: none;
 
-                @mixin atMiniSmall {
-                    width: 120px;
-                    float: left;
-                    padding: 0;
-                }
-
-                @mixin atSmall {
-                    width: 120px;
-                }
-                @mixin atMedium {
-                    width: 140px;
-                }
                 @mixin atLarge {
-                    width: 30%;
+                    /* width: 30%; */
                     padding: 0 0 0 40px;
                 }
             }
 
             &__soln {
-                float: left;
                 margin: 0;
                 width: 100%;
                 position: relative;
@@ -183,7 +126,6 @@
                 width: 24px;
                 height: 24px;
                 border-radius: 12px;
-                top: -5px;
                 background-color: $mainLightRed;
                 padding: 0;
                 margin: 0 0 0 10px;
@@ -192,7 +134,8 @@
                 -ms-box-shadow: 0px 2px 1px rgba($mainDarkBlack, .4);
                 -webkit-box-shadow: 0px 2px 1px rgba($mainDarkBlack, .4);
                 -moz-box-shadow: 0px 2px 1px rgba($mainDarkBlack, .4);
-                right: 28px;
+                top: -5px;
+                right: -24px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -210,7 +153,7 @@
                     height: 24px;
                     border-radius: 12px;
                     top: -5px;
-                    right: 36px;
+                    right: -24px;
                 }
 
                 @mixin atSmall {
@@ -218,7 +161,7 @@
                     height: 26px;
                     border-radius: 13px;
                     top: -6.5px;
-                    right: 34px;
+                    right: -30px;
                 }
 
                 @mixin atMedium {
@@ -226,13 +169,12 @@
                     height: 26px;
                     border-radius: 13px;
                     top: -6.5px;
-                    right: 40px;
+                    right: -30px;
                 }
 
                 @mixin atLarge {
-                    float: left;
                     position: relative;
-                    right: auto;
+                    right: -5px;
                 }
             }
 
@@ -241,12 +183,16 @@
                 color: $mainDarkBlue;
                 font-weight: 500;
             }
+
+            @mixin atLarge {
+                padding: 0;
+            }
         }
 
         &--view {
             line-height: 2;
-            margin: 10px 0 15px 0;
-            padding: 5px 10px;
+            margin: 0 0 15px 0;
+            padding: 15px 10px 15px 10px;
             border-top: 1px solid $mainDarkGray;
             font-size: .9375rem;
             color: $mainFontColor;
@@ -407,6 +353,7 @@
             list-style: none;
             @mixin clearfix;
             color: $mainFontColor;
+            /* border-bottom: none; */
 
             li {
                 float: left;
@@ -498,19 +445,30 @@
                 width: 40% !important;
                 background-color: $mainDarkPaleBlue;
                 color: #fff;
-                font-size: .5rem !important;
+                position: relative;
+                height: 26px; 
+                
 
                 a {
                     text-decoration: none;
                     cursor: pointer;
                     color: #fff;
                     font-size: .75rem !important;
+                    padding: 10px 0px; 
+                    background-color: $mainDarkPaleBlue;
+                    position: absolute; 
+                    left: 0;
+                    right: 0;
+                    top: 0;
+                    bottom: 0;
 
                     @mixin atMiniSmall {
                         font-size: .8125rem !important;
+                        padding: 5px 0px; 
                     }
 
                     @mixin atMedium {
+                        padding: 10px 0px; 
                         font-size: .875rem;
                     }
                 }
@@ -522,6 +480,11 @@
 
                 @mixin atSmall {
                     width: 33.33%;
+                    height: 28px; 
+                }
+
+                @mixin atMedium {
+                    height: 34px; 
                 }
             }
 
@@ -685,7 +648,10 @@
 
     &__comments {
         width: 100%;
-
+        margin-top: 40px;
+        /* border: 1px solid $mainDarkGray;  */
+        background-color: rgba($mainHeaderColor, 1);
+        
         &--wrapper {
             position: relative;
             margin: 0 10px;
@@ -693,10 +659,10 @@
 
         &--header {
             font-size: .8125rem;
-            margin: 40px 0 20px 0;
+            margin: 0 0 20px 0;
             background-color: $mainDarkPaleBlue;
             color: #fff;
-            padding: 10px 0;
+            padding: 10px 0; 
 
             &__ans {
                 text-align: center;
@@ -1487,14 +1453,14 @@
     }
 
     &__tips {
-        box-shadow: 0 2px 9px 2px rgba($mainDarkGray, .6);
-        -o-box-shadow: 0 2px 9px 2px rgba($mainDarkGray, .6);
+        box-shadow: 0 0 2px 0px rgba($mainDarkBlack, .5);
+        /* -o-box-shadow: 0 2px 9px 2px rgba($mainDarkGray, .8);
         -ms-box-shadow: 0 2px 9px 2px rgba($mainDarkGray, .6);
         -webkit-box-shadow: 0 2px 9px 2px rgba($mainDarkGray, .6);
-        -moz-box-shadow: 0 2px 9px 2px rgba($mainDarkGray, .6);
+        -moz-box-shadow: 0 2px 9px 2px rgba($mainDarkGray, .6); */
         width: 100%;
-        padding: 0 10px;
-        border-radius: 3px;
+        padding: 0 0;
+        /* border-radius: 3px; */
         color: $mainFontColor;
         margin: 40px 0;
 
@@ -1506,6 +1472,7 @@
             font-weight: 500;
             font-size: .9375rem;
             color: $mainDarkBlue;
+            background-color: $mainHeaderColor; 
         }
 
         &--subtitle {
@@ -1573,6 +1540,7 @@
     &__form {
         width: 100%;
         border-radius: 5px;
+        margin-top: 40px; 
 
         &--header {
             text-align: center;
@@ -1622,15 +1590,21 @@
 
     &__nav {
         margin-top: 15px;
+        height: 90vh; 
+        position: sticky;
+        top: 70px;
+        overflow: hidden;
+        display: none; 
 
         &--wrapper {
             border: none;
             border-top: none;
             margin: 0;
-            /* padding: 0; */
-
-            /* border: 1px solid $mainDarkGray;
-            padding: 10px 0 0 0; */
+            display: flex;
+            flex-grow: 1;
+            flex-direction: column;
+            overflow: hidden;
+            overflow-y: auto; 
 
             @mixin atLarge {
                 border: 1px solid $mainDarkGray;
@@ -1644,12 +1618,7 @@
             text-align: right;
             border: none;
             margin: 0;
-
-            /* padding: 10px 20px 10px 0;
-            border: 1px solid $mainMiddleDarkBlue;
-            background-color: $mainMiddleDarkBlue; */
             
-
             @mixin atLarge {
                 padding: 10px 20px 10px 0;
                 border: 1px solid $mainMiddleDarkBlue;
@@ -1926,121 +1895,6 @@
             }
         }
 
-        &--community {
-            color: $mainFontColor;
-            margin: 0 10px;
-            margin-top: 20px;
-
-            &--header {
-                font-size: .875rem;
-                text-align: center;
-                background-color: rgba($mainLightGray, .4);
-                position: relative;
-                width: 100%;
-                border: 1px solid $mainLightGray;
-                @mixin clearfix;
-
-                &__iconholderwrapper {
-                    position: relative;
-                    width: 32%;
-                    float: left;
-                    padding: 10px 0;
-
-                    @mixin atExtraSmall {
-                        width: 35%; 
-                    }
-                }
-
-                &__iconholder {
-                    width: 28px;
-                    height: 28px;
-                    border-radius: 14px;
-                    border: 0.1px solid $mainDarkGray;
-                    background-color: #fff;
-                    font-size: .8125rem;
-                    position: absolute;
-                    right: 20px;
-                    top: 5px;
-                }
-
-                &__addcom {
-                    float: left;
-                    width: 68%;
-                    padding: 10px 0;
-                    text-align: left;
-
-                    & > span {
-                        color: #fff;
-                        background-color: $mainLightBlue;
-                        border-radius: 3px;
-                        padding: 4px 10px;
-                        font-size: .8125rem;
-                        margin-left: 20px;
-                        box-shadow: 0 1px 1px 1px rgba($mainDarkBlue, .4);
-                        -o-box-shadow: 0 1px 1px 1px rgba($mainDarkBlue, .4);
-                        -ms-box-shadow: 0 1px 1px 1px rgba($mainDarkBlue, .4);
-                        -webkit-box-shadow: 0 1px 1px 1px rgba($mainDarkBlue, .4);
-                        -moz-box-shadow: 0 1px 1px 1px rgba($mainDarkBlue, .4);
-                        cursor: pointer;
-                    }
-
-                    @mixin atExtraSmall {
-                        width: 65%; 
-                    }
-                }
-
-
-                @mixin atMedium {
-                    font-size: .9375rem;
-                }
-            }
-
-            &__list {
-                list-style: none;
-                margin: 0;
-                padding: 10px 0 0 0;
-                width: 100%;
-                border: 1px solid $mainLightGray;
-                border-top: none;
-
-                li {
-                    float: none;
-             
-                    ul {
-                        list-style: none;
-                        margin: 0;
-                        padding: 0;
-                        @mixin clearfix;
-                        width: 100%;
-                        font-size: .875rem;
-                        
-                        li {
-                            float: left;
-                            width: 50%;
-                            padding: 10px 0 10px 30px;
-                            
-                            &:first-child {
-                                text-align: left;
-                            }
-
-                            &:last-child {
-                                text-align: right;
-                                padding-right: 30px;
-                            }
-                        }
-                    }
-                }
-            }
-            &__viewmore {
-                text-align: center;
-                padding: 10px 0;
-                background-color: $mainDarkBlue;
-                color: #fff;
-                font-size: .875rem;
-                cursor: pointer;
-            }
-        }
-
         &--footer {
             margin: 20px 10px 20px 10px;
             padding: 0;
@@ -2210,18 +2064,15 @@
             }
         }
 
-        @mixin atMedium {
-            float: left;
-            width: 36%;
-        }
 
         @mixin atLarge {
             width: 35%;
             float: left;
-            display: block;
+            display: flex;
+            flex-direction: column; 
         }
 
-    }
+    } 
 
     @mixin atSmall {
         top: 80px;
