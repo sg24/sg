@@ -53,4 +53,9 @@ router.get('/add/post', (req, res, next) => {
 router.get('/examtab', (req, res, next) => {
     res.render('examtab');
 });
+
+router.get('/users', (req, res, next) => {
+    res.render('users');
+});
+
 module.exports = router;

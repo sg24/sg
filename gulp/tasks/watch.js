@@ -75,6 +75,10 @@ gulp.task('watch', function() {
         gulp.start('examtabcss')
     });
 
+    watch('./assets/userstyle/**/*.css', function() {
+        gulp.start('usercss')
+    });
+
     // watch('./apps.js', function() {
     //     gulp.start('scriptsRefresh');
     // });
@@ -149,6 +153,11 @@ gulp.task('postformcss',['postformstyles'], function() {
 
 gulp.task('examtabcss',['examtabstyle'], function() {
     return gulp.src("./assets/examtabstyle/examtab.css")
+    .pipe(browserSyc.stream());
+}); 
+
+gulp.task('usercss',['userstyle'], function() {
+    return gulp.src("./assets/userstyle/users.css")
     .pipe(browserSyc.stream());
 }); 
 

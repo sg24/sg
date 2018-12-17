@@ -1,0 +1,48 @@
+.site-main__user{
+
+    &--main {
+        width: 100%;
+        float: none; 
+
+        &__wrapper {
+            background-color: rgba($mainHeaderColor, .4);    
+            box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+            -o-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+            -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+            -webkit-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+            -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);   
+        }
+
+        @mixin atExtraSmall {
+            width: 100%;
+            position: relative;
+        }
+    
+        @mixin atSmall {
+            width: 100%;
+            padding-right: 0px;
+            float: left;
+        }
+    
+        @mixin atLarge {
+            width: 65%;
+            padding-right: 40px;
+        }
+    }
+    
+ 
+    &--top { 
+        @mixin atLarge {
+            padding-top: 10px;  
+            background-color: #fff;
+            position: sticky; 
+            top: 60px;     
+            z-index: 1;   
+        }
+     }
+
+    &--header {
+       
+    }
+   
+}
