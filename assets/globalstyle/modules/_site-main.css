@@ -39,7 +39,7 @@
         }
 
         @mixin atLarge {
-            width: 60%;
+            width: 65%;
             float: left;
             padding-right: 40px;
             left: 0;

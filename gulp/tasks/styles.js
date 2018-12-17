@@ -121,8 +121,8 @@ gulp.task('groupchatstyles', function() {
     .pipe(gulp.dest('./public/stylesheets'));
 });
 
-gulp.task('privatechatstyles', function() {
-    return gulp.src('./assets/privatechatstyle/privatechat.css')
+gulp.task('convstyles', function() {
+    return gulp.src('./assets/convstyle/conv.css')
     .pipe(postcss([cssImport, mixins, cssvars, nested, 
                     hexrgba, autoprefixer]))
     .on('error', function(errorInfo) {

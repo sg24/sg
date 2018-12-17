@@ -226,96 +226,36 @@
         }
     }
  
-    &__site-main--pvtchat__main--calend {
-        position: relative;
-        top: 45%;
-        transform: translateY(-45%);
+    &__site-main--conv__header--comment {
+       position: absolute;
+       top: 15%;
+       transform: translateY(-15%);
+       left: 50%;
+       transform: translateX(-50%); 
     }
 
-    &__site-main--pvtchat__main--search {
-        position: relative;
-        top: 45%;
-        transform: translateY(-45%);
+    &__site-main--conv__header--search {
+        cursor: pointer; 
     }
 
-    &__site-main--pvtchat__main--notify {
-        color: rgba($mainDarkBlack, .45);
-        font-size: .75rem;
-        position: relative;
-        top: 0px;
-    }
-
-    &__site-main--pvtchat__main--options__icon {
+    &__site-main--conv__filter {
         margin-right: 5px;
     }
 
-    &__site-main--pvtchat__main--footer__icon {
-        margin-right: 8px;
-    }
-
-    &__site-main--pvtchat__nav--users {
-        margin-right: 8px;
-        color: rgba($mainDarkBlue, .8);
-    }
-
-    &__site-main--pvtchat__nav--user {
-        margin-right: 8px;
-        color: rgba($mainDarkBlue, .8);
-    }
-
-    &__site-main--pvtchat__main--msg {
-        margin:0 5px;
-        white-space: nowrap;
-    }
-
-    &__site-main--pvtvhat__main--recieve {
-        margin-right: 5px;
-        font-size: .75rem;
-        transform: rotate(-189deg);
-        position: relative;
-        top: -2px;
-    }
-
-    &__site-main--pvtvhat__main--sent {
+    &__site-main--conv__tab--icn {
         margin-right: 5px;
     }
 
-    &__site-main--pvtchat__searchchat--statuson {
-        font-size: .5rem; 
+    &__site-main--conv__det {
         margin-right: 5px;
-        color: $mainLightGreen;
-        position: relative;
-        top: -1px;
     }
 
-    &__site-main--pvtchat__searchchat--statusoff {
-        font-size: .5rem; 
-        margin-right: 5px;
+    &__site-main--conv__det--del {
         color: $mainLightRed;
-        position: relative;
-        top: -1px;
     }
 
-    &__site-main--pvtchat__searchuser--chaticon {
-        font-size: .875rem;
-        position: absolute;
-        top: 15%;
-        transform: translateY(-15%);
-        left: 50%;
-        transform: translateX(-50%);
-        color: #fff;
+    &__site-main--conv__det--bk {
+        margin-right: 5px;
+        color: rgba($mainDarkBlack, .5); 
     }
-
-    &__site-main--pvtchat__searchuser--eyeicon {
-        font-size: .875rem;
-        position: absolute;
-        top: 60%;
-        transform: translateY(-60%);
-        left: 50%;
-        transform: translateX(-50%);
-        color: #fff;
-        z-index: 2;
-        cursor: pointer;
-    }
-
 }

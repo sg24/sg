@@ -39,7 +39,7 @@ router.get('/community', (req, res, next) => {
 });
 
 router.get('/privatechat', (req, res, next) => {
-    res.render('privatechat');
+    res.render('conv');
 });
 
 router.get('/add/question', (req, res, next) => {

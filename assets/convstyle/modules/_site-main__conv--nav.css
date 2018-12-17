@@ -1,18 +1,18 @@
-.site-main__pvtchat--nav {
-    width: 40%;
-    /* border: 1px solid $mainDarkGray; */
+.site-main__conv--nav {
+    width: 35%;
+    border: 1px solid $mainDarkGray;
     color: #fff;
     float: left;
     display: none;
     font-weight: 300;
     margin-top: 10px;
-    height: 92vh;  
+    height: 92vh;   
 
       
     &--sticky { 
         top: 70px; 
         position: sticky;      
-        overflow: hidden;   
+        overflow: hidden;    
     }
 
     &__tab {
@@ -111,7 +111,7 @@
         border: 1px solid $mainMiddleDarkBlue;
     }
 
-    @mixin atMedium {
+    @mixin atLarge {
         display: flex;
         flex-direction: column; 
     }

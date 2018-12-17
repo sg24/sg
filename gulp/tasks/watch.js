@@ -59,8 +59,8 @@ gulp.task('watch', function() {
         gulp.start('groupchatcss')
     });
 
-    watch('./assets/privatechatstyle/**/*.css', function() {
-        gulp.start('privatechatcss')
+    watch('./assets/convstyle/**/*.css', function() {
+        gulp.start('convcss')
     });
 
     watch('./assets/formquestyle/**/*.css', function() {
@@ -132,8 +132,8 @@ gulp.task('groupchatcss',['groupchatstyles'], function() {
     .pipe(browserSyc.stream());
 });
 
-gulp.task('privatechatcss',['privatechatstyles'], function() {
-    return gulp.src("./assets/privatechatstyle/privatechat.css")
+gulp.task('convcss',['convstyles'], function() {
+    return gulp.src("./assets/convstyle/conv.css")
     .pipe(browserSyc.stream());
 });
 

@@ -1,0 +1,601 @@
+.site-main__conv{
+
+    &--main {
+        width: 100%;
+        float: none; 
+
+        &__wrapper {
+            background-color: rgba($mainHeaderColor, .4);    
+            box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+            -o-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+            -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+            -webkit-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+            -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);   
+        }
+
+        @mixin atExtraSmall {
+            width: 100%;
+            position: relative;
+        }
+    
+        @mixin atSmall {
+            width: 100%;
+            padding-right: 0px;
+            float: left;
+        }
+    
+        @mixin atLarge {
+            width: 65%;
+            padding-right: 40px;
+        }
+    }
+    
+ 
+    &--top { 
+        @mixin atLarge {
+            padding-top: 10px;  
+            background-color: #fff;
+            position: sticky; 
+            top: 60px;     
+            z-index: 1;   
+        }
+     }
+
+    &--header {
+        background-color: $mainMiddleDarkBlue;
+        font-size: .875rem;
+        font-weight: 300;
+        position: relative; 
+        z-index: 2;   
+        padding: 8px 35px;
+        color: #fff; 
+        box-shadow: 0 1px 2px 0px rgba($mainDarkBlack, .4);
+
+
+        &__wrapper {
+            /* width: 60%; */
+            margin: 0 auto; 
+            position: relative;
+            padding: 0 0 0 40px;
+            width: 160px;
+
+            & > div {
+                position: absolute;
+                width: 22px;
+                height: 22px;
+                border-radius: 11px;
+                background-color: #fff;
+                color: $mainFontColor; 
+                top: 50%;
+                transform: translateY(-50%);
+                left: 0;
+            }
+        }
+
+        &__search {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 40px;
+            height: 26px;
+            width: 26px;
+            border-radius: 13px;
+            background-color: $mainDarkPaleBlue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        &--sticky {
+            position: sticky;
+            top: 52px;         
+            z-index: 3;  
+            box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
+            -o-box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
+            -ms-box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
+            -webkit-box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
+            -moz-box-shadow: 0 2px 2px rgba($mainDarkBlack, .2);  
+            
+            @mixin atMedium {
+                position: sticky; 
+                top: 61px;    
+            }
+
+            @mixin atLarge {
+                top: 70px;     
+            }
+        }
+
+        @mixin atSmall {
+            font-size: .875rem; 
+        }
+
+        @mixin atMedium {
+            padding: 8px 35px;
+            font-size: .9375rem;
+        }
+    }
+
+    &--filter {
+        list-style: none;
+        padding: 0 15px 15px 15px;
+        margin: 10px 0 0 0;
+        @mixin clearfix;
+        font-size: .9375rem; 
+        /* border-bottom: 1px solid $mainDarkGray;  */
+
+        & > li {
+            float: right; 
+            padding: 7px 15px;
+            border-radius: 3px;
+
+            &:first-child {
+                float: left; 
+            }
+        }
+
+        &__sort {
+            border: 1px solid rgba($mainDarkPaleBlue, .2);
+            border-top: 3px solid $mainDarkPaleBlue;
+            color: $mainFontColor;
+            margin: 0;
+            position: relative;
+            text-align: center;
+            border-radius: 3px;
+            font-size: .8125rem;
+            background-color: rgb(255, 255, 255);
+            cursor: pointer;
+            margin-right: 10px;
+
+            &--opt {
+                position: absolute;
+                z-index: 2;
+                background-color: rgb(255, 255, 255);
+                padding: 0px ;
+                font-size: .875rem; 
+                border: 1px solid $mainDarkGray; 
+                border-bottom: none; 
+                top: 100%;
+                left: -10px;
+                opacity: 0;
+                visibility: hidden;
+                transition: all .3s ease-in;
+
+                & > div {
+                    padding: 5px 35px;
+                    border-bottom: 1px solid rgba($mainDarkBlack, .2); 
+
+                    &:hover {
+                        background-color: $mainLightGray; 
+                    }
+                }
+
+                &__visible {
+                    opacity: 1;
+                    visibility: visible;
+                    transition: all .3s ease-in;
+                }
+            }
+        }
+
+        &__del {
+            border: 1px solid rgba($mainLightRed, .2);
+            border-top: 3px solid $mainLightRed;
+            margin: 0;
+            position: relative;
+            text-align: center;
+            border-radius: 3px;
+            font-size: .8125rem;
+            background-color: $mainLightRed;
+            color: #fff;
+            cursor: pointer;
+            margin-right: 10px; 
+            box-shadow: 0 2px 2px 0 rgba($mainDarkBlack, .6); 
+        }
+
+        &__new {
+            border: 1px solid rgba($mainLightBlue,  .2);
+            border-top: 3px solid $mainLightBlue;
+            margin: 0;
+            position: relative;
+            text-align: center;
+            border-radius: 3px;
+            font-size: .8125rem;
+            background-color: $mainLightBlue;
+            color: #fff;
+            cursor: pointer;
+            margin-left: 10px; 
+            box-shadow: 0 2px 2px 0 rgba($mainDarkBlack, .6)
+        }
+
+        @mixin atSmall {
+            padding: 0 20px 15px 20px;
+        }
+    }
+
+    &--tab {
+        position: relative;
+
+        &__overlay {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba($mainDarkBlack, .6);  
+            z-index: 1;
+            opacity: 0;
+            visibility: hidden;
+            transition: all .3s ease-in;
+
+            &--visible {
+                opacity: 1;
+                visibility: visible;
+                transition: all .3s ease-in;
+            }
+        }
+
+        &__header {
+            list-style: none;
+            padding: 0;
+            margin:  0 0 0;
+            @mixin clearfix;
+            width: 100%;
+            background-color: rgba($mainMiddleDarkBlue, 1);
+            z-index: 1;
+            position: relative;
+
+            & > li {
+                float: left;
+                padding: 7px 40px;
+                font-size: .875rem; 
+                cursor: pointer;
+                color: #fff; 
+                position: relative;
+
+                &:first-child {
+                    border-right: 1px solid rgba($mainLightGray, 1); 
+                }
+
+                &:hover {
+                    background-color: rgba($mainDarkBlack, .45); 
+                    color: #fff; 
+                }
+
+                & > div {
+                    width: 22px;
+                    height: 22px;
+                    border-radius: 11px;
+                    background-color: $mainLightRed; 
+                    position: absolute;
+                    font-size: .8125rem;
+                    color: #fff;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center; 
+                    border: 1px solid rgba($mainLightGray, .51); 
+                    right: 10px;
+                    /* top: 12px;  */
+                    z-index: 2; 
+                }
+
+                @mixin atSmall {
+                    font-size: .875rem; 
+                }
+        
+                @mixin atMedium {
+                    padding: 7px 40px;
+                    font-size: .875rem;
+                }
+            }
+        }
+
+        &__srch {
+            background-color: #fff;
+            width: 100%;
+            padding: 15px; 
+            position: absolute;
+            top: -30px;
+            box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+            -o-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+            -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+            -webkit-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+            -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);   
+            opacity: 0;
+            visibility: hidden;
+            transition: all .3s ease-in;
+
+            &--wrapper {
+                background-color: #fff;
+                width: 80%; 
+                font-size: .875rem;
+                margin: 0 auto; 
+                position: relative;
+                border: 1px solid rgba($mainDarkGray, 1);
+                border-radius: 5px; 
+                box-shadow: 0 1px 1px 0 rgba($mainDarkBlack, .8);
+
+                & > div {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    background-color: $mainLightGray;
+                    color: $mainDarkBlue;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 0 15px;
+                    cursor: pointer;
+                    border-top-left-radius: 5px;
+                    border-bottom-left-radius: 5px;
+                    border-right: 1px solid $mainDarkGray;
+                }
+
+                @mixin atSmall {
+                    width: 70%;
+                }
+            }
+
+            &--close {
+                position: absolute;
+                right: 25px;
+                width: 20px;
+                height: 20px;
+                border-radius: 10px;
+                background-color: $mainLightGray;
+                color: $mainLightRed;
+                font-size: .75rem;
+                display: flex;
+                justify-content: center;
+                align-items: center; 
+                cursor: pointer;
+                top: 5px;
+
+                @mixin atSmall {
+                    right: 45px;
+                }
+            }
+
+            &--field {
+                width: 100%;  
+                padding: 6px 10px 6px 50px;
+                border: none;
+                outline: none;
+                border-radius: 5px;
+            }
+
+            &--visible {
+                opacity: 1;
+                top: 30px;
+                visibility: visible;
+                transition: all .3s ease-in;
+            }
+
+            @mixin atSmall {
+                padding: 15px 10px;
+            }
+        }
+
+        &__content {
+            padding-bottom: 60px;
+
+            &--wrapper {
+                border-radius: 2px;
+                background-color: #fff;
+                border: 1px solid $mainDarkGray; 
+                /* box-shadow: 0px 2px 9px 2px rgba($mainDarkBlack, .3);
+                -o-box-shadow: 0px 2px 9px 2px rgba($mainDarkBlack, .3);
+                -webkit-box-shadow: 0px 2px 9px 2px rgba($mainDarkBlack, .3);
+                -moz-box-shadow: 0px 2px 9px 2px rgba($mainDarkBlack, .3);
+                -ms-box-shadow: 0px 2px 9px 2px rgba($mainDarkBlack, .3); */
+                margin: 20px 15px;  
+                position: relative;
+                padding: 10px 20px;
+
+                @mixin atSmall { 
+                    margin: 20px 20px 0px 20px;
+                }
+            }
+
+            &--opt {
+                cursor: pointer;
+                width: 12px;
+                height: 36px;
+                /* border-radius: 18px; */
+                position: absolute;
+                right: 0px;
+                top: 0; 
+                /* background-color: $mainLightGray;  */
+
+                &::before {
+                    position: absolute;
+                    width: 5px;
+                    height: 5px;
+                    border-radius: 2.5px;
+                    background-color: rgba($mainDarkBlack, .5);
+                    content: "";
+                    top: 4px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+
+                &__mid {
+                    position: absolute;
+                    width: 5px;
+                    height: 5px;
+                    border-radius: 2.5px;
+                    background-color: rgba($mainDarkBlack, .5);
+                    right: 5px;
+                    content: "";
+                    top: 14px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+
+                &__det {
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+                    @mixin clearfix;
+                    background-color: #fff;
+                    border: 1px solid $mainDarkGray;
+                    font-size: .875rem;
+                    position: absolute;
+                    right: 20px;
+                    z-index: 2;
+                    top: 4px;
+                    box-shadow: 0 0 2px 0px rgba($mainDarkGray, .5); 
+                    opacity: 0;
+                    visibility: hidden;
+        
+                     & > li {
+                        float: left;
+                        width: 90px; 
+                        text-align: center; 
+                        padding: 6px 0;
+                        cursor: pointer;
+
+                        &:first-child {
+                            border-bottom: 1px solid rgba($mainDarkBlack, .2); 
+                        }
+
+                        &:hover {
+                            background-color: $mainLightGray;
+                        }
+                     }
+
+                     &::before {
+                         border-color: transparent;
+                         content: "";
+                         position: absolute;
+                         top: 3px;
+                         right: -22.5px;
+                         border-width: 11px;
+                         border-bottom-color: $mainDarkGray;
+                         border-style: solid; 
+                         transform: rotate(90deg); 
+                         pointer-events: none;
+                     }
+
+                     &::after {
+                         border-color: transparent;
+                         content: "";
+                         position: absolute;
+                         top: 6px;
+                         right: -16px;
+                         border-width: 8px;
+                         pointer-events: none;
+                         border-bottom-color: #fff;
+                         border-style: solid;
+                         transform: rotate(90deg); 
+                     }
+
+                     &--visible {
+                        opacity: 1;
+                        visibility: visible;
+                        transition: all .3s ease-in;
+                    }
+                }
+
+                &::after {
+                    position: absolute;
+                    width: 5px;
+                    height: 5px;
+                    border-radius: 2.5px; 
+                    background-color: rgba($mainDarkBlack, .5);
+                    right: 5px;
+                    content: "";
+                    top: 24px;
+                    left: 50%;
+                    transform: translateX(-50%); 
+                }
+
+                &:hover { 
+                    background-color: $mainLightGray; 
+                    /* box-shadow: 0 0 2px 0 rgba($mainDarkBlack, .5);  */
+                    transition: all .3s ease-in; 
+                }
+            }
+
+            &--img {
+                position: absolute;
+                width: 50px;
+                height: 50px;
+                background-color: $mainExtraLightGray;
+                border-radius: 25px;
+                top: 50%;
+                transform: translateY(-50%); 
+
+                &__status {
+                    position: absolute;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 5px;
+                    bottom: 5px;
+                    right: 10px;
+                    border: 1px solid rgba($mainDarkBlack, .5); 
+                    
+                    &--on {
+                        background-color: $mainLightGreen;
+                    } 
+
+                    &--off {
+                        background-color: $mainLightRed;
+                    }
+                }
+            }
+
+            &--det {
+                padding: 0 0 0 80px;
+                position: relative;
+
+                &__tm {
+                    display: none; 
+                }
+
+                &__name {
+                    font-size: .9375rem;
+                    color: $mainDarkBlue;
+                    padding: 0 0 10px 0;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+
+                    & > span {
+                        font-size: .8125rem;  
+                        color: rgba($mainDarkBlack, .4); 
+                    }
+                }
+
+                &__msg {
+                    font-size: .9375rem;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    width: 100%; 
+                    padding-right: 20px;
+                }
+
+                &__notify {
+                    position: absolute;
+                    right: 0;
+                    width: 22px;
+                    height: 22px;
+                    background-color: $mainLightRed;
+                    font-size: .875rem;
+                    color: #fff;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 11px;
+                    top: 50%;
+                }
+            }
+        }
+    }
+   
+}

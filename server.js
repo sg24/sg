@@ -23,7 +23,7 @@ hbs.registerPartials(__dirname + '/views/partialsonlineque');
 hbs.registerPartials(__dirname + '/views/partialsquestion');
 hbs.registerPartials(__dirname + '/views/partialsglobal');
 hbs.registerPartials(__dirname + '/views/partialsgroupchat');
-hbs.registerPartials(__dirname + '/views/partialsprivatechat');
+hbs.registerPartials(__dirname + '/views/partialsconv');
 hbs.registerPartials(__dirname + '/views/partialsFormQue');
 hbs.registerPartials(__dirname + '/views/partialsFormPost');
 hbs.registerPartials(__dirname + '/views/partialsexam');

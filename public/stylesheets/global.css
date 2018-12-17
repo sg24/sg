@@ -3119,7 +3119,7 @@ img {
 }
 @media (min-width: 1010px){
   .site-main__content{
-    width: 60%;
+    width: 65%;
     float: left;
     padding-right: 40px;
     left: 0;
@@ -3643,7 +3643,7 @@ img {
   transition: all .3s ease-out;
 }
 .site-main__nav {
-        width: 40%;
+        width: 35%;
         border: 1px solid #dcdbdc;
         color: #fff;
         float: left;

@@ -9,5 +9,5 @@
 @import "modules/_nav";
 @import "modules/_site-header";
 @import "modules/_site-main";
-@import "modules/_site-main__pvtchat--main"; 
-@import "modules/_site-main__pvtchat--nav";
+@import "modules/_site-main__conv"; 
+@import "modules/_site-main__conv--nav"; 
