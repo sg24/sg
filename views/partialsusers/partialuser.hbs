@@ -2,9 +2,34 @@
     <div class="site-main__user--main">
         <div class="site-main__user--main__wrapper">
             <div class="site-main__user--top"></div>
-            <div class="site-main__user--header">
+            <ul class="site-main__user--tab">
+                <li><i class="fas fa-users icon icon__site-main--user__tab"></i> Users</li>
+                <li>
+                    <i class="fas fa-user-friends icon icon__site-main--user__tab"></i> Request 
+                    <div class="active__main active__main--req">
+                        <div>99</div>
+                    </div> 
+                </li>
+            </ul>
+            <ul class="site-main__user--filter">
+                <li class="site-main__user--filter">Filter <i class="fas fa-angle-down icon icon__site-main--user__filter"></i></li>
+                <li class="site-main__user--filter__fnd"> Friends <div>22</div></li>
+                <li class="site-main__user--filter__srch"><i class="fas fa-search"></i></li>
+            </ul>
+            <div class="site-main__user--content">
+                <div class="site-main__user--content__wrapper">
+                    <div class="site-main__user--content__img"></div>
+                    <ul class="site-main__user--content__det">
+                        <li class="site-main__user--content__det--name">User User
+                            <div><div>98</div> student</div>
+                        </li>
+                        <li class="site-main__user--content__det--exp">Expertise: <span>Poem</span> <span>Poet</span> <div></div></li>
+                        <li class="site-main__user--content__det--opt"><span class="site-main__user--content__det--opt__prf"><i class="far fa-eye"></i> Profile</span> <span class="site-main__user--content__det--opt__add"><i class="fas fa-plus"></i> ADD</span></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-     {{> usernav}}
+     {{> usernav}} 
 </div>
+

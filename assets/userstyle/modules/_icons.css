@@ -225,37 +225,12 @@
             font-size: .875rem;
         }
     }
+
+    &__site-main--user__tab {
+        margin-right: 5px;
+    }
  
-    &__site-main--conv__header--comment {
-       position: absolute;
-       top: 15%;
-       transform: translateY(-15%);
-       left: 50%;
-       transform: translateX(-50%); 
-    }
-
-    &__site-main--conv__header--search {
-        cursor: pointer; 
-    }
-
-    &__site-main--conv__filter {
-        margin-right: 5px;
-    }
-
-    &__site-main--conv__tab--icn {
-        margin-right: 5px;
-    }
-
-    &__site-main--conv__det {
-        margin-right: 5px;
-    }
-
-    &__site-main--conv__det--del {
-        color: $mainLightRed;
-    }
-
-    &__site-main--conv__det--bk {
-        margin-right: 5px;
-        color: rgba($mainDarkBlack, .5); 
+    &__site-main--user__filter {
+        margin-left: 5px; 
     }
 }

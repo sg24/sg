@@ -2,7 +2,7 @@ import $ from 'jquery';
 
 class SiteHeader {
     constructor () {
-       this.siteBody = $(".viewall, .site-main__groupchat");
+       this.siteBody = $(".viewall, .site-main__groupchat, .site-main");
        this.siteHeaderForm = $(".site-header__form");
        this.siteHeaderInput = $(".site-header__form--input");
        this.siteHeaderAddnew = $(".site-header__addNew");
