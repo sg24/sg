@@ -1,10 +1,10 @@
 .site-main__user{ 
-    
     &--main {
         width: 100%;
         float: none; 
 
         &__wrapper {
+            position: relative;
             background-color: rgba($mainHeaderColor, .4);    
             box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
             -o-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
@@ -12,6 +12,26 @@
             -webkit-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
             -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);   
         }
+
+        &__overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background-color: rgba($mainDarkBlack, .6);
+            z-index: 1;
+            opacity: 0;
+            visibility: hidden;
+            transition: all .3s ease-in;
+
+            &--visible {
+                z-index: 1;
+                opacity: 1;
+                visibility: visible;
+                transition: all .3s ease-in;
+            }
+        } 
 
         @mixin atExtraSmall {
             width: 100%;
@@ -37,7 +57,7 @@
             background-color: #fff;
             position: sticky; 
             top: 60px;     
-            z-index: 1;   
+            z-index: 2;   
         }
      }
 
@@ -84,7 +104,88 @@
             }
         }
 
-        &--sticky {
+        &__srch {
+            position: absolute;
+            left: 0;
+            right: 0;
+            background-color: #fff;
+            border: 1px solid $mainDarkGray;
+            border-top: none;
+            top: 100%;
+            padding: 10px 10px 20px 10px; 
+            opacity: 0;
+            z-index: 0;
+            width: 0;
+            visibility: hidden;
+            transition: all .3s ease-in;
+
+            &--close {
+                width: 20px;
+                height: 20px;
+                background-color: $mainLightGray;
+                border: 1px solid rgba($mainDarkBlack, .5);
+                color: $mainLightRed;
+                font-size: .75rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                right: 5px;
+                top: 2px;
+                border-radius: 10px;
+                cursor: pointer;
+            }
+
+            &--wrapper {
+                position: relative;
+                background-color: $mainLightGray;
+                border: 1px solid rgba($mainDarkBlack, .3); 
+                z-index: 1;
+                font-size: .875rem; 
+                border-radius: 5px;
+                width: 95%;
+                box-shadow: 0 2px 1px 0 rgba($mainDarkBlack, .3);
+
+                & > div {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    bottom: 0;
+                    background-color: $mainLightGray;
+                    display: flex;
+                    justify-content: center;
+                    align-items:center; 
+                    padding: 0 20px;
+                    border-top-left-radius: 5px;
+                    border-bottom-left-radius: 5px;
+                    border-right: 1px solid rgba($mainDarkBlack, .3); 
+    
+                }
+            }
+
+            &--input {
+                border: none;
+                outline: none;
+                padding: 6px 10px 6px 60px;
+                border-radius: 5px;
+                width: 100%;
+    
+                @mixin atMedium {
+                    padding: 8px 10px 8px 60px;
+                }
+            }
+
+            &--visible {
+                opacity: 1;
+                visibility: visible;
+                width: 100%; 
+                z-index: 0; 
+                transition: all .3s ease-in;
+            }
+
+        }
+
+        &__sticky {
             position: sticky;
             top: 52px;         
             z-index: 3;  
@@ -114,32 +215,313 @@
         list-style: none;
         margin: 10px 15px 0 15px;
         padding:  0;
+        padding-bottom: 20px;
         position: relative; 
-        background-color: #fff;
-         
+        background-color: #fff; 
+        border-bottom: 1px solid $mainDarkGray;
+
         & > li {
             float: left;
 
             &:first-child {
+                font-size: .8125rem;
+                text-align: center;
+            }
+        }
+
+        &__opt {
+            cursor: default;
+
+            &--wrapper {
+                background-color: #fff;
+                border: 1px solid $mainDarkGray;
+                position: absolute;
+                left: 0;
+                right: 0;
+                z-index: 1;
+                top: 5px;
+                cursor: default;
+                opacity: 0;
+                visibility: hidden;
+                transition: all .3s ease-in;
+
+                &__visible {
+                    opacity: 1;
+                    visibility: visible;
+                    transition: all .3s ease-in; 
+                }
+            }
+
+            &--title { 
                 border: 1px solid rgba($mainDarkBlue, .2);
                 border-top: 3px solid $mainDarkBlue;
                 color: $mainFontColor;
                 margin: 0;
                 margin-left: 0px;
-                position: relative;
                 cursor: pointer;
                 padding: 7px 20px;
                 text-align: center;
                 border-radius: 2px;
-                font-size: .8125rem;
                 background-color: rgb(255, 255, 255);
+                transition: all .5s ease-in;
 
                 @mixin atSmall {
-                    padding: 10px 20px;
+                    padding: 10px 20px; 
                 }
             }
-        }
 
+            &--close {
+                position: absolute;
+                right: -5px;
+                width: 22px;
+                height: 22px;
+                background-color: $mainLightGray;
+                color: $mainLightRed;
+                font-size: .75rem; 
+                top: -5px;
+                border-radius: 11px;
+                display: flex;
+                justify-content: center;
+                align-items: center; 
+                z-index: 1;
+                cursor: pointer;
+                border: 1px solid rgba($mainDarkBlack, .3); 
+            }
+
+            &--header {
+                position: relative;
+                box-shadow: 0 2px 2px 0 rgba($mainDarkBlack, .4);
+                border-bottom: 2px solid $mainDarkBlue;
+
+                &__cnt{
+                    position: relative;
+                    width: 130px;
+                    margin: 0 auto;
+                    padding: 15px 0;
+                    background-color: #fff;
+
+                    & > div {
+                        position: absolute;
+                        width: 24px;
+                        height: 24px;
+                        border-radius: 12px;
+                        background-color: $mainLightBlue;
+                        color: #fff;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center; 
+                    }
+                }
+            }
+
+            &--content {
+                position: relative;
+                @mixin clearfix; 
+                padding: 20px 10px;
+
+                &__wrapper {
+                    position: relative;
+                    margin: 0 auto 30px auto;
+                    width: 70%;
+                    float: none; 
+                    text-align: left; 
+                    padding: 0 10px 0 0;
+                    font-size: .8125rem;
+
+                    &--sub {
+                        padding: 0 !important;
+                        border: 1px solid $mainDarkBlue !important;   
+                    }
+
+                    & > ul {
+                        list-style: none;
+                        margin: 0;
+                        padding:  0 0 5px 0;
+                        border: 1px solid $mainDarkGray;
+    
+                        & > li  {
+                            padding: 8px 0 8px 6px;
+                            @mixin clearfix;
+                            text-align: left; 
+                            cursor: pointer;
+
+                            &:first-child {
+                                text-align: center;
+                                cursor: default; 
+                            }
+    
+                            & > span {
+                                margin: 0 6px 0 0;
+                                text-align: right;
+                                float: right;
+    
+                                & > span {
+                                    padding-left: 5px;
+                                }
+    
+                                @mixin atSmall {
+                                    margin: 0 20px 0 0;
+                                }
+                            }
+    
+                            &:hover {
+                                background-color: $mainLightGray;
+                            }
+    
+                            @mixin atSmall {
+                                padding: 8px 0 8px 20px;
+                            }
+                        }
+                    }
+
+                    @mixin atExtraSmall { 
+                        text-align: center;
+                        width: 50%;
+                        float: left;
+                        padding: 0 15px 0 0;
+                    }
+
+                    @mixin atMiniSmall {
+                        float: left;
+                        width: 33.33%; 
+                        margin: 0  auto;
+                    }
+
+                    @mixin atSmall {
+                        padding: 0 20px 0 0;
+                        font-size: .875rem;
+                    }
+
+                    @mixin atMedium {
+                        padding: 0 33px 0 0;
+                    }
+                    
+                }
+                
+                &__snt {
+                    padding: 5px 0;
+                    box-shadow: 0 1px 4px 0px rgba($mainDarkBlack, 0.57);   
+                    margin-bottom: 8px;
+
+                    &:hover {
+                        background-color: transparent !important;
+                    }
+                }
+
+                &__ans {
+                    padding: 5px 0;
+                    box-shadow: 0 1px 4px 0px rgba($mainDarkBlack, 0.57);     
+                    margin-bottom: 8px;
+
+                    &:hover {
+                        background-color: transparent !important;
+                    }
+                }
+
+                &__sub {
+                    position: relative;
+                    background-color: $mainDarkPaleBlue;
+                    color: #fff;  
+                    
+                    & > ul {
+                        list-style: none;
+                        margin: 0;
+                        padding: 5px 0 5px 0;
+                        position: absolute;
+                        left: 0;
+                        right: 0;
+                        top: 100%; 
+                        box-shadow: 0 0 2px 0 rgba($mainDarkBlack, .4); 
+                        height: 110px;
+                        overflow: hidden;
+                        overflow-y: auto;
+
+                        & > li {
+                            margin: 0;
+                            padding: 8px 0 8px 10px;
+                            width: 100%;
+                            text-align: left;
+                            white-space: nowrap;
+                            border-bottom: 1px solid $mainDarkGray;
+                            /* color: $mainDarkBlue; */
+                            font-weight: 600;
+                            color: rgba($mainDarkBlack, .8); 
+                            cursor: pointer;
+
+                            &:first-child {
+                                border-top: 1px solid $mainDarkGray; 
+                            }
+
+                            &:last-child {
+                                border-bottom: none;
+                            }
+
+                            &:hover {
+                                background-color: $mainLightGray; 
+                            }
+                        }
+                    }
+
+                    &:hover {
+                        background-color: $mainDarkPaleBlue !important;
+                    }
+                }
+            }
+
+            &--subfilter {
+                list-style:  none;
+                margin: 80px 10px 20px 10px;
+                padding: 0 0 5px 0;
+                font-size: .875rem;
+                @mixin clearfix;
+                position: relative;
+                box-shadow: 0 1px 1px 0 rgba($mainDarkBlack, .5); 
+
+                & > li {
+                    float: left;
+                    margin: 5px 10px 5px 5px;
+                    padding: 5px 10px;
+                    background-color: $mainLightGray; 
+                    position: relative; 
+                    border: 1px solid $mainDarkGray; 
+
+                    & > div {
+                        position: absolute;
+                        width: 12px;
+                        height: 12px;
+                        background-color: #fff;
+                        color: $mainLightRed;
+                        border-radius: 6px;
+                        right: -6px;
+                        font-size: .5rem; 
+                        top: -5px;
+                        cursor: pointer;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center; 
+                        border: 1px solid rgba($mainDarkBlack, .5); 
+                    }
+
+                    &:first-child {
+                        padding: 5px 0;
+                        margin: 0 0 5px 0;
+                        float: none; 
+                        text-align: center; 
+                        color: $mainDarkBlack; 
+                        background-color: rgba($mainDarkPaleBlue, 1);
+                        /* box-shadow: 0 0 2px 0 rgba($mainDarkBlack, .6);  */
+                        color: #fff; 
+                    }
+                }
+
+                @mixin atMiniSmall {
+                    margin-top: 0;
+                }
+            }
+
+        }
 
         &__fnd {
             float: left;
@@ -155,7 +537,7 @@
             font-size: .8125rem;
             background-color: rgb(255, 255, 255);
             cursor: pointer;
-            display: none;
+            transition: all .5s ease-in;
     
             & > div {
                 position: absolute; 
@@ -175,10 +557,6 @@
                 color: $mainDarkBlue;
             }
     
-            @mixin atExtraSmall {
-                display: block;
-            }
-    
             @mixin atSmall {
                padding: 10px 35px 10px 15px;
                margin-left: 20px;
@@ -188,17 +566,21 @@
         &__srch {
             position: absolute; 
             background-color: $mainLightBlue;
-            font-size: .8125rem;
+            font-size: .875rem;
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 30px;
-            height: 30px;
-            border-radius: 15px;
+            width: 28px;
+            height: 28px;
+            border-radius: 14px;
             color: #fff;
-            box-shadow: 0 0 2px 0 rgba($mainDarkBlack, .5); 
-            top: 50%;
-            transform: translateY(-50%);
+            box-shadow: 0 0 2px 0 rgba($mainDarkBlack, .5);
+            -o-box-shadow: 0 0 2px 0 rgba($mainDarkBlack, .5);
+            -ms-box-shadow: 0 0 2px 0 rgba($mainDarkBlack, .5);
+            -webkit-box-shadow: 0 0 2px 0 rgba($mainDarkBlack, .5);
+            -moz-box-shadow: 0 0 2px 0 rgba($mainDarkBlack, .5); 
+            top: 10%;
+            transform: translateY(-10%);
             cursor: pointer;
             right: 0;
 
@@ -214,7 +596,7 @@
     
     &--content {
         position: relative;
-        padding-bottom: 40px; 
+        padding-bottom: 20px;
 
         &__wrapper {
             border-radius: 10px;
@@ -224,121 +606,209 @@
             -webkit-box-shadow: 0px 2px 9px 2px rgba($mainDarkBlack, .3);
             -moz-box-shadow: 0px 2px 9px 2px rgba($mainDarkBlack, .3);
             -ms-box-shadow: 0px 2px 9px 2px rgba($mainDarkBlack, .3);
-            margin: 40px 15px 0 15px;  
+            margin: 40px 15px;  
             position: relative;
-            padding: 10px;
+            padding: 10px 0px 0 0px; 
             
             @mixin atSmall { 
-                margin: 40px 20px 0 20px;
+                margin: 40px 20px 60px 20px;
             }
         }
 
-        &__img {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background-color: $mainExtraLightGray;
-            border-radius: 25px;
-            top: 50%;
-            transform: translateY(-50%);  
+        &__user {
+            position: relative;
+            @mixin clearfix;
+            border-bottom: 1px solid $mainDarkGray;
+            padding: 0 20px 5px 20px;
+
+            &--title {
+                color: $mainDarkBlue;
+                font-size: .875rem;
+                float: left;
+
+                @mixin atMedium {
+                    font-size: 1rem;
+                }
+            }
+
+            &--status {
+                float: right; 
+                font-size: .8125rem;
+                padding-left: 18px;
+                position: relative;
+
+                & > div {
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 4px;
+                    box-shadow: 0px 1px 2.68px 2.32px rgba(0, 0, 0, 0.57);
+                    -o-box-shadow: 0px 1px 2.68px 2.32px rgba(0, 0, 0, 0.57);
+                    -ms-box-shadow: 0px 1px 2.68px 2.32px rgba(0, 0, 0, 0.57);
+                    -webkit-box-shadow: 0px 1px 2.68px 2.32px rgba(0, 0, 0, 0.57);
+                    -moz-box-shadow: 0px 1px 2.68px 2.32px rgba(0, 0, 0, 0.57);
+                    position: absolute;
+                    left:0;
+                    top: 50%;
+                    transform: translateY(-50%); 
+                }
+
+                &__on {
+                    background-color: $mainLightGreen;
+                }
+
+                &__off {
+                    background-color: $mainLightRed;
+                }
+            }
         }
 
         &__det {
-            padding: 0 0 0 80px;
             position: relative;
-            list-style: none;
-            @mixin clearfix;
-            margin: 0; 
+            padding: 15px 20px;  
+            border-bottom: 1px solid $mainDarkGray; 
 
-            & > li {
-                float: none;
+            &--img {
+                position: absolute;
+                left: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
+                -o-box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
+                -ms-box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
+                -webkit-box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
+                -moz-box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
+                overflow: hidden;
+                width: 60px;
+                height: 60px;
+                border-radius: 30px;
             }
 
-            &--name {
-                color: $mainDarkPaleBlue;
-                font-size: 1rem;
-                font-weight: 400;
-                position: relative;
-                margin-bottom: 5px;
+            &--user {
+                list-style: none;
+                @mixin clearfix;
+                margin: 0; 
+                padding: 0 0 0 80px;
 
-                & > div {
-                    position: absolute;
-                    right: 0;
-                    top: 0;
-                    font-size: .8125rem;
-                    padding-left: 30px;
-                    text-align: right;
+                & > li {
+                    float: none;
+                    position: relative;
 
-                    & > div { 
+                    & > div {
+                        width: 22px;
+                        height: 22px;
+                        border-radius: 11px;
+                        background-color: $mainLightRed;
+                        color: #fff;
+                        position: absolute;
+                        font-size: .8125rem;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
                         left: 0;
                         top: 50%;
                         transform: translateY(-50%); 
-                        position: absolute;
-                        width: 24px;
-                        height: 24px;
-                        background-color: $mainLightRed;
-                        font-size: .8125rem;
-                        color: #fff;
-                        border-radius: 12px;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center; 
+                        box-shadow: 0px 0px 1.68px 1.32px rgba(0, 0, 0, 0.57); 
+                        -o-box-shadow: 0px 0px 1.68px 1.32px rgba(0, 0, 0, 0.57); 
+                        -ms-box-shadow: 0px 0px 1.68px 1.32px rgba(0, 0, 0, 0.57); 
+                        -webkit-box-shadow: 0px 0px 1.68px 1.32px rgba(0, 0, 0, 0.57); 
+                        -moz-box-shadow: 0px 0px 1.68px 1.32px rgba(0, 0, 0, 0.57); 
+                    }
+
+                    &:last-child {
+                        padding-left: 28px;
+                        font-size: .875rem; 
+                        margin-top: 5px;
+                    }
+                }
+    
+                &__exp {
+                    font-size: .875rem;
+                    padding: 0;
+                    font-weight: 300; 
+                  
+    
+                    & > ul {
+                        list-style: none;
+                        margin: 0;
+                        padding: 0;
+                        @mixin clearfix;
+
+                        & > li {
+                            float: left;
+                            background-color: $mainLightGray;
+                            padding: 2px 5px;
+                            border-radius: 5px;
+                            margin-right: 10px;
+                            font-weight: 400;
+                            margin-bottom: 6px;
+
+                            &:first-child {
+                                margin-left: 0;
+                                margin-right: 10px;
+                                background-color: #fff;
+                                padding: 2px 0 0 0;
+                                border-radius: 5px;
+                                font-weight: 400;
+                            }
+                        }
                     }
                 }
             }
+        }
 
-            &--exp {
+        &__opt {
+            list-style: none;
+            margin: 0;
+            padding: 0 20px;
+            @mixin clearfix;
+
+
+            & > li {
+                float: left;
+                /* width: 50%; */
+                text-align: center; 
+                padding: 10px 0;
                 font-size: .875rem;
-                padding: 5px 0 0 0;
-                font-weight: 300; 
-              
 
-                & > span {
-                    background-color: $mainLightGray;
-                    padding: 2px 5px;
-                    border-radius: 5px;
-                    margin-left: 8px;
-                    font-weight: 400; 
-                }
-
-                & > div {
-                    margin: 10px 0;
-                    background: $mainLightBlue;
-                    /* background: linear-gradient( 0deg, rgb(83,97,125) 0%, rgb(0,98,126) 0%, rgb(13,193,244) 39%, rgb(0,198,255) 55%, rgb(0,98,126) 100%); */
-                    /* background-image: -webkit-linear-gradient( 0deg, rgb(83,97,125) 0%, rgb(0,98,126) 0%, rgb(13,193,244) 39%, rgb(0,198,255) 55%, rgb(0,98,126) 100%);
-                    background-image: -ms-linear-gradient( 0deg, rgb(83,97,125) 0%, rgb(0,98,126) 0%, rgb(13,193,244) 39%, rgb(0,198,255) 55%, rgb(0,98,126) 100%); */
-                    height: 1px;    
+                &:first-child {
+                    border-right: 1px solid $mainDarkGray; 
                 }
             }
 
-            &--opt{
-                position: relative;
-                font-size: .875rem;
-                padding: 5px 0;
-                
-                &__prf {
-                    border-radius: 5px;
-                    background-color: rgb(252, 255, 245);
-                    box-shadow: 0px 1px 4.85px 0.15px rgba(0, 0, 0, .57);
-                }
+            &--prf {
+                border-radius: 5px;
+                box-shadow: 0px 1px 4.85px 0.15px rgba(0, 0, 0, 0.57);
+                -o-box-shadow: 0px 1px 4.85px 0.15px rgba(0, 0, 0, 0.57);
+                -ms-box-shadow: 0px 1px 4.85px 0.15px rgba(0, 0, 0, 0.57);
+                -webkit-box-shadow: 0px 1px 4.85px 0.15px rgba(0, 0, 0, 0.57);
+                -moz-box-shadow: 0px 1px 4.85px 0.15px rgba(0, 0, 0, 0.57);
+                background-color: $mainHeaderColor;
+                padding: 3px 15px;
+                margin-right: 20px;
+                cursor: pointer;
+            }
 
-                &__add {
-                    border-radius: 5px;
-                    background: linear-gradient( 0deg, rgb(83,97,125) 0%, rgb(0,98,126) 0%, rgb(15,139,175) 39%, rgb(14,129,162) 55%, rgb(0,98,126) 100%);
-                    box-shadow: 0px 1px 4.85px 0.15px rgba(0, 0, 0, 0.29); 
-                    color:#fff;
-                    margin-left: 20px;
-                } 
-
-                & > span {
-                    padding: 5px 20px;  
-                    cursor: pointer;
-                }
+            &--add {
+                background: linear-gradient( 0deg, rgb(83,97,125) 0%, rgb(0,98,126) 0%, rgb(15,139,175) 39%, rgb(14,129,162) 55%, rgb(0,98,126) 100%);
+                background: -moz-linear-gradient( 0deg, rgb(83,97,125) 0%, rgb(0,98,126) 0%, rgb(15,139,175) 39%, rgb(14,129,162) 55%, rgb(0,98,126) 100%);
+                background: -webkit-linear-gradient( 0deg, rgb(83,97,125) 0%, rgb(0,98,126) 0%, rgb(15,139,175) 39%, rgb(14,129,162) 55%, rgb(0,98,126) 100%);
+                background: -o-linear-gradient( 0deg, rgb(83,97,125) 0%, rgb(0,98,126) 0%, rgb(15,139,175) 39%, rgb(14,129,162) 55%, rgb(0,98,126) 100%);
+                background: -ms-linear-gradient( 0deg, rgb(83,97,125) 0%, rgb(0,98,126) 0%, rgb(15,139,175) 39%, rgb(14,129,162) 55%, rgb(0,98,126) 100%);
+                box-shadow: 0 2px 4.85px 0.15px rgba(0, 0, 0, 0.49);
+                -o-box-shadow: 0 2px 4.85px 0.15px rgba(0, 0, 0, 0.49);
+                -ms-box-shadow: 0 2px 4.85px 0.15px rgba(0, 0, 0, 0.49);
+                -webkit-box-shadow: 0 2px 4.85px 0.15px rgba(0, 0, 0, 0.49);
+                -moz-box-shadow: 0 2px 4.85px 0.15px rgba(0, 0, 0, 0.49);
+                padding: 3px 25px;
+                border-radius: 5px; 
+                color: #fff; 
+                margin-left: 20px;
+                cursor: pointer;
             }
         }
 
         @mixin atSmall {
-            padding-bottom: 60px
+            
         }   
     }
 }

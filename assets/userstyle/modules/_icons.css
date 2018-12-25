@@ -233,4 +233,22 @@
     &__site-main--user__filter {
         margin-left: 5px; 
     }
+
+    &__site-main--user__content--opt {
+        margin-right: 5px;
+    }
+
+    &__site-main__user--filter__snt {
+        margin-right: 5px;
+        color: $mainDarkBlue;
+    }
+
+    &__site-main__user--filter__ans {
+        margin-right: 5px;
+        color: $mainLightRed;
+    }
+
+    &__site-main__user--filter__sub {
+        margin-right: 5px;
+    }
 }

@@ -13,7 +13,8 @@ module.exports = {
       group: "./assets/groupscript/group.js",
       groupchat: "./assets/chatscript/groupchat.js",
       conv: "./assets/convscript/conv.js",
-      formque: "./assets/formquescript/formque.js"
+      formque: "./assets/formquescript/formque.js",
+      user: "./assets/userscript/users.js"
     }, 
     output: {
       path: path.resolve(__dirname + '/public/js/app'),

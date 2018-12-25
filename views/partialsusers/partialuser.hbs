@@ -1,8 +1,9 @@
 <div class="site-main__user">
     <div class="site-main__user--main">
         <div class="site-main__user--main__wrapper">
+            <div class="site-main__user--main__overlay"></div>
             <div class="site-main__user--top"></div>
-            <ul class="site-main__user--tab">
+            <ul class="site-main__user--tab site-main__user--tab__sticky">
                 <li><i class="fas fa-users icon icon__site-main--user__tab"></i> Users</li>
                 <li>
                     <i class="fas fa-user-friends icon icon__site-main--user__tab"></i> Request 
@@ -10,26 +11,114 @@
                         <div>99</div>
                     </div> 
                 </li>
+                 <div class="site-main__user--tab__srch">
+                     <div class="site-main__user--tab__srch--close">
+                         <i class="fas fa-times"></i>
+                     </div>
+                     <div class="site-main__user--tab__srch--wrapper">
+                         <div><i class="far fa-calendar-alt"></i></div>
+                        <input type="text" class="site-main__user--tab__srch--input">
+                     </div>
+                </div>
             </ul>
             <ul class="site-main__user--filter">
-                <li class="site-main__user--filter">Filter <i class="fas fa-angle-down icon icon__site-main--user__filter"></i></li>
+                <li class="site-main__user--filter__opt">
+                    <div class="site-main__user--filter__opt--title">
+                        Filter <i class="fas fa-angle-down icon icon__site-main--user__filter"></i>
+                    </div>
+                    
+                    <div class="site-main__user--filter__opt--wrapper">
+                        <div class="site-main__user--filter__opt--close">
+                            <i class="fas fa-times"></i>
+                        </div>
+                        <div class="site-main__user--filter__opt--header">
+                            <div class="site-main__user--filter__opt--header__cnt">
+                                <div>24</div> User Found
+                            </div>
+                        </div>
+                        <div class="site-main__user--filter__opt--content">
+                            <div class="site-main__user--filter__opt--content__wrapper">
+                                <ul>
+                                    <li class="site-main__user--filter__opt--content__snt"><i class="fas fa-users icon icon__site-main__user--filter__snt"></i> Students</li>
+                                    <li>Low <span> = <span>49</span> </span></li>
+                                    <li>Average <span> > <span>50</span>  </span></li>
+                                    <li>High <span> > <span>100</span> </span></li>
+                                </ul> 
+                            </div>
+                            <div class="site-main__user--filter__opt--content__wrapper">
+                                <ul>
+                                    <li class="site-main__user--filter__opt--content__ans"><i class="fas fa-clone icon icon__site-main__user--filter__ans"></i> Answers</li>
+                                    <li>Low <span> = <span>49</span> </span></li>
+                                    <li>Average <span> > <span>50</span>  </span></li>
+                                    <li>High <span> > <span>100</span> </span></li>
+                                </ul> 
+                            </div>
+                            <div class="site-main__user--filter__opt--content__wrapper">
+                                <ul class="site-main__user--filter__opt--content__wrapper--sub">
+                                    <li class="site-main__user--filter__opt--content__sub">
+                                        <i class="fas fa-chalkboard-teacher icon icon__site-main__user--filter__sub"></i> Subject
+                                        <ul>
+                                            <li>Poem</li>
+                                            <li>Prose</li>
+                                            <li>Poem</li>
+                                            <li>Prose</li>
+                                            <li>Poem</li>
+                                            <li>Prose</li>
+                                            <li>Poem</li>
+                                            <li>Prose</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                         <ul class="site-main__user--filter__opt--subfilter">
+                            <li><i class="fas fa-chalkboard-teacher icon icon__site-main__user--filter__sub"></i> Subject Selected </li>
+                            <li>Prose <div><i class="fas fa-times"></i></div></li>
+                            <li>Poem <div><i class="fas fa-times"></i></div></li> 
+                        </ul>
+                    </div>
+                </li>
                 <li class="site-main__user--filter__fnd"> Friends <div>22</div></li>
-                <li class="site-main__user--filter__srch"><i class="fas fa-search"></i></li>
+                <li class="site-main__user--filter__srch">
+                    <span class="site-main__user--filter__srch--icn"><i class="fas fa-search"></i></span>
+                </li>
             </ul>
             <div class="site-main__user--content">
                 <div class="site-main__user--content__wrapper">
-                    <div class="site-main__user--content__img"></div>
-                    <ul class="site-main__user--content__det">
-                        <li class="site-main__user--content__det--name">User User
-                            <div><div>98</div> student</div>
-                        </li>
-                        <li class="site-main__user--content__det--exp">Expertise: <span>Poem</span> <span>Poet</span> <div></div></li>
-                        <li class="site-main__user--content__det--opt"><span class="site-main__user--content__det--opt__prf"><i class="far fa-eye"></i> Profile</span> <span class="site-main__user--content__det--opt__add"><i class="fas fa-plus"></i> ADD</span></li>
+                    <div class="site-main__user--content__user">
+                        <div class="site-main__user--content__user--title">
+                            User User
+                        </div>
+                        {{!-- <div class="site-main__user--content__user--status">
+                            <div class="site-main__user--content__user--status__on"></div> online
+                        </div> --}}
+                        <div class="site-main__user--content__user--status">
+                            <div class="site-main__user--content__user--status__off"></div> 3m ago
+                        </div>
+                    </div>
+                    <div class="site-main__user--content__det">
+                        <div class="site-main__user--content__det--img">
+                        </div>
+                        <ul class="site-main__user--content__det--user">
+                            <li class="site-main__user--content__det--user__exp">  
+                                <ul>
+                                    <li>Expertise:</li>
+                                    <li>Poem</li>
+                                    <li>Prose</li>
+                                    <li>Poet</li>
+                                    <li>Poet</li>
+                                    <li>Prose</li>
+                                </ul>
+                            </li>
+                            <li><div>98</div> Student</li>
+                        </ul>
+                    </div>
+                    <ul class="site-main__user--content__opt">
+                        <li><span class="site-main__user--content__opt--prf"><i class="far fa-eye icon icon__site-main--user__content--opt"></i> Profile</span></li>
+                        <li><span class="site-main__user--content__opt--add"><i class="far fa-user icon icon__site-main--user__content--opt"></i>   Add</span></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-     {{> usernav}} 
 </div>
-

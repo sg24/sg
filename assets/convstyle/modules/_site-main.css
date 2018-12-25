@@ -2,9 +2,10 @@
     position: relative;
     top: 62px;
     font-family: "Roboto",Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0 0 6px 0;
 
     &__expage {
-        top: 82px !important;
+        top: 52px !important;
 
         @mixin atMedium {
             top: 65px !important;

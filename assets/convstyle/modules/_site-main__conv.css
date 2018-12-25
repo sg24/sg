@@ -87,7 +87,7 @@
             cursor: pointer;
         }
 
-        &--sticky {
+        &__sticky {
             position: sticky;
             top: 52px;         
             z-index: 3;  
@@ -291,6 +291,29 @@
                     font-size: .875rem;
                 }
             }
+
+            &--sticky {
+                position: sticky;
+                top: 82px;         
+                z-index: 2;  
+                box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
+                -o-box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
+                -ms-box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
+                -webkit-box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
+                -moz-box-shadow: 0 2px 2px rgba($mainDarkBlack, .2);  
+                
+                @mixin atMedium {
+                    position: sticky; 
+                    top: 93px;    
+                }
+    
+                @mixin atLarge {
+                    /* position: relative;
+                    top: 0; */
+                    top: 102px;
+                }
+            }
+            
         }
 
         &__srch {

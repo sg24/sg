@@ -295,7 +295,7 @@
         padding-left: 1px;
        left: 0;
        background-color: $mainDarkBlue;
-        
+        display: none;
 
         ul {
             display: flex;
@@ -430,6 +430,7 @@
         width: auto;
         border-top: none;
         background: transparent;
+        display: inline; 
       }
 
     }
