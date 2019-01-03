@@ -83,6 +83,10 @@ gulp.task('watch', function() {
         gulp.start('profilecss')
     });
 
+    watch('./assets/favoritestyle/**/*.css', function() {
+        gulp.start('favoritecss')
+    });
+
     // watch('./apps.js', function() {
     //     gulp.start('scriptsRefresh');
     // });
@@ -167,6 +171,11 @@ gulp.task('usercss',['userstyle'], function() {
 
 gulp.task('profilecss',['profilestyle'], function() {
     return gulp.src("./assets/profilestyle/profile.css")
+    .pipe(browserSyc.stream());
+}); 
+
+gulp.task('favoritecss',['favoritestyle'], function() {
+    return gulp.src("./assets/favoritestyle/favorite.css")
     .pipe(browserSyc.stream());
 }); 
 

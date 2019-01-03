@@ -1,0 +1,23 @@
+.site-main__fav-main {
+    width: 100%;
+    float: none; 
+  
+    
+
+    @mixin atExtraSmall {
+        width: 100%;
+        position: relative;
+    }
+
+    @mixin atSmall {
+        width: 100%;
+        padding-right: 0px;
+        float: left;
+    }
+
+    @mixin atLarge {
+        width: 65%;
+        padding-right: 40px;
+    }
+}
+
