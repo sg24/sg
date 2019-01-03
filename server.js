@@ -28,6 +28,7 @@ hbs.registerPartials(__dirname + '/views/partialsFormQue');
 hbs.registerPartials(__dirname + '/views/partialsFormPost');
 hbs.registerPartials(__dirname + '/views/partialsexam');
 hbs.registerPartials(__dirname + '/views/partialsusers');
+hbs.registerPartials(__dirname + '/views/partialsprofile');
 // app.engine('hbs', hbs({
 //     defaultLayout: 'main'
 // }));

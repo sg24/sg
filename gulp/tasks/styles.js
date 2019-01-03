@@ -175,3 +175,14 @@ gulp.task('userstyle', function() {
     })
     .pipe(gulp.dest('./public/stylesheets'));
 });
+
+gulp.task('profilestyle', function() {
+    return gulp.src('./assets/profilestyle/profile.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) {
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});

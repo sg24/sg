@@ -1,0 +1,30 @@
+.wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 0px;
+    padding-right: 0px;
+    display: flex;
+    justify-content: center;
+
+    @mixin atSmall {
+        padding-left: 18px;
+        padding-right: 18px;
+        max-width: 1236px;
+        display: flex;
+        justify-content: center;
+    }
+
+    &__exmain {
+        padding-left: 0px;
+        padding-right: 0px;
+        max-width: 1200px; 
+        margin: 0 auto;
+        @mixin clearfix;
+
+        @mixin atLarge {
+            padding-left: 18px;
+            padding-right: 18px; 
+            max-width: 1236px; 
+        }
+    }
+}

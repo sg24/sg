@@ -38,7 +38,7 @@ class Filter {
         this.overlay.removeClass("site-main__user--main__overlay--visible");
         this.filter.removeClass("site-main__user--filter__opt--wrapper__visible");
         this.srch.removeClass("site-main__user--tab__srch--visible");
-        this.overlay.addClass("site-main__user--main__overlay--visible");
+        this.overlay.removeClass("site-main__user--main__overlay--visible");
     }
 }
 
