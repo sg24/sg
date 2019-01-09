@@ -6,22 +6,25 @@
     display: none;
     font-weight: 300;
     margin-top: 10px; 
-    height: 92vh;   
+    height: 92vh; 
+    position: sticky;  
+    top: 70px;
 
       
-    &__sticky { 
+    &--sticky { 
         top: 70px; 
         position: sticky;      
         overflow: hidden;    
     }
 
-    &__header {
+    &--header {
         background-color: $mainMiddleDarkBlue;
         list-style: none;
         margin: 0;
         padding: 0;
         position: relative;
         font-size: .9375rem;
+        box-shadow: 0 0 0 1px rgba($mainMiddleDarkBlue, 1); 
         @mixin clearfix;
 
         li {

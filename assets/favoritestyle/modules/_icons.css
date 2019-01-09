@@ -226,40 +226,193 @@
         }
     }
 
-    &__site-main--prf-main__user--comment {
+    &__site-main__fav-main--header {
         color: $mainLightRed; 
     }
 
-    &__site-main--prf-main__user--add {
-        color: $mainLightGreen; 
+    &__reuse-pt--footer__eye {
+        color: $mainDarkBlack;
+        cursor: pointer;
     }
 
-    &__site-main__prf-main--tab__snt {
+    &__reuse-pt--footer__chats {
+        color: $mainDarkBlue;
+        cursor: pointer;
+    }
+
+    &__reuse-pt--footer__heart {
+        color: $mainLightRed; 
+        cursor: pointer;
+    }
+
+    &__reuse-pt--loadmore__circle {
+        font-size: .35rem; 
+        color: $mainDarkBlue;
+        margin-left: .125rem;
+    }
+
+    &__reuse-pt--header__tags {
+        color: $mainLightBlack;
+        cursor: pointer;
+    }
+
+    &__reuse-pt--share {
+        position: absolute;
+        top: 27%;
+        transform: translate(-54%);
+        z-index: 1;
+        color: #fff;
+        font-size: .75rem;
+
+        @mixin atSmall {
+            font-size: .9375rem;
+        }
+    }
+
+    &__reuse-pt--options {
+        margin-right: 10px;
+    }
+
+    &__reuse-pt--options-toggle {
+        margin-left: 10px;
+        transition: all .3s ease-out;
+    }
+
+    &__reuse-que--header__tags {
+        color: $mainLightBlack;
+        cursor: pointer;
+    }
+    
+    &__reuse-que--footer__thumbup {
+        color: $mainDarkBlue;
+        cursor: pointer;
+    }
+
+    &__reuse-que--footer__thumbdown {
+        color: $mainDarkBlack;
+        cursor: pointer;
+    }
+
+    &__reuse-que--footer__heart {
+        color: $mainLightRed; 
+        cursor: pointer;
+    }
+
+    &__reuse-que--loadmore__circle {
+        font-size: .35rem; 
+        color: $mainDarkBlue;
+        margin-left: .125rem;
+    }
+
+    &__reuse-que--share {
+        position: absolute;
+        top: 27%;
+        transform: translate(-54%);
+        z-index: .7;
+        color: #fff;
+        font-size: .75rem;
+
+        @mixin atSmall {
+            font-size: .9375rem;
+        }
+    }
+
+
+    &__reuse-que--options {
+        margin-right: 10px;
+    }
+
+    &__reuse-que--options-toggle {
+        margin-left: 10px;
+        transition: all .3s ease-out;
+    }
+
+    &__reuse-onlineque--durationClock {
+        margin-right: 3px;
         color: $mainDarkBlue;
     }
 
-    &__site-main__prf-main--tab__onlineque {
-        color: $mainLightRed;
+    &__reuse-onlineque--share {
+        z-index: .7;
+        color: #fff;
+        font-size: .75rem;
+
+        @mixin atSmall {
+            font-size: .9375rem;
+        }
     }
 
-    &__site-main__prf-main--tab__que {
-        color: $mainDarkBlue;
-    }
-
-    &__site-main__prf-main--tab__post {
-        color: $mainDarkPaleBlue;
-    }
-
-    &__site-main__prf-main--tab__group {
-        color: $mainLightGreen;
-    }
-
-    &__site-main__prf-main--tab__itm {
+    &__reuse-onlineque--pen {
+        margin-right: 5px;
         color: #fff;
     }
 
-    &__site-main__prf-main--tab__header {
+    &__reuse-onlineque--comment {
+        margin-right: 5px;
+        color: $mainDarkBlack;
+    }
+
+    &__reuse-onlineque--heart {
+        margin-right: 5px;
+        cursor: pointer;
+        color: $mainLightRed;
+    }
+    &__reuse-onlineque--user {
+        color: $mainLightBlue;
+    }
+
+    &__reuse-onlineque--time {
+        margin-right: 3px;
+        /* color: $mainFontColor; */
+        color: $mainLightBlue;
+    }
+
+    
+    &__reuse-pwt--share {
+        z-index: .7; 
+        color: #fff;
         font-size: .75rem;
-        color: $mainLightRed; 
+
+        @mixin atSmall {
+            font-size: .9375rem;
+        }
+    }
+
+    &__reuse-pwt--tag {
+        margin: 0 5px 0 0;
+        color: $mainLightBlack;
+    }
+
+    &__reuse-pwt--quote {
+        font-size: .8125rem;
+        color: $mainDarkBlue;
+        position: absolute;
+        top: 3.5px;
+        left: 4.4px;
+    }
+
+    &__reuse-pwt--quoteright {
+        font-size: .8125rem;
+        color: $mainDarkBlue;
+        position: absolute;
+        top: 5px;
+        left: 4.4px;
+    }
+
+    &__reuse-pwt--footer__smile {
+        margin-right: 5px;
+        color: $mainDarkBlue;  
+    }
+
+    &__reuse-pwt--footer__heart {
+        margin-right: 5px;
+        color: $mainLightRed;
+        cursor: pointer;
+    }
+
+    &__reuse-pwt--footer__comments {
+        margin-right: 5px;
+        color: $mainDarkBlack;
+     
     }
 }

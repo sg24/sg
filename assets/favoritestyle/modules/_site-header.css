@@ -296,6 +296,7 @@
        left: 0;
        background-color: $mainDarkBlue;
        box-shadow: 0 2px 5px 0 rgba($mainDarkBlack, .5); 
+       display: none;
 
         ul {
             display: flex;
@@ -423,7 +424,6 @@
     } 
 
       @mixin atSmall {
-        display: none;
         box-shadow: none; 
       }
 

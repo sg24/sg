@@ -601,6 +601,7 @@
                     text-overflow: ellipsis;
                     width: 100%; 
                     padding-right: 20px;
+                    cursor: pointer;
                 }
 
                 &__notify {
@@ -616,6 +617,47 @@
                     align-items: center;
                     border-radius: 11px;
                     top: 50%;
+
+                    &--grp {
+                        top: 30%;
+                    }
+                }
+
+                &__grup-status {
+                    font-size: .8125rem;
+                    padding-top: 12px; 
+                    color: rgba($mainDarkBlack, .6); 
+                    
+                    &--on {
+                       position: relative;
+                       margin-right: 10px;
+
+                       & > span {
+                        font-size: .8125rem;
+                        background-color: $mainLightGreen;
+                        color: #fff;
+                        padding: 2px 8px;
+                        box-shadow: 0 2px 3px rgba($mainDarkBlack, .4);
+                        border-radius: 20px;
+                       }
+
+                       @mixin atMiniSmall {
+                        margin-right: 20px;
+                       }
+                    }
+
+                    &--off {
+                        position: relative;
+
+                        & > span {
+                            font-size: .8125rem; 
+                            background-color: $mainLightRed;
+                            color: #fff;
+                            padding: 2px 8px;
+                            box-shadow: 0 2px 3px rgba($mainDarkBlack, .4);
+                            border-radius: 20px;
+                        }
+                     }
                 }
             }
         }

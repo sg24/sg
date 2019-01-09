@@ -1,0 +1,112 @@
+.reuse-chat {
+    position: relative;
+
+    &__wrapper {
+        border-radius: 2px;
+        background-color: #fff;
+        border: 1px solid $mainDarkGray; 
+        /* box-shadow: 0px 2px 9px 2px rgba($mainDarkBlack, .3);
+        -o-box-shadow: 0px 2px 9px 2px rgba($mainDarkBlack, .3);
+        -webkit-box-shadow: 0px 2px 9px 2px rgba($mainDarkBlack, .3);
+        -moz-box-shadow: 0px 2px 9px 2px rgba($mainDarkBlack, .3);
+        -ms-box-shadow: 0px 2px 9px 2px rgba($mainDarkBlack, .3); */
+        margin: 40px 15px 0 15px;  
+        position: relative;
+        padding: 10px 20px;
+
+        @mixin atSmall { 
+            margin: 40px 20px 0 20px;
+        }
+    }
+
+    &__opt {
+        cursor: pointer;
+        position: absolute;
+        right: 0px;
+        top: 0px;   
+        width: 24px;
+        height: 24px;
+        border-radius: 12px;
+        background-color: $mainLightGray; 
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+        color: $mainLightRed; 
+    }
+
+    &__img {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background-color: $mainExtraLightGray;
+        border-radius: 25px;
+        top: 50%;
+        transform: translateY(-50%); 
+
+        &--status {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            bottom: 5px;
+            right: 10px;
+            border: 1px solid rgba($mainDarkBlack, .5); 
+            
+            &__on {
+                background-color: $mainLightGreen;
+            } 
+
+            &__off {
+                background-color: $mainLightRed;
+            }
+        }
+    }
+
+    &__det {
+        padding: 0 0 0 80px;
+        position: relative;
+
+        &--tm {
+            display: none; 
+        }
+
+        &--name {
+            font-size: .9375rem;
+            color: $mainDarkBlue;
+            padding: 0 0 10px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            & > span {
+                font-size: .8125rem;  
+                color: rgba($mainDarkBlack, .4); 
+            }
+        }
+
+        &--msg {
+            font-size: .9375rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%; 
+            padding-right: 20px;
+            cursor: pointer;
+        }
+
+        &--notify {
+            position: absolute;
+            right: 0;
+            width: 22px;
+            height: 22px;
+            background-color: $mainLightRed;
+            font-size: .875rem;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 11px;
+            top: 50%;
+        }
+    }
+}
