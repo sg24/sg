@@ -22,8 +22,8 @@
     &__opt {
         cursor: pointer;
         position: absolute;
-        right: 0px;
-        top: 0px;   
+        right: -2px;
+        top: -8px;   
         width: 24px;
         height: 24px;
         border-radius: 12px;

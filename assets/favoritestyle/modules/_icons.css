@@ -230,6 +230,45 @@
         color: $mainLightRed; 
     }
 
+    &__exfav--angle {
+        margin-left: 5px;
+        color:$mainFontColor;
+    }
+
+    &__exfav--filter__calend {
+       font-size: 1.2rem;
+       position: relative;
+       color: rgba($mainDarkBlack, .6);
+       cursor: pointer;
+
+       @mixin atExtraSmall {
+        font-size: 1.3rem;
+       }
+
+       @mixin atSmall {
+        font-size: 1.4rem;
+       }
+    }
+  
+    &__exfav--filter__alt--comment {
+        color: rgba($mainDarkBlack, .6);
+        margin-right: 8px;
+    }
+
+    &__exfav--filter__alt--eye{
+        color: rgba($mainDarkBlue, .8);
+        margin-right: 8px;
+    }
+
+    &__exfav--filter__alt--heart {
+        color: rgba($mainDarkRed, .8);
+        margin-right: 8px;
+    }
+
+    &__exfav--filter__categ--angle {
+        margin-left: 10px;
+    }
+
     &__reuse-pt--footer__eye {
         color: $mainDarkBlack;
         cursor: pointer;
@@ -251,7 +290,7 @@
         margin-left: .125rem;
     }
 
-    &__reuse-pt--header__tags {
+    &__reuse-pt--header__tag {
         color: $mainLightBlack;
         cursor: pointer;
     }
@@ -273,12 +312,11 @@
         margin-right: 10px;
     }
 
-    &__reuse-pt--options-toggle {
-        margin-left: 10px;
-        transition: all .3s ease-out;
+    &__reuse-pt--options__dft {
+        margin-right: 5px;
     }
 
-    &__reuse-que--header__tags {
+    &__reuse-que--header__tag {
         color: $mainLightBlack;
         cursor: pointer;
     }
@@ -304,27 +342,12 @@
         margin-left: .125rem;
     }
 
-    &__reuse-que--share {
-        position: absolute;
-        top: 27%;
-        transform: translate(-54%);
-        z-index: .7;
-        color: #fff;
-        font-size: .75rem;
-
-        @mixin atSmall {
-            font-size: .9375rem;
-        }
-    }
-
-
     &__reuse-que--options {
         margin-right: 10px;
     }
 
-    &__reuse-que--options-toggle {
-        margin-left: 10px;
-        transition: all .3s ease-out;
+    &__reuse-que--options__dft {
+        margin-right: 5px;
     }
 
     &__reuse-onlineque--durationClock {
@@ -357,9 +380,6 @@
         cursor: pointer;
         color: $mainLightRed;
     }
-    &__reuse-onlineque--user {
-        color: $mainLightBlue;
-    }
 
     &__reuse-onlineque--time {
         margin-right: 3px;
@@ -379,7 +399,6 @@
     }
 
     &__reuse-pwt--tag {
-        margin: 0 5px 0 0;
         color: $mainLightBlack;
     }
 
@@ -414,5 +433,88 @@
         margin-right: 5px;
         color: $mainDarkBlack;
      
+    }
+
+    &__reuse-share--title {
+        margin-left: 20px;
+    }
+
+    &__reuse-share--googleplus {
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        color: $mainDarkRed;
+        float: right;
+    }
+
+    &__reuse-share--facebook {
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        color: $mainLightBlue;
+        float: left;
+    }
+
+    &__reuse-share--icn {
+        position: absolute;
+        top: 27%;
+        transform: translate(-54%);
+        z-index: 1;
+        color: #fff;
+        font-size: .75rem;
+
+        @mixin atSmall {
+            font-size: .9375rem;
+        }
+    }
+
+    &__reuse-share--selec {
+        color: $mainLightGreen;
+    }
+
+    &__reuse-share--content-ans {
+        font-size: .625rem;
+        color: $mainLightBlue;
+    }
+
+    &__reuse-share--content-snts {
+        font-size: .625rem;
+        color: $mainDarkPaleBlue;
+    }
+
+    &__reuse-share--share {
+        margin-right: 5px;
+    }
+
+    &__reuse-share--view {
+        margin-right: 5px;
+    }
+
+    &__reuse-share--user {
+        color: $mainFontColor;
+        font-size: .75rem;
+    }
+
+    &__reuse-share--mainclose {
+        font-size: .75rem;
+        color: rgba($mainDarkBlack, .6);
+    }
+    
+    &__reuse-share--close {
+        font-size: .625rem;
+        color: $mainLightRed;
+    }
+
+    &__reuse-share--user-selec__user {
+        color: $mainDarkBlue;
+        font-size: .625rem;
+    }
+
+    &__reuse-share--reset {
+        color: $mainLightRed;
+        margin-right: 5px;
+        font-size: .875rem;
+        position: relative;
+        top: 1px;
     }
 }

@@ -2,12 +2,13 @@
     width: 100%;
     position: relative;
     margin-top: 20px;  
-    padding: 0 15px 15px 15px;  
-    border-bottom: 1px solid $mainDarkGray;
+    padding: 0 15px 0 15px;  
 
     &__wrapper {
         @mixin clearfix;
+        border-bottom: 1px solid $mainDarkGray;
         position: relative;
+        padding-bottom: 15px;
 
         &--options {
             float: left;
@@ -25,9 +26,13 @@
                 float: right;
             }
         }
+
+        @mixin atSmall {
+            padding-bottom: 20px;
+        }
     }
 
-    &__category {
+    &__sort {
         border: 1px solid rgba($mainLightBlue, .2);
         border-top: 3px solid $mainLightBlue;
         color: $mainFontColor;
@@ -64,7 +69,7 @@
             overflow-y: auto;
             opacity: 0;
             visibility: hidden;
-            z-index: -1;
+            z-index: 1;
             transition: all .3s ease-in;
               
             li {
@@ -114,7 +119,7 @@
             /* -o-box-shadow: 0px 1px 10px 5px rgba($mainDarkGray, .8); */
             padding: 10px;
             width: 100%;
-            z-index: -1;
+            z-index: 1;
             visibility: hidden;
             opacity: 0;
             transition: all .3s ease-in;
@@ -364,7 +369,7 @@
                 }
             }
 
-            &--categsm {
+            &--categ {
                 margin: 20px 0;
                 width: 140px;
                 overflow: hidden;
@@ -403,6 +408,8 @@
                         margin: 0;
                         cursor: pointer;
                         white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
 
                         &:hover {
                             background-color: $mainDarkGray;
@@ -537,7 +544,7 @@
     }
 
     @mixin atSmall { 
-        padding: 0 20px 20px 20px;         
+        padding: 0 20px 0 20px;         
     }
     
 }

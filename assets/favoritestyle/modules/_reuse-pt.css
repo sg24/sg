@@ -41,37 +41,24 @@
 
         li {
             font-style: italic;
-            float: left;
-            width: 33.333%;
-            padding: 15px 0;
            
-
             &:first-child {
                 position: relative;
                 @mixin clearfix; 
                 padding: 15px 0 15px 15px;
-                width: 97%;
-
-                @mixin atSmall {
-                    width: 70%;
-                }
+                float: left;
             }
 
             &:last-child {
-                display: flex;
-                justify-content: flex-end;
-                right: 0;
-                width: 1px;
                 position: relative;
+                float: right;
                 padding: 3px 0;
-                @mixin atSmall {
-                    width: 30%;
-                    /* padding: 7px 0; */
-                }
             }
         }
 
         &--category {
+            position: relative; 
+
            &__img {
                position: absolute;
                 height: 36px;
@@ -86,27 +73,15 @@
                 }
            }
 
-           &__spaceHolderImg {
-            float: left;
-            width: 20px;
-            height: 1px;
-
-            @mixin atSmall {
-                width: 45px;
-            }
-           }
-
-           &__userDetails {
-            max-width: 180px;
-            overflow: hidden;
-            word-wrap: none;
+           &__det {
+            padding-left: 20px;
             @mixin clearfix;
 
             &--name {
+                float: left;
                 margin-left: 10px;
                 padding-right: 3px;
-                float: left;
-                max-width: 100px;
+                max-width: 70px;
                 overflow: hidden;
                 word-wrap: none;
                 text-overflow: ellipsis; 
@@ -116,97 +91,50 @@
                 a {
                     color: $mainDarkBlue;
                 }
+
+                @mixin atSmall {
+                    max-width: 80px;
+                }
                }
 
                &--timePosted {
                 float: left;
-                max-width: 80px;
-                overflow: hidden;
-                word-wrap: none;
-                text-overflow: ellipsis; 
                 white-space: nowrap;
-                color: $mainMiddleDarkBlue;  
+                color: $mainDarkPaleBlue;  
+            }
+
+            @mixin atSmall {
+                padding-left: 45px;
             }
            }
         }
 
         &--share {
-            position: absolute;
-            border-radius: 12px;
-            height: 24px;
-            width: 24px;
-            background-color: $mainMiddleDarkBlue;
-            top: 5px;
-            left: -20px;
-            cursor: pointer;
-            box-shadow: 0px 0px 3.1px 1.9px rgba(67, 125, 163, 0.26);
-            -o-box-shadow: 0px 0px 3.1px 1.9px rgba(67, 125, 163, 0.26);
-            -ms-box-shadow: 0px 0px 3.1px 1.9px rgba(67, 125, 163, 0.26);
-            -webkit-box-shadow: 0px 0px 3.1px 1.9px rgba(67, 125, 163, 0.26);
-            -moz-box-shadow: 0px 0px 3.1px 1.9px rgba(67, 125, 163, 0.26);
-            z-index: 1;
-
-            &:hover {
-                transform: rotate(-90deg);
-                transition: all .3s ease-in;
-            }
-
+            position: relative;
+            
             &__category {
-                margin: 0 40px 0 0;
+                margin: 4px 25px 0 0;
                 max-width: 90% !important;
-                background-color: rgba($mainDarkBlack, .1); 
+                background-color: rgba($mainDarkGray, .4); 
                 border-radius: 5px;
-                padding: 8px 8px; 
+                padding: 4px;
                 /* border: 1px solid $mainDarkGray; */
                 cursor: pointer;
                 overflow: hidden;
                 white-space: nowrap;
                 word-wrap: none;
                 text-overflow: ellipsis;
-                display: none;
                 position: relative;
                 top: 3px;
-
+    
                 a {
                     color: $mainFontColor;
                     text-decoration: none;
                 }
                 
                 @mixin atSmall {
-                    display: block;
+                    margin: 4px 33px 0 0;
                 }
-            }
-
-            @mixin atExtraSmall {
-                border-radius: 12px;
-                height: 24px;
-                width: 24px;
-                top: 5px;
-                left: -20px;
-            }
-             
-            @mixin atSmall {
-                border-radius: 15px;
-                height: 30px;
-                width: 30px;
-                top: -10px;
-                left: 85%;
-            }
-
-            @mixin atMedium {
-                border-radius: 16px;
-                height: 32px;
-                width: 32px;
-                left: 90%;  
-            }
-
-            @mixin atLarge {
-                border-radius: 16px;
-                height: 32px;
-                width: 32px;
-                top: -10px;
-                right: 0;
-                left: auto;
             }
         }
     }
@@ -336,28 +264,37 @@
                 margin-bottom: 40px;
                 opacity: 0;
                 visibility: hidden;
-                z-index: -1;
-                transform: scale(.8);
                 transition: all .3s ease-out;
 
                 li {
-                    padding: 10px;
-                    margin: 10px;
-                    background-color: $mainDarkRed;
+                    padding: 5px;
+                    margin: 5px;
+                    background-color: $mainLightGray;
                     font-weight: 300;
-                    color: #fff;
+                    border: 1px solid rgba($mainDarkBlack, .25);
                     cursor: pointer;
 
                     &:first-child {
-                        background-color: $mainPaleBlue;
+                        background-color: $mainDarkPaleBlue;
+                        border: none;
+
+                        a {
+                            color: #fff;
+                            text-decoration: none;
+                        }
                     }
 
                     &:last-child {
-                        background-color: $mainLightBlue;
+                        background-color: $mainDarkRed;
+
+                        a {
+                            color: #fff;
+                            text-decoration: none;
+                        }
                     }
 
                     a {
-                        color: #fff;
+                        color: $mainFontColor; 
                         text-decoration: none;
                     }
                 }
@@ -387,66 +324,18 @@
                     transform: rotate(90deg);
                     pointer-events: none;
                 }
-                &--toggle {
-                    position: absolute;
-                    margin: 0;
-                    padding: 0;
-                    top: 134px;
-                    left: 10px;
-                    list-style: none;
-                    opacity: 0;
-                    visibility: hidden;
-                    z-index: -33;
-                    transition: all .3s ease-in;
-
-                    li {
-                        margin: 0;
-                        padding: 5px 40px;
-                        background-color: #fff !important;
-                        border: 1px solid $mainDarkGray;
-                        color: $mainFontColor;
-
-                        &:first-child {
-                            border-bottom: none;
-                        }
-
-                        @mixin atSmall {
-                            padding: 5px 42.5px;
-                        }
-                    }
-
-                    &__opened {
-                        opacity: 1;
-                        visibility: visible;
-                        z-index: 1;
-                        transition: all .3s ease-in;
-                    }
-
-                    @mixin atSmall {
-                        top: 138px;
-                        left: 10px;
-                    }
-                }
-
-                &--toggleQuestion {
-                    li {
-                        padding: 5px 46px !important;
-                    }
-                }
 
                 &--visible {
                     opacity: 1;
                     visibility: visible;
                     z-index: 1;
-                    transform: scale(1);
                     transition: all .3s ease-out;
                 }
 
                 @mixin atSmall {
-                    font-size: .875rem;
+                    font-size: .8125rem;
                     right: 90px;
                 }
-
 
             }
 
