@@ -287,7 +287,7 @@
     &__reuse-pt--loadmore__circle {
         font-size: .35rem; 
         color: $mainDarkBlue;
-        margin-left: .125rem;
+        margin-left: 6px;
     }
 
     &__reuse-pt--header__tag {
@@ -339,7 +339,7 @@
     &__reuse-que--loadmore__circle {
         font-size: .35rem; 
         color: $mainDarkBlue;
-        margin-left: .125rem;
+        margin-left: 6px;
     }
 
     &__reuse-que--options {
@@ -353,6 +353,20 @@
     &__reuse-onlineque--durationClock {
         margin-right: 3px;
         color: $mainDarkBlue;
+    }
+
+    &__reuse-onlineque--loadmore__circle {
+        font-size: .35rem; 
+        color: $mainDarkPaleBlue;
+        margin-left: 6px;
+    }
+
+    &__reuse-onlineque--options {
+        margin-right: 10px;
+    }
+
+    &__reuse-onlineque--options__dft {
+        margin-right: 5px;
     }
 
     &__reuse-onlineque--share {
@@ -386,7 +400,6 @@
         /* color: $mainFontColor; */
         color: $mainLightBlue;
     }
-
     
     &__reuse-pwt--share {
         z-index: .7; 
@@ -416,6 +429,20 @@
         position: absolute;
         top: 5px;
         left: 4.4px;
+    }
+
+    &__reuse-pwt--loadmore__circle {
+        font-size: .35rem; 
+        color: $mainDarkPaleBlue;
+        margin-left: 6px;
+    }
+
+    &__reuse-pwt--options {
+        margin-right: 10px;
+    }
+
+    &__reuse-pwt--options__dft {
+        margin-right: 5px;
     }
 
     &__reuse-pwt--footer__smile {
@@ -456,9 +483,10 @@
     }
 
     &__reuse-share--icn {
-        position: absolute;
+        /* position: absolute;
         top: 27%;
-        transform: translate(-54%);
+        transform: translate(-54%); */
+        cursor: pointer;
         z-index: 1;
         color: #fff;
         font-size: .75rem;

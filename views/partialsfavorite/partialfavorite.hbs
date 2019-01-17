@@ -1,5 +1,6 @@
 <div class="site-main__fav-main">
     <div class="site-main__fav-main--wrapper">
+        <div class="site-main__fav-main--overlay"></div>
         <div class="site-main__fav-main--top"></div>
         <div class="site-main__fav-main--header site-main__fav-main--header__sticky">
             <div class="site-main__fav-main--header__icn">
@@ -24,8 +25,6 @@
                     <div class="exfav__filter">
                         Filter <i class="fas fa-angle-down icon icon__exfav--angle"></i>
                     </div>
-                    
-
                     <div class="exfav__filter--options">
                         <div class="exfav__filter--options__search">
                             <div class="exfav__filter--options__search--field">
@@ -148,78 +147,7 @@
                         </li>
                         <li>
                             <p class="reuse-pt__header--share__category"><i class="fas fa-tag icon icon__reuse-pt--header__tag"></i><a href=""> Social</a></p>
-                            <div class="reuse-share">
-                                <div class="reuse-share__icn">
-                                    <i class="fas fa-location-arrow icon icon__reuse-share--icn"></i>
-                                </div>
-                                <div class="reuse-share__wrapper">
-                                    <div class="reuse-share__title">
-                                        Select Users <span class="userarrowicon"><i class="fas fa-angle-down icon icon__reuse-share--title"></i></span>
-                                    </div>
-                                    <div class="reuse-share__content">
-                                        <div class="reuse-share__content--search">
-                                            <input class="reuse-share__content--search__cnt" placeholder="search...." autofocus>
-                                        </div>
-                                        <div class="reuse-share__content--user">
-                                            <div class="reuse-share__content--user__wrapper">
-                                                <div class="reuse-share__content--user__select"><i class="fas fa-check-circle icon icon__reuse-share--selec"></i></div>
-                                                <span class="reuse-share__content--user__select-clk"><i class="fas fa-check-circle icon icon__reuse-share--selec"></i></span>
-                                                <div class="reuse-share__content--user__img">
-                                                    <img src="/" alt="">
-                                                    <div class="reuse-share__content--user__img--status reuse-share__content--user__img--status__on"></div>
-                                                    {{!-- <div class="reuse-share__content--user__img--status reuse-share__content--user__img--status__off"></div> --}}
-                                                </div>
-                                                <ul>
-                                                    <li><a href=""> User user User user User user</a></li>
-                                                    <li> <div><i class="fas fa-edit icon icon__reuse-share--content-ans"></i></div>: 13K </li>
-                                                    <li> <div><i class="fas fa-user icon icon__reuse-share--content-snts"></i></div>: 234K</li>
-                                                </ul>
-                                                <div class="reuse-share__content--user__tooltip reuse-share__content--user__tooltip--ans">
-                                                    Question Answered
-                                                </div>
-                                                <div class="reuse-share__content--user__tooltip reuse-share__content--user__tooltip--snts">
-                                                    Students
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <ul class="reuse-share__user-counter">
-                                        <li><div><i class="fas fa-users icon icon__reuse-share--user"></i></div>:<span class="reuse-share__user-counter--number">73K</span></li>
-                                        <li>
-                                            <ul>
-                                                <li><i class="fas fa-location-arrow icon icon__reuse-share--share"></i> Share</li>
-                                                <li class="reuse-share__user-counter--viewall"> <i class="far fa-eye icon__reuse-share--view"></i> View </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-
-                                    <div class="reuse-share__user-selected">
-                                        <div class="reuse-share__user-selected--title"><div><div><i class="fas fa-users icon icon__reuse-share--user-selec__user"></i></div> Users Selected</div></div>
-                                        <div class="reuse-share__user-selected--mainclose">
-                                            <i class="fas fa-times icon icon__reuse-share--mainclose"></i>
-                                        </div>
-                                        <div class="reuse-share__user-selected--det">
-                                            <div class="reuse-share__user-selected--det__wrapper">
-                                                <div class="reuse-share__user-selected--det__close"><i class="fas fa-times icon icon__reuse-share--close"></i></div>
-                                                <div class="reuse-share__user-selected--det__img">
-                                                    <img src="/" alt="">
-                                                    <div class="reuse-share__user-selected--det__img--status reuse-share__user-selected--det__img--status__on"></div>
-                                                    {{!-- <div class="reuse-share__user-selected--det__img--status reuse-share__user-selected--det__img--status__off"></div> --}}
-                                                </div>
-                                                <ul>
-                                                    <li><a href=""> User user User user User user</a></li>
-                                                    <li> <div><i class="fas fa-edit icon icon__reuse-share--content-ans"></i></div>: 13K </li>
-                                                    <li> <div><i class="fas fa-user icon icon__reuse-share--content-snts"></i></div>: 234K</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <button class="reuse-share__user-selected--btn"><i class="fas fa-times icon icon__reuse-share--reset"></i> Reset</button>
-                                    </div>
-
-                                    <div class="reuse-share__social-icn"><a href=""><i class="fab fa-facebook-square icon icon__reuse-share--facebook"></i></a><a href=""><i class="fab fa-google-plus-square icon icon__reuse-share--googleplus"></i></a></div>
-                                </div>
-                            </div>
+                            {{> partialshare}}
                         </li>
                     </ul>
                     <div class="reuse-pt__img">
@@ -242,16 +170,17 @@
                             <li class="reuse-pt__footer--list__item-middle"><i class="far fa-comments icon icon__reuse-pt--footer__chats"></i>  12m</li>
                             <li><i class="far fa-heart icon icon__reuse-pt--footer__heart"></i> 222m</li>
                         </ul>
-                        <span class="reuse-pt__footer--details">
+                        <div class="reuse-pt__footer--details">
                             <i class="fas fa-circle icon icon__reuse-pt--loadmore__circle"></i>
                             <i class="fas fa-circle icon icon__reuse-pt--loadmore__circle"></i>
                             <i class="fas fa-circle icon icon__reuse-pt--loadmore__circle"></i>
-                        </span>
-                        <ul class="reuse-pt__footer--details__options">
-                            <li><a href=""><i class="far fa-edit icon icon__reuse-pt--options"></i>Edit </a></li>
-                            <li class="reuse-pt__footer--details__options--status"><i class="far fa-eye-slash icon icon__reuse-pt--options__dft"></i> Draft</li>
-                            <li><a href=""><i class="far fa-trash-alt icon icon__reuse-pt--options"></i>Delete </a></li>
-                        </ul>
+
+                             <ul class="reuse-pt__footer--details__options">
+                                <li><a href=""><i class="far fa-edit icon icon__reuse-pt--options"></i>Edit </a></li>
+                                <li class="reuse-pt__footer--details__options--status"><i class="far fa-eye-slash icon icon__reuse-pt--options__dft"></i> Draft</li>
+                                <li><a href=""><i class="far fa-trash-alt icon icon__reuse-pt--options"></i>Delete </a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -269,9 +198,7 @@
                 </li>
                 <li>
                     <p class="reuse-que__header--share__category"><i class="fas fa-tag icon icon__reuse-que--header__tag"></i><a href=""> Social</a></p>
-                    <div class="reuse-que__header--share__optionsWrapper">
-                        
-                    </div>
+                    {{> partialshare}}
                 </li>
             </ul>
             <div class="reuse-que__content">
@@ -294,16 +221,17 @@
                     <li class="reuse-que__footer--list__item-middle"><i class="far fa-thumbs-down icon icon__reuse-que--footer__thumbdown"></i>  12m</li>
                     <li><i class="far fa-heart icon icon__reuse-que--footer__heart"></i> 222m</li>
                 </ul>
-                <span class="reuse-que__footer--details">
+                <div class="reuse-que__footer--details">
                     <i class="fas fa-circle icon icon__reuse-que--loadmore__circle"></i>
                     <i class="fas fa-circle icon icon__reuse-que--loadmore__circle"></i>
                     <i class="fas fa-circle icon icon__reuse-que--loadmore__circle"></i>
-                </span>
-                <ul class="reuse-que__footer--details__options">
-                    <li><a href=""><i class="far fa-edit icon icon__reuse-que--options"></i>Edit </a></li>
-                    <li class="reuse-que__footer--details__options--status"><i class="far fa-eye-slash icon icon__reuse-que--options__dft"></i> Draft</li>
-                    <li><a href=""><i class="far fa-trash-alt icon icon__reuse-que--options"></i>Delete </a></li>
-                </ul>
+
+                    <ul class="reuse-que__footer--details__options">
+                        <li><a href=""><i class="far fa-edit icon icon__reuse-que--options"></i>Edit </a></li>
+                        <li class="reuse-que__footer--details__options--status"><i class="far fa-eye-slash icon icon__reuse-que--options__dft"></i> Draft</li>
+                        <li><a href=""><i class="far fa-trash-alt icon icon__reuse-que--options"></i>Delete </a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="reuse-onlineque">
@@ -322,12 +250,7 @@
                     </div>
                 </li>
                 <li>
-                    <div class="reuse-onlineque__header--share">
-                        <i class="fas fa-location-arrow icon icon__reuse-onlineque--share"></i>
-                    </div>
-                    <div class="reuse-onlineque__share--content">
-                        
-                    </div>
+                    {{> partialshare}}
                 </li>
             </ul>
             <div class="reuse-onlineque__content">
@@ -336,7 +259,19 @@
                 </p>
                 <div class="reuse-onlineque__content--posted">
                     <div class="reuse-onlineque__content--posted__user">
-                        <div><img src="" alt=""></div><a href="">User User</a>@ 2m ago
+                        <div class="reuse-onlineque__content--posted__user--img"><img src="" alt=""></div>
+                        <span><a href="">User User</a>@ 2m ago</span>
+                        <div class="reuse-onlineque__content--posted__user--det">
+                            <i class="fas fa-circle icon icon__reuse-onlineque--loadmore__circle"></i>
+                            <i class="fas fa-circle icon icon__reuse-onlineque--loadmore__circle"></i>
+                            <i class="fas fa-circle icon icon__reuse-onlineque--loadmore__circle"></i>
+
+                             <ul class="reuse-onlineque__content--posted__user--det__opt">
+                                <li><a href=""><i class="far fa-edit icon icon__reuse-onlineque--options"></i>Edit </a></li>
+                                <li class="reuse-onlineque__content--posted__user--det__opt--status"><i class="far fa-eye-slash icon icon__reuse-onlineque--options__dft"></i> Draft</li>
+                                <li><a href=""><i class="far fa-trash-alt icon icon__reuse-onlineque--options"></i>Delete </a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -347,11 +282,7 @@
             </ul>
         </div>
         <div class="reuse-pwt">
-            <div class="reuse-pwt__share">
-                <i class="fas fa-location-arrow icon icon__reuse-pwt--share"></i>
-            </div>
-            <div class="site-main__share--content">
-            </div>
+            {{> partialshare}}
             <div class="reuse-pwt__content">
                   <div class="reuse-pwt__content--tag">
                     <span><a href=""><i class="fas fa-tag icon icon__reuse-pwt--tag"></i> Quote</a></span>
@@ -375,8 +306,19 @@
                             <img src="/" alt="">
                         </div> 
                         <a href="">User user </a>
-                         <div class="reuse-pwt__content--det__time">
+                         <div class="reuse-pwt__content--det__user--time">
                             @ 2m ago
+                        </div>
+                        <div class="reuse-pwt__content--det__user--det">
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+
+                             <ul class="reuse-pwt__content--det__user--det__opt">
+                                <li><a href=""><i class="far fa-edit icon icon__reuse-pwt--options"></i>Edit </a></li>
+                                <li class="reuse-pwt__content--det__user--det__opt--status"><i class="far fa-eye-slash icon icon__reuse-pwt--options__dft"></i> Draft</li>
+                                <li><a href=""><i class="far fa-trash-alt icon icon__reuse-pwt--options"></i>Delete </a></li>
+                            </ul>
                         </div>
                     </div>
                     <div class="reuse-pwt__content--det__quote-wrapper">
@@ -392,11 +334,7 @@
         </div>
         
         <div class="reuse-pwt">
-            <div class="reuse-pwt__share">
-                <i class="fas fa-location-arrow icon icon__reuse-pwt--share"></i>
-            </div>
-            <div class="site-main__share--content">
-            </div>
+            {{> partialshare}}
 
             <div class="reuse-pwt__content">
                 <div class="reuse-pwt__content--tag">
@@ -414,8 +352,19 @@
                             <img src="/" alt="">
                         </div> 
                         <a href="">User user </a>
-                         <div class="reuse-pwt__content--det__time">
+                         <div class="reuse-pwt__content--det__user--time">
                             @ 2m ago
+                        </div>
+                        <div class="reuse-pwt__content--det__user--det">
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+
+                             <ul class="reuse-pwt__content--det__user--det__opt">
+                                <li><a href=""><i class="far fa-edit icon icon__reuse-pwt--options"></i>Edit </a></li>
+                                <li class="reuse-pwt__content--det__user--det__opt--status"><i class="far fa-eye-slash icon icon__reuse-pwt--options__dft"></i> Draft</li>
+                                <li><a href=""><i class="far fa-trash-alt icon icon__reuse-pwt--options"></i>Delete </a></li>
+                            </ul>
                         </div>
                     </div>
                 </div> 
@@ -427,12 +376,7 @@
             </ul>
         </div>
         <div class="reuse-pwt">
-            <div class="reuse-pwt__share">
-                <i class="fas fa-location-arrow icon icon__reuse-pwt--share"></i>
-            </div>
-            <div class="site-main__share--content">
-            </div>
-
+            {{> partialshare}}
             <div class="reuse-pwt__content">
                 <div class="reuse-pwt__content--tag">
                     <span><a href=""><i class="fas fa-tags icon icon__reuse-pwt--tag"></i> Poems</a></span>
@@ -450,8 +394,19 @@
                             <img src="/" alt="">
                         </div> 
                         <a href="">User user </a>
-                         <div class="reuse-pwt__content--det__time">
+                         <div class="reuse-pwt__content--det__user--time">
                             @ 2m ago
+                        </div>
+                        <div class="reuse-pwt__content--det__user--det">
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+
+                             <ul class="reuse-pwt__content--det__user--det__opt">
+                                <li><a href=""><i class="far fa-edit icon icon__reuse-pwt--options"></i>Edit </a></li>
+                                <li class="reuse-pwt__content--det__user--det__opt--status"><i class="far fa-eye-slash icon icon__reuse-pwt--options__dft"></i> Draft</li>
+                                <li><a href=""><i class="far fa-trash-alt icon icon__reuse-pwt--options"></i>Delete </a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>  

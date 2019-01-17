@@ -247,19 +247,25 @@
 
         &--details {
             position: absolute;
-            top: 12px;
             right: 20px;
-            cursor: pointer;
+            cursor: pointer; 
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center; 
 
             &__options {
                 position: absolute;
                 list-style: none;
-                top: -38.5px;
-                right: 64px;
+                top: -42px;
+                right: 52px;
                 padding: 0;
                 margin: 0;
                 background-color: #fff;
-                border: 1px solid $mainDarkGray;
+                box-shadow: 0 0 4.15px 0.85px rgba($mainDarkBlack, 0.65); 
                 font-size: .8125rem;
                 margin-bottom: 40px;
                 opacity: 0;
@@ -271,6 +277,7 @@
                     margin: 5px;
                     background-color: $mainLightGray;
                     font-weight: 300;
+                    white-space: nowrap;
                     border: 1px solid rgba($mainDarkBlack, .25);
                     cursor: pointer;
 
@@ -319,7 +326,7 @@
                     right: -26px;
                     border-color: transparent;
                     border-width: 13px;
-                    border-bottom-color: $mainDarkGray;
+                    border-bottom-color: rgba($mainDarkBlack, 0.25);
                     border-style: solid;
                     transform: rotate(90deg);
                     pointer-events: none;
@@ -329,14 +336,13 @@
                     opacity: 1;
                     visibility: visible;
                     z-index: 1;
-                    transition: all .3s ease-out;
+                    transition: all .5s ease-out;
                 }
+            }
 
-                @mixin atSmall {
-                    font-size: .8125rem;
-                    right: 90px;
-                }
-
+            &__clk {
+                background-color: $mainLightGray;
+                transition: all .3s ease-in;
             }
 
             @mixin atSmall {

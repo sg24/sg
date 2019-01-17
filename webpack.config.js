@@ -14,7 +14,8 @@ module.exports = {
       groupchat: "./assets/chatscript/groupchat.js",
       conv: "./assets/convscript/conv.js",
       formque: "./assets/formquescript/formque.js",
-      user: "./assets/userscript/users.js"
+      user: "./assets/userscript/users.js",
+      favorite: "./assets/favoritescript/favorite.js"
     }, 
     output: {
       path: path.resolve(__dirname + '/public/js/app'),
