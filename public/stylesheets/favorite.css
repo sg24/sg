@@ -1033,9 +1033,7 @@ img {
   float: left;
 }
 
-.icon__reuse-share--icn {/* position: absolute;
-        top: 27%;
-        transform: translate(-54%); */
+.icon__reuse-share--icn {
   cursor: pointer;
   z-index: 1;
   color: #fff;
@@ -4904,7 +4902,7 @@ img {
 }
 
 .reuse-que__header li {
-  font-style: italic;
+  position: relative;
 }
 
 .reuse-que__header li:first-child {
@@ -6887,7 +6885,7 @@ img {
   position: -webkit-sticky;
   position: sticky;
   top: 52px;
-  z-index: 3;
+  z-index: 2;
   box-shadow: 0 2px 2px rgba(0,0,0, .2);
   -o-box-shadow: 0 2px 2px rgba(0,0,0, .2);
   -ms-box-shadow: 0 2px 2px rgba(0,0,0, .2);
@@ -6908,7 +6906,7 @@ img {
 
   .site-main__fav-main--header__sticky {
     position: relative;
-    z-index: 3;/* top: 70px;      */
+    z-index: 2;/* top: 70px;      */
     top: 0;
   }
 }

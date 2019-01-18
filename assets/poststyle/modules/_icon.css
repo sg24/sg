@@ -15,28 +15,33 @@
         margin-right: 5px;
     }
 
-    &__site-main--details__footer--icons__eye {
+    &__reuse-pt--footer__eye {
         color: $mainDarkBlack;
         cursor: pointer;
     }
 
-    &__site-main--details__footer--icons__chats {
+    &__reuse-pt--footer__chats {
         color: $mainDarkBlue;
         cursor: pointer;
     }
 
-    &__site-main--details__footer--icons__heart {
+    &__reuse-pt--footer__heart {
         color: $mainLightRed; 
         cursor: pointer;
     }
 
-    &__site-main--loadmore--circle {
+    &__reuse-pt--loadmore__circle {
         font-size: .35rem; 
         color: $mainDarkBlue;
-        margin-left: .125rem;
+        margin-left: 6px;
     }
 
-    &__site-main--share {
+    &__reuse-pt--header__tag {
+        color: $mainLightBlack;
+        cursor: pointer;
+    }
+
+    &__reuse-pt--share {
         position: absolute;
         top: 27%;
         transform: translate(-54%);
@@ -49,34 +54,19 @@
         }
     }
 
-    &__site-main--share__categoryBarIcon {
-        margin-right: 5px;
-    }
-
-    &__site-main--details__options-icon {
+    &__reuse-pt--options {
         margin-right: 10px;
     }
 
-    &__site-main--details__options-toggleicon {
-        margin-left: 10px;
-        transition: all .3s ease-out;
+    &__reuse-pt--options__dft {
+        margin-right: 5px;
     }
 
-    &__site-main--details__share--selectuserarrow {
-        margin-left: 5px;
-        font-size: .875rem;
-        transition: all .3s ease-out;
+    &__reuse-share--title {
+        margin-left: 20px;
     }
 
-    &__site-main--details__share--facebook {
-        font-size: 28px;
-        padding: 0;
-        margin: 0;
-        color: $mainLightBlue;
-        float: left;
-    }
-
-    &__site-main--details__share--googleplus {
+    &__reuse-share--googleplus {
         font-size: 28px;
         padding: 0;
         margin: 0;
@@ -84,42 +74,74 @@
         float: right;
     }
 
-    &__site-main--share__userCounterIcon {
-        color: rgba($mainLightBlack, .7);
-        margin-right: 3px;
+    &__reuse-share--facebook {
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        color: $mainLightBlue;
+        float: left;
     }
 
-    &__site-main--share__locationIcon {
+    &__reuse-share--icn {
+        cursor: pointer;
+        z-index: 1;
+        color: #fff;
+        font-size: .75rem;
+
+        @mixin atSmall {
+            font-size: .9375rem;
+        }
+    }
+
+    &__reuse-share--selec {
+        color: $mainLightGreen;
+    }
+
+    &__reuse-share--content-ans {
+        font-size: .625rem;
+        color: $mainLightBlue;
+    }
+
+    &__reuse-share--content-snts {
+        font-size: .625rem;
+        color: $mainDarkPaleBlue;
+    }
+
+    &__reuse-share--share {
         margin-right: 5px;
+    }
+
+    &__reuse-share--view {
+        margin-right: 5px;
+    }
+
+    &__reuse-share--user {
+        color: $mainFontColor;
         font-size: .75rem;
     }
 
-    &__site-main--share__userSelectedCloseIcon {
-        font-size: .6875rem;
-        color: $mainLightBlack;
-        position: absolute;
-        top: 1.5px;
-        left: 4px;
+    &__reuse-share--mainclose {
+        font-size: .75rem;
+        color: rgba($mainDarkBlack, .6);
+    }
+    
+    &__reuse-share--close {
+        font-size: .625rem;
+        color: $mainLightRed;
     }
 
-    &__site-main--share__userSelectedCloseMainIcon {
-        position: absolute;
-        top: 1.5px;
-        left: 4px;
-        font-size: .6875rem;
-        color: $mainLightBlack;
+    &__reuse-share--user-selec__user {
+        color: $mainDarkBlue;
+        font-size: .625rem;
     }
 
-    &__site-main--share__userSelectedIcon {
-        color: rgba($mainLightBlack, .7);
+    &__reuse-share--reset {
+        color: $mainLightRed;
         margin-right: 5px;
+        font-size: .875rem;
+        position: relative;
+        top: 1px;
     }
-
-    &__site-main--userCounter-sm {
-        margin-right: 10px;
-    }
-
-
     
     &__expost--angleicon {
         margin-left: 5px;

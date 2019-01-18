@@ -483,9 +483,6 @@
     }
 
     &__reuse-share--icn {
-        /* position: absolute;
-        top: 27%;
-        transform: translate(-54%); */
         cursor: pointer;
         z-index: 1;
         color: #fff;

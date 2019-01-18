@@ -72,7 +72,7 @@
         &__sticky {
             position: sticky;
             top: 52px;         
-            z-index: 3;  
+            z-index: 2;  
             box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
             -o-box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
             -ms-box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
@@ -86,7 +86,7 @@
 
             @mixin atLarge {
                 position: relative;
-                z-index: 3;
+                z-index: 2;
                 /* top: 70px;      */
                 top: 0;
             }
