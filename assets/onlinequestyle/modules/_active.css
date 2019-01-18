@@ -6,12 +6,12 @@
   
 
     &--exam {
-        top: 12px;
-        right: 25%;
-        width: 20px;
-        height: 20px;
-        font-size: .75rem;
-        border-radius: 10px;
+        width: 24px;
+        height: 24px;
+        border-radius: 12px;
+        top: 4px; 
+        right: 0px; 
+        font-size: .8125rem;
         border: 1px solid rgba(#fff, .25);
        
         > div {
@@ -20,15 +20,6 @@
             transform:translateY(-50%);
             width: 100%;
             text-align: center;
-        }
-
-        @mixin atExtraSmall {
-            width: 24px;
-            height: 24px;
-            border-radius: 12px;
-            top: 4px; 
-            right: 0px; 
-            font-size: .8125rem;
         }
 
         @mixin atSmall {

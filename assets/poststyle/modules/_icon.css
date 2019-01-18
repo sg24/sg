@@ -1,12 +1,5 @@
 .icon {
     
-    &--rotate {
-        svg {
-            transform: rotate(180deg);
-            transition: all .3s ease-out;
-        }
-    }
-
     &__site-main--content__tab--clone {
         margin-right: 5px;
     }

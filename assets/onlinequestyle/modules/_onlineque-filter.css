@@ -1,4 +1,4 @@
-.onlinequefilter {
+.onlineque-filter {
     width: 100%;
     position: relative;
     margin: 0 auto;
@@ -112,7 +112,7 @@
         }
     }
 
-    &__filter {
+    &__cnt {
         float: left;
         border: 1px solid rgba($mainDarkPaleBlue, .2);
         border-top: 3px solid $mainDarkPaleBlue;

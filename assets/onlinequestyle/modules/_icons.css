@@ -1,55 +1,11 @@
 .icon {
-  
-    &__site-main__nav--onlineQue__filterIcon {
-        margin-left: 5px;
-        color: $mainFontColor
-    }
 
-    &__site-main--onlineque__tab {
-        margin-right: 5px;
-    }
-
-    &__site-main--onlineque__shared {
-        margin-right: 5px;
-    }
-
-    &__site-main--onlineQue__durationClock {
-        margin-right: 3px;
-        color: $mainDarkBlue;
-    }
-
-    &__site-main--onlineQue__pen {
-        margin-right: 5px;
-        color: #fff;
-    }
-
-    &__site-main--onlineQue__comment {
-        margin-right: 5px;
-        color: $mainDarkBlack;
-    }
-
-    &__site-main--onlineQue__heart {
-        margin-right: 5px;
-        cursor: pointer;
-        color: $mainLightRed;
-    }
-    &__site-main--onlineQue__userIcon {
-        margin-right: 5px;
-        color: $mainLightBlue;
-    }
-
-    &__site-main--onlineQue__timeIcon {
-        margin-right: 3px;
-        /* color: $mainFontColor; */
-        color: $mainLightBlue;
-    }
-
-    &__onlinequefilter--angleicon {
+    &__onlineque-filter--angle {
         margin-left: 5px;
         color:$mainFontColor;
     }
 
-    &__onlinequefilter--filter__calend {
+    &__onlineque-filter--calend {
        font-size: 1.2rem;
        position: relative;
        color: rgba($mainDarkBlack, .6);
@@ -64,28 +20,178 @@
        }
     }
   
-    &__onlinequefilter--filter__alt--type {
+    &__online-quefilter--writ {
         color: rgba($mainDarkBlack, .6);
         margin-right: 8px;
     }
 
-    &__onlinequefilter--filter__alt--comment{
+    &__onlineque-filter--type {
+        color: rgba($mainDarkBlack, .6);
+        margin-right: 8px;
+    }
+
+    &__onlineque-filter--comment{
         color: rgba($mainDarkBlue, .8);
         margin-right: 8px;
     }
 
-    &__onlinequefilter--filter__alt--heart {
+    &__onlineque-filter--heart {
         color: rgba($mainDarkRed, .8);
         margin-right: 8px;
     }
 
-    &__onlinequefilter--filter__alt--duration {
+    &__onlineque-filter--tm {
         color: rgba($mainDarkRed, .8);
         margin-right: 8px;
     }
 
-    &__onlinequefilter--filter__categsm--angleicon {
+    &__onlineque-filter--categsm__angle {
         margin-left: 10px;
+    }
+
+    &__site-main__nav--onlineQue__filterIcon {
+        margin-left: 5px;
+        color: $mainFontColor
+    }
+
+    &__site-main--onlineque__tab {
+        margin-right: 5px;
+    }
+
+    &__site-main--onlineque__shared {
+        margin-right: 5px;
+    }
+
+    &__reuse-onlineque--durationClock {
+        margin-right: 3px;
+        color: $mainDarkBlue;
+    }
+
+    &__reuse-onlineque--loadmore__circle {
+        font-size: .35rem; 
+        color: $mainDarkPaleBlue;
+        margin-left: 6px;
+    }
+
+    &__reuse-onlineque--options {
+        margin-right: 10px;
+    }
+
+    &__reuse-onlineque--options__dft {
+        margin-right: 5px;
+    }
+
+    &__reuse-onlineque--share {
+        z-index: .7;
+        color: #fff;
+        font-size: .75rem;
+
+        @mixin atSmall {
+            font-size: .9375rem;
+        }
+    }
+
+    &__reuse-onlineque--pen {
+        margin-right: 5px;
+        color: #fff;
+    }
+
+    &__reuse-onlineque--comment {
+        margin-right: 5px;
+        color: $mainDarkBlack;
+    }
+
+    &__reuse-onlineque--heart {
+        margin-right: 5px;
+        cursor: pointer;
+        color: $mainLightRed;
+    }
+
+    &__reuse-onlineque--time {
+        margin-right: 3px;
+        /* color: $mainFontColor; */
+        color: $mainLightBlue;
+    }
+
+    &__reuse-share--title {
+        margin-left: 20px;
+    }
+
+    &__reuse-share--googleplus {
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        color: $mainDarkRed;
+        float: right;
+    }
+
+    &__reuse-share--facebook {
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        color: $mainLightBlue;
+        float: left;
+    }
+
+    &__reuse-share--icn {
+        cursor: pointer;
+        z-index: 1;
+        color: #fff;
+        font-size: .75rem;
+
+        @mixin atSmall {
+            font-size: .9375rem;
+        }
+    }
+
+    &__reuse-share--selec {
+        color: $mainLightGreen;
+    }
+
+    &__reuse-share--content-ans {
+        font-size: .625rem;
+        color: $mainLightBlue;
+    }
+
+    &__reuse-share--content-snts {
+        font-size: .625rem;
+        color: $mainDarkPaleBlue;
+    }
+
+    &__reuse-share--share {
+        margin-right: 5px;
+    }
+
+    &__reuse-share--view {
+        margin-right: 5px;
+    }
+
+    &__reuse-share--user {
+        color: $mainFontColor;
+        font-size: .75rem;
+    }
+
+    &__reuse-share--mainclose {
+        font-size: .75rem;
+        color: rgba($mainDarkBlack, .6);
+    }
+    
+    &__reuse-share--close {
+        font-size: .625rem;
+        color: $mainLightRed;
+    }
+
+    &__reuse-share--user-selec__user {
+        color: $mainDarkBlue;
+        font-size: .625rem;
+    }
+
+    &__reuse-share--reset {
+        color: $mainLightRed;
+        margin-right: 5px;
+        font-size: .875rem;
+        position: relative;
+        top: 1px;
     }
    
 }

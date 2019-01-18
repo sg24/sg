@@ -2,7 +2,6 @@
     position: relative;
 
     &__wrapper {
-        margin: 20px 0px;
         border-radius: 10px;
         background-color: #fff;
         box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
@@ -15,7 +14,7 @@
     &__overlaywrapper {
         position: relative;
         padding: 0 15px;  
-        margin: 40px 0; 
+        margin: 40px 0;  
            
         
         @mixin atSmall { 

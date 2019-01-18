@@ -6373,24 +6373,23 @@ img {
 }
 
 .reuse-share__content--user__tooltip {
-  background-color: rgba(0,0,0, 1);
+  background-color: #000;
   color: #fff;
+  border: 1px solid rgba(0,0,0, .5);
   padding: 2px;
   position: absolute;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
 }
 
 .reuse-share__content--user__tooltip--ans {
   opacity: 0;
   visibility: hidden;
   transition: all .3s ease-in;
-  white-space: normal;
-  bottom: 20px;
-  left: 88%;
-  transform: translateX(-88%);
+  bottom: auto;
+  top: 12px;
+  text-align: center;
+  width: 70px;
+  left: 0;
 }
 
 .reuse-share__content--user__tooltip--ans__visible {
@@ -6403,9 +6402,8 @@ img {
   opacity: 0;
   visibility: hidden;
   transition: all .3s ease-in;
-  left: 83%;
-  transform: translateX(-83%);
-  bottom: 5px;
+  left: 10px;
+  bottom: 2px;
 }
 
 .reuse-share__content--user__tooltip--snts__visible {

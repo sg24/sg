@@ -141,7 +141,7 @@
             overflow: hidden;
             overflow-x: hidden;
             overflow-y: auto;
-            height: 14.8rem;
+            height: 9rem;
             margin: 10px 0;
             border-top: 1px solid $mainDarkGray;
             padding: 10px 5px 0 0;
@@ -287,23 +287,22 @@
             }
 
             &__tooltip {
-                background-color: rgba($mainDarkBlack, 1);  
+                background-color: $mainDarkBlack;  
                 color: #fff;
+                border: 1px solid rgba($mainDarkBlack, .5); 
                 padding: 2px;
                 position: absolute;
                 bottom: 0;
-                left: 50%;
-                transform: translateX(-50%);
-                white-space: nowrap;
 
                 &--ans {
                     opacity: 0;
                     visibility: hidden;
                     transition: all .3s ease-in;
-                    white-space: normal;
-                    bottom: 20px;
-                    left: 88%;
-                    transform: translateX(-88%);
+                    bottom: auto;
+                    top: 12px;
+                    text-align: center; 
+                    width: 70px;
+                    left: 0;
 
                     &__visible {
                         opacity: 1;
@@ -316,9 +315,8 @@
                     opacity: 0;
                     visibility: hidden;
                     transition: all .3s ease-in;
-                    left: 83%;
-                    transform: translateX(-83%);
-                    bottom: 5px; 
+                    left: 10px;
+                    bottom: 2px; 
 
                     &__visible {
                         opacity: 1;
@@ -547,7 +545,7 @@
         }
 
         &--det {
-            height: 14.8rem;
+            height: 9rem;
             margin:  0;
             padding: 10px 5px 0 5px;
             overflow: hidden;
