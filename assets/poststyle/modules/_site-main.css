@@ -28,8 +28,8 @@
             visibility: hidden;
             transition: all .3s ease-in;
 
-            &--visible {
-                z-index: 1;
+            &__visible {
+                z-index: 2;
                 opacity: 1;
                 visibility: visible;
                 transition: all .3s ease-in;

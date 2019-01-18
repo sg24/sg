@@ -22,10 +22,6 @@
             text-align: center;
         }
 
-        @mixin atExtraSmall {
-          
-        }
-
         @mixin atSmall {
             right: 8px; 
             top: 4px;  

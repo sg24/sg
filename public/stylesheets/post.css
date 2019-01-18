@@ -30,8 +30,8 @@
     transition: all .3s ease-in;
 }
 
-.site-main__content--overlay--visible {
-    z-index: 1;
+.site-main__content--overlay__visible {
+    z-index: 2;
     opacity: 1;
     visibility: visible;
     transition: all .3s ease-in;
@@ -913,8 +913,6 @@
     width: 100%;
     text-align: center;
 }
-
-@media (min-width: 335px) {}
 
 @media (min-width: 530px) {
 
