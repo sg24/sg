@@ -1,4 +1,4 @@
-.ptwritfilter {
+.ptwrit-filter {
     width: 100%;
     position: relative;
     margin: 0 auto;
@@ -7,7 +7,7 @@
     &__found { 
         font-size: .875rem;
         font-weight: 400;
-        padding: 10px 0 10px 10px;
+        padding: 15px 0 10px 10px;
         margin: 0;
         margin-bottom: 20px;
         border-bottom: 1px solid $mainDarkGray;
@@ -111,7 +111,7 @@
         }
     }
 
-    &__filter {
+    &__cnt {
         float: left;
         border: 1px solid rgba($mainDarkPaleBlue, .2);
         border-top: 3px solid $mainDarkPaleBlue;

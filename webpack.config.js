@@ -8,7 +8,7 @@ module.exports = {
       globalScript: "./assets/globalscript/GlobalScript.js",
       post: "./assets/postscript/Post.js",
       question: "./assets/questionscript/Question.js",
-      quote: "./assets/quotescript/quote.js",
+      ptwrit: "./assets/ptwritscript/ptwrit.js",
       onlineque: "./assets/onlinequescript/onlineque.js",
       group: "./assets/groupscript/group.js",
       groupchat: "./assets/chatscript/groupchat.js",

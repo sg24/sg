@@ -144,6 +144,7 @@
             height: 9rem;
             margin: 10px 0;
             border-top: 1px solid $mainDarkGray;
+            border-bottom: 1px solid $mainDarkGray;
             padding: 10px 5px 0 0;
 
             &__wrapper {

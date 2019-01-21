@@ -1,0 +1,208 @@
+.icon {
+
+    &__site-main__ptwrit--tab--share {
+        margin-right: 5px;
+    }
+
+    &__ptwrit-filter--angle {
+        margin-left: 5px;
+        color:$mainFontColor;
+    }
+
+    &__ptwrit-filter--calend {
+       font-size: 1.2rem;
+       position: relative;
+       color: rgba($mainDarkBlack, .6);
+       cursor: pointer;
+
+       @mixin atExtraSmall {
+        font-size: 1.3rem;
+       }
+
+       @mixin atSmall {
+        font-size: 1.4rem;
+       }
+    }
+  
+    &__ptwrit-filter--comment {
+        color: rgba($mainDarkBlack, .6);
+        margin-right: 8px;
+    }
+
+    &__ptwrit-filter--eye{
+        color: rgba($mainDarkBlue, .8);
+        margin-right: 8px;
+    }
+
+    &__ptwrit-filter--heart {
+        color: rgba($mainDarkRed, .8);
+        margin-right: 8px;
+    }
+
+    &__ptwrit-filter--categsm__angle {
+        margin-left: 10px;
+    }
+
+    &__site-main--ptwrit__header--pencil {
+        font-size: 1.2rem;
+        color: #fff;
+    }
+
+    &__site-main--ptwrit__header--quoteleft {
+        font-size: .5rem;
+        position: relative;
+        top: -6px;
+        margin-right: 5px;
+    }
+
+    &__site-main--ptwrit__header--quoteright {
+        font-size: .5rem;
+        position: relative;
+        bottom: -6px;
+        margin-left: 5px;
+    }
+
+    &__site-main--ptwrit__header--angle {
+        margin-left: 5px;
+    }
+
+    &__site-main--ptwrit__note--circle {
+        color: $mainLightRed; 
+        font-size: .625rem; 
+        margin-right: 10px; 
+        top: -1px;
+        position: relative;
+    } 
+
+    &__reuse-pwt--tag {
+        color: $mainLightBlack;
+    }
+
+    &__reuse-pwt--quote {
+        font-size: .8125rem;
+        color: $mainDarkBlue;
+        position: absolute;
+        top: 3.5px;
+        left: 4.4px;
+    }
+
+    &__reuse-pwt--quoteright {
+        font-size: .8125rem;
+        color: $mainDarkBlue;
+        position: absolute;
+        top: 5px;
+        left: 4.4px;
+    }
+
+    &__reuse-pwt--loadmore__circle {
+        font-size: .35rem; 
+        color: $mainDarkPaleBlue;
+        margin-left: 6px;
+    }
+
+    &__reuse-pwt--options {
+        margin-right: 10px;
+    }
+
+    &__reuse-pwt--options__dft {
+        margin-right: 5px;
+    }
+
+    &__reuse-pwt--footer__smile {
+        margin-right: 5px;
+        color: $mainDarkBlue;  
+    }
+
+    &__reuse-pwt--footer__heart {
+        margin-right: 5px;
+        color: $mainLightRed;
+        cursor: pointer;
+    }
+
+    &__reuse-pwt--footer__comments {
+        margin-right: 5px;
+        color: $mainDarkBlack;
+     
+    }
+
+    &__reuse-share--title {
+        margin-left: 20px;
+    }
+
+    &__reuse-share--googleplus {
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        color: $mainDarkRed;
+        float: right;
+    }
+
+    &__reuse-share--facebook {
+        font-size: 28px;
+        padding: 0;
+        margin: 0;
+        color: $mainLightBlue;
+        float: left;
+    }
+
+    &__reuse-share--icn {
+        cursor: pointer;
+        z-index: 1;
+        color: #fff;
+        font-size: .75rem;
+
+        @mixin atSmall {
+            font-size: .9375rem;
+        }
+    }
+
+    &__reuse-share--selec {
+        color: $mainLightGreen;
+    }
+
+    &__reuse-share--content-ans {
+        font-size: .625rem;
+        color: $mainLightBlue;
+    }
+
+    &__reuse-share--content-snts {
+        font-size: .625rem;
+        color: $mainDarkPaleBlue;
+    }
+
+    &__reuse-share--share {
+        margin-right: 5px;
+    }
+
+    &__reuse-share--view {
+        margin-right: 5px;
+    }
+
+    &__reuse-share--user {
+        color: $mainFontColor;
+        font-size: .75rem;
+    }
+
+    &__reuse-share--mainclose {
+        font-size: .75rem;
+        color: rgba($mainDarkBlack, .6);
+    }
+    
+    &__reuse-share--close {
+        font-size: .625rem;
+        color: $mainLightRed;
+    }
+
+    &__reuse-share--user-selec__user {
+        color: $mainDarkBlue;
+        font-size: .625rem;
+    }
+
+    &__reuse-share--reset {
+        color: $mainLightRed;
+        margin-right: 5px;
+        font-size: .875rem;
+        position: relative;
+        top: 1px;
+    }
+}

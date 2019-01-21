@@ -6,10 +6,10 @@ class PtwritScroll {
         this.siteNav = $(".site-main__nav");
         this.siteHeaderList = $(".site-header__list");
         this.menu = $(".site-main");
-        this.tabMenu = $(".site-main__ptwrit--mainwrapper");
+        this.tabMenu = $(".site-main__ptwrit--main-wrapper");
         this.tab = $(".site-main__ptwrit--tab");
         this.tabWrapper = $(".site-main__content--wrapper");
-        this.tabMain = $(".site-main__ptwrit--mainwrapper");
+        this.tabMain = $(".site-main__ptwrit--main-wrapper");
         this.navSticky();
         this.tabSticky();
     }
@@ -38,11 +38,11 @@ class PtwritScroll {
                     that.siteHeaderList.addClass("site-header__list--hidden");
                     that.tab.addClass("site-main__ptwrit--tab__sticky");
                     that.tabWrapper.addClass("site-main__content--wrapper__visible");
-                    that.tabMain.addClass("site-main__ptwrit--mainwrapper__hidden");
+                    that.tabMain.addClass("site-main__ptwrit--main-wrapper__hidden");
                 } else { 
                     that.tab.removeClass("site-main__ptwrit--tab__sticky");
                     that.tabWrapper.removeClass("site-main__content--wrapper__visible");
-                    that.tabMain.removeClass("site-main__ptwrit--mainwrapper__hidden");
+                    that.tabMain.removeClass("site-main__ptwrit--main-wrapper__hidden");
                     that.siteHeaderList.removeClass("site-header__list--hidden");
                 }
             },

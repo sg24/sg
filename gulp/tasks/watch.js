@@ -43,12 +43,8 @@ gulp.task('watch', function() {
         gulp.start('questioncss')
     });
 
-    watch('./assets/quotestyle/**/*.css', function() {
-        gulp.start('quotecss')
-    });
-
-    watch('./assets/quotestyle/**/*.css', function() {
-        gulp.start('quotecss')
+    watch('./assets/ptwritstyle/**/*.css', function() {
+        gulp.start('ptwritcss')
     });
 
     watch('./assets/onlinequestyle/**/*.css', function() {
@@ -129,8 +125,8 @@ gulp.task('questioncss',['questionstyles'], function() {
 });
 
 
-gulp.task('quotecss',['quotestyles'], function() {
-    return gulp.src("./assets/quotestyle/quote.css")
+gulp.task('ptwritcss',['ptwritstyles'], function() {
+    return gulp.src("./assets/ptwritstyle/ptwrit.css")
     .pipe(browserSyc.stream());
 });
 

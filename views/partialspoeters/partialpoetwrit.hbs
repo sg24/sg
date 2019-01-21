@@ -1,80 +1,63 @@
 <div class="site-main__ptwrit">
     <div class="site-main__ptwrit--header">
-        <div class="site-main__ptwrit--header__main">
-            <div class="site-main__ptwrit--header__main--icon"><i class="fas fa-pencil-alt icon icon__site-main--ptwrit__header--pencil"></i></div>
-            <ul class="site-main__ptwrit--header__main--title">
-                <li>Poeters & Writers</li>
-                <li><i class="fas fa-quote-left icon icon__site-main--ptwrit__header--quoteleft"></i> pen is mightier than sword <i class="fas fa-quote-right icon icon__site-main--ptwrit__header--quoteright"></i> </li>
-            </ul>
-        </div>
-        <div class="site-main__ptwrit--header__submain">
-            <p class="site-main__ptwrit--header__submain--title">Your pen is powerful, Earn as you write</p>
-            <div class="site-main__ptwrit--header__submain--opt">Add <i class="fas fa-angle-down icon icon__site-main--ptwrit__header--angle"></i>
-                <ul class="site-main__ptwrit--header__submain--opt__list">
-                    <li>Free</li>
-                    <li>Paid</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    {{!-- <div class="site-main__ptwrit--tag">
-        <h3>Tags</h3>
-        <ul class="site-main__ptwrit--tag__list">
-            <li> Poem ,</li>
-            <li> poet ,</li>
-            <li> stroy ,</li>
-            <li> quote ,</li>
-            <li> prose ,</li>
-            <li>logics ,</li>
-            <li><span>add</span></li>
+        <div class="site-main__ptwrit--header__icon"><i class="fas fa-pencil-alt icon icon__site-main--ptwrit__header--pencil"></i></div>
+        <ul class="site-main__ptwrit--header__title">
+            <li>Poeters & Writers</li>
+            <li><i class="fas fa-quote-left icon icon__site-main--ptwrit__header--quoteleft"></i> pen is mightier than sword <i class="fas fa-quote-right icon icon__site-main--ptwrit__header--quoteright"></i> </li>
         </ul>
-    </div> --}}
+    </div>
     <div class="site-main__ptwrit--note">
-        {{!-- <span class="site-main__ptwrit--note__title">Note</span>     --}}
         <span class="site-main__ptwrit--note__content"><i class="fas fa-circle  icon icon__site-main--ptwrit__note--circle"></i> Amount you earn is amount you recieve, No hidden charges</span>
     </div>
-    <div class="site-main__ptwrit--mainwrapper">
+    <div class="site-main__ptwrit--main-wrapper">
+        <div class="site-main__ptwrit--main-wrapper__overlay"></div>
         <div class="site-main__ptwrit--top"></div>
         <ul class="site-main__ptwrit--tab">
             <li>Free</li>
             <li>Paid</li>
+            <li>
+               <i class="fas fa-location-arrow icon icon__site-main__ptwrit--tab--share"></i>  Share 
+                <div class="active__main active__main--shareme">
+                    <div>9</div>
+                </div>
+            </li>
         </ul>
 
-        <div class="ptwritfilter">
-            <h3 class="ptwritfilter__found">Total found <span class="ptwritfilter__found--total"> 2222k </span></h3>
+        <div class="ptwrit-filter">
+            <h3 class="ptwrit-filter__found">Total found <span class="ptwrit-filter__found--total"> 2222k </span></h3>
 
-            <div class="ptwritfilter__wrapper">
-                <div class="ptwritfilter__wrapper--options">
-                    <div class="ptwritfilter__category">
-                        Category <i class="fas fa-angle-down icon icon__ptwritfilter--angleicon"></i>
-                        <ul class="ptwritfilter__category--item">
+            <div class="ptwrit-filter__wrapper">
+                <div class="ptwrit-filter__wrapper--options">
+                    <div class="ptwrit-filter__category">
+                        Category <i class="fas fa-angle-down icon icon__ptwrit-filter--angle"></i>
+                        <ul class="ptwrit-filter__category--item">
                             <li>Peom</li>
                             <li>Prose</li>
                             <li>writers</li>
                         </ul>
                     </div>
 
-                    <div class="ptwritfilter__filter">
-                        Filter <i class="fas fa-angle-down icon icon__ptwritfilter--angleicon"></i>
+                    <div class="ptwrit-filter__cnt">
+                        Filter <i class="fas fa-angle-down icon icon__ptwrit-filter--angle"></i>
                     </div>
                     
 
-                    <div class="ptwritfilter__filter--options">
-                            <div class="ptwritfilter__filter--options__search">
-                                <div class="ptwritfilter__filter--options__search--field">
-                                    <div class="ptwritfilter__filter--options__search--field__inputcalendar"><i class="far fa-calendar-alt icon icon__ptwritfilter--filter__calend"></i></div> <input type="text" class="ptwritfilter__filter--options__search--field__input" placeholder="Enter Title">
+                    <div class="ptwrit-filter__cnt--options">
+                            <div class="ptwrit-filter__cnt--options__search">
+                                <div class="ptwrit-filter__cnt--options__search--field">
+                                    <div class="ptwrit-filter__cnt--options__search--field__inputcalendar"><i class="far fa-calendar-alt icon icon__ptwrit-filter--calend"></i></div> <input type="text" class="ptwrit-filter__cnt--options__search--field__input" placeholder="Enter Title">
                                 </div>
-                                <div class="ptwritfilter__filter--options__search--middlewrapper">
-                                    <div class="ptwritfilter__filter--options__search--found">
-                                        <div class="ptwritfilter__filter--options__search--found__title">Total Found</div>
-                                        <div class="ptwritfilter__filter--options__search--found__total">255</div>
+                                <div class="ptwrit-filter__cnt--options__search--middlewrapper">
+                                    <div class="ptwrit-filter__cnt--options__search--found">
+                                        <div class="ptwrit-filter__cnt--options__search--found__title">Total Found</div>
+                                        <div class="ptwrit-filter__cnt--options__search--found__total">255</div>
                                     </div>
-                                    <div class="ptwritfilter__filter--options__search--more">OR</div>
+                                    <div class="ptwrit-filter__cnt--options__search--more">OR</div>
                                 </div>
-                                <div class="ptwritfilter__filter--options__search--altwrapper ptwritfilter__filter--options__search--altwrapper__space">
-                                    <div class="ptwritfilter__filter--options__search--alt">
-                                        <h3 class="ptwritfilter__filter--options__search--alt__title"><i class="fas fa-comments icon icon__ptwritfilter--filter__alt--comment"></i> Comments</h3>
-                                        <ul class="ptwritfilter__filter--options__search--alt__option">
+                                <div class="ptwrit-filter__cnt--options__search--altwrapper ptwrit-filter__cnt--options__search--altwrapper__space">
+                                    <div class="ptwrit-filter__cnt--options__search--alt">
+                                        <h3 class="ptwrit-filter__cnt--options__search--alt__title"><i class="fas fa-comments icon icon__ptwrit-filter--comment"></i> Comments</h3>
+                                        <ul class="ptwrit-filter__cnt--options__search--alt__option">
                                             <li>
                                                 <ul>
                                                     <li>Low</li>
@@ -96,9 +79,9 @@
                                         </ul>
                                     </div>
 
-                                    <div class="ptwritfilter__filter--options__search--alt">
-                                        <h3 class="ptwritfilter__filter--options__search--alt__title"><i class="far fa-smile icon icon__ptwritfilter--filter__alt--eye"></i> Smiles</h3>
-                                        <ul class="ptwritfilter__filter--options__search--alt__option">
+                                    <div class="ptwrit-filter__cnt--options__search--alt">
+                                        <h3 class="ptwrit-filter__cnt--options__search--alt__title"><i class="far fa-smile icon icon__ptwrit-filter--eye"></i> Smiles</h3>
+                                        <ul class="ptwrit-filter__cnt--options__search--alt__option">
                                             <li>
                                                 <ul>
                                                     <li>Low</li>
@@ -120,9 +103,9 @@
                                         </ul>
                                     </div>
 
-                                    <div class="ptwritfilter__filter--options__search--alt">
-                                        <h3 class="ptwritfilter__filter--options__search--alt__title ptwritfilter__filter--options__search--alt__title--sm"><i class="fas fa-heart icon icon__ptwritfilter--filter__alt--heart"></i>   Favorites</h3>
-                                        <ul class="ptwritfilter__filter--options__search--alt__option">
+                                    <div class="ptwrit-filter__cnt--options__search--alt">
+                                        <h3 class="ptwrit-filter__cnt--options__search--alt__title ptwrit-filter__cnt--options__search--alt__title--sm"><i class="fas fa-heart icon icon__ptwrit-filter--heart"></i>   Favorites</h3>
+                                        <ul class="ptwrit-filter__cnt--options__search--alt__option">
                                             <li>
                                                 <ul>
                                                     <li>Low</li>
@@ -145,105 +128,45 @@
                                     </div>
                                 </div>
 
-                                <div class="ptwritfilter__filter--options__search--categsm">
-                                    <p class="ptwritfilter__filter--options__search--categsm__title">Select Category <i class="fas fa-angle-down icon icon__ptwritfilter--filter__categsm--angleicon"></i></p>
-                                    <ul class="ptwritfilter__filter--options__search--categsm__item">
+                                <div class="ptwrit-filter__cnt--options__search--categsm">
+                                    <p class="ptwrit-filter__cnt--options__search--categsm__title">Select Category <i class="fas fa-angle-down icon icon__ptwrit-filter--categsm__angle"></i></p>
+                                    <ul class="ptwrit-filter__cnt--options__search--categsm__item">
                                         <li>Poems</li>
                                         <li>Prose</li>
                                         <li>writers</li>
                                     </ul>
                                 </div>
 
-                                <button class="ptwritfilter__filter--options__search--btn">
-                                    <span class="ptwritfilter__filter--options__search--btn__cancel">Cancel</span>
-                                    <span class="ptwritfilter__filter--options__search--btn__ok">Ok</span>
+                                <button class="ptwrit-filter__cnt--options__search--btn">
+                                    <span class="ptwrit-filter__cnt--options__search--btn__cancel">Cancel</span>
+                                    <span class="ptwrit-filter__cnt--options__search--btn__ok">Ok</span>
                                 </button>
                             </div>
                         </div>
-                        <div class="ptwritfilter__myque">
+                        <div class="ptwrit-filter__myque">
                         My Works
-                        <div class="ptwritfilter__myque--total">
+                        <div class="ptwrit-filter__myque--total">
                             99
                         </div>
                     </div>
                 </div>
-                <div class="ptwritfilter__addque ptwritfilter__wrapper--altoption">
+                <div class="ptwrit-filter__addque ptwrit-filter__wrapper--altoption">
                     Add 
                 </div>
             </div>
         </div>
 
-        <div class="site-main__ptwrit--wrapper">
-            <div class="site-main__share">
-                <i class="fas fa-location-arrow icon icon__site-main--share__shareIcon"></i>
-            </div>
-            <div class="site-main__share--content">
-                <ul class="site-main__share--content__options">
-                    <li>
-                        <div class="site-main__share--content__options--item">
-                            <span class="site-main__share--content__options--item__title">Select Users</span> <span class="userarrowicon"><i class="fas fa-angle-down icon icon__site-main--share__selectuserarrow"></i></span>
-                        </div> 
-                        <div class="site-main__share--content__options--details">
-                            <input class="site-main__share--content__options--details__search" placeholder="search...." autofocus>
-                            <div class="site-main__share--content__options--details__user">
-                                <div class="site-main__share--content__options--details__user--wrapper">
-                                    <span class="site-main__share--content__options--details__user--selectIcon"><i class="fas fa-check-circle"></i></span>
-                                    <span class="site-main__share--content__options--details__user--selectIconClicked"><i class="fas fa-check-circle"></i></span>
-                                    <div class="site-main__share--content__options--details__user--img">
-                                    <img src="/" alt="">
-                                    </div>
-                                <ul>
-                                    <li><a href=""> User user User user User user</a></li>
-                                    <li>Answered: 13K </li>
-                                    <li>Students: 234K</li>
-                                </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <ul class="site-main__share--content__options--userCounter">
-                            <li>Tips: Click user image to select</li> 
-                            <li><i class="fas fa-users icon icon__site-main--share__userCounterIcon"></i> User Selected: <span class="site-main__nav--quote__header-share__content--options__userCounter--number">33K</span></li>
-                            <li>
-                                <ul>
-                                    <li><i class="fas fa-location-arrow icon icon__site-main--share__locationIcon"></i> Share</li>
-                                    <li class="site-main__share--content__options--userCounter__viewall">View All</li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <div class="site-main__share--content__options--userSelected">
-                            <p><i class="fas fa-users icon icon__site-main--share__userSelectedIcon"></i> Users Selected</p>
-                            <div class="site-main__share--content__options--userSelected__mainclose">
-                                <i class="fas fa-times icon icon__site-main--share__userSelectedCloseMainIcon"></i>
-                            </div>
-                                <div class="site-main__share--content__options--userSelected__wrapper">
-                                    <div class="site-main__share--content__options--userSelected__wrapper--content">
-                                    <div class="site-main__share--content__options--userSelected__close"><i class="fas fa-times icon icon__site-main--share__userSelectedCloseIcon"></i></div>
-                                    <div class="site-main__share--content__options--userSelected__img">
-                                            <img src="/" alt="">
-                                        </div>
-                                        <ul>
-                                            <li><a href=""> User user User user User user</a></li>
-                                            <li>Answered: 13K </li>
-                                            <li>Students: 234K</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <button class="site-main__share--content__options--userSelected__btn">Reset</button>
-                            </div>
-                    </li>
-                    <li class="site-main__share--content__options--socialIcons"><a href=""><i class="fab fa-facebook-square icon icon__site-main--share__facebook"></i></a><a href=""><i class="fab fa-google-plus-square icon icon__site-main--share__googleplus"></i></a></li>
-                </ul>
-            </div>
-
-            <div class="site-main__ptwrit--content">
-                  <div class="site-main__ptwrit--content__tag">
-                    <span><i class="fas fa-tag icon icon__site-main__ptwrit--quote"></i> Quote</span>
+        <div class="reuse-pwt">
+            {{> partialshare}}
+            <div class="reuse-pwt__content">
+                  <div class="reuse-pwt__content--tag">
+                    <span><a href=""><i class="fas fa-tag icon icon__reuse-pwt--tag"></i> Quote</a></span>
                   </div>
-                <div class="site-main__ptwrit--content__title site-main__ptwrit--content__title--mt">
-                    <div class="site-main__ptwrit--content__firstptwritIcon">
-                        <i class="fas fa-quote-left icon icon__site-main__ptwrit--ptwritIcon"></i>
+                <div class="reuse-pwt__content--title reuse-pwt__content--title__mt">
+                    <div class="reuse-pwt__content--firstptwritIcon">
+                        <i class="fas fa-quote-left icon icon__reuse-pwt--quote"></i>
                     </div>
-                    <div class="site-main__ptwrit--content__title--wrapper">
+                    <div class="reuse-pwt__content--title__wrapper">
                         <a href="">The quote is the best nature of lif, this is from the database
                         The quote is the best nature of lif, this is from the database 
                         The quote is the best nature of lif, this is from the database
@@ -252,210 +175,123 @@
                         The quote is the best nature of lif, this is from the database<span>...</span></a>
                     </div>
                 </div>
-                <div class="site-main__ptwrit--content__secondptwritIcon">
-                    <div class="site-main__ptwrit--content__secondptwritIcon--user">
-                        <div class="site-main__ptwrit--content__secondptwritIcon--user__img">
+                <div class="reuse-pwt__content--det reuse-pwt__content--det__quoteright">
+                    <div class="reuse-pwt__content--det__user">
+                        <div class="reuse-pwt__content--det__user--img">
                             <img src="/" alt="">
                         </div> 
                         <a href="">User user </a>
-                         <div class="site-main__ptwrit--content__secondptwritIcon--time">
+                         <div class="reuse-pwt__content--det__user--time">
                             @ 2m ago
                         </div>
+                        <div class="reuse-pwt__content--det__user--det">
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+
+                             <ul class="reuse-pwt__content--det__user--det__opt">
+                                <li><a href=""><i class="far fa-edit icon icon__reuse-pwt--options"></i>Edit </a></li>
+                                <li class="reuse-pwt__content--det__user--det__opt--status"><i class="far fa-eye-slash icon icon__reuse-pwt--options__dft"></i> Draft</li>
+                                <li><a href=""><i class="far fa-trash-alt icon icon__reuse-pwt--options"></i>Delete </a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="site-main__ptwrit--content__secondptwritIcon--wrapper">
-                        <i class="fas fa-quote-right icon icon__site-main__ptwrit--ptwritsecondIcon"></i>
+                    <div class="reuse-pwt__content--det__quote-wrapper">
+                        <i class="fas fa-quote-right icon icon__reuse-pwt--quoteright"></i>
                     </div>
                 </div>
             </div>
-            <ul class="site-main__ptwrit--footer">
-                <li><i class="far fa-smile icon icon__site-main__ptwrit--footer__smile"></i> 11k</li>
-                <li><i class="far fa-heart icon icon__site-main__ptwrit--footer__heart"></i> 122k</li>
-                <li><i class="far fa-comment-dots icon icon__site-main__ptwrit--footer__comments"></i> 100k</li>
+            <ul class="reuse-pwt__footer">
+                <li><i class="far fa-smile icon icon__reuse-pwt--footer__smile"></i> 11k</li>
+                <li><i class="far fa-heart icon icon__reuse-pwt--footer__heart"></i> 122k</li>
+                <li><i class="far fa-comment-dots icon icon__reuse-pwt--footer__comments"></i> 100k</li>
             </ul>
         </div>
-
-        <div class="site-main__ptwrit--wrapper">
-            <div class="site-main__share">
-                <i class="fas fa-location-arrow icon icon__site-main--share__shareIcon"></i>
-            </div>
-            <div class="site-main__share--content">
-                <ul class="site-main__share--content__options">
-                    <li>
-                        <div class="site-main__share--content__options--item">
-                            <span class="site-main__share--content__options--item__title">Select Users</span> <span class="userarrowicon"><i class="fas fa-angle-down icon icon__site-main--share__selectuserarrow"></i></span>
-                        </div> 
-                        <div class="site-main__share--content__options--details">
-                            <input class="site-main__share--content__options--details__search" placeholder="search...." autofocus>
-                            <div class="site-main__share--content__options--details__user">
-                                <div class="site-main__share--content__options--details__user--wrapper">
-                                    <span class="site-main__share--content__options--details__user--selectIcon"><i class="fas fa-check-circle"></i></span>
-                                    <span class="site-main__share--content__options--details__user--selectIconClicked"><i class="fas fa-check-circle"></i></span>
-                                    <div class="site-main__share--content__options--details__user--img">
-                                    <img src="/" alt="">
-                                    </div>
-                                <ul>
-                                    <li><a href=""> User user User user User user</a></li>
-                                    <li>Answered: 13K </li>
-                                    <li>Students: 234K</li>
-                                </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <ul class="site-main__share--content__options--userCounter">
-                            <li>Tips: Click user image to select</li> 
-                            <li><i class="fas fa-users icon icon__site-main--share__userCounterIcon"></i> User Selected: <span class="site-main__nav--quote__header-share__content--options__userCounter--number">33K</span></li>
-                            <li>
-                                <ul>
-                                    <li><i class="fas fa-location-arrow icon icon__site-main--share__locationIcon"></i> Share</li>
-                                    <li class="site-main__share--content__options--userCounter__viewall">View All</li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <div class="site-main__share--content__options--userSelected">
-                            <p><i class="fas fa-users icon icon__site-main--share__userSelectedIcon"></i> Users Selected</p>
-                            <div class="site-main__share--content__options--userSelected__mainclose">
-                                <i class="fas fa-times icon icon__site-main--share__userSelectedCloseMainIcon"></i>
-                            </div>
-                                <div class="site-main__share--content__options--userSelected__wrapper">
-                                    <div class="site-main__share--content__options--userSelected__wrapper--content">
-                                    <div class="site-main__share--content__options--userSelected__close"><i class="fas fa-times icon icon__site-main--share__userSelectedCloseIcon"></i></div>
-                                    <div class="site-main__share--content__options--userSelected__img">
-                                            <img src="/" alt="">
-                                        </div>
-                                        <ul>
-                                            <li><a href=""> User user User user User user</a></li>
-                                            <li>Answered: 13K </li>
-                                            <li>Students: 234K</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <button class="site-main__share--content__options--userSelected__btn">Reset</button>
-                            </div>
-                    </li>
-                    <li class="site-main__share--content__options--socialIcons"><a href=""><i class="fab fa-facebook-square icon icon__site-main--share__facebook"></i></a><a href=""><i class="fab fa-google-plus-square icon icon__site-main--share__googleplus"></i></a></li>
-                </ul>
-            </div>
-
-            <div class="site-main__ptwrit--content">
-                <div class="site-main__ptwrit--content__tag">
-                    <span><i class="fas fa-tag icon icon__site-main__ptwrit--quote"></i> Poems</span>
+        
+        <div class="reuse-pwt">
+            {{> partialshare}}
+            <div class="reuse-pwt__content">
+                <div class="reuse-pwt__content--tag">
+                    <span><a href=""><i class="fas fa-tag icon icon__reuse-pwt--tag"></i> Poems</a></span>
                 </div>
-                <div class="site-main__ptwrit--content__title">
-                    <div class="site-main__ptwrit--content__title--wrapper">
+                <div class="reuse-pwt__content--title">
+                    <div class="reuse-pwt__content--title__wrapper">
                         <a href="">The quote is the best nature of lif, this is from the database
                         The quote is the best nature of lif, this is from the database <span>...</span></a>
                     </div>
                 </div>
-                <div class="site-main__ptwrit--content__secondptwritIcon">
-                    <div class="site-main__ptwrit--content__secondptwritIcon--user">
-                        <div class="site-main__ptwrit--content__secondptwritIcon--user__img">
+                <div class="reuse-pwt__content--det">
+                    <div class="reuse-pwt__content--det__user">
+                        <div class="reuse-pwt__content--det__user--img">
                             <img src="/" alt="">
                         </div> 
                         <a href="">User user </a>
-                         <div class="site-main__ptwrit--content__secondptwritIcon--time">
+                         <div class="reuse-pwt__content--det__user--time">
                             @ 2m ago
+                        </div>
+                        <div class="reuse-pwt__content--det__user--det">
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+
+                             <ul class="reuse-pwt__content--det__user--det__opt">
+                                <li><a href=""><i class="far fa-edit icon icon__reuse-pwt--options"></i>Edit </a></li>
+                                <li class="reuse-pwt__content--det__user--det__opt--status"><i class="far fa-eye-slash icon icon__reuse-pwt--options__dft"></i> Draft</li>
+                                <li><a href=""><i class="far fa-trash-alt icon icon__reuse-pwt--options"></i>Delete </a></li>
+                            </ul>
                         </div>
                     </div>
                 </div> 
             </div>
-            <ul class="site-main__ptwrit--footer">
-                <li><i class="far fa-smile icon icon__site-main__ptwrit--footer__smile"></i> 11k</li>
-                <li><i class="far fa-heart icon icon__site-main__ptwrit--footer__heart"></i> 122k</li>
-                <li><i class="far fa-comment-dots icon icon__site-main__ptwrit--footer__comments"></i> 100k</li>
+            <ul class="reuse-pwt__footer">
+                <li><i class="far fa-smile icon icon__reuse-pwt--footer__smile"></i> 11k</li>
+                <li><i class="far fa-heart icon icon__reuse-pwt--footer__heart"></i> 122k</li>
+                <li><i class="far fa-comment-dots icon icon__reuse-pwt--footer__comments"></i> 100k</li>
             </ul>
         </div>
 
-        <div class="site-main__ptwrit--wrapper">
-            <div class="site-main__share">
-                <i class="fas fa-location-arrow icon icon__site-main--share__shareIcon"></i>
-            </div>
-            <div class="site-main__share--content">
-                <ul class="site-main__share--content__options">
-                    <li>
-                        <div class="site-main__share--content__options--item">
-                            <span class="site-main__share--content__options--item__title">Select Users</span> <span class="userarrowicon"><i class="fas fa-angle-down icon icon__site-main--share__selectuserarrow"></i></span>
-                        </div> 
-                        <div class="site-main__share--content__options--details">
-                            <input class="site-main__share--content__options--details__search" placeholder="search...." autofocus>
-                            <div class="site-main__share--content__options--details__user">
-                                <div class="site-main__share--content__options--details__user--wrapper">
-                                    <span class="site-main__share--content__options--details__user--selectIcon"><i class="fas fa-check-circle"></i></span>
-                                    <span class="site-main__share--content__options--details__user--selectIconClicked"><i class="fas fa-check-circle"></i></span>
-                                    <div class="site-main__share--content__options--details__user--img">
-                                    <img src="/" alt="">
-                                    </div>
-                                <ul>
-                                    <li><a href=""> User user User user User user</a></li>
-                                    <li>Answered: 13K </li>
-                                    <li>Students: 234K</li>
-                                </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <ul class="site-main__share--content__options--userCounter">
-                            <li>Tips: Click user image to select</li> 
-                            <li><i class="fas fa-users icon icon__site-main--share__userCounterIcon"></i> User Selected: <span class="site-main__nav--quote__header-share__content--options__userCounter--number">33K</span></li>
-                            <li>
-                                <ul>
-                                    <li><i class="fas fa-location-arrow icon icon__site-main--share__locationIcon"></i> Share</li>
-                                    <li class="site-main__share--content__options--userCounter__viewall">View All</li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <div class="site-main__share--content__options--userSelected">
-                            <p><i class="fas fa-users icon icon__site-main--share__userSelectedIcon"></i> Users Selected</p>
-                            <div class="site-main__share--content__options--userSelected__mainclose">
-                                <i class="fas fa-times icon icon__site-main--share__userSelectedCloseMainIcon"></i>
-                            </div>
-                                <div class="site-main__share--content__options--userSelected__wrapper">
-                                    <div class="site-main__share--content__options--userSelected__wrapper--content">
-                                    <div class="site-main__share--content__options--userSelected__close"><i class="fas fa-times icon icon__site-main--share__userSelectedCloseIcon"></i></div>
-                                    <div class="site-main__share--content__options--userSelected__img">
-                                            <img src="/" alt="">
-                                        </div>
-                                        <ul>
-                                            <li><a href=""> User user User user User user</a></li>
-                                            <li>Answered: 13K </li>
-                                            <li>Students: 234K</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <button class="site-main__share--content__options--userSelected__btn">Reset</button>
-                            </div>
-                    </li>
-                    <li class="site-main__share--content__options--socialIcons"><a href=""><i class="fab fa-facebook-square icon icon__site-main--share__facebook"></i></a><a href=""><i class="fab fa-google-plus-square icon icon__site-main--share__googleplus"></i></a></li>
-                </ul>
-            </div>
-
-            <div class="site-main__ptwrit--content">
-                <div class="site-main__ptwrit--content__tag">
-                    <span><i class="fas fa-tags icon icon__site-main__ptwrit--quote"></i> Poems</span>
-                    <span><i class="fas fa-tags icon icon__site-main__ptwrit--quote"></i> Paid</span>
+        <div class="reuse-pwt">
+            {{> partialshare}}
+            <div class="reuse-pwt__content">
+                <div class="reuse-pwt__content--tag">
+                    <span><a href=""><i class="fas fa-tags icon icon__reuse-pwt--tag"></i> Poems</a></span>
+                    <span><a href=""><i class="fas fa-tags icon icon__reuse-pwt--tag"></i> Paid</a></span>
                 </div>
-                <div class="site-main__ptwrit--content__title">
-                    <div class="site-main__ptwrit--content__title--wrapper">
+                <div class="reuse-pwt__content--title">
+                    <div class="reuse-pwt__content--title__wrapper">
                         <a href="">The quote is the best nature of lif, this is from the database
                         The quote is the best nature of lif, this is from the database <span>...</span></a>
                     </div>
                 </div>
-               <div class="site-main__ptwrit--content__secondptwritIcon">
-                    <div class="site-main__ptwrit--content__secondptwritIcon--user">
-                        <div class="site-main__ptwrit--content__secondptwritIcon--user__img">
+               <div class="reuse-pwt__content--det">
+                    <div class="reuse-pwt__content--det__user">
+                        <div class="reuse-pwt__content--det__user--img">
                             <img src="/" alt="">
                         </div> 
                         <a href="">User user </a>
-                         <div class="site-main__ptwrit--content__secondptwritIcon--time">
+                         <div class="reuse-pwt__content--det__user--time">
                             @ 2m ago
                         </div>
+                        <div class="reuse-pwt__content--det__user--det">
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+                            <i class="fas fa-circle icon icon__reuse-pwt--loadmore__circle"></i>
+
+                             <ul class="reuse-pwt__content--det__user--det__opt">
+                                <li><a href=""><i class="far fa-edit icon icon__reuse-pwt--options"></i>Edit </a></li>
+                                <li class="reuse-pwt__content--det__user--det__opt--status"><i class="far fa-eye-slash icon icon__reuse-pwt--options__dft"></i> Draft</li>
+                                <li><a href=""><i class="far fa-trash-alt icon icon__reuse-pwt--options"></i>Delete </a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div> 
+                </div>  
             </div>
-            <ul class="site-main__ptwrit--footer">
-                <li><i class="far fa-smile icon icon__site-main__ptwrit--footer__smile"></i> 11k</li>
-                <li><i class="far fa-heart icon icon__site-main__ptwrit--footer__heart"></i> 122k</li>
-                <li><i class="far fa-comment-dots icon icon__site-main__ptwrit--footer__comments"></i> 100k</li>
+            <ul class="reuse-pwt__footer">
+                <li><i class="far fa-smile icon icon__reuse-pwt--footer__smile"></i> 11k</li>
+                <li><i class="far fa-heart icon icon__reuse-pwt--footer__heart"></i> 122k</li>
+                <li><i class="far fa-comment-dots icon icon__reuse-pwt--footer__comments"></i> 100k</li>
             </ul>
         </div>
-        <div class="site-main__ptwrit--mainwrapper__overlay"></div>
+        
     </div>
 </div>
