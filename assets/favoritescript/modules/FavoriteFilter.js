@@ -41,7 +41,7 @@ class FavoriteFilter {
         this.sortToggler.removeClass("icon--rotate"); 
         this.filter.removeClass("exfav__filter--options__visible");
         this.categ.removeClass("exfav__filter--options__search--categ__item--visible");
-        this.overlay.toggleClass("site-main__fav-main--overlay__visible");
+        this.overlay.removeClass("site-main__fav-main--overlay__visible");
     }
 }
 

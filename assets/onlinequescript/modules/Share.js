@@ -18,13 +18,8 @@ class Share {
         this.viewUserClose = $(".reuse-share__user-selected--mainclose");
         this.viewUser = $(".reuse-share__user-selected");
         this.userCount = $(".reuse-share__user-counter");
-        this.closeShare = $(".exfav__sort, .exfav__filter");
-        this.queOptToggler = $(".reuse-que__footer--details");
-        this.queOpt = $(".reuse-que__footer--details__options");
-        this.ptOptToggler = $(".reuse-pt__footer--details");
-        this.ptOpt = $(".reuse-pt__footer--details__options");
+        this.closeShare = $(".onlineque-filter__cnt, .onlineque-filter__category");
         this.onqueOpt = $(".reuse-onlineque__content--posted__user--det__opt");
-        this.pwtOpt = $(".reuse-pwt__content--det__user--det__opt");
         this.events();
     }
   
@@ -46,12 +41,7 @@ class Share {
     toggleShare() {
         this.share.toggleClass("reuse-share__wrapper--visible");
         this.shareToggler.toggleClass("reuse-share__icn--rotate");
-        this.queOpt.removeClass("reuse-que__footer--details__options--visible");
-        this.queOptToggler.removeClass("reuse-que__footer--details__clk");
-        this.ptOptToggler.removeClass("reuse-pt__footer--details__clk");
-        this.ptOpt.removeClass("reuse-pt__footer--details__options--visible");
         this.onqueOpt.removeClass("reuse-onlineque__content--posted__user--det__opt--visible");
-        this.pwtOpt.removeClass("reuse-pwt__content--det__user--det__opt--visible");
     }
 
     toggleUser() {
