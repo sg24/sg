@@ -12,22 +12,7 @@
 </head>
     <body>
     {{> siteHeader}} 
-        <div class="viewall">
-            <div class="wrapper__viewall">
-                <div class="view__wrapper">
-                </div>
-                <div class="viewall__contentwrapper">
-                    {{> content}}
-                </div>
-                <div class="viewall__nav">
-                    <div class="viewall__nav--header">
-                        <i class="fas fa-exchange-alt icon icon__viewall--exchange__alt"></i>
-                    </div>
-                    {{> nav}}
-                    {{!-- {{> chat}} --}}
-                </div>
-            </div>
-        </div>
+    {{> partialview}}
     <script src="/js/app/bundle.js"></script>
     <script src="/js/app/view.js"></script>
     

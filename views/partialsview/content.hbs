@@ -1,469 +1,153 @@
-<div class="viewall__content">
-    <div class="viewall__content--header">
-    <p class="viewall__content--title">
-        What is your view about this stuff
-    </p> 
-    <ul class="viewall__content--details">
-        <li><span class="viewall__content--details__title"></span><i class="fas fa-clock icon icon__viewall--content__clockIcon"></i> <span class="viewall__content--details__time">11:45pm today</span></li>
-        <li class="viewall__content--details__middleItem"> 
-            <div class="viewall__content--details__soln">
-                <p class="viewall__content--details__soln--title">Answers </p>   
-                <div class="viewall__content--details__solnAdded">
-                    <span class="viewall__content--details__solnAdded--num">99</span>
-                </div>
-            </div> 
-        </li>
-        <li>
-            <i class="fas fa-eye icon icon__viewall--content__viewerIcon"></i> viewers <span class="viewall__content--details__viewer">222</span>
-        </li>
-    </ul>
+<div class="reuse-view__main">
+    <div class="reuse-view__main--header">
+        <p class="reuse-view__main--header__title">
+            What is your view about this stuff
+        </p> 
+        <ul class="reuse-view__main--header__det">
+            <li><i class="far fa-clock icon icon__reuse-view--main__tm"></i> 2m ago</li>
+            <li class="reuse-view__main--header__det--ans">Answers <div>99</div></li>
+            <li><div><i class="far fa-eye icon icon__reuse-view--main__eye"></i></div> 222</li>
+        </ul>
     </div>
-    <p class="viewall__content--view">
+    <p class="reuse-view__main--cnt">
         the view about stuffs is always very important and this is the reason while this
         post was writen, do you know that the secret is somewhere within this content and 
         that is while it is very important to know the reason while the title is given such
         name, ok well i can discuss it later ,.
     </p>
-    <ul class="viewall__content--userdetails">
-        <li><p class="viewall__content--userdetails__edit"><i class="fas fa-edit icon icon__view--content__editicon"></i> Edit <span class="viewall__content--userdetails__edit--time">2m ago</span></p></li>
-        <li>
-            {{!-- <p>Asked by </p> --}}
-            <div class="viewall__content--userdetails__imgwrapper">
-                <div class="viewall__content--userdetails__img">
-                    <img src="/" alt="">
-                </div>
-            </div>
-            <ul class="viewall__content--userdetails__status">
-                <li class="viewall__content--userdetails__status--title"><a href="">User user</a></li>
-                <li class="viewall__content--userdetails__status--details">online</li>
-                 {{!-- <li class="viewall__content--userdetails__status--details__offline">offline 2m ago</li> --}}
-            </ul>
-        </li>
-    </ul>
-    <ul class="viewall__content--footer">
-        <li>
-            <div class="viewall__content--footer__share">
-                <div class="viewall__content--footer__share--shareIcon"><i class="fas fa-location-arrow icon icon__viewall--content__shareIcon"></i></div> 
-                <span class="viewall__content--footer__share--shareIcon__hidesm">share</span> 
-            </div>
-            <div class="viewall__content--footer__favorite">
-                <span class="viewall__content--footer__favoriteIcon"><i class="far fa-heart icon icon__viewall--content__favIcon"></i></span> 
-                <span class="viewall__content--footer__favoriteIcon--hidesm">favorities</span>    
-            </div>
-        </li>
-        <li class="viewall__content--footer__item"><a href="/view/#Add-Answer" id="Add-Answer-link"><i class="fas fa-pencil-alt icon icon__viewall--content__pencilIcon"></i> Add solution</a></li>
-        <li class="viewall__content--footer__lastitem">
-            <div class="viewall__content--footer__loadmorewrapper">
-                <i class="fas fa-circle viewall__content--footer__firstloadmore icon icon__viewall--content__circleIcon"></i>
-                <i class="fas fa-circle viewall__content--footer__secondloadmore icon icon__viewall--content__circleIcon"></i>
-                <i class="fas fa-circle viewall__content--footer__lastloadmore icon icon__viewall--content__circleIcon"></i>
+    <div class="reuse-view__main--det">
+        <div class="reuse-view__main--det__edit">
+            <div class="reuse-view__main--det__edit--title"><div><i class="far fa-edit icon icon__reuse-view--main__edit"></i></div> edit</div>
+            <div class="reuse-view__main--det__edit--tm">2m ago</div>
+        </div>
+        <div class="reuse-view__main--det__user">
+            <div class="reuse-view__main--det__user--img">
 
-                <ul class="viewall__content--footer__loadmorewrapper--options">
-                    <li class="viewall__content--footer__loadmorewrapper--options__edit"><i class="fas fa-edit icon icon__viewall--footer__loadmorewrapper--editicon"></i> Edit Question</li>
-                    <li class="viewall__content--footer__loadmorewrapper--options__delete"><i class="fas fa-trash-alt icon icon__viewall--footer__loadmorewrapper--deleteicon"></i> Delete Question</li>
-                </ul>
             </div>
-        </li>
-    </ul>
-    
-    <div class="share">
-        <div class="share--content">
-            <ul class="share--content__options">
-                <li>
-                    <div class="share--content__options--item">
-                        <span class="share--content__options--item__title">Select Users</span> <span class="userarrowicon"><i class="fas fa-angle-down icon icon__site-main--share__selectuserarrow"></i></span>
-                    </div> 
-                    <div class="share--content__options--details">
-                        <input class="share--content__options--details__search" placeholder="search user...." autofocus>
-                        <div class="share--content__options--details__user">
-                            <div class="share--content__options--details__user--wrapper">
-                                <span class="share--content__options--details__user--selectIcon"><i class="fas fa-check-circle"></i></span>
-                                <span class="share--content__options--details__user--selectIconClicked"><i class="fas fa-check-circle"></i></span>
-                                <div class="share--content__options--details__user--img">
-                                <img src="/" alt="">
-                            </div>
-                            <ul>
-                                <li><a href=""> User user User user User user</a></li>
-                                <li>Answered: 13K </li>
-                                <li>Students: 234K</li>
-                            </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <ul class="share--content__options--userCounter">
-                        <li>Tips: Click user image to select</li> 
-                        <li><i class="fas fa-users icon icon__share--userCounterIcon"></i> User Selected: <span class="share--content__options--userCounter__number">33K</span></li>
-                        <li>
-                            <ul>
-                                <li><i class="fas fa-location-arrow icon icon__site-main--share__locationIcon"></i> Share</li>
-                                <li class="share--content__options--userCounter__viewall">View All</li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="share--content__options--userSelected">
-                        <p><i class="fas fa-users icon icon__share--userSelectedIcon"></i> Users Selected</p>
-                        <div class="share--content__options--userSelected__mainclose">
-                            <i class="fas fa-times icon icon__share--userSelectedCloseMainIcon"></i>
-                        </div>
-                            <div class="share--content__options--userSelected__wrapper">
-                                <div class="share--content__options--userSelected__wrapper--content">
-                                <div class="share--content__options--userSelected__close"><i class="fas fa-times icon icon__share--userSelectedCloseIcon"></i></div>
-                                <div class="share--content__options--userSelected__img">
-                                        <img src="/" alt="">
-                                    </div>
-                                    <ul>
-                                        <li><a href=""> User user User user User user</a></li>
-                                        <li>Answered: 13K </li>
-                                        <li>Students: 234K</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <button class="share--content__options--userSelected__btn">Reset</button>
-                        </div>
+            <ul>
+                <li><a href=""> User User</a></li>
+                <li class="reuse-view__main--det__user--status">
+                    {{!-- <div class="reuse-view__main--det__user--status__off"></div> 2m ago --}}
+                    <div class="reuse-view__main--det__user--status__on"></div> online
                 </li>
-                <li class="share--content__options--socialIcons"><a href=""><i class="fab fa-facebook-square icon icon__share--facebook"></i></a><a href=""><i class="fab fa-google-plus-square icon icon__share--googleplus"></i></a></li>
             </ul>
+        </div>
+    </div>
+    <div class="reuse-view__main--footer">
+        <div class="reuse-view__main--footer__user-opt">
+            {{> partialshare}}
+            <span><i class="far fa-heart icon icon__reuse-view--fav"></i></span>
+        </div>
+        <div class="reuse-view__main--footer__add">
+            <a href="/view/#Add-Answer" id="Add-Answer-link"> <i class="fas fa-pencil-alt icon icon__reuse-view--main__add"></i> Add Solution</a>
+        </div>
+        <div class="reuse-view__main--footer__user-det">
+            <i class="fas fa-circle icon icon__reuse-view--circle"></i>
+            <i class="fas fa-circle icon icon__reuse-view--circle"></i>
+            <i class="fas fa-circle icon icon__reuse-view--circle"></i>
         </div>
     </div>
 </div>
 
-<div class="viewall__comments">
-    <div class="viewall__comments--header">
-        <p class="viewall__comments--header__ans">Answer Section <a href="" class="viewall__comments--header__askQue">Ask Question</a></p>
+<div class="reuse-view__comments">
+    <div class="reuse-view__comments--header">
+        <p class="reuse-view__comments--header__ans">Answer Section <a href="" class="reuse-view__comments--header__ask">Ask Question</a></p>
     </div> 
-    <div class="viewall__comments--wrapper">
-        <div class="viewall__comments--wrapper__overlay">
+    <div class="reuse-view__comments--wrapper">
+        <div class="reuse-view__comments--wrapper__overlay">
         </div>  
-        <div class="viewall__comments--box">
-            <ul class="viewall__comments--box__header">
-            <li>
-                    <div class="viewall__comments--box__header--img">
+        <div class="reuse-view__comments--box">
+            <ul class="reuse-view__comments--box__header">
+                <li>
+                    <div class="reuse-view__comments--box__header--img">
                         <img src="" alt="">
                     </div>
-                    <ul class="viewall__comments--box__header--userdetails">
-                        <li><span class="viewall__comments--box__header--userdetails__title">User user</span></li>
-                        {{!-- <li><span class="viewall__comments--box__header--userdetails__online">online</span></li> --}}
-                        <li class="viewall__comments--box__header--userdetails__offline">offline <span class="viewall__comments--box__header--userdetails__lastItem">2m ago</span></li>
-                    </ul>
-            </li>
-            <li class="viewall__comments--box__header--soln">Answer Added  <span class="viewall__comments--box__header--soln__time"><i class="far fa-clock"></i> 2hrs ago</span></li>
+                    <div class="reuse-view__comments--box__header--det">
+                        <div><span class="reuse-view__comments--box__header--det__title">User user</span></div>
+                        {{!-- <div class="reuse-view__comments--box__header--det__status">
+                            <div class="reuse-view__comments--box__header--det__status--off"></div>
+                            <span>2m ago</span>
+                        </div> --}}
+                        <div class="reuse-view__comments--box__header--det__status">
+                            <div class="reuse-view__comments--box__header--det__status--on"></div>
+                            <span>online</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="reuse-view__comments--box__header--soln"> Added <span class="reuse-view__comments--box__header--soln__time"><i class="far fa-clock"></i> 2hrs ago</span></li>
             </ul>
-            <p class="viewall__comments--box__content">
+            <p class="reuse-view__comments--box__content">
                 the solution to the question is not that difficult, when i tried to check the question
                 i saw the answer immediately so very very simple question, the answer is ...
-                <span class="viewall__comments--box__content--chats"><i class="fas fa-comments icon icon__viewall--comments__commentIcon"></i> <span class="viewall__comments--box__content--chats__title">chats</span></span>
+                <span class="reuse-view__comments--box__content--chats"><i class="far fa-comments icon icon__reuse-view--comments__chats"></i> <span class="reuse-view__comments--box__content--chats__title">chats</span></span>
             </p>
-            <ul class="viewall__comments--box__footer">
-                <li class="viewall__comments--box__footer--firstitem">
-                    <ul>
-                        <li class="viewall__comments--box__footer--firstitem__share viewall__comments--box__footer--firstitem__innerItem"><i class="fas fa-location-arrow icon icon__viewall--comments__box-arrowIcon"></i></li>
-                        <li><i class="far fa-heart"></i></li>
-                        <li class="viewall__comments--box__footer--reply"><i class="fas fa-reply"></i></li>
-                    </ul>
-                </li>
-                <li class="viewall__comments--box__footer--middleitem">
-                    <ul>
-                        <li><i class="far fa-thumbs-up icon icon__viewall--comments__box-thumbIcon"></i></li>
-                        <li>24</li>
-                    </ul>
-                </li>
-                <li class="viewall__comments--box__footer--lastItem">
-                    <div class="viewall__comments--box__footer--loadmorewrapper">
-                        <i class="fas fa-circle  icon icon__viewall--comments__box--footer__circleIcon"></i>
-                        <i class="fas fa-circle  icon icon__viewall--comments__box--footer__circleIcon"></i>
-                        <i class="fas fa-circle  icon icon__viewall--comments__box--footer__circleIcon"></i>
-                        <ul class="viewall__comments--box__footer--lastItem__options">
-                            <li class="viewall__comments--box__footer--lastItem__options--fav">
-                                <span class="viewall__comments--box__footer--lastItem__options--fav__title"><i class="far fa-thumbs-up icon icon__viewall--comments__box--footer__thumbsicon"></i>Like</span>   <div class="viewall__comments--box__footer--lastItem__options--fav__total">22</div>
-                            </li>
-                            {{!-- <li class="viewall__comments--box__footer--lastItem__options--view"><i class="far fa-eye icon icon__viewall--comments__box--footer__eyeicon"></i> View Profile</li>
-                            <li class="viewall__comments--box__footer--lastItem__options--teacher"><i class="fas fa-chalkboard-teacher icon icon__viewall--comments__box--footer__icon"></i> Add as teacher</li> --}}
-                            <li class="viewall__comments--box__footer--lastItem__options--edit"><i class="fas fa-edit icon icon__viewall--comments__box--footer__icon"></i> Edit Answer</li>
-                            <li class="viewall__comments--box__footer--lastItem__options--delete"><i class="fas fa-trash-alt icon icon__viewall--comments__box--footer__icon"></i> Delete Answer</li> 
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-
-            <div class="viewall__comments--box__chats">
-               
-            </div>
-
-            <div class="viewall__comments--box__replyBox">
-                <div class="viewall__comments--box__replyBox--mainClose">
-                    <i class="fas fa-times icon icon__viewall--box__reply--mainclose"></i>
+            <div class="reuse-view__comments--box__footer">
+                <div class="reuse-view__comments--box__footer--user-opt">
+                    {{> partialshare}}
+                    <span><i class="far fa-heart icon icon__reuse-view--fav"></i></span>
+                    <span class="reuse-view__comments--box__footer--user-opt__reply"><i class="fas fa-reply con icon__reuse-view--comments__reply"></i></span>
                 </div>
-                <ul class="viewall__comments--box__replyBox--header">
-                    <li><div class="viewall__comments--box__replyBox--header__iconholder"><i class="fas fa-image icon icon__viewall--box__reply--headericon"></i></div></li>
-                    <li><div class="viewall__comments--box__replyBox--header__iconholder"><i class="fas fa-camera icon icon__viewall--box__reply--headericon"></i></div></li>
-                    <li><div class="viewall__comments--box__replyBox--header__iconholder"><i class="fas fa-microphone icon icon__viewall--box__reply--headermicicon"></i></div></li>
-                    <li><div class="viewall__comments--box__replyBox--header__iconholder"><i class="fas fa-file icon icon__viewall--box__reply--headericon"></i></div></li>
-                </ul>
-                <div class="viewall__comments--box__replyBox--content">
-                    <textarea class="viewall__comments--box__replyBox--content__input" name="" placeholder="Type something here"></textarea>
+                <div class="reuse-view__comments--box__footer--user-like">
+                    <span><i class="far fa-thumbs-up icon icon__reuse-view--comments__like"></i></span>
+                    <div class="reuse-view__comments--box__footer--user-like__total">99</div>
                 </div>
-                <div class="viewall__comments--box__replyBox--footer">
-                    <a href=""><i class="fas fa-reply icon icon__viewall--box__reply--replyIcon"></i>Reply</a>
+                <div class="reuse-view__comments--box__footer--user-det">
+                    <i class="fas fa-circle icon icon__reuse-view--circle"></i>
+                    <i class="fas fa-circle icon icon__reuse-view--circle"></i>
+                    <i class="fas fa-circle icon icon__reuse-view--circle"></i>
                 </div>
             </div>
-
-            <div class="share">
-                <div class="share--content">
-                    <ul class="share--content__options">
-                        <li>
-                            <div class="share--content__options--item">
-                                <span class="share--content__options--item__title">Select Users</span> <span class="userarrowicon"><i class="fas fa-angle-down icon icon__site-main--share__selectuserarrow"></i></span>
-                            </div> 
-                            <div class="share--content__options--details">
-                                <input class="share--content__options--details__search" placeholder="search user...." autofocus>
-                                <div class="share--content__options--details__user">
-                                    <div class="share--content__options--details__user--wrapper">
-                                        <span class="share--content__options--details__user--selectIcon"><i class="fas fa-check-circle"></i></span>
-                                        <span class="share--content__options--details__user--selectIconClicked"><i class="fas fa-check-circle"></i></span>
-                                        <div class="share--content__options--details__user--img">
-                                        <img src="/" alt="">
-                                    </div>
-                                    <ul>
-                                        <li><a href=""> User user User user User user</a></li>
-                                        <li>Answered: 13K </li>
-                                        <li>Students: 234K</li>
-                                    </ul>
-                                    </div>
-                                    <div class="share--content__options--details__user--options">
-                                        <div class="share--content__options--details__user--options__send">Send</div>
-                                        <div class="share--content__options--details__user--options__view">View</div>
-                                        <div class="share--content__options--details__user--options__reset">Reset</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <ul class="share--content__options--userCounter">
-                                <li>Tips: Click user image to select</li> 
-                                <li><i class="fas fa-users icon icon__share--userCounterIcon"></i> User Selected: <span class="share--content__options--userCounter__number">33K</span></li>
-                                <li>
-                                    <ul>
-                                        <li><i class="fas fa-location-arrow icon icon__site-main--share__locationIcon"></i> Share</li>
-                                        <li class="share--content__options--userCounter__viewall">View All</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        <div class="share--content__options--userSelected">
-                            <p><i class="fas fa-users icon icon__share--userSelectedIcon"></i> Users Selected</p>
-                            <div class="share--content__options--userSelected__mainclose">
-                                <i class="fas fa-times icon icon__share--userSelectedCloseMainIcon"></i>
-                            </div>
-                                <div class="share--content__options--userSelected__wrapper">
-                                    <div class="share--content__options--userSelected__wrapper--content">
-                                    <div class="share--content__options--userSelected__close"><i class="fas fa-times icon icon__share--userSelectedCloseIcon"></i></div>
-                                    <div class="share--content__options--userSelected__img">
-                                            <img src="/" alt="">
-                                        </div>
-                                        <ul>
-                                            <li><a href=""> User user User user User user</a></li>
-                                            <li>Answered: 13K </li>
-                                            <li>Students: 234K</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <button class="share--content__options--userSelected__btn">Reset</button>
-                            </div>
-                            <ul class="share--content__options--userCounter-sm">
-                                <li>
-                                    <p><i class="fas fa-users icon icon__share--content__userCounter-smIcon"></i>Users</p>
-                                    <div class="share--content__options--userCounter-sm__userSelected">
-                                        55k
-                                    </div>
-                                </li>
-                                <li class="share--content__options--userCounter-sm__secondItem">View</li>
-                                <li class="share--content__options--userCounter-sm__thirdItem">Send</li>
-                                <li>Reset</li>
-                            </ul>
-                        </li>
-                        <li class="share--content__options--socialIcons"><a href=""><i class="fab fa-facebook-square icon icon__share--facebook"></i></a><a href=""><i class="fab fa-google-plus-square icon icon__share--googleplus"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="viewuser">
-            {{!-- <div class="viewuser__overlay"></div> --}}
-            <ul class="viewuser__wrapper">
-                <div class="viewuser--mainclose"><i class="fas fa-times icon icon__viewuser--mainclose"></i></div>
-                <li class="viewuser--comment"><i class="fas fa-comments"></i> Chat Now</li>
-                <li class="viewuser--students">
-                    <ul>
-                        <li><i class="fas fa-user-graduate icon icon__viewuser--studIcon"></i> Students</li>
-                        {{!-- <li><i class="fas fa-users icon icon__viewuser--studIcon"></i>Friends</li> --}}
-                        <li><span><a href="">222k</a></span></li>
-                    </ul>
-                </li>
-                <li class="viewuser--items">
-                    <ul>
-                        <li><i class="fas fa-store icon icon__viewuser--storeIcon"></i> Items</li>
-                        <li><span><a href="">222k</a></span></li>
-                    </ul>
-                </li>
-                <li class="viewuser--viewmore">View more</li>
-            </ul>
+            {{> partialreply}}
         </div>
 
-
-        </div>
-
-        <div class="viewall__comments--box__replywrapper">
-            <div class="viewall__comments--box viewall__comments--box__reply">
-                <div class="viewall__comments--box__reply--header">
-                <span class="viewall__comments--box__reply--header__content">
-                        <i class="fas fa-angle-double-down icon icon__viewall__comments--box__reply--headericon"></i>
-                            reply
-                        <i class="fas fa-angle-double-down icon icon__viewall__comments--box__reply--headericon"></i>
-                </span>
+        <div class="reuse-view__comments--box__reply-wrapper">
+            <div class="reuse-view__comments--box reuse-view__comments--box__reply-cnt">
+                <div class="reuse-view__comments--box__reply-cnt--header">
+                    <i class="fas fa-angle-double-down icon icon__reuse-view--comments__arrow"></i>
+                        reply
+                    <i class="fas fa-angle-double-down icon icon__reuse-view--comments__arrow"></i>
                 </div>
-                <ul class="viewall__comments--box__header">
+                <ul class="reuse-view__comments--box__header">
                     <li>
-                        <div class="viewall__comments--box__header--img">
+                        <div class="reuse-view__comments--box__header--img">
                             <img src="" alt="">
                         </div>
-                        <ul class="viewall__comments--box__header--userdetails">
-                            <li><span class="viewall__comments--box__header--userdetails__title">User user</span></li>
-                             <li><span class="viewall__comments--box__header--userdetails__online">online</span></li>
-                            {{!-- <li class="viewall__comments--box__header--userdetails__offline">offline <span class="viewall__comments--box__header--userdetails__lastItem">2m ago</span></li> --}}
-                        </ul>
+                        <div class="reuse-view__comments--box__header--det">
+                            <div><span class="reuse-view__comments--box__header--det__title">User user</span></div>
+                            {{!-- <div class="reuse-view__comments--box__header--det__status">
+                                <div class="reuse-view__comments--box__header--det__status--off"></div>
+                                <span>2m ago</span>
+                            </div> --}}
+                            <div class="reuse-view__comments--box__header--det__status">
+                                <div class="reuse-view__comments--box__header--det__status--on"></div>
+                                <span>online</span>
+                            </div>
+                        </div>
                     </li>
-                    <li class="viewall__comments--box__header--soln">Reply Added  <span class="viewall__comments--box__header--soln__time"><i class="far fa-clock"></i> 2hrs ago</span></li>
+                    <li class="reuse-view__comments--box__header--soln"> Added <span class="reuse-view__comments--box__header--soln__time"><i class="far fa-clock"></i> 2hrs ago</span></li>
                 </ul>
-                <p class="viewall__comments--box__content">
+                <p class="reuse-view__comments--box__content">
                     the solution to the question is not that difficult, when i tried to check the question
                     i saw the answer immediately so very very simple question, the answer is ...
-                    <span class="viewall__comments--box__content--chats"><i class="fas fa-comments icon icon__viewall--comments__commentIcon"></i> <span class="viewall__comments--box__content--chats__title">chats</span></span>
+                    <span class="reuse-view__comments--box__content--chats"><i class="far fa-comments icon icon__reuse-view--comments__chats"></i> <span class="reuse-view__comments--box__content--chats__title">chats</span></span>
                 </p>
-               <ul class="viewall__comments--box__footer">
-                <li class="viewall__comments--box__footer--firstitem">
-                    <ul>
-                        <li class="viewall__comments--box__footer--firstitem__share viewall__comments--box__footer--firstitem__innerItem"><i class="fas fa-location-arrow icon icon__viewall--comments__box-arrowIcon"></i></li>
-                        <li><i class="far fa-heart"></i></li>
-                        <li class="viewall__comments--box__footer--reply"><i class="fas fa-reply"></i></li>
-                    </ul>
-                </li>
-                <li class="viewall__comments--box__footer--middleitem">
-                    <ul>
-                        <li><i class="far fa-thumbs-up icon icon__viewall--comments__box-thumbIcon"></i></li>
-                        <li>24</li>
-                    </ul>
-                </li>
-                <li class="viewall__comments--box__footer--lastItem">
-                    <div class="viewall__comments--box__footer--loadmorewrapper">
-                        <i class="fas fa-circle  icon icon__viewall--comments__box--footer__circleIcon"></i>
-                        <i class="fas fa-circle  icon icon__viewall--comments__box--footer__circleIcon"></i>
-                        <i class="fas fa-circle  icon icon__viewall--comments__box--footer__circleIcon"></i>
-                        <ul class="viewall__comments--box__footer--lastItem__options">
-                            {{!-- <li class="viewall__comments--box__footer--lastItem__options--view"><i class="far fa-eye icon icon__viewall--comments__box--footer__eyeicon"></i> View Profile</li>
-                            <li class="viewall__comments--box__footer--lastItem__options--teacher"><i class="fas fa-chalkboard-teacher icon icon__viewall--comments__box--footer__icon"></i> Add as teacher</li> --}}
-                            <li class="viewall__comments--box__footer--lastItem__options--edit"><i class="fas fa-edit icon icon__viewall--comments__box--footer__icon"></i> Edit Answer</li>
-                            <li class="viewall__comments--box__footer--lastItem__options--delete"><i class="fas fa-trash-alt icon icon__viewall--comments__box--footer__icon"></i> Delete Answer</li> 
-                        </ul>
+                <div class="reuse-view__comments--box__footer">
+                    <div class="reuse-view__comments--box__footer--user-opt">
+                        {{> partialshare}}
+                        <span><i class="far fa-heart icon icon__reuse-view--fav"></i></span>
+                        <span class="reuse-view__comments--box__footer--user-opt__reply"><i class="fas fa-reply icon icon__reuse-view--comments__reply"></i></span>
                     </div>
-                </li>
-            </ul>
-                
-                <div class="viewall__comments--box__replyBox">
-                <div class="viewall__comments--box__replyBox--mainClose">
-                    <i class="fas fa-times icon icon__viewall--box__reply--mainclose"></i>
-                </div>
-                <ul class="viewall__comments--box__replyBox--header">
-                    <li><div class="viewall__comments--box__replyBox--header__iconholder"><i class="fas fa-image icon icon__viewall--box__reply--headericon"></i></div></li>
-                    <li><div class="viewall__comments--box__replyBox--header__iconholder"><i class="fas fa-camera icon icon__viewall--box__reply--headericon"></i></div></li>
-                    <li><div class="viewall__comments--box__replyBox--header__iconholder"><i class="fas fa-microphone icon icon__viewall--box__reply--headermicicon"></i></div></li>
-                    <li><div class="viewall__comments--box__replyBox--header__iconholder"><i class="fas fa-file icon icon__viewall--box__reply--headericon"></i></div></li>
-                </ul>
-                <div class="viewall__comments--box__replyBox--content">
-                    <textarea class="viewall__comments--box__replyBox--content__input" name="" placeholder="Type something here"></textarea>
-                </div>
-                <div class="viewall__comments--box__replyBox--footer">
-                    <a href=""><i class="fas fa-reply icon icon__viewall--box__reply--replyIcon"></i>Reply</a>
-                </div>
-            </div>
-
-                <div class="share">
-                    <div class="share--content">
-                        <ul class="share--content__options">
-                            <li>
-                                <div class="share--content__options--item">
-                                    <span class="share--content__options--item__title">Select Users</span> <span class="userarrowicon"><i class="fas fa-angle-down icon icon__site-main--share__selectuserarrow"></i></span>
-                                </div> 
-                                <div class="share--content__options--details">
-                                    <input class="share--content__options--details__search" placeholder="search user...." autofocus>
-                                    <div class="share--content__options--details__user">
-                                        <div class="share--content__options--details__user--wrapper">
-                                            <span class="share--content__options--details__user--selectIcon"><i class="fas fa-check-circle"></i></span>
-                                            <span class="share--content__options--details__user--selectIconClicked"><i class="fas fa-check-circle"></i></span>
-                                            <div class="share--content__options--details__user--img">
-                                            <img src="/" alt="">
-                                        </div>
-                                        <ul>
-                                            <li><a href=""> User user User user User user</a></li>
-                                            <li>Answered: 13K </li>
-                                            <li>Students: 234K</li>
-                                        </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul class="share--content__options--userCounter">
-                                    <li>Tips: Click user image to select</li> 
-                                    <li><i class="fas fa-users icon icon__share--userCounterIcon"></i> User Selected: <span class="share--content__options--userCounter__number">33K</span></li>
-                                    <li>
-                                        <ul>
-                                            <li><i class="fas fa-location-arrow icon icon__site-main--share__locationIcon"></i> Share</li>
-                                            <li class="share--content__options--userCounter__viewall">View All</li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                                <div class="share--content__options--userSelected">
-                                    <p><i class="fas fa-users icon icon__share--userSelectedIcon"></i> Users Selected</p>
-                                    <div class="share--content__options--userSelected__mainclose">
-                                        <i class="fas fa-times icon icon__share--userSelectedCloseMainIcon"></i>
-                                    </div>
-                                        <div class="share--content__options--userSelected__wrapper">
-                                            <div class="share--content__options--userSelected__wrapper--content">
-                                            <div class="share--content__options--userSelected__close"><i class="fas fa-times icon icon__share--userSelectedCloseIcon"></i></div>
-                                            <div class="share--content__options--userSelected__img">
-                                                    <img src="/" alt="">
-                                                </div>
-                                                <ul>
-                                                    <li><a href=""> User user User user User user</a></li>
-                                                    <li>Answered: 13K </li>
-                                                    <li>Students: 234K</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <button class="share--content__options--userSelected__btn">Reset</button>
-                                    </div>
-                            </li>
-                            <li class="share--content__options--socialIcons"><a href=""><i class="fab fa-facebook-square icon icon__share--facebook"></i></a><a href=""><i class="fab fa-google-plus-square icon icon__share--googleplus"></i></a></li>
-                        </ul>
+                    <div class="reuse-view__comments--box__footer--user-like">
+                        <span><i class="far fa-thumbs-up icon icon__reuse-view--comments__like"></i></span>
+                        <div class="reuse-view__comments--box__footer--user-like__total">99</div>
+                    </div>
+                    <div class="reuse-view__comments--box__footer--user-det">
+                        <i class="fas fa-circle icon icon__reuse-view--circle"></i>
+                        <i class="fas fa-circle icon icon__reuse-view--circle"></i>
+                        <i class="fas fa-circle icon icon__reuse-view--circle"></i>
                     </div>
                 </div>
-
-                <div class="viewuser">
-                    {{!-- <div class="viewuser__overlay"></div> --}}
-                    <ul class="viewuser__wrapper">
-                        <div class="viewuser--mainclose"><i class="fas fa-times icon icon__viewuser--mainclose"></i></div>
-                        <li class="viewuser--comment"><i class="fas fa-comments"></i> Chat Now</li>
-                        <li class="viewuser--students">
-                            <ul>
-                                <li><i class="fas fa-user-graduate icon icon__viewuser--studIcon"></i> Students</li>
-                                {{!-- <li><i class="fas fa-users icon icon__viewuser--studIcon"></i>Friends</li> --}}
-                                <li><span><a href="">222k</a></span></li>
-                            </ul>
-                        </li>
-                        <li class="viewuser--items">
-                            <ul>
-                                <li><i class="fas fa-store icon icon__viewuser--storeIcon"></i> Items</li>
-                                <li><span><a href="">222k</a></span></li>
-                            </ul>
-                        </li>
-                        <li class="viewuser--viewmore">View more</li>
-                    </ul>
-                </div>
-
+                 {{> partialreply}}
             </div>
         </div> 
 
@@ -483,10 +167,10 @@
         <p class="viewall__tips--note__details">All question should be asked by clicking <span><i class="fas fa-reply"></i> reply </span> or <span><i class="fas fa-comments"></i> chats</span> </p>
     </div> --}}
 
-<div class="viewall__form">
-    <p class="viewall__form--header"><i class="fas fa-pen-square icon icon__viewall--form__header--penIcon"></i> Add Answer</p>
-    <form action="" class="viewall__form--field">
-        <textarea class="viewall__form--field__textarea" name="editor" id="Add-Answer" data-matching-link="#Add-Answer-link"></textarea>
-        <button type="button"><i class="fas fa-plus-circle icon icon__viewall--form__field--addIcon"></i>   Submit</button>
+<div class="reuse-view__form">
+    <p class="reuse-view__form--header"><i class="fas fa-pen-square icon icon__reuse-view--form__pen"></i> Add Answer</p>
+    <form action="" class="reuse-view__form--field">
+        <textarea class="reuse-view__form--field__textarea" name="editor" id="Add-Answer" data-matching-link="#Add-Answer-link"></textarea>
+        <button type="button"><i class="fas fa-plus-circle icon icon__reuse-view--form__add"></i>   Submit</button>
     </form>
 </div>

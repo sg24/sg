@@ -9,8 +9,6 @@
 @import "modules/_disabled";
 @import "modules/_nav";
 @import "modules/_site-header";
-@import "modules/_viewall";
-@import "modules/_viewuser";
-@import "modules/_share";
-@import "modules/_nav--chats";
-@import "modules/_chats__logs";
+@import "modules/_reuse-view";
+@import "modules/_reuse-view__nav";
+@import "modules/_reuse-share";
