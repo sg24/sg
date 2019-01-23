@@ -352,7 +352,11 @@
 
     &__reuse-view--comments__arrow {
         margin: 0 10px;
-        font-size: .875rem;
+        font-size: .8125rem;
+
+        @mixin atSmall {
+            font-size: .875rem;
+        }
     }
 
     &__reuse-view--box__reply--close {

@@ -1,8 +1,11 @@
 <div class="reuse-view__main">
     <div class="reuse-view__main--header">
-        <ul class="reuse-view__main--header__det reuse-view__main--header__det--que">
+        <p class="reuse-view__main--header__title">
+            What is your view about this stuff
+        </p> 
+        <ul class="reuse-view__main--header__det">
             <li><i class="far fa-clock icon icon__reuse-view--main__tm"></i> 2m ago</li>
-            <li class="reuse-view__main--header__det--ans">Answers <div>99</div></li>
+            <li class="reuse-view__main--header__det--ans">Comments <div>99</div></li>
             <li><div><i class="far fa-eye icon icon__reuse-view--main__eye"></i></div> 222</li>
         </ul>
     </div>
@@ -36,7 +39,7 @@
             <span><i class="far fa-heart icon icon__reuse-view--fav"></i></span>
         </div>
         <div class="reuse-view__main--footer__add">
-            <a href="/view/#Add-Answer" id="Add-Answer-link"> <i class="fas fa-pencil-alt icon icon__reuse-view--main__add"></i> Add Solution</a>
+            <a href="/view/#Add-Comment" id="Add-Comment-link"> <i class="fas fa-pencil-alt icon icon__reuse-view--main__add"></i> Add Comment</a>
         </div>
         <div class="reuse-view__main--footer__user-det">
             <i class="fas fa-circle icon icon__reuse-view--circle"></i>
@@ -54,7 +57,7 @@
 
 <div class="reuse-view__comments">
     <div class="reuse-view__comments--header">
-        <p class="reuse-view__comments--header__ans">Answer Section <a href="" class="reuse-view__comments--header__ask">Ask Question</a></p>
+        <p class="reuse-view__comments--header__ans">Comment Section <a href="" class="reuse-view__comments--header__ask">Add Post</a></p>
     </div> 
     <div class="reuse-view__comments--wrapper">
         <div class="reuse-view__comments--wrapper__overlay">
@@ -181,9 +184,9 @@
     </div> --}}
 
 <div class="reuse-view__form">
-    <p class="reuse-view__form--header"><i class="fas fa-pen-square icon icon__reuse-view--form__pen"></i> Add Answer</p>
+    <p class="reuse-view__form--header"><i class="fas fa-pen-square icon icon__reuse-view--form__pen"></i> Add Comment</p>
     <form action="" class="reuse-view__form--field">
-        <textarea class="reuse-view__form--field__textarea" name="editor" id="Add-Answer" data-matching-link="#Add-Answer-link"></textarea>
+        <textarea class="reuse-view__form--field__textarea" name="editor" id="Add-Comment" data-matching-link="#Add-Comment-link"></textarea>
         <button type="button"><i class="fas fa-plus-circle icon icon__reuse-view--form__add"></i>   Submit</button>
     </form>
 </div>

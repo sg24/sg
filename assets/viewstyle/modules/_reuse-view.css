@@ -43,14 +43,11 @@
         &--header {
             position: relative;
             padding: 0 10px;
-            background-color: $mainHeaderColor; 
+            background-color: $mainDarkGray;  
             
-            &__que {
-                background-color: $mainDarkGray; 
-            }
 
             &__title {
-                color: $mainDarkBlack;
+                color: $mainFontColor;
                 font-weight: 400;
                 font-size: 1.125rem;
                 margin: 0;
@@ -64,6 +61,7 @@
                 padding: 0 0 10px 0;
                 @mixin clearfix;
                 font-size: .875rem;
+                color: $mainFontColor;
 
                 &--que {
                     padding-top: 10px;
@@ -72,18 +70,14 @@
 
                 & > li {
                     float: left;
-                    margin-right: 60px;
+                    margin-right: 50px;
                     position: relative;
-
-                    &:first-child {
-                        
-                    }
 
                     &:last-child { 
                         margin-right: 0; 
                         padding-left: 34px;
                         color: $mainDarkBlue;
-
+                        
                         & > div {
                             left: 0;
                             background-color: $mainLightGray;
@@ -101,6 +95,10 @@
                         top: 50%;
                         transform: translateY(-50%);
                         box-shadow: 0 2px 2px 0 rgba($mainDarkBlack, .25);
+                    }
+
+                    @mixin atSmall {
+                        margin-right: 60px;
                     }
                 }
 
@@ -123,11 +121,8 @@
             border-top: 1px solid $mainDarkGray;
             font-size: .9375rem;
             color: $mainFontColor;
-
-            &__que {
-                background-color: $mainHeaderColor;
-            }
-
+            background-color: $mainHeaderColor;
+            
             @mixin atSmall {
                 font-size: .9375rem;
             }
@@ -142,10 +137,7 @@
             padding: 0;
             position: relative;
             @mixin clearfix;
-
-            &__que {
-                background-color: $mainHeaderColor; 
-            }
+            background-color: $mainHeaderColor;
 
             &__edit {
                 position: absolute;
@@ -637,6 +629,7 @@
                 -moz--box-shadow: 0px 0px 5.12px 2.88px rgba($mainLightGray, 0.9);
                 position: relative;
                 font-size: 1rem;
+                z-index: 1;
                 
                 &--user-opt {
                     padding: 5px 0;

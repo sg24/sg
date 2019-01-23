@@ -52,10 +52,14 @@
                 padding: 8px 0;
                 position: relative;
                 margin: 0 auto;
-                /* padding-left:  */
                 width: 174px;
                 padding-right: 34px;
                 font-size: 1rem; 
+
+                &__pt {
+                    width: 134px;
+                    padding-right: 14px;
+                }
 
                 & > div {
                     width: 24px;

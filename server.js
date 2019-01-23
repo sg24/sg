@@ -31,6 +31,7 @@ hbs.registerPartials(__dirname + '/views/partialsusers');
 hbs.registerPartials(__dirname + '/views/partialsprofile');
 hbs.registerPartials(__dirname + '/views/partialsfavorite');
 hbs.registerPartials(__dirname + '/views/partialsviewpt');
+hbs.registerPartials(__dirname + '/views/partialsviewpwt');
 // app.engine('hbs', hbs({
 //     defaultLayout: 'main'
 // }));

@@ -899,7 +899,14 @@ img {
 
 .icon__reuse-view--comments__arrow {
   margin: 0 10px;
-  font-size: .875rem;
+  font-size: .8125rem;
+}
+
+@media (min-width: 530px) {
+
+  .icon__reuse-view--comments__arrow {
+    font-size: .875rem;
+  }
 }
 
 .icon__reuse-view--box__reply--close {
@@ -3817,15 +3824,11 @@ img {
 .reuse-view__main--header {
   position: relative;
   padding: 0 10px;
-  background-color: #f9f9f9;
-}
-
-.reuse-view__main--header__que {
   background-color: #dcdbdc;
 }
 
 .reuse-view__main--header__title {
-  color: #000;
+  color: #182427;
   font-weight: 400;
   font-size: 1.125rem;
   margin: 0;
@@ -3838,6 +3841,7 @@ img {
   margin: 10px 0 0 0;
   padding: 0 0 10px 0;
   font-size: .875rem;
+  color: #182427;
 }
 
 .reuse-view__main--header__det::after {
@@ -3853,11 +3857,9 @@ img {
 
 .reuse-view__main--header__det > li {
   float: left;
-  margin-right: 60px;
+  margin-right: 50px;
   position: relative;
 }
-
-.reuse-view__main--header__det > li:first-child {}
 
 .reuse-view__main--header__det > li:last-child {
   margin-right: 0;
@@ -3886,6 +3888,13 @@ img {
   box-shadow: 0 2px 2px 0 rgba(0,0,0, .25);
 }
 
+@media (min-width: 530px) {
+
+  .reuse-view__main--header__det > li {
+    margin-right: 60px;
+  }
+}
+
 .reuse-view__main--header__det--ans {
   padding-right: 34px;
 }
@@ -3903,9 +3912,6 @@ img {
   border-top: 1px solid #dcdbdc;
   font-size: .9375rem;
   color: #182427;
-}
-
-.reuse-view__main--cnt__que {
   background-color: #f9f9f9;
 }
 
@@ -3927,16 +3933,13 @@ img {
   margin: 0;
   padding: 0;
   position: relative;
+  background-color: #f9f9f9;
 }
 
 .reuse-view__main--det::after {
   content: "";
   clear: both;
   display: table;
-}
-
-.reuse-view__main--det__que {
-  background-color: #f9f9f9;
 }
 
 .reuse-view__main--det__edit {
@@ -4479,6 +4482,7 @@ img {
   -moz--box-shadow: 0px 0px 5.12px 2.88px rgba(233,235,242, 0.9);
   position: relative;
   font-size: 1rem;
+  z-index: 1;
 }
 
 .reuse-view__comments--box__footer--user-opt {
@@ -4990,10 +4994,15 @@ img {
 .reuse-view__nav--related__header--title {
   padding: 8px 0;
   position: relative;
-  margin: 0 auto;/* padding-left:  */
+  margin: 0 auto;
   width: 174px;
   padding-right: 34px;
   font-size: 1rem;
+}
+
+.reuse-view__nav--related__header--title__pt {
+  width: 134px;
+  padding-right: 14px;
 }
 
 .reuse-view__nav--related__header--title > div {
