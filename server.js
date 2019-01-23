@@ -14,7 +14,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 hbs.registerPartials(__dirname + '/views/partials');
-hbs.registerPartials(__dirname + '/views/partialsview');
+hbs.registerPartials(__dirname + '/views/partialsviewque');
 hbs.registerPartials(__dirname + '/views/partialscomty');
 hbs.registerPartials(__dirname + '/views/partialspost');
 hbs.registerPartials(__dirname + '/views/partialsgroup');
@@ -30,6 +30,7 @@ hbs.registerPartials(__dirname + '/views/partialsexam');
 hbs.registerPartials(__dirname + '/views/partialsusers');
 hbs.registerPartials(__dirname + '/views/partialsprofile');
 hbs.registerPartials(__dirname + '/views/partialsfavorite');
+hbs.registerPartials(__dirname + '/views/partialsviewpt');
 // app.engine('hbs', hbs({
 //     defaultLayout: 'main'
 // }));

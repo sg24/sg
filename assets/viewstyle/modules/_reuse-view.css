@@ -1,6 +1,6 @@
 .reuse-view {
     position: relative;
-    top: 80px;
+    top: 79px;
     background-color: #fff;  
     margin: 0 0 6px 0;
 
@@ -38,12 +38,16 @@
     &__main {
         background-color: #fff;
         position: relative;
-        margin-top: 15px;
+        margin-top: 0;
  
         &--header {
             position: relative;
             padding: 0 10px;
             background-color: $mainHeaderColor; 
+            
+            &__que {
+                background-color: $mainDarkGray; 
+            }
 
             &__title {
                 color: $mainDarkBlack;
@@ -60,6 +64,11 @@
                 padding: 0 0 10px 0;
                 @mixin clearfix;
                 font-size: .875rem;
+
+                &--que {
+                    padding-top: 10px;
+                    margin: 0;
+                }
 
                 & > li {
                     float: left;
@@ -115,6 +124,10 @@
             font-size: .9375rem;
             color: $mainFontColor;
 
+            &__que {
+                background-color: $mainHeaderColor;
+            }
+
             @mixin atSmall {
                 font-size: .9375rem;
             }
@@ -129,6 +142,10 @@
             padding: 0;
             position: relative;
             @mixin clearfix;
+
+            &__que {
+                background-color: $mainHeaderColor; 
+            }
 
             &__edit {
                 position: absolute;
@@ -380,6 +397,14 @@
             @mixin atSmall {
                 font-size: 1.2rem;
             }
+        }
+
+        @mixin atMedium {
+            margin-top: 5px;
+        }
+
+        @mixin atLarge {
+            margin-top: 15px;
         }
     }
 
@@ -1018,10 +1043,10 @@
     }
 
     @mixin atSmall {
-        top: 80px;
+        top: 60px; 
     }
 
     @mixin atMedium {
-        top: 62px;
+        top: 65px; 
     }
 }

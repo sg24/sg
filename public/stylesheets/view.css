@@ -2169,8 +2169,7 @@ img {
 @media (min-width: 530px) {
 
   .site-header__list {
-    padding-left: 0;
-    top: 45px;
+    display: none;
   }
 }
 
@@ -2190,17 +2189,6 @@ img {
   }
 }
 
-.site-header__list--hidden {
-  display: none;
-}
-
-@media (min-width: 800px) {
-
-  .site-header__list--hidden {
-    display: inline;
-  }
-}
-
 @media (min-width: 800px) {
 
   .site-header__list {
@@ -2211,6 +2199,7 @@ img {
     width: auto;
     border-top: none;
     background: transparent;
+    display: inline;
   }
 }
 
@@ -3780,7 +3769,7 @@ img {
 
 .reuse-view {
     position: relative;
-    top: 80px;
+    top: 79px;
     background-color: #fff;  
     margin: 0 0 6px 0;
 }
@@ -3822,13 +3811,17 @@ img {
 .reuse-view__main {
   background-color: #fff;
   position: relative;
-  margin-top: 15px;
+  margin-top: 0;
 }
 
 .reuse-view__main--header {
   position: relative;
   padding: 0 10px;
   background-color: #f9f9f9;
+}
+
+.reuse-view__main--header__que {
+  background-color: #dcdbdc;
 }
 
 .reuse-view__main--header__title {
@@ -3851,6 +3844,11 @@ img {
   content: "";
   clear: both;
   display: table;
+}
+
+.reuse-view__main--header__det--que {
+  padding-top: 10px;
+  margin: 0;
 }
 
 .reuse-view__main--header__det > li {
@@ -3907,6 +3905,10 @@ img {
   color: #182427;
 }
 
+.reuse-view__main--cnt__que {
+  background-color: #f9f9f9;
+}
+
 @media (min-width: 530px) {
 
   .reuse-view__main--cnt {
@@ -3931,6 +3933,10 @@ img {
   content: "";
   clear: both;
   display: table;
+}
+
+.reuse-view__main--det__que {
+  background-color: #f9f9f9;
 }
 
 .reuse-view__main--det__edit {
@@ -4193,6 +4199,20 @@ img {
 
   .reuse-view__main--footer {
     font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 800px) {
+
+  .reuse-view__main {
+    margin-top: 5px;
+  }
+}
+
+@media (min-width: 1010px) {
+
+  .reuse-view__main {
+    margin-top: 15px;
   }
 }
 
@@ -4892,14 +4912,14 @@ img {
 @media (min-width: 530px) {
 
   .reuse-view {
-    top: 80px;
+    top: 60px;
   }
 }
 
 @media (min-width: 800px) {
 
   .reuse-view {
-    top: 62px;
+    top: 65px;
   }
 }
 
