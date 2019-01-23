@@ -5,6 +5,7 @@ import Editor from './modules/Editor';
 import Nav from './modules/Nav';
 import Content from './modules/Content';
 import Share from './modules/Share';
+import UserOpt from './modules/UserOpt';
 
 var user = new SiteHeader();
 var toolTips = new ToolTips();
@@ -13,3 +14,4 @@ var editor = new Editor();
 var nav = new Nav();
 var content = new Content();
 var share =  new Share();
+var userOpt = new UserOpt();

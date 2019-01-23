@@ -18,13 +18,12 @@ class Share {
         this.viewUserClose = $(".reuse-share__user-selected--mainclose");
         this.viewUser = $(".reuse-share__user-selected");
         this.userCount = $(".reuse-share__user-counter");
-        this.closeShare = $(".exfav__sort, .exfav__filter");
-        this.queOptToggler = $(".reuse-que__footer--details");
-        this.queOpt = $(".reuse-que__footer--details__options");
-        this.ptOptToggler = $(".reuse-pt__footer--details");
-        this.ptOpt = $(".reuse-pt__footer--details__options");
-        this.onqueOpt = $(".reuse-onlineque__content--posted__user--det__opt");
-        this.pwtOpt = $(".reuse-pwt__content--det__user--det__opt");
+        this.closeShare = $(".reuse-view__overlay");
+        this.vwOptToggler = $(".reuse-view__main--footer__user-det");
+        this.vwOpt = $(".reuse-view__main--footer__user-det--opt");
+        this.usOptToggler = $(".reuse-view__comments--box__footer--user-det");
+        this.usOpt = $(".reuse-view__comments--box__footer--user-det__opt");
+        this.overlay = $(".reuse-view__overlay");
         this.events();
     }
   
@@ -45,13 +44,11 @@ class Share {
 
     toggleShare() {
         this.share.toggleClass("reuse-share__wrapper--visible");
-        this.shareToggler.toggleClass("reuse-share__icn--rotate");
-        this.queOpt.removeClass("reuse-que__footer--details__options--visible");
-        this.queOptToggler.removeClass("reuse-que__footer--details__clk");
-        this.ptOptToggler.removeClass("reuse-pt__footer--details__clk");
-        this.ptOpt.removeClass("reuse-pt__footer--details__options--visible");
-        this.onqueOpt.removeClass("reuse-onlineque__content--posted__user--det__opt--visible");
-        this.pwtOpt.removeClass("reuse-pwt__content--det__user--det__opt--visible");
+        this.overlay.toggleClass("reuse-view__overlay--visible");
+        this.usOptToggler.removeClass("reuse-view__comments--box__footer--user-det__clk");
+        this.usOpt.removeClass("reuse-view__comments--box__footer--user-det__opt--visible");
+        this.vwOptToggler.removeClass("reuse-view__main--footer__user-det--clk");
+        this.vwOpt.removeClass("reuse-view__main--footer__user-det--opt__visible");
     }
 
     toggleUser() {
@@ -104,7 +101,7 @@ class Share {
 
     closeAll() {
         this.share.removeClass("reuse-share__wrapper--visible");
-        this.shareToggler.removeClass("reuse-share__icn--rotate");
+        this.overlay.removeClass("reuse-view__overlay--visible");
     }
 }
 

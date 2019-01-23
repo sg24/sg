@@ -226,37 +226,6 @@
         }
     }
 
-
-    &__viewall--box__reply--mainclose {
-        color:rgba($mainDarkBlack, .4) ;
-        font-size: .875rem;
-        position: relative;
-        top: 1px;
-        left: 0px;
-        cursor: pointer;
-
-        @mixin atSmall {
-            left: 1px;
-        }
-    }
-
-    &__viewall--box__reply--headericon {
-        position: relative;
-        top: 9px;
-        color: $mainLightBlue;
-    }
-
-
-    &__viewall--box__reply--headermicicon {
-        position: relative;
-        top: 9px;
-        color: $mainDarkRed;
-    }
-    
-
-
-
-
     &__reuse-share--title {
         margin-left: 20px;
     }
@@ -386,17 +355,44 @@
         font-size: .875rem;
     }
 
+    &__reuse-view--box__reply--close {
+        color:$mainFontColor;
+        font-size: .875rem;
+        cursor: pointer;
+    }
+
+    &__reuse-view--reply__header {
+        position: relative;
+        top: 9px;
+        color: $mainLightBlue;
+    }
+
+    &__reuse-view--reply {
+        margin-right: 10px;
+    }
+
+    &__reuse-view--reply__mic {
+        position: relative;
+        top: 9px;
+        color: $mainDarkRed;
+    }
+    
+
+    &__reuse-view--options {
+        margin-right: 5px; 
+    }
+
     &__reuse-view--form__pen {
         margin-right: 10px;
         font-size: 1.1rem;
     }
 
     &__reuse-view--form__add {
-        color: $mainLightGreen;
+        color: $mainFontColor;
         margin-right: 5px;
     }
 
-    &__viewall--exchange__alt {
+    &__reuse-view--exchange__alt {
         color: #fff;
         font-size: 1rem;
         display: none;
@@ -429,4 +425,5 @@
     &__reuse-view--nav__footer--tm {
         margin-right: 5px;
     }
+
 }
