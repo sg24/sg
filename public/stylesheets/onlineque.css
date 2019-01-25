@@ -773,10 +773,7 @@
 }
 
 .active__main {
-    position: absolute;
-    background-color: #f22613;
     color: #fff;
-    font-size: .875rem;
 }
 
 .active__main--exam {

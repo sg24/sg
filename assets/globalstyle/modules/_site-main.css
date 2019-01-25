@@ -3,15 +3,16 @@
     font-family: "Roboto",Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
 
     &__expage {
-        top: 79px !important;
+        top: 79px;
 
         @mixin atMedium {
-            top: 65px !important;
+            top: 65px;
         }
     }
 
     &__content {
         width: 100%;
+        position: relative;
         float: none;
         
         &--wrapper {
@@ -19,22 +20,9 @@
             padding-bottom: 20px;
         }
         
-        @mixin atExtraSmall {
-            width: 100%;
-            position: relative;
-        }
-
-        @mixin atSmall {
-            width: 100%;
-            position: relative;
-            padding-right: 0px;
-            float: left;
-        }
 
         @mixin atMedium {
-            /* width: 60%; */
-            position: relative;
-            /* padding-right: 30px; */
+            padding-left: 0;
         }
 
         @mixin atLarge {

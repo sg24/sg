@@ -7,7 +7,7 @@ class Scroll {
         this.menu = $(".site-main");
         this.siteHeaderList = $(".site-header__list");
         this.siteNav = $(".site-main__nav--md");
-        this.siteMain = $(".site-main__content--header");
+        this.siteMain = $(".site-main__content--tab"); 
         this.scrollItems();
         this.siteHeaderScroll(); 
     }
@@ -21,11 +21,11 @@ class Scroll {
                 if (direction == "down") {
                     that.siteHeaderList.addClass("site-header__list--hidden");
                     that.siteNav.addClass("site-main__nav--md__sticky"); 
-                    that.siteMain.addClass("site-main__content--header__sticky");
+                    that.siteMain.addClass("site-main__content--tab__sticky");
                 } else { 
                     that.siteHeaderList.removeClass("site-header__list--hidden");
                     that.siteNav.removeClass("site-main__nav--md__sticky");
-                    that.siteMain.removeClass("site-main__content--header__sticky");
+                    that.siteMain.removeClass("site-main__content--tab__sticky");
                 }
             },
             offset:  "12%"             
@@ -38,10 +38,10 @@ class Scroll {
             element: this.menu[0],
             handler: function(direction) {
                 if (direction == "down") {
-                    that.item.addClass("site-main__nav--waypoint");
+                    that.item.addClass("site-main__nav--sticky");
                     that.item.innerHeight()
                 } else {
-                    that.item.removeClass("site-main__nav--waypoint");
+                    that.item.removeClass("site-main__nav--sticky");
                 }
             },
             offset: "10%"

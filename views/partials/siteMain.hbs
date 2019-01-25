@@ -1,46 +1,26 @@
 <div class="site-main">
-    <div class="wrapper__main">
-        <div class="site-main__nav--md">
-            <ul>
-                <li>Options</li>
-                <li>
-                    <div class="site-main__nav--md__contentHolder">
-                        <i class="fas fa-coffee icon icon__site-main__nav--md__contentIcon"></i>
-                    </div>
-                </li>
-                <li>
-                    <div class="site-main__nav--md__contentHolder">
-                        <i class="fas fa-tablets icon icon__site-main__nav--md__contentIcon"></i>
-                    </div>
-                </li>
-                <li>
-                    <div class="site-main__nav--md__contentHolder">
-                        <i class="fas fa-comment-dots icon icon__site-main__nav--md__contentIcon"></i>
-                    </div>
-                </li>
-                <li>
-                    <div class="site-main__nav--md__contentHolder">
-                        <i class="fas fa-pencil-alt icon icon__site-main__nav--md__contentIcon"></i>
-                    </div>
-                </li>
-                <li>
-                    <div class="site-main__nav--md__contentHolder">
-                        <i class="fas fa-people-carry icon icon__site-main__nav--md__contentIcon"></i>
-                    </div>
-                </li>
-            </ul>
-        </div>
+    <div class="wrapper__exmain">
         <div class="site-main__content">
             <div class="site-main__content--wrapper">
-                <ul class="site-main__content--header"> 
-                    <li><i class="fas fa-clone"></i> Post</li>
-                    <li>Questions</li>
-                    <li><i class="fas fa-users"></i> Groups</li>
-                    <li>Help Me <span class="activeMd"><span>9</span></span></li>
-                    <li><i class="fas fa-book"></i> Poet&Writers</li>
+                <div class="site-main__content--overlay"></div>
+                <div class="site-main__content--top"></div>
+                <ul class="site-main__content--tab"> 
+                    <li><i class="fas fa-clone icon icon__site-main__content--tab"></i> Post</li>
+                    <li>Questions
+                         <div class="active__main active__main--tab">
+                            <div>9</div>
+                        </div>
+                    </li>
+                    <li><i class="fas fa-users icon icon__site-main__content--tab"></i> Groups</li>
+                    <li><i class="fas fa-hand-paper icon icon__site-main__content--tab"></i> Help Me
+                        <div class="active__main active__main--tab">
+                            <div>9</div>
+                        </div>
+                    </li>
+                    <li><i class="fas fa-book icon icon__site-main__content--tab"></i> Poet&Writers</li>
                 </ul> 
                 <div class="post-section">
-                    {{> partialPost}} 
+                    {{!-- {{> partialPost}}  --}}
                 </div>
                 <div class="question-section">
                     {{!-- {{> partialQuestion}} --}}
@@ -52,24 +32,18 @@
                     {{!-- {{> partialHelpMe}} --}}
                 </div>
                 <div class="question-section">
-                    {{!-- {{> partialCommunities}} --}}
+                    {{> partialPwt}}
                 </div>
             </div>
         </div>
         <div class="site-main__nav">
             <div class="site-main__nav--wrapper">
                 <ul class="site-main__nav--header">
-                    {{!-- <li>Poeter/Writer</li> --}} 
-                    <li><i class="fas fa-coffee"></i>   Online Questions</li>  
-                    {{!-- <li>Latest Post</li> --}}
                     <li><i class="fas fa-exchange-alt"></i></li>
                 </ul>
-                <div class="site-main__nav--contentOutlet">
+                {{!-- <div class="site-main__nav--contentOutlet"> --}}
                     {{> partialTopTrending}} 
-                    {{!-- {{> partialDailyQuo}} --}}
-                    {{!-- {{> partialOnlineQue}} --}}
-                    {{!-- {{> partialChats}} --}}
-                </div> 
+                {{!-- </div>  --}}
             </div>
         </div>
     </div>

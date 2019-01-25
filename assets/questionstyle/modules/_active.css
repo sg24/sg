@@ -1,8 +1,5 @@
 .active__main {
-    position: absolute;
-    background-color: $mainDarkRed;
     color: #fff;
-    font-size: .875rem;
   
 
     &--helpme {

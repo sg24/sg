@@ -1,23 +1,50 @@
-<div class="site-main__group">
-    <div class="site-main__group--top"></div>
-    <ul class="site-main__group--optionsTab">
-        <li><i class="fas fa-users icon icon__site-main--group__optionsTabIconGroups"></i> Groups</li>
+<div class="site-main__content--wrapper">
+    <div class="site-main__content--overlay"></div>
+    <div class="site-main__content--top"></div>
+    <ul class="site-main__content--tab">
+        <li><i class="fas fa-users icon icon__site-main__content--tab"></i> Groups</li>
         <li>
-            <i class="fas fa-user-friends icon icon__site-main--group__optionsTabFriends"></i>   My Groups
-            <div class="active__main active__main--group"><div>9</div></div>
+            <i class="fas fa-user-friends icon icon__site-main__content--tab"></i>   My Groups
+            <div class="active__main active__main--shareme"><div>9</div></div>
         </li>
     </ul>
 
-    <div class="site-main__group--filter">
-        <div class="site-main__group--filter__alt">
-            <div class="site-main__group--filter__alt--title"> Sort <i class="fas fa-angle-down icon icon__site-main--group__filter--angleicon"></i></div>
+    <div class="reuse-group__filter">
+        <div class="reuse-group__filter--categ">
+             Category
+            <i class="fas fa-angle-down icon icon__reuse-group--filter__categ"></i>  
+            <ul class="reuse-group__filter--categ__opt">
+                <li>English</li>
+                <li>Mathmatics</li>
+            </ul>
+        </div>
+        <div class="reuse-group__filter--srt">
+            <div class="reuse-group__filter--srt__title"> Filter <i class="fas fa-angle-down icon icon__reuse-group--filter__angle"></i></div>
+            <div class="reuse-group__filter--srt__wrapper reuse-group__filter--srt__wrapper--space">
+                
+     
+                <div class="reuse-group__filter--srt__srch">
+                    <div class="reuse-group__filter--srt__srch--wrapper">
+                        <div class="reuse-group__filter--srt__srch--calend"><i class="far fa-calendar-alt icon icon__reuse-group--filter__calend"></i></div> <input type="text" class="reuse-group__filter--srt__srch--input" placeholder="Enter Group Name">
+                    </div>
+                </div>
+                <div class="reuse-group__filter--srt__fnd">
+                    <div class="reuse-group__filter--srt__fnd--wrapper">
+                        <div class="reuse-group__filter--srt__fnd--title">Total Found</div>
+                        <div class="reuse-group__filter--srt__fnd--total">255</div>
+                    </div>
+                    <div class="reuse-group__filter--srt__fnd--more">OR</div>
+                </div>
 
-            <div class="site-main__group--filter__alt--wrapper site-main__group--filter__alt--wrapper__space">
-                <div class="site-main__group--filter__alt--total">Total Found <span>3334</span></div>
-                <div class="site-main__group--filter__alt--contentwrapper">
-                    <div class="site-main__group--filter__alt--content">
-                        <h3 class="site-main__group--filter__alt--content__title"><i class="fas fa-users icon icon__site-main--group__filter--groupicon"></i> Users</h3>
-                        <ul class="site-main__group--filter__alt--content__option">
+                <div class="reuse-group__filter--srt__cnt-wrapper">
+                    <div class="reuse-group__filter--srt__cnt">
+                        <div class="reuse-group__filter--srt__cnt--title">
+                            <div class="reuse-group__filter--srt__cnt--title__wrapper">
+                                <div><i class="fas fa-users icon icon__reuse-group--filter__grp"></i></div>
+                                  Users
+                            </div>
+                        </div>
+                        <ul class="reuse-group__filter--srt__cnt--opt">
                             <li>
                                 <ul>
                                     <li>Low</li>
@@ -39,12 +66,17 @@
                         </ul>
                     </div>
 
-                    <div class="site-main__group--filter__alt--content">
-                        <h3 class="site-main__group--filter__alt--content__title site-main__group--filter__alt--content__title--status">
-                            <i class="fas fa-user-friends icon icon__site-main--group__filter--usericon"></i> 
-                            Users Online
-                        </h3>
-                        <ul class="site-main__group--filter__alt--content__option">
+                    <div class="reuse-group__filter--srt__cnt">
+                        <div class="reuse-group__filter--srt__cnt--title">
+                            <div class="reuse-group__filter--srt__cnt--title__wrapper">
+                                <div>
+                                    <i class="fas fa-user-friends icon icon__reuse-group--filter__user"></i>
+                                    <div class="reuse-group__filter--srt__cnt--title__status"></div>
+                                </div>
+                                 Online
+                            </div>
+                        </div>
+                        <ul class="reuse-group__filter--srt__cnt--opt">
                             <li>
                                 <ul>
                                     <li>Low</li>
@@ -67,948 +99,113 @@
                     </div>
                 </div>
 
-            <div class="site-main__group--filter__innercategory">
-                <div class="site-main__group--filter__innercategory--title">Category
-                    <span class="site-main__group--filter__innercategory--header__toggleIcon">
-                        <i class="fas fa-angle-down icon icon__site-main--group__innercateg--angleicon"></i>
-                    </span> 
+                <div class="reuse-group__filter--srt__categ">
+                    <div class="reuse-group__filter--srt__categ--title">Select Category
+                        <i class="fas fa-angle-down icon icon__reuse-group--filter__alt--categ"></i>
+                    </div>
+                    <ul class="reuse-group__filter--srt__categ--opt">
+                        <li>English</li>
+                        <li>Mathmatics</li>
+                    </ul>
                 </div>
-                <ul class="site-main__group--filter__innercategory--option">
-                    <li>English</li>
-                    <li>Mathmatics</li>
+
+                <div class="reuse-group__filter--srt__btn">
+                    <span class="reuse-group__filter--srt__btn--cancel">Cancel</span>
+                    <span class="reuse-group__filter--srt__btn--ok">Ok</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="reuse-group__filter--add-grp">
+            Add Group
+        </div>
+    </div>
+
+    {{!-- <div class="reuse-group__acc">
+        <div class="reuse-group__acc--wrapper">
+            <div class="reuse-group__acc--icn">
+                <i class="fas fa-users icon icon__reuse-group--acc__grp"></i>
+            </div>
+            <div class="reuse-group__acc--cnt">
+                <h4 class="reuse-group__acc--cnt__title">You are not logged in.</h4>
+                <ul>
+                    <li><a href="" class="reuse-group__acc--cnt__login">login in</a> </li>
+                    <li><a href="" class="reuse-group__acc--cnt__sign">sign up</a></li>
                 </ul>
             </div>
 
-            <div class="site-main__group--filter__alt--wrapper__btn">
-                <span class="site-main__group--filter__alt--wrapper__btn--cancel">Cancel</span>
-                <span class="site-main__group--filter__alt--wrapper__btn--ok">Ok</span>
+            <div class="reuse-group__acc--cnt">
+                <h4 class="reuse-group__acc--cnt__title reuse-group__acc--cnt__title--add-grp">You have not added any group yet!.</h4>
+                <ul class="reuse-group__acc--cnt__wrapper">
+                    <li><a href="" class="reuse-group__acc--cnt__add-grp">Create New</a></li>
+                </ul>
             </div>
-            </div>
         </div>
-
-        <div class="site-main__group--filter__search">
-            <p class="site-main__group--filter__search--title">Filter</p>
-            <input class="site-main__group--filter__search--input" type="text" placeholder="Group Name" autofocus>
-        </div>
-        <div class="site-main__group--filter__category">
-             Category
-                <span class="site-main__group--filter__category--header__toggleIcon">
-                    <i class="fas fa-angle-down icon icon__site-main--group__categ--angleicon"></i>
-                </span>  
-            <ul class="site-main__group--filter__category--option">
-                <li>English</li>
-                <li>Mathmatics</li>
-            </ul>
-        </div>
-
-    </div>
-
-    {{!-- <div class="site-main__group--noaccount">
-        <div class="site-main__group--noaccount__img">
-            <i class="fas fa-users icon icon__site-main--noaccount__groupIcon"></i>
-        </div>
-        <div class="site-main__group--noaccount__title">
-            <p>You are not logged in.</p>
-            <p>Pls <a href="" class="site-main__group--noaccount__title--login">login in</a> or <a href="" class="site-main__group--noaccount__title--signup">sign up</a></p>
-        </div>
-        <div class="site-main__group--noaccount__title">
-            <p>You have not added any community yet!</p>
-            <p>Pls switch to next tab or create New <a href="">Community</a> </p>
-        </div>  
     </div> --}}
 
-    <div class="site-main__group--main-wrapper">
-        <div class="site-main__group--wrapper">
-            <ul class="site-main__group--header">
+    <div class="reuse-group">
+        <div class="reuse-group__wrapper">
+            <ul class="reuse-group__header">
                 <li>
-                    <div class="site-main__group--header__imgHolder">
-                        <i class="fas fa-users icon icon__site-main--group__Headeruser"></i>
+                    <div class="reuse-group__header--img">
+                        
                     </div>
-                    <div class="site-main__group--header__category">
-                        <a href="">mathematics</a>
+                    <div class="reuse-group__header--nm">
+                        <a href="">user user</a> 
                     </div>
                 </li>
                 <li>
-                    <div class="site-main__group--header__dateCreated">
-                        <i class="fas fa-calendar-check icon icon__site-main--group__calendar"></i>Created@  
-                        <span class="site-main__group--header__dateCreated">
-                            08/3/18
-                        </span>
-                    </div>
-                    <div class="site-main__group--header__add">
-                        <i class="fas fa-plus icon icon__site-main--group__Headeradd"></i>
+                    <div class="reuse-group__header--tm">
+                        <i class="fas fa-calendar-check icon icon__reuse-group--header__calend"></i>
+                        <span>08/3/18</span>
                     </div>
                 </li>
             </ul>
-            <div class="site-main__group--mainContent">
-                <div class="site-main__group--mainContent__addSm">
-                    <i class="fas fa-plus icon icon__site-main--group__mainContentAddSm"></i>
+            <div class="reuse-group__cnt">
+                <div class="reuse-group__cnt--add-grp">
+                    <i class="fas fa-plus icon icon__reuse-group--cnt__add"></i>
                 </div>
-                <div class="site-main__group--mainContent__imgWrapper">
-                    <div class="site-main__group--mainContent__imgWrapper--img">
-                        <img src="/" alt="">
+                <div class="reuse-group__cnt--img">
+                    <img src="/" alt="">
+                </div>
+                <div class="reuse-group__cnt--desc">
+                    <div class="reuse-group__cnt--desc__title">
+                        mathematics excel multi purpose group
+                        mathematics excel multi purpose group
+                        mathematics excel multi purpose group
+                    </div>
+                    <div class="reuse-group__cnt--desc__opt">
+                        <div class="reuse-group__cnt--desc__opt--det">
+                            <i class="fas fa-angle-double-right icon icon__reuse-group--cnt__det"></i>
+                            Details
+                        </div>
+                        <div class="reuse-group__cnt--desc__opt--chat">
+                            <a href=""><i class="fas fa-comment-dots icon icon__reuse-group--cnt__comment"></i>Chat</a>
+                            <div class="active__main active__main--chat"><div>9</div></div>
+                        </div>
                     </div>
                 </div>
-                <ul class="site-main__group--mainContent__desc">
-                    <li class="site-main__group--mainContent__desc--title">
-                        <p>mathematics excel multi purpose group</p>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--postCreator">
-                        <span class="site-main__group--mainContent__desc--postCreator__admin">
-                            Leader
-                        </span> 
-                        <div class="site-main__group--mainContent__desc--postCreator__userImg">
-                            <img src="/" alt="">
-                        </div>
-                        <div class="site-main__group--mainContent__desc--postCreator__detailsWrapper">
-                            <p class="site-main__group--mainContent__desc--postCreator__name">
-                               <a href="">User user  </a>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--options">
-                        <ul>
-                            <li class="site-main__group--mainContent__desc--options__firstItem">Details <i class="fas fa-angle-double-right icon icon__site-main--group__arrows"></i></li>
-                            <li>
-                            <a href=""><i class="fas fa-comment-dots icon icon__site-main--group__comments"></i>Chat Now 
-                            <div class="active__main active__main--group-content"><div>9</div></div>
-                            </a></li>
-                        </ul>
-                    </li>
-                    <div class="site-main__group--mainContent__overlay">  
-                        <div class="site-main__group--mainContent__overlay--close">
-                            <i class="fas fa-times icon icon__site-main--group__times"></i>
-                        </div>
-                        <div class="site-main__group--mainContent__desc--options__details">
-                            <p class="site-main__group--mainContent__desc--options__details--title">
-                                This group is created for mathematicians
-                                This group is created for mathematicians
-                            </p>
-                            <div class="site-main__group--mainContent__desc--options__details--ratings">
-                                <i class="far fa-thumbs-up icon icon__site-main--group__thumbup"></i> ratings: 
-                                <span class="site-main__group--mainContent__desc--options__details--ratings__number">
-                                   <i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>  <i class="fas fa-star"></i>
-                                     <i class="fas fa-star-half"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </ul>
             </div>
-            <ul class="site-main__group--footer">
-                <li><i class="fas fa-users icon icon__site-main--group__usersAdded"></i> 233k</li>
-                <li> 
-                    <div class="site-main__group--footer__userOnline">
-                        <i class="fas fa-user-friends icon icon__site-main--group__userOnline"></i>online 2333m
+            <ul class="reuse-group__footer">
+                <li class="reuse-group__footer--users">
+                    <div class="reuse-group__footer--users__wrapper">
+                        <div class="reuse-group__footer--users__icn">
+                            <i class="fas fa-users icon icon__reuse-group--footer__users"></i>
+                        </div> 
+                        2333m
                     </div>
-                    <div class="site-main__group--footer__userOnline--status"></div>
+                </li>
+                <li class="reuse-group__footer--status"> 
+                    <div class="reuse-group__footer--status__wrapper">
+                        <div class="reuse-group__footer--status__icn">
+                            <i class="fas fa-user-friends icon icon__reuse-group--footer__users-on"></i>
+                            <div class="reuse-group__footer--status__icn--on"></div>
+                        </div> 
+                        2333m
+                    </div>
                 </li>
             </ul>
         </div>
     </div>
-
-    <div class="site-main__group--main-wrapper">
-        <div class="site-main__group--wrapper">
-            <ul class="site-main__group--header">
-                <li>
-                    <div class="site-main__group--header__imgHolder">
-                        <i class="fas fa-users icon icon__site-main--group__Headeruser"></i>
-                    </div>
-                    <div class="site-main__group--header__category">
-                        <a href="">mathematics</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="site-main__group--header__dateCreated">
-                        <i class="fas fa-calendar-check icon icon__site-main--group__calendar"></i>Created@  
-                        <span class="site-main__group--header__dateCreated">
-                            08/3/18
-                        </span>
-                    </div>
-                    <div class="site-main__group--header__add">
-                        <i class="fas fa-plus icon icon__site-main--group__Headeradd"></i>
-                    </div>
-                </li>
-            </ul>
-            <div class="site-main__group--mainContent">
-                <div class="site-main__group--mainContent__addSm">
-                    <i class="fas fa-plus icon icon__site-main--group__mainContentAddSm"></i>
-                </div>
-                <div class="site-main__group--mainContent__imgWrapper">
-                    <div class="site-main__group--mainContent__imgWrapper--img">
-                        <img src="/" alt="">
-                    </div>
-                </div>
-                <ul class="site-main__group--mainContent__desc">
-                    <li class="site-main__group--mainContent__desc--title">
-                        <p>mathematics excel multi purpose group</p>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--postCreator">
-                        <span class="site-main__group--mainContent__desc--postCreator__admin">
-                            Leader
-                        </span> 
-                        <div class="site-main__group--mainContent__desc--postCreator__userImg">
-                            <img src="/" alt="">
-                        </div>
-                        <div class="site-main__group--mainContent__desc--postCreator__detailsWrapper">
-                            <p class="site-main__group--mainContent__desc--postCreator__name">
-                               <a href="">User user  </a>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--options">
-                        <ul>
-                            <li class="site-main__group--mainContent__desc--options__firstItem">Details <i class="fas fa-angle-double-right icon icon__site-main--group__arrows"></i></li>
-                            <li>
-                            <a href=""><i class="fas fa-comment-dots icon icon__site-main--group__comments"></i>Chat Now 
-                            <div class="active__main active__main--group-content"><div>9</div></div>
-                            </a></li>
-                        </ul>
-                    </li>
-                    <div class="site-main__group--mainContent__overlay">  
-                        <div class="site-main__group--mainContent__overlay--close">
-                            <i class="fas fa-times icon icon__site-main--group__times"></i>
-                        </div>
-                        <div class="site-main__group--mainContent__desc--options__details">
-                            <p class="site-main__group--mainContent__desc--options__details--title">
-                                This group is created for mathematicians
-                                This group is created for mathematicians
-                            </p>
-                            <div class="site-main__group--mainContent__desc--options__details--ratings">
-                                <i class="far fa-thumbs-up icon icon__site-main--group__thumbup"></i> ratings: 
-                                <span class="site-main__group--mainContent__desc--options__details--ratings__number">
-                                   <i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>  <i class="fas fa-star"></i>
-                                     <i class="fas fa-star-half"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </ul>
-            </div>
-            <ul class="site-main__group--footer">
-                <li><i class="fas fa-users icon icon__site-main--group__usersAdded"></i> 233k</li>
-                <li> 
-                    <div class="site-main__group--footer__userOnline">
-                        <i class="fas fa-user-friends icon icon__site-main--group__userOnline"></i>online 2333m
-                    </div>
-                    <div class="site-main__group--footer__userOnline--status"></div>
-                </li>
-            </ul>
-        </div>
-    </div><div class="site-main__group--main-wrapper">
-        <div class="site-main__group--wrapper">
-            <ul class="site-main__group--header">
-                <li>
-                    <div class="site-main__group--header__imgHolder">
-                        <i class="fas fa-users icon icon__site-main--group__Headeruser"></i>
-                    </div>
-                    <div class="site-main__group--header__category">
-                        <a href="">mathematics</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="site-main__group--header__dateCreated">
-                        <i class="fas fa-calendar-check icon icon__site-main--group__calendar"></i>Created@  
-                        <span class="site-main__group--header__dateCreated">
-                            08/3/18
-                        </span>
-                    </div>
-                    <div class="site-main__group--header__add">
-                        <i class="fas fa-plus icon icon__site-main--group__Headeradd"></i>
-                    </div>
-                </li>
-            </ul>
-            <div class="site-main__group--mainContent">
-                <div class="site-main__group--mainContent__addSm">
-                    <i class="fas fa-plus icon icon__site-main--group__mainContentAddSm"></i>
-                </div>
-                <div class="site-main__group--mainContent__imgWrapper">
-                    <div class="site-main__group--mainContent__imgWrapper--img">
-                        <img src="/" alt="">
-                    </div>
-                </div>
-                <ul class="site-main__group--mainContent__desc">
-                    <li class="site-main__group--mainContent__desc--title">
-                        <p>mathematics excel multi purpose group</p>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--postCreator">
-                        <span class="site-main__group--mainContent__desc--postCreator__admin">
-                            Leader
-                        </span> 
-                        <div class="site-main__group--mainContent__desc--postCreator__userImg">
-                            <img src="/" alt="">
-                        </div>
-                        <div class="site-main__group--mainContent__desc--postCreator__detailsWrapper">
-                            <p class="site-main__group--mainContent__desc--postCreator__name">
-                               <a href="">User user  </a>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--options">
-                        <ul>
-                            <li class="site-main__group--mainContent__desc--options__firstItem">Details <i class="fas fa-angle-double-right icon icon__site-main--group__arrows"></i></li>
-                            <li>
-                            <a href=""><i class="fas fa-comment-dots icon icon__site-main--group__comments"></i>Chat Now 
-                            <div class="active__main active__main--group-content"><div>9</div></div>
-                            </a></li>
-                        </ul>
-                    </li>
-                    <div class="site-main__group--mainContent__overlay">  
-                        <div class="site-main__group--mainContent__overlay--close">
-                            <i class="fas fa-times icon icon__site-main--group__times"></i>
-                        </div>
-                        <div class="site-main__group--mainContent__desc--options__details">
-                            <p class="site-main__group--mainContent__desc--options__details--title">
-                                This group is created for mathematicians
-                                This group is created for mathematicians
-                            </p>
-                            <div class="site-main__group--mainContent__desc--options__details--ratings">
-                                <i class="far fa-thumbs-up icon icon__site-main--group__thumbup"></i> ratings: 
-                                <span class="site-main__group--mainContent__desc--options__details--ratings__number">
-                                   <i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>  <i class="fas fa-star"></i>
-                                     <i class="fas fa-star-half"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </ul>
-            </div>
-            <ul class="site-main__group--footer">
-                <li><i class="fas fa-users icon icon__site-main--group__usersAdded"></i> 233k</li>
-                <li> 
-                    <div class="site-main__group--footer__userOnline">
-                        <i class="fas fa-user-friends icon icon__site-main--group__userOnline"></i>online 2333m
-                    </div>
-                    <div class="site-main__group--footer__userOnline--status"></div>
-                </li>
-            </ul>
-        </div>
-    </div><div class="site-main__group--main-wrapper">
-        <div class="site-main__group--wrapper">
-            <ul class="site-main__group--header">
-                <li>
-                    <div class="site-main__group--header__imgHolder">
-                        <i class="fas fa-users icon icon__site-main--group__Headeruser"></i>
-                    </div>
-                    <div class="site-main__group--header__category">
-                        <a href="">mathematics</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="site-main__group--header__dateCreated">
-                        <i class="fas fa-calendar-check icon icon__site-main--group__calendar"></i>Created@  
-                        <span class="site-main__group--header__dateCreated">
-                            08/3/18
-                        </span>
-                    </div>
-                    <div class="site-main__group--header__add">
-                        <i class="fas fa-plus icon icon__site-main--group__Headeradd"></i>
-                    </div>
-                </li>
-            </ul>
-            <div class="site-main__group--mainContent">
-                <div class="site-main__group--mainContent__addSm">
-                    <i class="fas fa-plus icon icon__site-main--group__mainContentAddSm"></i>
-                </div>
-                <div class="site-main__group--mainContent__imgWrapper">
-                    <div class="site-main__group--mainContent__imgWrapper--img">
-                        <img src="/" alt="">
-                    </div>
-                </div>
-                <ul class="site-main__group--mainContent__desc">
-                    <li class="site-main__group--mainContent__desc--title">
-                        <p>mathematics excel multi purpose group</p>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--postCreator">
-                        <span class="site-main__group--mainContent__desc--postCreator__admin">
-                            Leader
-                        </span> 
-                        <div class="site-main__group--mainContent__desc--postCreator__userImg">
-                            <img src="/" alt="">
-                        </div>
-                        <div class="site-main__group--mainContent__desc--postCreator__detailsWrapper">
-                            <p class="site-main__group--mainContent__desc--postCreator__name">
-                               <a href="">User user  </a>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--options">
-                        <ul>
-                            <li class="site-main__group--mainContent__desc--options__firstItem">Details <i class="fas fa-angle-double-right icon icon__site-main--group__arrows"></i></li>
-                            <li>
-                            <a href=""><i class="fas fa-comment-dots icon icon__site-main--group__comments"></i>Chat Now 
-                            <div class="active__main active__main--group-content"><div>9</div></div>
-                            </a></li>
-                        </ul>
-                    </li>
-                    <div class="site-main__group--mainContent__overlay">  
-                        <div class="site-main__group--mainContent__overlay--close">
-                            <i class="fas fa-times icon icon__site-main--group__times"></i>
-                        </div>
-                        <div class="site-main__group--mainContent__desc--options__details">
-                            <p class="site-main__group--mainContent__desc--options__details--title">
-                                This group is created for mathematicians
-                                This group is created for mathematicians
-                            </p>
-                            <div class="site-main__group--mainContent__desc--options__details--ratings">
-                                <i class="far fa-thumbs-up icon icon__site-main--group__thumbup"></i> ratings: 
-                                <span class="site-main__group--mainContent__desc--options__details--ratings__number">
-                                   <i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>  <i class="fas fa-star"></i>
-                                     <i class="fas fa-star-half"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </ul>
-            </div>
-            <ul class="site-main__group--footer">
-                <li><i class="fas fa-users icon icon__site-main--group__usersAdded"></i> 233k</li>
-                <li> 
-                    <div class="site-main__group--footer__userOnline">
-                        <i class="fas fa-user-friends icon icon__site-main--group__userOnline"></i>online 2333m
-                    </div>
-                    <div class="site-main__group--footer__userOnline--status"></div>
-                </li>
-            </ul>
-        </div>
-    </div><div class="site-main__group--main-wrapper">
-        <div class="site-main__group--wrapper">
-            <ul class="site-main__group--header">
-                <li>
-                    <div class="site-main__group--header__imgHolder">
-                        <i class="fas fa-users icon icon__site-main--group__Headeruser"></i>
-                    </div>
-                    <div class="site-main__group--header__category">
-                        <a href="">mathematics</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="site-main__group--header__dateCreated">
-                        <i class="fas fa-calendar-check icon icon__site-main--group__calendar"></i>Created@  
-                        <span class="site-main__group--header__dateCreated">
-                            08/3/18
-                        </span>
-                    </div>
-                    <div class="site-main__group--header__add">
-                        <i class="fas fa-plus icon icon__site-main--group__Headeradd"></i>
-                    </div>
-                </li>
-            </ul>
-            <div class="site-main__group--mainContent">
-                <div class="site-main__group--mainContent__addSm">
-                    <i class="fas fa-plus icon icon__site-main--group__mainContentAddSm"></i>
-                </div>
-                <div class="site-main__group--mainContent__imgWrapper">
-                    <div class="site-main__group--mainContent__imgWrapper--img">
-                        <img src="/" alt="">
-                    </div>
-                </div>
-                <ul class="site-main__group--mainContent__desc">
-                    <li class="site-main__group--mainContent__desc--title">
-                        <p>mathematics excel multi purpose group</p>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--postCreator">
-                        <span class="site-main__group--mainContent__desc--postCreator__admin">
-                            Leader
-                        </span> 
-                        <div class="site-main__group--mainContent__desc--postCreator__userImg">
-                            <img src="/" alt="">
-                        </div>
-                        <div class="site-main__group--mainContent__desc--postCreator__detailsWrapper">
-                            <p class="site-main__group--mainContent__desc--postCreator__name">
-                               <a href="">User user  </a>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--options">
-                        <ul>
-                            <li class="site-main__group--mainContent__desc--options__firstItem">Details <i class="fas fa-angle-double-right icon icon__site-main--group__arrows"></i></li>
-                            <li>
-                            <a href=""><i class="fas fa-comment-dots icon icon__site-main--group__comments"></i>Chat Now 
-                            <div class="active__main active__main--group-content"><div>9</div></div>
-                            </a></li>
-                        </ul>
-                    </li>
-                    <div class="site-main__group--mainContent__overlay">  
-                        <div class="site-main__group--mainContent__overlay--close">
-                            <i class="fas fa-times icon icon__site-main--group__times"></i>
-                        </div>
-                        <div class="site-main__group--mainContent__desc--options__details">
-                            <p class="site-main__group--mainContent__desc--options__details--title">
-                                This group is created for mathematicians
-                                This group is created for mathematicians
-                            </p>
-                            <div class="site-main__group--mainContent__desc--options__details--ratings">
-                                <i class="far fa-thumbs-up icon icon__site-main--group__thumbup"></i> ratings: 
-                                <span class="site-main__group--mainContent__desc--options__details--ratings__number">
-                                   <i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>  <i class="fas fa-star"></i>
-                                     <i class="fas fa-star-half"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </ul>
-            </div>
-            <ul class="site-main__group--footer">
-                <li><i class="fas fa-users icon icon__site-main--group__usersAdded"></i> 233k</li>
-                <li> 
-                    <div class="site-main__group--footer__userOnline">
-                        <i class="fas fa-user-friends icon icon__site-main--group__userOnline"></i>online 2333m
-                    </div>
-                    <div class="site-main__group--footer__userOnline--status"></div>
-                </li>
-            </ul>
-        </div>
-    </div><div class="site-main__group--main-wrapper">
-        <div class="site-main__group--wrapper">
-            <ul class="site-main__group--header">
-                <li>
-                    <div class="site-main__group--header__imgHolder">
-                        <i class="fas fa-users icon icon__site-main--group__Headeruser"></i>
-                    </div>
-                    <div class="site-main__group--header__category">
-                        <a href="">mathematics</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="site-main__group--header__dateCreated">
-                        <i class="fas fa-calendar-check icon icon__site-main--group__calendar"></i>Created@  
-                        <span class="site-main__group--header__dateCreated">
-                            08/3/18
-                        </span>
-                    </div>
-                    <div class="site-main__group--header__add">
-                        <i class="fas fa-plus icon icon__site-main--group__Headeradd"></i>
-                    </div>
-                </li>
-            </ul>
-            <div class="site-main__group--mainContent">
-                <div class="site-main__group--mainContent__addSm">
-                    <i class="fas fa-plus icon icon__site-main--group__mainContentAddSm"></i>
-                </div>
-                <div class="site-main__group--mainContent__imgWrapper">
-                    <div class="site-main__group--mainContent__imgWrapper--img">
-                        <img src="/" alt="">
-                    </div>
-                </div>
-                <ul class="site-main__group--mainContent__desc">
-                    <li class="site-main__group--mainContent__desc--title">
-                        <p>mathematics excel multi purpose group</p>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--postCreator">
-                        <span class="site-main__group--mainContent__desc--postCreator__admin">
-                            Leader
-                        </span> 
-                        <div class="site-main__group--mainContent__desc--postCreator__userImg">
-                            <img src="/" alt="">
-                        </div>
-                        <div class="site-main__group--mainContent__desc--postCreator__detailsWrapper">
-                            <p class="site-main__group--mainContent__desc--postCreator__name">
-                               <a href="">User user  </a>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--options">
-                        <ul>
-                            <li class="site-main__group--mainContent__desc--options__firstItem">Details <i class="fas fa-angle-double-right icon icon__site-main--group__arrows"></i></li>
-                            <li>
-                            <a href=""><i class="fas fa-comment-dots icon icon__site-main--group__comments"></i>Chat Now 
-                            <div class="active__main active__main--group-content"><div>9</div></div>
-                            </a></li>
-                        </ul>
-                    </li>
-                    <div class="site-main__group--mainContent__overlay">  
-                        <div class="site-main__group--mainContent__overlay--close">
-                            <i class="fas fa-times icon icon__site-main--group__times"></i>
-                        </div>
-                        <div class="site-main__group--mainContent__desc--options__details">
-                            <p class="site-main__group--mainContent__desc--options__details--title">
-                                This group is created for mathematicians
-                                This group is created for mathematicians
-                            </p>
-                            <div class="site-main__group--mainContent__desc--options__details--ratings">
-                                <i class="far fa-thumbs-up icon icon__site-main--group__thumbup"></i> ratings: 
-                                <span class="site-main__group--mainContent__desc--options__details--ratings__number">
-                                   <i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>  <i class="fas fa-star"></i>
-                                     <i class="fas fa-star-half"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </ul>
-            </div>
-            <ul class="site-main__group--footer">
-                <li><i class="fas fa-users icon icon__site-main--group__usersAdded"></i> 233k</li>
-                <li> 
-                    <div class="site-main__group--footer__userOnline">
-                        <i class="fas fa-user-friends icon icon__site-main--group__userOnline"></i>online 2333m
-                    </div>
-                    <div class="site-main__group--footer__userOnline--status"></div>
-                </li>
-            </ul>
-        </div>
-    </div><div class="site-main__group--main-wrapper">
-        <div class="site-main__group--wrapper">
-            <ul class="site-main__group--header">
-                <li>
-                    <div class="site-main__group--header__imgHolder">
-                        <i class="fas fa-users icon icon__site-main--group__Headeruser"></i>
-                    </div>
-                    <div class="site-main__group--header__category">
-                        <a href="">mathematics</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="site-main__group--header__dateCreated">
-                        <i class="fas fa-calendar-check icon icon__site-main--group__calendar"></i>Created@  
-                        <span class="site-main__group--header__dateCreated">
-                            08/3/18
-                        </span>
-                    </div>
-                    <div class="site-main__group--header__add">
-                        <i class="fas fa-plus icon icon__site-main--group__Headeradd"></i>
-                    </div>
-                </li>
-            </ul>
-            <div class="site-main__group--mainContent">
-                <div class="site-main__group--mainContent__addSm">
-                    <i class="fas fa-plus icon icon__site-main--group__mainContentAddSm"></i>
-                </div>
-                <div class="site-main__group--mainContent__imgWrapper">
-                    <div class="site-main__group--mainContent__imgWrapper--img">
-                        <img src="/" alt="">
-                    </div>
-                </div>
-                <ul class="site-main__group--mainContent__desc">
-                    <li class="site-main__group--mainContent__desc--title">
-                        <p>mathematics excel multi purpose group</p>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--postCreator">
-                        <span class="site-main__group--mainContent__desc--postCreator__admin">
-                            Leader
-                        </span> 
-                        <div class="site-main__group--mainContent__desc--postCreator__userImg">
-                            <img src="/" alt="">
-                        </div>
-                        <div class="site-main__group--mainContent__desc--postCreator__detailsWrapper">
-                            <p class="site-main__group--mainContent__desc--postCreator__name">
-                               <a href="">User user  </a>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--options">
-                        <ul>
-                            <li class="site-main__group--mainContent__desc--options__firstItem">Details <i class="fas fa-angle-double-right icon icon__site-main--group__arrows"></i></li>
-                            <li>
-                            <a href=""><i class="fas fa-comment-dots icon icon__site-main--group__comments"></i>Chat Now 
-                            <div class="active__main active__main--group-content"><div>9</div></div>
-                            </a></li>
-                        </ul>
-                    </li>
-                    <div class="site-main__group--mainContent__overlay">  
-                        <div class="site-main__group--mainContent__overlay--close">
-                            <i class="fas fa-times icon icon__site-main--group__times"></i>
-                        </div>
-                        <div class="site-main__group--mainContent__desc--options__details">
-                            <p class="site-main__group--mainContent__desc--options__details--title">
-                                This group is created for mathematicians
-                                This group is created for mathematicians
-                            </p>
-                            <div class="site-main__group--mainContent__desc--options__details--ratings">
-                                <i class="far fa-thumbs-up icon icon__site-main--group__thumbup"></i> ratings: 
-                                <span class="site-main__group--mainContent__desc--options__details--ratings__number">
-                                   <i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>  <i class="fas fa-star"></i>
-                                     <i class="fas fa-star-half"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </ul>
-            </div>
-            <ul class="site-main__group--footer">
-                <li><i class="fas fa-users icon icon__site-main--group__usersAdded"></i> 233k</li>
-                <li> 
-                    <div class="site-main__group--footer__userOnline">
-                        <i class="fas fa-user-friends icon icon__site-main--group__userOnline"></i>online 2333m
-                    </div>
-                    <div class="site-main__group--footer__userOnline--status"></div>
-                </li>
-            </ul>
-        </div>
-    </div><div class="site-main__group--main-wrapper">
-        <div class="site-main__group--wrapper">
-            <ul class="site-main__group--header">
-                <li>
-                    <div class="site-main__group--header__imgHolder">
-                        <i class="fas fa-users icon icon__site-main--group__Headeruser"></i>
-                    </div>
-                    <div class="site-main__group--header__category">
-                        <a href="">mathematics</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="site-main__group--header__dateCreated">
-                        <i class="fas fa-calendar-check icon icon__site-main--group__calendar"></i>Created@  
-                        <span class="site-main__group--header__dateCreated">
-                            08/3/18
-                        </span>
-                    </div>
-                    <div class="site-main__group--header__add">
-                        <i class="fas fa-plus icon icon__site-main--group__Headeradd"></i>
-                    </div>
-                </li>
-            </ul>
-            <div class="site-main__group--mainContent">
-                <div class="site-main__group--mainContent__addSm">
-                    <i class="fas fa-plus icon icon__site-main--group__mainContentAddSm"></i>
-                </div>
-                <div class="site-main__group--mainContent__imgWrapper">
-                    <div class="site-main__group--mainContent__imgWrapper--img">
-                        <img src="/" alt="">
-                    </div>
-                </div>
-                <ul class="site-main__group--mainContent__desc">
-                    <li class="site-main__group--mainContent__desc--title">
-                        <p>mathematics excel multi purpose group</p>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--postCreator">
-                        <span class="site-main__group--mainContent__desc--postCreator__admin">
-                            Leader
-                        </span> 
-                        <div class="site-main__group--mainContent__desc--postCreator__userImg">
-                            <img src="/" alt="">
-                        </div>
-                        <div class="site-main__group--mainContent__desc--postCreator__detailsWrapper">
-                            <p class="site-main__group--mainContent__desc--postCreator__name">
-                               <a href="">User user  </a>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--options">
-                        <ul>
-                            <li class="site-main__group--mainContent__desc--options__firstItem">Details <i class="fas fa-angle-double-right icon icon__site-main--group__arrows"></i></li>
-                            <li>
-                            <a href=""><i class="fas fa-comment-dots icon icon__site-main--group__comments"></i>Chat Now 
-                            <div class="active__main active__main--group-content"><div>9</div></div>
-                            </a></li>
-                        </ul>
-                    </li>
-                    <div class="site-main__group--mainContent__overlay">  
-                        <div class="site-main__group--mainContent__overlay--close">
-                            <i class="fas fa-times icon icon__site-main--group__times"></i>
-                        </div>
-                        <div class="site-main__group--mainContent__desc--options__details">
-                            <p class="site-main__group--mainContent__desc--options__details--title">
-                                This group is created for mathematicians
-                                This group is created for mathematicians
-                            </p>
-                            <div class="site-main__group--mainContent__desc--options__details--ratings">
-                                <i class="far fa-thumbs-up icon icon__site-main--group__thumbup"></i> ratings: 
-                                <span class="site-main__group--mainContent__desc--options__details--ratings__number">
-                                   <i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>  <i class="fas fa-star"></i>
-                                     <i class="fas fa-star-half"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </ul>
-            </div>
-            <ul class="site-main__group--footer">
-                <li><i class="fas fa-users icon icon__site-main--group__usersAdded"></i> 233k</li>
-                <li> 
-                    <div class="site-main__group--footer__userOnline">
-                        <i class="fas fa-user-friends icon icon__site-main--group__userOnline"></i>online 2333m
-                    </div>
-                    <div class="site-main__group--footer__userOnline--status"></div>
-                </li>
-            </ul>
-        </div>
-    </div><div class="site-main__group--main-wrapper">
-        <div class="site-main__group--wrapper">
-            <ul class="site-main__group--header">
-                <li>
-                    <div class="site-main__group--header__imgHolder">
-                        <i class="fas fa-users icon icon__site-main--group__Headeruser"></i>
-                    </div>
-                    <div class="site-main__group--header__category">
-                        <a href="">mathematics</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="site-main__group--header__dateCreated">
-                        <i class="fas fa-calendar-check icon icon__site-main--group__calendar"></i>Created@  
-                        <span class="site-main__group--header__dateCreated">
-                            08/3/18
-                        </span>
-                    </div>
-                    <div class="site-main__group--header__add">
-                        <i class="fas fa-plus icon icon__site-main--group__Headeradd"></i>
-                    </div>
-                </li>
-            </ul>
-            <div class="site-main__group--mainContent">
-                <div class="site-main__group--mainContent__addSm">
-                    <i class="fas fa-plus icon icon__site-main--group__mainContentAddSm"></i>
-                </div>
-                <div class="site-main__group--mainContent__imgWrapper">
-                    <div class="site-main__group--mainContent__imgWrapper--img">
-                        <img src="/" alt="">
-                    </div>
-                </div>
-                <ul class="site-main__group--mainContent__desc">
-                    <li class="site-main__group--mainContent__desc--title">
-                        <p>mathematics excel multi purpose group</p>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--postCreator">
-                        <span class="site-main__group--mainContent__desc--postCreator__admin">
-                            Leader
-                        </span> 
-                        <div class="site-main__group--mainContent__desc--postCreator__userImg">
-                            <img src="/" alt="">
-                        </div>
-                        <div class="site-main__group--mainContent__desc--postCreator__detailsWrapper">
-                            <p class="site-main__group--mainContent__desc--postCreator__name">
-                               <a href="">User user  </a>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--options">
-                        <ul>
-                            <li class="site-main__group--mainContent__desc--options__firstItem">Details <i class="fas fa-angle-double-right icon icon__site-main--group__arrows"></i></li>
-                            <li>
-                            <a href=""><i class="fas fa-comment-dots icon icon__site-main--group__comments"></i>Chat Now 
-                            <div class="active__main active__main--group-content"><div>9</div></div>
-                            </a></li>
-                        </ul>
-                    </li>
-                    <div class="site-main__group--mainContent__overlay">  
-                        <div class="site-main__group--mainContent__overlay--close">
-                            <i class="fas fa-times icon icon__site-main--group__times"></i>
-                        </div>
-                        <div class="site-main__group--mainContent__desc--options__details">
-                            <p class="site-main__group--mainContent__desc--options__details--title">
-                                This group is created for mathematicians
-                                This group is created for mathematicians
-                            </p>
-                            <div class="site-main__group--mainContent__desc--options__details--ratings">
-                                <i class="far fa-thumbs-up icon icon__site-main--group__thumbup"></i> ratings: 
-                                <span class="site-main__group--mainContent__desc--options__details--ratings__number">
-                                   <i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>  <i class="fas fa-star"></i>
-                                     <i class="fas fa-star-half"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </ul>
-            </div>
-            <ul class="site-main__group--footer">
-                <li><i class="fas fa-users icon icon__site-main--group__usersAdded"></i> 233k</li>
-                <li> 
-                    <div class="site-main__group--footer__userOnline">
-                        <i class="fas fa-user-friends icon icon__site-main--group__userOnline"></i>online 2333m
-                    </div>
-                    <div class="site-main__group--footer__userOnline--status"></div>
-                </li>
-            </ul>
-        </div>
-    </div><div class="site-main__group--main-wrapper">
-        <div class="site-main__group--wrapper">
-            <ul class="site-main__group--header">
-                <li>
-                    <div class="site-main__group--header__imgHolder">
-                        <i class="fas fa-users icon icon__site-main--group__Headeruser"></i>
-                    </div>
-                    <div class="site-main__group--header__category">
-                        <a href="">mathematics</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="site-main__group--header__dateCreated">
-                        <i class="fas fa-calendar-check icon icon__site-main--group__calendar"></i>Created@  
-                        <span class="site-main__group--header__dateCreated">
-                            08/3/18
-                        </span>
-                    </div>
-                    <div class="site-main__group--header__add">
-                        <i class="fas fa-plus icon icon__site-main--group__Headeradd"></i>
-                    </div>
-                </li>
-            </ul>
-            <div class="site-main__group--mainContent">
-                <div class="site-main__group--mainContent__addSm">
-                    <i class="fas fa-plus icon icon__site-main--group__mainContentAddSm"></i>
-                </div>
-                <div class="site-main__group--mainContent__imgWrapper">
-                    <div class="site-main__group--mainContent__imgWrapper--img">
-                        <img src="/" alt="">
-                    </div>
-                </div>
-                <ul class="site-main__group--mainContent__desc">
-                    <li class="site-main__group--mainContent__desc--title">
-                        <p>mathematics excel multi purpose group</p>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--postCreator">
-                        <span class="site-main__group--mainContent__desc--postCreator__admin">
-                            Leader
-                        </span> 
-                        <div class="site-main__group--mainContent__desc--postCreator__userImg">
-                            <img src="/" alt="">
-                        </div>
-                        <div class="site-main__group--mainContent__desc--postCreator__detailsWrapper">
-                            <p class="site-main__group--mainContent__desc--postCreator__name">
-                               <a href="">User user  </a>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="site-main__group--mainContent__desc--options">
-                        <ul>
-                            <li class="site-main__group--mainContent__desc--options__firstItem">Details <i class="fas fa-angle-double-right icon icon__site-main--group__arrows"></i></li>
-                            <li>
-                            <a href=""><i class="fas fa-comment-dots icon icon__site-main--group__comments"></i>Chat Now 
-                            <div class="active__main active__main--group-content"><div>9</div></div>
-                            </a></li>
-                        </ul>
-                    </li>
-                    <div class="site-main__group--mainContent__overlay">  
-                        <div class="site-main__group--mainContent__overlay--close">
-                            <i class="fas fa-times icon icon__site-main--group__times"></i>
-                        </div>
-                        <div class="site-main__group--mainContent__desc--options__details">
-                            <p class="site-main__group--mainContent__desc--options__details--title">
-                                This group is created for mathematicians
-                                This group is created for mathematicians
-                            </p>
-                            <div class="site-main__group--mainContent__desc--options__details--ratings">
-                                <i class="far fa-thumbs-up icon icon__site-main--group__thumbup"></i> ratings: 
-                                <span class="site-main__group--mainContent__desc--options__details--ratings__number">
-                                   <i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>  <i class="fas fa-star"></i>
-                                     <i class="fas fa-star-half"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </ul>
-            </div>
-            <ul class="site-main__group--footer">
-                <li><i class="fas fa-users icon icon__site-main--group__usersAdded"></i> 233k</li>
-                <li> 
-                    <div class="site-main__group--footer__userOnline">
-                        <i class="fas fa-user-friends icon icon__site-main--group__userOnline"></i>online 2333m
-                    </div>
-                    <div class="site-main__group--footer__userOnline--status"></div>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="site-main__group--overlay"></div>
+    
 </div>

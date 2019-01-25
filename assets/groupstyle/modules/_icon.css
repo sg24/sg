@@ -1,178 +1,68 @@
 .icon {
     
-    &--rotate {
-        svg {
-            transform: rotate(180deg);
-            transition: all .3s ease-out;
-        }
-    }
-
-    &__site-main--group__Headeruser {
-        position: absolute;
-        font-size: .75rem;
-        top: 25%;
-        left: 4.2px;
-        color: $mainLightBlue;
-
-        @mixin atSmall {
-            font-size: 1.25rem;
-            left: 8px;
-        }
-    }
-
-    &__site-main--group__Headeradd {
-        position: absolute;
-        font-size: .6rem;
-        top: 22%;
-        left: 5.6px;
-        color: rgba($mainMediumLightBlack, .6);
-
-        @mixin atSmall {
-            font-size: .8rem;
-            top: 22%;
-            left: 7.3px;
-        }
-    }
-
-    &__site-main--group__mainContentAddSm {
-        position: absolute;
-        font-size: .6rem;
-        top: 22%;
-        left: 6px;
-        color: rgba($mainMediumLightBlack, .6);
-    }
-
-    &__site-main--group__calendar {
-        margin-right: 5px;
-        font-size: .8125rem;
-        /* color: rgba($mainMediumLightBlack, .8); */
-        color: rgba($mainDarkPaleBlue, .6);
-
-        @mixin atSmall {    
-            font-size: .875rem;
-        }
-    }
-
-    &__site-main--group__comments {
+    &__site-main__content--tab {
         margin-right: 5px;
     }
 
-    &__site-main--group__usersAdded {
-        margin-right: 5px;
-        /* color: rgba($mainMediumLightBlack, .8); */
-        color: rgba($mainDarkPaleBlue, .6);
-    }
-
-    &__site-main--group__userOnline {
-        margin-right: 5px;
-        /* color: rgba($mainMediumLightBlack, .8); */
-        color: rgba($mainDarkPaleBlue, .6);
-    }
-
-    &__site-main--group__times {
-        position: absolute;
-        top: 2.5px;
-        left: 5px;
-        font-size: .725rem;
-        color: rgba($mainMediumLightBlack, .8);
-    }
-
-
-    &__site-main--group__optionsTabFriends {
-        margin-right: 5px;
-    }
-
-    &__site-main--group__optionsTabIconGroups {
-        margin-right: 5px;
-    }
-
-    &__site-main--noaccount__groupIcon {
-        font-size: 1.4rem;
-        position: absolute;
-        top: 30%;
-        transform: translate(65%);
-        color: $mainDarkGray;
-
-        @mixin atSmall {
-            font-size: 1.675rem;
-            top: 27%;
-            transform: translate(55%);
-        }
-
-        @mixin atMedium {
-            font-size: 1.875rem;
-            top: 27%;
-            transform: translate(55%);
-        }
-    }
-
-    &__site-main--noaccount__handIcon {
-        font-size: 1.4rem;
-        position: absolute;
-        top: 30%;
-        transform: translate(20px);
-        color: $mainDarkGray;
-
-        @mixin atSmall {
-            font-size: 1.675rem;
-            top: 27%;
-            transform: translate(22px);
-        }
-
-        @mixin atMedium {
-            font-size: 1.875rem;
-            top: 27%;
-            transform: translate(25px);
-        }
-    }
-
-    &__site-main--helpMe__filterIcon {
-        margin-left: 5px;
-    }
-
-    &__site-main--communities__filterIcon {
-        margin-left: 5px;
-    }
-
-    &__site-main--group__peopleCarry {
-        position: absolute;
-        font-size: .75rem;
-        top: 25%;
-        left: 4.2px;
-        color: $mainLightBlue;
-
-        @mixin atSmall {
-            font-size: 1.25rem;
-            left: 6px;
-            top: 22%;
-        }
-    }
-
-    &__site-main--group__filter--angleicon {
+    &__reuse-group--filter__angle {
         color: $mainFontColor;
         margin-left: 5px;
     }
 
-    &__site-main--group__filter--groupicon {
-        color: $mainDarkBlue;
-        margin-right: 5px;
+    &__reuse-group--filter__grp {
+        color: $mainDarkPaleBlue;
     }
 
-    &__site-main--group__filter--usericon {
-        color: $mainLightGreen;
-        margin-right: 5px;
-    }
-    
-    &__site-main--group__innercateg--angleicon {
-        margin: 0 10px 0 20px;
+    &__reuse-group--filter__user {
+        color: rgba($mainDarkBlack, .55);
     }
 
-    &__site-main--group__categ--angleicon {
+    &__reuse-group--filter__alt--categ {
+        margin-left: 5px;
+    }
+
+    &__reuse-group--filter__categ {
         position: relative;
-        margin-left: 8px;
+        margin-left: 5px;
+    }
 
-        @mixin atSmall {
-            margin-left: 15px;
-        }
+    &__reuse-group--filter__calend {
+        font-size: 1rem;
+        position: relative;
+        color: rgba($mainDarkBlack, .6);
+        cursor: pointer;
+    }
+
+    &__reuse-group--acc__grp {
+        font-size: 1.875rem;
+        color: $mainDarkGray;
+    }
+
+    &__reuse-group--header__calend {
+        margin-right: 5px;
+        color: rgba($mainDarkPaleBlue, .6);
+    }
+
+    &__reuse-group--cnt__add {
+        font-size: .625rem;
+        color: rgba($mainDarkPaleBlue, .6);
+    }
+
+    &__reuse-group--cnt__det {
+        color: $mainFontColor;
+        margin-right: 5px;
+    }
+
+    &__reuse-group--cnt__comment {
+        margin-right: 10px;
+        color: #fff; 
+    }
+
+    &__reuse-group--footer__users {
+        color: $mainDarkPaleBlue;
+    }
+
+    &__reuse-group--footer__users-on {
+        color: rgba($mainDarkBlack, .55);
     }
 }

@@ -1191,7 +1191,6 @@ img {
     background-color: #f22613;
     color: #fff;
     font-size: .875rem;
-
 }
 
 .active__main--header {
@@ -1227,44 +1226,6 @@ img {
     border-radius: 10px;
     width: 20px;
     height: 20px;
-  }
-}
-
-.active__main--req {
-  top: 12px;
-  right: 25%;
-  width: 20px;
-  height: 20px;
-  font-size: .75rem;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255, .25);
-}
-
-.active__main--req > div {
-  position: absolute;
-  top: 50%;
-  transform:translateY(-50%);
-  width: 100%;
-  text-align: center;
-}
-
-@media (min-width: 335px) {
-
-  .active__main--req {
-    width: 24px;
-    height: 24px;
-    border-radius: 12px;
-    top: 4px;
-    right: 0px;
-    font-size: .8125rem;
-  }
-}
-
-@media (min-width: 530px) {
-
-  .active__main--req {
-    right: 8px;
-    top: 4px;
   }
 }
 

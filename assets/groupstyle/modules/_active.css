@@ -1,18 +1,14 @@
 .active__main {
-    position: absolute;
-    background-color: $mainDarkRed;
     color: #fff;
-    font-size: .875rem;
   
-
-    &--group {
-        top: 12px;
-        right: 25%;
-        width: 20px;
-        height: 20px;
-        font-size: .75rem;
-        border-radius: 10px;
-        border: 1px solid rgba(#fff, .25);
+    &--shareme {
+        top: 4px;
+        right: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 12px;
+        font-size: .8125rem;
+        border: 1px solid rgba(255,255,255, .25);
        
         > div {
             position: absolute;
@@ -20,31 +16,22 @@
             transform:translateY(-50%);
             width: 100%;
             text-align: center;
-        }
-
-        @mixin atExtraSmall {
-            width: 24px;
-            height: 24px;
-            border-radius: 12px;
-            top: 4px; 
-            right: 0px; 
-            font-size: .8125rem;
         }
 
         @mixin atSmall {
             right: 8px; 
             top: 4px;  
-        } 
-    } 
+        }
+    }
 
-    &--group-content {
-        top: -20px;
-        right: -20px;
-        width: 20px;
-        font-size: .75rem;
-        height: 20px;
-        border-radius: 10px;
-        border: 1px solid rgba(#fff, .25);
+    &--chat {
+        top: -10px; 
+        right: -12px;
+        width: 24px;
+        height: 24px;
+        border-radius: 12px;
+        font-size: .8125rem;
+        border: 1px solid rgba(255,255,255, .25);
        
         > div {
             position: absolute;
@@ -54,17 +41,8 @@
             text-align: center;
         }
 
-        @mixin atExtraSmall {
-            font-size: .8125rem;
-            width: 24px;
-            height: 24px;
-            border-radius: 12px;
-        }
-
         @mixin atSmall {
-            width: 26px;
-            height: 26px;
-            border-radius: 13px;
+            right: -20px;  
         }
-    } 
+    }
 }

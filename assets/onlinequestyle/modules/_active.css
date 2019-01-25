@@ -1,10 +1,6 @@
 .active__main {
-    position: absolute;
-    background-color: $mainDarkRed;
     color: #fff;
-    font-size: .875rem;
   
-
     &--exam {
         width: 24px;
         height: 24px;
