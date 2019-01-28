@@ -23,15 +23,6 @@
         margin: 0 auto;
         @mixin clearfix;
         
-        @mixin atSmall {
-            max-width: 1200px; 
-        }
-
-        @mixin atMedium {
-            /* padding-left: 20px;
-            padding-right: 20px;  */
-            max-width: 1200px;  
-        } 
 
         @mixin atLarge {
             padding-left: 18px;

@@ -20,11 +20,11 @@ class SiteHeader {
        this.siteHeaderNavListFirstItemDetails = $(".nav__list--options__firstItemsDetails");
        this.siteHeaderNavListSecondItem = $(".nav__list--options__seconddropdown");
        this.siteHeaderNavListSecondItemDetails = $(".nav__list--options__secondItemsDetails");
-       this.sitewrapper = $(".site-header__menu--notification--ct__details");
-       this.siteHeaderNotify = $(".site-header__menu--notification__notify-content");
+       this.sitewrapper = $(".site-header__menu--notify--ct__details");
+       this.siteHeaderNotify = $(".site-header__menu--notify__cnt");
        this.siteHeaderUser = $(".site-header__menu--user");
        this.siteHeaderUserDetails = $(".site-header__menu--user__details");
-       this.siteHeaderNotify = $(".site-header__menu--notification__notify-content");
+       this.siteHeaderNotify = $(".site-header__menu--notify__cnt");
        this.events();
     }
 
@@ -62,7 +62,7 @@ class SiteHeader {
     this.siteHeaderMenuNavToolTips.removeClass("site-header__menu--nav__tool-tip--openIcons");
     this.siteHeaderAddNewList.removeClass("site-header__addNew--list__opened");
     this.siteHeaderUserDetails.removeClass("site-header__menu--user__details--visible");
-    this.siteHeaderNotify.removeClass("site-header__menu--notification__notify-content--open");
+    this.siteHeaderNotify.removeClass("site-header__menu--notify__cnt--open");
    }
 
    toggleForm() {
@@ -76,7 +76,7 @@ class SiteHeader {
    toggleNav() {
     this.siteHeaderNavList.toggleClass("nav__list--visible");
     this.siteHeaderMenuNavToolTips.removeClass("site-header__menu--nav__tool-tip--openIcons");
-    this.siteHeaderNotify.removeClass("site-header__menu--notification__notify-content--open");
+    this.siteHeaderNotify.removeClass("site-header__menu--notify__cnt--open");
     this.siteHeaderUserDetails.removeClass("site-header__menu--user__details--visible");
    }
 
@@ -93,7 +93,7 @@ class SiteHeader {
    toggleUserDetails() {
     this.siteHeaderNavList.removeClass("nav__list--visible");
     this.siteHeaderUserDetails.toggleClass("site-header__menu--user__details--visible");
-    this.siteHeaderNotify.removeClass("site-header__menu--notification__notify-content--open");
+    this.siteHeaderNotify.removeClass("site-header__menu--notify__cnt--open");
    }
 
 }

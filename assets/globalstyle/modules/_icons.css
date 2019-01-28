@@ -18,48 +18,20 @@
     }
 
     &__site-header--favorites {
-        position: absolute;
         font-size: .875rem;
-        top: 25%;
-        transform: translate(-50%);
         color: $mainLightRed;
-
-        @mixin atSmall{
-            font-size: .875rem;
-            top: 25%;
-        }
 
         @mixin atMedium{
             font-size: 1rem;
-            top: 25%;
-        }
-
-        @mixin atLarge{
-            font-size: 1.2rem;;
-            top: 25%;
         }
     }
 
     &__site-header--shares {
         font-size: .875rem;
-        position: absolute;
-        top: 25%;
-        transform: translate(-50%);
         color: $mainLightBlue;
-
-        @mixin atSmall{
-            font-size: .875rem;
-            top: 25%;
-        }
 
         @mixin atMedium{
             font-size: 1rem;
-            top: 22%;
-        }
-
-        @mixin atLarge{
-            font-size: 1rem;;
-            top: 25%;
         }
     }
 
@@ -89,47 +61,19 @@
     }
 
     &__site-header--bell {
-        position: absolute;
         font-size: .875rem;
-        top: 25%;
-        transform: translate(-50%);
         color: $mainLightBlack;
-
-        @mixin atSmall {
-            font-size: .895rem;
-            top: 25%;
-        }
 
         @mixin atMedium {
             font-size: 1rem;
-            top: 22%;
-        }
-        @mixin atLarge{
-            font-size: 1.2rem;
-            top: 25%;
         }
     }
 
     &__site-header--list {
-        position: absolute;
         font-size: .875rem;
-        top: 25%;
-        transform: translate(-50%);
-        color: $mainLightBlack;
-
-        @mixin atSmall {
-            font-size: .875rem;
-            top: 25%;
-        }
 
         @mixin atMedium {
             font-size: 1rem;
-            top: 22%;
-        }
-
-        @mixin atLarge{
-            font-size: 1rem;
-            top: 25%;
         }
     }
 
@@ -166,12 +110,12 @@
     }
 
     &__site-header--notification__clock {
-        position: absolute;
+        /* position: absolute;
         font-size: .875rem;
         top: 5px;
         right: 5px;
         color: $mainDarkGray;
-        cursor: pointer;
+        cursor: pointer; */
     }
 
     &__site-header--notification--circle {
@@ -183,9 +127,6 @@
     &__site-header--notification__settings {
         color: $mainDarkBlue;
         font-size: .5rem;
-        position: absolute;
-        top: 25%;
-        transform: translate(-50%);
     }
 
     &__site-header__menu--notification--details__icon {
@@ -193,21 +134,21 @@
     }
 
     &__site-header__menu--notification--details__eye {
-        font-size: .75rem;
+        /* font-size: .75rem; */
     }
 
     &__site-header__menu--notification--details__heart {
-        font-size: .75rem;
-        cursor: pointer;
+        /* font-size: .75rem;
+        cursor: pointer; */
     }
 
     &__site-header__menu--notification--details__comment {
-        font-size: .75rem;
-        cursor: pointer;
+        /* font-size: .75rem;
+        cursor: pointer; */
     }
 
     &__site-header--notifcation__viewLater {
-        font-size: .8125rem;
+        /* font-size: .8125rem; */
     }
 
     &__site-header__menu--nav-icon {

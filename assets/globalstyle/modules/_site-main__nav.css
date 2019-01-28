@@ -1,6 +1,11 @@
 .site-main__nav {
         width: 35%;
-        border: 1px solid $mainDarkGray;
+        background-color: rgba($mainHeaderColor, .4);    
+        box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+        -o-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+        -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+        -webkit-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+        -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);  
         color: #fff;
         float: left;
         display: none;
@@ -32,14 +37,8 @@
             @mixin clearfix;
 
             li {
-                float: left;
-                padding: 15px 27.2px;
-
-                &:last-child {
-                    /* position: absolute;
-                    right: 8%; */
-                    float: right;
-                }
+                float: right; 
+                padding: 15px 25px 15px 0;
             }
         }
         

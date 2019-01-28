@@ -6,8 +6,8 @@ class ToolTips {
         this.siteHeaderMenuFavoritesToolTips = $(".site-header__menu--favorites__tool-tip");
         this.siteHeaderMenuShareIcons = $(".site-header__menu--shares");
         this.siteHeaderMenuShareToolTips = $(".site-header__menu--shares__tool-tip");
-        this.siteHeaderMenuNotificationIcons = $(".site-header__menu--notification");
-        this.siteHeaderMenuNotificationToolTips = $(".site-header__menu--notification__tool-tip");
+        this.siteHeaderMenuNotificationIcons = $(".site-header__menu--notify");
+        this.siteHeaderMenuNotificationToolTips = $(".site-header__menu--notify__tool-tip");
         this.siteHeaderMenuNavIcons = $(".site-header__menu--nav");
         this.siteHeaderMenuNavToolTips = $(".site-header__menu--nav__tool-tip");
         this.events();

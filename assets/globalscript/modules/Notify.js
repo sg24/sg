@@ -3,11 +3,11 @@ import $ from 'jquery';
 class Notify {
     constructor() {
         this.siteBody = $(".site-hero, .site-main");
-        this.siteHeaderBell = $(".site-header__menu--notification__icon, .site-header__menu--notification__icon--number");
-        this.siteHeaderNotify = $(".site-header__menu--notification__notify-content");
+        this.siteHeaderBell = $(".site-header__menu--notify__icn, .site-header__menu--notify__num");
+        this.siteHeaderNotify = $(".site-header__menu--notifiy__cnt");
         this.siteHeaderMenuFavoritesToolTips = $(".site-header__menu--favorites__tool-tip");
         this.siteHeaderMenuShareToolTips = $(".site-header__menu--shares__tool-tip");
-        this.siteHeaderMenuNotificationToolTips = $(".site-header__menu--notification__tool-tip");
+        this.siteHeaderMenuNotificationToolTips = $(".site-header__menu--notify__tool-tip");
         this.siteHeaderMenuNavToolTips = $(".site-header__menu--nav__tool-tip");
         this.siteHeaderNavList = $(".nav__list");
         this.siteHeaderUserDetails = $(".site-header__menu--user__details");
@@ -23,7 +23,7 @@ class Notify {
     }
 
     toggleNotify() {
-        this.siteHeaderNotify.toggleClass("site-header__menu--notification__notify-content--open");
+        this.siteHeaderNotify.toggleClass("site-header__menu--notify__cnt--open");
         this.siteHeaderMenuFavoritesToolTips.removeClass("site-header__menu--favorites__tool-tip--openIcons");
         this.siteHeaderMenuShareToolTips.removeClass("site-header__menu--favorites__tool-tip--openIcons");
         this.siteHeaderMenuNotificationToolTips.removeClass("site-header__menu--favorites__tool-tip--openIcons");
@@ -41,7 +41,7 @@ class Notify {
     }
 
     removeAllNotify() {
-        this.siteHeaderNotify.removeClass("site-header__menu--notification__notify-content--open");
+        this.siteHeaderNotify.removeClass("site-header__menu--notify__cnt--open");
     }
 }
 

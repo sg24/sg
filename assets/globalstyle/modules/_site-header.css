@@ -465,10 +465,11 @@
             height: 28px;
             margin: .285rem  0rem 0 .825rem;
             background-color: rgba($mainLightGray, .7);
-            display: inline;
-            text-align: center;
             position: relative;
             cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
             &__tool-tip {
                 list-style: none;
@@ -585,10 +586,11 @@
             height: 28px;
             margin: .285rem  0 0 1rem;
             background-color: rgba($mainLightGray, .7);
-            display: inline;
-            text-align: center;
             position: relative;
             cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
             &__tool-tip {
                 list-style: none;
@@ -700,22 +702,20 @@
             }
         }
         
-        &--notification {
+        &--notify {
             float: left;
             border-radius: 14px;
             width: 28px;
             height: 28px;
             margin: .285rem  0 0 1rem;
             background-color: rgba($mainLightGray, .7);
-            display: inline;
             text-align: center;
             position: relative;
             cursor: pointer;
-
-            &__icon {
-
-            }
-
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
             &__tool-tip {
                 list-style: none;
                 margin: 0;
@@ -801,76 +801,43 @@
                 }
             }
 
-            &__notify-content {
-                opacity: 0;
-                visibility: hidden;
-                z-index: -33;
-                transform: scale(.8);
-                transition: all .3s ease-out;
-
-                &--open {
-                    opacity: 1;
-                    visibility: visible;
-                    z-index: 4;
-                    transform: scale(1);
-                    transition: all .3s ease-out;
-                }
-            }
-
-
-
-            &__wrapper-header {
+            &__cnt { 
                 position: absolute;
-                top: 34px;
-                left: -238px;
-                width: 21.875rem;
-                height: 1px;
-                background-color: transparent;
+                top: 40px;
+                width: 20rem;
+                left: 80%;
+                transform: translateX(-80%); 
+                display: none; 
+                /* background-color: tgba($mainDarkBlue,.5); */
+                padding: 0;
+                margin: 0;
+                border-radius: 5px;
                 cursor: default;
-                z-index: 4;
-                
-                &::after {
+                border-bottom: 5px solid $mainDarkBlue; 
+                border-top: 5px solid $mainDarkBlue;
+               
+
+                &::before { 
                     border-color: transparent;
                     content: "";
                     position: absolute;
-                    right: 87px;
+                    left: 80%;
+                    transform: translateX(-80%);
                     border-bottom-color: $mainDarkBlue;
                     border-style: solid;
-                    border-width: 10px;
-                    top: -16px;
+                    border-width: 16px;
+                    top: -32px;
 
-                    @mixin atSmall {
-                        border-width: 10px;
-                    }
                     @mixin atMedium {
-                        border-width: 11px;
-                        top: -10px;
+                        left: 50%;
+                        transform: translateX(-50%);
                     }
                 }
 
-                &::before {
-                    border-color: transparent;
-                    content: "";
+                &--set {
                     position: absolute;
-                    top: -18px;
-                    right: 86px;
-                    border-width: 11px;
-                    border-bottom-color: $mainDarkBlue;
-                    border-style: solid;
-
-                    @mixin atSmall {
-                        border-width: 11px;
-                    }
-                    @mixin atMedium {
-                        border-width: 12px;
-                        top: -10px;
-                    }
-                }
-
-                &--settings {
-                    position: absolute;
-                    right: 10px;
-                    top: -2px;
+                    right: -9px;
+                    top: -14px;
                     height: 18px;
                     width: 18px;
                     border-radius: 9px;
@@ -879,216 +846,44 @@
                     overflow: hidden;
                     cursor: pointer;
                     display: none;
+                    z-index: 1;
 
                     @mixin atMedium {   
-                        display: block;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center; 
                     }
                 }
 
-                @mixin atExtraSmall {
-                    top: 34px;
-                    left: -238px;
+                &--det {
+                    height: 18.75rem;
+                    overflow: hidden ;
+                    overflow-x: hidden ;
+                    overflow-y: auto ;
+                    background: radial-gradient( circle closest-side, rgb(83,97,125) 0%, rgb(42,129,164) 0%, rgb(19,51,97) 100%);
+                    background: -webkit-radial-gradient( circle closest-side, rgb(83,97,125) 0%, rgb(42,129,164) 0%, rgb(19,51,97) 100%);
+                    background: -moz-radial-gradient( circle closest-side, rgb(83,97,125) 0%, rgb(42,129,164) 0%, rgb(19,51,97) 100%);
+                    background: -ms-radial-gradient( circle closest-side, rgb(83,97,125) 0%, rgb(42,129,164) 0%, rgb(19,51,97) 100%); 
+                    background: -o-radial-gradient( circle closest-side, rgb(83,97,125) 0%, rgb(42,129,164) 0%, rgb(19,51,97) 100%);
+                }
+
+                &--open {
+                    /* opacity: 1;
+                    visibility: visible;
+                    z-index: 4;
+                    transform: scale(1); */
+                    display: block;
+                    transition: all .3s ease-out;
                 }
 
                 @mixin atMedium {
-                    top: 34px;
-                    left: -236px;
-                }
-
-                @mixin atLarge {
-                    top: 36px;
-                    left: -233px;
-                }
-            }
-
-            &__wrapper {
-                position: absolute;
-                top: 35px;
-                width: 240px;
-                left: -165px;
-                /* background-color: tgba($mainDarkBlue,.5); */
-                padding: 10px;
-                border-radius: 5px;
-                max-height: 18.75rem;
-                cursor: default;
-                border-bottom: 5px solid $mainDarkBlue;
-                border-top: 5px solid $mainDarkBlue;
-                overflow: hidden ;
-                overflow-x: hidden ;
-                overflow-y: auto ;
-                background: radial-gradient( circle closest-side, rgb(83,97,125) 0%, rgb(42,129,164) 0%, rgb(19,51,97) 100%);
-                background: -webkit-radial-gradient( circle closest-side, rgb(83,97,125) 0%, rgb(42,129,164) 0%, rgb(19,51,97) 100%);
-                background: -moz-radial-gradient( circle closest-side, rgb(83,97,125) 0%, rgb(42,129,164) 0%, rgb(19,51,97) 100%);
-                background: -ms-radial-gradient( circle closest-side, rgb(83,97,125) 0%, rgb(42,129,164) 0%, rgb(19,51,97) 100%); 
-                background: -o-radial-gradient( circle closest-side, rgb(83,97,125) 0%, rgb(42,129,164) 0%, rgb(19,51,97) 100%);
-
-                &--content {
-                    background-color: #fff;
-                    padding: .2rem .5rem 1rem .5rem;
-                    position: relative;
-                    border-radius: 3px;
-                    margin-bottom: .625rem;
-                    overflow: hidden;
-
-                    @mixin atExtraSmall {
-                        padding: .3rem .5rem .8rem .5rem;
-                    }
-                    @mixin atMedium {
-                        padding: .2rem .5rem 1rem .5rem;
-                    }
-                }
-
-                &--title {
-                    a {
-                        color: $mainFontColor; 
-                        cursor: pointer;
-                        font-size: .875rem;
-
-                        @mixin atExtraSmall {
-                            font-size: .875rem;
-                        }
-                        @mixin atMedium {
-                            font-size: .9375rem;
-                        }
-                    }
-                }
-
-                &--category {
-                    position: absolute;
-                    left: 5px;
-                    top: 5px;
-                    border-radius: 8px;
-                    height: 16px;
-                    width: 16px;
-                    overflow: hidden;
-                    font-size: .875rem;
-                    text-align: center;
-                    padding-top: 1px;
-                    background-color: $mainLightGray;
-                    color: $mainLightBlack;
-                    cursor: pointer;
-                }
-
-                &--viewmore {
-                    display: inline;
-                    cursor: pointer;
-                }
-
-                &--dts {
-                    position: absolute;
-                    right: 7px;
-                    top: 46px;
-                    cursor: pointer;              
-                }
-
-                &--Viewers {
-                    position: absolute;
-                    top: 63px;
-                    margin: 0;
-                    padding: 0;
-                    font-size: .6875rem;
-                    color: $mainLightBlack;
-                    font-style: italic;
-
-                    @mixin atExtraSmall {
-                        top: 49px;
-                    }
-                }
-
-                &--favorite {
-                    position: absolute;
-                    top: 63px;
-                    margin: 0;
-                    padding: 0;
-                    left: 80px;
-                    font-size: .6875rem;
-                    color: $mainLightBlack;
-                    font-style: italic;
-
-                    @mixin atExtraSmall {
-                        top: 49px;
-                    }
-                }
-
-                &--comment {
-                    position: absolute;
-                    top: 63px;
-                    margin: 0;
-                    padding: 0;
-                    left: 155px;
-                    font-size: .6875rem;
-                    color: $mainLightBlack;
-                    font-style: italic;
-
-                    @mixin atExtraSmall {
-                        top: 49px;
-                    }
-                }
-
-                @mixin atExtraSmall {
-                    top: 35px;
-                    width: 310px;
-                    left: -234.5px;
-                }
-
-                @mixin atMiniSmall {
-                    top: 35px;
-                    width: 340px;
-                    left: -255px;
-                }
-
-                @mixin atSmall {
-                    width: 21.875rem;
-                    left: -240px;
-                }
-
-                @mixin atMedium {
-                    top: 44px;
-                }
-
-                @mixin atLarge {
+                    left: 50%;
+                    transform: translateX(-50%); 
                     top: 48px;
                 }
 
             }
 
-            &--ct {
-                position: absolute;
-                top: -20px;
-                max-width: 150px;
-                background-color: transparent;
-                right: -160px;
-                height: 100px;
-                padding: 20px 0 0 0 ;
-
-                &__details {
-                    background-color: $mainLightGray;
-                    overflow: hidden;
-                    margin-bottom: 10px;
-                    opacity: 0;
-                    visibility: hidden;
-                    z-index: -333;
-
-                    &--user {
-                        overflow: hidden;
-                        word-break: break-all;
-
-                        p {
-                            margin: 0;
-                            padding: 5px 5px;
-                            font-size: .8125rem;
-                            height: 20px;
-                        }
-
-                    }
-
-                    &--viewLater {
-                        font-size: .8125rem;
-                        padding: 10px 5px;
-                        margin: 0;
-                    }
-                }
-            }
 
             @mixin atExtraSmall {
                 margin: .2rem   0rem 0 .825rem;
@@ -1131,7 +926,10 @@
                 display: none;
 
                 @mixin atSmall {
-                    display: block;
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                     border-radius: 14px;
                     width: 28px;
                     height: 28px;
@@ -1254,7 +1052,6 @@
             float: left;
             background-color: $mainLightBlue;
             text-align: center;
-            display: inline;
             position: relative;
             margin: 0 0 0 1.163rem;
             padding: .1875rem;
@@ -1557,8 +1354,7 @@
         }
     }
 
-    &__miniForm {
-        
+    &__miniForm {  
         position: absolute;
         width: 100%;
         left: 0;

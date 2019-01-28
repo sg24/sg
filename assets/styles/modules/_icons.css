@@ -4,26 +4,45 @@
         margin-right: 5px;
     }
 
-    &__site-main--nav__trd--tm {
-        margin-right: 3px;
+    &__reuse-trd--fav {
+        margin-right: 5px;
         color: $mainLightRed; 
+        cursor: pointer; 
     }
 
-    &__site-main--nav__trd--comment {
-        margin-right: 3px;
+    &__reuse-trd--comment, &__reuse-trd--smile {
+        margin-right: 5px;
+        color: $mainDarkBlue;
+    }
+
+    &__reuse-trd--users {
+        color: $mainDarkPaleBlue;
+    }
+
+    &__reuse-trd--user-frnd {
+        color: rgba($mainDarkBlack, .55);
+    }
+
+    &__reuse-trd--view, &__reuse-trd--pwt-comment {
+        margin-right: 5px;
         color: $mainDarkBlack; 
     }
 
-    &__site-main--nav__trd--view {
-        margin-right: 3px;
-        color: $mainDarkBlue;  
+    &__reuse-trd--categ {
+        margin-right: 5px;
+        color: rgba($mainDarkBlack, .45);
+        font-size: .75rem; 
     }
 
-    &__site-main--nav__trd--tag {
-        margin-right: 3px;
-        color: rgba($mainMediumLightBlack, .6);
+    &__reuse-trd--add {
+        font-size: .75rem; 
+        margin-right: 5px;
     }
 
+    &__reuse-trd--tag {
+        font-size: .625rem; 
+        margin-right: 5px;
+    }
 
     &__reuse-pt--footer__eye {
         color: $mainDarkBlack;

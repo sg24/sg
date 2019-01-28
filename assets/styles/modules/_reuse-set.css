@@ -1,7 +1,7 @@
 .reuse-set {
-    background-color: $mainDarkBlue;
+    background-color: $mainMiddleDarkBlue;
     color: #fff;
-    margin: 10px 20px;
+    margin: 10px;
     font-weight: 400;
 
     &__header {
