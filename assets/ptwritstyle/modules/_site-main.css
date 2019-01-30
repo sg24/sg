@@ -1,21 +1,13 @@
 .site-main {
-    margin: 0 0 6px 0;
+    color: $mainFontColor;
+
         &__content { 
           margin-top: 0;
           padding-top: 0;
 
             &--wrapper {
-                padding-bottom: 0;
-
-                &__visible{
-                    background-color: rgba($mainHeaderColor, .4);
-                    box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
-                    -o-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
-                    -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
-                    -webkit-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
-                    -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5); 
-                    position: relative;  
-                }
+                padding-bottom: 50px;
+                position: relative; 
             }
         }
     }

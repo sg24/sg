@@ -3594,7 +3594,6 @@ img {
 @media (min-width: 800px) {
 
   .site-main__user--tab li {
-    padding: 15px 35px;
     font-size: .9375rem;
   }
 }

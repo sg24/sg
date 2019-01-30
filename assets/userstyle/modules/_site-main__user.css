@@ -99,7 +99,6 @@
             }
 
             @mixin atMedium {
-                padding: 15px 35px;
                 font-size: .9375rem;
             }
         }

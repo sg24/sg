@@ -5,64 +5,61 @@
                 LOGO
             </div>
         </div>
-         <form class="site-header__form">
+        <form class="site-header__form">
             <input type="text" class="site-header__form--input" autocomplete="on">
-            <span class="site-header__form--search">
+            <div class="site-header__form--search">
                 <i class="fas fa-search icon icon__site-header--search"></i>
-            </span>
-        </form>
-        <div class="site-header__addNew">
-            <span class="site-header__addNew--content">Add <i class="fas fa-angle-down icon__site-header--addNew"></i></span>
-            <span class="site-header__addNew--content-sm">Add<i class="fas fa-angle-down icon__site-header--addNew"></i></span>
-            <ul class="site-header__addNew--list">
-                <li>Post</li>
-                <li>Question</li>
-                <li>Group</li>
-                <li>Timed Question</li>
-                <li>Answer</li>
-                <li>Quote</li>
-                <li>Items</li>
-            </ul>
-        </div>
-        <div class="site-header__list">
-            <ul>
-                <li class="site-header__list--bars"><a><i class="fas fa-bars"></i></a></li>
-                <li><a href="">Question</a></li>
-                <li><a href="">Post</a></li>
-                <li><a href="">chat</a></li>
-                <li class="site-header__list--search-mini"><a class="site-header__list--search-mini__content"><i class="fas fa-search icon icon__site-header--search-mini"></i></a></li>
-                <li><a href="">Poet/Writer</a></li>
-            </ul>
-        </div>
-        <div class="site-header__menu">
-            <div class="site-header__menu--mini-space"> </div>
-            <div class="site-header__menu--favorites">
-                <i class="fas fa-heart icon icon__site-header--favorites"></i>
-                <ul class="site-header__menu--favorites__tool-tip">
-                    <li>Favorites</li>
-                </ul>
             </div>
-            <div class="site-header__menu--shares">
+        </form>
+        <div class="site-header__form-sm"><i class="fas fa-search icon icon__site-header--search"></i></div>
+        <div class="site-header__add-new">
+            <h4 class="site-header__add-new--title">Add <i class="fas fa-angle-down icon__site-header--add-new"></i></h4>
+            <ul class="site-header__add-new--opt">
+                <li><a href="">Post</a></li>
+                <li><a href="">Question</a></li>
+                <li><a href="">Group</a></li>
+                <li><a href="">Timed Question</a></li>
+                <li><a href="">Answer</a></li>
+                <li><a href="">Quote</a></li>
+                <li><a href="">Items</a></li>
+            </ul>
+        </div>
+        <ul class="site-header__nav-opt">
+            <li><a><i class="fas fa-bars"></i></a></li>
+            <li><a href="">Question</a></li>
+            <li><a href="">Post</a></li>
+            <li><a href="">chat</a></li>
+            <li><a href="">Poet/Writer</a></li>
+            <li><a class="site-header__list--search-mini__content"><i class="fas fa-search icon icon__site-header--search-mini"></i></a></li>
+        </ul>
+        <div class="site-header__menu">
+            <div class="site-header__menu--fav">
+                <i class="fas fa-heart icon icon__site-header--favorites"></i>
+                {{!-- <div class="site-header__tool-tip">
+                    Favorites
+                </div> --}}
+            </div>
+            <div class="site-header__menu--share">
                 <div class="active__main active__main--header">
                     <div>9</div>
                 </div>
                 <i class="fas fa-location-arrow icon icon__site-header--shares"></i>
-                <ul class="site-header__menu--shares__tool-tip">
-                    <li>Shared with me</li>
-                </ul>
-            </div>
+                {{!-- <div class="site-header__tool-tip">
+                    Shared with me
+                </div> --}}
+            </div> 
             <div class="site-header__menu--notify">
                 <div class="active__main active__main--header">
                     <div class="site-header__menu--notify__num">9</div>
                 </div>
                 <div class="site-header__menu--notify__icn"><i class="fas fa-bell icon icon__site-header--bell"></i></div>
-                <ul class="site-header__menu--notify__tool-tip">
-                    <li>Notification</li>
-                </ul>
+                <div class="site-header__tool-tip">
+                    Notifications
+                </div>
                 <div class="site-header__menu--notify__cnt">
-                    <div class="site-header__menu--notify__cnt--set"><i class="fas fa-cogs icon icon__site-header--notification__settings"></i></div>
+                    <div class="site-header__menu--notify__cnt--set"><i class="fas fa-cogs icon icon__site-header--notify__set"></i></div>
                     <div class="site-header__menu--notify__cnt--det">
-                        
+                        {{> partialtrd}}
                     </div>
                 </div>
             </div>
@@ -70,60 +67,91 @@
                 <div class="site-header__menu--nav__icon">
                     <i class="fas fa-bars icon icon__site-header--list"></i>
                 </div>
-                <ul class="site-header__menu--nav__tool-tip">
-                    <li>Options</li>
-                </ul>
-                <div class="nav nav__list">
-                    <ul class="nav__list--options">
-                        <li class="nav__list--options__firstitems nav__list--options__firstdropdown"><i class="fas fa-newspaper icon icon__site-header__menu--nav-icon"></i> News <i class="fas fa-angle-down site-header__menu--list-icon"></i>
-                            <ul class="nav__list--options__firstItemsDetails">
-                                <li><a href="">Sport</a></li>
-                                <li><a href="">Scholarships</a></li>
-                                <li><a href="">Entertainment</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav__list--options__firstitems nav__list--options__firstitems--hide-sm"><a href=""><i class="fas fa-users icon icon__site-header__menu--nav-icon"></i> Groups</a></li>
-                        <li class="nav__list--options__firstitems"><a href=""><i class="fas fa-coffee icon icon__site-header__menu--nav-icon"></i>Online Questions</a></li>
-                    </ul>
-                    <ul class="nav__list--options">
-                        <li class="nav__list--options__seconditems"><a href=""><i class="fas fa-clone icon icon__site-header__menu--nav-icon"></i> posts</a></li>
-                        <li class="nav__list--options__seconditems nav__list--options__seconditems--addmargin-sm nav__list--options__seconddropdown"><i class="fas fa-people-carry icon icon__site-header__menu--nav-icon"></i> Communities <i class="fas fa-angle-down site-header__menu--toggleIcon"></i>
-                            <ul class="nav__list--options__secondItemsDetails">
-                                <li><a href="">Education</a></li>
-                                <li><a href="">Programmers</a></li>
-                                <li><a href="">Designers</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav__list--options__seconditems nav__list--options__seconditems--hide-sm"><a href=""><i class="fas fa-store icon icon__site-header__menu--nav-icon"></i> Store</a></li>
-                    </ul>
-                     <ul class="nav__list--options">
-                        <li class="nav__list--options__thirditems"><a href=""><i class="fas fa-book icon icon__site-header__menu--nav-icon"></i> Poet/Writers</a></li>
-                        <li class="nav__list--options__thirditems nav__list--options__thirditems--show-sm"><a href=""><i class="fas fa-users icon icon__site-header__menu--nav-icon"></i> Groups</a></li>
-                    </ul>
-                    <ul class="nav__list--options nav__list--options__hide--sm">
-                        <li class="nav__list--options__thirditems"><a href=""><i class="fas fa-store icon icon__site-header__menu--nav-icon"></i> Store</a></li>
-                    </ul>
+                 <div class="site-header__tool-tip">
+                    Options
                 </div>
-            </div>
-            <div class="site-header__menu--user">
-                <div class="site-header__menu--user__img"></div>
-                <ul class="site-header__menu--user__details">
-                    <li class="site-header__menu--user__details--portal">
-                    <a href="">
-                        <div class="site-header__menu--user__details--portal__img">
-                        <img>
+                <nav class="nav">
+                    <div class="nav__pt">
+                        <i class="fas fa-clone icon icon__site-header--nav__itm"></i> Post
+                        <i class="fas fa-angle-down icon icon__site-header--nav__angle"></i>
+                        <ul>
+                            <li><a href="">News</a></li>
+                            <li><a href="">Social</a></li>
+                            <li><a href="">Entertainment</a></li>
+                        </ul>
                     </div>
-                     <p>My Portal</p>      
-                    </a> 
-                    </li>
-                    <li class="site-header__menu--user__details--account">
-                        <a href=""><i class="fas fa-cogs icon icon__site-header--menu__user--icons"></i> Account Settings</a>
-                    </li>
-                    <li class="site-header__menu--user__details--logout">
-                        <a href=""><i class="fas fa-angle-double-right icon icon__site-header--menu__user--icons"></i> Logout</a>
-                    </li>
-                </ul>
-          </div>
+                    <div class="nav__que">
+                        <i class="fas fa-clone icon icon__site-header--nav__itm"></i> Questions
+                        <i class="fas fa-angle-down icon icon__site-header--nav__angle"></i>
+                        <ul>
+                            <li><a href="">News</a></li>
+                            <li><a href="">Social</a></li>
+                            <li><a href="">Entertainment</a></li>
+                        </ul>
+                    </div>
+                    <div class="nav__online-que">
+                        <i class="fas fa-coffee icon icon__site-header--nav__itm"></i> Online Exam
+                        <i class="fas fa-angle-down icon icon__site-header--nav__angle"></i>
+                        <ul>
+                            <li><a href="">News</a></li>
+                            <li><a href="">Social</a></li>
+                            <li><a href="">Entertainment</a></li>
+                        </ul>
+                    </div>
+                     <div class="nav__grp">
+                        <i class="fas fa-users icon icon__site-header--nav__itm"></i> Group
+                        <i class="fas fa-angle-down icon icon__site-header--nav__angle"></i>
+                        <ul>
+                            <li><a href="">News</a></li>
+                            <li><a href="">Social</a></li>
+                            <li><a href="">Entertainment</a></li>
+                        </ul>
+                    </div>
+                     <div class="nav__pwt">
+                        <i class="fas fa-book icon icon__site-header--nav__itm"></i> Poeters/Writers
+                        <i class="fas fa-angle-down icon icon__site-header--nav__angle"></i>
+                        <ul>
+                            <li><a href="">News</a></li>
+                            <li><a href="">Social</a></li>
+                            <li><a href="">Entertainment</a></li>
+                        </ul>
+                    </div>
+                    <div class="nav__other">
+                        <i class="fas fa-book icon icon__site-header--nav__itm"></i> Others
+                        <i class="fas fa-angle-down icon icon__site-header--nav__angle"></i>
+                        <ul>
+                            <li><a href="">News</a></li>
+                            <li><a href="">Social</a></li>
+                            <li><a href="">Entertainment</a></li>
+                        </ul>
+                    </div>
+                </nav> 
+            </div>
+        </div>
+         <div class="site-header__user">
+             <div class="site-header__user--img">
+
+             </div>
+            <ul class="site-header__user--det">
+                <li class="site-header__user--det__portal">
+                   <a href="">
+                       <div class="site-header__user--det__portal--img"><img></div>
+                       My Portal 
+                    </a>  
+                </li>
+                <li class="site-header__user--det__acc">
+                    <a href="">
+                        <div><i class="fas fa-cogs icon icon__site-header--user__set"></i></div>
+                         Account Settings
+                    </a>
+                </li>
+                <li class="site-header__user--det__logout">
+                    <a href="">
+                        <div><i class="fas fa-angle-double-right icon icon__site-header--user__log"></i> </div>
+                        Logout
+                    </a>
+                </li>
+            </ul>
         </div>
          {{!-- <div class="site-header__btn-container">
                  <ul>
@@ -132,20 +160,20 @@
                 </ul>
             </div> --}}
         
-        <form class="site-header__miniForm">
-            <div class="site-header__miniForm--logo">
-                <div class="site-header__miniForm--logo__graphics">
+        <form class="site-header__sm-form">
+            <div class="site-header__sm-form--logo">
+                <div class="site-header__sm-form--logo__graphics">
                     LOGO
                 </div>
             </div>
-            <div class="site-header__miniForm--wrapper">
-                <input type="text" class="site-header__miniForm--wrapper__input" autofocus autocomplete="on">
-                <span class="site-header__miniForm--wrapper__search">
+            <div class="site-header__sm-form--srch">
+               <input type="text" class="site-header__sm-form--srch__input" autocomplete="on">
+                <div class="site-header__sm-form--srch__icn">
                     <i class="fas fa-search icon icon__site-header--search"></i>
-                </span>
+                </div>
             </div>
-            <div class="site-header__miniForm--close">
-                <i class="fas fa-times icon icon__site-header--miniForm__close"></i>
+            <div class="site-header__sm-form--close">
+                <i class="fas fa-times icon icon__site-header--sm-form__close"></i>
             </div>
         </form>
     </div>

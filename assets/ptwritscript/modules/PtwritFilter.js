@@ -6,8 +6,8 @@ class PtwritFilter {
         this.categ = $(".ptwrit-filter__category--item");
         this.filterToggler = $(".ptwrit-filter__cnt");
         this.filter = $(".ptwrit-filter__cnt--options");
-        this.filterOverlay =$(".site-main__ptwrit--main-wrapper__overlay");
-        this.filterClose = $(".site-main__ptwrit--main-wrapper__overlay, .ptwrit-filter__cnt--options__search--found__total, .ptwrit-filter__cnt--options__search--btn__ok, .ptwrit-filter__cnt--options__search--btn__cancel");
+        this.filterOverlay =$(".site-main__content--overlay");
+        this.filterClose = $(".site-main__content--overlay, .ptwrit-filter__cnt--options__search--found__total, .ptwrit-filter__cnt--options__search--btn__ok, .ptwrit-filter__cnt--options__search--btn__cancel");
         this.seleToggler = $(".ptwrit-filter__cnt--options__search--categsm");
         this.seleCateg = $(".ptwrit-filter__cnt--options__search--categsm__item");
         this.seleCategIcon = $(".ptwrit-filter__cnt--options__search--categsm__title");
@@ -28,7 +28,7 @@ class PtwritFilter {
         this.filterToggler.removeClass("icon--rotate");
         this.seleCateg.removeClass("ptwrit-filter__cnt--options__search--categsm__item--visible");
         this.seleCategIcon.removeClass("icon--rotate");
-        this.filterOverlay.toggleClass("site-main__ptwrit--main-wrapper__overlay--visible");
+        this.filterOverlay.toggleClass("site-main__content--overlay__visible");
     }
 
     toggleFilter() {
@@ -38,7 +38,7 @@ class PtwritFilter {
         this.categToggler.removeClass("icon--rotate");
         this.seleCateg.removeClass("ptwrit-filter__cnt--options__search--categsm__item--visible");
         this.seleCategIcon.removeClass("icon--rotate");
-        this.filterOverlay.addClass("site-main__ptwrit--main-wrapper__overlay--visible");
+        this.filterOverlay.addClass("site-main__content--overlay__visible");
     }
 
     closeAllFilter() {
@@ -46,7 +46,7 @@ class PtwritFilter {
         this.filterToggler.removeClass("icon--rotate");
         this.seleCateg.removeClass("ptwrit-filter__cnt--options__search--categsm__item--visible");
         this.seleCategIcon.removeClass("icon--rotate");
-        this.filterOverlay.removeClass("site-main__ptwrit--main-wrapper__overlay--visible");
+        this.filterOverlay.removeClass("site-main__content--overlay__visible");
         this.categ.removeClass("ptwrit-filter__category--item__visible");
         this.categToggler.removeClass("icon--rotate");
     }

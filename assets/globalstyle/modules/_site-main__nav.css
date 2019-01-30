@@ -15,7 +15,7 @@
  
        
         &--sticky { 
-            top: 70px; 
+            top: 60px; 
             position: sticky;      
             overflow: hidden;  
         }
@@ -35,10 +35,11 @@
             position: relative;
             font-size: .9375rem;
             @mixin clearfix;
+            box-shadow: 0 2px 2px rgba($mainDarkBlack, .2);  
 
             li {
                 float: right; 
-                padding: 15px 25px 15px 0;
+                padding: 12px 25px 12px 0;
             }
         }
         

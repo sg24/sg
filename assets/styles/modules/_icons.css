@@ -4,45 +4,6 @@
         margin-right: 5px;
     }
 
-    &__reuse-trd--fav {
-        margin-right: 5px;
-        color: $mainLightRed; 
-        cursor: pointer; 
-    }
-
-    &__reuse-trd--comment, &__reuse-trd--smile {
-        margin-right: 5px;
-        color: $mainDarkBlue;
-    }
-
-    &__reuse-trd--users {
-        color: $mainDarkPaleBlue;
-    }
-
-    &__reuse-trd--user-frnd {
-        color: rgba($mainDarkBlack, .55);
-    }
-
-    &__reuse-trd--view, &__reuse-trd--pwt-comment {
-        margin-right: 5px;
-        color: $mainDarkBlack; 
-    }
-
-    &__reuse-trd--categ {
-        margin-right: 5px;
-        color: rgba($mainDarkBlack, .45);
-        font-size: .75rem; 
-    }
-
-    &__reuse-trd--add {
-        font-size: .75rem; 
-        margin-right: 5px;
-    }
-
-    &__reuse-trd--tag {
-        font-size: .625rem; 
-        margin-right: 5px;
-    }
 
     &__reuse-pt--footer__eye {
         color: $mainDarkBlack;
