@@ -33,11 +33,12 @@
         }
 
         &--categ {
-            left: 0; 
+            right: 0; 
             background-color: $mainHeaderColor; 
         }
 
         &--tag {
+            display: none; 
             right: 0; 
             background-color: $mainMiddleDarkBlue; 
             color: #fff; 

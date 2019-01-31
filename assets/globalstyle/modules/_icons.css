@@ -43,6 +43,7 @@
 
     &__site-header--nav__angle {
         margin-left: 5px;
+        color: $mainLightBlack;
     }
 
     &__site-header--notify__set {
@@ -95,15 +96,8 @@
         font-size: .75rem; 
     }
 
-    &__site-header--login {
-        /* font-size: .875rem;
-        color: #E4DEDE;
-        display: none;
-
-        @mixin atLarge {
-            margin: 0 .25rem 0 0;
-            display: inline;
-        } */
+    &__site-header--no-acc {
+        margin-right: 5px;
     }
    
 }

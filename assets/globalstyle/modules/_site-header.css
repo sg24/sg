@@ -53,18 +53,17 @@
             cursor: pointer;
         }
 
-        &--expand {
-           @mixin atLarge {
-                width: 90%; 
-           }
-        }
-
         @mixin atMedium {
             display: inline;
         }
 
         @mixin atLarge {
             width: 8%;
+
+            &--expand {
+                 width: 50%; 
+                 margin-right: 40px;
+             }
         }
     } 
 
@@ -151,10 +150,10 @@
                 position: absolute;
                 left: 50%;
                 transform: translateX(-50%); 
-                border-width: 10px;
+                border-width: 9px;
                 border-style: solid;
                 border-bottom-color: #fff;
-                top: -20px;
+                top: -18px;
             }
 
             &::before {
@@ -163,11 +162,10 @@
                 position: absolute;
                 left: 50%;
                 transform: translateX(-50%); 
-                border-width: 11px;
+                border-width: 10px;
                 border-bottom-color: rgba($mainDarkBlack, 0.25);
-                /* border-bottom-color: $mainDarkGray; */
                 border-style: solid;
-                top: -22px;
+                top: -20px;
             }
 
             &__visible {
@@ -177,18 +175,16 @@
             }
         }
 
-        &--hidden {
-            @mixin atLarge {
-                display: none;
-            }
-        }
-
         @mixin atSmall {
             display: inline;
         }
 
         @mixin atLarge {
             margin-right: 0;
+
+            &--hidden {
+                display: none;
+            }
         }
     }
 
@@ -223,22 +219,20 @@
             }
         }
 
-        &--hidden {
-            @mixin atLarge {
-                display: none;
-            }
-        }
-
         @mixin atLarge {
             display: inline; 
+
+            &--hidden {
+                display: none;
+            }
         }
     }
 
     &__menu {
         float: left;
         @mixin clearfix;
-
-        & > div { 
+        
+        & > div, & > a { 
             float: left;
             border-radius: 15px;
             width: 30px;
@@ -259,6 +253,21 @@
             @mixin atSmall {
                 margin-right: 20px;
                 font-size: 1rem; 
+            }
+        }
+
+        &--notify, &--nav {
+            position: relative;
+
+            &__icn {
+                position: absolute;
+                border-radius: 15px;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center; 
+                cursor: pointer;
             }
         }
 
@@ -291,8 +300,8 @@
                     transform: translateX(-75%);
                     border-bottom-color: $mainDarkBlue;
                     border-style: solid;
-                    border-width: 15px;
-                    top: -30px;
+                    border-width: 14px;
+                    top: -28px;
 
                     @mixin atSmall {
                         left: 80%;
@@ -370,7 +379,6 @@
             padding: 1px 0;
             background-color: #fff;
             box-shadow: 0px 0px 4.15px 0.85px rgba($mainDarkBlack, 0.65); 
-            /* border: 1px solid $mainDarkGray; */
             font-size: .8125rem;
             opacity: 0;
             visibility: hidden;
@@ -462,6 +470,50 @@
         }
     }
 
+    &__no-acc {
+        list-style: none;
+        margin: 5px 0;
+        padding: 0;
+        @mixin clearfix;
+        display: none;
+        
+        & > li {
+            position: relative;
+            float: left;
+
+            &:first-child {
+                margin: 0 20px;
+            }
+
+            & > a {
+                display: block;
+                font-size: .8125rem; 
+                padding: 8px 10px;
+                text-decoration: none;
+            }
+        }
+
+        &--login {
+            background-color: #fff;
+            color: $mainFontColor;
+            box-shadow: 0 0 0 1px $mainDarkGray;
+            
+            &:hover {
+                background-color: $mainExtraLightGray;
+            }
+        }
+
+        &--sign {
+            background-color: $mainDarkBlue;
+            box-shadow: inset 0 -1px 2px 0 rgba($mainDarkBlack, .85);
+            color: #fff;
+
+            &:hover {
+                background-color: $mainDarkPaleBlue;
+            }
+        }
+    }
+
     &__sm-form {
         position: absolute;
         top: -100%;
@@ -471,7 +523,7 @@
         background-color: $mainHeaderColor;
         z-index: 1;
         padding-left: 115px;
-        padding-right: 50px; 
+        padding-right: 60px; 
         opacity: 0;
         visibility: hidden;
         transition: all .3s ease-in;
@@ -539,6 +591,11 @@
             opacity: 1;
             visibility: visible;
             transition: all .3s ease-in; 
+
+            @mixin atMedium {
+                opacity: 0;
+                visibility: hidden;
+            }
         }
     }
 

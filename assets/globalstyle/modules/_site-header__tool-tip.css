@@ -9,9 +9,6 @@
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: all .3s ease-in;
 
     &::after {
         content: "";
@@ -37,9 +34,15 @@
         transform: translateX(-50%);
     }
 
-    &--visible {
-        opacity: 1;
-        visibility: visible;
-        transition: all .3s ease-in; 
+    &--nav, &--fav, &--notify, &--share {
+        opacity: 0;
+        visibility: hidden;
+        transition: all .3s ease-in;
+
+        &__visible {
+            opacity: 1;
+            visibility: visible;
+            transition: all .3s ease-in; 
+        }
     }
 }

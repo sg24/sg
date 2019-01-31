@@ -33,27 +33,27 @@
             <li><a class="site-header__list--search-mini__content"><i class="fas fa-search icon icon__site-header--search-mini"></i></a></li>
         </ul>
         <div class="site-header__menu">
-            <div class="site-header__menu--fav">
+            <a class="site-header__menu--fav" href="">
                 <i class="fas fa-heart icon icon__site-header--favorites"></i>
-                {{!-- <div class="site-header__tool-tip">
+                <div class="site-header__tool-tip site-header__tool-tip--fav">
                     Favorites
-                </div> --}}
-            </div>
-            <div class="site-header__menu--share">
+                </div>
+            </a>
+            <a class="site-header__menu--share" href="">
                 <div class="active__main active__main--header">
                     <div>9</div>
                 </div>
                 <i class="fas fa-location-arrow icon icon__site-header--shares"></i>
-                {{!-- <div class="site-header__tool-tip">
+                <div class="site-header__tool-tip site-header__tool-tip--share">
                     Shared with me
-                </div> --}}
-            </div> 
+                </div>
+            </a> 
             <div class="site-header__menu--notify">
-                <div class="active__main active__main--header">
-                    <div class="site-header__menu--notify__num">9</div>
+                <div class="active__main active__main--header site-header__menu--notify__num">
+                    <div>9</div>
                 </div>
                 <div class="site-header__menu--notify__icn"><i class="fas fa-bell icon icon__site-header--bell"></i></div>
-                <div class="site-header__tool-tip">
+                <div class="site-header__tool-tip site-header__tool-tip--notify">
                     Notifications
                 </div>
                 <div class="site-header__menu--notify__cnt">
@@ -64,66 +64,106 @@
                 </div>
             </div>
             <div class="site-header__menu--nav">
-                <div class="site-header__menu--nav__icon">
+                <div class="site-header__menu--nav__icn">
                     <i class="fas fa-bars icon icon__site-header--list"></i>
                 </div>
-                 <div class="site-header__tool-tip">
+                 <div class="site-header__tool-tip site-header__tool-tip--nav">
                     Options
                 </div>
                 <nav class="nav">
-                    <div class="nav__pt">
-                        <i class="fas fa-clone icon icon__site-header--nav__itm"></i> Post
-                        <i class="fas fa-angle-down icon icon__site-header--nav__angle"></i>
-                        <ul>
-                            <li><a href="">News</a></li>
-                            <li><a href="">Social</a></li>
-                            <li><a href="">Entertainment</a></li>
-                        </ul>
+                    <div class="nav__wrapper">
+                        <div class="nav__pt">
+                            <h4>
+                                <i class="fas fa-clone icon icon__site-header--nav__itm"></i> Post
+                                <span><i class="fas fa-angle-down icon icon__site-header--nav__angle"></i></span>
+                            </h4>
+                            <ul>
+                                <li><a href="">News</a></li>
+                                <li><a href="">Social</a></li>
+                                <li><a href="">Entertainment</a></li>
+                            </ul>
+                        </div>
+                        <div class="nav__que">
+                            <h4>
+                                <i class="fas fa-clone icon icon__site-header--nav__itm"></i> Questions
+                                <span><i class="fas fa-angle-down icon icon__site-header--nav__angle"></i></span>
+                            </h4>
+                            <ul>
+                                <li><a href="">News</a></li>
+                                <li><a href="">Social</a></li>
+                                <li><a href="">Entertainment</a></li>
+                            </ul>
+                        </div>
+                        <div class="nav__online-que">
+                            <h4>
+                                <i class="fas fa-coffee icon icon__site-header--nav__itm"></i> Online Exam
+                                <span><i class="fas fa-angle-down icon icon__site-header--nav__angle"></i></span>
+                            </h4>
+                            <ul>
+                                <li><a href="">News</a></li>
+                                <li><a href="">Social</a></li>
+                                <li><a href="">Entertainment</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="nav__que">
-                        <i class="fas fa-clone icon icon__site-header--nav__itm"></i> Questions
-                        <i class="fas fa-angle-down icon icon__site-header--nav__angle"></i>
-                        <ul>
-                            <li><a href="">News</a></li>
-                            <li><a href="">Social</a></li>
-                            <li><a href="">Entertainment</a></li>
-                        </ul>
+                    <div class="nav__wrapper"> 
+                        <div class="nav__grp">
+                            <h4>
+                                <i class="fas fa-users icon icon__site-header--nav__itm"></i> Group
+                                <span><i class="fas fa-angle-down icon icon__site-header--nav__angle"></i></span>
+                            </h4>
+                            <ul>
+                                <li><a href="">News</a></li>
+                                <li><a href="">Social</a></li>
+                                <li><a href="">Entertainment</a></li>
+                            </ul>
+                        </div>
+                        <div class="nav__pwt">
+                            <h4>
+                                <i class="fas fa-book icon icon__site-header--nav__itm"></i> Poet/Writers
+                                <span><i class="fas fa-angle-down icon icon__site-header--nav__angle"></i></span>
+                            </h4>
+                            <ul>
+                                <li><a href="">News</a></li>
+                                <li><a href="">Social</a></li>
+                                <li><a href="">Entertainment</a></li>
+                            </ul>
+                        </div>
+                        <div class="nav__other">
+                            <h4>
+                                <i class="fas fa-book icon icon__site-header--nav__itm"></i> Others
+                                <span><i class="fas fa-angle-down icon icon__site-header--nav__angle"></i></span>
+                            </h4>
+                            <ul>
+                                <li><a href="">News</a></li>
+                                <li><a href="">Social</a></li>
+                                <li><a href="">Entertainment</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="nav__online-que">
-                        <i class="fas fa-coffee icon icon__site-header--nav__itm"></i> Online Exam
-                        <i class="fas fa-angle-down icon icon__site-header--nav__angle"></i>
-                        <ul>
-                            <li><a href="">News</a></li>
-                            <li><a href="">Social</a></li>
-                            <li><a href="">Entertainment</a></li>
-                        </ul>
-                    </div>
-                     <div class="nav__grp">
-                        <i class="fas fa-users icon icon__site-header--nav__itm"></i> Group
-                        <i class="fas fa-angle-down icon icon__site-header--nav__angle"></i>
-                        <ul>
-                            <li><a href="">News</a></li>
-                            <li><a href="">Social</a></li>
-                            <li><a href="">Entertainment</a></li>
-                        </ul>
-                    </div>
-                     <div class="nav__pwt">
-                        <i class="fas fa-book icon icon__site-header--nav__itm"></i> Poeters/Writers
-                        <i class="fas fa-angle-down icon icon__site-header--nav__angle"></i>
-                        <ul>
-                            <li><a href="">News</a></li>
-                            <li><a href="">Social</a></li>
-                            <li><a href="">Entertainment</a></li>
-                        </ul>
-                    </div>
-                    <div class="nav__other">
-                        <i class="fas fa-book icon icon__site-header--nav__itm"></i> Others
-                        <i class="fas fa-angle-down icon icon__site-header--nav__angle"></i>
-                        <ul>
-                            <li><a href="">News</a></li>
-                            <li><a href="">Social</a></li>
-                            <li><a href="">Entertainment</a></li>
-                        </ul>
+                    <div class="nav__wrapper"> 
+                        <div class="nav__other-sm">
+                            <h4>
+                                <i class="fas fa-book icon icon__site-header--nav__itm"></i> Others
+                                <span><i class="fas fa-angle-down icon icon__site-header--nav__angle"></i></span>
+                            </h4>
+                            <ul>
+                                <li><a href="">News</a></li>
+                                <li><a href="">Social</a></li>
+                                <li><a href="">Entertainment</a></li>
+                            </ul>
+                        </div>
+                         <div class="nav__online-que-sm"> 
+                            <h4>
+                                <i class="fas fa-coffee icon icon__site-header--nav__itm"></i> Online Exam
+                                <span><i class="fas fa-angle-down icon icon__site-header--nav__angle"></i></span>
+                            </h4>
+                            <ul>
+                                <li><a href="">News</a></li>
+                                <li><a href="">Social</a></li>
+                                <li><a href="">Entertainment</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </nav> 
             </div>
@@ -153,12 +193,10 @@
                 </li>
             </ul>
         </div>
-         {{!-- <div class="site-header__btn-container">
-                 <ul>
-                    <li><a href=""><i class="fas fa-lock icon icon__site-header--login"></i> Login</a></li>
-                    <li><a href="">Signup</a></li>
-                </ul>
-            </div> --}}
+         <ul class="site-header__no-acc">
+            <li><a href="" class="site-header__no-acc--login"><i class="fas fa-lock icon icon__site-header--no-acc"></i> Login</a></li>
+            <li><a href="" class="site-header__no-acc--sign">Signup</a></li>
+        </ul>
         
         <form class="site-header__sm-form">
             <div class="site-header__sm-form--logo">
