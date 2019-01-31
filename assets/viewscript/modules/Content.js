@@ -5,7 +5,7 @@ class Content {
         this.replyTogger = $(".reuse-view__comments--box__footer--user-opt__reply"); 
         this.reply = $(".reuse-view__comments--box__reply");
         this.closeallReply = $(".reuse-view__comments--box__reply--main-close");
-        this.overlay = $(".reuse-view__overlay");
+        this.overlay = $(".site-main__content--overlay"); 
         this.events();
     }
 
@@ -17,17 +17,17 @@ class Content {
 
     toggleReply() {
         this.reply.toggleClass("reuse-view__comments--box__reply--visible");
-        this.overlay.toggleClass("reuse-view__overlay--visible");
+        this.overlay.toggleClass("site-main__content--overlay__visible");
     }
 
     closeReply() {
         this.reply.removeClass("reuse-view__comments--box__reply--visible");
-        this.overlay.removeClass("reuse-view__overlay--visible");
+        this.overlay.removeClass("site-main__content--overlay__visible");
     }
 
     closeAll() {
         this.reply.removeClass("reuse-view__comments--box__reply--visible");
-        this.overlay.removeClass("reuse-view__overlay--visible");
+        this.overlay.removeClass("site-main__content--overlay__visible");
     }
 }
 

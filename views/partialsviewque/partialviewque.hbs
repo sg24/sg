@@ -1,15 +1,19 @@
-<div class="reuse-view">
-    <div class="wrapper__reuse-view">
-        <div class="reuse-view__wrapper">
-            <div class="reuse-view__overlay"></div>
-            {{> partialcontentque}}
+<div class="site-main site-main__no-tab">
+    <div class="wrapper__exmain">
+       <div class="site-main__content">
+            <div class="site-main__content--no-tab-wrapper">
+               <div class="site-main__content--overlay"></div>
+                <div class="site-main__content--top"></div>
+                {{> partialcontentque}}
+           </div>
         </div>
-        <div class="reuse-view__nav">
-            <div class="reuse-view__nav--header">
-                <i class="fas fa-exchange-alt icon icon__reuse-view--exchange__alt"></i>
+        <div class="site-main__nav">
+            <div class="site-main__nav--wrapper">
+                <ul class="site-main__nav--header">
+                    <li><i class="fas fa-exchange-alt"></i></li>
+                </ul>
+                {{> partialnavque}}
             </div>
-            {{> partialnavque}}
-            {{!-- {{> chat}} --}}
         </div>
     </div>
-</div>
+</div> 

@@ -18,12 +18,11 @@ class Share {
         this.viewUserClose = $(".reuse-share__user-selected--mainclose");
         this.viewUser = $(".reuse-share__user-selected");
         this.userCount = $(".reuse-share__user-counter");
-        this.closeShare = $(".reuse-view__overlay");
         this.vwOptToggler = $(".reuse-view__main--footer__user-det");
         this.vwOpt = $(".reuse-view__main--footer__user-det--opt");
         this.usOptToggler = $(".reuse-view__comments--box__footer--user-det");
         this.usOpt = $(".reuse-view__comments--box__footer--user-det__opt");
-        this.overlay = $(".reuse-view__overlay");
+        this.overlay = $(".site-main__content--overlay");
         this.events();
     }
   
@@ -39,12 +38,12 @@ class Share {
         this.userSntsToggler.mouseleave(this.hidTipUserSnts.bind(this));
         this.viewUserToggler.click(this.toggleViewUser.bind(this));
         this.viewUserClose.click(this.closeViewUser.bind(this));
-        this.closeShare.click(this.closeAll.bind(this));
+        this.overlay.click(this.closeAll.bind(this));
     }
 
     toggleShare() {
         this.share.toggleClass("reuse-share__wrapper--visible");
-        this.overlay.toggleClass("reuse-view__overlay--visible");
+        this.overlay.toggleClass("site-main__content--overlay__visible");
         this.usOptToggler.removeClass("reuse-view__comments--box__footer--user-det__clk");
         this.usOpt.removeClass("reuse-view__comments--box__footer--user-det__opt--visible");
         this.vwOptToggler.removeClass("reuse-view__main--footer__user-det--clk");
@@ -101,7 +100,7 @@ class Share {
 
     closeAll() {
         this.share.removeClass("reuse-share__wrapper--visible");
-        this.overlay.removeClass("reuse-view__overlay--visible");
+        this.overlay.removeClass("site-main__content--overlay__visible");
     }
 }
 

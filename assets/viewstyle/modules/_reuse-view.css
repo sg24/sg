@@ -1,39 +1,5 @@
 .reuse-view {
     position: relative;
-    top: 79px;
-    background-color: #fff;  
-    margin: 0 0 6px 0;
-
-    &__wrapper {
-        width: 100%;
-        overflow: hidden; 
-        
-        @mixin atLarge {
-            width: 65%;
-            float: left;
-            padding: 0 50px 0 0px;
-        }
-    }
-
-    &__overlay {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        background-color: rgba($mainDarkBlack, .6);
-        z-index: 1;
-        opacity: 0;
-        visibility: hidden;
-        transition: all .3s ease-in;
-
-        &--visible {
-            z-index: 2;
-            opacity: 1;
-            visibility: visible;
-            transition: all .3s ease-in;
-        }
-    }
 
     &__main {
         background-color: #fff;
@@ -391,20 +357,13 @@
             }
         }
 
-        @mixin atMedium {
-            margin-top: 5px;
-        }
-
-        @mixin atLarge {
-            margin-top: 15px;
-        }
     }
 
     &__comments {
         width: 100%;
         margin-top: 40px;
         background-color: rgba($mainHeaderColor, 1);
-        
+
         &--wrapper {
             position: relative;
             margin: 0 10px;
@@ -629,7 +588,6 @@
                 -moz--box-shadow: 0px 0px 5.12px 2.88px rgba($mainLightGray, 0.9);
                 position: relative;
                 font-size: 1rem;
-                z-index: 1;
                 
                 &--user-opt {
                     padding: 5px 0;
@@ -1033,13 +991,5 @@
                 border-top-right-radius: 0;
             }
         }
-    }
-
-    @mixin atSmall {
-        top: 60px; 
-    }
-
-    @mixin atMedium {
-        top: 65px; 
     }
 }
