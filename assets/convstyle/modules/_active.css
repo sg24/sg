@@ -1,170 +1,26 @@
 .active__main {
-    position: absolute;
-    background-color: $mainDarkRed;
     color: #fff;
-    font-size: .875rem;
 
-    &--header {
-        z-index: 1;
-        top: -10px;
-        right: -4px;
-        border-radius: 9px;
-        width: 18px;
-        height: 18px;
-        border: 1px solid rgba(#fff, .25);
-        overflow: hidden;
-        
-        & > div {
-            position: absolute;
-            top: 50%;
-            transform:translateY(-50%);
-            width: 100%;
-            text-align: center;
-            font-size: .75rem;
-
-            @mixin atMedium {
-                font-size: .8125rem;
-            }
-        }
-
-
-        @mixin atLarge {
-            border-radius: 10px;
-            width: 20px;
-            height: 20px;
-        }
-    }
-
-   &--pvtchat {
-        z-index: 1 ;
-        top: 50%;
-        transform: translateY(-50%);
-        right: -40px;
-        border-radius: 12px;
+    &--conv {
+        top: 4px;
+        right: 0;
         width: 24px;
         height: 24px;
+        border-radius: 12px;
+        font-size: .8125rem;
         border: 1px solid rgba(#fff, .25);
-        overflow: hidden;
-        
-        & > div {
+       
+        > div {
             position: absolute;
             top: 50%;
             transform:translateY(-50%);
             width: 100%;
             text-align: center;
-            font-size: .75rem;
-
-            @mixin atMedium {
-                font-size: .8125rem;
-            }
         }
 
-        @mixin atMiniSmall {
-            right: -40px;
-        }
-
-        @mixin atLarge {
-            border-radius: 12px;
-            width: 24px;
-            height: 24px;
-            right: -50px;
-        }
-   }
-
-   &--msg {
-        /* z-index: 1; */
-        top: -10px;
-        right: -12px;
-        width: 80px;
-        height: 20px;
-        border-top-left-radius: 40px;
-        border-bottom-right-radius: 40px;
-        border: 1px solid rgba(#fff, .25);
-        overflow: hidden;
-        font-weight: 300;
-        
-        & > div {
-            position: absolute;
-            top: 50%;
-            transform:translateY(-50%);
-            width: 100%;
-            text-align: center;
-            font-size: .75rem;
-
-            @mixin atMedium {
-                font-size: .8125rem;
-            }
-        }
-
-
-        @mixin atLarge {
-            width: 80px;
-            height: 20px;
-            border-top-left-radius: 40px;
-            border-bottom-right-radius: 40px;
-        }
-   }
-
-    &--chattotal {
-        z-index: 1 ;
-        /* top: 0px; */
-        right: 0px;
-        bottom: 0;
-        border-radius: 9px;
-        width: 18px;
-        height: 18px;
-        border: 1px solid rgba(#fff, .25);
-        overflow: hidden;
-        
-        & > div {
-            position: absolute;
-            top: 50%;
-            transform:translateY(-50%);
-            width: 100%;
-            text-align: center;
-            font-size: .75rem;
-
-            @mixin atMedium {
-                font-size: .8125rem;
-            }
-        }
-
-
-        @mixin atLarge {
-            width: 24px;
-            height: 24px;
+        @mixin atSmall {
+            right: 8px; 
+            top: 4px;  
         }
     }
-
-    &--pvt-notify {
-        z-index: 1 ;
-        top: -8px;
-        right: -8px;
-        width: 20px;
-        height: 20px;
-        border-radius: 10px;
-        border: 1px solid rgba(#fff, .25);
-        overflow: hidden;
-
-        & > div {
-            position: absolute;
-            top: 50%;
-            transform:translateY(-50%);
-            width: 100%;
-            text-align: center;
-            font-size: .75rem;
-
-            @mixin atMedium {
-                font-size: .8125rem;
-            }
-        }
-
-
-        @mixin atLarge {
-            border-radius: 12px;
-            width: 24px;
-            height: 24px;
-        }
-    }
-
 }

@@ -833,7 +833,7 @@ img {
     width: 100%;
     top: -1px; 
     padding: 6px 0;
-    z-index: 4;  
+    z-index: 5;  
     box-shadow: 0 2px 2px 1px rgba(0,0,0, .2); 
     -o-box-shadow: 0 2px 2px 1px rgba(0,0,0, .2);
     -ms-box-shadow: 0 2px 2px 1px rgba(0,0,0, .2);
