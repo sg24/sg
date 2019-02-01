@@ -3,12 +3,12 @@ import $ from 'jquery';
 class Filter {
     constructor() { 
         this.srchToggler = $(".site-main__user--filter__srch");
-        this.srch = $(".site-main__user--tab__srch");
+        this.srch = $(".site-main__user--srch");
         this.filterToggler = $(".site-main__user--filter__opt--title");
         this.filter = $(".site-main__user--filter__opt--wrapper");
-        this.overlay = $(".site-main__user--main__overlay");
-        this.filterClose = $(".site-main__user--main__overlay, .site-main__user--filter__opt--close");
-        this.srchClose = $(".site-main__user--tab__srch--close, .site-main__user--content");
+        this.overlay = $(".site-main__content--overlay");
+        this.filterClose = $(".site-main__content--overlay, .site-main__user--filter__opt--close");
+        this.srchClose = $(".site-main__user--srch__close, .site-main__user--content");
         this.events();
     }
 
@@ -20,25 +20,24 @@ class Filter {
     }
  
     openSrch() {
-        this.srch.addClass("site-main__user--tab__srch--visible");
-        this.overlay.addClass("site-main__user--main__overlay--visible");
+        this.srch.addClass("site-main__user--srch__visible");
+        this.overlay.addClass("site-main__content--overlay__visible");
     }
 
     closeSrch() {
-        this.srch.removeClass("site-main__user--tab__srch--visible");
-        this.overlay.removeClass("site-main__user--main__overlay--visible");
+        this.srch.removeClass("site-main__user--srch__visible");
+        this.overlay.removeClass("site-main__content--overlay__visible");
     }
 
     toggleFilter() {
-        this.overlay.addClass("site-main__user--main__overlay--visible");
+        this.overlay.addClass("site-main__content--overlay__visible");
         this.filter.addClass("site-main__user--filter__opt--wrapper__visible");
     }
 
     CloseAllFilter() {
-        this.overlay.removeClass("site-main__user--main__overlay--visible");
         this.filter.removeClass("site-main__user--filter__opt--wrapper__visible");
-        this.srch.removeClass("site-main__user--tab__srch--visible");
-        this.overlay.removeClass("site-main__user--main__overlay--visible");
+        this.srch.removeClass("site-main__user--srch__visible");
+        this.overlay.removeClass("site-main__content--overlay__visible");
     }
 }
 

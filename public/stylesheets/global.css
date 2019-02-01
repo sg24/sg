@@ -1771,11 +1771,6 @@ img {
   font-size: .8125rem;
 }
 
-.site-main__content--tab li:first-child {
-  position: relative;
-  border-bottom: none;
-}
-
 .site-main__content--tab li:last-child {
   border-right: none;
 }

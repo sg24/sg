@@ -242,12 +242,9 @@
                 color: #fff;
                 display: flex;
                 align-items: center;
-
-                & > a {
-                    padding: 0 20px;
-                    color: #fff;
-                    text-decoration: none;
-                }
+                padding: 0 20px;
+                color: #fff;
+                text-decoration: none;
             }
 
             &__user-det {

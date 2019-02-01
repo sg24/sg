@@ -88,11 +88,6 @@
                 position: relative;
                 border-right: 1px solid rgba(255,255,255, .45);
                 font-size: .8125rem; 
-                   
-                &:first-child { 
-                    position: relative;
-                    border-bottom: none;  
-                }
 
                 &:last-child {
                     border-right: none;
