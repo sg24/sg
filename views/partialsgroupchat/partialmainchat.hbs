@@ -1,500 +1,305 @@
-<div class="site-main__groupchat">
-     
-     <div class="site-main__userdetails">
-        <div class="site-main__userdetails--header">
-            <ul class="site-main__userdetails--header__backopt">
-                <li class="site-main__userdetails--header__backopt--title">back</li>
-                <li class="site-main__userdetails--header__backopt--switcher">
-                    <div><i class="fas fa-angle-double-right icon icon__site-main--userdetails__backopt"></i></div>
-                </li>
+<div class="site-main__chat">
+    <div class="site-main__chat--overlay"></div>
+    <div class="site-main__chat--cnt-overlay"></div>
+    <div class="site-main__chat--main">
+        <div class="site-main__chat--main__wrapper">
+
+            {{!-- {{> partialpvtchatmain}} --}}
+            {{> partialgrpchatmain}}
+
+            <ul class="site-main__chat--opt">
+                <li ><i class="far fa-trash-alt  icon icon icon__site-main--chat__header--opt"></i></li>
+                <li class="site-main__chat--opt__edit"><i class="far fa-edit  icon icon__site-main--chat__header--opt"></i></li>
+                <li class="site-main__chat--opt__fav"><i class="far fa-heart  icon icon__site-main--chat__header--opt__fav"></i></li>
+                <li class="site-main__chat--opt__share"><i class="fas fa-location-arrow icon icon icon__site-main--chat__header--opt"></i></li>
             </ul>
-             <div class="site-main__userdetails--header__title">
-                <i class="fas fa-circle icon icon__site-main--userdetails__header--circleleft">
-                </i>
-                <span class="site-main__userdetails--header__title--main">
-                    User Details
-                </span>
-                <i class="fas fa-circle icon icon__site-main--userdetails__header--circleright">
-                </i>
-            </div>
-            <ul class="site-main__userdetails--header__cancelopt">
-                <li class="site-main__userdetails--header__cancelopt--title">close</li>
-                <li class="site-main__userdetails--header__cancelopt--switcher">
-                    <div><i class="fas fa-times icon icon__site-main--userdetails__cancelopt"></i></div>
-                </li>
-            </ul>
-        </div>
-        <div class="site-main__userdetails--status">
-            online
-        </div>
-        <div class="site-main__userdetails--sub-main">
-            <div class="site-main__userdetails--sub-main__header">
-                <div class="site-main__userdetails--sub-main__header--wrapper">
-                    <div class="site-main__userdetails--sub-main__header--img">
-                        <img src="/" alt="">
+
+            <div class="site-main__chat--box">
+                <div class="site-main__chat--box__wrapper">  
+                    <div class="site-main__chat--box__date">
+                        <div class="site-main__chat--box__date--cur">today</div> 
                     </div>
-                    <ul class="site-main__userdetails--sub-main__header--user">
-                        <li class="site-main__userdetails--sub-main__header--user__title">user user</li>
-                        <li class="site-main__userdetails--sub-main__header--user__occup">occupation <span>Teacher</span></li>
-                    </ul>
+                    <div class="site-main__chat--box__hst">
+                        <div class="site-main__chat--box__hst--wrapper">
+                            <div class="site-main__chat--box__hst--cnt">
+                                Am i speaking with the guy n red today?
+                                immediate response pls... 
+                                Am i speaking with the guy n red today?
+                                immediate response pls... 
+                                Am i speaking with the guy n red today?
+                                immediate response pls... 
+                            </div>
+                            <ul class="site-main__chat--box__hst--footer">
+                                <li class="site-main__chat--box__hst--footer__chat-tm">11: 12pm</li>
+                                <li class="site-main__chat--box__hst--footer__user">
+                                    <a href="">user user</a>   
+                                    <div class="site-main__chat--box__hst--footer__user--img">
+                                        <img src="/" alt="">
+                                        <div class="site-main__chat--box__hst--footer__user--img__status site-main__chat--box__hst--footer__user--img__status--on">
+                                        </div>
+                                        {{!-- <div class="site-main__chat--box__hst--footer__user--img__status site-main__chat--box__hst--footer__user--img__status--off">
+                                        </div> --}}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="site-main__chat--box__reply">
+                        <div class="site-main__chat--box__reply--wrapper">
+                            <div class="site-main__chat--box__reply--cnt">
+                                Sure i am the one that was speaking with you yesterday,
+                                    do you remember pls ?
+                            </div>
+                            <ul class="site-main__chat--box__reply--footer">
+                                <li class="site-main__chat--box__reply--footer__user">
+                                    <a href="">user user</a> 
+                                    <div class="site-main__chat--box__reply--footer__user--img">
+                                        <img src="/" alt="">
+                                        {{!-- <div class="site-main__chat--box__reply--footer__user--img__status site-main__chat--box__reply--footer__user--img__status--on">
+                                        </div> --}}
+                                        <div class="site-main__chat--box__reply--footer__user--img__status site-main__chat--box__reply--footer__user--img__status--off">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="site-main__chat--box__reply--footer__chat-tm">11: 12pm</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="site-main__chat--box__usr-typing">
+                        <div class="site-main__chat--box__usr-typing--cir-up"></div>
+                        <div class="site-main__chat--box__usr-typing--cir-dwn"></div>
+                        <div class="site-main__chat--box__usr-typing--cir-up"></div>
+                        <div class="site-main__chat--box__usr-typing--cir-dwn"></div>
+                        <div class="site-main__chat--box__usr-typing--cir-up"></div>
+                        <div class="site-main__chat--box__usr-typing--cir-dwn"></div>
+                    </div>
                 </div>
             </div>
-            <div class="site-main__userdetails--sub-main__about">
-                <div class="site-main__userdetails--sub-main__about--title"><span><i class="fas fa-user"></i></span> About Me</div>
-                <p class="site-main__userdetails--sub-main__about--content">
-                    i only feel like should do this things which is the hottest as of d year don't ask me about it now
-                </p>
-            </div>
-        </div>
-        <div class="site-main__userdetails--main">
-            <div class="site-main__userdetails--main__details">
-                <div class="site-main__userdetails--main__details--icon">
-                    <i class="fas fa-user icon icon__site-main__userdetails--main__details--icon"></i>
+
+            <div class="site-main__chat--det">
+                <div class="site-main__chat--det__wrapper">
+                    <div class="site-main__chat--det__header">
+                        <div class="site-main__chat--det__header--img">
+                            <img src="/" alt="">
+                        </div>
+                        <div class="site-main__chat--det__header--info">
+                            <h4>The Peom and Peot Group</h4>
+                            <ul>
+                                <li>Tags</li>
+                                <li>Poeters</li>
+                                <li>Writes</li>
+                                 <li>Poeters</li>
+                                <li>Writes</li>
+                                 <li>Poeters</li>
+                                <li>Writes</li>
+                                 <li>Poeters</li>
+                                <li>Writes</li>
+                                 <li>Poeters</li>
+                                <li>Writes</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="site-main__chat--det__desc">
+                        <h4 class="site-main__chat--det__desc--title">
+                            Purpose
+                        </h4>
+                        <div class="site-main__chat--det__desc--cnt">
+                            This group is meants for best peoms only, it is the 
+                            best group fon those interested in peom writing only
+                        </div>
+                    </div>
+                    <div class="site-main__chat--det__admin">
+                        <h4>ADMIN</h4>
+                        <div class="site-main__chat--det__admin--info">
+                            <div class="site-main__chat--det__admin--info__img">
+                                <img src="/" alt="">
+                                <div class="site-main__chat--det__admin--info__img--status site-main__chat--det__admin--info__img--status__on"> </div>
+                                <div class="site-main__chat--det__admin--info__img--status site-main__chat--det__admin--info__img--status__off"></div>
+                            </div>
+                            <ul>
+                                <li>User user</li>
+                                <li>
+                                    online <span>222k</span>
+                                </li>
+                                <li>
+                                    Offline <span>2</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <ul class="site-main__userdetails--main__details--content">
-                    <li class="site-main__userdetails--main__details--content__stuacccept">Students Accepted <span>2222</span> </li>
-                    <li class="site-main__userdetails--main__details--content__stureject">Students Rejected<span>0</span></li>
-                </ul>
             </div>
-             <div class="site-main__userdetails--main__details">
-                <div class="site-main__userdetails--main__details--icon">
-                    <i class="fas fa-coffee icon icon__site-main__userdetails--main__details--coffee"></i>
+
+            <div class="site-main__chat--srch">
+                <div class="site-main__chat--srch__wrapper">
+                    <div class="site-main__chat--srch__close">
+                        <i class="fas fa-times icon icon__site-main--chat__close"></i>
+                    </div>
+                    <div class="site-main__chat--srch__cnt">
+                        <div class="site-main__chat--srch__cnt--calend">
+                            <i class="far fa-calendar-alt icon icon__site-main--chat__srch--calend"></i>
+                        </div>
+                        <input type="text" placeholder="search chat" class="site-main__chat--srch__cnt--input">
+                    </div>
                 </div>
-                <ul class="site-main__userdetails--main__details--content">
-                    <li>Online Questions <span class="site-main__userdetails--main__details--content__onlinequetotal">222k</span></li>
-                </ul>
-            </div>
-            <div class="site-main__userdetails--main__details">
-                <div class="site-main__userdetails--main__details--icon">
-                    <i class="fas fa-edit icon icon__site-main__userdetails--main__details--icon"></i>
-                </div>
-                <ul class="site-main__userdetails--main__details--content">
-                    <li>Questions Answered <span class="site-main__userdetails--main__details--content__questotal">222k</span></li>
-                </ul>
-            </div>
-            <div class="site-main__userdetails--main__details">
-                <div class="site-main__userdetails--main__details--icon">
-                    <i class="fas fa-clone icon icon__site-main__userdetails--main__details--post"></i>
-                </div>
-                <ul class="site-main__userdetails--main__details--content">
-                    <li>Post Published <span class="site-main__userdetails--main__details--content__posttotal">222k</span></li>
-                </ul>
-            </div>
-            <div class="site-main__userdetails--main__details">
-                <div class="site-main__userdetails--main__details--icon">
-                    <i class="fas fa-people-carry icon icon__site-main__userdetails--main__details--peopcarry"></i>
-                </div> 
-                <ul class="site-main__userdetails--main__details--content">
-                    <li>Communities <span class="site-main__userdetails--main__details--content__comitytotal">222k</span></li>
-                </ul>
             </div> 
-            <div class="site-main__userdetails--main__details">
-                <div class="site-main__userdetails--main__details--icon">
-                    <i class="fas fa-users icon icon__site-main__userdetails--main__details--icon"></i>
-                </div>
-                <ul class="site-main__userdetails--main__details--content">
-                    <li>Groups <span class="site-main__userdetails--main__details--content__grouptotal">222k</span></li>
-                </ul>
-            </div>
-            <div class="site-main__userdetails--main__details">
-                <div class="site-main__userdetails--main__details--icon site-main__userdetails--main__details--icon__store">
-                    <i class="fas fa-store icon icon__site-main__userdetails--main__details--iconstore"></i>
-                </div>
-                <ul class="site-main__userdetails--main__details--content">
-                    <li>Items in stock<span class="site-main__userdetails--main__details--content__itemtotal">222k</span></li>
-                </ul>
-            </div>
-        </div>
-        <div class="site-main__userdetails--footer">
-            <div class="site-main__userdetails--footer__facicon">
-                <div class="site-main__userdetails--footer__facicon--icon">
-                    <i class="fab fa-facebook-f"></i>
-                </div>
-            </div>
-            <div class="site-main__userdetails--footer__goicon">
-                 <div class="site-main__userdetails--footer__goicon--icon">
-                    <i class="fab fa-google-plus-g"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="outlet">
-         {{> partialchatroom}}
-    </div>
-    
-<div class="site-main__groupchat--mainwrapper">
-   <div class="site-main__groupchat--header">
-       <h3 class="site-main__groupchat--header__title">
-           Peom and prose group to help all who have grim for it
-           Peom and prose group to help all who have grim for it
-           Peom and prose group to help all who have grim for it
-        </h3>
-        <div class="site-main__groupchat--header__details">
-            <ul class="site-main__groupchat--header__details--firstdetails">
-                <li class="site-main__groupchat--header__details--firstdetails__users"><i class="fas fa-users icon icon__site-main--groupchat__header--user"></i></li>
-                <li class="site-main__groupchat--header__details--firstdetails__total"><span>222k</span> </li>
-            </ul>
-            <div class="site-main__groupchat--header__details--seconddetails">
-                <div class="site-main__groupchat--header__details--seconddetails__sh-more-lg">
-                    <span>details</span>
-                </div>
-                <div class="site-main__groupchat--header__details--seconddetails__sh-more-sm">
-                    <span>chat room</span>
-                </div>
-            </div>
-            <div class="site-main__groupchat--header__details--lastdetails">
-                <span><i class="far fa-calendar-alt icon icon__site-main--groupchat__calend"></i> 23/4/18</span>
-            </div>
-        </div>
-        <div class="site-main__groupchat--header__options">
-            <div class="site-main__groupchat--header__options--circle">
-                <div class="site-main__groupchat--header__options--circle__middle"></div>
-            </div>
-            <div class="active__main active__main--chat_main"><div>99</div></div>
-            <ul class="site-main__groupchat--header__options--list">
-                <li class="site-main__groupchat--header__options--list__search"> Search Chat </li>
-                <li class="site-main__groupchat--header__options--list__switGroup">Switch Group <i class="fas fa-caret-right icon icon__site-main--groupchat--option__caret"></i></li>
-                <li class="site-main__groupchat--header__options--currentclk">Current Chat <i class="fas fa-caret-right icon icon__site-main--groupchat--option__caret"></i></li>
-                <li class="site-main__groupchat--header__options--searchuser">Search User</li>
-                <li class="site-main__groupchat--header__options--grupdetails">Group Details</li>
-            </ul>
-        </div>
-   </div>
-    <div class="site-main__groupchat--options">
-       <ul class="site-main__groupchat--options__commentopt">
-           <li class="site-main__groupchat--options__commentopt--share"><i class="fas fa-location-arrow icon icon__site-main--groupchat__optionsicon"></i></li>
-           <li class="site-main__groupchat--options__commentopt--edit"><i class="far fa-edit  icon icon__site-main--groupchat__optionsicon"></i></li>
-           <li class="site-main__groupchat--options__commentopt--fav"><i class="far fa-heart  icon icon__site-main--groupchat__optionsicon"></i></li>
-           <li class="site-main__groupchat--options__commentopt--bin"><i class="far fa-trash-alt  icon icon__site-main--groupchat__optionsicon"></i></li>
-       </ul>
-    </div>
-    <div class="site-main__groupchat--chatbox">
-       <div class="site-main__groupchat--chatbox__wrapper">  
-            <div class="site-main__groupchat--chatbox__chatdate">
-                <div class="site-main__groupchat--chatbox__chatdate--current">today</div> 
-            </div>
-            <div class="site-main__groupchat--chatbox__firstchat">
-                <div class="site-main__groupchat--chatbox__firstchat--wrapper">
-                    <div class="site-main__groupchat--chatbox__firstchat--content">
-                        Am i speaking with the guy n red today?
-                        immediate response pls... 
-                        Am i speaking with the guy n red today?
-                        immediate response pls... 
-                        Am i speaking with the guy n red today?
-                        immediate response pls... 
+
+            <div class="site-main__chat--switch-grp">
+                <div class="site-main__chat--switch-grp__wrapper">
+                    <div class="site-main__chat--switch-grp__close">
+                        <div class="site-main__chat--switch-grp__close--wrapper">
+                             <i class="fas fa-times icon icon__site-main--chat__close"></i>
+                        </div>
                     </div>
-                    <ul class="site-main__groupchat--chatbox__firstchat--footer">
-                        <li class="site-main__groupchat--chatbox__firstchat--footer__chattime">11: 12pm</li>
-                        <li class="site-main__groupchat--chatbox__firstchat--footer__user">
-                            user user
-                            <div class="site-main__groupchat--chatbox__firstchat--footer__user--img">
+                    <input type="text" class="site-main__chat--switch-grp__input" placeholder="Enter group name...">
+                    <div class="site-main__chat--switch-grp__cnt">
+                        <div class="reuse-grp-chat">
+                            <div class="active__main active__main--chat-cnt"><div>9</div></div>
+                            <div class="reuse-grp-chat__img"><img src="/" alt=""></div>
+                            <ul class="reuse-grp-chat__det">
+                                <li class="reuse-grp-chat__det--title"><a href="">The real community for programmers The real community for programmers The real community for programmers</a></li>
+                                <li class="reuse-grp-chat__det--last-msg">Pls do you know the reson while Pls do you know the reson while Pls do you know the reson while Pls do you know the reson whilePls do you know the reson while Pls do you know the reson whilePls do you know the reson while Pls do you know the reson while</li>
+                                <li class="reuse-grp-chat__det--status"><div class="reuse-grp-chat__det--status__on"> online <span>22k</span></div> <div class="reuse-grp-chat__det--status__off"> offline <span>2k</span></div> </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="site-main__chat--cur-chat">
+                <div class="site-main__chat--cur-chat__wrapper">
+                    <div class="site-main__chat--cur-chat__close">
+                        <div class="site-main__chat--cur-chat__close--wrapper">
+                             <i class="fas fa-times icon icon__site-main--chat__close"></i>
+                        </div>
+                    </div>
+                    <ul class="site-main__chat--cur-chat__tab">
+                        <li>
+                            Private Chat
+                            <div class="active__main active__main--chat-tab"><div>9</div></div>
+                        </li>
+                        <li>Public Chat</li>
+                    </ul>
+                    <div class="site-main__chat--cur-chat__outlet">
+                        <div class="reuse-pvt-chat">
+                            <div class="active__main active__main--chat-cnt"><div>9</div></div>
+                            <div class="reuse-pvt-chat__img">
                                 <img src="/" alt="">
+                                {{!-- <div class="reuse-pvt-chat__img--status reuse-pvt-chat__img--status__on"></div> --}}
+                                <div class="reuse-pvt-chat__img--status reuse-pvt-chat__img--status__off"></div>
                             </div>
-                        </li>
-                    </ul>
+                            <ul class="reuse-pvt-chat__det">
+                                <li><a href="">User user <span>@ 2m ago</span></a></li>
+                                <li><a href="">What is the real defination pls, i need it</a></li>
+                            </ul>
+                        </div>
+                        <div class="reuse-grp-chat">
+                            <div class="active__main active__main--chat-cnt"><div>9</div></div>
+                            <div class="reuse-grp-chat__img"><img src="/" alt=""></div>
+                            <ul class="reuse-grp-chat__det">
+                                <li class="reuse-grp-chat__det--title"><a href="">The real community for programmers The real community for programmers The real community for programmers</a></li>
+                                <li class="reuse-grp-chat__det--last-msg"><a href="">Pls do you know the reson while Pls do you know the reson while Pls do you know the reson while Pls do you know the reson whilePls do you know the reson while Pls do you know the reson whilePls do you know the reson while Pls do you know the reson while</a></li>
+                                <li class="reuse-grp-chat__det--status"><div class="reuse-grp-chat__det--status__on"> online <span>22k</span></div> <div class="reuse-grp-chat__det--status__off"> offline <span>2k</span></div> </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="site-main__groupchat--chatbox__secondchat">
-                <div class="site-main__groupchat--chatbox__secondchat--wrapper">
-                    <div class="site-main__groupchat--chatbox__secondchat--content">
-                        Sure i am the one that was speaking with you yesterday,
-                            do you remember pls ?
+
+            <div class="site-main__chat--srch-user">
+                <div class="site-main__chat--srch-user__wrapper">
+                     <div class="site-main__chat--srch-user__close">
+                        <div class="site-main__chat--srch-user__close--wrapper">
+                             <i class="fas fa-times icon icon__site-main--chat__close"></i>
+                        </div>
                     </div>
-                    <ul class="site-main__groupchat--chatbox__secondchat--footer">
-                        <li class="site-main__groupchat--chatbox__secondchat--footer__user">
-                            user user
-                            <div class="site-main__groupchat--chatbox__secondchat--footer__user--img">
+                    <input type="text" class="site-main__chat--srch-user__input" placeholder="Enter group name...">
+                    <div class="site-main__chat--srch-user__cnt">
+                    <div class="reuse-pvt-chat">
+                        <div class="active__main active__main--chat-cnt"><div>9</div></div>
+                            <div class="reuse-pvt-chat__img">
                                 <img src="/" alt="">
+                                {{!-- <div class="reuse-pvt-chat__img--status reuse-pvt-chat__img--status__on"></div> --}}
+                                <div class="reuse-pvt-chat__img--status reuse-pvt-chat__img--status__off"></div>
                             </div>
-                        </li>
-                        <li class="site-main__groupchat--chatbox__secondchat--footer__chattime">11: 12pm</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="site-main__groupchat--chatbox__typing">
-                <div class="site-main__groupchat--chatbox__typing--wrapper">
-                    <span class="site-main__groupchat--chatbox__typing--wrapper__content">
-                        <i class="fas fa-circle icon  icon__site-main--groupchat__typing--up"></i>
-                        <i class="fas fa-circle icon  icon__site-main--groupchat__typing--down"></i>
-                        <i class="fas fa-circle icon  icon__site-main--groupchat__typing--up"></i>
-                        <i class="fas fa-circle icon  icon__site-main--groupchat__typing--down icon__site-main--groupchat__typing--lasticon"></i>
-                    </span>
-                </div>
-            </div>
-       </div>
-    </div>
-
-    <div class="site-main__groupchat--detail">
-       <div class="site-main__groupchat--detail__wrapper">
-           <div class="site-main__groupchat--detail__header">
-                <div class="site-main__groupchat--detail__header--imgwrapper">
-                    <div class="site-main__groupchat--detail__header--img">
-                        <img src="/" alt="">
-                    </div>
-                </div>
-                <ul class="site-main__groupchat--detail__header--list">
-                    <li class="site-main__groupchat--detail__header--list__group">Group: <span>The Peom and Peot Group</span></li>
-                    <li class="site-main__groupchat--detail__header--list__comty">Community: <span>The Peom community</span></li>
-                </ul>
-            </div>
-            <div class="site-main__groupchat--detail__dest">
-                <div class="site-main__groupchat--detail__dest--header">
-                    Description
-                </div>
-                <div class="site-main__groupchat--detail__dest--content">
-                     This group is meants for best peoms only, it is the 
-                     best group fon those interested in peom writing only
-                </div>
-            </div>
-            <div class="site-main__groupchat--detail__admin">
-                <div class="site-main__groupchat--detail__admin--img">
-                    <img src="/" alt="">
-                </div>
-                <ul class="site-main__groupchat--detail__admin--detail">
-                    <li class="site-main__groupchat--detail__admin--detail__title">Admin user user</li>
-                    <li class="site-main__groupchat--detail__admin--detail__status site-main__groupchat--detail__admin--detail__status--online">online</li>
-                    {{!-- <li class="site-main__groupchat--detail__admin--detail__status site-main__groupchat--detail__admin--detail__status--offline">offline</li> --}}
-                </ul>
-            </div>
-            <div class="site-main__groupchat--detail__footer">
-                <ul class="site-main__groupchat--detail__footer--content">
-                    <li class="site-main__groupchat--detail__footer--content__online">online <span>34k</span>users</li>
-                    <li class="site-main__groupchat--detail__footer--content__offline">offline <span>2</span>users</li>
-                </ul>
-            </div>
-       </div>
-   </div>
-
-     <div class="site-main__groupchat--search">
-        <div class="site-main__groupchat--search__wrapper">
-            <div class="site-main__groupchat--search__close">
-            <i class="fas fa-times icon icon__site-main--groupchat__chatbox--searchicon"></i>
-            </div>
-            <div class="site-main__groupchat--search__calend">
-                <i class="far fa-calendar-alt icon icon__site-main--groupchat__chatbox--calend"></i>
-            </div>
-            <input type="text" placeholder="search chat" class="site-main__groupchat--search__input">
-        </div>
-    </div> 
-
-    <div class="site-main__groupchat--switchgroup">
-            <div class="site-main__groupchat--switchgroup__wrapper">
-            <input type="text" class="site-main__groupchat--switchgroup__input" placeholder="Enter group name...">
-            <div class="site-main__groupchat--switchgroup__content">
-                <div class="site-main__groupchat--switchgroup__content--wrapper">
-                    <div class="active__main active__main--group-item"><div>9</div></div>
-                    <div class="site-main__groupchat--switchgroup__content--img"><img src="/" alt=""></div>
-                    <ul class="site-main__groupchat--switchgroup__content--details">
-                        <li class="site-main__groupchat--switchgroup__content--details__title">The real community for programmers The real community for programmers The real community for programmers</li>
-                        <li class="site-main__groupchat--switchgroup__content--details__lastmsg">Pls do you know the reson while Pls do you know the reson while</li>
-                        <li class="site-main__groupchat--switchgroup__content--details__status"><div class="site-main__groupchat--switchgroup__content--details__status--online"><span>22k</span> online</div> <div class="site-main__groupchat--switchgroup__content--details__status--offline"><span>2k</span> offline</div> </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="site-main__groupchat--currentchat">
-        <div class="site-main__groupchat--currentchat__wrapper">
-            <ul class="site-main__groupchat--currentchat__tab">
-                <li>Private Chat</li>
-                <li>Public Chat</li>
-            </ul>
-            <div class="site-main__groupchat--currentchat__outlet">
-                <div class="site-main__groupchat--currentchat__chat">
-                    <div class="site-main__groupchat--currentchat__chat--img">
-                        <div class="active__main active__main--group-item"><div>9</div></div>
-                        <div class="site-main__groupchat--currentchat__chat--img__userdetails">
-                            <a href=""><i class="fas fa-comment-dots icon icon__site-main__groupchat--currentchat__chaticon"></i></a> 
-                            <a href=""><i class="fas fa-eye icon icon__site-main__groupchat--currentchat__eyeicon"></i></a> 
-                        </div>
-                        <img src="/" alt="">
-                     </div>
-                    <div class="site-main__groupchat--currentchat__chat--details">
-                        <ul>
-                            <li class="site-main__groupchat--currentchat__chat--details__title">User user</li>
-                            <li class="site-main__groupchat--currentchat__chat--details__status">
-                                <i class="fas fa-circle icon icon__site-main__groupchat--curretchat__statuson"></i>
-                                online
-                            </li>
-                            {{!-- <li class="site-main__groupchat--currentchat__chat--details__status">
-                               <i class="fas fa-circle icon icon__site-main__groupchat--curretchat__statusoff"></i> offline 2m ago
-                            </li> --}}
-                        </ul>
-                        <div class="site-main__groupchat--currentchat__chat--lastmssge">
-                            What is the real defination pls, i need it
-                        </div>
-                    </div>
-                </div>
-                <div class="site-main__groupchat--currentchat__group">
-                    <div class="site-main__groupchat--currentchat__group--img"><img src="/" alt=""></div>
-                    <ul class="site-main__groupchat--currentchat__group--details">
-                        <li class="site-main__groupchat--currentchat__group--details__title">The real community for programmers The real community for programmers The real community for programmers</li>
-                        <li class="site-main__groupchat--currentchat__group--details__lastmsg">Pls do you know the reson while Pls do you know the reson while</li>
-                        <li class="site-main__groupchat--currentchat__group--details__status">
-                            <div class="site-main__groupchat--currentchat__group--details__status--online"><span>22k</span> online</div> 
-                            <div class="site-main__groupchat--currentchat__group--details__status--offline"><span>2k</span> offline</div> 
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="site-main__groupchat--searchuser">
-        <div class="site-main__groupchat--searchuser__wrapper">
-            <div class="site-main__groupchat--searchuser__header">
-                <input type="text" class="site-main__groupchat--searchuser__header--input" placeholder="search user....">
-            </div>
-            <div class="site-main__groupchat--searchuser__outlet">
-                <div class="site-main__groupchat--searchuser__chat">
-                    <div class="site-main__groupchat--searchuser__chat--switch">
-                        <i class="far fa-comment-dots"></i>
-                    </div>
-                    <div class="site-main__groupchat--searchuser__chat--img">
-                        <div class="active__main active__main--group-item"><div>9</div></div>
-                        <div class="site-main__groupchat--searchuser__chat--img__userdetails">
-                            <a href=""><i class="fas fa-comment-dots icon icon__site-main__groupchat--searchuser__chaticon"></i></a> 
-                            <a href=""><i class="fas fa-eye icon icon__site-main__groupchat--searchuser__eyeicon"></i></a> 
-                        </div>
-                        <img src="/" alt="">
-                    </div>
-                    <div class="site-main__groupchat--searchuser__chat--details">
-                        <ul>
-                            <li class="site-main__groupchat--searchuser__chat--details__title">User user</li>
-                            <li class="site-main__groupchat--searchuser__chat--details__status">
-                                <i class="fas fa-circle icon icon__site-main__searchchat--curretchat__statuson"></i>
-                                online                
-                            </li>
-
-                            {{!-- <li class="site-main__groupchat--searchuser__chat--details__status">
-                               <i class="fas fa-circle icon icon__site-main__searchchat--curretchat__statusoff"></i> 
-                               offline 2m ago
-                            </li> --}}
-                        </ul>
-                        <div class="site-main__groupchat--searchuser__chat--lastmssge">
-                            What is the real defination pls, i need it
-                        </div>
-                    </div>
-                </div>
-
-            <div class="site-main__groupchat--searchuser__chat">
-                <div class="site-main__groupchat--searchuser__chat--switch">
-                    <i class="far fa-comment-dots"></i>
-                </div>
-                <div class="site-main__groupchat--searchuser__chat--img">
-                    <div class="active__main active__main--group-item"><div>9</div></div>
-                        <div class="site-main__groupchat--searchuser__chat--img__userdetails">
-                            <a href=""><i class="fas fa-comment-dots icon icon__site-main__groupchat--searchuser__chaticon"></i></a> 
-                            <a href=""><i class="fas fa-eye icon icon__site-main__groupchat--searchuser__eyeicon"></i></a> 
-                        </div>
-                        <img src="/" alt="">
-                    </div>
-                    <div class="site-main__groupchat--searchuser__chat--details">
-                        <ul>
-                            <li class="site-main__groupchat--searchuser__chat--details__title">User user</li>
-                            <li class="site-main__groupchat--searchuser__chat--details__status">
-                                <i class="fas fa-circle icon icon__site-main__searchchat--curretchat__statuson"></i>
-                                online                
-                            </li>
-
-                            {{!-- <li class="site-main__groupchat--searchuser__chat--details__status">
-                               <i class="fas fa-circle icon icon__site-main__searchchat--curretchat__statusoff"></i> 
-                               offline 2m ago
-                            </li> --}}
-                        </ul>
-                        <div class="site-main__groupchat--searchuser__chat--nomssge">
-                            Occupation: <span>teacher</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="site-main__groupchat--footer">
-        <div class="site-main__groupchat--footer__mic">
-            <div class="site-main__groupchat--footer__mic--wrapper">
-                <i class="fas fa-microphone icon icon__site-main__groupchat--footer__mic"></i>
-            </div>
-        </div>
-        <div class="site-main__groupchat--footer__input">
-           <textarea  class="site-main__groupchat--footer__input--field" placeholder="Type something ....." autofocus></textarea>
-            <div class="site-main__groupchat--footer__input--mousein"><i class="fas fa-location-arrow icon icon__site-main--groupchat__footer--sharearrow"></i></div>
-            <div class="site-main__groupchat--footer__input--mouseout"><i class="fas fa-paperclip icon icon__site-main--groupchat__footer--clip"></i></div>
-            <div class="site-main__groupchat--footer__input--smile"><i class="far fa-smile icon icon__site-main--groupchat__footer--smile"></i></div>
-        </div>
-        <div class="site-main__groupchat--footer__camera">
-            <div class="site-main__groupchat--footer__camera--wrapper">
-                <i class="fas fa-camera icon icon__site-main__groupchat--footer__camera"></i>
-            </div>
-        </div>
-        <div class="site-main__groupchat--footer__clip">
-            <div class="site-main__groupchat--footer__clip--wrapper">
-                <i class="fas fa-paperclip icon icon__site-main__groupchat--footer__clip"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="site-main__groupchat--attachWrapper">
-        <div class="site-main__groupchat--attachContent">
-            <ul class="site-main__groupchat--attach">
-                <li>
-                    <div class="site-main__groupchat--attach__iconHolder site-main__groupchat--attach__camicon">
-                        <i class="fas fa-camera icon icon__site-main__nav--chaticon"></i>
-                    </div>
-                    <p class="site-main__groupchat--attach__title">Camera</p>
-                </li>
-                <li>
-                    <div class="site-main__groupchat--attach__iconHolder site-main__groupchat--attach__videoicon">
-                        <i class="fas fa-video icon icon__site-main__nav--chaticon"></i>
-                    </div>    
-                     <p class="site-main__groupchat--attach__title">Video recorder</p>
-                </li>
-                <li class="site-main__groupchat--attach__pic">
-                    <div class="site-main__groupchat--attach__iconHolder site-main__groupchat--attach__imageicon">
-                        <i class="fas fa-images icon icon__site-main__nav--chatimageicon"></i>
-                    </div> 
-                     <p class="site-main__groupchat--attach__title">Picture picker</p>     
-                </li>
-            </ul>
-            <ul class="site-main__groupchat--attach site-main__groupchat--secondattach">
-                <li>
-                    <div class="site-main__groupchat--attach__iconHolder site-main__groupchat--attach__locationicon">
-                    <i class="fas fa-map-marker-alt icon icon__site-main__nav--chatlocationicon"></i>
-                    </div> 
-                     <p class="site-main__groupchat--attach__title">Share location</p>
-                    </li>
-                    <li>
-                        <div class="site-main__groupchat--attach__iconHolder site-main__groupchat--attach__fileicon">
-                            <i class="fas fa-file icon icon__site-main__nav--chaticon"></i>
-                        </div>
-                        <p class="site-main__groupchat--attach__title">Documents</p>
-                    </li>
-                    <li class="site-main__groupchat--attach__audio">
-                        <div class="site-main__groupchat--attach__iconHolder site-main__groupchat--attach__audioicon">
-                            <i class="fas fa-headphones icon icon__site-main__nav--chaticon"></i>
-                        </div>
-                        <p class="site-main__groupchat--attach__title">Audio picker</p>
-                    </li>
-                </ul> 
-                <ul class="site-main__groupchat--attach site-main__groupchat--smattach">
-                    <li>
-                        <div class="site-main__groupchat--attach__iconHolder site-main__groupchat--attach__imageicon">
-                            <i class="fas fa-images icon icon__site-main__nav--chatimageicon"></i>
+                            <ul class="reuse-pvt-chat__det">
+                                <li><a href="">User user <span>@ 2m ago</span></a></li>
+                                <li><a href="">What is the real defination pls, i need it</a></li>
+                            </ul>
                         </div> 
-                        <p class="site-main__groupchat--attach__title">Picture picker</p>     
-                    </li>
-                    <li>
-                        <div class="site-main__groupchat--attach__iconHolder site-main__groupchat--attach__audioicon">
-                            <i class="fas fa-headphones icon icon__site-main__nav--chaticon"></i>
+
+                        <div class="reuse-pvt-chat">
+                            <div class="reuse-pvt-chat__img">
+                                <img src="/" alt="">
+                                <div class="reuse-pvt-chat__img--status reuse-pvt-chat__img--status__on"></div>
+                                {{!-- <div class="reuse-pvt-chat__img--status reuse-pvt-chat__img--status__off"></div> --}}
+                            </div>
+                            <ul class="reuse-pvt-chat__det">
+                                <li><a href="">User user</a></li>
+                                <li><span><i class="fas fa-comment-alt icon icon__site-main--chat__srh-user"></i> chat</span></li>
+                            </ul>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="site-main__chat--footer">
+                <div class="site-main__chat--footer__mic">
+                    <i class="fas fa-microphone icon icon__site-main--chat__footer--mic"></i>
+                </div>
+                <div class="site-main__chat--footer__input">
+                    <textarea  class="site-main__chat--footer__input--field" placeholder="Type something ....." autofocus></textarea>
+                    <div class="site-main__chat--footer__input--share"><i class="fas fa-location-arrow icon icon__site-main--chat__footer--input__share"></i></div>
+                    <div class="site-main__chat--footer__input--clip"><i class="fas fa-paperclip icon icon__site-main--chat__footer--input__clip"></i></div>
+                    <div class="site-main__chat--footer__input--smiles"><i class="far fa-smile icon icon__site-main--chat__footer--input__smile"></i></div>
+                </div>
+                <div class="site-main__chat--footer__camera">
+                    <i class="fas fa-camera icon icon___site-main--chat__footer--camera"></i>
+                </div>
+                <div class="site-main__chat--footer__clip">
+                    <i class="fas fa-paperclip icon icon__site-main--chat__footer--clip"></i>
+                </div>
+                <div class="site-main__chat--footer__clip-itm">
+                    <div class="site-main__chat--footer__clip-itm--wrapper">
+                        <div class="site-main__chat--footer__clip-itm--cam">
+                            <i class="fas fa-camera icon icon__site-main__chat--clip-itm"></i>
                         </div>
-                        <p class="site-main__groupchat--attach__title">Audio picker</p>
-                    </li>
-                </ul> 
+                        <h4>Camera</h4>
+                    </div>
+                    <div class="site-main__chat--footer__clip-itm--wrapper">
+                        <div class="site-main__chat--footer__clip-itm--rec">
+                            <i class="fas fa-video icon icon__site-main__chat--clip-itm"></i>
+                        </div>
+                        <h4>Video Recorder</h4>
+                    </div>
+                    <div class="site-main__chat--footer__clip-itm--wrapper">
+                        <div class="site-main__chat--footer__clip-itm--img-pic">
+                            <i class="fas fa-images icon icon__site-main__chat--clip-itm"></i>
+                        </div>
+                        <h4>Image Picker</h4>
+                    </div>
+                    <div class="site-main__chat--footer__clip-itm--wrapper">
+                        <div class="site-main__chat--footer__clip-itm--loc">
+                            <i class="fas fa-map-marker-alt icon icon__site-main__chat--clip-itm"></i>
+                        </div>
+                        <h4>Share Location</h4>
+                    </div>
+                    <div class="site-main__chat--footer__clip-itm--wrapper">
+                        <div class="site-main__chat--footer__clip-itm--doc">
+                            <i class="fas fa-file icon icon__site-main__chat--clip-itm"></i>
+                        </div>
+                        <h4>Documents</h4>
+                    </div>
+                    <div class="site-main__chat--footer__clip-itm--wrapper">
+                        <div class="site-main__chat--footer__clip-itm--aud">
+                            <i class="fas fa-headphones icon icon__site-main__chat--clip-itm"></i>
+                        </div>
+                        <h4>Audio Picker</h4>
+                    </div>
+                </div>
             </div>
         </div>
-   </div>
+    </div>
+    {{!-- {{> partialpvtchatnav}} --}}
+     {{> partialgrpchatnav}}
 </div>

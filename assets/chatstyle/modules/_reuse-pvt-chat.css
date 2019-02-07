@@ -1,0 +1,101 @@
+.reuse-pvt-chat {
+    border-radius: 10px;
+    margin-bottom: 40px; 
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+    -o-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+    -ms-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+    -webkit-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+    -moz-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+
+    &__img {
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+        background-color: $mainLightGray;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 10px;
+        
+        &--status {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 4px;
+            border: 1px solid $mainDarkGray;
+            bottom: 4px;
+            right: 8px;
+
+            &__on {
+                background-color: $mainLightGreen;
+            }
+
+            &__off {
+                background-color: $mainLightRed;
+            }
+        }
+    }
+
+    &__det {
+        list-style: none;
+        padding: 0 10px 0 80px;
+        margin:  0;
+        width: 100%;
+        font-size: .875rem;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+
+        li {
+            margin: 0;
+
+            &:first-child {
+                padding: 8px 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                font-weight: 500;
+                color: rgba($mainDarkPaleBlue, .8);
+                font-size: .9375rem;
+                
+                & > a {
+                    text-decoration: none;
+                    color: rgba($mainDarkPaleBlue, .8);
+
+                    & > span {
+                        margin-right: 5px;
+                        font-weight: 300;
+                        color: rgba($mainDarkBlack, .45);
+                        font-size: .8125rem;
+                    }
+                }
+            }
+
+            &:last-child {
+                padding: 8px 0; 
+                color: rgba($mainDarkBlack, .6);
+                font-weight: 500;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+
+                & > a {
+                    text-decoration: none;
+                    color: rgba($mainDarkBlack, .6);
+                }
+
+                & > span {
+                    background-color: $mainMiddleDarkBlue;
+                    color: #fff;
+                    border-radius: 3px;
+                    padding: 4px 15px;
+                    cursor: pointer;
+                    font-weight: 400;
+                    font-size: .8125rem; 
+                    box-shadow: 0 2px 5px 0 rgba($mainDarkBlack, .45);
+                }
+            }
+        }
+    }
+}

@@ -1,109 +1,80 @@
-<div class="chats__logs">
-        <div class="chats__logs--shad"></div>
-        <div class="chats__logs--mainclose">
-            <i class="fas fa-times icon icon__chats--log__maincloseIcon"></i>
-        </div>
-        <ul class="chats__logs--header">
-            <li class="chats__logs--header__title">
-                <p class="chats__logs--header__title"><i class="fas fa-location-arrow icon icon__chats--logs__share-chat--sharearrow"></i>  Share Chat</p>
-            </li>
-            <li class="chats__logs--header__input">
-                <input type="text" class="chats__logs--header__searchChat--input" placeholder="Search User">
-                <div class="chats__logs--header__searchChat--searchIcon">
-                    <i class="fas fa-search icon icon__site-main__nav--chatLog__searchIcon"></i>
+<div class="site-main__chat--nav">
+    <div class="site-main__chat--nav__wrapper">
+        <div class="site-main__chat--nav__shad"></div>
+        <div class="site-main__chat--nav__close">
+            <i class="fas fa-times icon icon__site-main--chat__nav--close"></i>
+        </div> 
+        <div class="site-main__chat--nav__header site-main__chat--nav__header--share">
+            <div class="site-main__chat--nav__header--det">
+                <h4 class="site-main__chat--nav__header--det__title site-main__chat--nav__header--det__title--share">
+                    <i class="fas fa-location-arrow icon icon__site-main--chat__nav--share"></i>  Share Chat
+                </h4>
+            </div>
+            <div class="site-main__chat--nav__header--srch">
+                <input type="text" class="site-main__chat--nav__header--srch__input" placeholder="Search User">
+                <div>
+                    <i class="fas fa-search icon icon__site-main--chat__nav--srch"></i>
                 </div>
-            </li>
-        </ul>
-
-        
-        <div class="chats__logs--mainOutlet">
-            <div class="chats__logs--user">
-                <ul class="chats__logs--user__header">
-                    <li></li>
-                    <li><i class="fas fa-users icon__chats--logs__share-chat--user"></i> Select Users</li>
+            </div>
+        </div>
+        <div class="site-main__chat--nav__cnt">
+            <div class="site-main__chat--nav__cnt--wrapper">
+                <h4 class="site-main__chat--nav__cnt--title">
+                    Click User image to select
+                    {{!-- <i class="fas fa-users icon icon__site-main--chat__nav--cnt__users"></i> Select Users --}}
+                </h4> 
+                <ul class="site-main__chat--nav__cnt--tab site-main__chat--nav__cnt--tab__share">
+                    <li class="site-main__chat--nav__cnt--tab__active">
+                        Online
+                    </li>
+                    <li>Offline</li>
+                    <li>Group</li>
                 </ul> 
-                <div class="chats__logs--user__outlet">
-                    <div class="chats__logs--user__wrapper">
-                        <div class="chats__logs--user__img">
-                            <div class="active__main active__main--chat_room"><div>99</div></div>
-                            <div class="chats__logs--user__view--userdetails">
-                                <a href=""><i class="fas fa-comment-dots icon icon__site-main__nav--chatLog__chaticon"></i></a> 
-                                <a class="chats__logs--user__view--userdetails__user"><i class="fas fa-eye icon icon__site-main__nav--chatLog__eyeicon"></i></a> 
-                            </div>
-                            <div class="chats__logs--user__img--holder">
-                                <img src="/" alt="">
-                            </div> 
+                <div class="site-main__chat--nav__cnt--user">
+                    <div class="site-main__chat--nav__cnt--user__wrapper">
+                        <div class="site-main__chat--nav__cnt--user__img">
+                            <img src="/" alt="">
+                            {{!-- <div class="site-main__chat--nav__cnt--user__img--status site-main__chat--nav__cnt--user__img--status__on"></div> --}}
+                            <div class="site-main__chat--nav__cnt--user__img--status site-main__chat--nav__cnt--user__img--status__off"></div>
                         </div>
-                        <div class="chats__logs--user__details">
-                            <div class="chats__logs--user__details--header"> 
-                                <h3 class="chats__logs--user__details--header__title">The user user The user user The user user</h3>
-                                <h3 class="chats__logs--user__details--header__userStatus chats__logs--user__details--header__userStatus--online"><i class="fas fa-circle icon icon__chats--logs__user--details__online"></i> online</h3>
-                            </div>
-                            <div class="chats__logs--user__details--mssage">
-                                {{!-- <p class="chats__logs--userOnline__details--mssage__last">Pls do you know the response Pls do you i know the response</p> --}}
-                                <p class="chats__logs--user__details--mssage__usertyping">
-                                    <span>Typing . . .</span>
-                                </p>
-                            </div>
-                        </div>
-                        <span class="chats__logs--selectIcon"><i class="fas fa-check-circle"></i></span>
-                        <span class="chats__logs--selectIconActive"><i class="fas fa-check-circle"></i></span>
+                        <ul class="site-main__chat--nav__cnt--user__det">
+                            <li><a href="">User user <span>@ 2m ago</span></a></li>
+                            <li><a href="">Pls do you know the response Pls do you i know the response</a></li>
+                        </ul>
                     </div>
-                    <div class="chats__logs--user__wrapper">
-                        <div class="chats__logs--user__img">
-                            <div class="active__main active__main--chat_room"><div>99</div></div>
-                            <div class="chats__logs--user__view--userdetails">
-                                <a href=""><i class="fas fa-comment-dots icon icon__site-main__nav--chatLog__chaticon"></i></a> 
-                                <a class="chats__logs--user__view--userdetails__user"><i class="fas fa-eye icon icon__site-main__nav--chatLog__eyeicon"></i></a> 
-                            </div>
-                            <div class="chats__logs--user__img--holder">
-                                <img src="/" alt="">
-                            </div> 
+                    <div class="site-main__chat--nav__cnt--user__wrapper">
+                        <div class="site-main__chat--nav__cnt--user__img">
+                            <img src="/" alt="">
+                            <div class="site-main__chat--nav__cnt--user__img--status site-main__chat--nav__cnt--user__img--status__on"></div>
+                            {{!-- <div class="site-main__chat--nav__cnt--user__img--status site-main__chat--nav__cnt--user__img--status__off"></div> --}}
                         </div>
-                        <div class="chats__logs--user__details">
-                            <div class="chats__logs--user__details--header"> 
-                                <h3 class="chats__logs--user__details--header__title">The user user The user user The user user</h3>
-                                <h3 class="chats__logs--user__details--header__userStatus chats__logs--user__details--header__userStatus--offline"><i class="fas fa-circle icon icon__chats--logs__user--details__offline"></i> offline <span>2m ago</span></h3>
-                            </div>
-                            <div class="chats__logs--user__details--mssage">
-                                <p class="chats__logs--userOnline__details--mssage__last">Pls do you know the response Pls do you i know the response</p>
-                                {{!-- <p class="chats__logs--user__details--mssage__usertyping">
-                                    <span>Typing . . .</span>
-                                </p> --}}
-                            </div>
-                        </div>
-                        <span class="chats__logs--selectIcon"><i class="fas fa-check-circle"></i></span>
-                        <span class="chats__logs--selectIconActive"><i class="fas fa-check-circle"></i></span>
+                        <ul class="site-main__chat--nav__cnt--user__det">
+                            <li><a href="">User user</a></li>
+                            {{!-- <li><a href="">Pls do you know the response Pls do you i know the response</a></li> --}}
+                            <li><a href=""><span>Typing . . .</span></a></li>
+                        </ul>
                     </div>
-
-                </div>
-            </div> 
-
-        </div>
-
-        <div class="chats__logs--share">
-            <div class="chats__logs--share__userselected">
-                <div class="chats__logs--share__userselected--title">
-                    <i class="fas fa-users"></i>  Users Selected
-                    <div class="chats__logs--share__userselected--total">
-                        <span class="chats__logs--share__userselected--total__content">
-                            20
-                        </span> 
+                    <div class="site-main__chat--nav__cnt--user__wrapper">
+                        <div class="site-main__chat--nav__cnt--user__img">
+                            <img src="/" alt="">
+                        </div>
+                        <ul class="site-main__chat--nav__cnt--user__det">
+                            <li><a href="">The Poeters and Writers</a></li>
+                            {{!-- <li><a href="">Pls do you know the response Pls do you i know the response</a></li> --}}
+                            <li><a href="">User user <span>Typing . . .</span></a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <ul class="chats__logs--share__options">
-                <li>
-                    <div class="chats__logs--share__options--firstitem">
-                        <i class="fas fa-location-arrow icon icon__chats--logs__share--options__Icons"></i>Share
-                    </div>
-                </li>
-                <li>
-                    <div class="chats__logs--share__options--seconditem">
-                        <i class="fas fa-eye icon icon__chats--logs__share--options__lastIcons"></i>View
-                    </div>
-                </li>
-            </ul>
         </div>
-
-    </div>
+        <div class="site-main__chat--nav__footer">
+            <h4><span>24</span> Selected</h4>
+            <div class="site-main__chat--nav__footer--share">
+                <i class="fas fa-location-arrow icon icon__site-main--chat__nav--share"></i> Share
+            </div>
+            <div class="site-main__chat--nav__footer--view">
+                <i class="fas fa-users icon icon__site-main--chat__nav--footer__users"></i> View
+            </div>
+        </div>
+    </div> 
+</div>

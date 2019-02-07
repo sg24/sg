@@ -6,9 +6,7 @@
             transition: all .3s ease-out;
         }
     }
- 
     &__site-header--search {
-        display: inline;
         font-size: .875rem;
         color: $mainLightBlack;
 
@@ -18,778 +16,171 @@
     }
 
     &__site-header--favorites {
-        position: absolute;
-        font-size: .875rem;
-        top: 25%;
-        transform: translate(-50%);
         color: $mainLightRed;
-
-        @mixin atSmall{
-            font-size: .875rem;
-            top: 25%;
-        }
-
-        @mixin atMedium{
-            font-size: 1rem;
-            top: 25%;
-        }
-
-        @mixin atLarge{
-            font-size: 1.2rem;;
-            top: 25%;
-        }
     }
 
     &__site-header--shares {
-        font-size: .875rem;
-        position: absolute;
-        top: 25%;
-        transform: translate(-50%);
         color: $mainLightBlue;
-
-        @mixin atSmall{
-            font-size: .875rem;
-            top: 25%;
-        }
-
-        @mixin atMedium{
-            font-size: 1rem;
-            top: 22%;
-        }
-
-        @mixin atLarge{
-            font-size: 1rem;;
-            top: 25%;
-        }
-    }
-
-    &__site-header--addNew {
-        position: absolute;
-        font-size: .875rem;
-        top: 25%;
-        transform: translate(-55%);
-        color: #fff;
-        right: 2px;
-
-        @mixin atSmall {
-            font-size: .875rem;
-            top: 25%;
-        }
-
-        @mixin atMedium {
-            font-size: .875rem;
-            top: 25%;
-        }
-
-        @mixin atLarge{
-            transform: translate(-50%);
-            font-size: .9375rem;
-            top: 25%;
-        }
     }
 
     &__site-header--bell {
-        position: absolute;
-        font-size: .875rem;
-        top: 25%;
-        transform: translate(-50%);
-        color: $mainLightBlack;
-
-        @mixin atSmall {
-            font-size: .895rem;
-            top: 25%;
-        }
-
-        @mixin atMedium {
-            font-size: 1rem;
-            top: 22%;
-        }
-        @mixin atLarge{
-            font-size: 1.2rem;
-            top: 25%;
-        }
-    }
-
-    &__site-header--list {
-        position: absolute;
-        font-size: .875rem;
-        top: 25%;
-        transform: translate(-50%);
-        color: $mainLightBlack;
-
-        @mixin atSmall {
-            font-size: .875rem;
-            top: 25%;
-        }
-
-        @mixin atMedium {
-            font-size: 1rem;
-            top: 22%;
-        }
-
-        @mixin atLarge{
-            font-size: 1rem;
-            top: 25%;
-        }
-    }
-
-    &__site-header--login {
-        font-size: .875rem;
-        color: #E4DEDE;
-        display: none;
-
-        @mixin atLarge {
-            margin: 0 .25rem 0 0;
-            display: inline;
-        }
-    }
-
-    &--bars {
-        display: block;
-        font-size: .875rem;
-        @mixin atMedium {
-            display: none;
-        }
-    }
-
-    &--search-mini {
-        font-size: .875rem;
-
-        @mixin atSmall {
-            display: none;
-        }
-    }
-
-    &__site-header--miniForm__close {
-        font-size: .8125rem;
         color: $mainLightBlack;
     }
-
-    &__site-header--notification__clock {
-        position: absolute;
-        font-size: .875rem;
-        top: 5px;
-        right: 5px;
-        color: $mainDarkGray;
-        cursor: pointer;
-    }
-
-    &__site-header--notification--circle {
-        font-size: .35rem; 
-        color: $mainDarkGray;
-        margin-left: .125rem;
-    }
-
-    &__site-header--notification__settings {
-        color: $mainDarkBlue;
-        font-size: .5rem;
-        position: absolute;
-        top: 25%;
-        transform: translate(-50%);
-    }
-
-    &__site-header__menu--notification--details__icon {
-        font-size: .8125rem;
-    }
-
-    &__site-header__menu--notification--details__eye {
-        font-size: .75rem;
-    }
-
-    &__site-header__menu--notification--details__heart {
-        font-size: .75rem;
-        cursor: pointer;
-    }
-
-    &__site-header__menu--notification--details__comment {
-        font-size: .75rem;
-        cursor: pointer;
-    }
-
-    &__site-header--notifcation__viewLater {
-        font-size: .8125rem;
-    }
-
-    &__site-header__menu--nav-icon {
-        font-size: .8125rem;
-        color: $mainLightBlack;
-        margin-right: 3px;
-    }
-
-    &__site-header--menu__user--icons {
-        font-size: .8125rem;
-        color: $mainLightBlack;
-        margin-right: 10px;
-
-        @mixin atSmall {
-            font-size: .875rem;
-        }
-    }
-
-    &__site-main--nav__topTreding--icon {
-        margin-right: 3px;
-        color: $mainDarkBlue;
-    }
-
-    &__site-main--nav__topTreding--tagIcon {
-        margin-right: 3px;
-        color: rgba($mainMediumLightBlack, .6);
-    }
-
-    &__site-main--nav__clock {
-        margin-right: 5px;
-    }
-
-    &__site-main--nav__angleDown {
-        margin-left: 5px;
-    }
-
-    &__site-main__nav--quote__quoteIcon {
-        font-size: .8125rem;
-        color: rgba($mainMediumLightBlack, .5);
-        position: absolute;
-        top: 3.5px;
-        left: 4.4px;
-    }
-
-    &__site-main__nav--quote__quotesecondIcon {
-        font-size: .8125rem;
-        color: rgba($mainMediumLightBlack, .6);
-        position: absolute;
-        top: 5px;
-        left: 4.4px;
-    }
-
-    &__site-main__nav--quote__footer--smile {
-        margin-right: 5px;
-    }
-
-    &__site-main__nav--quote__footer--heart {
-        margin-right: 5px;
-    }
-
-    &__site-main__nav--quote__footer--comments {
-        margin-right: 5px;
-    }
-
-    &__site-main--share__shareIcon {
-        position: absolute;
-        top: 25%;
-        left: 6px;
-        font-size: .875rem;
-        cursor: pointer;
-        color: #fff;
-    }
-
-
-    &__site-main--share__facebook {
-        font-size: 28px;
-        padding: 0;
-        margin: 0;
-        color: $mainLightBlue;
-        float: left;
-    }
-
-    &__site-main--share__googleplus {
-        font-size: 28px;
-        padding: 0;
-        margin: 0;
-        color: $mainDarkRed;
-        float: right;
-    }
-
-
-    &__site-main--share__selectuserarrow {
-        margin-left: 5px;
-        font-size: .875rem;
-        transition: all .3s ease-out;       
-    }
-
-    &__site-main--share__userCounterIcon {
-        color: rgba($mainLightBlack, .7);
-        margin-right: 3px;
-    }
-
-    &__site-main--share__locationIcon {
-        margin-right: 5px;
-        font-size: .75rem;
-    }
-
-    &__site-main--share__userSelectedIcon {
-        color: rgba($mainLightBlack, .7);
-        margin-right: 5px;
-    }
- 
-    &__site-main--share__userSelectedCloseIcon {
-        font-size: .6875rem;
-        color: $mainLightBlack;
-        position: absolute;
-        top: 1.5px;
-        left: 4px;
-    }
-
-    &__site-main--share__userSelectedCloseMainIcon {
-        position: absolute;
-        top: 1.5px;
-        left: 4px;
-        font-size: .6875rem;
-        color: $mainLightBlack;
-    }
-
-    &__site-main__nav--onlineQue__filterIcon {
-        margin-left: 5px;
-        color: $mainFontColor
-    }
-
-    &__site-main__nav--onlineQue__durationClock {
-        margin-right: 3px;
-        color: $mainDarkBlue;
-    }
-
-    &__site-main--nav__onlineQue--footerIcon {
-        margin-right: 5px;
-    }
-
-    &__site-main--nav__onlineQue--footerHeartIcon {
-        margin-right: 5px;
-        cursor: pointer;
-    }
-    &__site-main--nav__onlineQue--userIcon {
-        margin-right: 5px;
-        color: $mainLightBlue;
-    }
-
-    &__site-main--nav__onlineQue--timeIcon {
-        margin-right: 3px;
-        /* color: $mainFontColor; */
-        color: $mainLightBlue;
-    }
-
-    &__site-main--nav__grouplist--angledown {
-        margin: 0  0 0 8px;
-        position: relative;
-        top: 1px;
-        color: $mainFontColor;
-    }
-
-    &__site-main__nav--chats__usericon {
-        position: absolute;
-        z-index: 1;
-        top: 6.5px;
-        left: 6px;
-        color: #fff;
-    }
-
-    &__site-main--nav__chatIcon {
-        color: $mainDarkBlue;
-        margin-right: 5px;
-    }
-
-    &__site-main--nav__micIcon {
-        position: absolute;
-        top: 20%;
-        left: 10px;
-    }
-
-    &__site-main--nav__clipIcon {
-        color: $mainExtraDarkPaleBlue;
-        cursor: pointer;
-    }
-
-    &__site-main--nav__smileIcon {
-        color: $mainExtraDarkPaleBlue;
-        cursor: pointer;
-    }
-
-    &__site-main__nav--chaticon {
-        position: absolute;
-        top: 25%;
-        transform: translateX(-25%);
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    &__site-main__nav--chatimageicon {
-        position: absolute;
-        top: 28%;
-        transform: translateX(-28%);
-        left: 54%;
-        transform: translateX(-54%);
-    }
-
-    &__site-main__nav--chatlocationicon {
-        position: absolute;
-        top: 28%;
-        transform: translateX(-28%);
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    &__site-main__nav--chatLog__searchIcon {
-        font-size: .875rem;
-        position: absolute;
-        top: 22%;
-        transform: translateY(-22%);
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    &__chats--log__maincloseIcon {
-        font-size: .75rem;
-        position: absolute;
-        top: 22%;
-        transform: translateY(-22%);
-        left: 50%;
-        transform: translateX(-50%);
-        color: rgba($mainLightBlack, .7);
-    }
-
-    &__site-main__nav--chatLog__searchClose {
-        font-size: .75rem;
-        position: absolute;
-        top: 22%;
-        transform: translateY(-22%);
-        left: 50%;
-        transform: translateX(-50%);
-        color: rgba($mainLightBlack, .7);
-    }
-
-    &__site-main__nav--chatLog__eyeicon {
-        font-size: .875rem;
-        position: absolute;
-        top: 60%;
-        transform: translateY(-60%);
-        left: 50%;
-        transform: translateX(-50%);
-        color: #fff;
-        z-index: 2;
-        cursor: pointer;
-    }
-
-    &__site-main__nav--chatLog__chaticon {
-        font-size: .875rem;
-        position: absolute;
-        top: 15%;
-        transform: translateY(-15%);
-        left: 50%;
-        transform: translateX(-50%);
-        color: #fff;
-    }
-
-    &__chats--logs__share--options__Icons {
-        margin:  0 14px 0 12px;
-        position: relative;
-        top: 1px;
-    }
-
-    &__chats--logs__share--options__lastIcons {
-        margin:  0 10px 0 15px;
-        position: relative;
-        top: 2px;
-    }
-
-    &__chats--logs__user--details__online {
-        font-size: .5rem;
-        color: $mainLightGreen;
-        margin-right: 5px;
-        position: relative;
-        top: -2px;
-    }
-
-    &__chats--logs__user--details__offline {
-        font-size: .5rem;
-        color: $mainLightRed;
-        margin-right: 5px;
-        position: relative;
-        top: -2px;
-    }
-
-    &__site-main--groupchat__header--user {
-        position: relative;
-        top: 45%;
-        transform: translateY(-45%);
-        left: 1px;
-    }
-
-    &__site-main--groupchat__calend {
-        margin-right: 5px;
-        color: $mainDarkGray;
-    }
-   
-    &__site-main--groupchat__chatbox--calend{
-        color: $mainDarkPaleBlue; 
-        font-size: 1rem;
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-    &__site-main--groupchat__optionsicon {
-        color: #fff;
-        position: relative;
-        top: 40%;
-        transform: translateY(-40%);
-        font-size: .875rem;
-    }
-
-    &__site-main--groupchat__altoption--group {
-        margin: 0 5px 0 10px;
-    }
-
-    &__site-main--groupchat__altoption--angle {
-        margin: 0 10px 0 5px;
-    }
-
-    &__site-main--groupchat__altoption--comment {
-        margin: 0 5px 0 10px;
-    }
-
-    &__site-main--groupchat__altoption--secnddangle {
-        margin: 0 10px 0 5px;
-    }
-
-    &__site-main--grupchat__chtabox--dots {
-        font-size: .65rem;
-        margin-right: 40px;
-        color: rgba($mainLightGray, .4);
-    }
-
-    &__site-main--groupchat__typing--up {
-        color: $mainLightGreen;
-        margin: 0 30px;
-    }
-
-    &__site-main--groupchat__typing--lasticon {
-        margin-right: 30px;
-    }
-
-    &__site-main--groupchat__typing--down {
-        color: $mainDarkPaleBlue;
-        position: relative;
-        top: 10px;
-    }
-
-    &__site-main__groupchat--footer__mic {
-        color: $mainDarkPaleBlue;
-        font-size: 1rem;
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
-
-        @mixin atMedium {
-            font-size: 1.2rem;
-            top: 40%;
-            transform: translateY(-40%);
-        }
-    }
-
-    &__site-main__groupchat--footer__camera {
-        color: #fff;
-        font-size: 1rem;
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
-
-        @mixin atMedium {
-            font-size: 1.2rem;
-            top: 40%;
-            transform: translateY(-40%);
-        }
-    }
-
-    &__site-main__groupchat--footer__clip {
-        color: #fff;
-        font-size: 1rem;
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
-
-        @mixin atMedium {
-            font-size: 1.2rem;
-            top: 40%;
-            transform: translateY(-40%);
-        }
-    }
-
-    &__site-main--groupchat__footer--sharearrow {
-        color: $mainDarkBlue;
-        font-size: 1rem;
-        cursor: pointer;
-
-        @mixin atMedium {
-            font-size: 1.2rem;
-        }
-    }
-
-    &__site-main--groupchat__footer--clip {
-        color: $mainDarkBlue;
-        font-size: 1rem;
-        cursor: pointer;
-
-        @mixin atMedium {
-            font-size: 1.2rem;
-        }
-    }
-
-    &__site-main--groupchat__footer--smile {
-        color: $mainDarkBlue;
-        font-size: 1rem;
-        cursor: pointer;
-
-        @mixin atMedium {
-            font-size: 1.2rem;
-        }
-    }
-
     
-    &__chats--log__maincloseIcon {
-        font-size: .75rem;
-        position: relative;
-        top: 2px;
-        left: 4.5px;
-        color: rgba($mainLightBlack, .7);
+    &__site-header--list {
+        color: $mainLightBlack;
     }
 
-    &__chats--logs__share--options__Icons {
-        margin:  0 14px 0 12px;
-        position: relative;
-        top: 0px;
-        left: 4px;
+    &__site-header--add-new {
+       margin-left: 5px;
     }
 
-    &__chats--logs__share--options__lastIcons {
-        margin:  0 10px 0 15px;
-        position: relative;
-        top: 0px;
-    }
-
-    &__chats--logs__share-chat--user {
-        margin-right: 10px;
-    }
-
-    &__chats--logs__share-chat--sharearrow {
+    &__site-header--nav__itm {
         margin-right: 5px;
-        position: relative;
-        top: -1px;
+        color: $mainLightBlack;
     }
 
-    &__site-main--groupchat--option__caret {
+    &__site-header--nav__angle {
         margin-left: 5px;
+        color: $mainLightBlack;
     }
 
-    &__site-main--groupchat__chatbox--searchicon {
-        font-size: .75rem;
-        color: rgba($mainDarkBlack, .45);
-        position: relative;
-        top: 22%;
-        transform: translateY(-22%);
+    &__site-header--notify__set {
+        color: $mainDarkBlue;
+        font-size: .625rem;
     }
 
-    &__site-main--userdetails__cancelopt {
-        color: $mainLightRed;
+    &__reuse-trd--fav {
+        margin-right: 5px;
+        color: $mainLightRed; 
+        cursor: pointer; 
     }
 
-    &__site-main__userdetails--main__details--icon {
+    &__reuse-trd--comment, &__reuse-trd--smile {
+        margin-right: 5px;
         color: $mainDarkBlue;
     }
 
-    &__site-main__userdetails--main__details--coffee {
-        color: $mainDarkRed;
-    }
-
-    &__site-main__userdetails--main__details--post {
+    &__reuse-trd--users {
         color: $mainDarkPaleBlue;
     }
-    &__site-main__userdetails--main__details--peopcarry {
-        color: $mainLightGreen;
+
+    &__reuse-trd--user-frnd {
+        color: rgba($mainDarkBlack, .55);
     }
 
-    &__site-main__userdetails--main__details--iconstore {
-        color: #fff;
+    &__reuse-trd--view, &__reuse-trd--pwt-comment {
+        margin-right: 5px;
+        color: $mainDarkBlack; 
     }
 
-    &__site-main--userdetails__header--circleleft {
-        color: rgba($mainDarkPaleBlue, .6);
-        position: relative;
-        top: 0px;
+    &__reuse-trd--categ {
+        margin-right: 5px;
+        color: rgba($mainDarkBlack, .45);
+        font-size: .75rem; 
+    }
+
+    &__reuse-trd--add {
+        font-size: .75rem; 
+        margin-right: 5px;
+    }
+
+    &__reuse-trd--tag {
         font-size: .625rem; 
+        margin-right: 5px;
+    }
+
+    &__site-header--sm-form__close {
+        color: $mainLightRed;
+        font-size: .75rem; 
+    }
+
+    &__site-header--no-acc {
+        margin-right: 5px;
+    }
+
+
+    &__site-main--chat__header--user {
+        font-size: .75rem;
+        color: $mainLightGray;
+    }
+
+    &__site-main--chat__header--calend {
         margin-right: 10px;
+        color: $mainDarkGray;
     }
 
-    &__site-main--userdetails__header--circleright {
-        color: rgba($mainDarkPaleBlue, .6);
-        position: relative;
-        top: 0px;
-        font-size: .625rem; 
-        margin-left: 10px;
+    &__site-main--chat__header--opt {
+        color: #fff;
+        font-size: .875rem;
     }
 
-    &__site-main__groupchat--curretchat__statusoff {
-        font-size: .5rem; 
-        margin-right: 5px;
+    &__site-main--chat__header--opt__fav {
+        color: $mainLightRed; 
+    }
+
+    &__site-main--chat__header--angle {
+        margin-left: 5px;
+    }
+
+    &__site-main--chat__footer--mic {
+        color: $mainDarkPaleBlue;
+    }
+
+    &__site-main--chat__footer--camera {
+        color: #fff;
+    }
+
+    &__site-main--chat__footer--clip {
+        color: #fff;
+    }
+
+    &__site-main--chat__footer--input__smile {
+        color: $mainDarkPaleBlue;
+    }
+
+    &__site-main--chat__footer--input__clip {
         color: $mainLightRed;
     }
 
-    &__site-main__groupchat--curretchat__statuson {
-        font-size: .5rem; 
-        margin-right: 5px;
-        color: $mainLightGreen;
+    &__site-main--chat__footer--input__share {
+        color: $mainDarkPaleBlue;
     }
 
-    &__site-main__groupchat--currentchat__eyeicon {
-        font-size: .875rem;
-        position: absolute;
-        top: 60%;
-        transform: translateY(-60%);
-        left: 50%;
-        transform: translateX(-50%);
-        color: #fff;
-        z-index: 2;
-        cursor: pointer;
+    &__site-main--chat__srch--calend {
+        color: $mainDarkPaleBlue;
     }
 
-    &__site-main__groupchat--currentchat__chaticon {
-        font-size: .875rem;
-        position: absolute;
-        top: 15%;
-        transform: translateY(-15%);
-        left: 50%;
-        transform: translateX(-50%);
-        color: #fff;
-    }
-
-    &__site-main__searchchat--curretchat__statuson {
-        font-size: .5rem; 
-        margin-right: 5px;
-        color: $mainLightGreen;
-    }
-
-    &__site-main__searchchat--curretchat__statusoff {
-        font-size: .5rem; 
-        margin-right: 5px;
+    &__site-main--chat__close {
         color: $mainLightRed;
     }
 
-    &__site-main__groupchat--searchuser__eyeicon {
-        font-size: .875rem;
-        position: absolute;
-        top: 60%;
-        transform: translateY(-60%);
-        left: 50%;
-        transform: translateX(-50%);
+    &__site-main--chat__srh-user {
         color: #fff;
-        z-index: 2;
-        cursor: pointer;
+        margin-right: 5px;
+        font-size: .75rem; 
     }
 
-    &__site-main__groupchat--searchuser__chaticon {
-        font-size: .875rem;
-        position: absolute;
-        top: 15%;
-        transform: translateY(-15%);
-        left: 50%;
-        transform: translateX(-50%);
+    &__site-main__chat--clip-itm {
+        color: #fff;
+        font-size: 1.5625rem;
+    }
+
+    &__site-main--chat__nav--close {
+        color: rgba($mainLightBlack, .7);
+    }
+
+    &__site-main--chat__nav--srch {
         color: #fff;
     }
 
+    &__site-main--chat__nav--share {
+        color: #fff;
+        margin-right: 5px;
+    }
+
+    &__site-main--chat__nav--footer__users {
+        margin-right: 10px;
+        color: $mainDarkBlue;
+    }
 }

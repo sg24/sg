@@ -1,0 +1,466 @@
+.site-main__chat--nav {
+    background-color: $mainMiddleDarkBlue;
+    position: absolute;
+    top: 0;
+    left: -398px;
+    right: 0;
+    bottom: 0; 
+    overflow: hidden;
+    padding-top: 50px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; 
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s ease-in;
+
+    &__wrapper {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+
+    &__shad {
+        background-color: transparent;
+
+        @mixin atSmall {
+            position: absolute;
+            width: 1px;
+            top: 0;
+            right: -1px;
+            bottom: 0;
+            z-index: 1;
+            background-color: transparent;
+            box-shadow: -5px 0px 8.32px 4.68px rgba(255, 255, 255, 0.44);
+            -o-box-shadow: -5px 0px 8.32px 4.68px rgba(255, 255, 255, 0.44);
+            -webkit-box-shadow: -5px 0px 8.32px 4.68px rgba(255, 255, 255, 0.44);
+            -moz-box-shadow: -5px 0px 8.32px 4.68px rgba(255, 255, 255, 0.44);
+            -ms-box-shadow: -5px 0px 8.32px 4.68px rgba(255, 255, 255, 0.44);
+        }
+    }
+
+    &__close {
+        position: absolute;
+        top: 8px;
+        right: 10px; 
+        width: 18px;
+        height: 18px;
+        background-color: #fff;
+        border-radius: 9px;
+        text-align: center;
+        font-size: .8125rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+
+        @mixin atLarge {
+            display: none;
+        }
+    }
+
+    &__header {
+        position: relative;
+        margin-top: 20px; 
+        padding: 19px 10px 19px 252px;
+        width: 100%;
+        border-bottom: 1px solid rgba(#fff, .3);
+        font-size: .875rem;
+
+        &--det {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+
+            & > div {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                width: 30px;
+                height: 30px;
+                border-radius: 15px;
+                color: #fff;
+                text-align: center;
+                position: absolute;
+                margin: 0 auto;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            &__on {
+                background-color: $mainLightGreen;
+                border: .5px solid rgba($mainLightGreen, .5);
+                left: 10px;
+            }
+
+            &__off {
+                background-color: $mainLightRed;
+                border: .5px solid rgba(#fff, .5);
+                left: 70px;
+            }
+
+            &__title {
+                font-weight: 400;
+                color: #fff;
+                position: absolute;
+                left: 140px;
+                white-space: nowrap;
+                width: 72px;
+                top: 50%;
+                transform: translateY(-50%);
+                margin: 0;
+                padding: 0;
+                text-shadow: 0 2px 5px rgba($mainDarkBlack, .5);
+                -ms-text-shadow: 0 2px 5px rgba($mainDarkBlack, .5);
+                
+                &--share {
+                    left: 10px;
+                    width: 94px;
+                }
+
+                &--teach {
+                    width: 60px;
+                }
+            }
+        }
+
+
+        &--srch {
+            width: 100%;
+            position: relative;
+            border-radius: 16px; 
+            background-color: rgba($mainDarkBlue, .7);
+            box-shadow: 0 2px 4px rgba($mainDarkBlack, .35);
+            /* -o-box-shadow: 0 3px 4px rgba($mainChatLogColor, .6);
+            -ms-box-shadow: 0 3px 4px rgba($mainChatLogColor, .6);
+            -webkit-box-shadow: 0 3px 4px rgba($mainChatLogColor, .6);
+            -moz-box-shadow: 0 3px 4px rgba($mainChatLogColor, .6); */
+            font-size: .8125rem;
+            overflow: hidden;
+
+            &__input {
+                width: 100%;
+                background-color: #fff;
+                outline: none;
+                border: none;
+                padding: 8px 30px 8px 10px;
+                border-radius: 16px;
+            }
+
+            & > div {
+                background-color: rgba($mainDarkBlue, .7);
+                font-size: .875rem;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                width: 28px;
+                border-radius: 16px;
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+                color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        &--share {
+            padding: 19px 10px 19px 144px;
+        }
+
+        &--teach {
+            padding: 19px 10px 19px 240px;
+        }
+
+        @mixin atSmall {
+            margin-top: 0; 
+        }
+
+    }
+
+
+
+    &__cnt {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow: hidden;
+        overflow-y: auto;
+        margin: 10px 10px 0 10px;
+        font-size: .875rem;
+
+        &--wrapper {
+            background-color: rgba($mainMediumLightBlack, .25);
+            border: 1px solid rgba(255, 255, 255, .45);
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            overflow: hidden;
+            overflow-y: auto;
+        }
+
+        &--title {
+            position: relative;
+            padding: 5px 0;
+            color: #fff;
+            background-color: rgba($mainDarkBlack, .45);
+            margin: 0;
+            font-weight: 400;
+            text-align: center; 
+        }
+
+        &--tab {
+            position: relative;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            border-top: 3px solid #fff;
+            @mixin clearfix;
+            font-weight: 400;  
+
+            & > li {
+                float: left;
+                text-align: center;
+                padding: 5px 0;
+                color: $mainDarkBlue;
+                position: relative;
+                cursor: pointer;
+                background-color: #fff;
+            }
+
+            &__rm {
+                position: relative;
+               
+                & > li {
+                    width: 50%;
+                }
+            }
+
+            &__share {
+                position: relative;
+                
+                 & > li {
+                     width: 33.333%;
+                     border-right: 1px solid $mainDarkGray;
+
+                     &:last-child {
+                         border-right: none;
+                     }
+                 }
+            }
+
+            &__active {
+                color: #fff !important;
+                background-color: $mainDarkBlack !important;
+                font-weight: 300;
+
+                &::before , &::after {
+                    position: absolute;
+                    content: "";
+                    width: 8px;
+                    height: 8px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+
+                &::before {
+                    background-color: $mainLightGreen;
+                    left: 10px;
+                }
+
+                &::after {
+                    background-color: $mainLightGreen;
+                    right: 10px;
+                }
+            }
+
+            &::before {
+                content: "";
+                position: absolute;
+                height: 1px;
+                background-color: #fff;
+                box-shadow: 0 1px 8px 2px rgba($mainMiddleDarkBlue, 0.56);
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 3;
+            }
+        }
+
+        &--user {
+            position: relative;
+            border-top: 1px solid rgba(255, 255, 255, .45);
+            
+            &__wrapper {
+                border-bottom: 1px solid rgba(255, 255, 255, .45);
+                padding: 5px 0;
+                position: relative;
+            }
+
+            &__img {
+                position: absolute;
+                width: 50px;
+                height: 50px;
+                border-radius: 25px;
+                background-color: $mainLightGray;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 10px;
+
+                &--status {
+                    position: absolute;
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 4px;
+                    border: 1px solid $mainDarkGray;
+                    bottom: 4px;
+                    right: 8px;
+        
+                    &__on {
+                        background-color: $mainLightGreen;
+                    }
+        
+                    &__off {
+                        background-color: $mainLightRed;
+                    }
+                }
+            } 
+
+            &__det {
+                list-style: none;
+                margin: 0;
+                padding: 0 10px 0 80px;
+                font-size: .875rem;
+
+                & > li {
+                    float: none;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    position: relative; 
+                    padding: 5px 0;
+                    text-shadow: 0 2px 5px rgba($mainDarkBlack, .5);
+                    -ms-text-shadow: 0 2px 5px rgba($mainDarkBlack, .5);
+
+                    &:first-child {
+                        color: $mainLightGray;
+
+                        & > a {
+                            color: $mainLightGray;
+                            text-decoration: none;
+
+                            & > span {
+                                color: $mainDarkGray;
+                                margin-left: 10px;
+                                font-weight: 300;
+                                font-size: .8125rem;
+                            }
+                        }
+                    }
+
+                    &:last-child {
+                        font-weight: 300;
+                        color: #fff;
+
+                        & > a {
+                            color: #fff; 
+                            text-decoration: none;
+
+                            & > span {
+                                background-color: $mainLightBlue;
+                                padding: 3px 10px;
+                                border-radius: 40px;
+                                box-shadow: 0 1px 5px 0 rgba($mainDarkBlack, .45);
+                                font-weight: 300;
+                                font-size: .8125rem;
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+
+    &__footer {
+        position: relative;
+        padding: 22px 10px;
+        font-size: .875rem;
+        color: #fff;
+
+        & > h4 {
+            margin: 0;
+            padding: 0;
+            font-weight: 400;
+            color: #fff;
+            text-align: center;
+            text-shadow: 0 2px 5px rgba($mainDarkBlack, .5);
+            -ms-text-shadow: 0 2px 5px rgba($mainDarkBlack, .5);
+
+            & > span {
+                margin-right: 5px;
+                padding: 5px 10px;
+                background-color: #fff;
+                color: $mainFontColor;
+                border-radius: 5px;
+                box-shadow: 0 2px 2px 0 rgba($mainDarkBlack, .85);
+                text-shadow: none;
+            }
+        }
+
+        & > div {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 2px 0 rgba($mainDarkBlack, .85);
+            cursor: pointer; 
+        }
+
+        &--share {
+            background-color: $mainLightBlue;
+            left: 10px;
+
+            &:hover {
+                background-color: $mainDarkPaleBlue;
+            }
+        }
+
+        &--view {
+            background-color: #fff;
+            color: $mainDarkBlue;
+            right: 10px;
+
+            &:hover {
+                background-color: $mainDarkGray;
+            }
+        }
+    }
+
+    
+    &__visible {
+        left: 0;
+        opacity: 1;
+        visibility: visible;
+        transition: all .3s ease-in;
+        width: 100%;
+
+        @mixin atSmall { 
+            width: 398px;
+        }
+    }
+
+    @mixin atLarge {
+        left: 0;
+        opacity: 1;
+        visibility:visible;
+        z-index: 3;
+        width: 398px;
+    }
+}

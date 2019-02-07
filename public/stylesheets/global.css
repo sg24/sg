@@ -952,7 +952,8 @@ img {
 
 .site-header__add-new--title {
   margin: 0;
-  padding: 8px 10px;/* width: 60px; */
+  padding: 8px 10px;
+  width: 60px;
   background-color: #0284a8;
   font-weight: 400;
   color: #fff;

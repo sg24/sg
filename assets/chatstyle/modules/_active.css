@@ -5,9 +5,9 @@
     font-size: .875rem;
 
     &--header {
-        z-index: 1 ;
-        top: -10px;
-        right: -4px;
+        z-index: 1;
+        top: -8px;
+        right: -8px;
         border-radius: 9px;
         width: 18px;
         height: 18px;
@@ -27,7 +27,6 @@
             }
         }
 
-
         @mixin atLarge {
             border-radius: 10px;
             width: 20px;
@@ -35,138 +34,8 @@
         }
     }
 
-    &--group {
-        top: 4px;
-        right: -24px;
-        width: 20px;
-        height: 20px;
-        font-size: .75rem;
-        border-radius: 10px;
-        border: 1px solid rgba(#fff, .25);
-       
-        > div {
-            position: absolute;
-            top: 50%;
-            transform:translateY(-50%);
-            width: 100%;
-            text-align: center;
-        }
-
-        @mixin atExtraSmall {
-            width: 24px;
-            height: 24px;
-            border-radius: 12px;
-            top: 5px;
-            right: -10px;
-            font-size: .8125rem;
-        }
-
-        @mixin atSmall {
-            width: 26px;
-            height: 26px;
-            border-radius: 13px;
-            right: -5px;
-            top: 10px;
-        }
-    }
-
-    &--group-content {
-        top: -20px;
-        right: -20px;
-        width: 20px;
-        font-size: .75rem;
-        height: 20px;
-        border-radius: 10px;
-        border: 1px solid rgba(#fff, .25);
-       
-        > div {
-            position: absolute;
-            top: 50%;
-            transform:translateY(-50%);
-            width: 100%;
-            text-align: center;
-        }
-
-        @mixin atExtraSmall {
-            font-size: .8125rem;
-            width: 24px;
-            height: 24px;
-            border-radius: 12px;
-        }
-
-        @mixin atSmall {
-            width: 26px;
-            height: 26px;
-            border-radius: 13px;
-        }
-    }
-
-    &--chat_room {
-        z-index: 1 ;
-        top: -10px;
-        right: -4px;
-        width: 20px;
-        height: 20px;
-        border-radius: 10px;
-        border: 1px solid rgba(#fff, .25);
-        overflow: hidden;
-        
-        & > div {
-            position: absolute;
-            top: 50%;
-            transform:translateY(-50%);
-            width: 100%;
-            text-align: center;
-            font-size: .75rem;
-
-            @mixin atMedium {
-                font-size: .8125rem;
-            }
-        }
-
-
-        @mixin atLarge {
-            border-radius: 12px;
-            width: 24px;
-            height: 24px;
-        }
-    }
-
-    &--chat_main {
-        z-index: 0;
-        top: 15px;
-        right: 0px;
-        width: 20px;
-        height: 20px;
-        border-radius: 10px;
-        border: 1px solid rgba(#fff, .25);
-        overflow: hidden;
-        display: none;
-
-        & > div {
-            position: absolute;
-            top: 50%;
-            transform:translateY(-50%);
-            width: 100%;
-            text-align: center;
-            font-size: .75rem;
-
-            @mixin atMedium {
-                font-size: .8125rem;
-            }
-        }
-
-
-        @mixin atLarge {
-            border-radius: 12px;
-            width: 24px;
-            height: 24px;
-            right: -10px;
-        }
-    }
-
-    &--group-item {
-        z-index: 1 ;
+    &--chat-cnt {
+        z-index: 1; 
         top: -8px;
         right: -8px;
         width: 20px;
@@ -194,6 +63,36 @@
             width: 24px;
             height: 24px;
         }
+    }
+
+    &--chat-tab, &--chat-opt {
+        width: 24px;
+        height: 24px;
+        border-radius: 12px;
+        top: 4px; 
+        font-size: .8125rem;
+        border: 1px solid rgba(#fff, .25);
+       
+        > div {
+            position: absolute;
+            top: 50%;
+            transform:translateY(-50%);
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    &--chat-tab {
+        right: 0;
+
+        @mixin atSmall {
+            right: 8px;  
+        }
+    }
+
+    &--chat-opt {
+        right: -2px;
+        cursor: pointer;
     }
 
 }
