@@ -110,8 +110,8 @@ gulp.task('onlinequestyles', function() {
     .pipe(gulp.dest('./public/stylesheets'));
 });
 
-gulp.task('groupchatstyles', function() {
-    return gulp.src('./assets/chatstyle/groupchat.css')
+gulp.task('chatstyles', function() {
+    return gulp.src('./assets/chatstyle/chat.css')
     .pipe(postcss([cssImport, mixins, cssvars, nested, 
                     hexrgba, autoprefixer]))
     .on('error', function(errorInfo) {

@@ -52,7 +52,7 @@ gulp.task('watch', function() {
     });
 
     watch('./assets/chatstyle/**/*.css', function() {
-        gulp.start('groupchatcss')
+        gulp.start('chatcss')
     });
 
     watch('./assets/convstyle/**/*.css', function() {
@@ -135,8 +135,8 @@ gulp.task('onlinequecss',['onlinequestyles'], function() {
     .pipe(browserSyc.stream());
 });
 
-gulp.task('groupchatcss',['groupchatstyles'], function() {
-    return gulp.src("./assets/chatstyle/groupchat.css")
+gulp.task('chatcss',['chatstyles'], function() {
+    return gulp.src("./assets/chatstyle/chat.css")
     .pipe(browserSyc.stream());
 });
 

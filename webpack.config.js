@@ -11,7 +11,7 @@ module.exports = {
       ptwrit: "./assets/ptwritscript/ptwrit.js",
       onlineque: "./assets/onlinequescript/onlineque.js",
       group: "./assets/groupscript/group.js",
-      groupchat: "./assets/chatscript/groupchat.js",
+      chat: "./assets/chatscript/chat.js",
       conv: "./assets/convscript/conv.js",
       formque: "./assets/formquescript/formque.js",
       user: "./assets/userscript/users.js",

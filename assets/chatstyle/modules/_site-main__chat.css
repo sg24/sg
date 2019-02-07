@@ -8,7 +8,7 @@
     width: 100%; 
     overflow: hidden;
     box-shadow:  0px 2px 2px 0px rgba($mainDarkBlack, .5);
- 
+  
     &--overlay, &--cnt-overlay {
         position: absolute;
         top: 0;
@@ -301,12 +301,14 @@
                 right: 0px;
                 z-index: 1;
                 width: 180px;
-                display: none;  
+                opacity: 0;
+                visibility: hidden;
+                transition: all .3s ease-in;
 
                 li {
                     float: none;
-                    font-size: .875rem;
-                    padding: 10px 10px 10px 20px;
+                    font-size: .8125rem;
+                    padding: 10px 20px;
                     word-break: normal;
                     white-space: nowrap;
                     overflow: hidden;
@@ -314,16 +316,19 @@
                     cursor: pointer;
 
                     &:hover {
-                        background-color: $mainLightGray;
+                        background-color: $mainDarkBlue;
+                        color: #fff;
                     }
 
-                    @mixin atMedium {
+                    @mixin atSmall {
                         font-size: .875rem;
                     }
                 }
 
                 &__visible {
-                    display: block;
+                    opacity: 1;
+                    visibility: visible;
+                    transition: all .3s ease-in;
                 }
             }
         }
@@ -382,7 +387,7 @@
     }
 
     &--box {
-        padding: 0  10px;
+        padding: 0;
         display: flex;
         flex-direction: column;
         flex-grow: 1;
@@ -393,8 +398,7 @@
         &__date {
             position: relative;
             border-bottom: 1px solid $mainDarkGray;
-            margin-top: 40px;
-            margin-bottom: 20px;
+            margin: 40px 10px 20px 10px;
             width: 100%;
 
             &--cur {
@@ -405,12 +409,21 @@
                 bottom: 0;
                 left: 0;
             }
+
+            @mixin atSmall {
+                margin: 40px 20px 20px 20px;
+            }
         }
 
         &__hst {
-            padding: 20px 0 40px 0;
+            padding: 20px 10px;
+            margin: 20px 0;
             width: 100%;
             @mixin clearfix;
+
+            &--clk {
+                background-color: $mainExtraLightGray;
+            }
 
             &--wrapper {
                 width: 80%;
@@ -495,14 +508,24 @@
                     }
                 }
             }
+
+            @mixin atSmall {
+                padding: 20px;
+                margin: 20px 0;
+            }
         }
 
         
         &__reply {
-            padding: 20px 0 40px 10px;
+            padding: 20px 10px;
+            margin: 20px 0;
             width: 100%;
             @mixin clearfix;
 
+            &--clk {
+                background-color: $mainExtraLightGray;
+            }
+            
             &--wrapper {
                 width: 80%;
                 float: left;
@@ -586,6 +609,11 @@
                     }
                 }
             }
+
+            @mixin atSmall {
+                padding: 20px;
+                margin: 20px 0;
+            }
         }
 
         &__usr-typing {
@@ -618,270 +646,9 @@
         }
 
         @mixin atSmall{
-            padding: 0 20px;
             font-size: .9375rem; 
         }
     }
-
-    &--det {
-        position: absolute; 
-        background-color: #fff;
-        z-index: 2;
-        top: 0;
-        left: -800px;
-        bottom: 0;
-        padding: 10px;
-        overflow: hidden;
-        overflow-y: auto;
-        opacity: 0;
-        visibility: hidden;
-        transition: all .3s ease-in;
-
-        &__wrapper {
-            background-color: $mainExtraLightGray; 
-        }
-
-        &__header {
-            padding: 10px;
-            position: relative;
-            font-size: .875rem;
-            background-color: $mainMiddleDarkBlue;
-            border-radius: 2px;
-            border: 1px solid $mainDarkPaleBlue;
-            box-shadow: 0 0 1px  0 rgba($mainDarkBlack, .5); 
-
-            &--img {
-                position: relative;
-                width: 60px;
-                height: 60px;
-                border-radius: 30px;
-                background-color: $mainLightGray;
-                box-shadow: 0px 5px 20px 2px rgba($mainDarkBlack, 0.4);
-                margin: 0 auto 20px auto;
-
-                @mixin atSmall {
-                    position: absolute;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    left: 20px;
-                    margin: 0;
-                }
-            }
-
-            &--info {
-                font-weight: 400;
-                color: #fff;
-
-                & > h4 {
-                    font-weight: 400;
-                    margin: 0;
-                    color: #fff;
-                    text-shadow: 1px 1px 2px  $mainDarkBlack; 
-                    padding: 8px 20px;
-                    border-bottom: 1px solid rgba($mainDarkPaleBlue, .8);
-                    box-shadow: 0 3px 25px 2px rgba($mainDarkGray,.8);
-                    border-left: 1px solid rgba($mainDarkPaleBlue, .8);
-                    text-align: center;
-                    line-height: 1.8;
-
-                    @mixin atSmall {
-                        text-align: left;
-                    }
-                }
-
-                & > ul {
-                    @mixin clearfix;
-                    list-style: none;
-                    margin: 10px 0 0 0;
-                    width: 100%; 
-                    padding: 5px 0;
-                    position: relative;
-                    font-size: .875rem;
-    
-                    & > li {
-                        float: left;
-                        font-size: .8125rem;
-                        color: $mainFontColor; 
-                        background-color: $mainLightGray;
-                        padding: 2px 5px;
-                        border-radius: 5px;
-                        margin-right: 8px;
-                        margin-bottom: 6px;
-                        font-weight: 400;
-                        border-bottom: 1px solid $mainDarkGray; 
-    
-                        &:first-child {
-                            background-color: rgba($mainDarkBlack, .2);
-                            color: #fff; 
-                            border-bottom: none;
-                            border-radius: 0;
-                            font-weight: 300;
-                            font-size: .875rem; 
-                            padding: 1.5px 8px;
-                        }
-                    }
-                }
-            }
-
-            @mixin atSmall { 
-                padding: 10px 10px 10px 100px;
-            }
-        }
-
-        &__desc {
-            position: relative;
-            font-size: .875rem;
-            background-color: $mainExtraLightGray; 
-            text-align: center; 
-            padding: 20px 10px;
-
-            &--title {
-                text-align: center;
-                padding: 5px 20px;
-                background-color: $mainDarkBlue;
-                border-radius: 10px;
-                font-weight: 400;
-                display: inline;
-                color: #fff;
-                border-bottom: 1px solid rgba($mainDarkBlack, .2); 
-            }
-
-            &--cnt {
-                padding: 10px;
-                background-color: rgba($mainLightGray, 1);
-                /* background-color: rgba($mainDarkBlack, .5); */
-                color: rgba($mainDarkBlack, .7); 
-                border: 1px solid rgba($mainDarkBlack, .1);
-                font-size: .9375rem;
-                font-weight: 600; 
-                line-height: 2;
-                border-radius: 3px;
-            }
-        }
-
-        &__admin {
-            position: relative;
-            background-color: rgba($mainMiddleDarkBlue, 1);
-            font-size: .8125rem;
-            text-align: center;
-            padding: 0;
-            margin-top: 20px;
-
-            & > h4 {
-                position: absolute;
-                top: -18px;
-                left: 10px;
-                text-align: center;
-                padding: 3px 0;
-                background-color: #fff;
-                border-radius: 10px;
-                margin: 0;
-                font-weight: 400;
-                width: 80px;
-                color: $mainFontColor;
-                border: 1px solid rgba($mainMiddleDarkBlue, 1); 
-            }
-
-            &--info {
-                position: relative;
-                padding: 0 0 0 100px; 
-                white-space: nowrap;
-                text-align: left; 
-                list-style: none;
-                margin: 0;
-                font-size: 1rem;
-                color: #fff;
-
-                &__img {
-                    position: absolute;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    width: 60px;
-                    height: 60px;
-                    border-radius: 30px;
-                    background-color: #fff;
-                    left: 20px;
-                    box-shadow: 0px 5px 20px 2px rgba($mainDarkBlack, 0.4);
-
-                    &--status {
-                        position: absolute;
-                        width: 8px;
-                        height: 8px;
-                        border-radius: 4px;
-                        bottom: 2px;
-                        right: 4px;
-                        border: 1px solid $mainLightGray;
-
-                        &__on {
-                            background-color: $mainLightGreen;
-                        }
-
-                        &__off {
-                            background-color: $mainLightRed;
-                        }
-                    }
-                }
-
-                & > ul  {
-                   list-style: none;
-                   margin: 0;
-                   padding: 0;
-                   box-shadow: inset 2px 1px 15px 0px rgba($mainDarkGray,.8);
-                   border-left: 1px solid rgba($mainDarkPaleBlue, 1);
-                   @mixin clearfix;
-
-                   & > li {
-                       padding: 10px 20px;
-                       font-size: .875rem;
-                       float: left;
-
-                       & > span {
-                            padding: 2px 10px;
-                            margin-left: 10px;
-                            border-radius: 5px;
-                            background-color: $mainLightGreen;
-                            text-shadow: 1px 1px 2px  $mainDarkBlack; 
-                            box-shadow: 0 0 2px 0 rgba($mainDarkBlack, .45);
-                       }
-
-                       &:first-child {
-                            float: none;
-                            font-size: 1rem;
-                            text-shadow: 1px 1px 2px  $mainDarkBlack; 
-                            border-bottom: 1px solid $mainDarkPaleBlue;
-                            /* box-shadow: 0 1px 1px 0 rgba($mainDarkPaleBlue, 1); */
-                       }
-
-                       &:last-child {
-                          color: #fff;
-
-                           & > span {
-                                background-color: $mainLightRed;
-                           }
-
-                           @mixin atSmall {
-                                border-left: 1px solid $mainDarkPaleBlue;
-                           }
-                       }
-                   }
-                }
-            }
-        }
-
-        &__visible {
-            opacity: 1;
-            visibility: visible;
-            z-index: 2;
-            left: 0;
-            right: 0;
-            transition: all .3s ease-in;
-        }
-
-        @mixin atSmall {
-           background-color: rgba($mainDarkBlack, .6)
-        }
-    }
-
 
     &--srch {
         position: absolute; 
@@ -965,12 +732,12 @@
             z-index: 2;
             left: 0;
             right: 0;
-            transition: all .3s ease-in;
+            transition: all .3s ease-out;
         }
     }
 
     
-    &--switch-grp {
+    &--grp {
         position: absolute; 
         background-color: #fff;
         z-index: 2;
@@ -984,7 +751,7 @@
         overflow-y: auto;
         opacity: 0;
         visibility: hidden;
-        transition: all .3s ease-in;
+        transition: all .3s ease-out;
         
         &__wrapper {
             width: 100%;
@@ -999,7 +766,13 @@
         &__close {
             position: relative;
             background-color: $mainExtraLightGray;
-            padding: 15px 0;
+            padding: 8px 30px 8px 0;
+            text-align: right;
+            cursor: pointer;
+
+            & > span {
+                color: rgba($mainDarkBlack, .25);
+            }
 
             &--wrapper {
                 width: 20px;
@@ -1075,7 +848,7 @@
         overflow-y: auto;
         opacity: 0;
         visibility: hidden;
-        transition: all .3s ease-in;
+        transition: all .3s ease-out;
         
 
         &__wrapper {
@@ -1089,8 +862,14 @@
         &__close {
             position: relative;
             background-color: $mainExtraLightGray;
-            padding: 15px 0;
-            margin-bottom: 10px;
+            padding: 8px 30px 8px 0;
+            text-align: right;
+            cursor: pointer;
+            margin-bottom: 15px;
+
+            & > span {
+                color: rgba($mainDarkBlack, .25);
+            }
 
             &--wrapper {
                 width: 20px;
@@ -1181,7 +960,7 @@
         overflow-y: auto;
         opacity: 0;
         visibility: hidden;
-        transition: all .3s ease-in;
+        transition: all .3s ease-out;
 
         &__wrapper {
             width: 100%;
@@ -1194,7 +973,13 @@
         &__close {
             position: relative;
             background-color: $mainExtraLightGray;
-            padding: 15px 0;
+            padding: 8px 30px 8px 0;
+            text-align: right;
+            cursor: pointer;
+
+            & > span {
+                color: rgba($mainDarkBlack, .25);
+            }
 
             &--wrapper {
                 width: 20px;
@@ -1253,6 +1038,303 @@
     }
 
 
+    &--grp-det {
+        position: absolute; 
+        background-color: #fff;
+        z-index: 2;
+        top: 0;
+        left: -800px;
+        bottom: 0;
+        overflow: hidden;
+        overflow-y: auto;
+        opacity: 0;
+        visibility: hidden;
+        transition: all .3s ease-out;
+
+        &__wrapper {
+            width: 100%;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        &__close {
+            position: relative;
+            background-color: $mainExtraLightGray;
+            padding: 8px 30px 8px 0;
+            text-align: right;
+            margin-bottom: 15px; 
+            cursor: pointer;
+
+            & > span {
+                color: rgba($mainDarkBlack, .25);
+            }
+
+            &--wrapper {
+                width: 20px;
+                height: 20px;
+                background-color: $mainLightGray;
+                border: 1px solid rgba($mainDarkBlack, .5);
+                color: $mainLightRed;
+                font-size: .75rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                right: 5px;
+                top: 50%;
+                transform: translateY(-50%); 
+                border-radius: 10px;
+                cursor: pointer;
+            }
+        }
+
+        &__header {
+            padding: 10px;
+            position: relative;
+            font-size: .875rem;
+            background-color: $mainMiddleDarkBlue;
+            border-radius: 2px;
+            border: 1px solid $mainDarkPaleBlue;
+            box-shadow: 0 0 1px  0 rgba($mainDarkBlack, .5); 
+
+            &--img {
+                position: relative;
+                width: 60px;
+                height: 60px;
+                border-radius: 30px;
+                background-color: $mainLightGray;
+                box-shadow: 0px 5px 20px 2px rgba($mainDarkBlack, 0.4);
+                margin: 0 auto 20px auto;
+
+                @mixin atSmall {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    left: 20px;
+                    margin: 0;
+                }
+            }
+
+            &--info {
+                font-weight: 400;
+                color: #fff;
+
+                & > h4 {
+                    font-weight: 400;
+                    margin: 0;
+                    color: #fff;
+                    text-shadow: 1px 1px 2px  $mainDarkBlack; 
+                    padding: 8px 20px;
+                    border-bottom: 1px solid rgba($mainDarkPaleBlue, .8);
+                    box-shadow: 0 3px 25px 2px rgba($mainDarkGray,.8);
+                    border-left: 1px solid rgba($mainDarkPaleBlue, .8);
+                    text-align: center;
+                    line-height: 1.8;
+
+                    & > a {
+                        text-decoration: none;
+                        color: #fff;
+                    }
+
+                    @mixin atSmall {
+                        text-align: left;
+                    }
+                }
+
+                & > ul {
+                    @mixin clearfix;
+                    list-style: none;
+                    margin: 10px 0 0 0;
+                    width: 100%; 
+                    padding: 5px 0;
+                    position: relative;
+                    font-size: .875rem;
+    
+                    & > li {
+                        float: left;
+                        font-size: .8125rem;
+                        color: $mainFontColor; 
+                        background-color: $mainLightGray;
+                        padding: 2px 5px;
+                        border-radius: 5px;
+                        margin-right: 8px;
+                        margin-bottom: 6px;
+                        font-weight: 400;
+                        border-bottom: 1px solid $mainDarkGray; 
+    
+                        &:first-child {
+                            background-color: rgba($mainDarkBlack, .2);
+                            color: #fff; 
+                            border-bottom: none;
+                            border-radius: 0;
+                            font-weight: 300;
+                            font-size: .875rem; 
+                            padding: 1.5px 8px;
+                        }
+                    }
+                }
+            }
+
+            @mixin atSmall { 
+                padding: 10px 10px 10px 100px;
+            }
+        }
+
+        &__desc {
+            position: relative;
+            font-size: .875rem;
+            background-color: $mainExtraLightGray; 
+            text-align: center; 
+            padding: 20px 10px 40px 10px;
+
+            &--title {
+                text-align: center;
+                padding: 5px 20px;
+                background-color: $mainDarkBlue;
+                border-radius: 10px;
+                font-weight: 400;
+                display: inline;
+                color: #fff;
+                border-bottom: 1px solid rgba($mainDarkBlack, .2); 
+            }
+
+            &--cnt {
+                padding: 10px;
+                background-color: rgba($mainLightGray, 1);
+                /* background-color: rgba($mainDarkBlack, .5); */
+                color: rgba($mainDarkBlack, .7); 
+                border: 1px solid rgba($mainDarkBlack, .1);
+                font-size: .9375rem;
+                font-weight: 600; 
+                line-height: 2;
+                border-radius: 3px;
+            }
+        }
+
+        &__admin {
+            position: relative;
+            background-color: rgba($mainMiddleDarkBlue, 1);
+            font-size: .8125rem;
+            text-align: center;
+            padding: 0;
+
+            & > h4 {
+                position: absolute;
+                top: -18px;
+                left: 10px;
+                text-align: center;
+                padding: 3px 0;
+                background-color: #fff;
+                border-radius: 10px;
+                margin: 0;
+                font-weight: 400;
+                width: 80px;
+                color: $mainFontColor;
+                border: 1px solid rgba($mainMiddleDarkBlue, 1); 
+            }
+
+            &--info {
+                position: relative;
+                padding: 0 0 0 100px; 
+                white-space: nowrap;
+                text-align: left; 
+                list-style: none;
+                margin: 0;
+                font-size: 1rem;
+                color: #fff;
+
+                &__img {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 30px;
+                    background-color: #fff;
+                    left: 20px;
+                    box-shadow: 0px 5px 20px 2px rgba($mainDarkBlack, 0.4);
+
+                    &--status {
+                        position: absolute;
+                        width: 8px;
+                        height: 8px;
+                        border-radius: 4px;
+                        border: 1px solid $mainDarkGray;
+                        bottom: 4px;
+                        right: 8px;
+
+                        &__on {
+                            background-color: $mainLightGreen;
+                        }
+
+                        &__off {
+                            background-color: $mainLightRed;
+                        }
+                    }
+                }
+
+                & > ul  {
+                   list-style: none;
+                   margin: 0;
+                   padding: 0;
+                   box-shadow: inset 2px 1px 15px 0px rgba($mainDarkGray,.8);
+                   border-left: 1px solid rgba($mainDarkPaleBlue, 1);
+                   @mixin clearfix;
+
+                   & > li {
+                       padding: 10px 20px;
+                       font-size: .875rem;
+                       float: left;
+
+                       & > a {
+                            text-decoration: none;
+                            color: #fff;
+                        }
+
+                       & > span {
+                            padding: 2px 10px;
+                            margin-left: 10px;
+                            border-radius: 5px;
+                            background-color: $mainLightGreen;
+                            text-shadow: 1px 1px 2px  $mainDarkBlack; 
+                            box-shadow: 0 0 2px 0 rgba($mainDarkBlack, .45);
+                       }
+
+                       &:first-child {
+                            float: none;
+                            font-size: 1rem;
+                            text-shadow: 1px 1px 2px  $mainDarkBlack; 
+                            border-bottom: 1px solid $mainDarkPaleBlue;
+                            /* box-shadow: 0 1px 1px 0 rgba($mainDarkPaleBlue, 1); */
+                       }
+
+                       &:last-child {
+                          color: #fff;
+
+                           & > span {
+                                background-color: $mainLightRed;
+                           }
+
+                           @mixin atSmall {
+                                border-left: 1px solid $mainDarkPaleBlue;
+                           }
+                       }
+                   }
+                }
+            }
+        }
+
+        &__visible {
+            opacity: 1;
+            visibility: visible;
+            z-index: 2;
+            left: 0;
+            right: 0;
+            transition: all .3s ease-in;
+        }
+    }
 
     &--footer {
         /* background-color: #4186AD; */
@@ -1375,7 +1457,7 @@
             opacity: 0;
             visibility: hidden;
             z-index: 2;
-            transition: all .3s ease-in;
+            transition: all .3s ease-out;
         
             &--wrapper {
                 float: left;
@@ -1469,11 +1551,11 @@
     
             &--aud {
                 background-color: $mainDarkPaleBlue;
-                background: linear-gradient( 0deg, rgb(47,168,232) 25%, rgb(24,130,215) 36%, rgb(0,92,198) 56%, rgb(47,168,232) 88%);
-                background: -moz-linear-gradient( 0deg, rgb(47,168,232) 25%, rgb(24,130,215) 36%, rgb(0,92,198) 56%, rgb(47,168,232) 88%);
-                background: -webkit-linear-gradient( 0deg, rgb(47,168,232) 25%, rgb(24,130,215) 36%, rgb(0,92,198) 56%, rgb(47,168,232) 88%);
-                background: -ms-linear-gradient( 0deg, rgb(47,168,232) 25%, rgb(24,130,215) 36%, rgb(0,92,198) 56%, rgb(47,168,232) 88%);
-                background: -o-linear-gradient( 0deg, rgb(47,168,232) 25%, rgb(24,130,215) 36%, rgb(0,92,198) 56%, rgb(47,168,232) 88%);
+                background:  linear-gradient( 90deg, rgb(255,46,0) 6%, rgb(0,92,198) 50%, rgb(255,46,0) 100%);
+                background:  -webkit-linear-gradient( 90deg, rgb(255,46,0) 6%, rgb(0,92,198) 50%, rgb(255,46,0) 100%);
+                background:  -moz-linear-gradient( 90deg, rgb(255,46,0) 6%, rgb(0,92,198) 50%, rgb(255,46,0) 100%);
+                background:  -o-linear-gradient( 90deg, rgb(255,46,0) 6%, rgb(0,92,198) 50%, rgb(255,46,0) 100%);
+                background:  -ms-linear-gradient( 90deg, rgb(255,46,0) 6%, rgb(0,92,198) 50%, rgb(255,46,0) 100%);
             }
 
             &--visible {

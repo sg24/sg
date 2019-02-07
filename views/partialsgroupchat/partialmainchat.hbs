@@ -4,8 +4,8 @@
     <div class="site-main__chat--main">
         <div class="site-main__chat--main__wrapper">
 
-            {{!-- {{> partialpvtchatmain}} --}}
-            {{> partialgrpchatmain}}
+            {{> partialpvtchatmain}}
+            {{!-- {{> partialgrpchatmain}} --}}
 
             <ul class="site-main__chat--opt">
                 <li ><i class="far fa-trash-alt  icon icon icon__site-main--chat__header--opt"></i></li>
@@ -76,60 +76,6 @@
                 </div>
             </div>
 
-            <div class="site-main__chat--det">
-                <div class="site-main__chat--det__wrapper">
-                    <div class="site-main__chat--det__header">
-                        <div class="site-main__chat--det__header--img">
-                            <img src="/" alt="">
-                        </div>
-                        <div class="site-main__chat--det__header--info">
-                            <h4>The Peom and Peot Group</h4>
-                            <ul>
-                                <li>Tags</li>
-                                <li>Poeters</li>
-                                <li>Writes</li>
-                                 <li>Poeters</li>
-                                <li>Writes</li>
-                                 <li>Poeters</li>
-                                <li>Writes</li>
-                                 <li>Poeters</li>
-                                <li>Writes</li>
-                                 <li>Poeters</li>
-                                <li>Writes</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="site-main__chat--det__desc">
-                        <h4 class="site-main__chat--det__desc--title">
-                            Purpose
-                        </h4>
-                        <div class="site-main__chat--det__desc--cnt">
-                            This group is meants for best peoms only, it is the 
-                            best group fon those interested in peom writing only
-                        </div>
-                    </div>
-                    <div class="site-main__chat--det__admin">
-                        <h4>ADMIN</h4>
-                        <div class="site-main__chat--det__admin--info">
-                            <div class="site-main__chat--det__admin--info__img">
-                                <img src="/" alt="">
-                                <div class="site-main__chat--det__admin--info__img--status site-main__chat--det__admin--info__img--status__on"> </div>
-                                <div class="site-main__chat--det__admin--info__img--status site-main__chat--det__admin--info__img--status__off"></div>
-                            </div>
-                            <ul>
-                                <li>User user</li>
-                                <li>
-                                    online <span>222k</span>
-                                </li>
-                                <li>
-                                    Offline <span>2</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="site-main__chat--srch">
                 <div class="site-main__chat--srch__wrapper">
                     <div class="site-main__chat--srch__close">
@@ -144,15 +90,16 @@
                 </div>
             </div> 
 
-            <div class="site-main__chat--switch-grp">
-                <div class="site-main__chat--switch-grp__wrapper">
-                    <div class="site-main__chat--switch-grp__close">
-                        <div class="site-main__chat--switch-grp__close--wrapper">
+            <div class="site-main__chat--grp">
+                <div class="site-main__chat--grp__wrapper">
+                    <div class="site-main__chat--grp__close">
+                        <span>close</span>
+                        <div class="site-main__chat--grp__close--wrapper">
                              <i class="fas fa-times icon icon__site-main--chat__close"></i>
                         </div>
                     </div>
-                    <input type="text" class="site-main__chat--switch-grp__input" placeholder="Enter group name...">
-                    <div class="site-main__chat--switch-grp__cnt">
+                    <input type="text" class="site-main__chat--grp__input" placeholder="Enter group name...">
+                    <div class="site-main__chat--grp__cnt">
                         <div class="reuse-grp-chat">
                             <div class="active__main active__main--chat-cnt"><div>9</div></div>
                             <div class="reuse-grp-chat__img"><img src="/" alt=""></div>
@@ -169,6 +116,7 @@
             <div class="site-main__chat--cur-chat">
                 <div class="site-main__chat--cur-chat__wrapper">
                     <div class="site-main__chat--cur-chat__close">
+                        <span>close</span>
                         <div class="site-main__chat--cur-chat__close--wrapper">
                              <i class="fas fa-times icon icon__site-main--chat__close"></i>
                         </div>
@@ -209,11 +157,12 @@
             <div class="site-main__chat--srch-user">
                 <div class="site-main__chat--srch-user__wrapper">
                      <div class="site-main__chat--srch-user__close">
+                         <span>close</span>
                         <div class="site-main__chat--srch-user__close--wrapper">
                              <i class="fas fa-times icon icon__site-main--chat__close"></i>
                         </div>
                     </div>
-                    <input type="text" class="site-main__chat--srch-user__input" placeholder="Enter group name...">
+                    <input type="text" class="site-main__chat--srch-user__input" placeholder="Enter user name...">
                     <div class="site-main__chat--srch-user__cnt">
                     <div class="reuse-pvt-chat">
                         <div class="active__main active__main--chat-cnt"><div>9</div></div>
@@ -239,6 +188,66 @@
                                 <li><span><i class="fas fa-comment-alt icon icon__site-main--chat__srh-user"></i> chat</span></li>
                             </ul>
                         </div> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="site-main__chat--grp-det">
+                <div class="site-main__chat--grp-det__wrapper">
+                    <div class="site-main__chat--grp-det__close">
+                        <span>close</span>
+                        <div class="site-main__chat--grp-det__close--wrapper">
+                             <i class="fas fa-times icon icon__site-main--chat__close"></i>
+                        </div>
+                    </div>
+                    <div class="site-main__chat--grp-det__header">
+                        <div class="site-main__chat--grp-det__header--img">
+                            <img src="/" alt="">
+                        </div>
+                        <div class="site-main__chat--grp-det__header--info">
+                            <h4><a href="">The Peom and Peot Group</a></h4>
+                            <ul>
+                                <li>Tags</li>
+                                <li>Poeters</li>
+                                <li>Writes</li>
+                                 <li>Poeters</li>
+                                <li>Writes</li>
+                                 <li>Poeters</li>
+                                <li>Writes</li>
+                                 <li>Poeters</li>
+                                <li>Writes</li>
+                                 <li>Poeters</li>
+                                <li>Writes</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="site-main__chat--grp-det__desc">
+                        <h4 class="site-main__chat--grp-det__desc--title">
+                            Purpose
+                        </h4>
+                        <div class="site-main__chat--grp-det__desc--cnt">
+                            This group is meants for best peoms only, it is the 
+                            best group fon those interested in peom writing only
+                        </div>
+                    </div>
+                    <div class="site-main__chat--grp-det__admin">
+                        <h4>ADMIN</h4>
+                        <div class="site-main__chat--grp-det__admin--info">
+                            <div class="site-main__chat--grp-det__admin--info__img">
+                                <img src="/" alt="">
+                                <div class="site-main__chat--grp-det__admin--info__img--status site-main__chat--grp-det__admin--info__img--status__on"> </div>
+                                {{!-- <div class="site-main__chat--grp-det__admin--info__img--status site-main__chat--grp-det__admin--info__img--status__off"></div> --}}
+                            </div>
+                            <ul>
+                                <li><a href="">User user</a></li>
+                                <li>
+                                    online <span>222k</span>
+                                </li>
+                                <li>
+                                    Offline <span>2</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -300,6 +309,6 @@
             </div>
         </div>
     </div>
-    {{!-- {{> partialpvtchatnav}} --}}
-     {{> partialgrpchatnav}}
+    {{> partialpvtchatnav}}
+     {{!-- {{> partialgrpchatnav}} --}}
 </div>
