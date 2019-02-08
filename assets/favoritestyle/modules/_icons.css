@@ -542,4 +542,8 @@
         position: relative;
         top: 1px;
     }
+
+    &__reuse-pvt-chat--fav {
+        color: $mainLightRed;
+    }
 }

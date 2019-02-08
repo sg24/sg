@@ -1756,8 +1756,7 @@ img {
   margin: 0;
   padding: 0;
   background-color: #437da3;
-  font-size: .875rem;
-  font-weight: 300;
+  font-size: .8125rem;
   position: relative;
   z-index: 2;
   box-shadow: 0 2px 2px rgba(0,0,0, .2);
@@ -1774,21 +1773,14 @@ img {
   text-align: center;
   color: #fff;
   cursor: pointer;
+  font-weight: 300;
   padding: 12px 35px;
   position: relative;
   border-right: 1px solid rgba(255,255,255, .45);
-  font-size: .8125rem;
 }
 
 .site-main__content--tab li:last-child {
   border-right: none;
-}
-
-@media (min-width: 530px) {
-
-  .site-main__content--tab li {
-    font-size: .875rem;
-  }
 }
 
 .site-main__content--tab__sticky {
@@ -1810,10 +1802,10 @@ img {
   }
 }
 
-@media (min-width: 800px) {
+@media (min-width: 530px) {
 
-  .site-main__content {
-    padding-left: 0;
+  .site-main__content--tab {
+    font-size: .875rem;
   }
 }
 
@@ -1865,7 +1857,7 @@ img {
   margin: 0;
   padding: 0;
   position: relative;
-  font-size: .9375rem;
+  font-size: .875rem;
   box-shadow: 0 2px 2px rgba(0,0,0, .2);
 }
 

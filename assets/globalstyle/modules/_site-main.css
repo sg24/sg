@@ -73,8 +73,7 @@
             padding: 0;
             background-color: $mainMiddleDarkBlue;
             @mixin clearfix;
-            font-size: .875rem;
-            font-weight: 300;
+            font-size: .8125rem; 
             position: relative; 
             z-index: 2;  
             box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
@@ -84,17 +83,13 @@
                 text-align: center;
                 color: #fff; 
                 cursor: pointer;
+                font-weight: 300;
                 padding: 12px 35px; 
                 position: relative;
                 border-right: 1px solid rgba(255,255,255, .45);
-                font-size: .8125rem; 
 
                 &:last-child {
                     border-right: none;
-                }
-
-                @mixin atSmall {
-                    font-size: .875rem; 
                 }
             }
 
@@ -112,12 +107,12 @@
                     top: 60px;     
                 }
             }
+
+            @mixin atSmall {
+                font-size: .875rem; 
+            }
         }
         
-
-        @mixin atMedium {
-            padding-left: 0;
-        }
 
         @mixin atLarge {
             width: 65%;

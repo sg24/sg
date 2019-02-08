@@ -9,7 +9,7 @@ class FavoriteFilter {
         this.filterCateg = $(".exfav__filter--options__search--categ__title");
         this.categToggler = $(".exfav__filter--options__search--categ");
         this.categ = $(".exfav__filter--options__search--categ__item");
-        this.overlay = $(".site-main__fav-main--overlay");
+        this.overlay = $(".site-main__content--overlay");
         this.events();
     }
 
@@ -21,13 +21,13 @@ class FavoriteFilter {
     }
 
     toggleSort() {
-        this.overlay.toggleClass("site-main__fav-main--overlay__visible");
+        this.overlay.toggleClass("site-main__content--overlay__visible");
         this.sort.toggleClass("exfav__sort--item__visible");
         this.sortToggler.toggleClass("icon--rotate"); 
     }
 
     toggleFilter() {
-        this.overlay.toggleClass("site-main__fav-main--overlay__visible");
+        this.overlay.toggleClass("site-main__content--overlay__visible");
         this.filter.toggleClass("exfav__filter--options__visible");
     }
 
@@ -41,7 +41,7 @@ class FavoriteFilter {
         this.sortToggler.removeClass("icon--rotate"); 
         this.filter.removeClass("exfav__filter--options__visible");
         this.categ.removeClass("exfav__filter--options__search--categ__item--visible");
-        this.overlay.removeClass("site-main__fav-main--overlay__visible");
+        this.overlay.removeClass("site-main__content--overlay__visible");
     }
 }
 
