@@ -153,4 +153,8 @@
     &__reuse-que--options__dft {
         margin-right: 5px;
     }
+    &__reuse-tag--header {
+        font-size: .75rem;
+        margin-right: 5px;
+    }
 }

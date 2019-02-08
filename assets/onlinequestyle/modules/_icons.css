@@ -193,5 +193,10 @@
         position: relative;
         top: 1px;
     }
+
+    &__reuse-tag--header {
+        font-size: .75rem;
+        margin-right: 5px;
+    }
    
 }
