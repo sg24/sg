@@ -1,19 +1,18 @@
-.site-main__prf-main {
+.reuse-prf {
     width: 100%;
-    float: none; 
 
-    &--user {
+    &__user {
         position: relative;
         padding: 0;
         margin-top: 25px; 
         background-color: rgba($mainMiddleDarkBlue, 1);
         box-shadow: 0 0 1px  0 rgba($mainDarkBlack, .5); 
 
-        &__img {
+        &--img {
             position: relative;
             padding: 5px 0;
 
-            &--wrapper {
+            &__wrapper {
                 position: relative;
                 width: 100px;
                 height: 100px;
@@ -29,7 +28,7 @@
                 }
             }
 
-            &--status {
+            &__status {
                 position: absolute;
                 padding-left: 20px;
                 font-weight: 300;
@@ -49,12 +48,12 @@
                     transform: translateY(-50%); 
                 }
 
-                &__on {
+                &--on {
                     background-color: $mainLightGreen;
                     box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
                 }
 
-                &__off {
+                &--off {
                     background-color: $mainLightRed;
                     box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
                 }
@@ -75,14 +74,14 @@
             }
         }
 
-        &__det {
+        &--det {
             font-size: 1rem;
             background-color: $mainMiddleDarkBlue;
             /* box-shadow: -2px 0 2px 0 rgba($mainDarkBlack, .3); */
             border-right: 1px solid $mainMiddleDarkBlue;
             border-left: 1px solid $mainMiddleDarkBlue;
 
-            &--name {
+            &__name {
                 color: #fff;
                 text-shadow: 1px 1px 2px  $mainDarkBlack; 
                 padding: 8px 20px;
@@ -91,7 +90,7 @@
                 border-left: 1px solid rgba($mainDarkPaleBlue, .8);
             }
 
-            &--exp {
+            &__exp {
                 @mixin clearfix;
                 list-style: none;
                 margin: 10px 0 0 0;
@@ -125,7 +124,7 @@
                 }
             }
 
-            &--opt {
+            &__opt {
                 border-left: 1px solid rgba($mainDarkPaleBlue, .8);
                 border-top: 1px solid rgba($mainDarkPaleBlue, .8);
                 @mixin clearfix;
@@ -166,12 +165,12 @@
                     }
                 }
 
-                &__chat {
+                &--chat {
                     background-color: rgba($mainDarkBlack, .2);
                     box-shadow: 0 2px 2px 0 rgba($mainLightGray, .5); 
                 }
 
-                &__add {
+                &--add {
                     background-color: #fff; 
                     box-shadow: 0 2px 2px 0 rgba($mainDarkBlack, .5); 
                 }
@@ -188,14 +187,15 @@
         }
     }
 
-    &--about {
+    &__about {
         position: relative;
         font-size: .875rem;
         background-color: $mainHeaderColor; 
+        border: 1px solid $mainDarkGray; 
         text-align: center; 
         padding: 20px 10px 20px 10px;
 
-        &__title {
+        &--title {
             text-align: center;
             padding: 5px 20px;
             background-color: $mainLightGray;
@@ -205,7 +205,7 @@
             border-bottom: 1px solid rgba($mainDarkBlack, .2); 
         }
 
-        &__content {
+        &--cnt {
             padding: 10px;
             background-color: rgba($mainLightGray, 1);
             /* background-color: rgba($mainDarkBlack, .5); */
@@ -218,193 +218,167 @@
         }
     }
 
-    &--tab {
+    &__tab {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        background-color: $mainDarkPaleBlue;
+        @mixin clearfix;
+        font-weight: 300;
+        position: relative; 
+
+        li {
+            float: left;
+            text-align: center;
+            color: #fff;
+            cursor: pointer;
+            padding: 11px 35px; 
+            position: relative;
+            font-size: .9375rem;
+
+            &:first-child { 
+                border-right: 1px solid rgba(255,255,255, .45);
+            }
+
+            & > div {
+                width: 24px;
+                height: 24px;
+                background-color: #fff;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 12px;
+                left: 5px;
+            }
+
+            @mixin atMedium {
+                padding: 10px 35px;
+            }
+        }
+    }
+
+    &__det {
         position: relative;
         background-color: $mainMiddleDarkBlue;
         margin-bottom: 10px;
+        box-shadow: inset 0 0 0 1px rgba($mainDarkPaleBlue, 1);
+        font-size: .875rem;
 
-        &__header {
+        &--wrapper {
+            padding: 15px 10px 15px 0;
+            position: relative;
+            border-bottom: 1px solid $mainDarkGray;
+        }
+
+        &--icn {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            left: 20px;
+            border: 1px solid $mainLightGray;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: $mainHeaderColor;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+
+            &__itm {
+                background-color: $mainLightRed; 
+            }
+        }
+
+        &--cnt {
             list-style: none;
             margin: 0;
-            padding: 0;
-            background-color: $mainDarkPaleBlue;
+            padding: 0 0 0 80px;
             @mixin clearfix;
-            font-weight: 300;
-            position: relative; 
-    
-            li {
-                float: left;
-                text-align: center;
+
+            & > li {
+                float: none;
+                padding: 6px 0;
                 color: #fff;
-                cursor: pointer;
-                padding: 11px 35px; 
-                position: relative;
-                font-size: .9375rem;
+                font-weight: 300;
 
-                &:first-child { 
-                    border-bottom: 1px solid rgba(255,255,255, .45);
-                    background-color: $mainDarkPaleBlue;
-
-                    @mixin atExtraSmall { 
-                        border-bottom: none;  
-                        /* border-right: 1px solid rgba(255,255,255, .45); */
-                    }
+                & > span {
+                    border-radius: 5px;
+                    padding: 2px 5px;
+                    margin-left: 20px;
+                    cursor: pointer;
                 }
+            }
 
-                & > div {
-                    width: 24px;
-                    height: 24px;
+            &__sntaccept {
+                position: relative;
+
+                & > span {
                     background-color: #fff;
-                    position: absolute;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    border-radius: 12px;
-                    left: 5px;
-                }
-
-                @mixin atMedium {
-                    padding: 10px 35px;
+                    color: $mainLightGreen; 
+                    font-weight: 600;
+                    border: 1px solid rgba($mainDarkGray, 1); 
                 }
             }
-    
-        }
 
-        &__det {
-            position: relative;
-            font-size: .875rem;
-
-            &--wrapper {
-                padding: 15px 10px 15px 0;
+            &__sntreject {
                 position: relative;
-                border-bottom: 1px solid $mainDarkGray;
-            }
 
-            &--icn {
-                position: absolute;
-                width: 40px;
-                height: 40px;
-                border-radius: 20px;
-                left: 20px;
-                border: 1px solid $mainLightGray;
-                top: 50%;
-                transform: translateY(-50%);
-                background-color: $mainHeaderColor;
-                display: flex;
-                justify-content: center;
-                align-items: center; 
-
-                &__itm {
-                    background-color: $mainLightRed; 
+                & > span {
+                    background-color: $mainHeaderColor;
+                    color: $mainFontColor; 
                 }
             }
 
-            &--content {
-                list-style: none;
-                margin: 0;
-                padding: 0 0 0 80px;
-                @mixin clearfix;
+            &__onlineque {
+                position: relative;
 
-                & > li {
-                    float: none;
-                    padding: 6px 0;
+                & > span {
+                    background-color: $mainLightRed;
                     color: #fff;
-                    font-weight: 300;
-
-                    & > span {
-                        border-radius: 5px;
-                        padding: 2px 5px;
-                        margin-left: 20px;
-                        cursor: pointer;
-                    }
                 }
+            }
 
-                &__sntaccept {
-                    position: relative;
+            &__que {
+                position: relative;
 
-                    & > span {
-                        background-color: #fff;
-                        color: $mainLightGreen; 
-                        font-weight: 600;
-                        border: 1px solid rgba($mainDarkGray, 1); 
-                    }
+                & > span {
+                    background-color: $mainHeaderColor;
+                    color: $mainDarkBlue;
                 }
+            }
 
-                &__sntreject {
-                    position: relative;
+            &__pt {
+                position: relative;
 
-                    & > span {
-                        background-color: $mainHeaderColor;
-                        color: $mainFontColor; 
-                    }
+                & > span {
+                    background-color: $mainHeaderColor;
+                    color: $mainDarkPaleBlue;
                 }
+            }
 
-                &__onlineque {
-                    position: relative;
+            &__grp {
+                position: relative;
 
-                    & > span {
-                        background-color: $mainLightRed;
-                        color: #fff;
-                    }
+                & > span {
+                    background-color: $mainLightGreen;
+                    color: #fff;
                 }
+            }
 
-                &__que {
-                    position: relative;
+            &__itm {
+                position: relative;
 
-                    & > span {
-                        background-color: $mainHeaderColor;
-                        color: $mainDarkBlue;
-                    }
+                & > span {
+                    background-color: $mainLightRed;
+                    color: #fff;
                 }
-
-                &__post {
-                    position: relative;
-
-                    & > span {
-                        background-color: $mainHeaderColor;
-                        color: $mainDarkPaleBlue;
-                    }
-                }
-
-                &__group {
-                    position: relative;
-
-                    & > span {
-                        background-color: $mainLightGreen;
-                        color: #fff;
-                    }
-                }
-
-                &__itm {
-                    position: relative;
-
-                    & > span {
-                        background-color: $mainLightRed;
-                        color: #fff;
-                    }
-                }
-
             }
 
         }
-    }
 
-    @mixin atExtraSmall {
-        width: 100%;
-        position: relative;
-    }
-
-    @mixin atSmall {
-        width: 100%;
-        padding-right: 0px;
-        float: left;
-    }
-
-    @mixin atLarge {
-        width: 65%;
-        padding-right: 40px;
     }
 }
 

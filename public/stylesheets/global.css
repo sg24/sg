@@ -577,6 +577,14 @@ img {
   margin-right: 5px;
 }
 
+.icon__reuse-set--tm {
+  margin-right: 5px;
+}
+
+.icon__reuse-set--angle {
+  margin-left: 5px;
+}
+
 .site-header__tool-tip {
     position: absolute;
     top: 40px;

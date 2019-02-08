@@ -250,12 +250,4 @@
         color: $mainDarkBlack;
     }
 
-    &__reuse-set--tm {
-        margin-right: 5px;
-    }
-
-    &__reuse-set--angle {
-        margin-left: 5px;
-    }
-
 }
