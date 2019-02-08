@@ -1,0 +1,108 @@
+.reuse-grp-chat {
+    border-radius: 10px;
+    margin: 40px 15px;  
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+    -o-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+    -ms-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+    -webkit-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+    -moz-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+
+
+    &__img {
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+        background-color: $mainLightGray;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 10px;
+    }
+
+    &__det {
+        list-style: none;
+        padding: 0 10px 0 80px;
+        margin:  0;
+        width: 100%;
+        font-size: .875rem;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+
+        li {
+            margin: 0;
+        }
+
+        &--title {
+            padding: 6px 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-weight: 500;
+            color: rgba($mainDarkPaleBlue, .8);
+            font-size: .9375rem;
+            
+            & > a {
+                text-decoration: none;
+                color: rgba($mainDarkPaleBlue, .8);
+            }
+        }   
+
+        &--last-msg {
+            padding: 2px 0; 
+            color: rgba($mainDarkBlack, .6);
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            & > a {
+                text-decoration: none;
+                color: rgba($mainDarkBlack, .6);
+            }
+        }
+
+        &--status {
+            padding: 10px 0;
+            @mixin clearfix;
+
+            & > div {
+                float: left;
+                font-size: .8125rem;
+
+                & > span {
+                    padding: 3px 8px;
+                    color: #fff;
+                    margin-left: 5px;
+                    border-radius: 20px;
+                    box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
+                    -ms-box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
+                    -moz-box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
+                    -webkit-box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
+                    -o-box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
+                }
+            }
+
+            &__on {
+                padding-right: 10px;
+
+                & > span {
+                    background-color: $mainLightGreen;
+                }
+            }
+
+            &__off {
+                padding-left: 10px;
+
+                & > span {
+                    background-color: $mainLightRed;
+                }
+            }
+        }
+    }
+
+    @mixin atSmall {
+        margin: 40px 20px 60px 20px;
+    }
+}

@@ -4,4 +4,6 @@
 @import "modules/_active";
 @import "modules/_reuse-set";  
 @import "modules/_reuse-trd";  
+@import "modules/_reuse-grp-chat";  
+@import "modules/_reuse-pvt-chat";  
 @import "modules/_site-main__conv";  
