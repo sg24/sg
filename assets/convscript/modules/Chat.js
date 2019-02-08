@@ -3,8 +3,8 @@ import $ from 'jquery';
 class Chat {
     constructor() {
         this.overlay = $(".site-main__content--overlay");
-        this.convDetToggler = $(".site-main__conv--content__opt");
-        this.convDetOpt = $(".site-main__conv--content__opt--det");
+        this.convDetToggler = $(".site-main__conv--cnt__opt");
+        this.convDetOpt = $(".site-main__conv--cnt__opt--det");
         this.srchToggler = $(".site-main__conv--header__search");
         this.srch = $(".site-main__conv--srch");
         this.srchClose = $(".site-main__conv--srch__close, .site-main__conv--content");
@@ -12,7 +12,7 @@ class Chat {
         this.sortOpt = $(".site-main__conv--filter__sort--opt");
         this.events();
 
-    }
+    } 
 
     events() { 
         this.convDetToggler.click(this.toggleConvDet.bind(this));
@@ -23,14 +23,15 @@ class Chat {
     }
 
     toggleConvDet() {
-        this.overlay.toggleClass("site-main__content--overlay__visible");
-        this.convDetOpt.toggleClass("site-main__conv--content__opt--det__visible");
+        this.convDetOpt.toggleClass("site-main__conv--cnt__opt--det__visible");
+        this.convDetToggler.toggleClass("site-main__conv--cnt__opt--clk");
     }
 
     toggleSrch() {
         this.srch.toggleClass("site-main__conv--srch__visible");
         this.overlay.toggleClass("site-main__content--overlay__visible");
-        this.convDetOpt.removeClass("site-main__conv--content__opt--det__visible");
+        this.convDetOpt.removeClass("site-main__conv--cnt__opt--det__visible");
+        this.convDetToggler.removeClass("site-main__conv--cnt__opt--clk");
         this.sortOpt.removeClass("site-main__conv--filter__sort--opt__visible");
     }   
 
@@ -42,12 +43,14 @@ class Chat {
     toggleSort() {
         this.sortOpt.toggleClass("site-main__conv--filter__sort--opt__visible");
         this.overlay.toggleClass("site-main__content--overlay__visible");
+        this.convDetOpt.removeClass("site-main__conv--cnt__opt--det__visible");
+        this.convDetToggler.removeClass("site-main__conv--cnt__opt--clk");
     }
 
     closeAll() {
         this.overlay.removeClass("site-main__content--overlay__visible");
-        this.convDetOpt.removeClass("site-main__conv--content__opt--det__visible");
         this.sortOpt.removeClass("site-main__conv--filter__sort--opt__visible");
+        this.srch.removeClass("site-main__conv--srch__visible");
     }
 }
 

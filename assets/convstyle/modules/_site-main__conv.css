@@ -57,15 +57,17 @@
     }
 
     &--srch {
-        position: sticky;
+        position: absolute; 
         left: 0;
-        right: 0;
         background-color: #fff;
         border: 1px solid $mainDarkGray;
         border-top: none;
-        top: 0;
+        top: 100px;
+        width: 90%;
         padding: 10px 10px 20px 10px; 
-        display: none;
+        opacity: 0;
+        visibility: hidden;
+        transition: all .3s ease-out;
 
         &__close {
             width: 20px;
@@ -126,9 +128,9 @@
         &__visible {
             position: sticky;
             top: 100px; 
+            right: 0;
             opacity: 1;
             visibility: visible;
-            display: block; 
             width: 100%; 
             z-index: 2; 
         }
@@ -232,7 +234,122 @@
         }
     }
 
-    &--content {
+    &--cnt {
         position: relative;
+
+        &__opt {
+            position: absolute;
+            right: 2px;
+            height: 28px;
+            width: 28px;
+            border-radius: 14px; 
+            bottom: 2px;
+            cursor: pointer;
+
+            &::before, &::after {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                content: "";
+                width: 4px;
+                height: 4px;
+                border-radius: 2px;
+                background-color: rgba($mainDarkBlack, .45);
+            }
+
+            &::before {
+                bottom: 20px;
+            }
+
+            &::after {
+                bottom: 4px;
+            }
+
+            &--clk {
+                background-color: $mainExtraLightGray; 
+            }
+
+            &--mid {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 4px;
+                height: 4px;
+                border-radius: 2px;
+                background-color: rgba($mainDarkBlack, .45);
+                bottom: 12px;
+            }
+
+            &--det {
+                position: absolute;
+                list-style: none;
+                top: 40%;    
+                transform: translateY(-40%);
+                right: 42px;
+                padding: 0;
+                margin: 0;
+                background-color: #fff;
+                box-shadow: 0 0 4.15px 0.85px rgba($mainDarkBlack, 0.65); 
+                font-size: .8125rem;
+                z-index: 1;
+                opacity: 0;
+                visibility: hidden;
+                transition: all .3s ease-in;
+
+                li {
+                    padding: 5px;
+                    margin: 5px;
+                    background-color: $mainLightGray;
+                    font-weight: 300;
+                    white-space: nowrap;
+                    border: 1px solid rgba($mainDarkBlack, .25);
+                    cursor: pointer;
+
+                    &:last-child {
+                        background-color: $mainDarkRed;
+
+                        a {
+                            color: #fff;
+                            text-decoration: none;
+                        }
+                    }
+                }
+
+                &::after, &::before {
+                    position: absolute;
+                    content: "";
+                    border-color: transparent;
+                    border-style: solid;
+                    transform: rotate(90deg);
+                    pointer-events: none;
+                }
+
+                &::after {
+                    top: 20px;
+                    right: -24px;
+                    border-width: 12px;
+                    border-bottom-color: #fff;
+                }
+
+                &::before {
+                    top: 19px;
+                    right: -26px;
+                    border-width: 13px;
+                    border-bottom-color: rgba($mainDarkBlack, 0.25);
+                }
+
+                &__visible {
+                    opacity: 1;
+                    visibility: visible;
+                    z-index: 1;
+                    transition: all .5s ease-out;
+                }
+            }
+
+            &:hover {
+                background-color: $mainExtraLightGray; 
+                transition: all .3s ease-in;
+            }
+        }
     }
 }
