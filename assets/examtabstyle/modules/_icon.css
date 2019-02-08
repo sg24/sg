@@ -1,0 +1,19 @@
+.icon {
+ 
+    &__site-main--exam-cnt__tag {
+        color: $mainFontColor;
+        margin-right: 5px;
+    }
+
+    &__site-main--exam-cnt__tm {
+        color: $mainDarkPaleBlue;
+    }
+
+    &__site-main--exam-cnt__footer--prev {
+        margin-right: 5px;
+    }
+
+    &__site-main--exam-cnt__footer--nxt {
+        margin-left: 5px;
+    }
+}

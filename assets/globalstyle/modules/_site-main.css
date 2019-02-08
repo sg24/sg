@@ -11,10 +11,7 @@
         }
     }
 
-    &__no-tab {
-        top: 54px;
-    }
-
+    
     &__content {
         width: 100%;
         position: relative;

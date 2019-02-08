@@ -1,0 +1,111 @@
+.icon {
+
+    &--rotate {
+        svg {
+            transform: rotate(180deg);
+            transition: all .3s ease-out;
+        }
+    }
+ 
+    &__site-header--search {
+        font-size: .875rem;
+        color: $mainLightBlack;
+
+        &:hover {
+            color: $mainPaleBlue;
+        }
+    }
+
+    &__site-header--favorites {
+        color: $mainLightRed;
+    }
+
+    &__site-header--shares {
+        color: $mainLightBlue;
+    }
+
+    &__site-header--bell {
+        color: $mainLightBlack;
+    }
+    
+    &__site-header--list {
+        color: $mainLightBlack;
+    }
+
+    &__site-header--add-new {
+       margin-left: 5px;
+    }
+
+    &__site-header--nav__itm {
+        margin-right: 5px;
+        color: $mainLightBlack;
+    }
+
+    &__site-header--nav__angle {
+        margin-left: 5px;
+        color: $mainLightBlack;
+    }
+
+    &__site-header--notify__set {
+        color: $mainDarkBlue;
+        font-size: .625rem;
+    }
+
+    &__reuse-trd--fav {
+        margin-right: 5px;
+        color: $mainLightRed; 
+        cursor: pointer; 
+    }
+
+    &__reuse-trd--comment, &__reuse-trd--smile {
+        margin-right: 5px;
+        color: $mainDarkBlue;
+    }
+
+    &__reuse-trd--users {
+        color: $mainDarkPaleBlue;
+    }
+
+    &__reuse-trd--user-frnd {
+        color: rgba($mainDarkBlack, .55);
+    }
+
+    &__reuse-trd--view, &__reuse-trd--pwt-comment {
+        margin-right: 5px;
+        color: $mainDarkBlack; 
+    }
+
+    &__reuse-trd--categ {
+        margin-right: 5px;
+        color: rgba($mainDarkBlack, .45);
+        font-size: .75rem; 
+    }
+
+    &__reuse-trd--add {
+        font-size: .75rem; 
+        margin-right: 5px;
+    }
+
+    &__reuse-trd--tag {
+        font-size: .625rem; 
+        margin-right: 5px;
+    }
+
+    &__site-header--sm-form__close {
+        color: $mainLightRed;
+        font-size: .75rem; 
+    }
+
+    &__site-header--no-acc {
+        margin-right: 5px;
+    }
+
+    &__reuse-set--tm {
+        margin-right: 5px;
+    }
+
+    &__reuse-set--angle {
+        margin-left: 5px;
+    }
+   
+}

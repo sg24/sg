@@ -38,7 +38,7 @@ router.get('/community', (req, res, next) => {
     res.render('community');
 });
 
-router.get('/privatechat', (req, res, next) => {
+router.get('/conversations', (req, res, next) => {
     res.render('conv');
 });
 

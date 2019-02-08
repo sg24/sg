@@ -19,6 +19,10 @@ gulp.task('watch', function() {
         gulp.start('globalcss')
     });
 
+    watch('./assets/miniglobalstyle/**/*.css', function() {
+        gulp.start('miniglobalcss')
+    });
+
     watch('./assets/styles/**/*.css', function() {
         gulp.start('cssInject')
     });
@@ -91,6 +95,11 @@ gulp.task('watch', function() {
 
 gulp.task('globalcss',['globalstyles'], function() {
     return gulp.src("./assets/globalstyle/global.css")
+    .pipe(browserSyc.stream());
+});
+
+gulp.task('miniglobalcss',['miniglobalstyles'], function() {
+    return gulp.src("./assets/miniglobalstyle/miniglobal.css")
     .pipe(browserSyc.stream());
 });
 

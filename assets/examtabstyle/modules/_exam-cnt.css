@@ -1,0 +1,228 @@
+.exam-cnt { 
+    position: relative;
+    padding: 0 15px;
+    margin-bottom: 40px;
+    top: 64px;
+    
+
+    &__wrapper {
+        box-shadow: 0px 2px 8px 0px rgba($mainDarkBlack, .45);
+        border-radius: 20px;
+        background-color: #fff; 
+    }
+
+    &__title {   
+        text-align:  center;
+        font-weight: 400;
+        color: #fff;
+        font-size: .9375rem;
+        background-color: $mainMiddleDarkBlue; 
+        border-radius: 20px; 
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        margin: 0;
+        box-shadow: 0px 2px 8px 0px rgba($mainDarkBlack, .45);
+        width: 100%;    
+        text-overflow: ellipsis; 
+        white-space: nowrap; 
+        overflow: hidden;
+        padding: 9px 20px;
+    }
+
+    &__det {
+        position: relative;
+        padding: 20px; 
+        @mixin clearfix;
+        font-size: 1rem;
+        color: $mainFontColor;
+        border-bottom: .5px solid rgba(23, 40, 59, 0.4);
+
+        &--tag { 
+            float: left;
+            /* color: rgba($mainDarkBlack, .5); */
+            display: none; 
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis; 
+
+           & > span {
+               padding-left: 5px;
+           }
+
+           @mixin atSmall {
+               display: block;
+           }
+        }
+
+        &--cur-que {
+            position: absolute;
+            left: 20px;
+            width: 95px;
+            padding-left: 40px;
+            color: rgba($mainDarkGray, 1);
+            font-size: .875rem;
+            top: 20px;
+
+            & > div {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 0;
+                background-color: $mainLightRed;
+                box-shadow: 0px 2px 6.79px 0.21px rgba(24, 22, 22, 0.5);
+                -o-box-shadow: 0px 2px 6.79px 0.21px rgba(24, 22, 22, 0.5);
+                -ms-box-shadow: 0px 2px 6.79px 0.21px rgba(24, 22, 22, 0.5);
+                -webkit-box-shadow: 0px 2px 6.79px 0.21px rgba(24, 22, 22, 0.5);
+                -moz-box-shadow: 0px 2px 6.79px 0.21px rgba(24, 22, 22, 0.5);
+                height: 30px;
+                width: 30px;
+                border-radius: 15px;
+                color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+            }
+
+            @mixin atSmall {
+                left: 50%;
+                transform: translateX(-50%); 
+            }
+        }
+
+        &--tm {
+           float: right;
+           padding: 0 0 0 40px;
+           font-size: 1.125rem;
+           font-weight: 400;
+           color: $mainDarkPaleBlue; 
+           position: relative;
+
+           & > div {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 0;
+                height: 30px;
+                width: 30px;
+                border-radius: 15px;
+                background-color: #fff;
+                box-shadow: 0px 0px 9px 0px rgba(23, 40, 59, 0.8);
+                -o-box-shadow: 0px 0px 9px 0px rgba(23, 40, 59, 0.8);
+                -ms-box-shadow: 0px 0px 9px 0px rgba(23, 40, 59, 0.8);
+                -webkit-box-shadow: 0px 0px 9px 0px rgba(23, 40, 59, 0.8);
+                -moz-box-shadow: 0px 0px 9px 0px rgba(23, 40, 59, 0.8); 
+                display: flex;
+                justify-content: center;
+                align-items: center;   
+           }
+        }
+    }
+
+    &__content {
+        position: relative;
+        padding: 20px;
+
+        &--que {
+            background-color: rgba($mainExtraLightGray, .2);
+            box-shadow: 0 1px 5px 0px rgba($mainDarkBlack, 0.45);
+            padding: 20px;
+            text-align: center;  
+            border-radius: 5px;
+            font-size: 1rem;
+            /* font-weight: bold; */
+            color: rgba($mainDarkBlack, .8);
+            line-height: 1.8;
+            min-height: 100px;
+        }
+
+        &--opt {
+            list-style: none;
+            margin: 0;
+            padding: 20px 0 0 0;
+            width: 100%; 
+            @mixin clearfix;
+            font-size: .9375rem;
+
+            & > li {
+                position: relative;
+                float: left;
+                padding: 6px 10px 6px 40px; 
+                margin-right: 20px;
+                margin-bottom: 10px;
+                background-color: $mainExtraLightGray; 
+                /* box-shadow: 0 1px 1px 0px rgba($mainDarkBlack, 0.45); */
+                /* height: 30px; */
+                border-radius: 15px;
+                cursor: pointer; 
+
+                & > div {
+                    position: absolute;
+                    height: 30px;
+                    width: 30px;
+                    border-radius: 15px;
+                    background-color: $mainDarkGray;
+                    box-shadow: 0 0 1px 1px rgba($mainDarkBlack, 0.45);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center; 
+                    left: 0px;
+                    top: 50%;
+                    transform: translateY(-50%); 
+                }
+
+                @mixin atSmall {
+                    margin-right: 50px;
+                }
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+
+    &__footer {
+        background-color: $mainMiddleDarkBlue; 
+        border-radius: 20px;
+        padding: 6px 0;
+        font-size: 0.875rem;
+        @mixin clearfix;
+
+
+       & > div {
+           position: relative;
+           /* position: absolute; */
+           padding: 5px 10px;
+           border-radius: 5px;
+           width: 70px;
+           box-shadow: 0 2px 2px 0 rgba($mainDarkBlack, .85);
+           cursor: pointer; 
+       }
+
+       &--prev {
+           float: left;
+           background-color: #fff;
+           left: 10%;
+
+           @mixin atSmall {
+                left: 20%;
+            }
+       }
+
+       &--nxt {
+           float: right;
+           color: #fff;
+           background-color: $mainLightBlue;
+           right: 10%;
+
+           @mixin atSmall {
+                right: 20%;
+           }
+       }
+    }
+
+    @mixin atSmall { 
+        padding: 0 20px;     
+    }
+}
