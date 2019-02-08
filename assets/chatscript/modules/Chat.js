@@ -19,9 +19,12 @@ class Chat {
         this.grpDetToggler = $(".site-main__chat--header__user-opt--list__grp-det, .site-main__chat--header__det--cnt__lg");
         this.grpDetClose = $(".site-main__chat--grp-det__close");
         this.grpDet = $(".site-main__chat--grp-det");
-        this.overlay = $(".site-main__chat--overlay");
+        this.userPrfToggler = $(".site-main__chat--header__det--cnt__prf, .site-main__chat--header__user-opt--list__prf");
+        this.userPrfClose = $(".site-main__chat--user-prf__close");
+        this.userPrf = $(".site-main__chat--user-prf");
         this.clipItmToggler = $(".site-main__chat--footer__input--clip, .site-main__chat--footer__clip");
         this.clipItm = $(".site-main__chat--footer__clip-itm");
+        this.overlay = $(".site-main__chat--overlay");
         this.events();
     }
 
@@ -37,6 +40,8 @@ class Chat {
         this.srchUserClose.click(this.closeSrchUser.bind(this));
         this.grpDetToggler.click(this.openGrpDet.bind(this));
         this.grpDetClose.click(this.closeGrpDet.bind(this));
+        this.userPrfToggler.click(this.openUserPrf.bind(this));
+        this.userPrfClose.click(this.closeUserPrf.bind(this)); 
         this.clipItmToggler.click(this.openClipItm.bind(this));
         this.overlay.click(this.closeAll.bind(this)); 
     }
@@ -84,6 +89,14 @@ class Chat {
 
     closeGrpDet() {
         this.grpDet.removeClass("site-main__chat--grp-det__visible");
+    }
+
+    openUserPrf() {
+        this.userPrf.addClass("site-main__chat--user-prf__visible");
+    }
+
+    closeUserPrf() {
+        this.userPrf.removeClass("site-main__chat--user-prf__visible");
     }
 
     openClipItm() {

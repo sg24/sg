@@ -1336,6 +1336,61 @@
         }
     }
 
+    &--user-prf {
+        position: absolute; 
+        background-color: #fff;
+        z-index: 2;
+        top: 0;
+        left: -800px;
+        bottom: 0;
+        padding: 10px;
+        overflow: hidden;
+        overflow-y: auto; 
+        opacity: 0;
+        visibility: hidden;
+        transition: all .3s ease-out;
+
+        &__close {
+            position: relative;
+            background-color: $mainExtraLightGray;
+            padding: 8px 30px 8px 0;
+            text-align: right;
+            margin-bottom: 15px; 
+            cursor: pointer;
+
+            & > span {
+                color: rgba($mainDarkBlack, .25);
+            }
+
+            &--wrapper {
+                width: 20px;
+                height: 20px;
+                background-color: $mainLightGray;
+                border: 1px solid rgba($mainDarkBlack, .5);
+                color: $mainLightRed;
+                font-size: .75rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                right: 5px;
+                top: 50%;
+                transform: translateY(-50%); 
+                border-radius: 10px;
+                cursor: pointer;
+            }
+        }
+
+        &__visible {
+            opacity: 1;
+            visibility: visible;
+            z-index: 2;
+            left: 0;
+            right: 0;
+            transition: all .3s ease-in;
+        }
+    }
+
     &--footer {
         /* background-color: #4186AD; */
         background-color: $mainMiddleDarkBlue;

@@ -99,6 +99,42 @@
         margin-right: 5px;
     }
 
+    &__reuse-prf--comment {
+        color: $mainLightRed; 
+    }
+
+    &__reuse-prf--add {
+        color: $mainLightGreen; 
+    }
+
+    &__reuse-prf--user {
+        color: $mainDarkBlue;
+    }
+
+    &__reuse-prf--onlineque {
+        color: $mainLightRed;
+    }
+
+    &__reuse-prf--que {
+        color: $mainDarkBlue;
+    }
+
+    &__reuse-prf--pt {
+        color: $mainDarkPaleBlue;
+    }
+
+    &__reuse-prf--grp {
+        color: $mainLightGreen;
+    }
+
+    &__reuse-prf--itm {
+        color: #fff;
+    }
+
+    &__reuse-prf--tab {
+        font-size: .75rem;
+        color: $mainLightRed; 
+    }
 
     &__site-main--chat__header--user {
         font-size: .75rem;

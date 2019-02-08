@@ -1,0 +1,384 @@
+.reuse-prf {
+    width: 100%;
+
+    &__user {
+        position: relative;
+        padding: 0;
+        margin-top: 25px; 
+        background-color: rgba($mainMiddleDarkBlue, 1);
+        box-shadow: 0 0 1px  0 rgba($mainDarkBlack, .5); 
+
+        &--img {
+            position: relative;
+            padding: 5px 0;
+
+            &__wrapper {
+                position: relative;
+                width: 100px;
+                height: 100px;
+                border-radius: 50px;
+                background-color: #fff;
+                box-shadow: 0px 5px 20px 2px rgba($mainDarkBlack, 0.4);
+                margin: 0 auto;
+
+                @mixin atSmall {
+                    top: 5px; 
+                    left: 20px;
+                    margin: 0;  
+                }
+            }
+
+            &__status {
+                position: absolute;
+                padding-left: 20px;
+                font-weight: 300;
+                font-size: .8125rem;
+                width: 70px;
+                top: 5px;
+                right: 20px;
+                color: $mainLightGray; 
+
+                & > div {
+                    position: absolute;
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 4px;
+                    left: 0;
+                    top: 50%;
+                    transform: translateY(-50%); 
+                }
+
+                &--on {
+                    background-color: $mainLightGreen;
+                    box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
+                }
+
+                &--off {
+                    background-color: $mainLightRed;
+                    box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
+                }
+
+                @mixin atSmall {
+                    bottom: -26%;
+                    left: 32%; 
+                    right: auto;
+                    top: auto; 
+                }
+            }
+
+            @mixin atSmall {
+                position: absolute;
+                left: 0;
+                top: 0;
+                padding: 0;
+            }
+        }
+
+        &--det {
+            font-size: 1rem;
+            background-color: $mainMiddleDarkBlue;
+            /* box-shadow: -2px 0 2px 0 rgba($mainDarkBlack, .3); */
+            border-right: 1px solid $mainMiddleDarkBlue;
+            border-left: 1px solid $mainMiddleDarkBlue;
+
+            &__name {
+                color: #fff;
+                text-shadow: 1px 1px 2px  $mainDarkBlack; 
+                padding: 8px 20px;
+                border-bottom: 1px solid rgba($mainDarkPaleBlue, .8);
+                box-shadow: 0 2px 15px 2px rgba($mainDarkGray,.8);
+                border-left: 1px solid rgba($mainDarkPaleBlue, .8);
+            }
+
+            &__exp {
+                @mixin clearfix;
+                list-style: none;
+                margin: 10px 0 0 0;
+                width: 100%; 
+                padding: 5px 10px 10px 20px;
+                position: relative;
+                font-size: .875rem;
+
+                & > li {
+                    float: left;
+                    font-size: .8125rem;
+                    /* background-color: rgba($mainDarkBlack, .2); */
+                    color: $mainFontColor; 
+                    background-color: $mainLightGray;
+                    padding: 2px 5px;
+                    border-radius: 5px;
+                    margin-right: 8px;
+                    margin-bottom: 6px;
+                    font-weight: 400;
+                    border-bottom: 1px solid $mainDarkGray; 
+
+                    &:first-child {
+                        background-color: rgba($mainDarkBlack, .2);
+                        color: #fff; 
+                        border-bottom: none;
+                        border-radius: 0;
+                        font-weight: 300;
+                        font-size: .875rem; 
+                        padding: 1.5px 8px;
+                    }
+                }
+            }
+
+            &__opt {
+                border-left: 1px solid rgba($mainDarkPaleBlue, .8);
+                border-top: 1px solid rgba($mainDarkPaleBlue, .8);
+                @mixin clearfix;
+                margin: 0;
+                padding: 0 0 0 20px;
+                list-style: none;
+                font-size: .8125rem; 
+                box-shadow: 0 2px 15px 2px rgba($mainDarkGray,.8);
+
+                & > li {
+                    position: relative;
+                    float: left;
+                    padding: 5px 10px 5px 30px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    margin: 8px 0;
+
+                    &:first-child {
+                        margin-right: 40px;
+                        color: #fff;
+                    }
+
+                    & > div {
+                        position: absolute;
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 10px;
+                        background-color: #fff;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-size: .5rem; 
+                        border: 1px solid rgba($mainDarkBlack, .3);
+                        top: 50%;
+                        transform: translateY(-50%); 
+                        left: 5px;
+
+                    }
+                }
+
+                &--chat {
+                    background-color: rgba($mainDarkBlack, .2);
+                    box-shadow: 0 2px 2px 0 rgba($mainLightGray, .5); 
+                }
+
+                &--add {
+                    background-color: #fff; 
+                    box-shadow: 0 2px 2px 0 rgba($mainDarkBlack, .5); 
+                }
+            }
+        }
+
+        @mixin atSmall {
+            padding: 0 0 0 140px;
+            margin-top: 5px;
+        }
+
+        @mixin atLarge {
+            margin-top: 15px;
+        }
+    }
+
+    &__about {
+        position: relative;
+        font-size: .875rem;
+        background-color: $mainHeaderColor; 
+        border: 1px solid $mainDarkGray; 
+        text-align: center; 
+        padding: 20px 10px 20px 10px;
+
+        &--title {
+            text-align: center;
+            padding: 5px 20px;
+            background-color: $mainLightGray;
+            border-radius: 10px;
+            font-weight: 400;
+            color: rgba($mainDarkPaleBlue, .8);
+            border-bottom: 1px solid rgba($mainDarkBlack, .2); 
+        }
+
+        &--cnt {
+            padding: 10px;
+            background-color: rgba($mainLightGray, 1);
+            /* background-color: rgba($mainDarkBlack, .5); */
+            color: rgba($mainDarkBlack, .7); 
+            border: 1px solid rgba($mainDarkBlack, .1);
+            font-size: .9375rem;
+            font-weight: 600; 
+            line-height: 2;
+            border-radius: 3px;
+        }
+    }
+
+    &__tab {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        background-color: $mainDarkPaleBlue;
+        @mixin clearfix;
+        font-weight: 300;
+        position: relative; 
+
+        li {
+            float: left;
+            text-align: center;
+            color: #fff;
+            cursor: pointer;
+            padding: 11px 35px; 
+            position: relative;
+            font-size: .9375rem;
+
+            &:first-child { 
+                border-right: 1px solid rgba(255,255,255, .45);
+            }
+
+            & > div {
+                width: 24px;
+                height: 24px;
+                background-color: #fff;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 12px;
+                left: 5px;
+            }
+
+            @mixin atMedium {
+                padding: 10px 35px;
+            }
+        }
+    }
+
+    &__det {
+        position: relative;
+        background-color: $mainMiddleDarkBlue;
+        margin-bottom: 10px;
+        box-shadow: inset 0 0 0 1px rgba($mainDarkPaleBlue, 1);
+        font-size: .875rem;
+
+        &--wrapper {
+            padding: 15px 10px 15px 0;
+            position: relative;
+            border-bottom: 1px solid $mainDarkGray;
+        }
+
+        &--icn {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            left: 20px;
+            border: 1px solid $mainLightGray;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: $mainHeaderColor;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+
+            &__itm {
+                background-color: $mainLightRed; 
+            }
+        }
+
+        &--cnt {
+            list-style: none;
+            margin: 0;
+            padding: 0 0 0 80px;
+            @mixin clearfix;
+
+            & > li {
+                float: none;
+                padding: 6px 0;
+                color: #fff;
+                font-weight: 300;
+
+                & > span {
+                    border-radius: 5px;
+                    padding: 2px 5px;
+                    margin-left: 20px;
+                    cursor: pointer;
+                }
+            }
+
+            &__sntaccept {
+                position: relative;
+
+                & > span {
+                    background-color: #fff;
+                    color: $mainLightGreen; 
+                    font-weight: 600;
+                    border: 1px solid rgba($mainDarkGray, 1); 
+                }
+            }
+
+            &__sntreject {
+                position: relative;
+
+                & > span {
+                    background-color: $mainHeaderColor;
+                    color: $mainFontColor; 
+                }
+            }
+
+            &__onlineque {
+                position: relative;
+
+                & > span {
+                    background-color: $mainLightRed;
+                    color: #fff;
+                }
+            }
+
+            &__que {
+                position: relative;
+
+                & > span {
+                    background-color: $mainHeaderColor;
+                    color: $mainDarkBlue;
+                }
+            }
+
+            &__pt {
+                position: relative;
+
+                & > span {
+                    background-color: $mainHeaderColor;
+                    color: $mainDarkPaleBlue;
+                }
+            }
+
+            &__grp {
+                position: relative;
+
+                & > span {
+                    background-color: $mainLightGreen;
+                    color: #fff;
+                }
+            }
+
+            &__itm {
+                position: relative;
+
+                & > span {
+                    background-color: $mainLightRed;
+                    color: #fff;
+                }
+            }
+
+        }
+
+    }
+}
+
