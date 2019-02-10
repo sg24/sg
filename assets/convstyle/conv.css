@@ -2,5 +2,4 @@
 @import "./base/_variables";
 @import "modules/_icons";
 @import "modules/_active"; 
-@import "modules/_reuse-trd";  
-@import "modules/_site-main__conv";  
+@import "modules/_site-main__conv";   

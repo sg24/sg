@@ -9,11 +9,7 @@
     -moz-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
 
     &__nav {
-        margin: 20px 15px;  
-
-        @mixin atSmall {
-            margin: 20px 20px 40px 20px;
-        }
+        margin: 20px 10px 10px 10px;
     }
 
     &__conv {
@@ -86,10 +82,10 @@
                 font-size: .8125rem;
 
                 & > span {
-                    padding: 3px 8px;
+                    padding: 2px 8px;
                     color: #fff;
                     margin-left: 5px;
-                    border-radius: 20px;
+                    border-radius: 10px;
                     box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
                     -ms-box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
                     -moz-box-shadow:0 2px 3px 0px rgba($mainDarkBlack, .4);
@@ -99,7 +95,11 @@
             }
 
             &__on {
-                padding-right: 10px;
+                padding-right: 25px;
+
+                &--nav {
+                    padding-right: 14px;
+                }
 
                 & > span {
                     background-color: $mainLightGreen;
@@ -107,7 +107,7 @@
             }
 
             &__off {
-                padding-left: 10px;
+                position: relative;
 
                 & > span {
                     background-color: $mainLightRed;

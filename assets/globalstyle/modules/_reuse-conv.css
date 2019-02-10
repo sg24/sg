@@ -5,6 +5,7 @@
     flex-direction: column;
     flex-grow: 1;       
     border: 1px solid $mainDarkGray;  
+    overflow: hidden;
 
     
     &__title {
@@ -38,5 +39,13 @@
             }
 
         }
+    }
+
+    &__cnt {
+        overflow: hidden;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;  
+        flex-grow: 1;
     }
 }
