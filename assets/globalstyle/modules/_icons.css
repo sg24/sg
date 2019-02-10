@@ -121,4 +121,9 @@
         margin-right: 5px;
         color: rgba($mainDarkBlack, .5); 
     }
+
+    &__reuse-tag--header {
+        font-size: .75rem;
+        margin-right: 5px;
+    }
 }

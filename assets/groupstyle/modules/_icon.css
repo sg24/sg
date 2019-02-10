@@ -65,9 +65,4 @@
     &__reuse-group--footer__users-on {
         color: rgba($mainDarkBlack, .55);
     }
-
-    &__reuse-tag--header {
-        font-size: .75rem;
-        margin-right: 5px;
-    }
 }
