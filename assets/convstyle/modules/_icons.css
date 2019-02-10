@@ -23,14 +23,4 @@
     &__site-main--conv__det {
         margin-right: 5px;
     }
-
-    &__site-main--conv--del {
-        margin-right: 5px;
-        color: #fff; 
-    }
-
-    &__site-main--conv--blk {
-        margin-right: 5px;
-        color: rgba($mainDarkBlack, .5); 
-    }
 }

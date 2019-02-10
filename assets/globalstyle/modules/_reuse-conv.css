@@ -1,0 +1,42 @@
+.reuse-conv {
+    margin: 10px;           
+    background-color: $mainLightGray; 
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;       
+    border: 1px solid $mainDarkGray;  
+
+    
+    &__title {
+        padding: 5px 20px; 
+        font-size: 1rem;
+        background-color: $mainDarkGray;
+        margin: 0 0 0 0; 
+        font-weight: 400;
+        box-shadow: 0 .5px 1px 0px rgba($mainDarkBlack, .2);
+
+        &--wrapper {
+            position: relative;
+            width: 140px;
+            margin: 0 auto;
+            padding-left: 30px;
+
+            & > div {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 0;
+                width: 24px;
+                height: 24px;
+                border-radius: 12px;
+                background-color: #fff;
+                border: 1px solid $mainDarkGray;
+                display: flex;
+                justify-content: center;
+                align-items: center; 
+                color: $mainDarkBlue;
+            }
+
+        }
+    }
+}

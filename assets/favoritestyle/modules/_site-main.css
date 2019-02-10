@@ -1,6 +1,5 @@
 .site-main {
     color: $mainFontColor;
-    margin: 0 0 6px 0;
 
     &__content {
         color: $mainFontColor;

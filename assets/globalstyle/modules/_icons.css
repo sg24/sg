@@ -107,5 +107,18 @@
     &__reuse-set--angle {
         margin-left: 5px;
     }
+
+    &__reuse-conv--comment {
+        font-size: .75rem;
+    }
    
+    &__reuse-conv--del {
+        margin-right: 5px;
+        color: #fff; 
+    }
+
+    &__reuse--conv--blk {
+        margin-right: 5px;
+        color: rgba($mainDarkBlack, .5); 
+    }
 }
