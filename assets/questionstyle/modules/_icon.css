@@ -140,12 +140,6 @@
         cursor: pointer;
     }
 
-    &__reuse-que--loadmore__circle {
-        font-size: .35rem; 
-        color: $mainDarkBlue;
-        margin-left: 6px;
-    }
-
     &__reuse-que--options {
         margin-right: 10px;
     }

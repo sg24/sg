@@ -58,28 +58,9 @@
         cursor: pointer;
     }
 
-    &__reuse-pt--loadmore__circle {
-        font-size: .35rem; 
-        color: $mainDarkBlue;
-        margin-left: 6px;
-    }
-
     &__reuse-pt--header__tag {
         color: $mainLightBlack;
         cursor: pointer;
-    }
-
-    &__reuse-pt--share {
-        position: absolute;
-        top: 27%;
-        transform: translate(-54%);
-        z-index: 1;
-        color: #fff;
-        font-size: .75rem;
-
-        @mixin atSmall {
-            font-size: .9375rem;
-        }
     }
 
     &__reuse-pt--options {
@@ -108,12 +89,6 @@
     &__reuse-que--footer__heart {
         color: $mainLightRed; 
         cursor: pointer;
-    }
-
-    &__reuse-que--loadmore__circle {
-        font-size: .35rem; 
-        color: $mainDarkBlue;
-        margin-left: 6px;
     }
 
     &__reuse-que--options {

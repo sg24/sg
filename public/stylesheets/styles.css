@@ -10,10 +10,6 @@
 }.icon__reuse-pt--footer__heart {
     color: #ff1600;
     cursor: pointer;
-}.icon__reuse-pt--loadmore__circle {
-    font-size: .35rem;
-    color: #0284a8;
-    margin-left: 6px;
 }.icon__reuse-pt--header__tag {
     color: #777;
     cursor: pointer;
@@ -43,10 +39,6 @@
 }.icon__reuse-que--footer__heart {
     color: #ff1600;
     cursor: pointer;
-}.icon__reuse-que--loadmore__circle {
-    font-size: .35rem;
-    color: #0284a8;
-    margin-left: 6px;
 }.icon__reuse-que--options {
     margin-right: 10px;
 }.icon__reuse-que--options__dft {
@@ -391,11 +383,33 @@
     display: flex;
     -ms-flex-align: center;
         align-items: center;
+}.reuse-pt__footer--details::before, .reuse-pt__footer--details::after {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: #0284a8;
+}.reuse-pt__footer--details::before {
+    left: 5px;
+}.reuse-pt__footer--details::after {
+    left: 30px;
+}.reuse-pt__footer--details__mid {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 18px;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: #0284a8;
 }.reuse-pt__footer--details__options {
     position: absolute;
     list-style: none;
-    top: -42px;
-    right: 52px;
+    top: -41px;
+    right: 53px;
     padding: 0;
     margin: 0;
     background-color: #fff;
@@ -415,15 +429,21 @@
     cursor: pointer;
 }.reuse-pt__footer--details__options li:first-child {
     background-color: #05578b;
+    padding: 0;
     border: none;
 }.reuse-pt__footer--details__options li:first-child a {
     color: #fff;
     text-decoration: none;
+    display: block;
+    padding: 5px;
 }.reuse-pt__footer--details__options li:last-child {
     background-color: #f22613;
+    padding: 0;
 }.reuse-pt__footer--details__options li:last-child a {
     color: #fff;
     text-decoration: none;
+    display: block;
+    padding: 5px;
 }.reuse-pt__footer--details__options li a {
     color: #555;
     text-decoration: none;
@@ -453,8 +473,11 @@
     opacity: 1;
     visibility: visible;
     z-index: 1;
-    transition: all .5s ease-out;
+    transition: all .3s ease-out;
 }.reuse-pt__footer--details__clk {
+    background-color: #e9ebf2;
+    transition: all .3s ease-in;
+}.reuse-pt__footer--details:hover {
     background-color: #e9ebf2;
     transition: all .3s ease-in;
 }@media (min-width: 530px){.reuse-pt__footer--details{
@@ -719,11 +742,33 @@
     display: flex;
     -ms-flex-align: center;
         align-items: center;
+}.reuse-que__footer--details::before, .reuse-que__footer--details::after {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: #0284a8;
+}.reuse-que__footer--details::before {
+    left: 6px;
+}.reuse-que__footer--details::after {
+    left: 30px;
+}.reuse-que__footer--details__mid {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 18px;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: #0284a8;
 }.reuse-que__footer--details__options {
     position: absolute;
     list-style: none;
-    top: -42px;
-    right: 52px;
+    top: -41px;
+    right: 53px;
     padding: 0;
     margin: 0;
     background-color: #fff;
@@ -743,15 +788,21 @@
     cursor: pointer;
 }.reuse-que__footer--details__options li:first-child {
     background-color: #05578b;
+    padding: 0;
     border: none;
 }.reuse-que__footer--details__options li:first-child a {
     color: #fff;
     text-decoration: none;
+    display: block;
+    padding: 5px;
 }.reuse-que__footer--details__options li:last-child {
     background-color: #f22613;
+    padding: 0;
 }.reuse-que__footer--details__options li:last-child a {
     color: #fff;
     text-decoration: none;
+    display: block;
+    padding: 5px;
 }.reuse-que__footer--details__options li a {
     color: #555;
     text-decoration: none;
@@ -783,6 +834,9 @@
     z-index: 1;
     transition: all .3s ease-out;
 }.reuse-que__footer--details__clk {
+    background-color: #e9ebf2;
+    transition: all .3s ease-in;
+}.reuse-que__footer--details:hover {
     background-color: #e9ebf2;
     transition: all .3s ease-in;
 }@media (min-width: 530px){.reuse-que__footer--details{

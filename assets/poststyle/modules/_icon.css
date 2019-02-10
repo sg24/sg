@@ -23,12 +23,6 @@
         cursor: pointer;
     }
 
-    &__reuse-pt--loadmore__circle {
-        font-size: .35rem; 
-        color: $mainDarkBlue;
-        margin-left: 6px;
-    }
-
     &__reuse-pt--header__tag {
         color: $mainLightBlack;
         cursor: pointer;

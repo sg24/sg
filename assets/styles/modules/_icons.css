@@ -20,12 +20,6 @@
         cursor: pointer;
     }
 
-    &__reuse-pt--loadmore__circle {
-        font-size: .35rem; 
-        color: $mainDarkBlue;
-        margin-left: 6px;
-    }
-
     &__reuse-pt--header__tag {
         color: $mainLightBlack;
         cursor: pointer;
@@ -70,12 +64,6 @@
     &__reuse-que--footer__heart {
         color: $mainLightRed; 
         cursor: pointer;
-    }
-
-    &__reuse-que--loadmore__circle {
-        font-size: .35rem; 
-        color: $mainDarkBlue;
-        margin-left: 6px;
     }
 
     &__reuse-que--options {

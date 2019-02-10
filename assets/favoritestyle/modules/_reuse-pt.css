@@ -2,7 +2,6 @@
     position: relative;
 
     &__wrapper {
-        margin: 20px 0px;
         border-radius: 10px;
         background-color: #fff;
         box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
@@ -15,7 +14,7 @@
     &__overlaywrapper {
         position: relative;
         padding: 0 15px;  
-        margin: 40px 0; 
+        margin: 40px 0;  
            
         
         @mixin atSmall { 
@@ -251,17 +250,47 @@
             cursor: pointer; 
             width: 40px;
             height: 40px;
-            border-radius: 20px;
+            border-radius: 20px; 
             top: 50%;
             transform: translateY(-50%);
             display: flex;
             align-items: center; 
 
+            &::before, &::after {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                content: "";
+                width: 6px;
+                height: 6px;
+                border-radius: 3px;
+                background-color: $mainDarkBlue;
+            }
+    
+            &::before {
+                left: 5px;
+            }
+    
+            &::after {
+                left: 30px;
+            }
+
+            &__mid {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 18px;
+                width: 6px;
+                height: 6px;
+                border-radius: 3px;
+                background-color: $mainDarkBlue;
+            }
+
             &__options {
                 position: absolute;
                 list-style: none;
-                top: -42px;
-                right: 52px;
+                top: -41px;
+                right: 53px;
                 padding: 0;
                 margin: 0;
                 background-color: #fff;
@@ -283,20 +312,26 @@
 
                     &:first-child {
                         background-color: $mainDarkPaleBlue;
+                        padding: 0;
                         border: none;
 
                         a {
                             color: #fff;
                             text-decoration: none;
+                            display: block;
+                            padding: 5px;
                         }
                     }
 
                     &:last-child {
                         background-color: $mainDarkRed;
+                        padding: 0;
 
                         a {
                             color: #fff;
                             text-decoration: none;
+                            display: block;
+                            padding: 5px;
                         }
                     }
 
@@ -336,11 +371,16 @@
                     opacity: 1;
                     visibility: visible;
                     z-index: 1;
-                    transition: all .5s ease-out;
+                    transition: all .3s ease-out;
                 }
             }
 
             &__clk {
+                background-color: $mainLightGray;
+                transition: all .3s ease-in;
+            }
+
+            &:hover {
                 background-color: $mainLightGray;
                 transition: all .3s ease-in;
             }
