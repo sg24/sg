@@ -284,7 +284,7 @@
                 height: 6px;
                 border-radius: 3px;
                 background-color: $mainDarkBlue;
-            }
+            } 
 
             &__options {
                 position: absolute;
@@ -314,30 +314,18 @@
                         background-color: $mainDarkPaleBlue;
                         padding: 0;
                         border: none;
-
-                        a {
-                            color: #fff;
-                            text-decoration: none;
-                            display: block;
-                            padding: 5px;
-                        }
                     }
 
                     &:last-child {
                         background-color: $mainDarkRed;
                         padding: 0;
-
-                        a {
-                            color: #fff;
-                            text-decoration: none;
-                            display: block;
-                            padding: 5px;
-                        }
                     }
 
                     a {
-                        color: $mainFontColor; 
+                        color: #fff; 
                         text-decoration: none;
+                        display: block;
+                        padding: 5px;
                     }
                 }
 

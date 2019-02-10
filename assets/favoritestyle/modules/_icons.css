@@ -104,12 +104,6 @@
         color: $mainDarkBlue;
     }
 
-    &__reuse-onlineque--loadmore__circle {
-        font-size: .35rem; 
-        color: $mainDarkPaleBlue;
-        margin-left: 6px;
-    }
-
     &__reuse-onlineque--options {
         margin-right: 10px;
     }
@@ -178,12 +172,6 @@
         position: absolute;
         top: 5px;
         left: 4.4px;
-    }
-
-    &__reuse-pwt--loadmore__circle {
-        font-size: .35rem; 
-        color: $mainDarkPaleBlue;
-        margin-left: 6px;
     }
 
     &__reuse-pwt--options {

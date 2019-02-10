@@ -10,14 +10,6 @@
     position: relative;
     margin: 40px  15px;   
 
-    &:last-child {
-        margin-bottom: 0;
-
-        @mixin atSmall {
-            margin-bottom: 0;
-        }
-    }
-
     &__content {
         color: $mainFontColor;
         padding: 10px 0px;
@@ -81,18 +73,48 @@
                     width: 40px;
                     height: 10px;
                     background-color: $mainLightGray;
-                    border-radius: 20px;
+                    border-radius: 10px;
                     left: 0;
                     margin-top: 2px;
                     bottom: -2px;
                     display: flex;
-                    align-items: center; 
+                    align-items: center;  
+
+                    &::before, &::after {
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        content: "";
+                        width: 6px;
+                        height: 6px;
+                        border-radius: 3px;
+                        background-color: $mainDarkBlue;
+                    }
+            
+                    &::before {
+                        left: 5px;
+                    }
+            
+                    &::after {
+                        left: 30px;
+                    }
+        
+                    &__mid {
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        left: 18px;
+                        width: 6px;
+                        height: 6px;
+                        border-radius: 3px;
+                        background-color: $mainDarkBlue;
+                    } 
         
                     &__opt {
                         position: absolute;
                         list-style: none;
-                        top: -58px;
-                        right: 52px;
+                        top: -57px;
+                        right: 53px;
                         padding: 0;
                         margin: 0;
                         background-color: #fff;
@@ -115,25 +137,19 @@
                             &:first-child {
                                 background-color: $mainDarkPaleBlue;
                                 border: none;
-        
-                                a {
-                                    color: #fff;
-                                    text-decoration: none;
-                                }
+                                padding: 0;
                             }
         
                             &:last-child {
+                                padding: 0;
                                 background-color: $mainDarkRed;
-        
-                                a {
-                                    color: #fff;
-                                    text-decoration: none;
-                                }
                             }
         
                             a {
-                                color: $mainFontColor; 
+                                color: #fff; 
                                 text-decoration: none;
+                                display: block;
+                                padding: 5px;
                             }
                         }
         

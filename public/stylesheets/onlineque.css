@@ -1665,7 +1665,7 @@
     height: 10px;
     background-color: #e9ebf2;
     margin-top: 5px;
-    border-radius: 20px;
+    border-radius: 10px;
     left: 0;
     bottom: 0;
     display: -ms-flexbox;
@@ -1674,11 +1674,41 @@
         align-items: center;
 }
 
+.reuse-onlineque__content--posted__user--det::before, .reuse-onlineque__content--posted__user--det::after {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: #0284a8;
+}
+
+.reuse-onlineque__content--posted__user--det::before {
+    left: 5px;
+}
+
+.reuse-onlineque__content--posted__user--det::after {
+    left: 30px;
+}
+
+.reuse-onlineque__content--posted__user--det__mid {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 18px;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: #0284a8;
+}
+
 .reuse-onlineque__content--posted__user--det__opt {
     position: absolute;
     list-style: none;
-    top: -58px;
-    right: 52px;
+    top: -57px;
+    right: 53px;
     padding: 0;
     margin: 0;
     background-color: #fff;
@@ -1703,25 +1733,19 @@
 .reuse-onlineque__content--posted__user--det__opt li:first-child {
     background-color: #05578b;
     border: none;
-}
-
-.reuse-onlineque__content--posted__user--det__opt li:first-child a {
-    color: #fff;
-    text-decoration: none;
+    padding: 0;
 }
 
 .reuse-onlineque__content--posted__user--det__opt li:last-child {
+    padding: 0;
     background-color: #f22613;
 }
 
-.reuse-onlineque__content--posted__user--det__opt li:last-child a {
+.reuse-onlineque__content--posted__user--det__opt li a {
     color: #fff;
     text-decoration: none;
-}
-
-.reuse-onlineque__content--posted__user--det__opt li a {
-    color: #182427;
-    text-decoration: none;
+    display: block;
+    padding: 5px;
 }
 
 .reuse-onlineque__content--posted__user--det__opt::after {
@@ -1957,12 +1981,6 @@
 .icon__reuse-onlineque--durationClock {
     margin-right: 3px;
     color: #0284a8;
-}
-
-.icon__reuse-onlineque--loadmore__circle {
-    font-size: .35rem;
-    color: #05578b;
-    margin-left: 6px;
 }
 
 .icon__reuse-onlineque--options {

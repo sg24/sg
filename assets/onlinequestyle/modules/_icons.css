@@ -67,12 +67,6 @@
         color: $mainDarkBlue;
     }
 
-    &__reuse-onlineque--loadmore__circle {
-        font-size: .35rem; 
-        color: $mainDarkPaleBlue;
-        margin-left: 6px;
-    }
-
     &__reuse-onlineque--options {
         margin-right: 10px;
     }

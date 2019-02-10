@@ -1256,28 +1256,16 @@
     border: none; 
 }
 
-.reuse-que__footer--details__options li:first-child a {
-    color: #fff;
-    text-decoration: none;
-    display: block;
-    padding: 5px; 
-}
-
 .reuse-que__footer--details__options li:last-child {
     background-color: #f22613;
     padding: 0; 
 }
 
-.reuse-que__footer--details__options li:last-child a {
+.reuse-que__footer--details__options li a {
     color: #fff;
     text-decoration: none;
     display: block;
     padding: 5px; 
-}
-
-.reuse-que__footer--details__options li a {
-    color: #182427;
-    text-decoration: none; 
 }
 
 .reuse-que__footer--details__options::after {

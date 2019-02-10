@@ -7,7 +7,7 @@
     -ms-box-shadow: 0px 2px 9px 2px rgba($mainDarkBlack, .3); 
     margin: 40px 15px; 
     
-    &__header {
+    &__header { 
         @mixin clearfix;
         margin: 0;
         padding: 0;
@@ -109,17 +109,47 @@
                     height: 10px;
                     background-color: $mainLightGray;
                     margin-top: 5px;
-                    border-radius: 20px;
+                    border-radius: 10px;
                     left: 0;
                     bottom: 0;
                     display: flex;
                     align-items: center; 
+
+                    &::before, &::after {
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        content: "";
+                        width: 6px;
+                        height: 6px;
+                        border-radius: 3px;
+                        background-color: $mainDarkBlue;
+                    }
+            
+                    &::before {
+                        left: 5px;
+                    }
+            
+                    &::after {
+                        left: 30px;
+                    }
+        
+                    &__mid {
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        left: 18px;
+                        width: 6px;
+                        height: 6px;
+                        border-radius: 3px;
+                        background-color: $mainDarkBlue;
+                    } 
         
                     &__opt {
                         position: absolute;
                         list-style: none;
-                        top: -58px;
-                        right: 52px;
+                        top: -57px;
+                        right: 53px;
                         padding: 0;
                         margin: 0;
                         background-color: #fff;
@@ -142,25 +172,19 @@
                             &:first-child {
                                 background-color: $mainDarkPaleBlue;
                                 border: none;
-        
-                                a {
-                                    color: #fff;
-                                    text-decoration: none;
-                                }
+                                padding: 0;
                             }
         
                             &:last-child {
+                                padding: 0;
                                 background-color: $mainDarkRed;
-        
-                                a {
-                                    color: #fff;
-                                    text-decoration: none;
-                                }
                             }
         
                             a {
-                                color: $mainFontColor; 
+                                color: #fff; 
                                 text-decoration: none;
+                                display: block;
+                                padding: 5px;
                             }
                         }
         

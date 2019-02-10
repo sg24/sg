@@ -94,12 +94,6 @@
         left: 4.4px;
     }
 
-    &__reuse-pwt--loadmore__circle {
-        font-size: .35rem; 
-        color: $mainDarkPaleBlue;
-        margin-left: 6px;
-    }
-
     &__reuse-pwt--options {
         margin-right: 10px;
     }
