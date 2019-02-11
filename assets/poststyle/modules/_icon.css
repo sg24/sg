@@ -130,43 +130,52 @@
         top: 1px;
     }
     
-    &__expost--angleicon {
+    &__reuse-categ--angle {
         margin-left: 5px;
-        color:$mainFontColor;
+        color: $mainFontColor;
+        font-size: .75rem;
     }
 
-    &__expost--filter__calend {
-       font-size: 1.2rem;
-       position: relative;
-       color: rgba($mainDarkBlack, .6);
-       cursor: pointer;
-
-       @mixin atExtraSmall {
-        font-size: 1.3rem;
-       }
-
-       @mixin atSmall {
-        font-size: 1.4rem;
-       }
+    &__reuse-filter--angle {
+        margin-left: 5px;
+        color: $mainFontColor;
+        font-size: .75rem;
     }
-  
-    &__expost--filter__alt--comment {
+
+    &__reuse-filter--calend {
+        font-size: 1rem;
         color: rgba($mainDarkBlack, .6);
-        margin-right: 8px;
+        cursor: pointer;
     }
 
-    &__expost--filter__alt--eye{
-        color: rgba($mainDarkBlue, .8);
-        margin-right: 8px;
+    &__reuse-filter--comment {
+        color: $mainLightBlue;
+        margin-right: 5px;
     }
 
-    &__expost--filter__alt--heart {
-        color: rgba($mainDarkRed, .8);
-        margin-right: 8px;
+    &__reuse-filter--view {
+        color: $mainFontColor;
+        margin-right: 5px;
     }
 
-    &__expost--filter__categsm--angleicon {
-        margin-left: 10px;
+    &__reuse-filter--fav {
+        color: $mainLightRed;
+        margin-right: 5px;
+    }
+
+    &__reuse-filter--categ {
+        color: $mainFontColor;
+        margin-right: 10px;
     }
   
+    &__reuse-filter--apply {
+        color: #fff;
+        margin-right: 5px;
+    }
+
+    &__reuse-filter--cancel {
+        color: $mainLightRed;
+        margin-right: 5px;
+    }
+
 }

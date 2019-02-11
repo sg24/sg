@@ -1,0 +1,257 @@
+.reuse-filter {
+    z-index: 2;
+
+    &__title {
+        float: left;
+        border: 1px solid rgba($mainDarkPaleBlue, .2);
+        border-top: 3px solid $mainDarkPaleBlue;
+        color: $mainFontColor;
+        padding: 8px 0;
+        margin-right: 20px;
+        width: 70px;
+        text-align: center;
+        border-radius: 3px;
+        font-size: .8125rem;
+        background-color: rgb(255, 255, 255);
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    &__opt {
+        position: absolute;
+        top: 0;
+        border: 1px solid $mainDarkGray;
+        background-color: #fff;
+        /* -o-box-shadow: 0px 1px 10px 5px rgba($mainDarkGray, .8); */
+        padding: 10px;
+        width: 100%; 
+        font-size: .875rem;
+        z-index: 2;
+        visibility: hidden;
+        opacity: 0;
+        transition: all .3s ease-in;
+
+        &--srch {
+            position: relative; 
+            background-color: $mainLightGray;
+            border: 1px solid $mainDarkGray; 
+            border-radius: 3px;
+            width: 100%;
+    
+            & > div {
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                background-color: $mainExtraLightGray;
+                display: flex;
+                justify-content: center;
+                align-items:center; 
+                width: 60px;
+                border-top-left-radius: 3px;
+                border-bottom-left-radius: 3px;
+                border-right: 1px solid $mainDarkGray; 
+            }
+    
+            &__input {
+                border: none;
+                outline: none;
+                padding: 8px 10px 8px 70px;
+                border-radius: 3px;
+                width: 100%;
+    
+                @mixin atSmall{
+                    padding: 12px 10px 12px 70px;
+                }
+            }
+        }
+
+        &--fnd {
+            position: relative;
+            margin: 10px 0;
+            padding: 30px 0 30px 100px; 
+            background-color: $mainHeaderColor;
+
+            &__title {
+                position: absolute;
+                /* left: 20px; */
+                width: 80px;
+                top: 22px;
+                left: 50%;
+                transform: translateX(-50%);
+
+                & > div {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    right: 0;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 15px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center; 
+                    background-color: $mainDarkBlue;
+                    box-shadow: 0 1px 3px 1px rgba($mainDarkBlack, .75);
+                    color: #fff;
+                }
+            }
+
+            &__alt {
+                text-align: center;
+                width: 100%;
+                padding: 30px 10px 30px 20px; 
+                display: none;
+
+                &--wrapper {
+                   
+                    border: 1px solid $mainDarkGray;
+                    background-color: $mainHeaderColor;
+                }
+
+                @mixin atSmall {
+                    padding: 30px 40px; 
+                }
+            }
+        }
+
+        &--cnt {
+            position: relative;
+            @mixin clearfix;
+            font-size: .8125rem;
+            padding-left: 10px;
+
+            &__wrapper {
+                float: left;
+                padding-right: 10px;
+                margin-bottom: 20px;
+
+                &--mid {
+                    width: 50%;
+
+                    @mixin atMedium {
+                        width: 33.333%;
+                    }
+                }
+
+                @mixin atSmall{
+                    padding-right: 30px;
+                }
+            }
+
+            &__title {
+                font-weight: 400;
+                color: $mainFontColor;
+                text-align: center;
+                font-size: .875rem;
+                padding: 3px 0;
+                margin: 0;
+                border: 1px solid $mainDarkGray;
+                background-color: $mainExtraLightGray;
+            
+            }
+
+            &__det {
+                list-style: none;
+                margin: 0;
+                padding: 2px 0;
+                border: 1px solid $mainDarkGray;
+                border-top: none;
+                
+                &--categ {
+                    height: 84px;
+                    overflow: hidden;
+                    overflow-y: auto; 
+                }
+
+                & > li {
+                    float: none;
+                    padding: 6px 10px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    cursor: pointer;
+                    position: relative;
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+
+                    & > span {
+                        position: absolute;
+                        right: 10px;
+
+                        @mixin atSmall {
+                            right: 20px;
+                        }
+                    }
+
+                    &:hover {
+                        background-color: $mainDarkBlue;
+                        color: #fff;
+                    }
+
+                    @mixin atSmall {
+                        padding: 6px 20px;
+                    }
+                }
+            }
+
+            @mixin atSmall {
+                padding-left: 30px;
+            }
+        }
+
+        &--btn {
+            padding: 5px 10px;
+            margin-top: 20px;
+            border-top: 1px solid $mainDarkGray;
+            @mixin clearfix;
+            font-size: .8125rem;
+
+            & > button {
+                position: relative;
+                padding: 6px 10px;
+                border-radius: 5px;
+                border: none; 
+                outline: none;
+                cursor: pointer;
+                box-shadow: 0 1px 2px 0 rgba($mainDarkBlack, .85);
+            }
+
+            &__cancel {
+                background-color: #fff;
+                color: $mainLightRed;
+                float: left;
+
+                &:hover {
+                    background-color: $mainExtraLightGray;
+                }
+            }
+
+            &__apply {
+                background-color: $mainDarkBlue;
+                color: #fff;
+                float: right;
+
+                &:hover {
+                    background-color: $mainDarkPaleBlue;
+                }
+            }
+
+            @mixin atSmall {
+                padding: 5px 30px;
+            }
+        }
+
+        @mixin atSmall {
+            padding: 20px; 
+        }
+
+        &--visible {
+            opacity: 1;
+            visibility: visible;
+            transition: all .3s ease-in;
+        }
+    }
+}
