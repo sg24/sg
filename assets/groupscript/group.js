@@ -1,3 +1,3 @@
-import GroupFilter from './modules/GroupFilter';
+import Filter from './modules/Filter';
 
-var groupFilter = new GroupFilter();
+var filter = new Filter();

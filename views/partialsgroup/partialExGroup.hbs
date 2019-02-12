@@ -9,115 +9,13 @@
         </li>
     </ul>
 
-    <div class="reuse-group__filter">
-        <div class="reuse-group__filter--categ">
-             Category
-            <i class="fas fa-angle-down icon icon__reuse-group--filter__categ"></i>  
-            <ul class="reuse-group__filter--categ__opt">
-                <li>English</li>
-                <li>Mathmatics</li>
-            </ul>
-        </div>
-        <div class="reuse-group__filter--srt">
-            <div class="reuse-group__filter--srt__title"> Filter <i class="fas fa-angle-down icon icon__reuse-group--filter__angle"></i></div>
-            <div class="reuse-group__filter--srt__wrapper reuse-group__filter--srt__wrapper--space">
-                
-     
-                <div class="reuse-group__filter--srt__srch">
-                    <div class="reuse-group__filter--srt__srch--wrapper">
-                        <div class="reuse-group__filter--srt__srch--calend"><i class="far fa-calendar-alt icon icon__reuse-group--filter__calend"></i></div> <input type="text" class="reuse-group__filter--srt__srch--input" placeholder="Enter Group Name">
-                    </div>
-                </div>
-                <div class="reuse-group__filter--srt__fnd">
-                    <div class="reuse-group__filter--srt__fnd--wrapper">
-                        <div class="reuse-group__filter--srt__fnd--title">Total Found</div>
-                        <div class="reuse-group__filter--srt__fnd--total">255</div>
-                    </div>
-                    <div class="reuse-group__filter--srt__fnd--more">OR</div>
-                </div>
-
-                <div class="reuse-group__filter--srt__cnt-wrapper">
-                    <div class="reuse-group__filter--srt__cnt">
-                        <div class="reuse-group__filter--srt__cnt--title">
-                            <div class="reuse-group__filter--srt__cnt--title__wrapper">
-                                <div><i class="fas fa-users icon icon__reuse-group--filter__grp"></i></div>
-                                  Users
-                            </div>
-                        </div>
-                        <ul class="reuse-group__filter--srt__cnt--opt">
-                            <li>
-                                <ul>
-                                    <li>Low</li>
-                                    <li><span><</span> 400</li>
-                                </ul>
-                            </li>
-                            <li>
-                                <ul>
-                                    <li>Average</li>
-                                    <li><span>></span> 400 to 599 </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <ul>
-                                    <li>High</li>
-                                    <li><span>></span> 600</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="reuse-group__filter--srt__cnt">
-                        <div class="reuse-group__filter--srt__cnt--title">
-                            <div class="reuse-group__filter--srt__cnt--title__wrapper">
-                                <div>
-                                    <i class="fas fa-user-friends icon icon__reuse-group--filter__user"></i>
-                                    <div class="reuse-group__filter--srt__cnt--title__status"></div>
-                                </div>
-                                 Online
-                            </div>
-                        </div>
-                        <ul class="reuse-group__filter--srt__cnt--opt">
-                            <li>
-                                <ul>
-                                    <li>Low</li>
-                                    <li> <span><</span> 100 </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <ul>
-                                    <li>Average</li>
-                                    <li> <span>></span> 400 to 599</li>
-                                </ul>
-                            </li>
-                            <li>
-                                <ul>
-                                    <li>High</li>
-                                    <li> <span>></span> 600</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="reuse-group__filter--srt__categ">
-                    <div class="reuse-group__filter--srt__categ--title">Select Category
-                        <i class="fas fa-angle-down icon icon__reuse-group--filter__alt--categ"></i>
-                    </div>
-                    <ul class="reuse-group__filter--srt__categ--opt">
-                        <li>English</li>
-                        <li>Mathmatics</li>
-                    </ul>
-                </div>
-
-                <div class="reuse-group__filter--srt__btn">
-                    <span class="reuse-group__filter--srt__btn--cancel">Cancel</span>
-                    <span class="reuse-group__filter--srt__btn--ok">Ok</span>
-                </div>
+    <div class="reuse-grp-filter">
+        <div class="reuse-grp-filter__wrapper">
+            {{> reusecateg}}
+            {{> reusegrpfilter}}
+            <div class="reuse-grp-filter__add">
+                Add 
             </div>
-        </div>
-
-        <div class="reuse-group__filter--add-grp">
-            Add Group
         </div>
     </div>
 
@@ -162,9 +60,6 @@
                 </li>
             </ul>
             <div class="reuse-group__cnt">
-                <div class="reuse-group__cnt--add-grp">
-                    <i class="fas fa-plus icon icon__reuse-group--cnt__add"></i>
-                </div>
                 <div class="reuse-group__cnt--img">
                     <img src="/" alt="">
                 </div>

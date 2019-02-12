@@ -6,8 +6,8 @@ class Chat {
         this.srchToggler = $(".site-main__conv--header__search");
         this.srch = $(".site-main__conv--srch");
         this.srchClose = $(".site-main__conv--srch__close, .site-main__conv--content");
-        this.sortToggler = $(".site-main__conv--filter__sort");
-        this.sortOpt = $(".site-main__conv--filter__sort--opt");
+        this.sortToggler = $(".reuse-conv-filter__srt");
+        this.sortOpt = $(".reuse-conv-filter__srt--opt");
         this.events();
 
     } 
@@ -20,9 +20,9 @@ class Chat {
     }
 
     toggleSrch() {
-        this.srch.toggleClass("site-main__conv--srch__visible");
-        this.overlay.toggleClass("site-main__content--overlay__visible");
-        this.sortOpt.removeClass("site-main__conv--filter__sort--opt__visible");
+        this.srch.addClass("site-main__conv--srch__visible");
+        this.overlay.addClass("site-main__content--overlay__visible");
+        this.sortOpt.removeClass("reuse-conv-filter__srt--opt__visible");
     }   
 
     removeSrch() {
@@ -31,13 +31,13 @@ class Chat {
     }
 
     toggleSort() {
-        this.sortOpt.toggleClass("site-main__conv--filter__sort--opt__visible");
+        this.sortOpt.toggleClass("reuse-conv-filter__srt--opt__visible");
         this.overlay.toggleClass("site-main__content--overlay__visible");
     }
 
     closeAll() {
         this.overlay.removeClass("site-main__content--overlay__visible");
-        this.sortOpt.removeClass("site-main__conv--filter__sort--opt__visible");
+        this.sortOpt.removeClass("reuse-conv-filter__srt--opt__visible");
         this.srch.removeClass("site-main__conv--srch__visible");
     }
 }

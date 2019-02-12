@@ -62,7 +62,7 @@
         background-color: #fff;
         border: 1px solid $mainDarkGray;
         border-top: none;
-        top: 100px;
+        top: 88px;
         width: 90%;
         padding: 10px 10px 20px 10px; 
         opacity: 0;
@@ -127,111 +127,16 @@
 
         &__visible {
             position: sticky;
-            top: 100px; 
             right: 0;
             opacity: 1;
             visibility: visible;
             width: 100%; 
             z-index: 2; 
-            transition: all .3s ease-in; 
-        }
-
-    }
-
-    &--filter {
-        list-style: none;
-        padding: 0  15px;
-        margin: 20px 0 0 0;
-        @mixin clearfix;
-        font-size: .9375rem; 
-        /* border-bottom: 1px solid $mainDarkGray;  */
-
-        & > li {
-            float: right; 
-            padding: 7px 15px;
-            border-radius: 3px;
-
-            &:first-child {
-                float: left; 
-            }
-        }
-
-        &__sort {
-            border: 1px solid rgba($mainDarkPaleBlue, .2);
-            border-top: 3px solid $mainDarkPaleBlue;
-            color: $mainFontColor;
-            margin: 0;
-            position: relative;
-            text-align: center;
-            border-radius: 3px;
-            font-size: .8125rem;
-            background-color: rgb(255, 255, 255);
-            cursor: pointer;
-            margin-right: 10px;
-
-            &--opt {
-                position: absolute;
-                z-index: 2;
-                background-color: rgb(255, 255, 255);
-                padding: 0px ;
-                font-size: .875rem; 
-                border: 1px solid $mainDarkGray; 
-                border-bottom: none; 
-                top: 100%;
-                left: -10px;
-                opacity: 0;
-                visibility: hidden;
-                transition: all .3s ease-in;
-
-                & > div {
-                    padding: 5px 35px;
-                    border-bottom: 1px solid rgba($mainDarkBlack, .2); 
-
-                    &:hover {
-                        background-color: $mainLightGray; 
-                    }
-                }
-
-                &__visible {
-                    opacity: 1;
-                    visibility: visible;
-                    transition: all .3s ease-in;
-                }
-            }
-        }
-
-        &__del {
-            border: 1px solid rgba($mainLightRed, .2);
-            border-top: 3px solid $mainLightRed;
-            margin: 0;
-            position: relative;
-            text-align: center;
-            border-radius: 3px;
-            font-size: .8125rem;
-            background-color: $mainLightRed;
-            color: #fff;
-            cursor: pointer;
-            margin-right: 10px; 
-            box-shadow: 0 2px 2px 0 rgba($mainDarkBlack, .6); 
-        }
-
-        &__new {
-            border: 1px solid rgba($mainLightBlue,  .2);
-            border-top: 3px solid $mainLightBlue;
-            margin: 0;
-            position: relative;
-            text-align: center;
-            border-radius: 3px;
-            font-size: .8125rem;
-            background-color: $mainLightBlue;
-            color: #fff;
-            cursor: pointer;
-            margin-left: 10px; 
-            box-shadow: 0 2px 2px 0 rgba($mainDarkBlack, .6)
+            transition: all .3s ease-in;
         }
 
         @mixin atSmall {
-            padding: 0  20px;
+            top: 100px; 
         }
     }
 

@@ -1,0 +1,33 @@
+.reuse-fav-filter {
+    width: 100%;
+    position: relative;
+    padding: 10px 15px 10px 15px;  
+    border-bottom: 1px solid $mainDarkGray; 
+
+    &__wrapper {
+        @mixin clearfix;
+        position: relative;
+    }
+
+    
+    &__srch {
+        float: right;
+        color: #fff;
+        width: 34px;
+        height: 34px;
+        border-radius: 17px;
+        text-align: center;
+        font-size: .8125rem;
+        background-color: $mainLightRed;
+        box-shadow: 0px 2px 5px 0px rgba($mainDarkBlack, 0.53);
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+    }
+
+    @mixin atSmall { 
+        padding: 20px;         
+    }
+    
+}

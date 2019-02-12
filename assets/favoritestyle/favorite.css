@@ -1,12 +1,14 @@
 @import "./base/_mixins";
 @import "./base/_variables";
 @import "modules/_icons";
-@import "modules/_exfav"; 
 @import "modules/_reuse-pt";
 @import "modules/_reuse-que"; 
 @import "modules/_reuse-onlineque";
 @import "modules/_reuse-pwt"; 
 @import "modules/_reuse-share";
 @import "modules/_reuse-pvt-chat";
+@import "modules/_reuse-categ";
+@import "modules/_reuse-filter";
+@import "modules/_reuse-fav-filter";
 @import "modules/_site-main";  
 @import "modules/_site-main__fav-main"; 

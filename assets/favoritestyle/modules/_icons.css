@@ -4,45 +4,6 @@
         color: $mainLightRed; 
     }
 
-    &__exfav--angle {
-        margin-left: 5px;
-        color:$mainFontColor;
-    }
-
-    &__exfav--filter__calend {
-       font-size: 1.2rem;
-       position: relative;
-       color: rgba($mainDarkBlack, .6);
-       cursor: pointer;
-
-       @mixin atExtraSmall {
-        font-size: 1.3rem;
-       }
-
-       @mixin atSmall {
-        font-size: 1.4rem;
-       }
-    }
-  
-    &__exfav--filter__alt--comment {
-        color: rgba($mainDarkBlack, .6);
-        margin-right: 8px;
-    }
-
-    &__exfav--filter__alt--eye{
-        color: rgba($mainDarkBlue, .8);
-        margin-right: 8px;
-    }
-
-    &__exfav--filter__alt--heart {
-        color: rgba($mainDarkRed, .8);
-        margin-right: 8px;
-    }
-
-    &__exfav--filter__categ--angle {
-        margin-left: 10px;
-    }
-
     &__reuse-pt--footer__eye {
         color: $mainDarkBlack;
         cursor: pointer;
@@ -283,4 +244,46 @@
     &__reuse-pvt-chat--fav {
         color: $mainLightRed;
     }
+
+    &__reuse-categ--angle {
+        margin-left: 5px;
+        color: $mainFontColor;
+        font-size: .75rem;
+    }
+
+    &__reuse-filter--angle {
+        margin-left: 5px;
+        color: $mainFontColor;
+        font-size: .75rem;
+    }
+
+    &__reuse-fav-filter--srch {
+        color: #fff;
+    }
+
+    &__reuse-filter--calend {
+        font-size: 1rem;
+        color: rgba($mainDarkBlack, .6);
+        cursor: pointer;
+    }
+
+    &__reuse-filter--categ {
+        color: $mainFontColor;
+        margin-right: 10px;
+    }
+  
+    &__reuse-filter--apply {
+        color: #fff;
+        margin-right: 5px;
+    }
+
+    &__reuse-filter--cancel {
+        color: $mainLightRed;
+        margin-right: 5px;
+    }
+
+    &__reuse-filter--close {
+        color: $mainLightRed;
+    }
+
 }

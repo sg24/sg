@@ -1,0 +1,104 @@
+.reuse-conv-filter {
+    width: 100%;
+    position: relative;
+    padding: 10px 15px 10px 15px;  
+    border-bottom: 1px solid $mainDarkGray; 
+
+    &__wrapper {
+        @mixin clearfix;
+        position: relative;
+    }
+
+    &__srt {
+        position: relative;
+        float: left;
+        border: 1px solid rgba($mainDarkPaleBlue, .2);
+        border-top: 3px solid $mainDarkPaleBlue;
+        color: $mainFontColor;
+        margin-right: 20px;
+        padding: 8px 0;
+        width: 70px;
+        text-align: center;
+        border-radius: 3px;
+        font-size: .8125rem;
+        background-color: rgb(255, 255, 255);
+        cursor: pointer;
+    
+       &--opt {
+            margin: 0;
+            padding: 2px 0;
+            list-style: none;
+            text-align: left; 
+            @mixin clearfix;
+            position: absolute;
+            box-shadow: 0px 0px 4.15px 0.85px rgba($mainDarkBlack, 0.65); 
+            background-color: #fff; 
+            left: 0;
+            width: 150px;
+            max-height: 240px;
+            overflow: hidden;
+            overflow-y: auto;
+            top: 35px;
+            z-index: 2;
+            opacity: 0;
+            visibility: hidden;
+            transition: all .3s ease-in;
+    
+            & > li {
+                float: none;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding: 6px 20px; 
+                cursor: pointer;
+                color: $mainFontColor;
+
+                &:hover {
+                    background-color: $mainDarkBlue;
+                    color: #fff;
+                }
+            }
+    
+            &__visible {
+                opacity: 1;
+                visibility: visible;
+                transition: all .3s ease-in;
+            }
+       }
+    }
+
+
+    &__del {
+        float: right;
+        border: 1px solid  $mainLightRed;
+        border-top: 3px solid  $mainLightRed;
+        color: #fff;
+        padding: 8px 10px;
+        text-align: left;
+        border-radius: 3px;
+        font-size: .8125rem;
+        background-color: $mainLightRed;
+        box-shadow: 0px 2px 5px 0px rgba(51, 51, 51, 0.53);
+        cursor: pointer;
+        margin-right: 20px;
+    }
+
+    &__add {
+        float: right;
+        border: 1px solid  $mainLightBlue;
+        border-top: 3px solid  $mainLightBlue;
+        color: #fff;
+        padding: 8px 10px;
+        text-align: left;
+        border-radius: 3px;
+        font-size: .8125rem;
+        background-color: $mainLightBlue;
+        box-shadow: 0px 2px 5px 0px rgba($mainDarkBlack, 0.53);
+        cursor: pointer;
+    }
+
+    @mixin atSmall { 
+        padding: 20px;         
+    }
+    
+}

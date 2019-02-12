@@ -10,17 +10,25 @@
 
     &__site-main--conv__header--search {
         cursor: pointer; 
+        color: #fff;
     }
 
-    &__site-main--conv__filter {
+    &__reuse-conv-filter--srt {
         margin-right: 5px;
+        color: $mainFontColor;
+    }
+
+    &__reuse-conv-filter--add {
+        margin-right: 5px;
+        font-size: .75rem;
+    }
+
+    &__reuse-conv-filter--del {
+        margin-right: 5px;
+         font-size: .75rem;
     }
 
     &__site-main--conv__tab--icn {
-        margin-right: 5px;
-    }
-
-    &__site-main--conv__det {
         margin-right: 5px;
     }
 }

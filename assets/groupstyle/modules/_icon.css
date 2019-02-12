@@ -4,35 +4,6 @@
         margin-right: 5px;
     }
 
-    &__reuse-group--filter__angle {
-        color: $mainFontColor;
-        margin-left: 5px;
-    }
-
-    &__reuse-group--filter__grp {
-        color: $mainDarkPaleBlue;
-    }
-
-    &__reuse-group--filter__user {
-        color: rgba($mainDarkBlack, .55);
-    }
-
-    &__reuse-group--filter__alt--categ {
-        margin-left: 5px;
-    }
-
-    &__reuse-group--filter__categ {
-        position: relative;
-        margin-left: 5px;
-    }
-
-    &__reuse-group--filter__calend {
-        font-size: 1rem;
-        position: relative;
-        color: rgba($mainDarkBlack, .6);
-        cursor: pointer;
-    }
-
     &__reuse-group--acc__grp {
         font-size: 1.875rem;
         color: $mainDarkGray;
@@ -40,11 +11,6 @@
 
     &__reuse-group--header__calend {
         margin-right: 5px;
-        color: rgba($mainDarkPaleBlue, .6);
-    }
-
-    &__reuse-group--cnt__add {
-        font-size: .625rem;
         color: rgba($mainDarkPaleBlue, .6);
     }
 
@@ -64,5 +30,47 @@
 
     &__reuse-group--footer__users-on {
         color: rgba($mainDarkBlack, .55);
+    }
+
+    &__reuse-categ--angle {
+        margin-left: 5px;
+        color: $mainFontColor;
+        font-size: .75rem;
+    }
+
+    &__reuse-filter--angle {
+        margin-left: 5px;
+        color: $mainFontColor;
+        font-size: .75rem;
+    }
+
+    &__reuse-filter--calend {
+        font-size: 1rem;
+        color: rgba($mainDarkBlack, .6);
+        cursor: pointer;
+    }
+
+    &__reuse-grp-filter--user {
+        color: $mainLightBlue;
+        margin-right: 5px;
+    }
+
+    &__reuse-filter--categ {
+        color: $mainFontColor;
+        margin-right: 10px;
+    }
+  
+    &__reuse-filter--apply {
+        color: #fff;
+        margin-right: 5px;
+    }
+
+    &__reuse-filter--cancel {
+        color: $mainLightRed;
+        margin-right: 5px;
+    }
+
+    &__reuse-filter--close {
+        color: $mainLightRed;
     }
 }

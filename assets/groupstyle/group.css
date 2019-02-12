@@ -1,6 +1,8 @@
 @import "./base/_mixins";
 @import "./base/_variables";
 @import "modules/_reuse-group"; 
-@import "modules/_reuse-group__filter"; 
+@import "modules/_reuse-grp-filter"; 
+@import "modules/_reuse-filter"; 
+@import "modules/_reuse-categ"; 
 @import "modules/_icon";
 @import "modules/_active";
