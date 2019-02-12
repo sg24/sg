@@ -148,17 +148,17 @@
         cursor: pointer;
     }
 
-    &__reuse-filter--comment {
+    &__reuse-pt-filter--comment {
         color: $mainLightBlue;
         margin-right: 5px;
     }
 
-    &__reuse-filter--view {
+    &__reuse-pt-filter--view {
         color: $mainFontColor;
         margin-right: 5px;
     }
 
-    &__reuse-filter--fav {
+    &__reuse-pt-filter--fav {
         color: $mainLightRed;
         margin-right: 5px;
     }
@@ -178,4 +178,7 @@
         margin-right: 5px;
     }
 
+    &__reuse-filter--close {
+        color: $mainLightRed;
+    }
 }

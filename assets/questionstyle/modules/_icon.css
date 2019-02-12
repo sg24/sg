@@ -1,44 +1,5 @@
 .icon {
 
-    &__exquestion--angleicon {
-        margin-left: 5px;
-        color:$mainFontColor;
-    }
-
-    &__exquestion--filter__calend {
-       font-size: 1.2rem;
-       position: relative;
-       color: rgba($mainDarkBlack, .6);
-       cursor: pointer;
-
-       @mixin atExtraSmall {
-        font-size: 1.3rem;
-       }
-
-       @mixin atSmall {
-        font-size: 1.4rem;
-       }
-    }
-  
-    &__exquestion--filter__alt--comment {
-        color: rgba($mainDarkBlack, .6);
-        margin-right: 8px;
-    }
-
-    &__exquestion--filter__alt--eye{
-        color: rgba($mainDarkBlue, .8);
-        margin-right: 8px;
-    }
-
-    &__exquestion--filter__alt--heart {
-        color: rgba($mainDarkRed, .8);
-        margin-right: 8px;
-    }
-
-    &__exquestion--filter__categsm--angleicon {
-        margin-left: 10px;
-    }
-
     &__reuse-share--title {
         margin-left: 20px;
     }
@@ -146,5 +107,57 @@
 
     &__reuse-que--options__dft {
         margin-right: 5px;
+    }
+
+    &__reuse-que-filter--ans {
+        color: $mainLightRed;
+        margin-right: 5px;
+    }
+
+    &__reuse-que-filter--rgt {
+        color: $mainLightBlue;
+        margin-right: 5px;
+    }
+
+    &__reuse-que-filter--fav {
+        color: $mainLightRed;
+        margin-right: 5px;
+    }
+
+    &__reuse-categ--angle {
+        margin-left: 5px;
+        color: $mainFontColor;
+        font-size: .75rem;
+    }
+
+    &__reuse-filter--angle {
+        margin-left: 5px;
+        color: $mainFontColor;
+        font-size: .75rem;
+    }
+
+    &__reuse-filter--calend {
+        font-size: 1rem;
+        color: rgba($mainDarkBlack, .6);
+        cursor: pointer;
+    }
+
+    &__reuse-filter--categ {
+        color: $mainFontColor;
+        margin-right: 10px;
+    }
+  
+    &__reuse-filter--apply {
+        color: #fff;
+        margin-right: 5px;
+    }
+
+    &__reuse-filter--cancel {
+        color: $mainLightRed;
+        margin-right: 5px;
+    }
+
+    &__reuse-filter--close {
+        color: $mainLightRed;
     }
 }

@@ -205,7 +205,7 @@
         &--info {
             background-color: $mainHeaderColor;
             font-size: .8125rem;
-            /* display: none; */
+            display: none;
 
             & > h3 {
                 text-align: center;

@@ -1,7 +1,7 @@
-import QuestionFilter from'./modules/QuestionFilter';
+import Filter from'./modules/Filter';
 import Share from './modules/Share';
 import UserOpt from './modules/UserOpt';
 
-var questionFilter = new QuestionFilter();
+var filter = new Filter();
 var share = new Share();
 var userOpt = new UserOpt();

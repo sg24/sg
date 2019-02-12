@@ -133,6 +133,7 @@
             visibility: visible;
             width: 100%; 
             z-index: 2; 
+            transition: all .3s ease-in; 
         }
 
     }
