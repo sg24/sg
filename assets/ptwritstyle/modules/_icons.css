@@ -4,45 +4,6 @@
         margin-right: 5px;
     }
 
-    &__ptwrit-filter--angle {
-        margin-left: 5px;
-        color:$mainFontColor;
-    }
-
-    &__ptwrit-filter--calend {
-       font-size: 1.2rem;
-       position: relative;
-       color: rgba($mainDarkBlack, .6);
-       cursor: pointer;
-
-       @mixin atExtraSmall {
-        font-size: 1.3rem;
-       }
-
-       @mixin atSmall {
-        font-size: 1.4rem;
-       }
-    }
-  
-    &__ptwrit-filter--comment {
-        color: rgba($mainDarkBlack, .6);
-        margin-right: 8px;
-    }
-
-    &__ptwrit-filter--eye{
-        color: rgba($mainDarkBlue, .8);
-        margin-right: 8px;
-    }
-
-    &__ptwrit-filter--heart {
-        color: rgba($mainDarkRed, .8);
-        margin-right: 8px;
-    }
-
-    &__ptwrit-filter--categsm__angle {
-        margin-left: 10px;
-    }
-
     &__site-main--ptwrit__header--pencil {
         font-size: 1.2rem;
         color: #fff;
@@ -197,5 +158,57 @@
         font-size: .875rem;
         position: relative;
         top: 1px;
+    }
+
+    &__reuse-pwt-filter--comment {
+        color: $mainFontColor;
+        margin-right: 5px;
+    }
+
+    &__reuse-pwt-filter--smile {
+        color: $mainLightBlue;
+        margin-right: 5px;
+    }
+
+    &__reuse-pwt-filter--fav {
+        color: $mainLightRed;
+        margin-right: 5px;
+    }
+
+    &__reuse-categ--angle {
+        margin-left: 5px;
+        color: $mainFontColor;
+        font-size: .75rem;
+    }
+
+    &__reuse-filter--angle {
+        margin-left: 5px;
+        color: $mainFontColor;
+        font-size: .75rem;
+    }
+
+    &__reuse-filter--calend {
+        font-size: 1rem;
+        color: rgba($mainDarkBlack, .6);
+        cursor: pointer;
+    }
+
+    &__reuse-filter--categ {
+        color: $mainFontColor;
+        margin-right: 10px;
+    }
+  
+    &__reuse-filter--apply {
+        color: #fff;
+        margin-right: 5px;
+    }
+
+    &__reuse-filter--cancel {
+        color: $mainLightRed;
+        margin-right: 5px;
+    }
+
+    &__reuse-filter--close {
+        color: $mainLightRed;
     }
 }

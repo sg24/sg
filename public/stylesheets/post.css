@@ -283,7 +283,6 @@
     background-color: rgba(220,219,220, .4);
     border-radius: 5px;
     padding: 4px;
-
     /* border: 1px solid $mainDarkGray; */
     cursor: pointer;
     overflow: hidden;
@@ -380,7 +379,6 @@
 .reuse-pt__footer {
     background-color: #fff;
     border-top: 1px solid #e9ebf2;
-
     /* box-shadow: 0px -2px 9px 0px rgba($mainDarkGray, 0.57); */
     position: relative;
     border-radius: 10px;
@@ -736,7 +734,6 @@
     top: 0;
     border: 1px solid #dcdbdc;
     background-color: #fff;
-
     /* -o-box-shadow: 0px 1px 10px 5px rgba($mainDarkGray, .8); */
     padding: 10px;
     width: 100%;
@@ -804,7 +801,6 @@
 
 .reuse-filter__opt--fnd__title {
     position: absolute;
-
     /* left: 20px; */
     width: 80px;
     top: 22px;
@@ -986,10 +982,9 @@
 .reuse-filter__opt--info {
     background-color: #f9f9f9;
     font-size: .8125rem;
+    display: none;
     
 }
-
-/* display: none; */
 
 .reuse-filter__opt--info > h3 {
     text-align: center;
@@ -1536,7 +1531,6 @@
     cursor: default;
     border-radius: 3px;
     box-shadow: 0px 0px 4.15px 0.85px rgba(0,0,0, 0.65);
-
     /* opacity: 0;
         visibility: hidden;
         z-index: 1; */

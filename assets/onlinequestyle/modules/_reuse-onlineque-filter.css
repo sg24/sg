@@ -1,0 +1,61 @@
+.reuse-onlineque-filter {
+    width: 100%;
+    position: relative;
+    padding: 10px 15px 10px 15px;  
+    border-bottom: 1px solid $mainDarkGray; 
+
+    &__wrapper {
+        @mixin clearfix;
+        position: relative;
+    }
+
+    &__que {
+        float: left;
+        position: relative;
+        border: 1px solid rgba($mainDarkRed, .2);
+        border-top: 3px solid $mainDarkRed;
+        color: $mainFontColor;
+        padding: 8px 44px 8px 10px;
+        text-align: right;
+        border-radius: 3px;
+        font-size: .8125rem;
+        background-color: rgb(255, 255, 255);
+        cursor: pointer;
+
+        & > div {
+            position: absolute; 
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            background-color: $mainDarkRed;
+            color: #fff;
+            font-size: .8125rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+
+    &__add {
+        float: right;
+        border: 1px solid  $mainDarkPaleBlue;
+        border-top: 3px solid  $mainDarkPaleBlue;
+        color: #fff;
+        padding: 8px 10px;
+        text-align: left;
+        border-radius: 3px;
+        font-size: .8125rem;
+        background-color: $mainDarkPaleBlue;
+        box-shadow: 0px 2px 5px 0px rgba(51, 51, 51, 0.53);
+        cursor: pointer;
+    }
+
+    @mixin atSmall { 
+        padding: 20px;         
+    }
+    
+}

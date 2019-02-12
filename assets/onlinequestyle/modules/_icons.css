@@ -1,59 +1,5 @@
 .icon {
 
-    &__onlineque-filter--angle {
-        margin-left: 5px;
-        color:$mainFontColor;
-    }
-
-    &__onlineque-filter--calend {
-       font-size: 1.2rem;
-       position: relative;
-       color: rgba($mainDarkBlack, .6);
-       cursor: pointer;
-
-       @mixin atExtraSmall {
-        font-size: 1.3rem;
-       }
-
-       @mixin atSmall {
-        font-size: 1.4rem;
-       }
-    }
-  
-    &__online-quefilter--writ {
-        color: rgba($mainDarkBlack, .6);
-        margin-right: 8px;
-    }
-
-    &__onlineque-filter--type {
-        color: rgba($mainDarkBlack, .6);
-        margin-right: 8px;
-    }
-
-    &__onlineque-filter--comment{
-        color: rgba($mainDarkBlue, .8);
-        margin-right: 8px;
-    }
-
-    &__onlineque-filter--heart {
-        color: rgba($mainDarkRed, .8);
-        margin-right: 8px;
-    }
-
-    &__onlineque-filter--tm {
-        color: rgba($mainDarkRed, .8);
-        margin-right: 8px;
-    }
-
-    &__onlineque-filter--categsm__angle {
-        margin-left: 10px;
-    }
-
-    &__site-main__nav--onlineQue__filterIcon {
-        margin-left: 5px;
-        color: $mainFontColor
-    }
-
     &__site-main--onlineque__tab {
         margin-right: 5px;
     }
@@ -186,6 +132,58 @@
         font-size: .875rem;
         position: relative;
         top: 1px;
+    }
+
+    &__reuse-onlineque-filter--que, &__reuse-onlineque-filter--writ {
+        color: $mainLightBlue;
+        margin-right: 5px;
+    }
+
+    &__reuse-onlineque-filter--tm, &__reuse-onlineque-filter--fav {
+        color: $mainLightRed;
+        margin-right: 5px;
+    }
+
+    &__reuse-onlineque-filter--type, &__reuse-onlineque-filter--comment {
+        color: $mainFontColor;
+        margin-right: 5px;
+    }
+
+    &__reuse-categ--angle {
+        margin-left: 5px;
+        color: $mainFontColor;
+        font-size: .75rem;
+    }
+
+    &__reuse-filter--angle {
+        margin-left: 5px;
+        color: $mainFontColor;
+        font-size: .75rem;
+    }
+
+    &__reuse-filter--calend {
+        font-size: 1rem;
+        color: rgba($mainDarkBlack, .6);
+        cursor: pointer;
+    }
+
+    &__reuse-filter--categ {
+        color: $mainFontColor;
+        margin-right: 10px;
+    }
+  
+    &__reuse-filter--apply {
+        color: #fff;
+        margin-right: 5px;
+    }
+
+    &__reuse-filter--cancel {
+        color: $mainLightRed;
+        margin-right: 5px;
+    }
+
+    &__reuse-filter--close {
+        color: $mainLightRed;
     }
    
 }

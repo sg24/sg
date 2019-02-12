@@ -167,19 +167,18 @@
 
                     &:last-child {
                         color: $mainDarkBlue;
-                        padding-left: 50px;
+                        padding-left: 35px;
                         
                         & > div {
                             position: absolute;
                             left: 0; 
                             top: 50%;
                             transform: translateY(-50%);
-                            width: 40px;
-                            height: 24px;
-                            border-radius: 5px;
+                            width: 30px;
+                            height: 30px;
+                            border-radius: 15px;
                             border: 1px solid $mainDarkGray;
                             background-color: $mainLightGray;
-                            color: $mainLightRed;
                             display: flex;
                             justify-content: center;
                             align-items: center;

@@ -32,7 +32,7 @@
     margin-right: 5px;
 }
 
-.icon__site-main--user__content--opt {
+.icon__site-main--user__cnt--opt {
     margin-right: 5px;
 }
 
@@ -286,7 +286,7 @@
 
 .site-main__user--cnt__det--user > li:last-child {
     color: #0284a8;
-    padding-left: 50px;
+    padding-left: 35px;
 }
 
 .site-main__user--cnt__det--user > li:last-child > div {
@@ -294,12 +294,11 @@
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 40px;
-    height: 24px;
-    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
     border: 1px solid #dcdbdc;
     background-color: #e9ebf2;
-    color: #ff1600;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-pack: center;

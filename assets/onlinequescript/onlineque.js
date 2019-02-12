@@ -1,7 +1,7 @@
-import OnlineQueFilter from './modules/OnlineQueFilter';
+import Filter from './modules/Filter';
 import Share from './modules/Share';
 import UserOpt from './modules/UserOpt';
 
-var onlineQueFilter = new OnlineQueFilter();
+var filter = new Filter();
 var share = new Share();
 var userOpt = new UserOpt();
