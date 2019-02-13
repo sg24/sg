@@ -15,7 +15,7 @@
         text-align:  center;
         font-weight: 400;
         color: #fff;
-        font-size: .9375rem;
+        font-size: 1rem;
         background-color: $mainMiddleDarkBlue; 
         border-radius: 20px; 
         border-bottom-left-radius: 0;
@@ -26,7 +26,7 @@
         text-overflow: ellipsis; 
         white-space: nowrap; 
         overflow: hidden;
-        padding: 9px 20px;
+        padding: 10px 20px;
     }
 
     &__det {
@@ -39,7 +39,6 @@
 
         &--tag { 
             float: left;
-            /* color: rgba($mainDarkBlack, .5); */
             display: none; 
             overflow: hidden;
             white-space: nowrap;
@@ -184,15 +183,15 @@
 
     &__footer {
         background-color: $mainMiddleDarkBlue; 
-        border-radius: 20px;
-        padding: 6px 0;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        padding: 4px 0;
         font-size: 0.875rem;
         @mixin clearfix;
 
 
        & > div {
            position: relative;
-           /* position: absolute; */
            padding: 5px 10px;
            border-radius: 5px;
            width: 70px;
@@ -208,6 +207,10 @@
            @mixin atSmall {
                 left: 20%;
             }
+
+            &:hover {
+                background-color: $mainExtraLightGray;
+            }
        }
 
        &--nxt {
@@ -218,6 +221,10 @@
 
            @mixin atSmall {
                 right: 20%;
+           }
+
+           &:hover {
+            background-color: $mainDarkPaleBlue;
            }
        }
     }

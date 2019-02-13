@@ -32,7 +32,7 @@
     text-align:  center; 
     font-weight: 400; 
     color: #fff; 
-    font-size: .9375rem; 
+    font-size: 1rem; 
     background-color: #437da3; 
     border-radius: 20px; 
     border-bottom-left-radius: 0; 
@@ -43,7 +43,7 @@
     text-overflow: ellipsis; 
     white-space: nowrap; 
     overflow: hidden; 
-    padding: 9px 20px;
+    padding: 10px 20px;
 }
 
 .exam-cnt__det { 
@@ -62,7 +62,6 @@
 
 .exam-cnt__det--tag { 
     float: left; 
-    /* color: rgba($mainDarkBlack, .5); */ 
     display: none; 
     overflow: hidden; 
     white-space: nowrap; 
@@ -229,8 +228,9 @@
 
 .exam-cnt__footer { 
     background-color: #437da3; 
-    border-radius: 20px; 
-    padding: 6px 0; 
+    border-bottom-left-radius: 20px; 
+    border-bottom-right-radius: 20px; 
+    padding: 4px 0; 
     font-size: 0.875rem;
 }
 
@@ -242,7 +242,6 @@
 
 .exam-cnt__footer > div { 
     position: relative; 
-    /* position: absolute; */ 
     padding: 5px 10px; 
     border-radius: 5px; 
     width: 70px; 
@@ -263,6 +262,10 @@
     }
 }
 
+.exam-cnt__footer--prev:hover { 
+    background-color: #f2f2f2;
+}
+
 .exam-cnt__footer--nxt { 
     float: right; 
     color: #fff; 
@@ -275,6 +278,10 @@
     .exam-cnt__footer--nxt { 
         right: 20%;
     }
+}
+
+.exam-cnt__footer--nxt:hover { 
+    background-color: #05578b;
 }
 
 @media (min-width: 530px) {

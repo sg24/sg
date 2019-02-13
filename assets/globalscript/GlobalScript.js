@@ -1,10 +1,12 @@
 import SiteHeader from './modules/SiteHeader';
+import SiteNav from './modules/SiteNav';
 import ToolTips from './modules/ToolTips';
 import Nav from './modules/Nav';
 import Scroll from './modules/Scroll';
 import Conv from './modules/Conv';
 
 var siteHeader = new SiteHeader();
+var siteNav = new SiteNav();
 var toolTips = new ToolTips();
 var nav = new Nav();
 var scroll = new Scroll();
