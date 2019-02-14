@@ -1,3 +1,10 @@
 .site-main {
     font-family: "Roboto",Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    padding-top: 50px;
+
+
+    &__fm {
+        background-color: rgba($mainDarkBlack, .75); 
+    }
 }

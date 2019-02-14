@@ -1,0 +1,391 @@
+.reuse-form {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 15px;
+    font-size: .875rem;
+
+    &__overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background-color: rgba($mainDarkBlack, .6);
+        z-index: 2;
+        opacity: 0;
+        visibility: hidden;
+        transition: all .3s ease-in;
+
+        &__visible {
+            z-index: 2;
+            opacity: 1;
+            visibility: visible;
+            transition: all .3s ease-in;
+        }
+    }
+
+
+    &__wrapper {
+        background-color: #fff;
+        position: relative;
+        box-shadow: 0 1px 8px 4px rgba($mainDarkBlack, .65);
+        border-radius: 5px;
+    }
+
+    &__title {
+        padding: 15px 0;
+        text-align: left;
+        font-weight: 400;
+        margin: 0 0 20px 0;
+        background-color: $mainMiddleDarkBlue;
+        font-size: 1rem;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 2px 4px 0 rgba($mainDarkBlack, .65);
+
+        & > div {
+           position: relative;
+           padding-left: 40px;
+
+           & > div {
+                position: absolute;
+                background-color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 30px;
+                height: 30px;
+                border-radius: 15px;
+                color: $mainLightRed;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                box-shadow: 0 0px 2px 2px rgba($mainDarkBlack, .45);
+           }
+        }
+    }
+
+    &__cnt {
+        position: relative;
+        background-color: #fff;
+
+        &--wrapper {
+            padding: 0 10px 30px 10px;
+
+            @mixin atSmall {
+                padding: 0 20px 30px 20px;                
+            }
+        }
+
+        &--title {
+            color: rgba($mainDarkBlack, .85);
+            font-weight: 400;
+            text-align: center;
+        }
+
+        &--det {
+            position: relative;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #fff;
+            border-radius: 3px;
+            font-size: .875rem;
+            /* border: 1px solid $mainDarkGray;  */
+            box-shadow: inset 0 0px 1px 0px rgba($mainDarkBlack, .95);
+
+            &__wrapper {
+                padding: 8px 10px;
+                font-size: .8125rem;
+            }
+
+            &__selec {
+                background-color: $mainExtraLightGray;
+                text-align: center;
+                cursor: pointer;
+                position: relative;
+
+                &--categ {
+                   width: 110px;
+                   padding: 8px 0;
+                   border: 1px solid $mainDarkGray;
+                }
+
+                &--add {
+                    background-color: $mainDarkBlue;
+                    color: #fff;
+                    padding: 8px 0px;
+                    width: 110px;
+                    box-shadow: 0 2px 5px 0 rgba($mainDarkBlack, .45);
+                }
+
+                &--opt {
+                    margin: 0;
+                    padding: 2px 0;
+                    list-style: none;
+                    @mixin clearfix;
+                    position: absolute;
+                     box-shadow: 0px 0px 4.15px 0.85px rgba($mainDarkBlack, 0.65); 
+                    /* border: 1px solid $mainDarkGray;  */
+                    background-color: #fff; 
+                    color: $mainFontColor;
+                    left: 0;
+                    right: 0;
+                    top: 100%;
+                    z-index: 2;
+                    max-height: 130px;
+                    overflow: hidden;
+                    overflow-y: auto;
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: all .3s ease-in;
+        
+                    & > li {
+                        float: none;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        cursor: pointer;
+                        padding: 6px 20px; 
+        
+                        &:hover {
+                            background-color: $mainDarkBlue;
+                            color: #fff;
+                        }
+                    }
+        
+                    &__visible {
+                        opacity: 1;
+                        visibility: visible;
+                        transition: all .3s ease-in;
+                    }
+                }
+            }
+
+            &__alt {
+                position: absolute;
+                margin-left: 130px;
+                top: 50%;
+                transform: translateY(-50%);
+                
+                &--title {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    left: 0;
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 12px;
+                    border: 1px solid $mainDarkGray;
+                    color: $mainLightRed;
+                    background-color: #fff;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: .75rem; 
+                }
+
+                &--cnt {
+                    margin-left: 44px;
+                    margin-right: 10px;
+                    border: 1px solid $mainDarkGray;
+                    background-color: $mainHeaderColor;
+                }
+            }
+
+            &__input {
+                width: 100%;
+                border: none;
+                padding: 8px 10px;
+                margin: 0;
+                border-radius: 3px;
+                background-color: transparent;
+
+                &--lg {
+                    padding: 12px 10px;
+                }
+            }
+
+            &__fil {
+                position: relative;
+                width: 100%;
+                background-color: $mainExtraLightGray;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                border: 1px dashed $mainDarkBlue;
+                padding: 20px 0;
+
+                &--input {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    width: 100%;
+                    border: none;
+                    padding: 0 10px;
+                    margin: 0;
+                    border-radius: 3px;
+                    opacity: 0;
+                    cursor: pointer;
+                }
+            }
+
+            &__info {
+                width: 100%;
+                border: none;
+                outline: none; 
+                line-height: 2;
+                padding: 5px 10px 5px 10px;
+                height: 100px;
+                resize: vertical;
+                border-radius: 3px;
+                background-color: transparent;
+            }
+        }
+    }
+
+    &__itm {
+        position: absolute;
+        font-size: .875rem;
+        top: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 70%;
+        background-color: #fff;
+        z-index: 2;
+
+        &--img, &--vid {
+            opacity: 0;
+            visibility: hidden;
+            transition: all .3s ease-in;
+
+            &__visible {
+                opacity: 1;
+                visibility: visible;
+                z-index: 2;
+                transition: all .3s ease-in;
+            }
+        }
+
+        & > h4 {
+            padding: 10px 0;
+            margin: 0;
+            background-color: $mainDarkBlue;
+            box-shadow: 0 2px 4px 0 rgba($mainDarkBlack, .65);
+            text-align: center;
+            font-weight: 400;
+            color: #fff;
+        }
+
+        &--det {
+            padding: 20px;
+
+            &__alt {
+                width: 30px;
+                height: 30px;
+                border-radius: 15px;
+                border: 1px solid $mainDarkGray;
+                color: #fff;
+                background-color: $mainDarkBlue;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: .75rem; 
+                margin: 5px 0 10px 0;
+
+                &--vid {
+                    background-color: $mainLightRed;
+                }
+            }
+
+            &__view {
+                background-color: $mainHeaderColor;
+                max-height: 200px;
+                width: 100%;
+                overflow: hidden;
+                overflow-y: auto;
+                margin-top: 10px;
+            }
+        }
+
+        &--footer {
+            padding: 10px 20px;
+            background-color: $mainHeaderColor;
+            @mixin clearfix;
+            border-top: 1px solid $mainDarkGray;
+        }
+    }
+
+    &__err {
+        position: relative;
+        padding: 5px 20px;
+        margin-top: 10px;
+        font-size: .875rem;
+        background-color: $mainLightRed;
+        border: 1px solid $mainDarkGray;
+        color: #fff;
+    }
+
+    &__btn {
+        position: relative;
+
+        & > button {
+            border-radius: 3px;
+            border: none;
+            outline: none;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+
+        &--dft {
+            background-color: #fff;
+            color: $mainFontColor;
+            float: left;
+            box-shadow: 0 1px 4px 1px rgba($mainDarkBlack, .55);
+            width: 80px;
+
+            &:hover {
+                background-color: $mainExtraLightGray;
+            }
+        }
+
+        &--add {
+            background-color: $mainMiddleDarkBlue;
+            color: #fff;
+            float: right;
+            box-shadow: 0 2px 4px 1px rgba($mainDarkBlack, .65);
+            width: 70px;
+
+            &:hover {
+                background-color: $mainDarkPaleBlue;
+            }
+        }
+    }
+
+    &__footer {
+        background-color: $mainHeaderColor;
+        border-top: 1px solid $mainDarkGray;
+        padding: 8px 10px;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        @mixin clearfix;
+
+        @mixin atSmall {
+            padding: 8px 20px;
+        }
+    }
+
+    
+    @mixin atSmall {
+        padding: 20px;
+    }
+
+    @mixin atMedium {
+        width: 70%;
+    }
+}

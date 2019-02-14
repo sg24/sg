@@ -1676,4 +1676,10 @@ img {
 
 .site-main {
     font-family: "Roboto",Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    padding-top: 50px;
+}
+
+.site-main__fm {
+  background-color: rgba(0,0,0, .75);
 }

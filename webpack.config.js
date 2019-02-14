@@ -6,6 +6,7 @@ module.exports = {
       appScript: "./assets/scripts/appScript.js",
       view: "./assets/viewscript/viewScript.js",
       globalScript: "./assets/globalscript/GlobalScript.js",
+      MiniglobalScript: "./assets/miniglobalscript/MiniGlobalScript.js",
       post: "./assets/postscript/Post.js",
       question: "./assets/questionscript/Question.js",
       ptwrit: "./assets/ptwritscript/ptwrit.js",
