@@ -155,7 +155,7 @@ gulp.task('queformstyles', function() {
 });
 
 gulp.task('postformstyles', function() {
-    return gulp.src('./assets/formpoststyle/postform.css')
+    return gulp.src('./assets/postformstyle/postform.css')
     .pipe(postcss([cssImport, mixins, cssvars, nested, 
                     hexrgba, autoprefixer]))
     .on('error', function(errorInfo) {

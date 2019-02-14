@@ -17,7 +17,7 @@
         visibility: hidden;
         transition: all .3s ease-in;
 
-        &__visible {
+        &--visible {
             z-index: 2;
             opacity: 1;
             visibility: visible;
@@ -113,6 +113,10 @@
                    width: 110px;
                    padding: 8px 0;
                    border: 1px solid $mainDarkGray;
+
+                   & > ul {
+                       width: 150px;
+                   }
                 }
 
                 &--add {
@@ -129,12 +133,12 @@
                     list-style: none;
                     @mixin clearfix;
                     position: absolute;
-                     box-shadow: 0px 0px 4.15px 0.85px rgba($mainDarkBlack, 0.65); 
-                    /* border: 1px solid $mainDarkGray;  */
+                    box-shadow: 0px 0px 4.15px 0.85px rgba($mainDarkBlack, 0.65); 
                     background-color: #fff; 
                     color: $mainFontColor;
                     left: 0;
                     right: 0;
+                    text-align: left;
                     top: 100%;
                     z-index: 2;
                     max-height: 130px;
@@ -255,7 +259,7 @@
         top: 10%;
         left: 50%;
         transform: translateX(-50%);
-        width: 70%;
+        width: 95%;
         background-color: #fff;
         z-index: 2;
 
@@ -319,6 +323,10 @@
             @mixin clearfix;
             border-top: 1px solid $mainDarkGray;
         }
+
+        @mixin atSmall {
+            width: 80%;
+        }
     }
 
     &__err {
@@ -326,9 +334,8 @@
         padding: 5px 20px;
         margin-top: 10px;
         font-size: .875rem;
-        background-color: $mainLightRed;
-        border: 1px solid $mainDarkGray;
-        color: #fff;
+        background-color: $mainHeaderColor;
+        color: $mainLightRed;
     }
 
     &__btn {
@@ -342,16 +349,23 @@
             cursor: pointer;
         }
 
-        &--dft {
+        &--close , &--dft {
             background-color: #fff;
-            color: $mainFontColor;
-            float: left;
             box-shadow: 0 1px 4px 1px rgba($mainDarkBlack, .55);
             width: 80px;
-
+            float: left;
+            
             &:hover {
                 background-color: $mainExtraLightGray;
             }
+        }
+
+        &--close {
+            color: $mainLightRed;
+        }
+
+        &--dft {
+            color: $mainFontColor;
         }
 
         &--add {

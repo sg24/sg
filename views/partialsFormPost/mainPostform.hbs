@@ -1,6 +1,6 @@
 <form action="" class="reuse-form">
     <div class="reuse-form__wrapper">
-        <div class="reuse-form__overlay"> </div>
+        <div class="reuse-form__overlay"></div>
         <h3 class="reuse-form__title">
             <div><div><i class="fas fa-pencil-alt"></i></div> Add Post</div>
         </h3>
@@ -10,20 +10,20 @@
                 <div class="reuse-form__cnt--det">
                     <div class="reuse-form__cnt--det__wrapper">
                         <div class="reuse-form__cnt--det__selec reuse-form__cnt--det__selec--categ">
-                            <div>Category <i class="fas fa-angle-down icon icon__reuse-form--angle"></i> </div> 
+                            Category <i class="fas fa-angle-down icon icon__reuse-form--angle"></i> 
                             <ul class="reuse-form__cnt--det__selec--opt">
-                                <li>Poem</li>
-                                <li>Poet</li>
+                                <li>Entertainment</li>
+                                <li>Social</li>
                                 <li>Social</li>
                                 <li>Poem</li>
+                                <li>Prose</li>
                                 <li>Poet</li>
+                                 <li>Entertainment</li>
+                                <li>Social</li>
                                 <li>Social</li>
                                 <li>Poem</li>
+                                <li>Prose</li>
                                 <li>Poet</li>
-                                <li>Social</li>
-                                <li>Poem</li>
-                                <li>Poet</li>
-                                <li>Social</li>
                             </ul>
                         </div>
                         <div class="reuse-form__cnt--det__alt">
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="reuse-form__err">Pls, select category</div>
+                {{!-- <div class="reuse-form__err">Pls, select category</div> --}}
             </div>
             <div class="reuse-form__cnt--wrapper">
                 <label for="Post Title" class="reuse-form__cnt--title">Post Title</label>
@@ -73,6 +73,7 @@
                     <div class="reuse-form__itm--det__view"></div>
                 </div>
                 <div class="reuse-form__itm--footer reuse-form__btn">
+                    <button type="button" class="reuse-form__btn--close">Exit</button>
                      <button type="submit" class="reuse-form__btn--add">Add</button>
                 </div>
             </div>
@@ -98,7 +99,8 @@
                     <div class="reuse-form__itm--det__view"></div>
                 </div>
                 <div class="reuse-form__itm--footer reuse-form__btn">
-                     <button type="submit" class="reuse-form__btn--add">Add</button>
+                    <button type="button" class="reuse-form__btn--close">Exit</button>
+                    <button type="submit" class="reuse-form__btn--add">Add</button>
                 </div>
             </div>
 
@@ -108,8 +110,8 @@
                         <div class="reuse-form__cnt--det__selec reuse-form__cnt--det__selec--add">
                             Add  Items <i class="fas fa-angle-down icon icon__reuse-form--angle"></i>
                             <ul class="reuse-form__cnt--det__selec--opt">
-                                <li>Image</li>
-                                <li>Video</li>
+                                <li class="reuse-form__cnt--det__selec--opt__img">Image</li>
+                                <li class="reuse-form__cnt--det__selec--opt__vid">Video</li>
                             </ul>
                         </div>
                     </div>

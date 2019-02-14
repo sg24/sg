@@ -32,7 +32,7 @@
     transition: all .3s ease-in;
 }
 
-.reuse-form__overlay__visible {
+.reuse-form__overlay--visible {
     z-index: 2;
     opacity: 1;
     visibility: visible;
@@ -140,6 +140,10 @@
     border: 1px solid #dcdbdc;
 }
 
+.reuse-form__cnt--det__selec--categ > ul {
+    width: 150px;
+}
+
 .reuse-form__cnt--det__selec--add {
     background-color: #0284a8;
     color: #fff;
@@ -154,11 +158,11 @@
     list-style: none;
     position: absolute;
     box-shadow: 0px 0px 4.15px 0.85px rgba(0,0,0, 0.65);
-    /* border: 1px solid $mainDarkGray;  */
     background-color: #fff;
     color: #182427;
     left: 0;
     right: 0;
+    text-align: left;
     top: 100%;
     z-index: 2;
     max-height: 130px;
@@ -288,7 +292,7 @@
     top: 10%;
     left: 50%;
     transform: translateX(-50%);
-    width: 70%;
+    width: 95%;
     background-color: #fff;
     z-index: 2;
 }
@@ -362,14 +366,20 @@
     display: table;
 }
 
+@media (min-width: 530px) {
+
+    .reuse-form__itm {
+        width: 80%;
+    }
+}
+
 .reuse-form__err {
     position: relative;
     padding: 5px 20px;
     margin-top: 10px;
     font-size: .875rem;
-    background-color: #ff1600;
-    border: 1px solid #dcdbdc;
-    color: #fff;
+    background-color: #f9f9f9;
+    color: #ff1600;
 }
 
 .reuse-form__btn {
@@ -384,16 +394,23 @@
     cursor: pointer;
 }
 
-.reuse-form__btn--dft {
+.reuse-form__btn--close, .reuse-form__btn--dft {
     background-color: #fff;
-    color: #182427;
-    float: left;
     box-shadow: 0 1px 4px 1px rgba(0,0,0, .55);
     width: 80px;
+    float: left;
 }
 
-.reuse-form__btn--dft:hover {
+.reuse-form__btn--close:hover, .reuse-form__btn--dft:hover {
     background-color: #f2f2f2;
+}
+
+.reuse-form__btn--close {
+    color: #ff1600;
+}
+
+.reuse-form__btn--dft {
+    color: #182427;
 }
 
 .reuse-form__btn--add {
@@ -441,4 +458,4 @@
     .reuse-form {
         width: 70%;
     }
-} 
+}  

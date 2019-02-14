@@ -67,7 +67,7 @@ gulp.task('watch', function() {
         gulp.start('queformcss')
     });
 
-    watch('./assets/formpoststyle/**/*.css', function() {
+    watch('./assets/postformstyle/**/*.css', function() {
         gulp.start('postformcss')
     });
 
@@ -160,7 +160,7 @@ gulp.task('queformcss',['queformstyles'], function() {
 });
 
 gulp.task('postformcss',['postformstyles'], function() {
-    return gulp.src("./assets/formpoststyle/postform.css")
+    return gulp.src("./assets/postformstyle/postform.css")
     .pipe(browserSyc.stream());
 }); 
 
