@@ -16,6 +16,7 @@ module.exports = {
       conv: "./assets/convscript/conv.js",
       postform: "./assets/postformscript/postform.js",
       queform: "./assets/queformscript/queform.js",
+      groupform: "./assets/groupformscript/groupform.js",
       user: "./assets/userscript/users.js",
       favorite: "./assets/favoritescript/favorite.js"
     }, 

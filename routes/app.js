@@ -43,11 +43,15 @@ router.get('/conversations', (req, res, next) => {
 });
 
 router.get('/add/question', (req, res, next) => {
-    res.render('formQue');
+    res.render('queform');
 });
 
 router.get('/add/post', (req, res, next) => {
-    res.render('formPost'); 
+    res.render('postform'); 
+});
+
+router.get('/add/group', (req, res, next) => {
+    res.render('groupform'); 
 });
 
 router.get('/examtab', (req, res, next) => {

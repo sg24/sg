@@ -71,6 +71,10 @@ gulp.task('watch', function() {
         gulp.start('postformcss')
     });
 
+    watch('./assets/groupformstyle/**/*.css', function() {
+        gulp.start('groupformcss')
+    });
+
     watch('./assets/examtabstyle/**/*.css', function() {
         gulp.start('examtabcss')
     });
@@ -163,6 +167,12 @@ gulp.task('postformcss',['postformstyles'], function() {
     return gulp.src("./assets/postformstyle/postform.css")
     .pipe(browserSyc.stream());
 }); 
+
+gulp.task('groupformcss',['groupformstyles'], function() {
+    return gulp.src("./assets/groupformstyle/groupform.css")
+    .pipe(browserSyc.stream());
+}); 
+
 
 gulp.task('examtabcss',['examtabstyle'], function() {
     return gulp.src("./assets/examtabstyle/examtab.css")
