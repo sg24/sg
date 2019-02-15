@@ -144,7 +144,7 @@ gulp.task('convstyles', function() {
 });
 
 gulp.task('queformstyles', function() {
-    return gulp.src('./assets/formquestyle/queform.css')
+    return gulp.src('./assets/queformstyle/queform.css')
     .pipe(postcss([cssImport, mixins, cssvars, nested, 
                     hexrgba, autoprefixer]))
     .on('error', function(errorInfo) {

@@ -15,7 +15,7 @@ module.exports = {
       chat: "./assets/chatscript/chat.js",
       conv: "./assets/convscript/conv.js",
       postform: "./assets/postformscript/postform.js",
-      formque: "./assets/formquescript/formque.js",
+      queform: "./assets/queformscript/queform.js",
       user: "./assets/userscript/users.js",
       favorite: "./assets/favoritescript/favorite.js"
     }, 

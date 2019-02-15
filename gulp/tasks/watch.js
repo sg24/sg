@@ -63,7 +63,7 @@ gulp.task('watch', function() {
         gulp.start('convcss')
     });
 
-    watch('./assets/formquestyle/**/*.css', function() {
+    watch('./assets/queformstyle/**/*.css', function() {
         gulp.start('queformcss')
     });
 
@@ -155,7 +155,7 @@ gulp.task('convcss',['convstyles'], function() {
 });
 
 gulp.task('queformcss',['queformstyles'], function() {
-    return gulp.src("./assets/formquestyle/queform.css")
+    return gulp.src("./assets/queformstyle/queform.css")
     .pipe(browserSyc.stream());
 });
 
