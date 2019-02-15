@@ -1,15 +1,19 @@
 .icon {
-
+    
     &__reuse-form--angle {
         margin-left: 5px;
     }
 
-    &__reuse-form--selec__add {
-        color: rgba($mainDarkBlack, .45); 
-        font-size: .625rem;
-    }
-
     &__reuse-form--btn {
         margin-right: 5px;
+    }
+
+    &__reuse-form--user {
+        color: $mainDarkBlue;
+        margin-right: 5px;
+    }
+
+    &__reuse-form--srch {
+        color: #fff;
     }
 }

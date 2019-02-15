@@ -2,18 +2,17 @@
     margin-left: 5px;
 }
 
-.icon__reuse-form--selec__add {
-    color: rgba(0,0,0, .45);
-    font-size: .625rem;
-}
-
 .icon__reuse-form--btn {
     margin-right: 5px;
 }
 
-.icon__reuse-form--teach {
+.icon__reuse-form--user {
     color: #0284a8;
     margin-right: 5px;
+}
+
+.icon__reuse-form--srch {
+    color: #fff;
 }
 
 .active__main {
@@ -72,11 +71,10 @@
     left: 0;
     background-color: rgba(0,0,0, .6);
     z-index: 2;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s ease-in;
 }
-
-/* opacity: 0;
-        visibility: hidden;
-        transition: all .3s ease-in; */
 
 .reuse-form__overlay--visible {
     z-index: 2;
@@ -164,7 +162,6 @@
     background-color: #fff;
     border-radius: 3px;
     font-size: .875rem;
-
     /* border: 1px solid $mainDarkGray;  */
     box-shadow: inset 0 0px 1px 0px rgba(0,0,0, .95);
 }
@@ -191,20 +188,22 @@
     width: 150px;
 }
 
-.reuse-form__cnt--det__selec--teach {
-    position: absolute;
-    padding: 8px 10px;
-    left: 140px;
-    top: 50%;
-    transform: translateY(-50%);
-    border: 1px solid #dcdbdc;
-}
-
 .reuse-form__cnt--det__selec--add {
     background-color: #0284a8;
     color: #fff;
     padding: 8px 0px;
     width: 110px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0, .45);
+}
+
+.reuse-form__cnt--det__selec--user {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 150px;
+    padding: 8px 0px;
+    width: 120px;
+    /* border: 1px solid $mainDarkGray; */
     box-shadow: 0 2px 5px 0 rgba(0,0,0, .45);
 }
 
@@ -353,13 +352,13 @@
     z-index: 2;
 }
 
-.reuse-form__itm--img, .reuse-form__itm--vid {
+.reuse-form__itm--img, .reuse-form__itm--vid, .reuse-form__itm--user {
     opacity: 0;
     visibility: hidden;
     transition: all .3s ease-in;
 }
 
-.reuse-form__itm--img__visible, .reuse-form__itm--vid__visible {
+.reuse-form__itm--img__visible, .reuse-form__itm--vid__visible, .reuse-form__itm--user__visible {
     opacity: 1;
     visibility: visible;
     z-index: 2;
@@ -405,13 +404,13 @@
 
 .reuse-form__itm > ul li > div {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 15px;
     width: 8px;
     height: 8px;
     border-radius: 4px;
+    top: 50%;
+    transform: translateY(-50%);
     background-color: #ff1600;
+    left: 15px;
 }
 
 .reuse-form__itm > ul li:first-child {
@@ -437,11 +436,9 @@
         justify-content: center;
     -ms-flex-align: center;
         align-items: center;
-    cursor: pointer;
-    z-index: 2;
-    color: #fff;
-    margin: 0;
     padding: 0;
+    margin: 0;
+    cursor: pointer;
 }
 
 @media (min-width: 530px) {
@@ -454,11 +451,11 @@
 .reuse-form__itm--srch {
     position: absolute;
     left: 0;
-    background-color: #fff;
+    background-color: #f9f9f9;
     border: 1px solid #dcdbdc;
     border-top: none;
-    top: 50px;
-    width: 100%;
+    top: 100px;
+    width: 90%;
     padding: 10px 10px 20px 10px;
     opacity: 0;
     visibility: hidden;
@@ -479,7 +476,7 @@
     -ms-flex-align: center;
         align-items: center;
     position: absolute;
-    right: 5px;
+    right: 20px;
     top: 2px;
     border-radius: 10px;
     cursor: pointer;
@@ -492,7 +489,7 @@
     z-index: 1;
     font-size: .875rem;
     border-radius: 5px;
-    width: 95%;
+    width: 90%;
     box-shadow: 0 2px 1px 0 rgba(0,0,0, .3);
 }
 
@@ -543,7 +540,7 @@
 @media (min-width: 530px) {
 
     .reuse-form__itm--srch {
-        top: 50px;
+        top: 100px;
     }
 }
 
@@ -554,7 +551,7 @@
     overflow-y: auto;
 }
 
-.reuse-form__itm--det__teach {
+.reuse-form__itm--det__user {
     margin-top: 10px;
     margin-bottom: 30px;
 }
@@ -648,20 +645,23 @@
     color: #182427;
 }
 
-.reuse-form__btn--add {
-    background-color: #437da3;
+.reuse-form__btn--add, .reuse-form__btn--que {
     color: #fff;
     float: right;
     box-shadow: 0 2px 4px 1px rgba(0,0,0, .65);
     width: 70px;
 }
 
-.reuse-form__btn--add__que {
-    background-color: #ff1600;
+.reuse-form__btn--add {
+    background-color: #437da3;
 }
 
 .reuse-form__btn--add:hover {
     background-color: #05578b;
+}
+
+.reuse-form__btn--que {
+    background-color: #ff1600;
 }
 
 .reuse-form__footer {
