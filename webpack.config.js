@@ -17,6 +17,7 @@ module.exports = {
       postform: "./assets/postformscript/postform.js",
       queform: "./assets/queformscript/queform.js",
       groupform: "./assets/groupformscript/groupform.js",
+      onlinequeform: "./assets/onlinequeformscript/onlinequeform.js",
       user: "./assets/userscript/users.js",
       favorite: "./assets/favoritescript/favorite.js"
     }, 

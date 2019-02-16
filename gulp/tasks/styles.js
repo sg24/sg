@@ -176,6 +176,17 @@ gulp.task('groupformstyles', function() {
     .pipe(gulp.dest('./public/stylesheets'));
 });
 
+gulp.task('onlinequeformstyles', function() {
+    return gulp.src('./assets/onlinequeformstyle/onlinequeform.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) {
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
 gulp.task('examtabstyle', function() {
     return gulp.src('./assets/examtabstyle/examtab.css')
     .pipe(postcss([cssImport, mixins, cssvars, nested, 

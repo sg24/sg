@@ -1,0 +1,38 @@
+.icon {
+    
+    &__reuse-form--angle {
+        margin-left: 5px;
+    }
+
+    &__reuse-form--btn {
+        margin-right: 5px;
+    }
+
+    &__reuse-form--user {
+        color: $mainDarkBlue;
+        margin-right: 5px;
+    }
+
+    &__reuse-form--srch {
+        color: #fff;
+    }
+
+    &__reuse-form--cnt__title {
+        font-size: .75rem;
+        margin-right: 5px;
+        color: $mainDarkBlue;
+    }
+
+    &__reuse-form__cnt--tag {
+        margin-right: 10px;
+    }
+
+    &__reuse-form__cnt--tag__close {
+        color: $mainLightRed; 
+    }
+
+    &__reuse-form--clock {
+        color: $mainDarkBlue; 
+        margin-right: 5px;
+    }
+}

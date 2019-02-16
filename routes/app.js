@@ -54,6 +54,10 @@ router.get('/add/group', (req, res, next) => {
     res.render('groupform'); 
 });
 
+router.get('/add/onlineexam', (req, res, next) => {
+    res.render('onlineexamform'); 
+});
+
 router.get('/examtab', (req, res, next) => {
     res.render('examtab');
 });
