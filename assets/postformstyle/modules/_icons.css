@@ -8,12 +8,26 @@
         margin-right: 5px;
     }
 
-    &__reuse-form--user {
-        color: $mainDarkBlue;
+    &__reuse-form--cnt__user {
+        color: $mainDarkBlue; 
         margin-right: 5px;
     }
 
     &__reuse-form--srch {
         color: #fff;
+    }
+
+    &__reuse-form--cnt__tag {
+        margin-right: 5px;
+        color: $mainDarkBlue;
+        font-size: .8125rem;
+    }
+
+    &__reuse-form__cnt--categ {
+        margin-right: 10px;
+    }
+
+    &__reuse-form__cnt--tag__close {
+        color: $mainLightRed; 
     }
 }

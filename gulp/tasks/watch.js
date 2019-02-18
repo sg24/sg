@@ -79,6 +79,10 @@ gulp.task('watch', function() {
         gulp.start('onlinequeformcss')
     });
 
+    watch('./assets/ptwritformstyle/**/*.css', function() {
+        gulp.start('ptwritformcss')
+    });
+
     watch('./assets/examtabstyle/**/*.css', function() {
         gulp.start('examtabcss')
     });
@@ -179,6 +183,11 @@ gulp.task('groupformcss',['groupformstyles'], function() {
 
 gulp.task('onlinequeformcss',['onlinequeformstyles'], function() {
     return gulp.src("./assets/onlinequeformstyle/onlinequeform.css")
+    .pipe(browserSyc.stream());
+}); 
+
+gulp.task('ptwritformcss',['ptwritformstyles'], function() {
+    return gulp.src("./assets/ptwritformstyle/pwtform.css")
     .pipe(browserSyc.stream());
 }); 
 

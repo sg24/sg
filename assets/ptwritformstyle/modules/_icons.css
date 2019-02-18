@@ -22,12 +22,4 @@
         color: $mainLightRed;
         font-size: .8125rem;
     }
-
-    &__reuse-form__cnt--categ {
-        margin-right: 10px;
-    }
-
-    &__reuse-form__cnt--tag__close {
-        color: $mainLightRed; 
-    }
 }

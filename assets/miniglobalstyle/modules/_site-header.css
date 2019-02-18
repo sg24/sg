@@ -200,17 +200,9 @@
             float: left;
             padding: 8px 0px;
 
-            &:first-child, &:last-child {
-                display: block;
-
-                @mixin atSmall {
-                    display: none;
-                }
-            }
-
             & > a {
                 text-decoration: none;
-                padding: 8px 20px;
+                padding: 8px 20px; 
 
                 &:hover {
                     background-color: $mainDarkGray;
@@ -282,8 +274,8 @@
                 background-color: $mainDarkBlue;
                 padding: 0;
                 margin: 0;
-                border-radius: 5px;
                 z-index: -2;
+                border-radius: 5px;
                 cursor: default;
                 border-bottom: 5px solid $mainDarkBlue; 
                 border-top: 5px solid $mainDarkBlue;

@@ -2,11 +2,26 @@
     <div class="reuse-form__wrapper">
         <div class="reuse-form__overlay"></div>
         <h3 class="reuse-form__title">
-            <div><div><i class="fas fa-pencil-alt"></i></div> Add Question</div>
-        </h3>
+            <div><div><i class="fas fa-pencil-alt"></i></div> Poet / Writers</div>
+        </h3> 
         <div class="reuse-form__cnt">
             <div class="reuse-form__cnt--wrapper">
-                <label for="category" class="reuse-form__cnt--title"><i class="fas fa-tags icon icon__reuse-form--cnt__tag"></i> Tags</label>
+                <label for="category" class="reuse-form__cnt--title">Type</label>
+                <div class="reuse-form__cnt--det">
+                    <div class="reuse-form__cnt--det__wrapper">
+                        <div class="reuse-form__cnt--det__selec reuse-form__cnt--det__selec--type">
+                            Type <i class="fas fa-angle-down icon icon__reuse-form--angle"></i> 
+                            <ul class="reuse-form__cnt--det__selec--opt">
+                                <li>Free</li>
+                                <li>Paid</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {{!-- <div class="reuse-form__err">Pls, select category</div> --}}
+            </div>
+            <div class="reuse-form__cnt--wrapper">
+                <label for="category" class="reuse-form__cnt--title"><i class="fas fa-tags icon icon__reuse-form--cnt__tag"></i> Tag</label>
                 <div class="reuse-form__cnt--det">
                     <div class="reuse-form__cnt--det__wrapper">
                         <div class="reuse-form__cnt--det__selec reuse-form__cnt--det__selec--categ">
@@ -36,16 +51,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="reuse-form__cnt--tag">
-                    <h3><i class="fas fa-bars icon icon__reuse-form__cnt--categ"></i>Category </h3>
-                    <ul class="reuse-form__cnt--tag__itm">
-                        <li>Poem <div><i class="fas fa-times icon icon__reuse-form__cnt--tag__close"></i></div></li>
-                        <li>Poet <div><i class="fas fa-times icon icon__reuse-form__cnt--tag__close"></i></div></li>
-                        <li>News <div><i class="fas fa-times icon icon icon__reuse-form__cnt--tag__close"></i></div></li>
-                        <li>Entertainment <div><i class="fas fa-times icon icon__reuse-form__cnt--tag__close"></i></div></li>
-                    </ul>
-                </div>
                 {{!-- <div class="reuse-form__err">Pls, select category</div> --}}
+            </div>
+            <div class="reuse-form__cnt--wrapper">
+                <label for="Post Title" class="reuse-form__cnt--title">Title</label>
+                <div class="reuse-form__cnt--det">
+                    <input type="text" name="" id="" class="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg">
+                </div>
+                {{!-- <div class="reuse-form__err">Pls, Enter a title</div> --}}
+            </div>
+            <div class="reuse-form__cnt--wrapper">
+                <label for="post content" class="reuse-form__cnt--title"><i class="fas fa-users icon icon__reuse-form--cnt__user"></i> User Preview</label>
+                <div class="reuse-form__cnt--det">
+                    <textarea name="" id="" class="reuse-form__cnt--det__info"></textarea>
+                </div>
+                {{!-- <div class="reuse-form__err">Pls, content must not be empty</div> --}}
             </div>
             <div class="reuse-form__cnt--wrapper">
                 <label for="post content" class="reuse-form__cnt--title">Content </label>
@@ -62,10 +82,11 @@
                             <ul class="reuse-form__cnt--det__selec--opt">
                                 <li class="reuse-form__cnt--det__selec--opt__img">Image</li>
                                 <li class="reuse-form__cnt--det__selec--opt__vid">Video</li>
+                                <li class="reuse-form__cnt--det__selec--opt__fil">File</li>
                             </ul>
                         </div>
                         <div class="reuse-form__cnt--det__selec reuse-form__cnt--det__selec--user">
-                             <i class="fas fa-chalkboard-teacher icon icon__reuse-form--cnt__user"></i> Share Users 
+                            <i class="fas fa-chalkboard-teacher icon icon__reuse-form--cnt__user"></i> Share Users 
                         </div>
                     </div>
                 </div>
@@ -81,9 +102,7 @@
                         <input type="text" name="" id="" class="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg" placeholder="paste link">
                     </div>
                 </div>
-                <div class="reuse-form__itm--det__view">
-
-                </div>
+                <div class="reuse-form__itm--det__view"></div>
                 <div class="reuse-form__itm--det__alt">
                     OR
                 </div>
@@ -95,9 +114,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="reuse-form__itm--det__view">
-
-                </div>
+                <div class="reuse-form__itm--det__view"></div>
             </div>
             <div class="reuse-form__itm--footer reuse-form__btn">
                 <button type="button" class="reuse-form__btn--close">Exit</button>
@@ -109,7 +126,7 @@
             <h4 class="reuse-form__itm--title">Add Video</h4>
             <div class="reuse-form__itm--det">
                 <div class="reuse-form__cnt">
-                    <label for="image link" class="reuse-form__cnt--title">Video Link</label>
+                     <label for="image link" class="reuse-form__cnt--title">Video Link</label>
                     <div class="reuse-form__cnt--det">
                         <input type="text" name="" id="" class="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg" placeholder="paste link">
                     </div>
@@ -122,6 +139,35 @@
                     <div class="reuse-form__cnt--det">
                         <div class="reuse-form__cnt--det__fil">
                             Add Video
+                            <input type="file" name="" id="" class="reuse-form__cnt--det__fil--input">
+                        </div>
+                    </div>
+                </div>
+                <div class="reuse-form__itm--det__view"></div>
+            </div>
+            <div class="reuse-form__itm--footer reuse-form__btn">
+                <button type="button" class="reuse-form__btn--close">Exit</button>
+                <button type="submit" class="reuse-form__btn--add">Add</button>
+            </div>
+        </div>
+
+        <div class="reuse-form__itm reuse-form__itm--fil">
+            <h4 class="reuse-form__itm--title">Add File</h4>
+            <div class="reuse-form__itm--det">
+                <div class="reuse-form__cnt">
+                     <label for="image link" class="reuse-form__cnt--title">File Link</label>
+                    <div class="reuse-form__cnt--det">
+                        <input type="text" name="" id="" class="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg" placeholder="paste link">
+                    </div>
+                </div>
+                <div class="reuse-form__itm--det__view"></div>
+                <div class="reuse-form__itm--det__alt reuse-form__itm--det__alt--vid">
+                    OR
+                </div>
+                <div class="reuse-form__cnt">
+                    <div class="reuse-form__cnt--det">
+                        <div class="reuse-form__cnt--det__fil">
+                            Add File
                             <input type="file" name="" id="" class="reuse-form__cnt--det__fil--input">
                         </div>
                     </div>
@@ -173,7 +219,7 @@
                             <div class="reuse-pvt-chat__img--status reuse-pvt-chat__img--status__on"></div>
                         </div>
                         <ul class="reuse-pvt-chat__det">
-                            <li><a href="">User user <span>@ 2m ago</span></a></li>
+                            <li><a href="">User user </a></li>
                             <li><span> Add </span></li>
                         </ul>
                     </div>
@@ -184,10 +230,10 @@
                 <button type="submit" class="reuse-form__btn--add">Share</button>
             </div>
         </div>
-
+        
         <div class="reuse-form__footer reuse-form__btn">
             <button type="submit" class="reuse-form__btn--dft"><i class="fas fa-eye-slash icon icon__reuse-form--btn"></i> Draft</button>
-            <button type="submit" class="reuse-form__btn--que"><i class="fas fa-plus icon icon__reuse-form--btn"></i> Ask</button>
+            <button type="submit" class="reuse-form__btn--add"><i class="fas fa-plus icon icon__reuse-form--btn"></i> Add</button>
         </div>
     </div>
 </form>

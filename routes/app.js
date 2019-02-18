@@ -58,6 +58,10 @@ router.get('/add/onlineexam', (req, res, next) => {
     res.render('onlineexamform'); 
 });
 
+router.get('/add/poet', (req, res, next) => {
+    res.render('poetwriterform'); 
+});
+
 router.get('/examtab', (req, res, next) => {
     res.render('examtab');
 });

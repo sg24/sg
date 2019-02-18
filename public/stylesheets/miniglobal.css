@@ -1078,17 +1078,6 @@ img {
   padding: 8px 0px;
 }
 
-.site-header__nav-opt > li:first-child, .site-header__nav-opt > li:last-child {
-  display: block;
-}
-
-@media (min-width: 530px) {
-
-  .site-header__nav-opt > li:first-child, .site-header__nav-opt > li:last-child {
-    display: none;
-  }
-}
-
 .site-header__nav-opt > li > a {
   text-decoration: none;
   padding: 8px 20px;
@@ -1183,8 +1172,8 @@ img {
   background-color: #0284a8;
   padding: 0;
   margin: 0;
-  border-radius: 5px;
   z-index: -2;
+  border-radius: 5px;
   cursor: default;
   border-bottom: 5px solid #0284a8;
   border-top: 5px solid #0284a8;
