@@ -27,19 +27,4 @@
     &__reuse-que--options__dft {
         margin-right: 5px;
     }
-
-    &__reuse-que-filter--ans {
-        color: $mainLightRed;
-        margin-right: 5px;
-    }
-
-    &__reuse-que-filter--rgt {
-        color: $mainLightBlue;
-        margin-right: 5px;
-    }
-
-    &__reuse-que-filter--fav {
-        color: $mainLightRed;
-        margin-right: 5px;
-    }
 }

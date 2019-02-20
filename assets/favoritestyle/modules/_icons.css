@@ -4,34 +4,6 @@
         color: $mainLightRed; 
     }
 
-    &__reuse-que--header__tag {
-        color: $mainLightBlack;
-        cursor: pointer;
-    }
-    
-    &__reuse-que--footer__thumbup {
-        color: $mainDarkBlue;
-        cursor: pointer;
-    }
-
-    &__reuse-que--footer__thumbdown {
-        color: $mainDarkBlack;
-        cursor: pointer;
-    }
-
-    &__reuse-que--footer__heart {
-        color: $mainLightRed; 
-        cursor: pointer;
-    }
-
-    &__reuse-que--options {
-        margin-right: 10px;
-    }
-
-    &__reuse-que--options__dft {
-        margin-right: 5px;
-    }
-
     &__reuse-onlineque--durationClock {
         margin-right: 3px;
         color: $mainDarkBlue;
