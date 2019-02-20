@@ -127,6 +127,10 @@ gulp.task('watch', function() {
         gulp.start('reusegrpcss')
     });
 
+    watch('./assets/filterstyle/**/*.css', function() {
+        gulp.start('filtercss')
+    });
+
     // watch('./apps.js', function() {
     //     gulp.start('scriptsRefresh');
     // });
@@ -273,6 +277,12 @@ gulp.task('reusegrpcss',['reusegrpstyle'], function() {
     return gulp.src("./assets/reusegrpstyle/reuse-group.css")
     .pipe(browserSyc.stream());
 });
+
+gulp.task('filtercss',['filterstyle'], function() {
+    return gulp.src("./assets/filterstyle/filter.css")
+    .pipe(browserSyc.stream());
+});
+
 // gulp.task('scriptsRefresh',['scripts'], function() {
 //     browserSyc.reload();
 // });

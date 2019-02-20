@@ -3,6 +3,4 @@
 @import "modules/_active"; 
 @import "modules/_icons";
 @import "modules/_site-main__user";   
-@import "modules/_reuse-filter"; 
-@import "modules/_reuse-categ"; 
 @import "modules/_reuse-user-filter"; 
