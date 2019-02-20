@@ -4,34 +4,6 @@
         margin-right: 5px;
     }
 
-    &__reuse-group--acc__grp {
-        font-size: 1.875rem;
-        color: $mainDarkGray;
-    }
-
-    &__reuse-group--header__calend {
-        margin-right: 5px;
-        color: rgba($mainDarkPaleBlue, .6);
-    }
-
-    &__reuse-group--cnt__det {
-        color: $mainFontColor;
-        margin-right: 5px;
-    }
-
-    &__reuse-group--cnt__comment {
-        margin-right: 10px;
-        color: #fff; 
-    }
-
-    &__reuse-group--footer__users {
-        color: $mainDarkPaleBlue;
-    }
-
-    &__reuse-group--footer__users-on {
-        color: rgba($mainDarkBlack, .55);
-    }
-
     &__reuse-categ--angle {
         margin-left: 5px;
         color: $mainFontColor;

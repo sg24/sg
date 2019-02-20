@@ -26,48 +26,6 @@
     color: rgba(0,0,0, .55); 
 }
 
-.icon__reuse-categ--angle {
-    margin-left: 5px;
-    color: #182427;
-    font-size: .75rem; 
-}
-
-.icon__reuse-filter--angle {
-    margin-left: 5px;
-    color: #182427;
-    font-size: .75rem; 
-}
-
-.icon__reuse-filter--calend {
-    font-size: 1rem;
-    color: rgba(0,0,0, .6);
-    cursor: pointer; 
-}
-
-.icon__reuse-grp-filter--user {
-    color: #15a4fa;
-    margin-right: 5px; 
-}
-
-.icon__reuse-filter--categ {
-    color: #182427;
-    margin-right: 10px; 
-}
-
-.icon__reuse-filter--apply {
-    color: #fff;
-    margin-right: 5px; 
-}
-
-.icon__reuse-filter--cancel {
-    color: #ff1600;
-    margin-right: 5px; 
-}
-
-.icon__reuse-filter--close {
-    color: #ff1600; 
-}
-
 .reuse-group {
     color: #182427; 
     padding: 0 15px;  
@@ -102,23 +60,23 @@
     display: table; 
 }
 
-.reuse-group__header li {
+.reuse-group__header > li {
     position: relative;
     float: left;
     font-size: .8125rem; 
 }
 
-.reuse-group__header li:first-child {
+.reuse-group__header > li:first-child {
     position: relative; 
 }
 
-.reuse-group__header li:last-child {
+.reuse-group__header > li:last-child {
     float: right; 
 }
 
 @media (min-width: 530px) {
 
-    .reuse-group__header li {
+    .reuse-group__header > li {
         font-size: .875rem; 
     } 
 }

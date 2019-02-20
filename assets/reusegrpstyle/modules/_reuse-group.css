@@ -2,8 +2,8 @@
     color: $mainFontColor; 
     padding: 0 15px;  
     margin: 40px 0; 
- 
-    &__wrapper { 
+
+    &__wrapper {
         width: 100%;
         border-radius: 10px;
         background-color: #fff;  
@@ -25,7 +25,7 @@
         @mixin clearfix;
         border-bottom: 1px solid  $mainLightGray;
 
-        li {
+       & > li {
             position: relative;
             float: left;
             font-size: .8125rem;
