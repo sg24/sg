@@ -4,51 +4,6 @@
         color: $mainLightRed; 
     }
 
-    &__reuse-onlineque--durationClock {
-        margin-right: 3px;
-        color: $mainDarkBlue;
-    }
-
-    &__reuse-onlineque--options {
-        margin-right: 10px;
-    }
-
-    &__reuse-onlineque--options__dft {
-        margin-right: 5px;
-    }
-
-    &__reuse-onlineque--share {
-        z-index: .7;
-        color: #fff;
-        font-size: .75rem;
-
-        @mixin atSmall {
-            font-size: .9375rem;
-        }
-    }
-
-    &__reuse-onlineque--pen {
-        margin-right: 5px;
-        color: #fff;
-    }
-
-    &__reuse-onlineque--comment {
-        margin-right: 5px;
-        color: $mainDarkBlack;
-    }
-
-    &__reuse-onlineque--heart {
-        margin-right: 5px;
-        cursor: pointer;
-        color: $mainLightRed;
-    }
-
-    &__reuse-onlineque--time {
-        margin-right: 3px;
-        /* color: $mainFontColor; */
-        color: $mainLightBlue;
-    }
-
     &__reuse-share--title {
         margin-left: 20px;
     }

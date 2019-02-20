@@ -324,19 +324,6 @@
     margin-right: 5px;
 }
 
-.icon__reuse-onlineque--share {
-    z-index: .7;
-    color: #fff;
-    font-size: .75rem;
-}
-
-@media (min-width: 530px) {
-
-    .icon__reuse-onlineque--share {
-        font-size: .9375rem;
-    }
-}
-
 .icon__reuse-onlineque--pen {
     margin-right: 5px;
     color: #fff;

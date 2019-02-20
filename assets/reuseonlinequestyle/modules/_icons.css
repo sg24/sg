@@ -13,16 +13,6 @@
         margin-right: 5px;
     }
 
-    &__reuse-onlineque--share {
-        z-index: .7;
-        color: #fff;
-        font-size: .75rem;
-
-        @mixin atSmall {
-            font-size: .9375rem;
-        }
-    }
-
     &__reuse-onlineque--pen {
         margin-right: 5px;
         color: #fff;
