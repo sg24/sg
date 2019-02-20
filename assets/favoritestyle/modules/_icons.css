@@ -48,61 +48,6 @@
         /* color: $mainFontColor; */
         color: $mainLightBlue;
     }
-    
-    &__reuse-pwt--share {
-        z-index: .7; 
-        color: #fff;
-        font-size: .75rem;
-
-        @mixin atSmall {
-            font-size: .9375rem;
-        }
-    }
-
-    &__reuse-pwt--tag {
-        color: $mainLightBlack;
-    }
-
-    &__reuse-pwt--quote {
-        font-size: .8125rem;
-        color: $mainDarkBlue;
-        position: absolute;
-        top: 3.5px;
-        left: 4.4px;
-    }
-
-    &__reuse-pwt--quoteright {
-        font-size: .8125rem;
-        color: $mainDarkBlue;
-        position: absolute;
-        top: 5px;
-        left: 4.4px;
-    }
-
-    &__reuse-pwt--options {
-        margin-right: 10px;
-    }
-
-    &__reuse-pwt--options__dft {
-        margin-right: 5px;
-    }
-
-    &__reuse-pwt--footer__smile {
-        margin-right: 5px;
-        color: $mainDarkBlue;  
-    }
-
-    &__reuse-pwt--footer__heart {
-        margin-right: 5px;
-        color: $mainLightRed;
-        cursor: pointer;
-    }
-
-    &__reuse-pwt--footer__comments {
-        margin-right: 5px;
-        color: $mainDarkBlack;
-     
-    }
 
     &__reuse-share--title {
         margin-left: 20px;
