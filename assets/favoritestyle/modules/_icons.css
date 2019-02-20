@@ -4,34 +4,6 @@
         color: $mainLightRed; 
     }
 
-    &__reuse-pt--footer__eye {
-        color: $mainDarkBlack;
-        cursor: pointer;
-    }
-
-    &__reuse-pt--footer__chats {
-        color: $mainDarkBlue;
-        cursor: pointer;
-    }
-
-    &__reuse-pt--footer__heart {
-        color: $mainLightRed; 
-        cursor: pointer;
-    }
-
-    &__reuse-pt--header__tag {
-        color: $mainLightBlack;
-        cursor: pointer;
-    }
-
-    &__reuse-pt--options {
-        margin-right: 10px;
-    }
-
-    &__reuse-pt--options__dft {
-        margin-right: 5px;
-    }
-
     &__reuse-que--header__tag {
         color: $mainLightBlack;
         cursor: pointer;

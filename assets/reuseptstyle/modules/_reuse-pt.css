@@ -38,7 +38,7 @@
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
 
-        li {
+        & > li {
             font-style: italic;
            
             &:first-child {

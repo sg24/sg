@@ -20,19 +20,6 @@
         cursor: pointer;
     }
 
-    &__reuse-pt--share {
-        position: absolute;
-        top: 27%;
-        transform: translate(-54%);
-        z-index: 1;
-        color: #fff;
-        font-size: .75rem;
-
-        @mixin atSmall {
-            font-size: .9375rem;
-        }
-    }
-
     &__reuse-pt--options {
         margin-right: 10px;
     }
