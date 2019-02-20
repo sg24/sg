@@ -241,3 +241,82 @@ gulp.task('favoritestyle', function() {
     })
     .pipe(gulp.dest('./public/stylesheets'));
 });
+
+gulp.task('accstyle', function() {
+    return gulp.src('./assets/accstyle/acc.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) { 
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
+gulp.task('reusesharestyle', function() {
+    return gulp.src('./assets/reusesharestyle/reuse-share.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) { 
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
+gulp.task('reuseptstyle', function() {
+    return gulp.src('./assets/reuseptstyle/reuse-pt.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) { 
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
+gulp.task('reusequestyle', function() {
+    return gulp.src('./assets/reusequestyle/reuse-que.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) { 
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
+gulp.task('onlinequestyle', function() {
+    return gulp.src('./assets/reuseonlinequestyle/reuse-onlineque.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) { 
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
+gulp.task('reusepwtstyle', function() {
+    return gulp.src('./assets/reusepwtstyle/reuse-pwt.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) { 
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
+
+gulp.task('reusegrpstyle', function() {
+    return gulp.src('./assets/reusegrpstyle/reuse-group.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) { 
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+

@@ -99,6 +99,34 @@ gulp.task('watch', function() {
         gulp.start('favoritecss')
     });
 
+    watch('./assets/accstyle/**/*.css', function() {
+        gulp.start('acctcss')
+    });
+
+    watch('./assets/reusesharestyle/**/*.css', function() {
+        gulp.start('reusesharecss')
+    });
+
+    watch('./assets/reuseptstyle/**/*.css', function() {
+        gulp.start('reuseptcss')
+    });
+    
+    watch('./assets/reusequestyle/**/*.css', function() {
+        gulp.start('reusequecss')
+    });
+
+    watch('./assets/reuseonlinequestyle/**/*.css', function() {
+        gulp.start('onlinequecss')
+    });
+
+    watch('./assets/reusepwtstyle/**/*.css', function() {
+        gulp.start('reusepwtcss')
+    });
+
+    watch('./assets/reusegrpstyle/**/*.css', function() {
+        gulp.start('reusegrpcss')
+    });
+
     // watch('./apps.js', function() {
     //     gulp.start('scriptsRefresh');
     // });
@@ -211,6 +239,40 @@ gulp.task('favoritecss',['favoritestyle'], function() {
     .pipe(browserSyc.stream());
 }); 
 
+gulp.task('acctcss',['accstyle'], function() {
+    return gulp.src("./assets/accstyle/acc.css")
+    .pipe(browserSyc.stream());
+}); 
+
+gulp.task('reusesharecss',['reusesharestyle'], function() {
+    return gulp.src("./assets/reusesharestyle/reuse-share.css")
+    .pipe(browserSyc.stream());
+}); 
+
+gulp.task('reuseptcss',['reuseptstyle'], function() {
+    return gulp.src("./assets/reuseptstyle/reuse-pt.css")
+    .pipe(browserSyc.stream());
+}); 
+
+gulp.task('reusequecss',['reusequestyle'], function() {
+    return gulp.src("./assets/reusequestyle/reuse-que.css")
+    .pipe(browserSyc.stream());
+}); 
+
+gulp.task('onlinequecss',['onlinequestyle'], function() {
+    return gulp.src("./assets/reuseonlinequestyle/reuse-onlineque.css")
+    .pipe(browserSyc.stream());
+}); 
+
+gulp.task('reusepwtcss',['reusepwtstyle'], function() {
+    return gulp.src("./assets/reusepwtstyle/reuse-pwt.css")
+    .pipe(browserSyc.stream());
+}); 
+
+gulp.task('reusegrpcss',['reusegrpstyle'], function() {
+    return gulp.src("./assets/reusegrpstyle/reuse-group.css")
+    .pipe(browserSyc.stream());
+});
 // gulp.task('scriptsRefresh',['scripts'], function() {
 //     browserSyc.reload();
 // });

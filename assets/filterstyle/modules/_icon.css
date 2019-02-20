@@ -1,0 +1,39 @@
+.icon {
+    
+    &__reuse-categ--angle {
+        margin-left: 5px;
+        color: $mainFontColor;
+        font-size: .75rem;
+    }
+
+    &__reuse-filter--angle {
+        margin-left: 5px;
+        color: $mainFontColor;
+        font-size: .75rem;
+    }
+
+    &__reuse-filter--calend {
+        font-size: 1rem;
+        color: rgba($mainDarkBlack, .6);
+        cursor: pointer;
+    }
+
+    &__reuse-filter--categ {
+        color: $mainFontColor;
+        margin-right: 10px;
+    }
+
+    &__reuse-filter--apply {
+        color: #fff;
+        margin-right: 5px;
+    }
+
+    &__reuse-filter--cancel {
+        color: $mainLightRed;
+        margin-right: 5px;
+    }
+
+    &__reuse-filter--close {
+        color: $mainLightRed;
+    }
+}
