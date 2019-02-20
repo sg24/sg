@@ -9,7 +9,7 @@ class UserOpt {
         this.events();
     }
  
-    events() {  
+    events() { 
         this.ptOptToggler.click(this.togglePtOpt.bind(this));
     } 
 
