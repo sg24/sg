@@ -13,11 +13,6 @@
         color: #fff;
     }
 
-    &__reuse-conv-filter--srt {
-        margin-right: 5px;
-        color: $mainFontColor;
-    }
-
     &__reuse-conv-filter--add {
         margin-right: 5px;
         font-size: .75rem;

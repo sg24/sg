@@ -1,0 +1,7 @@
+.icon {
+
+    &__reuse-sort--angle {
+        margin-right: 5px;
+        color: $mainFontColor;
+    }
+}
