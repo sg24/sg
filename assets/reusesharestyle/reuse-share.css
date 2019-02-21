@@ -1,4 +1,5 @@
 @import "./base/_mixins";
 @import "./base/_variables"; 
+@import "modules/_icon";  
 @import "modules/_reuse-share";
-@import "modules/_icon";     
+   
