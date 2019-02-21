@@ -1,0 +1,16 @@
+.icon {
+
+    &__acc--shared__tab {
+        color: $mainLightBlue; 
+    }
+   
+    &__reuse-conv--del {
+        margin-right: 5px;
+        color: #fff; 
+    }
+
+    &__reuse--conv--blk {
+        margin-right: 5px;
+        color: rgba($mainDarkBlack, .5); 
+    }
+}

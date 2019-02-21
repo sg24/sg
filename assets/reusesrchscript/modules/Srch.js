@@ -2,7 +2,7 @@ import $ from 'jquery';
 
 class Srch {
     constructor() { 
-        this.srchToggler = $(".reuse-fav-filter__srch, .site-main__conv--header__search, .reuse-user-filter__srch");
+        this.srchToggler = $(".reuse-fav-filter__srch, .site-main__conv--header__search, .reuse-user-filter__srch, .reuse-acc-filter__srch");
         this.srch = $(".reuse-srch");
         this.srchClose = $(".reuse-srch__close, .site-main__content--overlay");
         this.sortOpt = $(".reuse-sort__opt");

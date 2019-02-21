@@ -1666,7 +1666,7 @@ img {
 .site-main {
     font-family: "Roboto",Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
     position: relative;
-    padding-top: 50px;
+    top: 50px;
 }
 
 .site-main__fm {

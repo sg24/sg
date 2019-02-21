@@ -1,0 +1,100 @@
+.site-main__nav {
+        width: 20%;
+        background-color: rgba($mainHeaderColor, .4);    
+        box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+        -o-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+        -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+        -webkit-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
+        -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);  
+        float: left;
+        display: none;
+        font-weight: 300;
+        margin-top: 10px;
+        height: 92vh;       
+ 
+       
+        &--sticky { 
+            top: 60px; 
+            position: sticky;      
+            overflow: hidden;  
+        }
+
+        &--wrapper { 
+            display: flex;
+            flex-direction: column;
+            height: 92vh; 
+
+            & > h4 {
+                margin: 0;
+                background-color: $mainMiddleDarkBlue;
+                font-size: .8125rem; 
+                position: relative; 
+                z-index: 2;  
+                box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
+                padding: 12px 0;
+                text-align: center;
+                font-weight: 300;
+                color: #fff;
+        
+                @mixin atSmall {
+                    font-size: .875rem; 
+                }
+            }
+
+            & > ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                font-size: .8125rem;
+                background-color: $mainHeaderColor; 
+                border: 1px solid $mainDarkGray; 
+                border-top: none;
+                
+                & > li {
+                    position: relative;
+                    width: 100%;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    border-bottom: 1px solid $mainDarkGray;
+                    text-align: left;
+                    cursor: pointer;
+        
+                    & > a {
+                        display: block;
+                        text-decoration: none;
+                        color: $mainFontColor;
+                        padding: 20px 20px 20px 60px;
+        
+                        & > div {
+                            position: absolute;
+                            left: 20px;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            width: 30px;
+                            height: 30px;
+                            border-radius: 15px;
+                            background-color: #fff;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center; 
+                            border: 1px solid $mainDarkGray;
+                        }
+
+                        &:hover {
+                            background-color: $mainExtraLightGray;
+                            color: $mainDarkBlue;
+                        }
+                    }
+        
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+        
+    @mixin atLarge {
+        display: block;         
+    }
+}

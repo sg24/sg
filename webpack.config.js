@@ -19,7 +19,8 @@ module.exports = {
       reuseQue: "./assets/reusequescript/reuseQue.js", 
       reusePwt: "./assets/reusepwtscript/reusePtwrit.js",  
       reusePt: "./assets/reuseptscript/reusePost.js",  
-      reuseOnlineque: "./assets/reuseonlinequescript/reuseOnlineque.js" 
+      reuseOnlineque: "./assets/reuseonlinequescript/reuseOnlineque.js",
+      accShared: "./assets/accsharedscript/accShared.js"  
     }, 
     output: {
       path: path.resolve(__dirname + '/public/js/app'),

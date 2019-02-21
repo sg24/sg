@@ -78,8 +78,8 @@ router.get('/favorite', (req, res, next) => {
     res.render('favorite');
 });
 
-router.get('/acc', (req, res, next) => {
-    res.render('acc'); 
+router.get('/acc/shared', (req, res, next) => {
+    res.render('accshared'); 
 });
 
 module.exports = router;
