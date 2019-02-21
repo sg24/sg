@@ -342,3 +342,13 @@ gulp.task('reusesortstyle', function() {
     .pipe(gulp.dest('./public/stylesheets'));
 });
 
+gulp.task('reusesrchstyle', function() {
+    return gulp.src('./assets/reusesrchstyle/reuse-srch.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) { 
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});

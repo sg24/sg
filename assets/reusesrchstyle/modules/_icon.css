@@ -1,0 +1,10 @@
+.icon {
+
+  &__reuse-srch--close {
+    color: $mainLightRed;
+  }
+
+  &__reuse-srch--calend {
+      color: $mainFontColor;
+  }
+}
