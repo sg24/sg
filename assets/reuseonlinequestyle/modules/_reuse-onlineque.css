@@ -16,7 +16,7 @@
         border-bottom: 1px solid $mainLightGray;
         position: relative;
 
-        li {
+        & > li {
             position: relative;
             float: right;
             padding: 10px 0;

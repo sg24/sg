@@ -23,17 +23,17 @@
     display: table;
 }
 
-.reuse-onlineque__header li {
+.reuse-onlineque__header > li {
     position: relative;
     float: right;
     padding: 10px 0;
 }
 
-.reuse-onlineque__header li:first-child {
+.reuse-onlineque__header > li:first-child {
     float: left;
 }
 
-.reuse-onlineque__header li:last-child {
+.reuse-onlineque__header > li:last-child {
     float: none;
     padding: 0;
     margin: 0;

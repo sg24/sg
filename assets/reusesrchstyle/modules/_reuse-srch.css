@@ -77,6 +77,10 @@
     }
 
     @mixin atSmall {
+        top: 90px; 
+    }
+
+    @mixin atLarge {
         top: 100px; 
     }
 }
