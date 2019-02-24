@@ -396,3 +396,14 @@ gulp.task('accpubstyle', function() {
     })
     .pipe(gulp.dest('./public/stylesheets'));
 });
+
+gulp.task('accdftstyle', function() {
+    return gulp.src('./assets/accdraftstyle/acc-dft.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) { 
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});

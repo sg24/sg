@@ -1821,6 +1821,7 @@ img {
   -webkit-box-shadow: inset 0px 0 2px 0px rgba(119,119,119, .5);
   -ms-box-shadow: inset 0px 0 2px 0px rgba(119,119,119, .5);
   position: relative;
+  min-height: 600px;
 }
 
 .site-main__content--no-tab-wrapper {
@@ -1922,7 +1923,7 @@ img {
   .site-main__content {
     width: 65%;
     float: left;
-    padding-right: 40px;
+    padding-right: 20px;
     left: 0;
     transform: translateX(0);
   }

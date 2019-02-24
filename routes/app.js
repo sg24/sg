@@ -90,5 +90,8 @@ router.get('/acc/pub', (req, res, next) => {
     res.render('accpub'); 
 });
 
+router.get('/acc/dft', (req, res, next) => {
+    res.render('accdft'); 
+});
 
 module.exports = router;

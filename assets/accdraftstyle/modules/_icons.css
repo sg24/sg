@@ -1,0 +1,10 @@
+.icon {
+
+    &__acc-dft--tab {
+        color: $mainFontColor;
+    }
+
+    &__acc-dft--opt {
+        margin-right: 5px;
+    }
+}

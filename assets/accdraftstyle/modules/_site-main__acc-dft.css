@@ -1,0 +1,29 @@
+.site-main__acc-dft {
+    width: 100%;
+
+    &--opt {
+        color: $mainFontColor;
+
+        & > li {
+            position: relative;
+            padding: 0;
+
+            &:first-child {
+                color: #fff;
+                padding: 5px;
+                border: 1px solid $mainDarkGray;
+            }
+
+            &:last-child {
+                color: #fff;
+                & > a {
+                    color: #fff;
+                }
+            }
+
+            & > a {
+                color: $mainFontColor;
+            }
+        }
+    }
+} 
