@@ -139,6 +139,10 @@ gulp.task('watch', function() {
         gulp.start('reuseacctcss')
     });
 
+    watch('./assets/reuseuserstyle/**/*.css', function() {
+        gulp.start('reuseusercss')
+    });
+
     watch('./assets/accsharedstyle/**/*.css', function() {
         gulp.start('accsharedcss')
     });
@@ -147,8 +151,8 @@ gulp.task('watch', function() {
         gulp.start('accusercss')
     });
 
-    watch('./assets/reuseuserstyle/**/*.css', function() {
-        gulp.start('reuseusercss')
+    watch('./assets/accpublishstyle/**/*.css', function() {
+        gulp.start('accpubcss')
     });
 
     // watch('./apps.js', function() {
@@ -313,6 +317,11 @@ gulp.task('reuseacctcss',['reuseaccstyle'], function() {
     .pipe(browserSyc.stream());
 }); 
 
+gulp.task('reuseusercss',['reuseuserstyle'], function() {
+    return gulp.src("./assets/reuseuserstyle/reuse-user.css")
+    .pipe(browserSyc.stream());
+}); 
+
 gulp.task('accsharedcss',['accsharedstyle'], function() {
     return gulp.src("./assets/accsharedstyle/acc-shared.css")
     .pipe(browserSyc.stream());
@@ -323,8 +332,8 @@ gulp.task('accusercss',['accuserstyle'], function() {
     .pipe(browserSyc.stream());
 }); 
 
-gulp.task('reuseusercss',['reuseuserstyle'], function() {
-    return gulp.src("./assets/reuseuserstyle/reuse-user.css")
+gulp.task('accpubcss',['accpubstyle'], function() {
+    return gulp.src("./assets/accpublishstyle/acc-pub.css")
     .pipe(browserSyc.stream());
 }); 
 

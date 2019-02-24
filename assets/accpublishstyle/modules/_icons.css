@@ -1,23 +1,16 @@
 .icon {
 
-    &__acc--shared__tab {
-        color: $mainLightBlue; 
-    }
-   
-    &__reuse-conv--del {
-        margin-right: 10px;
-        color: #fff; 
-        font-size: .8125rem;
+    &__acc-pub--tab {
+        color: $mainFontColor;
     }
 
-    &__reuse-conv--blk {
+    &__reuse-acc-filter--comment {
+        color: $maiDarkBlue;
         margin-right: 5px;
-        color: $mainFontColor; 
     }
 
-    &__site-main__acc-srd--info {
+    &__reuse-acc-filter--fav {
+        color: $mainLightRed;
         margin-right: 5px;
-        color: #fff;
-        font-size: .75rem;
     }
 }

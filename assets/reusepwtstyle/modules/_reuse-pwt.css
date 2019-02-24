@@ -43,7 +43,7 @@
                 right: 38px;
                 top: 6px;
 
-                a {
+               & > a {
                     color: rgba($mainDarkPaleBlue, .8);
                     position: relative;
                     top: -2px;

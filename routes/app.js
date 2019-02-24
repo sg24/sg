@@ -86,4 +86,9 @@ router.get('/acc/user', (req, res, next) => {
     res.render('accuser'); 
 });
 
+router.get('/acc/pub', (req, res, next) => {
+    res.render('accpub'); 
+});
+
+
 module.exports = router;

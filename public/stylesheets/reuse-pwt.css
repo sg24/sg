@@ -91,7 +91,7 @@
     top: 6px;
 }
 
-.reuse-pwt__content--det__user a {
+.reuse-pwt__content--det__user > a {
     color: rgba(5,87,139, .8);
     position: relative;
     top: -2px;
