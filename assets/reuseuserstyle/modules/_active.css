@@ -1,0 +1,46 @@
+.active__main {
+    color: #fff;
+
+    &--user {
+        right: -10px; 
+        top: -10px;  
+        width: 24px;
+        height: 24px;
+        border-radius: 12px;
+        font-size: .8125rem;
+        border: 1px solid rgba(255,255,255, .25);
+        z-index: 1;
+       
+        & > div {
+            position: absolute;
+            top: 50%;
+            transform:translateY(-50%);
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    &--tab {
+        top: 4px;
+        right: 0;
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
+        font-size: .8125rem;
+        border: 1px solid rgba(255,255,255, .25);
+       
+        & > div {
+            position: absolute;
+            top: 50%;
+            transform:translateY(-50%);
+            width: 100%;
+            text-align: center;
+        }
+
+        @mixin atSmall {
+            right: 8px; 
+            top: 4px;  
+        }
+    }
+
+}

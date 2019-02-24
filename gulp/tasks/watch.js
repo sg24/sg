@@ -143,6 +143,14 @@ gulp.task('watch', function() {
         gulp.start('accsharedcss')
     });
 
+    watch('./assets/accuserstyle/**/*.css', function() {
+        gulp.start('accusercss')
+    });
+
+    watch('./assets/reuseuserstyle/**/*.css', function() {
+        gulp.start('reuseusercss')
+    });
+
     // watch('./apps.js', function() {
     //     gulp.start('scriptsRefresh');
     // });
@@ -307,6 +315,16 @@ gulp.task('reuseacctcss',['reuseaccstyle'], function() {
 
 gulp.task('accsharedcss',['accsharedstyle'], function() {
     return gulp.src("./assets/accsharedstyle/acc-shared.css")
+    .pipe(browserSyc.stream());
+}); 
+
+gulp.task('accusercss',['accuserstyle'], function() {
+    return gulp.src("./assets/accuserstyle/acc-user.css")
+    .pipe(browserSyc.stream());
+}); 
+
+gulp.task('reuseusercss',['reuseuserstyle'], function() {
+    return gulp.src("./assets/reuseuserstyle/reuse-user.css")
     .pipe(browserSyc.stream());
 }); 
 

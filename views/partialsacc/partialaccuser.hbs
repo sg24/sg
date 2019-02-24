@@ -1,0 +1,84 @@
+<div class="site-main__acc-user">
+    {{!-- <div class="site-main__acc-user--header">
+        
+    </div> --}}
+    <ul class="site-main__content--tab">
+        <li>
+            <i class="fas fa-chalkboard-teacher icon icon__site-main__acc-user--tab"></i> 
+            Teachers
+            <div class="active__main active__main--tab">
+                <div>9</div>
+            </div>
+        </li>
+        <li>
+            <i class="fas fa-users icon icon__site-main__acc-user--tab"></i> 
+            Student
+            <div class="active__main active__main--tab">
+                <div>9</div>
+            </div>
+        </li>
+        <li>
+            <i class="fas fa-user-friends icon icon__site-main__acc-user--tab"></i>
+            Request
+            <div class="active__main active__main--tab">
+                <div>9</div>
+            </div>
+        </li>
+    </ul>
+
+    {{> reusesrch}}
+
+    <div class="reuse-acc-filter">
+        <div class="reuse-acc-filter__wrapper">
+            {{> reuseusercateg}}
+            {{> reuseuserfilter}}
+            <div class="reuse-acc-filter__srch">
+                <i class="fas fa-search icon icon__acc-filter--srch"></i> 
+            </div>
+        </div>
+    </div>
+
+    <div class="reuse-user">
+        <div class="active__main active__main--user">
+            <div>99</div>
+        </div> 
+        <div class="reuse-user__det">
+            <div class="reuse-user__det--img">
+                <div class="reuse-user__det--img__status reuse-user__det--img__status--on">
+                </div>
+                {{!-- <div class="reuse-user__det--img__status reuse-user__det--img__status--off">
+                </div> --}}
+            </div>
+            <ul class="reuse-user__det--user">
+                <li class="reuse-user__det--user__info">  
+                    <a href="">User User</a>
+                </li>
+                <li><div>98</div> Student</li> 
+            </ul>
+        </div>
+        <ul class="reuse-user__opt">
+            <li><span class="reuse-user__opt--comment"><i class="far fa-comment-alt icon icon__reuse-user--opt"></i> Chat</span></li>
+            <li><span class="reuse-user__opt--blk"><i class="fas fa-user-slash icon icon__reuse-user--opt"></i> Block</span></li>
+        </ul>
+    </div>
+    <div class="reuse-user">
+        <div class="reuse-user__det">
+            <div class="reuse-user__det--img">
+                <div class="reuse-user__det--img__status reuse-user__det--img__status--on">
+                </div>
+                {{!-- <div class="reuse-user__det--img__status reuse-user__det--img__status--off">
+                </div> --}}
+            </div>
+            <ul class="reuse-user__det--user">
+                <li class="reuse-user__det--user__info">  
+                    <a href="">User User</a>
+                </li>
+                <li><div>98</div> Student</li> 
+            </ul>
+        </div>
+        <ul class="reuse-user__opt">
+            <li><span class="reuse-user__opt--add"><span> Add</span></li>
+            <li><span class="reuse-user__opt--blk"><i class="fas fa-user-slash icon icon__reuse-user--opt"></i> Block</span></li>
+        </ul>
+    </div>
+</div>

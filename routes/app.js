@@ -82,4 +82,8 @@ router.get('/acc/shared', (req, res, next) => {
     res.render('accshared'); 
 });
 
+router.get('/acc/user', (req, res, next) => {
+    res.render('accuser'); 
+});
+
 module.exports = router;

@@ -1,0 +1,25 @@
+.icon {
+
+    &__reuse-user--opt {
+       margin-right: 5px;
+    } 
+
+    &__reuse-user-filter--srch {
+      color: #fff;
+  }
+
+  &__reuse-user-filter--user {
+      color: $mainLightBlue;
+      margin-right: 5px;
+  }
+
+  &__reuse-user-filter--ans {
+      color: $mainLightRed;
+      margin-right: 5px;
+  }
+
+  &__reuse-user-filter--sub {
+      color: $mainLightBlue;
+      margin-right: 5px;
+  }
+}

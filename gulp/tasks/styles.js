@@ -342,6 +342,17 @@ gulp.task('reusesrchstyle', function() {
     .pipe(gulp.dest('./public/stylesheets'));
 });
 
+gulp.task('reuseuserstyle', function() {
+    return gulp.src('./assets/reuseuserstyle/reuse-user.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) { 
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
 gulp.task('reuseaccstyle', function() {
     return gulp.src('./assets/reuseaccstyle/reuse-acc.css')
     .pipe(postcss([cssImport, mixins, cssvars, nested, 
@@ -355,6 +366,17 @@ gulp.task('reuseaccstyle', function() {
 
 gulp.task('accsharedstyle', function() {
     return gulp.src('./assets/accsharedstyle/acc-shared.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) { 
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
+gulp.task('accuserstyle', function() {
+    return gulp.src('./assets/accuserstyle/acc-user.css')
     .pipe(postcss([cssImport, mixins, cssvars, nested, 
                     hexrgba, autoprefixer]))
     .on('error', function(errorInfo) { 

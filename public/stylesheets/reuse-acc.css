@@ -1,5 +1,33 @@
+.active__main {
+    color: #fff;
+
+}
+
+.active__main--nav {
+    top: 50%;
+    transform: translateY(-50%);
+    right: 40px;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    font-size: .8125rem;
+    border: 1px solid rgba(255,255,255, .25);
+    z-index: 1;
+
+}
+
+.active__main--nav > div {
+    position: absolute;
+    top: 50%;
+    transform:translateY(-50%);
+    width: 100%;
+    text-align: center;
+
+}
+
 .icon__acc-filter--srch {
     color: #fff;
+
 }
 
 .reuse-acc-filter {
@@ -11,12 +39,14 @@
 
 .reuse-acc-filter__wrapper {
     position: relative;
+
 }
 
 .reuse-acc-filter__wrapper::after {
     content: "";
     clear: both;
     display: table;
+
 }
 
 .reuse-acc-filter__srch {
@@ -36,13 +66,16 @@
         justify-content: center;
     -ms-flex-align: center;
         align-items: center;
+
 }
 
 @media (min-width: 530px) {
 
     .reuse-acc-filter {
         padding: 20px;
+
     }
+
 }
 
 .site-main {
@@ -56,12 +89,14 @@
     content: "";
     clear: both;
     display: table;
+
 }
 
 .site-main__content {
     width: 100%;
     position: relative;
     float: none;
+
 }
 
 .site-main__content--wrapper {
@@ -75,6 +110,8 @@
     -webkit-box-shadow: inset 0px 0 2px 0px rgba(119,119,119, .5);
     -ms-box-shadow: inset 0px 0 2px 0px rgba(119,119,119, .5);
     position: relative;
+    min-height: 600px;
+
 }
 
 .site-main__content--overlay {
@@ -88,6 +125,7 @@
     opacity: 0;
     visibility: hidden;
     transition: all .3s ease-in;
+
 }
 
 .site-main__content--overlay__visible {
@@ -95,6 +133,7 @@
     opacity: 1;
     visibility: visible;
     transition: all .3s ease-in;
+
 }
 
 @media (min-width: 1010px) {
@@ -106,7 +145,9 @@
         position: sticky;
         top: 50px;
         z-index: 3;
+
     }
+
 }
 
 .site-main__content--tab {
@@ -118,12 +159,14 @@
     position: relative;
     z-index: 2;
     box-shadow: 0 2px 2px rgba(0,0,0, .2);
+
 }
 
 .site-main__content--tab::after {
     content: "";
     clear: both;
     display: table;
+
 }
 
 .site-main__content--tab li {
@@ -135,10 +178,12 @@
     padding: 12px 35px;
     position: relative;
     border-right: 1px solid rgba(255,255,255, .45);
+
 }
 
 .site-main__content--tab li:last-child {
     border-right: none;
+
 }
 
 .site-main__content--tab__sticky {
@@ -151,20 +196,25 @@
     -ms-box-shadow: 0 2px 2px rgba(0,0,0, .2);
     -webkit-box-shadow: 0 2px 2px rgba(0,0,0, .2);
     -moz-box-shadow: 0 2px 2px rgba(0,0,0, .2);
+
 }
 
 @media (min-width: 1010px) {
 
     .site-main__content--tab__sticky {
         top: 60px;
+
     }
+
 }
 
 @media (min-width: 530px) {
 
     .site-main__content--tab {
         font-size: .875rem;
+
     }
+
 }
 
 @media (min-width: 1010px) {
@@ -172,15 +222,19 @@
     .site-main__content {
         width: 80%;
         float: left;
-        padding-left: 40px;
+        padding-left: 30px;
+
     }
+
 }
 
 @media (min-width: 800px) {
 
     .site-main {
         padding-top: 0;
+
     }
+
 }
 
 .site-main__nav {
@@ -203,6 +257,7 @@
     position: -webkit-sticky;
     position: sticky;
     overflow: hidden;
+
 }
 
 .site-main__nav--wrapper {
@@ -211,6 +266,7 @@
     -ms-flex-direction: column;
         flex-direction: column;
     height: 92vh;
+
 }
 
 .site-main__nav--wrapper > h4 {
@@ -224,13 +280,16 @@
     text-align: center;
     font-weight: 300;
     color: #fff;
+
 }
 
 @media (min-width: 530px) {
 
     .site-main__nav--wrapper > h4 {
         font-size: .875rem;
+
     }
+
 }
 
 .site-main__nav--wrapper > ul {
@@ -241,6 +300,7 @@
     background-color: #f9f9f9;
     border: 1px solid #dcdbdc;
     border-top: none;
+
 }
 
 .site-main__nav--wrapper > ul > li {
@@ -252,6 +312,7 @@
     border-bottom: 1px solid #dcdbdc;
     text-align: left;
     cursor: pointer;
+
 }
 
 .site-main__nav--wrapper > ul > li > a {
@@ -259,6 +320,7 @@
     text-decoration: none;
     color: #182427;
     padding: 20px 20px 20px 60px;
+
 }
 
 .site-main__nav--wrapper > ul > li > a > div {
@@ -277,20 +339,25 @@
     -ms-flex-align: center;
         align-items: center;
     border: 1px solid #dcdbdc;
+
 }
 
 .site-main__nav--wrapper > ul > li > a:hover {
     background-color: #f2f2f2;
     color: #0284a8;
+
 }
 
 .site-main__nav--wrapper > ul > li:last-child {
     border-bottom: none;
+
 }
 
 @media (min-width: 1010px) {
 
     .site-main__nav {
         display: block;
+
     }
+
 }   

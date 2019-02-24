@@ -1,0 +1,37 @@
+.icon__site-main__acc-user--tab {
+    margin-right: 5px;
+}
+
+.site-main {
+    color: #182427;
+    margin: 0 0 6px 0;
+}
+
+.site-main__content {
+    color: #182427;
+}
+
+.site-main__content--tab{
+    list-style: none;
+}
+
+.site-main__content--tab li {
+    padding: 12px 0;
+    width: 25%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+@media (min-width: 530px) {
+
+    .site-main__content--tab li {
+        width: 20%;
+        font-size: .875rem;
+    }
+}
+
+.site-main__acc-user {
+    width: 100%;
+
+}      

@@ -1,0 +1,23 @@
+.icon {
+
+    &__acc--shared__tab {
+        color: $mainLightBlue; 
+    }
+   
+    &__reuse-conv--del {
+        margin-right: 10px;
+        color: #fff; 
+        font-size: .8125rem;
+    }
+
+    &__reuse-conv--blk {
+        margin-right: 5px;
+        color: $mainFontColor; 
+    }
+
+    &__site-main__acc-srd--info {
+        margin-right: 5px;
+        color: #fff;
+        font-size: .75rem;
+    }
+}

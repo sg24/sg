@@ -1,0 +1,27 @@
+.site-main {
+    color: $mainFontColor;
+    margin: 0 0 6px 0;
+
+    &__content {
+        color: $mainFontColor;
+
+        &--tab{
+            list-style: none;
+            
+            li {
+                padding: 12px 0; 
+                width: 25%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis; 
+
+                @mixin atSmall {
+                    width: 20%;
+                    font-size: .875rem; 
+                }
+            }
+
+        }
+        
+    }
+}
