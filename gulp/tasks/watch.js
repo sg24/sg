@@ -111,6 +111,10 @@ gulp.task('watch', function() {
         gulp.start('reusequecss')
     });
 
+    watch('./assets/reusequehelpstyle/**/*.css', function() {
+        gulp.start('reusequehelpcss')
+    });
+
     watch('./assets/reuseonlinequestyle/**/*.css', function() {
         gulp.start('onlinequecss')
     });
@@ -161,6 +165,10 @@ gulp.task('watch', function() {
 
     watch('./assets/accprfstyle/**/*.css', function() {
         gulp.start('accprfcss')
+    });
+
+    watch('./assets/acchelpstyle/**/*.css', function() {
+        gulp.start('acchelpcss')
     });
 
     // watch('./apps.js', function() {
@@ -290,6 +298,11 @@ gulp.task('reusequecss',['reusequestyle'], function() {
     .pipe(browserSyc.stream());
 }); 
 
+gulp.task('reusequehelpcss',['reusequehelpstyle'], function() {
+    return gulp.src("./assets/reusequehelpstyle/reuse-que-help.css")
+    .pipe(browserSyc.stream());
+}); 
+
 gulp.task('onlinequecss',['onlinequestyle'], function() {
     return gulp.src("./assets/reuseonlinequestyle/reuse-onlineque.css")
     .pipe(browserSyc.stream());
@@ -354,6 +367,12 @@ gulp.task('accprfcss',['accprfstyle'], function() {
     return gulp.src("./assets/accprfstyle/acc-prf.css")
     .pipe(browserSyc.stream());
 }); 
+
+gulp.task('acchelpcss',['acchelpstyle'], function() {
+    return gulp.src("./assets/acchelpstyle/acc-help.css")
+    .pipe(browserSyc.stream());
+}); 
+
 
 // gulp.task('scriptsRefresh',['scripts'], function() {
 //     browserSyc.reload();

@@ -28,6 +28,10 @@
     }
 }
 
+.icon__site-main--content__tab {
+    margin-right: 5px;
+}
+
 .icon__reuse-que-filter--ans {
     color: #ff1600;
     margin-right: 5px;

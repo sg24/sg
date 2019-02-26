@@ -1,9 +1,9 @@
 .icon {
 
-    &__site-main--content__tab {
-        margin-right: 5px;
+    &__acc-help--tab {
+        color: $mainDarkBlue;
     }
-    
+
     &__reuse-que-filter--ans {
         color: $mainLightRed;
         margin-right: 5px;

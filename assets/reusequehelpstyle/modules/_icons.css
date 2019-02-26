@@ -1,0 +1,7 @@
+.icon {
+    
+    &__reuse-que-help--user {
+        font-size: 1.875rem;
+        color: $mainDarkGray;
+    }
+}

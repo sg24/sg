@@ -3,9 +3,4 @@
     &__site-main__content--tab {
         margin-right: 5px;
     }
-
-    &__reuse-que-help--user {
-        font-size: 1.875rem;
-        color: $mainDarkGray;
-    }
 }

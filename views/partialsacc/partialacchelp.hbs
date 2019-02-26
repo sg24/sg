@@ -1,0 +1,73 @@
+<div class="site-main__acc-help">
+    <div class="site-main__content--tab">
+        <div class="site-main__content--tab__icn">
+            <i class="fas fa-hand-paper icon icon__acc-help--tab"></i>
+        </div>
+        Help Me
+        <div class="site-main__content--tab__nav-cnt site-main__content--tab__nav-cnt--mid">
+            <i class="fas fa-bars icon icon__acc--nav-cnt"></i>
+        </div> 
+        <span>255</span>
+    </div>
+
+    {{> reusesrch}}
+
+    <div class="reuse-acc-filter">
+        <div class="reuse-acc-filter__wrapper">
+            {{> reusecateg}}
+            {{> reusequefilter}}
+            <div class="reuse-acc-filter__srch">
+                <i class="fas fa-search icon icon__acc-filter--srch"></i> 
+            </div>
+        </div>
+    </div>
+
+    {{!-- {{> partialquehelp}} --}}
+
+    <div class="reuse-que">
+        <ul class="reuse-que__header">
+            <li>
+                <div class="reuse-que__header--category__img">
+                    <img src="/" alt="">
+                </div>
+                <div class="reuse-que__header--category__det">
+                    <div class="reuse-que__header--category__det--name"><a href="">User User User User </a></div>
+                    <div class="reuse-que__header--category__det--timePosted">@ 2m ago</div> 
+                </div>
+            </li>
+            <li>
+                <p class="reuse-que__header--share__category"><i class="fas fa-tag icon icon__reuse-que--header__tag"></i><a href=""> Social</a></p>
+                {{> partialshare}}
+            </li>
+        </ul>
+        <div class="reuse-que__content">
+            <p class="reuse-que__content--title">
+            <a href=""> What is your view about all this stuffs</a>
+            </p>
+            <div class="reuse-que__content--img">
+                <img  alt="" src="/">
+            </div>
+        </div>
+        <div class="reuse-que__ans">
+            <div class="reuse-que__ans--wrapper">
+                <div class="reuse-que__ans--total">90</div> 
+                Answer
+            </div>
+        </div> 
+        <div class="reuse-que__footer">
+            <ul class="reuse-que__footer--list">
+                <li><i class="far fa-thumbs-up icon icon__reuse-que--footer__thumbup"></i>  1223K</li>
+                <li class="reuse-que__footer--list__item-middle"><i class="far fa-thumbs-down icon icon__reuse-que--footer__thumbdown"></i>  12m</li>
+                <li><i class="far fa-heart icon icon__reuse-que--footer__heart"></i> 222m</li>
+            </ul>
+            <div class="reuse-que__footer--details">
+                <div class="reuse-que__footer--details__mid"></div>
+                <ul class="reuse-que__footer--details__options">
+                    <li><a href=""><i class="far fa-edit icon icon__reuse-que--options"></i>Edit </a></li>
+                    <li class="reuse-que__footer--details__options--status"><i class="fas fa-user-slash icon icon__reuse-que--options__dft"></i> Block</li>
+                    <li><a href=""><i class="far fa-trash-alt icon icon__reuse-que--options"></i>Delete </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

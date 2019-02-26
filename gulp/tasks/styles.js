@@ -275,6 +275,17 @@ gulp.task('reusequestyle', function() {
     .pipe(gulp.dest('./public/stylesheets'));
 });
 
+gulp.task('reusequehelpstyle', function() {
+    return gulp.src('./assets/reusequehelpstyle/reuse-que-help.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) { 
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
 gulp.task('onlinequestyle', function() {
     return gulp.src('./assets/reuseonlinequestyle/reuse-onlineque.css')
     .pipe(postcss([cssImport, mixins, cssvars, nested, 
@@ -410,6 +421,17 @@ gulp.task('accdftstyle', function() {
 
 gulp.task('accprfstyle', function() {
     return gulp.src('./assets/accprfstyle/acc-prf.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) { 
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
+gulp.task('acchelpstyle', function() {
+    return gulp.src('./assets/acchelpstyle/acc-help.css')
     .pipe(postcss([cssImport, mixins, cssvars, nested, 
                     hexrgba, autoprefixer]))
     .on('error', function(errorInfo) { 

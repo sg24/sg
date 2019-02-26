@@ -98,4 +98,8 @@ router.get('/acc/profile', (req, res, next) => {
     res.render('accprf'); 
 });
 
+router.get('/acc/help', (req, res, next) => {
+    res.render('acchelp'); 
+});
+
 module.exports = router;
