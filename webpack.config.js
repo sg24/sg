@@ -20,7 +20,8 @@ module.exports = {
       reusePwt: "./assets/reusepwtscript/reusePtwrit.js",  
       reusePt: "./assets/reuseptscript/reusePost.js",  
       reuseOnlineque: "./assets/reuseonlinequescript/reuseOnlineque.js",
-      accShared: "./assets/accsharedscript/accShared.js"  
+      accShared: "./assets/accsharedscript/accShared.js",
+      accPrf: "./assets/accprfscript/accPrf.js"   
     }, 
     output: {
       path: path.resolve(__dirname + '/public/js/app'),

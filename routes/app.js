@@ -86,12 +86,16 @@ router.get('/acc/user', (req, res, next) => {
     res.render('accuser'); 
 });
 
-router.get('/acc/pub', (req, res, next) => {
+router.get('/acc/published', (req, res, next) => {
     res.render('accpub'); 
 });
 
-router.get('/acc/dft', (req, res, next) => {
+router.get('/acc/draft', (req, res, next) => {
     res.render('accdft'); 
+});
+
+router.get('/acc/profile', (req, res, next) => {
+    res.render('accprf'); 
 });
 
 module.exports = router;

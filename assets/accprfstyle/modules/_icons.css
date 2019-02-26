@@ -1,0 +1,14 @@
+.icon {
+
+    &__acc-prf--tab {
+        color: $mainDarkBlue;
+    }
+
+    &__acc-prf--exp__close {
+        color: $mainLightRed;
+    }
+
+    &__acc-prf--user-det__btn {
+        margin-right: 5px;
+    }
+}

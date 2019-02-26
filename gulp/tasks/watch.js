@@ -159,6 +159,10 @@ gulp.task('watch', function() {
         gulp.start('accdftcss')
     });
 
+    watch('./assets/accprfstyle/**/*.css', function() {
+        gulp.start('accprfcss')
+    });
+
     // watch('./apps.js', function() {
     //     gulp.start('scriptsRefresh');
     // });
@@ -343,6 +347,11 @@ gulp.task('accpubcss',['accpubstyle'], function() {
 
 gulp.task('accdftcss',['accdftstyle'], function() {
     return gulp.src("./assets/accdraftstyle/acc-dft.css")
+    .pipe(browserSyc.stream());
+}); 
+
+gulp.task('accprfcss',['accprfstyle'], function() {
+    return gulp.src("./assets/accprfstyle/acc-prf.css")
     .pipe(browserSyc.stream());
 }); 
 

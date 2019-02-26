@@ -407,3 +407,14 @@ gulp.task('accdftstyle', function() {
     })
     .pipe(gulp.dest('./public/stylesheets'));
 });
+
+gulp.task('accprfstyle', function() {
+    return gulp.src('./assets/accprfstyle/acc-prf.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) { 
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});

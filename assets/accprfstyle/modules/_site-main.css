@@ -1,0 +1,28 @@
+.site-main {
+    color: $mainFontColor;
+
+    &__content {
+        color: $mainFontColor;
+
+        &--tab {
+            padding: 12px 0 12px 60px; 
+            color: #fff;
+
+            &__icn {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 20px;
+                width: 30px;
+                height: 30px;
+                border-radius: 15px;
+                background-color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                box-shadow: 0 0 5px 2px rgba($mainDarkBlack, .5);
+            }
+        }
+        
+    }
+}
