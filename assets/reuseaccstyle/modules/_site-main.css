@@ -1,8 +1,6 @@
 .site-main {
     padding-top: 4px;
     margin: 0 0 6px 0; 
-    /* background-color: rgba($mainDarkBlack, .85); */
-    @mixin clearfix;
     
     &__content {
         width: 100%;
@@ -79,6 +77,37 @@
                 }
             }
 
+            &__nav-cnt {
+                position: absolute !important;
+                width: 30px !important;
+                height: 30px !important;
+                border: none !important; 
+                border-radius: 15px;
+                background-color: rgba($mainDarkBlack, .45);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 20px;
+                color: #fff;
+                cursor: pointer; 
+                padding: 0;
+                margin: 0;
+                float: none;
+
+                &--mid {
+                    right: auto;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    top: 5px;
+                }
+
+                @mixin atLarge {
+                    display: none;
+                }
+            }
+    
             &__sticky {
                 position: sticky;
                 top: 50px;         
@@ -106,6 +135,41 @@
             padding-left: 30px;
         }
 
+    }
+
+    &__nav-cnt-visible {
+        height: 100vh;
+        overflow: hidden;
+        top: 0;
+
+        @mixin atLarge {
+            top: 50px;
+            overflow: visible; 
+        }
+    }
+
+    &__nav-cnt-overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background-color: rgba($mainDarkBlack, .6);
+        z-index: 4;
+        opacity: 0;
+        visibility: hidden;
+        transition: all .3s ease-in;
+
+        &--visible {
+            z-index: 4;
+            opacity: 1;
+            visibility: visible;
+            transition: all .3s ease-in;
+
+            @mixin atLarge {
+                display: none;
+            }
+        }
     }
 
     @mixin atMedium {

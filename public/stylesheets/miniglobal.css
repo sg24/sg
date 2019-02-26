@@ -458,7 +458,6 @@ img {
 }
 
 .wrapper__exmain {
-  position: relative;
   padding-left: 0px;
   padding-right: 0px;
   max-width: 1200px;
@@ -842,7 +841,7 @@ img {
     width: 100%;
     top: -1px; 
     padding: 6px 0;
-    z-index: 5;  
+    z-index: 6;  
     box-shadow: 0 2px 2px 1px rgba(0,0,0, .2); 
     -o-box-shadow: 0 2px 2px 1px rgba(0,0,0, .2);
     -ms-box-shadow: 0 2px 2px 1px rgba(0,0,0, .2);

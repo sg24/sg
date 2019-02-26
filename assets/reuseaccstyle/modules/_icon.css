@@ -3,4 +3,12 @@
     &__acc-filter--srch {
         color: #fff;
     }
+
+    &__acc--nav-close {
+        color: $mainLightRed; 
+    }
+
+    &__acc--nav-cnt {
+        color: #fff;
+    }
 }
