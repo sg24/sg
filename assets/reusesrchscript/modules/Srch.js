@@ -6,6 +6,8 @@ class Srch {
         this.srch = $(".reuse-srch");
         this.srchClose = $(".reuse-srch__close, .site-main__content--overlay");
         this.sortOpt = $(".reuse-sort__opt");
+        this.shareToggler = $(".reuse-share__icn");
+        this.share = $(".reuse-share__wrapper");
         this.overlay = $(".site-main__content--overlay");
         this.events();
     } 
@@ -19,6 +21,8 @@ class Srch {
         this.sortOpt.removeClass("reuse-sort__opt--visible");
         this.srch.addClass("reuse-srch__visible");
         this.overlay.addClass("site-main__content--overlay__visible");
+        this.share.removeClass("reuse-share__wrapper--visible");
+        this.shareToggler.removeClass("reuse-share__icn--rotate");
     }
 
     closeSrch() {
