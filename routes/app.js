@@ -106,4 +106,8 @@ router.get('/acc/set', (req, res, next) => {
     res.render('accset'); 
 });
 
+router.get('/login', (req, res, next) => {
+    res.render('loginform'); 
+});
+
 module.exports = router;

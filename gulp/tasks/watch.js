@@ -83,6 +83,10 @@ gulp.task('watch', function() {
         gulp.start('ptwritformcss')
     });
 
+    watch('./assets/loginformstyle/**/*.css', function() {
+        gulp.start('loginformcss')
+    });
+
     watch('./assets/examtabstyle/**/*.css', function() {
         gulp.start('examtabcss')
     });
@@ -264,6 +268,11 @@ gulp.task('onlinequeformcss',['onlinequeformstyles'], function() {
 
 gulp.task('ptwritformcss',['ptwritformstyles'], function() {
     return gulp.src("./assets/ptwritformstyle/pwtform.css")
+    .pipe(browserSyc.stream());
+}); 
+
+gulp.task('loginformcss',['loginformstyles'], function() {
+    return gulp.src("./assets/loginformstyle/login-form.css")
     .pipe(browserSyc.stream());
 }); 
 

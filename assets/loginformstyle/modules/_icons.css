@@ -1,0 +1,11 @@
+.icon {
+
+    &__reuse-form--fb {
+        /* color: $mainLightBlue; */
+        z-index: 2;
+    }
+
+    &__reuse-form--view {
+        color: rgba($mainDarkBlack, .45)
+    }
+}
