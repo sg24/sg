@@ -12,6 +12,7 @@ module.exports = {
       groupform: "./assets/groupformscript/groupform.js",
       onlinequeform: "./assets/onlinequeformscript/onlinequeform.js",
       pwtform: "./assets/ptwritformscript/pwtform.js",
+      signupPrf: "./assets/signprfformscript/signupPrf.js",
       filter: "./assets/filterscript/filter.js",
       reuseSort: "./assets/reusesortscript/reuseSort.js", 
       share: "./assets/reusesharescript/reuseShare.js", 

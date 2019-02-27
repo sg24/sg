@@ -299,7 +299,6 @@
         width: 100%;
         background-color: rgba($mainHeaderColor, .45);
         border: 1px solid $mainDarkGray;
-        z-index: 2;
         
         &--det {
             padding: 10px;

@@ -435,6 +435,11 @@ img {
     box-sizing: border-box;
 }
 
+.icon--rotate svg {
+  transform: rotate(180deg);
+  transition: all .3s ease-out;
+}
+
 .icon__reuse-form--angle {
   margin-left: 5px;
 }
@@ -797,7 +802,6 @@ img {
   width: 100%;
   background-color: rgba(249,249,249, .45);
   border: 1px solid #dcdbdc;
-  z-index: 2;
 }
 
 .reuse-form__itm--det {
