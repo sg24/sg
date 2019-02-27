@@ -1,0 +1,192 @@
+.reuse-form {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 15px;
+    font-size: .875rem;
+
+    &__wrapper {
+        background-color: #fff;
+        position: relative;
+        box-shadow: 0 1px 8px 4px rgba($mainDarkBlack, .65);
+        border-radius: 5px;
+    }
+
+    &__cnt {
+        position: relative;
+        background-color: #fff;
+        padding: 10px;
+
+        & > p {
+            position: relative;
+            padding: 0;
+            margin: 20px 0;
+
+            & > a {
+                color: $mainDarkBlue;
+            }
+        }
+
+        &--main-wrapper {
+            padding-top: 20px;
+            font-size: .875rem;
+            border: 1px solid $mainDarkGray;
+            margin-top: 20px;
+            position: relative;
+
+            & > h4 {
+                position: absolute;
+                top: -12px;
+                left: 50%;
+                transform: translateX(-50%);
+                margin: 0;
+                padding: 5px 10px;
+                background-color: #fff;
+                color: rgba($mainDarkBlack, .85);
+                font-weight: 400;
+                text-align: center;
+            }
+
+            & > ul {
+                list-style: none;
+                margin: 0;
+                padding: 0 20px 20px 20px;
+                @mixin clearfix;
+
+                & > li {
+                    float: right;
+                    background-color: $mainLightBlue;
+                    border-radius: 5px;
+                    box-shadow: 0 2px 2px 0 rgba($mainDarkBlack, .45);
+
+                    & > a {
+                        width: 50px;
+                        height: 40px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-size: 28px;
+                        color: #fff;
+                        text-decoration: none; 
+                    }
+
+                    &:first-child {
+                        float: left;
+                        background-color: $mainLightRed;
+                    }
+                }
+            }
+        }
+
+        &--alt {
+            text-align: center;
+            width: 40px;
+            height: 40px;
+            background-color: $mainExtraLightGray;
+            color: $mainDarkBlue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto 0 auto;
+            border: 1px solid $mainDarkGray;
+        }
+
+        &--wrapper {
+            padding: 0 20px 30px 20px;
+        }
+
+        &--title {
+            color: rgba($mainDarkBlack, .85);
+            font-weight: 400;
+            text-align: center;
+        }
+
+        &--det {
+            position: relative;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #fff;
+            border-radius: 3px;
+            font-size: .875rem;
+            /* border: 1px solid $mainDarkGray;  */
+            box-shadow: inset 0 0px 1px 0px rgba($mainDarkBlack, .95);
+
+            & > div {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 10px;
+                cursor: pointer;
+                width: 16px;
+            }
+
+            &__input {
+                width: 100%;
+                border: none;
+                padding: 12px 10px;
+                margin: 0;
+                border-radius: 3px;
+                background-color: transparent;
+
+                &--pwd {
+                    padding: 12px 36px 12px 10px;
+                }
+            }
+        }
+
+        &--footer {
+            background-color: $mainHeaderColor;
+            border-top: 1px solid $mainDarkGray;
+            padding: 8px 10px;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            @mixin clearfix;
+    
+            @mixin atSmall {
+                padding: 8px 20px;
+            }
+        }
+
+        @mixin atSmall {
+            padding: 20px;
+        }
+    }
+
+    &__err {
+        position: relative;
+        padding: 5px 20px;
+        margin-top: 10px;
+        font-size: .875rem;
+        background-color: $mainHeaderColor;
+        color: $mainLightRed;
+    }
+
+    &__btn {
+        position: relative;
+        @mixin clearfix;
+
+        & > button {
+            border-radius: 3px;
+            border: none;
+            outline: none;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+
+        &--nxt {
+            color: #fff;
+            float: right;
+            box-shadow: 0 2px 4px 1px rgba($mainDarkBlack, .65);
+            width: 70px;
+            background-color: $mainLightRed;
+        }
+    }
+    
+    @mixin atSmall {
+        padding: 20px;
+    }
+
+    @mixin atMedium {
+        width: 70%;
+    }
+}

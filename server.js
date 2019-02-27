@@ -30,6 +30,8 @@ hbs.registerPartials(__dirname + '/views/partialsgroupform');
 hbs.registerPartials(__dirname + '/views/partialsonlinequeform');
 hbs.registerPartials(__dirname + '/views/partialspoetersform');
 hbs.registerPartials(__dirname + '/views/partialsloginform');
+hbs.registerPartials(__dirname + '/views/partialssignupform');
+hbs.registerPartials(__dirname + '/views/partialssignprfform');
 hbs.registerPartials(__dirname + '/views/partialsexam');
 hbs.registerPartials(__dirname + '/views/partialsusers');
 hbs.registerPartials(__dirname + '/views/partialsprofile');

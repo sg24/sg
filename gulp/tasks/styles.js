@@ -209,6 +209,29 @@ gulp.task('loginformstyles', function() {
     .pipe(gulp.dest('./public/stylesheets'));
 });
 
+gulp.task('signupformstyles', function() {
+    return gulp.src('./assets/signupformstyle/signup-form.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) {
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
+
+gulp.task('signprfformstyles', function() {
+    return gulp.src('./assets/signprfformstyle/signup-prf.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) {
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
 gulp.task('examtabstyle', function() {
     return gulp.src('./assets/examtabstyle/examtab.css')
     .pipe(postcss([cssImport, mixins, cssvars, nested, 

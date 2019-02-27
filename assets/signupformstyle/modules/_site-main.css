@@ -1,0 +1,20 @@
+.site-main {
+    font-family: "Roboto",Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    background-color: rgba($mainDarkBlack, .75); 
+    height: 100vh;
+    weight: 100vw;
+    overflow: hidden;
+    overflow-y: auto;
+
+    &__logo {
+        position: absolute;
+        width: 65px;
+        height: 32px;
+        background: $mainDarkBlue;
+        top: -16px;
+        left: 50%;
+        transform: translateX(-50%); 
+        z-index: 1;
+    }
+}

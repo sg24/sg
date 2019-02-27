@@ -87,6 +87,14 @@ gulp.task('watch', function() {
         gulp.start('loginformcss')
     });
 
+    watch('./assets/signupformstyle/**/*.css', function() {
+        gulp.start('signupformcss')
+    });
+
+    watch('./assets/signprfformstyle/**/*.css', function() {
+        gulp.start('signprfformcss')
+    });
+
     watch('./assets/examtabstyle/**/*.css', function() {
         gulp.start('examtabcss')
     });
@@ -273,6 +281,16 @@ gulp.task('ptwritformcss',['ptwritformstyles'], function() {
 
 gulp.task('loginformcss',['loginformstyles'], function() {
     return gulp.src("./assets/loginformstyle/login-form.css")
+    .pipe(browserSyc.stream());
+}); 
+
+gulp.task('signupformcss',['signupformstyles'], function() {
+    return gulp.src("./assets/signupformstyle/signup-form.css")
+    .pipe(browserSyc.stream());
+}); 
+
+gulp.task('signprfformcss',['signprfformstyles'], function() {
+    return gulp.src("./assets/signprfformstyle/signup-prf.css")
     .pipe(browserSyc.stream());
 }); 
 
