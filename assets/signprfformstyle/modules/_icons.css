@@ -11,32 +11,20 @@
         margin-left: 5px;
     }
 
-    &__reuse-form--cnt__user {
-        color: $mainDarkBlue; 
-        margin-right: 5px;
-    }
 
     &__reuse-form--cnt__tag {
         margin-right: 5px;
         color: $mainDarkBlue;
-        font-size: .8125rem;
     }
 
     &__reuse-form__cnt--categ {
         margin-right: 5px;
         font-size: .75rem;
+        color: rgba($mainDarkBlack, .45)
     }
 
     &__reuse-form__cnt--tag__close {
         color: $mainLightRed; 
     }
 
-    &__reuse-form--fb {
-        /* color: $mainLightBlue; */
-        z-index: 2;
-    }
-
-    &__reuse-form--view {
-        color: rgba($mainDarkBlack, .45)
-    }
 }

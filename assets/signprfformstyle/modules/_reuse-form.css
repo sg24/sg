@@ -30,7 +30,7 @@
         background-color: #fff;
         position: relative;
         box-shadow: 0 1px 8px 4px rgba($mainDarkBlack, .65);
-        border-radius: 5px;
+        border-radius: 3px;
     }
 
     &__cnt {

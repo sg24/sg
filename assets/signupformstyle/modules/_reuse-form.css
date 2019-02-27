@@ -29,7 +29,7 @@
         background-color: #fff;
         position: relative;
         box-shadow: 0 1px 8px 4px rgba($mainDarkBlack, .65);
-        border-radius: 5px;
+        border-radius: 3px;
     }
 
     &__status {
@@ -64,6 +64,7 @@
         position: relative;
         background-color: #fff;
         padding: 10px;
+        border-radius: 3px;
 
         & > p {
             position: relative;
@@ -81,6 +82,7 @@
             border: 1px solid $mainDarkGray;
             margin-top: 20px;
             position: relative;
+            border-radius: 5px;
 
             & > h4 {
                 position: absolute;
