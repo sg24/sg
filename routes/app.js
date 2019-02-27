@@ -102,4 +102,8 @@ router.get('/acc/help', (req, res, next) => {
     res.render('acchelp'); 
 });
 
+router.get('/acc/set', (req, res, next) => {
+    res.render('accset'); 
+});
+
 module.exports = router;

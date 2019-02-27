@@ -1,0 +1,14 @@
+.icon {
+
+    &__acc-set--tab {
+        color: $mainLightRed;
+    }
+
+    &__reuse-form--view {
+        color: rgba($mainDarkBlack, .45)
+    }
+
+    &__reuse-form--btn {
+        margin-right: 5px;
+    }
+}

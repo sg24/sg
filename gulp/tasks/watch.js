@@ -171,6 +171,10 @@ gulp.task('watch', function() {
         gulp.start('acchelpcss')
     });
 
+    watch('./assets/accsetstyle/**/*.css', function() {
+        gulp.start('accsetcss')
+    });
+
     // watch('./apps.js', function() {
     //     gulp.start('scriptsRefresh');
     // });
@@ -370,6 +374,11 @@ gulp.task('accprfcss',['accprfstyle'], function() {
 
 gulp.task('acchelpcss',['acchelpstyle'], function() {
     return gulp.src("./assets/acchelpstyle/acc-help.css")
+    .pipe(browserSyc.stream());
+}); 
+
+gulp.task('accsetcss',['accsetstyle'], function() {
+    return gulp.src("./assets/accsetstyle/acc-set.css")
     .pipe(browserSyc.stream());
 }); 
 

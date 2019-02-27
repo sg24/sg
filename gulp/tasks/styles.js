@@ -440,3 +440,14 @@ gulp.task('acchelpstyle', function() {
     })
     .pipe(gulp.dest('./public/stylesheets'));
 });
+
+gulp.task('accsetstyle', function() {
+    return gulp.src('./assets/accsetstyle/acc-set.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) { 
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
