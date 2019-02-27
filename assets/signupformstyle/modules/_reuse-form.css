@@ -5,11 +5,59 @@
     padding: 20px 15px;
     font-size: .875rem;
 
+    &__overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background-color: rgba($mainDarkBlack, .6);
+        z-index: 2;
+        opacity: 0;
+        visibility: hidden;
+        transition: all .3s ease-in;
+
+        &--visible {
+            z-index: 2;
+            opacity: 1;
+            visibility: visible;
+            transition: all .3s ease-in;
+        }
+    }
+
     &__wrapper {
         background-color: #fff;
         position: relative;
         box-shadow: 0 1px 8px 4px rgba($mainDarkBlack, .65);
         border-radius: 5px;
+    }
+
+    &__status {
+        position: absolute;
+        z-index: 2;
+        background-color: #fff;
+        text-align: center;
+        width: 80%;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 20%;
+
+        & > h4 {
+            background-color: $mainLightGreen;
+            color: #fff;
+            padding: 5px 0;
+            margin: 0;
+        }
+
+        & > p {
+            margin: 0;
+            padding: 10px 0;
+
+            & > a {
+                color: $mainDarkBlue;
+                font-weight: bold; 
+            }
+        }
     }
 
     &__cnt {

@@ -436,7 +436,6 @@ img {
 }
 
 .icon__reuse-form--fb {/* color: $mainLightBlue; */
-  z-index: 2;
 }
 
 .icon__reuse-form--view {
@@ -451,11 +450,59 @@ img {
     font-size: .875rem;
 }
 
+.reuse-form__overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0,0,0, .6);
+  z-index: 2;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .3s ease-in;
+}
+
+.reuse-form__overlay--visible {
+  z-index: 2;
+  opacity: 1;
+  visibility: visible;
+  transition: all .3s ease-in;
+}
+
 .reuse-form__wrapper {
   background-color: #fff;
   position: relative;
   box-shadow: 0 1px 8px 4px rgba(0,0,0, .65);
   border-radius: 5px;
+}
+
+.reuse-form__status {
+  position: absolute;
+  z-index: 2;
+  background-color: #fff;
+  text-align: center;
+  width: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 20%;
+}
+
+.reuse-form__status > h4 {
+  background-color: #16cf27;
+  color: #fff;
+  padding: 5px 0;
+  margin: 0;
+}
+
+.reuse-form__status > p {
+  margin: 0;
+  padding: 10px 0;
+}
+
+.reuse-form__status > p > a {
+  color: #0284a8;
+  font-weight: bold;
 }
 
 .reuse-form__cnt {
