@@ -459,6 +459,10 @@ img {
   color: #ff1600;
 }
 
+.icon__reuse-form--btn {
+  margin-right: 5px;
+}
+
 .reuse-form {
     position: relative;
     width: 100%;
@@ -793,9 +797,6 @@ img {
 
 .reuse-form__itm--det {
   padding: 10px;
-  max-height: 300px;
-  overflow: hidden;
-  overflow-y: auto;
 }
 
 .reuse-form__itm--det__alt {
@@ -815,13 +816,24 @@ img {
   margin: 5px 0 10px 0;
 }
 
-.reuse-form__itm--det__view {
+.reuse-form__itm--det__cnt {
+  display: none;
   background-color: #f9f9f9;
-  max-height: 200px;
+  padding: 10px 0;
   width: 100%;
-  overflow: hidden;
-  overflow-y: auto;
   margin-top: 10px;
+}
+
+.reuse-form__itm--det__cnt--img {
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+  background-color: #0284a8;
+  margin: 0 auto;
+}
+
+.reuse-form__itm--det__cnt--visible {
+  display: block;
 }
 
 .reuse-form__err {
@@ -835,6 +847,12 @@ img {
 
 .reuse-form__btn {
   position: relative;
+}
+
+.reuse-form__btn::after {
+  content: "";
+  clear: both;
+  display: table;
 }
 
 .reuse-form__btn > button {
@@ -857,18 +875,24 @@ img {
   background-color: #05578b;
 }
 
+.reuse-form__btn--del {
+  background-color: #fff;
+  color:  #ff1600;
+  float: right;
+  box-shadow: 0 1px 2px 1px rgba(0,0,0, .65);
+  width: 85px;
+}
+
+.reuse-form__btn--del:hover {
+  background-color: #f2f2f2;
+}
+
 .reuse-form__footer {
   background-color: #f9f9f9;
   border-top: 1px solid #dcdbdc;
   padding: 8px 10px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-}
-
-.reuse-form__footer::after {
-  content: "";
-  clear: both;
-  display: table;
 }
 
 @media (min-width: 530px) {

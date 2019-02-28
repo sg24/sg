@@ -302,9 +302,6 @@
         
         &--det {
             padding: 10px;
-            max-height: 300px;
-            overflow: hidden;
-            overflow-y: auto;
 
             &__alt {
                 width: 30px;
@@ -320,13 +317,24 @@
                 margin: 5px 0 10px 0;
             }
 
-            &__view {
+            &__cnt {
+                display: none;
                 background-color: $mainHeaderColor;
-                max-height: 200px;
+                padding: 10px 0;
                 width: 100%;
-                overflow: hidden;
-                overflow-y: auto;
                 margin-top: 10px;
+
+                &--img {
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 40px;
+                    background-color: $mainDarkBlue;
+                    margin: 0 auto;
+                }
+
+                &--visible {
+                    display: block;
+                }
             }
         }
     }
@@ -342,6 +350,7 @@
 
     &__btn {
         position: relative;
+        @mixin clearfix;
 
         & > button {
             border-radius: 3px;
@@ -362,6 +371,18 @@
                 background-color: $mainDarkPaleBlue;
             }
         }
+
+        &--del {
+            background-color: #fff;
+            color:  $mainLightRed;
+            float: right;
+            box-shadow: 0 1px 2px 1px rgba($mainDarkBlack, .65);
+            width: 85px;
+
+            &:hover {
+                background-color: $mainExtraLightGray;
+            }
+        }
     }
 
     &__footer {
@@ -370,7 +391,6 @@
         padding: 8px 10px;
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
-        @mixin clearfix;
 
         @mixin atSmall {
             padding: 8px 20px;
