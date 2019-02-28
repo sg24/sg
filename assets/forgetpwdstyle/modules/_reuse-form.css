@@ -24,7 +24,7 @@
             transition: all .3s ease-in;
         }
     }
-
+    
     &__wrapper {
         background-color: #fff;
         position: relative;
@@ -93,49 +93,6 @@
             margin-top: 20px;
             position: relative;
             border-radius: 5px;
-
-            & > h4 {
-                position: absolute;
-                top: -12px;
-                left: 50%;
-                transform: translateX(-50%);
-                margin: 0;
-                padding: 5px 10px;
-                background-color: #fff;
-                color: rgba($mainDarkBlack, .85);
-                font-weight: 400;
-                text-align: center;
-            }
-
-            & > ul {
-                list-style: none;
-                margin: 0;
-                padding: 0 20px 20px 20px;
-                @mixin clearfix;
-
-                & > li {
-                    float: right;
-                    background-color: $mainLightBlue;
-                    border-radius: 5px;
-                    box-shadow: 0 2px 2px 0 rgba($mainDarkBlack, .45);
-
-                    & > a {
-                        width: 50px;
-                        height: 40px;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        font-size: 28px;
-                        color: #fff;
-                        text-decoration: none; 
-                    }
-
-                    &:first-child {
-                        float: left;
-                        background-color: $mainLightRed;
-                    }
-                }
-            }
         }
 
         &--alt {
@@ -234,12 +191,23 @@
             cursor: pointer;
         }
 
-        &--nxt {
+        &--nxt, &--log {
             color: #fff;
             float: right;
             box-shadow: 0 2px 4px 1px rgba($mainDarkBlack, .65);
             width: 70px;
+        }
+
+        &--nxt {
             background-color: $mainLightRed;
+        }
+
+        &--log {
+            background-color: $mainMiddleDarkBlue;
+
+            &:hover {
+                background-color: $mainDarkPaleBlue;
+            }
         }
     }
     

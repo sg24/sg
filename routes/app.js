@@ -118,4 +118,12 @@ router.get('/signup/profile', (req, res, next) => {
     res.render('signprfform'); 
 });
 
+router.get('/forget/password', (req, res, next) => {
+    res.render('forgetpwd'); 
+});
+
+router.get('/forget/reset', (req, res, next) => {
+    res.render('forgetpwd'); 
+});
+
 module.exports = router;

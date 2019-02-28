@@ -187,6 +187,10 @@ gulp.task('watch', function() {
         gulp.start('accsetcss')
     });
 
+    watch('./assets/forgetpwdstyle/**/*.css', function() {
+        gulp.start('forgetpwdcss')
+    });
+
     // watch('./apps.js', function() {
     //     gulp.start('scriptsRefresh');
     // });
@@ -409,6 +413,10 @@ gulp.task('accsetcss',['accsetstyle'], function() {
     .pipe(browserSyc.stream());
 }); 
 
+gulp.task('forgetpwdcss',['forgetpwdstyle'], function() {
+    return gulp.src("./assets/forgetpwdstyle/reset-pwd.css")
+    .pipe(browserSyc.stream());
+});
 
 // gulp.task('scriptsRefresh',['scripts'], function() {
 //     browserSyc.reload();

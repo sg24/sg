@@ -1,0 +1,31 @@
+<form action="" class="reuse-form">
+    <div class="reuse-form__wrapper">
+        <div class="site-main__logo">
+            logo
+        </div>
+        <div class="reuse-form__overlay"></div>
+        <div class="reuse-form__cnt">
+            <div class="reuse-form__cnt--main-wrapper">
+                <div class="reuse-form__cnt--wrapper">
+                    <label for="password" class="reuse-form__cnt--title">Password</label>
+                    <div class="reuse-form__cnt--det">
+                        <input type="password" name="" class="reuse-form__cnt--det__input reuse-form__cnt--det__input--pwd">
+                        <div class="reuse-form__cnt--det__pwd"><i class="far fa-eye icon icon__reuse-form--view"></i></div>
+                    </div>
+                    {{!-- <div class="reuse-form__err">Pls, Enter a title</div> --}}
+                </div>
+                <div class="reuse-form__cnt--wrapper">
+                    <label for="confirm password" class="reuse-form__cnt--title">Confirm Password</label>
+                    <div class="reuse-form__cnt--det">
+                        <input type="password" name="" class="reuse-form__cnt--det__input">
+                    </div>
+                    {{!-- <div class="reuse-form__err">Pls, Enter a title</div> --}}
+                </div>
+                 <div class="reuse-form__cnt--footer reuse-form__btn">
+                    <button type="submit" class="reuse-form__btn--log">Reset</button>
+                </div>
+            </div>
+        </div>
+        {{> partialsignedform}}
+    </div>
+</form>

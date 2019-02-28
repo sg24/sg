@@ -1,9 +1,5 @@
 .icon {
 
-    &__reuse-form--fb {
-        /* color: $mainLightBlue; */
-    }
-
     &__reuse-form--btn {
         margin-right: 5px;
     }

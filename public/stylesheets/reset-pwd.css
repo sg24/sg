@@ -435,9 +435,6 @@ img {
     box-sizing: border-box;
 }
 
-.icon__reuse-form--fb {/* color: $mainLightBlue; */
-}
-
 .icon__reuse-form--btn {
   margin-right: 5px;
 }
@@ -543,57 +540,6 @@ img {
   margin-top: 20px;
   position: relative;
   border-radius: 5px;
-}
-
-.reuse-form__cnt--main-wrapper > h4 {
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  margin: 0;
-  padding: 5px 10px;
-  background-color: #fff;
-  color: rgba(0,0,0, .85);
-  font-weight: 400;
-  text-align: center;
-}
-
-.reuse-form__cnt--main-wrapper > ul {
-  list-style: none;
-  margin: 0;
-  padding: 0 20px 20px 20px;
-}
-
-.reuse-form__cnt--main-wrapper > ul::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-.reuse-form__cnt--main-wrapper > ul > li {
-  float: right;
-  background-color: #15a4fa;
-  border-radius: 5px;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0, .45);
-}
-
-.reuse-form__cnt--main-wrapper > ul > li > a {
-  width: 50px;
-  height: 40px;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: center;
-      justify-content: center;
-  -ms-flex-align: center;
-      align-items: center;
-  font-size: 28px;
-  color: #fff;
-  text-decoration: none;
-}
-
-.reuse-form__cnt--main-wrapper > ul > li:first-child {
-  float: left;
-  background-color: #ff1600;
 }
 
 .reuse-form__cnt--alt {
@@ -710,12 +656,23 @@ img {
   cursor: pointer;
 }
 
-.reuse-form__btn--nxt {
+.reuse-form__btn--nxt, .reuse-form__btn--log {
   color: #fff;
   float: right;
   box-shadow: 0 2px 4px 1px rgba(0,0,0, .65);
   width: 70px;
+}
+
+.reuse-form__btn--nxt {
   background-color: #ff1600;
+}
+
+.reuse-form__btn--log {
+  background-color: #437da3;
+}
+
+.reuse-form__btn--log:hover {
+  background-color: #05578b;
 }
 
 @media (min-width: 530px) {
@@ -777,4 +734,4 @@ img {
     padding-right: 18px;
     max-width: 1236px;
   }
-}    
+}      

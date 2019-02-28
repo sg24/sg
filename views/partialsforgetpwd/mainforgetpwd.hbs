@@ -1,0 +1,25 @@
+<form action="" class="reuse-form">
+    <div class="reuse-form__wrapper">
+        <div class="site-main__logo">
+            logo
+        </div>
+        <div class="reuse-form__overlay"></div>
+        <div class="reuse-form__cnt">
+            <div class="reuse-form__cnt--main-wrapper">
+                <div class="reuse-form__cnt--wrapper">
+                    <label for="email" class="reuse-form__cnt--title">Email Address</label>
+                    <div class="reuse-form__cnt--det">
+                        <input type="email" name=""  class="reuse-form__cnt--det__input">
+                    </div>
+                    {{!-- <div class="reuse-form__err">Pls, Enter a title</div> --}}
+                </div>
+                 <div class="reuse-form__cnt--footer reuse-form__btn">
+                    <button type="submit" class="reuse-form__btn--nxt"><i class="fas fa-angle-double-right icon icon__reuse-form--btn"></i>Next</button>
+                </div>
+            </div>
+            <p>No account <a href="">Sign up</a></p>
+            <p>Already have an account <a href="">Login in</a></p>
+        </div>
+        {{> partialsignedform}}
+    </div>
+</form>
