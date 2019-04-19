@@ -15,7 +15,7 @@ gulp.task('styles', function() {
         console.log(errorInfo.toString());
         this.emit('end');
     })
-    .pipe(gulp.dest('./public/stylesheets'));
+    .pipe(gulp.dest('./react/index/src'));
 });
 
 
@@ -36,10 +36,10 @@ gulp.task('globalstyles', function() {
     .pipe(postcss([cssImport, mixins, cssvars, nested, 
                     hexrgba, autoprefixer]))
     .on('error', function(errorInfo) {
-        console.log(errorInfo.toString());
-        this.emit('end');
+        console.log(errorInfo.toString());  
+        this.emit('end'); 
     })
-    .pipe(gulp.dest('./public/stylesheets'));
+    .pipe(gulp.dest('./react/index/src'));
 });
 
 gulp.task('miniglobalstyles', function() {
