@@ -169,15 +169,11 @@
 
 .reuse-pt__img {
     width: 100%;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: center;
-        justify-content: center;
+    padding: 10px 20px 0 20px;
 }
 
 .reuse-pt__img--wrapper {
-    width: 92%;
-    margin: 10px 10px 0 10px;
+    width: 100%;
     height: 200px;
     background-color: #0284a8;
     overflow: hidden;
@@ -186,13 +182,16 @@
 }
 
 .reuse-pt__title {
-    margin: 0 5px;
-    padding: 10px 0;
+    margin: 0;
+    padding: 10px 20px;
     text-align: center;
     font-weight: 400;
     font-size: 1rem;
     color: #437da3;
     cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 @media (min-width: 800px) {
@@ -203,7 +202,7 @@
 }
 
 .reuse-pt__description {
-    margin: 0 10px 10px 20px;
+    margin: 0 20px 10px 20px;
     padding: 0;
     text-align: center;
     font-size: .9375rem;

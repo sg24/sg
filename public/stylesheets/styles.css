@@ -42,7 +42,7 @@
 }
 
 .active__main--chat {
-    top: -10px;
+    top: -15px;
     right: -12px;
     width: 24px;
     height: 24px;
@@ -64,7 +64,7 @@
 @media (min-width: 530px) {
 
     .active__main--chat {
-        right: -20px;
+        right: 10px;
 
     }
 
@@ -96,17 +96,22 @@
 
 }
 
-.site-main__content--tab{
+.site-main__content--tab {
     list-style: none;
 
 }
 
 .site-main__content--tab li {
-    padding: 12px 0;
+    padding: 0;
     width: 25%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+
+}
+
+.site-main__content--tab li > a {
+    padding: 12px 0;
 
 }
 

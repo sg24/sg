@@ -5,15 +5,19 @@
     &__content {
         color: $mainFontColor;
 
-        &--tab{
+        &--tab { 
             list-style: none;
             
-            li {
-                padding: 12px 0; 
+            li { 
+                padding: 0; 
                 width: 25%;
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis; 
+
+                & > a { 
+                    padding: 12px 0;
+                }
 
                 &:last-child { 
                     display: none;

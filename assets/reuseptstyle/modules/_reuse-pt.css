@@ -140,29 +140,29 @@
 
     &__img {
         width: 100%;
-        display: flex;
-        justify-content: center;
+        padding: 10px 20px 0 20px;
 
         &--wrapper {
-            width: 92%;
-            margin: 10px 10px 0 10px;
+            width: 100%;
             height: 200px;
             background-color: $mainDarkBlue;
             overflow: hidden;
             overflow-x: hidden;
             overflow-y: auto;
         }
-
     }
 
     &__title {
-        margin: 0 5px;
-        padding: 10px 0;
+        margin: 0;
+        padding: 10px 20px;
         text-align: center;
         font-weight: 400;
         font-size: 1rem;
         color: $mainMiddleDarkBlue;
         cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; 
 
         @mixin atMedium {
             font-size: 1.2rem;
@@ -170,7 +170,7 @@
     }
 
     &__description {
-        margin: 0 10px 10px 20px;
+        margin: 0 20px 10px 20px;
         padding: 0;
         text-align: center;
         font-size: .9375rem;

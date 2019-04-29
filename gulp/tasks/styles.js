@@ -15,9 +15,9 @@ gulp.task('styles', function() {
         console.log(errorInfo.toString());
         this.emit('end');
     })
-    .pipe(gulp.dest('./react/index/src'));
+    .pipe(gulp.dest('./public/stylesheets'));
 });
-
+// .pipe(gulp.dest('./react/index/src'));
 
 gulp.task('viewstyles', function() {
     return gulp.src('./assets/viewstyle/view.css')
@@ -30,7 +30,6 @@ gulp.task('viewstyles', function() {
     .pipe(gulp.dest('./public/stylesheets'));
 });
 
-
 gulp.task('globalstyles', function() {
     return gulp.src('./assets/globalstyle/global.css')
     .pipe(postcss([cssImport, mixins, cssvars, nested, 
@@ -39,7 +38,7 @@ gulp.task('globalstyles', function() {
         console.log(errorInfo.toString());  
         this.emit('end'); 
     })
-    .pipe(gulp.dest('./react/index/src'));
+    .pipe(gulp.dest('./public/stylesheets'));
 });
 
 gulp.task('miniglobalstyles', function() {

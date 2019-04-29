@@ -150,71 +150,9 @@
     }
 }
 
-.reuse-que__img {
-    width: 100%;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: center;
-        justify-content: center;
-}
-
-.reuse-que__img--wrapper {
-    width: 92%;
-    margin: 10px 10px 0 10px;
-    height: 200px;
-    background-color: #0284a8;
-    overflow: hidden;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
-.reuse-que__title {
-    margin: 0 5px;
-    padding: 10px 0;
-    text-align: center;
-    font-weight: 400;
-    font-size: 1rem;
-    color: #437da3;
-    cursor: pointer;
-}
-
-@media (min-width: 800px) {
-
-    .reuse-que__title {
-        font-size: 1.2rem;
-    }
-}
-
-.reuse-que__description {
-    margin: 0 10px 10px 20px;
-    padding: 0;
-    text-align: center;
-    font-size: .9375rem;
-    line-height: 1.5;
-    text-decoration: underline;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.reuse-que__description a {
-    color: #182427;
-    cursor: pointer;
-}
-
-@media (min-width: 800px) {
-
-    .reuse-que__description {
-        font-size: 1rem;
-    }
-}
-
 .reuse-que__content {
     margin: 10px 0;
-    padding: 0 10px;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: center;
-        justify-content: center;
+    padding: 0 20px;
 }
 
 .reuse-que__content::after {
@@ -224,27 +162,51 @@
 }
 
 .reuse-que__content--title {
-    float: left;
-    max-width: 60%;
+    width: 100%;
     padding: 0;
-    padding-right: 10px;
     margin: 0;
-    max-height: 98px;
+    font-size: 1rem;
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 1.5;
     text-align: center;
 }
 
+.reuse-que__content--title__que-img {
+    float: left;
+    width: 60%;
+    padding: 0;
+    padding-right: 20px;
+    margin: 0;
+    height: 100px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .reuse-que__content--title a {
-    color: #0284a8;
+    color: #437da3;
+}
+
+@media (min-width: 530px) {
+
+    .reuse-que__content--title {
+        line-height: 2;
+    }
 }
 
 .reuse-que__content--img {
     float: left;
-    max-width: 40%;
+    width: 40%;
     background-color: rgba(233,235,242, .56);
-    max-height: 100px;
+    height: 100px;
     overflow: hidden;
     overflow-y: auto;
 }
@@ -538,4 +500,4 @@
 
 .icon__reuse-que--options__dft {
     margin-right: 5px;
-}      
+}

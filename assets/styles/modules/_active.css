@@ -13,7 +13,7 @@
         font-size: .8125rem;
         border: 1px solid rgba(255,255,255, .25);
        
-        > div {
+        & > div {
             position: absolute;
             top: 50%;
             transform:translateY(-50%);
@@ -28,7 +28,7 @@
     }
 
     &--chat {
-        top: -10px; 
+        top: -15px; 
         right: -12px;
         width: 24px;
         height: 24px;
@@ -36,16 +36,16 @@
         font-size: .8125rem;
         border: 1px solid rgba(255,255,255, .25);
        
-        > div {
+        & > div {
             position: absolute;
             top: 50%;
             transform:translateY(-50%);
             width: 100%;
             text-align: center;
         }
-
+ 
         @mixin atSmall {
-            right: -20px;  
+            right: 10px;  
         }
     }
 

@@ -122,86 +122,50 @@
         }
     }
 
-    &__img {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-
-        &--wrapper {
-            width: 92%;
-            margin: 10px 10px 0 10px;
-            height: 200px;
-            background-color: $mainDarkBlue;
-            overflow: hidden;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-
-    }
-
-    &__title {
-        margin: 0 5px;
-        padding: 10px 0;
-        text-align: center;
-        font-weight: 400;
-        font-size: 1rem;
-        color: $mainMiddleDarkBlue;
-        cursor: pointer;
-
-        @mixin atMedium {
-            font-size: 1.2rem;
-        }
-    }
-
-    &__description {
-        margin: 0 10px 10px 20px;
-        padding: 0;
-        text-align: center;
-        font-size: .9375rem;
-        line-height: 1.5;
-        text-decoration: underline;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        
-        a {
-            color: $mainFontColor;
-            cursor: pointer;
-        }
-
-        @mixin atMedium {
-            font-size: 1rem;
-        }
-    }
-
     &__content {
         @mixin clearfix;
         margin: 10px 0;
-        padding: 0 10px;
-        display: flex;
-        justify-content: center;
+        padding: 0 20px;
 
         &--title {
-            float: left;
-            max-width: 60%;
+            width: 100%;
             padding: 0;
-            padding-right: 10px;
             margin: 0;
-            max-height: 98px;
+            font-size: 1rem;
             overflow: hidden;
             text-overflow: ellipsis;
             line-height: 1.5;
             text-align: center;
+            
+            &__que-img {
+                float: left;
+                width: 60%;
+                padding: 0;
+                padding-right: 20px;
+                margin: 0;
+                height: 100px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
 
             a {
-                color: $mainDarkBlue;
+                color: $mainMiddleDarkBlue; 
+            }
+
+            @mixin atSmall {
+                line-height: 2;
             }
         }
 
         &--img {
             float: left;
-            max-width: 40%;
+            width: 40%;
             background-color: rgba($mainLightGray, .56);
-            max-height: 100px;
+            height: 100px;
             overflow: hidden;
             overflow-y: auto;
         }

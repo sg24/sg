@@ -27,4 +27,13 @@
     &__reuse-group--footer__users-on {
         color: rgba($mainDarkBlack, .55);
     }
+
+    &__reuse-group--footer__mute {
+        margin-right: 5px;
+    }
+
+    &__reuse-group--footer__exit {
+        margin-right: 10px;
+        color: #fff;
+    }
 }

@@ -82,12 +82,21 @@
                 color: #fff; 
                 cursor: pointer;
                 font-weight: 300;
-                padding: 12px 35px; 
+                padding: 0; 
                 position: relative;
                 border-right: 1px solid rgba(255,255,255, .45);
 
                 &:last-child {
                     border-right: none;
+                }
+ 
+                & > a { 
+                    color: #fff;
+                    text-decoration: none;
+                    display: block;
+                    width: 100%;
+                    padding: 12px 35px;
+                    text-align: center;
                 }
             }
 
