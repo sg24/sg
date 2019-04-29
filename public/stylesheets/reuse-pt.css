@@ -182,8 +182,8 @@
 }
 
 .reuse-pt__title {
-    margin: 0;
-    padding: 10px 20px;
+    margin: 10px 0;
+    padding: 0 20px;
     text-align: center;
     font-weight: 400;
     font-size: 1rem;
@@ -356,6 +356,7 @@
     box-shadow: 0 0 4.15px 0.85px rgba(0,0,0, 0.65);
     font-size: .8125rem;
     margin-bottom: 40px;
+    cursor: default;
     opacity: 0;
     visibility: hidden;
     transition: all .3s ease-out;
@@ -379,7 +380,7 @@
 
 .reuse-pt__footer--details__options li:last-child {
     background-color: #f22613;
-    padding: 0;
+    color: #fff;
 }
 
 .reuse-pt__footer--details__options li a {

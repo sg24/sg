@@ -312,6 +312,7 @@
                 box-shadow: 0 0 4.15px 0.85px rgba($mainDarkBlack, 0.65); 
                 font-size: .8125rem;
                 margin-bottom: 40px;
+                cursor: default;
                 opacity: 0;
                 visibility: hidden;
                 transition: all .3s ease-out;
@@ -333,7 +334,8 @@
 
                     &:last-child {
                         background-color: $mainDarkRed;
-                        padding: 0;
+                        padding: 5px;
+                        color: #fff;
                     }
 
                     a {
@@ -368,6 +370,32 @@
                     border-style: solid;
                     transform: rotate(90deg);
                     pointer-events: none;
+                }
+
+                &--helpme {
+                    top: 40%;    
+                    transform: translateY(-40%);
+                    right: 53px;
+
+                    & > li {
+                        padding: 5px;
+
+                        &:first-child {
+                            background-color: $mainLightGray;
+                            border: 1px solid rgba($mainDarkBlack, .25);
+                            padding: 5px;
+                        }
+                    }
+
+                    &::after {
+                        top: 20px;
+                        right: -24px;
+                    }
+        
+                    &::before {
+                        top: 19px;
+                        right: -26px;
+                    }
                 }
 
                 &--visible {

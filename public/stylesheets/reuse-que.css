@@ -384,6 +384,7 @@
     box-shadow: 0 0 4.15px 0.85px rgba(0,0,0, 0.65);
     font-size: .8125rem;
     margin-bottom: 40px;
+    cursor: default;
     opacity: 0;
     visibility: hidden;
     transition: all .3s ease-out;
@@ -407,7 +408,8 @@
 
 .reuse-que__footer--details__options li:last-child {
     background-color: #f22613;
-    padding: 0;
+    padding: 5px;
+    color: #fff;
 }
 
 .reuse-que__footer--details__options li a {
@@ -441,6 +443,32 @@
     border-style: solid;
     transform: rotate(90deg);
     pointer-events: none;
+}
+
+.reuse-que__footer--details__options--helpme {
+    top: 40%;
+    transform: translateY(-40%);
+    right: 53px;
+}
+
+.reuse-que__footer--details__options--helpme > li {
+    padding: 5px;
+}
+
+.reuse-que__footer--details__options--helpme > li:first-child {
+    background-color: #e9ebf2;
+    border: 1px solid rgba(0,0,0, .25);
+    padding: 5px;
+}
+
+.reuse-que__footer--details__options--helpme::after {
+    top: 20px;
+    right: -24px;
+}
+
+.reuse-que__footer--details__options--helpme::before {
+    top: 19px;
+    right: -26px;
 }
 
 .reuse-que__footer--details__options--visible {
