@@ -408,6 +408,17 @@ gulp.task('reuseaccstyle', function() {
     .pipe(gulp.dest('./public/stylesheets'));
 });
 
+gulp.task('reusenoaccstyle', function() {
+    return gulp.src('./assets/reusenoaccstyle/reuse-no-acc.css')
+    .pipe(postcss([cssImport, mixins, cssvars, nested, 
+                    hexrgba, autoprefixer]))
+    .on('error', function(errorInfo) { 
+        console.log(errorInfo.toString());
+        this.emit('end');
+    })
+    .pipe(gulp.dest('./public/stylesheets'));
+});
+
 gulp.task('accsharedstyle', function() {
     return gulp.src('./assets/accsharedstyle/acc-shared.css')
     .pipe(postcss([cssImport, mixins, cssvars, nested, 

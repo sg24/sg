@@ -1,0 +1,7 @@
+.icon {
+    
+    &__reuse-no-acc {
+        font-size: 1.875rem;
+        color: $mainDarkGray;
+    }
+}

@@ -155,6 +155,10 @@ gulp.task('watch', function() {
         gulp.start('reuseacctcss')
     });
 
+    watch('./assets/reusenoaccstyle/**/*.css', function() {
+        gulp.start('reusenoacctcss')
+    });
+
     watch('./assets/reuseuserstyle/**/*.css', function() {
         gulp.start('reuseusercss')
     });
@@ -372,6 +376,11 @@ gulp.task('reuseacctcss',['reuseaccstyle'], function() {
     return gulp.src("./assets/reuseaccstyle/reuse-acc.css")
     .pipe(browserSyc.stream());
 }); 
+
+gulp.task('reusenoacctcss',['reusenoaccstyle'], function() {
+    return gulp.src("./assets/reusenoaccstyle/reuse-no-acc.css")
+    .pipe(browserSyc.stream());
+});
 
 gulp.task('reuseusercss',['reuseuserstyle'], function() {
     return gulp.src("./assets/reuseuserstyle/reuse-user.css")
