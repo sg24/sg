@@ -353,12 +353,8 @@
 }
 
 .reuse-group__footer--user-det__opt li:last-child {
-    background-color: #f22613; 
-}
-
-.reuse-group__footer--user-det__opt li:last-child a {
-    color: #fff;
-    text-decoration: none; 
+    background-color: #f22613;
+    color: #fff; 
 }
 
 .reuse-group__footer--user-det__opt::after, .reuse-group__footer--user-det__opt::before {

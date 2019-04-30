@@ -194,8 +194,8 @@
 }
 
 .reuse-pwt__content--det__user--det__opt li:last-child {
-    padding: 0;
     background-color: #f22613;
+    color: #fff;
 }
 
 .reuse-pwt__content--det__user--det__opt li a {

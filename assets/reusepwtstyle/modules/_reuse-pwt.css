@@ -141,8 +141,8 @@
                             }
         
                             &:last-child {
-                                padding: 0;
                                 background-color: $mainDarkRed;
+                                color: #fff;
                             }
         
                             a {

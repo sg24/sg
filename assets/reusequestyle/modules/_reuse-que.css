@@ -334,7 +334,6 @@
 
                     &:last-child {
                         background-color: $mainDarkRed;
-                        padding: 5px;
                         color: #fff;
                     }
 
