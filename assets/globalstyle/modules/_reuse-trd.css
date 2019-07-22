@@ -10,6 +10,7 @@
         display: flex;
         flex-direction: column;
         flex-grow: 1;       
+        overflow: hidden;
         border: 1px solid $mainDarkGray;   
         /* box-shadow: 0 0 .2px .2px rgba($mainDarkBlack, .2); */ 
     }

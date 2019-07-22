@@ -10,6 +10,11 @@
         color: rgba($mainDarkPaleBlue, .6);
     }
 
+    &__reuse-group--header__tag {
+        color: $mainLightBlack;
+        cursor: pointer;
+    }
+
     &__reuse-group--cnt__det {
         color: $mainFontColor;
         margin-right: 5px;

@@ -8,6 +8,11 @@
     color: rgba(5,87,139, .6); 
 }
 
+.icon__reuse-group--header__tag {
+    color: #777;
+    cursor: pointer; 
+}
+
 .icon__reuse-group--cnt__det {
     color: #182427;
     margin-right: 5px; 
@@ -409,4 +414,4 @@
         margin: 40px 0px 60px 0px;
         padding: 0 20px; 
     } 
-}                 
+}                

@@ -113,11 +113,11 @@
     }
    
     &__reuse-conv--del {
-        margin-right: 5px;
+        margin-right: 10px;
         color: #fff; 
     }
 
-    &__reuse--conv--blk {
+    &__reuse-conv--blk {
         margin-right: 5px;
         color: rgba($mainDarkBlack, .5); 
     }
