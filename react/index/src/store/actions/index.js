@@ -86,3 +86,9 @@ export {
     fetchConvInit,
     fetchConv
 } from './conv';
+
+export { 
+    headerFormExpand,
+    headerNavDefault,
+    headerAddNew 
+} from './header';

@@ -1,12 +1,12 @@
 import React from 'react';
 
 import Aux from '../Auxs/Aux';
-import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
+import Header from '../../containers/Header/Header';
 import SiteHero from '../../containers/SiteHero/SiteHero';
 
 const layout = props =>  (
     <Aux>
-        <Toolbar />
+        <Header />
         <SiteHero />
         {props.children}
     </Aux>

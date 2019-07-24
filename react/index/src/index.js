@@ -18,6 +18,7 @@ import tags from './store/reducers/tags';
 import trend from './store/reducers/trend';
 import setQue from './store/reducers/setQue';
 import conv from './store/reducers/conv';
+import header from './store/reducers/header';
 
 import { 
         watchPt, 
@@ -46,7 +47,8 @@ const rootReducers = combineReducers({
     tags: tags,
     trd: trend,
     setQue: setQue,
-    conv
+    conv,
+    header
 })
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
