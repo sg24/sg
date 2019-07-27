@@ -515,12 +515,10 @@ img {
 
 .icon__site-header--nav__itm {
   margin-right: 5px;
-  color: #777;
 }
 
 .icon__site-header--nav__angle {
   margin-left: 5px;
-  color: #777;
 }
 
 .icon__site-header--notify__set {
@@ -766,15 +764,14 @@ img {
   background-color: #abc6d4 !important;
 }
 
-.nav {
+.site-header__menu--nav__opt {
     font-size: .8125rem;
     font-family: "poppins" , Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
     position: absolute;
     top: 40px;
-    right: -40px;
+    margin: 0 auto;
     background-color: #fff;
-    padding: 10px 10px 0 10px;
-    width: 20rem;
+    padding: 10px 0;
     box-shadow: 0px 0px 4.15px 0.85px rgba(0,0,0, 0.65); 
     opacity: 0;
     visibility: hidden;
@@ -783,132 +780,64 @@ img {
     transition: all .3s ease-out;
 }
 
-.nav::after {
+.site-header__menu--nav__opt::after {
   content: "";
   border-color: transparent;
   position: absolute;
-  right: 45px;
+  left: 50%;
+  transform: translateX(-50%);
   border-width: 9px;
   border-style: solid;
   border-bottom-color: #fff;
   top: -18px;
 }
 
-.nav::before {
+.site-header__menu--nav__opt::before {
   border-color: transparent;
   content: "";
   position: absolute;
-  right: 44px;
+  left: 50%;
+  transform: translateX(-50%);
   border-width: 10px;
   border-bottom-color: rgba(0,0,0, 0.25);
   border-style: solid;
   top: -20px;
 }
 
-.nav__wrapper {
-  padding-bottom: 10px;
-}
-
-.nav__wrapper::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-.nav__wrapper > div {
-  float: left;
-  width: 50%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;/* text-align: left;   */
-  text-align: center;
-  padding: 0;
-}
-
-.nav__wrapper > div > h4 {
-  font-weight: 400;
-  margin: 0;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.nav__wrapper > div > ul {
+.site-header__menu--nav__opt--det {
+  position: absolute;
   list-style: none;
   margin: 0;
-  padding: 0 10px 10px 10px;
-  width: 100%;
-  display: none;
+  padding: 0;
+  right: 100%;
+  background-color: #fff;
+  padding: 10px 10px 10px 10px;
+  box-shadow: 0px 0px 4.15px 0.85px rgba(0,0,0, 0.65);
 }
 
-.nav__wrapper > div > ul > li {
+.site-header__menu--nav__opt--itm {
+  list-style: none;
+  margin: 0;
   padding: 0;
+}
+
+.site-header__menu--nav__opt--itm > li {
+  float: none;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
+  padding: 8px 20px;
+  margin: 2px 0;
+  color: #555;
 }
 
-.nav__wrapper > div > ul > li:first-child {
-  border-top: 1px solid #dcdbdc;
-}
-
-.nav__wrapper > div > ul > li > a {
-  text-decoration: none;
-  padding: 5px 10px;
-  color: #182427;
-  display: block;
-}
-
-.nav__wrapper > div > ul > li > a:hover {
+.site-header__menu--nav__opt--itm > li:hover {
   background-color: #0284a8;
   color: #fff;
 }
 
-.nav__wrapper > div:hover {
-  background-color: #f9f9f9;
-  box-shadow: 0 0 0 1px #dcdbdc;
-}
-
-@media (min-width: 530px) {
-
-  .nav__wrapper > div {
-    width: 33.333%;
-  }
-}
-
-.nav__wrapper--visible {
-  display: block !important;
-}
-
-.nav__online-que, .nav__other {
-  display: none;
-}
-
-@media (min-width: 530px) {
-
-  .nav__online-que, .nav__other {
-    display: inline;
-  }
-}
-
-.nav__online-que-sm, .nav__other-sm {
-  display: inline;
-}
-
-@media (min-width: 530px) {
-
-  .nav__online-que-sm, .nav__other-sm {
-    display: none;
-  }
-}
-
-@media (min-width: 530px) {
-
-  .nav {
-    width: 25rem;
-  }
-}
-
-.nav__visible {
+.site-header__menu--nav__opt__visible {
   opacity: 1;
   visibility: visible;
   transform: scale(1);
@@ -1275,6 +1204,14 @@ img {
   top: -28px;
 }
 
+@media (min-width: 380px) {
+
+  .site-header__menu--notify__cnt::before {
+    left: 66%;
+    transform: translateX(-66%);
+  }
+}
+
 @media (min-width: 530px) {
 
   .site-header__menu--notify__cnt::before {
@@ -1319,10 +1256,19 @@ img {
   transition: all .3s ease-out;
 }
 
-@media (min-width: 530px) {
+@media (min-width: 380px) {
 
   .site-header__menu--notify__cnt {
     width: 25rem;
+    left: 66%;
+    transform: translateX(-66%);
+    right: auto;
+  }
+}
+
+@media (min-width: 530px) {
+
+  .site-header__menu--notify__cnt {
     left: 80%;
     transform: translateX(-80%);
   }
@@ -2675,4 +2621,4 @@ img {
 .reuse-tag__cnt > li > a:hover {
   background-color: #0284a8;
   color: #fff;
-}
+} 

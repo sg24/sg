@@ -48,7 +48,7 @@ class NavigationList extends Component {
 
     render() {
         let navTipClass = ["site-header__tool-tip site-header__tool-tip--nav"];
-        let navClass = ["nav"];
+        let navClass = ["site-header__menu--nav__opt"];
         let navList = null;
 
         if (this.state.show) {
@@ -56,7 +56,7 @@ class NavigationList extends Component {
         }
 
         if (this.props.navList && this.state.showNavList) {
-            navClass.push("nav__visible");
+            navClass.push("site-header__menu--nav__opt__visible");
             navList = <NavigationLists 
                 content={this.props.navList}/>
         }
@@ -75,6 +75,14 @@ class NavigationList extends Component {
                 </div>
                 <nav className={navClass.join(' ')}>
                     { navList }
+                    <ul className="site-header__menu--nav__opt--itm">
+                        <li
+                            onClick={}><i className="fas fa-clone icon icon__site-header--nav__itm"></i> Post <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
+                        <li><i className="fas fa-clone icon icon__site-header--nav__itm"></i> Questions <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
+                        <li><i className="fas fa-coffee icon icon__site-header--nav__itm"></i> Online Exam <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
+                        <li><i className="fas fa-users icon icon__site-header--nav__itm"></i> Group <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
+                        <li><i className="fas fa-book icon icon__site-header--nav__itm"></i> Poet/Writers <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
+                    </ul>
                 </nav> 
             </div>
         );
@@ -90,7 +98,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchNavList: () => dispatch(actions.fetchNavlistInit())
+        onFetchNavPt: () => dispatch(actions.fetchNavlistInit())
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationList);

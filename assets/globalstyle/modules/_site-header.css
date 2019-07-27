@@ -296,6 +296,12 @@
                     border-width: 14px;
                     top: -28px;
 
+
+                    @mixin atMiniSmall {
+                        left: 66%;
+                        transform: translateX(-66%)
+                    }
+
                     @mixin atSmall {
                         left: 80%;
                         transform: translateX(-80%);
@@ -338,8 +344,14 @@
                     transition: all .3s ease-out;
                 }
 
-                @mixin atSmall {
+                @mixin atMiniSmall {
                     width: 25rem; 
+                    left: 66%;
+                    transform: translateX(-66%); 
+                    right: auto;
+                }
+
+                @mixin atSmall {
                     left: 80%;
                     transform: translateX(-80%);
                 }

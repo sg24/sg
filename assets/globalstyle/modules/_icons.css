@@ -38,12 +38,10 @@
 
     &__site-header--nav__itm {
         margin-right: 5px;
-        color: $mainLightBlack;
     }
 
     &__site-header--nav__angle {
         margin-left: 5px;
-        color: $mainLightBlack;
     }
 
     &__site-header--notify__set {
