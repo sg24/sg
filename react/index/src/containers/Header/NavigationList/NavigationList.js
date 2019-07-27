@@ -2,114 +2,79 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../../../store/actions/index';
+import NavigationLists from '../../../components/Navigation/NavigationLists/NavigationLists';
 
-class NavigationOpt extends Component {
+class NavigationList extends Component {
+    state = {
+        show: false,
+        showNavList: false,
+        default: false
+    };
+
+    componentDidUpdate() {
+        if (this.state.showNavList && !this.state.default && this.props.hidNavList) {
+            this.setState({
+                default: true,
+                show: false,
+                showNavList: false
+            });
+        }
+    }
+
+    showNavTipHandler = () => {
+       if (!this.state.showNavList) {
+        this.setState({
+            show: true
+        });
+       }
+    }
+
+    hidNavTipHandler = () => {
+        this.setState({
+            show: false
+        });
+    }
+
+    fetchNavListHandler = () => {
+        this.props.onFetchNavList();
+        this.setState((prevState, props) => {
+            return {
+                show: false,
+                default: false,
+                showNavList: !prevState.showNavList
+            }
+        });
+    }
 
     render() {
+        let navTipClass = ["site-header__tool-tip site-header__tool-tip--nav"];
+        let navClass = ["nav"];
+        let navList = null;
+
+        if (this.state.show) {
+            navTipClass.push("site-header__tool-tip--nav__visible")
+        }
+
+        if (this.props.navList && this.state.showNavList) {
+            navClass.push("nav__visible");
+            navList = <NavigationLists 
+                content={this.props.navList}/>
+        }
 
         return (
             <div className="site-header__menu--nav">
-                <div className="site-header__menu--nav__icn">
+                <div 
+                    className="site-header__menu--nav__icn"
+                    onMouseEnter={this.showNavTipHandler}
+                    onMouseLeave={this.hidNavTipHandler}
+                    onClick={this.fetchNavListHandler}>
                     <i className="fas fa-bars icon icon__site-header--list"></i>
                 </div>
-                <div className="site-header__tool-tip site-header__tool-tip--nav">
+                <div className={navTipClass.join(' ')}>
                     Options
                 </div>
-                <nav className="nav">
-                    <div className="nav__wrapper">
-                        <div className="nav__pt">
-                            <h4>
-                                <i className="fas fa-clone icon icon__site-header--nav__itm"></i> Post
-                                <span><i className="fas fa-angle-down icon icon__site-header--nav__angle"></i></span>
-                            </h4>
-                            <ul>
-                                <li><a href="/post/news">News</a></li>
-                                <li><a href="/">Social</a></li>
-                                <li><a href="/">Entertainment</a></li>
-                            </ul>
-                        </div>
-                        <div className="nav__que">
-                            <h4>
-                                <i className="fas fa-clone icon icon__site-header--nav__itm"></i> Questions
-                                <span><i className="fas fa-angle-down icon icon__site-header--nav__angle"></i></span>
-                            </h4>
-                            <ul>
-                                <li><a href="/">News</a></li>
-                                <li><a href="/">Social</a></li>
-                                <li><a href="/">Entertainment</a></li>
-                            </ul>
-                        </div>
-                        <div className="nav__online-que">
-                            <h4>
-                                <i className="fas fa-coffee icon icon__site-header--nav__itm"></i> Online Exam
-                                <span><i className="fas fa-angle-down icon icon__site-header--nav__angle"></i></span>
-                            </h4>
-                            <ul>
-                                <li><a href="/">News</a></li>
-                                <li><a href="/">Social</a></li>
-                                <li><a href="/">Entertainment</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="nav__wrapper"> 
-                        <div className="nav__grp">
-                            <h4>
-                                <i className="fas fa-users icon icon__site-header--nav__itm"></i> Group
-                                <span><i className="fas fa-angle-down icon icon__site-header--nav__angle"></i></span>
-                            </h4>
-                            <ul>
-                                <li><a href="/">News</a></li>
-                                <li><a href="/">Social</a></li>
-                                <li><a href="/">Entertainment</a></li>
-                            </ul>
-                        </div>
-                        <div className="nav__pwt">
-                            <h4>
-                                <i className="fas fa-book icon icon__site-header--nav__itm"></i> Poet/Writers
-                                <span><i className="fas fa-angle-down icon icon__site-header--nav__angle"></i></span>
-                            </h4>
-                            <ul>
-                                <li><a href="/">News</a></li>
-                                <li><a href="/">Social</a></li>
-                                <li><a href="/">Entertainment</a></li>
-                            </ul>
-                        </div>
-                        <div className="nav__other">
-                            <h4>
-                                <i className="fas fa-book icon icon__site-header--nav__itm"></i> Others
-                                <span><i className="fas fa-angle-down icon icon__site-header--nav__angle"></i></span>
-                            </h4>
-                            <ul>
-                                <li><a href="/">News</a></li>
-                                <li><a href="/">Social</a></li>
-                                <li><a href="/">Entertainment</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="nav__wrapper"> 
-                        <div className="nav__other-sm">
-                            <h4>
-                                <i className="fas fa-book icon icon__site-header--nav__itm"></i> Others
-                                <span><i className="fas fa-angle-down icon icon__site-header--nav__angle"></i></span>
-                            </h4>
-                            <ul>
-                                <li><a href="/">News</a></li>
-                                <li><a href="/">Social</a></li>
-                                <li><a href="/">Entertainment</a></li>
-                            </ul>
-                        </div>
-                        <div className="nav__online-que-sm"> 
-                            <h4>
-                                <i className="fas fa-coffee icon icon__site-header--nav__itm"></i> Online Exam
-                                <span><i className="fas fa-angle-down icon icon__site-header--nav__angle"></i></span>
-                            </h4>
-                            <ul>
-                                <li><a href="/">News</a></li>
-                                <li><a href="/">Social</a></li>
-                                <li><a href="/">Entertainment</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                <nav className={navClass.join(' ')}>
+                    { navList }
                 </nav> 
             </div>
         );
@@ -118,13 +83,14 @@ class NavigationOpt extends Component {
 
 const mapStateToProps = state => {
     return {
-       
+       navList: state.header.navList,
+       hidNavList: state.header.hidNavList
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        
+        onFetchNavList: () => dispatch(actions.fetchNavlistInit())
     };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(NavigationOpt);
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationList);

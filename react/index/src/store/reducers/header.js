@@ -3,7 +3,12 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
     expand: false,
-    addNew: false
+    addNew: false,
+    notify: null,
+    hidNotify: false,
+    navOpt: null,
+    hidNavList: false,
+    hidUserOption: false
 };
 
 const formExpand = (state, action) => {
@@ -11,11 +16,27 @@ const formExpand = (state, action) => {
 };
 
 const navDefault = (state, action) => {
-    return updateObject(state, {expand: false, addNew: false})
+    return updateObject(state, {expand: false, addNew: false, hidNotify: true, hidNavList: true, hidUserOption: true})
 };
 
 const addNew = (state, action) => {
     return updateObject(state, {addNew: !state.addNew})
+};
+
+const fetchNotify = (state, action) => {
+    return updateObject(state, {notify: action.notify, hidNotify: false, hidNavList: true, hidUserOption: true})
+};
+
+const changeFavNotify = (state, action) => {
+    return updateObject(state, {notify: action.notify})
+};
+
+const fetchNavList = (state, action) => {
+    return updateObject(state, {navList: action.navList, hidNotify: true, hidNavList: false, hidUserOption: true})
+};
+
+const showUserOption = (state, action) => {
+    return updateObject(state, {navList: action.navList, hidNotify: true, hidNavList: true, hidUserOption: false})
 };
 
 const reducer = (state = initialState, action) => {
@@ -26,6 +47,14 @@ const reducer = (state = initialState, action) => {
             return navDefault(state, action);
         case actionTypes.HEADER_ADD_NEW:
             return addNew(state, action);
+        case actionTypes.FETCH_NOTIFY:
+            return fetchNotify(state, action);
+        case actionTypes.CHANGE_FAVORITE_NOTIFY:
+            return changeFavNotify(state, action);
+        case actionTypes.FETCH_NAVLIST:
+            return fetchNavList(state, action);
+        case actionTypes.SHOW_USER_OPTION:
+            return showUserOption(state, action);
         default: return state
     };
 };

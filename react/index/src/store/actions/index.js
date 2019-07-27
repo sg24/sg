@@ -90,5 +90,12 @@ export {
 export { 
     headerFormExpand,
     headerNavDefault,
-    headerAddNew 
+    headerAddNew,
+    fetchNotifyInit,
+    fetchNotify,
+    changeFavNotifyInit,
+    changeFavNotify,
+    fetchNavlistInit,
+    fetchNavlist,
+    showUserOption
 } from './header';

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import * as actions from '../../store/actions/index';
 import Logo from '../../components/UI/Logo/Logo';
 import NavigationInput from './NavigationInput/NavigationInput';
 import NavigationList from './NavigationList/NavigationList'
@@ -9,7 +10,7 @@ import NavigationItems from '../../components/Navigation/NavigationItems/Navigat
 import NavigationOptions from '../../components/Navigation/NavigationOptions/NavigationOptions';
 import Favorite from './Favorite/Favorite';
 import Share from './Share/Share';
-import * as actions from '../../store/actions/index';
+import UserOption from './UserOption/UserOption'; 
 
 class Header extends Component {
     render() {
@@ -43,31 +44,7 @@ class Header extends Component {
                         <NavigationNotify />
                         <NavigationList />
                     </div>
-                    <div className="site-header__user">
-                        <div className="site-header__user--img">
-        
-                        </div>
-                        <ul className="site-header__user--det">
-                            <li className="site-header__user--det__portal">
-                            <a href="/acc">
-                                <div className="site-header__user--det__portal--img"><img src="/" alt="" /></div>
-                                My Portal 
-                                </a>  
-                            </li>
-                            <li className="site-header__user--det__acc">
-                                <a href="/set">
-                                    <div><i className="fas fa-cogs icon icon__site-header--user__set"></i></div>
-                                    Account Settings
-                                </a>
-                            </li>
-                            <li className="site-header__user--det__logout">
-                                <a href="/logout">
-                                    <div><i className="fas fa-angle-double-right icon icon__site-header--user__log"></i> </div>
-                                    Logout
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <UserOption /> 
                     <ul className="site-header__no-acc">
                         <li><a href="/login" className="site-header__no-acc--login"><i className="fas fa-lock icon icon__site-header--no-acc"></i> Login</a></li>
                         <li><a href="/signup" className="site-header__no-acc--sign">Signup</a></li>

@@ -30,7 +30,8 @@ import {
         watchTags,
         watchTrd,
         watchSetQue,
-        watchConv
+        watchConv,
+        watchHeader
     } from './store/sagas/index';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -65,6 +66,7 @@ sagaMiddleware.run(watchTags);
 sagaMiddleware.run(watchTrd);
 sagaMiddleware.run(watchSetQue);
 sagaMiddleware.run(watchConv);
+sagaMiddleware.run(watchHeader);
 
 const app = (
     <Provider store={store}>
