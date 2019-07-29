@@ -4,7 +4,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { createStore, combineReducers, compose, applyMiddleware }  from 'redux'; 
 import { Provider } from 'react-redux';
 import  createSagaMiddleware from 'redux-saga';
-
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+ 
 import App from './App';
 import './index.css';
 import auth from './store/reducers/auth';
@@ -67,6 +71,8 @@ sagaMiddleware.run(watchTrd);
 sagaMiddleware.run(watchSetQue);
 sagaMiddleware.run(watchConv);
 sagaMiddleware.run(watchHeader);
+
+library.add(fas,far,fab)
 
 const app = (
     <Provider store={store}>

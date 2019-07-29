@@ -1,15 +1,7 @@
 import React from 'react';
 
-import Aux from '../../../../hoc/Auxs/Aux';
-
-const navigationList = props => {
-    return (
-        <Aux>
-           <ul className="site-header__menu--nav__opt--det">
-                <li></li>
-            </ul>
-        </Aux>
-    );
-}
+const navigationList = props => (
+    <li><a href={'/' + props.category + '/' + props.navList}> {props.navList}</a></li>
+);
 
 export default navigationList

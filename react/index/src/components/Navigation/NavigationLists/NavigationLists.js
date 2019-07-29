@@ -6,7 +6,8 @@ const navigationLists = props => {
     const allNavLists = props.content.map((navList, index ) => (
         <NavigationList 
             key={index}
-            navList={navList}/>
+            navList={navList}
+            category={props.category}/>
     ))
     
     return allNavLists

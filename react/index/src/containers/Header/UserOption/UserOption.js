@@ -19,7 +19,7 @@ class UserOption extends Component {
     }
 
     showUserOptionHandler = () => {
-        this.props.showUserOption();
+        this.props.onShowUserOption();
         this.setState((prevState, props) => {
             return {
                 default: false,
@@ -75,7 +75,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return({
-        showUserOption: () => dispatch(actions.showUserOption())
+        onShowUserOption: () => dispatch(actions.showUserOption())
     })
 };
 

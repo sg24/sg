@@ -65,9 +65,16 @@ export const changeFavNotify = (notify) => {
     };
 };
 
-export const fetchNavlistInit = () => {
+export const showNavList = () => {
     return {
-        type: actionTypes.FETCH_NAVLIST_INIT
+        type: actionTypes.SHOW_NAV_LIST
+    };
+};
+
+export const fetchNavlistInit = (category) => {
+    return {
+        type: actionTypes.FETCH_NAVLIST_INIT,
+        category
     };
 };
 
@@ -89,10 +96,11 @@ export const fetchNavlistFail = () => {
     };
 };
 
-export const fetchNavlist = (navList) =>  {
+export const fetchNavlist = (category, navList) =>  {
     return {
         type: actionTypes.FETCH_NAVLIST,
-        navList
+        category,
+        navList,
     };
 }; 
 

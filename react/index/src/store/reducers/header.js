@@ -6,7 +6,8 @@ const initialState = {
     addNew: false,
     notify: null,
     hidNotify: false,
-    navOpt: null,
+    navList: null,
+    navListCateg: null,
     hidNavList: false,
     hidUserOption: false
 };
@@ -31,12 +32,16 @@ const changeFavNotify = (state, action) => {
     return updateObject(state, {notify: action.notify})
 };
 
+const showNavList = (state, action) => {
+    return updateObject(state, {hidNotify: true, hidNavList: false, hidUserOption: true})
+};
+
 const fetchNavList = (state, action) => {
-    return updateObject(state, {navList: action.navList, hidNotify: true, hidNavList: false, hidUserOption: true})
+    return updateObject(state, {navList: action.navList, navListCateg: action.category})
 };
 
 const showUserOption = (state, action) => {
-    return updateObject(state, {navList: action.navList, hidNotify: true, hidNavList: true, hidUserOption: false})
+    return updateObject(state, {hidNotify: true, hidNavList: true, hidUserOption: false})
 };
 
 const reducer = (state = initialState, action) => {
@@ -51,6 +56,8 @@ const reducer = (state = initialState, action) => {
             return fetchNotify(state, action);
         case actionTypes.CHANGE_FAVORITE_NOTIFY:
             return changeFavNotify(state, action);
+        case actionTypes.SHOW_NAV_LIST:
+            return showNavList(state, action);
         case actionTypes.FETCH_NAVLIST:
             return fetchNavList(state, action);
         case actionTypes.SHOW_USER_OPTION:

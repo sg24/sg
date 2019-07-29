@@ -61,29 +61,37 @@ export function* fetchNavlistInitSaga(action) {
     const data = [{
         cntGrp: 'post',
         category: [
-            "socal","socal","socal","Entertainment","TECH","socal","socal"
+            "Socal","Socal","Socal","Entertainment","TECH","Socal","Socal"
         ]
     }, {
         cntGrp: 'question',
         category: [
-            "socal","socal","socal","Entertainment","TECH","socal","socal"
+            "Social", "TECH","Entertainment","TECH","socal","socal"
         ]
     }, {
         cntGrp: 'onlineque',
         category: [
-            "socal","socal","socal","Entertainment","TECH","socal","socal"
+            "Socal","Socal","Entertainment","socal","socal","socal"
         ]
     }, {
         cntGrp: 'group',
         category: [
-            "socal","socal","socal","Entertainment","TECH","socal","socal"
+            "Entertainment","TECH","Socal","Socal","Socal","Socal","Socal"
         ]
     }, {
         cntGrp: 'poet',
         category: [
-            "socal","socal","socal","Entertainment","TECH","socal","socal"
+            "Socal","Socal","Entertainment","Socal","Socal","Socal"
         ]
     }];
 
-    yield put(actions.fetchNavlist(data))
+    let categArray = [];
+
+    for (let categ of data) {
+        if (categ.cntGrp === action.category) {
+            categArray.push(...categ.category)
+        }
+    }
+
+    yield put(actions.fetchNavlist(action.category, categArray))
 }

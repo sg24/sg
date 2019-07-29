@@ -8,7 +8,8 @@ class NavigationList extends Component {
     state = {
         show: false,
         showNavList: false,
-        default: false
+        default: false,
+        category: null
     };
 
     componentDidUpdate() {
@@ -35,8 +36,8 @@ class NavigationList extends Component {
         });
     }
 
-    fetchNavListHandler = () => {
-        this.props.onFetchNavList();
+    showNavListHandler = () => {
+        this.props.onshowNavList();
         this.setState((prevState, props) => {
             return {
                 show: false,
@@ -46,19 +47,39 @@ class NavigationList extends Component {
         });
     }
 
+    fetchNavListHandler = (category) => {
+        this.props.onFetchNavList(category);
+        this.setState({category})
+    }
+
     render() {
         let navTipClass = ["site-header__tool-tip site-header__tool-tip--nav"];
         let navClass = ["site-header__menu--nav__opt"];
         let navList = null;
+        let navOptClass = ["site-header__menu--nav__opt--det"];
 
         if (this.state.show) {
             navTipClass.push("site-header__tool-tip--nav__visible")
         }
 
+        if (this.state.showNavList) {
+            navClass.push("site-header__menu--nav__opt--visible");
+        }
+
         if (this.props.navList && this.state.showNavList) {
-            navClass.push("site-header__menu--nav__opt__visible");
-            navList = <NavigationLists 
-                content={this.props.navList}/>
+            let navOptCateg = this.state.category === 'post' ? 'site-header__menu--nav__opt--det__pt' : null;
+            navOptCateg = this.state.category === 'question' ? 'site-header__menu--nav__opt--det__que' : navOptCateg;
+            navOptCateg = this.state.category === 'onlineque' ? 'site-header__menu--nav__opt--det__onlineque' : navOptCateg;
+            navOptCateg = this.state.category === 'group' ? 'site-header__menu--nav__opt--det__grp' : navOptCateg;
+            navOptCateg = this.state.category === 'poet' ? 'site-header__menu--nav__opt--det__pwt' : navOptCateg;
+            navOptClass.push(navOptCateg);
+            navList = (
+                <ul className={navOptClass.join(' ')}>
+                    <NavigationLists 
+                        content={this.props.navList}
+                        category={this.props.navListCateg}/>
+                </ul>
+            );
         }
 
         return (
@@ -67,7 +88,7 @@ class NavigationList extends Component {
                     className="site-header__menu--nav__icn"
                     onMouseEnter={this.showNavTipHandler}
                     onMouseLeave={this.hidNavTipHandler}
-                    onClick={this.fetchNavListHandler}>
+                    onClick={this.showNavListHandler}>
                     <i className="fas fa-bars icon icon__site-header--list"></i>
                 </div>
                 <div className={navTipClass.join(' ')}>
@@ -77,11 +98,15 @@ class NavigationList extends Component {
                     { navList }
                     <ul className="site-header__menu--nav__opt--itm">
                         <li
-                            onClick={}><i className="fas fa-clone icon icon__site-header--nav__itm"></i> Post <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
-                        <li><i className="fas fa-clone icon icon__site-header--nav__itm"></i> Questions <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
-                        <li><i className="fas fa-coffee icon icon__site-header--nav__itm"></i> Online Exam <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
-                        <li><i className="fas fa-users icon icon__site-header--nav__itm"></i> Group <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
-                        <li><i className="fas fa-book icon icon__site-header--nav__itm"></i> Poet/Writers <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
+                            onMouseEnter={this.fetchNavListHandler.bind(this, 'post')}><i className="fas fa-clone icon icon__site-header--nav__itm"></i> Post <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
+                        <li
+                            onMouseEnter={this.fetchNavListHandler.bind(this, 'question')}><i className="fas fa-clone icon icon__site-header--nav__itm"></i> Questions <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
+                        <li
+                            onMouseEnter={this.fetchNavListHandler.bind(this, 'onlineque')}><i className="fas fa-coffee icon icon__site-header--nav__itm"></i> Online Exam <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
+                        <li
+                            onMouseEnter={this.fetchNavListHandler.bind(this, 'group')}><i className="fas fa-users icon icon__site-header--nav__itm"></i> Group <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
+                        <li
+                            onMouseEnter={this.fetchNavListHandler.bind(this, 'poet')}><i className="fas fa-book icon icon__site-header--nav__itm"></i> Poet/Writers <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
                     </ul>
                 </nav> 
             </div>
@@ -91,6 +116,7 @@ class NavigationList extends Component {
 
 const mapStateToProps = state => {
     return {
+       navListCateg: state.header.navListCateg,
        navList: state.header.navList,
        hidNavList: state.header.hidNavList
     };
@@ -98,7 +124,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchNavPt: () => dispatch(actions.fetchNavlistInit())
+        onshowNavList: () => dispatch(actions.showNavList()),
+        onFetchNavList: (category) => dispatch(actions.fetchNavlistInit(category))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationList);

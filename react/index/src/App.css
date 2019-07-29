@@ -771,12 +771,11 @@ img {
     top: 40px;
     margin: 0 auto;
     background-color: #fff;
-    padding: 10px 0;
+    padding: 2px 0;
     box-shadow: 0px 0px 4.15px 0.85px rgba(0,0,0, 0.65); 
     opacity: 0;
     visibility: hidden;
     cursor: default;
-    transform: scale(.8);
     transition: all .3s ease-out;
 }
 
@@ -804,43 +803,75 @@ img {
   top: -20px;
 }
 
-.site-header__menu--nav__opt--det {
-  position: absolute;
+.site-header__menu--nav__opt > ul {
   list-style: none;
   margin: 0;
-  padding: 0;
-  right: 100%;
-  background-color: #fff;
-  padding: 10px 10px 10px 10px;
-  box-shadow: 0px 0px 4.15px 0.85px rgba(0,0,0, 0.65);
+  color: #555;
 }
 
-.site-header__menu--nav__opt--itm {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.site-header__menu--nav__opt--itm > li {
+.site-header__menu--nav__opt > ul > li {
   float: none;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
-  padding: 8px 20px;
-  margin: 2px 0;
-  color: #555;
 }
 
-.site-header__menu--nav__opt--itm > li:hover {
+.site-header__menu--nav__opt > ul > li:hover {
   background-color: #0284a8;
   color: #fff;
 }
 
-.site-header__menu--nav__opt__visible {
+.site-header__menu--nav__opt--det {
+  position: absolute;
+  padding: 2px 0;
+  right: 100%;
+  background-color: #fff;
+  box-shadow: 0px 0px 4.15px 0.85px rgba(0,0,0, 0.65);
+}
+
+.site-header__menu--nav__opt--det  a {
+  text-decoration: none;
+  display: block;
+  padding: 8px 20px;
+  color: #182427;
+}
+
+.site-header__menu--nav__opt--det  a:hover {
+  color: #fff
+}
+
+.site-header__menu--nav__opt--det__pt {
+  top: 0;
+}
+
+.site-header__menu--nav__opt--det__que {
+  top: 30px;
+}
+
+.site-header__menu--nav__opt--det__onlineque {
+  top: 60px;
+}
+
+.site-header__menu--nav__opt--det__grp {
+  top: 90px;
+}
+
+.site-header__menu--nav__opt--det__pwt {
+  top: 120px;
+}
+
+.site-header__menu--nav__opt--itm {
+  padding: 0;
+}
+
+.site-header__menu--nav__opt--itm > li {
+  padding: 8px 20px;
+}
+
+.site-header__menu--nav__opt--visible {
   opacity: 1;
   visibility: visible;
-  transform: scale(1);
   transition: all .3s ease-out;
 }
 
@@ -2621,4 +2652,4 @@ img {
 .reuse-tag__cnt > li > a:hover {
   background-color: #0284a8;
   color: #fff;
-} 
+}
