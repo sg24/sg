@@ -5,10 +5,11 @@ import * as actions from '../../store/actions/index';
 
 export function* fetchGroupInitSaga(action) {
     const data = [{
+        id: '366336636363636',
         author: 'user user',
         authorID: 'user_id',
         userImage: '/',
-        groupCreated: '2m ago',
+        groupCreated: '18/8/19',
         category: 'social',
         groupImage: '/',
         desc: 'The is a description of the sites to be used when this is rendered to the database,this is rendered to the database',
@@ -17,10 +18,11 @@ export function* fetchGroupInitSaga(action) {
         authUser: false
     }, 
     {
+        id: '928645645377727',
         author: 'user user',
         authorID: 'user_id',
         userImage: '/',
-        groupCreated: '2m ago',
+        groupCreated: '18/8/19',
         category: 'social',
         groupImage: '/',
         desc: 'The is a description of the sites to be used when this is rendered to the database,this is rendered to the database',
@@ -28,10 +30,11 @@ export function* fetchGroupInitSaga(action) {
         userOnline: 12000000,
         authUser: true
     },{
+        id: '4778383839222',
         author: 'user user',
         authorID: 'user_id',
         userImage: '/',
-        groupCreated: '2m ago',
+        groupCreated: '18/8/19',
         category: 'social',
         groupImage: '/',
         desc: 'The is a description of the sites to be used when this is rendered to the database,this is rendered to the database',

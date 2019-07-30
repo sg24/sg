@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './QueHelpContent.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const queHelpContent = props => {
     let queHelpCnt = (
@@ -25,7 +26,9 @@ const queHelpContent = props => {
         <div className="reuse-que-help">
             <div className="reuse-que-help__wrapper">
                 <div className="reuse-que-help__icn">
-                    <i className="fas fa-hand-paper icon icon__reuse-que-help--user"></i>
+                <FontAwesomeIcon 
+                    icon={['fas', 'hand-paper']} 
+                    className="icon icon__reuse-que-help--user" />
                 </div>
                {queHelpCnt}
             </div>

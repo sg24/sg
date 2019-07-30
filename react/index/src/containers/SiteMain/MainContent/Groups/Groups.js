@@ -45,7 +45,7 @@ class Groups extends Component {
         let groups = (
             <NoAcc
                 isAuth={this.props.userID !== null}
-                icnClass="fas fa-users icon icon__reuse-no-acc"
+                icnClass="icon icon__reuse-no-acc"
                 det="Group" />
         ); 
 

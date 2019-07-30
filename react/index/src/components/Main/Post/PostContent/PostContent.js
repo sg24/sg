@@ -37,9 +37,26 @@ const postContent = props => {
             <div className={userOptDetClass.join(' ')} onClick={props.userOpt}>
             <div className="reuse-pt__footer--details__mid"></div>
             <ul className={userOptClass.join(' ')}>
-                <li><a href="/"><FontAwesomeIcon icon={['far', 'edit']} className="icon icon__reuse-pt--options" /> Edit </a></li>
-                <li className="reuse-pt__footer--details__options--status"><FontAwesomeIcon icon={['far', 'eye-slash']} className="icon icon__reuse-pt--options__dft" /> Draft</li>
-                <li><FontAwesomeIcon icon={['far', 'trash-alt']} className="icon icon__reuse-pt--options" /> Delete </li>
+                <li>
+                    <a href="/">
+                        <FontAwesomeIcon 
+                            icon={['far', 'edit']} 
+                            className="icon icon__reuse-pt--options" /> 
+                        Edit 
+                    </a>
+                </li>
+                <li className="reuse-pt__footer--details__options--status">
+                    <FontAwesomeIcon 
+                        icon={['far', 'eye-slash']} 
+                        className="icon icon__reuse-pt--options__dft" /> 
+                    Draft
+                </li>
+                <li>
+                    <FontAwesomeIcon 
+                        icon={['far', 'trash-alt']} 
+                        className="icon icon__reuse-pt--options" /> 
+                    Delete 
+                </li>
             </ul>
         </div>
         )
@@ -67,10 +84,17 @@ const postContent = props => {
                             </div>
                         </li>
                         <li>
-                            <p className="reuse-pt__header--share__category"> <FontAwesomeIcon icon={['fas', 'tag']} className="icon icon__reuse-pt--header__tag" /><a href="/"> {props.pt.category} </a></p>
+                            <p className="reuse-pt__header--share__category"> 
+                                <FontAwesomeIcon 
+                                    icon={['fas', 'tag']} 
+                                    className="icon icon__reuse-pt--header__tag" />
+                                <a href="/"> {props.pt.category} </a>
+                            </p>
                             <div className="reuse-share">
                                 <div className="reuse-share__icn" onClick={props.share}>
-                                    <FontAwesomeIcon icon={['fas', 'location-arrow']} className="icon icon__reuse-share--icn" /> 
+                                    <FontAwesomeIcon 
+                                        icon={['fas', 'location-arrow']} 
+                                        className="icon icon__reuse-share--icn" /> 
                                 </div>
                              </div>
                         </li>
@@ -85,8 +109,18 @@ const postContent = props => {
                 
                     <div className="reuse-pt__footer">
                         <ul className="reuse-pt__footer--list">
-                            <li><FontAwesomeIcon icon={['far', 'eye']} className="icon icon__reuse-pt--footer__eye" /> {transformNumber(props.pt.view)} </li>
-                            <li className="reuse-pt__footer--list__item-middle"><FontAwesomeIcon icon={['far', 'comments']} className="icon icon__reuse-pt--footer__chats" /> {transformNumber(props.pt.comment)} </li>
+                            <li>
+                                <FontAwesomeIcon 
+                                    icon={['far', 'eye']} 
+                                    className="icon icon__reuse-pt--footer__eye" /> 
+                                {transformNumber(props.pt.view)} 
+                            </li>
+                            <li className="reuse-pt__footer--list__item-middle">
+                                <FontAwesomeIcon 
+                                    icon={['far', 'comments']} 
+                                    className="icon icon__reuse-pt--footer__chats" /> 
+                                {transformNumber(props.pt.comment)} 
+                            </li>
                             <li onClick={props.fav}><span>{fav}</span> {transformNumber(props.pt.favorite)} </li>
                         </ul>
                         {userOpt}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Aux from '../../../hoc/Auxs/Aux';
 import Tags from './Tags/Tags';
@@ -44,7 +45,8 @@ class MainNav extends Component {
                 <div className="site-main__nav--wrapper">
                     <ul className="site-main__nav--header">
                         <li onClick={this.showConvHandler}>
-                            <i className="fas fa-exchange-alt"></i>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'exchange-alt']} />
                             <div className="active__main active__main--nav">
                                 <div>99</div>
                             </div>

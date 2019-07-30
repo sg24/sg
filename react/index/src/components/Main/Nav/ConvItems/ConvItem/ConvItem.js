@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { transformNumber } from '../../../../../shared/utility';
 
 const convItem = props => {
@@ -39,8 +40,18 @@ const convItem = props => {
                 <div className={pvtUserOptDetClass.join(' ')} onClick={props.userOpt}>
                     <div className="reuse-pvt-chat__opt--mid"></div>
                     <ul className={pvtUserOptClass.join(' ')}>
-                        <li><i className="fas fa-eye-slash icon icon__reuse-conv--blk"></i> Block</li>
-                        <li><i className="fas fa-trash-alt icon icon__reuse-conv--del"></i> Delete</li>
+                        <li>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'eye-slash']} 
+                                className="icon icon__reuse-conv--blk" /> 
+                            Block
+                        </li>
+                        <li>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'trash-alt']} 
+                                className="icon icon__reuse-conv--del" /> 
+                            Delete
+                        </li>
                     </ul>
                 </div>
             </div> 
@@ -60,8 +71,18 @@ const convItem = props => {
                 <div className={grpUserOptDetClass.join(' ')} onClick={props.userOpt}>
                     <div className="reuse-grp-chat__opt--mid"></div>
                     <ul className={grpUserOptClass.join(' ')}>
-                        <li><i className="fas fa-eye-slash icon icon__reuse-conv--blk"></i> Block</li>
-                        <li><i className="fas fa-trash-alt icon icon__reuse-conv--del"></i> Delete</li>
+                        <li>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'eye-slash']} 
+                                className="icon icon__reuse-conv--blk" /> 
+                            Block
+                        </li>
+                        <li>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'trash-alt']} 
+                                className="icon icon__reuse-conv--del" />
+                            Delete
+                        </li>
                     </ul>
                 </div>
             </div>

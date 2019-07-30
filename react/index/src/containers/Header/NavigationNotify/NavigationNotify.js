@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import * as actions from '../../../store/actions/index';
 import NotifyItems from '../../../components/Navigation/NotifyItems/NotifyItems';
@@ -75,12 +76,20 @@ class NavigationNotify extends Component {
                     className="site-header__menu--notify__icn"
                     onMouseEnter={this.showNotifyTipHandler}
                     onMouseLeave={this.hidNotifyTipHandler}
-                    onClick={this.fetchNotifyHandler}><i className="fas fa-bell icon icon__site-header--bell"></i></div>
+                    onClick={this.fetchNotifyHandler}>
+                    <FontAwesomeIcon 
+                        icon={['fas', 'bell']} 
+                        className="icon icon__site-header--bell" />
+                </div>
                 <div className={notifyTipClass.join(' ')}>
                     Notifications
                 </div>
                 <div className={notifyCntClass.join(' ')}>
-                    <div className="site-header__menu--notify__cnt--set"><i className="fas fa-cogs icon icon__site-header--notify__set"></i></div>
+                    <div className="site-header__menu--notify__cnt--set">
+                        <FontAwesomeIcon 
+                            icon={['fas', 'cogs']} 
+                            className="icon icon__site-header--notify__set" />
+                    </div>
                     <div className="site-header__menu--notify__cnt--det">
                     <div className="reuse-trd">
                         <div className="reuse-trd__cnt reuse-trd__cnt--notify">

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import * as actions from '../../../store/actions/index';
 
@@ -22,7 +23,9 @@ class NavigationInput extends Component {
                     autoComplete="on" 
                     onClick={this.expandFormHandler}/>
                 <div className="site-header__form--search">
-                    <i className="fas fa-search icon icon__site-header--search"></i>
+                    <FontAwesomeIcon 
+                        icon={['fas', 'search']} 
+                        className="icon icon__site-header--search" />
                 </div>
             </form>
         );

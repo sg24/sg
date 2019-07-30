@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import SetQueCateg from '../../../../components/Main/Nav/SetQueCateg/SetQueCateg'
 import * as actions from '../../../../store/actions/index';
@@ -47,14 +48,19 @@ class SetQue extends Component {
         return (
             <div className="reuse-set">
                 <div className="reuse-set__header">
-                    <i className="far fa-clock icon icon__reuse-set--tm"></i>
+                    <FontAwesomeIcon 
+                        icon={['far', 'clock']} 
+                        className="icon icon__reuse-set--tm" /> 
                     <span>Set Timed Question</span>
                     <span className="reuse-set__header--startQues">
                         <a href="/">start</a>
                     </span>
                 </div>
                 <div className={categClass.join(' ')} onClick={this.fetchCategoryHandler}>
-                    { this.state.queCateg } <i className="fas fa-angle-down icon icon__reuse-set--angle"></i>
+                    { this.state.queCateg } 
+                    <FontAwesomeIcon 
+                        icon={['fas', 'angle-down']} 
+                        className="icon icon__reuse-set--angle" />
                     <ul className={categOptClass.join(' ')}>
                         { categ }
                     </ul>

@@ -37,10 +37,10 @@ class MainContent extends Component {
                 <div className="site-main__content--wrapper">
                     <div className="site-main__content--top"></div>
                     <ul className="site-main__content--tab site-main__content--tab__sticky"> 
-                        <MainNavigation path="/index/post" icnClass="fas fa-clone icon icon__site-main__content--tab">
+                        <MainNavigation path="/index/post" icnGrp="clone" icnClass="icon icon__site-main__content--tab">
                             Post
                         </MainNavigation>
-                        <MainNavigation path="/index/question" icnClass="fas fa-clone icon icon__site-main__content--tab">
+                        <MainNavigation path="/index/question" icnGrp="clone" icnClass="icon icon__site-main__content--tab">
                             Questions
                         </MainNavigation>
                         {/* <li>Questions
@@ -48,13 +48,13 @@ class MainContent extends Component {
                                 <div>9</div>
                             </div>
                         </li> */}
-                        <MainNavigation path="/index/group" icnClass="fas fa-users icon icon__site-main__content--tab">
+                        <MainNavigation path="/index/group" icnGrp="users" icnClass="icon icon__site-main__content--tab">
                             Groups
                         </MainNavigation>
-                        <MainNavigation path="/index/helpme" icnClass="fas fa-hand-paper icon icon__site-main__content--tab">
+                        <MainNavigation path="/index/helpme" icnGrp="hand-paper" icnClass="icon icon__site-main__content--tab">
                             Help Me
                         </MainNavigation>
-                        <MainNavigation path="/index/poet" icnClass="fas fa-book icon icon__site-main__content--tab">
+                        <MainNavigation path="/index/poet" icnGrp="book" icnClass="icon icon__site-main__content--tab">
                             Poet&Writers
                         </MainNavigation>
                     </ul>  

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './UserSelect.css';
 import User from '../../../../../components/ShareContent/User/User';
@@ -54,7 +55,10 @@ class UserSelect extends Component {
         return (
             <div className="reuse-share__user-select">
                 <h4 className="reuse-share__user-select--title">
-                <i className="fas fa-users icon icon__reuse-share--user"></i> User Selected
+                    <FontAwesomeIcon 
+                        icon={['fas', 'users']} 
+                        className="icon icon__reuse-share--user" /> 
+                    User Selected
                 </h4>
                 {users}
             </div>

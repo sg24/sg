@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import * as actions from '../../../store/actions/index';
 import NavigationLists from '../../../components/Navigation/NavigationLists/NavigationLists';
@@ -89,7 +90,9 @@ class NavigationList extends Component {
                     onMouseEnter={this.showNavTipHandler}
                     onMouseLeave={this.hidNavTipHandler}
                     onClick={this.showNavListHandler}>
-                    <i className="fas fa-bars icon icon__site-header--list"></i>
+                    <FontAwesomeIcon 
+                        icon={['fas', 'bars']} 
+                        className="icon icon__site-header--list" />
                 </div>
                 <div className={navTipClass.join(' ')}>
                     Options
@@ -98,15 +101,55 @@ class NavigationList extends Component {
                     { navList }
                     <ul className="site-header__menu--nav__opt--itm">
                         <li
-                            onMouseEnter={this.fetchNavListHandler.bind(this, 'post')}><i className="fas fa-clone icon icon__site-header--nav__itm"></i> Post <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
+                            onMouseEnter={this.fetchNavListHandler.bind(this, 'post')}>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'clone']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Post 
+                            <FontAwesomeIcon 
+                                icon={['fas', 'caret-right']} 
+                                className="icon icon__site-header--nav__angle" />
+                        </li>
                         <li
-                            onMouseEnter={this.fetchNavListHandler.bind(this, 'question')}><i className="fas fa-clone icon icon__site-header--nav__itm"></i> Questions <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
+                            onMouseEnter={this.fetchNavListHandler.bind(this, 'question')}>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'clone']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Questions  
+                            <FontAwesomeIcon 
+                                icon={['fas', 'caret-right']} 
+                                className="icon icon__site-header--nav__angle" />
+                        </li>
                         <li
-                            onMouseEnter={this.fetchNavListHandler.bind(this, 'onlineque')}><i className="fas fa-coffee icon icon__site-header--nav__itm"></i> Online Exam <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
+                            onMouseEnter={this.fetchNavListHandler.bind(this, 'onlineque')}>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'coffee']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Online Exam  
+                            <FontAwesomeIcon 
+                                icon={['fas', 'caret-right']} 
+                                className="icon icon__site-header--nav__angle" />
+                        </li>
                         <li
-                            onMouseEnter={this.fetchNavListHandler.bind(this, 'group')}><i className="fas fa-users icon icon__site-header--nav__itm"></i> Group <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
+                            onMouseEnter={this.fetchNavListHandler.bind(this, 'group')}>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'users']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Group 
+                            <FontAwesomeIcon 
+                                icon={['fas', 'caret-right']} 
+                                className="icon icon__site-header--nav__angle" />
+                        </li>
                         <li
-                            onMouseEnter={this.fetchNavListHandler.bind(this, 'poet')}><i className="fas fa-book icon icon__site-header--nav__itm"></i> Poet/Writers <i className="fas fa-caret-right icon icon__site-header--nav__angle"></i></li>
+                            onMouseEnter={this.fetchNavListHandler.bind(this, 'poet')}>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'book']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Poet/Writers
+                            <FontAwesomeIcon 
+                                icon={['fas', 'caret-right']} 
+                                className="icon icon__site-header--nav__angle" />
+                        </li>
                     </ul>
                 </nav> 
             </div>

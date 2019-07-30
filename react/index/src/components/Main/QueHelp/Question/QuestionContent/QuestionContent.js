@@ -4,6 +4,7 @@ import './QuestionContent.css';
 import '../../../../UI/ShareIcn/ShareIcn.css'; 
 import { transformNumber, transformString } from '../../../../../shared/utility';
 import Aux from '../../../../../hoc/Auxs/Aux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const questionContent = props => {
     let desc = (
@@ -16,9 +17,9 @@ const questionContent = props => {
     let userOptDetClass = ['reuse-que__footer--details'];
     let userOptClass = ['reuse-que__footer--details__options reuse-que__footer--details__options--helpme'];
 
-    let fav = (
-        <i className="far fa-heart icon icon__reuse-que--footer__heart"></i>
-    );
+    let fav = <FontAwesomeIcon 
+        icon={['far', 'heart']} 
+        className="icon icon__reuse-que--footer__heart" />
 
     if (props.que.queImage) {
         desc = (
@@ -43,17 +44,27 @@ const questionContent = props => {
             <div className={userOptDetClass.join(' ')} onClick={props.userOpt}>
                 <div className="reuse-que__footer--details__mid"></div>
                 <ul className={userOptClass.join(' ')}>
-                    <li className="reuse-que__footer--details__options--status"><i className="fas fa-user-slash icon icon__reuse-que--options__dft"></i> Block</li>
-                    <li><i className="far fa-trash-alt icon icon__reuse-que--options"></i>Delete </li>
+                    <li className="reuse-que__footer--details__options--status">
+                        <FontAwesomeIcon 
+                            icon={['fas', 'user-slash']} 
+                            className="icon icon__reuse-que--options__dft" />
+                        Block
+                    </li>
+                    <li>
+                        <FontAwesomeIcon 
+                            icon={['far', 'trash-alt']} 
+                            className="icon icon__reuse-que--options" />
+                        Delete 
+                    </li>
                 </ul>
             </div>
         )
     }
 
     if (props.que.liked) {
-        fav = (
-            <i className="fas fa-heart icon icon__reuse-que--footer__heart"></i>
-        );
+        fav = <FontAwesomeIcon 
+            icon={['fas', 'heart']} 
+            className="icon icon__reuse-que--footer__heart" />
     }
 
     return (
@@ -69,10 +80,17 @@ const questionContent = props => {
                     </div>
                 </li>
                 <li>
-                    <p className="reuse-que__header--share__category"><i className="fas fa-tag icon icon__reuse-que--header__tag"></i><a href="/"> { props.que.category } </a></p>
+                    <p className="reuse-que__header--share__category">
+                        <FontAwesomeIcon 
+                            icon={['fas', 'tag']} 
+                            className="icon icon__reuse-que--header__tag" />
+                        <a href="/"> { props.que.category } </a>
+                    </p>
                     <div className="reuse-share">
                         <div className="reuse-share__icn" onClick={props.share}>
-                            <i className="fas fa-location-arrow icon icon__reuse-share--icn"></i>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'location-arrow']} 
+                                className="icon icon__reuse-share--icn" />
                         </div> 
                     </div>
                 </li>
@@ -88,8 +106,18 @@ const questionContent = props => {
             </div> 
             <div className="reuse-que__footer">
                 <ul className="reuse-que__footer--list">
-                    <li><i className="far fa-thumbs-up icon icon__reuse-que--footer__thumbup"></i> {transformNumber(props.que.helpFull)}</li>
-                    <li className="reuse-que__footer--list__item-middle"><i className="far fa-thumbs-down icon icon__reuse-que--footer__thumbdown"></i>  {transformNumber(props.que.notHelpFull)}</li>
+                    <li>
+                        <FontAwesomeIcon 
+                            icon={['far', 'thumbs-up']} 
+                            className="icon icon__reuse-que--footer__thumbup" />
+                        {transformNumber(props.que.helpFull)}
+                    </li>
+                    <li className="reuse-que__footer--list__item-middle">
+                        <FontAwesomeIcon 
+                            icon={['far', 'thumbs-down']} 
+                            className="icon icon__reuse-que--footer__thumbdown" />
+                        {transformNumber(props.que.notHelpFull)}
+                    </li>
                     <li onClick={props.fav}>{fav} {transformNumber(props.que.favorite)}</li>
                 </ul>
                 {userOpt}

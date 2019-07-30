@@ -2,19 +2,26 @@ import React from 'react';
 
 import './ShareUsers.css'
 import Aux from '../../../hoc/Auxs/Aux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const shareUsers = props =>  {
 
     let viewUsers = (
         <Aux>
-            <i className="far fa-eye icon__reuse-share--view"></i> Users
+            <FontAwesomeIcon 
+                icon={['far', 'eye']} 
+                className="icon__reuse-share--view" />
+            Users
         </Aux>
     );
  
     if (props.viewAllUsers) {
         viewUsers = (
             <Aux>
-                 <i className="far fa-eye icon__reuse-share--view"></i> View 
+                <FontAwesomeIcon 
+                    icon={['far', 'eye']} 
+                    className="icon__reuse-share--view" />
+                View 
             </Aux>
         );
     }
@@ -22,7 +29,10 @@ const shareUsers = props =>  {
     return (
         <div className="reuse-share__user-counter reuse-share__user-counter--more-opt">
             <div className="reuse-share__user-counter--share" onClick={props.shareUser}>
-                <i className="fas fa-location-arrow icon icon__reuse-share--share"></i> Share 
+                <FontAwesomeIcon 
+                    icon={['fas', 'location-arrow']} 
+                    className="icon icon__reuse-share--share" />
+                Share 
                 <div className="reuse-share__user-counter--share__select">
                     {props.userSelect.length}
                 </div>

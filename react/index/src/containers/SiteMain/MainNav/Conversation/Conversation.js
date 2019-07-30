@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ConvItems from '../../../../components/Main/Nav/ConvItems/ConvItems';
 import * as actions from '../../../../store/actions/index';
@@ -42,7 +43,12 @@ class Conversation extends Component {
             <div className="reuse-conv">
             <div className="reuse-conv__title">
                <div className="reuse-conv__title--wrapper">
-                   <div><i className="far fa-comment-dots icon icon__reuse-conv--comment"></i></div> Conversations
+                   <div>
+                        <FontAwesomeIcon 
+                            icon={['far', 'comment-dots']} 
+                            className="icon icon__reuse-conv--comment" /> 
+                    </div> 
+                    Conversations
                </div>
             </div>
             { convs }

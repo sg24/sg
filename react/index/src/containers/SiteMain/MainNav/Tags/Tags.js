@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import FilterItems from '../../../../components/FilterItems/FilterItems';
 import * as actions from '../../../../store/actions/index';
@@ -21,7 +22,10 @@ class Tags extends Component {
             filter = (
                 <div className="reuse-tag">
                     <div className="reuse-tag__header">
-                        <i className="fas fa-tags icon icon__reuse-tag--header"></i> Tags
+                        <FontAwesomeIcon 
+                            icon={['fas', 'tags']} 
+                            className="icon icon__reuse-tag--header" />
+                        Tags
                     </div>
                     <ul className="reuse-tag__cnt">
                         <FilterItems

@@ -1,6 +1,7 @@
 import React from'react';
 
 import './NoAcc.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const noAcc = props => {
     let noAccContent = (
@@ -25,7 +26,9 @@ const noAcc = props => {
         <div className="reuse-no-acc">
             <div className="reuse-no-acc__wrapper">
                 <div className="reuse-no-acc__icn">
-                    <i className={props.icnClass}></i>
+                <FontAwesomeIcon 
+                    icon={['fas', 'users']} 
+                    className={props.icnClass} />
                 </div>
                 {noAccContent}
             </div>

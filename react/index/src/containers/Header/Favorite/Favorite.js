@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Favorite extends Component {
     state = {
@@ -30,7 +31,9 @@ class Favorite extends Component {
                 href="/favorite" 
                 onMouseEnter={this.showFavTipHandler}
                 onMouseLeave={this.hidFavTipHandler}>
-                <i className="fas fa-heart icon icon__site-header--favorites"></i>
+                <FontAwesomeIcon 
+                    icon={['fas', 'heart']} 
+                    className="icon icon__site-header--favorites" />
                 <div className={favTipClass.join(' ')}>
                     Favorites 
                 </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import * as actions from '../../../store/actions/index';
 
@@ -51,13 +52,21 @@ class UserOption extends Component {
                     </li>
                     <li className="site-header__user--det__acc">
                         <a href="/acc/set">
-                            <div><i className="fas fa-cogs icon icon__site-header--user__set"></i></div>
+                            <div>
+                                <FontAwesomeIcon 
+                                    icon={['fas', 'cogs']} 
+                                    className="icon icon__site-header--user__set" />
+                            </div>
                             Account Settings
                         </a>
                     </li>
                     <li className="site-header__user--det__logout">
                         <a href="/logout">
-                            <div><i className="fas fa-angle-double-right icon icon__site-header--user__log"></i> </div>
+                            <div>
+                                <FontAwesomeIcon 
+                                    icon={['fas', 'angle-double-right']} 
+                                    className="icon icon__site-header--user__log" /> 
+                            </div>
                             Logout
                         </a>
                     </li>

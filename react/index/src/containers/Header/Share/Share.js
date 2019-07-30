@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Share extends Component {
     state = {
@@ -34,7 +35,9 @@ class Share extends Component {
                 <div className="active__main active__main--header">
                     <div>9</div>
                 </div>
-                <i className="fas fa-location-arrow icon icon__site-header--shares"></i>
+                <FontAwesomeIcon 
+                    icon={['fas', 'location-arrow']} 
+                    className="icon icon__site-header--shares" />
                 <div className={shareTipClass.join(' ')}>
                     Shared with me
                 </div>

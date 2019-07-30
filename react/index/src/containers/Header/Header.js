@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import * as actions from '../../store/actions/index';
 import Logo from '../../components/UI/Logo/Logo';
@@ -31,9 +32,18 @@ class Header extends Component {
                 <div className="wrapper">
                     <Logo />
                     <NavigationInput />
-                    <div className="site-header__form-sm"><i className="fas fa-search icon icon__site-header--search"></i></div>
+                    <div className="site-header__form-sm">
+                        <FontAwesomeIcon 
+                            icon={['fas', 'search']} 
+                            className="icon icon__site-header--search" /> 
+                    </div>
                     <div className={addNewClass.join(' ')} onClick={this.props.onAddNew}>
-                        <h4 className="site-header__add-new--title">Add <i className="fas fa-angle-down icon__site-header--add-new"></i></h4>
+                        <h4 className="site-header__add-new--title">
+                            Add 
+                            <FontAwesomeIcon 
+                                icon={['fas', 'angle-down']} 
+                                className="icon__site-header--add-new" /> 
+                        </h4>
                         <NavigationItems 
                             show={this.props.addNew}/>
                     </div>
@@ -46,7 +56,14 @@ class Header extends Component {
                     </div>
                     <UserOption /> 
                     <ul className="site-header__no-acc">
-                        <li><a href="/login" className="site-header__no-acc--login"><i className="fas fa-lock icon icon__site-header--no-acc"></i> Login</a></li>
+                        <li>
+                            <a href="/login" className="site-header__no-acc--login">
+                                <FontAwesomeIcon 
+                                    icon={['fas', 'lock']} 
+                                    className="icon icon__site-header--no-acc" /> 
+                                Login
+                            </a>
+                        </li>
                         <li><a href="/signup" className="site-header__no-acc--sign">Signup</a></li>
                     </ul>
                     
@@ -59,11 +76,15 @@ class Header extends Component {
                         <div className="site-header__sm-form--srch">
                         <input type="text" className="site-header__sm-form--srch__input" autoComplete="on" />
                             <div className="site-header__sm-form--srch__icn">
-                                <i className="fas fa-search icon icon__site-header--search"></i>
+                                <FontAwesomeIcon 
+                                    icon={['fas', 'search']} 
+                                    className="icon icon__site-header--search" /> 
                             </div>
                         </div> 
                         <div className="site-header__sm-form--close">
-                            <i className="fas fa-times icon icon__site-header--sm-form__close"></i>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'times']} 
+                                className="icon icon__site-header--sm-form__close" /> 
                         </div>
                     </form>
                 </div>

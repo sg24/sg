@@ -2,6 +2,7 @@ import React from 'react';
 
 import './PoetContent.css'; 
 import '../../../UI/ShareIcn/ShareIcn.css'; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Aux from '../../../../hoc/Auxs/Aux';
 import { transformNumber, transformString } from '../../../../shared/utility';
 
@@ -9,10 +10,10 @@ const poetContent = props => {
     let userOpt = null;
     let userOptDetClass = ['reuse-pwt__content--det__user--det'];
     let userOptClass = ['reuse-pwt__content--det__user--det__opt'];
+    let fav = <FontAwesomeIcon 
+        icon={['far', 'heart']} 
+        className="icon icon__reuse-pwt--footer__heart" />
 
-    let fav = (
-        <i className="far fa-heart icon icon__reuse-pwt--footer__heart"></i>
-    );
 
     if (props.showPwt && props.showPwt.visible && props.showPwt.index === props.index)  {
         userOptDetClass.push('reuse-pwt__content--det__user--det__clk');
@@ -24,30 +25,56 @@ const poetContent = props => {
             <div className={userOptDetClass.join(' ')} onClick={props.userOpt}>
                 <div className="reuse-pwt__content--det__user--det__mid"></div>
                 <ul className={userOptClass.join(' ')}>
-                    <li><a href="/"><i className="far fa-edit icon icon__reuse-pwt--options"></i>Edit </a></li>
-                    <li className="reuse-pwt__content--det__user--det__opt--status"><i className="far fa-eye-slash icon icon__reuse-pwt--options__dft"></i> Draft</li>
-                    <li><i className="far fa-trash-alt icon icon__reuse-pwt--options"></i>Delete </li>
+                    <li>
+                        <a href="/">
+                            <FontAwesomeIcon 
+                                icon={['far', 'edit']} 
+                                className="icon icon__reuse-pwt--options" />
+                            Edit 
+                        </a>
+                    </li>
+                    <li className="reuse-pwt__content--det__user--det__opt--status">
+                        <FontAwesomeIcon 
+                            icon={['far', 'eye-slash']} 
+                            className="icon icon__reuse-pwt--options__dft" />
+                        Draft
+                    </li>
+                    <li>
+                        <FontAwesomeIcon 
+                            icon={['far', 'trash-alt']} 
+                            className="icon icon__reuse-pwt--options" />
+                        Delete 
+                    </li>
                 </ul>
             </div>
         );
     };
 
     if (props.pwt.liked) {
-        fav = (
-            <i className="fas fa-heart icon icon__reuse-pwt--footer__heart"></i>
-        );
+        fav = <FontAwesomeIcon 
+            icon={['fas', 'heart']} 
+            className="icon icon__reuse-pwt--footer__heart" />
     }
 
     let pwtType = (
         <div className="reuse-pwt">
         <div className="reuse-share">
             <div className="reuse-share__icn" onClick={props.share}>
-                <i className="fas fa-location-arrow icon icon__reuse-share--icn"></i>
+                <FontAwesomeIcon 
+                    icon={['fas', 'location-arrow']} 
+                    className="icon icon__reuse-share--icn" />
             </div>
         </div>
         <div className="reuse-pwt__content">
             <div className="reuse-pwt__content--tag">
-                <span><a href="/"><i className="fas fa-tag icon icon__reuse-pwt--tag"></i> {props.pwt.category}</a></span>
+                <span>
+                    <a href="/"> 
+                    <FontAwesomeIcon 
+                        icon={['fas', 'tag']} 
+                        className="icon icon__reuse-pwt--tag" />
+                    {props.pwt.category}
+                    </a> 
+                </span>
             </div>
             <div className="reuse-pwt__content--title">
                 <div className="reuse-pwt__content--title__wrapper">
@@ -68,9 +95,19 @@ const poetContent = props => {
             </div> 
         </div>
         <ul className="reuse-pwt__footer">
-            <li><i className="far fa-smile icon icon__reuse-pwt--footer__smile"></i> { transformNumber(props.pwt.helpFull) } </li>
+            <li>
+                <FontAwesomeIcon 
+                    icon={['far', 'smile']} 
+                    className="icon icon__reuse-pwt--footer__smile" />
+                { transformNumber(props.pwt.helpFull) } 
+            </li>
             <li onClick={props.fav}>{fav} { transformNumber(props.pwt.favorite) } </li>
-            <li><i className="far fa-comment-dots icon icon__reuse-pwt--footer__comments"></i> { transformNumber(props.pwt.comment) } </li>
+            <li>
+                <FontAwesomeIcon 
+                    icon={['far', 'comment-dots']} 
+                    className="icon icon__reuse-pwt--footer__comments" />
+                { transformNumber(props.pwt.comment) } 
+            </li>
         </ul>
     </div>
     );
@@ -80,16 +117,27 @@ const poetContent = props => {
             <div className="reuse-pwt">
             <div className="reuse-share">
                 <div className="reuse-share__icn" onClick={props.share}>
-                    <i className="fas fa-location-arrow icon icon__reuse-share--icn"></i>
+                    <FontAwesomeIcon 
+                        icon={['fas', 'location-arrow']} 
+                        className="icon icon__reuse-share--icn" />
                 </div>
             </div>
             <div className="reuse-pwt__content">
-                    <div className="reuse-pwt__content--tag">
-                    <span><a href="/"><i className="fas fa-tag icon icon__reuse-pwt--tag"></i> {props.pwt.category} </a></span>
-                    </div>
+                <div className="reuse-pwt__content--tag">
+                    <span>
+                        <a href="/">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'tag']} 
+                                className="icon icon__reuse-pwt--tag" />
+                            {props.pwt.category} 
+                        </a>
+                    </span>
+                </div>
                 <div className="reuse-pwt__content--title reuse-pwt__content--title__mt">
                     <div className="reuse-pwt__content--firstptwritIcon">
-                        <i className="fas fa-quote-left icon icon__reuse-pwt--quote"></i>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'quote-left']} 
+                            className="icon icon__reuse-pwt--quote" />
                     </div>
                     <div className="reuse-pwt__content--title__wrapper">
                         <a href="/">{ transformString(props.pwt.desc) } </a>
@@ -107,14 +155,26 @@ const poetContent = props => {
                         {userOpt}
                     </div>
                     <div className="reuse-pwt__content--det__quote-wrapper">
-                        <i className="fas fa-quote-right icon icon__reuse-pwt--quoteright"></i>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'quote-right']} 
+                            className="icon icon__reuse-pwt--quoteright" />
                     </div>
                 </div>
             </div>
             <ul className="reuse-pwt__footer">
-                <li><i className="far fa-smile icon icon__reuse-pwt--footer__smile"></i> { transformNumber(props.pwt.helpFull) } </li>
+                <li>
+                    <FontAwesomeIcon 
+                        icon={['far', 'smile']} 
+                        className="icon icon__reuse-pwt--footer__smile" />
+                    { transformNumber(props.pwt.helpFull) } 
+                </li>
                 <li onClick={props.fav}> {fav} { transformNumber(props.pwt.favorite) } </li>
-                <li><i className="far fa-comment-dots icon icon__reuse-pwt--footer__comments"></i> { transformNumber(props.pwt.comment) } </li>
+                <li>
+                    <FontAwesomeIcon 
+                        icon={['far', 'comment-dots']} 
+                        className="icon icon__reuse-pwt--footer__comments" />
+                    { transformNumber(props.pwt.comment) } 
+                </li>
             </ul>
         </div>
         );
@@ -127,7 +187,14 @@ const poetContent = props => {
         for (let pwtCateg of props.pwt.category) {
             key = key + 1
             pwtCategArray.push(
-                <span key={key}><a href="/"><i className="fas fa-tags icon icon__reuse-pwt--tag"></i> {pwtCateg}</a></span>
+                <span key={key}>
+                    <a href="/">
+                        <FontAwesomeIcon 
+                            icon={['fas', 'tags']} 
+                            className="icon icon__reuse-pwt--tag" />
+                        {pwtCateg}
+                    </a>
+                </span>
             )
         }
 
@@ -135,7 +202,9 @@ const poetContent = props => {
             <div className="reuse-pwt">
                 <div className="reuse-share">
                     <div className="reuse-share__icn" onClick={props.share}>
-                        <i className="fas fa-location-arrow icon icon__reuse-share--icn"></i>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'location-arrow']} 
+                            className="icon icon__reuse-share--icn" />
                     </div>
                 </div>
                 <div className="reuse-pwt__content">
@@ -161,13 +230,24 @@ const poetContent = props => {
                     </div>  
                 </div>
                 <ul className="reuse-pwt__footer">
-                    <li><i className="far fa-smile icon icon__reuse-pwt--footer__smile"></i> { transformNumber(props.pwt.helpFull) } </li>
+                    <li>
+                        <FontAwesomeIcon 
+                            icon={['far', 'smile']} 
+                            className="icon icon__reuse-pwt--footer__smile" />
+                        { transformNumber(props.pwt.helpFull) } 
+                    </li>
                     <li onClick={props.fav}>{fav} { transformNumber(props.pwt.favorite) }</li>
-                    <li><i className="far fa-comment-dots icon icon__reuse-pwt--footer__comments"></i> { transformNumber(props.pwt.comment) } </li>
+                    <li>
+                        <FontAwesomeIcon 
+                            icon={['far', 'comment-dots']} 
+                            className="icon icon__reuse-pwt--footer__comments" />
+                        { transformNumber(props.pwt.comment) } 
+                    </li>
                 </ul>
             </div>
         );
     }
+    
 
     return (
         <Aux>

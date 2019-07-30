@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './UserContent.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const userContent = props => {
     let userClass = ["reuse-share__user"];
@@ -36,7 +37,9 @@ const userContent = props => {
                     <li><div>{ props.user.students }</div> Student</li> 
                 </ul>
                 <div className={userSelectClass.join(' ')}>
-                    <i className="fas fa-check-circle icon icon__reuse-share--selec"></i>
+                    <FontAwesomeIcon 
+                        icon={['fas', 'check-circle']} 
+                        className="icon icon__reuse-share--selec" />
                 </div>
             </div>
         </div>
