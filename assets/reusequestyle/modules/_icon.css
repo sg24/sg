@@ -7,17 +7,18 @@
     
     &__reuse-que--footer__thumbup {
         color: $mainDarkBlue;
-        cursor: pointer;
+        margin-right: 5px;
     }
 
     &__reuse-que--footer__thumbdown {
         color: $mainDarkBlack;
-        cursor: pointer;
+        margin-right: 5px;
     }
 
     &__reuse-que--footer__heart {
         color: $mainLightRed; 
         cursor: pointer;
+        margin-right: 5px;
     }
 
     &__reuse-que--options {

@@ -9,7 +9,7 @@ const shareUsers = props =>  {
     let viewUsers = (
         <Aux>
             <FontAwesomeIcon 
-                icon={['far', 'eye']} 
+                icon={['fas', 'users']} 
                 className="icon__reuse-share--view" />
             Users
         </Aux>

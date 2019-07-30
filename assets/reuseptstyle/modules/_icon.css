@@ -2,17 +2,19 @@
 
     &__reuse-pt--footer__eye {
         color: $mainDarkBlack;
-        cursor: pointer;
+        margin-right: 5px;
     }
 
     &__reuse-pt--footer__chats {
         color: $mainDarkBlue;
         cursor: pointer;
+        margin-right: 5px;
     }
 
     &__reuse-pt--footer__heart {
         color: $mainLightRed; 
         cursor: pointer;
+        margin-right: 5px;
     }
 
     &__reuse-pt--header__tag {

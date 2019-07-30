@@ -2,6 +2,7 @@
     
     &__reuse-pwt--tag {
         color: $mainLightBlack;
+        margin-right: 5px;
     }
 
     &__reuse-pwt--quote {

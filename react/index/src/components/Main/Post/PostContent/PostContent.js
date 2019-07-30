@@ -121,7 +121,7 @@ const postContent = props => {
                                     className="icon icon__reuse-pt--footer__chats" /> 
                                 {transformNumber(props.pt.comment)} 
                             </li>
-                            <li onClick={props.fav}><span>{fav}</span> {transformNumber(props.pt.favorite)} </li>
+                            <li onClick={props.fav}>{fav}{transformNumber(props.pt.favorite)} </li>
                         </ul>
                         {userOpt}
                     </div>

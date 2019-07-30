@@ -508,17 +508,18 @@
 
 .icon__reuse-que--footer__thumbup {
     color: #0284a8;
-    cursor: pointer;
+    margin-right: 5px;
 }
 
 .icon__reuse-que--footer__thumbdown {
     color: #000;
-    cursor: pointer;
+    margin-right: 5px;
 }
 
 .icon__reuse-que--footer__heart {
     color: #ff1600;
     cursor: pointer;
+    margin-right: 5px;
 }
 
 .icon__reuse-que--options {
