@@ -6,7 +6,7 @@
  * 3. Prevent adjustments of font size after orientation changes in IE and iOS.
  */
 
- html {
+html {
   font-family: sans-serif; /* 1 */
   line-height: 1.15; /* 2 */
   -ms-text-size-adjust: 100%; /* 3 */
@@ -754,6 +754,11 @@ img {
     width: 24px;
     height: 24px;
   }
+}
+
+.active-header-nav {
+    background-color: #0284a8; 
+    color: #fff;
 }
 
 .disabled {
@@ -2644,4 +2649,4 @@ img {
 .reuse-tag__cnt > li > a:hover {
   background-color: #0284a8;
   color: #fff;
-} 
+}

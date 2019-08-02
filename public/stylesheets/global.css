@@ -756,6 +756,11 @@ img {
   }
 }
 
+.active-header-nav {
+    background-color: #0284a8; 
+    color: #fff;
+}
+
 .disabled {
     cursor: not-allowed !important;
 }

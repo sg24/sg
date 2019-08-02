@@ -90,3 +90,8 @@
         }
     }
 }
+
+.active-header-nav {
+    background-color: $mainDarkBlue; 
+    color: #fff;
+}
