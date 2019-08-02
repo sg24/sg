@@ -1,0 +1,119 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\g\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-transition-group@latest
+
+PATH: 
+  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\g\bin;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\PC Connectivity Solution;C:\Program Files (x86)\Silverfrost\FTN95;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn;C:\Program Files\Microsoft SQL Server\100\Tools\Binn;C:\Program Files\Microsoft SQL Server\100\DTS\Binn;C:\Program Files (x86)\Dev-Cpp\MinGW64\bin;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files\Java\jdk1.8.0_111\bin;C:\Python27;C:\ C;C:\Program Files\Git\Python27\Scripts;C:\Program Files\PuTTY;C:\Program Files\apache-maven-3.5.0;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Microsoft SQL Server\130\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio;C:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files (x86)\Brackets\command;C:\Program Files\nodejs;C:\Users\g\Anaconda3;C:\Users\g\Anaconda3\Library\mingw-w64\bin;C:\Users\g\Anaconda3\Library\usr\bin;C:\Users\g\Anaconda3\Library\bin;C:\Users\g\Anaconda3\Scripts;C:\Program Files\Java\jdk1.8.0_111\bin; C;C:\Program Files\Git\Python27\Scripts;C:\Program Files\apache-maven-3.5.0\bin;C:\Program Files\Microsoft VS Code\bin;C:\Users\g\AppData\Roaming\Composer\vendor\bin;C:\Program Files\heroku\bin;C:\Users\g\AppData\Roaming\npm
+
+Yarn version: 
+  1.17.3
+
+Node version: 
+  10.11.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: connect ENETUNREACH 104.16.18.35:443
+      at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1113:14)
+
+npm manifest: 
+  {
+    "name": "sg-final-deploy",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+      "start": "node ./bin/www",
+      "build": "del-cli public/js/app &&  webpack --config webpack.config.dev.js --progress --profile --watch",
+      "build:prod": "del-cli public/js/app && ngc -p tsconfig.aot.json && ngc -p tsconfig.aot.json && webpack --config webpack.config.prod.js --progress --profile --bail && del-cli 'assets/app/**/*.js' 'assets/app/**/*.ngsummary.json' 'assets/app/**/*.ngstyle.*'",
+      "app": "del-cli public/js/app && webpack webpack.config.js --progress --profile --watch"
+    },
+    "dependencies": {
+      "@angular/animations": "^5.0.0",
+      "@angular/common": "^5.0.0",
+      "@angular/compiler": "^5.0.0",
+      "@angular/compiler-cli": "^5.0.0",
+      "@angular/core": "^5.0.0",
+      "@angular/forms": "^5.0.0",
+      "@angular/http": "^5.0.0",
+      "@angular/platform-browser": "^5.0.0",
+      "@angular/platform-browser-dynamic": "^5.0.0",
+      "@angular/platform-server": "^5.0.0",
+      "@angular/router": "^5.0.0",
+      "@angular/upgrade": "^5.0.0",
+      "bcryptjs": "^2.3.0",
+      "body-parser": "~1.15.2",
+      "cookie-parser": "~1.4.3",
+      "core-js": "^2.4.1",
+      "crypto-js": "^3.1.6",
+      "debug": "~2.2.0",
+      "express": "~4.14.0",
+      "express-handlebars": "^3.0.0",
+      "hbs": "~3.1.0",
+      "jquery": "^2.2.4",
+      "jquery-smooth-scroll": "^2.0.0",
+      "jsonwebtoken": "^7.1.9",
+      "lazysizes": "^2.0.0",
+      "lodash": "^4.15.0",
+      "mongodb": "^2.2.5",
+      "mongoose": "^4.6.3",
+      "mongoose-unique-validator": "^1.0.2",
+      "morgan": "~1.6.1",
+      "normalize.css": "^4.1.1",
+      "picturefill": "^3.0.2",
+      "reflect-metadata": "^0.1.3",
+      "rxjs": "^5.5.0",
+      "serve-favicon": "~2.3.0",
+      "validator": "^5.6.0",
+      "waypoints": "^4.0.0",
+      "zone.js": "^0.8.5"
+    },
+    "devDependencies": {
+      "@ngtools/webpack": "^1.8.0",
+      "@types/core-js": "0.9.36",
+      "@types/node": "^6.0.45",
+      "angular-router-loader": "^0.5.0",
+      "angular2-template-loader": "^0.5.0",
+      "autoprefixer": "^6.3.6",
+      "awesome-typescript-loader": "^3.1.2",
+      "babel": "^6.23.0",
+      "babel-cli": "^6.26.0",
+      "babel-core": "^6.26.3",
+      "babel-loader": "^6.4.1",
+      "babel-preset-env": "^1.7.0",
+      "babel-preset-es2015": "^6.9.0",
+      "browser-sync": "^2.12.8",
+      "del": "^2.2.1",
+      "del-cli": "^0.2.0",
+      "gulp": "^3.9.1",
+      "gulp-babel": "^7.0.1",
+      "gulp-cssnano": "^2.1.2",
+      "gulp-imagemin": "^3.0.3",
+      "gulp-modernizr": "^1.0.0-alpha",
+      "gulp-postcss": "^6.1.1",
+      "gulp-rename": "^1.2.2",
+      "gulp-rev": "^7.1.2",
+      "gulp-svg-sprite": "^1.3.1",
+      "gulp-svg2png": "^0.3.0",
+      "gulp-uglify": "^2.0.0",
+      "gulp-usemin": "^0.3.23",
+      "gulp-watch": "^4.3.5",
+      "html-loader": "^0.4.4",
+      "postcss-hexrgba": "^0.2.0",
+      "postcss-import": "^8.1.2",
+      "postcss-mixins": "^4.0.2",
+      "postcss-nested": "^1.0.0",
+      "postcss-simple-vars": "^1.2.0",
+      "raw-loader": "^0.5.1",
+      "ts-loader": "^2.0.3",
+      "typescript": "^2.4.2",
+      "webpack": "^2.2.1",
+      "webpack-merge": "^4.1.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

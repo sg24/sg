@@ -1789,7 +1789,6 @@ img {
 }
 
 .site-main__content--wrapper {
-  background-color: #fff;
   padding-bottom: 20px;
   width: 100%;
   background-color: rgba(249,249,249, .4);
@@ -1842,11 +1841,11 @@ img {
   list-style: none;
   margin: 0;
   padding: 0;
-  background-color: #437da3;
+  background-color: rgba(249,249,249, .4);
   font-size: .8125rem;
   position: relative;
   z-index: 2;
-  box-shadow: 0 2px 2px rgba(0,0,0, .2);
+  overflow: hidden;
 }
 
 .site-main__content--tab::after {
@@ -1863,11 +1862,6 @@ img {
   font-weight: 300;
   padding: 0;
   position: relative;
-  border-right: 1px solid rgba(255,255,255, .45);
-}
-
-.site-main__content--tab li:last-child {
-  border-right: none;
 }
 
 .site-main__content--tab li > a {
@@ -1877,6 +1871,9 @@ img {
   width: 100%;
   padding: 12px 35px;
   text-align: center;
+  background-color: #437da3;
+  border-right: 1px solid rgba(255,255,255, .45);
+  box-shadow: 0 2px 2px rgba(0,0,0, .2);
 }
 
 .site-main__content--tab__sticky {
@@ -1884,11 +1881,6 @@ img {
   position: sticky;
   top: 50px;
   z-index: 3;
-  box-shadow: 0 2px 2px rgba(0,0,0, .2);
-  -o-box-shadow: 0 2px 2px rgba(0,0,0, .2);
-  -ms-box-shadow: 0 2px 2px rgba(0,0,0, .2);
-  -webkit-box-shadow: 0 2px 2px rgba(0,0,0, .2);
-  -moz-box-shadow: 0 2px 2px rgba(0,0,0, .2);
 }
 
 @media (min-width: 1010px) {

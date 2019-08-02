@@ -6,7 +6,7 @@ const mainNavigation = props => (
     <li>
         <NavLink 
             to={props.path}
-            activeClassName="active">
+            activeClassName="active-content-tab">
             <FontAwesomeIcon 
                 icon={['fas', props.icnGrp]} 
                 className={props.icnClass} /> 

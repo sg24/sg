@@ -36,7 +36,7 @@ class MainContent extends Component {
             <div className="site-main__content">
                 <div className="site-main__content--wrapper">
                     <div className="site-main__content--top"></div>
-                    <ul className="site-main__content--tab site-main__content--tab__sticky"> 
+                    <ul className="site-main__content--tab"> 
                         <MainNavigation path="/index/post" icnGrp="clone" icnClass="icon icon__site-main__content--tab">
                             Post
                         </MainNavigation>

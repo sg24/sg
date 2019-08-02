@@ -50,3 +50,36 @@
     }
 
 }
+
+.active-content-tab {
+    box-shadow: none !important;
+    color: $mainFontColor !important;
+    border: none !important;
+    background-color: transparent !important; 
+    font-weight: 400 !important;
+
+    &::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        background-color: $mainMiddleDarkBlue;
+        top: 0;
+        right: 0;
+        left: 0;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: 1px;
+        background-color: $mainMiddleDarkBlue;
+        top: 0;
+        left: -1px;
+        bottom: 0;
+    }
+
+    & svg {
+        color: $mainMiddleDarkBlue !important;
+    }
+}

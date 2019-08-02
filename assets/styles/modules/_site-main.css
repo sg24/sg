@@ -9,14 +9,17 @@
             list-style: none;
             
             li { 
-                padding: 0; 
+                padding: 0;
                 width: 25%;
-                overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis; 
 
                 & > a { 
                     padding: 12px 0;
+
+                    &:hover {
+                        background-color: $active
+                    }
                 }
 
                 &:last-child { 
