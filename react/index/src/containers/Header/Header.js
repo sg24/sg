@@ -14,13 +14,42 @@ import Share from './Share/Share';
 import UserOption from './UserOption/UserOption'; 
 
 class Header extends Component {
+    state = {
+        showFormSm: false,
+        default: false
+    }
+
+    componentDidUpdate() {
+        if (this.state.showFormSm && !this.state.default && this.props.hideFormSm) {
+            this.setState({
+                showFormSm: false,
+                default: true,
+            })
+        }
+    }
+
+    showFormSmHandler = () => {
+        this.setState((prevState, props) => {
+            return {
+                showFormSm: !prevState.showFormSm,
+                default: false
+            }
+        });
+        this.props.onShowForm();
+    }
+
     render() {
         let addNewClass = ["site-header__add-new"];
+        let formSmClass = ["site-header__sm-form"]
         let navOpt = <NavigationOptions />
 
         if (this.props.expand) {
             addNewClass.push("site-header__add-new--hidden");
             navOpt = null;
+        }
+
+        if (this.state.showFormSm  && !this.props.hideFormSm) {
+            formSmClass.push('site-header__sm-form--visible')
         }
 
         if (this.props.addNew) {
@@ -32,7 +61,9 @@ class Header extends Component {
                 <div className="wrapper">
                     <Logo />
                     <NavigationInput />
-                    <div className="site-header__form-sm">
+                    <div 
+                        className="site-header__form-sm"
+                        onClick={this.showFormSmHandler}>
                         <FontAwesomeIcon 
                             icon={['fas', 'search']} 
                             className="icon icon__site-header--search" /> 
@@ -67,7 +98,7 @@ class Header extends Component {
                         <li><a href="/signup" className="site-header__no-acc--sign">Signup</a></li>
                     </ul>
                     
-                    <form className="site-header__sm-form">
+                    <form className={formSmClass.join(' ')}>
                         <div className="site-header__sm-form--logo">
                             <div className="site-header__sm-form--logo__graphics">
                                 LOGO 
@@ -81,7 +112,9 @@ class Header extends Component {
                                     className="icon icon__site-header--search" /> 
                             </div>
                         </div> 
-                        <div className="site-header__sm-form--close">
+                        <div 
+                            className="site-header__sm-form--close"
+                            onClick={this.showFormSmHandler}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'times']} 
                                 className="icon icon__site-header--sm-form__close" /> 
@@ -96,13 +129,15 @@ class Header extends Component {
 const mapStateToProps = state => {
     return {
         expand: state.header.expand,
-        addNew: state.header.addNew
+        addNew: state.header.addNew,
+        hideFormSm: state.header.hideFormSm
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddNew: () => dispatch(actions.headerAddNew())
+        onAddNew: () => dispatch(actions.headerAddNew()),
+        onShowForm: () => dispatch(actions.headerFormSm())
     };
 };
 

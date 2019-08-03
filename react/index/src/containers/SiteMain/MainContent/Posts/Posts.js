@@ -15,6 +15,11 @@ class Posts extends Component {
     componentDidMount() {
         this.props.onFetchPost(this.props.userID);
         this.props.onChangeTag('/post');
+        this.props.onDefaultMainActive(this.props.mainProps, this.props.userID, 'post');
+    }
+
+    componentWillUnmount() {
+        this.props.onFetchMainActive(this.props.mainProps, this.props.userID)
     }
 
     componentDidUpdate() {
@@ -82,7 +87,8 @@ const mapStateToProps = state => {
     return {
         userID: state.auth.userID,
         posts: state.pt.posts,
-        filteredPost: state.pt.filteredPost
+        filteredPost: state.pt.filteredPost,
+        mainProps: state.main.mainProps
     };
 };
 
@@ -92,7 +98,9 @@ const mapDispatchToProps = dispatch => {
         onChangeFav: (posts, filteredPost, postID) => dispatch(actions.changeFavInit(posts, filteredPost, postID)),
         onChangeShareID: (shareID) => dispatch(actions.shareID(shareID)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
-        onFilterPost: (post, tag) => dispatch(actions.filterPostInit(post, tag))
+        onFilterPost: (post, tag) => dispatch(actions.filterPostInit(post, tag)),
+        onDefaultMainActive: (mainProps, userID, categ) => dispatch(actions.defaultMainActiveInit(mainProps, userID, categ)),
+        onFetchMainActive: (mainProps, userID) => dispatch(actions.fetchMainActiveInit(mainProps, userID))
     };
 };
 

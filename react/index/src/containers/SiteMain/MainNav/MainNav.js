@@ -36,15 +36,20 @@ class MainNav extends Component {
             </Aux>
         );
 
+        let navExchangeClass = [];
+
         if (this.state.showConv) {
             mainNavItm = <Conversation />
+            navExchangeClass.push('active-site-nav-exch ');
         }
 
         return (
             <div className="site-main__nav site-main__nav--sticky">
                 <div className="site-main__nav--wrapper">
                     <ul className="site-main__nav--header">
-                        <li onClick={this.showConvHandler}>
+                        <li 
+                            className={navExchangeClass.join(' ')}
+                            onClick={this.showConvHandler}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'exchange-alt']} />
                             <div className="active__main active__main--nav">

@@ -6,6 +6,13 @@ export const headerFormExpand = () => {
     };
 };
 
+
+export const headerFormSm = () => {
+    return {
+        type: actionTypes.HEADER_FORM_SM
+    };
+};
+
 export const headerNavDefault = () => {
     return {
         type: actionTypes.HEADER_NAV_DEFAULT

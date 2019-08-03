@@ -76,8 +76,8 @@
 
                     & > span {
                         margin-right: 5px;
-                        font-weight: 300;
-                        color: rgba($mainDarkBlack, .45);
+                        font-weight: 400;
+                        color: $mainFontColor;
                         font-size: .8125rem;
                     }
                 }
@@ -85,7 +85,7 @@
 
             &:last-child {
                 padding: 8px 0; 
-                color: rgba($mainDarkBlack, .6);
+                color: $mainFontColor;
                 font-weight: 500;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -93,7 +93,7 @@
 
                 & > a {
                     text-decoration: none;
-                    color: rgba($mainDarkBlack, .6);
+                    color: $mainFontColor;
                 }
 
                 & > span {

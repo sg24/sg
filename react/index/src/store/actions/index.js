@@ -89,6 +89,7 @@ export {
 
 export { 
     headerFormExpand,
+    headerFormSm,
     headerNavDefault,
     headerAddNew,
     fetchNotifyInit,
@@ -100,3 +101,10 @@ export {
     fetchNavlist,
     showUserOption
 } from './header';
+
+export {
+    fetchMainActiveInit,
+    fetchMainActive,
+    defaultMainActiveInit,
+    defaultMainActive
+} from './main';

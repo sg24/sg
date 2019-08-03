@@ -12,6 +12,7 @@ import { fetchTrdInitSaga, changeFavTrdSaga } from './trend';
 import { fetchCategInitSaga } from './setQue';
 import { fetchConvInitSaga } from './conv';
 import { fetchNotifyInitSaga, changeFavNotifySaga, fetchNavlistInitSaga } from './header';
+import { fetchMainActiveInitSaga, defaultMainActiveInitSaga } from './main';
 
 export function* watchPt() {
     yield all([
@@ -81,4 +82,11 @@ export function* watchHeader() {
         takeEvery(actionTypes.CHANGE_FAVORITE_NOTIFY_INIT, changeFavNotifySaga),
         takeEvery(actionTypes.FETCH_NAVLIST_INIT, fetchNavlistInitSaga)
      ])
+}
+
+export function* watchMain() {
+    yield all([
+       takeEvery(actionTypes.FETCH_MAINACTIVE_INIT, fetchMainActiveInitSaga),
+       takeEvery(actionTypes.DEFAULT_MAINACTIVE_INIT, defaultMainActiveInitSaga)
+    ])
 }

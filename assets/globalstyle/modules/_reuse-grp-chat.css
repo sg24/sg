@@ -61,7 +61,7 @@
 
         &--last-msg {
             padding: 2px 0; 
-            color: rgba($mainDarkBlack, .6);
+            color: $mainFontColor;
             font-weight: 500;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -69,7 +69,7 @@
 
             & > a {
                 text-decoration: none;
-                color: rgba($mainDarkBlack, .6);
+                color: $mainFontColor;
             }
         }
 

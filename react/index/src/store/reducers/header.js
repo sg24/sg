@@ -3,6 +3,7 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
     expand: false,
+    hideFormSm: false,
     addNew: false,
     notify: null,
     hidNotify: false,
@@ -16,8 +17,12 @@ const formExpand = (state, action) => {
     return updateObject(state, {expand: state.expend ? state.expand : true})
 };
 
+const formSm = (state, action) => {
+    return updateObject(state, {hideFormSm : false})
+};
+
 const navDefault = (state, action) => {
-    return updateObject(state, {expand: false, addNew: false, hidNotify: true, hidNavList: true, hidUserOption: true})
+    return updateObject(state, {expand: false, hideFormSm: true, addNew: false, hidNotify: true, hidNavList: true, hidUserOption: true})
 };
 
 const addNew = (state, action) => {
@@ -48,6 +53,8 @@ const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.HEADER_FORM_EXPAND:
             return formExpand(state, action);
+        case actionTypes.HEADER_FORM_SM:
+            return formSm(state, action);
         case actionTypes.HEADER_NAV_DEFAULT:
             return navDefault(state, action);
         case actionTypes.HEADER_ADD_NEW:

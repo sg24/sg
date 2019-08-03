@@ -23,6 +23,7 @@ import trend from './store/reducers/trend';
 import setQue from './store/reducers/setQue';
 import conv from './store/reducers/conv';
 import header from './store/reducers/header';
+import main from './store/reducers/main';
 
 import { 
         watchPt, 
@@ -35,7 +36,8 @@ import {
         watchTrd,
         watchSetQue,
         watchConv,
-        watchHeader
+        watchHeader,
+        watchMain
     } from './store/sagas/index';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -53,7 +55,8 @@ const rootReducers = combineReducers({
     trd: trend,
     setQue: setQue,
     conv,
-    header
+    header,
+    main
 })
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
@@ -71,6 +74,7 @@ sagaMiddleware.run(watchTrd);
 sagaMiddleware.run(watchSetQue);
 sagaMiddleware.run(watchConv);
 sagaMiddleware.run(watchHeader);
+sagaMiddleware.run(watchMain);
 
 library.add(fas,far,fab)
 

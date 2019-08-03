@@ -41,6 +41,10 @@
                 float: right; 
                 padding: 12px 25px 12px 25px;
                 cursor: pointer;
+
+                &:hover {
+                    background-color: $active; 
+                }
             }
         }
         

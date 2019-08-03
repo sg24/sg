@@ -5,7 +5,7 @@ import { withRouter, Route } from 'react-router-dom';
 import * as actions from '../../store/actions/index';
 import MainContent from './MainContent/MainContent';
 import MainNav from './MainNav/MainNav'
-import asyncComponent from '../../hoc/asyncComponent/asyncComponent';;
+import asyncComponent from '../../hoc/asyncComponent/asyncComponent';
 
 const AsyncShare= asyncComponent(() => {
     return import ('./Share/Share');

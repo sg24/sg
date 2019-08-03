@@ -101,7 +101,8 @@ class NavigationList extends Component {
                     { navList }
                     <ul className="site-header__menu--nav__opt--itm">
                         <li
-                            onMouseEnter={this.fetchNavListHandler.bind(this, 'post')}>
+                            onMouseEnter={this.fetchNavListHandler.bind(this, 'post')}
+                            className={this.state.category === 'post' ? 'active-header-nav' : null}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'clone']} 
                                 className="icon icon__site-header--nav__itm" />
@@ -111,7 +112,8 @@ class NavigationList extends Component {
                                 className="icon icon__site-header--nav__angle" />
                         </li>
                         <li
-                            onMouseEnter={this.fetchNavListHandler.bind(this, 'question')}>
+                            onMouseEnter={this.fetchNavListHandler.bind(this, 'question')}
+                            className={this.state.category === 'question' ? 'active-header-nav' : null}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'clone']} 
                                 className="icon icon__site-header--nav__itm" />
@@ -121,7 +123,8 @@ class NavigationList extends Component {
                                 className="icon icon__site-header--nav__angle" />
                         </li>
                         <li
-                            onMouseEnter={this.fetchNavListHandler.bind(this, 'onlineque')}>
+                            onMouseEnter={this.fetchNavListHandler.bind(this, 'onlineque')}
+                            className={this.state.category === 'onlineque' ? 'active-header-nav' : null}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'coffee']} 
                                 className="icon icon__site-header--nav__itm" />
@@ -131,7 +134,8 @@ class NavigationList extends Component {
                                 className="icon icon__site-header--nav__angle" />
                         </li>
                         <li
-                            onMouseEnter={this.fetchNavListHandler.bind(this, 'group')}>
+                            onMouseEnter={this.fetchNavListHandler.bind(this, 'group')}
+                            className={this.state.category === 'group' ? 'active-header-nav' : null}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'users']} 
                                 className="icon icon__site-header--nav__itm" />
@@ -141,7 +145,8 @@ class NavigationList extends Component {
                                 className="icon icon__site-header--nav__angle" />
                         </li>
                         <li
-                            onMouseEnter={this.fetchNavListHandler.bind(this, 'poet')}>
+                            onMouseEnter={this.fetchNavListHandler.bind(this, 'poet')}
+                            className={this.state.category === 'poet' ? 'active-header-nav' : null}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'book']} 
                                 className="icon icon__site-header--nav__itm" />

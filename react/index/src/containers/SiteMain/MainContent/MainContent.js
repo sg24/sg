@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 
+import * as actions from '../../../store/actions/index';
 import asyncComponent from '../../../hoc/asyncComponent/asyncComponent';
-import MainNavigation from '../../../components/MainNavigation/MainNavigation';
+import MainNavigations from '../../../components/MainNavigations/MainNavigations';
 
 const AsyncPosts = asyncComponent(() => {
     return import ('./Posts/Posts');
@@ -26,37 +28,65 @@ const AsyncPoets= asyncComponent(() => {
  
 
 class MainContent extends Component {
+    state = {
+        mainProp: {
+            post: {
+                path: '/index/post',
+                icnGrp: 'clone',
+                icnClass: 'icon icon__site-main__content--tab',
+                title: 'Post',
+                active: null
+            },
+            questions: {
+                path: '/index/question',
+                icnGrp: 'clone',
+                icnClass: 'icon icon__site-main__content--tab',
+                title: 'Questions',
+                active: null
+            },
+            group: {
+                path: '/index/group',
+                icnGrp: 'users',
+                icnClass: 'icon icon__site-main__content--tab',
+                title: 'Groups',
+                active: null
+            },
+            helpme: {
+                path: '/index/helpme',
+                icnGrp: 'hand-paper',
+                icnClass: 'icon icon__site-main__content--tab',
+                title: 'Help Me',
+                active: null
+            },
+            poet: {
+                path: '/index/poet',
+                icnGrp: 'book',
+                icnClass: 'icon icon__site-main__content--tab',
+                title: 'Poet&Writers',
+                active: null
+            }
+        }
+    }
 
-    shouldComponentUpdate(state, props) {
-        return false;
+    componentDidMount() {
+        this.props.onFetchMainActive(this.state.mainProp, this.props.userID)
     }
 
     render() {
+        let mainProps = <MainNavigations 
+            content={this.state.mainProp}/>;
+
+        if (this.props.mainProps) {
+            mainProps = <MainNavigations 
+                content={this.props.mainProps}/>;
+        }
+
         return (
             <div className="site-main__content">
                 <div className="site-main__content--wrapper">
                     <div className="site-main__content--top"></div>
                     <ul className="site-main__content--tab"> 
-                        <MainNavigation path="/index/post" icnGrp="clone" icnClass="icon icon__site-main__content--tab">
-                            Post
-                        </MainNavigation>
-                        <MainNavigation path="/index/question" icnGrp="clone" icnClass="icon icon__site-main__content--tab">
-                            Questions
-                        </MainNavigation>
-                        {/* <li>Questions
-                                <div className="active__main active__main--tab">
-                                <div>9</div>
-                            </div>
-                        </li> */}
-                        <MainNavigation path="/index/group" icnGrp="users" icnClass="icon icon__site-main__content--tab">
-                            Groups
-                        </MainNavigation>
-                        <MainNavigation path="/index/helpme" icnGrp="hand-paper" icnClass="icon icon__site-main__content--tab">
-                            Help Me
-                        </MainNavigation>
-                        <MainNavigation path="/index/poet" icnGrp="book" icnClass="icon icon__site-main__content--tab">
-                            Poet&Writers
-                        </MainNavigation>
+                        {mainProps}
                     </ul>  
                     <Switch>
                         <Route path="/index/post" exact component={AsyncPosts}/>
@@ -78,4 +108,17 @@ class MainContent extends Component {
     }
 }
 
-export default withRouter(MainContent);
+const mapStateToProps = state => {
+    return {
+        mainProps: state.main.mainProps,
+       userID: state.auth.userID,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchMainActive: (mainProps, userID) => dispatch(actions.fetchMainActiveInit(mainProps, userID))
+    };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainContent));
