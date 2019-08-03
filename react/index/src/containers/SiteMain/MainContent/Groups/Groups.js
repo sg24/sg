@@ -16,6 +16,7 @@ class Groups extends Component {
     componentDidMount() {
         this.props.onFetchGroup(this.props.userID);
         this.props.onChangeTag('/group');
+        this.props.onDefaultMainActive(this.props.mainProps, this.props.userID, 'group');
     }
 
     componentDidUpdate() {
@@ -25,6 +26,10 @@ class Groups extends Component {
                 filterTag: this.props.match.params.id
             });
         }
+    }
+
+    componentWillUnmount() {
+        this.props.onFetchMainActive(this.props.mainProps, this.props.userID)
     }
 
     showUserOptHandler = (index) => {
@@ -86,7 +91,8 @@ const mapStateToProps = state => {
     return {
         userID: state.auth.userID,
         groups: state.grp.groups,
-        filteredGrp: state.grp.filteredGrp
+        filteredGrp: state.grp.filteredGrp,
+        mainProps: state.main.mainProps
     }
 }
 
@@ -94,7 +100,9 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchGroup: (userID) => dispatch(actions.fetchGroupInit(userID)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
-        onFilterGrp: (grp, tag) => dispatch(actions.filterGrpInit(grp, tag))
+        onFilterGrp: (grp, tag) => dispatch(actions.filterGrpInit(grp, tag)),
+        onDefaultMainActive: (mainProps, userID, categ) => dispatch(actions.defaultMainActiveInit(mainProps, userID, categ)),
+        onFetchMainActive: (mainProps, userID) => dispatch(actions.fetchMainActiveInit(mainProps, userID))
     }
 }
 

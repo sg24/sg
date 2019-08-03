@@ -20,6 +20,7 @@ class HelpMe extends Component {
     componentDidMount() {
         this.props.onFetchHelpMeQue(this.props.userID);
         this.props.onChangeTag('/helpme');
+        this.props.onDefaultMainActive(this.props.mainProps, this.props.userID, 'helpme');
     }
 
     componentDidUpdate() {
@@ -29,6 +30,10 @@ class HelpMe extends Component {
                 filterTag: this.props.match.params.id
             });
         }
+    }
+
+    componentWillUnmount() {
+        this.props.onFetchMainActive(this.props.mainProps, this.props.userID)
     }
 
     showUserOptHandler = (index) => {
@@ -102,7 +107,8 @@ const mapStateToProps = state => {
         userID: state.auth.userID,
         questions: state.helpme.questions,
         isQue: state.helpme.isQue,
-        filterQue: state.helpme.filterQue
+        filterQue: state.helpme.filterQue,
+        mainProps: state.main.mainProps
     };
 };
 
@@ -112,7 +118,9 @@ const mapDispatchToProps = dispatch => {
         onChangeFav: (questions, filterQue, queID) => dispatch(actions.changeFavHelpMeQueInit(questions, filterQue, queID)),
         onChangeShareID: (shareID) => dispatch(actions.shareID(shareID)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
-        onFilterHelpmeQue: (que, tag) => dispatch(actions.filterHelpmeQueInit(que, tag))
+        onFilterHelpmeQue: (que, tag) => dispatch(actions.filterHelpmeQueInit(que, tag)),
+        onDefaultMainActive: (mainProps, userID, categ) => dispatch(actions.defaultMainActiveInit(mainProps, userID, categ)),
+        onFetchMainActive: (mainProps, userID) => dispatch(actions.fetchMainActiveInit(mainProps, userID))
     };
 }; 
 

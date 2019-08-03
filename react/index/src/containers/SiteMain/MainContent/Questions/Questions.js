@@ -15,6 +15,7 @@ class Questions extends Component {
     componentDidMount() {
         this.props.onFetchQue(this.props.userID);
         this.props.onChangeTag('/question');
+        this.props.onDefaultMainActive(this.props.mainProps, this.props.userID, 'questions');
     }
 
     componentDidUpdate() {
@@ -24,6 +25,10 @@ class Questions extends Component {
                 filterTag: this.props.match.params.id
             });
         }
+    }
+
+    componentWillUnmount() {
+        this.props.onFetchMainActive(this.props.mainProps, this.props.userID)
     }
 
     showUserOptHandler = (index) => {
@@ -88,7 +93,8 @@ const mapStateToProps = state => {
     return {
         userID: state.auth.userID,
         questions: state.que.questions,
-        filteredQue: state.que.filteredQue
+        filteredQue: state.que.filteredQue,
+        mainProps: state.main.mainProps
     };
 };
 
@@ -98,7 +104,9 @@ const mapDispatchToProps = dispatch => {
         onChangeFav: (questions, filteredQue, queID) => dispatch(actions.changeFavQueInit(questions, filteredQue, queID)),
         onChangeShareID: (shareID) => dispatch(actions.shareID(shareID)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
-        onFilterQue: (que, tag) => dispatch(actions.filterQueInit(que, tag))
+        onFilterQue: (que, tag) => dispatch(actions.filterQueInit(que, tag)),
+        onDefaultMainActive: (mainProps, userID, categ) => dispatch(actions.defaultMainActiveInit(mainProps, userID, categ)),
+        onFetchMainActive: (mainProps, userID) => dispatch(actions.fetchMainActiveInit(mainProps, userID))
     };
 };
 

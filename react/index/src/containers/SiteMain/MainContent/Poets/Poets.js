@@ -15,6 +15,7 @@ class Poets extends Component {
     componentDidMount() {
         this.props.onFetchPoets(this.props.userID);
         this.props.onChangeTag('/poet');
+        this.props.onDefaultMainActive(this.props.mainProps, this.props.userID, 'poet');
     }
 
     componentDidUpdate() {
@@ -24,6 +25,10 @@ class Poets extends Component {
                 filterTag: this.props.match.params.id
             });
         }
+    }
+
+    componentWillUnmount() {
+        this.props.onFetchMainActive(this.props.mainProps, this.props.userID)
     }
 
     showUserOptHandler = (index) => {
@@ -82,7 +87,8 @@ const mapStateToProps = state => {
     return {
         userID: state.auth.userID,
         poets: state.pwt.poets,
-        filterPoet: state.pwt.filterPoet
+        filterPoet: state.pwt.filterPoet,
+        mainProps: state.main.mainProps
     };
 };
 
@@ -92,7 +98,9 @@ const mapDispatchToProps = dispatch => {
         onChangeFav: (poets, filterPoet, pwtID) => dispatch(actions.changeFavPoetInit(poets, filterPoet, pwtID)),
         onChangeShareID: (shareID) => dispatch(actions.shareID(shareID)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
-        onFilterPoets: (poets, tag) => dispatch(actions.filterPoetInit(poets, tag))
+        onFilterPoets: (poets, tag) => dispatch(actions.filterPoetInit(poets, tag)),
+        onDefaultMainActive: (mainProps, userID, categ) => dispatch(actions.defaultMainActiveInit(mainProps, userID, categ)),
+        onFetchMainActive: (mainProps, userID) => dispatch(actions.fetchMainActiveInit(mainProps, userID))
     };
 };
 

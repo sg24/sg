@@ -18,10 +18,6 @@ class Posts extends Component {
         this.props.onDefaultMainActive(this.props.mainProps, this.props.userID, 'post');
     }
 
-    componentWillUnmount() {
-        this.props.onFetchMainActive(this.props.mainProps, this.props.userID)
-    }
-
     componentDidUpdate() {
         if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id) {
             this.props.onFilterPost(this.props.posts, this.props.match.params.id);
@@ -29,6 +25,10 @@ class Posts extends Component {
                 filterTag: this.props.match.params.id
             });
         }
+    }
+
+    componentWillUnmount() {
+        this.props.onFetchMainActive(this.props.mainProps, this.props.userID)
     }
 
     showUserOptHandler = (index) => {
@@ -56,7 +56,7 @@ class Posts extends Component {
 
     render() {
         let post = "Loading";
-
+        
         if (this.props.posts) {
             post = <Post 
                 content={this.props.posts} 

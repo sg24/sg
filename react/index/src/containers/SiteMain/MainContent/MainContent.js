@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 
 import * as actions from '../../../store/actions/index';
@@ -29,7 +29,7 @@ const AsyncPoets= asyncComponent(() => {
 
 class MainContent extends Component {
     state = {
-        mainProp: {
+        mainNavProps: {
             post: {
                 path: '/index/post',
                 icnGrp: 'clone',
@@ -69,15 +69,16 @@ class MainContent extends Component {
     }
 
     componentDidMount() {
-        this.props.onFetchMainActive(this.state.mainProp, this.props.userID)
+        this.props.onFetchMainActive(this.state.mainNavProps, this.props.userID)
     }
 
     render() {
-        let mainProps = <MainNavigations 
-            content={this.state.mainProp}/>;
 
+        let mainNavProps = <MainNavigations 
+            content={this.state.mainNavProps}/>;
+  
         if (this.props.mainProps) {
-            mainProps = <MainNavigations 
+            mainNavProps = <MainNavigations 
                 content={this.props.mainProps}/>;
         }
 
@@ -86,7 +87,7 @@ class MainContent extends Component {
                 <div className="site-main__content--wrapper">
                     <div className="site-main__content--top"></div>
                     <ul className="site-main__content--tab"> 
-                        {mainProps}
+                        {mainNavProps}
                     </ul>  
                     <Switch>
                         <Route path="/index/post" exact component={AsyncPosts}/>
