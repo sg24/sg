@@ -99,7 +99,13 @@ export {
     showNavList,
     fetchNavlistInit,
     fetchNavlist,
-    showUserOption
+    showUserOption,
+    fetchNotifyactiveInit,
+    fetchNotifyActive,
+    defaultNotifyactiveInit,
+    defaultNotifyActive,
+    fetchShareactiveInit,
+    fetchShareActive
 } from './header';
 
 export {

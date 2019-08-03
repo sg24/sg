@@ -11,7 +11,7 @@ class NavigationNotify extends Component {
         showNotify: false,
         default: false
     };
-
+    
     componentDidUpdate() {
         if (this.state.showNotify && !this.state.default && this.props.hidNotify) {
             this.setState({
@@ -55,23 +55,35 @@ class NavigationNotify extends Component {
         let notifyTipClass = ["site-header__tool-tip site-header__tool-tip--notify"];
         let notify = null;
         let notifyCntClass = ["site-header__menu--notify__cnt"];
+        let notifyActiveCnt = null;
+
+        if (this.props.notifyActive && this.props.notifyActive > 0) {
+            notifyActiveCnt = (
+                <div className="active__main active__main--header site-header__menu--notify__num">
+                    <div>{ this.props.notifyActive }</div>
+                </div>
+            );
+        }
 
         if (this.state.show) {
-            notifyTipClass.push("site-header__tool-tip--notify__visible")
+            notifyTipClass.push("site-header__tool-tip--notify__visible");
         }
 
         if (this.props.notify && this.state.showNotify) {
             notify = <NotifyItems 
                 content={this.props.notify}
                 fav={this.changeFavoriteHandler}/>
-            notifyCntClass.push("site-header__menu--notify__cnt--visible")
+            notifyCntClass.push("site-header__menu--notify__cnt--visible");
+            this.props.onDefaultNotifyactive();
+        }
+
+        if (!this.state.showNotify) {
+            this.props.onFetchNotifyActive();
         }
 
         return (
             <div className="site-header__menu--notify">
-                <div className="active__main active__main--header site-header__menu--notify__num">
-                    <div>9</div>
-                </div>
+                {notifyActiveCnt}
                 <div 
                     className="site-header__menu--notify__icn"
                     onMouseEnter={this.showNotifyTipHandler}
@@ -107,14 +119,17 @@ const mapStateToProps = state => {
     return {
         userID: state.auth.userID,
         notify: state.header.notify,
-        hidNotify: state.header.hidNotify
+        hidNotify: state.header.hidNotify,
+        notifyActive: state.header.notifyActive
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
        onFetchNotify: (userID) => dispatch(actions.fetchNotifyInit(userID)),
-       onChangeFav: (notify, notifyID) => dispatch(actions.changeFavNotifyInit(notify, notifyID))
+       onChangeFav: (notify, notifyID) => dispatch(actions.changeFavNotifyInit(notify, notifyID)),
+       onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
+       onDefaultNotifyactive: () => dispatch(actions.defaultNotifyactiveInit())
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationNotify);

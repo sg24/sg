@@ -10,7 +10,9 @@ const initialState = {
     navList: null,
     navListCateg: null,
     hidNavList: false,
-    hidUserOption: false
+    hidUserOption: false,
+    notifyActive: null,
+    shareActive: null
 };
 
 const formExpand = (state, action) => {
@@ -49,6 +51,18 @@ const showUserOption = (state, action) => {
     return updateObject(state, {hidNotify: true, hidNavList: true, hidUserOption: false})
 };
 
+const fetchNotifyActive = (state, action) => {
+    return updateObject(state, {notifyActive: action.notifyActive})
+};
+
+const defaultNotifyActive = (state, action) => {
+    return updateObject(state, {notifyActive: null})
+};
+
+const fetchShareActive = (state, action) => {
+    return updateObject(state, {shareActive: action.shareActive})
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.HEADER_FORM_EXPAND:
@@ -69,6 +83,12 @@ const reducer = (state = initialState, action) => {
             return fetchNavList(state, action);
         case actionTypes.SHOW_USER_OPTION:
             return showUserOption(state, action);
+        case actionTypes.FETCH_NOTIFY_ACTIVE:
+            return fetchNotifyActive(state, action);
+        case actionTypes.DEFAULT_NOTIFYACTIVE:
+            return defaultNotifyActive(state, action);
+        case actionTypes.FETCH_SHARE_ACTIVE:
+            return fetchShareActive(state, action);
         default: return state
     };
 };

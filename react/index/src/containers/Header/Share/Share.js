@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import * as actions from '../../../store/actions/index';
 
 class Share extends Component {
     state = {
         show: false
     };
+
+    componentDidMount() {
+        this.props.onFetchShareActive();
+    }
 
     showShareTipHandler = () => {
         this.setState({
@@ -21,7 +28,16 @@ class Share extends Component {
 
    render() {
         let shareTipClass = ["site-header__tool-tip site-header__tool-tip--share"];
+        let shareActiveCnt = null;
     
+        if (this.props.shareActive && this.props.shareActive > 0) {
+            shareActiveCnt = (
+                <div className="active__main active__main--header">
+                    <div>{this.props.shareActive}</div>
+                </div>
+            );
+        }
+
         if (this.state.show) {
             shareTipClass.push("site-header__tool-tip--share__visible")
         }
@@ -32,9 +48,7 @@ class Share extends Component {
                 href="/acc/shared"
                 onMouseEnter={this.showShareTipHandler}
                 onMouseLeave={this.hidShareTipHandler}>
-                <div className="active__main active__main--header">
-                    <div>9</div>
-                </div>
+                { shareActiveCnt }
                 <FontAwesomeIcon 
                     icon={['fas', 'location-arrow']} 
                     className="icon icon__site-header--shares" />
@@ -46,4 +60,16 @@ class Share extends Component {
    }
 };
 
-export default Share;
+const mapStateToProps = state => {
+    return {
+       shareActive: state.header.shareActive
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+       onFetchShareActive: () => dispatch(actions.fetchShareactiveInit())
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Share);

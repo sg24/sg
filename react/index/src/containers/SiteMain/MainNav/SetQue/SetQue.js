@@ -53,7 +53,7 @@ class SetQue extends Component {
                         className="icon icon__reuse-set--tm" /> 
                     <span>Set Timed Question</span>
                     <span className="reuse-set__header--startQues">
-                        <a href="/">start</a>
+                        <a href={this.state.queCateg === 'Category' ? '/' : '/'+this.state.queCateg+'/add'}>start</a>
                     </span>
                 </div>
                 <div className={categClass.join(' ')} onClick={this.fetchCategoryHandler}>

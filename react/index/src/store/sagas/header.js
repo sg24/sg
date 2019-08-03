@@ -95,3 +95,15 @@ export function* fetchNavlistInitSaga(action) {
 
     yield put(actions.fetchNavlist(action.category, categArray))
 }
+
+export function* fetchNotifyActiveInitSaga(action) {
+    yield put(actions.fetchNotifyActive('9'));
+}
+
+export function* defaultNotifyActiveInitSaga(action) {
+    yield put(actions.defaultNotifyActive());
+}
+
+export function* fetchShareActiveInitSaga(action) {
+    yield put(actions.fetchShareActive('9'));
+}

@@ -116,3 +116,42 @@ export const showUserOption = () =>  {
         type: actionTypes.SHOW_USER_OPTION 
     }; 
 }; 
+
+export const fetchNotifyactiveInit = () =>  {
+    return {
+        type: actionTypes.FETCH_NOTIFY_ACTIVE_INIT,
+    }; 
+}; 
+
+export const fetchNotifyActive = (notifyActive) =>  {
+    return {
+        type: actionTypes.FETCH_NOTIFY_ACTIVE,
+        notifyActive
+    }; 
+}; 
+
+export const defaultNotifyactiveInit = () =>  {
+    return {
+        type: actionTypes.DEFAULT_NOTIFYACTIVE_INIT,
+    }; 
+}; 
+
+export const defaultNotifyActive = () =>  {
+    return {
+        type: actionTypes.DEFAULT_NOTIFYACTIVE
+    }; 
+}; 
+
+export const fetchShareactiveInit = () =>  {
+    return {
+        type: actionTypes.FETCH_SHARE_ACTIVE_INIT,
+    }; 
+}; 
+
+export const fetchShareActive = (shareActive) =>  {
+    return {
+        type: actionTypes.FETCH_SHARE_ACTIVE,
+        shareActive
+    }; 
+}; 
+
