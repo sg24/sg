@@ -54,7 +54,9 @@ export function* fetchNotifyInitSaga(action) {
 }
 
 export function* changeFavNotifySaga(action) {
-    yield put(actions.changeFavNotify(changeFav(action.notify, action.notifyID)));
+    let notify = changeFav(action.notify ,action.notifyID);
+    yield put(actions.changeFavNotifyStart(notify.updateStartArray));
+    yield put(actions.changeFavNotify(notify.updateDataArray));
 }
 
 export function* fetchNavlistInitSaga(action) {

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { transformNumber, transformString } from '../../../../../shared/utility';
+import FavoriteActive from '../../../../UI/FavoriteActive/FavoriteActive';
 
 const trendItem = props => {
     let trend = null;
@@ -39,7 +40,12 @@ const trendItem = props => {
                             className="icon icon__reuse-trd--comment" />
                         { transformNumber(props.trd.comment) } 
                     </li>
-                    <li onClick={props.fav}>{ fav }{ transformNumber(props.trd.favorite) } </li>
+                    <li>
+                        <span onClick={props.fav}>{fav}</span>
+                        { transformNumber(props.trd.favorite) } 
+                        {props.trd.changeFavActive !== undefined ? <FavoriteActive 
+                            active={props.trd.changeFavActive}/> : null}
+                    </li>
                 </ul>
             </div> 
         );
@@ -64,7 +70,12 @@ const trendItem = props => {
                             className="icon icon__reuse-trd--smile" />
                         { transformNumber(props.trd.helpFull) } 
                     </li>
-                    <li onClick={props.fav}>{ fav } { transformNumber(props.trd.favorite) } </li>
+                    <li>
+                        <span onClick={props.fav}>{fav}</span>
+                        { transformNumber(props.trd.favorite) } 
+                        {props.trd.changeFavActive !== undefined ? <FavoriteActive 
+                            active={props.trd.changeFavActive}/> : null}
+                    </li>
                     <li>
                         <FontAwesomeIcon 
                             icon={['far', 'comment-dots']} 
@@ -101,7 +112,12 @@ const trendItem = props => {
                             className="icon icon__reuse-trd--view" />
                         { transformNumber(props.trd.notHelpFull) } 
                     </li>
-                    <li onClick={props.fav}>{ fav } { transformNumber(props.trd.favorite) } </li>
+                    <li>
+                        <span onClick={props.fav}>{fav}</span>
+                        { transformNumber(props.trd.favorite) } 
+                        {props.trd.changeFavActive !== undefined ? <FavoriteActive 
+                            active={props.trd.changeFavActive}/> : null}
+                    </li>
                 </ul>
             </div> 
         );

@@ -66,7 +66,6 @@ export function* changeFavHelpMeQueSaga(action) {
     yield put(actions.changeFavHelpMeQueStart(que.updateStartArray, true))
     if (action.filterQue && action.filterQue.length > 0) {
         let filterQue = changeFav(action.filterQue, action.queID);
-        console.log(filterQue)
         yield put(actions.changeFavHelpMeQueStart(filterQue.updateStartArray, false))
         yield put(actions.changeFavFilterHelpMeQue(filterQue.updateDataArray));
     }

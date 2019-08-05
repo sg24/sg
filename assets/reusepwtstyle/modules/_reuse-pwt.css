@@ -212,7 +212,7 @@
         }
 
         &--title {
-            font-size: .875rem;
+            font-size: .9375rem;
             margin: 10px 0 0 0;
             width: 100%;
             display: flex;
@@ -238,8 +238,8 @@
                 }
             }
 
-            @mixin atExtraSmall {
-                font-size: .9375rem;
+            @mixin atSmall {
+                font-size: 1rem;
             }
         }
 

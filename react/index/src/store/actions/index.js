@@ -82,6 +82,8 @@ export {
     fetchTrdInit,
     fetchTrd,
     changeFavTrdInit,
+    changeFavTrdStart,
+    changeFavTrdFail,
     changeFavTrd
 } from './trend';
 
@@ -103,6 +105,8 @@ export {
     fetchNotifyInit,
     fetchNotify,
     changeFavNotifyInit,
+    changeFavNotifyStart,
+    changeFavNotifyFail,
     changeFavNotify,
     showNavList,
     fetchNavlistInit,

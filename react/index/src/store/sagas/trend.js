@@ -56,5 +56,7 @@ export function* fetchTrdInitSaga(action) {
 
 
 export function* changeFavTrdSaga(action) {
-    yield put(actions.changeFavTrd(changeFav(action.trd, action.trdID)));
+    let trd = changeFav(action.trd ,action.trdID);
+    yield put(actions.changeFavTrdStart(trd.updateStartArray))
+    yield put(actions.changeFavTrd(trd.updateDataArray));
 }

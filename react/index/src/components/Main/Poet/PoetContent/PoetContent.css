@@ -265,7 +265,7 @@
 }
 
 .reuse-pwt__content--title {
-    font-size: .875rem;
+    font-size: .9375rem;
     margin: 10px 0 0 0;
     width: 100%;
     display: -ms-flexbox;
@@ -295,10 +295,10 @@
     font-weight: 400;
 }
 
-@media (min-width: 335px) {
+@media (min-width: 530px) {
 
     .reuse-pwt__content--title {
-        font-size: .9375rem;
+        font-size: 1rem;
     }
 }
 

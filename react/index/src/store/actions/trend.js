@@ -40,6 +40,20 @@ export const changeFavTrdInit = (trd, trdID) => {
     };
 };
 
+export const changeFavTrdStart = (trd) => {
+    return {
+        type: actionTypes.CHANGE_FAVORITE_TRD_START,
+        trd
+    };
+};
+
+export const changeFavTrdFail = (trd) => {
+    return {
+        type: actionTypes.CHANGE_FAVORITE_TRD_FAIL,
+        trd
+    };
+};
+
 export const changeFavTrd = (trd) => {
     return {
         type: actionTypes.CHANGE_FAVORITE_TRD,

@@ -6,7 +6,6 @@
     color: #ff1600;
     font-size: 25px;
     animation: heart 3s linear 1s infinite alternate forwards;
-
 }
 
 .active__main {
@@ -191,3 +190,25 @@
         align-items: center;
 
 } 
+
+@keyframes heart {
+    0% { 
+        opacity: 0.2;
+    }
+
+    25% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    75% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

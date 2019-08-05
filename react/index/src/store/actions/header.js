@@ -65,6 +65,20 @@ export const changeFavNotifyInit = (notify, notifyID) => {
     };
 };
 
+export const changeFavNotifyStart = (notify) => {
+    return {
+        type: actionTypes.CHANGE_FAVORITE_NOTIFY_START,
+        notify
+    };
+};
+
+export const changeFavNotifyFail = (notify) => {
+    return {
+        type: actionTypes.CHANGE_FAVORITE_NOTIFY_FAIL,
+        notify
+    };
+};
+
 export const changeFavNotify = (notify) => {
     return {
         type: actionTypes.CHANGE_FAVORITE_NOTIFY,
