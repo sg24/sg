@@ -80,7 +80,10 @@ export function changeFav(datas, dataID) {
 
     const updateDataArray = dataArray;
     updateDataArray[dtIndex] = data;
-    return updateDataArray
+    return {
+        dataArray: [...updateDataArray],
+        index: dtIndex
+    }
    }
 
    return dataArray;

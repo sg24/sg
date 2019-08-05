@@ -3,6 +3,13 @@
 
 }
 
+.icon__site-main--content__fav {
+    color: #ff1600;
+    font-size: 25px;
+    animation: heart 3s linear 1s infinite alternate forwards;
+
+}
+
 .active__main {
     position: absolute;
     background-color: #f22613;
@@ -176,5 +183,21 @@
         font-size: .875rem;
 
     }
+
+}
+
+.site-main__content--favorite {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
 
 } 

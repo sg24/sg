@@ -2,6 +2,12 @@
     margin-right: 8px;
 }
 
+.icon__site-main--content__fav {
+    color: #ff1600;
+    font-size: 25px;
+    animation: heart 3s linear 1s infinite alternate forwards;
+}
+
 .active__main {
     position: absolute;
     background-color: #f22613;
@@ -176,4 +182,43 @@
 
     }
 
+}
+
+.site-main__content--favorite {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+
+} 
+
+
+@keyframes heart {
+    0% { 
+        opacity: 0.2;
+    }
+
+    25% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    75% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }

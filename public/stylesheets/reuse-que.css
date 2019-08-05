@@ -192,7 +192,9 @@
 }
 
 .reuse-que__content--title a {
-    color: #437da3;
+    color:#182427;
+    text-decoration: none;
+    font-weight: 400;
 }
 
 @media (min-width: 530px) {
@@ -277,44 +279,15 @@
 }
 
 .reuse-que__footer--list li {
+    position: relative;
     float: left;
-    padding: 15px 12px;
+    padding: 15px 0 15px 0;
     font-style: italic;
     color: #182427;
     border-right: 1px solid #e9ebf2;
     cursor: default;
-}
-
-.reuse-que__footer--list li:first-child {
-    padding-left: 5px;
-}
-
-@media (min-width: 335px) {
-
-    .reuse-que__footer--list li:first-child {
-        padding-left: 8px;
-    }
-}
-
-@media (min-width: 530px) {
-
-    .reuse-que__footer--list li:first-child {
-        padding-left: 18px;
-    }
-}
-
-@media (min-width: 530px) {
-
-    .reuse-que__footer--list li {
-        padding: 15px;
-    }
-}
-
-@media (min-width: 800px) {
-
-    .reuse-que__footer--list li {
-        padding: 15px 30px;
-    }
+    width: 100px;
+    text-align: center;
 }
 
 .reuse-que__footer--list__item-middle {
@@ -508,18 +481,19 @@
 
 .icon__reuse-que--footer__thumbup {
     color: #0284a8;
-    margin-right: 5px;
+    margin-right: 8px;
 }
 
 .icon__reuse-que--footer__thumbdown {
     color: #000;
-    margin-right: 5px;
+    margin-right: 8px;
 }
 
 .icon__reuse-que--footer__heart {
     color: #ff1600;
     cursor: pointer;
-    margin-right: 5px;
+    margin-right: 8px;
+    font-size: 1rem;
 }
 
 .icon__reuse-que--options {

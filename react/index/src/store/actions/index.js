@@ -15,7 +15,9 @@ export {
     changeFavQue,
     changeFavFilterQue,
     filterQueInit,
-    filterQue
+    filterQue,
+    changeFavQueStart,
+    changeFavQueFail
 } from './question';
 
 export {

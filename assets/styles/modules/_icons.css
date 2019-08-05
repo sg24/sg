@@ -2,4 +2,10 @@
     &__site-main__content--tab {
         margin-right: 8px;
     }
+
+    &__site-main--content__fav {
+        color: $mainLightRed;
+        font-size: 25px;
+        animation: heart 3s linear 1s infinite alternate forwards;
+    }
 }

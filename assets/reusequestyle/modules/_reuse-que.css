@@ -153,7 +153,8 @@
             }
 
             a {
-                color: $mainMiddleDarkBlue; 
+                color:$mainFontColor; 
+                text-decoration: none; 
             }
 
             @mixin atSmall {
@@ -222,32 +223,15 @@
             position: relative;
             
             li {
+                position: relative;
                 float: left;
-                padding: 15px 12px;
+                padding: 15px 0 15px 0;
                 font-style: italic;
                 color: $mainFontColor;
                 border-right: 1px solid $mainLightGray;
                 cursor: default;
-
-                &:first-child {
-                    padding-left: 5px;
-
-                    @mixin atExtraSmall {
-                        padding-left: 8px;
-                    }
-
-                    @mixin atSmall {
-                        padding-left: 18px;
-                    }
-                }
-                
-                @mixin atSmall {
-                    padding: 15px;
-                }
-
-                @mixin atMedium {
-                    padding: 15px 30px;
-                }
+                width: 100px;
+                text-align: center;
             }
 
             &__item-middle {

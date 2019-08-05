@@ -42,6 +42,20 @@ export const changeFavQueInit = (questions, filteredQue, queID) => {
     };
 };
 
+export const changeFavQueStart = (questions) => {
+    return {
+        type: actionTypes.CHANGE_FAVORITE_QUE_START,
+        questions
+    };
+};
+
+export const changeFavQueFail = (questions) => {
+    return {
+        type: actionTypes.CHANGE_FAVORITE_QUE_START,
+        questions
+    };
+};
+
 export const changeFavQue = (questions) => {
     return {
         type: actionTypes.CHANGE_FAVORITE_QUE,
