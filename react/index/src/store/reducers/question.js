@@ -15,7 +15,9 @@ const changeFavQue = (state, action) => {
 };
 
 const changeFavQueStart = (state, action) => {
-    return updateObject(state, {questions: action.questions})
+    return updateObject(state, {
+        questions: action.queArray ? action.questions : state.questions,
+        filteredQue: action.queArray ? state.filteredQue : action.questions})
 };
 
 const changeFavFilterQue = (state, action) => {

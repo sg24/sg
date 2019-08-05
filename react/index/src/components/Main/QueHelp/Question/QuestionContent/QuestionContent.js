@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './QuestionContent.css';
+import '../../../Question/QuestionContent/QuestionContent.css';
 import '../../../../UI/ShareIcn/ShareIcn.css'; 
 import { transformNumber, transformString } from '../../../../../shared/utility';
 import Aux from '../../../../../hoc/Auxs/Aux';

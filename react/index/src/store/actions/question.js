@@ -42,10 +42,11 @@ export const changeFavQueInit = (questions, filteredQue, queID) => {
     };
 };
 
-export const changeFavQueStart = (questions) => {
+export const changeFavQueStart = (questions, queArray) => {
     return {
         type: actionTypes.CHANGE_FAVORITE_QUE_START,
-        questions
+        questions,
+        queArray
     };
 };
 

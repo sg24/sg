@@ -127,7 +127,8 @@ const questionContent = props => {
                             className="icon icon__reuse-que--footer__thumbdown" />
                         {transformNumber(props.que.notHelpFull)}
                     </li>
-                    <li><span onClick={props.fav}>{fav}</span>
+                    <li>
+                        <span onClick={props.fav}>{fav}</span>
                         {transformNumber(props.que.favorite)}
                         {props.que.changeFavActive !== undefined ? <FavoriteActive 
                             active={props.que.changeFavActive}/> : null}

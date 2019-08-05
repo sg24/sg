@@ -62,18 +62,14 @@ export function* fetchQueInitSaga(action) {
 
 
 export function* changeFavQueSaga(action) {
-    if (action.filteredQue && action.filteredQue.length > 0) {
-        yield put(actions.changeFavFilterQue(changeFav(action.filteredQue, action.queID)));
-    }
     let que = changeFav(action.questions ,action.queID);
-    let oldQue = [...que.dataArray];
-    let queArray = [...que.dataArray];
-    let changeFavStart = [...queArray][que.index];
-    changeFavStart = updateObject(changeFavStart, {changeFavActive: changeFavStart.liked});
-    queArray[que.index] = changeFavStart;
-
-    yield put(actions.changeFavQueStart(queArray));
-    // yield put(actions.changeFavQue(oldQue));
+    yield put(actions.changeFavQueStart(que.updateStartArray, true))
+    if (action.filteredQue && action.filteredQue.length > 0) {
+        let filterQue = changeFav(action.filteredQue, action.queID)
+        yield put(actions.changeFavQueStart(filterQue.updateStartArray, false))
+        yield put(actions.changeFavFilterQue(filterQue.updateDataArray));
+    }
+    yield put(actions.changeFavQue(que.updateDataArray));
 }
 
 export function* filterQueInitSaga(action) {

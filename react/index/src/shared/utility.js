@@ -78,11 +78,14 @@ export function changeFav(datas, dataID) {
         data = updateObject(data, {favorite: data.favorite - 1})
     }
 
-    const updateDataArray = dataArray;
+    const updateDataArray = [...dataArray];
     updateDataArray[dtIndex] = data;
+    let updateStartArray = [...updateDataArray];
+    data = updateObject(data, {changeFavActive: data.liked})
+    updateStartArray[dtIndex] = data;
     return {
-        dataArray: [...updateDataArray],
-        index: dtIndex
+        updateStartArray,
+        updateDataArray 
     }
    }
 
