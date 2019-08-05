@@ -194,7 +194,6 @@
         
                     @mixin atSmall {
                         right: 40px;
-                        /* background-color: $mainDarkBlack; */
                     }
                 }
 
@@ -231,12 +230,11 @@
 
             &__wrapper {
                 width: 90%;
-                /* font-style: italic; */
 
                 a {
-                    color: rgba($mainDarkBlack, .7);
+                    color: $mainFontColor;
                     text-decoration: none;
-                    font-weight: 500;
+                    font-weight: 400;
                 }
             }
 

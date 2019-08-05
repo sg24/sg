@@ -5,6 +5,7 @@ import '../../../../UI/ShareIcn/ShareIcn.css';
 import { transformNumber, transformString } from '../../../../../shared/utility';
 import Aux from '../../../../../hoc/Auxs/Aux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import FavoriteActive from '../../../../UI/FavoriteActive/FavoriteActive';
 
 const questionContent = props => {
     let desc = (
@@ -118,7 +119,12 @@ const questionContent = props => {
                             className="icon icon__reuse-que--footer__thumbdown" />
                         {transformNumber(props.que.notHelpFull)}
                     </li>
-                    <li onClick={props.fav}>{fav}{transformNumber(props.que.favorite)}</li>
+                    <li>
+                        <span onClick={props.fav}>{fav}</span>
+                        {transformNumber(props.que.favorite)}
+                        {props.que.changeFavActive !== undefined ? <FavoriteActive 
+                            active={props.que.changeFavActive}/> : null}
+                    </li>
                 </ul>
                 {userOpt}
             </div>

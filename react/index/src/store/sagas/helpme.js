@@ -62,11 +62,16 @@ export function* fetchHelpMeQueInitSaga(action) {
 
 
 export function* changeFavHelpMeQueSaga(action) {
+    let que = changeFav(action.questions ,action.queID);
+    yield put(actions.changeFavHelpMeQueStart(que.updateStartArray, true))
     if (action.filterQue && action.filterQue.length > 0) {
-        yield put(actions.changeFavFilterHelpMeQue(changeFav(action.filterQue, action.queID)));
+        let filterQue = changeFav(action.filterQue, action.queID);
+        console.log(filterQue)
+        yield put(actions.changeFavHelpMeQueStart(filterQue.updateStartArray, false))
+        yield put(actions.changeFavFilterHelpMeQue(filterQue.updateDataArray));
     }
     
-    yield put(actions.changeFavHelpMeQue(changeFav(action.questions, action.queID)));
+    yield put(actions.changeFavHelpMeQue(que.updateDataArray));
 }
 
 export function* filterHelpmeQueSaga(action) {

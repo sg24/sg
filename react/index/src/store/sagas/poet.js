@@ -59,10 +59,14 @@ export function* fetchPoetInitSaga(action) {
 
 
 export function* changeFavPwtSaga(action) {
+    let poet = changeFav(action.poets ,action.pwtID);
+    yield put(actions.changeFavPoetStart(poet.updateStartArray, true))
     if (action.filterPoet && action.filterPoet.length > 0) {
-        yield put(actions.changeFavFilterPoet(changeFav(action.filterPoet, action.pwtID)));
+        let filterPoet = changeFav(action.filterPoet, action.pwtID)
+        yield put(actions.changeFavPoetStart(filterPoet.updateStartArray, false))
+        yield put(actions.changeFavFilterPoet(filterPoet.updateDataArray));
     }
-    yield put(actions.changeFavPoet(changeFav(action.poets, action.pwtID)));
+    yield put(actions.changeFavPoet(poet.updateDataArray));
 }
 
 export function* filterPoetInitSaga(action) {

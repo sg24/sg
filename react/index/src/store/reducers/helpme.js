@@ -11,6 +11,12 @@ const fetchHelpMeQue = (state, action) => {
     return updateObject(state, {questions: action.questions, isQue: action.questions && action.questions.length > 0 })
 };
 
+const changeFavHelpMeQueStart = (state, action) => {
+    return updateObject(state, {
+        questions: action.queArray ? action.questions : state.questions,
+        filterQue: action.queArray ? state.filterQue : action.questions})
+};
+
 const changeFavHelpMeQue = (state, action) => {
     return updateObject(state, {questions: action.questions})
 };
@@ -29,6 +35,8 @@ const reducer = (state = initialState, action) => {
             return fetchHelpMeQue(state, action);
         case actionTypes.CHANGE_FAVORITE_HELPMEQUE:
             return changeFavHelpMeQue(state, action);
+        case actionTypes.CHANGE_FAVORITE_HELPMEQUE_START:
+            return changeFavHelpMeQueStart(state, action);
         case actionTypes.CHANGE_FAVORITE_FILTERHELPMEQUE:
             return changeFavFilterHelpMeQue(state, action);
         case actionTypes.FILTER_HELPMEQUE:

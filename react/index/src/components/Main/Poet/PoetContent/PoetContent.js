@@ -5,6 +5,7 @@ import '../../../UI/ShareIcn/ShareIcn.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Aux from '../../../../hoc/Auxs/Aux';
 import { transformNumber, transformString } from '../../../../shared/utility';
+import FavoriteActive from '../../../UI/FavoriteActive/FavoriteActive';
 
 const poetContent = props => {
     let userOpt = null;
@@ -101,7 +102,12 @@ const poetContent = props => {
                     className="icon icon__reuse-pwt--footer__smile" />
                 { transformNumber(props.pwt.helpFull) } 
             </li>
-            <li onClick={props.fav}>{fav} { transformNumber(props.pwt.favorite) } </li>
+            <li>
+                <span onClick={props.fav}>{fav}</span>
+                { transformNumber(props.pwt.favorite) }
+                {props.pwt.changeFavActive !== undefined ? <FavoriteActive 
+                    active={props.pt.changeFavActive}/> : null}
+            </li>
             <li>
                 <FontAwesomeIcon 
                     icon={['far', 'comment-dots']} 
@@ -168,7 +174,12 @@ const poetContent = props => {
                         className="icon icon__reuse-pwt--footer__smile" />
                     { transformNumber(props.pwt.helpFull) } 
                 </li>
-                <li onClick={props.fav}> {fav} { transformNumber(props.pwt.favorite) } </li>
+                <li> 
+                    <span onClick={props.fav}>{fav}</span>
+                    { transformNumber(props.pwt.favorite) }
+                    {props.pwt.changeFavActive !== undefined ? <FavoriteActive 
+                        active={props.pt.changeFavActive}/> : null}
+                </li>
                 <li>
                     <FontAwesomeIcon 
                         icon={['far', 'comment-dots']} 
@@ -236,7 +247,12 @@ const poetContent = props => {
                             className="icon icon__reuse-pwt--footer__smile" />
                         { transformNumber(props.pwt.helpFull) } 
                     </li>
-                    <li onClick={props.fav}>{fav} { transformNumber(props.pwt.favorite) }</li>
+                    <li>
+                        <span onClick={props.fav}>{fav}</span>
+                        { transformNumber(props.pwt.favorite) }
+                        {props.pwt.changeFavActive !== undefined ? <FavoriteActive 
+                            active={props.pt.changeFavActive}/> : null}
+                    </li>
                     <li>
                         <FontAwesomeIcon 
                             icon={['far', 'comment-dots']} 

@@ -28,19 +28,22 @@
 }
 
 .icon__reuse-pwt--footer__smile {
-    margin-right: 5px;
+    margin-right: 8px;
     color: #0284a8;
+    font-size: .9375rem;
 }
 
 .icon__reuse-pwt--footer__heart {
-    margin-right: 5px;
+    margin-right: 8px;
     color: #ff1600;
+    font-size: .9375rem;
     cursor: pointer;
 }
 
 .icon__reuse-pwt--footer__comments {
-    margin-right: 5px;
+    margin-right: 8px;
     color: #000;
+    font-size: .9375rem;
 }
 
 .reuse-pwt {
@@ -248,8 +251,6 @@
 
     .reuse-pwt__content--det__user--det {
         right: 40px;
-
-        /* background-color: $mainDarkBlack; */
     }
 }
 
@@ -288,12 +289,10 @@
     width: 90%;
 }
 
-/* font-style: italic; */
-
 .reuse-pwt__content--title__wrapper a {
-    color: rgba(0,0,0, .7);
+    color: #182427;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 @media (min-width: 335px) {

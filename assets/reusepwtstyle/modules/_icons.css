@@ -30,18 +30,21 @@
     }
 
     &__reuse-pwt--footer__smile {
-        margin-right: 5px;
-        color: $mainDarkBlue;  
+        margin-right: 8px;
+        color: $mainDarkBlue;
+        font-size: .9375rem;  
     }
 
     &__reuse-pwt--footer__heart {
-        margin-right: 5px;
-        color: $mainLightRed;
+        margin-right: 8px;
+        color: $mainLightRed; 
+        font-size: .9375rem;
         cursor: pointer;
     }
 
     &__reuse-pwt--footer__comments {
-        margin-right: 5px;
+        margin-right: 8px;
         color: $mainDarkBlack;
+        font-size: .9375rem;
     }
 }

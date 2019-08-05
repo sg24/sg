@@ -10,6 +10,12 @@ const fetchPoet = (state, action) => {
     return updateObject(state, {poets: action.poets })
 };
 
+const changeFavPoetStart = (state, action) => {
+    return updateObject(state, {
+        posts: action.isPoet ? action.poets : state.poets,
+        filterPoet: action.isPoet ? state.filterPoet : action.poets})
+};
+
 const changeFavPoet = (state, action) => {
     return updateObject(state, {poets: action.poets})
 };
@@ -26,6 +32,8 @@ const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.FETCH_POET:
             return fetchPoet(state, action);
+        case actionTypes.CHANGE_FAVORITE_POET_START:
+            return changeFavPoetStart(state, action);
         case actionTypes.CHANGE_FAVORITE_POET:
             return changeFavPoet(state, action);
         case actionTypes.CHANGE_FAVORITE_FILTERPOET:

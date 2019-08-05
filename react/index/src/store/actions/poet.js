@@ -41,6 +41,22 @@ export const changeFavPoetInit = (poets, filterPoet, pwtID) =>  {
     };
 }; 
 
+export const changeFavPoetStart = (poets, isPoet) => {
+    return {
+        type: actionTypes.CHANGE_FAVORITE_POET_START,
+        poets,
+        isPoet
+    };
+};
+
+export const changeFavPoetFail = (poet) => {
+    return {
+        type: actionTypes.CHANGE_FAVORITE_POET_FAIL,
+        poet
+    };
+};
+
+
 export const changeFavPoet = (poets) => {
     return  {
         type: actionTypes.CHANGE_FAVORITE_POET,
