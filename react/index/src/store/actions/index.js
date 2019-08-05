@@ -2,6 +2,8 @@ export {
     fetchPostInit,
     fetchPost,
     changeFavInit,
+    changeFavPtStart,
+    changeFavPtFail,
     changeFav,
     changeFavFilter,
     filterPostInit,

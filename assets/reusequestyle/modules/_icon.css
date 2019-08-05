@@ -3,23 +3,26 @@
     &__reuse-que--header__tag {
         color: $mainLightBlack;
         cursor: pointer;
+        font-size: .9375rem;
     }
     
     &__reuse-que--footer__thumbup {
         color: $mainDarkBlue;
         margin-right: 8px;
+        font-size: .9375rem;
     }
 
     &__reuse-que--footer__thumbdown {
         color: $mainDarkBlack;
         margin-right: 8px;
+        font-size: .9375rem;
     }
 
     &__reuse-que--footer__heart {
         color: $mainLightRed; 
         cursor: pointer;
         margin-right: 8px;
-        font-size: 1rem;
+        font-size: .9375rem;
     }
 
     &__reuse-que--options {

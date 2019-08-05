@@ -128,7 +128,6 @@
     background-color: rgba(220,219,220, .4);
     border-radius: 5px;
     padding: 4px;
-    /* border: 1px solid $mainDarkGray; */
     cursor: pointer;
     overflow: hidden;
     white-space: nowrap;
@@ -194,7 +193,6 @@
 .reuse-que__content--title a {
     color:#182427;
     text-decoration: none;
-    font-weight: 400;
 }
 
 @media (min-width: 530px) {
@@ -228,7 +226,6 @@
     margin-right: 5px;
     position: relative;
     font-size: .8125rem;
-    /* background-color: $mainLightGray; */
     border-radius: 5px;
     overflow: hidden;
     padding: 10px 10px 10px 30px;
@@ -239,7 +236,6 @@
     left: 0;
     background-color: #ff1600;
     color: #fff;
-    /* font-size: .875rem; */
     width: 22px;
     height: 22px;
     border-radius: 11px;
@@ -257,7 +253,6 @@
 .reuse-que__footer {
     background-color: #fff;
     border-top: 1px solid #e9ebf2;
-    /* box-shadow: 0px -2px 9px 0px rgba($mainDarkGray, 0.57); */
     position: relative;
     border-radius: 10px;
     border-top-left-radius: 0;
@@ -281,7 +276,7 @@
 .reuse-que__footer--list li {
     position: relative;
     float: left;
-    padding: 15px 0 15px 0;
+    padding: 15px  0;
     font-style: italic;
     color: #182427;
     border-right: 1px solid #e9ebf2;
@@ -477,23 +472,26 @@
 .icon__reuse-que--header__tag {
     color: #777;
     cursor: pointer;
+    font-size: .9375rem;
 }
 
 .icon__reuse-que--footer__thumbup {
     color: #0284a8;
     margin-right: 8px;
+    font-size: .9375rem;
 }
 
 .icon__reuse-que--footer__thumbdown {
     color: #000;
     margin-right: 8px;
+    font-size: .9375rem;
 }
 
 .icon__reuse-que--footer__heart {
     color: #ff1600;
     cursor: pointer;
     margin-right: 8px;
-    font-size: 1rem;
+    font-size: .9375rem;
 }
 
 .icon__reuse-que--options {

@@ -63,10 +63,14 @@ export function* fetchPostInitSaga(action) {
 }
 
 export function* changeFavSaga(action) {
+    let pt = changeFav(action.posts ,action.postID);
+    yield put(actions.changeFavPtStart(pt.updateStartArray, true))
     if (action.filteredPost && action.filteredPost.length > 0) {
-        yield put(actions.changeFavFilter(changeFav(action.filteredPost, action.postID)));
+        let filterPt = changeFav(action.filteredPost, action.postID)
+        yield put(actions.changeFavPtStart(filterPt.updateStartArray, false))
+        yield put(actions.changeFavFilter(filterPt.updateDataArray));
     }
-    yield put(actions.changeFav(changeFav(action.posts, action.postID)));
+    yield put(actions.changeFav(pt.updateDataArray));
 }
 
 export function* filterPostInitSaga(action) {

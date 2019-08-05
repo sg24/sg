@@ -10,6 +10,12 @@ const fetchPost = (state, action) => {
     return updateObject(state, {posts: action.posts})
 };
 
+const changeFavPtStart = (state, action) => {
+    return updateObject(state, {
+        posts: action.isPost ? action.posts : state.posts,
+        filteredPost: action.isPost ? state.filteredPost : action.posts})
+};
+
 const changeFav = (state, action) => {
     return updateObject(state, {posts: action.posts})
 };
@@ -28,6 +34,8 @@ const reducer = (state = initialState, action) => {
             return fetchPost(state, action);
         case actionTypes.CHANGE_FAVORITE:
             return changeFav(state, action);
+        case actionTypes.CHANGE_FAVORITE_PT_START:
+            return changeFavPtStart(state, action);
         case actionTypes.CHANGE_FAVORITE_FILTER:
             return changeFavFilter(state, action);
         case actionTypes.FILTER_POST:

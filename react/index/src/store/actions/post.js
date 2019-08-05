@@ -42,6 +42,21 @@ export const changeFavInit = (posts, filteredPost, postID) => {
     };
 };
 
+export const changeFavPtStart = (posts, isPost) => {
+    return {
+        type: actionTypes.CHANGE_FAVORITE_PT_START,
+        posts,
+        isPost
+    };
+};
+
+export const changeFavPtFail = (post) => {
+    return {
+        type: actionTypes.CHANGE_FAVORITE_PT_START,
+        post
+    };
+};
+
 export const changeFav = (posts) => {
     return {
         type: actionTypes.CHANGE_FAVORITE,

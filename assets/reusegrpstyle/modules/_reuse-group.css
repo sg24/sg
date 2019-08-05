@@ -118,7 +118,7 @@
 
                 & > a {
                     text-decoration: none;
-                    color: $mainMiddleDarkBlue;
+                    color: $mainFontColor;
                 }
  
                 @mixin atSmall {
@@ -129,6 +129,7 @@
             &__opt {
                 position: relative;
                 font-size: .8125rem;
+                margin-top: 10px;
                 
                 &--join {
                     display: inline-block;

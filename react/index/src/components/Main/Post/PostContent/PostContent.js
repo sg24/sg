@@ -4,7 +4,8 @@ import './PostContent.css';
 import '../../../UI/ShareIcn/ShareIcn.css'; 
 import { transformNumber } from '../../../../shared/utility';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
- 
+import FavoriteActive from '../../../UI/FavoriteActive/FavoriteActive';
+
 const postContent = props => {
 
     let userOpt = null;
@@ -103,7 +104,7 @@ const postContent = props => {
                     <p className="reuse-pt__title">{props.pt.title}</p>
                     <p className="reuse-pt__description">
                         <a href={"/view/" + props.pt.id}>
-                            {props.pt.desc} <span>...</span>
+                            {props.pt.desc} 
                         </a>
                     </p>
                 
@@ -121,7 +122,12 @@ const postContent = props => {
                                     className="icon icon__reuse-pt--footer__chats" /> 
                                 {transformNumber(props.pt.comment)} 
                             </li>
-                            <li onClick={props.fav}>{fav}{transformNumber(props.pt.favorite)} </li>
+                            <li>
+                                <span onClick={props.fav}>{fav}</span>
+                                {transformNumber(props.pt.favorite)} 
+                                {props.pt.changeFavActive !== undefined ? <FavoriteActive 
+                                    active={props.pt.changeFavActive}/> : null}
+                            </li>
                         </ul>
                         {userOpt}
                     </div>

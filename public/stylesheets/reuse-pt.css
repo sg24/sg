@@ -207,7 +207,6 @@
     text-align: center;
     font-size: .9375rem;
     line-height: 1.5;
-    text-decoration: underline;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -215,6 +214,7 @@
 .reuse-pt__description a {
     color: #182427;
     cursor: pointer;
+    text-decoration: none;
 }
 
 @media (min-width: 800px) {
@@ -249,44 +249,15 @@
 }
 
 .reuse-pt__footer--list li {
+    position: relative;
     float: left;
-    padding: 15px 12px;
+    padding: 15px  0;
     font-style: italic;
     color: #182427;
     border-right: 1px solid #e9ebf2;
     cursor: default;
-}
-
-.reuse-pt__footer--list li:first-child {
-    padding-left: 5px;
-}
-
-@media (min-width: 335px) {
-
-    .reuse-pt__footer--list li:first-child {
-        padding-left: 8px;
-    }
-}
-
-@media (min-width: 530px) {
-
-    .reuse-pt__footer--list li:first-child {
-        padding-left: 18px;
-    }
-}
-
-@media (min-width: 530px) {
-
-    .reuse-pt__footer--list li {
-        padding: 15px;
-    }
-}
-
-@media (min-width: 800px) {
-
-    .reuse-pt__footer--list li {
-        padding: 15px 30px;
-    }
+    width: 100px;
+    text-align: center;
 }
 
 .reuse-pt__footer--list__item-middle {
@@ -442,19 +413,22 @@
 
 .icon__reuse-pt--footer__eye {
     color: #000;
-    margin-right: 5px;
+    margin-right: 8px;
+    font-size: .9375rem;
 }
 
 .icon__reuse-pt--footer__chats {
     color: #0284a8;
     cursor: pointer;
-    margin-right: 5px;
+    margin-right: 8px;
+    font-size: .9375rem;
 }
 
 .icon__reuse-pt--footer__heart {
     color: #ff1600;
     cursor: pointer;
-    margin-right: 5px;
+    margin-right: 8px;
+    font-size: .9375rem;
 }
 
 .icon__reuse-pt--header__tag {

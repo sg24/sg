@@ -29,7 +29,7 @@
 
     &--chat {
         top: -15px; 
-        right: -12px;
+        right: 10px;
         width: 24px;
         height: 24px;
         border-radius: 12px;
@@ -42,10 +42,6 @@
             transform:translateY(-50%);
             width: 100%;
             text-align: center;
-        }
- 
-        @mixin atSmall {
-            right: 10px;  
         }
     }
 

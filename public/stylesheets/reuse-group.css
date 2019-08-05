@@ -171,7 +171,7 @@
 
 .reuse-group__cnt--desc__title > a {
     text-decoration: none;
-    color: #437da3; 
+    color: #182427; 
 }
 
 @media (min-width: 530px) {
@@ -183,7 +183,8 @@
 
 .reuse-group__cnt--desc__opt {
     position: relative;
-    font-size: .8125rem; 
+    font-size: .8125rem;
+    margin-top: 10px; 
 }
 
 .reuse-group__cnt--desc__opt--join {
@@ -414,4 +415,4 @@
         margin: 40px 0px 60px 0px;
         padding: 0 20px; 
     } 
-}                
+}                 
