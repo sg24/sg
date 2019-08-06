@@ -85,7 +85,6 @@ class MainContent extends Component {
         return (
             <div className="site-main__content">
                 <div className="site-main__content--wrapper">
-                    <div className="site-main__content--top"></div>
                     <ul className="site-main__content--tab"> 
                         {mainNavProps}
                     </ul>  
