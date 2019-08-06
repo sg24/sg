@@ -7,6 +7,7 @@ import { fetchNotifyInitSaga,
             fetchNotifyActiveInitSaga,
             defaultNotifyActiveInitSaga,
             fetchShareActiveInitSaga } from './header';
+import { fetchAddpostInitSaga } from './addpost';
             
 export function* watchHeader() {
      yield all([
@@ -17,4 +18,10 @@ export function* watchHeader() {
         takeEvery(actionTypes.DEFAULT_NOTIFYACTIVE_INIT, defaultNotifyActiveInitSaga),
         takeEvery(actionTypes.FETCH_SHARE_ACTIVE_INIT, fetchShareActiveInitSaga)
      ])
+}
+
+export function* watchAddpost() {
+    yield all([
+       takeEvery(actionTypes.FETCH_PT_CATEG_INIT, fetchAddpostInitSaga)
+    ])
 }

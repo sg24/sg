@@ -95,7 +95,6 @@
             background-color: #fff;
             border-radius: 3px;
             font-size: .875rem;
-            /* border: 1px solid $mainDarkGray;  */
             box-shadow: inset 0 0px 1px 0px rgba($mainDarkBlack, .95);
 
             &__wrapper {
@@ -134,7 +133,6 @@
                     left: 150px;
                     padding: 8px 0px;
                     width: 120px;
-                    /* border: 1px solid $mainDarkGray; */
                     box-shadow: 0 2px 5px 0 rgba($mainDarkBlack, .45);
                 }
 
@@ -267,7 +265,6 @@
             background-color: $mainHeaderColor;
             font-size: .8125rem;
             margin-top: 10px;
-            /* display: none; */
     
             & > h3 {
                 text-align: center; 
@@ -330,19 +327,6 @@
         width: 95%;
         background-color: #fff;
         z-index: 2;
-
-        &--img, &--vid, &--user {
-            opacity: 0;
-            visibility: hidden;
-            transition: all .3s ease-in;
-
-            &__visible {
-                opacity: 1;
-                visibility: visible;
-                z-index: 2;
-                transition: all .3s ease-in;
-            }
-        }
 
         & > h4 {
             padding: 10px 0;

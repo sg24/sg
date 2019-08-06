@@ -20,3 +20,8 @@ export {
     fetchShareactiveInit,
     fetchShareActive
 } from './header';
+
+export {
+    fetchPtCategInit,
+    fetchPtCateg
+} from './addpost';

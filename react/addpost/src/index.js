@@ -11,9 +11,11 @@ import App from './App';
 import './index.css';
 import auth from './store/reducers/auth';
 import header from './store/reducers/header';
+import addPost from './store/reducers/addpost';
 
 import { 
-        watchHeader
+        watchHeader,
+        watchAddpost
     } from './store/sagas/index';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -21,7 +23,8 @@ const sagaMiddleware = createSagaMiddleware();
 
 const rootReducers = combineReducers({
     auth,
-    header
+    header,
+    addPost
 })
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
@@ -29,6 +32,7 @@ const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(rootReducers, composeEnhancer(applyMiddleware(sagaMiddleware)));
 
 sagaMiddleware.run(watchHeader);
+sagaMiddleware.run(watchAddpost);
 
 library.add(fas,far)
 
