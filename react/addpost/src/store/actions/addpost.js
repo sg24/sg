@@ -12,3 +12,17 @@ export const fetchPtCateg = (ptCateg) =>  {
         ptCateg
     }; 
 }; 
+
+export const addPtCategInit = (categ) =>  {
+    return {
+        type: actionTypes.ADD_PT_CATEG_INIT,
+        categ
+    }; 
+}; 
+
+export const addPtCateg = (ptCateg) =>  {
+    return {
+        type: actionTypes.ADD_PT_CATEG,
+        ptCateg
+    }; 
+}; 

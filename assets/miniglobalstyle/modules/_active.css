@@ -3,8 +3,6 @@
     background-color: $mainDarkRed;
     color: #fff;
     font-size: .875rem;
-  
-
     &--header {
         z-index: 1;
         top: -8px;
@@ -36,4 +34,9 @@
         }
     }
 
+}
+
+.active-header-nav {
+    background-color: $mainDarkBlue; 
+    color: #fff;
 }

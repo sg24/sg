@@ -23,5 +23,7 @@ export {
 
 export {
     fetchPtCategInit,
-    fetchPtCateg
+    fetchPtCateg,
+    addPtCategInit,
+    addPtCateg
 } from './addpost';

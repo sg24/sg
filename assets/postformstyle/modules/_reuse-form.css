@@ -207,6 +207,32 @@
                     margin-right: 10px;
                     border: 1px solid $mainDarkGray;
                     background-color: $mainHeaderColor;
+
+                    & > button {
+                        position: absolute;
+                        width: 35px;
+                        background-color: $mainMiddleDarkBlue;
+                        border: none;
+                        outline: none;
+                        color: #fff;
+                        right: 10px;
+                        top: 0;
+                        bottom: 0;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        cursor: pointer;
+                        box-shadow: 0 0 1px 0 rgba($mainDarkGray, 1);
+
+                        &:disabled {
+                            cursor: not-allowed;
+                            background-color: rgba($mainMiddleDarkBlue, .45)
+                        }
+
+                        &:not(:disabled):hover {
+                            background-color:$mainDarkPaleBlue;
+                        }
+                    }
                 }
             }
 
@@ -217,6 +243,7 @@
                 margin: 0;
                 border-radius: 3px;
                 background-color: transparent;
+                outline: none;
 
                 &--lg {
                     padding: 12px 10px;
@@ -280,6 +307,10 @@
                 margin: 0;
                 padding: 14px 10px 0 10px;
                 @mixin clearfix;
+
+                &--active {
+                    animation: category 3s linear 250ms 1 alternate forwards;
+                }                
     
                 & > li {
                     float: left;

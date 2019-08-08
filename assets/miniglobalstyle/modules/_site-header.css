@@ -5,7 +5,7 @@
     width: 100%;
     top: -1px; 
     padding: 6px 0;
-    z-index: 6;  
+    z-index: 5;  
     box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2); 
     -o-box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2);
     -ms-box-shadow: 0 2px 2px 1px rgba($mainDarkBlack, .2);
@@ -296,6 +296,12 @@
                     border-width: 14px;
                     top: -28px;
 
+
+                    @mixin atMiniSmall {
+                        left: 66%;
+                        transform: translateX(-66%)
+                    }
+
                     @mixin atSmall {
                         left: 80%;
                         transform: translateX(-80%);
@@ -338,8 +344,14 @@
                     transition: all .3s ease-out;
                 }
 
-                @mixin atSmall {
+                @mixin atMiniSmall {
                     width: 25rem; 
+                    left: 66%;
+                    transform: translateX(-66%); 
+                    right: auto;
+                }
+
+                @mixin atSmall {
                     left: 80%;
                     transform: translateX(-80%);
                 }

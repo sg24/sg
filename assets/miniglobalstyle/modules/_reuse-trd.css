@@ -6,7 +6,7 @@
 
     &__cnt {  
        padding: 0;
-       
+
        &--notify {
             margin: 20px 10px 0 10px;
        }
@@ -51,7 +51,7 @@
             font-weight: 400; 
             text-align: left;
             color: $mainFontColor;
-            font-size: .875rem; 
+            font-size: .9375rem; 
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;

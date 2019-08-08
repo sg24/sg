@@ -38,3 +38,7 @@ export const FETCH_SHARE_ACTIVE = 'FETCH_SHARE_ACTIVE';
 
 export const FETCH_PT_CATEG_INIT = 'FETCH_PT_CATEG_INIT';
 export const FETCH_PT_CATEG = 'FETCH_PT_CATEG';
+export const ADD_PT_CATEG_INIT = 'ADD_PT_CATEG_INIT';
+export const ADD_PT_CATEG = 'ADD_PT_CATEG';
+
+

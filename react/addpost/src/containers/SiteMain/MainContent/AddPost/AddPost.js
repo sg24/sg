@@ -14,18 +14,26 @@ class AddPost extends  Component {
     state = {
         showPtCateg: false,
         categs: [],
+        addCateg: null,
+        disable: true,
+        addNewCateg: true,
+        addCategInput: '',
+        categActiveProps: {
+            active: false,
+            index: null
+        },
         showAddItm: false,
         showVidOpt: false,
         showImgOpt: false,
-        showUserOpt: false
+        showUserOpt: false,
     }
 
-    addItemHandler = () => {
-        this.setState((prevState, props) => {
-            return {
-                showAddItm: !prevState.showAddItm
-            };
-        });
+    componentDidUpdate() {
+        if (this.state.addNewCateg && this.props.newPtCateg) {
+            let categs = [...this.state.categs]
+            categs.push(this.props.newPtCateg);
+            this.setState({categs,addNewCateg: false})
+        }
     }
 
     showPostCategHandler = () => {
@@ -37,9 +45,45 @@ class AddPost extends  Component {
             return
         }
         this.setState({
-            showPtCateg: false
-        });
+            showPtCateg: false});
+    }
 
+    selectCategHandler = (categ) => {
+        let categs = [...this.state.categs]
+        categs.push(categ);
+        this.setState({categs})
+    }
+
+    addCategHandler = (event) => {
+        let value =  event.target.value;
+        this.setState({addCateg: value, addCategInput: value, disable: value.length < 4})
+    }
+
+    addNewCategHandler = () => {
+        this.props.onAddCateg(this.state.addCateg);
+        this.setState({addNewCateg: true, addCategInput: '', disable: true })
+    }
+
+    categActiveHandler = (index) => {
+        this.setState({categActiveProps: {active: true, index}})
+    }
+
+    categDefaultHandler = () => {
+        this.setState({categActiveProps: {active: false, index: null}})
+    }
+
+    removeCategSelectHandler = (index) => {
+        let category = [...this.state.categs]
+            .filter((categ, categIndex) => categIndex !== index);
+            this.setState({categs: category})
+    }
+
+    addItemHandler = () => {
+        this.setState((prevState, props) => {
+            return {
+                showAddItm: !prevState.showAddItm
+            };
+        });
     }
 
     showOptHandler = (opt) => {
@@ -53,12 +97,6 @@ class AddPost extends  Component {
             return 
         }
         this.setState({showUserOpt: true,showImgOpt: false,showVidOpt: false});
-    }
-
-    selectCategHandler = (categ) => {
-        let categs = [...this.state.categs]
-        categs.push(categ);
-        this.setState({categs})
     }
 
     submitHandler = (props) => {
@@ -100,7 +138,11 @@ class AddPost extends  Component {
                     </h3>
                     <ul className="reuse-form__cnt--tag__itm">
                         <Categs 
-                            categs={this.state.categs}/> 
+                            categs={this.state.categs}
+                            categActive={this.categActiveHandler}
+                            categActiveProps={this.state.categActiveProps}
+                            categDefault={this.categDefaultHandler}
+                            removeCategSelect={this.removeCategSelectHandler}/> 
                     </ul>
                 </div>
             )
@@ -143,7 +185,19 @@ class AddPost extends  Component {
                                             <div>OR</div>
                                         </div>
                                         <div className="reuse-form__cnt--det__alt--cnt">
-                                            <input type="text" name="" id="" className="reuse-form__cnt--det__input" placeholder="Add Category" />
+                                            <input 
+                                                type="text" name="" id="" 
+                                                className="reuse-form__cnt--det__input" 
+                                                placeholder="Add Category" 
+                                                value={this.state.addCategInput}
+                                                onChange={this.addCategHandler}/>
+                                            <button
+                                                type="button"
+                                                onClick={this.addNewCategHandler}
+                                                disabled={this.state.disable}>
+                                                <FontAwesomeIcon 
+                                                icon={['fas', 'plus']} />
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -223,13 +277,15 @@ class AddPost extends  Component {
 
 const mapStateToProps = state => {
     return {
-        ptCateg: state.addPost.ptCateg
+        ptCateg: state.addPost.ptCateg,
+        newPtCateg: state.addPost.newPtCateg
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchPtCateg: () => dispatch(actions.fetchPtCategInit())
+        onFetchPtCateg: () => dispatch(actions.fetchPtCategInit()),
+        onAddCateg: (categ) => dispatch(actions.addPtCategInit(categ))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddPost);
