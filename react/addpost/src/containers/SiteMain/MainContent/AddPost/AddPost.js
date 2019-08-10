@@ -37,7 +37,7 @@ class AddPost extends  Component {
             categs.push(this.props.newPtCateg);
             this.setState({categs,addNewCateg: false})
         }
-        if (this.state.showAddItmOpt && this.props.hidAddItm) {
+        if (this.state.showAddItmOpt && this.props.hideMediaBox) {
             this.props.onShowAddItm();
             this.setState({showVidOpt: false,showImgOpt: false,showUserOpt: false, showAddItmOpt: false});
         }
@@ -104,10 +104,6 @@ class AddPost extends  Component {
             return 
         }
         this.setState({showUserOpt: true,showImgOpt: false,showVidOpt: false, showAddItmOpt: true});
-    }
-
-    hidAddItmHandler = () => {
-        this.setState({showVidOpt: false, showImgOpt: false, showUserOpt: false})
     }
 
     submitHandler = (props) => {
@@ -261,9 +257,9 @@ class AddPost extends  Component {
                         </div>
                     </div>
                     
-                    { this.state.showImgOpt ? <Aux><Backdrop hidAddItm={this.hidAddItmHandler}></Backdrop><AddImage /></Aux> : null }
-                    { this.state.showVidOpt ? <Aux><Backdrop hidAddItm={this.hidAddItmHandler}></Backdrop><AddVideo /></Aux> : null }
-                    { this.state.showUserOpt ? <Aux><Backdrop hidAddItm={this.hidAddItmHandler}></Backdrop><AddUsers /></Aux> : null}
+                    { this.state.showImgOpt ? <Aux><Backdrop></Backdrop><AddImage /></Aux> : null }
+                    { this.state.showVidOpt ? <Aux><Backdrop></Backdrop><AddVideo /></Aux> : null }
+                    { this.state.showUserOpt ? <Aux><Backdrop></Backdrop><AddUsers /></Aux> : null}
             
                     <div className="reuse-form__footer reuse-form__btn">
                         <button type="submit" className="reuse-form__btn--dft">
@@ -289,7 +285,7 @@ const mapStateToProps = state => {
     return {
         ptCateg: state.addPost.ptCateg,
         newPtCateg: state.addPost.newPtCateg,
-        hidAddItm: state.addPost.hidAddItm,
+        hideMediaBox: state.addPost.hideMediaBox,
         image: state.addPost.image
     };
 };

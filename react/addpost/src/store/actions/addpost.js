@@ -27,41 +27,41 @@ export const addPtCateg = (ptCateg) =>  {
     }; 
 }; 
 
-export const hidAddItm = () =>  {
-    return {
-        type: actionTypes.HID_ADD_ITM,
-    }; 
-}; 
-
 export const showAddItm = () =>  {
     return {
         type: actionTypes.SHOW_ADD_ITM,
     }; 
 }; 
 
-export const checkImageInit = (imageLink) =>  {
+export const checkLinkInit = (link) =>  {
     return {
-        type: actionTypes.CHECK_IMAGE_INIT,
-        imageLink
+        type: actionTypes.CHECK_LINK_INIT,
+        link
     }; 
 }; 
 
-export const checkImage = (isValid) =>  {
+export const checkLink = (isValid) =>  {
     return {
-        type: actionTypes.CHECK_IMAGE,
+        type: actionTypes.CHECK_LINK,
         isValid
     }; 
 }; 
 
-export const selectImage = (isValid) =>  {
+export const resetLink = () =>  {
     return {
-        type: actionTypes.SELECT_IMAGE
+        type: actionTypes.RESET_LINK
     }; 
 }; 
 
-export const addImage = (image) =>  {
+export const submitMedia = (media) =>  {
     return {
-        type: actionTypes.ADD_IMAGE,
-        image
+        type: actionTypes.SUBMIT_MEDIA,
+        media
+    }; 
+}; 
+
+export const hideMediaBox = () =>  {
+    return {
+        type: actionTypes.HIDE_MEDIA_BOX,
     }; 
 }; 

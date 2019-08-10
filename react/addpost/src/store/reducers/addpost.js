@@ -5,8 +5,8 @@ const initialState = {
     ptCateg: null,
     newPtCateg: null,
     hidAddItm: false,
-    imgValid: false,
-    image: null
+    linkValid: false,
+    media: {}
 };
 
 const fetchPtCateg = (state, action) => {
@@ -17,24 +17,24 @@ const addPtCateg = (state, action) => {
     return updateObject(state, {newPtCateg: action.ptCateg})
 };
 
-const hidAddItm = (state, action) => {
-    return updateObject(state, {hidAddItm: true})
-};
-
 const showAddItm = (state, action) => {
-    return updateObject(state, {hidAddItm: false})
+    return updateObject(state, {hideMediaBox: false})
 };
 
-const checkImage = (state, action) => {
-    return updateObject(state, {imgValid: action.isValid})
+const checkLink = (state, action) => {
+    return updateObject(state, {linkValid: action.isValid})
 };
 
-const selectImage = (state, action) => {
-    return updateObject(state, {imgValid: false})
+const resetLink = (state, action) => {
+    return updateObject(state, {linkValid: false})
 };
 
-const addImage = (state, action) => {
-    return updateObject(state, {image: action.image, hidAddItm: true})
+const submitMedia = (state, action) => {
+    return updateObject(state, {media: action.media, hideMediaBox: true})
+};
+
+const hideMediaBox = (state, action) => {
+    return updateObject(state, {hideMediaBox: true})
 };
 
 const reducer = (state = initialState, action) => {
@@ -43,16 +43,16 @@ const reducer = (state = initialState, action) => {
             return fetchPtCateg(state, action);
         case actionTypes.ADD_PT_CATEG:
             return addPtCateg(state, action);
-        case actionTypes.HID_ADD_ITM:
-            return hidAddItm(state, action);
+        case actionTypes.HIDE_MEDIA_BOX:
+            return hideMediaBox(state, action);
         case actionTypes.SHOW_ADD_ITM:
             return showAddItm(state, action);
-        case actionTypes.CHECK_IMAGE:
-            return checkImage(state, action);
-        case actionTypes.SELECT_IMAGE:
-            return selectImage(state, action);
-        case actionTypes.ADD_IMAGE:
-            return addImage(state, action);
+        case actionTypes.CHECK_LINK:
+            return checkLink(state, action);
+        case actionTypes.RESET_LINK:
+            return resetLink(state, action);
+        case actionTypes.SUBMIT_MEDIA:
+            return submitMedia(state, action);
         default: return state
     };
 };

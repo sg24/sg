@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import * as actions from '../../../../../store/actions/index';
-import Images from '../../../../../components/Main/Images/Images';
+import MediaItems from '../../../../../components/Main/MediaItems/MediaItems';
 
 class AddImage extends Component {
     state = {
@@ -17,7 +17,7 @@ class AddImage extends Component {
     };
 
     componentDidUpdate() {
-        if (!this.state.imglinkValid && this.props.imgValid) {
+        if (!this.state.imglinkValid && this.props.linkValid) {
             this.setState({imglinkValid: true, disabled: false})
         }
     }
@@ -29,17 +29,17 @@ class AddImage extends Component {
     imageLinkHandler = (event) => {
         let value =  event.target.value;
         this.setState({imageLink: value, value, disabled: true, imglinkValid: false});
-        this.props.onCheckImage(value);
+        this.props.onCheckLink(value);
     }
 
     addImageHandler = () => {
-        if (this.props.imgValid) {
+        if (this.props.linkValid) {
             let images = [...this.state.images];
             let index = images.length + this.state.multiImage.length;
             images.push({index ,link: this.state.imageLink});
             this.setState({
                 images: images, disabled: true, value: '', imglinkValid: false});
-            this.props.onSelectImage();
+            this.props.onResetLink();
         }
     }
 
@@ -119,14 +119,14 @@ class AddImage extends Component {
         let imageViewer = null;
         let multiImageViewer = null;
 
-        if (this.props.imgValid && this.state.imglinkValid) {
+        if (this.props.linkValid && this.state.imglinkValid) {
             imageLink = <img src={this.state.imageLink} alt="post" />
         }
 
         if (this.state.images.length > 0) {
             imageViewer = (
                 <div className="reuse-form__itm--det__view-select">
-                    <Images 
+                    <MediaItems 
                         images={this.state.images}
                         removeImage={this.removeImageHandler}
                         addActive={this.addActiveHandler}
@@ -139,7 +139,7 @@ class AddImage extends Component {
         if (this.state.multiImage.length > 0) {
             multiImageViewer = (
                 <div className="reuse-form__itm--det__view-select">
-                    <Images 
+                    <MediaItems 
                         images={this.state.multiImage}
                         removeImage={this.removeMultiImageHandler}
                         addActive={this.addActiveHandler}
@@ -162,12 +162,13 @@ class AddImage extends Component {
                         <label className="reuse-form__cnt--title">Image Link</label>
                         <div className="reuse-form__cnt--det">
                             <input 
-                                type="text" 
+                                type="url" 
                                 name="" 
                                 className="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg" 
                                 placeholder="paste link"
                                 onChange={this.imageLinkHandler}
-                                value={this.state.value} />
+                                value={this.state.value} 
+                                pattern="https://.*"/>
                                 <button
                                     type="button"
                                     onClick={this.addImageHandler}
@@ -221,15 +222,13 @@ class AddImage extends Component {
 
 const mapStateToProps = state => {
     return {
-        imgValid: state.addPost.imgValid
+        linkValid: state.addPost.linkValid,
+        media: state.addPost.media
     };
 };
+
 const mapDispatchToProps = dispatch => {
     return {
-        onHidAddItm: () => dispatch(actions.hidAddItm()),
-        onCheckImage: (imageLink) => dispatch(actions.checkImageInit(imageLink)),
-        onSelectImage: () => dispatch(actions.selectImage()),
-        onAddImage: (image) => dispatch(actions.addImage(image))
     };
 };
 

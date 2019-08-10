@@ -26,10 +26,10 @@ export {
     fetchPtCateg,
     addPtCategInit,
     addPtCateg,
-    hidAddItm,
     showAddItm,
-    checkImageInit,
-    checkImage,
-    selectImage,
-    addImage
+    checkLinkInit,
+    checkLink,
+    resetLink,
+    submitMedia,
+    hideMediaBox
 } from './addpost';

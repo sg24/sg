@@ -5,11 +5,17 @@ import * as actions from '../../store/actions/index';
 import MainContent from './MainContent/MainContent';
 
 class SiteMain extends Component {
+    checkHeaderDefault = () => {
+        if (!this.props.default) {
+            this.props.onNavDefault()
+        }
+    }
+
     render() {
         return (
             <div 
                 className="site-main site-main__fm" 
-                onClick={this.props.onNavDefault}>
+                onClick={this.checkHeaderDefault}>
             <div className="wrapper__exmain">
                 <MainContent />
             </div>
@@ -18,10 +24,16 @@ class SiteMain extends Component {
     }
 }
 
+const mapStateToProps = state => {
+   return {
+        default: state.header.default
+   };
+}
+
 const mapDispatchToProps = dispatch => {
     return {
         onNavDefault: () => dispatch(actions.headerNavDefault())
     };
 };
 
-export default connect(null, mapDispatchToProps)(SiteMain); 
+export default connect(mapStateToProps, mapDispatchToProps)(SiteMain); 

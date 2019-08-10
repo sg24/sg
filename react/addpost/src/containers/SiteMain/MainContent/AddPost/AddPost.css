@@ -944,6 +944,16 @@
     margin-top: 10px;
 }
 
+.reuse-form__itm--det__view > video {
+    display: block;
+    width: 100%;
+    height: 200px;
+    -o-object-fit: contain;
+       object-fit: contain;
+    -o-object-position: 50% 50%;
+       object-position: 50% 50%;
+}
+
 .reuse-form__itm--det__view-select {
     background-color: #f9f9f9;
     width: 100%;
@@ -957,18 +967,18 @@
     display: table;
 }
 
-.reuse-form__itm--det__view-select--img-wrapper {
+.reuse-form__itm--det__view-select--media {
     float: left;
     width: 33.333%;
     padding: 20px;
 }
 
-.reuse-form__itm--det__view-select--img-wrapper__wrapper {
+.reuse-form__itm--det__view-select--media__wrapper {
     position: relative;
     width: 100%;
 }
 
-.reuse-form__itm--det__view-select--img-wrapper__wrapper--img {
+.reuse-form__itm--det__view-select--media__wrapper--img, .reuse-form__itm--det__view-select--media__wrapper--vid {
     height: 120px;
     width: 100%;
     image-rendering: -webkit-optimize-contrast;
@@ -978,14 +988,15 @@
     -o-object-fit: fill;
        object-fit: fill;
     border: 1px solid #dcdbdc;
+    display: block;
 }
 
-.reuse-form__itm--det__view-select--img-wrapper__wrapper--img__active {
-    box-shadow: 0 0 1px 1px rgba(0,0,0, .45);
+.reuse-form__itm--det__view-select--media__wrapper--img__active, .reuse-form__itm--det__view-select--media__wrapper--vid__active {
+    box-shadow: 0 0 1px 1px rgba(255,22,0, .45);
     transition: all .3s ease-in;
 }
 
-.reuse-form__itm--det__view-select--img-wrapper__wrapper--close {
+.reuse-form__itm--det__view-select--media__wrapper--close {
     position: absolute;
     top: -9px;
     right: -9px;
@@ -1004,8 +1015,8 @@
     cursor: pointer;
 }
 
-.reuse-form__itm--det__view-select--img-wrapper__wrapper--close__active {
-    box-shadow: 0 0 1px 1px rgba(0,0,0, .45);
+.reuse-form__itm--det__view-select--media__wrapper--close__active {
+    box-shadow: 0 0 1px 1px rgba(255,22,0, .45);
     transition: all .3s ease-in;
 }
 
@@ -1079,8 +1090,13 @@
     background-color: #437da3;
 }
 
-.reuse-form__btn--add:hover {
-    background-color: #05578b;
+.reuse-form__btn--add:disabled {
+    cursor: not-allowed;
+    background-color: rgba(67,125,163, .45)
+}
+
+.reuse-form__btn--add:not(:disabled):hover {
+    background-color:#05578b;
 }
 
 .reuse-form__btn--que {
