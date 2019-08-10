@@ -22,3 +22,12 @@ export function* addPostCategInitSaga(action) {
     }
     yield put(actions.addPtCateg(action.categ));
 }
+
+export function* checkImageInitSaga(action) {
+    if (action.imageLink && action.imageLink.length > 10) {
+       yield put(actions.checkImage(true));
+       return
+    }
+    yield put(actions.checkImage(false));
+}
+

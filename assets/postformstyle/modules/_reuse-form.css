@@ -6,23 +6,14 @@
     font-size: .875rem;
 
     &__overlay {
-        position: absolute;
+        position: fixed;
         top: 0;
         bottom: 0;
         right: 0;
         left: 0;
         background-color: rgba($mainDarkBlack, .6);
         z-index: 2;
-        opacity: 0;
-        visibility: hidden;
         transition: all .3s ease-in;
-
-        &--visible {
-            z-index: 2;
-            opacity: 1;
-            visibility: visible;
-            transition: all .3s ease-in;
-        }
     }
 
 
@@ -250,6 +241,33 @@
                 }
             }
 
+            &__btn {
+                position: absolute;
+                width: 35px;
+                background-color: $mainMiddleDarkBlue;
+                border: none;
+                outline: none;
+                color: #fff;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                box-shadow: 0 0 1px 0 rgba($mainDarkGray, 1);
+                border-radius: 0 3px 3px 0;
+
+                &:disabled {
+                    cursor: not-allowed;
+                    background-color: rgba($mainMiddleDarkBlue, .45)
+                }
+
+                &:not(:disabled):hover {
+                    background-color:$mainDarkPaleBlue;
+                }
+            }
+
             &__fil {
                 position: relative;
                 width: 100%;
@@ -352,12 +370,13 @@
     &__itm {
         position: absolute;
         font-size: .875rem;
-        top: 10%;
+        top: 5%;
         left: 50%;
         transform: translateX(-50%);
         width: 95%;
         background-color: #fff;
-        z-index: 2;
+        box-shadow: 0 1px 8px 4px rgba($mainDarkBlack, .65);
+        z-index: 3;
 
         & > h4 {
             padding: 10px 0;
@@ -518,7 +537,7 @@
 
         &--det {
             padding: 20px;
-            max-height: 300px;
+            max-height: 400px;
             overflow: hidden;
             overflow-y: auto;
 
@@ -553,6 +572,61 @@
                 overflow-y: auto;
                 margin-top: 10px;
             }
+
+            &__view-select {
+                background-color: $mainHeaderColor;
+                width: 100%;
+                margin-top: 10px;
+                padding: 0;
+                @mixin clearfix;
+
+                &--img-wrapper {
+                    float: left;
+                    width: 33.333%;
+                    padding: 20px;
+
+                    &__wrapper { 
+                        position: relative;
+                        width: 100%;
+
+                        &--img {
+                            height: 120px;
+                            width: 100%;
+                            image-rendering: -webkit-optimize-contrast;
+                            image-rendering: crisp-edges;
+                            object-position: 50% 50%;
+                            object-fit: fill;
+                            border: 1px solid $mainDarkGray;
+
+                            &__active {
+                                box-shadow: 0 0 1px 1px rgba($mainDarkBlack, .45);
+                                transition: all .3s ease-in;
+                            }
+                        }
+
+                        &--close {
+                            position: absolute;
+                            top: -9px;
+                            right: -9px;
+                            width: 18px;
+                            height: 18px;
+                            font-size: .625rem;
+                            border-radius: 9px;
+                            border: 1px solid $mainDarkGray;
+                            background-color: $mainExtraLightGray;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            cursor: pointer; 
+
+                            &__active {
+                                box-shadow: 0 0 1px 1px rgba($mainDarkBlack, .45);
+                                transition: all .3s ease-in;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         &--footer {
@@ -563,7 +637,7 @@
         }
 
         @mixin atSmall {
-            width: 80%;
+            width: 90%;
         }
     }
 

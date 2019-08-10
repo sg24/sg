@@ -9,6 +9,8 @@ import AddVideo from './AddVideo/AddVideo';
 import AddUsers from './AddUsers/AddUsers';
 import PtCategs from '../../../../components/Main/PostCategs/PostCategs';
 import Categs from '../../../../components/Main/PostCategs/Categs/Categs';
+import Backdrop from '../../../../components/UI/Backdrop/Backdrop';
+import Aux from '../../../../hoc/Auxs/Aux';
 
 class AddPost extends  Component {
     state = {
@@ -26,6 +28,7 @@ class AddPost extends  Component {
         showVidOpt: false,
         showImgOpt: false,
         showUserOpt: false,
+        showAddItmOpt: true
     }
 
     componentDidUpdate() {
@@ -33,6 +36,10 @@ class AddPost extends  Component {
             let categs = [...this.state.categs]
             categs.push(this.props.newPtCateg);
             this.setState({categs,addNewCateg: false})
+        }
+        if (this.state.showAddItmOpt && this.props.hidAddItm) {
+            this.props.onShowAddItm();
+            this.setState({showVidOpt: false,showImgOpt: false,showUserOpt: false, showAddItmOpt: false});
         }
     }
 
@@ -88,15 +95,19 @@ class AddPost extends  Component {
 
     showOptHandler = (opt) => {
         if (opt === 'image') {
-            this.setState({showImgOpt: true,showVidOpt: false, showUserOpt: false});
+            this.setState({showImgOpt: true,showVidOpt: false, showUserOpt: false, showAddItmOpt: true});
             return 
         }
 
         if (opt === 'video') {
-            this.setState({showVidOpt: true,showImgOpt: false,showUserOpt: false});
+            this.setState({showVidOpt: true,showImgOpt: false,showUserOpt: false, showAddItmOpt: true});
             return 
         }
-        this.setState({showUserOpt: true,showImgOpt: false,showVidOpt: false});
+        this.setState({showUserOpt: true,showImgOpt: false,showVidOpt: false, showAddItmOpt: true});
+    }
+
+    hidAddItmHandler = () => {
+        this.setState({showVidOpt: false, showImgOpt: false, showUserOpt: false})
     }
 
     submitHandler = (props) => {
@@ -151,7 +162,6 @@ class AddPost extends  Component {
         return (
             <form action="" className="reuse-form" onSubmit={this.submitHandler}>
                 <div className="reuse-form__wrapper">
-                    <div className="reuse-form__overlay"></div>
                     <h3 className="reuse-form__title">
                         <div>
                             <div>
@@ -251,9 +261,9 @@ class AddPost extends  Component {
                         </div>
                     </div>
                     
-                    { this.state.showImgOpt ? <AddImage /> : null }
-                    { this.state.showVidOpt ? <AddVideo /> : null }
-                    { this.state.showUserOpt ? <AddUsers /> : null}
+                    { this.state.showImgOpt ? <Aux><Backdrop hidAddItm={this.hidAddItmHandler}></Backdrop><AddImage /></Aux> : null }
+                    { this.state.showVidOpt ? <Aux><Backdrop hidAddItm={this.hidAddItmHandler}></Backdrop><AddVideo /></Aux> : null }
+                    { this.state.showUserOpt ? <Aux><Backdrop hidAddItm={this.hidAddItmHandler}></Backdrop><AddUsers /></Aux> : null}
             
                     <div className="reuse-form__footer reuse-form__btn">
                         <button type="submit" className="reuse-form__btn--dft">
@@ -278,14 +288,17 @@ class AddPost extends  Component {
 const mapStateToProps = state => {
     return {
         ptCateg: state.addPost.ptCateg,
-        newPtCateg: state.addPost.newPtCateg
+        newPtCateg: state.addPost.newPtCateg,
+        hidAddItm: state.addPost.hidAddItm,
+        image: state.addPost.image
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onFetchPtCateg: () => dispatch(actions.fetchPtCategInit()),
-        onAddCateg: (categ) => dispatch(actions.addPtCategInit(categ))
+        onAddCateg: (categ) => dispatch(actions.addPtCategInit(categ)),
+        onShowAddItm: () => dispatch(actions.showAddItm())
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddPost);

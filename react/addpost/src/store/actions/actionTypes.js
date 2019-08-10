@@ -40,5 +40,9 @@ export const FETCH_PT_CATEG_INIT = 'FETCH_PT_CATEG_INIT';
 export const FETCH_PT_CATEG = 'FETCH_PT_CATEG';
 export const ADD_PT_CATEG_INIT = 'ADD_PT_CATEG_INIT';
 export const ADD_PT_CATEG = 'ADD_PT_CATEG';
-
-
+export const HID_ADD_ITM = 'HID_ADD_ITM';
+export const SHOW_ADD_ITM = 'SHOW_ADD_ITM';
+export const CHECK_IMAGE_INIT = 'CHECK_IMAGE_INIT';
+export const CHECK_IMAGE = 'CHECK_IMAGE';
+export const SELECT_IMAGE = 'SELECT_IMAGE';
+export const ADD_IMAGE = 'ADD_IMAGE';

@@ -23,8 +23,16 @@
         font-size: .8125rem;
     }
 
+    &__reuse-form--itm--title {
+        margin-right: 8px; 
+    }
+
     &__reuse-form__cnt--categ {
         margin-right: 10px;
+    }
+
+    &__reuse-form--view-select__close {
+        color: $mainLightRed;
     }
 
     &__reuse-form__cnt--tag__close {

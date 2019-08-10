@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class AddVideo extends Component {
     state = {
@@ -8,7 +9,12 @@ class AddVideo extends Component {
     render() {
         return(
             <div className="reuse-form__itm reuse-form__itm--vid">
-                <h4 className="reuse-form__itm--title">Add Video</h4>
+                <h4 className="reuse-form__itm--title">
+                    <FontAwesomeIcon 
+                        icon={['fas', 'video']}
+                        className="icon icon__reuse-form--itm--title" />
+                    Add Video
+                </h4>
                 <div className="reuse-form__itm--det">
                     <div className="reuse-form__cnt">
                         <label className="reuse-form__cnt--title">Video Link</label>

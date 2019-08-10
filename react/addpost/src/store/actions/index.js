@@ -25,5 +25,11 @@ export {
     fetchPtCategInit,
     fetchPtCateg,
     addPtCategInit,
-    addPtCateg
+    addPtCateg,
+    hidAddItm,
+    showAddItm,
+    checkImageInit,
+    checkImage,
+    selectImage,
+    addImage
 } from './addpost';
