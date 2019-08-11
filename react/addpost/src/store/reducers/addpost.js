@@ -17,10 +17,6 @@ const addPtCateg = (state, action) => {
     return updateObject(state, {newPtCateg: action.ptCateg})
 };
 
-const showAddItm = (state, action) => {
-    return updateObject(state, {hideMediaBox: false})
-};
-
 const checkLink = (state, action) => {
     return updateObject(state, {linkValid: action.isValid})
 };
@@ -37,6 +33,11 @@ const hideMediaBox = (state, action) => {
     return updateObject(state, {hideMediaBox: true})
 };
 
+
+const showMediaBox = (state, action) => {
+    return updateObject(state, {hideMediaBox: false})
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_PT_CATEG:
@@ -45,8 +46,8 @@ const reducer = (state = initialState, action) => {
             return addPtCateg(state, action);
         case actionTypes.HIDE_MEDIA_BOX:
             return hideMediaBox(state, action);
-        case actionTypes.SHOW_ADD_ITM:
-            return showAddItm(state, action);
+        case actionTypes.SHOW_MEDIA_BOX:
+            return showMediaBox(state, action);
         case actionTypes.CHECK_LINK:
             return checkLink(state, action);
         case actionTypes.RESET_LINK:

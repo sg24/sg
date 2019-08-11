@@ -183,6 +183,7 @@ class AddVideo extends Component {
                                 <input 
                                     type="file" 
                                     name="" 
+                                    multiple
                                     className="reuse-form__cnt--det__fil--input"
                                     onChange={this.selectMediaHandler}
                                     onDragEnter={this.dragEnterMediaHandler}

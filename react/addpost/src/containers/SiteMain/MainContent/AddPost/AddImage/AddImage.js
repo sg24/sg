@@ -3,53 +3,43 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import * as actions from '../../../../../store/actions/index';
+import { updateObject } from '../../../../../shared/utility';
 import MediaItems from '../../../../../components/Main/MediaItems/MediaItems';
 
 class AddImage extends Component {
     state = {
-        value: '',
-        imageLink: null,
+        inputValue: '',
+        link: null,
         disabled: true,
-        imglinkValid: false,
-        images: [],
-        multiImage: [],
-        removeImgIndex: null
+        default: false,
+        media: [],
+        removeMediaItemIndex: null,
+        addMediaButton: true
     };
 
     componentDidUpdate() {
-        if (!this.state.imglinkValid && this.props.linkValid) {
-            this.setState({imglinkValid: true, disabled: false})
+        if (!this.state.default && this.props.linkValid) {
+            this.setState({default: true, disabled: false})
         }
     }
 
-    hidAddItemHandler = () => {
-        this.props.onHidAddItm();
+    linkVerifyHandler = (event) => {
+        let inputValue =  event.target.value;
+        this.setState({link: inputValue, inputValue, disabled: true, default: false});
+        this.props.onCheckLink(inputValue);
     }
 
-    imageLinkHandler = (event) => {
-        let value =  event.target.value;
-        this.setState({imageLink: value, value, disabled: true, imglinkValid: false});
-        this.props.onCheckLink(value);
-    }
-
-    addImageHandler = () => {
+    addMediaHandler = () => {
         if (this.props.linkValid) {
-            let images = [...this.state.images];
-            let index = images.length + this.state.multiImage.length;
-            images.push({index ,link: this.state.imageLink});
+            let media = [...this.state.media];
+            media.push(this.state.link);
             this.setState({
-                images: images, disabled: true, value: '', imglinkValid: false});
+                media: media, disabled: true, inputValue: '', default: false});
             this.props.onResetLink();
         }
     }
 
-    removeImageHandler = (index) => {
-        let images = [...this.state.images];
-        let updatedImage = images.filter((image, imageIndex) => imageIndex !== index);
-        this.setState({images: updatedImage})
-    }
-
-    imageAddedHandler =  (event) => {
+    selectMediaHandler = (event) => {
         event.stopPropagation();
         event.preventDefault();
         if (event.target.files) {
@@ -58,7 +48,17 @@ class AddImage extends Component {
         }
     }
 
-    addMultiImageHandler = (event) => {
+    dragEnterMediaHandler = (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+
+    dragOverMediaHandler = (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+
+    dropMediaHandler = (event) => {
         event.stopPropagation();
         event.preventDefault();
         if (event.dataTransfer) {
@@ -66,85 +66,74 @@ class AddImage extends Component {
             const files = dt.files;
             this.handleFiles(files)
         }
-        
     }
 
-    removeMultiImageHandler = (index) => {
-        let multiImages = [...this.state.multiImage];
-        let updatedMultiImage = multiImages.filter((image, imageIndex) => imageIndex !== index);
-        this.setState({multiImage: updatedMultiImage})
+    removeMediaItemEnableHandler = (index) => {
+        this.setState({removeMediaItemIndex: index})
+    }
+
+    removeMediaItemDisableHandler = () => {
+        this.setState({removeMediaItemIndex: null})
     }
     
+    removeMediaItemHandler = (index) => {
+        let media = [...this.state.media];
+        let updatedMedia = media.filter((link, CurIndex)=>  CurIndex !== index);
+        this.setState({media:  updatedMedia});
+    }
+
     handleFiles = (files) => {
-        let multiImage = [...this.state.multiImage];
+        let media = [...this.state.media];
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
             if(file.type.startsWith('image/')) {
-                let index = this.state.images.length + multiImage.length;
-                multiImage.push({index , link: window.URL.createObjectURL(file)});
+                media.push(window.URL.createObjectURL(file));
                 window.URL.revokeObjectURL(file);
             }
         }
-        this.setState({
-            multiImage
-        });
+        this.setState({media});
     }
 
-    dragMultiImageHandler = (event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        
+    submitMediaHandler = () => {
+        let media = {...this.props.media};
+        for (let mediaType in media) {
+            if (mediaType === 'image') {
+                let updateMedia = [...this.props.media.image];
+                updateMedia.push(...this.state.media);
+                this.props.onSubmitMedia(updateObject(media, {image: updateMedia}));
+                return
+            }
+        }
+        this.props.onSubmitMedia(updateObject(media, {image: [...this.state.media]}));
     }
 
-    dropMultiImageHandler = (event) => {
-        event.stopPropagation();
-        event.preventDefault();
+    closeMediaBoxHandler = () => {
+        if (!this.state.media.length > 0 ) {
+            this.props.onhideMediaBox();
+        }  
     }
 
-    addActiveHandler = (index) => {
-        this.setState({removeImgIndex: index})
-    }
-
-    removeActiveHandler = () => {
-        this.setState({removeImgIndex: null})
-    }
-
-    submitImageHandler = () => {
-        let imageArray = [...this.state.images, ...this.state.multiImage];
-        this.props.onAddImage(imageArray);
-    }
 
     render() {
-        let imageLink = null;
-        let imageViewer = null;
-        let multiImageViewer = null;
+        let mediaPreview = null;
+        let mediaAddedViewer = null;
 
-        if (this.props.linkValid && this.state.imglinkValid) {
-            imageLink = <img src={this.state.imageLink} alt="post" />
+        if (this.props.linkValid && this.state.default) {
+            mediaPreview = (
+                <img src={this.state.link}  alt="post" />
+            )
         }
 
-        if (this.state.images.length > 0) {
-            imageViewer = (
+        if (this.state.media.length > 0) {
+            mediaAddedViewer = (
                 <div className="reuse-form__itm--det__view-select">
                     <MediaItems 
-                        images={this.state.images}
-                        removeImage={this.removeImageHandler}
-                        addActive={this.addActiveHandler}
-                        removeActive={this.removeActiveHandler}
-                        removeImgIndex={this.state.removeImgIndex}/>
-                </div>
-            ); 
-        }
-
-        if (this.state.multiImage.length > 0) {
-            multiImageViewer = (
-                <div className="reuse-form__itm--det__view-select">
-                    <MediaItems 
-                        images={this.state.multiImage}
-                        removeImage={this.removeMultiImageHandler}
-                        addActive={this.addActiveHandler}
-                        removeActive={this.removeActiveHandler}
-                        removeImgIndex={this.state.removeImgIndex}/>
+                       media={this.state.media}
+                       mediaType="image"
+                       removeMediaItemEnable={this.removeMediaItemEnableHandler}
+                       removeMediaItemDisable={this.removeMediaItemDisableHandler}
+                       removeMediaItemIndex={this.state.removeMediaItemIndex}
+                       removeMediaItem={this.removeMediaItemHandler}/>
                 </div>
             ); 
         }
@@ -166,12 +155,13 @@ class AddImage extends Component {
                                 name="" 
                                 className="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg" 
                                 placeholder="paste link"
-                                onChange={this.imageLinkHandler}
-                                value={this.state.value} 
+                                onChange={this.linkVerifyHandler}
+                                value={this.state.inputValue}
+                                spellCheck={false}
                                 pattern="https://.*"/>
                                 <button
                                     type="button"
-                                    onClick={this.addImageHandler}
+                                    onClick={this.addMediaHandler}
                                     disabled={this.state.disabled}
                                     className="reuse-form__cnt--det__btn">
                                     <FontAwesomeIcon 
@@ -180,9 +170,8 @@ class AddImage extends Component {
                         </div>
                     </div>
                     <div className="reuse-form__itm--det__view">
-                        { imageLink }
+                        { mediaPreview }
                     </div>
-                    { imageViewer }
                     <div className="reuse-form__itm--det__alt">
                         OR
                     </div>
@@ -195,25 +184,26 @@ class AddImage extends Component {
                                     name=""
                                     multiple
                                     className="reuse-form__cnt--det__fil--input"
-                                    onChange={this.imageAddedHandler}
-                                    onDragEnter={this.dragMultiImageHandler}
-                                    onDragOver={this.dropMultiImageHandler}
-                                    onDrop={this.addMultiImageHandler}
+                                    onChange={this.selectMediaHandler}
+                                    onDragEnter={this.dragEnterMediaHandler}
+                                    onDragOver={this.dragOverMediaHandler}
+                                    onDrop={this.dropMediaHandler}
                                     accept="image/*" />
                             </div>
                         </div>
                     </div>
-                    { multiImageViewer }
+                    { mediaAddedViewer }
                 </div>
                 <div className="reuse-form__itm--footer reuse-form__btn">
                     <button 
                         type="button" 
                         className="reuse-form__btn--close"
-                        onClick={this.hidAddItemHandler}>Exit</button>
+                        onClick={this.closeMediaBoxHandler}>Exit</button>
                     <button 
                         type="button" 
                         className="reuse-form__btn--add"
-                        onClick={this.submitImageHandler}>Add</button>
+                        onClick={this.submitMediaHandler}
+                        disabled={!this.state.media.length > 0}>Add</button>
                 </div>
             </div>
         );
@@ -229,6 +219,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        onCheckLink: (videoLink) => dispatch(actions.checkLinkInit(videoLink)),
+        onResetLink: () => dispatch(actions.resetLink()),
+        onSubmitMedia: (media) => dispatch(actions.submitMedia(media)),
+        onhideMediaBox: () => dispatch(actions.hideMediaBox())
     };
 };
 

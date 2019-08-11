@@ -38,7 +38,7 @@ class AddPost extends  Component {
             this.setState({categs,addNewCateg: false})
         }
         if (this.state.showAddItmOpt && this.props.hideMediaBox) {
-            this.props.onShowAddItm();
+            this.props.onShowMediaBox();
             this.setState({showVidOpt: false,showImgOpt: false,showUserOpt: false, showAddItmOpt: false});
         }
     }
@@ -294,7 +294,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchPtCateg: () => dispatch(actions.fetchPtCategInit()),
         onAddCateg: (categ) => dispatch(actions.addPtCategInit(categ)),
-        onShowAddItm: () => dispatch(actions.showAddItm())
+        onShowMediaBox: () => dispatch(actions.showMediaBox())
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddPost);

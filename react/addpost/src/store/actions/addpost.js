@@ -27,12 +27,6 @@ export const addPtCateg = (ptCateg) =>  {
     }; 
 }; 
 
-export const showAddItm = () =>  {
-    return {
-        type: actionTypes.SHOW_ADD_ITM,
-    }; 
-}; 
-
 export const checkLinkInit = (link) =>  {
     return {
         type: actionTypes.CHECK_LINK_INIT,
@@ -63,5 +57,11 @@ export const submitMedia = (media) =>  {
 export const hideMediaBox = () =>  {
     return {
         type: actionTypes.HIDE_MEDIA_BOX,
+    }; 
+}; 
+
+export const showMediaBox = () =>  {
+    return {
+        type: actionTypes.SHOW_MEDIA_BOX,
     }; 
 }; 
