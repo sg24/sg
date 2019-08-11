@@ -597,7 +597,7 @@
                         position: relative;
                         width: 100%;
 
-                        &--img, &--vid {
+                        &--cnt {
                             height: 120px;
                             width: 100%;
                             image-rendering: -webkit-optimize-contrast;
@@ -606,11 +606,11 @@
                             object-fit: fill;
                             border: 1px solid $mainDarkGray;
                             display: block;
+                        }
 
-                            &__active {
-                                box-shadow: 0 0 1px 1px rgba($mainLightRed, .45);
-                                transition: all .3s ease-in;
-                            }
+                        &--active {
+                            box-shadow: 0 0 1px 1px rgba($mainLightRed, .45);
+                            transition: all .3s ease-in;
                         }
 
                         &--close {

@@ -2,20 +2,18 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const mediaItem = props => {
-    let imgWrapperClass = ['reuse-form__itm--det__view-select--media__wrapper--img'];
+    let mediaCntClass = ['reuse-form__itm--det__view-select--media__wrapper'];
     let mediaCloseClass = ['reuse-form__itm--det__view-select--media__wrapper--close'];
-    let vidWrapperClass = ['reuse-form__itm--det__view-select--media__wrapper--vid'];
 
     let mediaType = (
             <img 
                 src={props.link} 
                 alt="post"
-                className={imgWrapperClass.join(' ')}/>
+                className="reuse-form__itm--det__view-select--media__wrapper--cnt"/>
     );
 
     if (props.index === props.removeMediaItemIndex) {
-        imgWrapperClass.push('reuse-form__itm--det__view-select--media__wrapper--img__active');
-        vidWrapperClass.push('reuse-form__itm--det__view-select--media__wrapper--vid__active');
+        mediaCntClass.push('reuse-form__itm--det__view-select--media__wrapper--active');
         mediaCloseClass.push('reuse-form__itm--det__view-select--media__wrapper--close__active');
     }
 
@@ -24,7 +22,7 @@ const mediaItem = props => {
             <video 
                 src={props.link} 
                 controls
-                className={vidWrapperClass.join(' ')}>
+                className="reuse-form__itm--det__view-select--media__wrapper--cnt">
                 <p>our browser doesn't support embedded videos</p>
             </video>
         );
@@ -32,7 +30,7 @@ const mediaItem = props => {
 
     return (
         <div className="reuse-form__itm--det__view-select--media">
-            <div className="reuse-form__itm--det__view-select--media__wrapper">
+            <div className={mediaCntClass.join(' ')}>
                 { mediaType }
                 <div 
                     className={mediaCloseClass.join(' ')}

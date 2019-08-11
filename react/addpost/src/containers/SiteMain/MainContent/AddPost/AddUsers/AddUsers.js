@@ -8,6 +8,7 @@ class AddUsers extends Component {
                     <li><div></div> Online</li>
                     <li><div></div> Offline</li>
                     <li className="reuse-form__itm--tab__srch">
+                        
                         <i class="fas fa-search icon icon__reuse-form--srch"></i>
                     </li>
                 </ul>

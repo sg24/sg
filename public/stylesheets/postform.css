@@ -978,7 +978,7 @@
     width: 100%;
 }
 
-.reuse-form__itm--det__view-select--media__wrapper--img, .reuse-form__itm--det__view-select--media__wrapper--vid {
+.reuse-form__itm--det__view-select--media__wrapper--cnt {
     height: 120px;
     width: 100%;
     image-rendering: -webkit-optimize-contrast;
@@ -991,7 +991,7 @@
     display: block;
 }
 
-.reuse-form__itm--det__view-select--media__wrapper--img__active, .reuse-form__itm--det__view-select--media__wrapper--vid__active {
+.reuse-form__itm--det__view-select--media__wrapper--active {
     box-shadow: 0 0 1px 1px rgba(255,22,0, .45);
     transition: all .3s ease-in;
 }
