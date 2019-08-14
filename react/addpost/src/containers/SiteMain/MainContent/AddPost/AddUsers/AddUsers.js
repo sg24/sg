@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import * as actions from '../../../../../store/actions/index';
 
 class AddUsers extends Component {
     render() {
@@ -7,18 +11,24 @@ class AddUsers extends Component {
                 <ul className="reuse-form__itm--tab">
                     <li><div></div> Online</li>
                     <li><div></div> Offline</li>
+                    <li> Users Selected</li>
                     <li className="reuse-form__itm--tab__srch">
-                        
-                        <i class="fas fa-search icon icon__reuse-form--srch"></i>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'search']}
+                            className="fas fa-search icon icon__reuse-form--srch" />
                     </li>
                 </ul>
 
-                <div className="reuse-form__itm--srch">
+                <div className="reuse-form__itm--srch reuse-form__itm--srch__visible">
                     <div className="reuse-form__itm--srch__close">
-                        <i class="fas fa-times"></i>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'times']}/>
                     </div>
                     <div className="reuse-form__itm--srch__wrapper">
-                        <div><i className="far fa-calendar-alt"></i></div>
+                        <div>
+                        <FontAwesomeIcon 
+                            icon={['far', 'calendar-alt']}/>
+                        </div>
                         <input type="text" className="reuse-form__itm--srch__input" placeholder="search..." />
                     </div>
                 </div>

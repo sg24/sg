@@ -1,0 +1,114 @@
+.reuse-user {
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0px 2px 9px 0px rgba($mainDarkBlack, .3);
+
+    &__det {
+        position: relative;
+        background-color: #fff;
+        border-radius: 10px;
+
+        &--img {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
+            -o-box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
+            -ms-box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
+            -webkit-box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
+            -moz-box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
+            width: 60px;
+            height: 60px;
+            background-color: $mainDarkBlue;
+            border-radius: 30px;
+
+            &__status {
+                position: absolute;
+                width: 8px;
+                height: 8px;
+                border-radius: 4px;
+                border: 1px solid $mainDarkGray;
+                bottom: 4px;
+                right: 8px;
+                
+                &--on {
+                    background-color: $mainLightGreen;
+                }
+
+                &--off {
+                    background-color: $mainLightRed;
+                }
+            }
+        }
+
+        &--user {
+            list-style: none;
+            @mixin clearfix;
+            font-size: .875rem;
+            margin: 0; 
+            padding: 10px 20px 10px 100px;
+
+            & > li {
+                float: none;
+                padding: 6px 0;
+                position: relative;
+
+                &:first-child {
+                    color: rgba($mainDarkBlack, .85);
+                    font-weight: 400;
+                    font-size: .9375rem;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+
+                    & > a {
+                        text-decoration: none;
+                        color: rgba($mainDarkBlack, .85);
+                        font-weight: 400;
+                    }
+                }
+
+                &:last-child {
+                    color: $mainDarkBlue;
+                    padding-left: 35px;
+                    
+                    & > div {
+                        position: absolute;
+                        left: 0; 
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 15px;
+                        border: 1px solid $mainDarkGray;
+                        background-color: $mainLightGray;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+
+        &--select {
+            position: absolute;
+            top: -5px;
+            right: -2px;
+            font-size: 1rem;
+            cursor: pointer;
+            color: $mainDarkGray;
+
+            &__clk {
+                color: $mainLightGreen;
+                transition: all .3s ease-in;
+            }
+        }
+
+        &:hover {
+            box-shadow: 0 0 0 1px $mainLightGreen;
+            transition: all .3s ease-in;
+        }
+    }
+}

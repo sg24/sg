@@ -135,47 +135,51 @@
         </div>
 
         <div class="reuse-form__itm reuse-form__itm--user">
-            <ul class="reuse-form__itm--tab">
-                <li><div></div> Online</li>
-                <li><div></div> Offline</li>
-                <li class="reuse-form__itm--tab__srch"><i class="fas fa-search icon icon__reuse-form--srch"></i></li>
-            </ul>
-
-            <div class="reuse-form__itm--srch">
-                <div class="reuse-form__itm--srch__close">
-                    <i class="fas fa-times"></i>
-                </div>
-                <div class="reuse-form__itm--srch__wrapper">
-                    <div><i class="far fa-calendar-alt"></i></div>
-                    <input type="text" class="reuse-form__itm--srch__input" placeholder="search...">
+            <div class="reuse-form__itm--tab">
+                <ul class="reuse-form__itm--tab__cnt">
+                    <li>Online</li>
+                    <li>Offline</li>
+                    <li>
+                        Users Selected 
+                        <div>10</div>
+                    </li>
+                </ul>
+                <div class="reuse-form__itm--tab__srch">
+                    <div class="reuse-form__itm--tab__srch--icn">
+                         <i class="fas fa-search icon icon__reuse-form--srch"></i>
+                    </div>
+                    <div class="reuse-form__itm--tab__srch--wrapper">
+                        <div class="reuse-form__itm--tab__srch--close">
+                            <i class="fas fa-times"></i>
+                        </div>
+                        <div class="reuse-form__itm--tab__srch--input-wrapper">
+                            <div><i class="far fa-calendar-alt"></i></div>
+                            <input type="text" class="reuse-form__itm--tab__srch--input" placeholder="search...">
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <div class="reuse-form__itm--det">
                 <div class="reuse-form__itm--det__user">
-                    <div class="reuse-pvt-chat">
-                        <div class="active__main active__main--chat-cnt"><div>9</div></div>
-                        <div class="reuse-pvt-chat__img">
-                            <img src="/" alt="">
-                            <div class="reuse-pvt-chat__img--status reuse-pvt-chat__img--status__off"></div>
+                    <div class="reuse-user">
+                        <div class="reuse-user__det">
+                            <div class="reuse-user__det--img">
+                                <div class="reuse-user__det--img__status reuse-user__det--img__status--on">
+                                </div>
+                                {{!-- <div class="reuse-user__det--img__status reuse-user__det--img__status--off">
+                                </div> --}}
+                            </div>
+                            <ul class="reuse-user__det--user">
+                                <li class="reuse-user__det--user__info">  
+                                    <a href="">User User</a>
+                                </li>
+                                <li><div>98</div> Student</li> 
+                            </ul>
+                            <div class="reuse-user__det--select">
+                                <i class="fas fa-check-circle icon icon"></i>
+                            </div>
                         </div>
-                        <ul class="reuse-pvt-chat__det">
-                            <li><a href="">User user <span>@ 2m ago</span></a></li>
-                            <li><span> Add </span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="reuse-form__itm--det__user">
-                    <div class="reuse-pvt-chat">
-                        <div class="active__main active__main--chat-cnt"><div>9</div></div>
-                        <div class="reuse-pvt-chat__img">
-                            <img src="/" alt="">
-                            <div class="reuse-pvt-chat__img--status reuse-pvt-chat__img--status__on"></div>
-                        </div>
-                        <ul class="reuse-pvt-chat__det">
-                            <li><a href="">User user <span>@ 2m ago</span></a></li>
-                            <li><span> Add </span></li>
-                        </ul>
                     </div>
                 </div>
             </div>

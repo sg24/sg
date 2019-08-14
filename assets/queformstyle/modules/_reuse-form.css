@@ -134,7 +134,6 @@
                     left: 150px;
                     padding: 8px 0px;
                     width: 120px;
-                    /* border: 1px solid $mainDarkGray; */
                     box-shadow: 0 2px 5px 0 rgba($mainDarkBlack, .45);
                 }
 
@@ -331,7 +330,7 @@
         background-color: #fff;
         z-index: 2;
 
-        &--img, &--vid, &--user {
+        &--img, &--vid {
             opacity: 0;
             visibility: hidden;
             transition: all .3s ease-in;
@@ -354,47 +353,99 @@
             color: #fff;
         }
 
-        & > ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            background-color: $mainMiddleDarkBlue;
-            @mixin clearfix;
-            font-size: .8125rem; 
-            position: relative; 
-            z-index: 2;  
-            box-shadow: 0 2px 2px rgba($mainDarkBlack, .2); 
+        &--tab {
+            position: relative;
 
-            li {
-                float: left;
-                text-align: center;
-                color: #fff; 
-                cursor: pointer;
-                font-weight: 300;
-                padding: 12px 35px; 
-                position: relative;
-                
+            &__cnt {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                background-color: $mainMiddleDarkBlue;
+                @mixin clearfix;
+                font-size: .8125rem; 
+                position: relative;   
+    
+                li {
+                    float: left;
+                    text-align: center;
+                    color: #fff; 
+                    cursor: pointer;
+                    font-weight: 300;
+                    padding: 12px 35px; 
+                    position: relative;
+                    border-right: 1px solid rgba(255,255,255, .45); 
+    
+                    &::before , &::after {
+                        position: absolute;
+                        content: "";
+                        width: 8px;
+                        height: 4px;
+                        border-radius: 4px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                    }
+    
+                    &::before {
+                        left: 10px;
+                        background-color: $mainLightRed;
+                    }
+    
+                    &::after {
+                        right: 10px;
+                        background-color: $mainLightRed;
+                    }
+    
+                    &:first-child {
+                        color: #fff; 
+                        
+                        &::before {
+                            background-color: $mainLightGreen;
+                        }
+        
+                        &::after {
+                            background-color: $mainLightGreen;
+                        }
+                    }
 
-                & > div {
-                    position: absolute;
-                    width: 8px;
-                    height: 8px;
-                    border-radius: 4px;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    background-color: $mainLightRed;
-                    left: 15px;
-                }
+                    &:last-child {
+                        color: #fff;
 
-                &:first-child {
-                    border-right: 1px solid rgba(255,255,255, .45);
+                        &::before, &::after {
+                            display: none;
+                        }
 
-                    & > div {
-                        background-color: $mainLightGreen;
+                        & > div {
+                            position: absolute;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            width: 24px;
+                            height: 24px;
+                            border-radius: 12px;
+                            background-color: #fff;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            right: 5px;
+                            color: $mainFontColor;
+                        }
+        
+                    }
+
+                    &:hover {
+                        background-color: $active;
                     }
                 }
+    
+                @mixin atSmall {
+                    font-size: .875rem; 
+                }
+            }
 
-                &:last-child {
+            &__srch {
+                background-color: transparent;
+                z-index: 1;
+
+                &--icn {
                     position: absolute;
                     top: 50%;
                     transform: translateY(-50%);
@@ -410,94 +461,86 @@
                     margin: 0;
                     cursor: pointer;
                 }
-            }
 
-            @mixin atSmall {
-                font-size: .875rem; 
-            }
-        }
+                &--wrapper {
+                    position: absolute; 
+                    background-color: $mainHeaderColor;
+                    border: 1px solid $mainDarkGray;
+                    border-top: none;
+                    top: 100%;
+                    width: 100%;
+                    padding: 10px 10px 20px 10px; 
+                    z-index: 2;
+                    /* opacity: 0;
+                    visibility: hidden;
+                    transition: all .3s ease-out; */
+                }
 
-        &--srch {
-            position: absolute; 
-            left: 0;
-            background-color: $mainHeaderColor;
-            border: 1px solid $mainDarkGray;
-            border-top: none;
-            top: 100px;
-            width: 90%;
-            padding: 10px 10px 20px 10px; 
-            opacity: 0;
-            visibility: hidden;
-            transition: all .3s ease-out;
-    
-            &__close {
-                width: 20px;
-                height: 20px;
-                background-color: $mainLightGray;
-                border: 1px solid rgba($mainDarkBlack, .5);
-                color: $mainLightRed;
-                font-size: .75rem;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                position: absolute;
-                right: 20px;
-                top: 2px;
-                border-radius: 10px;
-                cursor: pointer;
-            }
-    
-            &__wrapper {
-                position: relative;
-                background-color: $mainLightGray;
-                border: 1px solid rgba($mainDarkBlack, .3); 
-                z-index: 1;
-                font-size: .875rem; 
-                border-radius: 5px;
-                width: 90%;
-                box-shadow: 0 2px 1px 0 rgba($mainDarkBlack, .3);
-    
-                & > div {
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                    bottom: 0;
+                &--close {
+                    width: 20px;
+                    height: 20px;
                     background-color: $mainLightGray;
+                    border: 1px solid rgba($mainDarkBlack, .5);
+                    color: $mainLightRed;
+                    font-size: .75rem;
                     display: flex;
                     justify-content: center;
-                    align-items:center; 
-                    padding: 0 20px;
-                    border-top-left-radius: 5px;
-                    border-bottom-left-radius: 5px;
-                    border-right: 1px solid rgba($mainDarkBlack, .3); 
-    
+                    align-items: center;
+                    position: absolute;
+                    right: 20px;
+                    top: 2px;
+                    border-radius: 10px;
+                    cursor: pointer;
                 }
-            }
-    
-            &__input {
-                border: none;
-                outline: none;
-                padding: 6px 10px 6px 60px;
-                border-radius: 5px;
-                width: 100%;
-    
-                @mixin atMedium {
-                    padding: 8px 10px 8px 60px;
+
+                &--input-wrapper {
+                    position: relative;
+                    background-color: $mainLightGray;
+                    border: 1px solid rgba($mainDarkBlack, .3); 
+                    z-index: 1;
+                    font-size: .875rem; 
+                    border-radius: 5px;
+                    width: 94%;
+                    box-shadow: 0 2px 1px 0 rgba($mainDarkBlack, .3);
+        
+                    & > div {
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        bottom: 0;
+                        background-color: $mainLightGray;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center; 
+                        width: 50px;
+                        border-top-left-radius: 5px;
+                        border-bottom-left-radius: 5px;
+                        border-right: 1px solid rgba($mainDarkBlack, .3); 
+                        cursor: pointer;
+                    }
                 }
-            }
-    
-            &__visible {
-                position: sticky;
-                right: 0;
-                opacity: 1;
-                visibility: visible;
-                width: 100%; 
-                z-index: 2; 
-                transition: all .3s ease-in;
-            }
-    
-            @mixin atSmall {
-                top: 100px; 
+
+                &--input {
+                    border: none;
+                    outline: none;
+                    padding: 6px 10px 6px 60px;
+                    border-radius: 5px;
+                    width: 100%;
+        
+                    @mixin atMedium {
+                        padding: 8px 10px 8px 60px;
+                    }
+                }
+
+                &--visible {
+                    position: sticky;
+                    right: 0;
+                    opacity: 1;
+                    visibility: visible;
+                    width: 100%; 
+                    z-index: 2; 
+                    transition: all .3s ease-in;
+                }
             }
         }
 
