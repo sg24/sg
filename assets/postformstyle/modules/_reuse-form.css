@@ -395,10 +395,11 @@
                 list-style: none;
                 margin: 0;
                 padding: 0;
-                background-color: $mainMiddleDarkBlue;
                 @mixin clearfix;
                 font-size: .8125rem; 
-                position: relative;   
+                position: relative; 
+                background-color: $mainMiddleDarkBlue;
+                overflow: hidden;
     
                 li {
                     float: left;
@@ -409,7 +410,7 @@
                     padding: 12px 35px; 
                     position: relative;
                     border-right: 1px solid rgba(255,255,255, .45); 
-    
+
                     &::before , &::after {
                         position: absolute;
                         content: "";
@@ -448,26 +449,31 @@
                         &::before, &::after {
                             display: none;
                         }
-
-                        & > div {
-                            position: absolute;
-                            top: 50%;
-                            transform: translateY(-50%);
-                            width: 24px;
-                            height: 24px;
-                            border-radius: 12px;
-                            background-color: #fff;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            right: 5px;
-                            color: $mainFontColor;
-                        }
-        
                     }
 
-                    &:hover {
+                    &:not(.active-content-tab):hover {
                         background-color: $active;
+                    }
+                }
+
+                &--selec {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    font-size: .8125rem;
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 12px;
+                    background-color: #fff;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    right: 5px;
+                    color: $mainFontColor;
+
+                    &__active {
+                        background-color: $mainMiddleDarkBlue;
+                        color: #fff;
                     }
                 }
     
@@ -571,11 +577,6 @@
             max-height: 400px;
             overflow: hidden;
             overflow-y: auto;
-
-            &__user {
-                margin-top: 10px;
-                margin-bottom: 30px;
-            }
 
             &__alt {
                 width: 30px;

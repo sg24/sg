@@ -47,6 +47,13 @@ export const resetLink = () =>  {
     }; 
 }; 
 
+export const removeMedia = (media) => {
+    return {
+        type: actionTypes.REMOVE_MEDIA,
+        media
+    };
+};
+
 export const submitMedia = (media) =>  {
     return {
         type: actionTypes.SUBMIT_MEDIA,
@@ -65,3 +72,59 @@ export const showMediaBox = () =>  {
         type: actionTypes.SHOW_MEDIA_BOX,
     }; 
 }; 
+
+export const fetchUsersInit = (userStatus) =>  {
+    return {
+        type: actionTypes.FETCH_USERS_INIT,
+        userStatus
+    }; 
+}; 
+
+export const fetchUsers = (users) =>  {
+    return {
+        type: actionTypes.FETCH_USERS,
+        users
+    }; 
+}; 
+
+export const inputDefaultValue = () => {
+    return {
+        type: actionTypes.INPUT_DEFAULT_VALUE
+    };
+};
+
+export const filterUserInit = (users, filterContent) => {
+    return {
+        type: actionTypes.FILTER_USER_INIT,
+        users,
+        filterContent
+    };
+};
+
+export const filterUser = (users) => {
+    return {
+        type: actionTypes.FILTER_USER,
+        users
+    };
+};
+
+export const userSelect = (users) => {
+    return {
+        type: actionTypes.USER_SELECT,
+        users
+    };
+};
+
+export const showUserSelectInit = (userID) => {
+    return {
+        type: actionTypes.SHOW_USER_SELECT_INIT,
+        userID
+    };
+};
+
+export const showUserSelect = (users) => {
+    return {
+        type: actionTypes.SHOW_USER_SELECT,
+        users
+    };
+};

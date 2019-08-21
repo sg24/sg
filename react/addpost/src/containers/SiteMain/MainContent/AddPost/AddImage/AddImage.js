@@ -17,6 +17,13 @@ class AddImage extends Component {
         addMediaButton: true
     };
 
+    componentDidMount() {
+        if (this.props.media.image) {
+            this.setState({media: [...this.props.media.image]});
+        }
+    }
+
+
     componentDidUpdate() {
         if (!this.state.default && this.props.linkValid) {
             this.setState({default: true, disabled: false})
@@ -80,6 +87,9 @@ class AddImage extends Component {
         let media = [...this.state.media];
         let updatedMedia = media.filter((link, CurIndex)=>  CurIndex !== index);
         this.setState({media:  updatedMedia});
+        if (this.props.media.image && this.props.media.image.length > 0) {
+            this.props.onRemoveMedia(updateObject(this.props.media, {image: updatedMedia}))
+        }
     }
 
     handleFiles = (files) => {
@@ -96,14 +106,6 @@ class AddImage extends Component {
 
     submitMediaHandler = () => {
         let media = {...this.props.media};
-        for (let mediaType in media) {
-            if (mediaType === 'image') {
-                let updateMedia = [...this.props.media.image];
-                updateMedia.push(...this.state.media);
-                this.props.onSubmitMedia(updateObject(media, {image: updateMedia}));
-                return
-            }
-        }
         this.props.onSubmitMedia(updateObject(media, {image: [...this.state.media]}));
     }
 
@@ -221,6 +223,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onCheckLink: (videoLink) => dispatch(actions.checkLinkInit(videoLink)),
         onResetLink: () => dispatch(actions.resetLink()),
+        onRemoveMedia: (media) => dispatch(actions.removeMedia(media)),
         onSubmitMedia: (media) => dispatch(actions.submitMedia(media)),
         onhideMediaBox: () => dispatch(actions.hideMediaBox())
     };

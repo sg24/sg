@@ -2,6 +2,8 @@
     position: relative;
     border-radius: 10px;
     box-shadow: 0px 2px 9px 0px rgba($mainDarkBlack, .3);
+    margin-top: 10px;
+    margin-bottom: 30px;
 
     &__det {
         position: relative;
@@ -100,13 +102,17 @@
             cursor: pointer;
             color: $mainDarkGray;
 
-            &__clk {
+            &__clk > svg{
                 color: $mainLightGreen;
                 transition: all .3s ease-in;
             }
         }
 
-        &:hover {
+        &:not(.reuse-user__det--clk):hover {
+            box-shadow: 0 0 0 1px $mainLightGreen;
+        }
+        
+        &--clk {
             box-shadow: 0 0 0 1px $mainLightGreen;
             transition: all .3s ease-in;
         }

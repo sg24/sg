@@ -7,7 +7,12 @@ import { fetchNotifyInitSaga,
             fetchNotifyActiveInitSaga,
             defaultNotifyActiveInitSaga,
             fetchShareActiveInitSaga } from './header';
-import { fetchAddpostInitSaga, addPostCategInitSaga, checkLinkInitSaga } from './addpost';
+import { fetchAddpostInitSaga, 
+            addPostCategInitSaga, 
+            checkLinkInitSaga, 
+            fetchUsersInitSaga,
+            filterUserInitSaga,
+            showUserSelectInitSaga } from './addpost';
             
 export function* watchHeader() {
      yield all([
@@ -24,6 +29,9 @@ export function* watchAddpost() {
     yield all([
        takeEvery(actionTypes.FETCH_PT_CATEG_INIT, fetchAddpostInitSaga),
        takeEvery(actionTypes.ADD_PT_CATEG_INIT, addPostCategInitSaga),
-       takeEvery(actionTypes.CHECK_LINK_INIT, checkLinkInitSaga)
+       takeEvery(actionTypes.CHECK_LINK_INIT, checkLinkInitSaga),
+       takeEvery(actionTypes.FETCH_USERS_INIT, fetchUsersInitSaga),
+       takeEvery(actionTypes.FILTER_USER_INIT, filterUserInitSaga),
+       takeEvery(actionTypes.SHOW_USER_SELECT_INIT, showUserSelectInitSaga)
     ])
 }

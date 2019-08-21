@@ -29,7 +29,16 @@ export {
     checkLinkInit,
     checkLink,
     resetLink,
+    removeMedia,
     submitMedia,
     hideMediaBox,
-    showMediaBox
+    showMediaBox,
+    fetchUsersInit,
+    fetchUsers,
+    inputDefaultValue,
+    filterUserInit,
+    filterUser,
+    userSelect,
+    showUserSelectInit,
+    showUserSelect
 } from './addpost';

@@ -1,7 +1,18 @@
 .active-content-tab {
-    box-shadow: inset 0 3px 0px 0 $mainMiddleDarkBlue;
-    background-color: #fff;
-    border-right: none;
-    color: $mainFontColor;
-    font-weight: 400;
-}
+    box-shadow: inset 0 3px 0px 0 $mainMiddleDarkBlue !important;
+    background-color: #fff !important;
+    border-right: none !important;
+    color: $mainFontColor !important;
+    font-weight: 400 !important;
+
+    &__active {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: -1px;
+        left: -2px; 
+        border-right: 1px solid #437da3;
+        border-left: 2px solid #437da3;
+        background-color: transparent;
+    }
+ }

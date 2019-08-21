@@ -4,13 +4,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './AddPost.css';
 import * as actions from '../../../../store/actions/index';
-import AddImage from './AddImage/AddImage';
-import AddVideo from './AddVideo/AddVideo';
-import AddUsers from './AddUsers/AddUsers';
 import PtCategs from '../../../../components/Main/PostCategs/PostCategs';
 import Categs from '../../../../components/Main/PostCategs/Categs/Categs';
 import Backdrop from '../../../../components/UI/Backdrop/Backdrop';
 import Aux from '../../../../hoc/Auxs/Aux';
+import asyncComponent from '../../../../hoc/asyncComponent/asyncComponent';
+
+const AsyncImage = asyncComponent(() => {
+    return import ('./AddImage/AddImage');
+});
+
+const AsyncVideo = asyncComponent(() => {
+    return import ('./AddVideo/AddVideo');
+});
+
+const AsyncUsers = asyncComponent(() => {
+    return import ('./AddUsers/AddUsers');
+});
 
 class AddPost extends  Component {
     state = {
@@ -257,9 +267,9 @@ class AddPost extends  Component {
                         </div>
                     </div>
                     
-                    { this.state.showImgOpt ? <Aux><Backdrop></Backdrop><AddImage /></Aux> : null }
-                    { this.state.showVidOpt ? <Aux><Backdrop></Backdrop><AddVideo /></Aux> : null }
-                    { this.state.showUserOpt ? <Aux><Backdrop></Backdrop><AddUsers /></Aux> : null}
+                    { this.state.showImgOpt ? <Aux><Backdrop></Backdrop><AsyncImage /></Aux> : null }
+                    { this.state.showVidOpt ? <Aux><Backdrop></Backdrop><AsyncVideo /></Aux> : null }
+                    { this.state.showUserOpt ? <Aux><Backdrop></Backdrop><AsyncUsers /></Aux> : null}
             
                     <div className="reuse-form__footer reuse-form__btn">
                         <button type="submit" className="reuse-form__btn--dft">

@@ -6,7 +6,10 @@ const initialState = {
     newPtCateg: null,
     hidAddItm: false,
     linkValid: false,
-    media: {}
+    media: {},
+    users: null,
+    filteredUser: null,
+    defaultValue: false
 };
 
 const fetchPtCateg = (state, action) => {
@@ -25,6 +28,10 @@ const resetLink = (state, action) => {
     return updateObject(state, {linkValid: false})
 };
 
+const removeMedia = (state, action) => {
+    return updateObject(state, {media: action.media})
+};
+
 const submitMedia = (state, action) => {
     return updateObject(state, {media: action.media, hideMediaBox: true})
 };
@@ -36,6 +43,26 @@ const hideMediaBox = (state, action) => {
 
 const showMediaBox = (state, action) => {
     return updateObject(state, {hideMediaBox: false})
+};
+
+const fetchUsers = (state, action) => {
+    return updateObject(state, {users: action.users, filteredUser: null, defaultValue: true})
+};
+
+const inputDefaultValue = (state, action) => {
+    return updateObject(state, {defaultValue: false})
+};
+
+const filterUser = (state, action) => {
+    return updateObject(state, {filteredUser: action.users})
+};
+
+const userSelect = (state, action) => {
+    return updateObject(state, {media: action.users})
+};
+
+const showUserSelect = (state, action) => {
+    return updateObject(state, {users: action.users, filteredUser: null, defaultValue: true})
 };
 
 const reducer = (state = initialState, action) => {
@@ -52,8 +79,20 @@ const reducer = (state = initialState, action) => {
             return checkLink(state, action);
         case actionTypes.RESET_LINK:
             return resetLink(state, action);
+        case actionTypes.REMOVE_MEDIA:
+            return removeMedia(state, action);
         case actionTypes.SUBMIT_MEDIA:
             return submitMedia(state, action);
+        case actionTypes.FETCH_USERS:
+            return fetchUsers(state, action);
+        case actionTypes.INPUT_DEFAULT_VALUE:
+            return inputDefaultValue(state, action);
+        case actionTypes.FILTER_USER:
+            return filterUser(state, action);
+        case actionTypes.USER_SELECT:
+            return userSelect(state, action);
+        case actionTypes.SHOW_USER_SELECT:
+            return showUserSelect(state, action);
         default: return state
     };
 };
