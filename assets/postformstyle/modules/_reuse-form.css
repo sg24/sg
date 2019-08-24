@@ -4,19 +4,7 @@
     margin: 0 auto;
     padding: 20px 15px;
     font-size: .875rem;
-
-    &__overlay {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        background-color: rgba($mainDarkBlack, .6);
-        z-index: 2;
-        transition: all .3s ease-in;
-    }
-
-
+    
     &__wrapper {
         background-color: #fff;
         position: relative;
@@ -98,6 +86,48 @@
                 text-align: center;
                 cursor: pointer;
                 position: relative;
+
+                &--added {
+                    position: absolute;
+                    bottom: 100%;
+                    right: 9px;
+                    @mixin clearfix;
+
+                    & > div {
+                        position: relative;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        float: left;
+                        width: 24px;
+                        height: 24px;
+                        border-radius: 12px;
+                        background-color: $mainDarkGray;
+                        box-shadow: 0 0 2px 0px rgba($mainDarkBlack,1);
+                        margin-left: 16px;
+                        font-weight: bold;
+
+                        & > div {
+                            position: absolute;
+                            bottom: 0;
+                            right: -9px;
+                            font-size: .75rem
+                        }
+                    }
+
+                    &__img, &__user {
+                        color: $mainFontColor;
+                        &--icn {
+                           color: $mainDarkBlue;
+                        }
+                    }
+                    &__vid {
+                        color: $mainFontColor;
+                        &--icn {
+                            color: $mainLightRed;
+                        }
+                    }
+                }
 
                 &--categ {
                    width: 110px;
@@ -702,26 +732,23 @@
             cursor: pointer;
         }
 
-        &--close , &--dft {
+        &--close, &--dft {
             background-color: #fff;
             box-shadow: 0 1px 4px 1px rgba($mainDarkBlack, .55);
             width: 80px;
             float: left;
             
-            &:hover {
+            &:disabled {
+                cursor: not-allowed;
+                background-color: rgba(255,255,255, .45)
+            }
+
+            &:not(:disabled):hover {
                 background-color: $mainExtraLightGray;
             }
         }
 
-        &--close {
-            color: $mainLightRed;
-        }
-
-        &--dft {
-            color: $mainFontColor;
-        }
-
-        &--add, &--que {
+        &--add  {
             color: #fff;
             float: right;
             box-shadow: 0 2px 4px 1px rgba($mainDarkBlack, .65);
@@ -739,10 +766,6 @@
             &:not(:disabled):hover {
                 background-color:$mainDarkPaleBlue;
             }
-        }
-
-        &--que {
-            background-color: $mainLightRed;
         }
     }
 

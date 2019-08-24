@@ -9,6 +9,7 @@ import Categs from '../../../../components/Main/PostCategs/Categs/Categs';
 import Backdrop from '../../../../components/UI/Backdrop/Backdrop';
 import Aux from '../../../../hoc/Auxs/Aux';
 import asyncComponent from '../../../../hoc/asyncComponent/asyncComponent';
+import { updateObject, checkValidity } from '../../../../shared/utility';
 
 const AsyncImage = asyncComponent(() => {
     return import ('./AddImage/AddImage');
@@ -26,6 +27,7 @@ class AddPost extends  Component {
     state = {
         showPtCateg: false,
         categs: [],
+        noCateg: false,
         addCateg: null,
         disable: true,
         addNewCateg: true,
@@ -38,14 +40,35 @@ class AddPost extends  Component {
         showVidOpt: false,
         showImgOpt: false,
         showUserOpt: false,
-        showAddItmOpt: true
+        showAddItmOpt: true,
+        formElement: {
+            ptCateg: {
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 6
+                },
+                valid: false,
+                touched: false
+            },
+            content: {
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 6
+                },
+                valid: false,
+                touched: false
+            }
+        },
+        formIsValid: false
     }
 
     componentDidUpdate() {
         if (this.state.addNewCateg && this.props.newPtCateg) {
             let categs = [...this.state.categs]
             categs.push(this.props.newPtCateg);
-            this.setState({categs,addNewCateg: false})
+            this.setState({categs,addNewCateg: false, noCateg: !categs.length > 1})
         }
         if (this.state.showAddItmOpt && this.props.hideMediaBox) {
             this.props.onShowMediaBox();
@@ -68,7 +91,7 @@ class AddPost extends  Component {
     selectCategHandler = (categ) => {
         let categs = [...this.state.categs]
         categs.push(categ);
-        this.setState({categs})
+        this.setState({categs,  noCateg: !categs.length > 1})
     }
 
     addCategHandler = (event) => {
@@ -116,9 +139,29 @@ class AddPost extends  Component {
         this.setState({showUserOpt: true,showImgOpt: false,showVidOpt: false, showAddItmOpt: true});
     }
 
+    inputChangedHandler = (event, inputType) => {
+        let updateFormType = updateObject(this.state.formElement[inputType], {
+            value: event.target.value,
+            valid: checkValidity(event.target.value, this.state.formElement[inputType].validation),
+            touched: true
+        });
+        
+        let formIsValid = true;
+
+        for (let inputType in this.state.formElement) {
+            formIsValid = this.state.formElement[inputType].valid && formIsValid;
+        }
+        let updateFormElement = updateObject(this.state.formElement, {[inputType]: updateFormType})
+        this.setState({formElement: updateFormElement, formIsValid})
+    }
+
     submitHandler = (props) => {
         props.preventDefault()
-        console.log(props.data)
+       if (this.state.categs.length > 0 && this.state.formIsValid) {
+        console.log()
+        return
+       }
+       this.setState({noCateg: true});
     }
 
     render() {
@@ -166,7 +209,7 @@ class AddPost extends  Component {
         }
 
         return (
-            <form action="" className="reuse-form" onSubmit={this.submitHandler}>
+            <form className="reuse-form" onSubmit={this.submitHandler}>
                 <div className="reuse-form__wrapper">
                     <h3 className="reuse-form__title">
                         <div>
@@ -219,21 +262,42 @@ class AddPost extends  Component {
                                 </div>
                             </div>
                             { categItems }
-                            {/* {{!-- <div class="reuse-form__err">Pls, select category</div> --}} */}
+                            { this.state.noCateg ?
+                                <div className="reuse-form__err">Select or Add New Category</div>
+                                : null
+                            }
                         </div>
                         <div className="reuse-form__cnt--wrapper">
                             <label className="reuse-form__cnt--title">Post Title</label>
                             <div className="reuse-form__cnt--det">
-                                <input type="text" name="" id="" className="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg" />
+                                <input 
+                                    type="text" 
+                                    name=""
+                                    required
+                                    minLength="6"
+                                    value={this.state.formElement.ptCateg.value}
+                                    className="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg"
+                                    onChange={(event) => this.inputChangedHandler(event, 'ptCateg')} />
                             </div>
-                            {/* {{!-- <div class="reuse-form__err">Pls, Enter a title</div> --}} */}
+                            { !this.state.formElement.ptCateg.valid && this.state.formElement.ptCateg.touched ?
+                                <div className="reuse-form__err">Title must be longer than 5 characters</div>
+                                : null
+                            }
                         </div>
                         <div className="reuse-form__cnt--wrapper">
                             <label className="reuse-form__cnt--title">Content </label>
                             <div className="reuse-form__cnt--det">
-                                <textarea name="" id="" className="reuse-form__cnt--det__info"></textarea>
+                                <textarea 
+                                    className="reuse-form__cnt--det__info"
+                                    required
+                                    minLength="6"
+                                    value={this.state.formElement.content.value}
+                                    onChange={(event) => this.inputChangedHandler(event, 'content')}></textarea>
                             </div>
-                            {/* {{!-- <div class="reuse-form__err">Pls, content must not be empty</div> --}} */}
+                            { !this.state.formElement.content.valid && this.state.formElement.content.touched ?
+                                <div className="reuse-form__err">Content must be longer than 5 characters</div>
+                                : null
+                            }
                         </div>
                         <div className="reuse-form__cnt--wrapper">
                             <div className="reuse-form__cnt--det">
@@ -245,6 +309,22 @@ class AddPost extends  Component {
                                         <FontAwesomeIcon 
                                             icon={['fas', 'angle-down']} 
                                             className="icon icon__reuse-form--angle" />
+                                        <div className="reuse-form__cnt--det__selec--added">
+                                            <div className="reuse-form__cnt--det__selec--added__img">
+                                                <div className="reuse-form__cnt--det__selec--added__img--icn">
+                                                    <FontAwesomeIcon 
+                                                        icon={['fas', 'images']} />
+                                                </div> 
+                                                {this.props.media.image ? this.props.media.image.length : 0}
+                                            </div>
+                                            <div className="reuse-form__cnt--det__selec--added__vid">
+                                                <div className="reuse-form__cnt--det__selec--added__vid--icn">
+                                                    <FontAwesomeIcon 
+                                                        icon={['fas', 'video']} />
+                                                </div> 
+                                                {this.props.media.video ? this.props.media.video.length : 0}
+                                            </div>
+                                        </div>
                                         <ul className={addItemOptClass.join(' ')}>
                                             <li 
                                                 className="reuse-form__cnt--det__selec--opt__img"
@@ -260,6 +340,15 @@ class AddPost extends  Component {
                                         <FontAwesomeIcon 
                                             icon={['fas', 'chalkboard-teacher']} 
                                             className="icon icon__reuse-form--cnt__user" />
+                                            <div className="reuse-form__cnt--det__selec--added">
+                                            <div className="reuse-form__cnt--det__selec--added__img">
+                                                <div className="reuse-form__cnt--det__selec--added__img--icn">
+                                                    <FontAwesomeIcon 
+                                                        icon={['fas', 'chalkboard-teacher']} />
+                                                </div> 
+                                                {this.props.media.user ? this.props.media.user.length : 0}
+                                            </div>
+                                        </div>
                                         Share Users 
                                     </div>
                                 </div>
@@ -272,13 +361,19 @@ class AddPost extends  Component {
                     { this.state.showUserOpt ? <Aux><Backdrop></Backdrop><AsyncUsers /></Aux> : null}
             
                     <div className="reuse-form__footer reuse-form__btn">
-                        <button type="submit" className="reuse-form__btn--dft">
+                        <button 
+                            type="submit" 
+                            className="reuse-form__btn--dft"
+                            disabled={!this.state.formIsValid}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'eye-slash']} 
                                 className="icon icon__reuse-form--btn" />
                             Draft
                         </button>
-                        <button type="submit" className="reuse-form__btn--add">
+                        <button 
+                            type="submit" 
+                            className="reuse-form__btn--add"
+                            disabled={!this.state.formIsValid}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'plus']} 
                                 className="icon icon__reuse-form--btn" />
@@ -296,7 +391,7 @@ const mapStateToProps = state => {
         ptCateg: state.addPost.ptCateg,
         newPtCateg: state.addPost.newPtCateg,
         hideMediaBox: state.addPost.hideMediaBox,
-        image: state.addPost.image
+        media: state.addPost.media,
     };
 };
 

@@ -193,17 +193,6 @@
     font-size: .875rem;
 }
 
-.reuse-form__overlay {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    background-color: rgba(0,0,0, .6);
-    z-index: 2;
-    transition: all .3s ease-in;
-}
-
 .reuse-form__wrapper {
     background-color: #fff;
     position: relative;
@@ -296,6 +285,59 @@
     text-align: center;
     cursor: pointer;
     position: relative;
+}
+
+.reuse-form__cnt--det__selec--added {
+    position: absolute;
+    bottom: 100%;
+    right: 9px;
+}
+
+.reuse-form__cnt--det__selec--added::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.reuse-form__cnt--det__selec--added > div {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+    float: left;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background-color: #dcdbdc;
+    box-shadow: 0 0 2px 0px rgba(0,0,0,1);
+    margin-left: 16px;
+    font-weight: bold;
+}
+
+.reuse-form__cnt--det__selec--added > div > div {
+    position: absolute;
+    bottom: 0;
+    right: -9px;
+    font-size: .75rem
+}
+
+.reuse-form__cnt--det__selec--added__img, .reuse-form__cnt--det__selec--added__user {
+    color: #182427;
+}
+
+.reuse-form__cnt--det__selec--added__img--icn, .reuse-form__cnt--det__selec--added__user--icn {
+    color: #0284a8;
+}
+
+.reuse-form__cnt--det__selec--added__vid {
+    color: #182427;
+}
+
+.reuse-form__cnt--det__selec--added__vid--icn {
+    color: #ff1600;
 }
 
 .reuse-form__cnt--det__selec--categ {
@@ -977,19 +1019,16 @@
     float: left;
 }
 
-.reuse-form__btn--close:hover, .reuse-form__btn--dft:hover {
+.reuse-form__btn--close:disabled, .reuse-form__btn--dft:disabled {
+    cursor: not-allowed;
+    background-color: rgba(255,255,255, .45)
+}
+
+.reuse-form__btn--close:not(:disabled):hover, .reuse-form__btn--dft:not(:disabled):hover {
     background-color: #f2f2f2;
 }
 
-.reuse-form__btn--close {
-    color: #ff1600;
-}
-
-.reuse-form__btn--dft {
-    color: #182427;
-}
-
-.reuse-form__btn--add, .reuse-form__btn--que {
+.reuse-form__btn--add  {
     color: #fff;
     float: right;
     box-shadow: 0 2px 4px 1px rgba(0,0,0, .65);
@@ -1007,10 +1046,6 @@
 
 .reuse-form__btn--add:not(:disabled):hover {
     background-color:#05578b;
-}
-
-.reuse-form__btn--que {
-    background-color: #ff1600;
 }
 
 .reuse-form__footer {
