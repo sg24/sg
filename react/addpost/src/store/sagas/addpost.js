@@ -1,6 +1,7 @@
 import { put } from 'redux-saga/effects';
 
 import * as actions from '../../store/actions/index';
+import axios from '../../axios';
 
 const users = [{
     id: '454537dggdgd',
