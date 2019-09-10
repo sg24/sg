@@ -25,16 +25,9 @@ class SiteMain extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-         default: state.header.default
-    };
- }
-
 const mapDispatchToProps = dispatch => {
     return {
         onNavDefault: () => dispatch(actions.headerNavDefault())
     };
 };
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SiteMain)); 
+export default withRouter(connect(null, mapDispatchToProps)(SiteMain)); 

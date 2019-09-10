@@ -1,0 +1,138 @@
+.icon__reuse-share--selec {
+    color: #dcdbdc;
+}
+
+.reuse-share__user {
+    border: 1px solid #dcdbdc;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.reuse-share__user--det {
+    position: relative;
+    padding: 5px 0;
+}
+
+.reuse-share__user--det__img {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background-color: #0284a8;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+}
+
+.reuse-share__user--det__img--status {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    border: 1px solid #dcdbdc;
+    bottom: 4px;
+    right: 8px;
+}
+
+.reuse-share__user--det__img--status__on {
+    background-color: #16cf27;
+}
+
+.reuse-share__user--det__img--status__off {
+    background-color: #ff1600;
+}
+
+.reuse-share__user--det__info {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding-left: 90px;
+}
+
+.reuse-share__user--det__info > li {
+    position: relative;
+    padding: 6px 0;
+}
+
+.reuse-share__user--det__info > li > a {
+    color: #182427;
+    text-decoration: none;
+}
+
+.reuse-share__user--det__info > li:last-child {
+    color: #0284a8;
+    padding-left: 35px;
+}
+
+.reuse-share__user--det__info > li:last-child > div {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    border: 1px solid #dcdbdc;
+    background-color: #e9ebf2;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+    font-weight: bold;
+}
+
+.reuse-share__user--det__selec {
+    position: absolute;
+    top: -5px;
+    right: -2px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.reuse-share__user--det__selec--clk {
+    color: #16cf27;
+}
+
+.reuse-share__user--det__selec--clk > svg {
+    color: #16cf27;
+    transition: all .3s ease-in;
+}
+
+.reuse-share__user:hover {
+    border: 1px solid #16cf27;
+    transition: all .3s ease-in;
+}
+
+.reuse-share__user--clk {
+    border: 1px solid #16cf27;
+    transition: all .3s ease-in;
+    animation: wrapper .3s ease-in forwards;
+}
+
+@keyframes wrapper {
+    0% { 
+        position: relative;
+        top: 4px;
+    }
+
+    25% {
+        bottom: 4px;
+    }
+
+    50% {
+        left: 6px;
+    }
+
+    75% {
+        right: 4px;
+    }
+
+    100% {
+        left: auto;
+        right: auto;
+        bottom: auto;
+        top: auto;
+    }
+}
