@@ -12,27 +12,28 @@ const initialState = {
     hidNavList: false,
     hidUserOption: false,
     notifyActive: null,
-    shareActive: null
+    shareActive: null,
+    default: false
 };
 
 const formExpand = (state, action) => {
-    return updateObject(state, {expand: state.expend ? state.expand : true})
+    return updateObject(state, {expand: state.expend ? state.expand : true, default: false})
 };
 
 const formSm = (state, action) => {
-    return updateObject(state, {hideFormSm : false})
+    return updateObject(state, {hideFormSm : false, default: false})
 };
 
 const navDefault = (state, action) => {
-    return updateObject(state, {expand: false, hideFormSm: true, addNew: false, hidNotify: true, hidNavList: true, hidUserOption: true})
+    return updateObject(state, {expand: false, hideFormSm: true, addNew: false, hidNotify: true, hidNavList: true, hidUserOption: true, default: true})
 };
 
 const addNew = (state, action) => {
-    return updateObject(state, {addNew: !state.addNew})
+    return updateObject(state, {addNew: !state.addNew, default: false})
 };
 
 const fetchNotify = (state, action) => {
-    return updateObject(state, {notify: action.notify, hidNotify: false, hidNavList: true, hidUserOption: true})
+    return updateObject(state, {notify: action.notify, hidNotify: false, hidNavList: true, hidUserOption: true, default: false})
 };
 
 const changeFavNotifyStart = (state, action) => {
@@ -44,7 +45,7 @@ const changeFavNotify = (state, action) => {
 };
 
 const showNavList = (state, action) => {
-    return updateObject(state, {hidNotify: true, hidNavList: false, hidUserOption: true})
+    return updateObject(state, {hidNotify: true, hidNavList: false, hidUserOption: true, default: false})
 };
 
 const fetchNavList = (state, action) => {
@@ -52,7 +53,7 @@ const fetchNavList = (state, action) => {
 };
 
 const showUserOption = (state, action) => {
-    return updateObject(state, {hidNotify: true, hidNavList: true, hidUserOption: false})
+    return updateObject(state, {hidNotify: true, hidNavList: true, hidUserOption: false, default: false})
 };
 
 const fetchNotifyActive = (state, action) => {

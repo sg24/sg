@@ -12,9 +12,15 @@ const AsyncShare= asyncComponent(() => {
 });
 
 class SiteMain extends Component {
+    checkHeaderDefault = () => {
+        if (!this.props.default) {
+            this.props.onNavDefault()
+        }
+    }
+
     render() {
         return (
-            <div className="site-main" onClick={this.props.onNavDefault}>
+            <div className="site-main" onClick={this.checkHeaderDefault}>
             <div className="wrapper__exmain">
                 <MainContent />
                 <MainNav />

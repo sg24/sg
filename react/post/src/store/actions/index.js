@@ -1,4 +1,16 @@
 export {
+    fetchPostInit,
+    fetchPost,
+    changeFavInit,
+    changeFavPtStart,
+    changeFavPtFail,
+    changeFav,
+    changeFavFilter,
+    filterPostInit,
+    filterPost
+} from './post';
+
+export {
     fetchUsersInit,
     fetchUsers,
     userSelect,

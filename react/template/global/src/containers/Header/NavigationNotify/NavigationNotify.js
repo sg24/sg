@@ -12,6 +12,10 @@ class NavigationNotify extends Component {
         default: false
     };
     
+    componentDidMount() {
+        this.props.onFetchNotifyActive();
+    }
+    
     componentDidUpdate() {
         if (this.state.showNotify && !this.state.default && this.props.hidNotify) {
             this.setState({
@@ -75,10 +79,6 @@ class NavigationNotify extends Component {
                 fav={this.changeFavoriteHandler}/>
             notifyCntClass.push("site-header__menu--notify__cnt--visible");
             this.props.onDefaultNotifyactive();
-        }
-
-        if (!this.state.showNotify) {
-            this.props.onFetchNotifyActive();
         }
 
         return (

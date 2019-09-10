@@ -1,22 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter, Route } from 'react-router-dom';
 
 import * as actions from '../../store/actions/index';
 import MainContent from './MainContent/MainContent';
+import MainNav from './MainNav/MainNav'
+import asyncComponent from '../../hoc/asyncComponent/asyncComponent';
+
+const AsyncShare= asyncComponent(() => {
+    return import ('./Share/Share');
+});
 
 class SiteMain extends Component {
+    checkHeaderDefault = () => {
+        if (!this.props.default) {
+            this.props.onNavDefault()
+        }
+    }
+
     render() {
         return (
-            <div 
-                className="site-main site-main__fm" 
-                onClick={this.props.onNavDefault}>
+            <div className="site-main" onClick={this.checkHeaderDefault}>
             <div className="wrapper__exmain">
                 <MainContent />
+                <MainNav />
             </div>
+            <Route path="/index/share" component={AsyncShare} />
         </div>
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+         default: state.header.default
+    };
+ }
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -24,4 +43,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(SiteMain); 
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SiteMain)); 

@@ -12,6 +12,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import App from './App';
 import './index.css';
 import auth from './store/reducers/auth';
+import post from './store/reducers/post';
 import share from './store/reducers/share';
 import tags from './store/reducers/tags';
 import trend from './store/reducers/trend';
@@ -21,6 +22,7 @@ import header from './store/reducers/header';
 import main from './store/reducers/main';
 
 import { 
+        watchPt,
         watchShare,
         watchTags,
         watchTrd,
@@ -35,6 +37,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 const rootReducers = combineReducers({
     auth,
+    pt: post,
     share: share,
     tags: tags,
     trd: trend,
@@ -48,6 +51,7 @@ const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const store = createStore(rootReducers, composeEnhancer(applyMiddleware(sagaMiddleware)));
 
+sagaMiddleware.run(watchPt);
 sagaMiddleware.run(watchShare);
 sagaMiddleware.run(watchTags);
 sagaMiddleware.run(watchTrd);

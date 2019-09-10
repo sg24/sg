@@ -1,6 +1,7 @@
 import { takeEvery, all } from 'redux-saga/effects';
 
 import * as actionTypes from '../../store/actions/actionTypes';
+import { fetchPostInitSaga, changeFavSaga, filterPostInitSaga } from './post';
 import { fetchUsersInitSaga, filterUserInitSaga, filterUserSelectInitSaga, shareUserInitSaga } from './share';
 import { fetchTagsInitSaga } from './tags';
 import { fetchTrdInitSaga, changeFavTrdSaga } from './trend';
@@ -13,6 +14,14 @@ import { fetchNotifyInitSaga,
             defaultNotifyActiveInitSaga,
             fetchShareActiveInitSaga } from './header';
 import { fetchMainActiveInitSaga, defaultMainActiveInitSaga } from './main';
+
+export function* watchPt() {
+    yield all([
+        takeEvery(actionTypes.FETCH_POST_INIT, fetchPostInitSaga),
+        takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga),
+        takeEvery(actionTypes.FILTER_POST_INIT, filterPostInitSaga)
+    ])
+} 
 
 export function* watchShare() {
     yield all([

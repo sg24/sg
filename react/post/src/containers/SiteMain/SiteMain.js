@@ -12,9 +12,15 @@ const AsyncShare= asyncComponent(() => {
 });
 
 class SiteMain extends Component {
+    checkHeaderDefault = () => {
+        if (!this.props.default) {
+            this.props.onNavDefault()
+        }
+    }
+
     render() {
         return (
-            <div className="site-main" onClick={this.props.onNavDefault}>
+            <div className="site-main" onClick={this.checkHeaderDefault}>
             <div className="wrapper__exmain">
                 <MainContent />
                 <MainNav />
@@ -25,9 +31,16 @@ class SiteMain extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+         default: state.header.default
+    };
+ }
+
 const mapDispatchToProps = dispatch => {
     return {
         onNavDefault: () => dispatch(actions.headerNavDefault())
     };
 };
-export default withRouter(connect(null, mapDispatchToProps)(SiteMain)); 
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SiteMain)); 
