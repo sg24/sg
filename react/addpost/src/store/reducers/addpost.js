@@ -3,17 +3,36 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
     ptCateg: null,
+    showPtCateg: false,
+    ptCategErr: null,
     newPtCateg: null,
+    hideMediaBox: false,
     hidAddItm: false,
-    linkValid: false,
+    linkValid: null,
     media: {},
     users: null,
     filteredUser: null,
-    defaultValue: false
+    defaultValue: false,
+    submitFiles: 0,
+    submitError: null,
+    submitForm: false,
+    postID: null
+};
+
+const fetchPtCategStart = (state, action) => {
+    return updateObject(state, {showPtCateg: true, ptCategErr: null})
+};
+
+const fetchPtCategFail = (state, action) => {
+    return updateObject(state, {ptCategErr: {message: action.err.message, code: action.err.code}});
+};
+
+const fetchPtCategReset = (state, action) => {
+    return updateObject(state, {ptCategErr: null, showPtCateg: false});
 };
 
 const fetchPtCateg = (state, action) => {
-    return updateObject(state, {ptCateg: action.ptCateg})
+    return updateObject(state, {ptCateg: action.ptCateg, showPtCateg: action.ptCateg !== null})
 };
 
 const addPtCateg = (state, action) => {
@@ -21,11 +40,11 @@ const addPtCateg = (state, action) => {
 };
 
 const checkLink = (state, action) => {
-    return updateObject(state, {linkValid: action.isValid})
+    return updateObject(state, {linkValid: {err: action.err, mediaLink: action.mediaLink}})
 };
 
 const resetLink = (state, action) => {
-    return updateObject(state, {linkValid: false})
+    return updateObject(state, {linkValid: null})
 };
 
 const removeMedia = (state, action) => {
@@ -39,7 +58,6 @@ const submitMedia = (state, action) => {
 const hideMediaBox = (state, action) => {
     return updateObject(state, {hideMediaBox: true})
 };
-
 
 const showMediaBox = (state, action) => {
     return updateObject(state, {hideMediaBox: false})
@@ -65,8 +83,31 @@ const showUserSelect = (state, action) => {
     return updateObject(state, {users: action.users, filteredUser: null, defaultValue: true})
 };
 
+const submitFormStart = (state, action) => {
+    return updateObject(state, {submitForm: true, submitError: null, submitFiles: 0})
+};
+
+const submitFormSuccess = (state, action) => {
+    let filesUpload = state.submitFiles+=1
+    return updateObject(state, {submitFiles: filesUpload})
+};
+
+const submitFormFail = (state, action) => {
+    return updateObject(state, {submitError: {message: action.err.message, code: action.err.code}})
+};
+
+const formSubmitted = (state, action) => {
+    return updateObject(state, {postID: action.ID})
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.FETCH_PT_CATEG_START:
+            return fetchPtCategStart(state, action);
+        case actionTypes.FETCH_PT_CATEG_FAIL:
+            return fetchPtCategFail(state, action);
+        case actionTypes.FETCH_PT_CATEG_RESET:
+            return fetchPtCategReset(state, action);
         case actionTypes.FETCH_PT_CATEG:
             return fetchPtCateg(state, action);
         case actionTypes.ADD_PT_CATEG:
@@ -93,6 +134,14 @@ const reducer = (state = initialState, action) => {
             return userSelect(state, action);
         case actionTypes.SHOW_USER_SELECT:
             return showUserSelect(state, action);
+        case actionTypes.SUBMIT_FORM_START:
+            return submitFormStart(state, action);
+        case actionTypes.SUBMIT_FORM_SUCCESS:
+            return submitFormSuccess(state, action);
+        case actionTypes.SUBMIT_FORM_FAIL:
+            return submitFormFail(state, action);
+        case actionTypes.FORM_SUBMITTED:
+            return formSubmitted(state, action);
         default: return state
     };
 };

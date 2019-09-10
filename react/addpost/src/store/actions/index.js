@@ -23,6 +23,9 @@ export {
 
 export {
     fetchPtCategInit,
+    fetchPtCategStart,
+    fetchPtCategFail,
+    fetchPtCategReset,
     fetchPtCateg,
     addPtCategInit,
     addPtCateg,
@@ -40,5 +43,11 @@ export {
     filterUser,
     userSelect,
     showUserSelectInit,
-    showUserSelect
+    showUserSelect,
+    submitFormInit,
+    submitFormFail,
+    submitFormSuccess,
+    submitFormStart,
+    submitForm,
+    formSubmitted
 } from './addpost';

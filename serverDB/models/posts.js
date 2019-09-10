@@ -5,22 +5,24 @@ const ObjectId = Schema.ObjectId;
 
 const PostSchema = new Schema({
     id: ObjectId,
-    author: {
+    authorID: {
         type: String,
         required: true
     },
-    authorID: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    userImage: Buffer,
     postCreated: { 
         type: Date, 
         default: Date.now 
     },
-    category: [String],
-    postImage: Buffer,
+    category: {
+        type: Array,
+        required: true
+    },
+    mediaID: {
+        type: String
+    },
+    shareMe: {
+        type: Array
+    },
     title: {
         type: String,
         required: true,
@@ -47,9 +49,9 @@ const PostSchema = new Schema({
         default: 0
     },
     liked: {
-        type: Boolean,
+        type: Array,
         required: true,
-        user: [String]
+        default: [String]
     }
 })
 

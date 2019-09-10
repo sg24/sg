@@ -6,6 +6,26 @@ export const fetchPtCategInit = () =>  {
     }; 
 }; 
 
+
+export const fetchPtCategStart = () =>  {
+    return {
+        type: actionTypes.FETCH_PT_CATEG_START
+    }; 
+}; 
+
+export const fetchPtCategFail = (err) =>  {
+    return {
+        type: actionTypes.FETCH_PT_CATEG_FAIL,
+        err
+    }; 
+}; 
+
+export const fetchPtCategReset = () =>  {
+    return {
+        type: actionTypes.FETCH_PT_CATEG_RESET
+    }; 
+}; 
+
 export const fetchPtCateg = (ptCateg) =>  {
     return {
         type: actionTypes.FETCH_PT_CATEG,
@@ -27,17 +47,19 @@ export const addPtCateg = (ptCateg) =>  {
     }; 
 }; 
 
-export const checkLinkInit = (link) =>  {
+export const checkLinkInit = (link, mediaType) =>  {
     return {
         type: actionTypes.CHECK_LINK_INIT,
-        link
+        link,
+        mediaType
     }; 
 }; 
 
-export const checkLink = (isValid) =>  {
+export const checkLink = (err, mediaLink) =>  {
     return {
         type: actionTypes.CHECK_LINK,
-        isValid
+        err,
+        mediaLink
     }; 
 }; 
 
@@ -128,3 +150,43 @@ export const showUserSelect = (users) => {
         users
     };
 };
+
+export const submitFormInit = (formData) => {
+    return {
+        type: actionTypes.SUBMIT_FORM_INIT,
+        formData
+    };
+};
+
+export const submitFormFail = (err) => {
+    return {
+        type: actionTypes.SUBMIT_FORM_FAIL,
+        err
+    };
+};
+
+export const submitFormSuccess = () => {
+    return {
+        type: actionTypes.SUBMIT_FORM_SUCCESS
+    };
+};
+
+export const submitFormStart = () => {
+    return {
+        type: actionTypes.SUBMIT_FORM_START
+    };
+};
+
+export const submitForm = () => {
+    return {
+        type: actionTypes.SUBMIT_FORM
+    };
+};
+
+export const formSubmitted = (ID) => {
+    return {
+        type: actionTypes.FORM_SUBMITTED,
+        ID
+    };
+};
+

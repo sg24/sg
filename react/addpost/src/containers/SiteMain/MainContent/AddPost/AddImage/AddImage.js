@@ -10,14 +10,13 @@ class AddImage extends Component {
     state = {
         inputValue: '',
         link: null,
-        disabled: true,
         default: false,
         media: [],
         removeMediaItemIndex: null,
         addMediaButton: true
     };
 
-    componentDidMount() {
+    componentWillMount() {
         if (this.props.media.image) {
             this.setState({media: [...this.props.media.image]});
         }
@@ -25,14 +24,14 @@ class AddImage extends Component {
 
 
     componentDidUpdate() {
-        if (!this.state.default && this.props.linkValid) {
-            this.setState({default: true, disabled: false})
+        if (!this.state.default && this.props.linkValid  && !this.props.linkValid.err) {
+            this.setState({default: true, link: this.props.linkValid.mediaLink})
         }
     }
 
     linkVerifyHandler = (event) => {
         let inputValue =  event.target.value;
-        this.setState({link: inputValue, inputValue, disabled: true, default: false});
+        this.setState({inputValue, default: false});
         this.props.onCheckLink(inputValue);
     }
 
@@ -41,7 +40,7 @@ class AddImage extends Component {
             let media = [...this.state.media];
             media.push(this.state.link);
             this.setState({
-                media: media, disabled: true, inputValue: '', default: false});
+                media: media,  inputValue: '', default: false});
             this.props.onResetLink();
         }
     }
@@ -98,7 +97,6 @@ class AddImage extends Component {
             const file = files[i];
             if(file.type.startsWith('image/')) {
                 media.push(window.URL.createObjectURL(file));
-                window.URL.revokeObjectURL(file);
             }
         }
         this.setState({media});
@@ -120,10 +118,10 @@ class AddImage extends Component {
         let mediaPreview = null;
         let mediaAddedViewer = null;
 
-        if (this.props.linkValid && this.state.default) {
-            mediaPreview = (
+        if (this.props.linkValid) {
+            mediaPreview = this.props.linkValid.mediaLink ? (
                 <img src={this.state.link}  alt="post" />
-            )
+            ): <div className="reuse-form__err">{ this.props.linkValid.err.message}</div>
         }
 
         if (this.state.media.length > 0) {
@@ -164,7 +162,7 @@ class AddImage extends Component {
                                 <button
                                     type="button"
                                     onClick={this.addMediaHandler}
-                                    disabled={this.state.disabled}
+                                    disabled={this.props.linkValid ? this.props.linkValid.err !== null : true}
                                     className="reuse-form__cnt--det__btn">
                                     <FontAwesomeIcon 
                                     icon={['fas', 'plus']} />
@@ -180,7 +178,7 @@ class AddImage extends Component {
                     <div className="reuse-form__cnt">
                         <div className="reuse-form__cnt--det">
                             <div className="reuse-form__cnt--det__fil">
-                                Drag and Drop Files
+                                Drag and Drop Images
                                 <input 
                                     type="file" 
                                     name=""
@@ -221,7 +219,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onCheckLink: (videoLink) => dispatch(actions.checkLinkInit(videoLink)),
+        onCheckLink: (imageLink) => dispatch(actions.checkLinkInit(imageLink, 'image')),
         onResetLink: () => dispatch(actions.resetLink()),
         onRemoveMedia: (media) => dispatch(actions.removeMedia(media)),
         onSubmitMedia: (media) => dispatch(actions.submitMedia(media)),

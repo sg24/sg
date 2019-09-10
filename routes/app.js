@@ -1,5 +1,6 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
+let authenticate = require('../serverDB/middleware/authenticate');
 
 router.get('/', function (req, res, next) {
     res.render('index');
@@ -46,8 +47,26 @@ router.get('/add/question', (req, res, next) => {
     res.render('queform');
 });
 
-router.get('/add/post', (req, res, next) => {
-    res.render('postform'); 
+router.get('/add/post', authenticate, (req, res, next) => {
+    let isFetchCateg = false;
+
+    if (req.header('data-categ') === 'category') {
+        isFetchCateg = true;
+        const {category, connectStatus} = require('../serverDB/serverDB');
+        connectStatus.then(() => {
+            category.find({}).then(result => {
+                res.send(result)
+            }).catch(err => {
+                res.sendStatus(404);
+            })
+        }).catch(err => {
+            res.sendStatus(500);
+        })
+    }
+
+    if (!isFetchCateg) {
+        res.render('postform'); 
+    }
 });
 
 router.get('/add/group', (req, res, next) => {

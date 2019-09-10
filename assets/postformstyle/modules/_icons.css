@@ -38,4 +38,12 @@
     &__reuse-form__cnt--tag__close {
         color: $mainLightRed; 
     }
+
+    &__reuse-form--modal__err {
+        color: $mainLightRed;
+    }
+
+    &__reuse-form--modal__upload {
+        color: $mainLightGreen;
+    }
 }

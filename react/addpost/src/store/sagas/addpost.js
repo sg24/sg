@@ -1,7 +1,10 @@
-import { put } from 'redux-saga/effects';
+import { put, delay } from 'redux-saga/effects';
+import uuid from 'uuid/v1';
 
 import * as actions from '../../store/actions/index';
+import { updateObject } from '../../shared/utility';
 import axios from '../../axios';
+import fileAxios from 'axios';
 
 const users = [{
     id: '454537dggdgd',
@@ -29,33 +32,39 @@ const users = [{
     students: 99
 }]
 
-export function* fetchAddpostInitSaga(action) {
-    const category = [
-        "Socal","Socal","Entertainment","TECH","Socal","Socal"
-    ]
-
-    yield put(actions.fetchPtCateg(category));
+export function* fetchPostCategInitSaga(action) {
+    try {
+        yield put(actions.fetchPtCategStart());
+        const category = yield axios.get('/add/post', {headers: {'data-categ':  'category'}, timeout: 5000});
+        const postCateg =  category.data && category.data.length > 0 ? category.data[0].posts : null;
+        yield put(actions.fetchPtCateg(postCateg))
+    } catch(err){
+        yield put(actions.fetchPtCategFail(err));
+        yield delay(2000);
+        yield put(actions.fetchPtCategReset());
+    }
+    
 }
 
 export function* addPostCategInitSaga(action) {
-    const category = [
-        "Socal","Socal","Entertainment","TECH","Socal","Socal"
-    ]
-    const ptCateg = [...category];
-    let newCateg = ptCateg.filter(categ => categ === action.categ);
-    if (newCateg.length < 1) {
-        yield put(actions.addPtCateg(action.categ));
-        return
-    }
-    yield put(actions.addPtCateg(action.categ));
+    let transformCateg = 
+        String(action.categ).trim().charAt(0).toUpperCase() + String(action.categ).trim().toLowerCase().slice(1);
+    yield put(actions.addPtCateg(transformCateg));
 }
 
 export function* checkLinkInitSaga(action) {
-    if (action.link && action.link.length > 10) {
-       yield put(actions.checkLink(true));
-       return
+    let link = String(action.link).trim();
+    try {
+        let response = yield fileAxios.get(link, {responseType: 'blob', timeout: 8000});
+        if (response.data.type.startsWith(action.mediaType + '/')) {
+            yield put(actions.checkLink(null, window.URL.createObjectURL(response.data)));   
+            return;
+        }
+        throw new Error(`Unknown format, Only ${action.mediaType} files`);
+       
+    } catch(err) {
+        yield put(actions.checkLink(err, null));   
     }
-    yield put(actions.checkLink(false));
 }
 
 export function* fetchUsersInitSaga(action) {
@@ -64,7 +73,6 @@ export function* fetchUsersInitSaga(action) {
 }
 
 export function* filterUserInitSaga(action) {
-    String('').indexOf()
        let filterUser = action.users.filter(user => user.user.toLowerCase().indexOf(action.filterContent.toLowerCase()) !== -1 );
 
        if (!action.filterContent && action.users && action.users.length > 0) {
@@ -83,10 +91,58 @@ export function* showUserSelectInitSaga(action) {
             usersArray.push({...user})
         }
     }
-    
-    // users.sort((a, b) => {
-    //     return a.user - b.user;
-    // });
 
     yield put(actions.showUserSelect(usersArray));
+}
+
+
+export function* submitFormInitSaga(action) {
+    yield put(actions.submitFormStart());
+    let mediaID = uuid();
+
+    for(let videoUrl of action.formData.media.video) {
+        try {
+            let response = yield fileAxios.get(videoUrl, {responseType: 'blob'})
+            let reader = new FileReader();
+            reader.readAsDataURL(response.data);
+            reader.onloadend= function(){
+                axios.post('/add/post', {
+                    mediaType: 'video',
+                    mediaID,
+                    data: reader.result
+                })
+            }
+           yield put(actions.submitFormSuccess())
+        } catch(err){
+            yield put(actions.submitFormFail(err))
+        }
+    }
+
+    for(let imageUrl of action.formData.media.image) {
+        try {
+            let response = yield fileAxios.get(imageUrl, {responseType: 'blob'})
+            let reader = new FileReader();
+            reader.readAsDataURL(response.data);
+            reader.onloadend= function(){
+                axios.post('/add/post', {
+                    mediaType: 'image',
+                    mediaID,
+                    data: reader.result
+                })
+            }
+           yield put(actions.submitFormSuccess())
+        } catch(err){
+            yield put(actions.submitFormFail(err))
+        }
+    }
+
+   let updateMedia = updateObject(action.formData, {mediaID})
+        try {
+           let response = yield axios.post('/add/post', updateMedia);
+           yield put(actions.submitFormSuccess())
+           yield put(actions.formSubmitted(response.data))
+        } catch(err){
+            yield put(actions.submitFormFail(err))
+        }
+   
 }

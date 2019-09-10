@@ -1,6 +1,6 @@
 .reuse-user {
     position: relative;
-    border-radius: 10px;
+    border-radius: 10px 0 10px 10px;
     box-shadow: 0px 2px 9px 0px rgba($mainDarkBlack, .3);
     margin-top: 10px;
     margin-bottom: 30px;
@@ -8,7 +8,7 @@
     &__det {
         position: relative;
         background-color: #fff;
-        border-radius: 10px;
+        border-radius: 10px 0 10px 10px;
 
         &--img {
             position: absolute;

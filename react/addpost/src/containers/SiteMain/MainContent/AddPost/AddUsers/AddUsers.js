@@ -18,10 +18,13 @@ class AddUsers extends Component {
     };
 
     
-    componentDidMount() {
-        this.props.onFetchUsers(this.state.curTab);
+    componentWillMount() {
         this.setState({
             userSelected: this.props.media.user ? [...this.props.media.user] : []})
+    }
+
+    componentDidMount() {
+        this.props.onFetchUsers(this.state.curTab);
     }
 
     componentDidUpdate() {
@@ -131,19 +134,19 @@ class AddUsers extends Component {
                         <li 
                             className={this.state.curTab === 'online' ? "active-content-tab" : null}
                             onClick={this.changeTabHandler.bind(this, 'online')}>
-                            {this.state.online ? <div className="active-content-tab__active"></div> : null }
+                            {this.state.curTab === 'online' ? <div className="active-content-tab__active"></div> : null }
                             Online
                         </li>
                         <li
                             className={this.state.curTab === 'offline' ? "active-content-tab" : null}
                             onClick={this.changeTabHandler.bind(this, 'offline')}>
-                            {this.state.offline ? <div className="active-content-tab__active"></div> : null }
+                            {this.state.curTab === 'offline' ? <div className="active-content-tab__active"></div> : null }
                             Offline
                         </li>
                         <li
                             className={this.state.curTab === 'userselect' ? "active-content-tab" : null}
                             onClick={this.changeTabHandler.bind(this, 'userselect')}>
-                            Users Selected 
+                                Users Selected 
                             {this.state.curTab === 'userselect' ? <div className="active-content-tab__active"></div> : null }
                             <div className={userSelectClass.join(' ')}>{this.state.userSelected.length}</div>
                         </li>

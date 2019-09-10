@@ -10,37 +10,36 @@ class AddVideo extends Component {
     state = {
         inputValue: '',
         link: null,
-        disabled: true,
         default: false,
         media: [],
         removeMediaItemIndex: null,
         addMediaButton: true
     };
 
-    componentDidMount() {
+    componentWillMount() {
         if (this.props.media.video) {
             this.setState({media: [...this.props.media.video]});
         }
     }
 
     componentDidUpdate() {
-        if (!this.state.default && this.props.linkValid) {
-            this.setState({default: true, disabled: false})
+        if (!this.state.default && this.props.linkValid && !this.props.linkValid.err) {
+            this.setState({default: true, link: this.props.linkValid.mediaLink})
         }
     }
 
     linkVerifyHandler = (event) => {
         let inputValue =  event.target.value;
-        this.setState({link: inputValue, inputValue, disabled: true, default: false});
+        this.setState({inputValue, default: false});
         this.props.onCheckLink(inputValue);
     }
 
     addMediaHandler = () => {
-        if (this.props.linkValid) {
+        if (this.props.linkValid && this.props.linkValid.mediaLink) {
             let media = [...this.state.media];
             media.push(this.state.link);
             this.setState({
-                media: media, disabled: true, inputValue: '', default: false});
+                media: media, inputValue: '', default: false});
             this.props.onResetLink();
         }
     }
@@ -97,7 +96,6 @@ class AddVideo extends Component {
             const file = files[i];
             if(file.type.startsWith('video/')) {
                 media.push(window.URL.createObjectURL(file));
-                window.URL.revokeObjectURL(file);
             }
         }
         this.setState({media});
@@ -118,12 +116,12 @@ class AddVideo extends Component {
         let mediaPreview = null;
         let mediaAddedViewer = null;
 
-        if (this.props.linkValid && this.state.default) {
-            mediaPreview = (
-                <video src={this.state.link} controls>
+        if (this.props.linkValid) {
+            mediaPreview = this.props.linkValid.mediaLink ? (
+                <video src={this.props.linkValid.mediaLink} controls>
                     <p>our browser doesn't support embedded videos</p>
                 </video>
-            )
+            ) : <div className="reuse-form__err">{ this.props.linkValid.err.message}</div>
         }
 
         if (this.state.media.length > 0) {
@@ -164,7 +162,7 @@ class AddVideo extends Component {
                             <button
                                 type="button"
                                 onClick={this.addMediaHandler}
-                                disabled={this.state.disabled}
+                                disabled={this.props.linkValid ? this.props.linkValid.err !== null : true}
                                 className="reuse-form__cnt--det__btn">
                                 <FontAwesomeIcon 
                                 icon={['fas', 'plus']} />
@@ -180,7 +178,7 @@ class AddVideo extends Component {
                     <div className="reuse-form__cnt">
                         <div className="reuse-form__cnt--det">
                             <div className="reuse-form__cnt--det__fil">
-                                Add Video
+                                Drag and Drop Videos
                                 <input 
                                     type="file" 
                                     name="" 
@@ -221,7 +219,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onCheckLink: (videoLink) => dispatch(actions.checkLinkInit(videoLink)),
+        onCheckLink: (videoLink) => dispatch(actions.checkLinkInit(videoLink, 'video')),
         onResetLink: () => dispatch(actions.resetLink()),
         onRemoveMedia: (media) => dispatch(actions.removeMedia(media)),
         onSubmitMedia: (media) => dispatch(actions.submitMedia(media)),

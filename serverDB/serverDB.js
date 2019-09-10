@@ -1,10 +1,13 @@
 require('./config/config');
-require('./db/mongoose');
+const connectStatus = require('./db/mongoose');
 const posts = require('./models/posts');
+const category = require('./models/category');
+const media = require('./models/media');
 
-const serverDB = {
-    posts
+module.exports = {
+    posts,
+    category,
+    media,
+    connectStatus
 };
-
-module.exports = {serverDB};
 

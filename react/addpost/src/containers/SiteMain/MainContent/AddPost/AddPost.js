@@ -7,6 +7,7 @@ import * as actions from '../../../../store/actions/index';
 import PtCategs from '../../../../components/Main/PostCategs/PostCategs';
 import Categs from '../../../../components/Main/PostCategs/Categs/Categs';
 import Backdrop from '../../../../components/UI/Backdrop/Backdrop';
+import Modal from '../../../../components/UI/Modal/Modal';
 import Aux from '../../../../hoc/Auxs/Aux';
 import asyncComponent from '../../../../hoc/asyncComponent/asyncComponent';
 import { updateObject, checkValidity } from '../../../../shared/utility';
@@ -42,7 +43,7 @@ class AddPost extends  Component {
         showUserOpt: false,
         showAddItmOpt: true,
         formElement: {
-            ptCateg: {
+            title: {
                 value: '',
                 validation: {
                     required: true,
@@ -61,10 +62,17 @@ class AddPost extends  Component {
                 touched: false
             }
         },
-        formIsValid: false
+        formIsValid: false,
+        showForm: false,
+        submitFormErr: null,
+        showFormErr: true
     }
 
     componentDidUpdate() {
+        if (this.state.showPtCateg && !this.props.showPtCateg) {
+            this.setState({showPtCateg: false})
+        }
+
         if (this.state.addNewCateg && this.props.newPtCateg) {
             let categs = [...this.state.categs]
             categs.push(this.props.newPtCateg);
@@ -73,6 +81,32 @@ class AddPost extends  Component {
         if (this.state.showAddItmOpt && this.props.hideMediaBox) {
             this.props.onShowMediaBox();
             this.setState({showVidOpt: false,showImgOpt: false,showUserOpt: false, showAddItmOpt: false});
+        }
+
+        if (this.props.submitForm && this.state.showForm) {
+            let videoLength = this.props.media.video ? this.props.media.video.length : 0;
+            let imageLength = this.props.media.image ? this.props.media.image.length : 0;
+            let mediaLength = videoLength + imageLength + 1;
+            let isSubmitted = this.props.submitFiles === mediaLength;
+            
+            if (isSubmitted) {
+                if (this.props.media.image) {
+                    for (let imageUrl of this.props.media.image) {
+                        window.URL.revokeObjectURL(imageUrl);
+                    }
+                }
+
+                if (this.props.media.video) {
+                    for (let videoUrl of this.props.media.video) {
+                        window.URL.revokeObjectURL(videoUrl);
+                    }
+                }
+                this.setState({showForm: false})
+            } 
+        }
+
+        if (this.props.submitError && this.state.showFormErr) {
+                this.setState({submitFormErr: this.props.submitError, showFormErr: false})
         }
     }
 
@@ -91,7 +125,7 @@ class AddPost extends  Component {
     selectCategHandler = (categ) => {
         let categs = [...this.state.categs]
         categs.push(categ);
-        this.setState({categs,  noCateg: !categs.length > 1})
+        this.setState({categs,  noCateg: !categs.length > 1});
     }
 
     addCategHandler = (event) => {
@@ -155,13 +189,40 @@ class AddPost extends  Component {
         this.setState({formElement: updateFormElement, formIsValid})
     }
 
-    submitHandler = (props) => {
-        props.preventDefault()
+    submitHandler = (event) => {
+       if (event) {
+        event.preventDefault()
+       }
+
+       this.setState({showForm: true, showFormErr: true, submitFormErr: null});
        if (this.state.categs.length > 0 && this.state.formIsValid) {
-        console.log()
+            let newPost = {
+                categ: this.state.categs,
+                title: this.state.formElement.title.value,
+                desc: this.state.formElement.content.value,
+                media: {
+                    image: this.props.media.image ? this.props.media.image : [],
+                    video: this.props.media.video ? this.props.media.video : []
+                },
+                mediaID: '',
+                shareMe: this.props.media.user ? this.props.media.user : []
+            }
+            this.props.onSubmitForm(newPost)
         return
        }
        this.setState({noCateg: true});
+    }
+
+    resendPostHander = () => {
+        this.submitHandler()
+    }
+
+    closeModalHandler = () => {
+        window.location.reload();
+    }
+
+    viewPostHandler = () => {
+        window.location.assign('/post/' + this.props.postID)
     }
 
     render() {
@@ -176,7 +237,7 @@ class AddPost extends  Component {
             addItemOptClass.push('reuse-form__cnt--det__selec--opt__visible')
         }
 
-        if (this.state.showPtCateg) {
+        if (this.state.showPtCateg && this.props.ptCateg) {
             categListClass.push('icon--rotate');
             addPtCateg =  (
                 <ul className="reuse-form__cnt--det__selec--opt reuse-form__cnt--det__selec--opt__visible">
@@ -275,11 +336,11 @@ class AddPost extends  Component {
                                     name=""
                                     required
                                     minLength="6"
-                                    value={this.state.formElement.ptCateg.value}
+                                    value={this.state.formElement.title.value}
                                     className="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg"
-                                    onChange={(event) => this.inputChangedHandler(event, 'ptCateg')} />
+                                    onChange={(event) => this.inputChangedHandler(event, 'title')} />
                             </div>
-                            { !this.state.formElement.ptCateg.valid && this.state.formElement.ptCateg.touched ?
+                            { !this.state.formElement.title.valid && this.state.formElement.title.touched ?
                                 <div className="reuse-form__err">Title must be longer than 5 characters</div>
                                 : null
                             }
@@ -359,7 +420,25 @@ class AddPost extends  Component {
                     { this.state.showImgOpt ? <Aux><Backdrop></Backdrop><AsyncImage /></Aux> : null }
                     { this.state.showVidOpt ? <Aux><Backdrop></Backdrop><AsyncVideo /></Aux> : null }
                     { this.state.showUserOpt ? <Aux><Backdrop></Backdrop><AsyncUsers /></Aux> : null}
-            
+                    { this.props.submitForm && !this.state.showPtCateg ? 
+                        <Aux>
+                            <Backdrop></Backdrop>
+                            <Modal 
+                                media={this.props.media}
+                                uploadFile={this.props.submitFiles}
+                                upload={true}
+                                uploadErr={this.props.submitError}
+                                resend={this.resendPostHander}
+                                closeModal={this.closeModalHandler}
+                                view={this.viewPostHandler}/>
+                        </Aux> : null}
+                    { this.props.showPtCateg && this.state.showPtCateg ? 
+                        <Aux>
+                            <Backdrop></Backdrop>
+                            {this.props.ptCategErr ? <Modal uploadErr={this.props.ptCategErr} />: null}
+                        </Aux> : null
+                    }
+
                     <div className="reuse-form__footer reuse-form__btn">
                         <button 
                             type="submit" 
@@ -389,9 +468,15 @@ class AddPost extends  Component {
 const mapStateToProps = state => {
     return {
         ptCateg: state.addPost.ptCateg,
+        ptCategErr: state.addPost.ptCategErr,
+        showPtCateg: state.addPost.showPtCateg,
         newPtCateg: state.addPost.newPtCateg,
         hideMediaBox: state.addPost.hideMediaBox,
         media: state.addPost.media,
+        submitFiles: state.addPost.submitFiles,
+        submitForm: state.addPost.submitForm,
+        submitError: state.addPost.submitError,
+        postID: state.addPost.postID
     };
 };
 
@@ -399,7 +484,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchPtCateg: () => dispatch(actions.fetchPtCategInit()),
         onAddCateg: (categ) => dispatch(actions.addPtCategInit(categ)),
-        onShowMediaBox: () => dispatch(actions.showMediaBox())
+        onShowMediaBox: () => dispatch(actions.showMediaBox()),
+        onSubmitForm: (formData) => dispatch(actions.submitFormInit(formData))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddPost);
