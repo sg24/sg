@@ -11,7 +11,7 @@ class FilterUserSelect extends Component  {
     }
 
     componentDidMount() {
-        this.props.onFilterUserSelect(null, this.props.userSelect);
+        this.props.onFilterUserSelect('', this.props.userSelect);
     }
 
     render() {

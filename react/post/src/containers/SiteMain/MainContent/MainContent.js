@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch, withRouter } from 'react-router-dom';
 
 import * as actions from '../../../store/actions/index';
 import asyncComponent from '../../../hoc/asyncComponent/asyncComponent';
 import MainNavigations from '../../../components/MainNavigations/MainNavigations';
+import MainPost from './MainPost/MainPost'; 
 
 class MainContent extends Component {
     state = {
         mainNavProps: {
             post: {
-                path: '/index/post',
+                path: '/post',
                 icnGrp: 'clone',
-                icnClass: 'icon icon__site-main__content--tab',
+                icnClass: 'icon icon__site-main--content__tab--clone',
                 title: 'Post',
+                active: null
+            },
+            share: {
+                path: '/post/shared',
+                icnGrp: 'location-arrow',
+                icnClass: 'icon icon__site-main--content__tab--share',
+                title: 'Shared',
                 active: null
             }
         }
@@ -36,22 +43,19 @@ class MainContent extends Component {
         return (
             <div className="site-main__content">
                 <div className="site-main__content--wrapper">
-                    <ul className="site-main__content--tab"> 
-                        {mainNavProps}
-                    </ul>  
-                    <Switch>
-                        
-                    </Switch>
+                    <ul className="site-main__content--tab">
+                        { mainNavProps }
+                    </ul>
+                    <MainPost />
                 </div>
             </div>
-                
         );
     }
 }
 
 const mapStateToProps = state => {
     return {
-        mainProps: state.main.mainProps,
+       mainProps: state.main.mainProps,
        userID: state.auth.userID,
     };
 };
@@ -62,4 +66,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainContent));
+export default connect(mapStateToProps, mapDispatchToProps)(MainContent);

@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 const Filter = props => (
     <li> 
         <NavLink
-            to={'/index' + props.path + '/' + props.tag}>{ props.tag } </NavLink> 
+            to={ props.path + '/' + props.tag}>{ props.tag } </NavLink> 
     </li> 
 );
 

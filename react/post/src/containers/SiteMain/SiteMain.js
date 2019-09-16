@@ -20,12 +20,12 @@ class SiteMain extends Component {
 
     render() {
         return (
-            <div className="site-main" onClick={this.checkHeaderDefault}>
+            <div className="site-main site-main__expage" onClick={this.checkHeaderDefault}>
             <div className="wrapper__exmain">
                 <MainContent />
                 <MainNav />
             </div>
-            <Route path="/index/share" component={AsyncShare} />
+            <Route path="/post/share" component={AsyncShare} />
         </div>
         )
     }

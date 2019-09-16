@@ -9,7 +9,7 @@ class FilterUser extends Component  {
     }
 
     componentDidMount() {
-        this.props.onFilterUser(null);
+        this.props.onFilterUser('');
     }
 
     render() {

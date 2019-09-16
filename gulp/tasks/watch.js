@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
 watch = require('gulp-watch'),
+{ series } = require('gulp'),
 browserSyc = require('browser-sync').create();
 
 gulp.task('watch', function() {
@@ -15,17 +16,13 @@ gulp.task('watch', function() {
         browserSyc.reload();
     });
 
-    watch('./assets/globalstyle/**/*.css', function() {
-        gulp.start('globalcss')
-    });
+    watch('./assets/globalstyle/**/*.css', series('globalstyles', 'globalcss'));
 
     watch('./assets/miniglobalstyle/**/*.css', function() {
         gulp.start('miniglobalcss')
     });
 
-    watch('./assets/styles/**/*.css', function() {
-        gulp.start('cssInject')
-    });
+    watch('./assets/styles/**/*.css', series('styles', 'cssInject'));
 
     watch('./assets/viewstyle/**/*.css', function() {
         gulp.start('viewcss')
@@ -35,9 +32,7 @@ gulp.task('watch', function() {
         gulp.start('comtycss')
     });
 
-    watch('./assets/poststyle/**/*.css', function() {
-        gulp.start('postcss')
-    });
+    watch('./assets/poststyle/**/*.css', series('poststyles', 'postcss'));
 
     watch('./assets/groupstyle/**/*.css', function() {
         gulp.start('groupcss')
@@ -201,231 +196,231 @@ gulp.task('watch', function() {
 
 });
 
-gulp.task('globalcss',['globalstyles'], function() {
+gulp.task('globalcss', function() {
     return gulp.src("./assets/globalstyle/global.css")
     .pipe(browserSyc.stream());
 });
 
-gulp.task('miniglobalcss',['miniglobalstyles'], function() {
-    return gulp.src("./assets/miniglobalstyle/miniglobal.css")
-    .pipe(browserSyc.stream());
-});
+// gulp.task('miniglobalcss',['miniglobalstyles'], function() {
+//     return gulp.src("./assets/miniglobalstyle/miniglobal.css")
+//     .pipe(browserSyc.stream());
+// });
 
-gulp.task('cssInject',['styles'], function() {
+gulp.task('cssInject', function() {
     return gulp.src("./assets/styles/styles.css")
     .pipe(browserSyc.stream());
 });
 
-gulp.task('viewcss',['viewstyles'], function() {
-    return gulp.src("./assets/viewstyle/view.css")
-    .pipe(browserSyc.stream());
-});
+// gulp.task('viewcss',['viewstyles'], function() {
+//     return gulp.src("./assets/viewstyle/view.css")
+//     .pipe(browserSyc.stream());
+// });
 
-gulp.task('comtycss',['comtystyles'], function() {
-    return gulp.src("./assets/comtystyle/comty.css")
-    .pipe(browserSyc.stream());
-});
+// gulp.task('comtycss',['comtystyles'], function() {
+//     return gulp.src("./assets/comtystyle/comty.css")
+//     .pipe(browserSyc.stream());
+// });
 
-gulp.task('postcss',['poststyles'], function() {
+gulp.task('postcss', function() {
     return gulp.src("./assets/poststyle/post.css")
     .pipe(browserSyc.stream());
 });
 
-gulp.task('groupcss',['groupstyles'], function() {
-    return gulp.src("./assets/groupstyle/group.css")
-    .pipe(browserSyc.stream());
-});
+// gulp.task('groupcss',['groupstyles'], function() {
+//     return gulp.src("./assets/groupstyle/group.css")
+//     .pipe(browserSyc.stream());
+// });
 
-gulp.task('questioncss',['questionstyles'], function() {
-    return gulp.src("./assets/questionstyle/question.css")
-    .pipe(browserSyc.stream());
-});
+// gulp.task('questioncss',['questionstyles'], function() {
+//     return gulp.src("./assets/questionstyle/question.css")
+//     .pipe(browserSyc.stream());
+// });
 
 
-gulp.task('ptwritcss',['ptwritstyles'], function() {
-    return gulp.src("./assets/ptwritstyle/ptwrit.css")
-    .pipe(browserSyc.stream());
-});
+// gulp.task('ptwritcss',['ptwritstyles'], function() {
+//     return gulp.src("./assets/ptwritstyle/ptwrit.css")
+//     .pipe(browserSyc.stream());
+// });
 
-gulp.task('onlinequecss',['onlinequestyles'], function() {
-    return gulp.src("./assets/onlinequestyle/onlineque.css")
-    .pipe(browserSyc.stream());
-});
+// gulp.task('onlinequecss',['onlinequestyles'], function() {
+//     return gulp.src("./assets/onlinequestyle/onlineque.css")
+//     .pipe(browserSyc.stream());
+// });
 
-gulp.task('chatcss',['chatstyles'], function() {
-    return gulp.src("./assets/chatstyle/chat.css")
-    .pipe(browserSyc.stream());
-});
+// gulp.task('chatcss',['chatstyles'], function() {
+//     return gulp.src("./assets/chatstyle/chat.css")
+//     .pipe(browserSyc.stream());
+// });
 
-gulp.task('convcss',['convstyles'], function() {
-    return gulp.src("./assets/convstyle/conv.css")
-    .pipe(browserSyc.stream());
-});
+// gulp.task('convcss',['convstyles'], function() {
+//     return gulp.src("./assets/convstyle/conv.css")
+//     .pipe(browserSyc.stream());
+// });
 
-gulp.task('queformcss',['queformstyles'], function() {
-    return gulp.src("./assets/queformstyle/queform.css")
-    .pipe(browserSyc.stream());
-});
+// gulp.task('queformcss',['queformstyles'], function() {
+//     return gulp.src("./assets/queformstyle/queform.css")
+//     .pipe(browserSyc.stream());
+// });
 
-gulp.task('postformcss',['postformstyles'], function() {
-    return gulp.src("./assets/postformstyle/postform.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('postformcss',['postformstyles'], function() {
+//     return gulp.src("./assets/postformstyle/postform.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('groupformcss',['groupformstyles'], function() {
-    return gulp.src("./assets/groupformstyle/groupform.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('groupformcss',['groupformstyles'], function() {
+//     return gulp.src("./assets/groupformstyle/groupform.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('onlinequeformcss',['onlinequeformstyles'], function() {
-    return gulp.src("./assets/onlinequeformstyle/onlinequeform.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('onlinequeformcss',['onlinequeformstyles'], function() {
+//     return gulp.src("./assets/onlinequeformstyle/onlinequeform.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('ptwritformcss',['ptwritformstyles'], function() {
-    return gulp.src("./assets/ptwritformstyle/pwtform.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('ptwritformcss',['ptwritformstyles'], function() {
+//     return gulp.src("./assets/ptwritformstyle/pwtform.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('loginformcss',['loginformstyles'], function() {
-    return gulp.src("./assets/loginformstyle/login-form.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('loginformcss',['loginformstyles'], function() {
+//     return gulp.src("./assets/loginformstyle/login-form.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('signupformcss',['signupformstyles'], function() {
-    return gulp.src("./assets/signupformstyle/signup-form.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('signupformcss',['signupformstyles'], function() {
+//     return gulp.src("./assets/signupformstyle/signup-form.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('signprfformcss',['signprfformstyles'], function() {
-    return gulp.src("./assets/signprfformstyle/signup-prf.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('signprfformcss',['signprfformstyles'], function() {
+//     return gulp.src("./assets/signprfformstyle/signup-prf.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('examtabcss',['examtabstyle'], function() {
-    return gulp.src("./assets/examtabstyle/examtab.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('examtabcss',['examtabstyle'], function() {
+//     return gulp.src("./assets/examtabstyle/examtab.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('usercss',['userstyle'], function() {
-    return gulp.src("./assets/userstyle/users.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('usercss',['userstyle'], function() {
+//     return gulp.src("./assets/userstyle/users.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('profilecss',['profilestyle'], function() {
-    return gulp.src("./assets/profilestyle/profile.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('profilecss',['profilestyle'], function() {
+//     return gulp.src("./assets/profilestyle/profile.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('favoritecss',['favoritestyle'], function() {
-    return gulp.src("./assets/favoritestyle/favorite.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('favoritecss',['favoritestyle'], function() {
+//     return gulp.src("./assets/favoritestyle/favorite.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('reusesharecss',['reusesharestyle'], function() {
-    return gulp.src("./assets/reusesharestyle/reuse-share.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('reusesharecss',['reusesharestyle'], function() {
+//     return gulp.src("./assets/reusesharestyle/reuse-share.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('reuseptcss',['reuseptstyle'], function() {
-    return gulp.src("./assets/reuseptstyle/reuse-pt.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('reuseptcss',['reuseptstyle'], function() {
+//     return gulp.src("./assets/reuseptstyle/reuse-pt.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('reusequecss',['reusequestyle'], function() {
-    return gulp.src("./assets/reusequestyle/reuse-que.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('reusequecss',['reusequestyle'], function() {
+//     return gulp.src("./assets/reusequestyle/reuse-que.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('reusequehelpcss',['reusequehelpstyle'], function() {
-    return gulp.src("./assets/reusequehelpstyle/reuse-que-help.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('reusequehelpcss',['reusequehelpstyle'], function() {
+//     return gulp.src("./assets/reusequehelpstyle/reuse-que-help.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('onlinequecss',['onlinequestyle'], function() {
-    return gulp.src("./assets/reuseonlinequestyle/reuse-onlineque.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('onlinequecss',['onlinequestyle'], function() {
+//     return gulp.src("./assets/reuseonlinequestyle/reuse-onlineque.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('reusepwtcss',['reusepwtstyle'], function() {
-    return gulp.src("./assets/reusepwtstyle/reuse-pwt.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('reusepwtcss',['reusepwtstyle'], function() {
+//     return gulp.src("./assets/reusepwtstyle/reuse-pwt.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('reusegrpcss',['reusegrpstyle'], function() {
-    return gulp.src("./assets/reusegrpstyle/reuse-group.css")
-    .pipe(browserSyc.stream());
-});
+// gulp.task('reusegrpcss',['reusegrpstyle'], function() {
+//     return gulp.src("./assets/reusegrpstyle/reuse-group.css")
+//     .pipe(browserSyc.stream());
+// });
 
-gulp.task('filtercss',['filterstyle'], function() {
-    return gulp.src("./assets/filterstyle/filter.css")
-    .pipe(browserSyc.stream());
-});
+// gulp.task('filtercss',['filterstyle'], function() {
+//     return gulp.src("./assets/filterstyle/filter.css")
+//     .pipe(browserSyc.stream());
+// });
 
-gulp.task('reusesortcss',['reusesortstyle'], function() {
-    return gulp.src("./assets/reusesortstyle/reuse-sort.css")
-    .pipe(browserSyc.stream());
-});
+// gulp.task('reusesortcss',['reusesortstyle'], function() {
+//     return gulp.src("./assets/reusesortstyle/reuse-sort.css")
+//     .pipe(browserSyc.stream());
+// });
 
-gulp.task('reusesrchcss',['reusesrchstyle'], function() {
-    return gulp.src("./assets/reusesrchstyle/reuse-srch.css")
-    .pipe(browserSyc.stream());
-});
+// gulp.task('reusesrchcss',['reusesrchstyle'], function() {
+//     return gulp.src("./assets/reusesrchstyle/reuse-srch.css")
+//     .pipe(browserSyc.stream());
+// });
 
-gulp.task('reuseacctcss',['reuseaccstyle'], function() {
-    return gulp.src("./assets/reuseaccstyle/reuse-acc.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('reuseacctcss',['reuseaccstyle'], function() {
+//     return gulp.src("./assets/reuseaccstyle/reuse-acc.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('reusenoacctcss',['reusenoaccstyle'], function() {
-    return gulp.src("./assets/reusenoaccstyle/reuse-no-acc.css")
-    .pipe(browserSyc.stream());
-});
+// gulp.task('reusenoacctcss',['reusenoaccstyle'], function() {
+//     return gulp.src("./assets/reusenoaccstyle/reuse-no-acc.css")
+//     .pipe(browserSyc.stream());
+// });
 
-gulp.task('reuseusercss',['reuseuserstyle'], function() {
-    return gulp.src("./assets/reuseuserstyle/reuse-user.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('reuseusercss',['reuseuserstyle'], function() {
+//     return gulp.src("./assets/reuseuserstyle/reuse-user.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('accsharedcss',['accsharedstyle'], function() {
-    return gulp.src("./assets/accsharedstyle/acc-shared.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('accsharedcss',['accsharedstyle'], function() {
+//     return gulp.src("./assets/accsharedstyle/acc-shared.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('accusercss',['accuserstyle'], function() {
-    return gulp.src("./assets/accuserstyle/acc-user.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('accusercss',['accuserstyle'], function() {
+//     return gulp.src("./assets/accuserstyle/acc-user.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('accpubcss',['accpubstyle'], function() {
-    return gulp.src("./assets/accpublishstyle/acc-pub.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('accpubcss',['accpubstyle'], function() {
+//     return gulp.src("./assets/accpublishstyle/acc-pub.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('accdftcss',['accdftstyle'], function() {
-    return gulp.src("./assets/accdraftstyle/acc-dft.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('accdftcss',['accdftstyle'], function() {
+//     return gulp.src("./assets/accdraftstyle/acc-dft.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('accprfcss',['accprfstyle'], function() {
-    return gulp.src("./assets/accprfstyle/acc-prf.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('accprfcss',['accprfstyle'], function() {
+//     return gulp.src("./assets/accprfstyle/acc-prf.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('acchelpcss',['acchelpstyle'], function() {
-    return gulp.src("./assets/acchelpstyle/acc-help.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('acchelpcss',['acchelpstyle'], function() {
+//     return gulp.src("./assets/acchelpstyle/acc-help.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('accsetcss',['accsetstyle'], function() {
-    return gulp.src("./assets/accsetstyle/acc-set.css")
-    .pipe(browserSyc.stream());
-}); 
+// gulp.task('accsetcss',['accsetstyle'], function() {
+//     return gulp.src("./assets/accsetstyle/acc-set.css")
+//     .pipe(browserSyc.stream());
+// }); 
 
-gulp.task('forgetpwdcss',['forgetpwdstyle'], function() {
-    return gulp.src("./assets/forgetpwdstyle/reset-pwd.css")
-    .pipe(browserSyc.stream());
-});
+// gulp.task('forgetpwdcss',['forgetpwdstyle'], function() {
+//     return gulp.src("./assets/forgetpwdstyle/reset-pwd.css")
+//     .pipe(browserSyc.stream());
+// });
 
 // gulp.task('scriptsRefresh',['scripts'], function() {
 //     browserSyc.reload();

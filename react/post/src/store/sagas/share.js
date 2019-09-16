@@ -28,8 +28,7 @@ export function* fetchUsersInitSaga () {
 }
 
 export function* filterUserInitSaga(action) {
-
-   let filterUser = users.filter(user => user.author === action.filterContent);
+   let filterUser = users.filter(user => user.author.toLowerCase().indexOf(action.filterContent.toLowerCase()) !== -1);
 
    if (!action.filterContent) {
         filterUser = users;
@@ -40,7 +39,7 @@ export function* filterUserInitSaga(action) {
 
 export function* filterUserSelectInitSaga(action) {
    
-    let filterUser = action.userSelect.filter(user => user.author === action.filterContent);
+    let filterUser = action.userSelect.filter(user => user.author.toLowerCase().indexOf(action.filterContent.toLowerCase()) !== -1 );
   
     if (!action.filterContent) {
         filterUser = action.userSelect

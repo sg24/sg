@@ -16,10 +16,6 @@
 
                 & > a { 
                     padding: 12px 0;
-
-                    &:hover {
-                        background-color: $active
-                    }
                 }
 
                 &:last-child { 
