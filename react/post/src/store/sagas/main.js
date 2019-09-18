@@ -17,9 +17,18 @@ export function* fetchMainActiveInitSaga(action) {
 
 export function* defaultMainActiveInitSaga(action) {
     let oldMainProps = {...action.mainProps};
-    let newMainProps = {};
+    let curActive = 90;
+    let updatedMainProps = {}
+
     for (let key in oldMainProps) {
-        newMainProps[key] = oldMainProps[key];
+        curActive += 2;
+        updatedMainProps[key] = oldMainProps[key]
+        updatedMainProps[key].active = curActive; 
+    }
+
+    let newMainProps = {};
+    for (let key in updatedMainProps) {
+        newMainProps[key] = updatedMainProps[key];
     }
     let mainProps = {...newMainProps[action.categ]}
     mainProps.active = null; 

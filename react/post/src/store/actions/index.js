@@ -81,5 +81,7 @@ export {
     fetchMainActiveInit,
     fetchMainActive,
     defaultMainActiveInit,
-    defaultMainActive
+    defaultMainActive,
+    showMainBackdrop,
+    hideMainBackdrop
 } from './main';

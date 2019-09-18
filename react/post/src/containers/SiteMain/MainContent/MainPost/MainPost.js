@@ -1,31 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { Component } from 'react';
 
 import './MainPost.css';
 import Category from './Category/Category';
-import FilterPost from './FilterPost/FilterPost';  
+import Filter from './Filter/Filter';  
 import Posts from './Posts/Posts';
 import Aux from '../../../../hoc/Auxs/Aux';
 
-function MainPost (props) {
-    return (
-        <Aux>
-            <div className="reuse-pt-filter">
-                <div className="reuse-pt-filter__wrapper">
-                    <Category />
-                    <FilterPost />
-                    <div className="reuse-pt-filter__pt">
-                        My Post 
-                        <div>99</div>
-                    </div>
-                    <div className="reuse-pt-filter__add">
-                        Add Post
+class MainPost extends Component {
+    render() {
+        return (
+            <Aux>
+                <div className="reuse-pt-filter">
+                    <div className="reuse-pt-filter__wrapper">
+                        <Category />
+                        <Filter />
+                        <div className="reuse-pt-filter__pt">
+                            My Post 
+                            <div>99</div>
+                        </div>
+                        <div className="reuse-pt-filter__add">
+                            Add Post
+                        </div>
                     </div>
                 </div>
-            </div>
-            <Posts />
-        </Aux>
-    )
+                <Posts />
+            </Aux>
+        )
+    }
+
 }
 
-export default withRouter(MainPost);
+export default MainPost;

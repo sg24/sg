@@ -1,13 +1,11 @@
-.icon__reuse-filter--angle {
-    margin-left: 5px;
-    color: #182427;
-    font-size: .75rem;
-}
-
 .icon__reuse-filter--calend {
     font-size: 1rem;
     color: rgba(0,0,0, .6);
     cursor: pointer;
+}
+
+.icon__reuse-filter--cnt__angle {
+    margin-right: 5px;
 }
 
 .icon__reuse-filter--categ {
@@ -29,39 +27,18 @@
     color: #ff1600;
 }
 
-.reuse-filter {
-    z-index: 2;
-}
-
-.reuse-filter__title {
-    float: left;
-    border: 1px solid rgba(5,87,139, .2);
-    border-top: 3px solid #05578b;
-    color: #182427;
-    padding: 8px 0;
-    margin-right: 20px;
-    width: 70px;
-    text-align: center;
-    border-radius: 3px;
-    font-size: .8125rem;
-    background-color: rgb(255, 255, 255);
-    cursor: pointer;
-    z-index: 1;
-}
-
 .reuse-filter__opt {
     position: absolute;
-    top: 0;
     border: 1px solid #dcdbdc;
     background-color: #fff;
-    /* -o-box-shadow: 0px 1px 10px 5px rgba($mainDarkGray, .8); */
+    box-shadow: 0px 0px 2px 2px rgba(0,0,0, .45);
     padding: 10px;
-    width: 100%;
+    width: 95%;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100px;
     font-size: .875rem;
     z-index: 2;
-    visibility: hidden;
-    opacity: 0;
-    transition: all .3s ease-in;
 }
 
 .reuse-filter__opt--srch {
@@ -114,7 +91,6 @@
 
 .reuse-filter__opt--fnd__title {
     position: absolute;
-    /* left: 20px; */
     width: 80px;
     top: 22px;
     left: 50%;
@@ -386,8 +362,9 @@
     }
 }
 
-.reuse-filter__opt--visible {
-    opacity: 1;
-    visibility: visible;
-    transition: all .3s ease-in;
+@media (min-width: 800px) {
+
+    .reuse-filter__opt {
+        width: 780px;
+    }
 }   

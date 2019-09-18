@@ -134,9 +134,7 @@ gulp.task('watch', function() {
         gulp.start('reusegrpcss')
     });
 
-    watch('./assets/filterstyle/**/*.css', function() {
-        gulp.start('filtercss')
-    });
+    watch('./assets/filterstyle/**/*.css', series('filterstyle', 'filtercss'));
 
     watch('./assets/reusesortstyle/**/*.css', function() {
         gulp.start('reusesortcss')
@@ -352,10 +350,10 @@ gulp.task('postcss', function() {
 //     .pipe(browserSyc.stream());
 // });
 
-// gulp.task('filtercss',['filterstyle'], function() {
-//     return gulp.src("./assets/filterstyle/filter.css")
-//     .pipe(browserSyc.stream());
-// });
+gulp.task('filtercss', function() {
+    return gulp.src("./assets/filterstyle/filter.css")
+    .pipe(browserSyc.stream());
+});
 
 // gulp.task('reusesortcss',['reusesortstyle'], function() {
 //     return gulp.src("./assets/reusesortstyle/reuse-sort.css")

@@ -30,3 +30,15 @@ export const defaultMainActive = (mainProps) => {
         mainProps
     };
 };
+
+export const showMainBackdrop = () => {
+    return {
+        type: actionTypes.SHOW_MAIN_BACKDROP
+    };
+};
+
+export const hideMainBackdrop = () => {
+    return {
+        type: actionTypes.HIDE_MAIN_BACKDROP
+    };
+};

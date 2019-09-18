@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import './FilterPost.css';   
+import './FilterContent.css';
+import * as actions from '../../../../../../store/actions/index'; 
 
-function FilterPost() {
-    return (
-        <div className="reuse-filter">
-            <div className="reuse-filter__title">
-                Filter 
-                <FontAwesomeIcon 
-                    icon={['fas', 'angle-down']} 
-                    className="icon icon__reuse-filter--angle"/>
-            </div>
+class FilterContent extends Component {
+
+    closeFilterHandler = () => {
+        this.props.onHideBackdrop()
+    }
+
+    render() {
+        return (
             <div className="reuse-filter__opt"> 
                 <div className="reuse-filter__opt--srch">
                     <div className="reuse-filter__opt--srch__calend">
@@ -44,8 +45,9 @@ function FilterPost() {
                             <li>
                                 Low 
                                 <span>
-                                    <FontAwesomeIcon 
-                                        icon={['fas', 'angle-left']} />
+                                    {/* <FontAwesomeIcon 
+                                        icon={['fas', 'angle-left']} /> */}
+                                        &lt;
                                     4000
                                 </span>
                             </li>
@@ -53,7 +55,8 @@ function FilterPost() {
                                 Average
                                 <span>
                                     <FontAwesomeIcon 
-                                        icon={['fas', 'angle-left']} />
+                                        icon={['fas', 'angle-left']}
+                                        className="icon icon__reuse-filter--cnt__angle" />
                                     4000
                                 </span>
                             </li>
@@ -61,7 +64,8 @@ function FilterPost() {
                                 High
                                 <span>
                                     <FontAwesomeIcon 
-                                        icon={['fas', 'angle-left']} />
+                                        icon={['fas', 'angle-left']}
+                                        className="icon icon__reuse-filter--cnt__angle" />
                                     4000
                                 </span>
                             </li>
@@ -80,7 +84,8 @@ function FilterPost() {
                                 Low 
                                 <span>
                                     <FontAwesomeIcon 
-                                        icon={['fas', 'angle-left']} />
+                                        icon={['fas', 'angle-left']}
+                                        className="icon icon__reuse-filter--cnt__angle" />
                                     4000
                                 </span>
                             </li>
@@ -88,7 +93,8 @@ function FilterPost() {
                                 Average 
                                 <span>
                                     <FontAwesomeIcon 
-                                        icon={['fas', 'angle-left']} />
+                                        icon={['fas', 'angle-left']}
+                                        className="icon icon__reuse-filter--cnt__angle" />
                                     4000
                                 </span>
                             </li>
@@ -96,7 +102,8 @@ function FilterPost() {
                                 High 
                                 <span>
                                     <FontAwesomeIcon 
-                                        icon={['fas', 'angle-left']} />
+                                        icon={['fas', 'angle-left']}
+                                        className="icon icon__reuse-filter--cnt__angle" />
                                     4000
                                 </span>
                             </li>
@@ -115,7 +122,8 @@ function FilterPost() {
                                 Low 
                                 <span>
                                     <FontAwesomeIcon 
-                                        icon={['fas', 'angle-left']} />
+                                        icon={['fas', 'angle-left']}
+                                        className="icon icon__reuse-filter--cnt__angle" />
                                     4000
                                 </span>
                             </li>
@@ -123,7 +131,8 @@ function FilterPost() {
                                 Average 
                                 <span>
                                     <FontAwesomeIcon 
-                                        icon={['fas', 'angle-left']} />
+                                        icon={['fas', 'angle-left']}
+                                        className="icon icon__reuse-filter--cnt__angle" />
                                     4000
                                 </span>
                             </li>
@@ -131,7 +140,8 @@ function FilterPost() {
                                 High 
                                 <span>
                                     <FontAwesomeIcon 
-                                        icon={['fas', 'angle-left']} />
+                                        icon={['fas', 'angle-left']}
+                                        className="icon icon__reuse-filter--cnt__angle" />
                                     4000
                                 </span>
                             </li>
@@ -178,13 +188,18 @@ function FilterPost() {
                 </div>
         
                 <div className="reuse-filter__opt--btn">
-                    <button className="reuse-filter__opt--btn__cancel" type="button">
+                    <button 
+                        className="reuse-filter__opt--btn__cancel" 
+                        type="button"
+                        onClick={this.closeFilterHandler}>
                         <FontAwesomeIcon 
                             icon={['fas', 'times']} 
                             className="icon icon__reuse-filter--cancel"/>
                         Cancel
                     </button>
-                    <button className="reuse-filter__opt--btn__apply" type="button">
+                    <button 
+                        className="reuse-filter__opt--btn__apply" 
+                        type="button">
                         <FontAwesomeIcon 
                             icon={['fas', 'check']} 
                             className="icon icon__reuse-filter--apply"/>
@@ -192,8 +207,14 @@ function FilterPost() {
                     </button>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
 
-export default FilterPost;
+const mapDispatchToProps = dispatch => {
+    return {
+         onHideBackdrop: () => dispatch(actions.hideMainBackdrop()) 
+    };
+ }
+
+export default connect(null, mapDispatchToProps)(FilterContent);

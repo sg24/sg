@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as actions from '../../../store/actions/index';
-import asyncComponent from '../../../hoc/asyncComponent/asyncComponent';
 import MainNavigations from '../../../components/MainNavigations/MainNavigations';
 import MainPost from './MainPost/MainPost'; 
 
@@ -23,18 +23,31 @@ class MainContent extends Component {
                 title: 'Shared',
                 active: null
             }
-        }
+        },
+        pathname: null
     }
 
     componentDidMount() {
-        this.props.onFetchMainActive(this.state.mainNavProps, this.props.userID)
+        this.props.onFetchMainActive(this.state.mainNavProps, this.props.userID);
+    }
+
+    componentDidUpdate() {
+        if (this.props.location.pathname !== this.state.pathname && this.props.mainProps && this.props.posts) {
+            for (let key in this.props.mainProps) {
+                let mainProps = {...this.props.mainProps[key]}
+                if (mainProps.path === this.props.location.pathname) {
+                    this.props.onDefaultMainActive(this.props.mainProps, this.props.userID, key)
+                }
+            }
+            this.setState({pathname: this.props.location.pathname})
+        }
     }
 
     render() {
 
         let mainNavProps = <MainNavigations 
             content={this.state.mainNavProps}/>;
-  
+
         if (this.props.mainProps) {
             mainNavProps = <MainNavigations 
                 content={this.props.mainProps}/>;
@@ -56,14 +69,16 @@ class MainContent extends Component {
 const mapStateToProps = state => {
     return {
        mainProps: state.main.mainProps,
+       posts: state.pt.posts,
        userID: state.auth.userID,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchMainActive: (mainProps, userID) => dispatch(actions.fetchMainActiveInit(mainProps, userID))
+        onFetchMainActive: (mainProps, userID) => dispatch(actions.fetchMainActiveInit(mainProps, userID)),
+        onDefaultMainActive: (mainProps, userID, categ) => dispatch(actions.defaultMainActiveInit(mainProps, userID, categ))
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainContent);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainContent));

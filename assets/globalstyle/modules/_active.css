@@ -42,9 +42,9 @@
         align-items: center;
         top: 4px;
         right: 0;
-        width: 24px;
-        height: 24px;
-        border-radius: 12px;
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
         font-size: .8125rem;
         border: 1px solid rgba(255,255,255, .25);
 
@@ -75,9 +75,9 @@
     &--nav {
         top: 4px;
         right: 0;
-        width: 24px;
-        height: 24px;
-        border-radius: 12px;
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
         font-size: .8125rem;
         border: 1px solid rgba(255,255,255, .25);
        

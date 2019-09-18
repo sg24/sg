@@ -18,6 +18,10 @@
         cursor: pointer;
     }
 
+    &__reuse-filter--cnt__angle {
+        margin-right: 5px;
+    }
+
     &__reuse-filter--categ {
         color: $mainFontColor;
         margin-right: 10px;

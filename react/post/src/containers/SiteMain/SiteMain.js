@@ -6,9 +6,14 @@ import * as actions from '../../store/actions/index';
 import MainContent from './MainContent/MainContent';
 import MainNav from './MainNav/MainNav'
 import asyncComponent from '../../hoc/asyncComponent/asyncComponent';
+import Backdrop from '../../components/UI/Backdrop/Backdrop';
 
 const AsyncShare= asyncComponent(() => {
     return import ('./Share/Share');
+});
+
+const AsyncFilterContent= asyncComponent(() => {
+    return import ('./MainContent/MainPost/Filter/FilterContent/FilterContent');
 });
 
 class SiteMain extends Component {
@@ -22,10 +27,14 @@ class SiteMain extends Component {
         return (
             <div className="site-main site-main__expage" onClick={this.checkHeaderDefault}>
             <div className="wrapper__exmain">
+               {this.props.showBackdrop ? 
+                    <Backdrop   
+                        show={ this.props.showBackdrop }
+                        component={ AsyncFilterContent }/> : null}
                 <MainContent />
                 <MainNav />
             </div>
-            <Route path="/post/share" component={AsyncShare} />
+            <Route path="/post/share" exact component={AsyncShare} />
         </div>
         )
     }
@@ -33,7 +42,8 @@ class SiteMain extends Component {
 
 const mapStateToProps = state => {
     return {
-         default: state.header.default
+         default: state.header.default,
+         showBackdrop: state.main.showBackdrop
     };
  }
 
