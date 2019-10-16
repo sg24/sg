@@ -8,7 +8,9 @@ const upload = multer({ storage });
 router.post('/add/post', authenticate, upload.array('media', 1100),(req, res, next) => {
     const content = req.body;
     connectStatus.then((result) => {
-        let postCateg = String(content.categ).split(',');
+        let postCategRaw = String(content.categ).split(',');
+        let postCateg = [...new Set(postCategRaw)];
+        let shareMe = String(content.shareMe).split(',');
         let postID = null;
         let fileID = [];
         
@@ -20,7 +22,7 @@ router.post('/add/post', authenticate, upload.array('media', 1100),(req, res, ne
             authorID: Date.now(),
             category: postCateg,
             mediaID: fileID,
-            shareMe: content.shareMe,
+            shareMe: content.shareMe !== '' ? shareMe : [],
             title: content.title,
             desc: content.desc,
             mode: content.mode

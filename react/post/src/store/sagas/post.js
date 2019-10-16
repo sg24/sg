@@ -51,7 +51,7 @@ export function* fetchPostInitSaga(action) {
     ]
 
     try {
-        let response = yield axios.get('/post', {headers: {'data-categ':'post', 'authorization': 'authorization'}});
+        let response = yield axios.get('/post', {headers: {'data-categ':'post'}});
         console.log(response.data)
         let ptArray = [];
     
@@ -59,7 +59,7 @@ export function* fetchPostInitSaga(action) {
             const newPt = {...pt};
             if (newPt.mediaID) {
                 try {
-                    let response  = yield axios.get('/media', {headers: {'authorization': 'authorization', 'data-categ': newPt.mediaID}})
+                    let response  = yield axios.get('/media', {headers: {'data-categ': newPt.mediaID}})
                     console.log(response)
                 } catch(err) {
 

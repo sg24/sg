@@ -228,6 +228,7 @@
                     margin-right: 10px;
                     border: 1px solid $mainDarkGray;
                     background-color: $mainHeaderColor;
+                    padding-right: 35px;
 
                     & > button {
                         position: absolute;

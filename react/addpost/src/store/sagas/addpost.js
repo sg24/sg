@@ -50,8 +50,10 @@ export function* addPostCategInitSaga(action) {
     for (let categ of categs) {
         transformCateg.push(String(categ).trim().charAt(0).toUpperCase() + String(categ).trim().toLowerCase().slice(1));
     }
+
+    let removeDuplicate = [...new Set(transformCateg)];
         
-    yield put(actions.addPtCateg(transformCateg));
+    yield put(actions.addPtCateg(removeDuplicate));
 }
 
 export function* checkLinkInitSaga(action) {

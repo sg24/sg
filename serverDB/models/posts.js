@@ -15,7 +15,8 @@ const PostSchema = new Schema({
     },
     category: {
         type: Array,
-        required: true
+        required: true,
+        unique: true,
     },
     mediaID: {
         type: Array

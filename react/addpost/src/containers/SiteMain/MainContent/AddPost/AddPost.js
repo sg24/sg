@@ -167,11 +167,12 @@ class AddPost extends  Component {
         });
         
         let formIsValid = true;
-
-        for (let inputType in this.state.formElement) {
-            formIsValid = this.state.formElement[inputType].valid && formIsValid;
-        }
         let updateFormElement = updateObject(this.state.formElement, {[inputType]: updateFormType})
+
+        for (let inputType in updateFormElement) {
+            formIsValid = updateFormElement[inputType].valid && formIsValid;
+        }
+
         this.setState({formElement: updateFormElement, formIsValid})
     }
 
@@ -201,7 +202,7 @@ class AddPost extends  Component {
 
     closeBackdropHandler = () => {
         this.setState({
-            showPtCateg: false});
+            showPtCateg: false, showAddItm: false});
     }
 
     closeModalHandler = () => {
@@ -404,6 +405,8 @@ class AddPost extends  Component {
                         </div>
                     </div>
                     
+                    { this.state.showAddItm ? 
+                        <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop></Aux> : null }
                     { this.state.showImgOpt ? <Aux><Backdrop></Backdrop><AsyncImage /></Aux> : null }
                     { this.state.showVidOpt ? <Aux><Backdrop></Backdrop><AsyncVideo /></Aux> : null }
                     { this.state.showUserOpt ? <Aux><Backdrop></Backdrop><AsyncUsers /></Aux> : null}

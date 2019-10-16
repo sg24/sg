@@ -15,7 +15,7 @@ router.get('/post', authenticate ,(req, res, next) => {
     if (req.header('data-categ') === 'post') {
         connectStatus.then(() => {
             posts.find({}).then(result => {
-                res.send(result)
+                res.send(result).status(200)
             }).catch(err => {
                 res.send(err).status(500);
             })
@@ -86,6 +86,8 @@ router.get('/add/post', authenticate, (req, res, next) => {
             category.find({}).then(result => {
                 res.send(result[0].posts).status(200);
             }).catch(err => {
+                let categ = new category();
+                categ.save();
                 res.status(500).send(err);
             })
         }).catch(err => {
