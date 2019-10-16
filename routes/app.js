@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let authenticate = require('../serverDB/middleware/authenticate');
+const {category, media, posts, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', function (req, res, next) {
     res.render('index');
@@ -10,9 +11,38 @@ router.get('/view', (req, res, next) => {
     res.render('view');
 });
 
-router.get('/post', (req, res, next) => {
+router.get('/post', authenticate ,(req, res, next) => {
+    if (req.header('data-categ') === 'post') {
+        connectStatus.then(() => {
+            posts.find({}).then(result => {
+                res.send(result)
+            }).catch(err => {
+                res.send(err).status(500);
+            })
+        }).catch(err => {
+            res.send(err).status(500);
+        })
+        return;
+    }
+    
     res.render('post');
 });
+
+router.get('/media', authenticate, (req, res, next) => {
+    connectStatus.then(() => {
+       let mediaID = req.header('data-categ');
+       if (mediaID) {
+            media.find({mediaID}).then(result => {
+                console.log(result.length)
+                res.send(result)
+            }).catch(err => {
+                res.sendStatus(404);
+            })
+       }
+    }).catch(err => {
+        res.sendStatus(500);
+    })
+})
 
 router.get('/poet&writer', (req, res, next) => {
     res.render('poetwriter');
@@ -52,20 +82,19 @@ router.get('/add/post', authenticate, (req, res, next) => {
 
     if (req.header('data-categ') === 'category') {
         isFetchCateg = true;
-        const {category, connectStatus} = require('../serverDB/serverDB');
         connectStatus.then(() => {
             category.find({}).then(result => {
-                res.send(result)
+                res.send(result[0].posts).status(200);
             }).catch(err => {
-                res.sendStatus(404);
+                res.status(500).send(err);
             })
         }).catch(err => {
-            res.sendStatus(500);
+            res.status(500).send(err);
         })
     }
 
     if (!isFetchCateg) {
-        res.render('postform'); 
+        res.sendStatus(403); 
     }
 });
 

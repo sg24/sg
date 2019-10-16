@@ -12,8 +12,7 @@ import { fetchPostCategInitSaga,
             checkLinkInitSaga, 
             fetchUsersInitSaga,
             filterUserInitSaga,
-            showUserSelectInitSaga,
-            submitFormInitSaga } from './addpost';
+            showUserSelectInitSaga} from './addpost';
             
 export function* watchHeader() {
      yield all([
@@ -33,7 +32,6 @@ export function* watchAddpost() {
        takeEvery(actionTypes.CHECK_LINK_INIT, checkLinkInitSaga),
        takeEvery(actionTypes.FETCH_USERS_INIT, fetchUsersInitSaga),
        takeEvery(actionTypes.FILTER_USER_INIT, filterUserInitSaga),
-       takeEvery(actionTypes.SHOW_USER_SELECT_INIT, showUserSelectInitSaga),
-       takeEvery(actionTypes.SUBMIT_FORM_INIT, submitFormInitSaga)
+       takeEvery(actionTypes.SHOW_USER_SELECT_INIT, showUserSelectInitSaga)
     ])
 }

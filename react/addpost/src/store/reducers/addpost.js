@@ -13,7 +13,7 @@ const initialState = {
     users: null,
     filteredUser: null,
     defaultValue: false,
-    submitFiles: 0,
+    uploadPercent: null,
     submitError: null,
     submitForm: false,
     postID: null
@@ -40,7 +40,7 @@ const addPtCateg = (state, action) => {
 };
 
 const checkLink = (state, action) => {
-    return updateObject(state, {linkValid: {err: action.err, mediaLink: action.mediaLink}})
+    return updateObject(state, {linkValid: {err: action.err, media: action.media}});
 };
 
 const resetLink = (state, action) => {
@@ -88,8 +88,7 @@ const submitFormStart = (state, action) => {
 };
 
 const submitFormSuccess = (state, action) => {
-    let filesUpload = state.submitFiles+=1
-    return updateObject(state, {submitFiles: filesUpload})
+    return updateObject(state, {uploadPercent: action.uploadPercent})
 };
 
 const submitFormFail = (state, action) => {

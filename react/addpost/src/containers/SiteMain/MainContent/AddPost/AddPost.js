@@ -63,9 +63,7 @@ class AddPost extends  Component {
             }
         },
         formIsValid: false,
-        showForm: false,
-        submitFormErr: null,
-        showFormErr: true
+        showForm: false
     }
 
     componentDidUpdate() {
@@ -75,39 +73,27 @@ class AddPost extends  Component {
 
         if (this.state.addNewCateg && this.props.newPtCateg) {
             let categs = [...this.state.categs]
-            categs.push(this.props.newPtCateg);
+            categs.push(...this.props.newPtCateg);
             this.setState({categs,addNewCateg: false, noCateg: !categs.length > 1})
         }
         if (this.state.showAddItmOpt && this.props.hideMediaBox) {
             this.props.onShowMediaBox();
             this.setState({showVidOpt: false,showImgOpt: false,showUserOpt: false, showAddItmOpt: false});
         }
-
-        if (this.props.submitForm && this.state.showForm) {
-            let videoLength = this.props.media.video ? this.props.media.video.length : 0;
-            let imageLength = this.props.media.image ? this.props.media.image.length : 0;
-            let mediaLength = videoLength + imageLength + 1;
-            let isSubmitted = this.props.submitFiles === mediaLength;
-            
-            if (isSubmitted) {
-                if (this.props.media.image) {
-                    for (let imageUrl of this.props.media.image) {
-                        window.URL.revokeObjectURL(imageUrl);
-                    }
+        if (this.props.uploadPercent === 100 && this.props.postID && this.state.showForm) {
+            if (this.props.media.image) {
+                for (let image of this.props.media.image) {
+                    window.URL.revokeObjectURL(image.url);
                 }
+            }
 
-                if (this.props.media.video) {
-                    for (let videoUrl of this.props.media.video) {
-                        window.URL.revokeObjectURL(videoUrl);
-                    }
+            if (this.props.media.video) {
+                for (let video of this.props.media.video) {
+                    window.URL.revokeObjectURL(video.url);
                 }
-                this.setState({showForm: false})
-            } 
-        }
-
-        if (this.props.submitError && this.state.showFormErr) {
-                this.setState({submitFormErr: this.props.submitError, showFormErr: false})
-        }
+            }
+            this.setState({showForm: false});
+        } 
     }
 
     showPostCategHandler = () => {
@@ -189,12 +175,8 @@ class AddPost extends  Component {
         this.setState({formElement: updateFormElement, formIsValid})
     }
 
-    submitHandler = (event) => {
-       if (event) {
-        event.preventDefault()
-       }
-
-       this.setState({showForm: true, showFormErr: true, submitFormErr: null});
+    submitHandler = (mode) => {
+       this.setState({showForm: true,  showAddItm: false});
        if (this.state.categs.length > 0 && this.state.formIsValid) {
             let newPost = {
                 categ: this.state.categs,
@@ -204,8 +186,8 @@ class AddPost extends  Component {
                     image: this.props.media.image ? this.props.media.image : [],
                     video: this.props.media.video ? this.props.media.video : []
                 },
-                mediaID: '',
-                shareMe: this.props.media.user ? this.props.media.user : []
+                shareMe: this.props.media.user ? this.props.media.user : [],
+                mode
             }
             this.props.onSubmitForm(newPost)
         return
@@ -215,6 +197,11 @@ class AddPost extends  Component {
 
     resendPostHander = () => {
         this.submitHandler()
+    }
+
+    closeBackdropHandler = () => {
+        this.setState({
+            showPtCateg: false});
     }
 
     closeModalHandler = () => {
@@ -270,7 +257,7 @@ class AddPost extends  Component {
         }
 
         return (
-            <form className="reuse-form" onSubmit={this.submitHandler}>
+            <form className="reuse-form">
                 <div className="reuse-form__wrapper">
                     <h3 className="reuse-form__title">
                         <div>
@@ -424,9 +411,8 @@ class AddPost extends  Component {
                         <Aux>
                             <Backdrop></Backdrop>
                             <Modal 
-                                media={this.props.media}
-                                uploadFile={this.props.submitFiles}
-                                upload={true}
+                                uploadPercent={this.props.uploadPercent}
+                                isValid={this.props.postID}
                                 uploadErr={this.props.submitError}
                                 resend={this.resendPostHander}
                                 closeModal={this.closeModalHandler}
@@ -434,25 +420,28 @@ class AddPost extends  Component {
                         </Aux> : null}
                     { this.props.showPtCateg && this.state.showPtCateg ? 
                         <Aux>
-                            <Backdrop></Backdrop>
-                            {this.props.ptCategErr ? <Modal uploadErr={this.props.ptCategErr} />: null}
+                            <Backdrop
+                                close={this.closeBackdropHandler}></Backdrop>
+                            {this.props.ptCategErr ? <Modal uploadErr={this.props.ptCategErr} type='categ' />: null}
                         </Aux> : null
                     }
 
                     <div className="reuse-form__footer reuse-form__btn">
                         <button 
-                            type="submit" 
+                            type="button" 
                             className="reuse-form__btn--dft"
-                            disabled={!this.state.formIsValid}>
+                            disabled={!this.state.formIsValid}
+                            onClick={this.submitHandler.bind(this, 'draft')}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'eye-slash']} 
                                 className="icon icon__reuse-form--btn" />
                             Draft
                         </button>
                         <button 
-                            type="submit" 
+                            type="button" 
                             className="reuse-form__btn--add"
-                            disabled={!this.state.formIsValid}>
+                            disabled={!this.state.formIsValid}
+                            onClick={this.submitHandler.bind(this, 'pubish')}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'plus']} 
                                 className="icon icon__reuse-form--btn" />
@@ -473,7 +462,7 @@ const mapStateToProps = state => {
         newPtCateg: state.addPost.newPtCateg,
         hideMediaBox: state.addPost.hideMediaBox,
         media: state.addPost.media,
-        submitFiles: state.addPost.submitFiles,
+        uploadPercent: state.addPost.uploadPercent,
         submitForm: state.addPost.submitForm,
         submitError: state.addPost.submitError,
         postID: state.addPost.postID
@@ -485,7 +474,7 @@ const mapDispatchToProps = dispatch => {
         onFetchPtCateg: () => dispatch(actions.fetchPtCategInit()),
         onAddCateg: (categ) => dispatch(actions.addPtCategInit(categ)),
         onShowMediaBox: () => dispatch(actions.showMediaBox()),
-        onSubmitForm: (formData) => dispatch(actions.submitFormInit(formData))
+        onSubmitForm: (formData) => dispatch(actions.submit(formData))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddPost);

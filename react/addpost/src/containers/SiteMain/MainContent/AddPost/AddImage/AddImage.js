@@ -9,11 +9,8 @@ import MediaItems from '../../../../../components/Main/MediaItems/MediaItems';
 class AddImage extends Component {
     state = {
         inputValue: '',
-        link: null,
-        default: false,
         media: [],
-        removeMediaItemIndex: null,
-        addMediaButton: true
+        removeMediaItemIndex: null
     };
 
     componentWillMount() {
@@ -22,25 +19,18 @@ class AddImage extends Component {
         }
     }
 
-
-    componentDidUpdate() {
-        if (!this.state.default && this.props.linkValid  && !this.props.linkValid.err) {
-            this.setState({default: true, link: this.props.linkValid.mediaLink})
-        }
-    }
-
     linkVerifyHandler = (event) => {
         let inputValue =  event.target.value;
-        this.setState({inputValue, default: false});
+        this.setState({inputValue});
         this.props.onCheckLink(inputValue);
     }
 
     addMediaHandler = () => {
-        if (this.props.linkValid) {
+        if (this.props.linkValid && this.props.linkValid.media) {
             let media = [...this.state.media];
-            media.push(this.state.link);
+            media.push(this.props.linkValid.media);
             this.setState({
-                media: media,  inputValue: '', default: false});
+                media: media,  inputValue: ''});
             this.props.onResetLink();
         }
     }
@@ -96,7 +86,7 @@ class AddImage extends Component {
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
             if(file.type.startsWith('image/')) {
-                media.push(window.URL.createObjectURL(file));
+                media.push({file, url: window.URL.createObjectURL(file)});
             }
         }
         this.setState({media});
@@ -108,9 +98,7 @@ class AddImage extends Component {
     }
 
     closeMediaBoxHandler = () => {
-        if (!this.state.media.length > 0 ) {
-            this.props.onhideMediaBox();
-        }  
+        this.props.onhideMediaBox();
     }
 
 
@@ -119,8 +107,8 @@ class AddImage extends Component {
         let mediaAddedViewer = null;
 
         if (this.props.linkValid) {
-            mediaPreview = this.props.linkValid.mediaLink ? (
-                <img src={this.state.link}  alt="post" />
+            mediaPreview = this.props.linkValid.media ? (
+                <img src={this.props.linkValid.media.url}  alt="post" />
             ): <div className="reuse-form__err">{ this.props.linkValid.err.message}</div>
         }
 

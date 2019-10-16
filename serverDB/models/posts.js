@@ -18,7 +18,7 @@ const PostSchema = new Schema({
         required: true
     },
     mediaID: {
-        type: String
+        type: Array
     },
     shareMe: {
         type: Array
@@ -52,6 +52,15 @@ const PostSchema = new Schema({
         type: Array,
         required: true,
         default: [String]
+    },
+    mode: {
+        type: String,
+        required: true
+    },
+    _isCompleted: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 })
 

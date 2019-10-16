@@ -11,20 +11,9 @@ const modal = props => {
     );
 
     let modalContent = null;
-    let isSubmitted = false;
-    let mediaLengthPercent;
-    let mediaLength;
-
-    if (props.media) {
-        let videoLength = props.media.video ? props.media.video.length : 0;
-        let imageLength = props.media.image ? props.media.image.length : 0;
-        mediaLength = videoLength + imageLength + 1;
-        isSubmitted = props.uploadFile === mediaLength;
-        mediaLengthPercent = 100 / mediaLength;
-    }
+    let isSubmitted = props.uploadPercent === 100 && props.isValid;
     
     if (isSubmitted || props.uploadErr) {
-        
         icnType =  props.uploadErr ? <FontAwesomeIcon icon={['fas', 'times']} className="icon icon__reuse-form--modal__err"/>
         : <FontAwesomeIcon icon={['fas', 'clone']} className="icon icon__reuse-form--modal__upload"/>;
 
@@ -32,7 +21,7 @@ const modal = props => {
             <Aux>
                 <h3 className="reuse-form__modal--err"> { 
                     props.uploadErr.code === 'ECONNABORTED' && props.uploadErr.message ? 'Network Error' : props.uploadErr.message } </h3>
-                {props.uploadFile !== undefined ? <div className="reuse-form__btn">
+                {props.uploadErr && !props.type ? <div className="reuse-form__btn">
                     <button 
                         type="button"  
                         className="reuse-form__btn--close"
@@ -62,9 +51,12 @@ const modal = props => {
         )
     }
 
-    if ((props.uploadFile === 0 || props.uploadFile > 0)  && !isSubmitted && !props.uploadErr) {
+    if (!isSubmitted && !props.uploadErr) {
         modalContent = (
-            <h3 className="reuse-form__modal--upload">Uploading Data.... <span>{Math.round(mediaLengthPercent * props.uploadFile)}%</span> </h3>
+            <h3 className="reuse-form__modal--upload">
+                Uploading Data.... 
+                <span>{props.uploadPercent ? props.uploadPercent : 0}%</span> 
+            </h3>
         )
     }
 

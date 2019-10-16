@@ -2,6 +2,7 @@ import { put } from 'redux-saga/effects';
 
 import { updateObject, changeFav } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
+import axios from '../../axios';
 
 export function* fetchPostInitSaga(action) {
     const data = [{
@@ -49,17 +50,33 @@ export function* fetchPostInitSaga(action) {
     }
     ]
 
-    let ptArray = [];
+    try {
+        let response = yield axios.get('/post', {headers: {'data-categ':'post', 'authorization': 'authorization'}});
+        console.log(response.data)
+        let ptArray = [];
+    
+        for (let pt of response.data) {
+            const newPt = {...pt};
+            if (newPt.mediaID) {
+                try {
+                    let response  = yield axios.get('/media', {headers: {'authorization': 'authorization', 'data-categ': newPt.mediaID}})
+                    console.log(response)
+                } catch(err) {
 
-    for (let pt of data) {
-        const newPt = {...pt};
-        const valid = action.userID === newPt.authorID;
-        const newData = updateObject(pt, {userOpt: valid});
-        ptArray.push(newData);
+                }
+            }
+            const valid = action.userID === newPt.authorID;
+            const author = 'user' +  newPt._id;
+            const newData = updateObject(pt, {author,userOpt: valid});
+            ptArray.push(newData);
+        }
+    
+    
+        yield put(actions.fetchPost(ptArray));
+    } catch(err){
+        console.log(err)
     }
-
-
-    yield put(actions.fetchPost(ptArray));
+    
 }
 
 export function* changeFavSaga(action) {

@@ -6,7 +6,7 @@ const mediaItems = props => {
     const allMedia = props.media.map((link, index) => (
         <MediaItem
             key={index}
-            link={link}
+            link={link.url}
             index={index}
             mediaType={props.mediaType}
             removeMediaItem={props.removeMediaItem.bind(this, index)}

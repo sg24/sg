@@ -51,3 +51,7 @@ export {
     submitForm,
     formSubmitted
 } from './addpost';
+
+export {
+    submit
+} from '../thunk/submit';

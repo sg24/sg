@@ -1,60 +1,67 @@
-let express = require('express');
-let router = express.Router();
-let authenticate = require('../serverDB/middleware/authenticate');
+const express = require('express');
+const multer = require('multer');
+const {posts, category, connectStatus, storage} = require('../serverDB/serverDB');
+const authenticate = require('../serverDB/middleware/authenticate');
+const router = express.Router();
+const upload = multer({ storage });
 
-router.post('/add/post', authenticate, (req, res, next) => {
-    const {posts, category, media, connectStatus} = require('../serverDB/serverDB');
+router.post('/add/post', authenticate, upload.array('media', 1100),(req, res, next) => {
     const content = req.body;
-    
-    connectStatus.then(() => {
-        if (content.mediaType === 'image' || content.mediaType === 'video') {
-            let newMedia = new media({
-                media: {
-                    mediaType: content.mediaType,
-                    mediaID: content.mediaID,
-                    data: content.data
-                }
-            })
-            newMedia.save().then(() => {
-                res.sendStatus(201)
-            }).catch(() => {
-                res.sendStatus(500)
-            });
-            return
+    connectStatus.then((result) => {
+        let postCateg = String(content.categ).split(',');
+        let postID = null;
+        let fileID = [];
+        
+        for( let file of req.files) {
+            fileID.push(file.id);
         }
-    
+
         let newPost = new posts({
             authorID: Date.now(),
-            category: content.categ,
-            mediaID: content.mediaID,
+            category: postCateg,
+            mediaID: fileID,
             shareMe: content.shareMe,
             title: content.title,
             desc: content.desc,
+            mode: content.mode
         }); 
-    
+
         newPost.save().then(result => {
-            res.send(result._id)
-        }).catch(err => {
-            res.sendStatus(500)
-        })
-    
-        category.countDocuments({}).then((result) => {
-            if ( result < 1) { 
-                let newCateg = new category({
-                    posts: content.categ
-                });
-                newCateg.save();
-                return 
-            }
-            category.findOneAndUpdate({}, {$addToSet: { posts: { $each: content.categ } }})
-            .catch(err => {
-                res.sendStatus(500)
+            postID = result._id;
+
+            category.countDocuments({}).then((result) => {
+                if ( result < 1) { 
+                    let newCateg = new category({
+                        posts: postCateg
+                    });
+                    newCateg.save().then(() => {
+                        posts.findByIdAndUpdate(postID, {_isCompleted: true}).then(() => {
+                            res.status(201).send(postID);
+                        }).catch(err => {
+                            res.status(500).send(err);
+                        })  
+                    }).catch(err => {
+                        res.status(500).send(err);
+                    });
+                    return 
+                }
+                category.findOneAndUpdate({}, {$addToSet: { posts: { $each: postCateg } }}).then(() => {
+                    posts.findByIdAndUpdate(postID, {_isCompleted: true}).then(() => {
+                        res.status(201).send(postID);
+                    }).catch(err => {
+                        res.status(500).send(err);
+                    })
+                }).catch(err => {
+                    res.status(500).send(err);
+                })
             })
+        }).catch(err => {
+            res.status(500).send(err);
         })
     }).catch(err => {
-        res.sendStatus(500);
+        res.status(500).send(err);
     })
-    
+
 })
 
 module.exports = router

@@ -55,11 +55,11 @@ export const checkLinkInit = (link, mediaType) =>  {
     }; 
 }; 
 
-export const checkLink = (err, mediaLink) =>  {
+export const checkLink = (err, media) =>  {
     return {
         type: actionTypes.CHECK_LINK,
         err,
-        mediaLink
+        media
     }; 
 }; 
 
@@ -165,9 +165,10 @@ export const submitFormFail = (err) => {
     };
 };
 
-export const submitFormSuccess = () => {
+export const submitFormSuccess = (uploadPercent) => {
     return {
-        type: actionTypes.SUBMIT_FORM_SUCCESS
+        type: actionTypes.SUBMIT_FORM_SUCCESS,
+        uploadPercent
     };
 };
 

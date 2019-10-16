@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const GridFSStorage = require('multer-gridfs-storage');
+const uuid = require('uuid');
 
 const options = {
     useNewUrlParser: true,
@@ -6,12 +8,21 @@ const options = {
     useFindAndModify: false,
   };
 
-const connectStatus = mongoose.connect("mongodb://localhost:27017/sg", options)
-    .then((res) => {
-        return Promise.resolve(res)
-    })
-    .catch(err => {
-        return Promise.reject(err);
-    });
+const connectStatus = mongoose.connect("mongodb://localhost:27017/sg", options);
 
-module.exports = connectStatus
+const storage = new GridFSStorage({
+    db: connectStatus,
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            const filename = uuid() + ' ' + file.originalname;
+            const fileInfo = {
+              filename,
+              bucketName: 'media'
+            };
+            resolve(fileInfo);
+        });
+    }
+}); 
+
+
+module.exports = { connectStatus, storage }
