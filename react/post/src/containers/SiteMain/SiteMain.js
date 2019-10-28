@@ -7,6 +7,7 @@ import MainContent from './MainContent/MainContent';
 import MainNav from './MainNav/MainNav'
 import asyncComponent from '../../hoc/asyncComponent/asyncComponent';
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
+import Modal from '../../components/UI/Modal/Modal';
 
 const AsyncShare= asyncComponent(() => {
     return import ('./Share/Share');
@@ -31,6 +32,10 @@ class SiteMain extends Component {
                     <Backdrop   
                         show={ this.props.showBackdrop }
                         component={ AsyncFilterContent }/> : null}
+                { this.props.postErr ? 
+                    <Backdrop 
+                        component={ Modal }
+                        err={ this.props.postErr } /> : null}
                 <MainContent />
                 <MainNav />
             </div>
@@ -43,7 +48,8 @@ class SiteMain extends Component {
 const mapStateToProps = state => {
     return {
          default: state.header.default,
-         showBackdrop: state.main.showBackdrop
+         showBackdrop: state.main.showBackdrop,
+         postErr: state.pt.postErr
     };
  }
 

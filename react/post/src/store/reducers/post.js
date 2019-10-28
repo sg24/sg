@@ -12,6 +12,10 @@ const fetchPost = (state, action) => {
     return updateObject(state, {posts: action.posts})
 };
 
+const fetchPostFail = (state, action) => {
+    return updateObject(state, {postErr: action.err})
+};
+
 const fetchVideoStart = (state, action) => {
     if (state.postVideo.url) {
         window.URL.revokeObjectURL(state.postVideo.url);
@@ -49,6 +53,8 @@ const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.FETCH_POST:
             return fetchPost(state, action);
+        case actionTypes.FETCH_POST_FAIL:
+            return fetchPostFail(state, action);
         case actionTypes.FETCH_VIDEO_START:
             return fetchVideoStart(state, action);
         case actionTypes.FETCH_VIDEO_FAIL:

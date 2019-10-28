@@ -1,6 +1,5 @@
 export {
     fetchPostInit,
-    fetchPostStart,
     fetchPostFail,
     fetchPost,
     fetchVideoInit,

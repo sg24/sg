@@ -180,8 +180,8 @@
             &__icn {
                 position: absolute;
                 top: 50%;
-                transform: translateX(-50%);
-                left: 50%;
+                transform: translateY(-50%);
+                left: 45%;
                 cursor: pointer;
                 z-index: 2;
             }
@@ -272,6 +272,46 @@
 
         @mixin atMedium {
             font-size: 1rem;
+        }
+    }
+
+    &__modal {
+        position: relative;
+        font-size: .875rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 200px;
+        margin: 0 auto; 
+        background-color: #fff;
+        box-shadow: 0 1px 8px 4px rgba(0,0,0, .65);
+        z-index: 3;
+        padding: 10px;
+
+        & > h3 {
+            font-weight: 400;
+            font-size: .875rem;
+            margin: 20px 0;
+            padding: 5px;
+            text-align: center;
+            background-color: $mainHeaderColor;
+        }
+
+        &--icn {
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+            margin: 0 auto;
+            background-color: $mainHeaderColor;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            color: $mainFontColor;
+            box-shadow: 0 2px 5px 0 rgba($mainDarkBlack, .75);
+        } 
+
+        @mixin atExtraSmall {
+            width: 300px;
         }
     }
 

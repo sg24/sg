@@ -7,19 +7,6 @@ export const fetchPostInit = (userID) => {
     }
 };
 
-export const fetchPostStart = () => {
-    return {
-        type: actionTypes.FETCH_POST_START
-    }
-};
-
-
-export const fetchPostSuccess = () => {
-    return {
-        type: actionTypes.FETCH_POST_SUCCESS
-    }
-};
-
 export const fetchPostFail = (err) => {
     return {
         type: actionTypes.FETCH_POST_FAIL,

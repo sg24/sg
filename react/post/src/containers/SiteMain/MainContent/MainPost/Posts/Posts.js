@@ -149,6 +149,9 @@ class Posts extends Component {
 
     render() {
         let post = "Loading";
+        if (this.props.postErr) {
+            post = null
+        }
 
         if (this.props.posts) {
             post = <Post 
@@ -208,6 +211,7 @@ const mapStateToProps = state => {
     return {
         userID: state.auth.userID,
         posts: state.pt.posts,
+        postErr: state.pt.postErr,
         postVideo: state.pt.postVideo,
         filteredPost: state.pt.filteredPost,
         mainProps: state.main.mainProps

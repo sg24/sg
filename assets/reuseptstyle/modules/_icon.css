@@ -45,4 +45,8 @@
     &__reuse-pt--options__dft {
         margin-right: 5px;
     }
+
+    &__reuse-pt--modal__icn {
+        color: $mainLightRed;
+    }
 }
