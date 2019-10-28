@@ -69,6 +69,20 @@ export const resetLink = () =>  {
     }; 
 }; 
 
+export const addSnapshot = (snapshot) => {
+    return {
+        type: actionTypes.ADD_SNAPSHOT,
+        snapshot
+    };
+};
+
+export const removeSnapshot = (snapshot) => {
+    return {
+        type: actionTypes.REMOVE_SNAPSHOT,
+        snapshot
+    };
+};
+
 export const removeMedia = (media) => {
     return {
         type: actionTypes.REMOVE_MEDIA,

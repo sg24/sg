@@ -1,6 +1,12 @@
 export {
     fetchPostInit,
+    fetchPostStart,
+    fetchPostFail,
     fetchPost,
+    fetchVideoInit,
+    fetchVideoStart,
+    fetchVideoFail,
+    fetchVideo,
     changeFavInit,
     changeFavPtStart,
     changeFavPtFail,

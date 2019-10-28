@@ -32,6 +32,8 @@ export {
     checkLinkInit,
     checkLink,
     resetLink,
+    addSnapshot,
+    removeSnapshot,
     removeMedia,
     submitMedia,
     hideMediaBox,

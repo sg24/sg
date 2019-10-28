@@ -15,11 +15,15 @@ const PostSchema = new Schema({
     },
     category: {
         type: Array,
-        required: true,
-        unique: true,
+        required: true
     },
-    mediaID: {
-        type: Array
+    postVideo: {
+        type: Array,
+        default: [String]
+    },
+    postImage: {
+        type: Array,
+        default: [String]
     },
     shareMe: {
         type: Array
@@ -53,6 +57,9 @@ const PostSchema = new Schema({
         type: Array,
         required: true,
         default: [String]
+    },
+    snapshot: {
+        type: Array
     },
     mode: {
         type: String,

@@ -9,6 +9,7 @@ const initialState = {
     hideMediaBox: false,
     hidAddItm: false,
     linkValid: null,
+    snapshot: [],
     media: {},
     users: null,
     filteredUser: null,
@@ -45,6 +46,14 @@ const checkLink = (state, action) => {
 
 const resetLink = (state, action) => {
     return updateObject(state, {linkValid: null})
+};
+
+const addSnapshot = (state, action) => {
+    return updateObject(state, {snapshot: action.snapshot})
+};
+
+const removeSnapshot= (state, action) => {
+    return updateObject(state, {snapshot: action.snapshot})
 };
 
 const removeMedia = (state, action) => {
@@ -119,6 +128,10 @@ const reducer = (state = initialState, action) => {
             return checkLink(state, action);
         case actionTypes.RESET_LINK:
             return resetLink(state, action);
+        case actionTypes.ADD_SNAPSHOT:
+            return addSnapshot(state, action);
+        case actionTypes.REMOVE_SNAPSHOT:
+            return removeSnapshot(state, action);
         case actionTypes.REMOVE_MEDIA:
             return removeMedia(state, action);
         case actionTypes.SUBMIT_MEDIA:

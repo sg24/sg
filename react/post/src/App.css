@@ -1206,11 +1206,11 @@ img {
 .site-header__nav-opt > li > a {
   text-decoration: none;
   padding: 8px 20px;
+  color: #182427;
 }
 
 .site-header__nav-opt > li > a:hover {
   background-color: #dcdbdc;
-  color: #182427;
 }
 
 @media (min-width: 1010px) {

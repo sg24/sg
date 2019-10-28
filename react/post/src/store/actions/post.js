@@ -20,9 +20,10 @@ export const fetchPostSuccess = () => {
     }
 };
 
-export const fetchPostFail = () => {
+export const fetchPostFail = (err) => {
     return {
-        type: actionTypes.FETCH_POST_FAIL
+        type: actionTypes.FETCH_POST_FAIL,
+        err
     }
 };
 
@@ -30,6 +31,35 @@ export const fetchPost = (posts) => {
     return {
         type: actionTypes.FETCH_POST,
         posts
+    }
+};
+
+export const fetchVideoInit = (videoID, ptVideoID) => {
+    return {
+        type: actionTypes.FETCH_VIDEO_INIT,
+        videoID,
+        ptVideoID
+    }
+};
+
+export const fetchVideoStart = (ptVideoID) => {
+    return {
+        type: actionTypes.FETCH_VIDEO_START,
+        ptVideoID
+    }
+};
+
+export const fetchVideoFail = (err) => {
+    return {
+        type: actionTypes.FETCH_VIDEO_FAIL,
+        err
+    }
+};
+
+export const fetchVideo = (url) => {
+    return {
+        type: actionTypes.FETCH_VIDEO,
+        url
     }
 };
 

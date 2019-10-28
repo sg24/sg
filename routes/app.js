@@ -1,7 +1,9 @@
 let express = require('express');
 let router = express.Router();
+let mongoose = require('mongoose');
+
 let authenticate = require('../serverDB/middleware/authenticate');
-const {category, media, posts, connectStatus} = require('../serverDB/serverDB');
+const {category, posts, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', function (req, res, next) {
     res.render('index');
@@ -11,16 +13,27 @@ router.get('/view', (req, res, next) => {
     res.render('view');
 });
 
-router.get('/post', authenticate ,(req, res, next) => {
+router.get('/post',(req, res, next) => {
     if (req.header('data-categ') === 'post') {
         connectStatus.then(() => {
-            posts.find({}).then(result => {
+            let limit;
+            let curLimit = parseInt(req.header('limit'));
+            if ( curLimit >= 1200) {
+                limit = 6
+            } else if( curLimit >= 900) {
+                limit = 4;
+            } else if( curLimit >= 500) {
+                limit = 3
+            } else {
+                limit = 2;
+            }
+            posts.find({}).sort({postCreated: -1}).limit(limit).then(result => {
                 res.send(result).status(200)
             }).catch(err => {
-                res.send(err).status(500);
+                res.status(500).send(err);
             })
         }).catch(err => {
-            res.send(err).status(500);
+            res.status(500).send(err);
         })
         return;
     }
@@ -30,15 +43,29 @@ router.get('/post', authenticate ,(req, res, next) => {
 
 router.get('/media', authenticate, (req, res, next) => {
     connectStatus.then(() => {
-       let mediaID = req.header('data-categ');
-       if (mediaID) {
-            media.find({mediaID}).then(result => {
-                console.log(result.length)
-                res.send(result)
-            }).catch(err => {
-                res.sendStatus(404);
-            })
-       }
+        let bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+            bucketName: 'media'
+        });
+        
+        if (req.header('data-categ') === 'media') {
+            let mediaID = req.header('mediaID');
+            let media = bucket.openDownloadStream(mongoose.mongo.ObjectId(mediaID));
+            let base64data = '';
+            
+            media.on('data', function(media) {
+                base64data += Buffer.from(media, 'binary').toString('base64');
+            });
+            
+            media.on('end', function() {
+                let mediaDataUrl = 'data:' + 'video/mp4' + ';base64,' +  base64data;
+                return res.send(mediaDataUrl).status(200)
+            });
+
+            media.on('error', function(err) {
+                return res.status(500).send(err)
+            });
+        }
+        return
     }).catch(err => {
         res.sendStatus(500);
     })

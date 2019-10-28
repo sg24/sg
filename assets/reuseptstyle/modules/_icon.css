@@ -25,6 +25,19 @@
         cursor: pointer;
     }
 
+    &__reuse-pt--media__play {
+        font-size: 3.875rem;
+        color: $mainDarkGray;
+    }
+
+    &__reuse-pt--media__nxt {
+        font-size: 1.475rem;
+    }
+
+    &__reuse-pt--media__prev {
+        font-size: 1.475rem;
+    }
+
     &__reuse-pt--options {
         margin-right: 10px;
     }

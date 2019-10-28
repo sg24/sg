@@ -1,82 +1,51 @@
 import { put } from 'redux-saga/effects';
-
 import { updateObject, changeFav } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
 export function* fetchPostInitSaga(action) {
-    const data = [{
-        id: '234444',
-        author: 'user user',
-        authorID: 'user_id',
-        userImage: '/',
-        postCreated: '2m ago',
-        category: 'social',
-        postImage: '/',
-        title: 'What is your view about all this stuffs',
-        desc: 'The is a description of the sites to be used when this is rendered to the database,this is rendered to the database',
-        view: 11100000,
-        comment: 12000000,
-        favorite: 120000, 
-        liked: false
-    }, 
-    {
-        id: '23444467',
-        author: 'user user',
-        authorID: 'user_id',
-        userImage: '/',
-        postCreated: '2m ago',
-        category: 'poem',
-        postImage: '/',
-        title: 'What is your view about all this stuffs',
-        desc: 'The is a description of the sites to be used when this is rendered to the database,this is rendered to the database',
-        view: 1123000,
-        comment: 120000,
-        favorite: 100000000,
-        liked: false
-    },{
-        id: '23444489',
-        author: 'user user',
-        authorID: 'user_ids',
-        userImage: '/',
-        postCreated: '2m ago',
-        category: 'social',
-        title: 'What is your view about all this stuffs',
-        desc: 'The is a description of the sites to be used when this is rendered to the database,this is rendered to the database',
-        view: 1223000,
-        comment: 120000,
-        favorite: 10000000,
-        liked: false
-    }
-    ]
-
     try {
-        let response = yield axios.get('/post', {headers: {'data-categ':'post'}});
-        console.log(response.data)
+        let response = yield axios.get('/post', {headers: {'data-categ':'post', 'limit': window.innerHeight}});
         let ptArray = [];
-    
+      
         for (let pt of response.data) {
             const newPt = {...pt};
-            if (newPt.mediaID) {
-                try {
-                    let response  = yield axios.get('/media', {headers: {'data-categ': newPt.mediaID}})
-                    console.log(response)
-                } catch(err) {
-
+            let liked = false;
+            for (let userID of newPt.liked) {
+                if(action.userID === userID) {
+                    liked = true
                 }
             }
             const valid = action.userID === newPt.authorID;
             const author = 'user' +  newPt._id;
-            const newData = updateObject(pt, {author,userOpt: valid});
+            const newData = updateObject(newPt, {author,userOpt: valid, category: newPt.category[0], liked});
             ptArray.push(newData);
         }
-    
-    
+
         yield put(actions.fetchPost(ptArray));
     } catch(err){
-        console.log(err)
+        yield put(actions.fetchPostFail(err))
     }
     
+}
+
+export function* fetchVideoInitSaga(action) {
+    yield put(actions.fetchVideoStart(action.ptVideoID))
+    try {
+        let media =  yield axios.get('/media', {headers: {'data-categ':'media', 'mediaID': action.videoID}});
+        function dataURLtoBlob(dataurl) {
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while(n--){
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], {type:mime});
+        }
+        let url = window.URL.createObjectURL(dataURLtoBlob(media.data));
+        yield put(actions.fetchVideo(url))
+    } catch(err) {
+        yield put(actions.fetchVideoFail(err))
+    }
 }
 
 export function* changeFavSaga(action) {

@@ -7079,6 +7079,11 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+pepjs@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/pepjs/-/pepjs-0.5.2.tgz#f0d10bb160bcbf4b72d2069d931170661491a05c"
+  integrity sha512-acPfplXnTKaG8p7VBgkNaBJSGsZu7LYrqEmLCQFoeHYl21B74mMBeVoQA/Gl9u5GmysgzrOCeHsEjw0mXo61nw==
+
 performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
@@ -8210,6 +8215,11 @@ react-scripts@3.0.1:
     workbox-webpack-plugin "4.2.0"
   optionalDependencies:
     fsevents "2.0.6"
+
+react-timeago@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/react-timeago/-/react-timeago-4.4.0.tgz#4520dd9ba63551afc4d709819f52b14b9343ba2b"
+  integrity sha512-Zj8RchTqZEH27LAANemzMR2RpotbP2aMd+UIajfYMZ9KW4dMcViUVKzC7YmqfiqlFfz8B0bjDw2xUBjmcxDngA==
 
 react-transition-group@^4.3.0:
   version "4.3.0"

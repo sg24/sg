@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const GridFSStorage = require('multer-gridfs-storage');
-const uuid = require('uuid');
 
 const options = {
     useNewUrlParser: true,
@@ -14,7 +13,7 @@ const storage = new GridFSStorage({
     db: connectStatus,
     file: (req, file) => {
         return new Promise((resolve, reject) => {
-            const filename = uuid() + ' ' + file.originalname;
+            const filename = file.originalname;
             const fileInfo = {
               filename,
               bucketName: 'media'

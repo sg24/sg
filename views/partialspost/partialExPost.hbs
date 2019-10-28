@@ -1,5 +1,5 @@
 <div class="site-main__content--wrapper">
-    <div class="site-main__content--overlay"></div>
+    {{!-- <div class="site-main__content--overlay"></div> --}}
     <div class="site-main__content--top"></div>
     <ul class="site-main__content--tab">
         <li><a href="" class="active-content-tab"><i class="fas fa-clone icon icon__site-main--content__tab--clone"></i> Post</a></li>
@@ -15,8 +15,8 @@
 
     <div class="reuse-pt-filter">
         <div class="reuse-pt-filter__wrapper">
-            {{> reusecateg}}
-            {{> reusefilter}}
+            {{!-- {{> reusecateg}} --}}
+            {{!-- {{> reusefilter}} --}}
             <div class="reuse-pt-filter__pt">
                 My Post 
                 <div>99</div>
@@ -45,9 +45,20 @@
                     
                     </li>
                 </ul>
-                <div class="reuse-pt__img">
-                    <div class="reuse-pt__img--wrapper">
+                <div class="reuse-pt__media">
+                    <div class="reuse-pt__media--wrapper">
+                        <div class="reuse-pt__media--wrapper__overlay">
+                            <div class="reuse-pt__media--wrapper__icn">
+                                <i class="fas fa-play-circle icon icon__reuse-pt--media__play"></i>  
+                            </div>
+                        </div>
                         <img  alt="" src="/">
+                    </div>
+                    <div class="reuse-pt__media--cnt reuse-pt__media--cnt__nxt">
+                        <i class="fas fa-angle-right icon icon__reuse-pt--media__nxt"></i>  
+                    </div>
+                    <div class="reuse-pt__media--cnt reuse-pt__media--cnt__prev reuse-pt__media--cnt__end">
+                        <i class="fas fa-angle-left icon icon__reuse-pt--media__prev"></i>  
                     </div>
                 </div>
                 <p class="reuse-pt__title">What is your view about all this stuffs</p>

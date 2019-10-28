@@ -3,9 +3,11 @@ const multer = require('multer');
 const {posts, category, connectStatus, storage} = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
 const router = express.Router();
-const upload = multer({ storage });
+const upload = multer({ storage, limits: {
+    fieldSize: 16 * 1024 * 1024 * 1024
+}});
 
-router.post('/add/post', authenticate, upload.array('media', 1100),(req, res, next) => {
+router.post('/add/post', authenticate, upload.array('video', 1100),(req, res, next) => {
     const content = req.body;
     connectStatus.then((result) => {
         let postCategRaw = String(content.categ).split(',');
@@ -13,19 +15,21 @@ router.post('/add/post', authenticate, upload.array('media', 1100),(req, res, ne
         let shareMe = String(content.shareMe).split(',');
         let postID = null;
         let fileID = [];
-        
+
         for( let file of req.files) {
-            fileID.push(file.id);
+            fileID.push({id: file.id, type: file.contentType, snapshotID: file.filename});
         }
 
         let newPost = new posts({
             authorID: Date.now(),
             category: postCateg,
-            mediaID: fileID,
+            postVideo: fileID,
+            postImage: content.image,
             shareMe: content.shareMe !== '' ? shareMe : [],
             title: content.title,
             desc: content.desc,
-            mode: content.mode
+            mode: content.mode,
+            snapshot: content.snapshot !== undefined ? JSON.parse(content.snapshot) : []
         }); 
 
         newPost.save().then(result => {

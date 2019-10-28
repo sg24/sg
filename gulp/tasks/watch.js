@@ -108,9 +108,7 @@ gulp.task('watch', function() {
         gulp.start('reusesharecss')
     });
 
-    watch('./assets/reuseptstyle/**/*.css', function() {
-        gulp.start('reuseptcss')
-    });
+    watch('./assets/reuseptstyle/**/*.css', series('reuseptstyle', 'reuseptcss'));
     
     watch('./assets/reusequestyle/**/*.css', function() {
         gulp.start('reusequecss')
@@ -318,10 +316,10 @@ gulp.task('postformcss', function() {
 //     .pipe(browserSyc.stream());
 // }); 
 
-// gulp.task('reuseptcss',['reuseptstyle'], function() {
-//     return gulp.src("./assets/reuseptstyle/reuse-pt.css")
-//     .pipe(browserSyc.stream());
-// }); 
+gulp.task('reuseptcss', function() {
+    return gulp.src("./assets/reuseptstyle/reuse-pt.css")
+    .pipe(browserSyc.stream());
+}); 
 
 // gulp.task('reusequecss',['reusequestyle'], function() {
 //     return gulp.src("./assets/reusequestyle/reuse-que.css")

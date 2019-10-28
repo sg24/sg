@@ -203,10 +203,10 @@
             & > a {
                 text-decoration: none;
                 padding: 8px 20px; 
+                color: $mainFontColor;
 
                 &:hover {
                     background-color: $mainDarkGray;
-                    color: $mainFontColor;
                 }
             }
         }

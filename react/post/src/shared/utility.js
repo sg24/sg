@@ -91,3 +91,18 @@ export function changeFav(datas, dataID) {
 
    return dataArray;
 };
+
+export const engStrings = {
+    suffixAgo: 'ago',
+    seconds: 'sec',
+    minute: '%d min',
+    minutes: '%d min',
+    hour: '%d hr',
+    hours: '%d hrs',
+    day: '%d day',
+    days: '%d days',
+    month: '%d month',
+    months: '%d months',
+    year: '%d yr',
+    years: '%d yrs'
+  };

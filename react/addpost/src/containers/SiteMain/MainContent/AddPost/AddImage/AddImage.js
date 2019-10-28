@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import * as actions from '../../../../../store/actions/index';
-import { updateObject } from '../../../../../shared/utility';
+import { updateObject, getImageURL } from '../../../../../shared/utility';
 import MediaItems from '../../../../../components/Main/MediaItems/MediaItems';
 
 class AddImage extends Component {
     state = {
         inputValue: '',
         media: [],
-        removeMediaItemIndex: null
+        removeMediaItemIndex: null,
+        snapshotErr: null
     };
 
     componentWillMount() {
@@ -21,21 +22,35 @@ class AddImage extends Component {
 
     linkVerifyHandler = (event) => {
         let inputValue =  event.target.value;
-        this.setState({inputValue});
+        this.setState({inputValue, snapshotErr: null});
         this.props.onCheckLink(inputValue);
     }
 
     addMediaHandler = () => {
         if (this.props.linkValid && this.props.linkValid.media) {
             let media = [...this.state.media];
-            media.push(this.props.linkValid.media);
-            this.setState({
-                media: media,  inputValue: ''});
-            this.props.onResetLink();
+            getImageURL(this.props.linkValid.media.url).then(dataUrl => {
+                media.push({file: dataUrl, url: this.props.linkValid.media.url});
+                this.setState({
+                    media: media,  inputValue: ''});
+                this.props.onResetLink();
+            }).catch(err => {
+                let reader = new FileReader();
+                let these = this;
+                reader.readAsDataURL(this.props.linkValid.media.file)
+                reader.addEventListener('loadend', function() {
+                    media.push({file: reader.result, url: this.props.linkValid.media.url});
+                    these.setState({
+                        media: media,  inputValue: '',
+                        snapshotErr: err});
+                    these.props.onResetLink();
+                })
+            })
         }
     }
 
     selectMediaHandler = (event) => {
+        this.setState({snapshotErr: null});
         event.stopPropagation();
         event.preventDefault();
         if (event.target.files) {
@@ -86,10 +101,21 @@ class AddImage extends Component {
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
             if(file.type.startsWith('image/')) {
-                media.push({file, url: window.URL.createObjectURL(file)});
+                let url = window.URL.createObjectURL(file)
+                getImageURL(url).then(dataUrl => {
+                    media.push({file: dataUrl, url});
+                    this.setState({media});
+                }).catch(err => {
+                    let reader = new FileReader();
+                    let these = this;
+                    reader.readAsDataURL(file)
+                    reader.addEventListener('loadend', function() {
+                        media.push({file: reader.result, url});
+                        these.setState({media, snapshotErr: err});
+                    })
+                })
             }
         }
-        this.setState({media});
     }
 
     submitMediaHandler = () => {
@@ -180,6 +206,8 @@ class AddImage extends Component {
                             </div>
                         </div>
                     </div>
+                    { this.state.snapshotErr ? 
+                        <div className="reuse-form__err">Some features are not available in your browser, { this.state.snapshotErr }</div> : null}
                     { mediaAddedViewer }
                 </div>
                 <div className="reuse-form__itm--footer reuse-form__btn">

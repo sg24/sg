@@ -1,41 +1,57 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import uuid from 'uuid';
 
 import * as actions from '../../../../../store/actions/index';
-import { updateObject } from '../../../../../shared/utility';
+import { updateObject, getSnapshot } from '../../../../../shared/utility';
 import MediaItems from '../../../../../components/Main/MediaItems/MediaItems';
 
 class AddVideo extends Component {
     state = {
         inputValue: '',
+        snapshot: [],
         media: [],
-        removeMediaItemIndex: null
+        removeMediaItemIndex: null,
+        snapshotErr: null
     };
 
     componentWillMount() {
         if (this.props.media.video) {
-            this.setState({media: [...this.props.media.video]});
+            this.setState({media: [...this.props.media.video], snapshot: [...this.props.snapshot]});
         }
     }
 
     linkVerifyHandler = (event) => {
         let inputValue =  event.target.value;
-        this.setState({inputValue});
+        this.setState({inputValue, snapshotErr: null});
         this.props.onCheckLink(inputValue);
     }
 
     addMediaHandler = () => {
         if (this.props.linkValid && this.props.linkValid.media) {
+            let id = uuid();
             let media = [...this.state.media];
-            media.push(this.props.linkValid.media);
-            this.setState({
-                media: media, inputValue: ''});
-            this.props.onResetLink();
+            let snapshot = [...this.state.snapshot];
+            getSnapshot(this.props.linkValid.media.url, 'video').then(curSnapshot => {
+                snapshot.push({id, snapshot: curSnapshot})
+                media.push(updateObject(this.props.linkValid.media, {id}));
+                this.setState({
+                    media: media, inputValue: '',
+                    snapshot});
+                this.props.onResetLink();
+            }).catch(err => {
+                media.push(this.props.linkValid.media);
+                this.setState({
+                    media: media, inputValue: '',
+                    snapshotErr: err});
+                this.props.onResetLink();
+            })
         }
     }
 
     selectMediaHandler = (event) => {
+        this.setState({snapshotErr: null});
         event.stopPropagation();
         event.preventDefault();
         if (event.target.files) {
@@ -72,29 +88,43 @@ class AddVideo extends Component {
         this.setState({removeMediaItemIndex: null})
     }
     
-    removeMediaItemHandler = (index) => {
+    removeMediaItemHandler = (id) => {
         let media = [...this.state.media];
-        let updatedMedia = media.filter((link, CurIndex)=>  CurIndex !== index);
-        this.setState({media:  updatedMedia});
+        let snapshot = [...this.state.snapshot];
+        let updatedMedia = media.filter(link=>  link.id !== id);
+        let updatedSnapshots = snapshot.filter(snapshot => snapshot.id !== id);
+        this.setState({media:  updatedMedia, snapshot: updatedSnapshots});
         if (this.props.media.video && this.props.media.video.length > 0) {
-            this.props.onRemoveMedia(updateObject(this.props.media, {video: updatedMedia}))
+            this.props.onRemoveMedia(updateObject(this.props.media, {video: updatedMedia}));
+            this.props.onRemoveSnapshot(updatedSnapshots);
         }
     }
 
     handleFiles = (files) => {
         let media = [...this.state.media];
+        let snapshot = [...this.state.snapshot];
+
         for (let i = 0; i < files.length; i++) {
-            const file = files[i];
+            const file = files[i];  
             if(file.type.startsWith('video/')) {
-                media.push({file, url: window.URL.createObjectURL(file)});
+                let id = uuid();
+                let url = window.URL.createObjectURL(file);
+                getSnapshot(url, 'video').then(curSnapshot => {
+                    snapshot.push({id, snapshot: curSnapshot});
+                    media.push({file, url, id});
+                    this.setState({media, snapshot});
+                }).catch(err => {
+                    media.push({file, url});
+                    this.setState({media, snapshotErr: err});
+                })
             }
         }
-        this.setState({media});
     }
 
     submitMediaHandler = () => {
         let media = {...this.props.media};
         this.props.onSubmitMedia(updateObject(media, {video: [...this.state.media]}));
+        this.props.onAddSnapshot(this.state.snapshot);
     }
 
     closeMediaBoxHandler = () => {
@@ -181,6 +211,8 @@ class AddVideo extends Component {
                             </div>
                         </div>
                     </div>
+                    { this.state.snapshotErr ? 
+                        <div className="reuse-form__err">Some features are not available in your browser, { this.state.snapshotErr }</div> : null}
                     { mediaAddedViewer }
                 </div>
                 <div className="reuse-form__itm--footer reuse-form__btn">
@@ -202,6 +234,7 @@ class AddVideo extends Component {
 const mapStateToProps = state => {
     return {
         linkValid: state.addPost.linkValid,
+        snapshot: state.addPost.snapshot,
         media: state.addPost.media
     };
 };
@@ -210,6 +243,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onCheckLink: (videoLink) => dispatch(actions.checkLinkInit(videoLink, 'video')),
         onResetLink: () => dispatch(actions.resetLink()),
+        onAddSnapshot: (snapshot) => dispatch(actions.addSnapshot(snapshot)),
+        onRemoveSnapshot: (snapshot) => dispatch(actions.removeSnapshot(snapshot)),
         onRemoveMedia: (media) => dispatch(actions.removeMedia(media)),
         onSubmitMedia: (media) => dispatch(actions.submitMedia(media)),
         onhideMediaBox: () => dispatch(actions.hideMediaBox())

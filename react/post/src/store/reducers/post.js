@@ -3,11 +3,28 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
     posts: null,
-    filteredPost: null
+    filteredPost: null,
+    postVideo: {id: null},
+    videoErr: null
 }
 
 const fetchPost = (state, action) => {
     return updateObject(state, {posts: action.posts})
+};
+
+const fetchVideoStart = (state, action) => {
+    if (state.postVideo.url) {
+        window.URL.revokeObjectURL(state.postVideo.url);
+    }
+    return updateObject(state, {postVideo: {id: action.ptVideoID}})
+};
+
+const fetchVideoFail = (state, action) => {
+    return updateObject(state, {videoErr: action.err})
+};
+
+const fetchVideo = (state, action) => {
+    return updateObject(state, {postVideo: {id: state.postVideo.id, url: action.url}})
 };
 
 const changeFavPtStart = (state, action) => {
@@ -32,6 +49,12 @@ const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.FETCH_POST:
             return fetchPost(state, action);
+        case actionTypes.FETCH_VIDEO_START:
+            return fetchVideoStart(state, action);
+        case actionTypes.FETCH_VIDEO_FAIL:
+            return fetchVideoFail(state, action);
+        case actionTypes.FETCH_VIDEO:
+            return fetchVideo(state, action);
         case actionTypes.CHANGE_FAVORITE:
             return changeFav(state, action);
         case actionTypes.CHANGE_FAVORITE_PT_START:

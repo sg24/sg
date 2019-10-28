@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import 'promise-polyfill/src/polyfill';
 
 import './AddPost.css';
 import * as actions from '../../../../store/actions/index';
@@ -63,7 +64,8 @@ class AddPost extends  Component {
             }
         },
         formIsValid: false,
-        showForm: false
+        showForm: false,
+        postMode: null
     }
 
     componentDidUpdate() {
@@ -177,16 +179,15 @@ class AddPost extends  Component {
     }
 
     submitHandler = (mode) => {
-       this.setState({showForm: true,  showAddItm: false});
+       this.setState({showForm: true,  showAddItm: false, postMode: mode});
        if (this.state.categs.length > 0 && this.state.formIsValid) {
             let newPost = {
                 categ: this.state.categs,
                 title: this.state.formElement.title.value,
                 desc: this.state.formElement.content.value,
-                media: {
-                    image: this.props.media.image ? this.props.media.image : [],
-                    video: this.props.media.video ? this.props.media.video : []
-                },
+                video: this.props.media.video ? this.props.media.video : [],
+                image: this.props.media.image ? this.props.media.image: [],
+                snapshot: this.props.snapshot,
                 shareMe: this.props.media.user ? this.props.media.user : [],
                 mode
             }
@@ -197,7 +198,7 @@ class AddPost extends  Component {
     }
 
     resendPostHander = () => {
-        this.submitHandler()
+        this.submitHandler(this.state.postMode);
     }
 
     closeBackdropHandler = () => {
@@ -464,6 +465,7 @@ const mapStateToProps = state => {
         showPtCateg: state.addPost.showPtCateg,
         newPtCateg: state.addPost.newPtCateg,
         hideMediaBox: state.addPost.hideMediaBox,
+        snapshot: state.addPost.snapshot,
         media: state.addPost.media,
         uploadPercent: state.addPost.uploadPercent,
         submitForm: state.addPost.submitForm,

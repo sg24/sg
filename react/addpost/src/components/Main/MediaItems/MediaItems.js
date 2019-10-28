@@ -9,7 +9,7 @@ const mediaItems = props => {
             link={link.url}
             index={index}
             mediaType={props.mediaType}
-            removeMediaItem={props.removeMediaItem.bind(this, index)}
+            removeMediaItem={props.removeMediaItem.bind(this, link.id)}
             removeMediaItemEnable={props.removeMediaItemEnable.bind(this, index)}
             removeMediaItemDisable={props.removeMediaItemDisable.bind(this, index)}
             removeMediaItemIndex={props.removeMediaItemIndex}/>
