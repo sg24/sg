@@ -20,11 +20,11 @@ const fetchVideoStart = (state, action) => {
     if (state.postVideo.url) {
         window.URL.revokeObjectURL(state.postVideo.url);
     }
-    return updateObject(state, {postVideo: {id: action.ptVideoID}})
+    return updateObject(state, {postVideo: {id: action.ptVideoID}, videoErr: null})
 };
 
 const fetchVideoFail = (state, action) => {
-    return updateObject(state, {videoErr: action.err})
+    return updateObject(state, {videoErr: {id: state.postVideo.id, err: action.err}})
 };
 
 const fetchVideo = (state, action) => {

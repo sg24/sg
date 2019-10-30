@@ -139,7 +139,7 @@ class Posts extends Component {
                 return
             }
             mediaItms.push(mediaDet);
-            this.setState({mediaItms, removeAnim: false, removePrevMedia: null,  animateItm: {id, direction: type}})    
+            this.setState({mediaItms, removeAnim: false, removePrevMedia: null,  animateItm: {id, direction: type}})   
         }, timeFrame)
 
         setTimeout(() => {
@@ -169,6 +169,7 @@ class Posts extends Component {
                 animateItm={this.state.animateItm}
                 removePrevMedia={this.state.removePrevMedia}
                 playVideo={this.playVideoHandler}
+                videoErr={this.props.videoErr}
                 video={this.props.postVideo}
                 playerIcnId={this.state.playerIcnId}
                 slidePlay={this.slidePlayHandler}
@@ -192,6 +193,7 @@ class Posts extends Component {
                 animateItm={this.state.animateItm}
                 removePrevMedia={this.state.removePrevMedia}
                 playVideo={this.playVideoHandler}
+                videoErr={this.props.videoErr}
                 video={this.props.postVideo}
                 playerIcnId={this.state.playerIcnId}
                 slidePlay={this.slidePlayHandler}
@@ -213,6 +215,7 @@ const mapStateToProps = state => {
         posts: state.pt.posts,
         postErr: state.pt.postErr,
         postVideo: state.pt.postVideo,
+        videoErr: state.pt.videoErr,
         filteredPost: state.pt.filteredPost,
         mainProps: state.main.mainProps
     };

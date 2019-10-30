@@ -107,7 +107,21 @@ const postContent = props => {
                             onPointerMove={(event) => props.moveSlidePlay(props.pt._id, [...props.pt.snapshot, ...props.pt.postImage].length, event)}
                             onPointerUp={(event) => props.clearSlidePlay(event)} />
                         }
-                        
+                        { props.videoErr && props.videoErr.id === curMedia.id ? 
+                            <div 
+                                className="reuse-pt__video-err"
+                                onPointerDown={(event) => props.slidePlay(props.pt._id, [...props.pt.snapshot, ...props.pt.postImage].length, event)}
+                                onPointerMove={(event) => props.moveSlidePlay(props.pt._id, [...props.pt.snapshot, ...props.pt.postImage].length, event)}
+                                onPointerUp={(event) => props.clearSlidePlay(event)}>
+                                <div 
+                                    className="reuse-pt__video-err--icn"
+                                    onClick={props.playVideo.bind(this, curMedia.id, props.pt.postVideo)}>
+                                    <FontAwesomeIcon 
+                                        icon={['fas', 'redo']} 
+                                        className="icon icon__reuse-pt--video-err__icn"/>
+                                </div>
+                                <h3> {props.videoErr.err.message} </h3> 
+                            </div> : null}
                     </div>
                 </div>
                 

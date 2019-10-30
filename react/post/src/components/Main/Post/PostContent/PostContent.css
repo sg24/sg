@@ -316,6 +316,42 @@
     }
 }
 
+.reuse-pt__video-err {
+    position: absolute;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+    -ms-flex-direction: column;
+        flex-direction: column;
+    top: 0;
+    width: 100%;
+    bottom: 0;
+    color: #fff;
+}
+
+.reuse-pt__video-err--icn {
+    font-size: 1.375rem;
+    width: 100%;
+    text-align: center;
+    -ms-touch-action: none;
+        touch-action: none;
+}
+
+.reuse-pt__video-err > h3 {
+    width: 100%;
+    font-weight: 400;
+    font-size: .875rem;
+    margin: 20px 0;
+    padding: 5px;
+    text-align: center;
+    color: #fff;
+    -ms-touch-action: none;
+        touch-action: none;
+}
+
 .reuse-pt__modal {
     position: relative;
     font-size: .875rem;
