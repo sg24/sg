@@ -48,6 +48,21 @@
             z-index: 4; 
         }
 
+        &--fav-change  {
+            position: absolute;
+            font-size: 1.875rem;
+            background-color: #fff;
+            color: #ff1600;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in; 
+        }
+
         &--top { 
             @mixin atLarge {
                 padding-top: 10px;  

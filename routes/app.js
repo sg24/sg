@@ -15,30 +15,97 @@ router.get('/view', (req, res, next) => {
 
 router.get('/post',(req, res, next) => {
     if (req.header('data-categ') === 'post') {
+        return fetchPost({});
+    }
+
+    if (req.header('data-categ').startsWith('shared')) {
+        return fetchPost({shareMe: req.header('data-categ').split('-')[1]});
+    }
+
+    function fetchPost(condition) {
         connectStatus.then(() => {
-            let limit;
             let curLimit = parseInt(req.header('limit'));
-            if ( curLimit >= 1200) {
-                limit = 6
-            } else if( curLimit >= 900) {
-                limit = 4;
-            } else if( curLimit >= 500) {
-                limit = 3
-            } else {
-                limit = 2;
-            }
-            posts.find({}).sort({postCreated: -1}).limit(limit).then(result => {
-                res.send(result).status(200)
+            let skip = parseInt(req.header('skip'));
+            posts.find(condition).countDocuments({}).then((ptTotal) => {
+                posts.find(condition).sort({postCreated: -1}).limit(curLimit).skip(skip).then(result => {
+                    res.send({pt: result, ptTotal}).status(200)
+                }).catch(err => {
+                    res.status(500).send(err);
+                })
             }).catch(err => {
                 res.status(500).send(err);
-            })
+            }) 
         }).catch(err => {
             res.status(500).send(err);
         })
-        return;
     }
     
-    res.render('post');
+    if (req.header('data-categ') === 'postCateg') {
+        category.findOne({}).then(result => {
+            res.send(result.posts).status(200);
+        }).catch(err => {
+            res.status(500).send(err);
+        });
+        return;
+    }
+
+    if (req.header('data-categ') === 'trend') {
+        posts.find({}).sort({comment: -1}).limit(3).then(results => {
+            let updateRes = [];
+            for(let result of results) {
+                let updateResult = {
+                    _id: result._id,
+                    cntGrp: 'post',
+                    category: 'Post',
+                    title: String(result.title).substr(0, 100),
+                    view:  result.view,
+                    comment: result.comment,
+                    favorite: result.favorite,
+                    liked: result.liked
+                }
+                updateRes.push(updateResult);
+            }
+            res.send(updateRes).status(200);
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+        return
+    }
+
+    if (req.header('data-categ')) {     
+        return fetchPost({category: req.header('data-categ')});
+    }
+
+    res.sendStatus(200);
+});
+
+router.patch('/post', (req, res, next) => {
+    let content = req.body;
+    posts.findOne({_id: content.id}).then(result => {
+        let favorite = result.favorite;
+        let liked = result.liked;
+        let isLiked = true;
+        for ( let userID  of liked) {
+            if (userID === content.userID) {
+                isLiked = false;
+                liked = result.liked.filter(userID => userID !== content.userID);
+                favorite = favorite - 1;
+            }
+        }
+
+        if (isLiked){
+            liked.push(content.userID);
+            favorite = favorite + 1;
+        }
+        
+        posts.findByIdAndUpdate(content.id, {liked, favorite}).then(result => {
+            res.sendStatus(200);
+        }).catch(err => {
+            res.sendStatus(500);
+        });
+    }).catch(err => {
+        res.sendStatus(500);
+    });
 });
 
 router.get('/media', authenticate, (req, res, next) => {

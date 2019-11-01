@@ -1,6 +1,7 @@
 export {
     fetchPostInit,
     fetchPostFail,
+    fetchPostReset,
     fetchPost,
     fetchVideoInit,
     fetchVideoStart,
@@ -10,9 +11,6 @@ export {
     changeFavPtStart,
     changeFavPtFail,
     changeFav,
-    changeFavFilter,
-    filterPostInit,
-    filterPost
 } from './post';
 
 export {
@@ -42,11 +40,7 @@ export {
 
 export {
     fetchTrdInit,
-    fetchTrd,
-    changeFavTrdInit,
-    changeFavTrdStart,
-    changeFavTrdFail,
-    changeFavTrd
+    fetchTrd
 } from './trend';
 
 export {

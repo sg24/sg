@@ -1,11 +1,21 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchPostInit = (userID) => {
+export const fetchPostInit = (userID, fetchType, fetchLimit, skipPost, ptTotal) => {
     return {
         type: actionTypes.FETCH_POST_INIT,
-        userID
+        userID,
+        fetchType,
+        fetchLimit,
+        skipPost,
+        ptTotal
     }
 };
+
+export const fetchPostReset = () =>{
+    return {
+        type: actionTypes.FETCH_POST_RESET,
+    };
+}
 
 export const fetchPostFail = (err) => {
     return {
@@ -14,10 +24,12 @@ export const fetchPostFail = (err) => {
     }
 };
 
-export const fetchPost = (posts) => {
+export const fetchPost = (posts, skipPost, ptTotal) => {
     return {
         type: actionTypes.FETCH_POST,
-        posts
+        posts,
+        skipPost,
+        ptTotal
     }
 };
 
@@ -50,20 +62,22 @@ export const fetchVideo = (url) => {
     }
 };
 
-export const changeFavInit = (posts, filteredPost, postID) => {
+export const changeFavInit = (id, liked, favAdd, changedFav, userID) => {
     return {
         type: actionTypes.CHANGE_FAVORITE_INIT,
-        posts,
-        filteredPost,
-        postID
+        id,
+        liked,
+        favAdd,
+        changedFav,
+        userID
     };
 };
 
-export const changeFavPtStart = (posts, isPost) => {
+export const changeFavPtStart = (id, isLiked) => {
     return {
         type: actionTypes.CHANGE_FAVORITE_PT_START,
-        posts,
-        isPost
+        id,
+        isLiked
     };
 };
 
@@ -74,49 +88,9 @@ export const changeFavPtFail = (post) => {
     };
 };
 
-export const changeFav = (posts) => {
+export const changeFav = (changedFav) => {
     return {
         type: actionTypes.CHANGE_FAVORITE,
-        posts
-    };
-};
-
-export const changeFavFilter = (filteredPost) => {
-    return {
-        type: actionTypes.CHANGE_FAVORITE_FILTER,
-        filteredPost
-    };
-};
-
-export const filterPostInit = (posts, tag) => {
-    return {
-        type: actionTypes.FILTER_POST_INIT,
-        posts,
-        tag
-    }
-};
-
-export const filterPostStart = () => {
-    return {
-        type: actionTypes.FILTER_POST_START
-    }
-};
-
-export const filterPostSuccess = () => {
-    return {
-        type: actionTypes.FILTER_POST_SUCCESS
-    }
-};
-
-export const filterPostFail = () => {
-    return {
-        type: actionTypes.FILTER_POST_FAIL
-    }
-};
-
-export const filterPost = (posts) => {
-    return {
-        type: actionTypes.FILTER_POST,
-        posts
+        changedFav
     };
 };

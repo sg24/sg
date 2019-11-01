@@ -4,7 +4,7 @@ const GridFSStorage = require('multer-gridfs-storage');
 const options = {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFindAndModify: false,
+    useFindAndModify: false
   };
 
 const connectStatus = mongoose.connect("mongodb://localhost:27017/sg", options);

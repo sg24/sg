@@ -7,7 +7,9 @@ const trendItems = props => {
         <TrendItem 
             key={index}
             trd={trd}
-            fav={props.fav.bind(this, trd.id)}/>
+            fav={props.fav.bind(this, trd._id, trd.liked, trd.favorite)}
+            changedFav={props.changedFav}
+            favChange={props.favChange}/>
     ));
 
     return allTrends

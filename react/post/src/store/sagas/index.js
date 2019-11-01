@@ -1,10 +1,10 @@
 import { takeEvery, all } from 'redux-saga/effects';
 
 import * as actionTypes from '../../store/actions/actionTypes';
-import { fetchPostInitSaga, fetchVideoInitSaga, changeFavSaga, filterPostInitSaga } from './post';
+import { fetchPostInitSaga, fetchVideoInitSaga, changeFavSaga } from './post';
 import { fetchUsersInitSaga, filterUserInitSaga, filterUserSelectInitSaga, shareUserInitSaga } from './share';
 import { fetchTagsInitSaga } from './tags';
-import { fetchTrdInitSaga, changeFavTrdSaga } from './trend';
+import { fetchTrdInitSaga } from './trend';
 import { fetchCategInitSaga } from './setQue';
 import { fetchConvInitSaga } from './conv';
 import { fetchNotifyInitSaga, 
@@ -19,8 +19,7 @@ export function* watchPt() {
     yield all([
         takeEvery(actionTypes.FETCH_POST_INIT, fetchPostInitSaga),
         takeEvery(actionTypes.FETCH_VIDEO_INIT, fetchVideoInitSaga),
-        takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga),
-        takeEvery(actionTypes.FILTER_POST_INIT, filterPostInitSaga)
+        takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga)
     ])
 } 
 
@@ -40,8 +39,7 @@ export function* watchTags() {
 
 export function* watchTrd() {
     yield all([
-        takeEvery(actionTypes.FETCH_TRD_INIT, fetchTrdInitSaga),
-        takeEvery(actionTypes.CHANGE_FAVORITE_TRD_INIT, changeFavTrdSaga)
+        takeEvery(actionTypes.FETCH_TRD_INIT, fetchTrdInitSaga)
     ])
 }
 

@@ -11,7 +11,8 @@ const PostSchema = new Schema({
     },
     postCreated: { 
         type: Date, 
-        default: Date.now 
+        default: Date.now,
+        index: true 
     },
     category: {
         type: Array,

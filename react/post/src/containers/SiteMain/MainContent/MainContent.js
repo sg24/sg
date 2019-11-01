@@ -32,7 +32,7 @@ class MainContent extends Component {
     }
 
     componentDidUpdate() {
-        if (this.props.location.pathname !== this.state.pathname && this.props.mainProps && this.props.posts) {
+        if (this.props.location.pathname !== this.state.pathname && this.props.mainProps) {
             for (let key in this.props.mainProps) {
                 let mainProps = {...this.props.mainProps[key]}
                 if (mainProps.path === this.props.location.pathname) {
@@ -69,7 +69,6 @@ class MainContent extends Component {
 const mapStateToProps = state => {
     return {
        mainProps: state.main.mainProps,
-       posts: state.pt.posts,
        userID: state.auth.userID,
     };
 };

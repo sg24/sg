@@ -12,7 +12,9 @@ const post = props => {
             userOpt={props.userOpt.bind(this, index)} 
             showPt={props.showPtOpt}
             index={index}
-            fav={props.fav.bind(this, pt._id)}
+            fav={props.fav.bind(this, pt._id, pt.liked, pt.favorite)}
+            changedFav={props.changedFav}
+            favChange={props.favChange}
             share={props.share.bind(this, index)}
             nextMedia={props.nextMedia.bind(this, pt._id, [...pt.snapshot, ...pt.postImage].length , 'next')}
             prevMedia={props.prevMedia.bind(this, pt._id, [...pt.snapshot, ...pt.postImage].length, 'prev')}

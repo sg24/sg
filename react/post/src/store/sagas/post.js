@@ -1,28 +1,39 @@
-import { put } from 'redux-saga/effects';
+import { put, delay } from 'redux-saga/effects';
 import { updateObject, changeFav } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
 export function* fetchPostInitSaga(action) {
     try {
-        let response = yield axios.get('/post', {headers: {'data-categ':'post', 'limit': window.innerHeight}});
-        let ptArray = [];
-      
-        for (let pt of response.data) {
-            const newPt = {...pt};
-            let liked = false;
-            for (let userID of newPt.liked) {
-                if(action.userID === userID) {
-                    liked = true
+        if (action.ptTotal === 0 || action.ptTotal > action.skipPost) {
+            let response = yield axios.get('/post', {
+                headers: {
+                    'data-categ': action.fetchType, 
+                    'limit': action.fetchLimit, 
+                    'skip': action.skipPost}});
+            let ptArray = [];
+            if (response.data.pt && response.data.pt.length > 0 ) { 
+                for (let pt of response.data.pt) {
+                    const newPt = {...pt};
+                    let liked = false;
+                    for (let userID of newPt.liked) {
+                        if(action.userID === userID) {
+                            liked = true
+                        }
+                    }
+                    const valid = action.userID === newPt.authorID;
+                    const author = 'user' +  newPt._id;
+                    const newData = updateObject(newPt, {author,userOpt: valid, liked});
+                    ptArray.push(newData);
                 }
+                yield put(actions.fetchPost(ptArray, action.skipPost, response.data.ptTotal));
             }
-            const valid = action.userID === newPt.authorID;
-            const author = 'user' +  newPt._id;
-            const newData = updateObject(newPt, {author,userOpt: valid, category: newPt.category[0], liked});
-            ptArray.push(newData);
-        }
 
-        yield put(actions.fetchPost(ptArray));
+            if (response.data.pt.length === 0) {
+                yield put(actions.fetchPost([]));
+            }
+        }  
+        
     } catch(err){
         yield put(actions.fetchPostFail(err))
     }
@@ -49,18 +60,11 @@ export function* fetchVideoInitSaga(action) {
 }
 
 export function* changeFavSaga(action) {
-    let pt = changeFav(action.posts ,action.postID);
-    yield put(actions.changeFavPtStart(pt.updateStartArray, true))
-    if (action.filteredPost && action.filteredPost.length > 0) {
-        let filterPt = changeFav(action.filteredPost, action.postID)
-        yield put(actions.changeFavPtStart(filterPt.updateStartArray, false))
-        yield put(actions.changeFavFilter(filterPt.updateDataArray));
-    }
-    yield put(actions.changeFav(pt.updateDataArray));
-}
-
-export function* filterPostInitSaga(action) {
-    const posts = [...action.posts];
-    let filteredPost = posts.filter(post => post.category === action.tag);
-    yield put(actions.filterPost(filteredPost))
+    let updateFav = changeFav(action.id ,action.liked, action.favAdd, action.changedFav);
+    yield put(actions.changeFavPtStart(updateFav.favDet.id, updateFav.favDet.liked))
+    try {
+        yield axios.patch('/post', updateObject(updateFav.favDet, {userID: action.userID}) )
+        yield delay(500)
+        yield put(actions.changeFav(updateFav.updateChangeFav));
+    }catch(err){}
 }

@@ -10,27 +10,56 @@ import * as actions from '../../../../../store/actions/index';
 let IS_ANIMATED = true;
 
 class Posts extends Component {
-    state = {
-        ptOpt: null,
-        filterTag: null,
-        mediaItms: [],
-        animateItm: null,
-        removeAnim: false,
-        removePrevMedia: null,
-        playerIcnId: null,
-        animationComplete: true
+    constructor(props) {
+        super(props);
+        let limit = 0;
+        if (window.innerHeight >= 1200) {
+            limit = 6
+        } else if(window.innerHeight >= 900) {
+            limit = 4;
+        } else if(window.innerHeight >= 500) {
+            limit = 3
+        } else {
+            limit = 2;
+        }
+        this.state = {
+            ptOpt: null,
+            fetchLimit: limit,
+            filterTag: 'post',
+            mediaItms: [],
+            animateItm: null,
+            removeAnim: false,
+            removePrevMedia: null,
+            playerIcnId: null,
+            animationComplete: true
+        }
     }
 
     componentDidMount() {
-        this.props.onFetchPost(this.props.userID);
+        this.props.onFetchPost(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/post');
+        let these = this;
+        window.addEventListener('scroll', function(event) {
+            if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
+                these.props.onFetchPost(these.props.userID, these.state.filterTag !== 'post' ? these.state.filterTag : 'post',these.state.fetchLimit, these.props.skipPost + these.state.fetchLimit, these.props.ptTotal);
+            }
+        });
     }
 
     componentDidUpdate() {
         if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id) {
-            this.props.onFilterPost(this.props.posts, this.props.match.params.id);
+            this.props.onFetchPostReset();
+            this.props.onFetchPost(this.props.userID, this.props.match.params.id === 'shared' ? `shared-${this.props.userID}` : this.props.match.params.id, this.state.fetchLimit, 0, 0);
             this.setState({
                 filterTag: this.props.match.params.id
+            });
+        }
+ 
+        if(this.state.filterTag !== 'post' && !this.props.match.params.id) {
+            this.props.onFetchPostReset();
+            this.props.onFetchPost(this.props.userID, 'post', this.state.fetchLimit, 0, 0);
+            this.setState({
+                filterTag: 'post'
             });
         }
     }
@@ -49,8 +78,8 @@ class Posts extends Component {
         this.setState({ptOpt: newPtOpt})
     }
 
-    changeFavoriteHandler = (postID) => {
-        this.props.onChangeFav(this.props.posts, this.props.filteredPost , postID);
+    changeFavoriteHandler = (id, isLiked, favAdd) => {
+        this.props.onChangeFav(id, isLiked, favAdd, this.props.changedFav, this.props.userID);
     }
 
     showShareHandler = (shareID) => {
@@ -153,13 +182,19 @@ class Posts extends Component {
             post = null
         }
 
-        if (this.props.posts) {
+        if (this.props.posts && this.props.posts.length === 0) {
+            post = 'No category found'
+        }
+
+        if (this.props.posts && this.props.posts.length > 0) {
             post = <Post 
                 content={this.props.posts} 
                 media={this.props.media}
                 userOpt={this.showUserOptHandler}
                 showPtOpt={this.state.ptOpt}
                 fav={this.changeFavoriteHandler}
+                changedFav={this.props.changedFav}
+                favChange={this.props.favChange}
                 share={this.showShareHandler}
                 nextMedia={this.changeMediaHandler}
                 prevMedia={this.changeMediaHandler}
@@ -175,34 +210,6 @@ class Posts extends Component {
                 slidePlay={this.slidePlayHandler}
                 moveSlidePlay={this.moveSlidePlayHandler}
                 clearSlidePlay={this.clearSlidePlayhandler}/>
-        }
-
-        if (this.props.filteredPost && this.props.filteredPost.length > 0 && this.props.match.url !== '/index/post') {
-            post = <Post 
-                content={this.props.filteredPost} 
-                media={this.props.media}
-                userOpt={this.showUserOptHandler}
-                showPtOpt={this.state.ptOpt}
-                fav={this.changeFavoriteHandler}
-                share={this.showShareHandler}
-                nextMedia={this.changeMediaHandler}
-                prevMedia={this.changeMediaHandler}
-                mediaItms={this.state.mediaItms}
-                removeAnim={this.removeAnimHandler}
-                disableAnim={this.state.removeAnim}
-                animateItm={this.state.animateItm}
-                removePrevMedia={this.state.removePrevMedia}
-                playVideo={this.playVideoHandler}
-                videoErr={this.props.videoErr}
-                video={this.props.postVideo}
-                playerIcnId={this.state.playerIcnId}
-                slidePlay={this.slidePlayHandler}
-                moveSlidePlay={this.moveSlidePlayHandler}
-                clearSlidePlay={this.clearSlidePlayhandler}/>
-        }
-
-        if (this.props.filteredPost && this.props.filteredPost.length < 1 && this.props.match.url !== '/index/post') {
-            post = "no category found";
         }
 
         return post
@@ -213,21 +220,23 @@ const mapStateToProps = state => {
     return {
         userID: state.auth.userID,
         posts: state.pt.posts,
+        skipPost: state.pt.skipPost,
+        ptTotal: state.pt.ptTotal,
+        changedFav: state.pt.changedFav,
+        favChange: state.pt.favChange,
         postErr: state.pt.postErr,
         postVideo: state.pt.postVideo,
-        videoErr: state.pt.videoErr,
-        filteredPost: state.pt.filteredPost,
-        mainProps: state.main.mainProps
+        videoErr: state.pt.videoErr
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchPost: (userID) => dispatch(actions.fetchPostInit(userID)),
-        onChangeFav: (posts, filteredPost, postID) => dispatch(actions.changeFavInit(posts, filteredPost, postID)),
+        onFetchPost: (userID, fetchType, limit, skipPost, ptTotal) => dispatch(actions.fetchPostInit(userID, fetchType, limit, skipPost, ptTotal)),
+        onFetchPostReset: () => dispatch(actions.fetchPostReset()),
+        onChangeFav: (id, liked, favAdd, changedFav, userID) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID)),
         onChangeShareID: (shareID) => dispatch(actions.shareID(shareID)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
-        onFilterPost: (post, tag) => dispatch(actions.filterPostInit(post, tag)),
         onFetchVideo: (videoID, ptVideoID) => dispatch(actions.fetchVideoInit(videoID, ptVideoID))
     };
 };

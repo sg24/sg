@@ -6,17 +6,32 @@ import FavoriteActive from '../../../../UI/FavoriteActive/FavoriteActive';
 
 const trendItem = props => {
     let trend = null;
+    let favAdd = null;
+    let isLiked = null;
+
+    for (let changedFav of props.changedFav) {
+        if (props.trd._id === changedFav.id) {
+            favAdd = changedFav.favAdd;
+            isLiked = changedFav.liked;
+        }
+    }
 
     let fav = <FontAwesomeIcon 
         icon={['far', 'heart']} 
         className="icon icon__reuse-trd--fav" />
 
-    if (props.trd.liked) {
+    if (props.trd.liked && isLiked === null) {
         fav = <FontAwesomeIcon 
             icon={['fas', 'heart']} 
             className="icon icon__reuse-trd--fav" />
     }
 
+    if (isLiked) {
+        fav = <FontAwesomeIcon 
+            icon={['fas', 'heart']} 
+            className="icon icon__reuse-trd--fav" />
+    }
+    
     if (props.trd.cntGrp === 'post') {
         trend = (
             <div className="reuse-trd__cnt--wrapper reuse-trd__cnt--wrapper__nav">
@@ -42,9 +57,9 @@ const trendItem = props => {
                     </li>
                     <li>
                         <span onClick={props.fav}>{fav}</span>
-                        { transformNumber(props.trd.favorite) } 
-                        {props.trd.changeFavActive !== undefined ? <FavoriteActive 
-                            active={props.trd.changeFavActive}/> : null}
+                        { transformNumber(favAdd !== null ? favAdd : props.trd.favorite) } 
+                        {props.favChange && props.favChange.id === props.trd._id ? <FavoriteActive 
+                            liked={props.favChange.isLiked}/> : null}
                     </li>
                 </ul>
             </div> 

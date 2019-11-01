@@ -14,11 +14,20 @@ const postContent = props => {
     let userOpt = null;
     let userOptDetClass = ['reuse-pt__footer--details'];
     let userOptClass = ['reuse-pt__footer--details__options'];
+    let favAdd = null;
+    let isLiked = null;
 
     let fav = <FontAwesomeIcon 
         icon={['far', 'heart']} 
         className="icon icon__reuse-pt--footer__heart" />
     
+    for (let changedFav of props.changedFav) {
+        if (props.pt._id === changedFav.id) {
+            favAdd = changedFav.favAdd;
+            isLiked= changedFav.liked;
+        }
+    }
+
     let media = null;
     let mediaCnt =  [...props.pt.snapshot, ...props.pt.postImage];
     let playVideo = null;
@@ -183,7 +192,13 @@ const postContent = props => {
         )
     }
 
-    if (props.pt.liked) {
+    if (props.pt.liked && isLiked === null) {
+        fav = <FontAwesomeIcon 
+            icon={['fas', 'heart']} 
+            className="icon icon__reuse-pt--footer__heart" />
+    }
+
+    if (isLiked) {
         fav = <FontAwesomeIcon 
             icon={['fas', 'heart']} 
             className="icon icon__reuse-pt--footer__heart" />
@@ -209,9 +224,9 @@ const postContent = props => {
                         <li>
                             <p className="reuse-pt__header--share__category"> 
                                 <FontAwesomeIcon 
-                                    icon={ props.pt.category.lenght > 1 ? ['fas', 'tag'] : ['fas', 'tags']} 
+                                    icon={ props.pt.category.length > 1 ? ['fas', 'tags'] : ['fas', 'tag']} 
                                     className="icon icon__reuse-pt--header__tag" />
-                                <a href="/"> {props.pt.category} </a>
+                                <a href="/"> { props.pt.category[0] } </a>
                             </p>
                             <div className="reuse-share">
                                 <div className="reuse-share__icn" onClick={props.share}>
@@ -225,7 +240,7 @@ const postContent = props => {
                     {media}
                     <p className="reuse-pt__title">{props.pt.title}</p>
                     <p className="reuse-pt__description">
-                        <a href={"/view/" + props.pt.id}>
+                        <a href={"/view/" + props.pt._id}>
                             {String(props.pt.desc).length > 149 ? String(props.pt.desc).substr(0, 150) + '...' : props.pt.desc} 
                         </a>
                     </p>
@@ -246,9 +261,9 @@ const postContent = props => {
                             </li>
                             <li>
                                 <span onClick={props.fav}>{fav}</span>
-                                {transformNumber(props.pt.favorite)} 
-                                {props.pt.changeFavActive !== undefined ? <FavoriteActive 
-                                    active={props.pt.changeFavActive}/> : null}
+                                {transformNumber(favAdd !== null ? favAdd : props.pt.favorite)} 
+                                {props.favChange && props.favChange.id === props.pt._id ? <FavoriteActive 
+                                    liked={props.favChange.isLiked}/> : null}
                             </li>
                         </ul>
                         {userOpt}
