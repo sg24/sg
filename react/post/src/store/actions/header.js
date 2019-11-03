@@ -169,3 +169,15 @@ export const fetchShareActive = (shareActive) =>  {
     }; 
 }; 
 
+export const changeMainFavoriteStart = (isLiked) =>  {
+    return {
+        type: actionTypes.CHANGE_MAINFAVORITE_START,
+        isLiked
+    }; 
+}; 
+
+export const changeMainFavoriteReset = () =>  {
+    return {
+        type: actionTypes.CHANGE_MAINFAVORITE_RESET
+    }; 
+}; 

@@ -34,12 +34,12 @@ class Category extends Component {
         if (this.state.showCateg) {
             categOptClass.push('icon--rotate');
             categOpt = (
-                <ul className="reuse-categ__opt reuse-categ__opt--visible">
+                <ul className="reuse-categ__opt">
                     { category }
                 </ul>
             )
         }
-        
+
         return (
             <div 
                 className={categOptClass.join(' ')}

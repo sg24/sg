@@ -65,6 +65,8 @@ export {
     headerFormSm,
     headerNavDefault,
     headerAddNew,
+    changeMainFavoriteStart,
+    changeMainFavoriteReset,
     fetchNotifyInit,
     fetchNotify,
     changeFavNotifyInit,

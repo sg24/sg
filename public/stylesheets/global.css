@@ -1921,6 +1921,10 @@ img {
   transition: all 1s ease-in;
 }
 
+.site-main__content--fav-change__main {
+  background-color: transparent;
+}
+
 @media (min-width: 1010px) {
 
   .site-main__content--top {

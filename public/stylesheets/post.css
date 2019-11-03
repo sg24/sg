@@ -84,16 +84,21 @@
 
 .reuse-pt-filter__add {
     float: right;
-    border: 1px solid  #15a4fa;
-    border-top: 3px solid  #15a4fa;
-    color: #fff;
-    padding: 8px 10px;
-    text-align: left;
-    border-radius: 3px;
     font-size: .8125rem;
     background-color: #15a4fa;
     box-shadow: 0px 2px 5px 0px rgba(0,0,0, 0.53);
     cursor: pointer;
+    
+}
+
+.reuse-pt-filter__add > a {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 3px;
+    border: 1px solid  #15a4fa;
+    border-top: 3px solid  #15a4fa;
+    color: #fff;
+    text-decoration: none;
     
 }
 

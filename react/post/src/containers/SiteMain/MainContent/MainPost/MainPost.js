@@ -19,7 +19,7 @@ class MainPost extends Component {
                             <div>99</div>
                         </div>
                         <div className="reuse-pt-filter__add">
-                            Add Post
+                            <a href="/add/post">Add Post</a>
                         </div>
                     </div>
                 </div>

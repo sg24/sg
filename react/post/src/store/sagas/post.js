@@ -61,10 +61,12 @@ export function* fetchVideoInitSaga(action) {
 
 export function* changeFavSaga(action) {
     let updateFav = changeFav(action.id ,action.liked, action.favAdd, action.changedFav);
+    yield put(actions.changeMainFavoriteStart(updateFav.favDet.liked));
     yield put(actions.changeFavPtStart(updateFav.favDet.id, updateFav.favDet.liked))
     try {
         yield axios.patch('/post', updateObject(updateFav.favDet, {userID: action.userID}) )
         yield delay(500)
+        yield put(actions.changeMainFavoriteReset());
         yield put(actions.changeFav(updateFav.updateChangeFav));
     }catch(err){}
 }

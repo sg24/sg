@@ -5,6 +5,7 @@ const initialState = {
     expand: false,
     hideFormSm: false,
     addNew: false,
+    favChange: null,
     notify: null,
     hidNotify: false,
     navList: null,
@@ -30,6 +31,14 @@ const navDefault = (state, action) => {
 
 const addNew = (state, action) => {
     return updateObject(state, {addNew: !state.addNew, default: false})
+};
+
+const changeMainFavStart = (state, action) => {
+    return updateObject(state, {favChange: action.isLiked})
+};
+
+const changeMainFavReset = (state, action) => {
+    return updateObject(state, {favChange: null})
 };
 
 const fetchNotify = (state, action) => {
@@ -78,6 +87,10 @@ const reducer = (state = initialState, action) => {
             return navDefault(state, action);
         case actionTypes.HEADER_ADD_NEW:
             return addNew(state, action);
+        case actionTypes.CHANGE_MAINFAVORITE_START:
+            return changeMainFavStart(state, action);
+        case actionTypes.CHANGE_MAINFAVORITE_RESET:
+            return changeMainFavReset(state, action);
         case actionTypes.FETCH_NOTIFY:
             return fetchNotify(state, action);
         case actionTypes.CHANGE_FAVORITE_NOTIFY_START:
