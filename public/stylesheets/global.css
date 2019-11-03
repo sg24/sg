@@ -2710,10 +2710,10 @@ img {
   text-align: center;
   font-size: .8125rem;
   padding: 2px 10px;
-  width: 100%;/* left: 50%; *//* transform: translateX(-50%); */
-  background-color: #dcdbdc;/* color: $mainDarkBlue; */
+  width: 100%;
+  background-color: #dcdbdc;
   top: -12px;
-  border-radius: 10px;/* border: 1px solid $mainDarkGray; */
+  border-radius: 10px;
   box-shadow: 0 1px 2px 0 rgba(0,0,0, .45);
   font-weight: 300;
 }
@@ -2746,7 +2746,7 @@ img {
   cursor: pointer;
 }
 
-.reuse-tag__cnt > li > a {
+.reuse-tag__cnt--tag {
   display: block;
   padding: 2px 5px;
   border-radius: 5px;
@@ -2756,7 +2756,12 @@ img {
   background-color: #e9ebf2;
 }
 
-.reuse-tag__cnt > li > a:hover {
+.reuse-tag__cnt--tag:not(.reuse-tag__cnt--active):hover {
+  background-color: #0284a8;
+  color: #fff;
+}
+
+.reuse-tag__cnt--active {
   background-color: #0284a8;
   color: #fff;
 } 

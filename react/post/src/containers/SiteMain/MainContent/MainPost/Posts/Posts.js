@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import 'pepjs';
 
 import Post from '../../../../../components/Main/Post/Post';
+import NoAcc from '../../../../../components/Main/NoAcc/NoAcc';
 import { updateObject } from '../../../../../shared/utility';
 import * as actions from '../../../../../store/actions/index';
 
@@ -47,7 +48,7 @@ class Posts extends Component {
     }
 
     componentDidUpdate() {
-        if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id) {
+        if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id !== 'share') {
             this.props.onFetchPostReset();
             this.props.onFetchPost(this.props.userID, this.props.match.params.id === 'shared' ? `shared-${this.props.userID}` : this.props.match.params.id, this.state.fetchLimit, 0, 0);
             this.setState({
@@ -182,8 +183,16 @@ class Posts extends Component {
             post = null
         }
 
-        if (this.props.posts && this.props.posts.length === 0) {
-            post = 'No category found'
+        if (this.props.posts && this.props.posts.length === 0 && this.state.filterTag === 'shared') {
+            post = <NoAcc 
+                isAuth={this.props.userID !== null}
+                det='You have no shared post yet!'/>
+        }
+
+        if (this.props.posts && this.props.posts.length === 0 && this.state.filterTag !== 'shared') {
+            post = <NoAcc 
+                isAuth={this.props.userID !== null}
+                det='Category not found !!'/>
         }
 
         if (this.props.posts && this.props.posts.length > 0) {

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './Category.css';
 import * as actions from '../../../../../store/actions/index';
+import PtCategory from '../../../../../components/Main/PtCategory/PtCategory';
 
 class Category extends Component {
     state = {
@@ -14,24 +15,31 @@ class Category extends Component {
     showCategHandler = () => {
         if(!this.state.showCateg) {
             this.setState({showCateg: true});
+            this.props.onFetchCateg(this.props.tags);
             return;
         }
         this.setState({showCateg: false});
     }
 
     render() {
+        let category = 'loading ...';
         let categOpt = null;
         let categOptClass = ['reuse-categ'];
 
+        if (this.props.categ && this.props.categ.length > 0) {
+            category = <PtCategory 
+                category={this.props.categ}/>
+        }
+    
         if (this.state.showCateg) {
             categOptClass.push('icon--rotate');
             categOpt = (
                 <ul className="reuse-categ__opt reuse-categ__opt--visible">
-                    <li><a href="/">Scholarships</a></li>
+                    { category }
                 </ul>
             )
         }
-    
+        
         return (
             <div 
                 className={categOptClass.join(' ')}
@@ -48,10 +56,17 @@ class Category extends Component {
     }
 }
 
-
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
     return {
+        categ: state.filter.ptCateg,
+        tags: state.tags.tags
     };
 };
 
-export default connect(null , mapDispatchToProps)(Category);
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchCateg: (categ) => dispatch(actions.fetchPtCategInit(categ))
+    };
+};
+
+export default connect(mapStateToProps , mapDispatchToProps)(Category);

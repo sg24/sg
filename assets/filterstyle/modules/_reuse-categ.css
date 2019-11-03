@@ -38,17 +38,22 @@
             overflow: hidden;
             text-overflow: ellipsis;
             cursor: pointer;
+        }
 
-            & > a {
-                text-decoration: none;
-                color: $mainFontColor;
-                display: block;
-                padding: 6px 20px; 
+        &--itm {
+            text-decoration: none;
+            color: $mainFontColor;
+            display: block;
+            padding: 6px 20px; 
 
-                &:hover {
-                    background-color: $mainDarkBlue;
-                    color: #fff;
-                }
+            &__active {
+                background-color: $mainDarkBlue;
+                color: #fff;
+            }
+
+            &:hover {
+                background-color: $mainDarkBlue;
+                color: #fff;
             }
         }
    }

@@ -17,7 +17,7 @@ const noAcc = props => {
     if (props.isAuth) {
         noAccContent = (
             <div className="reuse-no-acc__cnt">
-                <h4 className="reuse-no-acc__cnt--title reuse-no-acc__cnt--title__add-grp">You have no { props.det } yet!.</h4>
+                <h4 className="reuse-no-acc__cnt--title reuse-no-acc__cnt--title__add-grp"> { props.det } </h4>
             </div>
         );
     }
@@ -27,7 +27,7 @@ const noAcc = props => {
             <div className="reuse-no-acc__wrapper">
                 <div className="reuse-no-acc__icn">
                 <FontAwesomeIcon 
-                    icon={['fas', 'users']} 
+                    icon={['fas', 'clone']} 
                     className={props.icnClass} />
                 </div>
                 {noAccContent}

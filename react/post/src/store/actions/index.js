@@ -13,6 +13,13 @@ export {
     changeFav,
 } from './post';
 
+
+export {
+    fetchPtCategInit,
+    fetchPtCategStart,
+    fetchPtCateg,
+} from './filter';
+
 export {
     fetchUsersInit,
     fetchUsers,

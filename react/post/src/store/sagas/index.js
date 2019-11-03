@@ -2,6 +2,7 @@ import { takeEvery, all } from 'redux-saga/effects';
 
 import * as actionTypes from '../../store/actions/actionTypes';
 import { fetchPostInitSaga, fetchVideoInitSaga, changeFavSaga } from './post';
+import { fetchPtCategInitSaga } from './filter';
 import { fetchUsersInitSaga, filterUserInitSaga, filterUserSelectInitSaga, shareUserInitSaga } from './share';
 import { fetchTagsInitSaga } from './tags';
 import { fetchTrdInitSaga } from './trend';
@@ -20,6 +21,12 @@ export function* watchPt() {
         takeEvery(actionTypes.FETCH_POST_INIT, fetchPostInitSaga),
         takeEvery(actionTypes.FETCH_VIDEO_INIT, fetchVideoInitSaga),
         takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga)
+    ])
+} 
+
+export function* watchFilter() {
+    yield all([
+        takeEvery(actionTypes.FETCH_PTCATEG_INIT, fetchPtCategInitSaga)
     ])
 } 
 

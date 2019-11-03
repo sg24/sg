@@ -88,14 +88,19 @@
     cursor: pointer;
 }
 
-.reuse-categ__opt > li > a {
+.reuse-categ__opt--itm {
     text-decoration: none;
     color: #182427;
     display: block;
     padding: 6px 20px;
 }
 
-.reuse-categ__opt > li > a:hover {
+.reuse-categ__opt--itm__active {
+    background-color: #0284a8;
+    color: #fff;
+}
+
+.reuse-categ__opt--itm:hover {
     background-color: #0284a8;
     color: #fff;
 }

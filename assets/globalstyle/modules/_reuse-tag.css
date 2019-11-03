@@ -13,13 +13,9 @@
         font-size: .8125rem;
         padding: 2px 10px;
         width: 100%;
-        /* left: 50%; */
-        /* transform: translateX(-50%); */
         background-color: $mainDarkGray;
-        /* color: $mainDarkBlue; */
         top: -12px;
         border-radius: 10px;
-        /* border: 1px solid $mainDarkGray; */
         box-shadow: 0 1px 2px 0 rgba($mainDarkBlack, .45);
         font-weight: 300;
     }
@@ -41,21 +37,26 @@
             margin-bottom: 6px;
             font-weight: 400;
             cursor: pointer;
+        }
 
-            & > a { 
-                display: block;
-                padding: 2px 5px;
-                border-radius: 5px;
-                color: $mainFontColor;
-                text-decoration: none;
-                border: 1px solid $mainDarkGray; 
-                background-color: $mainLightGray;
+        &--tag {
+            display: block;
+            padding: 2px 5px;
+            border-radius: 5px;
+            color: $mainFontColor;
+            text-decoration: none;
+            border: 1px solid $mainDarkGray; 
+            background-color: $mainLightGray;
 
-                &:hover {
-                    background-color: $mainDarkBlue;
-                    color: #fff; 
-                }
+            &:not(.reuse-tag__cnt--active):hover {
+                background-color: $mainDarkBlue;
+                color: #fff; 
             }
+        }
+
+        &--active {
+            background-color: $mainDarkBlue;
+            color: #fff;
         }
     }
 }
