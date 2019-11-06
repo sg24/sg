@@ -82,6 +82,10 @@
     }
 }
 
+.reuse-filter__opt--srch__no-total {
+    margin-bottom: 30px;
+}
+
 .reuse-filter__opt--fnd {
     position: relative;
     margin: 10px 0;
@@ -114,25 +118,6 @@
     background-color: #0284a8;
     box-shadow: 0 1px 3px 1px rgba(0,0,0, .75);
     color: #fff;
-}
-
-.reuse-filter__opt--fnd__alt {
-    text-align: center;
-    width: 100%;
-    padding: 30px 10px 30px 20px;
-    display: none;
-}
-
-.reuse-filter__opt--fnd__alt--wrapper {
-    border: 1px solid #dcdbdc;
-    background-color: #f9f9f9;
-}
-
-@media (min-width: 530px) {
-
-    .reuse-filter__opt--fnd__alt {
-        padding: 30px 40px;
-    }
 }
 
 .reuse-filter__opt--cnt {
@@ -196,6 +181,11 @@
     overflow-y: auto;
 }
 
+.reuse-filter__opt--cnt__det--active {
+    background-color: #0284a8;
+    color: #fff;
+}
+
 .reuse-filter__opt--cnt__det > li {
     float: none;
     padding: 6px 10px;
@@ -244,7 +234,6 @@
 .reuse-filter__opt--info {
     background-color: #f9f9f9;
     font-size: .8125rem;
-    display: none;
 }
 
 .reuse-filter__opt--info > h3 {
@@ -301,10 +290,6 @@
     cursor: pointer;
 }
 
-.reuse-filter__opt--info__visible {
-    display: block;
-}
-
 .reuse-filter__opt--btn {
     padding: 5px 10px;
     margin-top: 20px;
@@ -326,6 +311,11 @@
     outline: none;
     cursor: pointer;
     box-shadow: 0 1px 2px 0 rgba(0,0,0, .85);
+}
+
+.reuse-filter__opt--btn > button:disabled {
+    opacity: .75;
+    cursor: not-allowed;
 }
 
 .reuse-filter__opt--btn__cancel {

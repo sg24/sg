@@ -63,6 +63,10 @@
                     padding: 12px 10px 12px 70px;
                 }
             }
+
+            &__no-total {
+                margin-bottom: 30px;
+            }
         }
 
         &--fnd {
@@ -92,23 +96,6 @@
                     background-color: $mainDarkBlue;
                     box-shadow: 0 1px 3px 1px rgba($mainDarkBlack, .75);
                     color: #fff;
-                }
-            }
-
-            &__alt {
-                text-align: center;
-                width: 100%;
-                padding: 30px 10px 30px 20px; 
-                display: none;
-
-                &--wrapper {
-                   
-                    border: 1px solid $mainDarkGray;
-                    background-color: $mainHeaderColor;
-                }
-
-                @mixin atSmall {
-                    padding: 30px 40px; 
                 }
             }
         }
@@ -162,6 +149,11 @@
                     overflow-y: auto; 
                 }
 
+                &--active {
+                    background-color: $mainDarkBlue;
+                    color: #fff;
+                }
+
                 & > li {
                     float: none;
                     padding: 6px 10px;
@@ -203,7 +195,6 @@
         &--info {
             background-color: $mainHeaderColor;
             font-size: .8125rem;
-            display: none;
 
             & > h3 {
                 text-align: center;
@@ -250,10 +241,6 @@
                     }
                 }
             }
-
-            &__visible {
-                display: block;
-            }
         }
 
         &--btn {
@@ -271,6 +258,11 @@
                 outline: none;
                 cursor: pointer;
                 box-shadow: 0 1px 2px 0 rgba($mainDarkBlack, .85);
+
+                &:disabled {
+                    opacity: .75;
+                    cursor: not-allowed;
+                }
             }
 
             &__cancel {

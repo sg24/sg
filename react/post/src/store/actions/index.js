@@ -18,6 +18,12 @@ export {
     fetchPtCategInit,
     fetchPtCategStart,
     fetchPtCateg,
+    filterContentInit,
+    filterContentStart,
+    filterContentFail,
+    filterContent,
+    resetFilter,
+    filterPost
 } from './filter';
 
 export {

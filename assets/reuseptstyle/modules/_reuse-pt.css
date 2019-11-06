@@ -345,6 +345,14 @@
         }
     }
 
+    &__filter-err {
+        color: $mainLightRed;
+        padding: 10px 0;
+        margin: 10px 0;
+        text-align: center;
+        background-color: $mainHeaderColor;
+    }
+
     &__footer {
         background-color: #fff;
         border-top: 1px solid $mainLightGray;

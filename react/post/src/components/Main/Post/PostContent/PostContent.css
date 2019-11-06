@@ -398,6 +398,14 @@
     }
 }
 
+.reuse-pt__filter-err {
+    color: #ff1600;
+    padding: 10px 0;
+    margin: 10px 0;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
 .reuse-pt__footer {
     background-color: #fff;
     border-top: 1px solid #e9ebf2;

@@ -22,12 +22,14 @@ router.get('/post',(req, res, next) => {
         return fetchPost({shareMe: req.header('data-categ').split('-')[1]});
     }
 
-    function fetchPost(condition) {
+    function fetchPost(condition, meta) {
         connectStatus.then(() => {
+            let isMeta = meta ? meta : {};
+            let sort = req.header('data-categ').startsWith('filter') ? { score: { $meta: "textScore" } } : {postCreated: -1};
             let curLimit = parseInt(req.header('limit'));
             let skip = parseInt(req.header('skip'));
-            posts.find(condition).countDocuments({}).then((ptTotal) => {
-                posts.find(condition).sort({postCreated: -1}).limit(curLimit).skip(skip).then(result => {
+            posts.find(condition, isMeta).countDocuments({}).then((ptTotal) => {
+                posts.find(condition, isMeta).sort(sort).limit(curLimit).skip(skip).then(result => {
                     res.send({pt: result, ptTotal}).status(200)
                 }).catch(err => {
                     res.status(500).send(err);
@@ -47,6 +49,43 @@ router.get('/post',(req, res, next) => {
             res.status(500).send(err);
         });
         return;
+    }
+
+    if (req.header('data-categ').startsWith('filter')) { 
+        let filter =  filterPost(JSON.parse(req.header('data-categ').split('==')[1]));
+        return fetchPost({$text: { $search: filter.searchCnt }, ...filter.comment, ...filter.view, ...filter.favorite,  ...filter.category},{ score: { $meta: "textScore" } })
+    }
+
+    if(req.header('data-categ').startsWith('postSearch')) {
+        let filter = filterPost(JSON.parse(req.header('data-categ').split('==')[1]));
+        posts.find({$text: { $search: filter.searchCnt }, ...filter.comment, ...filter.view, ...filter.favorite,  ...filter.category}).then(result => {
+            let resultCount = new String(result.length);
+            res.send(resultCount).status(200);
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+        return ;
+    }
+
+    function filterPost(filter) {
+        let comment = {};
+        let favorite = {};
+        let view = {};
+        for (let filterOpt of filter.filterSelect) {
+            let filterRanges = String(filterOpt.rangeValue).split('-');
+            if (filterOpt.filterGrp === 'comment') {
+                comment = filterRanges.length === 1 ? {comment: {[filterOpt.rangeType] : filterOpt.rangeValue}} :
+                {comment: {[filterOpt.rangeType] : filterRanges[0], '$lt' : filterRanges[1]}}
+            } else if (filterOpt.filterGrp === 'view') {
+                view = filterRanges.length === 1 ? {view: {[filterOpt.rangeType] : filterOpt.rangeValue}} : 
+                {view: {[filterOpt.rangeType] : filterRanges[0], '$lt' : filterRanges[1]}}
+            } else {
+                favorite = filterRanges.length === 1 ?{favorite: {[filterOpt.rangeType] : filterOpt.rangeValue}} :
+                {favorite: {[filterOpt.rangeType] : filterRanges[0], '$lt' : filterRanges[1]}}
+            }
+        }
+        let filterCateg = filter.category.length > 0 ? {category: { $all: filter.category }} : {};
+        return {searchCnt: filter.searchCnt,comment, view, favorite, category: filterCateg}
     }
 
     if (req.header('data-categ') === 'trend') {

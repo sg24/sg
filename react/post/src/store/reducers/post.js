@@ -8,7 +8,8 @@ const initialState = {
     changedFav: [],
     favChange: null,
     postVideo: {id: null},
-    videoErr: null
+    videoErr: null,
+    filterDet: null
 }
 
 const fetchPost = (state, action) => {
@@ -47,6 +48,10 @@ const changeFav = (state, action) => {
     return updateObject(state, {changedFav: action.changedFav, favChange: null})
 };
 
+const filterPost = (state, action) => {
+    return updateObject(state, {filterDet: action.filterDet})
+};
+
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.FETCH_POST:
@@ -65,6 +70,8 @@ const reducer = (state = initialState, action) => {
             return changeFav(state, action);
         case actionTypes.CHANGE_FAVORITE_PT_START:
             return changeFavPtStart(state, action);
+        case actionTypes.FILTER_POST:
+            return filterPost(state, action);
         default: return state
     }
 };

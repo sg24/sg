@@ -19,3 +19,43 @@ export const fetchPtCateg = (categ) => {
         categ
     }
 };
+
+export const filterContentInit = (content) => {
+    return {
+        type: actionTypes.FILTER_CONTENT_INIT,
+        content
+    }
+};
+
+export const filterContentStart = () => {
+    return {
+        type: actionTypes.FILTER_CONTENT_START
+    }
+};
+
+export const filterContentFail = (err) => {
+    return {
+        type: actionTypes.FILTER_CONTENT_FAIL,
+        err
+    }
+};
+
+export const filterContent = (totalFound) => {
+    return {
+        type: actionTypes.FILTER_CONTENT,
+        totalFound
+    }
+};
+
+export const resetFilter = (totalFound) => {
+    return {
+        type: actionTypes.RESET_FILTER
+    }
+};
+
+export const filterPost = (filterDet) => {
+    return {
+        type: actionTypes.FILTER_POST,
+        filterDet
+    }
+};
