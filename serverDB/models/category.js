@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 const Schema  = mongoose.Schema;
 
 const CategorySchema = new Schema({
-    posts: {
+    post: {
         type: Array,
         default: [String]
     },
-    questions: {
+    question: {
         type: Array,
         default: [String]
     },

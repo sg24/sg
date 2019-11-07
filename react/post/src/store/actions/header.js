@@ -105,17 +105,6 @@ export const fetchNavlistStart = () => {
     };
 };
 
-export const fetchNavlistSuccess = () => {
-    return {
-        type: actionTypes.FETCH_NAVLIST_SUCCESS
-    };
-};
-
-export const fetchNavlistFail = () => {
-    return {
-        type: actionTypes.FETCH_NAVLIST_FAIL
-    };
-};
 
 export const fetchNavlist = (category, navList) =>  {
     return {

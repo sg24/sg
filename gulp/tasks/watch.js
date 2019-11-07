@@ -18,9 +18,7 @@ gulp.task('watch', function() {
 
     watch('./assets/globalstyle/**/*.css', series('globalstyles', 'globalcss'));
 
-    watch('./assets/miniglobalstyle/**/*.css', function() {
-        gulp.start('miniglobalcss')
-    });
+    watch('./assets/miniglobalstyle/**/*.css', series('miniglobalstyles', 'miniglobalcss'));
 
     watch('./assets/styles/**/*.css', series('styles', 'cssInject'));
 
@@ -195,10 +193,10 @@ gulp.task('globalcss', function() {
     .pipe(browserSyc.stream());
 });
 
-// gulp.task('miniglobalcss',['miniglobalstyles'], function() {
-//     return gulp.src("./assets/miniglobalstyle/miniglobal.css")
-//     .pipe(browserSyc.stream());
-// });
+gulp.task('miniglobalcss', function() {
+    return gulp.src("./assets/miniglobalstyle/miniglobal.css")
+    .pipe(browserSyc.stream());
+});
 
 gulp.task('cssInject', function() {
     return gulp.src("./assets/styles/styles.css")

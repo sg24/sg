@@ -61,6 +61,10 @@ const showNavList = (state, action) => {
     return updateObject(state, {hidNotify: true, hidNavList: false, hidUserOption: true, default: false})
 };
 
+const fetchNavListStart = (state, action) => {
+    return updateObject(state, {navList: null, navListCateg: null})
+};
+
 const fetchNavList = (state, action) => {
     return updateObject(state, {navList: action.navList, navListCateg: action.category})
 };
@@ -119,6 +123,8 @@ const reducer = (state = initialState, action) => {
             return changeFavNotify(state, action);
         case actionTypes.SHOW_NAV_LIST:
             return showNavList(state, action);
+        case actionTypes.FETCH_NAVLIST_START:
+            return fetchNavListStart(state, action);
         case actionTypes.FETCH_NAVLIST:
             return fetchNavList(state, action);
         case actionTypes.SHOW_USER_OPTION:

@@ -38,7 +38,7 @@ router.post('/add/post', authenticate, upload.array('video', 1100),(req, res, ne
             category.countDocuments({}).then((result) => {
                 if ( result < 1) { 
                     let newCateg = new category({
-                        posts: postCateg
+                        post: postCateg
                     });
                     newCateg.save().then(() => {
                         posts.findByIdAndUpdate(postID, {_isCompleted: true}).then(() => {
@@ -51,7 +51,7 @@ router.post('/add/post', authenticate, upload.array('video', 1100),(req, res, ne
                     });
                     return 
                 }
-                category.findOneAndUpdate({}, {$addToSet: { posts: { $each: postCateg } }}).then(() => {
+                category.findOneAndUpdate({}, {$addToSet: { post: { $each: postCateg } }}).then(() => {
                     posts.findByIdAndUpdate(postID, {_isCompleted: true}).then(() => {
                         res.status(201).send(postID);
                     }).catch(err => {

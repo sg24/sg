@@ -13,8 +13,8 @@ router.get('/view', (req, res, next) => {
     res.render('view');
 });
 
-router.post('/header', (req, res, next) => {
-    if(req.header('data-categ')=== 'headerfilter') {
+router.post('/header', authenticate, (req, res, next) => {
+    if(req.header('data-categ') === 'headerfilter') {
         posts.find({$text: { $search: req.body.filterCnt }}).then(result => {
             let filterRes = [];
             for (let pt of result) {
@@ -26,9 +26,19 @@ router.post('/header', (req, res, next) => {
         })
         return ;
     }
-})
 
-router.get('/post',(req, res, next) => {
+    if (req.header('data-categ') === 'category') {
+        category.findOne({}).then(result => {
+            let categ = req.body.categ;
+            res.send(result[categ]).status(200);
+        }).catch(err => {
+            res.status(500).send(err);
+        });
+        return;
+    }
+});
+
+router.get('/post', authenticate, (req, res, next) => {
     if (req.header('data-categ') === 'post') {
         return fetchPost({});
     }
@@ -59,7 +69,7 @@ router.get('/post',(req, res, next) => {
     
     if (req.header('data-categ') === 'postCateg') {
         category.findOne({}).then(result => {
-            res.send(result.posts).status(200);
+            res.send(result.post).status(200);
         }).catch(err => {
             res.status(500).send(err);
         });
@@ -133,7 +143,7 @@ router.get('/post',(req, res, next) => {
     res.sendStatus(200);
 });
 
-router.patch('/post', (req, res, next) => {
+router.patch('/post', authenticate ,(req, res, next) => {
     let content = req.body;
     posts.findOne({_id: content.id}).then(result => {
         let favorite = result.favorite;
@@ -232,7 +242,7 @@ router.get('/add/post', authenticate, (req, res, next) => {
         isFetchCateg = true;
         connectStatus.then(() => {
             category.find({}).then(result => {
-                res.send(result[0].posts).status(200);
+                res.send(result[0].post).status(200);
             }).catch(err => {
                 let categ = new category();
                 categ.save();
@@ -244,7 +254,7 @@ router.get('/add/post', authenticate, (req, res, next) => {
     }
 
     if (!isFetchCateg) {
-        res.sendStatus(403); 
+        res.render('postform');
     }
 });
 

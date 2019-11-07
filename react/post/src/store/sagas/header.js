@@ -61,42 +61,11 @@ export function* changeFavNotifySaga(action) {
 }
 
 export function* fetchNavlistInitSaga(action) {
-    const data = [{
-        cntGrp: 'post',
-        category: [
-            "Socal","Socal","Socal","Entertainment","TECH","Socal","Socal"
-        ]
-    }, {
-        cntGrp: 'question',
-        category: [
-            "Social", "TECH","Entertainment","TECH","socal","socal"
-        ]
-    }, {
-        cntGrp: 'onlineque',
-        category: [
-            "Socal","Socal","Entertainment","socal","socal","socal"
-        ]
-    }, {
-        cntGrp: 'group',
-        category: [
-            "Entertainment","TECH","Socal","Socal","Socal","Socal","Socal"
-        ]
-    }, {
-        cntGrp: 'poet',
-        category: [
-            "Socal","Socal","Entertainment","Socal","Socal","Socal"
-        ]
-    }];
-
-    let categArray = [];
-
-    for (let categ of data) {
-        if (categ.cntGrp === action.category) {
-            categArray.push(...categ.category)
-        }
-    }
-
-    yield put(actions.fetchNavlist(action.category, categArray))
+    try {
+        yield put(actions.fetchNavlistStart());
+        let response = yield axios.post('/header', {categ: action.category}, {headers: {'data-categ':'category'}});
+        yield put(actions.fetchNavlist(action.category, response.data))
+    } catch(e) {}
 }
 
 export function* fetchNotifyActiveInitSaga(action) {

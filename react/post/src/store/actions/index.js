@@ -81,6 +81,7 @@ export {
     changeFavNotify,
     showNavList,
     fetchNavlistInit,
+    fetchNavlistStart,
     fetchNavlist,
     showUserOption,
     fetchNotifyactiveInit,
