@@ -14,7 +14,11 @@ const initialState = {
     hidUserOption: false,
     notifyActive: null,
     shareActive: null,
-    default: false
+    default: false,
+    searchCnt: null,
+    filterPos: 0,
+    searchCntErr: null,
+    filterStart: false
 };
 
 const formExpand = (state, action) => {
@@ -77,6 +81,22 @@ const fetchShareActive = (state, action) => {
     return updateObject(state, {shareActive: action.shareActive})
 };
 
+const headerFilterStart = (state, action) => {
+    return updateObject(state, {searchCnt: null, filterPos: action.filterPos, searchCntErr: null, filterStart: true})
+};
+
+const headerFilterFail= (state, action) => {
+    return updateObject(state, {searchCntErr: action.searchCntErr})
+};
+
+const headerFilter = (state, action) => {
+    return updateObject(state, {searchCnt: action.searchCnt})
+};
+
+const headerFilterClose = (state, action) => {
+    return updateObject(state, {searchCnt: null, filterStart: false})
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.HEADER_FORM_EXPAND:
@@ -109,6 +129,14 @@ const reducer = (state = initialState, action) => {
             return defaultNotifyActive(state, action);
         case actionTypes.FETCH_SHARE_ACTIVE:
             return fetchShareActive(state, action);
+        case actionTypes.HEADER_FILTER_START:
+            return headerFilterStart(state, action);
+        case actionTypes.HEADER_FILTER_FAIL:
+            return headerFilterFail(state, action);
+        case actionTypes.HEADER_FILTER_CLOSE:
+            return headerFilterClose(state, action);
+        case actionTypes.HEADER_FILTER:
+            return headerFilter(state, action);
         default: return state
     };
 };

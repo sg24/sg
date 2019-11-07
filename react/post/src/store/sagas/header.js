@@ -1,5 +1,6 @@
 import { put } from 'redux-saga/effects';
 
+import axios from '../../axios';
 import { updateObject, changeFav } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 
@@ -108,4 +109,15 @@ export function* defaultNotifyActiveInitSaga(action) {
 
 export function* fetchShareActiveInitSaga(action) {
     yield put(actions.fetchShareActive('9'));
+}
+
+
+export function* headerFilterInitSaga(action) {
+    try {
+        yield put(actions.headerFilterStart(action.filterPos));
+        let response = yield axios.post('/header', {filterCnt: action.filterCnt}, {headers: {'data-categ':'headerfilter'}});
+        yield put(actions.headerFilter(response.data));
+    } catch(err) {
+        yield put(actions.headerFilterFail(err))
+    }
 }

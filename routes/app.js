@@ -13,6 +13,21 @@ router.get('/view', (req, res, next) => {
     res.render('view');
 });
 
+router.post('/header', (req, res, next) => {
+    if(req.header('data-categ')=== 'headerfilter') {
+        posts.find({$text: { $search: req.body.filterCnt }}).then(result => {
+            let filterRes = [];
+            for (let pt of result) {
+                filterRes.push({id: pt._id, grp: 'post', title: pt.title})
+            }
+            res.send(filterRes).status(200);
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+        return ;
+    }
+})
+
 router.get('/post',(req, res, next) => {
     if (req.header('data-categ') === 'post') {
         return fetchPost({});

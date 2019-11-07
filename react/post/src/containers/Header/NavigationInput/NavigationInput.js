@@ -5,8 +5,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as actions from '../../../store/actions/index';
 
 class NavigationInput extends Component {
+    state = {
+        value: '',
+        isExpand: false
+    }
+
+    componentDidUpdate() {
+        if (!this.props.expand && this.state.isExpand) {
+            this.setState({value: '', isExpand: false})
+        }
+    }
+
     expandFormHandler = () => {
         this.props.onFormExpand();
+    }
+
+    filterContentHandler = (event) => {
+        this.setState({value: event.target.value});
+        let inputElem = window.document.querySelector('.site-header__form');
+        this.props.onHeaderFilter(event.target.value, inputElem.offsetLeft);
+        if (!this.state.isExpand) {
+            this.setState({isExpand: true})
+        }
     }
 
     render() {
@@ -21,7 +41,9 @@ class NavigationInput extends Component {
                 <input type="text" 
                     className="site-header__form--input" 
                     autoComplete="on" 
-                    onClick={this.expandFormHandler}/>
+                    onClick={this.expandFormHandler}
+                    onChange={this.filterContentHandler}
+                    value={this.state.value}/>
                 <div className="site-header__form--search">
                     <FontAwesomeIcon 
                         icon={['fas', 'search']} 
@@ -40,7 +62,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFormExpand: () => dispatch(actions.headerFormExpand())
+        onFormExpand: () => dispatch(actions.headerFormExpand()),
+        onHeaderFilter: (filterCnt, filterPos) => dispatch(actions.headerFilterInit(filterCnt, filterPos))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationInput);

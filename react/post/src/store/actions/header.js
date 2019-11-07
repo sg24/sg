@@ -181,3 +181,38 @@ export const changeMainFavoriteReset = () =>  {
         type: actionTypes.CHANGE_MAINFAVORITE_RESET
     }; 
 }; 
+
+export const headerFilterInit = (filterCnt, filterPos) =>  {
+    return {
+        type: actionTypes.HEADER_FILTER_INIT,
+        filterCnt,
+        filterPos
+    }; 
+}; 
+
+export const headerFilterStart = (filterPos) =>  {
+    return {
+        type: actionTypes.HEADER_FILTER_START,
+        filterPos
+    }; 
+}; 
+
+export const headerFilterFail = (searchCntErr) =>  {
+    return {
+        type: actionTypes.HEADER_FILTER_FAIL,
+        searchCntErr
+    }; 
+}; 
+
+export const headerFilter = (searchCnt) =>  {
+    return {
+        type: actionTypes.HEADER_FILTER,
+        searchCnt
+    }; 
+}; 
+
+export const headerFilterClose = () => {
+    return {
+        type: actionTypes.HEADER_FILTER_CLOSE
+    };
+};

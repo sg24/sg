@@ -36,6 +36,62 @@
             position: relative;
         }
 
+        &--filter {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            overflow: hidden;
+            overflow-y: auto;
+            background-color: rgba($mainDarkBlack, .75);
+            z-index: 4;
+            padding-top: 50px;
+            font-size: .9375rem;
+            transition: all .3s ease-in;
+
+            &__err {
+                color: $mainLightRed;
+                text-align: center;
+            }
+
+            &__wrapper {
+                background-color: #fff;
+                max-height: 200px;
+                overflow: hidden;
+                overflow-y: auto;
+                padding: 10px 0;
+            
+                & > ul {
+                    position: relative;
+                    margin: 0;
+                    padding: 0;
+
+                    & > li {
+                        float: none;
+                        list-style: none;
+                        cursor: pointer;
+
+                         & > div {
+                            position: relative;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            padding: 10px 0;
+                            max-width: 1200px;
+                            width: 100%;
+                            margin: 0 auto;
+                        }
+
+                        &:hover {
+                            color: $mainDarkBlue;
+                            background-color: $mainHeaderColor;
+                        }
+                    }
+                }
+            }
+        }
+
         &--overlay {
             position: fixed;
             top: 0;
