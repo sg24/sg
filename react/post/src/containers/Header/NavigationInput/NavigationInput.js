@@ -23,7 +23,11 @@ class NavigationInput extends Component {
     filterContentHandler = (event) => {
         this.setState({value: event.target.value});
         let inputElem = window.document.querySelector('.site-header__form');
-        this.props.onHeaderFilter(event.target.value, inputElem.offsetLeft);
+        let updateInputElem = inputElem.offsetLeft;
+        if (window.innerWidth > 1200) {
+            updateInputElem = 210;
+        }
+        this.props.onHeaderFilter(event.target.value, updateInputElem);
         if (!this.state.isExpand) {
             this.setState({isExpand: true})
         }
