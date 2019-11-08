@@ -15,7 +15,7 @@ router.get('/view', (req, res, next) => {
 
 router.post('/header', authenticate, (req, res, next) => {
     if(req.header('data-categ') === 'headerfilter') {
-        posts.find({$text: { $search: req.body.filterCnt }}).then(result => {
+        posts.find({$text: { $search: req.body.filterCnt },mode: 'publish'}).then(result => {
             let filterRes = [];
             for (let pt of result) {
                 filterRes.push({id: pt._id, grp: 'post', title: pt.title})
@@ -47,7 +47,8 @@ router.get('/post', authenticate, (req, res, next) => {
         return fetchPost({shareMe: req.header('data-categ').split('-')[1]});
     }
 
-    function fetchPost(condition, meta) {
+    function fetchPost(conditions, meta) {
+        let condition = {mode: 'publish', ...conditions}
         connectStatus.then(() => {
             let isMeta = meta ? meta : {};
             let sort = req.header('data-categ').startsWith('filter') ? { score: { $meta: "textScore" } } : {postCreated: -1};
@@ -83,7 +84,7 @@ router.get('/post', authenticate, (req, res, next) => {
 
     if(req.header('data-categ').startsWith('postSearch')) {
         let filter = filterPost(JSON.parse(req.header('data-categ').split('==')[1]));
-        posts.find({$text: { $search: filter.searchCnt }, ...filter.comment, ...filter.view, ...filter.favorite,  ...filter.category}).then(result => {
+        posts.find({$text: { $search: filter.searchCnt }, ...filter.comment, ...filter.view, ...filter.favorite,  ...filter.category, mode: 'publish'}).then(result => {
             let resultCount = new String(result.length);
             res.send(resultCount).status(200);
         }).catch(err => {
@@ -114,7 +115,7 @@ router.get('/post', authenticate, (req, res, next) => {
     }
 
     if (req.header('data-categ') === 'trend') {
-        posts.find({}).sort({comment: -1}).limit(3).then(results => {
+        posts.find({mode: 'publish'}).sort({comment: -1}).limit(3).then(results => {
             let updateRes = [];
             for(let result of results) {
                 let updateResult = {
@@ -140,10 +141,29 @@ router.get('/post', authenticate, (req, res, next) => {
         return fetchPost({category: req.header('data-categ')});
     }
 
-    res.sendStatus(200);
+    res.render('post')
+});
+
+router.delete('/post', authenticate, (req, res, next) => {
+    if (req.header('data-categ').startsWith('deletePt')) {
+        let id = req.header('data-categ').split('-')[1];
+        posts.findByIdAndRemove(id).then(() =>{
+            res.send('deleted').status(200);
+        }).catch(err => {
+            res.status(500).send(err);
+        });
+        return;
+    }
 });
 
 router.patch('/post', authenticate ,(req, res, next) => {
+    if (req.header('data-categ') === 'changemode') {
+        posts.findByIdAndUpdate(req.body.id, {mode: 'draft'}).then(result => {
+            res.send(result).status(200);
+        })
+        return
+    }
+
     let content = req.body;
     posts.findOne({_id: content.id}).then(result => {
         let favorite = result.favorite;
@@ -165,10 +185,10 @@ router.patch('/post', authenticate ,(req, res, next) => {
         posts.findByIdAndUpdate(content.id, {liked, favorite}).then(result => {
             res.sendStatus(200);
         }).catch(err => {
-            res.sendStatus(500);
+            res.status(500).send(err);
         });
     }).catch(err => {
-        res.sendStatus(500);
+        res.status(500).send(err);
     });
 });
 

@@ -29,7 +29,9 @@ const post = props => {
             slidePlay={props.slidePlay}
             moveSlidePlay={props.moveSlidePlay}
             clearSlidePlay={props.clearSlidePlay}
-            video={props.video}/>
+            video={props.video}
+            deletePt={props.changePt.bind(this, pt._id, pt.title, 'delete')}
+            changePt={props.changePt.bind(this, pt._id, pt.title, 'mode')}/>
     ));
 
     return allPost;

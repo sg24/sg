@@ -326,6 +326,12 @@
             background-color: $mainHeaderColor;
         }
 
+        &--success {
+            color: $mainLightGreen;
+            text-align: center;
+            font-weight: 400;
+        }
+
         &--icn {
             width: 80px;
             height: 80px;
@@ -338,7 +344,65 @@
             font-size: 30px;
             color: $mainFontColor;
             box-shadow: 0 2px 5px 0 rgba($mainDarkBlack, .75);
-        } 
+        }
+        
+        &--warn {
+            text-align: center;
+            color: $mainFontColor;
+
+            & > h4 {
+                margin: 15px 0 10px 0;
+                padding: 0;
+                text-align: center;
+                font-weight: 400;
+            }
+
+            & > p {
+                color: $mainFontColor;
+                padding: 5px;
+                background-color: $mainHeaderColor;
+                margin: 0;
+                font-weight: bold;
+            }
+        }
+
+        &--btn {
+            padding: 5px 10px;
+            margin-top: 20px;
+            width: 100%;
+            @mixin clearfix;
+            font-size: .8125rem;
+
+            & > button {
+                position: relative;
+                padding: 6px 10px;
+                border-radius: 5px;
+                border: none; 
+                outline: none;
+                cursor: pointer;
+                box-shadow: 0 1px 2px 0 rgba($mainDarkBlack, .85);
+            }
+
+            &__cancel {
+                background-color: #fff;
+                color: $mainFontColor;
+                float: left;
+
+                &:hover {
+                    background-color: $mainExtraLightGray;
+                }
+            }
+
+            &__del {
+                background-color: $mainLightRed;
+                color: #fff;
+                float: right;
+
+                &:hover {
+                    background-color: $mainDarkRed;
+                }
+            }
+        }
 
         @mixin atExtraSmall {
             width: 300px;

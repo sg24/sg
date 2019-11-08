@@ -49,4 +49,8 @@
     &__reuse-pt--modal__icn {
         color: $mainLightRed;
     }
+
+    &__reuse-pt--modal__btn {
+        margin-right: 5px;
+    }
 }

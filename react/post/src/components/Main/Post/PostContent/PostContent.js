@@ -175,13 +175,16 @@ const postContent = props => {
                         Edit 
                     </a>
                 </li>
-                <li className="reuse-pt__footer--details__options--status">
+                <li 
+                    className="reuse-pt__footer--details__options--status"
+                    onClick={props.changePt}>
                     <FontAwesomeIcon 
                         icon={['far', 'eye-slash']} 
                         className="icon icon__reuse-pt--options__dft" /> 
                     Draft
                 </li>
-                <li>
+                <li
+                    onClick={props.deletePt}>
                     <FontAwesomeIcon 
                         icon={['far', 'trash-alt']} 
                         className="icon icon__reuse-pt--options" /> 

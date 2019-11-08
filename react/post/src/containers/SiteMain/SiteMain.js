@@ -34,19 +34,25 @@ class SiteMain extends Component {
         window.location.assign('/view/'+searchDet.grp+'/'+searchDet.id);
     };
 
+    changePostHandler = () => {
+        this.props.onChangePt(this.props.changePtStart.id, null, this.props.changePtStart.det, true)
+    }
+
+    closeChangePostHandler = () => {
+        this.props.onCloseChangePt()
+    }
+
     render() {
         let filterCnt = 'loading....';
 
         if (!this.props.searchCntErr && this.props.searchCnt && this.props.searchCnt.length > 0){
             filterCnt = (
-                <div className="site-main__content--filter__wrapper">
-                    <ul>
-                        <MainFilter 
-                            filterResults={this.props.searchCnt}
-                            filterPos={this.props.filterPos}
-                            viewCnt={this.viewCntHandler}/>
-                    </ul> 
-                </div>
+                <ul>
+                    <MainFilter 
+                        filterResults={this.props.searchCnt}
+                        filterPos={this.props.filterPos}
+                        viewCnt={this.viewCntHandler}/>
+                </ul> 
             )
         }
 
@@ -92,6 +98,23 @@ class SiteMain extends Component {
                         { filterCnt }
                     </div>
                 </div> : null}
+            { this.props.changePtStart !== null ? 
+                <Backdrop   
+                    show={ this.props.showBackdrop }
+                    component={ Modal }
+                    err={ this.props.changePtErr }
+                    warn={{
+                        msg: this.props.changePtStart.det=== 'delete' ?
+                        'Are you sure you want to delete this post' : 'Are you sure you want to change this post mode',
+                        cnt: this.props.changePtStart.title,
+                        det: this.props.changePtStart.det
+                    }}
+                    exit={{
+                        msg: this.props.changePtStart.det=== 'delete' ?
+                        'Post Deleted Successfully' : 'Post mode change successfully', 
+                        close: this.props.changePt}}
+                    changePost={this.changePostHandler}
+                    closeChangePost={this.closeChangePostHandler}/> : null}
             <Route path="/post/share" exact component={AsyncShare} />
         </div>
         )
@@ -107,14 +130,19 @@ const mapStateToProps = state => {
         filterStart:state.header.filterStart,
         searchCnt: state.header.searchCnt,
         searchCntErr: state.header.searchCntErr,
-        filterPos: state.header.filterPos
+        filterPos: state.header.filterPos,
+        changePtStart: state.pt.changePtStart,
+        changePtErr: state.pt.changePtErr,
+        changePt: state.pt.changePt
     };
  }
 
 const mapDispatchToProps = dispatch => {
     return {
         onNavDefault: () => dispatch(actions.headerNavDefault()),
-        onCloseHeaderFilter: () => dispatch(actions.headerFilterClose())
+        onCloseHeaderFilter: () => dispatch(actions.headerFilterClose()),
+        onChangePt: (id, title, det, confirm) => dispatch(actions.changePtInit(id, title, det, confirm)),
+        onCloseChangePt: () => dispatch(actions.changePtCancel()),
     };
 };
 

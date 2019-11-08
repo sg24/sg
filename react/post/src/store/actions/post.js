@@ -33,6 +33,50 @@ export const fetchPost = (posts, skipPost, ptTotal) => {
     }
 };
 
+export const changePtInit = (id, title, det, confirm) => {
+    return {
+        type: actionTypes.CHANGE_POST_INIT,
+        id, 
+        title,
+        det,
+        confirm
+    }
+};
+
+export const changePtStart = (title, id, det) => {
+    return {
+        type: actionTypes.CHANGE_POST_START,
+        title,
+        id,
+        det
+    }
+};
+
+export const changePtCancel = () => {
+    return {
+        type: actionTypes.CHANGE_POST_CANCEL
+    }
+};
+
+export const changePtReset = () => {
+    return {
+        type: actionTypes.CHANGE_POST_RESET
+    }
+};
+
+export const changePtFail = (err) => {
+    return {
+        type: actionTypes.CHANGE_POST_FAIL,
+        err
+    }
+};
+
+export const changePt = () => {
+    return {
+        type: actionTypes.CHANGE_POST
+    }
+};
+
 export const fetchVideoInit = (videoID, ptVideoID) => {
     return {
         type: actionTypes.FETCH_VIDEO_INIT,
@@ -81,10 +125,9 @@ export const changeFavPtStart = (id, isLiked) => {
     };
 };
 
-export const changeFavPtFail = (post) => {
+export const changeFavPtFail = () => {
     return {
-        type: actionTypes.CHANGE_FAVORITE_PT_START,
-        post
+        type: actionTypes.CHANGE_FAVORITE_PT_FAIL
     };
 };
 

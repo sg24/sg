@@ -439,7 +439,7 @@
     float: right;
 }
 
-.reuse-filter__opt--btn__apply:hover {
+.reuse-filter__opt--btn__apply:not(:disabled):hover {
     background-color: #05578b;
 }
 

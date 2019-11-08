@@ -280,7 +280,7 @@
                 color: #fff;
                 float: right;
 
-                &:hover {
+                &:not(:disabled):hover {
                     background-color: $mainDarkPaleBlue;
                 }
             }

@@ -64,9 +64,34 @@ export function* changeFavSaga(action) {
     yield put(actions.changeMainFavoriteStart(updateFav.favDet.liked));
     yield put(actions.changeFavPtStart(updateFav.favDet.id, updateFav.favDet.liked))
     try {
-        yield axios.patch('/post', updateObject(updateFav.favDet, {userID: action.userID}) )
+        yield axios.patch('/post', {id: updateFav.favDet.id, userID: action.userID})
         yield delay(500)
         yield put(actions.changeMainFavoriteReset());
         yield put(actions.changeFav(updateFav.updateChangeFav));
-    }catch(err){}
+    }catch(err){
+        yield delay(500)
+        yield put(actions.changeMainFavoriteReset());
+        yield put(actions.changeFavPtFail())
+    }
+}
+
+export function* changePostInitSaga(action) {
+    if (!action.confirm) {
+        yield put(actions.changePtStart(action.title, action.id, action.det))
+        return;
+    }
+    try {
+        if (action.det === 'delete') {
+            yield axios.delete('/post', {headers: {'data-categ': 'deletePt-'+action.id}});
+        } else {
+            yield axios.patch('/post', {id: action.id} ,{headers: {'data-categ': 'changemode'}});
+        }
+        yield put(actions.changePt())
+        yield delay(1000);
+        yield put(actions.changePtReset())
+    } catch(err){
+        yield put(actions.changePtFail(err))
+        yield delay(1000);
+        yield put(actions.changePtReset())
+    }
 }

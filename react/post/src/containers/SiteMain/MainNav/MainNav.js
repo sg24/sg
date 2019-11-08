@@ -23,7 +23,7 @@ class MainNav extends Component {
     render() {
         let mainNavItm = (
             <Aux>
-                <Tags/>
+                {/* <Tags/> */}
                 <TopTrending />
                 <SetQue /> 
             </Aux>

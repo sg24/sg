@@ -73,14 +73,6 @@ class Posts extends Component {
                 filterTag: this.props.match.params.id
             });
         }
- 
-        if(this.state.filterTag !== 'post' && !this.props.match.params.id) {
-            this.props.onFetchPostReset();
-            this.props.onFetchPost(this.props.userID, 'post', this.state.fetchLimit, 0, 0);
-            this.setState({
-                filterTag: 'post'
-            });
-        }
     }
 
     showUserOptHandler = (index) => {
@@ -194,6 +186,9 @@ class Posts extends Component {
             IS_ANIMATED = true;
         }, 500)
     }
+    changePtHandler = (id, title, det) => {
+        this.props.onChangePt(id, title, det, false);
+    }
 
     render() {
         let post = "Loading";
@@ -236,7 +231,8 @@ class Posts extends Component {
                 playerIcnId={this.state.playerIcnId}
                 slidePlay={this.slidePlayHandler}
                 moveSlidePlay={this.moveSlidePlayHandler}
-                clearSlidePlay={this.clearSlidePlayhandler}/>
+                clearSlidePlay={this.clearSlidePlayhandler}
+                changePt={this.changePtHandler}/>
         }
 
         return post
@@ -265,7 +261,8 @@ const mapDispatchToProps = dispatch => {
         onChangeFav: (id, liked, favAdd, changedFav, userID) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID)),
         onChangeShareID: (shareID) => dispatch(actions.shareID(shareID)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
-        onFetchVideo: (videoID, ptVideoID) => dispatch(actions.fetchVideoInit(videoID, ptVideoID))
+        onFetchVideo: (videoID, ptVideoID) => dispatch(actions.fetchVideoInit(videoID, ptVideoID)),
+        onChangePt: (id, title, det, confirm) => dispatch(actions.changePtInit(id, title, det, confirm))
     };
 };
 

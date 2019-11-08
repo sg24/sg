@@ -374,6 +374,12 @@
     background-color: #f9f9f9;
 }
 
+.reuse-pt__modal--success {
+    color: #16cf27;
+    text-align: center;
+    font-weight: 400;
+}
+
 .reuse-pt__modal--icn {
     width: 80px;
     height: 80px;
@@ -389,6 +395,69 @@
     font-size: 30px;
     color: #182427;
     box-shadow: 0 2px 5px 0 rgba(0,0,0, .75);
+}
+
+.reuse-pt__modal--warn {
+    text-align: center;
+    color: #182427;
+}
+
+.reuse-pt__modal--warn > h4 {
+    margin: 15px 0 10px 0;
+    padding: 0;
+    text-align: center;
+    font-weight: 400;
+}
+
+.reuse-pt__modal--warn > p {
+    color: #182427;
+    padding: 5px;
+    background-color: #f9f9f9;
+    margin: 0;
+    font-weight: bold;
+}
+
+.reuse-pt__modal--btn {
+    padding: 5px 10px;
+    margin-top: 20px;
+    width: 100%;
+    font-size: .8125rem;
+}
+
+.reuse-pt__modal--btn::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.reuse-pt__modal--btn > button {
+    position: relative;
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0, .85);
+}
+
+.reuse-pt__modal--btn__cancel {
+    background-color: #fff;
+    color: #182427;
+    float: left;
+}
+
+.reuse-pt__modal--btn__cancel:hover {
+    background-color: #f2f2f2;
+}
+
+.reuse-pt__modal--btn__del {
+    background-color: #ff1600;
+    color: #fff;
+    float: right;
+}
+
+.reuse-pt__modal--btn__del:hover {
+    background-color: #f22613;
 }
 
 @media (min-width: 335px) {
@@ -676,4 +745,8 @@
 
 .icon__reuse-pt--modal__icn {
     color: #ff1600;
+}
+
+.icon__reuse-pt--modal__btn {
+    margin-right: 5px;
 }     

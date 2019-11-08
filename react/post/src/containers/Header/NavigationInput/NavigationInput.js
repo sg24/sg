@@ -25,7 +25,7 @@ class NavigationInput extends Component {
         let inputElem = window.document.querySelector('.site-header__form');
         let updateInputElem = inputElem.offsetLeft;
         if (window.innerWidth > 1200) {
-            updateInputElem = 210;
+            updateInputElem = 220;
         }
         this.props.onHeaderFilter(event.target.value, updateInputElem);
         if (!this.state.isExpand) {
