@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const {posts, category, postnotifies, connectStatus, storage} = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
+let notifications = require('./utility/notifications');
 const router = express.Router();
 const upload = multer({ storage, limits: {
     fieldSize: 16 * 1024 * 1024 * 1024
@@ -36,37 +37,15 @@ router.post('/add/post', authenticate, upload.array('video', 1100),(req, res, ne
             postID = result._id;
 
             function notification() {
-                let i = 0;
-                for (let userID of shareMe) {
-                    postnotifies.findOne({userID}).then(result => {
-                        if (result !== null) {
-                            postnotifies.findOneAndUpdate({userID}, {$inc: {'notifications': 1}}).then(result =>{
-                                if(++i === shareMe.length) {
-                                    posts.findByIdAndUpdate(postID, {_isCompleted: true}).then(() => {
-                                        res.status(201).send(postID);
-                                    }).catch(err => {
-                                        res.status(500).send(err);
-                                    })
-                                }
-                            })
-                        } else {
-                            let newPostnotify = new postnotifies({
-                                userID,
-                                notifications: 1
-                            });
-                            newPostnotify.save().then(() => {
-                                if(++i === shareMe.length) {
-                                    posts.findByIdAndUpdate(postID, {_isCompleted: true}).then(() => {
-                                        res.status(201).send(postID);
-                                    }).catch(err => {
-                                        res.status(500).send(err);
-                                    })
-                                }
-                            })
-                        } 
-                        
+                notifications(shareMe).then(() =>{
+                    posts.findByIdAndUpdate(postID, {_isCompleted: true}).then(() => {
+                        res.status(201).send(postID);
+                    }).catch(err => {
+                        res.status(500).send(err);
                     })
-                }
+                }).catch(err => {
+                    res.status(500).send(err)
+                })
             }
 
             category.countDocuments({}).then((result) => {
@@ -76,7 +55,7 @@ router.post('/add/post', authenticate, upload.array('video', 1100),(req, res, ne
                     });
                     newCateg.save().then(() => {
                         if (shareMe.length > 0) {
-                            notification();
+                           notification();
                         } else {
                             res.status(201).send(postID);
                         }

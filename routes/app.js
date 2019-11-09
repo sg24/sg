@@ -57,6 +57,21 @@ router.patch('/header', authenticate, (req, res, next) => {
         })
         return ;
     }
+    
+    if (req.header('data-categ') === 'shareuser') {
+        let notification = require('./utility/notifications');
+        let shareMe = JSON.parse(req.body.users);
+        notification(shareMe).then(() =>{
+            posts.findByIdAndUpdate(req.body.id, {$addToSet: { shareMe: { $each: shareMe } }}).then((result) => {
+                res.sendStatus(200);
+            }).catch(err => {
+                res.status(500).send(err);
+            })
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
 });
 
 router.get('/post', authenticate, (req, res, next) => {

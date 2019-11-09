@@ -6,7 +6,9 @@ const initialState = {
     userSelect: null,
     filterUserSelect: null,
     viewAllUsers: true,
-    shareID: null
+    shareID: null,
+    start: false,
+    shareErr: null
 }
 
 const fetchUsers = (state, action) => {
@@ -41,20 +43,29 @@ const filterUserSelect = (state, action) => {
 };
 
 const shareID = (state, action) => {
-    return updateObject(state, {
-        shareID: String(action.shareID) 
-    });
+    return updateObject(state, {shareID: String(action.shareID)});
 };
 
-const defaultShareProps = (state, action) => {
+const shareUserStart = (state, action) => {
+    return updateObject(state, {start: true});
+};
+
+const shareUserFail = (state, action) => {
+    return updateObject(state, {shareErr: action.err});
+};
+
+const shareUser = (state, action) => {
     return updateObject(state, {
         users: null,
         userSelect: null,
         filterUserSelect: null,
         viewAllUsers: true,
-        shareID: null
+        shareID: null,
+        share: false,
+        start: false
     })
 };
+
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.FETCH_USERS:
@@ -71,8 +82,12 @@ const reducer = (state = initialState, action) => {
             return filterUserSelect(state, action);
         case actionTypes.SHARE_ID:
             return shareID(state, action);
-        case actionTypes.DEFAULT_SHARE_PROPS:
-            return defaultShareProps(state, action)
+        case actionTypes.SHARE_USER_START:
+            return shareUserStart(state, action);
+        case actionTypes.SHARE_USER_FAIL:
+            return shareUserFail(state, action);
+        case actionTypes.SHARE_USER:
+            return shareUser(state, action);
         default: return state
     }
 };

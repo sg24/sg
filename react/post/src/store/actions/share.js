@@ -82,12 +82,6 @@ export const shareID = (shareID) => {
     };
 };
 
-export const defaultShareProps = () => {
-    return {
-        type: actionTypes.DEFAULT_SHARE_PROPS
-    };
-};
-
 export const shareUserInit = (userSelect, shareID) => {
     return {
         type: actionTypes.SHARE_USER_INIT,
@@ -102,15 +96,16 @@ export const shareUserStart = () => {
     };
 };
 
-export const shareUserfail = () => {
+export const shareUserfail = (err) => {
     return {
-        type: actionTypes.SHARE_USER_FAIL
+        type: actionTypes.SHARE_USER_FAIL,
+        err
     };
 };
 
-export const shareUserSuccess = () => {
+export const shareUser = () => {
     return {
-        type: actionTypes.SHARE_USER_SUCCESS
+        type: actionTypes.SHARE_USER
     };
 };
 

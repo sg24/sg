@@ -43,8 +43,10 @@ export {
     filterUser,
     filterUserSelect,
     shareID,
-    defaultShareProps,
-    shareUserInit
+    shareUserInit,
+    shareUserStart,
+    shareUserfail,
+    shareUser
 } from './share';
 
 
