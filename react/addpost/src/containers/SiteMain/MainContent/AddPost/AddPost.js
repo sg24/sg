@@ -445,7 +445,7 @@ class AddPost extends  Component {
                             type="button" 
                             className="reuse-form__btn--add"
                             disabled={!this.state.formIsValid}
-                            onClick={this.submitHandler.bind(this, 'pubish')}>
+                            onClick={this.submitHandler.bind(this, 'publish')}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'plus']} 
                                 className="icon icon__reuse-form--btn" />
