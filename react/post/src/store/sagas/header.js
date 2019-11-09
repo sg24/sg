@@ -69,17 +69,15 @@ export function* fetchNavlistInitSaga(action) {
 }
 
 export function* fetchNotifyActiveInitSaga(action) {
-    yield put(actions.fetchNotifyActive('9'));
+    try {
+        let response = yield axios.post('/header', {userID: action.userID}, {headers: {'data-categ':'postnotification'}});
+        yield put(actions.fetchNotifyActive(response.data));
+    } catch(err) {}
 }
 
 export function* defaultNotifyActiveInitSaga(action) {
     yield put(actions.defaultNotifyActive());
 }
-
-export function* fetchShareActiveInitSaga(action) {
-    yield put(actions.fetchShareActive('9'));
-}
-
 
 export function* headerFilterInitSaga(action) {
     try {

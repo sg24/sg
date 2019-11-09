@@ -3,15 +3,22 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
     mainProps: null,
-    showBackdrop: false
+    showBackdrop: false,
+    ptActive: null,
+    shareActive: null
 };
 
-const fetchMainActive = (state, action) => {
-    return updateObject(state, { mainProps: action.mainProps })
+const fetchPtActive = (state, action) => {
+    return updateObject(state, { ptActive: action.ptActive })
 };
 
-const defaultMainActive = (state, action) => {
-    return updateObject(state, { mainProps: action.mainProps })
+const fetchShareActive = (state, action) => {
+    return updateObject(state, {shareActive: action.shareActive})
+};
+
+const resetActive = (state, action) => {
+    let reset = action.curTab === 'post' ? { ptActive: null} : {shareActive: null };
+    return updateObject(state,  {...reset} )
 };
 
 const showMainBackdrop= (state, action) => {
@@ -25,10 +32,12 @@ const hideMainBackdrop= (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
-        case actionTypes.FETCH_MAINACTIVE:
-            return fetchMainActive(state, action);
-        case actionTypes.DEFAULT_MAINACTIVE:
-            return defaultMainActive(state, action);
+        case actionTypes.FETCH_PT_ACTIVE:
+            return fetchPtActive(state, action);
+        case actionTypes.FETCH_SHARE_ACTIVE:
+            return fetchShareActive(state, action);
+        case actionTypes.RESET_ACTIVE:
+            return resetActive(state, action);
         case actionTypes.SHOW_MAIN_BACKDROP:
             return showMainBackdrop(state, action);
         case actionTypes.HIDE_MAIN_BACKDROP:

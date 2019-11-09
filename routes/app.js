@@ -3,7 +3,7 @@ let router = express.Router();
 let mongoose = require('mongoose');
 
 let authenticate = require('../serverDB/middleware/authenticate');
-const {category, posts, connectStatus} = require('../serverDB/serverDB');
+const {category, posts, postnotifies, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', function (req, res, next) {
     res.render('index');
@@ -27,6 +27,15 @@ router.post('/header', authenticate, (req, res, next) => {
         return ;
     }
 
+    if(req.header('data-categ') === 'postnotification') {
+        postnotifies.findOne({userID: req.body.userID}).then(result => {
+            res.send(new String(result.notifications)).status(200);
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+        return ;
+    }
+
     if (req.header('data-categ') === 'category') {
         category.findOne({}).then(result => {
             let categ = req.body.categ;
@@ -35,6 +44,18 @@ router.post('/header', authenticate, (req, res, next) => {
             res.status(500).send(err);
         });
         return;
+    }
+});
+
+
+router.patch('/header', authenticate, (req, res, next) => {
+    if(req.header('data-categ') === 'share') {
+        postnotifies.findOneAndUpdate({userID: req.body.userID}, {notifications: 0}).then(result => {
+            res.sendStatus(200);
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+        return ;
     }
 });
 

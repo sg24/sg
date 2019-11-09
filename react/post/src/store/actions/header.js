@@ -120,9 +120,10 @@ export const showUserOption = () =>  {
     }; 
 }; 
 
-export const fetchNotifyactiveInit = () =>  {
+export const fetchNotifyactiveInit = (userID) =>  {
     return {
         type: actionTypes.FETCH_NOTIFY_ACTIVE_INIT,
+        userID
     }; 
 }; 
 
@@ -133,28 +134,16 @@ export const fetchNotifyActive = (notifyActive) =>  {
     }; 
 }; 
 
-export const defaultNotifyactiveInit = () =>  {
+export const defaultNotifyactiveInit = (userID) =>  {
     return {
         type: actionTypes.DEFAULT_NOTIFYACTIVE_INIT,
+        userID
     }; 
 }; 
 
 export const defaultNotifyActive = () =>  {
     return {
         type: actionTypes.DEFAULT_NOTIFYACTIVE
-    }; 
-}; 
-
-export const fetchShareactiveInit = () =>  {
-    return {
-        type: actionTypes.FETCH_SHARE_ACTIVE_INIT,
-    }; 
-}; 
-
-export const fetchShareActive = (shareActive) =>  {
-    return {
-        type: actionTypes.FETCH_SHARE_ACTIVE,
-        shareActive
     }; 
 }; 
 

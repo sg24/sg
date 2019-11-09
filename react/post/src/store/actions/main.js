@@ -1,33 +1,45 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchMainActiveInit = (mainProps, userID) => {
+export const fetchPtActiveInit = (userID) => {
     return {
-        type: actionTypes.FETCH_MAINACTIVE_INIT,
-        mainProps,
+        type: actionTypes.FETCH_PT_ACTIVE_INIT,
         userID
     };
 };
 
-export const fetchMainActive = (mainProps) => {
+export const fetchPtActive = (ptActive) => {
     return {
-        type: actionTypes.FETCH_MAINACTIVE,
-        mainProps
+        type: actionTypes.FETCH_PT_ACTIVE,
+        ptActive
     };
 };
 
-export const defaultMainActiveInit = (mainProps, userID, categ) => {
+export const fetchShareactiveInit = (userID) =>  {
     return {
-        type: actionTypes.DEFAULT_MAINACTIVE_INIT,
-        mainProps,
+        type: actionTypes.FETCH_SHARE_ACTIVE_INIT,
+        userID
+    }; 
+}; 
+
+export const fetchShareActive = (shareActive) =>  {
+    return {
+        type: actionTypes.FETCH_SHARE_ACTIVE,
+        shareActive
+    }; 
+}; 
+
+export const resetActiveInit = (userID, curTab) => {
+    return {
+        type: actionTypes.RESET_ACTIVE_INIT,
         userID,
-        categ
+        curTab
     };
 };
 
-export const defaultMainActive = (mainProps) => {
+export const resetActive = (curTab) => {
     return {
-        type: actionTypes.DEFAULT_MAINACTIVE,
-        mainProps
+        type: actionTypes.RESET_ACTIVE,
+        curTab
     };
 };
 

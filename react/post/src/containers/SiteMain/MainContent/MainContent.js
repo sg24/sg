@@ -8,56 +8,61 @@ import MainPost from './MainPost/MainPost';
 
 class MainContent extends Component {
     state = {
-        mainNavProps: {
-            post: {
-                path: '/post',
-                icnGrp: 'clone',
-                icnClass: 'icon icon__site-main--content__tab--clone',
-                title: 'Post',
-                active: null
-            },
-            share: {
-                path: '/post/shared',
-                icnGrp: 'location-arrow',
-                icnClass: 'icon icon__site-main--content__tab--share',
-                title: 'Shared',
-                active: null
-            }
+        post: {
+            path: '/post',
+            icnGrp: 'clone',
+            icnClass: 'icon icon__site-main--content__tab--clone',
+            title: 'Post',
         },
-        pathname: null
-    }
-
-    componentDidMount() {
-        this.props.onFetchMainActive(this.state.mainNavProps, this.props.userID);
+        share: {
+            path: '/post/shared',
+            icnGrp: 'location-arrow',
+            icnClass: 'icon icon__site-main--content__tab--share',
+            title: 'Shared',
+        },
+        showPtActive: false,
+        showShareActive: true,
+        ptFetch: false
     }
 
     componentDidUpdate() {
-        if (this.props.location.pathname !== this.state.pathname && this.props.mainProps) {
-            for (let key in this.props.mainProps) {
-                let mainProps = {...this.props.mainProps[key]}
-                if (mainProps.path === this.props.location.pathname) {
-                    this.props.onDefaultMainActive(this.props.mainProps, this.props.userID, key)
-                }
-            }
-            this.setState({pathname: this.props.location.pathname})
+        if (this.props.ptFetch && !this.state.ptFetch) {
+            this.props.onResetActive(this.props.userID, 'post');
+            this.setState({ptFetch: true})
         }
     }
 
-    render() {
-
-        let mainNavProps = <MainNavigations 
-            content={this.state.mainNavProps}/>;
-
-        if (this.props.mainProps) {
-            mainNavProps = <MainNavigations 
-                content={this.props.mainProps}/>;
+    removeActiveHandler = (curTab) => {
+        this.props.onResetActive(this.props.userID, curTab);
+        if (curTab === 'post') {
+            this.setState((prevState, props) => {
+                return {showPtActive: !prevState.showPtActive,
+                  showShareActive: true  
+                }
+            });
+            return
         }
+        this.setState((prevState, props) => {
+            return {
+              showPtActive: true,
+              showShareActive: !prevState.showShareActive  
+            }
+        });
+    }
 
+    render() {
         return (
             <div className="site-main__content">
                 <div className="site-main__content--wrapper">
                     <ul className="site-main__content--tab">
-                        { mainNavProps }
+                    <MainNavigations 
+                        content={this.state.post}
+                        removeActive={this.removeActiveHandler.bind(this, 'post')}
+                        active={this.state.showPtActive ? this.props.ptActive : null}/>
+                    <MainNavigations 
+                        content={this.state.share}
+                        removeActive={this.removeActiveHandler.bind(this, 'share')}
+                        active={this.state.showShareActive ? this.props.shareActive : null}/>
                     </ul>
                     <MainPost />
                 </div>
@@ -68,15 +73,16 @@ class MainContent extends Component {
 
 const mapStateToProps = state => {
     return {
-       mainProps: state.main.mainProps,
        userID: state.auth.userID,
+       shareActive: state.main.shareActive,
+       ptActive: state.main.ptActive,
+       ptFetch: state.pt.post !== null
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchMainActive: (mainProps, userID) => dispatch(actions.fetchMainActiveInit(mainProps, userID)),
-        onDefaultMainActive: (mainProps, userID, categ) => dispatch(actions.defaultMainActiveInit(mainProps, userID, categ))
+        onResetActive: (userID, curTab) => dispatch(actions.resetActiveInit(userID, curTab))
     };
 };
 

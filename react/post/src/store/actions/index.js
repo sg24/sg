@@ -94,8 +94,6 @@ export {
     fetchNotifyActive,
     defaultNotifyactiveInit,
     defaultNotifyActive,
-    fetchShareactiveInit,
-    fetchShareActive,
     headerFilterInit,
     headerFilterStart,
     headerFilterFail,
@@ -104,10 +102,12 @@ export {
 } from './header';
 
 export {
-    fetchMainActiveInit,
-    fetchMainActive,
-    defaultMainActiveInit,
-    defaultMainActive,
+    fetchPtActiveInit,
+    fetchPtActive,
+    fetchShareactiveInit,
+    fetchShareActive,
+    resetActiveInit,
+    resetActive,
     showMainBackdrop,
     hideMainBackdrop
 } from './main';

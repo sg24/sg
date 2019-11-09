@@ -1,37 +1,22 @@
 import { put } from 'redux-saga/effects';
 
 import * as actions from '../../store/actions/index';
+import axios from '../../axios';
 
-export function* fetchMainActiveInitSaga(action) {
-    let oldMainProps = {...action.mainProps};
-    let curActive = 90;
-    let updatedMainProps = {}
-
-    for (let key in oldMainProps) {
-        curActive += 2;
-        updatedMainProps[key] = oldMainProps[key]
-        updatedMainProps[key].active = curActive; 
-    }
-    yield put(actions.fetchMainActive(updatedMainProps));
+export function* fetchPtActiveInitSaga(action) {
+    yield put(actions.fetchPtActive(99));
 }
 
-export function* defaultMainActiveInitSaga(action) {
-    let oldMainProps = {...action.mainProps};
-    let curActive = 90;
-    let updatedMainProps = {}
+export function* fetchShareActiveInitSaga(action) {
+    try {
+        let response = yield axios.post('/header', {userID: action.userID}, {headers: {'data-categ':'postnotification'}});
+        yield put(actions.fetchShareActive(response.data));
+    } catch(err) {}
+}
 
-    for (let key in oldMainProps) {
-        curActive += 2;
-        updatedMainProps[key] = oldMainProps[key]
-        updatedMainProps[key].active = curActive; 
-    }
-
-    let newMainProps = {};
-    for (let key in updatedMainProps) {
-        newMainProps[key] = updatedMainProps[key];
-    }
-    let mainProps = {...newMainProps[action.categ]}
-    mainProps.active = null; 
-    newMainProps[action.categ] = mainProps;
-    yield put(actions.defaultMainActive(newMainProps));
+export function* resetActiveInitSaga(action) {
+    try {
+        yield axios.patch('/header', {userID: action.userID}, {headers: {'data-categ': action.curTab}});
+        yield put(actions.resetActive(action.curTab));
+    } catch(err) {}
 }

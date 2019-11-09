@@ -73,6 +73,14 @@ class Posts extends Component {
                 filterTag: this.props.match.params.id
             });
         }
+
+        if (!this.props.match.params.id && this.state.filterTag !== this.props.match.params.id) {
+            this.props.onFetchPostReset();
+            this.props.onFetchPost(this.props.userID, 'post', this.state.fetchLimit, 0, 0);
+            this.setState({
+                filterTag: this.props.match.params.id
+            });
+        }
     }
 
     showUserOptHandler = (index) => {
@@ -191,6 +199,9 @@ class Posts extends Component {
     }
 
     render() {
+        this.props.onFetchShareActive(this.props.userID);
+        this.props.onFetchPtActive(this.props.userID);
+
         let post = "Loading";
         if (this.props.postErr) {
             post = null
@@ -256,6 +267,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        onFetchShareActive: (userID) => dispatch(actions.fetchShareactiveInit(userID)),
+        onFetchPtActive: (userID) => dispatch(actions.fetchPtActiveInit(userID)),
         onFetchPost: (userID, fetchType, limit, skipPost, ptTotal) => dispatch(actions.fetchPostInit(userID, fetchType, limit, skipPost, ptTotal)),
         onFetchPostReset: () => dispatch(actions.fetchPostReset()),
         onChangeFav: (id, liked, favAdd, changedFav, userID) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID)),
