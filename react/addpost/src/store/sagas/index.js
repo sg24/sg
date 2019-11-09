@@ -2,11 +2,12 @@ import { takeEvery, all } from 'redux-saga/effects';
 
 import * as actionTypes from '../../store/actions/actionTypes';
 import { fetchNotifyInitSaga, 
-            changeFavNotifySaga, 
-            fetchNavlistInitSaga, 
-            fetchNotifyActiveInitSaga,
-            defaultNotifyActiveInitSaga,
-            fetchShareActiveInitSaga } from './header';
+        changeFavNotifySaga, 
+        fetchNavlistInitSaga, 
+        fetchNotifyActiveInitSaga,
+        defaultNotifyActiveInitSaga,
+        fetchShareActiveInitSaga,
+        headerFilterInitSaga } from './header';
 import { fetchPostCategInitSaga, 
             addPostCategInitSaga, 
             checkLinkInitSaga, 
@@ -21,7 +22,8 @@ export function* watchHeader() {
         takeEvery(actionTypes.FETCH_NAVLIST_INIT, fetchNavlistInitSaga),
         takeEvery(actionTypes.FETCH_NOTIFY_ACTIVE_INIT, fetchNotifyActiveInitSaga),
         takeEvery(actionTypes.DEFAULT_NOTIFYACTIVE_INIT, defaultNotifyActiveInitSaga),
-        takeEvery(actionTypes.FETCH_SHARE_ACTIVE_INIT, fetchShareActiveInitSaga)
+        takeEvery(actionTypes.FETCH_SHARE_ACTIVE_INIT, fetchShareActiveInitSaga),
+        takeEvery(actionTypes.HEADER_FILTER_INIT, headerFilterInitSaga)
      ])
 }
 

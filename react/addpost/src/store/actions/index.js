@@ -11,6 +11,7 @@ export {
     changeFavNotify,
     showNavList,
     fetchNavlistInit,
+    fetchNavlistStart,
     fetchNavlist,
     showUserOption,
     fetchNotifyactiveInit,
@@ -18,7 +19,12 @@ export {
     defaultNotifyactiveInit,
     defaultNotifyActive,
     fetchShareactiveInit,
-    fetchShareActive
+    fetchShareActive,
+    headerFilterInit,
+    headerFilterStart,
+    headerFilterFail,
+    headerFilter,
+    headerFilterClose
 } from './header';
 
 export {

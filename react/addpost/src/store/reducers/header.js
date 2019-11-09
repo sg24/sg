@@ -13,7 +13,11 @@ const initialState = {
     hidUserOption: false,
     notifyActive: null,
     shareActive: null,
-    default: false
+    default: false,
+    searchCnt: null,
+    filterPos: 0,
+    searchCntErr: null,
+    filterStart: false
 };
 
 const formExpand = (state, action) => {
@@ -48,6 +52,10 @@ const showNavList = (state, action) => {
     return updateObject(state, {hidNotify: true, hidNavList: false, hidUserOption: true, default: false})
 };
 
+const fetchNavListStart = (state, action) => {
+    return updateObject(state, {navList: null, navListCateg: null})
+};
+
 const fetchNavList = (state, action) => {
     return updateObject(state, {navList: action.navList, navListCateg: action.category})
 };
@@ -68,6 +76,22 @@ const fetchShareActive = (state, action) => {
     return updateObject(state, {shareActive: action.shareActive})
 };
 
+const headerFilterStart = (state, action) => {
+    return updateObject(state, {searchCnt: null, filterPos: action.filterPos, searchCntErr: null, filterStart: true})
+};
+
+const headerFilterFail= (state, action) => {
+    return updateObject(state, {searchCntErr: action.searchCntErr})
+};
+
+const headerFilter = (state, action) => {
+    return updateObject(state, {searchCnt: action.searchCnt})
+};
+
+const headerFilterClose = (state, action) => {
+    return updateObject(state, {searchCnt: null, filterStart: false})
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.HEADER_FORM_EXPAND:
@@ -86,6 +110,8 @@ const reducer = (state = initialState, action) => {
             return changeFavNotify(state, action);
         case actionTypes.SHOW_NAV_LIST:
             return showNavList(state, action);
+        case actionTypes.FETCH_NAVLIST_START:
+            return fetchNavListStart(state, action);
         case actionTypes.FETCH_NAVLIST:
             return fetchNavList(state, action);
         case actionTypes.SHOW_USER_OPTION:
@@ -96,6 +122,14 @@ const reducer = (state = initialState, action) => {
             return defaultNotifyActive(state, action);
         case actionTypes.FETCH_SHARE_ACTIVE:
             return fetchShareActive(state, action);
+        case actionTypes.HEADER_FILTER_START:
+            return headerFilterStart(state, action);
+        case actionTypes.HEADER_FILTER_FAIL:
+            return headerFilterFail(state, action);
+        case actionTypes.HEADER_FILTER_CLOSE:
+            return headerFilterClose(state, action);
+        case actionTypes.HEADER_FILTER:
+            return headerFilter(state, action);
         default: return state
     };
 };
