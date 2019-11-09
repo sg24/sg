@@ -16,7 +16,9 @@ export function* fetchShareActiveInitSaga(action) {
 
 export function* resetActiveInitSaga(action) {
     try {
-        yield axios.patch('/header', {userID: action.userID}, {headers: {'data-categ': action.curTab}});
+        if (action.curTab === 'share') {
+            yield axios.patch('/header', {userID: action.userID}, {headers: {'data-categ': action.curTab}});
+        }
         yield put(actions.resetActive(action.curTab));
     } catch(err) {}
 }

@@ -74,11 +74,11 @@ class Posts extends Component {
             });
         }
 
-        if (!this.props.match.params.id && this.state.filterTag !== this.props.match.params.id) {
+        if (!this.props.match.params.id && this.state.filterTag !== 'post') {
             this.props.onFetchPostReset();
             this.props.onFetchPost(this.props.userID, 'post', this.state.fetchLimit, 0, 0);
             this.setState({
-                filterTag: this.props.match.params.id
+                filterTag: 'post'
             });
         }
     }
