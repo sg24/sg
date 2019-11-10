@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const {posts, category, postnotifies, connectStatus, storage} = require('../serverDB/serverDB');
+const {posts, questions, category, postnotifies, connectStatus, storage} = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
 let notifications = require('./utility/notifications');
 const router = express.Router();
@@ -39,6 +39,81 @@ router.post('/add/post', authenticate, upload.array('video', 1100),(req, res, ne
             function notification() {
                 notifications(shareMe).then(() =>{
                     posts.findByIdAndUpdate(postID, {_isCompleted: true}).then(() => {
+                        res.status(201).send(postID);
+                    }).catch(err => {
+                        res.status(500).send(err);
+                    })
+                }).catch(err => {
+                    res.status(500).send(err)
+                })
+            }
+
+            category.countDocuments({}).then((result) => {
+                if ( result < 1) { 
+                    let newCateg = new category({
+                        post: postCateg
+                    });
+                    newCateg.save().then(() => {
+                        if (shareMe.length > 0) {
+                           notification();
+                        } else {
+                            res.status(201).send(postID);
+                        }
+                    }).catch(err => {
+                        res.status(500).send(err);
+                    });
+                    return 
+                }
+                category.findOneAndUpdate({}, {$addToSet: { post: { $each: postCateg } }}).then(() => {
+                    if (shareMe.length > 0) {
+                        notification();
+                    } else {
+                        res.status(201).send(postID);
+                    }
+                }).catch(err => {
+                    res.status(500).send(err);
+                })
+            })
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+    }).catch(err => {
+        res.status(500).send(err);
+    })
+
+})
+
+router.post('/add/question', authenticate, upload.array('video', 1100),(req, res, next) => {
+    const content = req.body;
+    connectStatus.then((result) => {
+        let categRaw = String(content.categ).split(',');
+        let categ = [...new Set(categRaw)];
+        let shareMe = content.shareMe !== '' ? String(content.shareMe).split(',') : [];
+        let ID = null;
+        let fileID = [];
+
+        for( let file of req.files) {
+            fileID.push({id: file.id, type: file.contentType, snapshotID: file.filename});
+        }
+
+        let newDoc = new questions({
+            authorID: Date.now(),
+            category: categ,
+            video: fileID,
+            image: content.image,
+            shareMe,
+            title: content.title,
+            desc: content.desc,
+            mode: content.mode,
+            snapshot: content.snapshot !== undefined ? JSON.parse(content.snapshot) : []
+        }); 
+
+        newDoc.save().then(result => {
+            ID = result._id;
+
+            function notification() {
+                notifications(shareMe).then(() =>{
+                    questions.findByIdAndUpdate(postID, {_isCompleted: true}).then(() => {
                         res.status(201).send(postID);
                     }).catch(err => {
                         res.status(500).send(err);
