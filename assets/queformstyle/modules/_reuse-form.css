@@ -642,7 +642,7 @@
         }
 
         &--add {
-            background-color: $mainMiddleDarkBlue;
+            background-color: rgba($mainLightRed, .45);
 
             &:hover {
                 background-color: $mainDarkPaleBlue;
@@ -651,6 +651,9 @@
 
         &--que {
             background-color: $mainLightRed;
+            &:hover {
+                background-color: $mainDarkRed;
+            }
         }
     }
 

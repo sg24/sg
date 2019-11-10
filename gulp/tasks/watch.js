@@ -56,9 +56,7 @@ gulp.task('watch', function() {
         gulp.start('convcss')
     });
 
-    watch('./assets/queformstyle/**/*.css', function() {
-        gulp.start('queformcss')
-    });
+    watch('./assets/queformstyle/**/*.css', series('queformstyles', 'queformcss'));
 
     watch('./assets/postformstyle/**/*.css', series('postformstyles', 'postformcss'));
 
@@ -249,10 +247,10 @@ gulp.task('postcss', function() {
 //     .pipe(browserSyc.stream());
 // });
 
-// gulp.task('queformcss',['queformstyles'], function() {
-//     return gulp.src("./assets/queformstyle/queform.css")
-//     .pipe(browserSyc.stream());
-// });
+gulp.task('queformcss', function() {
+    return gulp.src("./assets/queformstyle/queform.css")
+    .pipe(browserSyc.stream());
+});
 
 gulp.task('postformcss', function() {
     return gulp.src("./assets/postformstyle/postform.css")

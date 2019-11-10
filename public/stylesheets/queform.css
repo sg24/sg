@@ -747,7 +747,7 @@
 }
 
 .reuse-form__btn--add {
-    background-color: #437da3;
+    background-color: rgba(255,22,0, .45);
 }
 
 .reuse-form__btn--add:hover {
@@ -756,6 +756,10 @@
 
 .reuse-form__btn--que {
     background-color: #ff1600;
+}
+
+.reuse-form__btn--que:hover {
+    background-color: #f22613;
 }
 
 .reuse-form__footer {

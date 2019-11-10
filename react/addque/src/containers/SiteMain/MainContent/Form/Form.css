@@ -17,7 +17,7 @@
 
 .icon__reuse-form--cnt__tag {
     margin-right: 5px;
-    color: #0284a8;
+    color: #ff1600;
     font-size: .8125rem;
 }
 
@@ -1032,7 +1032,7 @@
 
 .reuse-form__btn--close:disabled, .reuse-form__btn--dft:disabled {
     cursor: not-allowed;
-    background-color: rgba(255,255,255, .45)
+    background-color: rgba(255,255,255, .45);
 }
 
 .reuse-form__btn--close:not(:disabled):hover, .reuse-form__btn--dft:not(:disabled):hover {
@@ -1047,16 +1047,16 @@
 }
 
 .reuse-form__btn--add {
-    background-color: #437da3;
+    background-color: #ff1600;
 }
 
 .reuse-form__btn--add:disabled {
     cursor: not-allowed;
-    background-color: rgba(67,125,163, .45)
+    background-color: rgba(255,22,0, .45);
 }
 
 .reuse-form__btn--add:not(:disabled):hover {
-    background-color:#05578b;
+    background-color:#f22613;
 }
 
 .reuse-form__footer {
