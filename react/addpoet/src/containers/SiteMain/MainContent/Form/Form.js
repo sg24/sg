@@ -174,11 +174,14 @@ class Form extends  Component {
     }
 
     submitHandler = (mode) => {
+        let updateEditorBlock = updateObject(convertToRaw(this.state.formElement.content.value.getCurrentContent()).blocks[0], {text: ''})
+        let updateEditorState = updateObject(convertToRaw(this.state.formElement.content.value.getCurrentContent()), {blocks: [updateEditorBlock]});
        this.setState({showForm: true,  showAddItm: false, mode});
        if (this.state.categs.length > 0 && this.state.formIsValid) {
             let newCnt = {
                 categ: this.state.categs,
-                desc: JSON.stringify(convertToRaw(this.state.formElement.content.value.getCurrentContent())),
+                desc: JSON.stringify(updateEditorState),
+                title: convertToRaw(this.state.formElement.content.value.getCurrentContent()).blocks[0].text,
                 video: this.props.media.video ? this.props.media.video : [],
                 image: this.props.media.image ? this.props.media.image: [],
                 snapshot: this.props.snapshot,
@@ -209,6 +212,7 @@ class Form extends  Component {
     }
 
     render() {
+        this.props.onFetchShareActive(this.props.userID);
         let addCateg = null;
         let categListClass = ['reuse-form__cnt--det__selec reuse-form__cnt--det__selec--categ'];
         let categItems = null;
@@ -430,7 +434,7 @@ class Form extends  Component {
                             <FontAwesomeIcon 
                                 icon={['fas', 'plus']} 
                                 className="icon icon__reuse-form--btn" />
-                            Ask
+                            Add
                         </button>
                     </div>
                 </div>
@@ -441,6 +445,7 @@ class Form extends  Component {
 
 const mapStateToProps = state => {
     return {
+        userID: state.auth.userID,
         categ: state.form.categ,
         categErr: state.form.categErr,
         showCateg: state.form.showCateg,
@@ -460,7 +465,8 @@ const mapDispatchToProps = dispatch => {
         onFetchCateg: () => dispatch(actions.fetchCategInit()),
         onAddCateg: (categ) => dispatch(actions.addCategInit(categ)),
         onShowMediaBox: () => dispatch(actions.showMediaBox()),
-        onSubmitForm: (formData) => dispatch(actions.submit(formData))
+        onSubmitForm: (formData) => dispatch(actions.submit(formData)),
+        onFetchShareActive: (userID) => dispatch(actions.fetchShareactiveInit(userID)),
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

@@ -29,6 +29,11 @@ const QuestionSchema = new Schema({
     shareMe: {
         type: Array
     },
+    title: {
+        type: String,
+        required: true,
+        trim: true
+    },
     desc: {
         type: String,
         required: true,

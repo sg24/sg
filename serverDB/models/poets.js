@@ -29,6 +29,11 @@ const PoetSchema = new Schema({
     shareMe: {
         type: Array
     },
+    title: {
+        type: String,
+        required: true,
+        trim: true
+    },
     desc: {
         type: String,
         required: true,
@@ -68,7 +73,7 @@ const PoetSchema = new Schema({
     }
 })
 
-PoetSchema.index({desc: 'text'});
+PoetSchema.index({title: 'text'});
 const poets = mongoose.model('poets', PoetSchema);
 
 module.exports = poets;

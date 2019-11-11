@@ -12,7 +12,6 @@ const initialState = {
     hidNavList: false,
     hidUserOption: false,
     notifyActive: null,
-    shareActive: null,
     default: false,
     searchCnt: null,
     filterPos: 0,
@@ -72,10 +71,6 @@ const defaultNotifyActive = (state, action) => {
     return updateObject(state, {notifyActive: null})
 };
 
-const fetchShareActive = (state, action) => {
-    return updateObject(state, {shareActive: action.shareActive})
-};
-
 const headerFilterStart = (state, action) => {
     return updateObject(state, {searchCnt: null, filterPos: action.filterPos, searchCntErr: null, filterStart: true})
 };
@@ -120,8 +115,6 @@ const reducer = (state = initialState, action) => {
             return fetchNotifyActive(state, action);
         case actionTypes.DEFAULT_NOTIFYACTIVE:
             return defaultNotifyActive(state, action);
-        case actionTypes.FETCH_SHARE_ACTIVE:
-            return fetchShareActive(state, action);
         case actionTypes.HEADER_FILTER_START:
             return headerFilterStart(state, action);
         case actionTypes.HEADER_FILTER_FAIL:

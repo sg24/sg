@@ -1,7 +1,7 @@
-const {category, postnotifies} = require('../../serverDB/serverDB');
+let notifications = require('./notifications');
 
-module.exports = submitForm = (content, model, files, field) => {
-    console.log(content, model, files, field)
+module.exports = submitForm = (content, model, files, notify, field, res, category) => {
+   return new Promise ((resolve, reject) => {
     let categRaw = String(content.categ).split(',');
     let categ = [...new Set(categRaw)];
     let shareMe = content.shareMe !== '' ? String(content.shareMe).split(',') : [];
@@ -11,64 +11,47 @@ module.exports = submitForm = (content, model, files, field) => {
     for( let file of files) {
         fileID.push({id: file.id, type: file.contentType, snapshotID: file.filename});
     }
-    let createModel;
-    
-    if (content.title) {
-        createModel = {
-            authorID: Date.now(),
-            category: categ,
-            postVideo: fileID,
-            postImage: content.image,
-            shareMe,
-            title: content.title,
-            desc: content.desc,
-            mode: content.mode,
-            snapshot: content.snapshot !== undefined ? JSON.parse(content.snapshot) : []
-        }
-    } else {
-        createModel = {
-            authorID: Date.now(),
-            category: categ,
-            video: fileID,
-            image: content.image,
-            shareMe,
-            desc: content.desc,
-            mode: content.mode,
-            snapshot: content.snapshot !== undefined ? JSON.parse(content.snapshot) : []
-        }
-    }
-    
-    let newCnt = new model(createModel); 
 
-    newCnt.save().then(result => {
+    let newDoc = new model({
+        authorID: Date.now(),
+        category: categ,
+        video: fileID,
+        image: content.image,
+        shareMe,
+        title: content.title,
+        desc: content.desc,
+        mode: content.mode,
+        snapshot: content.snapshot !== undefined ? JSON.parse(content.snapshot) : []
+    }); 
+
+    newDoc.save().then(result => {
         id = result._id;
-        
+
         function notification() {
-            notifications(shareMe).then(() =>{
+            notifications(shareMe, notify).then(() =>{
                 model.findByIdAndUpdate(id, {_isCompleted: true}).then(() => {
-                    res.status(201).send(id);
+                    resolve(id)
                 }).catch(err => {
-                    res.status(500).send(err);
+                    reject(err)
                 })
             }).catch(err => {
-                res.status(500).send(err)
+                reject(err)
             })
         }
 
         category.countDocuments({}).then((result) => {
             if ( result < 1) { 
-                console.log({[field]: { $each: categ }})
                 let newCateg = new category({
-                    [field]: categ
+                    poet: categ
                 });
                 newCateg.save().then(() => {
                     if (shareMe.length > 0) {
                        notification();
                     } else {
-                        res.status(201).send(id);
+                        resolve(id)
                     }
                 }).catch(err => {
-                    res.status(500).send(err);
+                    reject(err)
                 });
                 return 
             }
@@ -76,13 +59,14 @@ module.exports = submitForm = (content, model, files, field) => {
                 if (shareMe.length > 0) {
                     notification();
                 } else {
-                    res.status(201).send(id);
+                    resolve(id)
                 }
             }).catch(err => {
-                res.status(500).send(err);
+                reject(err)
             })
         })
     }).catch(err => {
-        res.status(500).send(err);
+        reject(err)
     })
+   })
 }

@@ -18,11 +18,11 @@ const PostSchema = new Schema({
         type: Array,
         required: true
     },
-    postVideo: {
+    video: {
         type: Array,
         default: [String]
     },
-    postImage: {
+    image: {
         type: Array,
         default: [String]
     },

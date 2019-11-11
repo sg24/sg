@@ -18,14 +18,19 @@ export {
     fetchNotifyActive,
     defaultNotifyactiveInit,
     defaultNotifyActive,
-    fetchShareactiveInit,
-    fetchShareActive,
     headerFilterInit,
     headerFilterStart,
     headerFilterFail,
     headerFilter,
     headerFilterClose
 } from './header';
+
+export {
+    fetchShareactiveInit,
+    fetchShareActive,
+    resetActiveInit,
+    resetActive
+} from './main';
 
 export {
     fetchCategInit,

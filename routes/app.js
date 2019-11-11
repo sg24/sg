@@ -3,7 +3,7 @@ let router = express.Router();
 let mongoose = require('mongoose');
 
 let authenticate = require('../serverDB/middleware/authenticate');
-const {category, posts, postnotifies, connectStatus} = require('../serverDB/serverDB');
+const {category, posts, questions, poets, postnotifies, quenotifies, pwtnotifies, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', function (req, res, next) {
     res.render('index');
@@ -15,25 +15,54 @@ router.get('/view', (req, res, next) => {
 
 router.post('/header', authenticate, (req, res, next) => {
     if(req.header('data-categ') === 'headerfilter') {
-        posts.find({$text: { $search: req.body.filterCnt },mode: 'publish'}).then(result => {
-            let filterRes = [];
-            for (let pt of result) {
-                filterRes.push({id: pt._id, grp: 'post', title: pt.title})
-            }
-            res.send(filterRes).status(200);
+        checkText(req.body.filterCnt, posts, [], 'post').then(ptArray => {
+            checkText(req.body.filterCnt, questions, ptArray, 'question').then(queArray => {
+                checkText(req.body.filterCnt, poets, queArray, 'poet').then(filterArray => {
+                    console.log(filterArray)
+                    res.send(filterArray).status(200);
+                });
+            });
         }).catch(err => {
             res.status(500).send(err);
         })
         return ;
     }
 
-    if(req.header('data-categ') === 'postnotification') {
-        postnotifies.findOne({userID: req.body.userID}).then(result => {
-            res.send(new String(result.notifications)).status(200);
-        }).catch(err => {
-            res.status(500).send(err);
+    function checkText(searchCnt, collection, filterRes, grp) {
+        return new Promise((resolve, reject) => {
+            collection.find({$text: { $search: searchCnt },mode: 'publish'}).then(result => {
+                for (let filter of result) {
+                    filterRes.push({id: filter._id, grp, title: filter.title})
+                }
+                resolve(filterRes)
+            }).catch(err => {
+                reject(err)
+            })
+        });
+    }
+
+    if(req.header('data-categ') === 'notification') {
+        checkActive(req.body.userID, postnotifies, 0).then(ptActive => {
+            checkActive(req.body.userID, quenotifies, ptActive).then(queActive => {
+                checkActive(req.body.userID, pwtnotifies, queActive).then(active =>{
+                    res.send(new String(active)).status(200);
+                })
+            })
+        }).catch(err =>{
+            res.status(500).send(err)
         })
         return ;
+    }
+
+    function checkActive(userID, model, active) {
+        return new Promise((resolve, reject) =>{
+            model.findOne({userID}).then(result => {
+                let checkRes = result ? result.notifications : 0;
+                resolve(checkRes + active)
+            }).catch(err => {
+                reject(err)
+            })
+        })
     }
 
     if (req.header('data-categ') === 'category') {
@@ -106,7 +135,8 @@ router.get('/post', authenticate, (req, res, next) => {
     
     if (req.header('data-categ') === 'postCateg') {
         category.findOne({}).then(result => {
-            res.send(result.post).status(200);
+            let checkRes =  result ? result.post : []
+            res.send(checkRes).status(200);
         }).catch(err => {
             res.status(500).send(err);
         });
@@ -261,7 +291,8 @@ router.get('/media', authenticate, (req, res, next) => {
 router.get('/poet', (req, res, next) => {
     if (req.header('data-categ') === 'category') {
         category.findOne({}).then(result => {
-            res.send(result.poet).status(200);
+            let checkRes =  result ? result.poet : []
+            res.send(checkRes).status(200);
         }).catch(err => {
             res.status(500).send(err);
         });
@@ -278,7 +309,8 @@ router.get('/group', (req, res, next) => {
 router.get('/question', (req, res, next) => {
     if (req.header('data-categ') === 'category') {
         category.findOne({}).then(result => {
-            res.send(result.question).status(200);
+            let checkRes =  result ? result.question : []
+            res.send(checkRes).status(200);
         }).catch(err => {
             res.status(500).send(err);
         });

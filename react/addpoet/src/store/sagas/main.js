@@ -3,10 +3,6 @@ import { put } from 'redux-saga/effects';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
-export function* fetchPtActiveInitSaga(action) {
-    yield put(actions.fetchPtActive(99));
-}
-
 export function* fetchShareActiveInitSaga(action) {
     try {
         let response = yield axios.post('/header', {userID: action.userID}, {headers: {'data-categ':'notification'}});
