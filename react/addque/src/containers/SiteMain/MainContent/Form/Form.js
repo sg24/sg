@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'promise-polyfill/src/polyfill';
+import { EditorState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
 
+import '../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './Form.css';
 import * as actions from '../../../../store/actions/index';
 import PtCategs from '../../../../components/Main/PostCategs/PostCategs';
@@ -44,17 +47,8 @@ class Form extends  Component {
         showUserOpt: false,
         showAddItmOpt: true,
         formElement: {
-            title: {
-                value: '',
-                validation: {
-                    required: true,
-                    minLength: 6
-                },
-                valid: false,
-                touched: false
-            },
             content: {
-                value: '',
+                value: EditorState.createEmpty(),
                 validation: {
                     required: true,
                     minLength: 6
@@ -161,10 +155,11 @@ class Form extends  Component {
         this.setState({showUserOpt: true,showImgOpt: false,showVidOpt: false, showAddItmOpt: true});
     }
 
-    inputChangedHandler = (event, inputType) => {
+    inputChangedHandler = (editorState, inputType) => {
+        let text = convertToRaw(editorState.getCurrentContent()).blocks[0].text;
         let updateFormType = updateObject(this.state.formElement[inputType], {
-            value: event.target.value,
-            valid: checkValidity(event.target.value, this.state.formElement[inputType].validation),
+            value: editorState,
+            valid: checkValidity(text, this.state.formElement[inputType].validation),
             touched: true
         });
         
@@ -183,7 +178,6 @@ class Form extends  Component {
        if (this.state.categs.length > 0 && this.state.formIsValid) {
             let newCnt = {
                 categ: this.state.categs,
-                title: this.state.formElement.title.value,
                 desc: this.state.formElement.content.value,
                 video: this.props.media.video ? this.props.media.video : [],
                 image: this.props.media.image ? this.props.media.image: [],
@@ -203,7 +197,7 @@ class Form extends  Component {
 
     closeBackdropHandler = () => {
         this.setState({
-            showPtCateg: false, showAddItm: false});
+            showCateg: false, showAddItm: false});
     }
 
     closeModalHandler = () => {
@@ -211,7 +205,7 @@ class Form extends  Component {
     }
 
     viewCntHandler = () => {
-        window.location.assign('/post/' + this.props.id)
+        window.location.assign('/view/question/' + this.props.id)
     }
 
     render() {
@@ -318,31 +312,18 @@ class Form extends  Component {
                             }
                         </div>
                         <div className="reuse-form__cnt--wrapper">
-                            <label className="reuse-form__cnt--title">Post Title</label>
-                            <div className="reuse-form__cnt--det">
-                                <input 
-                                    type="text" 
-                                    name=""
-                                    required
-                                    minLength="6"
-                                    value={this.state.formElement.title.value}
-                                    className="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg"
-                                    onChange={(event) => this.inputChangedHandler(event, 'title')} />
-                            </div>
-                            { !this.state.formElement.title.valid && this.state.formElement.title.touched ?
-                                <div className="reuse-form__err">Title must be longer than 5 characters</div>
-                                : null
-                            }
-                        </div>
-                        <div className="reuse-form__cnt--wrapper">
                             <label className="reuse-form__cnt--title">Content </label>
                             <div className="reuse-form__cnt--det">
-                                <textarea 
-                                    className="reuse-form__cnt--det__info"
-                                    required
-                                    minLength="6"
-                                    value={this.state.formElement.content.value}
-                                    onChange={(event) => this.inputChangedHandler(event, 'content')}></textarea>
+                                <Editor 
+                                    wrapperClassName=""
+                                    editorClassName="reuse-form__cnt--det__info"
+                                    toolbarClassName="reuse-form__cnt--det__toolbar"
+                                    editorState={this.state.formElement.content.value}
+                                    onEditorStateChange={(event) => this.inputChangedHandler(event, 'content')} 
+                                    toolbar={{
+                                        options: ['inline', 'blockType', 'colorPicker', 'emoji', 'remove', 'history'],
+                                        inline: { inDropdown: true }
+                                }}/>
                             </div>
                             { !this.state.formElement.content.valid && this.state.formElement.content.touched ?
                                 <div className="reuse-form__err">Content must be longer than 5 characters</div>

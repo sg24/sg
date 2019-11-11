@@ -29,7 +29,7 @@ export const submit = (formData) => {
             }
         }
 
-        axios.post('/add/post', formContent, {
+        axios.post('/add/question', formContent, {
             onUploadProgress: function (progressEvent) {
                 if (progressEvent.lengthComputable) {
                     const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);

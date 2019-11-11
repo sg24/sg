@@ -33,7 +33,7 @@ const users = [{
 export function* fetchPostCategInitSaga(action) {
     try {
         yield put(actions.fetchPtCategStart());
-        const category = yield axios.get('/add/post', {headers: {'data-categ':  'category'}});
+        const category = yield axios.get('/post', {headers: {'data-categ':'postCateg'}});
         const postCateg =  category.data && category.data.length > 0 ? category.data : null;
         yield put(actions.fetchPtCateg(postCateg))
     } catch(err){

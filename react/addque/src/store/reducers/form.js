@@ -33,7 +33,6 @@ const fetchCategReset = (state, action) => {
 };
 
 const fetchCateg = (state, action) => {
-    console.log(action.categ)
     return updateObject(state, {categ: action.categ, showCateg: action.categ !== null})
 };
 

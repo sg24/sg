@@ -559,16 +559,30 @@
     cursor: pointer;
 }
 
+.reuse-form__cnt--det__toolbar {
+    background-color: #f9f9f9;
+    margin: 0;
+}
+
 .reuse-form__cnt--det__info {
     width: 100%;
     border: none;
     outline: none;
     line-height: 2;
-    padding: 5px 10px 5px 10px;
-    height: 100px;
-    resize: vertical;
+    padding: 0 10px;
+    height: 200px;
+    overflow: hidden;
+    overflow-y: auto; 
     border-radius: 3px;
     background-color: transparent;
+}
+
+.reuse-form__cnt--det__info > div {
+    height: auto;
+}
+
+.reuse-form__cnt--det__info > div > div {
+    height: auto;
 }
 
 .reuse-form__cnt--tag {

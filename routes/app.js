@@ -268,6 +268,14 @@ router.get('/group', (req, res, next) => {
 
 
 router.get('/question', (req, res, next) => {
+    if (req.header('data-categ') === 'category') {
+        category.findOne({}).then(result => {
+            res.send(result.question).status(200);
+        }).catch(err => {
+            res.status(500).send(err);
+        });
+        return;
+    }
     res.render('question');
 });
 
@@ -292,26 +300,7 @@ router.get('/add/question', (req, res, next) => {
 });
 
 router.get('/add/post', authenticate, (req, res, next) => {
-    let isFetchCateg = false;
-
-    if (req.header('data-categ') === 'category') {
-        isFetchCateg = true;
-        connectStatus.then(() => {
-            category.find({}).then(result => {
-                res.send(result[0].post).status(200);
-            }).catch(err => {
-                let categ = new category();
-                categ.save();
-                res.status(500).send(err);
-            })
-        }).catch(err => {
-            res.status(500).send(err);
-        })
-    }
-
-    if (!isFetchCateg) {
-        res.render('postform');
-    }
+    res.render('postform');
 });
 
 router.get('/add/group', (req, res, next) => {

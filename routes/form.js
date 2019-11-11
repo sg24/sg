@@ -89,7 +89,7 @@ router.post('/add/question', authenticate, upload.array('video', 1100),(req, res
         let categRaw = String(content.categ).split(',');
         let categ = [...new Set(categRaw)];
         let shareMe = content.shareMe !== '' ? String(content.shareMe).split(',') : [];
-        let ID = null;
+        let id = null;
         let fileID = [];
 
         for( let file of req.files) {
@@ -102,19 +102,18 @@ router.post('/add/question', authenticate, upload.array('video', 1100),(req, res
             video: fileID,
             image: content.image,
             shareMe,
-            title: content.title,
             desc: content.desc,
             mode: content.mode,
             snapshot: content.snapshot !== undefined ? JSON.parse(content.snapshot) : []
         }); 
 
         newDoc.save().then(result => {
-            ID = result._id;
+            id = result._id;
 
             function notification() {
                 notifications(shareMe).then(() =>{
-                    questions.findByIdAndUpdate(postID, {_isCompleted: true}).then(() => {
-                        res.status(201).send(postID);
+                    questions.findByIdAndUpdate(id, {_isCompleted: true}).then(() => {
+                        res.status(201).send(id);
                     }).catch(err => {
                         res.status(500).send(err);
                     })
@@ -126,24 +125,24 @@ router.post('/add/question', authenticate, upload.array('video', 1100),(req, res
             category.countDocuments({}).then((result) => {
                 if ( result < 1) { 
                     let newCateg = new category({
-                        post: postCateg
+                        question: categ
                     });
                     newCateg.save().then(() => {
                         if (shareMe.length > 0) {
                            notification();
                         } else {
-                            res.status(201).send(postID);
+                            res.status(201).send(id);
                         }
                     }).catch(err => {
                         res.status(500).send(err);
                     });
                     return 
                 }
-                category.findOneAndUpdate({}, {$addToSet: { post: { $each: postCateg } }}).then(() => {
+                category.findOneAndUpdate({}, {$addToSet: { question: { $each: categ } }}).then(() => {
                     if (shareMe.length > 0) {
                         notification();
                     } else {
-                        res.status(201).send(postID);
+                        res.status(201).send(id);
                     }
                 }).catch(err => {
                     res.status(500).send(err);

@@ -9,7 +9,7 @@ const QuestionSchema = new Schema({
         type: String,
         required: true
     },
-    postCreated: { 
+    queCreated: { 
         type: Date, 
         default: Date.now,
         index: true 
@@ -18,21 +18,16 @@ const QuestionSchema = new Schema({
         type: Array,
         required: true
     },
-    postVideo: {
+    video: {
         type: Array,
         default: [String]
     },
-    postImage: {
+    image: {
         type: Array,
         default: [String]
     },
     shareMe: {
         type: Array
-    },
-    title: {
-        type: String,
-        required: true,
-        trim: true
     },
     desc: {
         type: String,
