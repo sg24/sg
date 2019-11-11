@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import AddPost from './AddPost/AddPost';
+import Form from './Form/Form';
 
 class MainContent extends Component {
     render() {
-        return <AddPost />
+        return <Form />
     }
 };
 

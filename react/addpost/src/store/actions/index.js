@@ -18,8 +18,6 @@ export {
     fetchNotifyActive,
     defaultNotifyactiveInit,
     defaultNotifyActive,
-    fetchShareactiveInit,
-    fetchShareActive,
     headerFilterInit,
     headerFilterStart,
     headerFilterFail,
@@ -28,13 +26,20 @@ export {
 } from './header';
 
 export {
-    fetchPtCategInit,
-    fetchPtCategStart,
-    fetchPtCategFail,
-    fetchPtCategReset,
-    fetchPtCateg,
-    addPtCategInit,
-    addPtCateg,
+    fetchShareactiveInit,
+    fetchShareActive,
+    resetActiveInit,
+    resetActive
+} from './main';
+
+export {
+    fetchCategInit,
+    fetchCategStart,
+    fetchCategFail,
+    fetchCategReset,
+    fetchCateg,
+    addCategInit,
+    addCateg,
     checkLinkInit,
     checkLink,
     resetLink,
@@ -58,7 +63,7 @@ export {
     submitFormStart,
     submitForm,
     formSubmitted
-} from './addpost';
+} from './form';
 
 export {
     submit

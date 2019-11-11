@@ -13,15 +13,9 @@ class AddUsers extends Component {
         showNewTab: false,
         users: null,
         showInput: false,
-        userSelected: [],
+        userSelected: this.props.media.user ? [...this.props.media.user] : [],
         showUserSelect: false 
     };
-
-    
-    componentWillMount() {
-        this.setState({
-            userSelected: this.props.media.user ? [...this.props.media.user] : []})
-    }
 
     componentDidMount() {
         this.props.onFetchUsers(this.state.curTab);
@@ -184,10 +178,10 @@ class AddUsers extends Component {
 
 const mapStateToProps = state =>  {
     return {
-        users: state.addPost.users,
-        filteredUser: state.addPost.filteredUser,
-        media: state.addPost.media,
-        curTab: state.addPost.curTab
+        users: state.form.users,
+        filteredUser: state.form.filteredUser,
+        media: state.form.media,
+        curTab: state.form.curTab
     };
 };
 

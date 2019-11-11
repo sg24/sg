@@ -1,49 +1,49 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchPtCategInit = () =>  {
+export const fetchCategInit = () =>  {
     return {
-        type: actionTypes.FETCH_PT_CATEG_INIT
+        type: actionTypes.FETCH_CATEG_INIT
     }; 
 }; 
 
 
-export const fetchPtCategStart = () =>  {
+export const fetchCategStart = () =>  {
     return {
-        type: actionTypes.FETCH_PT_CATEG_START
+        type: actionTypes.FETCH_CATEG_START
     }; 
 }; 
 
-export const fetchPtCategFail = (err) =>  {
+export const fetchCategFail = (err) =>  {
     return {
-        type: actionTypes.FETCH_PT_CATEG_FAIL,
+        type: actionTypes.FETCH_CATEG_FAIL,
         err
     }; 
 }; 
 
-export const fetchPtCategReset = () =>  {
+export const fetchCategReset = () =>  {
     return {
-        type: actionTypes.FETCH_PT_CATEG_RESET
+        type: actionTypes.FETCH_CATEG_RESET
     }; 
 }; 
 
-export const fetchPtCateg = (ptCateg) =>  {
+export const fetchCateg = (categ) =>  {
     return {
-        type: actionTypes.FETCH_PT_CATEG,
-        ptCateg
-    }; 
-}; 
-
-export const addPtCategInit = (categ) =>  {
-    return {
-        type: actionTypes.ADD_PT_CATEG_INIT,
+        type: actionTypes.FETCH_CATEG,
         categ
     }; 
 }; 
 
-export const addPtCateg = (ptCateg) =>  {
+export const addCategInit = (categ) =>  {
     return {
-        type: actionTypes.ADD_PT_CATEG,
-        ptCateg
+        type: actionTypes.ADD_CATEG_INIT,
+        categ
+    }; 
+}; 
+
+export const addCateg = (categ) =>  {
+    return {
+        type: actionTypes.ADD_CATEG,
+        categ
     }; 
 }; 
 
@@ -198,10 +198,10 @@ export const submitForm = () => {
     };
 };
 
-export const formSubmitted = (ID) => {
+export const formSubmitted = (id) => {
     return {
         type: actionTypes.FORM_SUBMITTED,
-        ID
+        id
     };
 };
 

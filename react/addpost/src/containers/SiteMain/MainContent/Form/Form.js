@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'promise-polyfill/src/polyfill';
+import { EditorState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
 
-import './AddPost.css';
+import '../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import './Form.css';
 import * as actions from '../../../../store/actions/index';
 import PtCategs from '../../../../components/Main/PostCategs/PostCategs';
 import Categs from '../../../../components/Main/PostCategs/Categs/Categs';
@@ -25,9 +28,9 @@ const AsyncUsers = asyncComponent(() => {
     return import ('./AddUsers/AddUsers');
 });
 
-class AddPost extends  Component {
+class Form extends  Component {
     state = {
-        showPtCateg: false,
+        showCateg: false,
         categs: [],
         noCateg: false,
         addCateg: null,
@@ -54,7 +57,7 @@ class AddPost extends  Component {
                 touched: false
             },
             content: {
-                value: '',
+                value: EditorState.createEmpty(),
                 validation: {
                     required: true,
                     minLength: 6
@@ -65,24 +68,24 @@ class AddPost extends  Component {
         },
         formIsValid: false,
         showForm: false,
-        postMode: null
+        mode: null
     }
 
     componentDidUpdate() {
-        if (this.state.showPtCateg && !this.props.showPtCateg) {
-            this.setState({showPtCateg: false})
+        if (this.state.showCateg && !this.props.showCateg) {
+            this.setState({showCateg: false})
         }
 
-        if (this.state.addNewCateg && this.props.newPtCateg) {
+        if (this.state.addNewCateg && this.props.newCateg) {
             let categs = [...this.state.categs]
-            categs.push(...this.props.newPtCateg);
+            categs.push(...this.props.newCateg);
             this.setState({categs,addNewCateg: false, noCateg: !categs.length > 1})
         }
         if (this.state.showAddItmOpt && this.props.hideMediaBox) {
             this.props.onShowMediaBox();
             this.setState({showVidOpt: false,showImgOpt: false,showUserOpt: false, showAddItmOpt: false});
         }
-        if (this.props.uploadPercent === 100 && this.props.postID && this.state.showForm) {
+        if (this.props.uploadPercent === 100 && this.props.id && this.state.showForm) {
             if (this.props.media.image) {
                 for (let image of this.props.media.image) {
                     window.URL.revokeObjectURL(image.url);
@@ -98,16 +101,16 @@ class AddPost extends  Component {
         } 
     }
 
-    showPostCategHandler = () => {
-        if (!this.state.showPtCateg) {
-            this.props.onFetchPtCateg();
+    showCategHandler = () => {
+        if (!this.state.showCateg) {
+            this.props.onFetchCateg();
             this.setState({
-                showPtCateg: true
+                showCateg: true
             });
             return
         }
         this.setState({
-            showPtCateg: false});
+            showCateg: false});
     }
 
     selectCategHandler = (categ) => {
@@ -161,10 +164,11 @@ class AddPost extends  Component {
         this.setState({showUserOpt: true,showImgOpt: false,showVidOpt: false, showAddItmOpt: true});
     }
 
-    inputChangedHandler = (event, inputType) => {
+    inputChangedHandler = (editorState, inputType) => {
+        let text = inputType === 'title' ? editorState.target.value : convertToRaw(editorState.getCurrentContent()).blocks[0].text;
         let updateFormType = updateObject(this.state.formElement[inputType], {
-            value: event.target.value,
-            valid: checkValidity(event.target.value, this.state.formElement[inputType].validation),
+            value: inputType === 'title' ? editorState.target.value: editorState,
+            valid: checkValidity(text, this.state.formElement[inputType].validation),
             touched: true
         });
         
@@ -179,43 +183,44 @@ class AddPost extends  Component {
     }
 
     submitHandler = (mode) => {
-       this.setState({showForm: true,  showAddItm: false, postMode: mode});
+       this.setState({showForm: true,  showAddItm: false, mode});
        if (this.state.categs.length > 0 && this.state.formIsValid) {
-            let newPost = {
+            let newCnt = {
                 categ: this.state.categs,
+                desc: JSON.stringify(convertToRaw(this.state.formElement.content.value.getCurrentContent())),
                 title: this.state.formElement.title.value,
-                desc: this.state.formElement.content.value,
                 video: this.props.media.video ? this.props.media.video : [],
                 image: this.props.media.image ? this.props.media.image: [],
                 snapshot: this.props.snapshot,
                 shareMe: this.props.media.user ? this.props.media.user : [],
                 mode
             }
-            this.props.onSubmitForm(newPost)
+            this.props.onSubmitForm(newCnt)
         return
        }
        this.setState({noCateg: true});
     }
 
-    resendPostHander = () => {
-        this.submitHandler(this.state.postMode);
+    resendCntHander = () => {
+        this.submitHandler(this.state.mode);
     }
 
     closeBackdropHandler = () => {
         this.setState({
-            showPtCateg: false, showAddItm: false});
+            showCateg: false, showAddItm: false});
     }
 
     closeModalHandler = () => {
         window.location.reload();
     }
 
-    viewPostHandler = () => {
-        window.location.assign('/post/' + this.props.postID)
+    viewCntHandler = () => {
+        window.location.assign('/view/poet/' + this.props.id)
     }
 
     render() {
-        let addPtCateg = null;
+        this.props.onFetchShareActive(this.props.userID);
+        let addCateg = null;
         let categListClass = ['reuse-form__cnt--det__selec reuse-form__cnt--det__selec--categ'];
         let categItems = null;
         let addItemClass = ['reuse-form__cnt--det__selec reuse-form__cnt--det__selec--add'];
@@ -225,13 +230,13 @@ class AddPost extends  Component {
             addItemClass.push('reuse-form__cnt--det__selec--add__visible icon--rotate');
             addItemOptClass.push('reuse-form__cnt--det__selec--opt__visible')
         }
-
-        if (this.state.showPtCateg && this.props.ptCateg) {
+        
+        if (this.state.showCateg && this.props.categ) {
             categListClass.push('icon--rotate');
-            addPtCateg =  (
+            addCateg =  (
                 <ul className="reuse-form__cnt--det__selec--opt reuse-form__cnt--det__selec--opt__visible">
                     <PtCategs 
-                        categs={this.props.ptCateg}
+                        categs={this.props.categ}
                         selecCateg={this.selectCategHandler}/>
                 </ul>
             );
@@ -276,18 +281,18 @@ class AddPost extends  Component {
                                 <FontAwesomeIcon 
                                     icon={['fas', 'tags']} 
                                     className="icon icon__reuse-form--cnt__tag" />
-                                Post Tags
+                                Tags
                             </label>
                             <div className="reuse-form__cnt--det">
                                 <div className="reuse-form__cnt--det__wrapper">
                                     <div 
                                         className={categListClass.join(' ')}
-                                        onClick={this.showPostCategHandler}>
+                                        onClick={this.showCategHandler}>
                                         Category 
                                         <FontAwesomeIcon 
                                             icon={['fas', 'angle-down']} 
                                             className="icon icon__reuse-form--angle" />
-                                       { addPtCateg }
+                                       { addCateg }
                                     </div>
                                     <div className="reuse-form__cnt--det__alt">
                                         <div className="reuse-form__cnt--det__alt--title">
@@ -337,12 +342,16 @@ class AddPost extends  Component {
                         <div className="reuse-form__cnt--wrapper">
                             <label className="reuse-form__cnt--title">Content </label>
                             <div className="reuse-form__cnt--det">
-                                <textarea 
-                                    className="reuse-form__cnt--det__info"
-                                    required
-                                    minLength="6"
-                                    value={this.state.formElement.content.value}
-                                    onChange={(event) => this.inputChangedHandler(event, 'content')}></textarea>
+                                <Editor 
+                                    wrapperClassName=""
+                                    editorClassName="reuse-form__cnt--det__info"
+                                    toolbarClassName="reuse-form__cnt--det__toolbar"
+                                    editorState={this.state.formElement.content.value}
+                                    onEditorStateChange={(event) => this.inputChangedHandler(event, 'content')} 
+                                    toolbar={{
+                                        options: ['inline', 'blockType', 'colorPicker', 'emoji', 'remove', 'history'],
+                                        inline: { inDropdown: true }
+                                }}/>
                             </div>
                             { !this.state.formElement.content.valid && this.state.formElement.content.touched ?
                                 <div className="reuse-form__err">Content must be longer than 5 characters</div>
@@ -411,22 +420,22 @@ class AddPost extends  Component {
                     { this.state.showImgOpt ? <Aux><Backdrop></Backdrop><AsyncImage /></Aux> : null }
                     { this.state.showVidOpt ? <Aux><Backdrop></Backdrop><AsyncVideo /></Aux> : null }
                     { this.state.showUserOpt ? <Aux><Backdrop></Backdrop><AsyncUsers /></Aux> : null}
-                    { this.props.submitForm && !this.state.showPtCateg ? 
+                    { this.props.submitForm && !this.state.showCateg ? 
                         <Aux>
                             <Backdrop></Backdrop>
                             <Modal 
                                 uploadPercent={this.props.uploadPercent}
-                                isValid={this.props.postID}
+                                isValid={this.props.id}
                                 uploadErr={this.props.submitError}
-                                resend={this.resendPostHander}
+                                resend={this.resendCntHander}
                                 closeModal={this.closeModalHandler}
-                                view={this.viewPostHandler}/>
+                                view={this.viewCntHandler}/>
                         </Aux> : null}
-                    { this.props.showPtCateg && this.state.showPtCateg ? 
+                    { this.props.showCateg && this.state.showCateg ? 
                         <Aux>
                             <Backdrop
                                 close={this.closeBackdropHandler}></Backdrop>
-                            {this.props.ptCategErr ? <Modal uploadErr={this.props.ptCategErr} type='categ' />: null}
+                            {this.props.categErr ? <Modal uploadErr={this.props.categErr} type='categ' />: null}
                         </Aux> : null
                     }
 
@@ -460,26 +469,28 @@ class AddPost extends  Component {
 
 const mapStateToProps = state => {
     return {
-        ptCateg: state.addPost.ptCateg,
-        ptCategErr: state.addPost.ptCategErr,
-        showPtCateg: state.addPost.showPtCateg,
-        newPtCateg: state.addPost.newPtCateg,
-        hideMediaBox: state.addPost.hideMediaBox,
-        snapshot: state.addPost.snapshot,
-        media: state.addPost.media,
-        uploadPercent: state.addPost.uploadPercent,
-        submitForm: state.addPost.submitForm,
-        submitError: state.addPost.submitError,
-        postID: state.addPost.postID
+        userID: state.auth.userID,
+        categ: state.form.categ,
+        categErr: state.form.categErr,
+        showCateg: state.form.showCateg,
+        newCateg: state.form.newCateg,
+        hideMediaBox: state.form.hideMediaBox,
+        snapshot: state.form.snapshot,
+        media: state.form.media,
+        uploadPercent: state.form.uploadPercent,
+        submitForm: state.form.submitForm,
+        submitError: state.form.submitError,
+        id: state.form.id
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchPtCateg: () => dispatch(actions.fetchPtCategInit()),
-        onAddCateg: (categ) => dispatch(actions.addPtCategInit(categ)),
+        onFetchCateg: () => dispatch(actions.fetchCategInit()),
+        onAddCateg: (categ) => dispatch(actions.addCategInit(categ)),
         onShowMediaBox: () => dispatch(actions.showMediaBox()),
-        onSubmitForm: (formData) => dispatch(actions.submit(formData))
+        onSubmitForm: (formData) => dispatch(actions.submit(formData)),
+        onFetchShareActive: (userID) => dispatch(actions.fetchShareactiveInit(userID)),
     };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(AddPost);
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

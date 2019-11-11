@@ -30,21 +30,21 @@ const users = [{
     students: 99
 }]
 
-export function* fetchPostCategInitSaga(action) {
+export function* fetchCategInitSaga(action) {
     try {
-        yield put(actions.fetchPtCategStart());
+        yield put(actions.fetchCategStart());
         const category = yield axios.get('/post', {headers: {'data-categ':'postCateg'}});
-        const postCateg =  category.data && category.data.length > 0 ? category.data : null;
-        yield put(actions.fetchPtCateg(postCateg))
+        const categ =  category.data && category.data.length > 0 ? category.data : null;
+        yield put(actions.fetchCateg(categ))
     } catch(err){
-        yield put(actions.fetchPtCategFail(err));
+        yield put(actions.fetchCategFail(err));
         yield delay(2000);
-        yield put(actions.fetchPtCategReset());
+        yield put(actions.fetchCategReset());
     }
     
 }
 
-export function* addPostCategInitSaga(action) {
+export function* addCategInitSaga(action) {
     let categs =  String(action.categ).split(',');
     let transformCateg = [];
     for (let categ of categs) {
@@ -53,7 +53,7 @@ export function* addPostCategInitSaga(action) {
 
     let removeDuplicate = [...new Set(transformCateg)];
         
-    yield put(actions.addPtCateg(removeDuplicate));
+    yield put(actions.addCateg(removeDuplicate));
 }
 
 export function* checkLinkInitSaga(action) {

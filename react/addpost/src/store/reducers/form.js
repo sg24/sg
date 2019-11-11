@@ -2,10 +2,10 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
 const initialState = {
-    ptCateg: null,
-    showPtCateg: false,
-    ptCategErr: null,
-    newPtCateg: null,
+    categ: null,
+    showCateg: false,
+    categErr: null,
+    newCateg: null,
     hideMediaBox: false,
     hidAddItm: false,
     linkValid: null,
@@ -17,27 +17,27 @@ const initialState = {
     uploadPercent: null,
     submitError: null,
     submitForm: false,
-    postID: null
+    id: null
 };
 
-const fetchPtCategStart = (state, action) => {
-    return updateObject(state, {showPtCateg: true, ptCategErr: null})
+const fetchCategStart = (state, action) => {
+    return updateObject(state, {showCateg: true, categErr: null})
 };
 
-const fetchPtCategFail = (state, action) => {
-    return updateObject(state, {ptCategErr: {message: action.err.message, code: action.err.code}});
+const fetchCategFail = (state, action) => {
+    return updateObject(state, {categErr: {message: action.err.message, code: action.err.code}});
 };
 
-const fetchPtCategReset = (state, action) => {
-    return updateObject(state, {ptCategErr: null, showPtCateg: false});
+const fetchCategReset = (state, action) => {
+    return updateObject(state, {categErr: null, showCateg: false});
 };
 
-const fetchPtCateg = (state, action) => {
-    return updateObject(state, {ptCateg: action.ptCateg, showPtCateg: action.ptCateg !== null})
+const fetchCateg = (state, action) => {
+    return updateObject(state, {categ: action.categ, showCateg: action.categ !== null})
 };
 
-const addPtCateg = (state, action) => {
-    return updateObject(state, {newPtCateg: action.ptCateg})
+const addCateg = (state, action) => {
+    return updateObject(state, {newCateg: action.categ})
 };
 
 const checkLink = (state, action) => {
@@ -105,21 +105,21 @@ const submitFormFail = (state, action) => {
 };
 
 const formSubmitted = (state, action) => {
-    return updateObject(state, {postID: action.ID})
+    return updateObject(state, {id: action.id})
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.FETCH_PT_CATEG_START:
-            return fetchPtCategStart(state, action);
-        case actionTypes.FETCH_PT_CATEG_FAIL:
-            return fetchPtCategFail(state, action);
-        case actionTypes.FETCH_PT_CATEG_RESET:
-            return fetchPtCategReset(state, action);
-        case actionTypes.FETCH_PT_CATEG:
-            return fetchPtCateg(state, action);
-        case actionTypes.ADD_PT_CATEG:
-            return addPtCateg(state, action);
+        case actionTypes.FETCH_CATEG_START:
+            return fetchCategStart(state, action);
+        case actionTypes.FETCH_CATEG_FAIL:
+            return fetchCategFail(state, action);
+        case actionTypes.FETCH_CATEG_RESET:
+            return fetchCategReset(state, action);
+        case actionTypes.FETCH_CATEG:
+            return fetchCateg(state, action);
+        case actionTypes.ADD_CATEG:
+            return addCateg(state, action);
         case actionTypes.HIDE_MEDIA_BOX:
             return hideMediaBox(state, action);
         case actionTypes.SHOW_MEDIA_BOX:

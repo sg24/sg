@@ -1,26 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import uuid from 'uuid';
 
 import * as actions from '../../../../../store/actions/index';
-import { updateObject, getSnapshot } from '../../../../../shared/utility';
+import { updateObject, getImageURL } from '../../../../../shared/utility';
 import MediaItems from '../../../../../components/Main/MediaItems/MediaItems';
 
-class AddVideo extends Component {
+class AddImage extends Component {
     state = {
         inputValue: '',
-        snapshot: [],
-        media: [],
+        media: this.props.media.image ? [...this.props.media.image] : [],
         removeMediaItemIndex: null,
         snapshotErr: null
     };
-
-    componentWillMount() {
-        if (this.props.media.video) {
-            this.setState({media: [...this.props.media.video], snapshot: [...this.props.snapshot]});
-        }
-    }
 
     linkVerifyHandler = (event) => {
         let inputValue =  event.target.value;
@@ -30,22 +22,23 @@ class AddVideo extends Component {
 
     addMediaHandler = () => {
         if (this.props.linkValid && this.props.linkValid.media) {
-            let id = uuid();
             let media = [...this.state.media];
-            let snapshot = [...this.state.snapshot];
-            getSnapshot(this.props.linkValid.media.url, 'video').then(curSnapshot => {
-                snapshot.push({id, snapshot: curSnapshot})
-                media.push(updateObject(this.props.linkValid.media, {id}));
+            getImageURL(this.props.linkValid.media.url).then(dataUrl => {
+                media.push({file: dataUrl, url: this.props.linkValid.media.url});
                 this.setState({
-                    media: media, inputValue: '',
-                    snapshot});
+                    media: media,  inputValue: ''});
                 this.props.onResetLink();
             }).catch(err => {
-                media.push(this.props.linkValid.media);
-                this.setState({
-                    media: media, inputValue: '',
-                    snapshotErr: err});
-                this.props.onResetLink();
+                let reader = new FileReader();
+                let these = this;
+                reader.readAsDataURL(this.props.linkValid.media.file)
+                reader.addEventListener('loadend', function() {
+                    media.push({file: reader.result, url: this.props.linkValid.media.url});
+                    these.setState({
+                        media: media,  inputValue: '',
+                        snapshotErr: err});
+                    these.props.onResetLink();
+                })
             })
         }
     }
@@ -88,34 +81,32 @@ class AddVideo extends Component {
         this.setState({removeMediaItemIndex: null})
     }
     
-    removeMediaItemHandler = (id) => {
+    removeMediaItemHandler = (index) => {
         let media = [...this.state.media];
-        let snapshot = [...this.state.snapshot];
-        let updatedMedia = media.filter(link=>  link.id !== id);
-        let updatedSnapshots = snapshot.filter(snapshot => snapshot.id !== id);
-        this.setState({media:  updatedMedia, snapshot: updatedSnapshots});
-        if (this.props.media.video && this.props.media.video.length > 0) {
-            this.props.onRemoveMedia(updateObject(this.props.media, {video: updatedMedia}));
-            this.props.onRemoveSnapshot(updatedSnapshots);
+        let updatedMedia = media.filter((link, CurIndex)=>  CurIndex !== index);
+        this.setState({media:  updatedMedia});
+        if (this.props.media.image && this.props.media.image.length > 0) {
+            this.props.onRemoveMedia(updateObject(this.props.media, {image: updatedMedia}))
         }
     }
 
     handleFiles = (files) => {
         let media = [...this.state.media];
-        let snapshot = [...this.state.snapshot];
-
         for (let i = 0; i < files.length; i++) {
-            const file = files[i];  
-            if(file.type.startsWith('video/')) {
-                let id = uuid();
-                let url = window.URL.createObjectURL(file);
-                getSnapshot(url, 'video').then(curSnapshot => {
-                    snapshot.push({id, snapshot: curSnapshot});
-                    media.push({file, url, id});
-                    this.setState({media, snapshot});
+            const file = files[i];
+            if(file.type.startsWith('image/')) {
+                let url = window.URL.createObjectURL(file)
+                getImageURL(url).then(dataUrl => {
+                    media.push({file: dataUrl, url});
+                    this.setState({media});
                 }).catch(err => {
-                    media.push({file, url});
-                    this.setState({media, snapshotErr: err});
+                    let reader = new FileReader();
+                    let these = this;
+                    reader.readAsDataURL(file)
+                    reader.addEventListener('loadend', function() {
+                        media.push({file: reader.result, url});
+                        these.setState({media, snapshotErr: err});
+                    })
                 })
             }
         }
@@ -123,24 +114,22 @@ class AddVideo extends Component {
 
     submitMediaHandler = () => {
         let media = {...this.props.media};
-        this.props.onSubmitMedia(updateObject(media, {video: [...this.state.media]}));
-        this.props.onAddSnapshot(this.state.snapshot);
+        this.props.onSubmitMedia(updateObject(media, {image: [...this.state.media]}));
     }
 
     closeMediaBoxHandler = () => {
         this.props.onhideMediaBox();
     }
 
+
     render() {
         let mediaPreview = null;
         let mediaAddedViewer = null;
 
-        if (this.props.linkValid ) {
+        if (this.props.linkValid) {
             mediaPreview = this.props.linkValid.media ? (
-                <video src={this.props.linkValid.media.url} controls>
-                    <p>our browser doesn't support embedded videos</p>
-                </video>
-            ) : <div className="reuse-form__err">{ this.props.linkValid.err.message}</div>
+                <img src={this.props.linkValid.media.url}  alt="post" />
+            ): <div className="reuse-form__err">{ this.props.linkValid.err.message}</div>
         }
 
         if (this.state.media.length > 0) {
@@ -148,7 +137,7 @@ class AddVideo extends Component {
                 <div className="reuse-form__itm--det__view-select">
                     <MediaItems 
                        media={this.state.media}
-                       mediaType="video"
+                       mediaType="image"
                        removeMediaItemEnable={this.removeMediaItemEnableHandler}
                        removeMediaItemDisable={this.removeMediaItemDisableHandler}
                        removeMediaItemIndex={this.state.removeMediaItemIndex}
@@ -157,17 +146,17 @@ class AddVideo extends Component {
             ); 
         }
 
-        return(
-            <div className="reuse-form__itm reuse-form__itm--vid">
+        return (
+            <div className="reuse-form__itm">
                 <h4 className="reuse-form__itm--title">
                     <FontAwesomeIcon 
-                        icon={['fas', 'video']}
+                        icon={['fas', 'images']}
                         className="icon icon__reuse-form--itm--title" />
-                    Add Video
+                  Add Image
                 </h4>
                 <div className="reuse-form__itm--det">
                     <div className="reuse-form__cnt">
-                        <label className="reuse-form__cnt--title">Video Link</label>
+                        <label className="reuse-form__cnt--title">Image Link</label>
                         <div className="reuse-form__cnt--det">
                             <input 
                                 type="url" 
@@ -177,37 +166,37 @@ class AddVideo extends Component {
                                 onChange={this.linkVerifyHandler}
                                 value={this.state.inputValue}
                                 spellCheck={false}
-                                pattern="https://.*" />
-                            <button
-                                type="button"
-                                onClick={this.addMediaHandler}
-                                disabled={this.props.linkValid ? this.props.linkValid.err !== null : true}
-                                className="reuse-form__cnt--det__btn">
-                                <FontAwesomeIcon 
-                                icon={['fas', 'plus']} />
-                            </button>
+                                pattern="https://.*"/>
+                                <button
+                                    type="button"
+                                    onClick={this.addMediaHandler}
+                                    disabled={this.props.linkValid ? this.props.linkValid.err !== null : true}
+                                    className="reuse-form__cnt--det__btn">
+                                    <FontAwesomeIcon 
+                                    icon={['fas', 'plus']} />
+                                </button>
                         </div>
                     </div>
                     <div className="reuse-form__itm--det__view">
                         { mediaPreview }
                     </div>
-                    <div className="reuse-form__itm--det__alt reuse-form__itm--det__alt--vid">
+                    <div className="reuse-form__itm--det__alt">
                         OR
                     </div>
                     <div className="reuse-form__cnt">
                         <div className="reuse-form__cnt--det">
                             <div className="reuse-form__cnt--det__fil">
-                                Drag and Drop Videos
+                                Drag and Drop Images
                                 <input 
                                     type="file" 
-                                    name="" 
+                                    name=""
                                     multiple
                                     className="reuse-form__cnt--det__fil--input"
                                     onChange={this.selectMediaHandler}
                                     onDragEnter={this.dragEnterMediaHandler}
                                     onDragOver={this.dragOverMediaHandler}
                                     onDrop={this.dropMediaHandler}
-                                    accept="video/*" />
+                                    accept="image/*" />
                             </div>
                         </div>
                     </div>
@@ -233,22 +222,19 @@ class AddVideo extends Component {
 
 const mapStateToProps = state => {
     return {
-        linkValid: state.addPost.linkValid,
-        snapshot: state.addPost.snapshot,
-        media: state.addPost.media
+        linkValid: state.form.linkValid,
+        media: state.form.media
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onCheckLink: (videoLink) => dispatch(actions.checkLinkInit(videoLink, 'video')),
+        onCheckLink: (imageLink) => dispatch(actions.checkLinkInit(imageLink, 'image')),
         onResetLink: () => dispatch(actions.resetLink()),
-        onAddSnapshot: (snapshot) => dispatch(actions.addSnapshot(snapshot)),
-        onRemoveSnapshot: (snapshot) => dispatch(actions.removeSnapshot(snapshot)),
         onRemoveMedia: (media) => dispatch(actions.removeMedia(media)),
         onSubmitMedia: (media) => dispatch(actions.submitMedia(media)),
         onhideMediaBox: () => dispatch(actions.hideMediaBox())
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddVideo)
+export default connect(mapStateToProps, mapDispatchToProps)(AddImage)

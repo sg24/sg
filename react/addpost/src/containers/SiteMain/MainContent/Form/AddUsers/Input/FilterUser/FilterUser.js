@@ -40,8 +40,8 @@ class FilterUser extends Component  {
 
 const mapStateToProps = state => {
     return {
-        users: state.addPost.users,
-        defaultValue: state.addPost.defaultValue
+        users: state.form.users,
+        defaultValue: state.form.defaultValue
     };
 };
 

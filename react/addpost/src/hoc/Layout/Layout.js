@@ -6,7 +6,7 @@ import Header from '../../containers/Header/Header';
 const layout = props =>  (
     <Aux>
         <Header />
-        {props.children}
+        {props.children} 
     </Aux>
 );
  
