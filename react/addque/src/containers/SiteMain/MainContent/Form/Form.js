@@ -178,7 +178,7 @@ class Form extends  Component {
        if (this.state.categs.length > 0 && this.state.formIsValid) {
             let newCnt = {
                 categ: this.state.categs,
-                desc: this.state.formElement.content.value,
+                desc: JSON.stringify(convertToRaw(this.state.formElement.content.value.getCurrentContent())),
                 video: this.props.media.video ? this.props.media.video : [],
                 image: this.props.media.image ? this.props.media.image: [],
                 snapshot: this.props.snapshot,
