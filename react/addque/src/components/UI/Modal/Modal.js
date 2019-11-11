@@ -41,7 +41,7 @@ const modal = props => {
                     <button 
                             type="button"  
                             className="reuse-form__btn--close"
-                            onClick={props.view}> View Post</button>
+                            onClick={props.view}> View </button>
                     <button 
                         type="button" 
                         className="reuse-form__btn--add"

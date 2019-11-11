@@ -69,21 +69,22 @@ export function* fetchNavlistInitSaga(action) {
 }
 
 export function* fetchNotifyActiveInitSaga(action) {
-    yield put(actions.fetchNotifyActive('9'));
+    try {
+        let response = yield axios.post('/header', {userID: action.userID}, {headers: {'data-categ':'notification'}});
+        if (response.data > 0) {
+            yield put(actions.fetchNotifyActive(response.data));
+        }
+        return
+    } catch(err) {}
 }
 
 export function* defaultNotifyActiveInitSaga(action) {
     yield put(actions.defaultNotifyActive());
 }
 
-export function* fetchShareActiveInitSaga(action) {
-    yield put(actions.fetchShareActive('9'));
-}
-
-
 export function* headerFilterInitSaga(action) {
     try {
-        yield put(actions.headerFilterStart(action.filterPos)); 
+        yield put(actions.headerFilterStart(action.filterPos));
         let response = yield axios.post('/header', {filterCnt: action.filterCnt}, {headers: {'data-categ':'headerfilter'}});
         yield put(actions.headerFilter(response.data));
     } catch(err) {

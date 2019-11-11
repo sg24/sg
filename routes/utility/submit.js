@@ -42,7 +42,7 @@ module.exports = submitForm = (content, model, files, notify, field, res, catego
         category.countDocuments({}).then((result) => {
             if ( result < 1) { 
                 let newCateg = new category({
-                    poet: categ
+                   [field]: categ
                 });
                 newCateg.save().then(() => {
                     if (shareMe.length > 0) {

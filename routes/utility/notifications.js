@@ -8,6 +8,8 @@ module.exports =  notification = (shareMe, model) => {
                                 if(++i === shareMe.length) {
                                    resolve()
                                 }
+                            }).catch(err =>{
+                                reject(err)
                             })
                         } else {
                             let newNotify = new model({
@@ -18,6 +20,8 @@ module.exports =  notification = (shareMe, model) => {
                                 if(++i === shareMe.length) {
                                     resolve()
                                 }
+                            }).catch(err =>{
+                                reject(err)
                             })
                         } 
                         
