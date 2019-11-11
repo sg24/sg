@@ -215,7 +215,7 @@ class Form extends  Component {
     }
 
     viewCntHandler = () => {
-        window.location.assign('/view/poet/' + this.props.id)
+        window.location.assign('/view/post/' + this.props.id)
     }
 
     render() {
