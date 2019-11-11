@@ -61,7 +61,7 @@ router.patch('/header', authenticate, (req, res, next) => {
     if (req.header('data-categ') === 'shareuser') {
         let notification = require('./utility/notifications');
         let shareMe = JSON.parse(req.body.users);
-        notification(shareMe).then(() =>{
+        notification(shareMe, postnotifies).then(() =>{
             posts.findByIdAndUpdate(req.body.id, {$addToSet: { shareMe: { $each: shareMe } }}).then((result) => {
                 res.sendStatus(200);
             }).catch(err => {
@@ -258,7 +258,15 @@ router.get('/media', authenticate, (req, res, next) => {
     })
 })
 
-router.get('/poet&writer', (req, res, next) => {
+router.get('/poet', (req, res, next) => {
+    if (req.header('data-categ') === 'category') {
+        category.findOne({}).then(result => {
+            res.send(result.poet).status(200);
+        }).catch(err => {
+            res.status(500).send(err);
+        });
+        return;
+    }
     res.render('poetwriter');
 });
 

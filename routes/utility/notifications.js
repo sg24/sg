@@ -1,22 +1,20 @@
-const postnotifies = require('../../serverDB/serverDB').postnotifies;
-
-module.exports =  notification = (shareMe) => {
+module.exports =  notification = (shareMe, model) => {
             return new Promise((resolve, reject) =>{
                 let i = 0;
                 for (let userID of shareMe) {
-                    postnotifies.findOne({userID}).then(result => {
+                    model.findOne({userID}).then(result => {
                         if (result !== null) {
-                            postnotifies.findOneAndUpdate({userID}, {$inc: {'notifications': 1}}).then(result =>{
+                            model.findOneAndUpdate({userID}, {$inc: {'notifications': 1}}).then(result =>{
                                 if(++i === shareMe.length) {
                                    resolve()
                                 }
                             })
                         } else {
-                            let newPostnotify = new postnotifies({
+                            let newNotify = new model({
                                 userID,
                                 notifications: 1
                             });
-                            newPostnotify.save().then(() => {
+                            newNotify.save().then(() => {
                                 if(++i === shareMe.length) {
                                     resolve()
                                 }
