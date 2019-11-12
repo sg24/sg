@@ -2,9 +2,9 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
 const initialState = {
-    posts: null,
-    skipPost: null,
-    ptTotal: null,
+    cnts: null,
+    skipCnt: null,
+    cntTotal: null,
     changedFav: [],
     favChange: null,
     postVideo: {id: null},
@@ -15,13 +15,13 @@ const initialState = {
     changePtStart: null
 }
 
-const fetchPost = (state, action) => {
-    let posts = !state.posts ? action.posts : state.posts.concat(...action.posts);
-    return updateObject(state, {posts, skipPost: action.skipPost, ptTotal: action.ptTotal})
+const fetchCnt = (state, action) => {
+    let cnts = !state.cnts ? action.cnt : state.cnts.concat(...action.cnt);
+    return updateObject(state, {cnts, skipCnt: action.skipCnt, cntTotal: action.cntTotal})
 };
 
-const fetchPostReset = (state, action) => {
-    return updateObject(state, {posts: null, skipPost: null, ptTotal: null})
+const fetchCntReset = (state, action) => {
+    return updateObject(state, {cnts: null, skipCnt: null, cntTotal: null})
 };
 
 const fetchPostFail = (state, action) => {
@@ -83,11 +83,11 @@ const filterPost = (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
-        case actionTypes.FETCH_POST:
-            return fetchPost(state, action);
-        case actionTypes.FETCH_POST_RESET:
-            return fetchPostReset(state, action);
-        case actionTypes.FETCH_POST_FAIL:
+        case actionTypes.FETCH_CNT:
+            return fetchCnt(state, action);
+        case actionTypes.FETCH_CNT_RESET:
+            return fetchCntReset(state, action);
+        case actionTypes.FETCH_CNT_FAIL:
             return fetchPostFail(state, action);
         case actionTypes.CHANGE_POST_START:
             return changePostStart(state, action);

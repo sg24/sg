@@ -1,9 +1,9 @@
 let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');
-
 let authenticate = require('../serverDB/middleware/authenticate');
 const {category, posts, questions, poets, postnotifies, quenotifies, pwtnotifies, connectStatus} = require('../serverDB/serverDB');
+let fetchCnt = require('./utility/fetchcnt');
 
 router.get('/', function (req, res, next) {
     res.render('index');
@@ -105,8 +105,8 @@ router.post('/header', authenticate, (req, res, next) => {
                 for(let result of results) {
                     let cnt = {
                         category: 'Question',
-                        helpFull: result.view,
-                        notHelpFull: result.comment,
+                        helpFull: result.helpFull,
+                        notHelpFull: result.notHelpFull,
                         favorite: result.favorite,
                     }
                     if (categ === 'post') {
@@ -141,6 +141,21 @@ router.post('/header', authenticate, (req, res, next) => {
                 reject(err)
             })
         })
+    }
+    
+    if (req.header('data-categ') === 'cntSearch') {
+        let filterCnt = require('./utility/filtercnt');
+        let model = req.body.model === 'post' ? posts :
+        req.body.model === 'question' ? questions : poets;
+        filterCnt(JSON.parse(req.body.filterCnt)).then(filter => {
+            model.find({$text: { $search: filter.searchCnt }, ...filter.comment, ...filter.view, ...filter.helpFull, ...filter.favorite,  ...filter.category, mode: 'publish', _isCompleted: true}).then(result => {
+                let resultCount = new String(result.length);
+                res.send(resultCount).status(200);
+            }).catch(err => {
+                res.status(500).send(err);
+            })
+        });
+        return ;
     }
 });
 
@@ -375,6 +390,52 @@ router.get('/question', (req, res, next) => {
         });
         return;
     }
+
+    if (req.header('data-categ') === 'question') {
+        return fetchQue({});
+    }
+
+    if (req.header('data-categ').startsWith('shared')) {
+        return fetchQue({shareMe: req.header('data-categ').split('-')[1]});
+    }
+
+    function fetchQue(conditions, meta) {
+        let condition = {mode: 'publish', _isCompleted: true, ...conditions}
+        connectStatus.then(() => {
+            let isMeta = meta ? meta : {};
+            let sort = req.header('data-categ').startsWith('filter') ? { score: { $meta: "textScore" } } : {queCreated: -1};
+            let curLimit = parseInt(req.header('limit'));
+            let skip = parseInt(req.header('skip'));
+            questions.find(condition, isMeta).countDocuments({}).then((queTotal) => {
+                questions.find(condition, isMeta).sort(sort).limit(curLimit).skip(skip).then(result => {
+                    let queArray = [];
+                    for (let que of result) {
+                        let desc = JSON.parse(que.desc).blocks[0].text;
+                        que.desc = desc;
+                        queArray.push(que);
+                    }
+                    res.send({que: queArray, queTotal}).status(200)
+                }).catch(err => {
+                    res.status(500).send(err);
+                })
+            }).catch(err => {
+                res.status(500).send(err);
+            }) 
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+    }
+
+    if (req.header('data-categ').startsWith('filter')) { 
+        let filterCnt = require('./utility/filtercnt');
+        filterCnt((JSON.parse(req.header('data-categ').split('==')[1]))).then(filter => {
+            return fetchQue({$text: { $search: filter.searchCnt }, ...filter.comment, ...filter.helpFull, ...filter.favorite,  ...filter.category},{ score: { $meta: "textScore" } })
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
     res.render('question');
 });
 

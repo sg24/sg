@@ -1,8 +1,8 @@
 export {
-    fetchPostInit,
-    fetchPostFail,
-    fetchPostReset,
-    fetchPost,
+    fetchCntInit,
+    fetchCntFail,
+    fetchCntReset,
+    fetchCnt,
     changePtInit,
     changePtStart,
     changePtFail,
@@ -17,13 +17,13 @@ export {
     changeFavPtStart,
     changeFavPtFail,
     changeFav,
-} from './post';
+} from './model';
 
 
 export {
-    fetchPtCategInit,
-    fetchPtCategStart,
-    fetchPtCateg,
+    fetchCntCategInit,
+    fetchCntCategStart,
+    fetchCntCateg,
     filterContentInit,
     filterContentStart,
     filterContentFail,
@@ -104,8 +104,8 @@ export {
 } from './header';
 
 export {
-    fetchPtActiveInit,
-    fetchPtActive,
+    fetchCntActiveInit,
+    fetchCntActive,
     fetchShareactiveInit,
     fetchShareActive,
     fetchShareCntactiveInit,

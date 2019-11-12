@@ -17,7 +17,7 @@ class FilterContent extends Component {
                 {id: 2, filterType: 'Average', filterRangeIcn: 'angle-left', filterRange:  '499 - 999'},
                 {id: 3, filterType: 'High', filterRangeIcn: 'angle-left', filterRange:  999}
             ],
-            views: [
+            helpFull: [
                 {id: 4, filterType: 'Low', filterRangeIcn: 'angle-right', filterRange:  500},
                 {id: 5, filterType: 'Average', filterRangeIcn: 'angle-left', filterRange:  '499 - 999'},
                 {id: 6, filterType: 'High', filterRangeIcn: 'angle-left', filterRange:  999}
@@ -34,7 +34,7 @@ class FilterContent extends Component {
     }
 
     componentDidMount() {
-        this.props.history.push('/post/startfilter')
+        this.props.history.push('/question/startfilter')
         if (!this.props.categ) {
             this.props.onFetchCateg(this.props.tags);
         }
@@ -105,7 +105,7 @@ class FilterContent extends Component {
     applyFilterHandler = () => {
         this.props.onHideBackdrop();
         this.props.onFilter({searchCnt: this.state.searchCnt, filterSelect: this.state.filterSelect, category: this.state.filterCategory, apply: true});
-        this.props.history.push('/post/filter')
+        this.props.history.push('/question/filter')
     };
     
     render() {
@@ -183,9 +183,9 @@ class FilterContent extends Component {
                     <div className="reuse-filter__opt--cnt__wrapper reuse-filter__opt--cnt__wrapper--mid">
                         <h3 className="reuse-filter__opt--cnt__title">
                             <FontAwesomeIcon 
-                                icon={['far', 'comments']} 
-                                className="icon icon__reuse-pt-filter--comment"/>
-                            Comments
+                                icon={['fas', 'pencil-alt']} 
+                                className="icon icon__reuse-que-filter--ans"/>
+                            Answers
                         </h3>
                         <ul className="reuse-filter__opt--cnt__det">
                             <FilterOptions
@@ -198,14 +198,14 @@ class FilterContent extends Component {
                     <div className="reuse-filter__opt--cnt__wrapper reuse-filter__opt--cnt__wrapper--mid">
                         <h3 className="reuse-filter__opt--cnt__title">
                             <FontAwesomeIcon 
-                                icon={['far', 'eye']} 
-                                className="icon icon__reuse-pt-filter--view"/>  
-                            views
+                                icon={['far', 'thumbs-up']} 
+                                className="icon icon__reuse-que-filter--rgt"/>  
+                            Correct
                         </h3>
                         <ul className="reuse-filter__opt--cnt__det">
                             <FilterOptions
-                                filterOptions={this.state.filterOpt.views}
-                                filterItm={this.filterItmHandler.bind(this, 'view')}
+                                filterOptions={this.state.filterOpt.helpFull}
+                                filterItm={this.filterItmHandler.bind(this, 'helpFull')}
                                 filterSelect={this.state.filterSelect}/>
                         </ul>
                     </div>
@@ -214,7 +214,7 @@ class FilterContent extends Component {
                         <h3 className="reuse-filter__opt--cnt__title">
                             <FontAwesomeIcon 
                                 icon={['fas', 'heart']} 
-                                className="icon icon__reuse-pt-filter--fav"/>  
+                                className="icon icon__reuse-que-filter--fav"/>  
                             Favorites
                         </h3>
                         <ul className="reuse-filter__opt--cnt__det">
@@ -270,7 +270,7 @@ class FilterContent extends Component {
 const mapStateToProps = state => {
     return {
         totalFound: state.filter.totalFound,
-        categ: state.filter.ptCateg,
+        categ: state.filter.cntCateg,
         filterErr: state.filter.filterErr,
         tags: state.tags.tags
     };
@@ -280,7 +280,7 @@ const mapDispatchToProps = dispatch => {
     return {
          onHideBackdrop: () => dispatch(actions.hideMainBackdrop()),
          onFilter: (content) => dispatch(actions.filterContentInit(content)),
-         onFetchCateg: (categ) => dispatch(actions.fetchPtCategInit(categ)),
+         onFetchCateg: (categ) => dispatch(actions.fetchCntCategInit(categ)),
          onResetFilter: () => dispatch(actions.resetFilter())
     };
  }

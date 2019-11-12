@@ -10,7 +10,7 @@ import * as actions from '../../../../../store/actions/index';
 
 let IS_ANIMATED = true;
 
-class Posts extends Component {
+class Questions extends Component {
     constructor(props) {
         super(props);
         let limit = 0;
@@ -26,7 +26,7 @@ class Posts extends Component {
         this.state = {
             ptOpt: null,
             fetchLimit: limit,
-            filterTag: 'post',
+            filterTag: 'question',
             mediaItms: [],
             animateItm: null,
             removeAnim: false,
@@ -37,32 +37,32 @@ class Posts extends Component {
     }
 
     componentDidMount() {
-        this.props.onFetchPost(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
-        this.props.onChangeTag('/post');
+        this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
+        this.props.onChangeTag('/question');
         let these = this;
         window.addEventListener('scroll', function(event) {
             if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
-                these.props.onFetchPost(
+                these.props.onFetchCnt(
                         these.props.userID, 
-                        these.state.filterTag !== 'post' ? 
-                        these.state.filterTag === 'filter' ?  'filter=='+these.props.filterDet : these.state.filterTag : 'post',
-                        these.state.fetchLimit, these.props.skipPost + these.state.fetchLimit, these.props.ptTotal);
+                        these.state.filterTag !== 'question' ? 
+                        these.state.filterTag === 'filter' ?  'filter=='+these.props.filterDet : these.state.filterTag : 'question',
+                        these.state.fetchLimit, these.props.skipCnt + these.state.fetchLimit, these.props.cntTotal);
             }
         });
     }
 
     componentDidUpdate() {
         if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id !== 'share' && this.props.match.params.id !== 'filter' && this.props.match.params.id !== 'startfilter') {
-            this.props.onFetchPostReset();
-            this.props.onFetchPost(this.props.userID, this.props.match.params.id === 'shared' ? `shared-${this.props.userID}` : this.props.match.params.id, this.state.fetchLimit, 0, 0);
+            this.props.onFetchCntReset();
+            this.props.onFetchCnt(this.props.userID, this.props.match.params.id === 'shared' ? `shared-${this.props.userID}` : this.props.match.params.id, this.state.fetchLimit, 0, 0);
             this.setState({
                 filterTag: this.props.match.params.id
             });
         }
 
         if (this.props.match.params.id && this.props.filterDet && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id === 'filter') {
-            this.props.onFetchPostReset();
-            this.props.onFetchPost(this.props.userID, 'filter=='+this.props.filterDet, this.state.fetchLimit, 0, 0);
+            this.props.onFetchCntReset();
+            this.props.onFetchCnt(this.props.userID, 'filter=='+this.props.filterDet, this.state.fetchLimit, 0, 0);
             this.setState({
                 filterTag: this.props.match.params.id
             });
@@ -74,11 +74,11 @@ class Posts extends Component {
             });
         }
 
-        if (!this.props.match.params.id && this.state.filterTag !== 'post') {
-            this.props.onFetchPostReset();
-            this.props.onFetchPost(this.props.userID, 'post', this.state.fetchLimit, 0, 0);
+        if (!this.props.match.params.id && this.state.filterTag !== 'question') {
+            this.props.onFetchCntReset();
+            this.props.onFetchCnt(this.props.userID, 'question', this.state.fetchLimit, 0, 0);
             this.setState({
-                filterTag: 'post'
+                filterTag: 'question'
             });
         }
     }
@@ -200,29 +200,29 @@ class Posts extends Component {
 
     render() {
         this.props.onFetchShareActive(this.props.userID);
-        this.props.onFetchPtActive(this.props.userID);
-        this.props.onFtechShareCntActive(this.props.userID);
+        this.props.onFetchCntActive(this.props.userID);
+        this.props.onFetchShareCntActive(this.props.userID);
 
-        let post = "Loading";
+        let cnt = "Loading";
         if (this.props.postErr) {
-            post = null
+            cnt = null
         }
 
-        if (this.props.posts && this.props.posts.length === 0 && this.state.filterTag === 'shared') {
-            post = <NoAcc 
+        if (this.props.cnts && this.props.cnts.length === 0 && this.state.filterTag === 'shared') {
+            cnt = <NoAcc 
                 isAuth={this.props.userID !== null}
-                det='You have no shared post yet!'/>
+                det='You have no shared Question yet!'/>
         }
 
-        if (this.props.posts && this.props.posts.length === 0 && this.state.filterTag !== 'shared') {
-            post = <NoAcc 
+        if (this.props.cnts && this.props.cnts.length === 0 && this.state.filterTag !== 'shared') {
+            cnt = <NoAcc 
                 isAuth={this.props.userID !== null}
                 det='Category not found !!'/>
         }
 
-        if (this.props.posts && this.props.posts.length > 0) {
-            post = <Post 
-                content={this.props.posts} 
+        if (this.props.cnts && this.props.cnts.length > 0) {
+            cnt = <Post 
+                content={this.props.cnts} 
                 media={this.props.media}
                 userOpt={this.showUserOptHandler}
                 showPtOpt={this.state.ptOpt}
@@ -247,32 +247,32 @@ class Posts extends Component {
                 changePt={this.changePtHandler}/>
         }
 
-        return post
+        return cnt
     }
 }
 
 const mapStateToProps = state => {
     return {
         userID: state.auth.userID,
-        posts: state.pt.posts,
-        skipPost: state.pt.skipPost,
-        ptTotal: state.pt.ptTotal,
-        changedFav: state.pt.changedFav,
-        favChange: state.pt.favChange,
-        postErr: state.pt.postErr,
-        postVideo: state.pt.postVideo,
-        videoErr: state.pt.videoErr,
-        filterDet: state.pt.filterDet
+        cnts: state.cnt.cnts,
+        skipCnt: state.cnt.skipCnt,
+        cntTotal: state.cnt.cntTotal,
+        changedFav: state.cnt.changedFav,
+        favChange: state.cnt.favChange,
+        postErr: state.cnt.postErr,
+        postVideo: state.cnt.postVideo,
+        videoErr: state.cnt.videoErr,
+        filterDet: state.cnt.filterDet
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onFetchShareActive: (userID) => dispatch(actions.fetchShareactiveInit(userID)),
-        onFtechShareCntActive: (userID) => dispatch(actions.fetchShareCntactiveInit(userID)),
-        onFetchPtActive: (userID) => dispatch(actions.fetchPtActiveInit(userID)),
-        onFetchPost: (userID, fetchType, limit, skipPost, ptTotal) => dispatch(actions.fetchPostInit(userID, fetchType, limit, skipPost, ptTotal)),
-        onFetchPostReset: () => dispatch(actions.fetchPostReset()),
+        onFetchShareCntActive: (userID) => dispatch(actions.fetchShareCntactiveInit(userID)),
+        onFetchCntActive: (userID) => dispatch(actions.fetchCntActiveInit(userID)),
+        onFetchCnt: (userID, fetchType, limit, skipCnt, cntTotal) => dispatch(actions.fetchCntInit(userID, fetchType, limit, skipCnt, cntTotal)),
+        onFetchCntReset: () => dispatch(actions.fetchCntReset()),
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),
         onChangeShareID: (shareID) => dispatch(actions.shareID(shareID)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
@@ -281,4 +281,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Posts));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions));

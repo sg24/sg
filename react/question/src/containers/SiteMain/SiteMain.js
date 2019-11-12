@@ -16,7 +16,7 @@ const AsyncShare= asyncComponent(() => {
 });
 
 const AsyncFilterContent= asyncComponent(() => {
-    return import ('./MainContent/MainPost/Filter/FilterContent/FilterContent');
+    return import ('./MainContent/MainQue/Filter/FilterContent/FilterContent');
 });
 
 class SiteMain extends Component {
@@ -84,8 +84,8 @@ class SiteMain extends Component {
                         component={ Modal }
                         err={ this.props.postErr } /> : null}
                 <Switch>
-                    <Route path="/post" exact component={MainContent} />
-                    <Route path="/post/:id" exact component={MainContent} />
+                    <Route path="/question" exact component={MainContent} />
+                    <Route path="/question/:id" exact component={MainContent} />
                 </Switch>
                 <MainNav />
             </div>
@@ -105,17 +105,17 @@ class SiteMain extends Component {
                     err={ this.props.changePtErr }
                     warn={{
                         msg: this.props.changePtStart.det=== 'delete' ?
-                        'Are you sure you want to delete this post' : 'Are you sure you want to change this post mode',
+                        'Are you sure you want to delete this question' : 'Are you sure you want to change this question mode',
                         cnt: this.props.changePtStart.title,
                         det: this.props.changePtStart.det
                     }}
                     exit={{
                         msg: this.props.changePtStart.det=== 'delete' ?
-                        'Post Deleted Successfully' : 'Post mode change successfully', 
+                        'Question Deleted Successfully' : 'Question mode change successfully', 
                         close: this.props.changePt}}
                     changePost={this.changePostHandler}
                     closeChangePost={this.closeChangePostHandler}/> : null}
-            <Route path="/post/share" exact component={AsyncShare} />
+            <Route path="/question/share" exact component={AsyncShare} />
         </div>
         )
     }
@@ -126,14 +126,14 @@ const mapStateToProps = state => {
         userID: state.auth.userID,
         default: state.header.default,
         showBackdrop: state.main.showBackdrop,
-        postErr: state.pt.postErr,
+        postErr: state.cnt.postErr,
         filterStart:state.header.filterStart,
         searchCnt: state.header.searchCnt,
         searchCntErr: state.header.searchCntErr,
         filterPos: state.header.filterPos,
-        changePtStart: state.pt.changePtStart,
-        changePtErr: state.pt.changePtErr,
-        changePt: state.pt.changePt
+        changePtStart: state.cnt.changePtStart,
+        changePtErr: state.cnt.changePtErr,
+        changePt: state.cnt.changePt
     };
  }
 

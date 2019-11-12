@@ -1,35 +1,35 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchPostInit = (userID, fetchType, fetchLimit, skipPost, ptTotal) => {
+export const fetchCntInit = (userID, fetchType, fetchLimit, skipCnt, cntTotal) => {
     return {
-        type: actionTypes.FETCH_POST_INIT,
+        type: actionTypes.FETCH_CNT_INIT,
         userID,
         fetchType,
         fetchLimit,
-        skipPost,
-        ptTotal
+        skipCnt,
+        cntTotal
     }
 };
 
-export const fetchPostReset = () =>{
+export const fetchCntReset = () =>{
     return {
-        type: actionTypes.FETCH_POST_RESET,
+        type: actionTypes.FETCH_CNT_RESET,
     };
 }
 
-export const fetchPostFail = (err) => {
+export const fetchCntFail = (err) => {
     return {
-        type: actionTypes.FETCH_POST_FAIL,
+        type: actionTypes.FETCH_CNT_FAIL,
         err
     }
 };
 
-export const fetchPost = (posts, skipPost, ptTotal) => {
+export const fetchCnt = (cnt, skipCnt, cntTotal) => {
     return {
-        type: actionTypes.FETCH_POST,
-        posts,
-        skipPost,
-        ptTotal
+        type: actionTypes.FETCH_CNT,
+        cnt,
+        skipCnt,
+        cntTotal
     }
 };
 

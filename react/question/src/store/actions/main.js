@@ -1,16 +1,16 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchPtActiveInit = (userID) => {
+export const fetchCntActiveInit = (userID) => {
     return {
-        type: actionTypes.FETCH_PT_ACTIVE_INIT,
+        type: actionTypes.FETCH_CNT_ACTIVE_INIT,
         userID
     };
 };
 
-export const fetchPtActive = (ptActive) => {
+export const fetchCntActive = (cntActive) => {
     return {
-        type: actionTypes.FETCH_PT_ACTIVE,
-        ptActive
+        type: actionTypes.FETCH_CNT_ACTIVE,
+        cntActive
     };
 };
 

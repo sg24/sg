@@ -1,8 +1,8 @@
 import { takeEvery, all } from 'redux-saga/effects';
 
 import * as actionTypes from '../../store/actions/actionTypes';
-import { fetchPostInitSaga, fetchVideoInitSaga, changeFavSaga, changePostInitSaga } from './post';
-import { fetchPtCategInitSaga, filterContentInitSaga } from './filter';
+import { fetchCntInitSaga, fetchVideoInitSaga, changeFavSaga, changePostInitSaga } from './model';
+import { fetchCntCategInitSaga, filterContentInitSaga } from './filter';
 import { fetchUsersInitSaga, filterUserInitSaga, filterUserSelectInitSaga, shareUserInitSaga } from './share';
 import { fetchTagsInitSaga } from './tags';
 import { fetchTrdInitSaga } from './trend';
@@ -14,14 +14,14 @@ import { fetchNotifyInitSaga,
             fetchNotifyActiveInitSaga,
             defaultNotifyActiveInitSaga,
             headerFilterInitSaga } from './header';
-import { fetchPtActiveInitSaga,  
+import { fetchCntActiveInitSaga,  
          fetchShareActiveInitSaga,
          fetchShareCntActiveInitSaga, 
          resetActiveInitSaga} from './main';
 
-export function* watchPt() {
+export function* watchCnt() {
     yield all([
-        takeEvery(actionTypes.FETCH_POST_INIT, fetchPostInitSaga),
+        takeEvery(actionTypes.FETCH_CNT_INIT, fetchCntInitSaga),
         takeEvery(actionTypes.FETCH_VIDEO_INIT, fetchVideoInitSaga),
         takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga),
         takeEvery(actionTypes.CHANGE_POST_INIT, changePostInitSaga)
@@ -30,7 +30,7 @@ export function* watchPt() {
 
 export function* watchFilter() {
     yield all([
-        takeEvery(actionTypes.FETCH_PTCATEG_INIT, fetchPtCategInitSaga),
+        takeEvery(actionTypes.FETCH_CNTCATEG_INIT, fetchCntCategInitSaga),
         takeEvery(actionTypes.FILTER_CONTENT_INIT, filterContentInitSaga)
     ])
 } 
@@ -76,7 +76,7 @@ export function* watchHeader() {
 
 export function* watchMain() {
     yield all([
-       takeEvery(actionTypes.FETCH_PT_ACTIVE_INIT, fetchPtActiveInitSaga),
+       takeEvery(actionTypes.FETCH_CNT_ACTIVE_INIT, fetchCntActiveInitSaga),
        takeEvery(actionTypes.FETCH_SHARE_ACTIVE_INIT, fetchShareActiveInitSaga),
        takeEvery(actionTypes.FETCH_SHARECNT_ACTIVE_INIT, fetchShareCntActiveInitSaga),
        takeEvery(actionTypes.RESET_ACTIVE_INIT, resetActiveInitSaga)

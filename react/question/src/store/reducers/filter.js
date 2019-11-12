@@ -2,14 +2,14 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
 const initialState = {
-    ptCateg: null,
+    cntCateg: null,
     filterStart: false,
     totalFound: null,
     filterErr: null
 }
 
-const fetchPostCateg = (state, action) => {
-    return updateObject(state, {ptCateg: action.categ})
+const fetchCntCateg = (state, action) => {
+    return updateObject(state, {cntCateg: action.categ})
 };
 
 const filterContentStart = (state, action) => {
@@ -30,8 +30,8 @@ const resetFilter  = (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
-        case actionTypes.FETCH_PTCATEG:
-            return fetchPostCateg(state, action);
+        case actionTypes.FETCH_CNTCATEG:
+            return fetchCntCateg(state, action);
         case actionTypes.FILTER_CONTENT_START:
             return filterContentStart(state, action);
         case actionTypes.FILTER_CONTENT_FAIL:

@@ -1,33 +1,33 @@
 import React, { Component } from 'react';
 
-import './MainPost.css';
+import './MainQue.css';
 import Category from './Category/Category';
 import Filter from './Filter/Filter';  
-import Posts from './Posts/Posts';
+import Questions from './Questions/Questions';
 import Aux from '../../../../hoc/Auxs/Aux';
 
-class MainPost extends Component {
+class MainQue extends Component {
     render() {
         return (
             <Aux>
-                <div className="reuse-pt-filter">
-                    <div className="reuse-pt-filter__wrapper">
+                <div className="reuse-que-filter">
+                    <div className="reuse-que-filter__wrapper">
                         <Category />
                         <Filter />
-                        <div className="reuse-pt-filter__pt">
-                            My Post 
+                        <div className="reuse-que-filter__que">
+                            My Question
                             <div>99</div>
                         </div>
-                        <div className="reuse-pt-filter__add">
-                            <a href="/add/post">Add Post</a>
+                        <div className="reuse-que-filter__add">
+                            Add 
                         </div>
                     </div>
                 </div>
-                <Posts />
+                <Questions />
             </Aux>
         )
     }
 
 }
 
-export default MainPost;
+export default MainQue;

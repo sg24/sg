@@ -58,14 +58,14 @@ class Category extends Component {
 
 const mapStateToProps = state => {
     return {
-        categ: state.filter.ptCateg,
+        categ: state.filter.cntCateg,
         tags: state.tags.tags
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchCateg: (categ) => dispatch(actions.fetchPtCategInit(categ))
+        onFetchCateg: (categ) => dispatch(actions.fetchCntCategInit(categ))
     };
 };
 

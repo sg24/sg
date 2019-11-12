@@ -4,19 +4,18 @@ import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 import { updateObject } from '../../shared/utility';
 
-export function* fetchPtCategInitSaga(action) {
+export function* fetchCntCategInitSaga(action) {
     try {
         if (action.categ && action.categ.length > 0) {
-            yield put (actions.fetchPtCateg([...action.categ]))
+            yield put (actions.fetchCntCateg([...action.categ]))
         } else {
-            let response = yield axios.get('/post', {headers: {'data-categ':'postCateg'}});
-            yield put(actions.fetchPtCateg(response.data));
+            let response = yield axios.post('/header', {categ: 'question'}, {headers: {'data-categ':'category'}});
+            yield put(actions.fetchCntCateg(response.data));
         }
     } catch(e){}
 }
 
 export function* filterContentInitSaga(action) {
-    
     let categs = [];
     for (let categ of action.content.category) {
         categs.push(categ.category);
@@ -26,7 +25,7 @@ export function* filterContentInitSaga(action) {
     if(!action.content.apply) {
         try {
             yield put(actions.filterContentStart());
-            let response = yield axios.get('/post', {headers: {'data-categ':'postSearch=='+filterCnt}});
+            let response = yield axios.post('/header',{filterCnt, model: 'question'},{headers: {'data-categ':'cntSearch'}});
             yield put(actions.filterContent(response.data));
         } catch(err) {
             yield put (actions.filterContentFail(err))

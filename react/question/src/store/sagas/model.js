@@ -3,39 +3,39 @@ import { updateObject, changeFav } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
-export function* fetchPostInitSaga(action) {
+export function* fetchCntInitSaga(action) {
     try {
-        if (action.ptTotal === 0 || action.ptTotal > action.skipPost) {
-            let response = yield axios.get('/post', {
+        if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
+            let response =  yield axios.get('/question', {
                 headers: {
                     'data-categ': action.fetchType, 
                     'limit': action.fetchLimit, 
-                    'skip': action.skipPost}});
-            let ptArray = [];
-            if (response.data.pt && response.data.pt.length > 0 ) { 
-                for (let pt of response.data.pt) {
-                    const newPt = {...pt};
+                    'skip': action.skipCnt}});
+            let cntArray = [];
+            if (response.data.que && response.data.que.length > 0 ) { 
+                for (let que of response.data.que) {
+                    const newQue = {...que};
                     let liked = false;
-                    for (let userID of newPt.liked) {
+                    for (let userID of newQue.liked) {
                         if(action.userID === userID) {
                             liked = true
                         }
                     }
-                    const valid = action.userID === newPt.authorID;
-                    const author = 'user' +  newPt._id;
-                    const newData = updateObject(newPt, {author,userOpt: valid, liked});
-                    ptArray.push(newData);
+                    const valid = action.userID === newQue.authorID;
+                    const author = 'user' +  newQue._id;
+                    const newData = updateObject(newQue, {author,userOpt: valid, liked});
+                    cntArray.push(newData);
                 }
-                yield put(actions.fetchPost(ptArray, action.skipPost, response.data.ptTotal));
+                yield put(actions.fetchCnt(cntArray, action.skipCnt, response.data.queTotal));
             }
 
-            if (response.data.pt.length === 0) {
-                yield put(actions.fetchPost([]));
+            if (response.data.que.length === 0) {
+                yield put(actions.fetchCnt([]));
             }
         }  
         
     } catch(err){
-        yield put(actions.fetchPostFail(err))
+        yield put(actions.fetchCntFail(err))
     }
     
 }

@@ -71,6 +71,7 @@ export function* fetchNavlistInitSaga(action) {
 export function* fetchNotifyActiveInitSaga(action) {
     try {
         let response = yield axios.post('/header', {userID: action.userID}, {headers: {'data-categ':'notification'}});
+        console.log(response.data)
         yield put(actions.fetchNotifyActive(response.data));
     } catch(err) {}
 }

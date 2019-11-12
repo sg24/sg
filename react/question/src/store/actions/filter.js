@@ -1,21 +1,21 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchPtCategInit = (categ) => {
+export const fetchCntCategInit = (categ) => {
     return {
-        type: actionTypes.FETCH_PTCATEG_INIT,
+        type: actionTypes.FETCH_CNTCATEG_INIT,
         categ
     }
 }; 
 
-export const fetchPtCategStart = () => {
+export const fetchCntCategStart = () => {
     return {
-        type: actionTypes.FETCH_PTCATEG_START
+        type: actionTypes.FETCH_CNTCATEG_START
     }
 };
 
-export const fetchPtCateg = (categ) => {
+export const fetchCntCateg = (categ) => {
     return {
-        type: actionTypes.FETCH_PTCATEG,
+        type: actionTypes.FETCH_CNTCATEG,
         categ
     }
 };

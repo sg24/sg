@@ -4,48 +4,52 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../../store/actions/index';
 import MainNavigations from '../../../components/MainNavigations/MainNavigations';
-import MainPost from './MainPost/MainPost'; 
+import MainQue from './MainQue/MainQue'; 
 
 class MainContent extends Component {
     state = {
-        post: {
-            path: '/post',
+        cnt: {
+            path: '/question',
             icnGrp: 'clone',
-            icnClass: 'icon icon__site-main--content__tab--clone',
-            title: 'Post',
+            icnClass: 'icon icon__site-main--content__tab',
+            title: 'Question',
         },
         share: {
-            path: '/post/shared',
-            icnGrp: 'location-arrow',
-            icnClass: 'icon icon__site-main--content__tab--share',
-            title: 'Shared',
+            path: '/question/shared',
+            icnGrp: 'hand-paper',
+            icnClass: 'icon icon__site-main--content__tab',
+            title: 'Help Me',
         },
-        showPtActive: false,
+        curTab: 'question',
+        showCntActive: false,
         showShareActive: true,
-        ptFetch: false
+        updateTab: ''
     }
 
     componentDidUpdate() {
-        if (this.props.ptFetch && !this.state.ptFetch) {
-            this.props.onResetActive(this.props.userID, 'post');
-            this.setState({ptFetch: true})
+        if (this.state.curTab !== this.state.updateTab) {
+            this.props.onResetActive(this.props.userID, 'question');
+            this.setState({updateTab: this.state.curTab})
         }
     }
 
     removeActiveHandler = (curTab) => {
         this.props.onResetActive(this.props.userID, curTab);
-        if (curTab === 'post') {
+        if (curTab === 'question') {
             this.setState((prevState, props) => {
-                return {showPtActive: false,
-                  showShareActive: true  
+                return {
+                    showCntActive: false,
+                    showShareActive: true,
+                    curTab: 'question'  
                 }
             });
             return
         }
         this.setState((prevState, props) => {
             return {
-              showPtActive: true,
-              showShareActive: false
+              showCntActive: true,
+              showShareActive: false,
+              curTab: 'share'
             }
         });
     }
@@ -56,15 +60,15 @@ class MainContent extends Component {
                 <div className="site-main__content--wrapper">
                     <ul className="site-main__content--tab">
                     <MainNavigations 
-                        content={this.state.post}
-                        removeActive={this.removeActiveHandler.bind(this, 'post')}
-                        active={this.state.showPtActive ? this.props.ptActive : null}/>
+                        content={this.state.cnt}
+                        removeActive={this.removeActiveHandler.bind(this, 'question')}
+                        active={this.state.showCntActive ? this.props.cntActive : null}/>
                     <MainNavigations 
                         content={this.state.share}
                         removeActive={this.removeActiveHandler.bind(this, 'share')}
                         active={this.state.showShareActive ? this.props.shareCntActive : null}/>
                     </ul>
-                    <MainPost />
+                    <MainQue />
                 </div>
             </div>
         );
@@ -75,8 +79,7 @@ const mapStateToProps = state => {
     return {
        userID: state.auth.userID,
        shareCntActive: state.main.shareCntActive,
-       ptActive: state.main.ptActive,
-       ptFetch: state.pt.post !== null
+       cntActive: state.main.cntActive
     };
 };
 

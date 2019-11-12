@@ -3,8 +3,8 @@ import { put } from 'redux-saga/effects';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
-export function* fetchPtActiveInitSaga(action) {
-    yield put(actions.fetchPtActive(99));
+export function* fetchCntActiveInitSaga(action) {
+    yield put(actions.fetchCntActive(99));
 }
 
 export function* fetchShareActiveInitSaga(action) {
@@ -19,7 +19,7 @@ export function* fetchShareActiveInitSaga(action) {
 
 export function* fetchShareCntActiveInitSaga(action) {
     try {
-        let response = yield axios.post('/header', {userID: action.userID, model: 'post'}, {headers: {'data-categ': 'share'}});
+        let response = yield axios.post('/header', {userID: action.userID, model: 'question'}, {headers: {'data-categ': 'share'}});
         if (response.data > 0) {
             yield put(actions.fetchShareCntActive(response.data));
         }
@@ -31,7 +31,7 @@ export function* fetchShareCntActiveInitSaga(action) {
 export function* resetActiveInitSaga(action) {
     try {
         if (action.curTab === 'share') {
-            yield axios.patch('/header', {userID: action.userID, model: 'post'}, {headers: {'data-categ': action.curTab}});
+            yield axios.patch('/header', {userID: action.userID, model: 'question'}, {headers: {'data-categ': action.curTab}});
         }
         yield put(actions.resetActive(action.curTab));
     } catch(err) {}

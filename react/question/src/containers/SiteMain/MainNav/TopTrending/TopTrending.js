@@ -38,8 +38,8 @@ class TopTrending extends Component {
 const mapStateToProps = state => {
     return {
         trd: state.trd.trends,
-        changedFav: state.pt.changedFav,
-        favChange: state.pt.favChange,
+        changedFav: state.cnt.changedFav,
+        favChange: state.cnt.favChange,
         userID: state.auth.userID,
     };
 };
