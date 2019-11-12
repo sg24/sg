@@ -14,7 +14,10 @@ import { fetchNotifyInitSaga,
             fetchNotifyActiveInitSaga,
             defaultNotifyActiveInitSaga,
             headerFilterInitSaga } from './header';
-import { fetchPtActiveInitSaga,  fetchShareActiveInitSaga, resetActiveInitSaga} from './main';
+import { fetchPtActiveInitSaga,  
+         fetchShareActiveInitSaga,
+         fetchShareCntActiveInitSaga, 
+         resetActiveInitSaga} from './main';
 
 export function* watchPt() {
     yield all([
@@ -75,6 +78,7 @@ export function* watchMain() {
     yield all([
        takeEvery(actionTypes.FETCH_PT_ACTIVE_INIT, fetchPtActiveInitSaga),
        takeEvery(actionTypes.FETCH_SHARE_ACTIVE_INIT, fetchShareActiveInitSaga),
+       takeEvery(actionTypes.FETCH_SHARECNT_ACTIVE_INIT, fetchShareCntActiveInitSaga),
        takeEvery(actionTypes.RESET_ACTIVE_INIT, resetActiveInitSaga)
     ])
 }

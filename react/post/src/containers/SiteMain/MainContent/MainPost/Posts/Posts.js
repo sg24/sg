@@ -97,8 +97,8 @@ class Posts extends Component {
         this.setState({ptOpt: newPtOpt})
     }
 
-    changeFavoriteHandler = (id, isLiked, favAdd) => {
-        this.props.onChangeFav(id, isLiked, favAdd, this.props.changedFav, this.props.userID);
+    changeFavoriteHandler = (id, isLiked, favAdd, cntGrp) => {
+        this.props.onChangeFav(id, isLiked, favAdd, this.props.changedFav, this.props.userID, cntGrp);
     }
 
     showShareHandler = (shareID) => {
@@ -201,6 +201,7 @@ class Posts extends Component {
     render() {
         this.props.onFetchShareActive(this.props.userID);
         this.props.onFetchPtActive(this.props.userID);
+        this.props.onFtechShareCntActive(this.props.userID);
 
         let post = "Loading";
         if (this.props.postErr) {
@@ -268,10 +269,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchShareActive: (userID) => dispatch(actions.fetchShareactiveInit(userID)),
+        onFtechShareCntActive: (userID) => dispatch(actions.fetchShareCntactiveInit(userID)),
         onFetchPtActive: (userID) => dispatch(actions.fetchPtActiveInit(userID)),
         onFetchPost: (userID, fetchType, limit, skipPost, ptTotal) => dispatch(actions.fetchPostInit(userID, fetchType, limit, skipPost, ptTotal)),
         onFetchPostReset: () => dispatch(actions.fetchPostReset()),
-        onChangeFav: (id, liked, favAdd, changedFav, userID) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID)),
+        onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),
         onChangeShareID: (shareID) => dispatch(actions.shareID(shareID)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
         onFetchVideo: (videoID, ptVideoID) => dispatch(actions.fetchVideoInit(videoID, ptVideoID)),

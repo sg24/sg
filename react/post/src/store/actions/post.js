@@ -106,14 +106,15 @@ export const fetchVideo = (url) => {
     }
 };
 
-export const changeFavInit = (id, liked, favAdd, changedFav, userID) => {
+export const changeFavInit = (id, liked, favAdd, changedFav, userID, cntGrp) => {
     return {
         type: actionTypes.CHANGE_FAVORITE_INIT,
         id,
         liked,
         favAdd,
         changedFav,
-        userID
+        userID,
+        cntGrp
     };
 };
 

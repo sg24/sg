@@ -18,7 +18,6 @@ router.post('/header', authenticate, (req, res, next) => {
         checkText(req.body.filterCnt, posts, [], 'post').then(ptArray => {
             checkText(req.body.filterCnt, questions, ptArray, 'question').then(queArray => {
                 checkText(req.body.filterCnt, poets, queArray, 'poet').then(filterArray => {
-                    console.log(filterArray)
                     res.send(filterArray).status(200);
                 });
             });
@@ -30,7 +29,7 @@ router.post('/header', authenticate, (req, res, next) => {
 
     function checkText(searchCnt, collection, filterRes, grp) {
         return new Promise((resolve, reject) => {
-            collection.find({$text: { $search: searchCnt },mode: 'publish'}).then(result => {
+            collection.find({$text: { $search: searchCnt },mode: 'publish',_isCompleted: true}).then(result => {
                 for (let filter of result) {
                     filterRes.push({id: filter._id, grp, title: filter.title})
                 }
@@ -74,12 +73,81 @@ router.post('/header', authenticate, (req, res, next) => {
         });
         return;
     }
+
+    if(req.header('data-categ') === 'share') {
+        let model = req.body.model === 'post' ? postnotifies :
+        req.body.model === 'question' ? quenotifies : pwtnotifies;
+        model.findOne({userID: req.body.userID}).then(active => {
+            res.send(new String(active.notifications)).status(200);
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+        return ;
+    }
+
+    if (req.header('data-categ') === 'trend') {
+        trends(posts, 'post', []).then(ptArray => {
+            trends(questions, 'question', ptArray).then(queArray => {
+                trends(poets, 'poet', queArray).then(trend =>{
+                    res.send(trend).status(200)
+                });
+            });
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+    }
+
+    function trends(model, categ, trend) {
+        return new Promise((resolve, reject) => {
+            model.find({mode: 'publish', _isCompleted: true}).sort({comment: -1}).limit(3).then(results => {
+                for(let result of results) {
+                    let cnt = {
+                        category: 'Question',
+                        helpFull: result.view,
+                        notHelpFull: result.comment,
+                        favorite: result.favorite,
+                    }
+                    if (categ === 'post') {
+                        cnt = {
+                            category: 'Post',
+                            view:  result.view,
+                            comment: result.comment,
+                            favorite: result.favorite,
+                        }
+                    }
+                    
+                    if (categ === 'poet') {
+                        cnt = {
+                            category: 'Poet/Writer',
+                            helpFull: 11100000,
+                            comment: result.comment,
+                            favorite: result.favorite,
+                        }
+                    }
+
+                    let updateResult = {
+                        id: result._id,
+                        cntGrp: categ,
+                        title: String(result.title).substr(0, 100),
+                        ...cnt,
+                        liked: result.liked
+                    }
+                    trend.push(updateResult);
+                }
+                resolve(trend)
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    }
 });
 
 
 router.patch('/header', authenticate, (req, res, next) => {
     if(req.header('data-categ') === 'share') {
-        postnotifies.findOneAndUpdate({userID: req.body.userID}, {notifications: 0}).then(result => {
+        let model = req.body.model === 'post' ? postnotifies :
+         req.body.model === 'question' ? quenotifies : pwtnotifies;
+        model.findOneAndUpdate({userID: req.body.userID}, {notifications: 0}).then(result => {
             res.sendStatus(200);
         }).catch(err => {
             res.status(500).send(err);
@@ -89,9 +157,13 @@ router.patch('/header', authenticate, (req, res, next) => {
     
     if (req.header('data-categ') === 'shareuser') {
         let notification = require('./utility/notifications');
+        let modelNotifies = req.body.model === 'post' ? postnotifies :
+        req.body.model === 'question' ? quenotifies : pwtnotifies;
+        let model = req.body.model === 'post' ? posts :
+        req.body.model === 'question' ? questions : poets;
         let shareMe = JSON.parse(req.body.users);
-        notification(shareMe, postnotifies).then(() =>{
-            posts.findByIdAndUpdate(req.body.id, {$addToSet: { shareMe: { $each: shareMe } }}).then((result) => {
+        notification(shareMe, modelNotifies).then(() =>{
+            model.findByIdAndUpdate(req.body.id, {$addToSet: { shareMe: { $each: shareMe } }}).then((result) => {
                 res.sendStatus(200);
             }).catch(err => {
                 res.status(500).send(err);
@@ -113,7 +185,7 @@ router.get('/post', authenticate, (req, res, next) => {
     }
 
     function fetchPost(conditions, meta) {
-        let condition = {mode: 'publish', ...conditions}
+        let condition = {mode: 'publish', _isCompleted: true, ...conditions}
         connectStatus.then(() => {
             let isMeta = meta ? meta : {};
             let sort = req.header('data-categ').startsWith('filter') ? { score: { $meta: "textScore" } } : {postCreated: -1};
@@ -121,7 +193,13 @@ router.get('/post', authenticate, (req, res, next) => {
             let skip = parseInt(req.header('skip'));
             posts.find(condition, isMeta).countDocuments({}).then((ptTotal) => {
                 posts.find(condition, isMeta).sort(sort).limit(curLimit).skip(skip).then(result => {
-                    res.send({pt: result, ptTotal}).status(200)
+                    let ptArray= [];
+                    for (let pt of result) {
+                        let desc = JSON.parse(pt.desc).blocks[0].text;
+                        pt.desc = desc;
+                        ptArray.push(pt);
+                    }
+                    res.send({pt: ptArray, ptTotal}).status(200)
                 }).catch(err => {
                     res.status(500).send(err);
                 })
@@ -150,7 +228,7 @@ router.get('/post', authenticate, (req, res, next) => {
 
     if(req.header('data-categ').startsWith('postSearch')) {
         let filter = filterPost(JSON.parse(req.header('data-categ').split('==')[1]));
-        posts.find({$text: { $search: filter.searchCnt }, ...filter.comment, ...filter.view, ...filter.favorite,  ...filter.category, mode: 'publish'}).then(result => {
+        posts.find({$text: { $search: filter.searchCnt }, ...filter.comment, ...filter.view, ...filter.favorite,  ...filter.category, mode: 'publish', _isCompleted: true}).then(result => {
             let resultCount = new String(result.length);
             res.send(resultCount).status(200);
         }).catch(err => {
@@ -179,30 +257,7 @@ router.get('/post', authenticate, (req, res, next) => {
         let filterCateg = filter.category.length > 0 ? {category: { $all: filter.category }} : {};
         return {searchCnt: filter.searchCnt,comment, view, favorite, category: filterCateg}
     }
-
-    if (req.header('data-categ') === 'trend') {
-        posts.find({mode: 'publish'}).sort({comment: -1}).limit(3).then(results => {
-            let updateRes = [];
-            for(let result of results) {
-                let updateResult = {
-                    _id: result._id,
-                    cntGrp: 'post',
-                    category: 'Post',
-                    title: String(result.title).substr(0, 100),
-                    view:  result.view,
-                    comment: result.comment,
-                    favorite: result.favorite,
-                    liked: result.liked
-                }
-                updateRes.push(updateResult);
-            }
-            res.send(updateRes).status(200);
-        }).catch(err => {
-            res.status(500).send(err);
-        })
-        return
-    }
-
+    
     if (req.header('data-categ')) {     
         return fetchPost({category: req.header('data-categ')});
     }
@@ -225,13 +280,15 @@ router.delete('/post', authenticate, (req, res, next) => {
 router.patch('/post', authenticate ,(req, res, next) => {
     if (req.header('data-categ') === 'changemode') {
         posts.findByIdAndUpdate(req.body.id, {mode: 'draft'}).then(result => {
-            res.send(result).status(200);
+            res.send('patch').status(200);
         })
         return
     }
 
     let content = req.body;
-    posts.findOne({_id: content.id}).then(result => {
+    let model = req.body.model === 'post' ? posts :
+    req.body.model === 'question' ? questions : poets;
+    model.findOne({_id: content.id}).then(result => {
         let favorite = result.favorite;
         let liked = result.liked;
         let isLiked = true;
@@ -248,7 +305,7 @@ router.patch('/post', authenticate ,(req, res, next) => {
             favorite = favorite + 1;
         }
         
-        posts.findByIdAndUpdate(content.id, {liked, favorite}).then(result => {
+        model.findByIdAndUpdate(content.id, {liked, favorite}).then(result => {
             res.sendStatus(200);
         }).catch(err => {
             res.status(500).send(err);

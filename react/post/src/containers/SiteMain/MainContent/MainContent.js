@@ -36,7 +36,7 @@ class MainContent extends Component {
         this.props.onResetActive(this.props.userID, curTab);
         if (curTab === 'post') {
             this.setState((prevState, props) => {
-                return {showPtActive: !prevState.showPtActive,
+                return {showPtActive: false,
                   showShareActive: true  
                 }
             });
@@ -45,7 +45,7 @@ class MainContent extends Component {
         this.setState((prevState, props) => {
             return {
               showPtActive: true,
-              showShareActive: !prevState.showShareActive  
+              showShareActive: false
             }
         });
     }
@@ -62,7 +62,7 @@ class MainContent extends Component {
                     <MainNavigations 
                         content={this.state.share}
                         removeActive={this.removeActiveHandler.bind(this, 'share')}
-                        active={this.state.showShareActive ? this.props.shareActive : null}/>
+                        active={this.state.showShareActive ? this.props.shareCntActive : null}/>
                     </ul>
                     <MainPost />
                 </div>
@@ -74,7 +74,7 @@ class MainContent extends Component {
 const mapStateToProps = state => {
     return {
        userID: state.auth.userID,
-       shareActive: state.main.shareActive,
+       shareCntActive: state.main.shareCntActive,
        ptActive: state.main.ptActive,
        ptFetch: state.pt.post !== null
     };

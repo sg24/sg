@@ -28,6 +28,20 @@ export const fetchShareActive = (shareActive) =>  {
     }; 
 }; 
 
+export const fetchShareCntactiveInit = (userID) =>  {
+    return {
+        type: actionTypes.FETCH_SHARECNT_ACTIVE_INIT,
+        userID
+    }; 
+}; 
+
+export const fetchShareCntActive = (shareCntActive) =>  {
+    return {
+        type: actionTypes.FETCH_SHARECNT_ACTIVE,
+        shareCntActive
+    }; 
+}; 
+
 export const resetActiveInit = (userID, curTab) => {
     return {
         type: actionTypes.RESET_ACTIVE_INIT,

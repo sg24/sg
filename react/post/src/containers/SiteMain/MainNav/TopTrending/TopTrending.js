@@ -9,8 +9,8 @@ class TopTrending extends Component {
         this.props.onFetchTrends(this.props.userID);
     }
 
-    changeFavoriteHandler = (id, isLiked, favAdd) => {
-        this.props.onChangeFav(id, isLiked, favAdd, this.props.changedFav, this.props.userID)
+    changeFavoriteHandler = (id, isLiked, favAdd, cntGrp) => {
+        this.props.onChangeFav(id, isLiked, favAdd, this.props.changedFav, this.props.userID, cntGrp)
     };
 
     render() {
@@ -47,7 +47,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchTrends: (userID) => dispatch(actions.fetchTrdInit(userID)),
-        onChangeFav: (id, liked, favAdd, changedFav, userID) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID))
+        onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp))
     };
 };
 

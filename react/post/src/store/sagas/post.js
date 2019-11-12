@@ -64,7 +64,7 @@ export function* changeFavSaga(action) {
     yield put(actions.changeMainFavoriteStart(updateFav.favDet.liked));
     yield put(actions.changeFavPtStart(updateFav.favDet.id, updateFav.favDet.liked))
     try {
-        yield axios.patch('/post', {id: updateFav.favDet.id, userID: action.userID})
+        yield axios.patch('/post', {id: updateFav.favDet.id, userID: action.userID, model: action.cntGrp})
         yield delay(500)
         yield put(actions.changeMainFavoriteReset());
         yield put(actions.changeFav(updateFav.updateChangeFav));

@@ -108,6 +108,8 @@ export {
     fetchPtActive,
     fetchShareactiveInit,
     fetchShareActive,
+    fetchShareCntactiveInit,
+    fetchShareCntActive,
     resetActiveInit,
     resetActive,
     showMainBackdrop,

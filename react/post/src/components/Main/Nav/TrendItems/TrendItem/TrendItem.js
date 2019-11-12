@@ -10,7 +10,7 @@ const trendItem = props => {
     let isLiked = null;
 
     for (let changedFav of props.changedFav) {
-        if (props.trd._id === changedFav.id) {
+        if (props.trd.id === changedFav.id) {
             favAdd = changedFav.favAdd;
             isLiked = changedFav.liked;
         }
@@ -40,7 +40,7 @@ const trendItem = props => {
                     { props.trd.category } 
                 </div>
                 <h4 className="reuse-trd__cnt--title">
-                    <a href={'/view/' + props.trd.id }>{ transformString(props.trd.title) }</a>   
+                    <a href={'/view/post/' + props.trd.id }>{ transformString(props.trd.title) }</a>   
                 </h4>
                 <ul className="reuse-trd__cnt--footer">  
                     <li>
@@ -58,7 +58,7 @@ const trendItem = props => {
                     <li>
                         <span onClick={props.fav}>{fav}</span>
                         { transformNumber(favAdd !== null ? favAdd : props.trd.favorite) } 
-                        {props.favChange && props.favChange.id === props.trd._id ? <FavoriteActive 
+                        {props.favChange && props.favChange.id === props.trd.id ? <FavoriteActive 
                             liked={props.favChange.isLiked}/> : null}
                     </li>
                 </ul>
@@ -76,7 +76,7 @@ const trendItem = props => {
                     { props.trd.category }
                 </div>
                 <h4 className="reuse-trd__cnt--title">
-                    <a href={'/view/' + props.trd.id }>{ transformString(props.trd.desc) }</a>    
+                    <a href={'/view/poet/' + props.trd.id }>{ transformString(props.trd.title) }</a>    
                 </h4>
                 <ul className="reuse-trd__cnt--footer">  
                     <li>
@@ -87,9 +87,9 @@ const trendItem = props => {
                     </li>
                     <li>
                         <span onClick={props.fav}>{fav}</span>
-                        { transformNumber(props.trd.favorite) } 
-                        {props.trd.changeFavActive !== undefined ? <FavoriteActive 
-                            active={props.trd.changeFavActive}/> : null}
+                        { transformNumber(favAdd !== null ? favAdd : props.trd.favorite) } 
+                        {props.favChange && props.favChange.id === props.trd.id ? <FavoriteActive 
+                            liked={props.favChange.isLiked}/> : null}
                     </li>
                     <li>
                         <FontAwesomeIcon 
@@ -112,7 +112,7 @@ const trendItem = props => {
                     { props.trd.category }
                 </div>
                 <h4 className="reuse-trd__cnt--title">
-                    <a href={'/view/' + props.trd.id }>{ transformString(props.trd.desc) }</a>    
+                    <a href={'/view/question/' + props.trd.id }>{ transformString(props.trd.title) }</a>    
                 </h4>
                 <ul className="reuse-trd__cnt--footer">  
                     <li>
@@ -129,9 +129,9 @@ const trendItem = props => {
                     </li>
                     <li>
                         <span onClick={props.fav}>{fav}</span>
-                        { transformNumber(props.trd.favorite) } 
-                        {props.trd.changeFavActive !== undefined ? <FavoriteActive 
-                            active={props.trd.changeFavActive}/> : null}
+                        { transformNumber(favAdd !== null ? favAdd : props.trd.favorite) } 
+                        {props.favChange && props.favChange.id === props.trd.id ? <FavoriteActive 
+                            liked={props.favChange.isLiked}/> : null}
                     </li>
                 </ul>
             </div> 

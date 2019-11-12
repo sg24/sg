@@ -60,7 +60,7 @@ export function* shareUserInitSaga(action) {
     
     try {
         yield put(actions.shareUserStart())
-        yield axios.patch('/header', {users: JSON.stringify(shareUser), id: action.shareID},{headers: {'data-categ': 'shareuser'}});
+        yield axios.patch('/header', {users: JSON.stringify(shareUser), id: action.shareID, model: 'post'},{headers: {'data-categ': 'shareuser'}});
         yield delay(1000);
         yield put(actions.shareUser());
     } catch(err){

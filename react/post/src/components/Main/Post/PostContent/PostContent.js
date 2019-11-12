@@ -16,6 +16,7 @@ const postContent = props => {
     let userOptClass = ['reuse-pt__footer--details__options'];
     let favAdd = null;
     let isLiked = null;
+    let mediaTotal = props.pt.snapshot.length+props.pt.image.length;
 
     let fav = <FontAwesomeIcon 
         icon={['far', 'heart']} 
@@ -29,7 +30,7 @@ const postContent = props => {
     }
 
     let media = null;
-    let mediaCnt =  [...props.pt.snapshot, ...props.pt.postImage];
+    let mediaCnt =  [...props.pt.snapshot, ...props.pt.image];
     let playVideo = null;
     let mediaWrapperClass = ['reuse-pt__media--wrapper'];
 
@@ -82,7 +83,7 @@ const postContent = props => {
                 <div 
                     className={props.playerIcnId && props.playerIcnId === props.pt._id ? 
                         'reuse-pt__media--wrapper__icn reuse-pt__media--wrapper__icn-move' : 'reuse-pt__media--wrapper__icn'}
-                    onClick={props.playVideo.bind(this, curMedia.id, props.pt.postVideo)}>
+                    onClick={props.playVideo.bind(this, curMedia.id, props.pt.video)}>
                     <FontAwesomeIcon 
                         icon={['fas', 'play-circle']} 
                         className="icon icon__reuse-pt--media__play" /> 
@@ -101,8 +102,8 @@ const postContent = props => {
                         { playVideo }
                         { props.video && props.video.id === curMedia.id && props.video.url ? 
                             <video 
-                                onPointerDown={(event) => props.slidePlay(props.pt._id, [...props.pt.snapshot, ...props.pt.postImage].length, event)}
-                                onPointerMove={(event) => props.moveSlidePlay(props.pt._id, [...props.pt.snapshot, ...props.pt.postImage].length, event)}
+                                onPointerDown={(event) => props.slidePlay(props.pt._id, mediaTotal, event)}
+                                onPointerMove={(event) => props.moveSlidePlay(props.pt._id, mediaTotal, event)}
                                 onPointerUp={(event) => props.clearSlidePlay(event)}
                                 src={props.video.url} controls autoPlay>
                                 <p>our browser doesn't support embedded videos</p>
@@ -112,19 +113,19 @@ const postContent = props => {
                             draggable="false"
                             onDragStart={() => false }
                             src={typeof curMedia === "object" ? curMedia.snapshot : curMedia}  alt="post"
-                            onPointerDown={(event) => props.slidePlay(props.pt._id, [...props.pt.snapshot, ...props.pt.postImage].length, event)}
-                            onPointerMove={(event) => props.moveSlidePlay(props.pt._id, [...props.pt.snapshot, ...props.pt.postImage].length, event)}
+                            onPointerDown={(event) => props.slidePlay(props.pt._id, mediaTotal, event)}
+                            onPointerMove={(event) => props.moveSlidePlay(props.pt._id, mediaTotal, event)}
                             onPointerUp={(event) => props.clearSlidePlay(event)} />
                         }
                         { props.videoErr && props.videoErr.id === curMedia.id ? 
                             <div 
                                 className="reuse-pt__video-err"
-                                onPointerDown={(event) => props.slidePlay(props.pt._id, [...props.pt.snapshot, ...props.pt.postImage].length, event)}
-                                onPointerMove={(event) => props.moveSlidePlay(props.pt._id, [...props.pt.snapshot, ...props.pt.postImage].length, event)}
+                                onPointerDown={(event) => props.slidePlay(props.pt._id, mediaTotal, event)}
+                                onPointerMove={(event) => props.moveSlidePlay(props.pt._id, mediaTotal, event)}
                                 onPointerUp={(event) => props.clearSlidePlay(event)}>
                                 <div 
                                     className="reuse-pt__video-err--icn"
-                                    onClick={props.playVideo.bind(this, curMedia.id, props.pt.postVideo)}>
+                                    onClick={props.playVideo.bind(this, curMedia.id, props.pt.video)}>
                                     <FontAwesomeIcon 
                                         icon={['fas', 'redo']} 
                                         className="icon icon__reuse-pt--video-err__icn"/>
@@ -243,7 +244,7 @@ const postContent = props => {
                     {media}
                     <p className="reuse-pt__title">{props.pt.title}</p>
                     <p className="reuse-pt__description">
-                        <a href={"/view/" + props.pt._id}>
+                        <a href={"/view/post/" + props.pt._id}>
                             {String(props.pt.desc).length > 149 ? String(props.pt.desc).substr(0, 150) + '...' : props.pt.desc} 
                         </a>
                     </p>
