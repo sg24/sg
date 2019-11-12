@@ -1,0 +1,14 @@
+.reuse-share__search {
+    width: 100%;
+    background-color: #05578b;
+    padding: 10px 20px;
+}
+
+.reuse-share__search--cnt {
+    padding: 8px 10px;
+    width: 100%;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    box-shadow: 0 2px 5px 1px rgba(0,0,0, .45);
+}

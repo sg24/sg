@@ -99,7 +99,9 @@ router.post('/header', authenticate, (req, res, next) => {
 
     function trends(model, categ, trend) {
         return new Promise((resolve, reject) => {
-            model.find({mode: 'publish', _isCompleted: true}).sort({comment: -1}).limit(3).then(results => {
+            let sort = categ === 'post' ? {comment: -1} : 
+            categ == 'question' ? {view: -1}: {comment: -1};
+            model.find({mode: 'publish', _isCompleted: true}).sort(sort).limit(3).then(results => {
                 for(let result of results) {
                     let cnt = {
                         category: 'Question',

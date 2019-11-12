@@ -1,0 +1,30 @@
+.icon__reuse-share--user {
+    margin-right: 5px;
+}
+
+.reuse-share__user-select {
+    background-color: #fff;
+    padding: 0 0 20px 0;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+        flex-direction: column;
+    -ms-flex-positive: 1;
+        flex-grow: 1;
+    overflow: hidden;
+    overflow-y: auto;
+    border-bottom: 1px solid #dcdbdc;
+    transition: all .3s ease-in;
+}
+
+.reuse-share__user-select--title {
+    margin: 0;
+    padding: 6px 0;
+    text-align: center;
+    background-color: #e9ebf2;
+    position: relative;
+}
+
+.reuse-share__user-select > div {
+    margin: 20px 10px 10px 10px;
+}
