@@ -19,7 +19,7 @@ class MainQue extends Component {
                             <div>99</div>
                         </div>
                         <div className="reuse-que-filter__add">
-                            Add 
+                            <a href="/add/question">Add Question</a>
                         </div>
                     </div>
                 </div>

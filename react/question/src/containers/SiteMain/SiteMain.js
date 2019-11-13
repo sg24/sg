@@ -34,12 +34,12 @@ class SiteMain extends Component {
         window.location.assign('/view/'+searchDet.grp+'/'+searchDet.id);
     };
 
-    changePostHandler = () => {
-        this.props.onChangePt(this.props.changePtStart.id, null, this.props.changePtStart.det, true)
+    changeCntHandler = () => {
+        this.props.onChangeCnt(this.props.changeCntStart.id, null, this.props.changeCntStart.det, true)
     }
 
-    closeChangePostHandler = () => {
-        this.props.onCloseChangePt()
+    closeChangeCntHandler = () => {
+        this.props.onCloseChangeCnt()
     }
 
     render() {
@@ -79,10 +79,10 @@ class SiteMain extends Component {
                     <Backdrop   
                         show={ this.props.showBackdrop }
                         component={ AsyncFilterContent }/> : null}
-                { this.props.postErr ? 
+                { this.props.cntErr ? 
                     <Backdrop 
                         component={ Modal }
-                        err={ this.props.postErr } /> : null}
+                        err={ this.props.cntErr } /> : null}
                 <Switch>
                     <Route path="/question" exact component={MainContent} />
                     <Route path="/question/:id" exact component={MainContent} />
@@ -98,23 +98,23 @@ class SiteMain extends Component {
                         { filterCnt }
                     </div>
                 </div> : null}
-            { this.props.changePtStart !== null ? 
+            { this.props.changeCntStart !== null ? 
                 <Backdrop   
                     show={ this.props.showBackdrop }
                     component={ Modal }
-                    err={ this.props.changePtErr }
+                    err={ this.props.changeCntErr }
                     warn={{
-                        msg: this.props.changePtStart.det=== 'delete' ?
+                        msg: this.props.changeCntStart.det=== 'delete' ?
                         'Are you sure you want to delete this question' : 'Are you sure you want to change this question mode',
-                        cnt: this.props.changePtStart.title,
-                        det: this.props.changePtStart.det
+                        cnt: this.props.changeCntStart.title,
+                        det: this.props.changeCntStart.det
                     }}
                     exit={{
-                        msg: this.props.changePtStart.det=== 'delete' ?
+                        msg: this.props.changeCntStart.det=== 'delete' ?
                         'Question Deleted Successfully' : 'Question mode change successfully', 
-                        close: this.props.changePt}}
-                    changePost={this.changePostHandler}
-                    closeChangePost={this.closeChangePostHandler}/> : null}
+                        close: this.props.changeCnt}}
+                    changeCnt={this.changeCntHandler}
+                    closeChangeCnt={this.closeChangeCntHandler}/> : null}
             <Route path="/question/share" exact component={AsyncShare} />
         </div>
         )
@@ -126,14 +126,14 @@ const mapStateToProps = state => {
         userID: state.auth.userID,
         default: state.header.default,
         showBackdrop: state.main.showBackdrop,
-        postErr: state.cnt.postErr,
+        cntErr: state.cnt.cntErr,
         filterStart:state.header.filterStart,
         searchCnt: state.header.searchCnt,
         searchCntErr: state.header.searchCntErr,
         filterPos: state.header.filterPos,
-        changePtStart: state.cnt.changePtStart,
-        changePtErr: state.cnt.changePtErr,
-        changePt: state.cnt.changePt
+        changeCntStart: state.cnt.changeCntStart,
+        changeCntErr: state.cnt.changeCntErr,
+        changeCnt: state.cnt.changeCnt
     };
  }
 
@@ -141,8 +141,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onNavDefault: () => dispatch(actions.headerNavDefault()),
         onCloseHeaderFilter: () => dispatch(actions.headerFilterClose()),
-        onChangePt: (id, title, det, confirm) => dispatch(actions.changePtInit(id, title, det, confirm)),
-        onCloseChangePt: () => dispatch(actions.changePtCancel()),
+        onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm)),
+        onCloseChangeCnt: () => dispatch(actions.changeCntCancel()),
     };
 };
 

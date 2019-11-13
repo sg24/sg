@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import 'pepjs';
 
-import Post from '../../../../../components/Main/Post/Post';
+import Question from '../../../../../components/Main/Question/Question';
 import NoAcc from '../../../../../components/Main/NoAcc/NoAcc';
 import { updateObject } from '../../../../../shared/utility';
 import * as actions from '../../../../../store/actions/index';
@@ -24,7 +24,7 @@ class Questions extends Component {
             limit = 2;
         }
         this.state = {
-            ptOpt: null,
+            cntOpt: null,
             fetchLimit: limit,
             filterTag: 'question',
             mediaItms: [],
@@ -83,18 +83,18 @@ class Questions extends Component {
         }
     }
 
-    showUserOptHandler = (index) => {
-        if (this.state.ptOpt && this.state.ptOpt.index === index) {
+    showUserOptHandler = (id) => {
+        if (this.state.cntOpt && this.state.cntOpt.id === id) {
             this.setState((prevState, props) => {
                 return {
-                    ptOpt: updateObject(prevState.ptOpt, {visible: !prevState.ptOpt.visible})
+                    cntOpt: updateObject(prevState.cntOpt, {visible: !prevState.cntOpt.visible})
                 }
             });
             return
         }
 
-        const newPtOpt = {visible: true, index}
-        this.setState({ptOpt: newPtOpt})
+        const newCntOpt = {visible: true, id}
+        this.setState({cntOpt: newCntOpt})
     }
 
     changeFavoriteHandler = (id, isLiked, favAdd, cntGrp) => {
@@ -103,7 +103,7 @@ class Questions extends Component {
 
     showShareHandler = (shareID) => {
         this.props.onChangeShareID(shareID);
-        this.props.history.push('/post/share')
+        this.props.history.push('/question/share')
     };
 
     changeMediaHandler = (id, maxLength, type) => {
@@ -135,9 +135,9 @@ class Questions extends Component {
         let slide = event.target;
         slide.releasePointerCapture(event.pointerId);
         slide.style.left = 0 +'px';
-        let videoPlayerIcn = document.querySelector('.reuse-pt__media--wrapper__icn-move');
+        let videoPlayerIcn = document.querySelector('.reuse-que__media--wrapper__icn-move');
         if (videoPlayerIcn) {
-            videoPlayerIcn.style.left = 45 + '%';
+            videoPlayerIcn.style.left = 40 + '%';
         }
     }
 
@@ -194,8 +194,9 @@ class Questions extends Component {
             IS_ANIMATED = true;
         }, 500)
     }
-    changePtHandler = (id, title, det) => {
-        this.props.onChangePt(id, title, det, false);
+    changeCntHandler = (id, title, det) => {
+        let checkTitle = String(title).length > 149 ? String(title).substr(0, 180) + '...' : title
+        this.props.onChangeCnt(id, checkTitle, det, false);
     }
 
     render() {
@@ -221,11 +222,11 @@ class Questions extends Component {
         }
 
         if (this.props.cnts && this.props.cnts.length > 0) {
-            cnt = <Post 
+            cnt = <Question 
                 content={this.props.cnts} 
                 media={this.props.media}
                 userOpt={this.showUserOptHandler}
-                showPtOpt={this.state.ptOpt}
+                showCntOpt={this.state.cntOpt}
                 fav={this.changeFavoriteHandler}
                 changedFav={this.props.changedFav}
                 favChange={this.props.favChange}
@@ -244,7 +245,7 @@ class Questions extends Component {
                 slidePlay={this.slidePlayHandler}
                 moveSlidePlay={this.moveSlidePlayHandler}
                 clearSlidePlay={this.clearSlidePlayhandler}
-                changePt={this.changePtHandler}/>
+                changeCnt={this.changeCntHandler}/>
         }
 
         return cnt
@@ -277,7 +278,7 @@ const mapDispatchToProps = dispatch => {
         onChangeShareID: (shareID) => dispatch(actions.shareID(shareID)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
         onFetchVideo: (videoID, ptVideoID) => dispatch(actions.fetchVideoInit(videoID, ptVideoID)),
-        onChangePt: (id, title, det, confirm) => dispatch(actions.changePtInit(id, title, det, confirm))
+        onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm))
     };
 };
 

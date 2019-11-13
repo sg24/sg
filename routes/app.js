@@ -439,6 +439,28 @@ router.get('/question', (req, res, next) => {
     res.render('question');
 });
 
+router.patch('/question', authenticate ,(req, res, next) => {
+    if (req.header('data-categ') === 'changemode') {
+        questions.findByIdAndUpdate(req.body.id, {mode: 'draft'}).then(result => {
+            res.send('patch').status(200);
+        })
+        return
+    }
+});
+
+
+router.delete('/question', authenticate, (req, res, next) => {
+    if (req.header('data-categ').startsWith('deleteCnt')) {
+        let id = req.header('data-categ').split('-')[1];
+        questions.findByIdAndRemove(id).then(() =>{
+            res.send('deleted').status(200);
+        }).catch(err => {
+            res.status(500).send(err);
+        });
+        return;
+    }
+});
+
 router.get('/onlineexam', (req, res, next) => {
     res.render('onlineexam');
 });

@@ -1,33 +1,3 @@
-.active__main {
-    color: #fff;
-}
-
-.active__main--helpme {
-    width: 24px;
-    height: 24px;
-    border-radius: 12px;
-    top: 4px;
-    right: 0px;
-    font-size: .8125rem;
-    border: 1px solid rgba(255,255,255, .25);
-}
-
-.active__main--helpme > div {
-    position: absolute;
-    top: 50%;
-    transform:translateY(-50%);
-    width: 100%;
-    text-align: center;
-}
-
-@media (min-width: 530px) {
-
-    .active__main--helpme {
-        right: 8px;
-        top: 4px;
-    }
-}
-
 .icon__site-main--content__tab {
     margin-right: 5px;
 }
@@ -105,7 +75,6 @@
     border: 1px solid  #ff1600;
     border-top: 3px solid  #ff1600;
     color: #fff;
-    padding: 8px 10px;
     text-align: left;
     border-radius: 3px;
     font-size: .8125rem;

@@ -75,23 +75,23 @@ export function* changeFavSaga(action) {
     }
 }
 
-export function* changePostInitSaga(action) {
+export function* changeCntInitSaga(action) {
     if (!action.confirm) {
-        yield put(actions.changePtStart(action.title, action.id, action.det))
+        yield put(actions.changeCntStart(action.title, action.id, action.det))
         return;
     }
     try {
         if (action.det === 'delete') {
-            yield axios.delete('/post', {headers: {'data-categ': 'deletePt-'+action.id}});
+            yield axios.delete('/question', {headers: {'data-categ': 'deleteCnt-'+action.id}});
         } else {
-            yield axios.patch('/post', {id: action.id} ,{headers: {'data-categ': 'changemode'}});
+            yield axios.patch('/question', {id: action.id} ,{headers: {'data-categ': 'changemode'}});
         }
-        yield put(actions.changePt())
+        yield put(actions.changeCnt())
         yield delay(1000);
-        yield put(actions.changePtReset())
+        yield put(actions.changeCntReset())
     } catch(err){
-        yield put(actions.changePtFail(err))
+        yield put(actions.changeCntFail(err))
         yield delay(1000);
-        yield put(actions.changePtReset())
+        yield put(actions.changeCntReset())
     }
 }

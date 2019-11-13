@@ -4,7 +4,7 @@ export const fetchCntInit = (userID, fetchType, fetchLimit, skipCnt, cntTotal) =
     return {
         type: actionTypes.FETCH_CNT_INIT,
         userID,
-        fetchType,
+        fetchType,        
         fetchLimit,
         skipCnt,
         cntTotal
@@ -33,9 +33,9 @@ export const fetchCnt = (cnt, skipCnt, cntTotal) => {
     }
 };
 
-export const changePtInit = (id, title, det, confirm) => {
+export const changeCntInit = (id, title, det, confirm) => {
     return {
-        type: actionTypes.CHANGE_POST_INIT,
+        type: actionTypes.CHANGE_CNT_INIT,
         id, 
         title,
         det,
@@ -43,37 +43,37 @@ export const changePtInit = (id, title, det, confirm) => {
     }
 };
 
-export const changePtStart = (title, id, det) => {
+export const changeCntStart = (title, id, det) => {
     return {
-        type: actionTypes.CHANGE_POST_START,
+        type: actionTypes.CHANGE_CNT_START,
         title,
         id,
         det
     }
 };
 
-export const changePtCancel = () => {
+export const changeCntCancel = () => {
     return {
-        type: actionTypes.CHANGE_POST_CANCEL
+        type: actionTypes.CHANGE_CNT_CANCEL
     }
 };
 
-export const changePtReset = () => {
+export const changeCntReset = () => {
     return {
-        type: actionTypes.CHANGE_POST_RESET
+        type: actionTypes.CHANGE_CNT_RESET
     }
 };
 
-export const changePtFail = (err) => {
+export const changeCntFail = (err) => {
     return {
-        type: actionTypes.CHANGE_POST_FAIL,
+        type: actionTypes.CHANGE_CNT_FAIL,
         err
     }
 };
 
-export const changePt = () => {
+export const changeCnt= () => {
     return {
-        type: actionTypes.CHANGE_POST
+        type: actionTypes.CHANGE_CNT
     }
 };
 
