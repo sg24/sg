@@ -137,7 +137,7 @@ class Questions extends Component {
         slide.style.left = 0 +'px';
         let videoPlayerIcn = document.querySelector('.reuse-que__media--wrapper__icn-move');
         if (videoPlayerIcn) {
-            videoPlayerIcn.style.left = 40 + '%';
+            videoPlayerIcn.style.left = 42 + '%';
         }
     }
 
@@ -156,10 +156,10 @@ class Questions extends Component {
                     this.animateSlider(id, maxLength, 'prev', 0)
                 }
             } 
-            let videoPlayerIcn = document.querySelector('.reuse-pt__media--wrapper__icn-move');
+            let videoPlayerIcn = document.querySelector('.reuse-que__media--wrapper__icn-move');
             if (videoPlayerIcn) {
                 let playerIcnHeight = (newpos / slide.offsetWidth) * 100
-                videoPlayerIcn.style.left =  playerIcnHeight + 45 + '%';
+                videoPlayerIcn.style.left =  playerIcnHeight + 42 + '%';
             }
             slide.style.left = newpos +'px';
         }
