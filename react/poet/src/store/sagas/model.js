@@ -6,30 +6,30 @@ import axios from '../../axios';
 export function* fetchCntInitSaga(action) {
     try {
         if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
-            let response =  yield axios.get('/question', {
+            let response =  yield axios.get('/poet', {
                 headers: {
                     'data-categ': action.fetchType, 
                     'limit': action.fetchLimit, 
                     'skip': action.skipCnt}});
             let cntArray = [];
-            if (response.data.que && response.data.que.length > 0 ) { 
-                for (let que of response.data.que) {
-                    const newQue = {...que};
+            if (response.data.cnt && response.data.cnt.length > 0 ) { 
+                for (let cnt of response.data.cnt) {
+                    const newCnt = {...cnt};
                     let liked = false;
-                    for (let userID of newQue.liked) {
+                    for (let userID of newCnt.liked) {
                         if(action.userID === userID) {
                             liked = true
                         }
                     }
-                    const valid = action.userID === newQue.authorID;
-                    const author = 'user' +  newQue._id;
-                    const newData = updateObject(newQue, {author,userOpt: valid, liked});
+                    const valid = action.userID === newCnt.authorID;
+                    const author = 'user' +  newCnt._id;
+                    const newData = updateObject(newCnt, {author,userOpt: valid, liked});
                     cntArray.push(newData);
                 }
-                yield put(actions.fetchCnt(cntArray, action.skipCnt, response.data.queTotal));
+                yield put(actions.fetchCnt(cntArray, action.skipCnt, response.data.cntTotal));
             }
 
-            if (response.data.que.length === 0) {
+            if (response.data.cnt.length === 0) {
                 yield put(actions.fetchCnt([]));
             }
         }  
@@ -38,25 +38,6 @@ export function* fetchCntInitSaga(action) {
         yield put(actions.fetchCntFail(err))
     }
     
-}
-
-export function* fetchVideoInitSaga(action) {
-    yield put(actions.fetchVideoStart(action.ptVideoID))
-    try {
-        let media =  yield axios.get('/media', {headers: {'data-categ':'media', 'mediaID': action.videoID}});
-        function dataURLtoBlob(dataurl) {
-            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while(n--){
-                u8arr[n] = bstr.charCodeAt(n);
-            }
-            return new Blob([u8arr], {type:mime});
-        }
-        let url = window.URL.createObjectURL(dataURLtoBlob(media.data));
-        yield put(actions.fetchVideo(url))
-    } catch(err) {
-        yield put(actions.fetchVideoFail(err))
-    }
 }
 
 export function* changeFavSaga(action) {
@@ -82,9 +63,9 @@ export function* changeCntInitSaga(action) {
     }
     try {
         if (action.det === 'delete') {
-            yield axios.delete('/question', {headers: {'data-categ': 'deleteCnt-'+action.id}});
+            yield axios.delete('/poet', {headers: {'data-categ': 'deleteCnt-'+action.id}});
         } else {
-            yield axios.patch('/question', {id: action.id} ,{headers: {'data-categ': 'changemode'}});
+            yield axios.patch('/poet', {id: action.id} ,{headers: {'data-categ': 'changemode'}});
         }
         yield put(actions.changeCnt())
         yield delay(1000);

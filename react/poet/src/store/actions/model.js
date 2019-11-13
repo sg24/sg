@@ -77,35 +77,6 @@ export const changeCnt= () => {
     }
 };
 
-export const fetchVideoInit = (videoID, ptVideoID) => {
-    return {
-        type: actionTypes.FETCH_VIDEO_INIT,
-        videoID,
-        ptVideoID
-    }
-};
-
-export const fetchVideoStart = (ptVideoID) => {
-    return {
-        type: actionTypes.FETCH_VIDEO_START,
-        ptVideoID
-    }
-};
-
-export const fetchVideoFail = (err) => {
-    return {
-        type: actionTypes.FETCH_VIDEO_FAIL,
-        err
-    }
-};
-
-export const fetchVideo = (url) => {
-    return {
-        type: actionTypes.FETCH_VIDEO,
-        url
-    }
-};
-
 export const changeFavInit = (id, liked, favAdd, changedFav, userID, cntGrp) => {
     return {
         type: actionTypes.CHANGE_FAVORITE_INIT,

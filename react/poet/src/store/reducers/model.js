@@ -8,8 +8,6 @@ const initialState = {
     cntTotal: null,
     changedFav: [],
     favChange: null,
-    postVideo: {id: null},
-    videoErr: null,
     filterDet: null,
     changeCnt: false,
     changeCntErr: null,
@@ -51,21 +49,6 @@ const changeCnt = (state, action) => {
     return updateObject(state, {changeCnt: true})
 };
 
-const fetchVideoStart = (state, action) => {
-    if (state.postVideo.url) {
-        window.URL.revokeObjectURL(state.postVideo.url);
-    }
-    return updateObject(state, {postVideo: {id: action.ptVideoID}, videoErr: null})
-};
-
-const fetchVideoFail = (state, action) => {
-    return updateObject(state, {videoErr: {id: state.postVideo.id, err: action.err}})
-};
-
-const fetchVideo = (state, action) => {
-    return updateObject(state, {postVideo: {id: state.postVideo.id, url: action.url}})
-};
-
 const changeFavPtStart = (state, action) => {
     return updateObject(state, {favChange: {id:action.id, isLiked: action.isLiked}})
 };
@@ -100,12 +83,6 @@ const reducer = (state = initialState, action) => {
             return changeCntFail(state, action);
         case actionTypes.CHANGE_CNT:
             return changeCnt(state, action);
-        case actionTypes.FETCH_VIDEO_START:
-            return fetchVideoStart(state, action);
-        case actionTypes.FETCH_VIDEO_FAIL:
-            return fetchVideoFail(state, action);
-        case actionTypes.FETCH_VIDEO:
-            return fetchVideo(state, action);
         case actionTypes.CHANGE_FAVORITE:
             return changeFav(state, action);
         case actionTypes.CHANGE_FAVORITE_PT_START:

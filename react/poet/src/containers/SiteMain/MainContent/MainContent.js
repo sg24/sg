@@ -4,23 +4,23 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../../store/actions/index';
 import MainNavigations from '../../../components/MainNavigations/MainNavigations';
-import MainQue from './MainQue/MainQue'; 
+import MainModel from './MainModel/MainModel'; 
 
 class MainContent extends Component {
     state = {
         cnt: {
-            path: '/question',
-            icnGrp: 'clone',
-            icnClass: 'icon icon__site-main--content__tab',
-            title: 'Question',
+            path: '/poet',
+            icnGrp: 'book',
+            icnClass: 'icon icon__site-main__ptwrit--tab',
+            title: 'poet&writers',
         },
         share: {
-            path: '/question/shared',
-            icnGrp: 'hand-paper',
-            icnClass: 'icon icon__site-main--content__tab',
-            title: 'Help Me',
+            path: '/poet/shared',
+            icnGrp: 'location-arrow',
+            icnClass: 'icon icon__site-main__ptwrit--tab',
+            title: 'Shared',
         },
-        curTab: 'question',
+        curTab: 'poet',
         showCntActive: false,
         showShareActive: true,
         updateTab: ''
@@ -28,19 +28,19 @@ class MainContent extends Component {
 
     componentDidUpdate() {
         if (this.state.curTab !== this.state.updateTab) {
-            this.props.onResetActive(this.props.userID, 'question');
+            this.props.onResetActive(this.props.userID, 'poet');
             this.setState({updateTab: this.state.curTab})
         }
     }
 
     removeActiveHandler = (curTab) => {
         this.props.onResetActive(this.props.userID, curTab);
-        if (curTab === 'question') {
+        if (curTab === 'poet') {
             this.setState((prevState, props) => {
                 return {
                     showCntActive: false,
                     showShareActive: true,
-                    curTab: 'question'  
+                    curTab: 'poet'  
                 }
             });
             return
@@ -61,14 +61,14 @@ class MainContent extends Component {
                     <ul className="site-main__content--tab">
                     <MainNavigations 
                         content={this.state.cnt}
-                        removeActive={this.removeActiveHandler.bind(this, 'question')}
+                        removeActive={this.removeActiveHandler.bind(this, 'poet')}
                         active={this.state.showCntActive ? this.props.cntActive : null}/>
                     <MainNavigations 
                         content={this.state.share}
                         removeActive={this.removeActiveHandler.bind(this, 'share')}
                         active={this.state.showShareActive ? this.props.shareCntActive : null}/>
                     </ul>
-                    <MainQue />
+                    <MainModel />
                 </div>
             </div>
         );

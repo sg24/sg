@@ -16,7 +16,7 @@ const AsyncShare= asyncComponent(() => {
 });
 
 const AsyncFilterContent= asyncComponent(() => {
-    return import ('./MainContent/MainQue/Filter/FilterContent/FilterContent');
+    return import ('./MainContent/MainModel/Filter/FilterContent/FilterContent');
 });
 
 class SiteMain extends Component {
@@ -84,8 +84,8 @@ class SiteMain extends Component {
                         component={ Modal }
                         err={ this.props.cntErr } /> : null}
                 <Switch>
-                    <Route path="/question" exact component={MainContent} />
-                    <Route path="/question/:id" exact component={MainContent} />
+                    <Route path="/poet" exact component={MainContent} />
+                    <Route path="/poet/:id" exact component={MainContent} />
                 </Switch>
                 <MainNav />
             </div>
@@ -104,18 +104,18 @@ class SiteMain extends Component {
                     component={ Modal }
                     err={ this.props.changeCntErr }
                     warn={{
-                        msg: this.props.changeCntStart.det=== 'delete' ?
-                        'Are you sure you want to delete this question' : 'Are you sure you want to change this question mode',
+                        msg: this.props.changeCntStart.det === 'delete' ?
+                        'Are you sure you want to delete this' : 'Are you sure you want to change this mode',
                         cnt: this.props.changeCntStart.title,
                         det: this.props.changeCntStart.det
                     }}
                     exit={{
                         msg: this.props.changeCntStart.det=== 'delete' ?
-                        'Question Deleted Successfully' : 'Question mode change successfully', 
+                        'Content Deleted Successfully' : 'Mode change successfully', 
                         close: this.props.changeCnt}}
                     changeCnt={this.changeCntHandler}
                     closeChangeCnt={this.closeChangeCntHandler}/> : null}
-            <Route path="/question/share" exact component={AsyncShare} />
+            <Route path="/poet/share" exact component={AsyncShare} />
         </div>
         )
     }

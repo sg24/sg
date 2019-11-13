@@ -34,7 +34,7 @@ class FilterContent extends Component {
     }
 
     componentDidMount() {
-        this.props.history.push('/question/startfilter')
+        this.props.history.push('/poet/startfilter')
         if (!this.props.categ) {
             this.props.onFetchCateg(this.props.tags);
         }
@@ -105,7 +105,7 @@ class FilterContent extends Component {
     applyFilterHandler = () => {
         this.props.onHideBackdrop();
         this.props.onFilter({searchCnt: this.state.searchCnt, filterSelect: this.state.filterSelect, category: this.state.filterCategory, apply: true});
-        this.props.history.push('/question/filter')
+        this.props.history.push('/poet/filter')
     };
     
     render() {
@@ -174,7 +174,7 @@ class FilterContent extends Component {
                     <input 
                         type="text" 
                         className="reuse-filter__opt--srch__input" 
-                        placeholder="Enter Post Title" 
+                        placeholder="Search...." 
                         onChange={this.searchHandler}
                         value={this.state.searchCnt}/>
                 </div>
@@ -183,9 +183,9 @@ class FilterContent extends Component {
                     <div className="reuse-filter__opt--cnt__wrapper reuse-filter__opt--cnt__wrapper--mid">
                         <h3 className="reuse-filter__opt--cnt__title">
                             <FontAwesomeIcon 
-                                icon={['fas', 'pencil-alt']} 
-                                className="icon icon__reuse-que-filter--ans"/>
-                            Answers
+                                icon={['far', 'comment-dots']} 
+                                className="icon icon__reuse-pwt-filter--comment"/>
+                            Comments
                         </h3>
                         <ul className="reuse-filter__opt--cnt__det">
                             <FilterOptions
@@ -198,9 +198,9 @@ class FilterContent extends Component {
                     <div className="reuse-filter__opt--cnt__wrapper reuse-filter__opt--cnt__wrapper--mid">
                         <h3 className="reuse-filter__opt--cnt__title">
                             <FontAwesomeIcon 
-                                icon={['far', 'thumbs-up']} 
-                                className="icon icon__reuse-que-filter--rgt"/>  
-                            Correct
+                                icon={['far', 'smile']} 
+                                className="icon icon__reuse-pwt-filter--smile"/>  
+                            Smile
                         </h3>
                         <ul className="reuse-filter__opt--cnt__det">
                             <FilterOptions
@@ -214,7 +214,7 @@ class FilterContent extends Component {
                         <h3 className="reuse-filter__opt--cnt__title">
                             <FontAwesomeIcon 
                                 icon={['fas', 'heart']} 
-                                className="icon icon__reuse-que-filter--fav"/>  
+                                className="icon icon__reuse-pwt-filter--fav"/>  
                             Favorites
                         </h3>
                         <ul className="reuse-filter__opt--cnt__det">

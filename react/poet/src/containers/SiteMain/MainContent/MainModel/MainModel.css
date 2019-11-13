@@ -1,23 +1,24 @@
-.icon__site-main--content__tab {
+.icon__site-main__ptwrit--tab {
     margin-right: 5px;
 }
 
-.icon__reuse-que-filter--ans {
-    color: #ff1600;
+.icon__reuse-pwt-filter--comment {
+    color: #182427;
     margin-right: 5px;
 }
 
-.icon__reuse-que-filter--rgt {
+.icon__reuse-pwt-filter--smile {
     color: #15a4fa;
     margin-right: 5px;
 }
 
-.icon__reuse-que-filter--fav {
+.icon__reuse-pwt-filter--fav {
     color: #ff1600;
     margin-right: 5px;
 }
 
-.reuse-que-filter {
+
+.reuse-pwt-filter {
     width: 100%;
     position: relative;
     padding: 10px 15px 10px 15px;  
@@ -25,21 +26,21 @@
     
 }
 
-.reuse-que-filter__wrapper {
+.reuse-pwt-filter__wrapper {
     position: relative;
 }
 
-.reuse-que-filter__wrapper::after {
+.reuse-pwt-filter__wrapper::after {
     content: "";
     clear: both;
     display: table;
 }
 
-.reuse-que-filter__que {
+.reuse-pwt-filter__pwt {
     float: left;
     position: relative;
-    border: 1px solid rgba(2,132,168, .2);
-    border-top: 3px solid #0284a8;
+    border: 1px solid rgba(255,22,0, .2);
+    border-top: 3px solid #ff1600;
     color: #182427;
     padding: 8px 44px 8px 10px;
     text-align: right;
@@ -49,13 +50,13 @@
     cursor: pointer;
 }
 
-.reuse-que-filter__que > div {
+.reuse-pwt-filter__pwt > div {
     position: absolute;
     right: 10px;
     width: 24px;
     height: 24px;
     border-radius: 12px;
-    background-color: #0284a8;
+    background-color: #ff1600;
     color: #fff;
     font-size: .8125rem;
     display: -ms-flexbox;
@@ -70,26 +71,24 @@
 
 }
 
-.reuse-que-filter__add {
+.reuse-pwt-filter__add {
     float: right;
-    border: 1px solid  #ff1600;
-    border-top: 3px solid  #ff1600;
+    border: 1px solid  #0284a8;
+    border-top: 3px solid  #0284a8;
     color: #fff;
     text-align: left;
     border-radius: 3px;
     font-size: .8125rem;
-    background-color: #ff1600;
-    box-shadow: 0px 2px 5px 0px rgba(51, 51, 51, 0.53);
+    background-color: #0284a8;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0, 0.53);
     cursor: pointer;
 
 }
 
-.reuse-que-filter__add > a {
+.reuse-pwt-filter__add > a {
     display: block;
     padding: 8px 10px;
     border-radius: 3px;
-    border: 1px solid  #ff1600;
-    border-top: 3px solid  #ff1600;
     color: #fff;
     text-decoration: none;
     
@@ -97,8 +96,8 @@
 
 @media (min-width: 530px) {
 
-    .reuse-que-filter {
-        padding: 20px;
+    .site-main__ptwrit {
+        padding-top: 10px;
     }
 }
-   
+  

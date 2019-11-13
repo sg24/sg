@@ -39,7 +39,7 @@ const PoetSchema = new Schema({
         required: true,
         trim: true
     },
-    view: {
+    helpFull: {
         type: Number,
         required: true,
         default: 0
