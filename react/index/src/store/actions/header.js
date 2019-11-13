@@ -105,17 +105,6 @@ export const fetchNavlistStart = () => {
     };
 };
 
-export const fetchNavlistSuccess = () => {
-    return {
-        type: actionTypes.FETCH_NAVLIST_SUCCESS
-    };
-};
-
-export const fetchNavlistFail = () => {
-    return {
-        type: actionTypes.FETCH_NAVLIST_FAIL
-    };
-};
 
 export const fetchNavlist = (category, navList) =>  {
     return {
@@ -131,9 +120,10 @@ export const showUserOption = () =>  {
     }; 
 }; 
 
-export const fetchNotifyactiveInit = () =>  {
+export const fetchNotifyactiveInit = (userID) =>  {
     return {
         type: actionTypes.FETCH_NOTIFY_ACTIVE_INIT,
+        userID
     }; 
 }; 
 
@@ -144,9 +134,10 @@ export const fetchNotifyActive = (notifyActive) =>  {
     }; 
 }; 
 
-export const defaultNotifyactiveInit = () =>  {
+export const defaultNotifyactiveInit = (userID) =>  {
     return {
         type: actionTypes.DEFAULT_NOTIFYACTIVE_INIT,
+        userID
     }; 
 }; 
 
@@ -156,16 +147,50 @@ export const defaultNotifyActive = () =>  {
     }; 
 }; 
 
-export const fetchShareactiveInit = () =>  {
+export const changeMainFavoriteStart = (isLiked) =>  {
     return {
-        type: actionTypes.FETCH_SHARE_ACTIVE_INIT,
+        type: actionTypes.CHANGE_MAINFAVORITE_START,
+        isLiked
     }; 
 }; 
 
-export const fetchShareActive = (shareActive) =>  {
+export const changeMainFavoriteReset = () =>  {
     return {
-        type: actionTypes.FETCH_SHARE_ACTIVE,
-        shareActive
+        type: actionTypes.CHANGE_MAINFAVORITE_RESET
     }; 
 }; 
 
+export const headerFilterInit = (filterCnt, filterPos) =>  {
+    return {
+        type: actionTypes.HEADER_FILTER_INIT,
+        filterCnt,
+        filterPos
+    }; 
+}; 
+
+export const headerFilterStart = (filterPos) =>  {
+    return {
+        type: actionTypes.HEADER_FILTER_START,
+        filterPos
+    }; 
+}; 
+
+export const headerFilterFail = (searchCntErr) =>  {
+    return {
+        type: actionTypes.HEADER_FILTER_FAIL,
+        searchCntErr
+    }; 
+}; 
+
+export const headerFilter = (searchCnt) =>  {
+    return {
+        type: actionTypes.HEADER_FILTER,
+        searchCnt
+    }; 
+}; 
+
+export const headerFilterClose = () => {
+    return {
+        type: actionTypes.HEADER_FILTER_CLOSE
+    };
+};

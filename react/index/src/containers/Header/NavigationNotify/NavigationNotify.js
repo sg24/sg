@@ -13,7 +13,7 @@ class NavigationNotify extends Component {
     };
     
     componentDidMount() {
-        this.props.onFetchNotifyActive();
+        this.props.onFetchNotifyActive(this.props.userID);
     }
     
     componentDidUpdate() {
@@ -128,8 +128,8 @@ const mapDispatchToProps = dispatch => {
     return {
        onFetchNotify: (userID) => dispatch(actions.fetchNotifyInit(userID)),
        onChangeFav: (notify, notifyID) => dispatch(actions.changeFavNotifyInit(notify, notifyID)),
-       onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
-       onDefaultNotifyactive: () => dispatch(actions.defaultNotifyactiveInit())
+       onFetchNotifyActive: (userID) => dispatch(actions.fetchNotifyactiveInit(userID)),
+       onDefaultNotifyactive: (userID) => dispatch(actions.defaultNotifyactiveInit(userID))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationNotify);

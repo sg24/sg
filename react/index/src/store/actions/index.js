@@ -1,13 +1,22 @@
 export {
     fetchPostInit,
+    fetchPostFail,
+    fetchPostReset,
     fetchPost,
+    changePtInit,
+    changePtStart,
+    changePtFail,
+    changePtCancel,
+    changePtReset,
+    changePt,
+    fetchVideoInit,
+    fetchVideoStart,
+    fetchVideoFail,
+    fetchVideo,
     changeFavInit,
     changeFavPtStart,
     changeFavPtFail,
     changeFav,
-    changeFavFilter,
-    filterPostInit,
-    filterPost
 } from './post';
 
 export {
@@ -64,8 +73,10 @@ export {
     filterUser,
     filterUserSelect,
     shareID,
-    defaultShareProps,
-    shareUserInit
+    shareUserInit,
+    shareUserStart,
+    shareUserfail,
+    shareUser
 } from './share';
 
 
@@ -102,6 +113,8 @@ export {
     headerFormSm,
     headerNavDefault,
     headerAddNew,
+    changeMainFavoriteStart,
+    changeMainFavoriteReset,
     fetchNotifyInit,
     fetchNotify,
     changeFavNotifyInit,
@@ -110,19 +123,29 @@ export {
     changeFavNotify,
     showNavList,
     fetchNavlistInit,
+    fetchNavlistStart,
     fetchNavlist,
     showUserOption,
     fetchNotifyactiveInit,
     fetchNotifyActive,
     defaultNotifyactiveInit,
     defaultNotifyActive,
-    fetchShareactiveInit,
-    fetchShareActive
+    headerFilterInit,
+    headerFilterStart,
+    headerFilterFail,
+    headerFilter,
+    headerFilterClose
 } from './header';
 
 export {
-    fetchMainActiveInit,
-    fetchMainActive,
-    defaultMainActiveInit,
-    defaultMainActive
+    fetchPtActiveInit,
+    fetchPtActive,
+    fetchShareactiveInit,
+    fetchShareActive,
+    fetchShareCntactiveInit,
+    fetchShareCntActive,
+    resetActiveInit,
+    resetActive,
+    showMainBackdrop,
+    hideMainBackdrop
 } from './main';

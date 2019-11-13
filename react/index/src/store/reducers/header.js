@@ -5,6 +5,7 @@ const initialState = {
     expand: false,
     hideFormSm: false,
     addNew: false,
+    favChange: null,
     notify: null,
     hidNotify: false,
     navList: null,
@@ -12,8 +13,11 @@ const initialState = {
     hidNavList: false,
     hidUserOption: false,
     notifyActive: null,
-    shareActive: null,
-    default: false
+    default: false,
+    searchCnt: null,
+    filterPos: 0,
+    searchCntErr: null,
+    filterStart: false
 };
 
 const formExpand = (state, action) => {
@@ -32,6 +36,14 @@ const addNew = (state, action) => {
     return updateObject(state, {addNew: !state.addNew, default: false})
 };
 
+const changeMainFavStart = (state, action) => {
+    return updateObject(state, {favChange: action.isLiked})
+};
+
+const changeMainFavReset = (state, action) => {
+    return updateObject(state, {favChange: null})
+};
+
 const fetchNotify = (state, action) => {
     return updateObject(state, {notify: action.notify, hidNotify: false, hidNavList: true, hidUserOption: true, default: false})
 };
@@ -46,6 +58,10 @@ const changeFavNotify = (state, action) => {
 
 const showNavList = (state, action) => {
     return updateObject(state, {hidNotify: true, hidNavList: false, hidUserOption: true, default: false})
+};
+
+const fetchNavListStart = (state, action) => {
+    return updateObject(state, {navList: null, navListCateg: null})
 };
 
 const fetchNavList = (state, action) => {
@@ -64,8 +80,20 @@ const defaultNotifyActive = (state, action) => {
     return updateObject(state, {notifyActive: null})
 };
 
-const fetchShareActive = (state, action) => {
-    return updateObject(state, {shareActive: action.shareActive})
+const headerFilterStart = (state, action) => {
+    return updateObject(state, {searchCnt: null, filterPos: action.filterPos, searchCntErr: null, filterStart: true})
+};
+
+const headerFilterFail= (state, action) => {
+    return updateObject(state, {searchCntErr: action.searchCntErr})
+};
+
+const headerFilter = (state, action) => {
+    return updateObject(state, {searchCnt: action.searchCnt})
+};
+
+const headerFilterClose = (state, action) => {
+    return updateObject(state, {searchCnt: null, filterStart: false})
 };
 
 const reducer = (state = initialState, action) => {
@@ -78,6 +106,10 @@ const reducer = (state = initialState, action) => {
             return navDefault(state, action);
         case actionTypes.HEADER_ADD_NEW:
             return addNew(state, action);
+        case actionTypes.CHANGE_MAINFAVORITE_START:
+            return changeMainFavStart(state, action);
+        case actionTypes.CHANGE_MAINFAVORITE_RESET:
+            return changeMainFavReset(state, action);
         case actionTypes.FETCH_NOTIFY:
             return fetchNotify(state, action);
         case actionTypes.CHANGE_FAVORITE_NOTIFY_START:
@@ -86,6 +118,8 @@ const reducer = (state = initialState, action) => {
             return changeFavNotify(state, action);
         case actionTypes.SHOW_NAV_LIST:
             return showNavList(state, action);
+        case actionTypes.FETCH_NAVLIST_START:
+            return fetchNavListStart(state, action);
         case actionTypes.FETCH_NAVLIST:
             return fetchNavList(state, action);
         case actionTypes.SHOW_USER_OPTION:
@@ -94,8 +128,14 @@ const reducer = (state = initialState, action) => {
             return fetchNotifyActive(state, action);
         case actionTypes.DEFAULT_NOTIFYACTIVE:
             return defaultNotifyActive(state, action);
-        case actionTypes.FETCH_SHARE_ACTIVE:
-            return fetchShareActive(state, action);
+        case actionTypes.HEADER_FILTER_START:
+            return headerFilterStart(state, action);
+        case actionTypes.HEADER_FILTER_FAIL:
+            return headerFilterFail(state, action);
+        case actionTypes.HEADER_FILTER_CLOSE:
+            return headerFilterClose(state, action);
+        case actionTypes.HEADER_FILTER:
+            return headerFilter(state, action);
         default: return state
     };
 };

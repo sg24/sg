@@ -104,9 +104,7 @@ const mapDispatchToProps = dispatch => {
         onChangeFav: (questions, filteredQue, queID) => dispatch(actions.changeFavQueInit(questions, filteredQue, queID)),
         onChangeShareID: (shareID) => dispatch(actions.shareID(shareID)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
-        onFilterQue: (que, tag) => dispatch(actions.filterQueInit(que, tag)),
-        onDefaultMainActive: (mainProps, userID, categ) => dispatch(actions.defaultMainActiveInit(mainProps, userID, categ)),
-        onFetchMainActive: (mainProps, userID) => dispatch(actions.fetchMainActiveInit(mainProps, userID))
+        onFilterQue: (que, tag) => dispatch(actions.filterQueInit(que, tag))
     };
 };
 

@@ -16,13 +16,15 @@ import UserOption from './UserOption/UserOption';
 class Header extends Component {
     state = {
         showFormSm: false,
-        default: false
+        default: false,
+        inputValue: ''
     }
 
     componentDidUpdate() {
         if (this.state.showFormSm && !this.state.default && this.props.hideFormSm) {
             this.setState({
                 showFormSm: false,
+                inputValue: '',
                 default: true,
             })
         }
@@ -32,10 +34,18 @@ class Header extends Component {
         this.setState((prevState, props) => {
             return {
                 showFormSm: !prevState.showFormSm,
-                default: false
+                default: false,
+                inputValue: ''
             }
         });
         this.props.onShowForm();
+        this.props.onCloseHeaderFilter();
+    }
+
+    filterContentHandler = (event) => {
+        let inputElem = document.documentElement.querySelector('.site-header__sm-form--srch');
+        this.props.onHeaderFilter(event.target.value, inputElem.offsetLeft);
+        this.setState({inputValue: event.target.value})
     }
 
     render() {
@@ -105,7 +115,12 @@ class Header extends Component {
                             </div>
                         </div>
                         <div className="site-header__sm-form--srch">
-                        <input type="text" className="site-header__sm-form--srch__input" autoComplete="on" />
+                        <input 
+                            type="text" 
+                            className="site-header__sm-form--srch__input" 
+                            autoComplete="on"
+                            onChange={this.filterContentHandler}
+                            value={this.state.inputValue} />
                             <div className="site-header__sm-form--srch__icn">
                                 <FontAwesomeIcon 
                                     icon={['fas', 'search']} 
@@ -137,7 +152,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onAddNew: () => dispatch(actions.headerAddNew()),
-        onShowForm: () => dispatch(actions.headerFormSm())
+        onShowForm: () => dispatch(actions.headerFormSm()),
+        onHeaderFilter: (filterCnt, filterPos) => dispatch(actions.headerFilterInit(filterCnt, filterPos)),
+        onCloseHeaderFilter: () => dispatch(actions.headerFilterClose())
     };
 };
 

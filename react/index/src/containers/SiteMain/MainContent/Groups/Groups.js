@@ -100,9 +100,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchGroup: (userID) => dispatch(actions.fetchGroupInit(userID)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
-        onFilterGrp: (grp, tag) => dispatch(actions.filterGrpInit(grp, tag)),
-        onDefaultMainActive: (mainProps, userID, categ) => dispatch(actions.defaultMainActiveInit(mainProps, userID, categ)),
-        onFetchMainActive: (mainProps, userID) => dispatch(actions.fetchMainActiveInit(mainProps, userID))
+        onFilterGrp: (grp, tag) => dispatch(actions.filterGrpInit(grp, tag))
     }
 }
 

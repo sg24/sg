@@ -67,19 +67,23 @@ class NavigationList extends Component {
             navClass.push("site-header__menu--nav__opt--visible");
         }
 
-        if (this.props.navList && this.state.showNavList) {
+        if (this.state.showNavList && this.state.category) {
             let navOptCateg = this.state.category === 'post' ? 'site-header__menu--nav__opt--det__pt' : null;
             navOptCateg = this.state.category === 'question' ? 'site-header__menu--nav__opt--det__que' : navOptCateg;
             navOptCateg = this.state.category === 'onlineque' ? 'site-header__menu--nav__opt--det__onlineque' : navOptCateg;
             navOptCateg = this.state.category === 'group' ? 'site-header__menu--nav__opt--det__grp' : navOptCateg;
             navOptCateg = this.state.category === 'poet' ? 'site-header__menu--nav__opt--det__pwt' : navOptCateg;
             navOptClass.push(navOptCateg);
-            navList = (
+            navList =  this.props.navList  ? (
                 <ul className={navOptClass.join(' ')}>
                     <NavigationLists 
                         content={this.props.navList}
                         category={this.props.navListCateg}/>
                 </ul>
+            ) : (
+                <div className={`${navOptClass.join(' ')} site-header__menu--nav__opt--det__loading`}>
+                    Loading ....
+                </div>
             );
         }
 

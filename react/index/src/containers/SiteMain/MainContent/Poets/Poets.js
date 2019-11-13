@@ -98,9 +98,7 @@ const mapDispatchToProps = dispatch => {
         onChangeFav: (poets, filterPoet, pwtID) => dispatch(actions.changeFavPoetInit(poets, filterPoet, pwtID)),
         onChangeShareID: (shareID) => dispatch(actions.shareID(shareID)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
-        onFilterPoets: (poets, tag) => dispatch(actions.filterPoetInit(poets, tag)),
-        onDefaultMainActive: (mainProps, userID, categ) => dispatch(actions.defaultMainActiveInit(mainProps, userID, categ)),
-        onFetchMainActive: (mainProps, userID) => dispatch(actions.fetchMainActiveInit(mainProps, userID))
+        onFilterPoets: (poets, tag) => dispatch(actions.filterPoetInit(poets, tag))
     };
 };
 

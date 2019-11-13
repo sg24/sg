@@ -1,7 +1,7 @@
 import { takeEvery, all } from 'redux-saga/effects';
 
 import * as actionTypes from '../../store/actions/actionTypes';
-import { fetchPostInitSaga, changeFavSaga, filterPostInitSaga } from './post';
+import { fetchPostInitSaga, fetchVideoInitSaga, changeFavSaga, changePostInitSaga } from './post';
 import { fetchQueInitSaga, changeFavQueSaga, filterQueInitSaga } from './question';
 import { fetchGroupInitSaga, filterGrpInitSaga } from './group';
 import { fetchHelpMeQueInitSaga, changeFavHelpMeQueSaga, filterHelpmeQueSaga } from './helpme';
@@ -16,14 +16,19 @@ import { fetchNotifyInitSaga,
             fetchNavlistInitSaga, 
             fetchNotifyActiveInitSaga,
             defaultNotifyActiveInitSaga,
-            fetchShareActiveInitSaga } from './header';
-import { fetchMainActiveInitSaga, defaultMainActiveInitSaga } from './main';
+            headerFilterInitSaga } from './header';
+import { fetchPtActiveInitSaga,  
+            fetchShareActiveInitSaga,
+            fetchShareCntActiveInitSaga, 
+            resetActiveInitSaga} from './main';
+       
 
 export function* watchPt() {
     yield all([
         takeEvery(actionTypes.FETCH_POST_INIT, fetchPostInitSaga),
+        takeEvery(actionTypes.FETCH_VIDEO_INIT, fetchVideoInitSaga),
         takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga),
-        takeEvery(actionTypes.FILTER_POST_INIT, filterPostInitSaga)
+        takeEvery(actionTypes.CHANGE_POST_INIT, changePostInitSaga)
     ])
 } 
 
@@ -62,6 +67,7 @@ export function* watchShare() {
 
 }
 
+
 export function* watchTags() {
     yield takeEvery(actionTypes.FETCH_TAGS_INIT, fetchTagsInitSaga)
 }
@@ -82,19 +88,21 @@ export function* watchConv() {
 }
 
 export function* watchHeader() {
-     yield all([
-        takeEvery(actionTypes.FETCH_NOTIFY_INIT, fetchNotifyInitSaga),
-        takeEvery(actionTypes.CHANGE_FAVORITE_NOTIFY_INIT, changeFavNotifySaga),
-        takeEvery(actionTypes.FETCH_NAVLIST_INIT, fetchNavlistInitSaga),
-        takeEvery(actionTypes.FETCH_NOTIFY_ACTIVE_INIT, fetchNotifyActiveInitSaga),
-        takeEvery(actionTypes.DEFAULT_NOTIFYACTIVE_INIT, defaultNotifyActiveInitSaga),
-        takeEvery(actionTypes.FETCH_SHARE_ACTIVE_INIT, fetchShareActiveInitSaga)
-     ])
+    yield all([
+       takeEvery(actionTypes.FETCH_NOTIFY_INIT, fetchNotifyInitSaga),
+       takeEvery(actionTypes.CHANGE_FAVORITE_NOTIFY_INIT, changeFavNotifySaga),
+       takeEvery(actionTypes.FETCH_NAVLIST_INIT, fetchNavlistInitSaga),
+       takeEvery(actionTypes.FETCH_NOTIFY_ACTIVE_INIT, fetchNotifyActiveInitSaga),
+       takeEvery(actionTypes.DEFAULT_NOTIFYACTIVE_INIT, defaultNotifyActiveInitSaga),
+       takeEvery(actionTypes.HEADER_FILTER_INIT, headerFilterInitSaga)
+    ])
 }
 
 export function* watchMain() {
     yield all([
-       takeEvery(actionTypes.FETCH_MAINACTIVE_INIT, fetchMainActiveInitSaga),
-       takeEvery(actionTypes.DEFAULT_MAINACTIVE_INIT, defaultMainActiveInitSaga)
+       takeEvery(actionTypes.FETCH_PT_ACTIVE_INIT, fetchPtActiveInitSaga),
+       takeEvery(actionTypes.FETCH_SHARE_ACTIVE_INIT, fetchShareActiveInitSaga),
+       takeEvery(actionTypes.FETCH_SHARECNT_ACTIVE_INIT, fetchShareCntActiveInitSaga),
+       takeEvery(actionTypes.RESET_ACTIVE_INIT, resetActiveInitSaga)
     ])
 }

@@ -2,16 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import * as actions from '../../../store/actions/index';
-
 class Share extends Component {
     state = {
         show: false
     };
-
-    componentDidMount() {
-        this.props.onFetchShareActive();
-    }
 
     showShareTipHandler = () => {
         this.setState({
@@ -62,14 +56,8 @@ class Share extends Component {
 
 const mapStateToProps = state => {
     return {
-       shareActive: state.header.shareActive
+       shareActive: state.main.shareActive
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-       onFetchShareActive: () => dispatch(actions.fetchShareactiveInit())
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Share);
+export default connect(mapStateToProps, null)(Share);

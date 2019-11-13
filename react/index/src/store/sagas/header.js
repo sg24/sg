@@ -1,5 +1,6 @@
 import { put } from 'redux-saga/effects';
 
+import axios from '../../axios';
 import { updateObject, changeFav } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 
@@ -60,52 +61,30 @@ export function* changeFavNotifySaga(action) {
 }
 
 export function* fetchNavlistInitSaga(action) {
-    const data = [{
-        cntGrp: 'post',
-        category: [
-            "Socal","Socal","Socal","Entertainment","TECH","Socal","Socal"
-        ]
-    }, {
-        cntGrp: 'question',
-        category: [
-            "Social", "TECH","Entertainment","TECH","socal","socal"
-        ]
-    }, {
-        cntGrp: 'onlineque',
-        category: [
-            "Socal","Socal","Entertainment","socal","socal","socal"
-        ]
-    }, {
-        cntGrp: 'group',
-        category: [
-            "Entertainment","TECH","Socal","Socal","Socal","Socal","Socal"
-        ]
-    }, {
-        cntGrp: 'poet',
-        category: [
-            "Socal","Socal","Entertainment","Socal","Socal","Socal"
-        ]
-    }];
-
-    let categArray = [];
-
-    for (let categ of data) {
-        if (categ.cntGrp === action.category) {
-            categArray.push(...categ.category)
-        }
-    }
-
-    yield put(actions.fetchNavlist(action.category, categArray))
+    try {
+        yield put(actions.fetchNavlistStart());
+        let response = yield axios.post('/header', {categ: action.category}, {headers: {'data-categ':'category'}});
+        yield put(actions.fetchNavlist(action.category, response.data))
+    } catch(e) {}
 }
 
 export function* fetchNotifyActiveInitSaga(action) {
-    yield put(actions.fetchNotifyActive('9'));
+    try {
+        let response = yield axios.post('/header', {userID: action.userID}, {headers: {'data-categ':'notification'}});
+        yield put(actions.fetchNotifyActive(response.data));
+    } catch(err) {}
 }
 
 export function* defaultNotifyActiveInitSaga(action) {
     yield put(actions.defaultNotifyActive());
 }
 
-export function* fetchShareActiveInitSaga(action) {
-    yield put(actions.fetchShareActive('9'));
+export function* headerFilterInitSaga(action) {
+    try {
+        yield put(actions.headerFilterStart(action.filterPos));
+        let response = yield axios.post('/header', {filterCnt: action.filterCnt}, {headers: {'data-categ':'headerfilter'}});
+        yield put(actions.headerFilter(response.data));
+    } catch(err) {
+        yield put(actions.headerFilterFail(err))
+    }
 }

@@ -1,28 +1,38 @@
 import { put } from 'redux-saga/effects';
 
 import * as actions from '../../store/actions/index';
+import axios from '../../axios';
 
-export function* fetchMainActiveInitSaga(action) {
-    let oldMainProps = {...action.mainProps};
-    let curActive = 90;
-    let updatedMainProps = {}
-
-    for (let key in oldMainProps) {
-        curActive += 2;
-        updatedMainProps[key] = oldMainProps[key]
-        updatedMainProps[key].active = curActive; 
-    }
-    yield put(actions.fetchMainActive(updatedMainProps));
+export function* fetchPtActiveInitSaga(action) {
+    yield put(actions.fetchPtActive(99));
 }
 
-export function* defaultMainActiveInitSaga(action) {
-    let oldMainProps = {...action.mainProps};
-    let newMainProps = {};
-    for (let key in oldMainProps) {
-        newMainProps[key] = oldMainProps[key];
-    }
-    let mainProps = {...newMainProps[action.categ]}
-    mainProps.active = null; 
-    newMainProps[action.categ] = mainProps;
-    yield put(actions.defaultMainActive(newMainProps));
+export function* fetchShareActiveInitSaga(action) {
+    try {
+        let response = yield axios.post('/header', {userID: action.userID}, {headers: {'data-categ':'notification'}});
+        if (response.data > 0) {
+            yield put(actions.fetchShareActive(response.data));
+        }
+        return
+    } catch(err) {}
+}
+
+export function* fetchShareCntActiveInitSaga(action) {
+    try {
+        let response = yield axios.post('/header', {userID: action.userID, model: 'post'}, {headers: {'data-categ': 'share'}});
+        if (response.data > 0) {
+            yield put(actions.fetchShareCntActive(response.data));
+        }
+        return
+    } catch(err) {}
+}
+
+
+export function* resetActiveInitSaga(action) {
+    try {
+        if (action.curTab === 'share') {
+            yield axios.patch('/header', {userID: action.userID, model: 'post'}, {headers: {'data-categ': action.curTab}});
+        }
+        yield put(actions.resetActive(action.curTab));
+    } catch(err) {}
 }

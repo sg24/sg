@@ -69,7 +69,6 @@ class MainContent extends Component {
     }
 
     componentDidMount() {
-        this.props.onFetchMainActive(this.state.mainNavProps, this.props.userID)
     }
 
     render() {
@@ -117,7 +116,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchMainActive: (mainProps, userID) => dispatch(actions.fetchMainActiveInit(mainProps, userID))
     };
 };
 
