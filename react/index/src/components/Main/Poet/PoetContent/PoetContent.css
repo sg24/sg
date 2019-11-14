@@ -326,6 +326,14 @@
     text-decoration: none;
 }
 
+.reuse-pwt__filter-err {
+    color: #ff1600;
+    padding: 10px 0;
+    margin: 10px 0;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
 .reuse-pwt__footer {
     margin: 12px 0 0 0;
     color: #182427;
@@ -342,6 +350,7 @@
 }
 
 .reuse-pwt__footer li {
+    position: relative;
     float: left;
     width: 33.333%;
     border-right: 1px solid #dcdbdc;
@@ -363,4 +372,4 @@
     .reuse-pwt {
         margin: 40px 20px 60px 20px;
     }
-}    
+}

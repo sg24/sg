@@ -12,13 +12,6 @@ class MainNav extends Component {
         showConv: false
     }
 
-    shouldComponentUpdate(Props, State) {
-        if (this.state !== State) {
-            return true
-        }
-        return false;
-    }
-
     showConvHandler = () => {
         this.setState((prevState, props) => {
             return {
@@ -30,7 +23,7 @@ class MainNav extends Component {
     render() {
         let mainNavItm = (
             <Aux>
-                <Tags/>
+                {/* <Tags/> */}
                 <TopTrending />
                 <SetQue /> 
             </Aux>

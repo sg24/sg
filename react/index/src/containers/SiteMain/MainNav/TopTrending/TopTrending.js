@@ -6,11 +6,11 @@ import TrendItems from '../../../../components/Main/Nav/TrendItems/TrendItems';
 
 class TopTrending extends Component {
     componentDidMount() {
-        this.props.onFetchTrends();
+        this.props.onFetchTrends(this.props.userID);
     }
 
-    changeFavoriteHandler = (trdID) => {
-        this.props.onChangeFav(this.props.trd, trdID)
+    changeFavoriteHandler = (id, isLiked, favAdd, cntGrp) => {
+        this.props.onChangeFav(id, isLiked, favAdd, this.props.changedFav, this.props.userID, cntGrp)
     };
 
     render() {
@@ -19,7 +19,9 @@ class TopTrending extends Component {
         if (this.props.trd) {
             trends = <TrendItems 
             content={this.props.trd}
-            fav={this.changeFavoriteHandler}/>
+            fav={this.changeFavoriteHandler}
+            changedFav={this.props.changedFav}
+            favChange={this.props.favChange}/>
         }
 
         return (
@@ -35,14 +37,17 @@ class TopTrending extends Component {
 
 const mapStateToProps = state => {
     return {
-        trd: state.trd.trends
+        trd: state.trd.trends,
+        changedFav: state.cnt.changedFav,
+        favChange: state.cnt.favChange,
+        userID: state.auth.userID,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchTrends: () => dispatch(actions.fetchTrdInit()),
-        onChangeFav: (trd, trdID) => dispatch(actions.changeFavTrdInit(trd, trdID))
+        onFetchTrends: (userID) => dispatch(actions.fetchTrdInit(userID)),
+        onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp))
     };
 };
 

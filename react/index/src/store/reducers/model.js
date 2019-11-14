@@ -2,52 +2,54 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
 const initialState = {
-    posts: null,
-    skipPost: null,
-    ptTotal: null,
+    cnts: null,
+    cntErr: null,
+    skipCnt: null,
+    cntTotal: null,
     changedFav: [],
     favChange: null,
     postVideo: {id: null},
     videoErr: null,
     filterDet: null,
-    changePt: false,
-    changePtErr: null,
-    changePtStart: null
+    modelType: null,
+    changeCnt: false,
+    changeCntErr: null,
+    changeCntStart: null
 }
 
-const fetchPost = (state, action) => {
-    let posts = !state.posts ? action.posts : state.posts.concat(...action.posts);
-    return updateObject(state, {posts, skipPost: action.skipPost, ptTotal: action.ptTotal})
+const fetchCnt = (state, action) => {
+    let cnts = !state.cnts ? action.cnt : state.cnts.concat(...action.cnt);
+    return updateObject(state, {cnts, skipCnt: action.skipCnt, cntTotal: action.cntTotal})
 };
 
-const fetchPostReset = (state, action) => {
-    return updateObject(state, {posts: null, skipPost: null, ptTotal: null})
+const fetchCntReset = (state, action) => {
+    return updateObject(state, {cnts: null, skipCnt: null, cntTotal: null, curTab: null})
 };
 
 const fetchPostFail = (state, action) => {
-    return updateObject(state, {postErr: action.err})
+    return updateObject(state, {cntErr: action.err})
 };
 
-const changePostStart = (state, action) => {
-    return updateObject(state, {changePtStart: {title: action.title, id: action.id, det: action.det}, changePtErr: null})
+const changeCntStart = (state, action) => {
+    return updateObject(state, {changeCntStart: {title: action.title, id: action.id, det: action.det, modelType: action.modelType}, changeCntErr: null})
 };
 
-const changePostCancel = (state, action) => {
-    return updateObject(state, {changePtStart: null, changePtErr: null, changePt: false})
+const changeCntCancel = (state, action) => {
+    return updateObject(state, {changeCntStart: null, changeCntErr: null, changeCnt: false})
 };
 
-const changePostReset = (state, action) => {
-    let posts = [...state.posts];
-    let updatePost = posts.filter(pt => pt._id !== state.changePtStart.id);
-    return updateObject(state, {posts: updatePost, changePtStart: null, changePtErr: null, changePt: false})
+const changeCntReset = (state, action) => {
+    let cnts = [...state.cnts];
+    let updateCnt = cnts.filter(cnt => cnt._id !== state.changeCntStart.id);
+    return updateObject(state, {cnts: updateCnt, changeCntStart: null, changeCntErr: null, changeCnt: false})
 };
 
-const changePostFail = (state, action) => {
-    return updateObject(state, {changePtErr: action.err})
+const changeCntFail = (state, action) => {
+    return updateObject(state, {changeCntErr: action.err})
 };
 
-const changePost = (state, action) => {
-    return updateObject(state, {changePt: true})
+const changeCnt = (state, action) => {
+    return updateObject(state, {changeCnt: true})
 };
 
 const fetchVideoStart = (state, action) => {
@@ -83,22 +85,22 @@ const filterPost = (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
-        case actionTypes.FETCH_POST:
-            return fetchPost(state, action);
-        case actionTypes.FETCH_POST_RESET:
-            return fetchPostReset(state, action);
-        case actionTypes.FETCH_POST_FAIL:
+        case actionTypes.FETCH_CNT:
+            return fetchCnt(state, action);
+        case actionTypes.FETCH_CNT_RESET:
+            return fetchCntReset(state, action);
+        case actionTypes.FETCH_CNT_FAIL:
             return fetchPostFail(state, action);
-        case actionTypes.CHANGE_POST_START:
-            return changePostStart(state, action);
-        case actionTypes.CHANGE_POST_CANCEL:
-            return changePostCancel(state, action);
-        case actionTypes.CHANGE_POST_RESET:
-            return changePostReset(state, action);
-        case actionTypes.CHANGE_POST_FAIL:
-            return changePostFail(state, action);
-        case actionTypes.CHANGE_POST:
-            return changePost(state, action);
+        case actionTypes.CHANGE_CNT_START:
+            return changeCntStart(state, action);
+        case actionTypes.CHANGE_CNT_CANCEL:
+            return changeCntCancel(state, action);
+        case actionTypes.CHANGE_CNT_RESET:
+            return changeCntReset(state, action);
+        case actionTypes.CHANGE_CNT_FAIL:
+            return changeCntFail(state, action);
+        case actionTypes.CHANGE_CNT:
+            return changeCnt(state, action);
         case actionTypes.FETCH_VIDEO_START:
             return fetchVideoStart(state, action);
         case actionTypes.FETCH_VIDEO_FAIL:

@@ -13,10 +13,12 @@ const mainNavigation = props => {
         )
     }
     return (
-        <li>
+        <li
+            onClick={props.removeActive}>
             <NavLink 
                 to={props.path}
-                activeClassName="active-content-tab">
+                activeClassName="active-content-tab"
+                exact>
                 <FontAwesomeIcon 
                     icon={['fas', props.icnGrp]} 
                     className={props.icnClass} /> 

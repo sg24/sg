@@ -149,6 +149,112 @@
     }
 }
 
+.reuse-que__media {
+    position: relative;
+    width: 100%;
+    padding: 0 5px;
+}
+
+.reuse-que__media--main-wrapper {
+    width: 100%;
+    overflow: hidden;
+    padding: 2px;
+}
+
+.reuse-que__media--main-wrapper__load {
+    background-color: #000;
+}
+
+.reuse-que__media--wrapper {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    height: 100px;
+    -ms-touch-action: pan-y;
+        touch-action: pan-y;
+}
+
+.reuse-que__media--wrapper__anim {
+    animation: slide-in 3s linear -2s reverse backwards;
+}
+
+.reuse-que__media--wrapper__anim-rev {
+    animation: slide-rev 3s linear -2s  forwards;
+}
+
+.reuse-que__media--wrapper__anim-exit {
+    animation: slide-rev 3.2s linear -2s reverse backwards;
+}
+
+.reuse-que__media--wrapper__anim-exit-rev {
+    animation: slide-in 3.2s linear -2s forwards;
+}
+
+.reuse-que__media--wrapper__icn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 42%;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.reuse-que__media--wrapper > img, .reuse-que__media--wrapper > video {
+    position: relative;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -o-object-position: 50% 50%;
+       object-position: 50% 50%;
+    -o-object-fit: contain;
+       object-fit: contain;
+    width: 100%;
+    display: block;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
+    -webkit-touch-callout: none;
+}
+
+.reuse-que__media--cnt {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background-color: #dcdbdc;
+    color: rgba(0,0,0, .75);
+    box-shadow: 0 0 2px 0 rgba(0,0,0, .45);
+    top: 50%;
+    transform: translateY(-50%);
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+    cursor: pointer;
+}
+
+.reuse-que__media--cnt__nxt {
+    right: -10px;
+}
+
+.reuse-que__media--cnt__prev {
+    left: -10px;
+}
+
+.reuse-que__media--cnt:hover {
+    background-color: #437da3;
+    color: #fff;
+    transition: all .3s ease-in;
+}
+
 .reuse-que__content {
     margin: 10px 0;
     padding: 0 20px;
@@ -202,13 +308,10 @@
     }
 }
 
-.reuse-que__content--img {
+.reuse-que__content--wrapper {
     float: left;
     width: 40%;
     background-color: rgba(233,235,242, .56);
-    height: 100px;
-    overflow: hidden;
-    overflow-y: auto;
 }
 
 .reuse-que__ans {
@@ -248,6 +351,50 @@
         justify-content: center;
     -ms-flex-align: center;
         align-items: center;
+}
+
+.reuse-que__video-err {
+    position: absolute;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+    -ms-flex-direction: column;
+        flex-direction: column;
+    top: 0;
+    width: 100%;
+    bottom: 0;
+    color: #fff;
+}
+
+.reuse-que__video-err--icn {
+    font-size: 1.375rem;
+    width: 100%;
+    text-align: center;
+    -ms-touch-action: none;
+        touch-action: none;
+}
+
+.reuse-que__video-err > h3 {
+    width: 100%;
+    font-weight: 400;
+    font-size: .875rem;
+    margin: 20px 0;
+    padding: 5px;
+    text-align: center;
+    color: #fff;
+    -ms-touch-action: none;
+        touch-action: none;
+}
+
+.reuse-que__filter-err {
+    color: #ff1600;
+    padding: 10px 0;
+    margin: 10px 0;
+    text-align: center;
+    background-color: #f9f9f9;
 }
 
 .reuse-que__footer {
@@ -469,11 +616,61 @@
     }
 }
 
+
+@keyframes slide-in {
+    0% {
+        left: 0%;
+    }
+    25% {
+        left: 25%;
+    }
+    50% {
+        left: 50%;
+    }
+    75% {
+        left: 75%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes slide-rev {
+    0% {
+        right: 100%;
+    }
+    25% {
+        right: 75%;
+    }
+    50% {
+        right: 50%;
+    }
+    75% {
+        right: 25%;
+    }
+    100% {
+        right: 0%;
+    }
+}
+
 .icon__reuse-que--header__tag {
     color: #777;
     cursor: pointer;
     font-size: .9375rem;
 }
+
+.icon__reuse-que--media__play {
+    font-size: 2rem;
+    color: #dcdbdc;
+}
+
+.icon__reuse-que--media__nxt {
+    font-size: 1rem;
+}
+
+.icon__reuse-que--media__prev {
+    font-size: 1rem;
+}    
 
 .icon__reuse-que--footer__thumbup {
     color: #0284a8;

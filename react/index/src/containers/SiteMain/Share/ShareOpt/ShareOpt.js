@@ -40,7 +40,7 @@ class ShareOpt extends Component {
     }
 
     shareUserHandler = () => {
-        this.props.onShareUser(this.props.userSelect, this.props.shareID)
+        this.props.onShareUser(this.props.userSelect, this.props.shareID, this.props.cntType)
     };
 
     render() {
@@ -84,14 +84,15 @@ const mapStateToProps = state => {
     return {
         userSelect: state.share.userSelect,
         viewAllUsers: state.share.viewAllUsers,
-        shareID: state.share.shareID
+        shareID: state.share.shareID,
+        cntType: state.share.cntType
     };
 };
 
 const mapDispatchToProp = dispatch => {
     return {
         onViewUsers: () => dispatch(actions.viewUsers()),
-        onShareUser: (userSelect, shareID) => dispatch(actions.shareUserInit(userSelect, shareID))
+        onShareUser: (userSelect, shareID, cntType) => dispatch(actions.shareUserInit(userSelect, shareID, cntType))
     };
 };
 

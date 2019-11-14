@@ -7,7 +7,7 @@ import Input from './Input/Input';
 import SelectUsers from './SelectUsers/SelectUsers';
 import ShareOpt from './ShareOpt/ShareOpt';
 import * as actions from '../../../store/actions/index';
-import Modal from '../../../components/UI/Modal/Modal'; 
+import Modal from '../../../components/UI/Modal/Modal';
 
 class Share extends Component {
     closeShareHandler = () => {

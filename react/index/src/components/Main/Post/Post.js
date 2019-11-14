@@ -9,9 +9,8 @@ const post = props => {
             key={index} 
             pt={pt} 
             media={props.media}
-            userOpt={props.userOpt.bind(this, index)} 
-            showPt={props.showPtOpt}
-            index={index}
+            userOpt={props.userOpt.bind(this, pt._id)} 
+            showCnt={props.showCntOpt}
             fav={props.fav.bind(this, pt._id, pt.liked, pt.favorite, 'post')}
             changedFav={props.changedFav}
             favChange={props.favChange}
@@ -30,8 +29,8 @@ const post = props => {
             moveSlidePlay={props.moveSlidePlay}
             clearSlidePlay={props.clearSlidePlay}
             video={props.video}
-            deletePt={props.changePt.bind(this, pt._id, pt.title, 'delete')}
-            changePt={props.changePt.bind(this, pt._id, pt.title, 'mode')}/>
+            deleteCnt={props.changeCnt.bind(this, pt._id, pt.title, 'delete', 'post')}
+            changeCnt={props.changeCnt.bind(this, pt._id, pt.title, 'mode', 'post')}/>
     ));
 
     return allPost;

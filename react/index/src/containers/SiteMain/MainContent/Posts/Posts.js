@@ -10,7 +10,7 @@ import * as actions from '../../../../store/actions/index';
 
 let IS_ANIMATED = true;
 
-class Posts extends Component {
+class Questions extends Component {
     constructor(props) {
         super(props);
         let limit = 0;
@@ -24,7 +24,7 @@ class Posts extends Component {
             limit = 2;
         }
         this.state = {
-            ptOpt: null,
+            cntOpt: null,
             fetchLimit: limit,
             filterTag: 'post',
             mediaItms: [],
@@ -37,64 +37,36 @@ class Posts extends Component {
     }
 
     componentDidMount() {
-        this.props.onFetchPost(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
+        this.props.onFetchCntReset();
+        this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/post');
-        let these = this;
-        window.addEventListener('scroll', function(event) {
-            if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
-                these.props.onFetchPost(
-                        these.props.userID, 
-                        these.state.filterTag !== 'post' ? 
-                        these.state.filterTag === 'filter' ?  'filter=='+these.props.filterDet : these.state.filterTag : 'post',
-                        these.state.fetchLimit, these.props.skipPost + these.state.fetchLimit, these.props.ptTotal);
-            }
-        });
+        window.addEventListener('scroll', this.onScroll, false);
     }
 
-    componentDidUpdate() {
-        if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id !== 'share' && this.props.match.params.id !== 'filter' && this.props.match.params.id !== 'startfilter') {
-            this.props.onFetchPostReset();
-            this.props.onFetchPost(this.props.userID, this.props.match.params.id === 'shared' ? `shared-${this.props.userID}` : this.props.match.params.id, this.state.fetchLimit, 0, 0);
-            this.setState({
-                filterTag: this.props.match.params.id
-            });
-        }
-
-        if (this.props.match.params.id && this.props.filterDet && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id === 'filter') {
-            this.props.onFetchPostReset();
-            this.props.onFetchPost(this.props.userID, 'filter=='+this.props.filterDet, this.state.fetchLimit, 0, 0);
-            this.setState({
-                filterTag: this.props.match.params.id
-            });
-        }
-
-        if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id === 'startfilter') {
-            this.setState({
-                filterTag: this.props.match.params.id
-            });
-        }
-
-        if (!this.props.match.params.id && this.state.filterTag !== 'post') {
-            this.props.onFetchPostReset();
-            this.props.onFetchPost(this.props.userID, 'post', this.state.fetchLimit, 0, 0);
-            this.setState({
-                filterTag: 'post'
-            });
-        }
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.onScroll, false);
     }
 
-    showUserOptHandler = (index) => {
-        if (this.state.ptOpt && this.state.ptOpt.index === index) {
+    onScroll = () => {
+        if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
+            this.props.onFetchCnt(
+                    this.props.userID,  'post' ,
+                    this.state.fetchLimit, this.props.skipCnt + this.state.fetchLimit, this.props.cntTotal);
+        }
+    } 
+
+    showUserOptHandler = (id) => {
+        if (this.state.cntOpt && this.state.cntOpt.id === id) {
             this.setState((prevState, props) => {
                 return {
-                    ptOpt: updateObject(prevState.ptOpt, {visible: !prevState.ptOpt.visible})
+                    cntOpt: updateObject(prevState.cntOpt, {visible: !prevState.cntOpt.visible})
                 }
             });
             return
         }
 
-        const newPtOpt = {visible: true, index}
-        this.setState({ptOpt: newPtOpt})
+        const newCntOpt = {visible: true, id}
+        this.setState({cntOpt: newCntOpt})
     }
 
     changeFavoriteHandler = (id, isLiked, favAdd, cntGrp) => {
@@ -102,8 +74,8 @@ class Posts extends Component {
     }
 
     showShareHandler = (shareID) => {
-        this.props.onChangeShareID(shareID);
-        this.props.history.push('/post/share')
+        this.props.onChangeShareID(shareID, 'post');
+        this.props.history.push('/index/post/share')
     };
 
     changeMediaHandler = (id, maxLength, type) => {
@@ -137,7 +109,7 @@ class Posts extends Component {
         slide.style.left = 0 +'px';
         let videoPlayerIcn = document.querySelector('.reuse-pt__media--wrapper__icn-move');
         if (videoPlayerIcn) {
-            videoPlayerIcn.style.left = 45 + '%';
+            videoPlayerIcn.style.left = 42 + '%';
         }
     }
 
@@ -159,7 +131,7 @@ class Posts extends Component {
             let videoPlayerIcn = document.querySelector('.reuse-pt__media--wrapper__icn-move');
             if (videoPlayerIcn) {
                 let playerIcnHeight = (newpos / slide.offsetWidth) * 100
-                videoPlayerIcn.style.left =  playerIcnHeight + 45 + '%';
+                videoPlayerIcn.style.left =  playerIcnHeight + 42 + '%';
             }
             slide.style.left = newpos +'px';
         }
@@ -194,38 +166,38 @@ class Posts extends Component {
             IS_ANIMATED = true;
         }, 500)
     }
-    changePtHandler = (id, title, det) => {
-        this.props.onChangePt(id, title, det, false);
+    changeCntHandler = (id, title, det, modelType) => {
+        let checkTitle = String(title).length > 149 ? String(title).substr(0, 180) + '...' : title
+        this.props.onChangeCnt(id, checkTitle, det, false, modelType);
     }
 
     render() {
         this.props.onFetchShareActive(this.props.userID);
-        this.props.onFetchPtActive(this.props.userID);
-        this.props.onFtechShareCntActive(this.props.userID);
+        this.props.onFetchCntActive(this.props.userID);
 
-        let post = "Loading";
-        if (this.props.postErr) {
-            post = null
+        let cnt = "Loading";
+        if (this.props.cntErr) {
+            cnt = null
         }
 
-        if (this.props.posts && this.props.posts.length === 0 && this.state.filterTag === 'shared') {
-            post = <NoAcc 
+        if (!this.props.userID) {
+            cnt = <NoAcc 
                 isAuth={this.props.userID !== null}
-                det='You have no shared post yet!'/>
+                det='You have no shared Post yet!'/>
         }
 
-        if (this.props.posts && this.props.posts.length === 0 && this.state.filterTag !== 'shared') {
-            post = <NoAcc 
+        if (this.props.cnts && this.props.cnts.length === 0 && this.props.userID) {
+            cnt = <NoAcc 
                 isAuth={this.props.userID !== null}
                 det='Category not found !!'/>
         }
 
-        if (this.props.posts && this.props.posts.length > 0) {
-            post = <Post 
-                content={this.props.posts} 
+        if (this.props.cnts && this.props.cnts.length > 0) {
+            cnt = <Post 
+                content={this.props.cnts} 
                 media={this.props.media}
                 userOpt={this.showUserOptHandler}
-                showPtOpt={this.state.ptOpt}
+                showCntOpt={this.state.cntOpt}
                 fav={this.changeFavoriteHandler}
                 changedFav={this.props.changedFav}
                 favChange={this.props.favChange}
@@ -244,41 +216,40 @@ class Posts extends Component {
                 slidePlay={this.slidePlayHandler}
                 moveSlidePlay={this.moveSlidePlayHandler}
                 clearSlidePlay={this.clearSlidePlayhandler}
-                changePt={this.changePtHandler}/>
+                changeCnt={this.changeCntHandler}/>
         }
 
-        return post
+        return cnt
     }
 }
 
 const mapStateToProps = state => {
     return {
         userID: state.auth.userID,
-        posts: state.pt.posts,
-        skipPost: state.pt.skipPost,
-        ptTotal: state.pt.ptTotal,
-        changedFav: state.pt.changedFav,
-        favChange: state.pt.favChange,
-        postErr: state.pt.postErr,
-        postVideo: state.pt.postVideo,
-        videoErr: state.pt.videoErr,
-        filterDet: state.pt.filterDet
+        cnts: state.cnt.cnts,
+        skipCnt: state.cnt.skipCnt,
+        cntTotal: state.cnt.cntTotal,
+        changedFav: state.cnt.changedFav,
+        favChange: state.cnt.favChange,
+        cntErr: state.cnt.cntErr,
+        postVideo: state.cnt.postVideo,
+        videoErr: state.cnt.videoErr,
+        filterDet: state.cnt.filterDet
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onFetchShareActive: (userID) => dispatch(actions.fetchShareactiveInit(userID)),
-        onFtechShareCntActive: (userID) => dispatch(actions.fetchShareCntactiveInit(userID)),
-        onFetchPtActive: (userID) => dispatch(actions.fetchPtActiveInit(userID)),
-        onFetchPost: (userID, fetchType, limit, skipPost, ptTotal) => dispatch(actions.fetchPostInit(userID, fetchType, limit, skipPost, ptTotal)),
-        onFetchPostReset: () => dispatch(actions.fetchPostReset()),
+        onFetchCntActive: (userID) => dispatch(actions.fetchCntActiveInit(userID)),
+        onFetchCnt: (userID, fetchType, limit, skipCnt, cntTotal) => dispatch(actions.fetchCntInit(userID, fetchType, limit, skipCnt, cntTotal)),
+        onFetchCntReset: () => dispatch(actions.fetchCntReset()),
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),
-        onChangeShareID: (shareID) => dispatch(actions.shareID(shareID)),
+        onChangeShareID: (shareID,  cntType) => dispatch(actions.shareID(shareID,  cntType)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
         onFetchVideo: (videoID, ptVideoID) => dispatch(actions.fetchVideoInit(videoID, ptVideoID)),
-        onChangePt: (id, title, det, confirm) => dispatch(actions.changePtInit(id, title, det, confirm))
+        onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm,  modelType))
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Posts));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions));

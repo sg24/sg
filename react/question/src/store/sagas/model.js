@@ -12,24 +12,24 @@ export function* fetchCntInitSaga(action) {
                     'limit': action.fetchLimit, 
                     'skip': action.skipCnt}});
             let cntArray = [];
-            if (response.data.que && response.data.que.length > 0 ) { 
-                for (let que of response.data.que) {
-                    const newQue = {...que};
+            if (response.data.cnt && response.data.cnt.length > 0 ) { 
+                for (let cnt of response.data.cnt) {
+                    const newCnt = {...cnt};
                     let liked = false;
-                    for (let userID of newQue.liked) {
+                    for (let userID of newCnt.liked) {
                         if(action.userID === userID) {
                             liked = true
                         }
                     }
-                    const valid = action.userID === newQue.authorID;
-                    const author = 'user' +  newQue._id;
-                    const newData = updateObject(newQue, {author,userOpt: valid, liked});
+                    const valid = action.userID === newCnt.authorID;
+                    const author = 'user' +  newCnt._id;
+                    const newData = updateObject(newCnt, {author,userOpt: valid, liked});
                     cntArray.push(newData);
                 }
-                yield put(actions.fetchCnt(cntArray, action.skipCnt, response.data.queTotal));
+                yield put(actions.fetchCnt(cntArray, action.skipCnt, response.data.cntTotal));
             }
 
-            if (response.data.que.length === 0) {
+            if (response.data.cnt.length === 0) {
                 yield put(actions.fetchCnt([]));
             }
         }  

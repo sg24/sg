@@ -3,39 +3,43 @@ import { updateObject, changeFav } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
-export function* fetchPostInitSaga(action) {
+export function* fetchCntInitSaga(action) {
+    let model = action.fetchType === 'post' ? '/post' : action.fetchType === 'question' || action.fetchType === 'shared' ?
+        '/question':'/'+action.fetchType;
+    let categ = action.fetchType === 'shared' ? `shared-${action.userID}` : action.fetchType;
+   
     try {
-        if (action.ptTotal === 0 || action.ptTotal > action.skipPost) {
-            let response = yield axios.get('/post', {
+        if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
+            let response =  yield axios.get(model, {
                 headers: {
-                    'data-categ': action.fetchType, 
+                    'data-categ': !categ ? action.fetchType : categ, 
                     'limit': action.fetchLimit, 
-                    'skip': action.skipPost}});
-            let ptArray = [];
-            if (response.data.pt && response.data.pt.length > 0 ) { 
-                for (let pt of response.data.pt) {
-                    const newPt = {...pt};
+                    'skip': action.skipCnt}});
+            let cntArray = [];
+            if (response.data.cnt && response.data.cnt.length > 0 ) { 
+                for (let cnt of response.data.cnt) {
+                    const newCnt = {...cnt};
                     let liked = false;
-                    for (let userID of newPt.liked) {
+                    for (let userID of newCnt.liked) {
                         if(action.userID === userID) {
                             liked = true
                         }
                     }
-                    const valid = action.userID === newPt.authorID;
-                    const author = 'user' +  newPt._id;
-                    const newData = updateObject(newPt, {author,userOpt: valid, liked});
-                    ptArray.push(newData);
+                    const valid = action.userID === newCnt.authorID;
+                    const author = 'user' +  newCnt._id;
+                    const newData = updateObject(newCnt, {author,userOpt: valid, liked});
+                    cntArray.push(newData);
                 }
-                yield put(actions.fetchPost(ptArray, action.skipPost, response.data.ptTotal));
+                yield put(actions.fetchCnt(cntArray, action.skipCnt, response.data.cntTotal));
             }
 
-            if (response.data.pt.length === 0) {
-                yield put(actions.fetchPost([]));
+            if (response.data.cnt.length === 0) {
+                yield put(actions.fetchCnt([]));
             }
         }  
         
     } catch(err){
-        yield put(actions.fetchPostFail(err))
+        yield put(actions.fetchCntFail(err))
     }
     
 }
@@ -75,23 +79,25 @@ export function* changeFavSaga(action) {
     }
 }
 
-export function* changePostInitSaga(action) {
+export function* changeCntInitSaga(action) {
+    let modelType = action.modelType === 'post' ? '/post' : action.modelType === 'question' ?
+    '/question':'/poet';
     if (!action.confirm) {
-        yield put(actions.changePtStart(action.title, action.id, action.det))
+        yield put(actions.changeCntStart(action.title, action.id, action.det, action.modelType))
         return;
     }
     try {
         if (action.det === 'delete') {
-            yield axios.delete('/post', {headers: {'data-categ': 'deletePt-'+action.id}});
+            yield axios.delete(modelType, {headers: {'data-categ': 'deleteCnt-'+action.id}});
         } else {
-            yield axios.patch('/post', {id: action.id} ,{headers: {'data-categ': 'changemode'}});
+            yield axios.patch(modelType, {id: action.id} ,{headers: {'data-categ': 'changemode'}});
         }
-        yield put(actions.changePt())
+        yield put(actions.changeCnt())
         yield delay(1000);
-        yield put(actions.changePtReset())
+        yield put(actions.changeCntReset())
     } catch(err){
-        yield put(actions.changePtFail(err))
+        yield put(actions.changeCntFail(err))
         yield delay(1000);
-        yield put(actions.changePtReset())
+        yield put(actions.changeCntReset())
     }
 }

@@ -3,19 +3,22 @@ import React from 'react';
 import PoetContent from './PoetContent/PoetContent';
 
 const poet = props => {
-
-    let poet = props.content.map((pwt, index) => (
+    const allPwt = props.content.map((pwt, index) => (
         <PoetContent 
-            key={index}
-            pwt={pwt}
-            userOpt={props.userOpt.bind(this, index)}
-            showPwt={props.showPwtOpt}
-            index={index}
-            fav={props.fav.bind(this, pwt.id)}
-            share={props.share.bind(this, index)}/>
-    ))
+             key={index} 
+             pwt={pwt} 
+             media={props.media}
+             userOpt={props.userOpt.bind(this, pwt._id)} 
+             showCnt={props.showCntOpt}
+             fav={props.fav.bind(this, pwt._id, pwt.liked, pwt.favorite, 'poet')}
+             changedFav={props.changedFav}
+             favChange={props.favChange}
+             share={props.share.bind(this, pwt._id)}
+             deleteCnt={props.changeCnt.bind(this, pwt._id, pwt.title, 'delete', 'poet')}
+             changeCnt={props.changeCnt.bind(this, pwt._id, pwt.title, 'mode', 'poet')}/>
+    ));
 
-    return poet;
-};
+    return allPwt;
+}
 
 export default poet;

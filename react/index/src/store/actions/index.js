@@ -1,14 +1,14 @@
 export {
-    fetchPostInit,
-    fetchPostFail,
-    fetchPostReset,
-    fetchPost,
-    changePtInit,
-    changePtStart,
-    changePtFail,
-    changePtCancel,
-    changePtReset,
-    changePt,
+    fetchCntInit,
+    fetchCntFail,
+    fetchCntReset,
+    fetchCnt,
+    changeCntInit,
+    changeCntStart,
+    changeCntFail,
+    changeCntCancel,
+    changeCntReset,
+    changeCnt,
     fetchVideoInit,
     fetchVideoStart,
     fetchVideoFail,
@@ -17,50 +17,20 @@ export {
     changeFavPtStart,
     changeFavPtFail,
     changeFav,
-} from './post';
+} from './model';
+
 
 export {
-    fetchQueInit,
-    fetchQue,
-    changeFavQueInit,
-    changeFavQue,
-    changeFavFilterQue,
-    filterQueInit,
-    filterQue,
-    changeFavQueStart,
-    changeFavQueFail
-} from './question';
-
-export {
-    fetchGroupInit,
-    fetchGroup,
-    filterGrpInit,
-    filterGrp
-} from './group';
-
-export {
-    fetchHelpMeQueInit,
-    fetchHelpMeQue,
-    changeFavHelpMeQueInit,
-    changeFavHelpMeQueStart,
-    changeFavHelpMeQueFail,
-    changeFavHelpMeQue,
-    changeFavFilterHelpMeQue,
-    filterHelpmeQueInit,
-    filterHelpmeQue
-} from './helpme';
-
-export {
-    fetchPoetInit,
-    fetchPoet,
-    changeFavPoetInit,
-    changeFavPoetStart,
-    changeFavPoetFail,
-    changeFavPoet,
-    changeFavFilterPoet,
-    filterPoetInit,
-    filterPoet
-} from './poet';
+    fetchCntCategInit,
+    fetchCntCategStart,
+    fetchCntCateg,
+    filterContentInit,
+    filterContentStart,
+    filterContentFail,
+    filterContent,
+    resetFilter,
+    filterPost
+} from './filter';
 
 export {
     fetchUsersInit,
@@ -91,11 +61,7 @@ export {
 
 export {
     fetchTrdInit,
-    fetchTrd,
-    changeFavTrdInit,
-    changeFavTrdStart,
-    changeFavTrdFail,
-    changeFavTrd
+    fetchTrd
 } from './trend';
 
 export {
@@ -138,8 +104,8 @@ export {
 } from './header';
 
 export {
-    fetchPtActiveInit,
-    fetchPtActive,
+    fetchCntActiveInit,
+    fetchCntActive,
     fetchShareactiveInit,
     fetchShareActive,
     fetchShareCntactiveInit,

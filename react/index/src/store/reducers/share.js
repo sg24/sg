@@ -7,6 +7,7 @@ const initialState = {
     filterUserSelect: null,
     viewAllUsers: true,
     shareID: null,
+    cntType: null,
     start: false,
     shareErr: null
 }
@@ -43,7 +44,7 @@ const filterUserSelect = (state, action) => {
 };
 
 const shareID = (state, action) => {
-    return updateObject(state, {shareID: String(action.shareID)});
+    return updateObject(state, {shareID: String(action.shareID), cntType: action.cntType});
 };
 
 const shareUserStart = (state, action) => {

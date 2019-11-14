@@ -207,15 +207,15 @@ router.get('/post', authenticate, (req, res, next) => {
             let sort = req.header('data-categ').startsWith('filter') ? { score: { $meta: "textScore" } } : {postCreated: -1};
             let curLimit = parseInt(req.header('limit'));
             let skip = parseInt(req.header('skip'));
-            posts.find(condition, isMeta).countDocuments({}).then((ptTotal) => {
+            posts.find(condition, isMeta).countDocuments({}).then((cntTotal) => {
                 posts.find(condition, isMeta).sort(sort).limit(curLimit).skip(skip).then(result => {
-                    let ptArray= [];
-                    for (let pt of result) {
-                        let desc = JSON.parse(pt.desc).blocks[0].text;
-                        pt.desc = String(desc.substr(0, 180));
-                        ptArray.push(pt);
+                    let cntArray= [];
+                    for (let cnt of result) {
+                        let desc = JSON.parse(cnt.desc).blocks[0].text;
+                        cnt.desc = String(desc.substr(0, 180));
+                        cntArray.push(cnt);
                     }
-                    res.send({pt: ptArray, ptTotal}).status(200)
+                    res.send({cnt: cntArray, cntTotal}).status(200)
                 }).catch(err => {
                     res.status(500).send(err);
                 })
@@ -282,7 +282,7 @@ router.get('/post', authenticate, (req, res, next) => {
 });
 
 router.delete('/post', authenticate, (req, res, next) => {
-    if (req.header('data-categ').startsWith('deletePt')) {
+    if (req.header('data-categ').startsWith('deleteCnt')) {
         let id = req.header('data-categ').split('-')[1];
         posts.findByIdAndRemove(id).then(() =>{
             res.send('deleted').status(200);
@@ -473,15 +473,15 @@ router.get('/question', (req, res, next) => {
             let sort = req.header('data-categ').startsWith('filter') ? { score: { $meta: "textScore" } } : {queCreated: -1};
             let curLimit = parseInt(req.header('limit'));
             let skip = parseInt(req.header('skip'));
-            questions.find(condition, isMeta).countDocuments({}).then((queTotal) => {
+            questions.find(condition, isMeta).countDocuments({}).then((cntTotal) => {
                 questions.find(condition, isMeta).sort(sort).limit(curLimit).skip(skip).then(result => {
-                    let queArray = [];
-                    for (let que of result) {
-                        que.desc = '';
-                        que.title = String(que.title).substr(0, 180)
-                        queArray.push(que);
+                    let cntArray = [];
+                    for (let cnt of result) {
+                        cnt.desc = '';
+                        cnt.title = String(cnt.title).substr(0, 180)
+                        cntArray.push(cnt);
                     }
-                    res.send({que: queArray, queTotal}).status(200)
+                    res.send({cnt: cntArray, cntTotal}).status(200)
                 }).catch(err => {
                     res.status(500).send(err);
                 })

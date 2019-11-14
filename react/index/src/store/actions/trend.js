@@ -1,8 +1,9 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchTrdInit = () => {
+export const fetchTrdInit = (userID) => {
     return {
-        type: actionTypes.FETCH_TRD_INIT
+        type: actionTypes.FETCH_TRD_INIT,
+        userID
     }
 };
 
@@ -30,33 +31,4 @@ export const fetchTrd = (trd) => {
         type: actionTypes.FETCH_TRD,
         trd
     }
-};
-
-export const changeFavTrdInit = (trd, trdID) => {
-    return {
-        type: actionTypes.CHANGE_FAVORITE_TRD_INIT,
-        trd,
-        trdID
-    };
-};
-
-export const changeFavTrdStart = (trd) => {
-    return {
-        type: actionTypes.CHANGE_FAVORITE_TRD_START,
-        trd
-    };
-};
-
-export const changeFavTrdFail = (trd) => {
-    return {
-        type: actionTypes.CHANGE_FAVORITE_TRD_FAIL,
-        trd
-    };
-};
-
-export const changeFavTrd = (trd) => {
-    return {
-        type: actionTypes.CHANGE_FAVORITE_TRD,
-        trd
-    };
 };

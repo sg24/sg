@@ -1,4 +1,3 @@
-
 const initialState = {
     userID: 'user_id'
 };

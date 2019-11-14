@@ -11,25 +11,25 @@ export function* fetchPostInitSaga(action) {
                     'data-categ': action.fetchType, 
                     'limit': action.fetchLimit, 
                     'skip': action.skipPost}});
-            let ptArray = [];
-            if (response.data.pt && response.data.pt.length > 0 ) { 
-                for (let pt of response.data.pt) {
-                    const newPt = {...pt};
+            let cntArray = [];
+            if (response.data.cnt && response.data.cnt.length > 0 ) { 
+                for (let cnt of response.data.pt) {
+                    const newCnt = {...cnt};
                     let liked = false;
-                    for (let userID of newPt.liked) {
+                    for (let userID of newCnt.liked) {
                         if(action.userID === userID) {
                             liked = true
                         }
                     }
-                    const valid = action.userID === newPt.authorID;
-                    const author = 'user' +  newPt._id;
-                    const newData = updateObject(newPt, {author,userOpt: valid, liked});
-                    ptArray.push(newData);
+                    const valid = action.userID === newCnt.authorID;
+                    const author = 'user' +  newCnt._id;
+                    const newData = updateObject(newCnt, {author,userOpt: valid, liked});
+                    cntArray.push(newData);
                 }
-                yield put(actions.fetchPost(ptArray, action.skipPost, response.data.ptTotal));
+                yield put(actions.fetchPost(cntArray, action.skipPost, response.data.cntTotal));
             }
 
-            if (response.data.pt.length === 0) {
+            if (response.data.cnt.length === 0) {
                 yield put(actions.fetchPost([]));
             }
         }  
@@ -82,7 +82,7 @@ export function* changePostInitSaga(action) {
     }
     try {
         if (action.det === 'delete') {
-            yield axios.delete('/post', {headers: {'data-categ': 'deletePt-'+action.id}});
+            yield axios.delete('/post', {headers: {'data-categ': 'deleteCnt-'+action.id}});
         } else {
             yield axios.patch('/post', {id: action.id} ,{headers: {'data-categ': 'changemode'}});
         }

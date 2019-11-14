@@ -52,6 +52,8 @@ export function* filterUserSelectInitSaga(action) {
 }
 
 export function* shareUserInitSaga(action) {
+    let model = action.cntType === 'post' ? 'post' : action.cntType === 'question' ?
+    'question':'poet';
     let shareUser = [];
 
     for (let user of [...action.userSelect] ) {
@@ -60,7 +62,7 @@ export function* shareUserInitSaga(action) {
     
     try {
         yield put(actions.shareUserStart())
-        yield axios.patch('/header', {users: JSON.stringify(shareUser), id: action.shareID, model: 'post'},{headers: {'data-categ': 'shareuser'}});
+        yield axios.patch('/header', {users: JSON.stringify(shareUser), id: action.shareID, model},{headers: {'data-categ': 'shareuser'}});
         yield delay(1000);
         yield put(actions.shareUser());
     } catch(err){

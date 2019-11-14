@@ -1,10 +1,13 @@
 import { put } from 'redux-saga/effects';
 
+import axios from '../../axios';
 import * as actions from '../../store/actions/index';
 
-const TAGS = ['post', 'question', 'social', 'writers', 'poet', 'poeters'
-, 'poem'];
-
 export function* fetchTagsInitSaga() {
-    yield put(actions.fetchTags(TAGS));
+    try {
+        let response = yield axios.get('/post', {headers: {'data-categ':'postCateg'}});
+        console.log(response)
+        yield put(actions.fetchTags(response.data));
+    } catch(e) {}
+
 }

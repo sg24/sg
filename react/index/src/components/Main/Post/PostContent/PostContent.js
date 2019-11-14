@@ -158,7 +158,7 @@ const postContent = props => {
         );
     } 
 
-    if (props.showPt && props.showPt.visible && props.index === props.showPt.index) {
+    if (props.showCnt && props.showCnt.visible && props.pt._id === props.showCnt.id) {
         userOptDetClass.push('reuse-pt__footer--details__clk');
         userOptClass.push('reuse-pt__footer--details__options--visible')
     }
@@ -178,14 +178,14 @@ const postContent = props => {
                 </li>
                 <li 
                     className="reuse-pt__footer--details__options--status"
-                    onClick={props.changePt}>
+                    onClick={props.changeCnt}>
                     <FontAwesomeIcon 
                         icon={['far', 'eye-slash']} 
                         className="icon icon__reuse-pt--options__dft" /> 
                     Draft
                 </li>
                 <li
-                    onClick={props.deletePt}>
+                    onClick={props.deleteCnt}>
                     <FontAwesomeIcon 
                         icon={['far', 'trash-alt']} 
                         className="icon icon__reuse-pt--options" /> 

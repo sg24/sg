@@ -1,22 +1,33 @@
 import React from 'react';
+import TimeAgo from 'react-timeago';
+import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
 
 import './PoetContent.css'; 
 import '../../../UI/ShareIcn/ShareIcn.css'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Aux from '../../../../hoc/Auxs/Aux';
-import { transformNumber, transformString } from '../../../../shared/utility';
+import { transformNumber, engStrings } from '../../../../shared/utility';
 import FavoriteActive from '../../../UI/FavoriteActive/FavoriteActive';
 
 const poetContent = props => {
+    const formatter = buildFormatter(engStrings);
     let userOpt = null;
     let userOptDetClass = ['reuse-pwt__content--det__user--det'];
     let userOptClass = ['reuse-pwt__content--det__user--det__opt'];
+    let favAdd = null;
+    let isLiked = null;
     let fav = <FontAwesomeIcon 
         icon={['far', 'heart']} 
         className="icon icon__reuse-pwt--footer__heart" />
 
+    for (let changedFav of props.changedFav) {
+        if (props.pwt._id === changedFav.id) {
+            favAdd = changedFav.favAdd;
+            isLiked= changedFav.liked;
+        }
+    }
 
-    if (props.showPwt && props.showPwt.visible && props.showPwt.index === props.index)  {
+    if (props.showCnt && props.showCnt.visible && props.showCnt.id === props.pwt._id)  {
         userOptDetClass.push('reuse-pwt__content--det__user--det__clk');
         userOptClass.push('reuse-pwt__content--det__user--det__opt--visible');
     }
@@ -34,13 +45,16 @@ const poetContent = props => {
                             Edit 
                         </a>
                     </li>
-                    <li className="reuse-pwt__content--det__user--det__opt--status">
+                    <li 
+                        className="reuse-pwt__content--det__user--det__opt--status"
+                        onClick={props.changeCnt}>
                         <FontAwesomeIcon 
                             icon={['far', 'eye-slash']} 
                             className="icon icon__reuse-pwt--options__dft" />
                         Draft
                     </li>
-                    <li>
+                    <li
+                        onClick={props.deleteCnt}>
                         <FontAwesomeIcon 
                             icon={['far', 'trash-alt']} 
                             className="icon icon__reuse-pwt--options" />
@@ -51,7 +65,13 @@ const poetContent = props => {
         );
     };
 
-    if (props.pwt.liked) {
+    if (props.pwt.liked && isLiked === null) {
+        fav = <FontAwesomeIcon 
+            icon={['fas', 'heart']} 
+            className="icon icon__reuse-pwt--footer__heart" />
+    }
+
+    if (isLiked) {
         fav = <FontAwesomeIcon 
             icon={['fas', 'heart']} 
             className="icon icon__reuse-pwt--footer__heart" />
@@ -69,27 +89,27 @@ const poetContent = props => {
         <div className="reuse-pwt__content">
             <div className="reuse-pwt__content--tag">
                 <span>
-                    <a href="/"> 
                     <FontAwesomeIcon 
-                        icon={['fas', 'tag']} 
-                        className="icon icon__reuse-pwt--tag" />
-                    {props.pwt.category}
-                    </a> 
+                        icon={ props.pwt.category.length > 1 ? ['fas', 'tags'] : ['fas', 'tag']} 
+                        className="icon icon__reuse-pwt--header__tag" />
+                    <a href="/"> { props.pwt.category[0] } </a>
                 </span>
             </div>
             <div className="reuse-pwt__content--title">
                 <div className="reuse-pwt__content--title__wrapper">
-                    <a href="/"> { transformString(props.pwt.desc)} </a>
+                    <a href="/"> 
+                      {String(props.pwt.title).length > 149 ? String(props.pwt.title).substr(0, 150) + '...' : props.pwt.title} 
+                     </a>
                 </div>
             </div>
             <div className="reuse-pwt__content--det">
                 <div className="reuse-pwt__content--det__user">
                     <div className="reuse-pwt__content--det__user--img">
-                        <img src={props.pwt.userImage} alt="" />
+                        <img src={props.pwt.userImage} alt="poet" />
                     </div> 
-                    <a href="/"> {props.pwt.author} </a>
+                    <a href="/"> {String(props.pwt.author).substr(0, 8)} </a>
                         <div className="reuse-pwt__content--det__user--time">
-                        @ {props.pwt.poetCreated}
+                        @ { <TimeAgo date={props.pwt.pwtCreated} live={false} formatter={formatter} />}
                     </div>
                     {userOpt}
                 </div>
@@ -104,9 +124,9 @@ const poetContent = props => {
             </li>
             <li>
                 <span onClick={props.fav}>{fav}</span>
-                { transformNumber(props.pwt.favorite) }
-                {props.pwt.changeFavActive !== undefined ? <FavoriteActive 
-                    active={props.pt.changeFavActive}/> : null}
+                {transformNumber(favAdd !== null ? favAdd : props.pwt.favorite)} 
+                {props.favChange && props.favChange.id === props.pwt._id ? <FavoriteActive 
+                    liked={props.favChange.isLiked}/> : null}
             </li>
             <li>
                 <FontAwesomeIcon 
@@ -117,153 +137,6 @@ const poetContent = props => {
         </ul>
     </div>
     );
-
-    if (props.pwt.category && props.pwt.category === 'Quote') {
-        pwtType = (
-            <div className="reuse-pwt">
-            <div className="reuse-share">
-                <div className="reuse-share__icn" onClick={props.share}>
-                    <FontAwesomeIcon 
-                        icon={['fas', 'location-arrow']} 
-                        className="icon icon__reuse-share--icn" />
-                </div>
-            </div>
-            <div className="reuse-pwt__content">
-                <div className="reuse-pwt__content--tag">
-                    <span>
-                        <a href="/">
-                            <FontAwesomeIcon 
-                                icon={['fas', 'tag']} 
-                                className="icon icon__reuse-pwt--tag" />
-                            {props.pwt.category} 
-                        </a>
-                    </span>
-                </div>
-                <div className="reuse-pwt__content--title reuse-pwt__content--title__mt">
-                    <div className="reuse-pwt__content--firstptwritIcon">
-                        <FontAwesomeIcon 
-                            icon={['fas', 'quote-left']} 
-                            className="icon icon__reuse-pwt--quote" />
-                    </div>
-                    <div className="reuse-pwt__content--title__wrapper">
-                        <a href="/">{ transformString(props.pwt.desc) } </a>
-                    </div>
-                </div>
-                <div className="reuse-pwt__content--det reuse-pwt__content--det__quoteright">
-                    <div className="reuse-pwt__content--det__user">
-                        <div className="reuse-pwt__content--det__user--img">
-                            <img src={props.pwt.userImage} alt="" />
-                        </div> 
-                        <a href="/"> { props.pwt.author } </a>
-                            <div className="reuse-pwt__content--det__user--time">
-                            @ {props.pwt.poetCreated}
-                        </div>
-                        {userOpt}
-                    </div>
-                    <div className="reuse-pwt__content--det__quote-wrapper">
-                        <FontAwesomeIcon 
-                            icon={['fas', 'quote-right']} 
-                            className="icon icon__reuse-pwt--quoteright" />
-                    </div>
-                </div>
-            </div>
-            <ul className="reuse-pwt__footer">
-                <li>
-                    <FontAwesomeIcon 
-                        icon={['far', 'smile']} 
-                        className="icon icon__reuse-pwt--footer__smile" />
-                    { transformNumber(props.pwt.helpFull) } 
-                </li>
-                <li> 
-                    <span onClick={props.fav}>{fav}</span>
-                    { transformNumber(props.pwt.favorite) }
-                    {props.pwt.changeFavActive !== undefined ? <FavoriteActive 
-                        active={props.pt.changeFavActive}/> : null}
-                </li>
-                <li>
-                    <FontAwesomeIcon 
-                        icon={['far', 'comment-dots']} 
-                        className="icon icon__reuse-pwt--footer__comments" />
-                    { transformNumber(props.pwt.comment) } 
-                </li>
-            </ul>
-        </div>
-        );
-    }
-
-
-    if (props.pwt.category && props.pwt.category.length > 1 && typeof(props.pwt.category) === 'object') {
-        const pwtCategArray = [];
-        let key = 1;
-        for (let pwtCateg of props.pwt.category) {
-            key = key + 1
-            pwtCategArray.push(
-                <span key={key}>
-                    <a href="/">
-                        <FontAwesomeIcon 
-                            icon={['fas', 'tags']} 
-                            className="icon icon__reuse-pwt--tag" />
-                        {pwtCateg}
-                    </a>
-                </span>
-            )
-        }
-
-        pwtType = (
-            <div className="reuse-pwt">
-                <div className="reuse-share">
-                    <div className="reuse-share__icn" onClick={props.share}>
-                        <FontAwesomeIcon 
-                            icon={['fas', 'location-arrow']} 
-                            className="icon icon__reuse-share--icn" />
-                    </div>
-                </div>
-                <div className="reuse-pwt__content">
-                    <div className="reuse-pwt__content--tag">
-                   {pwtCategArray}
-                    </div>
-                    <div className="reuse-pwt__content--title">
-                        <div className="reuse-pwt__content--title__wrapper">
-                            <a href="/">{ transformString(props.pwt.desc) } </a>
-                        </div>
-                    </div>
-                    <div className="reuse-pwt__content--det">
-                        <div className="reuse-pwt__content--det__user">
-                            <div className="reuse-pwt__content--det__user--img">
-                                <img src={props.pwt.userImage} alt="" />
-                            </div> 
-                            <a href="/">{props.pwt.author}</a>
-                            <div className="reuse-pwt__content--det__user--time">
-                                @ {props.pwt.poetCreated}
-                            </div>
-                            {userOpt}
-                        </div>
-                    </div>  
-                </div>
-                <ul className="reuse-pwt__footer">
-                    <li>
-                        <FontAwesomeIcon 
-                            icon={['far', 'smile']} 
-                            className="icon icon__reuse-pwt--footer__smile" />
-                        { transformNumber(props.pwt.helpFull) } 
-                    </li>
-                    <li>
-                        <span onClick={props.fav}>{fav}</span>
-                        { transformNumber(props.pwt.favorite) }
-                        {props.pwt.changeFavActive !== undefined ? <FavoriteActive 
-                            active={props.pt.changeFavActive}/> : null}
-                    </li>
-                    <li>
-                        <FontAwesomeIcon 
-                            icon={['far', 'comment-dots']} 
-                            className="icon icon__reuse-pwt--footer__comments" />
-                        { transformNumber(props.pwt.comment) } 
-                    </li>
-                </ul>
-            </div>
-        );
-    }
-    
 
     return (
         <Aux>
