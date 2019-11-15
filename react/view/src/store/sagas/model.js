@@ -4,30 +4,28 @@ import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
 export function* fetchCntInitSaga(action) {
-    console.log(action)
     try {
-        let response =  yield axios.post('/hedaer', 
+        let response =  yield axios.post('/view', 
         {model: action.model, id:action.id},
         {headers: {'data-categ': 'viewcontent'}});
         let cntArray = [];
-        if (response.data.cnt && response.data.cnt.length > 0 ) { 
-            for (let cnt of response.data.cnt) {
-                const newCnt = {...cnt};
-                let liked = false;
-                for (let userID of newCnt.liked) {
-                    if(action.userID === userID) {
-                        liked = true
-                    }
+        console.log(response.data)
+        if (response.data) { 
+            const newCnt = {...response.data};
+            let liked = false;
+            for (let userID of newCnt.liked) {
+                if(action.userID === userID) {
+                    liked = true
                 }
-                const valid = action.userID === newCnt.authorID;
-                const author = 'user' +  newCnt._id;
-                const newData = updateObject(newCnt, {author,userOpt: valid, liked});
-                cntArray.push(newData);
             }
+            const valid = action.userID === newCnt.authorID;
+            const author = 'user' +  newCnt._id;
+            const newData = updateObject(newCnt, {author,userOpt: valid, liked});
+            cntArray.push(newData);
             yield put(actions.fetchCnt(cntArray));
         }
 
-        if (response.data.cnt.length === 0) {
+        if ([response.data].length === 0) {
             yield put(actions.fetchCnt([]));
         } 
         

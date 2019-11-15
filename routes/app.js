@@ -12,6 +12,16 @@ router.get('/view', (req, res, next) => {
     res.render('view');
 });
 
+router.post('/view', (req, res, next) => {
+    let model = req.body.model === 'post' ? posts :
+    req.body.model === 'question' ? questions : poets;
+    model.findById(req.body.id).then(result => {
+        res.send(result).status(200);
+    }).catch(err => {
+        res.status(500).send(err);
+    })
+});
+
 router.post('/header', authenticate, (req, res, next) => {
     if(req.header('data-categ') === 'headerfilter') {
         checkText(req.body.filterCnt, posts, [], 'post').then(ptArray => {

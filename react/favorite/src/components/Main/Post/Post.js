@@ -1,0 +1,39 @@
+import React from 'react';
+
+import PostContent from './PostContent/PostContent';
+
+const post = props => {    
+    
+    const allPost = props.content.map( (pt, index) => (
+        <PostContent 
+            key={index} 
+            pt={pt} 
+            media={props.media}
+            userOpt={props.userOpt.bind(this, pt._id)} 
+            showCnt={props.showCntOpt}
+            fav={props.fav.bind(this, pt._id, pt.liked, pt.favorite, 'post')}
+            changedFav={props.changedFav}
+            favChange={props.favChange}
+            share={props.share.bind(this, pt._id)}
+            nextMedia={props.nextMedia.bind(this, pt._id, pt.snapshot.length+pt.image.length , 'next')}
+            prevMedia={props.prevMedia.bind(this, pt._id, pt.snapshot.length+pt.image.length, 'prev')}
+            mediaItms={props.mediaItms}
+            removeAnim={props.removeAnim}
+            disableAnim={props.disableAnim}
+            animateItm={props.animateItm}
+            removePrevMedia={props.removePrevMedia}
+            playVideo={props.playVideo}
+            videoErr={props.videoErr}
+            playerIcnId={props.playerIcnId}
+            slidePlay={props.slidePlay}
+            moveSlidePlay={props.moveSlidePlay}
+            clearSlidePlay={props.clearSlidePlay}
+            video={props.video}
+            deleteCnt={props.changeCnt.bind(this, pt._id, pt.title, 'delete', 'post')}
+            changeCnt={props.changeCnt.bind(this, pt._id, pt.title, 'mode', 'post')}/>
+    ));
+
+    return allPost;
+};
+
+export default post;

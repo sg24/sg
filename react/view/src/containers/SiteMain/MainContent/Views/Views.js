@@ -161,7 +161,7 @@ class Views extends Component {
         }
 
         if (!this.state.viewCnt) {
-            // cnt = <Redirect to="/index/post"/>
+            cnt = <Redirect to="/index/post"/>
         }
 
         if (!this.props.userID) {
@@ -209,7 +209,7 @@ const mapStateToProps = state => {
         cntTotal: state.cnt.cntTotal,
         changedFav: state.cnt.changedFav,
         favChange: state.cnt.favChange,
-        postErr: state.cnt.postErr,
+        cntErr: state.cnt.cntErr,
         postVideo: state.cnt.postVideo,
         videoErr: state.cnt.videoErr,
         filterDet: state.cnt.filterDet

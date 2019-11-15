@@ -3,20 +3,19 @@ import React from 'react';
 import ViewContent from './ViewContent/ViewContent';
 
 const View = props => {
-   
-    const allView = props.content.map((que, index) => (
+    const allView = props.content.map((cnt, index) => (
         <ViewContent 
              key={index} 
-             que={que} 
+             cnt={cnt} 
              media={props.media}
-             userOpt={props.userOpt.bind(this, que._id)} 
+             userOpt={props.userOpt.bind(this, cnt._id)} 
              showCnt={props.showCntOpt}
-             fav={props.fav.bind(this, que._id, que.liked, que.favorite, 'question')}
+             fav={props.fav.bind(this, cnt._id, cnt.liked, cnt.favorite, 'question')}
              changedFav={props.changedFav}
              favChange={props.favChange}
-             share={props.share.bind(this, que._id)}
-             nextMedia={props.nextMedia.bind(this, que._id, que.snapshot.length+que.image.length , 'next')}
-             prevMedia={props.prevMedia.bind(this, que._id, que.snapshot.length+que.image.length, 'prev')}
+             share={props.share.bind(this, cnt._id)}
+             nextMedia={props.nextMedia.bind(this, cnt._id, cnt.snapshot.length+cnt.image.length , 'next')}
+             prevMedia={props.prevMedia.bind(this, cnt._id, cnt.snapshot.length+cnt.image.length, 'prev')}
              mediaItms={props.mediaItms}
              removeAnim={props.removeAnim}
              disableAnim={props.disableAnim}
@@ -29,8 +28,8 @@ const View = props => {
              moveSlidePlay={props.moveSlidePlay}
              clearSlidePlay={props.clearSlidePlay}
              video={props.video}
-             deleteCnt={props.changeCnt.bind(this, que._id, que.title, 'delete')}
-             changeCnt={props.changeCnt.bind(this, que._id, que.title, 'mode')}/>
+             deleteCnt={props.changeCnt.bind(this, cnt._id, cnt.title, 'delete')}
+             changeCnt={props.changeCnt.bind(this, cnt._id, cnt.title, 'mode')}/>
     ));
 
     return allView;

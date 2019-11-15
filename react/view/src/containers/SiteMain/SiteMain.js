@@ -7,7 +7,7 @@ import MainContent from './MainContent/MainContent';
 import MainNav from './MainNav/MainNav'
 import asyncComponent from '../../hoc/asyncComponent/asyncComponent';
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
-import Modal from '../../components/UI/Modal/Modal';
+import Modal from '../../components/UI/Modal/Modal'; 
 import MainFilter from '../../components/MainFilter/MainFilter';
 import NoAcc from '../../components/Main/NoAcc/NoAcc';
 
@@ -41,7 +41,6 @@ class SiteMain extends Component {
 
     render() {
         let filterCnt = 'loading....';
-
         if (!this.props.searchCntErr && this.props.searchCnt && this.props.searchCnt.length > 0){
             filterCnt = (
                 <ul>
@@ -76,7 +75,6 @@ class SiteMain extends Component {
                     <Backdrop 
                         component={ Modal }
                         err={ this.props.cntErr } /> : null}
-                    {/* <MainContent */}
                 <Route path="/view/:model/:id" exact component={MainContent}/>
                 <MainNav />
             </div>
