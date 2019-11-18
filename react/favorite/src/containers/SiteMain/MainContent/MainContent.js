@@ -79,40 +79,7 @@ class MainContent extends Component {
             <div className="site-main__content">
                 <div className="site-main__content--wrapper">
                     <ul className="site-main__content--tab">
-                    <MainNavigations 
-                        content={this.state.post}
-                        removeActive={this.removeActiveHandler.bind(this, 'post')}
-                        active={this.state.curTab === 'post' ? this.props.cntActive : null}/>
-                    <MainNavigations 
-                        content={this.state.questions}
-                        removeActive={this.removeActiveHandler.bind(this, 'question')}
-                        active={this.state.curTab === 'question' ? this.props.cntActive : null}/>
-                    <MainNavigations 
-                        content={this.state.helpme}
-                        removeActive={this.removeActiveHandler.bind(this, 'helpme')}
-                        active={this.state.curTab === 'helpme' ? this.props.cntActive : null}/>
-                    <MainNavigations 
-                        content={this.state.group}
-                        removeActive={this.removeActiveHandler.bind(this, 'group')}
-                        active={this.state.curTab === 'group' ? this.props.cntActive : null}/>
-                    <MainNavigations 
-                        content={this.state.poet}
-                        removeActive={this.removeActiveHandler.bind(this, 'poet')}
-                        active={this.state.curTab === 'poet' ? this.props.cntActive : null}/>
                     </ul>
-                    <Switch>
-                        <Route path="/index/post" exact component={AsyncPosts}/>
-                        <Route path="/index/post/:id" exact component={AsyncPosts}/>
-                        <Route path="/index/question" exact component={AsyncQuestions}/>
-                        <Route path="/index/question/:id" component={AsyncQuestions}/>
-                        <Route path="/index/helpme" exact component={AsyncHelpme}/>
-                        <Route path="/index/helpme/:id" exact component={AsyncHelpme}/>
-                        {/* <Route path="/index/group" exact component={AsyncGroups}/>
-                        <Route path="/index/group/:id" exact component={AsyncGroups}/> */}
-                        <Route path="/index/poet" exact component={AsyncPoets}/>
-                        <Route path="/index/poet/:id" exact component={AsyncPoets}/>
-                        <Route path="/"  component={AsyncPosts}/> 
-                    </Switch>
                 </div>
             </div>
         );

@@ -1,8 +1,10 @@
 let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');
+let jwt = require('jsonwebtoken');
 let authenticate = require('../serverDB/middleware/authenticate');
-const {category, posts, questions, poets, postnotifies, quenotifies, pwtnotifies, connectStatus} = require('../serverDB/serverDB');
+const nodemailer = require('nodemailer');
+const {category, posts, questions, poets, user, tempUser, postnotifies, quenotifies, pwtnotifies, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', function (req, res, next) {
     res.render('index');
@@ -626,6 +628,8 @@ router.get('/signup', (req, res, next) => {
     res.render('signupform'); 
 });
 
+
+
 router.get('/signup/profile', (req, res, next) => {
     res.render('signprfform'); 
 });
@@ -636,6 +640,91 @@ router.get('/forget/password', (req, res, next) => {
 
 router.get('/forget/reset', (req, res, next) => {
     res.render('forgetpwd'); 
+});
+
+router.post('/signup', (req, res) => {
+    let newUser = new tempUser({
+        username: req.body.username,
+        password: req.body.password,
+        email: req.body.email
+    });
+
+    newUser.save().then(result => {
+        let token = jwt.sign({ id: result.id }, process.env.JWT_SECRET, {  expiresIn: 60*60 });
+        let transport = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                type: 'OAuth2',
+                user: process.env.user,
+                clientId: process.env.googleClientID,
+                clientSecret: process.env.googleClientSecret,
+                refreshToken: process.env.googleRefreshToken,
+                accessToken: process.env.googleAccessToken
+            }
+        });
+        const message = {
+            from: 'www.sg24.com',
+            to: req.body.email,   
+            subject: 'SG24 | Knowledge sharing center',
+            html: `
+            <h1 style='text-align:center,color:#333'>SG24 |Connecting Scholars</h1>
+            <h4>Scholars are waiting for you idea's</h4>
+            <p>Click this 
+            <a href='http://localhost:3002/signup/confirmation/${token}' style='color: #0284a8;font-weight: bold;'>link</a> to start </p>`
+        };
+        transport.sendMail(message, function(err, info) {
+            if (err) {
+                tempUser.findByIdAndRemove(result.id).then(() =>{
+                    res.status(400).send(err)
+                })
+                
+            } else {
+                res.sendStatus(201)
+            }
+        });
+    }).catch(err =>{
+        res.status(422).send(err)
+    })
+})
+
+router.get('/signup/confirmation/:id', (req, res, next) => {
+    if (req.params) {
+        jwt.verify(req.params.id, process.env.JWT_SECRET, function(err, token) {
+            if(!err) {
+                tempUser.findById(token.id).then(result => {
+                    if (result) {
+                        let newUser = new user({
+                            username: result.username,
+                            password:  result.password,
+                            email: result.email
+                        });
+                        newUser.save().then(user => {
+                            tempUser.findByIdAndRemove(token.id).then(() =>{
+                                // req.session.reload(function(err) {
+                                //     req.session.user = user;
+                                // })
+                                res.redirect('/login')
+                                return
+                            });
+                        })
+                    }
+                })
+            }
+        })
+    }
+    res.redirect('/signup')
+})
+
+router.post('/login', (req, res) => {
+    User.findByCredentials(req.body.email, req.body.password).then((user) => {
+        return user.generateAuthToken().then((token) => {
+            res.header('authentication', token).send(user)
+        });
+    }).catch((e) => {
+        res.status(400).send();
+    });
 });
 
 module.exports = router;

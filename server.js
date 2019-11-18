@@ -4,11 +4,33 @@ var favicon = require('serve-favicon');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const hbs = require('hbs');
+const passport = require('passport');
+let session = require('express-session');
 
 let appRoutes = require('./routes/app');
 let formRoutes = require('./routes/form');
+let authRoutes = require('./routes/auth');
 
 let app = express();
+
+var sess = {
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+    // cookie: { secure: true }
+}
+
+app.use(session(sess))
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use((req, res, next) => {
+    res.locals.user = req.user || null;
+    next()
+});
+
+require('./serverDB/config/passport')(passport);
 
 app.set('views', path.join(__dirname, 'views'));
 hbs.registerPartials(__dirname + '/views/partials');
@@ -56,7 +78,7 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', [appRoutes, formRoutes]);
-
+app.use('/auth', authRoutes)
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     return res.render('index');

@@ -1,11 +1,21 @@
+var {User} = require('./../models/user');
 
-let authenticate = (req, res, next) => {
-    if (req.header('authorization') === 'authorization') {
-        next();
-        return
-    }
-    res.sendStatus(401);
-    res.end();
+var authenticate = (req, res, next) => {
+    var token = req.header('authentication');
+        console.log(req.isAuthenticated())
+        // User.findByToken(token).then((user) => {
+        //     if (!user) {
+        //         return Promise.reject();
+        //     }
+            
+        //     req.user = user;
+        //     req.token = token;
+        //     next();
+        // }).catch((e) => {
+        //     res.status(401).send();
+        // });
+        next()
 }
+
 
 module.exports = authenticate;

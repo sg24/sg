@@ -7,12 +7,18 @@ const category = require('./models/category');
 const postnotifies = require('./models/postnotifies');
 const quenotifies = require('./models/quenotifies');
 const pwtnotifies = require('./models/pwtnotifies');
+const user = require('./models/user');
+const tempUser = require('./models/tempUser');
+const authUser = require('./models/authUser');
 
 module.exports = {
     posts,
     questions,
     poets,
     category,
+    user,
+    tempUser,
+    authUser,
     postnotifies,
     quenotifies,
     pwtnotifies,
