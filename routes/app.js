@@ -4,6 +4,7 @@ let mongoose = require('mongoose');
 let jwt = require('jsonwebtoken');
 let authenticate = require('../serverDB/middleware/authenticate');
 const nodemailer = require('nodemailer');
+let passport = require('passport');
 const {category, posts, questions, poets, user, tempUser, postnotifies, quenotifies, pwtnotifies, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', function (req, res, next) {
@@ -649,43 +650,52 @@ router.post('/signup', (req, res) => {
         email: req.body.email
     });
 
-    newUser.save().then(result => {
-        let token = jwt.sign({ id: result.id }, process.env.JWT_SECRET, {  expiresIn: 60*60 });
-        let transport = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
-            auth: {
-                type: 'OAuth2',
-                user: process.env.user,
-                clientId: process.env.googleClientID,
-                clientSecret: process.env.googleClientSecret,
-                refreshToken: process.env.googleRefreshToken,
-                accessToken: process.env.googleAccessToken
-            }
-        });
-        const message = {
-            from: 'www.sg24.com',
-            to: req.body.email,   
-            subject: 'SG24 | Knowledge sharing center',
-            html: `
-            <h1 style='text-align:center,color:#333'>SG24 |Connecting Scholars</h1>
-            <h4>Scholars are waiting for you idea's</h4>
-            <p>Click this 
-            <a href='http://localhost:3002/signup/confirmation/${token}' style='color: #0284a8;font-weight: bold;'>link</a> to start </p>`
-        };
-        transport.sendMail(message, function(err, info) {
-            if (err) {
-                tempUser.findByIdAndRemove(result.id).then(() =>{
-                    res.status(400).send(err)
-                })
-                
-            } else {
-                res.sendStatus(201)
-            }
-        });
-    }).catch(err =>{
-        res.status(422).send(err)
+    user.findOne({email: req.body.email}).then(result => {
+        if (!result) {
+            newUser.save().then(result => {
+                let token = jwt.sign({ id: result.id }, process.env.JWT_SECRET, {  expiresIn: 60*60 });
+                let transport = nodemailer.createTransport({
+                    host: 'smtp.gmail.com',
+                    port: 465,
+                    secure: true,
+                    auth: {
+                        type: 'OAuth2',
+                        user: process.env.user,
+                        clientId: process.env.googleClientID,
+                        clientSecret: process.env.googleClientSecret,
+                        refreshToken: process.env.googleRefreshToken,
+                        accessToken: process.env.googleAccessToken
+                    }
+                });
+                const message = {
+                    from: 'www.sg24.com',
+                    to: req.body.email,   
+                    subject: 'SG24 | Knowledge sharing center',
+                    html: `
+                        <div>
+                        <h1 style='text-align:center,color:#333'>SG24 |Connecting Scholars</h1>
+                        <h4>Scholars are waiting for you idea's</h4>
+                        <p>Click this 
+                        <a href='http://localhost:3002/signup/confirmation/${token}' style='color: #0284a8;font-weight: bold;'>link</a> to start </p>
+                        </div>
+                    `
+                };
+                transport.sendMail(message, function(err, info) {
+                    if (err) {
+                        tempUser.findByIdAndRemove(result.id).then(() =>{
+                            res.status(400).send(err)
+                        })
+                        
+                    } else {
+                        res.sendStatus(201)
+                    }
+                });
+            }).catch(err =>{
+                res.status(422).send(err)
+            })
+            return
+        }
+        res.status(422).send('Email Already exist');
     })
 })
 
@@ -702,9 +712,6 @@ router.get('/signup/confirmation/:id', (req, res, next) => {
                         });
                         newUser.save().then(user => {
                             tempUser.findByIdAndRemove(token.id).then(() =>{
-                                // req.session.reload(function(err) {
-                                //     req.session.user = user;
-                                // })
                                 res.redirect('/login')
                                 return
                             });
@@ -718,6 +725,11 @@ router.get('/signup/confirmation/:id', (req, res, next) => {
 })
 
 router.post('/login', (req, res) => {
+    passport.authenticate('local', {
+        successRedirect: '/index/post',
+        failureRedirect: '/login',
+        failureFlash: true
+    })
     User.findByCredentials(req.body.email, req.body.password).then((user) => {
         return user.generateAuthToken().then((token) => {
             res.header('authentication', token).send(user)

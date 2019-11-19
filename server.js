@@ -30,7 +30,8 @@ app.use((req, res, next) => {
     next()
 });
 
-require('./serverDB/config/passport')(passport);
+require('./serverDB/config/passport').auth(passport);
+require('./serverDB/config/passport').login(passport);
 
 app.set('views', path.join(__dirname, 'views'));
 hbs.registerPartials(__dirname + '/views/partials');

@@ -64,12 +64,12 @@ UserSchema.statics.findByToken = function findByToken (token) {
    })
 };
 
-UserSchema.statics.findByCredentials = function(email, password) {
+UserSchema.statics.findByCredentials = function findByCredentials(email, password) {
     var User = this;
 
     return User.findOne({email}).then((user) => {
         if (!user) {
-            return Promise.reject();
+            return Promise.reject({message: 'No User found'});
         };
 
         return new Promise((resolve, reject) => {
@@ -77,7 +77,7 @@ UserSchema.statics.findByCredentials = function(email, password) {
                 if (res) {
                     resolve(user);
                 } else {
-                    reject();
+                    reject({message: 'Password Incorrect'});
                 }
                 
             });
