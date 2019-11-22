@@ -703,7 +703,7 @@ router.get('/forget/reset/:token', (req, res, next) => {
 });
 
 router.post('/forget/reset', (req, res, next) => {
-    let resetToken = req.signedCookies.resettoken || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZDRmNjhjMjIxYWQyMmEwNGI1YmQ4MyIsImlhdCI6MTU3NDQxMTgyNSwiZXhwIjoxNTc0NDE1NDI1fQ.TeOdOcDJQsU1YMTe-J1Fhg7oe84WIMSiutO2GHlHSyA';
+    let resetToken = req.signedCookies.resettoken;
     if (resetToken ) {
         jwt.verify(resetToken, process.env.JWT_SECRET, function(err, token) {
             if(!err) {
