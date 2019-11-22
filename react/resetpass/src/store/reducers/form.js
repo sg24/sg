@@ -4,7 +4,8 @@ import { updateObject } from '../../shared/utility';
 const initialState = {
     submitError: null,
     submitted: false,
-    start: true
+    start: true,
+    tokenExpire: false,
 };
 
 const submitFormStart = (state, action) => {
@@ -13,6 +14,10 @@ const submitFormStart = (state, action) => {
 
 const submitFormFail = (state, action) => {
     return updateObject(state, {submitError: {message: action.err}, start: true})
+};
+
+const submitTokenExpire = (state, action) => {
+    return updateObject(state, {tokenExpire: true})
 };
 
 const formSubmitted = (state, action) => {
@@ -25,6 +30,8 @@ const reducer = (state = initialState, action) => {
             return submitFormStart(state, action);
         case actionTypes.SUBMIT_FORM_FAIL:
             return submitFormFail(state, action);
+        case actionTypes.SUBMIT_TOKEN_EXPIRE:
+            return submitTokenExpire(state, action);
         case actionTypes.FORM_SUBMITTED:
             return formSubmitted(state, action);
         default: return state

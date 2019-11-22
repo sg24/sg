@@ -21,6 +21,12 @@ export const submitFormStart = () => {
     };
 };
 
+export const submitTokenExpire = () => {
+    return {
+        type: actionTypes.SUBMIT_TOKEN_EXPIRE
+    };
+};
+
 export const formSubmitted = () => {
     return {
         type: actionTypes.FORM_SUBMITTED

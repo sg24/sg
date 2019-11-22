@@ -57,7 +57,9 @@ class Form extends Component {
             formIsValid = updateFormElement[inputType].valid && formIsValid;
         }
 
-        this.setState({formElement: updateFormElement, formIsValid})
+        this.setState({formElement: updateFormElement, formIsValid, 
+            confirmPass: this.state.confirmPass.touched && this.state.confirmPass.value !== event.target.value ? updateObject(this.state.confirmPass, {valid: false, err: 'Password does not match'})
+            : !this.state.confirmPass.touched ?this.state.confirmPass :  updateObject(this.state.confirmPass, {valid: true, err: null})})
     }
 
     confirmPasswordHandler = (event) => {
@@ -86,6 +88,9 @@ class Form extends Component {
 
 
     render() {
+        if (this.props.tokenExpire) {
+            window.location.assign('/forget/password')
+        }
         let cnt = (
             <Aux>
                 <Logo />
@@ -167,6 +172,7 @@ const mapStateToProps = state => {
     return {
         userID: state.auth.userID,
         submitError: state.form.submitError,
+        tokenExpire: state.form.tokenExpire,
         submitted: state.form.submitted,
         start: state.form.start
     };

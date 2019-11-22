@@ -6,7 +6,6 @@ import axios from '../../axios';
 
 export function* submitFormInitSaga (action) {
     yield put(actions.submitFormStart());
-    console.log(action.formData)
     try {
         yield axios.post('/forget/password', action.formData);
         yield put(actions.formSubmitted())
@@ -24,7 +23,7 @@ export function* submitFormInitSaga (action) {
                     }
                 }
             } else {
-                error = err.response.data.errno
+                error = typeof err.response.data !== 'object' ? err.response.data : 'Connection Error';
             }
             
           } else {

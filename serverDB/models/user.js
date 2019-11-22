@@ -80,15 +80,22 @@ UserSchema.statics.findByCredentials = function findByCredentials(username, pass
 
     return User.findOne({username}).then((user) => {
         if (!user) {
-            return Promise.reject({message: 'No User found'});
+            return Promise.reject('No User found');
         };
 
         return new Promise((resolve, reject) => {
             bcrypt.compare(password, user.password, (err, res ) => {
                 if (res) {
-                    resolve(user.tokens[0].token);
+                    let access = 'authentication';
+                    let newToken = jwt.sign({_id: user._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600 * 24* 7}).toString();
+                    let tokens = [{access, token: newToken}];
+                  User.findByIdAndUpdate(user._id, { tokens}).then((res) =>{
+                    resolve(newToken);
+                  }).catch(err =>{
+                    reject('Error');
+                  })
                 } else {
-                    reject({message: 'Password Incorrect'});
+                    reject('Password Incorrect');
                 }
                 
             });

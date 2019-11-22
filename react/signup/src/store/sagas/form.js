@@ -24,7 +24,7 @@ export function* submitFormInitSaga (action) {
                     }
                 }
             } else {
-                error = err.response.data.errno
+                error = typeof err.response.data !== 'object' ? err.response.data : 'Connection Error';
             }
             
           } else {

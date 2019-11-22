@@ -76,7 +76,9 @@ class Form extends Component {
             formIsValid = updateFormElement[inputType].valid && formIsValid;
         }
 
-        this.setState({formElement: updateFormElement, formIsValid})
+        this.setState({formElement: updateFormElement, formIsValid, 
+            confirmPass: this.state.confirmPass.touched && this.state.confirmPass.value !== event.target.value ? updateObject(this.state.confirmPass, {valid: false, err: 'Password does not match'})
+            : !this.state.confirmPass.touched ?this.state.confirmPass :  updateObject(this.state.confirmPass, {valid: true, err: null})})
     }
 
     confirmPasswordHandler = (event) => {
@@ -86,10 +88,10 @@ class Form extends Component {
                 this.setState({confirmPass: updateObject(this.state.confirmPass, {value,  valid: true, err: null})});
                 return 
             }
-            this.setState({confirmPass: updateObject(this.state.confirmPass, {value, touched: true, err: 'Password does not match'})})
+            this.setState({confirmPass: updateObject(this.state.confirmPass, {value,valid: false,  touched: true, err: 'Password does not match'})})
             return
         }
-        this.setState({confirmPass: updateObject(this.state.confirmPass, {value, touched: true,err: 'Please, enter valid password'})})
+        this.setState({confirmPass: updateObject(this.state.confirmPass, {value, valid: false, touched: true,err: 'Please, enter valid password'})})
     }
 
     submitHandler = (event) => {

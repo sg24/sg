@@ -681,7 +681,7 @@
     background-color: #437da3;
   }
   
-  .reuse-form__btn--log:hover {
+  .reuse-form__btn--log:not(:disabled):hover {
     background-color: #05578b;
   }
 

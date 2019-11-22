@@ -151,11 +151,12 @@ class Form extends Component {
                             <button 
                                 type="submit" 
                                 className="reuse-form__btn--log"
-                                disabled={!this.state.formIsValid}>Login</button>
+                                disabled={!this.state.formIsValid}>Login
                                 { !this.props.start? <Loader/> : null}
+                                </button>
                         </div>
                     </div>
-                    <p>Forgot password <a href="/forgetpassword">Retrive</a></p>
+                    <p>Forgot password <a href="/forget/password">Retrive</a></p>
                     <p>No account <a href="/signup">Sign up</a></p>
                 </div>
                 <div className="reuse-form__footer">&copy; SG24 , 2019</div>

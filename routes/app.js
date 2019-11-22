@@ -642,41 +642,45 @@ router.get('/forget/password', (req, res, next) => {
 
 router.post('/forget/password', (req, res, next) => {
     user.findOne({email: req.body.email}).then(result => {
-        let token = jwt.sign({ id: result.id }, process.env.JWT_SECRET, {  expiresIn: 60*60 });
-        let transport = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
-            auth: {
-                type: 'OAuth2',
-                user: process.env.user,
-                clientId: process.env.googleClientID,
-                clientSecret: process.env.googleClientSecret,
-                refreshToken: process.env.googleRefreshToken,
-                accessToken: process.env.googleAccessToken
-            }
-        });
-        const message = {
-            from: 'www.sg24.com',
-            to: req.body.email,   
-            subject: 'SG24 | Knowledge sharing center',
-            html: `
-                <div>
-                <h1 style='text-align:center,color:#333'>SG24 |Connecting Scholars</h1>
-                <h4>Scholars are waiting for you idea's</h4>
-                <p>Click this 
-                <a href='http://localhost:3002/forget/reset/${token}' style='color: #0284a8;font-weight: bold;'>link</a> Reset password </p>
-                </div>
-            `
-        };
-        transport.sendMail(message, function(err, info) {
-            if (err) {
-                res.status(400).send(err) 
-            } else {
-                console.log(token)
-                res.sendStatus(201)
-            }
-        });
+        if (result) {
+            let token = jwt.sign({ id: result.id }, process.env.JWT_SECRET, {  expiresIn: 60*60 });
+            let transport = nodemailer.createTransport({
+                host: 'smtp.gmail.com',
+                port: 465,
+                secure: true,
+                auth: {
+                    type: 'OAuth2',
+                    user: process.env.user,
+                    clientId: process.env.googleClientID,
+                    clientSecret: process.env.googleClientSecret,
+                    refreshToken: process.env.googleRefreshToken,
+                    accessToken: process.env.googleAccessToken
+                }
+            });
+            const message = {
+                from: 'www.sg24.com',
+                to: req.body.email,   
+                subject: 'SG24 | Knowledge sharing center',
+                html: `
+                    <div>
+                    <h1 style='text-align:center,color:#333'>SG24 |Connecting Scholars</h1>
+                    <h4>Scholars are waiting for you idea's</h4>
+                    <p>Click this 
+                    <a href='http://localhost:3002/forget/reset/${token}' style='color: #0284a8;font-weight: bold;'>link</a> Reset password </p>
+                    </div>
+                `
+            };
+            transport.sendMail(message, function(err, info) {
+                if (err) {
+                    res.status(400).send(err) 
+                } else {
+                    console.log(token)
+                    res.sendStatus(200)
+                }
+            });
+        } else {
+            res.sendStatus(200)
+        }
     }).catch(err => {
     res.status(500).send(err)
     })
@@ -689,6 +693,8 @@ router.get('/forget/reset/:token', (req, res, next) => {
                 res.cookie('resettoken', req.params.token, { signed: true, httpOnly: true });
                 res.render('forgetpwd');
                 return
+            } else {
+                res.redirect('/forget/password');
             }
         })
         return
@@ -697,7 +703,7 @@ router.get('/forget/reset/:token', (req, res, next) => {
 });
 
 router.post('/forget/reset', (req, res, next) => {
-    let resetToken = req.signedCookies.resettoken;
+    let resetToken = req.signedCookies.resettoken || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkZDRmNjhjMjIxYWQyMmEwNGI1YmQ4MyIsImlhdCI6MTU3NDQxMTgyNSwiZXhwIjoxNTc0NDE1NDI1fQ.TeOdOcDJQsU1YMTe-J1Fhg7oe84WIMSiutO2GHlHSyA';
     if (resetToken ) {
         jwt.verify(resetToken, process.env.JWT_SECRET, function(err, token) {
             if(!err) {
@@ -708,19 +714,20 @@ router.post('/forget/reset', (req, res, next) => {
                         let tokens = [{access, token: newToken}];
                       user.findByIdAndUpdate(token.id, {password: hash, tokens}).then(() =>{
                         res.cookie('token', newToken, { signed: true, httpOnly: true });
-                        res.sendStatus(200);
+                        res.redirect('/')
                       }).catch(err =>{
-                          res.status(500).send(err)
+                          res.status(500).send({msg: 'Internal Server Error', expire: false})
                       })
                     });
                 });
                 return
+            } else {
+                res.status(500).send({msg: 'Password reset link has expired', expire: true});   
             }
-            res.status(500).send(err);
         })
-        return
+    } else {
+        res.redirect('/forget/password')
     }
-    res.status(500).send(err);
 });
 
 router.post('/signup', (req, res) => {
@@ -797,15 +804,16 @@ router.get('/signup/confirmation/:id', (req, res, next) => {
                                 return
                             });
                         })
+                    } else {
+                        res.redirect('/login')
                     }
                 })
                 return
+            } else {
+                res.redirect('/signup')
             }
-            res.redirect('/signup')
         })
-        return
     }
-    res.redirect('/signup')
 })
 
 router.post('/login', (req, res) => {
@@ -813,7 +821,7 @@ router.post('/login', (req, res) => {
         res.cookie('token', token, { signed: true, httpOnly: true });
         res.redirect('/')
     }).catch((e) => {
-        res.status(401).send('Invalid username or password')
+        res.status(401).send(e)
     });
 });
 
