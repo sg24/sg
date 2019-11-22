@@ -435,9 +435,6 @@
       box-sizing: border-box;
   }
   
-  .icon__reuse-form--fb {/* color: $mainLightBlue; */
-  }
-  
   .icon__reuse-form--btn {
     margin-right: 5px;
   }
@@ -479,6 +476,28 @@
     color: #0284a8;
   }
   
+  .reuse-form__cnt--header {
+    position: relative;
+    margin: 20px 0 40px 0;
+  }
+
+  .reuse-form__cnt--header > h4{
+    position: relative;
+    font-weight: bold;
+    margin: 0 0 0 10px;
+    padding: 5px 0;
+    background-color: #dcdbdc;
+    border-radius: 10px;
+    width: 135px;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .reuse-form__cnt--header > p {
+    text-align: center;
+    font-weight: bold;
+  }
+
   .reuse-form__cnt--main-wrapper {
     padding-top: 20px;
     font-size: .875rem;
@@ -646,6 +665,7 @@
   }
   
   .reuse-form__btn > button {
+    position: relative;
     border-radius: 3px;
     border: none;
     outline: none;
@@ -653,30 +673,37 @@
     cursor: pointer;
   }
   
-  .reuse-form__btn--nxt {
+  .reuse-form__btn--log {
     color: #fff;
     float: right;
     box-shadow: 0 2px 4px 1px rgba(0,0,0, .65);
     width: 70px;
-    background-color: #ff1600;
+    background-color: #437da3;
+  }
+  
+  .reuse-form__btn--log:hover {
+    background-color: #05578b;
   }
 
-  .reuse-form__btn--nxt:disabled {
+  .reuse-form__btn--log:disabled {
       opacity: .65;
       cursor: not-allowed;
   }
-  
-  @media (min-width: 530px) {
-  
-    .reuse-form {
-      padding: 20px;
-    }
+
+  .reuse-form__footer {
+    padding: 5px;
+    margin: 5px 0 0 0;
+    background-color: #f9f9f9;
+    text-align: center;
+    font-size: 0.8125rem;
+    font-weight: bold;
   }
   
   @media (min-width: 530px) {
   
     .reuse-form {
       width: 500px;
+      padding: 20px 20px 0 20px;
     }
   }
   
@@ -694,11 +721,16 @@
     position: absolute;
     width: 65px;
     height: 32px;
-    background: #0284a8;
+    background: #fff;
     top: -16px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    border-radius: 5px;
   }
   
   .wrapper {
@@ -708,26 +740,5 @@
       width: 100vw;
       overflow: hidden;
       overflow-y: auto;
-  }
-  
-  .wrapper__exmain {
-    padding-left: 0px;
-    padding-right: 0px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .wrapper__exmain::after {
-    content: "";
-    clear: both;
-    display: table;
-  }
-  
-  @media (min-width: 1010px) {
-  
-    .wrapper__exmain {
-      padding-left: 18px;
-      padding-right: 18px;
-      max-width: 1236px;
-    }
-  }    
+      padding: 20px 0;
+  }  

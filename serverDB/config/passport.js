@@ -1,15 +1,6 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const LocalStrategy = require('passport-local').Strategy;
-const { authUser, user } = require('../../serverDB/serverDB');
+const { authUser } = require('../serverDB');
 
-function startSession(passport) {
-    passport.serializeUser((user, done) => {
-        done(null, user.id)
-    });
-    passport.deserializeUser((id, done) => {
-        authUser.findById(id).then(user => done(null, user))
-    })
-}
 module.exports = {
     auth: function(passport) {
         passport.use(new GoogleStrategy({
@@ -26,27 +17,18 @@ module.exports = {
                 email: profile.emails[0].value,
                 image
             })
-    
-            authUser.findOne({googleID: profile.id}).then(user => {
-                if (!user) {
-                    newUser.save().then(user => done(null, user))
+            authUser.findOne({googleID: profile.id}).then(result => {
+                if (!result) {
+                    newUser.generateAuthToken().then(token => {
+                        done(null, token)
+                    });
                 } else {
-                    done(null, user)
+                    let token = result.tokens[0].token;
+                    done(null, token)
                 }
                 
             })
           }
         ));
-        startSession(passport)
-    },
-    login: function(passport) {
-        passport.use(new LocalStrategy({usernameField: 'email'}, 
-            (email, password, done) => {
-                user.findByCredentials(email, password).then(user => done(null, user)
-                ).catch(err => {
-                    return done(null, false, err)
-                })
-            }))
-        startSession(passport)
     }
 }

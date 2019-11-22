@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const hbs = require('hbs');
 const passport = require('passport');
-let session = require('express-session');
 
 let appRoutes = require('./routes/app');
 let formRoutes = require('./routes/form');
@@ -13,25 +12,9 @@ let authRoutes = require('./routes/auth');
 
 let app = express();
 
-var sess = {
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true
-    // cookie: { secure: true }
-}
-
-app.use(session(sess))
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use((req, res, next) => {
-    res.locals.user = req.user || null;
-    next()
-});
+app.use(cookieParser('secret'));
 
 require('./serverDB/config/passport').auth(passport);
-require('./serverDB/config/passport').login(passport);
 
 app.set('views', path.join(__dirname, 'views'));
 hbs.registerPartials(__dirname + '/views/partials');

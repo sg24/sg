@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './Form.css';
 import * as actions from '../../../../store/actions/index';
-import Modal from '../../../../components/UI/Modal/Modal';
+import Logo from '../../../../components/UI/Logo/Logo';
+import Loader from '../../../../components/UI/Loader/Loader';
 import Aux from '../../../../hoc/Auxs/Aux';
 import { updateObject, checkValidity } from '../../../../shared/utility';
 
@@ -12,15 +13,6 @@ class Form extends Component {
     state = {
         formElement: {
             username: {
-                value: '',
-                validation: {
-                    required: true,
-                    minLength: 6
-                },
-                valid: false,
-                touched: false
-            },
-            email: {
                 value: '',
                 validation: {
                     required: true,
@@ -38,12 +30,6 @@ class Form extends Component {
                 valid: false,
                 touched: false
             }
-        },
-        confirmPass:{
-            value: '',
-            valid: false,
-            touched: false,
-            err: null
         },
         field: {
             type: 'password',
@@ -77,26 +63,13 @@ class Form extends Component {
         this.setState({formElement: updateFormElement, formIsValid})
     }
 
-    confirmPasswordHandler = (event) => {
-        let value = event.target.value;
-        if (this.state.formElement.password.value && this.state.formElement.password.valid) {
-            if (this.state.formElement.password.value === event.target.value) {
-                this.setState({confirmPass: updateObject(this.state.confirmPass, {value,  valid: true, err: null})});
-                return 
-            }
-            this.setState({confirmPass: updateObject(this.state.confirmPass, {value, touched: true, err: 'Password does not match'})})
-            return
-        }
-        this.setState({confirmPass: updateObject(this.state.confirmPass, {value, touched: true,err: 'Please, enter valid password'})})
-    }
 
     submitHandler = (event) => {
         event.preventDefault()
-        if (this.state.formIsValid && this.state.confirmPass.valid) {
+        if (this.state.formIsValid) {
              let newCnt = {
                  username: this.state.formElement.username.value,
-                 password: this.state.formElement.password.value,
-                 email: this.state.formElement.email.value,
+                 password: this.state.formElement.password.value
              }
              this.props.onSubmitForm(newCnt)
          return
@@ -107,16 +80,17 @@ class Form extends Component {
     render() {
         let cnt = (
             <Aux>
-                 <div className="site-main__logo">
-                    logo
-                </div>
-                <div className="reuse-form__overlay"></div>
+                 <Logo />
                 <div className="reuse-form__cnt">
+                    <div className="reuse-form__cnt--header">
+                        <h4>Welcome to SG24</h4>
+                        <p>Knowledge sharing platform | Connecting scholars</p>
+                    </div>
                     <div className="reuse-form__cnt--main-wrapper">
-                        <h4>Sign up with</h4>
+                        <h4>Login with</h4>
                         <ul>
                             <li>
-                                <a href="/">
+                                <a href="/auth/google">
                                     <FontAwesomeIcon 
                                         icon={['fab', 'google']}/>
                                 </a>
@@ -151,22 +125,6 @@ class Form extends Component {
                             }
                         </div>
                         <div className="reuse-form__cnt--wrapper">
-                            <label className="reuse-form__cnt--title">Email Address</label>
-                            <div className="reuse-form__cnt--det">
-                                <input 
-                                    type="email" 
-                                    className="reuse-form__cnt--det__input"
-                                    required
-                                    minLength="6"
-                                    value={this.state.formElement.email.value}
-                                    onChange={(event) => this.inputChangedHandler(event, 'email')}/>
-                            </div>
-                            { !this.state.formElement.email.valid && this.state.formElement.email.touched ?
-                                <div className="reuse-form__err">Email must be longer than 6 charactersy</div>
-                                : null
-                            }
-                        </div>
-                        <div className="reuse-form__cnt--wrapper">
                             <label  className="reuse-form__cnt--title">Password</label>
                             <div className="reuse-form__cnt--det">
                                 <input 
@@ -189,41 +147,21 @@ class Form extends Component {
                                 : null
                             }
                         </div>
-                        <div className="reuse-form__cnt--wrapper">
-                            <label className="reuse-form__cnt--title">Confirm Password</label>
-                            <div className="reuse-form__cnt--det">
-                                <input 
-                                    type="password" 
-                                    className="reuse-form__cnt--det__input"
-                                    required
-                                    value={this.state.confirmPass.value}
-                                    onChange={(event) => this.confirmPasswordHandler(event)}/>
-                            </div>
-                            { this.state.confirmPass.err ?
-                                <div className="reuse-form__err">{this.state.confirmPass.err}</div>
-                                : null
-                            }
-                        </div>
                          <div className="reuse-form__cnt--footer reuse-form__btn">
                             <button 
-                                type="submit" className="reuse-form__btn--nxt"
-                                disabled={this.state.formIsValid && this.state.confirmPass.valid  && this.props.start? false : true}>
-                                <FontAwesomeIcon 
-                                    icon={['fas', 'angle-double-right']} 
-                                    className="icon icon__reuse-form--btn" />
-                                Next
-                            </button>
+                                type="submit" 
+                                className="reuse-form__btn--log"
+                                disabled={!this.state.formIsValid}>Login</button>
+                                { !this.props.start? <Loader/> : null}
                         </div>
                     </div>
-                    <p>Forgot password <a href="/forget/password">Retrive</a></p>
-                    <p>Already have an account <a href="/login">Login in</a></p>
+                    <p>Forgot password <a href="/forgetpassword">Retrive</a></p>
+                    <p>No account <a href="/signup">Sign up</a></p>
                 </div>
+                <div className="reuse-form__footer">&copy; SG24 , 2019</div>
             </Aux>
         );
-
-        if (this.props.submitted) {
-            cnt = <Modal email={this.state.formElement.email.value} />
-        }
+        
         return (
             <form className="reuse-form" onSubmit={this.submitHandler}>
             <div className="reuse-form__wrapper">

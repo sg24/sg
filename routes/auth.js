@@ -7,7 +7,8 @@ router.get('/google', passport.authenticate('google', {
 }))
 
 router.get('/google/callback', 
-passport.authenticate('google', { failureRedirect: '/login' }), (req, res,nex) =>{
+passport.authenticate('google', { failureRedirect: '/login', session: false }), (req, res,next) => {
+    res.cookie('token', req.user, { signed: true, httpOnly: true });
     res.redirect('/post');
 });
 
@@ -17,7 +18,6 @@ router.get('/verify', (req,res,next) =>{
 
 router.get('/logout', (req,res,next) =>{
     req.logout()
-    req.flash('You are logged out')
     res.redirect('/login')
 })
 

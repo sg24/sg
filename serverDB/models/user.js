@@ -26,7 +26,17 @@ var UserSchema = new mongoose.Schema({
         type: String,
         require: true,
         minlength: 6
-    }
+    },
+    tokens: [{
+        access: {
+            type: String,
+            required: true
+        },
+        token: {
+            type: String,
+            required: true
+        }
+    }]
 }) ;
 
 UserSchema.methods.toJSON = function() {
@@ -37,14 +47,15 @@ UserSchema.methods.toJSON = function() {
 }
 
 UserSchema.methods.generateAuthToken = function generateAuthToken() {
-    var user = this;
-    var access = 'authentication';
-    var token = jwt.sign({_id: user._id.toHexString(), access}, process.env.JWT_SECRET).toString();
-
-    user.tokens.push({access, token});
-    return user.save().then((res) => {
-        return token;
-    });
+    return new Promise((resolve, reject) => {
+        let User = this;
+        let access = 'authentication';
+        let token = jwt.sign({_id: User._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600}).toString();
+        User.tokens.push({access, token});
+        User.save().then(() => {
+            resolve(token);
+        });
+       })
 };
 
 UserSchema.statics.findByToken = function findByToken (token) {
@@ -64,10 +75,10 @@ UserSchema.statics.findByToken = function findByToken (token) {
    })
 };
 
-UserSchema.statics.findByCredentials = function findByCredentials(email, password) {
+UserSchema.statics.findByCredentials = function findByCredentials(username, password) {
     var User = this;
 
-    return User.findOne({email}).then((user) => {
+    return User.findOne({username}).then((user) => {
         if (!user) {
             return Promise.reject({message: 'No User found'});
         };
@@ -75,7 +86,7 @@ UserSchema.statics.findByCredentials = function findByCredentials(email, passwor
         return new Promise((resolve, reject) => {
             bcrypt.compare(password, user.password, (err, res ) => {
                 if (res) {
-                    resolve(user);
+                    resolve(user.tokens[0].token);
                 } else {
                     reject({message: 'Password Incorrect'});
                 }
@@ -110,7 +121,7 @@ UserSchema.pre('save', function (next) {
     }
 });
 
-var User = mongoose.model('Users', UserSchema);
+let user = mongoose.model('Users', UserSchema);
 
 
-module.exports = User
+module.exports = user

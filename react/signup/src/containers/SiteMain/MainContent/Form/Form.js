@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './Form.css';
 import * as actions from '../../../../store/actions/index';
+import Logo from '../../../../components/UI/Logo/Logo';
+import Loader from '../../../../components/UI/Loader/Loader';
 import Modal from '../../../../components/UI/Modal/Modal';
 import Aux from '../../../../hoc/Auxs/Aux';
 import { updateObject, checkValidity } from '../../../../shared/utility';
@@ -107,28 +109,12 @@ class Form extends Component {
     render() {
         let cnt = (
             <Aux>
-                 <div className="site-main__logo">
-                    logo
-                </div>
-                <div className="reuse-form__overlay"></div>
+                <Logo />
                 <div className="reuse-form__cnt">
-                    <div className="reuse-form__cnt--main-wrapper">
-                        <h4>Sign up with</h4>
-                        <ul>
-                            <li>
-                                <a href="/">
-                                    <FontAwesomeIcon 
-                                        icon={['fab', 'google']}/>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/">
-                                    <FontAwesomeIcon 
-                                        icon={['fab', 'facebook-f']}/>
-                                </a></li>
-                        </ul>
+                <div className="reuse-form__cnt--header">
+                        <h4>Welcome to SG24</h4>
+                        <p>Knowledge sharing platform | Connecting scholars</p>
                     </div>
-                    <div className="reuse-form__cnt--alt">OR</div>
                     { this.props.submitError ?
                         <div className="reuse-form__err">{this.props.submitError.message}</div>
                         : null
@@ -162,7 +148,7 @@ class Form extends Component {
                                     onChange={(event) => this.inputChangedHandler(event, 'email')}/>
                             </div>
                             { !this.state.formElement.email.valid && this.state.formElement.email.touched ?
-                                <div className="reuse-form__err">Email must be longer than 6 charactersy</div>
+                                <div className="reuse-form__err">Email must be longer than 6 characters</div>
                                 : null
                             }
                         </div>
@@ -211,13 +197,15 @@ class Form extends Component {
                                 <FontAwesomeIcon 
                                     icon={['fas', 'angle-double-right']} 
                                     className="icon icon__reuse-form--btn" />
-                                Next
+                                    Next
+                                { !this.props.start? <Loader/> : null}
                             </button>
                         </div>
                     </div>
                     <p>Forgot password <a href="/forget/password">Retrive</a></p>
                     <p>Already have an account <a href="/login">Login in</a></p>
                 </div>
+                <div className="reuse-form__footer">&copy; SG24 , 2019</div>
             </Aux>
         );
 

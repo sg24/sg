@@ -5,6 +5,7 @@ let jwt = require('jsonwebtoken');
 let authenticate = require('../serverDB/middleware/authenticate');
 const nodemailer = require('nodemailer');
 let passport = require('passport');
+const bcrypt = require('bcryptjs');
 const {category, posts, questions, poets, user, tempUser, postnotifies, quenotifies, pwtnotifies, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', function (req, res, next) {
@@ -205,11 +206,11 @@ router.patch('/header', authenticate, (req, res, next) => {
 });
 
 router.get('/post', authenticate, (req, res, next) => {
-    if (req.header('data-categ') === 'post') {
+    if (req.header !== null && req.header('data-categ') === 'post') {
         return fetchPost({});
     }
 
-    if (req.header('data-categ').startsWith('shared')) {
+    if (req.header !== null && req.header('data-categ') && req.header('data-categ').startsWith('shared')) {
         return fetchPost({shareMe: req.header('data-categ').split('-')[1]});
     }
 
@@ -240,7 +241,7 @@ router.get('/post', authenticate, (req, res, next) => {
         })
     }
     
-    if (req.header('data-categ') === 'postCateg') {
+    if (req.header !== null && req.header('data-categ') === 'postCateg') {
         category.findOne({}).then(result => {
             let checkRes =  result ? result.post : []
             res.send(checkRes).status(200);
@@ -250,12 +251,12 @@ router.get('/post', authenticate, (req, res, next) => {
         return;
     }
 
-    if (req.header('data-categ').startsWith('filter')) { 
+    if (req.header !== null && req.header('data-categ') && req.header('data-categ').startsWith('filter')) { 
         let filter =  filterPost(JSON.parse(req.header('data-categ').split('==')[1]));
         return fetchPost({$text: { $search: filter.searchCnt }, ...filter.comment, ...filter.view, ...filter.favorite,  ...filter.category},{ score: { $meta: "textScore" } })
     }
 
-    if(req.header('data-categ').startsWith('postSearch')) {
+    if(req.header !== null && req.header('data-categ') && req.header('data-categ').startsWith('postSearch')) {
         let filter = filterPost(JSON.parse(req.header('data-categ').split('==')[1]));
         posts.find({$text: { $search: filter.searchCnt }, ...filter.comment, ...filter.view, ...filter.favorite,  ...filter.category, mode: 'publish', _isCompleted: true}).then(result => {
             let resultCount = new String(result.length);
@@ -287,7 +288,7 @@ router.get('/post', authenticate, (req, res, next) => {
         return {searchCnt: filter.searchCnt,comment, view, favorite, category: filterCateg}
     }
     
-    if (req.header('data-categ')) {     
+    if (req.header !== null && req.header('data-categ')) {  
         return fetchPost({category: req.header('data-categ')});
     }
 
@@ -639,8 +640,87 @@ router.get('/forget/password', (req, res, next) => {
     res.render('forgetpwd'); 
 });
 
-router.get('/forget/reset', (req, res, next) => {
-    res.render('forgetpwd'); 
+router.post('/forget/password', (req, res, next) => {
+    user.findOne({email: req.body.email}).then(result => {
+        let token = jwt.sign({ id: result.id }, process.env.JWT_SECRET, {  expiresIn: 60*60 });
+        let transport = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                type: 'OAuth2',
+                user: process.env.user,
+                clientId: process.env.googleClientID,
+                clientSecret: process.env.googleClientSecret,
+                refreshToken: process.env.googleRefreshToken,
+                accessToken: process.env.googleAccessToken
+            }
+        });
+        const message = {
+            from: 'www.sg24.com',
+            to: req.body.email,   
+            subject: 'SG24 | Knowledge sharing center',
+            html: `
+                <div>
+                <h1 style='text-align:center,color:#333'>SG24 |Connecting Scholars</h1>
+                <h4>Scholars are waiting for you idea's</h4>
+                <p>Click this 
+                <a href='http://localhost:3002/forget/reset/${token}' style='color: #0284a8;font-weight: bold;'>link</a> Reset password </p>
+                </div>
+            `
+        };
+        transport.sendMail(message, function(err, info) {
+            if (err) {
+                res.status(400).send(err) 
+            } else {
+                console.log(token)
+                res.sendStatus(201)
+            }
+        });
+    }).catch(err => {
+    res.status(500).send(err)
+    })
+});
+
+router.get('/forget/reset/:token', (req, res, next) => {
+    if (req.params) {
+        jwt.verify(req.params.token, process.env.JWT_SECRET, function(err, token) {
+            if(!err) {
+                res.cookie('resettoken', req.params.token, { signed: true, httpOnly: true });
+                res.render('forgetpwd');
+                return
+            }
+        })
+        return
+    }
+    res.redirect('/forget/password');
+});
+
+router.post('/forget/reset', (req, res, next) => {
+    let resetToken = req.signedCookies.resettoken;
+    if (resetToken ) {
+        jwt.verify(resetToken, process.env.JWT_SECRET, function(err, token) {
+            if(!err) {
+                bcrypt.genSalt(10, (err, salt) => {
+                    bcrypt.hash(req.body.password, salt, (err, hash) => {
+                        let access = 'authentication';
+                        let newToken = jwt.sign({_id: token.id, access}, process.env.JWT_SECRET, { expiresIn: 3600 * 24* 7}).toString();
+                        let tokens = [{access, token: newToken}];
+                      user.findByIdAndUpdate(token.id, {password: hash, tokens}).then(() =>{
+                        res.cookie('token', newToken, { signed: true, httpOnly: true });
+                        res.sendStatus(200);
+                      }).catch(err =>{
+                          res.status(500).send(err)
+                      })
+                    });
+                });
+                return
+            }
+            res.status(500).send(err);
+        })
+        return
+    }
+    res.status(500).send(err);
 });
 
 router.post('/signup', (req, res) => {
@@ -687,6 +767,7 @@ router.post('/signup', (req, res) => {
                         })
                         
                     } else {
+                        console.log(token)
                         res.sendStatus(201)
                     }
                 });
@@ -710,7 +791,7 @@ router.get('/signup/confirmation/:id', (req, res, next) => {
                             password:  result.password,
                             email: result.email
                         });
-                        newUser.save().then(user => {
+                        newUser.generateAuthToken().then(() => {
                             tempUser.findByIdAndRemove(token.id).then(() =>{
                                 res.redirect('/login')
                                 return
@@ -718,25 +799,26 @@ router.get('/signup/confirmation/:id', (req, res, next) => {
                         })
                     }
                 })
+                return
             }
+            res.redirect('/signup')
         })
+        return
     }
     res.redirect('/signup')
 })
 
 router.post('/login', (req, res) => {
-    passport.authenticate('local', {
-        successRedirect: '/index/post',
-        failureRedirect: '/login',
-        failureFlash: true
-    })
-    User.findByCredentials(req.body.email, req.body.password).then((user) => {
-        return user.generateAuthToken().then((token) => {
-            res.header('authentication', token).send(user)
-        });
+    user.findByCredentials(req.body.username, req.body.password).then(token => {
+        res.cookie('token', token, { signed: true, httpOnly: true });
+        res.redirect('/')
     }).catch((e) => {
-        res.status(400).send();
+        res.status(401).send('Invalid username or password')
     });
 });
+
+router.post('token', (req, res, next) =>{
+    res.send(req.user);
+})
 
 module.exports = router;

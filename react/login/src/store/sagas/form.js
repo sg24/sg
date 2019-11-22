@@ -8,7 +8,7 @@ export function* submitFormInitSaga (action) {
     yield put(actions.submitFormStart());
 
     try {
-        yield axios.post('/signup', action.formData);
+        yield axios.post('/login', action.formData);
         yield put(actions.formSubmitted())
     } catch(err) {
         let error = null
@@ -23,8 +23,10 @@ export function* submitFormInitSaga (action) {
                         error = err.message
                     }
                 }
-            } else {
+            } else if(err.response.data.errno) {
                 error = err.response.data.errno
+            } else {
+                error = err.response.data
             }
             
           } else {
