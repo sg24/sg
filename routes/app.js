@@ -6,7 +6,8 @@ let authenticate = require('../serverDB/middleware/authenticate');
 const nodemailer = require('nodemailer');
 let passport = require('passport');
 const bcrypt = require('bcryptjs');
-const {category, posts, questions, poets, user, tempUser, postnotifies, quenotifies, pwtnotifies, connectStatus} = require('../serverDB/serverDB');
+const {category,  posts, questions, poets, user, tempUser, postnotifies, 
+    quenotifies, pwtnotifies, viewnotifies, usernotifies,connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', function (req, res, next) {
     res.render('index');
@@ -54,9 +55,9 @@ router.post('/header', authenticate, (req, res, next) => {
     }
 
     if(req.header('data-categ') === 'notification') {
-        checkActive(req.body.userID, postnotifies, 0).then(ptActive => {
-            checkActive(req.body.userID, quenotifies, ptActive).then(queActive => {
-                checkActive(req.body.userID, pwtnotifies, queActive).then(active =>{
+        checkActive(req.user, postnotifies, 0).then(ptActive => {
+            checkActive(req.user, quenotifies, ptActive).then(queActive => {
+                checkActive(req.user, pwtnotifies, queActive).then(active => {
                     res.send(new String(active)).status(200);
                 })
             })
@@ -64,6 +65,60 @@ router.post('/header', authenticate, (req, res, next) => {
             res.status(500).send(err)
         })
         return ;
+    }
+
+    if(req.header('data-categ') === 'allnotification') {
+        viewnotifies.findOne({userID: req.user}).then(result => {
+            if (result) {
+                checkAllNotifies(posts, 'post', {postCreated: -1}, result.post,  {coll: [], collTotal: 0}).then(ptNotify  => {
+                    checkAllNotifies(questions, 'question', {queCreated: -1}, result.question, ptNotify).then(queNotify => {
+                        checkAllNotifies(poets, 'poets', {pwtCreated: -1}, result.poet, queNotify).then(totalNotify  => {
+                            res.status(200).send(totalNotify);
+                        })
+                    })
+                })
+                return
+            }
+            let newViewNotifies = new viewnotifies({
+                userID: req.user
+            })
+            newViewNotifies.save().then(result => {
+                checkAllNotifies(posts, 'post',{postCreated: -1}, 0, {coll: [], collTotal: 0}).then(ptNotify  => {
+                    checkAllNotifies(questions, 'question', {queCreated: -1}, 0, ptNotify).then(queNotify => {
+                        checkAllNotifies(poets, 'poets', {pwtCreated: -1}, 0, queNotify).then(totalNotify  => {
+                            res.status(200).send(totalNotify);
+                        })
+                    })
+                }).catch(err => {
+                    res.status(500).send(err);
+                })
+            })
+        })
+        return ;
+    }
+
+    function checkAllNotifies(model, modelType, sort, viewTotal, notify) {
+        return new Promise((resolve, reject) => {
+            model.countDocuments({}).then(total => {
+                let curNotify = total - viewTotal;
+                notify.collTotal = notify.collTotal + curNotify;
+                if (req.body.fetchCnt) {
+                    model.findOne({}).sort(sort).limit(1).then(result => {
+                        let cnt = null;
+                       if (result) {
+                            cnt = {
+                                category: modelType,
+                                title: result.title.substr(0, 100)
+                            }
+                        }
+                        notify.coll.push({[modelType]: curNotify,cnt});
+                        resolve(notify);
+                    })
+                    return;
+                }
+                resolve(notify);
+            })
+        })
     }
 
     function checkActive(userID, model, active) {
@@ -818,8 +873,13 @@ router.get('/signup/confirmation/:id', (req, res, next) => {
 
 router.post('/login', (req, res) => {
     user.findByCredentials(req.body.username, req.body.password).then(token => {
-        res.cookie('token', token, { signed: true, httpOnly: true });
-        res.redirect('/')
+        let decoded = null;
+        decoded = jwt.verify(token, process.env.JWT_SECRET);
+        if (decoded) {
+            res.cookie('token', token, { signed: true, httpOnly: true , maxAge: 604800000});
+            res.cookie('expiresIn', decoded.exp, {maxAge: 604800000});
+            res.redirect('/');
+        }
     }).catch((e) => {
         res.status(401).send(e)
     });

@@ -42,11 +42,25 @@ authUserSchema.methods.generateAuthToken = function generateAuthToken() {
     return new Promise((resolve, reject) => {
      let authUser = this;
      let access = 'authentication';
-     let token = jwt.sign({_id: authUser._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600}).toString();
+     let token = jwt.sign({_id: authUser._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 60*60*24*7}).toString();
      authUser.tokens.push({access, token});
      authUser.save().then(() => {
          resolve(token);
      });
+    })
+ };
+
+ authUserSchema.statics.updateAuthToken = function updateAuthToken(userID) {
+    return new Promise((resolve, reject) => {
+        let authUser = this;
+        let access = 'authentication';
+        let newToken = jwt.sign({_id: userID, access}, process.env.JWT_SECRET, { expiresIn: 3600*24*7}).toString();
+        let tokens = [{access, token: newToken}];
+        authUser.findByIdAndUpdate(userID, { tokens}).then((res) =>{
+            resolve(newToken);
+        }).catch(err =>{
+            reject('Error');
+        })
     })
  };
 

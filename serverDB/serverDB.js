@@ -7,6 +7,8 @@ const category = require('./models/category');
 const postnotifies = require('./models/postnotifies');
 const quenotifies = require('./models/quenotifies');
 const pwtnotifies = require('./models/pwtnotifies');
+const usernotifies = require('./models/usernotifies');
+const viewnotifies = require('./models/viewnotifies');
 const user = require('./models/user');
 const tempUser = require('./models/tempUser');
 const authUser = require('./models/authUser');
@@ -21,7 +23,9 @@ module.exports = {
     authUser,
     postnotifies,
     quenotifies,
+    usernotifies,
     pwtnotifies,
+    viewnotifies,
     connectStatus,
     storage
 };

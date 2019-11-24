@@ -23,8 +23,9 @@ module.exports = {
                         done(null, token)
                     });
                 } else {
-                    let token = result.tokens[0].token;
-                    done(null, token)
+                    authUser.updateAuthToken(result._id).then(token =>{
+                        done(null, token)
+                    })
                 }
                 
             })
