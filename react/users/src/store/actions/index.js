@@ -1,6 +1,8 @@
 export {
     checkAuthInit,
-    checkAuth
+    checkAuth,
+    checkUserImg,
+    checkUserName
 } from './auth'
 
 export {

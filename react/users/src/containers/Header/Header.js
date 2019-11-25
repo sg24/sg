@@ -125,7 +125,7 @@ class Header extends Component {
                     <form className={formSmClass.join(' ')}>
                         <div className="site-header__sm-form--logo">
                             <div className="site-header__sm-form--logo__graphics">
-                                LOGO 
+                                <Logo /> 
                             </div>
                         </div>
                         <div className="site-header__sm-form--srch">

@@ -55,7 +55,6 @@ export function* fetchNotifyInitSaga(action) {
     try {
         yield put(actions.fetchNotifyStart());
         let response = yield axios.post('/header', {fetchCnt: true}, {headers: {'data-categ':'allnotification'}});
-        console.log(response.data)
         if (response.data.collTotal > 0) {
             yield put(actions.fetchNotify(response.data.coll));
         } else {

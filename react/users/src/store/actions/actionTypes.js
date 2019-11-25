@@ -1,5 +1,7 @@
 export const CHECK_AUTH_INIT = 'CHECK_AUTH_INIT';
 export const CHECK_AUTH = 'CHECK_AUTH';
+export const CHECK_USERIMG = 'CHECK_USERIMG';
+export const CHECK_USERNAME = 'CHECK_USERNAME';
 
 export const FETCH_CNT_INIT = 'FETCH_CNT_INIT';
 export const FETCH_CNT_RESET = 'FETCH_CNT_RESET';

@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer');
 let passport = require('passport');
 const bcrypt = require('bcryptjs');
 const {category,  posts, questions, poets, user, tempUser, postnotifies, 
-    quenotifies, pwtnotifies, viewnotifies, usernotifies,connectStatus} = require('../serverDB/serverDB');
+     authUser, quenotifies, pwtnotifies, viewnotifies, usernotifies,connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', function (req, res, next) {
     res.render('index');
@@ -102,16 +102,18 @@ router.post('/header', authenticate, (req, res, next) => {
             model.countDocuments({}).then(total => {
                 let curNotify = total - viewTotal;
                 notify.collTotal = notify.collTotal + curNotify;
-                if (req.body.fetchCnt) {
+                if (req.body.fetchCnt && curNotify > 0) {
                     model.findOne({}).sort(sort).limit(1).then(result => {
                         let cnt = null;
                        if (result) {
                             cnt = {
+                                id: result._id,
                                 category: modelType,
-                                title: result.title.substr(0, 100)
+                                title: result.title.substr(0, 100),
+                                total: curNotify
                             }
                         }
-                        notify.coll.push({[modelType]: curNotify,cnt});
+                        notify.coll.push(cnt);
                         resolve(notify);
                     })
                     return;
@@ -162,6 +164,22 @@ router.post('/header', authenticate, (req, res, next) => {
             });
         }).catch(err => {
             res.status(500).send(err);
+        })
+    }
+
+    if (req.header('data-categ') === 'userimg') {
+        authUser.findById(req.user).then(result => {
+            if (!result) {
+                user.findById(req.user).then(result => {
+                    if (result) {
+                        res.status(200).send({url: result.image, name: result.username})
+                        return
+                    }
+                    res.sendStatus(200);
+                })
+                return
+            }
+            res.status(200).send({url: result.image, name: result.username})
         })
     }
 

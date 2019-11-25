@@ -13,3 +13,18 @@ export const checkAuth = (status) => {
     };
 };
 
+export const checkUserImg = (img) => {
+    return {
+        type: actionTypes.CHECK_USERIMG,
+        img
+    };
+};
+
+
+export const checkUserName = (name) => {
+    return {
+        type: actionTypes.CHECK_USERNAME,
+        name
+    };
+};
+

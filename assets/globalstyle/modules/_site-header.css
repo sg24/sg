@@ -20,6 +20,10 @@
         background: #fff;
         float: left;
         margin-right: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
     }
 
     &__form {
@@ -368,11 +372,18 @@
         margin-left: 5px;
         
         &--img {
+            display: block;
             border-radius: 15px;
             width: 30px;
             height: 30px;
             background-color: rgba($mainLightGray, .7);
             cursor: pointer;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            -o-object-position: 50% 50%;
+               object-position: 50% 50%;
+            -o-object-fit: fill;
+               object-fit: fill;
         }
 
         &--det {
@@ -480,7 +491,6 @@
         margin: 5px 0;
         padding: 0;
         @mixin clearfix;
-        display: none;
         
         & > li {
             position: relative;
@@ -542,6 +552,10 @@
             top: 50%;
             transform: translateY(-50%);
             left: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
         }
 
         &--srch {
