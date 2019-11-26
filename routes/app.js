@@ -6,6 +6,7 @@ let authenticate = require('../serverDB/middleware/authenticate');
 const nodemailer = require('nodemailer');
 let passport = require('passport');
 const bcrypt = require('bcryptjs');
+const fetchCnt = require('./utility/fetchCnt');
 const {category,  posts, questions, poets, user, tempUser, postnotifies, 
      authUser, quenotifies, pwtnotifies, viewnotifies, usernotifies,connectStatus} = require('../serverDB/serverDB');
 
@@ -655,8 +656,37 @@ router.get('/examtab', (req, res, next) => {
     res.render('examtab');
 });
 
-router.get('/users', (req, res, next) => {
-    res.render('users');
+router.get('/users', authenticate,(req, res, next) => {
+    if (req.header('data-categ') === 'users') {
+        fetchUsers(connectStatus, {}, {student: -1}, 
+            parseInt(req.header('limit')), parseInt(req.header('skip')), {}, user, {
+                cnt: [],
+                cntTotal: 0
+            }).then(userCnt => {
+                fetchUsers(connectStatus, {}, {student: -1}, 
+                    parseInt(req.header('limit')), parseInt(req.header('skip')), {}, authUser, userCnt).then(result => {
+                        res.status(200).send(userCnt)
+                    })
+            })
+    }
+
+    function fetchUsers(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt) {
+        return new Promise((resolve, reject) => {
+            fetchCnt(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt).then(result =>{
+                let userModel = req.userType === 'user' ? user : authUser;
+                userModel.findById(req.user).then(users  => {
+                    modelCnt.cntTotal = modelCnt.cntTotal + result.cntTotal;
+                    for (let cnt of result.cnt) {
+                        if (String(cnt._id) !== String(req.user)) {
+                            let userDet = {username: cnt.username,student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
+                            modelCnt.cnt.push(userDet)
+                        }
+                    }
+                    resolve(modelCnt)
+                })
+            })  
+        })
+    }
 });
 
 router.get('/profile', (req, res, next) => {

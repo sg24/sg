@@ -9,7 +9,7 @@ export function* fetchCntCategInitSaga(action) {
         if (action.categ && action.categ.length > 0) {
             yield put (actions.fetchCntCateg([...action.categ]))
         } else {
-            let response = yield axios.post('/header', {categ: 'poet'}, {headers: {'data-categ':'category'}});
+            let response = yield axios.post('/header', {categ: 'poet'}, {headers: {'data-categ':'allcategory'}});
             yield put(actions.fetchCntCateg(response.data));
         }
     } catch(e){}

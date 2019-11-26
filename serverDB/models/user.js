@@ -30,6 +30,34 @@ var UserSchema = new mongoose.Schema({
     image: {
         type: String
     },
+    comment:{
+        type: Number,
+        default: 0
+    },
+    subjectpost: {
+        type: Array,
+        default: [String]
+    },
+    subjectque: {
+        type: Array,
+        default: [String]
+    },
+    subjectpoet: {
+        type: Array,
+        default: [String]
+    },
+    student: {
+        type: Array,
+        default: [String]
+    },
+    teacher: {
+        type: Array,
+        default: [String]
+    },
+    status: {
+        type: Boolean,
+        default: false
+    },
     tokens: [{
         access: {
             type: String,

@@ -6,31 +6,13 @@ import axios from '../../axios';
 export function* fetchCntInitSaga(action) {
     try {
         if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
-            let response =  yield axios.get('/poet', {
+            let response =  yield axios.get('/users', {
                 headers: {
                     'data-categ': action.fetchType, 
                     'limit': action.fetchLimit, 
                     'skip': action.skipCnt}});
-            let cntArray = [];
-            if (response.data.cnt && response.data.cnt.length > 0 ) { 
-                for (let cnt of response.data.cnt) {
-                    const newCnt = {...cnt};
-                    let liked = false;
-                    for (let userID of newCnt.liked) {
-                        if(action.userID === userID) {
-                            liked = true
-                        }
-                    }
-                    const valid = action.userID === newCnt.authorID;
-                    const author = 'user' +  newCnt._id;
-                    const newData = updateObject(newCnt, {author,userOpt: valid, liked});
-                    cntArray.push(newData);
-                }
-                yield put(actions.fetchCnt(cntArray, action.skipCnt, response.data.cntTotal));
-            }
-
-            if (response.data.cnt.length === 0) {
-                yield put(actions.fetchCnt([]));
+            if (response.data && response.data.cnt.length > 0) {
+                yield put(actions.fetchCnt(response.data.cnt, action.skipCnt,response.data.cntTotal))
             }
         }  
         

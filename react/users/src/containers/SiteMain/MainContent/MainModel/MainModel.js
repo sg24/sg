@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import './MainModel.css';
 import Category from './Category/Category';
+import Subject from './Category/Subject/Subject';
 import Search from './Search/Search';
 import Filter from './Filter/Filter';  
 import Model from './Model/Model';
@@ -15,7 +16,6 @@ class MainModel extends Component {
                 <Search />
                 <div className="reuse-user-filter">
                     <div className="reuse-user-filter__wrapper">
-                        <Category />
                         <Filter />
                         <div className="reuse-user-filter__teach">
                             My Teachers

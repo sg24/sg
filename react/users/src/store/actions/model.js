@@ -1,9 +1,8 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchCntInit = (userID, fetchType, fetchLimit, skipCnt, cntTotal) => {
+export const fetchCntInit = (fetchType, fetchLimit, skipCnt, cntTotal) => {
     return {
         type: actionTypes.FETCH_CNT_INIT,
-        userID,
         fetchType,        
         fetchLimit,
         skipCnt,

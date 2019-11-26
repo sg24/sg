@@ -10,11 +10,13 @@ let authenticate = (req, res, next) => {
                     return Promise.reject();
                    }
                    req.user = result._id;
+                   req.userType = 'authUser'
                    next();
                 })
                 return
             }
             req.user = result._id;
+            req.userType = 'user'
             next();
         }).catch((e) => {
             res.status(401).send(e);

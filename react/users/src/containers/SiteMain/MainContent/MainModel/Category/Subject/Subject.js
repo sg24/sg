@@ -1,33 +1,41 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import './Category.css';
-import PtCategory from '../../../../../components/Main/PtCategory/PtCategory';
+import '../Category.css';
+import * as actions from '../../../../../../store/actions/index';
+import PtCategory from '../../../../../../components/Main/PtCategory/PtCategory';
 
-class Category extends Component {
+class Subject extends Component {
     state = {
-        categ: ['post','question','poet'],
+        categ: null,
         showCateg: false
     };
 
     showCategHandler = () => {
         if(!this.state.showCateg) {
             this.setState({showCateg: true});
+            this.props.onFetchCateg(this.props.tags);
             return;
         }
         this.setState({showCateg: false});
     }
 
     render() {
+        let category = 'loading ...';
         let categOpt = null;
         let categOptClass = ['reuse-categ'];
 
+        if (this.props.categ && this.props.categ.length > 0) {
+            category = <PtCategory 
+                category={this.props.categ}/>
+        }
+    
         if (this.state.showCateg) {
             categOptClass.push('icon--rotate');
             categOpt = (
                 <ul className="reuse-categ__opt">
-                    <PtCategory 
-                        category={this.state.categ}/>
+                    { category }
                 </ul>
             )
         }
@@ -37,7 +45,7 @@ class Category extends Component {
                 className={categOptClass.join(' ')}
                 onClick={this.showCategHandler}>
                 <div>
-                    Category 
+                    Subject 
                     <FontAwesomeIcon 
                         icon={['fas', 'angle-down']} 
                         className="icon icon__reuse-categ--angle"/>
@@ -48,4 +56,17 @@ class Category extends Component {
     }
 }
 
-export default Category;
+const mapStateToProps = state => {
+    return {
+        categ: state.filter.cntCateg,
+        tags: state.tags.tags
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchCateg: (categ) => dispatch(actions.fetchCntCategInit(categ))
+    };
+};
+
+export default connect(mapStateToProps , mapDispatchToProps)(Subject);
