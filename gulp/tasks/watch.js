@@ -144,9 +144,7 @@ gulp.task('watch', function() {
         gulp.start('reusenoacctcss')
     });
 
-    watch('./assets/reuseuserstyle/**/*.css', function() {
-        gulp.start('reuseusercss')
-    });
+    watch('./assets/reuseuserstyle/**/*.css', series('reuseuserstyle', 'reuseusercss'));
 
     watch('./assets/accsharedstyle/**/*.css', function() {
         gulp.start('accsharedcss')
@@ -367,10 +365,10 @@ gulp.task('filtercss', function() {
 //     .pipe(browserSyc.stream());
 // });
 
-// gulp.task('reuseusercss',['reuseuserstyle'], function() {
-//     return gulp.src("./assets/reuseuserstyle/reuse-user.css")
-//     .pipe(browserSyc.stream());
-// }); 
+gulp.task('reuseusercss', function() {
+    return gulp.src("./assets/reuseuserstyle/reuse-user.css")
+    .pipe(browserSyc.stream());
+}); 
 
 // gulp.task('accsharedcss',['accsharedstyle'], function() {
 //     return gulp.src("./assets/accsharedstyle/acc-shared.css")

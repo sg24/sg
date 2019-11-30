@@ -83,6 +83,7 @@ class SiteMain extends Component {
                 <Switch>
                     <Route path="/users" exact component={MainContent} />
                     <Route path="/users/:id" exact component={MainContent} />
+                    <Route path={"/users/:id/?search=/:id"} exact component={MainContent} />
                 </Switch>
                 <MainNav />
             </div>
@@ -101,14 +102,18 @@ class SiteMain extends Component {
                     component={ Modal }
                     err={ this.props.changeCntErr }
                     warn={{
-                        msg: this.props.changeCntStart.det === 'delete' ?
-                        'Are you sure you want to delete this' : 'Are you sure you want to change this mode',
+                        msg: this.props.changeCntStart.det === 'blockUser' ?
+                        'Are you sure you want to block this user' : 
+                        this.props.changeCntStart.det === 'rejUser' ? 'Are you sure you want to reject this user' :
+                        this.props.changeCntStart.det === 'acceptUser' ? 'Are you sure you want to accept this user' :  
+                        this.props.changeCntStart.det === 'cancelReq' ? 'Are you sure you want to Cancel the request, sent to this user' : 
+                        'Are you sure you want to remove this user',
                         cnt: this.props.changeCntStart.title,
                         det: this.props.changeCntStart.det
                     }}
                     exit={{
-                        msg: this.props.changeCntStart.det=== 'delete' ?
-                        'Content Deleted Successfully' : 'Mode change successfully', 
+                        msg: this.props.changeCntStart.det=== 'authUser' ?
+                        'user added Successfully' : 'Mode change successfully', 
                         close: this.props.changeCnt}}
                     changeCnt={this.changeCntHandler}
                     closeChangeCnt={this.closeChangeCntHandler}/> : null}

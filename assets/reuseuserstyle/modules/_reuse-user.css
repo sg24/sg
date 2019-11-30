@@ -25,10 +25,25 @@
             -ms-box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
             -webkit-box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
             -moz-box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
+            background-color: $mainLightGray;
             width: 60px;
             height: 60px;
-            background-color: $mainDarkBlue;
             border-radius: 30px;
+
+            & > img {
+                display: block;
+                width: 60px;
+                height: 60px;
+                border-radius: 30px;
+                background-color: rgba($mainLightGray, .7);
+                cursor: pointer;
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: crisp-edges;
+                -o-object-position: 50% 50%;
+                   object-position: 50% 50%;
+                -o-object-fit: fill;
+                   object-fit: fill;
+            }
 
             &__status {
                 position: absolute;
@@ -122,20 +137,16 @@
             &:first-child {
                 position: relative;
 
-                & > span {
+                & > div {
                     margin-left: 0;
                 }
             }
 
             &:last-child {
                 border-right: none; 
-
-                & > span {
-                    margin-right: 0;
-                }
             }
 
-            & > span {
+            & > div {
                 margin-right: 20px;
                 margin-left: 20px;
             }
@@ -170,6 +181,38 @@
             cursor: pointer;
         }
 
+        &--acc {
+           background-color: $mainDarkPaleBlue;
+            padding: 5px 15px;
+            border-radius: 3px; 
+            color: #fff; 
+            box-shadow: 0 1px 2px 0 rgba($mainDarkBlack, .45);
+            cursor: pointer;
+            box-shadow: 0 2px 4.85px 0.15px rgba(0, 0, 0, 0.49);
+            -o-box-shadow: 0 2px 4.85px 0.15px rgba(0, 0, 0, 0.49);
+            -ms-box-shadow: 0 2px 4.85px 0.15px rgba(0, 0, 0, 0.49);
+            -webkit-box-shadow: 0 2px 4.85px 0.15px rgba(0, 0, 0, 0.49);
+            -moz-box-shadow: 0 2px 4.85px 0.15px rgba(0, 0, 0, 0.49);
+        }
+
+        &--rej {
+            background-color: #fff;
+            padding: 5px 15px;
+            border-radius: 3px; 
+            color: $mainLightRed; 
+            box-shadow: 0 1px 2px 0 rgba($mainDarkBlack, .45);
+            cursor: pointer;
+        }
+
+        &--cancel {
+            background-color: $mainLightRed;
+            padding: 5px 15px;
+            border-radius: 3px; 
+            color: #fff; 
+            box-shadow: 0 1px 2px 0 rgba($mainDarkBlack, .45);
+            cursor: pointer;
+        }
+
         &--comment {
             padding: 5px 10px;
         }
@@ -178,8 +221,8 @@
             background-color: #fff;
             padding: 5px 15px;
             border-radius: 3px; 
-            color: $mainLightRed; 
-            box-shadow: 0 1px 2px 0 rgba($mainDarkBlack, .45);
+            color: $mainFontColor; 
+            box-shadow: 0 1px 2px 1px rgba($mainDarkBlack, .45);
             cursor: pointer;
         }
     }

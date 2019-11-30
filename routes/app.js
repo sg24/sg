@@ -7,6 +7,8 @@ const nodemailer = require('nodemailer');
 let passport = require('passport');
 const bcrypt = require('bcryptjs');
 const fetchCnt = require('./utility/fetchCnt');
+let filterCnt = require('./utility/filtercnt');
+let userFilter = require('./utility/userfilter');
 const {category,  posts, questions, poets, user, tempUser, postnotifies, 
      authUser, quenotifies, pwtnotifies, viewnotifies, usernotifies,connectStatus} = require('../serverDB/serverDB');
 
@@ -138,7 +140,8 @@ router.post('/header', authenticate, (req, res, next) => {
     if (req.header('data-categ') === 'category') {
         category.findOne({}).then(result => {
             let categ = req.body.categ;
-            res.send(result[categ]).status(200);
+            let allCateg = result ? result[categ] : [];
+            res.send(allCateg).status(200);
         }).catch(err => {
             res.status(500).send(err);
         });
@@ -231,7 +234,6 @@ router.post('/header', authenticate, (req, res, next) => {
     }
     
     if (req.header('data-categ') === 'cntSearch') {
-        let filterCnt = require('./utility/filtercnt');
         let model = req.body.model === 'post' ? posts :
         req.body.model === 'question' ? questions : poets;
         filterCnt(JSON.parse(req.body.filterCnt)).then(filter => {
@@ -243,6 +245,74 @@ router.post('/header', authenticate, (req, res, next) => {
             })
         });
         return ;
+    }
+
+    if (req.header('data-categ') === 'usersearch') {
+        userFilter(JSON.parse(req.body.filterCnt)).then(filter => {
+            let subject = filter.categoryGrp === 'post' ? 'subjectpost' :
+            filter.categoryGrp === 'question' ? 'subjectque' : 'subjectpoet';
+            let filterCateg = filter.category.length > 0 ? {[subject]: { $all: filter.category }} : {};
+            let student = {};
+            let comment = {};
+            for (let key in filter.filterCnt) {
+                if (key === 'student') {
+                    student['studenttotal']= filter.filterCnt[key]
+                } else {
+                    comment[key]= filter.filterCnt[key]
+                }
+            }
+
+            return fetchUsers(
+                connectStatus,
+                {$text: { $search: `\"${filter.searchCnt}\"`},
+                block: {$ne: req.user},
+                _id: {$ne: mongoose.mongo.ObjectId(req.user)},
+                ...student,
+                ...comment,
+                ...filterCateg},
+                { },
+                0, 0, {}, user, 0
+            ).then(userCnt => {
+                fetchUsers(
+                    connectStatus,
+                    {$text: { $search: `\"${filter.searchCnt}\"`},
+                    block: {$ne: req.user},
+                    _id: {$ne: mongoose.mongo.ObjectId(req.user)},
+                    ...student,
+                    ...comment,
+                    ...filterCateg},
+                    { },
+                    0, 0, {}, authUser, userCnt
+                ).then(result =>{
+                    res.status(200).send(String(result))
+                }).catch(err => {
+                    res.status(500).send(err)
+                })
+            }).catch(err => {
+                res.status(500).send(err)
+            })
+        })
+        return ;
+    }
+
+    function fetchUsers(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt) {
+        return new Promise((resolve, reject) => {
+            fetchCnt(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt).then(result =>{
+                let model = req.userType === 'authUser' ? authUser : user;
+                model.findById(req.user).then(resultFilter => {
+                    for (let cnt of result.cnt) {
+                        let userBlock = resultFilter.block || [];
+                        let filterBlock = userBlock.filter(id => id === cnt._id.toHexString())
+                        if (filterBlock.length < 1) {
+                            modelCnt = modelCnt + 1;
+                        } 
+                    }
+                    resolve(modelCnt)
+                }).catch(err => {
+                    reject(err)
+                })
+            })  
+        })
     }
 });
 
@@ -582,7 +652,6 @@ router.get('/question', (req, res, next) => {
     }
 
     if (req.header('data-categ').startsWith('filter')) { 
-        let filterCnt = require('./utility/filtercnt');
         filterCnt((JSON.parse(req.header('data-categ').split('==')[1]))).then(filter => {
             return fetchQue({$text: { $search: filter.searchCnt }, ...filter.comment, ...filter.helpFull, ...filter.favorite,  ...filter.category},{ score: { $meta: "textScore" } })
         }).catch(err => {
@@ -654,39 +723,6 @@ router.get('/add/poet', (req, res, next) => {
 
 router.get('/examtab', (req, res, next) => {
     res.render('examtab');
-});
-
-router.get('/users', authenticate,(req, res, next) => {
-    if (req.header('data-categ') === 'users') {
-        fetchUsers(connectStatus, {}, {student: -1}, 
-            parseInt(req.header('limit')), parseInt(req.header('skip')), {}, user, {
-                cnt: [],
-                cntTotal: 0
-            }).then(userCnt => {
-                fetchUsers(connectStatus, {}, {student: -1}, 
-                    parseInt(req.header('limit')), parseInt(req.header('skip')), {}, authUser, userCnt).then(result => {
-                        res.status(200).send(userCnt)
-                    })
-            })
-    }
-
-    function fetchUsers(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt) {
-        return new Promise((resolve, reject) => {
-            fetchCnt(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt).then(result =>{
-                let userModel = req.userType === 'user' ? user : authUser;
-                userModel.findById(req.user).then(users  => {
-                    modelCnt.cntTotal = modelCnt.cntTotal + result.cntTotal;
-                    for (let cnt of result.cnt) {
-                        if (String(cnt._id) !== String(req.user)) {
-                            let userDet = {username: cnt.username,student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
-                            modelCnt.cnt.push(userDet)
-                        }
-                    }
-                    resolve(modelCnt)
-                })
-            })  
-        })
-    }
 });
 
 router.get('/profile', (req, res, next) => {

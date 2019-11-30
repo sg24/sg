@@ -29,7 +29,10 @@
             -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5); */
             border: 1px solid $mainDarkGray;
             position: relative; 
-            min-height: 600px;
+            /* display: flex;
+            flex-direction: column;
+            height: 92vh; */
+            height: 92vh;
         }
 
         &--no-tab-wrapper {

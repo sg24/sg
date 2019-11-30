@@ -1,5 +1,5 @@
 import { put, delay } from 'redux-saga/effects';
-import { updateObject, changeFav } from '../../shared/utility';
+import { changeFav } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
@@ -11,9 +11,9 @@ export function* fetchCntInitSaga(action) {
                     'data-categ': action.fetchType, 
                     'limit': action.fetchLimit, 
                     'skip': action.skipCnt}});
-            if (response.data && response.data.cnt.length > 0) {
+            if (response.data && response.data.cnt) {
                 yield put(actions.fetchCnt(response.data.cnt, action.skipCnt,response.data.cntTotal))
-            }
+            } 
         }  
         
     } catch(err){
@@ -44,11 +44,10 @@ export function* changeCntInitSaga(action) {
         return;
     }
     try {
-        if (action.det === 'delete') {
-            yield axios.delete('/poet', {headers: {'data-categ': 'deleteCnt-'+action.id}});
-        } else {
-            yield axios.patch('/poet', {id: action.id} ,{headers: {'data-categ': 'changemode'}});
-        }
+        if (action.det) {
+            yield put(actions.changeCntStart(action.title, action.id, action.det))
+            yield axios.patch('/users', {id: action.id}, {headers: {'data-categ': action.det}});
+        } 
         yield put(actions.changeCnt())
         yield delay(1000);
         yield put(actions.changeCntReset())

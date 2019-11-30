@@ -20,6 +20,32 @@ export const fetchCntCateg = (categ) => {
     }
 };
 
+export const startSearch = () => {
+    return {
+        type: actionTypes.START_SEARCH
+    };
+};
+
+export const closeSearch = () => {
+    return {
+        type: actionTypes.CLOSE_SEARCH
+    };
+};
+
+
+export const fetchTotalInit = () => {
+    return {
+        type: actionTypes.FETCH_TOTAL_INIT,
+    };
+};
+
+export const fetchTotal = total => {
+    return {
+        type: actionTypes.FETCH_TOTAL,
+        total
+    };
+};
+
 export const filterContentInit = (content) => {
     return {
         type: actionTypes.FILTER_CONTENT_INIT,

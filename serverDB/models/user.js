@@ -46,14 +46,22 @@ var UserSchema = new mongoose.Schema({
         type: Array,
         default: [String]
     },
-    student: {
-        type: Array,
-        default: [String]
+    student: [{
+        type: String
+    }],
+    studenttotal: {
+        type: Number,
+        default: 0
     },
-    teacher: {
-        type: Array,
-        default: [String]
-    },
+    teacher: [{
+        type: String
+    }],
+    request: [{
+        type: String
+    }],
+    block: [{
+        type: String
+    }],
     status: {
         type: Boolean,
         default: false
@@ -96,7 +104,7 @@ UserSchema.statics.findByToken = function findByToken (token) {
     try {
         decoded = jwt.verify(token, process.env.JWT_SECRET);
     } catch (e) {
-        return Promise.reject()
+        return Promise.reject(e)
     }
 
    return User.findOne({
@@ -159,6 +167,7 @@ UserSchema.pre('save', function (next) {
     }
 });
 
+UserSchema.index({username: 'text'});
 let user = mongoose.model('Users', UserSchema);
 
 

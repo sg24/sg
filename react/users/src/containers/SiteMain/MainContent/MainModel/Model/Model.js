@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 
 import Users from '../../../../../components/Main/Users/Users';
 import NoAcc from '../../../../../components/Main/NoAcc/NoAcc';
-import { updateObject } from '../../../../../shared/utility';
+import Loader from '../../../../../components/UI/Loader/Loader';
 import * as actions from '../../../../../store/actions/index';
 
 class Model extends Component {
@@ -41,19 +41,19 @@ class Model extends Component {
     }
 
     componentDidUpdate() {
-        if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id !== 'share' && this.props.match.params.id !== 'filter' && this.props.match.params.id !== 'startfilter') {
+        if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id !== 'filter' && this.props.match.params.id !== 'startfilter') {
             this.props.onFetchCntReset();
-            this.props.onFetchCnt(this.props.match.params.id === 'shared' ? `shared-${this.props.userID}` : this.props.match.params.id, this.state.fetchLimit, 0, 0);
+            this.props.onFetchCnt(this.props.match.params.id, this.state.fetchLimit, 0, 0);
             this.setState({
                 filterTag: this.props.match.params.id
             });
         }
-
-        if (this.props.match.params.id && this.props.filterDet && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id === 'filter') {
+  
+        if (this.props.match.params.id && this.props.filterDet && this.state.filterTag !== this.props.history.location.search && this.props.match.params.id === 'filter') {
             this.props.onFetchCntReset();
             this.props.onFetchCnt('filter=='+this.props.filterDet, this.state.fetchLimit, 0, 0);
             this.setState({
-                filterTag: this.props.match.params.id
+                filterTag: this.props.history.location.search
             });
         }
 
@@ -72,12 +72,17 @@ class Model extends Component {
         }
     }
 
+    changeCntHandler = (id, title, det, confirm) => {
+        this.props.onChangeCnt(id, title, det, confirm);
+    };
+
     render() {
         this.props.onFetchShareActive();
+        this.props.onFetchNotifyActive();
         // this.props.onFetchCntActive(this.props.userID);
         // this.props.onFetchShareCntActive(this.props.userID);
 
-        let cnt = "Loading";
+        let cnt = <Loader />;
         if (this.props.postErr) {
             cnt = null
         }
@@ -91,7 +96,8 @@ class Model extends Component {
 
         if (this.props.cnts && this.props.cnts.length > 0) {
             cnt = <Users
-                content={this.props.cnts}/>
+                content={this.props.cnts}
+                changeCnt={this.changeCntHandler}/>
         }
 
         return cnt
@@ -111,6 +117,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchShareActive: () => dispatch(actions.fetchShareactiveInit()),
+        onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
         onFetchShareCntActive: (userID) => dispatch(actions.fetchShareCntactiveInit(userID)),
         onFetchCntActive: (userID) => dispatch(actions.fetchCntActiveInit(userID)),
         onFetchCnt: (fetchType, limit, skipCnt, cntTotal) => dispatch(actions.fetchCntInit(fetchType, limit, skipCnt, cntTotal)),

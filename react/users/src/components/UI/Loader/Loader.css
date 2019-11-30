@@ -98,8 +98,8 @@
 
 .bottom {
   width: 53px;
-  height: 15px;
-  top: 30px;
+  height: 12px;
+  top: 32px;
   -webkit-transform: skew(-10deg, 0);
           transform: skew(-10deg, 0);
 }

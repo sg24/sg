@@ -36,9 +36,8 @@ const changeCntCancel = (state, action) => {
 };
 
 const changeCntReset = (state, action) => {
-    let cnts = [...state.cnts];
-    let updateCnt = cnts.filter(cnt => cnt._id !== state.changeCntStart.id);
-    return updateObject(state, {cnts: updateCnt, changeCntStart: null, changeCntErr: null, changeCnt: false})
+    window.location.reload();
+    return updateObject(state, {changeCntStart: null, changeCntErr: null, changeCnt: false})
 };
 
 const changeCntFail = (state, action) => {

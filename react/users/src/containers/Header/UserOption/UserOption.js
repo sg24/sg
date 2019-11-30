@@ -83,17 +83,17 @@ class UserOption extends Component {
 }
 
 const mapStateToProps = state => {
-    return({
+    return {
         hidUserOption: state.header.hidUserOption,
         img: state.auth.img,
         username: state.auth.username
-    })
+    };
 };
 
 const mapDispatchToProps = dispatch => {
-    return({
+    return {
         onShowUserOption: () => dispatch(actions.showUserOption())
-    })
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserOption);

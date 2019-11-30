@@ -19,7 +19,7 @@ export {
     changeFavInit,
     changeFavPtStart,
     changeFavPtFail,
-    changeFav,
+    changeFav
 } from './model';
 
 
@@ -27,6 +27,10 @@ export {
     fetchCntCategInit,
     fetchCntCategStart,
     fetchCntCateg,
+    startSearch,
+    closeSearch,
+    fetchTotalInit,
+    fetchTotal,
     filterContentInit,
     filterContentStart,
     filterContentFail,

@@ -237,6 +237,14 @@
     display: table;
 }
 
+.reuse-filter__opt--cnt__filter-err {
+    color: #ff1600;
+    padding: 10px 0;
+    margin: 10px 0;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
 .reuse-filter__opt--cnt__wrapper {
     float: left;
     padding-right: 10px;
@@ -317,9 +325,9 @@
     }
 }
 
-.reuse-filter__opt--cnt__det > li:hover {
-    background-color: #0284a8;
-    color: #fff;
+.reuse-filter__opt--cnt__det > li:hover:not(.reuse-filter__opt--cnt__det--active) {
+    background-color: #dcdbdc;
+    color: #182427;
 }
 
 @media (min-width: 530px) {

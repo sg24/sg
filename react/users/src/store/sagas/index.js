@@ -1,9 +1,9 @@
-import { takeEvery, all } from 'redux-saga/effects';
+import { takeEvery, all, takeLatest } from 'redux-saga/effects';
 
 import * as actionTypes from '../../store/actions/actionTypes';
 import { checkAuthInitSaga } from './auth';
 import { fetchCntInitSaga, changeFavSaga, changeCntInitSaga } from './model';
-import { fetchCntCategInitSaga, filterContentInitSaga } from './filter';
+import { fetchCntCategInitSaga, filterContentInitSaga, fetchTotalInitSaga } from './filter';
 import { fetchTagsInitSaga } from './tags';
 import { fetchTrdInitSaga } from './trend';
 import { fetchCategInitSaga } from './setQue';
@@ -27,7 +27,7 @@ export function* watchAuth() {
         
 export function* watchCnt() {
     yield all([
-        takeEvery(actionTypes.FETCH_CNT_INIT, fetchCntInitSaga),
+        takeLatest(actionTypes.FETCH_CNT_INIT, fetchCntInitSaga),
         takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga),
         takeEvery(actionTypes.CHANGE_CNT_INIT, changeCntInitSaga)
     ])
@@ -36,7 +36,8 @@ export function* watchCnt() {
 export function* watchFilter() {
     yield all([
         takeEvery(actionTypes.FETCH_CNTCATEG_INIT, fetchCntCategInitSaga),
-        takeEvery(actionTypes.FILTER_CONTENT_INIT, filterContentInitSaga)
+        takeEvery(actionTypes.FILTER_CONTENT_INIT, filterContentInitSaga),
+        takeEvery(actionTypes.FETCH_TOTAL_INIT, fetchTotalInitSaga)
     ])
 } 
 

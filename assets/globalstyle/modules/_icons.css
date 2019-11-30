@@ -124,4 +124,12 @@
         font-size: .75rem;
         margin-right: 5px;
     }
+
+    &__reuse-modal--btn {
+        margin-right: 5px;
+    }
+
+    &__reuse-modal--icn {
+        color: $mainLightRed
+    }
 }

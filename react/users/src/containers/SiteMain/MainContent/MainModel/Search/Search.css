@@ -19,7 +19,6 @@
     visibility: hidden;
 }
 
-/* transition: all .3s ease-out; */
 
 .reuse-srch__close {
     width: 20px;
@@ -72,7 +71,7 @@
 .reuse-srch__input {
     border: none;
     outline: none;
-    padding: 6px 10px 6px 60px;
+    padding: 6px 10px 6px 10px;
     border-radius: 5px;
     width: 100%;
 }
@@ -80,7 +79,7 @@
 @media (min-width: 800px) {
 
     .reuse-srch__input {
-        padding: 8px 10px 8px 60px;
+        padding: 8px 10px 8px 10px;
     }
 }
 

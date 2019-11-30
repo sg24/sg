@@ -17,5 +17,5 @@ export function* checkAuthInitSaga(action) {
             
         } catch(err) {}
         
-    }
+    } 
 } 

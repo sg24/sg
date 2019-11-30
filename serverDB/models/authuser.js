@@ -42,14 +42,22 @@ var authUserSchema = new mongoose.Schema({
         type: Array,
         default: [String]
     },
-    student: {
-        type: Array,
-        default: [String]
-    },
-    teacher: {
-        type: Array,
-        default: [String]
-    },
+    student: [{
+        type: String
+    }],
+    studenttotal: {
+        type: Number,
+        default: 0
+    }, 
+    teacher: [{
+        type: String
+    }],
+    request: [{
+        type: String
+    }],
+    block: [{
+        type: String
+    }],
     status: {
         type: Boolean,
         default: false
@@ -99,7 +107,7 @@ authUserSchema.statics.findByToken = function findByToken (token) {
     try {
         decoded = jwt.verify(token, process.env.JWT_SECRET);
     } catch (e) {
-        return Promise.reject()
+        return Promise.reject(e)
     }
    return authUser.findOne({
        '_id': decoded._id,
@@ -108,6 +116,7 @@ authUserSchema.statics.findByToken = function findByToken (token) {
    })
 };
 
+authUserSchema.index({username: 'text'});
 let authUser = mongoose.model('authUsers', authUserSchema);
 
 module.exports = authUser
