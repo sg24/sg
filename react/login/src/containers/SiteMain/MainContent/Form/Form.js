@@ -96,7 +96,7 @@ class Form extends Component {
                                 </a>
                             </li>
                             <li>
-                                <a href="/">
+                                <a href="/auth/facebook">
                                     <FontAwesomeIcon 
                                         icon={['fab', 'facebook-f']}/>
                                 </a></li>

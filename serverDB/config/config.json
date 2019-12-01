@@ -4,6 +4,8 @@
         "JWT_SECRET": "sg must be lunched today by the virtue of grace",
         "googleClientID": "384311833459-sfjngj19c85ht0bc94dq5hchou3v6qg6.apps.googleusercontent.com",
         "googleClientSecret": "YiqKWiCdzxEJj9Tp0KL3xs02",
+        "facebookClientID": "1419681334861541",
+        "facebookClientSecret": "41c85abadad88ef601d5e49df1f5b71e",
         "googleRefreshToken": "1//04MyONqvAd-jKCgYIARAAGAQSNwF-L9IryEjmlN_T_YnKM7ti_QnEt3XB9FvD41AhdVGjmc6u_kQr87AlyRSPPeyIvicOf9W0rp0",
         "googleAccessToken": "ya29.Il-xByYsBZ0QFU2W-9jsrfVK56i9yH0oW9jG2f9k9PU6A_CsxYUEpaxti5fhDAjjThBX-AGjcKnUwwihjU8uFS1hYZ2c-lJSxDKbJK90W6B8bwZ8wby_gQaVWUv8d-J_tw",
         "user": "scholarslodge24@gmail.com",

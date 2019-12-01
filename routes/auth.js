@@ -19,6 +19,20 @@ passport.authenticate('google', { failureRedirect: '/login', session: false }), 
     }
 });
 
+router.get('/facebook',
+passport.authenticate('facebook'));
+
+router.get('/facebook/callback',
+passport.authenticate('facebook', { failureRedirect: '/login', session: false  }),(req, res) => {
+    let decoded = null;
+    decoded = jwt.verify(req.user, process.env.JWT_SECRET);
+    if (decoded) {
+        res.cookie('token', req.user, { signed: true, httpOnly: true , maxAge: 604800000});
+        res.cookie('expiresIn', decoded.exp, {maxAge: 604800000});
+        res.redirect('/');
+    }
+});
+
 router.get('/verify', authenticate, (req,res,next) =>{
     res.sendStatus(200)
 });

@@ -16,6 +16,7 @@ let app = express();
 app.use(cookieParser('secret'));
 
 require('./serverDB/config/passport').auth(passport);
+require('./serverDB/config/passport').authFacebook(passport);
 
 app.set('views', path.join(__dirname, 'views'));
 hbs.registerPartials(__dirname + '/views/partials');
