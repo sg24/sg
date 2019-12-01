@@ -8,6 +8,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
  
+import * as serviceWorker from './serviceWorker';
 import App from './App';
 import './index.css';
 import auth from './store/reducers/auth';
@@ -21,9 +22,7 @@ const rootReducers = combineReducers({
 
 const sagaMiddleware = createSagaMiddleware();
 
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-
-const store = createStore(rootReducers, composeEnhancer(applyMiddleware(sagaMiddleware)));
+const store = createStore(rootReducers, applyMiddleware(sagaMiddleware));
 
 sagaMiddleware.run(watchForm);
 
@@ -36,3 +35,5 @@ const app = (
 );
 
 ReactDOM.render(app, document.getElementById('root'));
+
+serviceWorker.register();
