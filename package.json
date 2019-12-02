@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "generate-sw": "workbox injectManifest"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -35,6 +36,7 @@
     "postcss-import": "^8.1.2",
     "postcss-mixins": "^4.0.2",
     "postcss-nested": "^1.0.0",
-    "postcss-simple-vars": "^1.2.0"
+    "postcss-simple-vars": "^1.2.0",
+    "workbox-cli": "^4.3.1"
   }
 }
