@@ -7,7 +7,12 @@ class SiteMain extends Component {
         
       render() {
         return (
-            <div className="site-main">
+            <div 
+                className="site-main"
+                style={{
+                    backgroundImage: `url('${LogoSvg}')`,
+                    backgroundRepeat: 'repeat'
+                }}>
                 <div className="wrapper">
                     <div className="wrapper__exmain">
                         <MainContent />

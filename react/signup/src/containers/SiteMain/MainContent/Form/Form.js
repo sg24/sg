@@ -114,7 +114,7 @@ class Form extends Component {
                 <Logo />
                 <div className="reuse-form__cnt">
                 <div className="reuse-form__cnt--header">
-                        <h4>Welcome to SG24</h4>
+                        <h4>Welcome to SG</h4>
                         <p>Knowledge sharing platform | Connecting scholars</p>
                     </div>
                     { this.props.submitError ?
@@ -207,7 +207,7 @@ class Form extends Component {
                     <p>Forgot password <a href="/forget/password">Retrive</a></p>
                     <p>Already have an account <a href="/login">Login in</a></p>
                 </div>
-                <div className="reuse-form__footer">&copy; SG24 , 2019</div>
+                <div className="reuse-form__footer">&copy; SG , 2019</div>
             </Aux>
         );
 
