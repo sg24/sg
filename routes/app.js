@@ -769,8 +769,6 @@ router.get('/signup', (req, res, next) => {
     res.render('signupform'); 
 });
 
-
-
 router.get('/signup/profile', (req, res, next) => {
     res.render('signprfform'); 
 });

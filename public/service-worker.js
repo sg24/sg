@@ -28,8 +28,16 @@ workbox.precaching.precacheAndRoute([
     "revision": "3ca8b7d6c1c2428f6578f163cf250f63"
   },
   {
-    "url": "static/css/main.fc1a7775.chunk.css",
-    "revision": "a80ccfd8c409feb9d4683c49811eb991"
+    "url": "static/css/main.342e57df.chunk.css",
+    "revision": "0167b8193576e9114af137a829fb649d"
+  },
+  {
+    "url": "static/css/main.ad2c23ce.chunk.css",
+    "revision": "e7a49db3f8dd3ff2b88c5006cf799928"
+  },
+  {
+    "url": "static/media/Logo.7a8e6dba.svg",
+    "revision": "7a8e6dba7c873ae05990fa23b1ad5c07"
   },
   {
     "url": "static/media/logo.e88880ec.svg",
