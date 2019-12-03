@@ -685,7 +685,7 @@
       opacity: .65;
       cursor: not-allowed;
   }
-  
+
   .reuse-form__footer {
     padding: 5px;
     margin: 5px 0 0 0;
@@ -693,13 +693,6 @@
     text-align: center;
     font-size: 0.8125rem;
     font-weight: bold;
-  }
-
-  @media (min-width: 530px) {
-  
-    .reuse-form {
-      padding: 20px;
-    }
   }
   
   @media (min-width: 530px) {
@@ -744,4 +737,4 @@
       overflow: hidden;
       overflow-y: auto;
       padding: 20px 0;
-  }
+  }  
