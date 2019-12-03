@@ -117,6 +117,23 @@ class Form extends Component {
                         <h4>Welcome to SG</h4>
                         <p>Knowledge sharing platform | Connecting scholars</p>
                     </div>
+                    <div className="reuse-form__cnt--main-wrapper">
+                        <h4>Login with</h4>
+                        <ul>
+                            <li>
+                                <a href="/auth/google">
+                                    <FontAwesomeIcon 
+                                        icon={['fab', 'google']}/>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/auth/facebook">
+                                    <FontAwesomeIcon 
+                                        icon={['fab', 'facebook-f']}/>
+                                </a></li>
+                        </ul>
+                    </div>
+                    <div className="reuse-form__cnt--alt">OR</div>
                     { this.props.submitError ?
                         <div className="reuse-form__err">{this.props.submitError.message}</div>
                         : null
