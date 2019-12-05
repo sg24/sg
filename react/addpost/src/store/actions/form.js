@@ -123,6 +123,21 @@ export const fetchUsers = (users) =>  {
     }; 
 }; 
 
+export const fetchUsersStart = (users) =>  {
+    return {
+        type: actionTypes.FETCH_USERS_START
+    }; 
+}; 
+
+
+export const fetchUsersFail = (err) =>  {
+    return {
+        type: actionTypes.FETCH_USERS_FAIL,
+        err
+    }; 
+}; 
+
+
 export const inputDefaultValue = () => {
     return {
         type: actionTypes.INPUT_DEFAULT_VALUE

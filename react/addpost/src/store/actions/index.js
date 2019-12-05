@@ -1,9 +1,18 @@
+export {
+    checkAuthInit,
+    checkAuth,
+    checkUserImg,
+    checkUserName
+} from './auth'
+
 export { 
     headerFormExpand,
     headerFormSm,
     headerNavDefault,
     headerAddNew,
     fetchNotifyInit,
+    fetchNotifyStart,
+    fetchNotifyFail,
     fetchNotify,
     changeFavNotifyInit,
     changeFavNotifyStart,
@@ -50,6 +59,8 @@ export {
     hideMediaBox,
     showMediaBox,
     fetchUsersInit,
+    fetchUsersStart,
+    fetchUsersFail,
     fetchUsers,
     inputDefaultValue,
     filterUserInit,

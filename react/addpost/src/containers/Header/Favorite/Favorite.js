@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import FavoriteActive from '../../../components/UI/FavoriteActive/FavoriteActive';
 
 class Favorite extends Component {
     state = {
@@ -31,9 +34,15 @@ class Favorite extends Component {
                 href="/favorite" 
                 onMouseEnter={this.showFavTipHandler}
                 onMouseLeave={this.hidFavTipHandler}>
-                <FontAwesomeIcon 
+                {
+                    this.props.favChange === null ? <FontAwesomeIcon 
                     icon={['fas', 'heart']} 
-                    className="icon icon__site-header--favorites" />
+                    className="icon icon__site-header--favorites" /> : 
+                    <FavoriteActive 
+                        liked={this.props.favChange}
+                        isHeader/>
+                }
+                
                 <div className={favTipClass.join(' ')}>
                     Favorites 
                 </div>
@@ -42,4 +51,10 @@ class Favorite extends Component {
     }
 };
 
-export default Favorite;
+
+const mapStateToProps = state => {
+    return {
+        favChange: state.header.favChange
+    }
+}
+export default connect(mapStateToProps, null)(Favorite);

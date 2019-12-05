@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import * as actions from '../../store/actions/index';
 import Logo from '../../components/UI/Logo/Logo';
+import Aux from '../../hoc/Auxs/Aux';
 import NavigationInput from './NavigationInput/NavigationInput';
 import NavigationList from './NavigationList/NavigationList'
 import NavigationNotify from './NavigationNotify/NavigationNotify'
@@ -52,6 +53,20 @@ class Header extends Component {
         let addNewClass = ["site-header__add-new"];
         let formSmClass = ["site-header__sm-form"]
         let navOpt = <NavigationOptions />
+        let userDet = (
+            <ul className="site-header__no-acc site-header__no-acc--visible">
+                <li>
+                    <a href="/login" className="site-header__no-acc--login">
+                        <FontAwesomeIcon 
+                            icon={['fas', 'lock']} 
+                            className="icon icon__site-header--no-acc" /> 
+                        Login
+                    </a>
+                </li>
+                <li><a href="/signup" className="site-header__no-acc--sign">Signup</a></li>
+            </ul>
+        );
+        let isAuth = null;
 
         if (this.props.expand) {
             addNewClass.push("site-header__add-new--hidden");
@@ -64,6 +79,17 @@ class Header extends Component {
 
         if (this.props.addNew) {
             addNewClass.push("icon--rotate")
+        }
+
+        if (this.props.status) {
+            userDet = <UserOption /> ;
+            isAuth= (
+                <Aux>
+                    <Favorite />
+                    <Share />
+                    <NavigationNotify />
+                </Aux>
+            )
         }
 
         return (
@@ -90,28 +116,16 @@ class Header extends Component {
                     </div>
                     { navOpt }
                     <div className="site-header__menu">
-                        <Favorite />
-                        <Share />
-                        <NavigationNotify />
+                        { isAuth }
                         <NavigationList />
                     </div>
-                    <UserOption /> 
-                    <ul className="site-header__no-acc">
-                        <li>
-                            <a href="/login" className="site-header__no-acc--login">
-                                <FontAwesomeIcon 
-                                    icon={['fas', 'lock']} 
-                                    className="icon icon__site-header--no-acc" /> 
-                                Login
-                            </a>
-                        </li>
-                        <li><a href="/signup" className="site-header__no-acc--sign">Signup</a></li>
-                    </ul>
+
+                    { userDet }
                     
                     <form className={formSmClass.join(' ')}>
                         <div className="site-header__sm-form--logo">
                             <div className="site-header__sm-form--logo__graphics">
-                                LOGO 
+                                <Logo /> 
                             </div>
                         </div>
                         <div className="site-header__sm-form--srch">
@@ -145,7 +159,8 @@ const mapStateToProps = state => {
     return {
         expand: state.header.expand,
         addNew: state.header.addNew,
-        hideFormSm: state.header.hideFormSm
+        hideFormSm: state.header.hideFormSm,
+        status: state.auth.status
     };
 };
 

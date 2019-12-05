@@ -84,6 +84,39 @@ router.get('/', authenticate,(req, res, next) => {
         return;
     }
 
+    if (req.header && req.header('data-categ') &&  req.header('data-categ').startsWith('allteacher')) {
+        let model = req.userType === 'authUser' ? authUser : user;
+        let status = req.header('data-categ').split('-')[1] === 'online';
+        model.findById(req.user).then(result => {
+            let student = [...result.student, ...result.teacher];
+            fetchAllTeacher(user, student, status, []).then(userTeacher => {
+                fetchAllTeacher(authUser, student, status, userTeacher).then(totalTeacher => {
+                    res.status(200).send(totalTeacher)
+                })
+            })
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+
+        function fetchAllTeacher(model, allTeacher, status, fndTeacher) {
+            return new Promise((resolve,reject) =>{
+                model.find({_id: { $in : allTeacher }, status}).then(result => {
+                    let users = [];
+                    for (let cnt of result) {
+                        let id = jwt.sign(cnt._id.toHexString(), process.env.JWT_SECRET).toString();
+                        let userDet = {id, username: cnt.username,student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
+                        users.push(userDet)
+                    }
+                    let newFndTeacher = [...fndTeacher, ...users]
+                    resolve(newFndTeacher);
+                }).catch(err => {
+                    reject(err);
+                })
+            })
+        }
+        return 
+    }
+
     if (req.header && req.header('data-categ') && req.header('data-categ').startsWith('filter')) { 
         return userFilter((JSON.parse(req.header('data-categ').split('==')[1]))).then(filter => {
             let filterCnt = filter.filterCnt.length > 0 ? filter.filterCnt : [];
