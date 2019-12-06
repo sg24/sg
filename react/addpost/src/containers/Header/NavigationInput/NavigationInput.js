@@ -23,11 +23,13 @@ class NavigationInput extends Component {
     filterContentHandler = (event) => {
         this.setState({value: event.target.value});
         let inputElem = window.document.querySelector('.site-header__form');
+        let inputLastElem = window.document.querySelector('.site-header__user');
+        let updateInputLastElem = window.innerWidth - inputLastElem.offsetLeft - 30;
         let updateInputElem = inputElem.offsetLeft;
         if (window.innerWidth > 1200) {
             updateInputElem = 220;
         }
-        this.props.onHeaderFilter(event.target.value, updateInputElem);
+        this.props.onHeaderFilter(event.target.value, updateInputElem, updateInputLastElem);
         if (!this.state.isExpand) {
             this.setState({isExpand: true})
         }
@@ -67,7 +69,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFormExpand: () => dispatch(actions.headerFormExpand()),
-        onHeaderFilter: (filterCnt, filterPos) => dispatch(actions.headerFilterInit(filterCnt, filterPos))
+        onHeaderFilter: (filterCnt, filterPos, filterLastpos) => dispatch(actions.headerFilterInit(filterCnt, filterPos, filterLastpos))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationInput);

@@ -94,7 +94,7 @@ export function* defaultNotifyActiveInitSaga(action) {
 
 export function* headerFilterInitSaga(action) {
     try {
-        yield put(actions.headerFilterStart(action.filterPos));
+        yield put(actions.headerFilterStart(action.filterPos, action.filterLastPos));
         let response = yield axios.post('/header', {filterCnt: action.filterCnt}, {headers: {'data-categ':'headerfilter'}});
         yield put(actions.headerFilter(response.data));
     } catch(err) {

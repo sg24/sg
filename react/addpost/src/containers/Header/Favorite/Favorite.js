@@ -34,15 +34,9 @@ class Favorite extends Component {
                 href="/favorite" 
                 onMouseEnter={this.showFavTipHandler}
                 onMouseLeave={this.hidFavTipHandler}>
-                {
-                    this.props.favChange === null ? <FontAwesomeIcon 
+                <FontAwesomeIcon 
                     icon={['fas', 'heart']} 
-                    className="icon icon__site-header--favorites" /> : 
-                    <FavoriteActive 
-                        liked={this.props.favChange}
-                        isHeader/>
-                }
-                
+                    className="icon icon__site-header--favorites" /> 
                 <div className={favTipClass.join(' ')}>
                     Favorites 
                 </div>

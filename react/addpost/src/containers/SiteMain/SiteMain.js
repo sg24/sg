@@ -32,6 +32,7 @@ class SiteMain extends Component {
                     <MainFilter 
                         filterResults={this.props.searchCnt}
                         filterPos={this.props.filterPos}
+                        filterLastPos={this.props.filterLastPos}
                         viewCnt={this.viewCntHandler}/>
                 </ul> 
             )
@@ -88,6 +89,7 @@ const mapStateToProps = state => {
         searchCnt: state.header.searchCnt,
         searchCntErr: state.header.searchCntErr,
         filterPos: state.header.filterPos,
+        filterLastPos: state.header.filterLastPos,
     };
  }
 

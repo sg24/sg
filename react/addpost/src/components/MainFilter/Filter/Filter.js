@@ -5,7 +5,8 @@ const filter = props => (
         onClick={props.viewCnt}>
         <div
             style={{
-                paddingLeft: props.filterPos
+                paddingLeft: props.filterPos,
+                paddingRight: props.filterLastPos
             }}>
             {props.filterRes.title}
         </div>

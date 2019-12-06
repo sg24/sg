@@ -45,7 +45,8 @@ class Header extends Component {
 
     filterContentHandler = (event) => {
         let inputElem = document.documentElement.querySelector('.site-header__sm-form--srch');
-        this.props.onHeaderFilter(event.target.value, inputElem.offsetLeft);
+        let inputLastElem = document.documentElement.querySelector('.site-header__sm-form--srch__icn');
+        this.props.onHeaderFilter(event.target.value, inputElem.offsetLeft, window.innerWidth-inputLastElem.offsetLeft-150);
         this.setState({inputValue: event.target.value})
     }
 
@@ -168,7 +169,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onAddNew: () => dispatch(actions.headerAddNew()),
         onShowForm: () => dispatch(actions.headerFormSm()),
-        onHeaderFilter: (filterCnt, filterPos) => dispatch(actions.headerFilterInit(filterCnt, filterPos)),
+        onHeaderFilter: (filterCnt, filterPos, filterLastPost) => dispatch(actions.headerFilterInit(filterCnt, filterPos, filterLastPost)),
         onCloseHeaderFilter: () => dispatch(actions.headerFilterClose())
     };
 };

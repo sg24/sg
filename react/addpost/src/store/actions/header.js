@@ -145,18 +145,20 @@ export const defaultNotifyActive = () =>  {
         type: actionTypes.DEFAULT_NOTIFYACTIVE
     }; 
 }; 
-export const headerFilterInit = (filterCnt, filterPos) =>  {
+export const headerFilterInit = (filterCnt, filterPos, filterLastPos) =>  {
     return {
         type: actionTypes.HEADER_FILTER_INIT,
         filterCnt,
-        filterPos
+        filterPos,
+        filterLastPos
     }; 
 }; 
 
-export const headerFilterStart = (filterPos) =>  {
+export const headerFilterStart = (filterPos, filterLastPos) =>  {
     return {
         type: actionTypes.HEADER_FILTER_START,
-        filterPos
+        filterPos,
+        filterLastPos
     }; 
 }; 
 

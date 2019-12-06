@@ -15,6 +15,7 @@ const initialState = {
     default: false,
     searchCnt: null,
     filterPos: 0,
+    filterLastPos: 0,
     searchCntErr: null,
     filterStart: false
 };
@@ -72,7 +73,7 @@ const defaultNotifyActive = (state, action) => {
 };
 
 const headerFilterStart = (state, action) => {
-    return updateObject(state, {searchCnt: null, filterPos: action.filterPos, searchCntErr: null, filterStart: true})
+    return updateObject(state, {searchCnt: null, filterPos: action.filterPos, filterLastPos: action.filterLastPos, searchCntErr: null, filterStart: true})
 };
 
 const headerFilterFail= (state, action) => {

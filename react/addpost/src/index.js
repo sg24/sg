@@ -17,6 +17,7 @@ import form from './store/reducers/form';
 import main from './store/reducers/main';
 
 import { 
+        watchAuth,
         watchHeader,
         watchMain,
         watchForm
@@ -34,6 +35,7 @@ const rootReducers = combineReducers({
 
 const store = createStore(rootReducers, applyMiddleware(reduxThunk, sagaMiddleware));
 
+sagaMiddleware.run(watchAuth);
 sagaMiddleware.run(watchHeader);
 sagaMiddleware.run(watchMain);
 sagaMiddleware.run(watchForm);
