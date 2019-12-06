@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { updateObject } from '../../../../../shared/utility';
 import * as actions from '../../../../../store/actions/index';
+import Loader from '../../../../../components/UI/Loader/Loader';
 import Users from '../../../../../components/Main/Users/Users';
 import Input from './Input/Input';
 
@@ -29,7 +30,8 @@ class AddUsers extends Component {
 
         if (this.state.showUserSelect && this.state.curTab === 'userselect') {
             let userSelect = [...this.state.userSelected];
-            this.props.onShowUserSelect(userSelect);
+            let users = [...this.props.onlineUser,...this.props.offlineUser]
+            this.props.onShowUserSelect(users, userSelect);
             this.setState({users: this.props.users, showUserSelect: false});
         }
     }
@@ -39,7 +41,7 @@ class AddUsers extends Component {
         curTab =  newtab === 'online' ? newtab : curTab;
         curTab =  newtab === 'offline' ? newtab : curTab;
         curTab =  newtab === 'userselect' ? newtab : curTab;
-
+        this.props.onResetTab();
         this.setState({curTab, showNewTab: true, showUserSelect: curTab === 'userselect'})
     }
 
@@ -87,6 +89,10 @@ class AddUsers extends Component {
         let users = null;
         let userSelectClass = ['reuse-form__itm--tab__cnt--selec'];
         let searchInput = null;
+
+        if (this.props.start) {
+            users = <Loader />
+        }
 
         if (this.props.users) {
             users = <Users 
@@ -181,15 +187,19 @@ const mapStateToProps = state =>  {
         users: state.form.users,
         filteredUser: state.form.filteredUser,
         media: state.form.media,
-        curTab: state.form.curTab
+        curTab: state.form.curTab,
+        start: state.form.startUser,
+        offlineUser: state.form.offlineUser,
+        onlineUser: state.form.onlineUser
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onFetchUsers: (tab) => dispatch(actions.fetchUsersInit(tab)),
+        onResetTab: () => dispatch(actions.resetTab()),
         onAddUserSelect: (users) => dispatch(actions.userSelect(users)),
-        onShowUserSelect: (userID) => dispatch(actions.showUserSelectInit(userID)),
+        onShowUserSelect: (users, userID) => dispatch(actions.showUserSelectInit(users, userID)),
         onSubmitMedia: (media) => dispatch(actions.submitMedia(media)),
         onhideMediaBox: () => dispatch(actions.hideMediaBox())
     };

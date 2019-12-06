@@ -811,11 +811,10 @@
 }
 
 .reuse-form__itm--tab__srch--wrapper {
-    position: absolute;
+    position: relative;
     background-color: #f9f9f9;
     border: 1px solid #dcdbdc;
     border-top: none;
-    top: 100%;
     width: 100%;
     padding: 10px 10px 20px 10px;
     z-index: 2;
@@ -835,7 +834,7 @@
     -ms-flex-align: center;
         align-items: center;
     position: absolute;
-    right: 20px;
+    right: 5px;
     top: 2px;
     border-radius: 10px;
     cursor: pointer;
@@ -874,7 +873,7 @@
 .reuse-form__itm--tab__srch--input {
     border: none;
     outline: none;
-    padding: 6px 10px 6px 60px;
+    padding: 6px 10px 6px 10px;
     border-radius: 5px;
     width: 100%;
 }
@@ -882,11 +881,12 @@
 @media (min-width: 800px) {
 
     .reuse-form__itm--tab__srch--input {
-        padding: 8px 10px 8px 60px;
+        padding: 8px 10px 8px 10px;
     }
 }
 
 .reuse-form__itm--det {
+    position: relative;
     padding: 20px;
     min-height: 300px;
     max-height: 400px;
@@ -1057,6 +1057,7 @@
 }
 
 .reuse-form__btn--add  {
+    position: relative;
     color: #fff;
     float: right;
     box-shadow: 0 2px 4px 1px rgba(0,0,0, .65);

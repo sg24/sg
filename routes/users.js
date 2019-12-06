@@ -103,8 +103,7 @@ router.get('/', authenticate,(req, res, next) => {
                 model.find({_id: { $in : allTeacher }, status}).then(result => {
                     let users = [];
                     for (let cnt of result) {
-                        let id = jwt.sign(cnt._id.toHexString(), process.env.JWT_SECRET).toString();
-                        let userDet = {id, username: cnt.username,student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
+                        let userDet = {id: cnt.id, username: cnt.username,student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
                         users.push(userDet)
                     }
                     let newFndTeacher = [...fndTeacher, ...users]

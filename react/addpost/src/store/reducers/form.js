@@ -11,7 +11,11 @@ const initialState = {
     linkValid: null,
     snapshot: [],
     media: {},
+    curTab: 'online',
+    startUser: true,
     users: null,
+    onlineUser: [],
+    offlineUser: [],
     filteredUser: null,
     defaultValue: false,
     uploadPercent: null,
@@ -73,7 +77,20 @@ const showMediaBox = (state, action) => {
 };
 
 const fetchUsers = (state, action) => {
-    return updateObject(state, {users: action.users, filteredUser: null, defaultValue: true})
+    return updateObject(state, {
+        users: action.users, 
+        filteredUser: null, startUser: false, defaultValue: true,
+        onlineUser: action.status === 'online' ? action.users : state.onlineUser,
+        offlineUser: action.status === 'offline' ? action.users : state.offlineUser,
+        curTab: action.status})
+};
+
+const fetchUsersFail = (state, action) => {
+    return updateObject(state, {users: null, filteredUser: null, startUser: false})
+};
+
+const resetTab = (state, action) => {
+    return updateObject(state, {users: null, filteredUser: null, startUser: false})
 };
 
 const inputDefaultValue = (state, action) => {
@@ -89,7 +106,7 @@ const userSelect = (state, action) => {
 };
 
 const showUserSelect = (state, action) => {
-    return updateObject(state, {users: action.users, filteredUser: null, defaultValue: true})
+    return updateObject(state, {users: action.users, curTab: 'userSelect', filteredUser: null, defaultValue: true})
 };
 
 const submitFormStart = (state, action) => {
@@ -138,6 +155,10 @@ const reducer = (state = initialState, action) => {
             return submitMedia(state, action);
         case actionTypes.FETCH_USERS:
             return fetchUsers(state, action);
+        case actionTypes.FETCH_USERS_FAIL:
+            return fetchUsersFail(state, action);
+        case actionTypes.RESET_TAB:
+            return resetTab(state, action);
         case actionTypes.INPUT_DEFAULT_VALUE:
             return inputDefaultValue(state, action);
         case actionTypes.FILTER_USER:

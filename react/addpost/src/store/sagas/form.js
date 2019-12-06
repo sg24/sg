@@ -48,15 +48,14 @@ export function* checkLinkInitSaga(action) {
 export function* fetchUsersInitSaga(action) {
     try {
         let response = yield axios.get('/users', {headers: {'data-categ':`allteacher-${action.userStatus}`}});
-        console.log(response.data)
         yield put(actions.fetchUsers(response.data, action.userStatus));
-    } catch(e) {
-        // yield put(action.fetc)
+    } catch(err) {
+        yield put(actions.fetchUsersFail(err))
     }
 }
 
 export function* filterUserInitSaga(action) {
-       let filterUser = action.users.filter(user => user.user.toLowerCase().indexOf(action.filterContent.toLowerCase()) !== -1 );
+       let filterUser = action.users.filter(user => user.username.toLowerCase().indexOf(action.filterContent.toLowerCase()) !== -1 );
 
        if (!action.filterContent && action.users && action.users.length > 0) {
             filterUser = [...action.users];
@@ -66,14 +65,6 @@ export function* filterUserInitSaga(action) {
 }
 
 export function* showUserSelectInitSaga(action) {
-    // let usersArray = [];
-    // let usersID = [...action.userID];
-    // for (let user of users) {
-    //     let filterUser = usersID.filter(userID => userID === user.id);
-    //     if (filterUser.length > 0) {
-    //         usersArray.push({...user})
-    //     }
-    // }
-
-    // yield put(actions.showUserSelect(usersArray));
+    let filterUser = action.users.filter(user => action.userID.indexOf(user.id) !== -1);
+    yield put(actions.showUserSelect(filterUser));
 }
