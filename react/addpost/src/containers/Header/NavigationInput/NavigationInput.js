@@ -28,6 +28,7 @@ class NavigationInput extends Component {
         let updateInputElem = inputElem.offsetLeft;
         if (window.innerWidth > 1200) {
             updateInputElem = 220;
+            updateInputLastElem = 100; 
         }
         this.props.onHeaderFilter(event.target.value, updateInputElem, updateInputLastElem);
         if (!this.state.isExpand) {

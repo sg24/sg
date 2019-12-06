@@ -1597,6 +1597,18 @@ img {
   padding: 10px 0;
 }
 
+.site-main__content--filter__wrapper--pt {
+  background-color: #0284a8;
+}
+
+.site-main__content--filter__wrapper--que {
+  background-color: #ff1600;
+}
+
+.site-main__content--filter__wrapper--pwt {
+  background-color: #437da3;
+}
+
 .site-main__content--filter__wrapper > ul {
   position: relative;
   margin: 0;
@@ -1611,13 +1623,24 @@ img {
 
 .site-main__content--filter__wrapper > ul > li > div {
   position: relative;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: .9375rem;
   padding: 10px 0;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.site-main__content--filter__wrapper > ul > li > div > span {
+  position: relative;
+  border-radius: 20px;
+  padding: 5px 10px;
+  color: #fff;
+  text-align: center;
+  margin-right: 5px;
+  font-size: .8125rem
 }
 
 .site-main__content--filter__wrapper > ul > li:hover {

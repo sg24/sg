@@ -59,7 +59,19 @@
                 overflow: hidden;
                 overflow-y: auto;
                 padding: 10px 0;
+
+                &--pt {
+                    background-color: $mainDarkBlue;
+                }
+
+                &--que {
+                    background-color: $mainLightRed;
+                }
             
+                &--pwt {
+                    background-color: $mainMiddleDarkBlue;
+                }
+
                 & > ul {
                     position: relative;
                     margin: 0;
@@ -72,13 +84,24 @@
 
                          & > div {
                             position: relative;
+                            font-size: .9375rem;
                             white-space: nowrap;
-                            overflow: hidden;
                             text-overflow: ellipsis;
+                            overflow: hidden;
                             padding: 10px 0;
                             max-width: 1200px;
                             width: 100%;
                             margin: 0 auto;
+
+                            & > span {
+                                position: relative;
+                                border-radius: 20px;
+                                padding: 5px 10px;
+                                color: #fff;
+                                text-align: center;
+                                margin-right: 5px;
+                                font-size: .8125rem
+                            } 
                         }
 
                         &:hover {
