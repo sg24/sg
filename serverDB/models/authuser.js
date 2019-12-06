@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator'); 
 const jwt = require('jsonwebtoken');
+const webpush = require('web-push');
+const vapidKeys = webpush.generateVAPIDKeys();
 
 var authUserSchema = new mongoose.Schema({
     username: {
@@ -70,6 +72,18 @@ var authUserSchema = new mongoose.Schema({
             type: String,
             required: true
         }
+    }],
+    pushMsg: [{
+        enable: {
+            type: Boolean,
+            default: true
+        },
+        publickey: {
+            type: String
+        },
+        privatekey: {
+            type: String
+        }
     }]
 }) ;
 
@@ -79,8 +93,9 @@ authUserSchema.methods.generateAuthToken = function generateAuthToken() {
      let access = 'authentication';
      let token = jwt.sign({_id: authUser._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 60*60*24*7}).toString();
      authUser.tokens.push({access, token});
-     authUser.save().then(() => {
-         resolve(token);
+     authUser.pushMsg.push({publickey: vapidKeys.publicKey, privatekey: vapidKeys.privateKey})
+     authUser.save().then(res => {
+         resolve({token, pushMsg: res.pushMsg[0].publickey});
      });
     })
  };
@@ -92,7 +107,7 @@ authUserSchema.methods.generateAuthToken = function generateAuthToken() {
         let newToken = jwt.sign({_id: userID, access}, process.env.JWT_SECRET, { expiresIn: 3600*24*7}).toString();
         let tokens = [{access, token: newToken}];
         authUser.findByIdAndUpdate(userID, { tokens}).then((res) =>{
-            resolve(newToken);
+            resolve({token: newToken, pushMsg: res.pushMsg[0].publickey});
         }).catch(err =>{
             reject('Error');
         })

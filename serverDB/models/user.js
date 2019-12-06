@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const validator = require('validator'); 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const webpush = require('web-push');
+const vapidKeys = webpush.generateVAPIDKeys();
 
 var UserSchema = new mongoose.Schema({
     username: {
@@ -75,6 +77,18 @@ var UserSchema = new mongoose.Schema({
             type: String,
             required: true
         }
+    }],
+    pushMsg: [{
+        enable: {
+            type: Boolean,
+            default: true
+        },
+        publickey: {
+            type: String
+        },
+        privatekey: {
+            type: String
+        }
     }]
 }) ;
 
@@ -91,8 +105,9 @@ UserSchema.methods.generateAuthToken = function generateAuthToken() {
         let access = 'authentication';
         let token = jwt.sign({_id: User._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600}).toString();
         User.tokens.push({access, token});
-        User.save().then(() => {
-            resolve(token);
+        User.pushMsg.push({publickey: vapidKeys.publicKey, privatekey: vapidKeys.privateKey})
+        User.save().then(res => {
+            resolve({token, pushMsg: res.pushMsg[0].publickey});
         });
        })
 };
@@ -129,7 +144,7 @@ UserSchema.statics.findByCredentials = function findByCredentials(username, pass
                     let newToken = jwt.sign({_id: user._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600 * 24* 7}).toString();
                     let tokens = [{access, token: newToken}];
                   User.findByIdAndUpdate(user._id, { tokens}).then((res) =>{
-                    resolve(newToken);
+                    resolve({token: newToken, pushMsg: res.pushMsg[0].publickey});
                   }).catch(err =>{
                     reject('Error');
                   })

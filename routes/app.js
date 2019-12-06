@@ -985,10 +985,11 @@ router.get('/signup/confirmation/:id', (req, res, next) => {
 router.post('/login', (req, res) => {
     user.findByCredentials(req.body.username, req.body.password).then(token => {
         let decoded = null;
-        decoded = jwt.verify(token, process.env.JWT_SECRET);
+        decoded = jwt.verify(req.user.token, process.env.JWT_SECRET);
         if (decoded) {
-            res.cookie('token', token, { signed: true, httpOnly: true , maxAge: 604800000});
+            res.cookie('token', req.user.token, { signed: true, httpOnly: true , maxAge: 604800000});
             res.cookie('expiresIn', decoded.exp, {maxAge: 604800000});
+            res.cookie('pushMsg', req.user.pushMsg, {maxAge: 604800000});
             res.redirect('/');
         }
     }).catch((e) => {
