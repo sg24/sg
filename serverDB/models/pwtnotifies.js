@@ -7,7 +7,10 @@ const NotificationsSchema = new Schema({
     },
     notifications: {
         type: Number
-    }
+    },
+    pwtID: [{
+        type: String
+    }]
 })
 
 const pwtnotifies = mongoose.model('pwtnotifies', NotificationsSchema);

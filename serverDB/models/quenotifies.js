@@ -7,7 +7,10 @@ const NotificationsSchema = new Schema({
     },
     notifications: {
         type: Number
-    }
+    },
+    queID: [{
+        type: String
+    }]
 })
 
 const quenotifies = mongoose.model('quenotifies', NotificationsSchema);

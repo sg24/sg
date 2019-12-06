@@ -25,6 +25,7 @@ class NavigationNotify extends Component {
                 show: false,
                 showNotify: false,
             });
+            this.props.onDefaultNotifyactive();
         }
     }
 
@@ -43,7 +44,7 @@ class NavigationNotify extends Component {
     }
 
     fetchNotifyHandler = () => {
-        this.props.onFetchNotify(this.props.userID);
+        this.props.onFetchNotify();
         this.setState((prevState, props) => {
             return {
                 show: false,
@@ -75,12 +76,12 @@ class NavigationNotify extends Component {
             notifyTipClass.push("site-header__tool-tip--notify__visible");
         }
 
-        if (this.props.notifyStart && this.state.showNotify) {
+        if (this.state.showNotify) {
             notifyCntClass.push("site-header__menu--notify__cnt--visible");
             notify = <Loader />
         }
 
-        if (this.props.notify && this.props.notify.length < 1 && !this.props.notifyStart && this.state.showNotify) {
+        if (this.props.notify && this.props.notify.length < 1 && this.state.showNotify) {
             notifyCntClass.push("site-header__menu--notify__cnt--visible");
             notify = <NoAcc 
                 isAuth={this.props.status}
@@ -89,12 +90,11 @@ class NavigationNotify extends Component {
                 isNotify/>
         }
 
-        if (this.props.notify && this.props.notify.length > 0 && !this.props.notifyStart && this.state.showNotify) {
+        if (this.props.notify && this.props.notify.length > 0 && this.state.showNotify) {
             notify = <NotifyItems 
                 content={this.props.notify}
                 fav={this.changeFavoriteHandler}/>
             notifyCntClass.push("site-header__menu--notify__cnt--visible");
-            this.props.onDefaultNotifyactive();
         }
 
         return (
@@ -113,11 +113,11 @@ class NavigationNotify extends Component {
                     Notifications
                 </div>
                 <div className={notifyCntClass.join(' ')}>
-                    <div className="site-header__menu--notify__cnt--set">
+                    {/* <div className="site-header__menu--notify__cnt--set">
                         <FontAwesomeIcon 
                             icon={['fas', 'cogs']} 
                             className="icon icon__site-header--notify__set" />
-                    </div>
+                    </div> */}
                     <div className="site-header__menu--notify__cnt--det">
                     <div className="reuse-trd">
                         <div className="reuse-trd__cnt reuse-trd__cnt--notify">

@@ -9,8 +9,8 @@ const notifyItem = props => {
         <div className="reuse-notify">
         <div className="reuse-notify__categ">
             <FontAwesomeIcon 
-            icon={['fas', {icn}]} 
-            className="icon icon__reuse-trd--fav" />
+            icon={['fas', `${icn}`]} 
+            className="icon icon__reuse-notify--categ" />
             {props.notify.category}
             <div className="reuse-notify__categ--active">{props.notify.total}</div>
         </div>

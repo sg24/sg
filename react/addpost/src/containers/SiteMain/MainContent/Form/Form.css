@@ -1040,10 +1040,6 @@
     cursor: pointer;
 }
 
-.reuse-form__btn--close {
-    color: #ff1600;
-}
-
 .reuse-form__btn--close, .reuse-form__btn--dft {
     background-color: #fff;
     box-shadow: 0 1px 4px 1px rgba(0,0,0, .55);

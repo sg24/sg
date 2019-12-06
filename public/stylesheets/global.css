@@ -611,6 +611,10 @@ img {
   color: #ff1600
 }
 
+.icon__reuse-notify--categ {
+  margin-right: 5px;
+}
+
 .site-header__tool-tip {
     position: absolute;
     top: 40px;

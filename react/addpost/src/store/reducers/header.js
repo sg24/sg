@@ -40,6 +40,10 @@ const fetchNotify = (state, action) => {
     return updateObject(state, {notify: action.notify, hidNotify: false, hidNavList: true, hidUserOption: true, default: false})
 };
 
+const fetchNotifyStart = (state, action) => {
+    return updateObject(state, {notify: null, hidNotify: false, hidNavList: true, hidUserOption: true, default: false})
+};
+
 const changeFavNotifyStart = (state, action) => {
     return updateObject(state, {notify: action.notify})
 };
@@ -98,6 +102,8 @@ const reducer = (state = initialState, action) => {
             return navDefault(state, action);
         case actionTypes.HEADER_ADD_NEW:
             return addNew(state, action);
+        case actionTypes.FETCH_NOTIFY_START:
+            return fetchNotifyStart(state, action);
         case actionTypes.FETCH_NOTIFY:
             return fetchNotify(state, action);
         case actionTypes.CHANGE_FAVORITE_NOTIFY_START:

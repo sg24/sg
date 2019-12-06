@@ -7,7 +7,10 @@ const NotificationsSchema = new Schema({
     },
     notifications: {
         type: Number
-    }
+    },
+    postID: [{
+        type: String
+    }]
 })
 
 const postnotifies = mongoose.model('postnotifies', NotificationsSchema);

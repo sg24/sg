@@ -105,5 +105,9 @@
     &__reuse-set--angle {
         margin-left: 5px;
     }
+
+    &__reuse-notify--categ {
+        margin-right: 5px;
+    }
    
 }

@@ -100,6 +100,35 @@ router.post('/header', authenticate, (req, res, next) => {
         return ;
     }
 
+    if(req.header('data-categ') === 'resetnotification') {
+        modelTotal(posts, 'post', {}).then(ptTotal => {
+            modelTotal(questions, 'question', ptTotal).then(queTotal => {
+                modelTotal(poets, 'poet', queTotal).then(allTotal => {
+                    viewnotifies.findOneAndUpdate({userID: req.user}, {
+                        post: allTotal.post,
+                        question: allTotal.question,
+                        poet: allTotal.poet
+                    }).then(result => {
+                        res.sendStatus(200);
+                    })
+                })
+            })
+        }).catch(err => {
+            res.status(400).send(err)
+        })
+        function modelTotal(model, field, modelTotal) {
+            return new Promise((resolve, reject) => {
+                model.countDocuments({}).then(total => {
+                    modelTotal[field] = total ? total : 0;
+                    resolve(modelTotal);
+                }).catch(err => {
+                    reject(err);
+                })
+            })
+        }
+        return
+    }
+
     function checkAllNotifies(model, modelType, sort, viewTotal, notify) {
         return new Promise((resolve, reject) => {
             model.countDocuments({}).then(total => {

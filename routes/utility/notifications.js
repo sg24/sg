@@ -1,10 +1,10 @@
-module.exports =  notification = (shareMe, model) => {
+module.exports =  notification = (shareMe, model, id, field) => {
             return new Promise((resolve, reject) =>{
                 let i = 0;
                 for (let userID of shareMe) {
                     model.findOne({userID}).then(result => {
                         if (result !== null) {
-                            model.findOneAndUpdate({userID}, {$inc: {'notifications': 1}}).then(result =>{
+                            model.findOneAndUpdate({userID}, {$inc: {'notifications': 1}, $addToSet: { [field]: id }}).then(result =>{
                                 if(++i === shareMe.length) {
                                    resolve()
                                 }
@@ -14,7 +14,8 @@ module.exports =  notification = (shareMe, model) => {
                         } else {
                             let newNotify = new model({
                                 userID,
-                                notifications: 1
+                                notifications: 1,
+                                [field]:  id 
                             });
                             newNotify.save().then(() => {
                                 if(++i === shareMe.length) {

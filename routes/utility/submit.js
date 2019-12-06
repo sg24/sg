@@ -1,6 +1,6 @@
 let notifications = require('./notifications');
 
-module.exports = submitForm = (content, model, files, notify, field, res, category) => {
+module.exports = submitForm = (content, model, files, notify, viewnotify, userModel, userID, updateField, userField, field, res, category) => {
    return new Promise ((resolve, reject) => {
     let categRaw = String(content.categ).split(',');
     let categ = [...new Set(categRaw)];
@@ -28,12 +28,34 @@ module.exports = submitForm = (content, model, files, notify, field, res, catego
         id = result._id;
 
         function notification() {
-            notifications(shareMe, notify).then(() =>{
-                model.findByIdAndUpdate(id, {_isCompleted: true}).then(() => {
-                    resolve(id)
+            notifications(shareMe, notify, id, updateField).then(() =>{
+                viewnotify.findOneAndUpdate({userID}, {$inc: {[field]: 1}}).then(result => {
+                   if (result) {
+                       completeSubmit();
+                   } else {
+                    let newNotiy = new viewnotify({
+                        userID,
+                        post: 1
+                    });
+                    newNotify.save().then(() => {
+                        completeSubmit();
+                    }).catch(err => {
+                        reject(err)
+                    })
+                   }
                 }).catch(err => {
                     reject(err)
                 })
+               function completeSubmit() {
+                userModel.findByIdAndUpdate(userID, {$addToSet: { [userField]: { $each: categ } }}).then(() => {
+                    model.findByIdAndUpdate(id, {_isCompleted: true}).then(() => {
+                        resolve(id)
+                    })
+                }).catch(err => {
+                    reject(err)
+                })
+               
+               }
             }).catch(err => {
                 reject(err)
             })
@@ -59,7 +81,9 @@ module.exports = submitForm = (content, model, files, notify, field, res, catego
                 if (shareMe.length > 0) {
                     notification();
                 } else {
-                    resolve(id)
+                    model.findByIdAndUpdate(id, {_isCompleted: true}).then(() => {
+                        resolve(id)
+                    })
                 }
             }).catch(err => {
                 reject(err)

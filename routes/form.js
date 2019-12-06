@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const {posts, questions, poets,category, postnotifies, quenotifies, pwtnotifies, connectStatus, storage} = require('../serverDB/serverDB');
+const {posts, questions, poets,category, postnotifies, quenotifies, viewnotifies, pwtnotifies, connectStatus, storage, user, authUser} = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
 let notifications = require('./utility/notifications');
 let submit = require('./utility/submit');
@@ -10,9 +10,10 @@ const upload = multer({ storage, limits: {
 }});
 
 router.post('/add/post', authenticate, upload.array('video', 1100),(req, res, next) => {
+    let userModel = req.userType === 'authUser' ? authUser : user;
     const content = req.body;
     connectStatus.then((result) => {
-        submit(content, posts,req.files, postnotifies, 'post', res, category).then(id =>
+        submit(content, posts,req.files, postnotifies, viewnotifies, userModel, req.user, 'postID', 'subjectpost', 'post', res, category).then(id =>
             res.status(201).send(id)
         ).catch(err => {
             res.status(500).send(err)
@@ -24,9 +25,10 @@ router.post('/add/post', authenticate, upload.array('video', 1100),(req, res, ne
 })
 
 router.post('/add/question', authenticate, upload.array('video', 1100),(req, res, next) => {
+    let userModel = req.userType === 'authUser' ? authUser : user;
     const content = req.body;
     connectStatus.then((result) => {
-        submit(content, questions,req.files, quenotifies, 'question', res, category).then(id =>
+        submit(content, questions,req.files, quenotifies, viewnotifies, userModel, req.user, 'queID', 'subjectque', 'question', res, category).then(id =>
             res.status(201).send(id)
         ).catch(err => {
             res.status(500).send(err)
@@ -38,9 +40,10 @@ router.post('/add/question', authenticate, upload.array('video', 1100),(req, res
 })
 
 router.post('/add/poet', authenticate, upload.array('video', 1100),(req, res, next) => {
+    let userModel = req.userType === 'authUser' ? authUser : user;
     const content = req.body;
     connectStatus.then((result) => {
-        submit(content, poets,req.files, pwtnotifies, 'poet', res, category).then(id =>
+        submit(content, poets,req.files, pwtnotifies, viewnotifies, userModel, req.user, 'pwtID', 'subjectpoet', poet, res, category).then(id =>
             res.status(201).send(id)
         ).catch(err => {
             console.log(err)

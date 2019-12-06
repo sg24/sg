@@ -583,6 +583,10 @@ img {
   margin-left: 5px;
 }
 
+.icon__reuse-notify--categ {
+  margin-right: 5px;
+}
+
 .site-header__tool-tip {
     position: absolute;
     top: 40px;
@@ -1624,13 +1628,13 @@ img {
 .site-main__content--filter__wrapper > ul > li > div {
   position: relative;
   font-size: .9375rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   padding: 10px 0;
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
 }
 
 .site-main__content--filter__wrapper > ul > li > div > span {

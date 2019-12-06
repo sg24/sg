@@ -132,4 +132,8 @@
     &__reuse-modal--icn {
         color: $mainLightRed
     }
+
+    &__reuse-notify--categ {
+        margin-right: 5px;
+    }
 }
