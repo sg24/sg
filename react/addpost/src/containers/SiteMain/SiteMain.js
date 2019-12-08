@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import LogoSvg from './Logo.svg';
 import * as actions from '../../store/actions/index';
@@ -7,8 +8,26 @@ import MainContent from './MainContent/MainContent';
 import MainFilter from '../../components/MainFilter/MainFilter';
 import Loader from '../../components/UI/Loader/Loader';
 import NoAcc from '../../components/Main/NoAcc/NoAcc';
+import  { requestPermission } from  './Notification/Notification';
 
 class SiteMain extends Component {
+    state = {
+        isNotify: true
+    }
+
+    componentDidMount() {
+        if (('serviceWorker' in navigator)) {
+            navigator.serviceWorker.ready
+              .then(swreg => {
+                return swreg.pushManager.getSubscription();
+              }).then(sub => {
+                if (sub === null) {
+                    this.setState({isNotiy: false})
+                }
+              })
+        }
+    }
+
     checkHeaderDefault = () => {
         if (!this.props.default) {
             this.props.onNavDefault()
@@ -23,8 +42,13 @@ class SiteMain extends Component {
         window.location.assign('/view/'+searchDet.grp+'/'+searchDet.id);
     };
 
+    askPermissionHandler = ()  => {
+       requestPermission()
+    };
+
     render() {
         let filterCnt = <Loader />;
+        let checkNotify = null;
 
         if (!this.props.searchCntErr && this.props.searchCnt && this.props.searchCnt.length > 0){
             filterCnt = (
@@ -53,6 +77,21 @@ class SiteMain extends Component {
                 </div> 
             )
         }
+
+        if (!this.state.isNotify) {
+           checkNotify = (
+            <div className="site-main__fm--notify">
+            <FontAwesomeIcon 
+               icon={['fas', 'bell']} 
+               className="icon icon__site-form__fm--notify" />
+               To receive or send Notifications to teachers/students, 
+               Please click the button 
+               <span 
+                   className="site-main__fm--notify--enable"
+                   onClick={this.askPermissionHandler}>Enable Notification</span>
+           </div>
+           )
+        }
         
         return (
             <div 
@@ -60,7 +99,8 @@ class SiteMain extends Component {
             onClick={this.checkHeaderDefault}
             style={{
                     backgroundImage: `url('${LogoSvg}')`,
-                    backgroundRepeat: 'repeat'
+                    backgroundRepeat: 'repeat',
+                    backgroundAttachment: 'fixed'
                 }}>
             <div className="site-main__fm--wrapper">
                 <div className="wrapper__exmain">
@@ -76,6 +116,7 @@ class SiteMain extends Component {
                         </div>
                     </div> : null}
             </div>
+             { checkNotify }
         </div>
         )
     }

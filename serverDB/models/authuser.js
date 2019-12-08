@@ -74,17 +74,20 @@ var authUserSchema = new mongoose.Schema({
         }
     }],
     pushMsg: [{
-        enable: {
-            type: Boolean,
-            default: true
-        },
         publickey: {
             type: String
         },
         privatekey: {
             type: String
         }
-    }]
+    }],
+    subscription: {
+        type: Array
+    },
+    enableNotification: {
+        type: Boolean,
+        default: false
+    }
 }) ;
 
 authUserSchema.methods.generateAuthToken = function generateAuthToken() {

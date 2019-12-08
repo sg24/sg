@@ -84,6 +84,17 @@ router.get('/', authenticate,(req, res, next) => {
         return;
     }
 
+    if (req.header && req.header('data-categ') &&  req.header('data-categ').startsWith('subscribe')) {
+        let subscription = JSON.parse(req.header('data-categ').split('==')[1]);
+        let model = req.userType === 'authUser' ? authUser : user;
+        model.findByIdAndUpdate(req.user, { $push: {subscription: {$each: [subscription],$slice: -1 }}, enableNotification: true}).then(() => {
+            res.sendStatus(200)
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return;
+    }
+    
     if (req.header && req.header('data-categ') &&  req.header('data-categ').startsWith('allteacher')) {
         let model = req.userType === 'authUser' ? authUser : user;
         let status = req.header('data-categ').split('-')[1] === 'online';

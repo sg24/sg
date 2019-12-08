@@ -79,17 +79,20 @@ var UserSchema = new mongoose.Schema({
         }
     }],
     pushMsg: [{
-        enable: {
-            type: Boolean,
-            default: true
-        },
         publickey: {
             type: String
         },
         privatekey: {
             type: String
         }
-    }]
+    }],
+    subscription: {
+        type: Array
+    },
+    enableNotification: {
+        type: Boolean,
+        default: false
+    }
 }) ;
 
 UserSchema.methods.toJSON = function() {

@@ -109,5 +109,9 @@
     &__reuse-notify--categ {
         margin-right: 5px;
     }
+
+    &__site-form__fm--notify {
+        margin-right: 5px;
+    }
    
 }

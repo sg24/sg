@@ -18,6 +18,55 @@ workbox.routing.registerRoute(
     }
 ));
 
+
+
+self.addEventListener('notificationclick', function(event) {
+    var notification = event.notification;
+    var action = event.action;
+  
+    if (action === 'confirm'  || action === 'cancel') {
+      notification.close();
+    } else {
+      event.waitUntil(
+        clients.matchAll()
+          .then(function(clis) {
+            var client = clis.find(function(c) {
+              return c.visibilityState === 'visible';
+            });
+  
+            if (client !== undefined) {
+              client.navigate(notification.data.url);
+              client.focus();
+            } else {
+              clients.openWindow(notification.data.url);
+            }
+            notification.close();
+          })
+      );
+    }
+  });
+  
+  self.addEventListener('push', function(event) {
+    var data = {title: 'New Notification from Teachers/Student', content: 'Required your attension!', openUrl: '/'};
+  
+    if (event.data) {
+      data = JSON.parse(event.data.text());
+    }
+    
+    var options = {
+      body: data.content,
+      icon: '/icons/sg-icon-96x96.png',
+      badge: '/icons/sg-icon-96x96.png',
+      data: {
+        url: data.openUrl
+      }
+    };
+  
+    event.waitUntil(
+      self.registration.showNotification(data.title, options)
+    );
+  });
+  
 workbox.precaching.precacheAndRoute([]);
   
 

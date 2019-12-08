@@ -9,5 +9,6 @@
 @import "modules/_disabled"; 
 @import "modules/_nav";
 @import "modules/_site-header";
+@import "modules/_site-footer";
 @import "modules/_site-main";
 @import "modules/_reuse-notify"; 

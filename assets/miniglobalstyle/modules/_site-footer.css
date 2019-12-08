@@ -1,0 +1,23 @@
+.site-footer {
+    position: relative;
+    background-color: $mainMiddleDarkBlue;
+    font-size: .8125rem;
+
+    & > ul {
+        @mixin clearfix;
+        padding: 8px 5px; 
+        margin: 0;
+        list-style: none;
+        
+        & > li {
+            float: left;
+            width: 33.333%;
+            text-align: center;
+            color: #fff;
+
+            & > a {
+                color: #fff;
+            }
+        }
+    }
+}
