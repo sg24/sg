@@ -66,7 +66,9 @@ class SiteMain extends Component {
             filterCnt = (
                 <NoAcc 
                 isAuth={this.props.userID !== null}
-                det='No content found!' />
+                det='No content found!'
+                icn='clone'
+                filter />
             );
         }
 

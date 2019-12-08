@@ -17,7 +17,7 @@
 
 .icon__reuse-form--cnt__tag {
     margin-right: 5px;
-    color: #ff1600;
+    color: #0284a8;
     font-size: .8125rem;
 }
 
@@ -92,6 +92,7 @@
     width: 60px;
     height: 60px;
     border-radius: 30px;
+
 }
 
 .reuse-user__det--img > img {
@@ -575,30 +576,16 @@
     cursor: pointer;
 }
 
-.reuse-form__cnt--det__toolbar {
-    background-color: #f9f9f9;
-    margin: 0;
-}
-
 .reuse-form__cnt--det__info {
     width: 100%;
     border: none;
     outline: none;
     line-height: 2;
-    padding: 0 10px;
-    height: 200px;
-    overflow: hidden;
-    overflow-y: auto; 
+    padding: 5px 10px 5px 10px;
+    height: 100px;
+    resize: vertical;
     border-radius: 3px;
     background-color: transparent;
-}
-
-.reuse-form__cnt--det__info > div {
-    height: auto;
-}
-
-.reuse-form__cnt--det__info > div > div {
-    height: auto;
 }
 
 .reuse-form__cnt--tag {
@@ -1078,16 +1065,16 @@
 }
 
 .reuse-form__btn--add {
-    background-color: #ff1600;
+    background-color: #437da3;
 }
 
 .reuse-form__btn--add:disabled {
     cursor: not-allowed;
-    background-color: rgba(255,22,0, .45);
+    background-color: rgba(67,125,163, .45)
 }
 
 .reuse-form__btn--add:not(:disabled):hover {
-    background-color:#f22613;
+    background-color:#05578b;
 }
 
 .reuse-form__footer {

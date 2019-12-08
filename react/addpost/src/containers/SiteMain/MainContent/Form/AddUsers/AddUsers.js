@@ -51,6 +51,9 @@ class AddUsers extends Component {
                 showInput: !prevState.showInput
             };
         });
+        if (this.state.showInput) {
+            this.props.onFetchUsers(this.state.curTab);
+        }
     }
 
     selectedUserHandler = (user) => {
