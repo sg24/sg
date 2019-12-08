@@ -8,6 +8,7 @@ const mainFilter = props => {
             key={index}
             filterRes={filterRes}
             filterPos={props.filterPos}
+            filterLastPos={props.filterLastPos}
             viewCnt={props.viewCnt.bind(this, filterRes)}/>
     ));
 

@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import * as actions from '../../../store/actions/index';
 import NotifyItems from '../../../components/Navigation/NotifyItems/NotifyItems';
+import Loader from '../../../components/UI/Loader/Loader';
+import NoAcc from '../../../components/Main/NoAcc/NoAcc';
 
 class NavigationNotify extends Component {
     state = {
@@ -13,7 +15,7 @@ class NavigationNotify extends Component {
     };
     
     componentDidMount() {
-        this.props.onFetchNotifyActive(this.props.userID);
+        this.props.onFetchNotifyActive();
     }
     
     componentDidUpdate() {
@@ -23,6 +25,7 @@ class NavigationNotify extends Component {
                 show: false,
                 showNotify: false,
             });
+            this.props.onDefaultNotifyactive();
         }
     }
 
@@ -41,7 +44,7 @@ class NavigationNotify extends Component {
     }
 
     fetchNotifyHandler = () => {
-        this.props.onFetchNotify(this.props.userID);
+        this.props.onFetchNotify();
         this.setState((prevState, props) => {
             return {
                 show: false,
@@ -73,12 +76,25 @@ class NavigationNotify extends Component {
             notifyTipClass.push("site-header__tool-tip--notify__visible");
         }
 
-        if (this.props.notify && this.state.showNotify) {
+        if (this.state.showNotify) {
+            notifyCntClass.push("site-header__menu--notify__cnt--visible");
+            notify = <Loader />
+        }
+
+        if (this.props.notify && this.props.notify.length < 1 && this.state.showNotify) {
+            notifyCntClass.push("site-header__menu--notify__cnt--visible");
+            notify = <NoAcc 
+                isAuth={this.props.status}
+                det='No Notification found!'
+                icn='bell'
+                isNotify/>
+        }
+
+        if (this.props.notify && this.props.notify.length > 0 && this.state.showNotify) {
             notify = <NotifyItems 
                 content={this.props.notify}
                 fav={this.changeFavoriteHandler}/>
             notifyCntClass.push("site-header__menu--notify__cnt--visible");
-            this.props.onDefaultNotifyactive();
         }
 
         return (
@@ -97,11 +113,11 @@ class NavigationNotify extends Component {
                     Notifications
                 </div>
                 <div className={notifyCntClass.join(' ')}>
-                    <div className="site-header__menu--notify__cnt--set">
+                    {/* <div className="site-header__menu--notify__cnt--set">
                         <FontAwesomeIcon 
                             icon={['fas', 'cogs']} 
                             className="icon icon__site-header--notify__set" />
-                    </div>
+                    </div> */}
                     <div className="site-header__menu--notify__cnt--det">
                     <div className="reuse-trd">
                         <div className="reuse-trd__cnt reuse-trd__cnt--notify">
@@ -117,8 +133,10 @@ class NavigationNotify extends Component {
 
 const mapStateToProps = state => {
     return {
-        userID: state.auth.userID,
+        status: state.auth.status,
         notify: state.header.notify,
+        notifyStart: state.header.notifyStart,
+        notifyErr: state.header.notifyErr,
         hidNotify: state.header.hidNotify,
         notifyActive: state.header.notifyActive
     };
@@ -126,10 +144,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-       onFetchNotify: (userID) => dispatch(actions.fetchNotifyInit(userID)),
+       onFetchNotify: () => dispatch(actions.fetchNotifyInit()),
        onChangeFav: (notify, notifyID) => dispatch(actions.changeFavNotifyInit(notify, notifyID)),
-       onFetchNotifyActive: (userID) => dispatch(actions.fetchNotifyactiveInit(userID)),
-       onDefaultNotifyactive: (userID) => dispatch(actions.defaultNotifyactiveInit(userID))
+       onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
+       onDefaultNotifyactive: () => dispatch(actions.defaultNotifyactiveInit())
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NavigationNotify);

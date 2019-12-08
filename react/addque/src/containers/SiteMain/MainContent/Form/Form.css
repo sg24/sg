@@ -88,10 +88,26 @@
     -ms-box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
     -webkit-box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
     -moz-box-shadow: 0px 2px 7.76px 0.24px rgba(0, 98, 126, 0.4);
+    background-color: #e9ebf2;
     width: 60px;
     height: 60px;
-    background-color: #0284a8;
     border-radius: 30px;
+}
+
+.reuse-user__det--img > img {
+    display: block;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background-color: rgba(233,235,242, .7);
+    cursor: pointer;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -o-object-position: 50% 50%;
+    object-position: 50% 50%;
+    -o-object-fit: fill;
+    object-fit: fill;
+
 }
 
 .reuse-user__det--img__status {
@@ -808,11 +824,10 @@
 }
 
 .reuse-form__itm--tab__srch--wrapper {
-    position: absolute;
+    position: relative;
     background-color: #f9f9f9;
     border: 1px solid #dcdbdc;
     border-top: none;
-    top: 100%;
     width: 100%;
     padding: 10px 10px 20px 10px;
     z-index: 2;
@@ -832,7 +847,7 @@
     -ms-flex-align: center;
         align-items: center;
     position: absolute;
-    right: 20px;
+    right: 5px;
     top: 2px;
     border-radius: 10px;
     cursor: pointer;
@@ -871,7 +886,7 @@
 .reuse-form__itm--tab__srch--input {
     border: none;
     outline: none;
-    padding: 6px 10px 6px 60px;
+    padding: 6px 10px 6px 10px;
     border-radius: 5px;
     width: 100%;
 }
@@ -879,11 +894,12 @@
 @media (min-width: 800px) {
 
     .reuse-form__itm--tab__srch--input {
-        padding: 8px 10px 8px 60px;
+        padding: 8px 10px 8px 10px;
     }
 }
 
 .reuse-form__itm--det {
+    position: relative;
     padding: 20px;
     min-height: 300px;
     max-height: 400px;
@@ -1046,7 +1062,7 @@
 
 .reuse-form__btn--close:disabled, .reuse-form__btn--dft:disabled {
     cursor: not-allowed;
-    background-color: rgba(255,255,255, .45);
+    background-color: rgba(255,255,255, .45)
 }
 
 .reuse-form__btn--close:not(:disabled):hover, .reuse-form__btn--dft:not(:disabled):hover {
@@ -1054,6 +1070,7 @@
 }
 
 .reuse-form__btn--add  {
+    position: relative;
     color: #fff;
     float: right;
     box-shadow: 0 2px 4px 1px rgba(0,0,0, .65);

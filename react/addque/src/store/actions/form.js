@@ -116,12 +116,27 @@ export const fetchUsersInit = (userStatus) =>  {
     }; 
 }; 
 
-export const fetchUsers = (users) =>  {
+export const fetchUsers = (users, status) =>  {
     return {
         type: actionTypes.FETCH_USERS,
-        users
+        users,
+        status
     }; 
 }; 
+
+export const fetchUsersFail = (err) =>  {
+    return {
+        type: actionTypes.FETCH_USERS_FAIL,
+        err
+    }; 
+}; 
+
+export const resetTab = () =>  {
+    return {
+        type: actionTypes.RESET_TAB
+    }; 
+};
+
 
 export const inputDefaultValue = () => {
     return {
@@ -151,9 +166,10 @@ export const userSelect = (users) => {
     };
 };
 
-export const showUserSelectInit = (userID) => {
+export const showUserSelectInit = (users, userID) => {
     return {
         type: actionTypes.SHOW_USER_SELECT_INIT,
+        users,
         userID
     };
 };

@@ -1,10 +1,34 @@
+import * as actionTypes from '../actions/actionTypes';
+import { updateObject } from '../../shared/utility';
 
 const initialState = {
-    userID: 'user_id'
+    status: false,
+    img: null,
+    username: null
+};
+
+const checkAuth = (state, action) => {
+    return updateObject(state, { status: action.status })
+};
+
+const checkUserImg = (state, action) => {
+    return updateObject(state, {img: action.img})
+};
+
+const checkUserName = (state, action) => {
+    return updateObject(state, {username: action.name})
 };
 
 const reducer = (state = initialState, action) => {
-    return state
+    switch(action.type) {
+        case actionTypes.CHECK_AUTH:
+            return checkAuth(state, action);
+        case actionTypes.CHECK_USERIMG:
+            return checkUserImg(state, action);
+        case actionTypes.CHECK_USERNAME:
+            return checkUserName(state, action);
+        default: return state
+    }
 };
 
 export default reducer;

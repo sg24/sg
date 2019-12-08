@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import * as actions from '../../../store/actions/index';
 import NavigationLists from '../../../components/Navigation/NavigationLists/NavigationLists';
+import Loader from '../../../components/UI/Loader/Loader';
 
 class NavigationList extends Component {
     state = {
@@ -82,7 +83,7 @@ class NavigationList extends Component {
                 </ul>
             ) : (
                 <div className={`${navOptClass.join(' ')} site-header__menu--nav__opt--det__loading`}>
-                    Loading ....
+                    <Loader />
                 </div>
             );
         }

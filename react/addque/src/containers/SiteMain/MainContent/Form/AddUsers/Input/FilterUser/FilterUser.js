@@ -9,7 +9,9 @@ class FilterUser extends Component  {
     };
 
     filterContentHandler = (event) => {
-        this.props.onFilterUser(this.props.users, event.target.value);
+        let users = this.props.curTab === 'userSelect' ? 
+        [...this.props.offlineUser, ...this.props.onlineUser] : this.props.users;
+        this.props.onFilterUser(users, event.target.value);
         this.setState({value: event.target.value})
     }
 
@@ -41,7 +43,10 @@ class FilterUser extends Component  {
 const mapStateToProps = state => {
     return {
         users: state.form.users,
-        defaultValue: state.form.defaultValue
+        defaultValue: state.form.defaultValue,
+        offlineUser: state.form.offlineUser,
+        onlineUser: state.form.onlineUser,
+        curTab: state.form.curTab
     };
 };
 

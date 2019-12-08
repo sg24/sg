@@ -5,7 +5,7 @@ import axios from '../../axios';
 
 export function* fetchShareActiveInitSaga(action) {
     try {
-        let response = yield axios.post('/header', {userID: action.userID}, {headers: {'data-categ':'notification'}});
+        let response = yield axios.post('/header', {}, {headers: {'data-categ':'notification'}});
         if (response.data > 0) {
             yield put(actions.fetchShareActive(response.data));
         }

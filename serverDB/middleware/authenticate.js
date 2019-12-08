@@ -1,7 +1,7 @@
 const { authUser , user} = require('../serverDB');
 
 let authenticate = (req, res, next) => {
-    let tempToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGU0ZGQzNGU2YWIxOTFjMTBkODEzYzIiLCJhY2Nlc3MiOiJhdXRoZW50aWNhdGlvbiIsImlhdCI6MTU3NTI3OTkyNCwiZXhwIjoxNTc1ODg0NzI0fQ.ao79AhR0d-BsLtH2BTpySwNPdvumLVLQsFXuMmQtvMc';
+    let tempToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGVjMzc4ZDBiOTdhZjJhOTBiOGZmNjkiLCJhY2Nlc3MiOiJhdXRoZW50aWNhdGlvbiIsImlhdCI6MTU3NTc5Nzk1MSwiZXhwIjoxNTc2NDAyNzUxfQ.uf3K_IamShe-GJrhKilmdiMB5bV8wMP0uNFQ9ur1heU';
     if (req.signedCookies.token || tempToken) {
         user.findByToken(req.signedCookies.token || tempToken).then((result) => {
             if (!result) {
