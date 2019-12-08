@@ -15,6 +15,7 @@ const initialState = {
     default: false,
     searchCnt: null,
     filterPos: 0,
+    filterLastPos: 0,
     searchCntErr: null,
     filterStart: false
 };
@@ -37,6 +38,10 @@ const addNew = (state, action) => {
 
 const fetchNotify = (state, action) => {
     return updateObject(state, {notify: action.notify, hidNotify: false, hidNavList: true, hidUserOption: true, default: false})
+};
+
+const fetchNotifyStart = (state, action) => {
+    return updateObject(state, {notify: null, hidNotify: false, hidNavList: true, hidUserOption: true, default: false})
 };
 
 const changeFavNotifyStart = (state, action) => {
@@ -72,7 +77,7 @@ const defaultNotifyActive = (state, action) => {
 };
 
 const headerFilterStart = (state, action) => {
-    return updateObject(state, {searchCnt: null, filterPos: action.filterPos, searchCntErr: null, filterStart: true})
+    return updateObject(state, {searchCnt: null, filterPos: action.filterPos, filterLastPos: action.filterLastPos, searchCntErr: null, filterStart: true})
 };
 
 const headerFilterFail= (state, action) => {
@@ -97,6 +102,8 @@ const reducer = (state = initialState, action) => {
             return navDefault(state, action);
         case actionTypes.HEADER_ADD_NEW:
             return addNew(state, action);
+        case actionTypes.FETCH_NOTIFY_START:
+            return fetchNotifyStart(state, action);
         case actionTypes.FETCH_NOTIFY:
             return fetchNotify(state, action);
         case actionTypes.CHANGE_FAVORITE_NOTIFY_START:

@@ -1,6 +1,7 @@
 import { takeEvery, all } from 'redux-saga/effects';
 
 import * as actionTypes from '../../store/actions/actionTypes';
+import { checkAuthInitSaga } from './auth';
 import { fetchNotifyInitSaga, 
         changeFavNotifySaga, 
         fetchNavlistInitSaga, 
@@ -14,6 +15,12 @@ import { fetchCategInitSaga,
             fetchUsersInitSaga,
             filterUserInitSaga,
             showUserSelectInitSaga} from './form';
+
+export function* watchAuth() {
+    yield all([
+        takeEvery(actionTypes.CHECK_AUTH_INIT, checkAuthInitSaga)
+    ])
+} 
             
 export function* watchHeader() {
      yield all([

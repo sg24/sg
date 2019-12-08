@@ -37,7 +37,7 @@ module.exports = submitForm = (content, model, files, notify, viewnotify, userMo
                    } else {
                     let newNotiy = new viewnotify({
                         userID,
-                        post: 1
+                        [field]: 1
                     });
                     newNotify.save().then(() => {
                         completeSubmit();

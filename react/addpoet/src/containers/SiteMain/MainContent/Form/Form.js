@@ -338,39 +338,7 @@ class Form extends  Component {
                             <div className="reuse-form__cnt--det">
                                 <div className="reuse-form__cnt--det__wrapper">
                                     <div 
-                                        className={addItemClass.join(' ')}
-                                        onClick={this.addItemHandler}>
-                                        Add  Items 
-                                        <FontAwesomeIcon 
-                                            icon={['fas', 'angle-down']} 
-                                            className="icon icon__reuse-form--angle" />
-                                        <div className="reuse-form__cnt--det__selec--added">
-                                            <div className="reuse-form__cnt--det__selec--added__img">
-                                                <div className="reuse-form__cnt--det__selec--added__img--icn">
-                                                    <FontAwesomeIcon 
-                                                        icon={['fas', 'images']} />
-                                                </div> 
-                                                {this.props.media.image ? this.props.media.image.length : 0}
-                                            </div>
-                                            <div className="reuse-form__cnt--det__selec--added__vid">
-                                                <div className="reuse-form__cnt--det__selec--added__vid--icn">
-                                                    <FontAwesomeIcon 
-                                                        icon={['fas', 'video']} />
-                                                </div> 
-                                                {this.props.media.video ? this.props.media.video.length : 0}
-                                            </div>
-                                        </div>
-                                        <ul className={addItemOptClass.join(' ')}>
-                                            <li 
-                                                className="reuse-form__cnt--det__selec--opt__img"
-                                                onClick={this.showOptHandler.bind(this, 'image')}>Image</li>
-                                            <li 
-                                                className="reuse-form__cnt--det__selec--opt__vid"
-                                                onClick={this.showOptHandler.bind(this, 'video')}>Video</li>
-                                        </ul>
-                                    </div>
-                                    <div 
-                                        className="reuse-form__cnt--det__selec reuse-form__cnt--det__selec--user"
+                                        className="reuse-form__cnt--det__selec reuse-form__cnt--det__selec--add"
                                         onClick={this.showOptHandler.bind(this, 'user')}>
                                         <FontAwesomeIcon 
                                             icon={['fas', 'chalkboard-teacher']} 

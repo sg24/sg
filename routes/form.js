@@ -43,7 +43,7 @@ router.post('/add/poet', authenticate, upload.array('video', 1100),(req, res, ne
     let userModel = req.userType === 'authUser' ? authUser : user;
     const content = req.body;
     connectStatus.then((result) => {
-        submit(content, poets,req.files, pwtnotifies, viewnotifies, userModel, req.user, 'pwtID', 'subjectpoet', poet, res, category).then(id =>
+        submit(content, poets,req.files, pwtnotifies, viewnotifies, userModel, req.user, 'pwtID', 'subjectpoet', 'poet', res, category).then(id =>
             res.status(201).send(id)
         ).catch(err => {
             console.log(err)

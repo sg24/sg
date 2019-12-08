@@ -4,32 +4,6 @@ import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 import fileAxios from 'axios';
 
-const users = [{
-    id: '454537dggdgd',
-    user: 'User',
-    userImage: '/',
-    userStatus: 'online',
-    students: 99
-},{
-    id: '293874756gfdyey33',
-    user: 'User User',
-    userImage: '/',
-    userStatus: 'offline',
-    students: 99
-},{
-    id: '572ghgd898393838',
-    user: 'User',
-    userImage: '/',
-    userStatus: 'online',
-    students: 90
-},{
-    id: '2ii3yr4ygdbbdbdsjjw',
-    user: 'User User',
-    userImage: '/',
-    userStatus: 'online',
-    students: 99
-}]
-
 export function* fetchCategInitSaga(action) {
     try {
         yield put(actions.fetchCategStart());
@@ -72,12 +46,16 @@ export function* checkLinkInitSaga(action) {
 }
 
 export function* fetchUsersInitSaga(action) {
-    let updateUser = users.filter(user => user.userStatus === action.userStatus);
-    yield put(actions.fetchUsers(updateUser, action.userStatus));
+    try {
+        let response = yield axios.get('/users', {headers: {'data-categ':`allteacher-${action.userStatus}`}});
+        yield put(actions.fetchUsers(response.data, action.userStatus));
+    } catch(err) {
+        yield put(actions.fetchUsersFail(err))
+    }
 }
 
 export function* filterUserInitSaga(action) {
-       let filterUser = action.users.filter(user => user.user.toLowerCase().indexOf(action.filterContent.toLowerCase()) !== -1 );
+       let filterUser = action.users.filter(user => user.username.toLowerCase().indexOf(action.filterContent.toLowerCase()) !== -1 );
 
        if (!action.filterContent && action.users && action.users.length > 0) {
             filterUser = [...action.users];
@@ -87,14 +65,6 @@ export function* filterUserInitSaga(action) {
 }
 
 export function* showUserSelectInitSaga(action) {
-    let usersArray = [];
-    let usersID = [...action.userID];
-    for (let user of users) {
-        let filterUser = usersID.filter(userID => userID === user.id);
-        if (filterUser.length > 0) {
-            usersArray.push({...user})
-        }
-    }
-
-    yield put(actions.showUserSelect(usersArray));
+    let filterUser = action.users.filter(user => action.userID.indexOf(user.id) !== -1);
+    yield put(actions.showUserSelect(filterUser));
 }

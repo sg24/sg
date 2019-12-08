@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Favorite extends Component {
@@ -33,7 +34,7 @@ class Favorite extends Component {
                 onMouseLeave={this.hidFavTipHandler}>
                 <FontAwesomeIcon 
                     icon={['fas', 'heart']} 
-                    className="icon icon__site-header--favorites" />
+                    className="icon icon__site-header--favorites" /> 
                 <div className={favTipClass.join(' ')}>
                     Favorites 
                 </div>
@@ -42,4 +43,10 @@ class Favorite extends Component {
     }
 };
 
-export default Favorite;
+
+const mapStateToProps = state => {
+    return {
+        favChange: state.header.favChange
+    }
+}
+export default connect(mapStateToProps, null)(Favorite);
