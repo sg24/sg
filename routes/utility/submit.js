@@ -15,7 +15,7 @@ module.exports = submitForm = (content, model, files, notify, viewnotify, userMo
     }
 
     let newDoc = new model({
-        authorID: Date.now(),
+        authorID: req.user,
         category: categ,
         video: fileID,
         image: content.image,

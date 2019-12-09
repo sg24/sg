@@ -4,6 +4,7 @@ import './NoAcc.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const noAcc = props => {
+    let cntClass = ['reuse-no-acc__cnt--title'];
     let noAccContent = (
         <div className="reuse-no-acc__cnt">
             <h4 className="reuse-no-acc__cnt--title">You are not logged in.</h4>
@@ -13,11 +14,14 @@ const noAcc = props => {
             </ul>
         </div>
     );
+    if (!props.filter) {
+        cntClass.push('reuse-no-acc__cnt--title__add-grp')
+    }
     
     if (props.isAuth) {
         noAccContent = (
             <div className="reuse-no-acc__cnt">
-                <h4 className="reuse-no-acc__cnt--title reuse-no-acc__cnt--title__add-grp"> { props.det } </h4>
+                <h4 className={cntClass.join(' ')}> { props.det } </h4>
             </div>
         );
     }
@@ -27,7 +31,7 @@ const noAcc = props => {
             <div className="reuse-no-acc__wrapper">
                 <div className="reuse-no-acc__icn">
                 <FontAwesomeIcon 
-                    icon={['fas', 'clone']} 
+                    icon={['fas', `${props.icn}`]} 
                     className={props.icnClass} />
                 </div>
                 {noAccContent}

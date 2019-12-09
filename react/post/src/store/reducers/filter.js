@@ -5,11 +5,16 @@ const initialState = {
     ptCateg: null,
     filterStart: false,
     totalFound: null,
-    filterErr: null
+    filterErr: null,
+    cnt: 0
 }
 
 const fetchPostCateg = (state, action) => {
     return updateObject(state, {ptCateg: action.categ})
+};
+
+const fetchTotal = (state, action) => {
+    return updateObject(state, {cnt: action.total})
 };
 
 const filterContentStart = (state, action) => {
@@ -32,6 +37,8 @@ const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.FETCH_PTCATEG:
             return fetchPostCateg(state, action);
+        case actionTypes.FETCH_TOTAL:
+            return fetchTotal(state, action);
         case actionTypes.FILTER_CONTENT_START:
             return filterContentStart(state, action);
         case actionTypes.FILTER_CONTENT_FAIL:

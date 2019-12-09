@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import 'pepjs';
 
 import Post from '../../../../../components/Main/Post/Post';
+import Loader from '../../../../../components/UI/Loader/Loader';
 import NoAcc from '../../../../../components/Main/NoAcc/NoAcc';
 import { updateObject } from '../../../../../shared/utility';
 import * as actions from '../../../../../store/actions/index';
@@ -54,7 +55,7 @@ class Posts extends Component {
     componentDidUpdate() {
         if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id !== 'share' && this.props.match.params.id !== 'filter' && this.props.match.params.id !== 'startfilter') {
             this.props.onFetchPostReset();
-            this.props.onFetchPost(this.props.userID, this.props.match.params.id === 'shared' ? `shared-${this.props.userID}` : this.props.match.params.id, this.state.fetchLimit, 0, 0);
+            this.props.onFetchPost(this.props.userID, this.props.match.params.id === 'shared' ? `shared` : this.props.match.params.id, this.state.fetchLimit, 0, 0);
             this.setState({
                 filterTag: this.props.match.params.id
             });
@@ -199,25 +200,29 @@ class Posts extends Component {
     }
 
     render() {
-        this.props.onFetchShareActive(this.props.userID);
-        this.props.onFetchPtActive(this.props.userID);
-        this.props.onFtechShareCntActive(this.props.userID);
+        this.props.onFetchShareActive();
+        this.props.onFetchPtActive();
+        this.props.onFtechShareCntActive();
 
-        let post = "Loading";
+        let post = <Loader />;
         if (this.props.postErr) {
             post = null
         }
 
         if (this.props.posts && this.props.posts.length === 0 && this.state.filterTag === 'shared') {
             post = <NoAcc 
-                isAuth={this.props.userID !== null}
-                det='You have no shared post yet!'/>
+                    isAuth={this.props.userID !== null}
+                    det='No content found!'
+                    icn='clone'
+                    filter />
         }
 
         if (this.props.posts && this.props.posts.length === 0 && this.state.filterTag !== 'shared') {
             post = <NoAcc 
-                isAuth={this.props.userID !== null}
-                det='Category not found !!'/>
+                    isAuth={this.props.userID !== null}
+                    det='No content found!'
+                    icn='clone'
+                    filter />
         }
 
         if (this.props.posts && this.props.posts.length > 0) {
@@ -268,9 +273,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchShareActive: (userID) => dispatch(actions.fetchShareactiveInit(userID)),
-        onFtechShareCntActive: (userID) => dispatch(actions.fetchShareCntactiveInit(userID)),
-        onFetchPtActive: (userID) => dispatch(actions.fetchPtActiveInit(userID)),
+        onFetchShareActive: () => dispatch(actions.fetchShareactiveInit()),
+        onFtechShareCntActive: () => dispatch(actions.fetchShareCntactiveInit()),
+        onFetchPtActive: () => dispatch(actions.fetchPtActiveInit()),
         onFetchPost: (userID, fetchType, limit, skipPost, ptTotal) => dispatch(actions.fetchPostInit(userID, fetchType, limit, skipPost, ptTotal)),
         onFetchPostReset: () => dispatch(actions.fetchPostReset()),
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),

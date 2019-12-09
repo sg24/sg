@@ -1,4 +1,42 @@
 export {
+    checkAuthInit,
+    checkAuth,
+    checkUserImg,
+    checkUserName
+} from './auth'
+
+export { 
+    headerFormExpand,
+    headerFormSm,
+    headerNavDefault,
+    headerAddNew,
+    changeMainFavoriteStart,
+    changeMainFavoriteReset,
+    fetchNotifyInit,
+    fetchNotifyStart,
+    fetchNotifyFail,
+    fetchNotify,
+    changeFavNotifyInit,
+    changeFavNotifyStart,
+    changeFavNotifyFail,
+    changeFavNotify,
+    showNavList,
+    fetchNavlistInit,
+    fetchNavlistStart,
+    fetchNavlist,
+    showUserOption,
+    fetchNotifyactiveInit,
+    fetchNotifyActive,
+    defaultNotifyactiveInit,
+    defaultNotifyActive,
+    headerFilterInit,
+    headerFilterStart,
+    headerFilterFail,
+    headerFilter,
+    headerFilterClose
+} from './header';
+
+export {
     fetchPostInit,
     fetchPostFail,
     fetchPostReset,
@@ -19,11 +57,12 @@ export {
     changeFav,
 } from './post';
 
-
 export {
     fetchPtCategInit,
     fetchPtCategStart,
     fetchPtCateg,
+    fetchTotalInit,
+    fetchTotal,
     filterContentInit,
     filterContentStart,
     filterContentFail,
@@ -48,8 +87,6 @@ export {
     shareUserfail,
     shareUser
 } from './share';
-
-
 export {
     changeTagsPath,
     fetchTagsInit,
@@ -74,42 +111,13 @@ export {
     fetchConv
 } from './conv';
 
-export { 
-    headerFormExpand,
-    headerFormSm,
-    headerNavDefault,
-    headerAddNew,
-    changeMainFavoriteStart,
-    changeMainFavoriteReset,
-    fetchNotifyInit,
-    fetchNotify,
-    changeFavNotifyInit,
-    changeFavNotifyStart,
-    changeFavNotifyFail,
-    changeFavNotify,
-    showNavList,
-    fetchNavlistInit,
-    fetchNavlistStart,
-    fetchNavlist,
-    showUserOption,
-    fetchNotifyactiveInit,
-    fetchNotifyActive,
-    defaultNotifyactiveInit,
-    defaultNotifyActive,
-    headerFilterInit,
-    headerFilterStart,
-    headerFilterFail,
-    headerFilter,
-    headerFilterClose
-} from './header';
-
 export {
     fetchPtActiveInit,
     fetchPtActive,
-    fetchShareactiveInit,
-    fetchShareActive,
     fetchShareCntactiveInit,
     fetchShareCntActive,
+    fetchShareactiveInit,
+    fetchShareActive,
     resetActiveInit,
     resetActive,
     showMainBackdrop,

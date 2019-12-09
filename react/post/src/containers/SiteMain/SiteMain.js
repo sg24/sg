@@ -9,6 +9,7 @@ import asyncComponent from '../../hoc/asyncComponent/asyncComponent';
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
 import Modal from '../../components/UI/Modal/Modal';
 import MainFilter from '../../components/MainFilter/MainFilter';
+import Loader from '../../components/UI/Loader/Loader';
 import NoAcc from '../../components/Main/NoAcc/NoAcc';
 
 const AsyncShare= asyncComponent(() => {
@@ -43,7 +44,8 @@ class SiteMain extends Component {
     }
 
     render() {
-        let filterCnt = 'loading....';
+        let filterCnt = <Loader />;
+        let checkNotify = null;
 
         if (!this.props.searchCntErr && this.props.searchCnt && this.props.searchCnt.length > 0){
             filterCnt = (
@@ -51,6 +53,7 @@ class SiteMain extends Component {
                     <MainFilter 
                         filterResults={this.props.searchCnt}
                         filterPos={this.props.filterPos}
+                        filterLastPos={this.props.filterLastPos}
                         viewCnt={this.viewCntHandler}/>
                 </ul> 
             )
@@ -59,8 +62,10 @@ class SiteMain extends Component {
         if (!this.props.searchCntErr && this.props.searchCnt && this.props.searchCnt.length === 0) {
             filterCnt = (
                 <NoAcc 
-                isAuth={this.props.userID !== null}
-                det='No content found!' />
+                    isAuth={this.props.userID !== null}
+                    det='No content found!'
+                    icn='clone'
+                    filter />
             );
         }
 
@@ -131,6 +136,7 @@ const mapStateToProps = state => {
         searchCnt: state.header.searchCnt,
         searchCntErr: state.header.searchCntErr,
         filterPos: state.header.filterPos,
+        filterLastPos: state.header.filterLastPos,
         changePtStart: state.pt.changePtStart,
         changePtErr: state.pt.changePtErr,
         changePt: state.pt.changePt

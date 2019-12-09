@@ -16,13 +16,13 @@ class SiteMain extends Component {
     }
 
     componentDidMount() {
-        if (('serviceWorker' in navigator)) {
+        if ('serviceWorker' in navigator) {
             navigator.serviceWorker.ready
               .then(swreg => {
                 return swreg.pushManager.getSubscription();
               }).then(sub => {
                 if (sub === null) {
-                    this.setState({isNotiy: false})
+                    this.setState({isNotify: false})
                 }
               })
         }
@@ -43,7 +43,9 @@ class SiteMain extends Component {
     };
 
     askPermissionHandler = ()  => {
-       requestPermission()
+       requestPermission().then(() => {
+        this.setState({isNotify: true})
+       })
     };
 
     render() {

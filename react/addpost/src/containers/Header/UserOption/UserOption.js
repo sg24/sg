@@ -48,7 +48,7 @@ class UserOption extends Component {
                 onClick={this.showUserOptionHandler}>
                 { userImg }
                 <ul className={userDetClass.join(' ')}>
-                    <li className="site-header__user--det__portal">
+                    {/* <li className="site-header__user--det__portal">
                     <a href="/acc">
                         <div className="site-header__user--det__portal--img">
                         { userImg }
@@ -65,9 +65,9 @@ class UserOption extends Component {
                             </div>
                             Account Settings
                         </a>
-                    </li>
+                    </li> */}
                     <li className="site-header__user--det__logout">
-                        <a href="/logout">
+                        <a href="/auth/logout">
                             <div>
                                 <FontAwesomeIcon 
                                     icon={['fas', 'angle-double-right']} 

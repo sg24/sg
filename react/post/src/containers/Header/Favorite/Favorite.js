@@ -22,6 +22,7 @@ class Favorite extends Component {
     };
 
     render() {
+        console.log(this.props)
         let favTipClass = ["site-header__tool-tip site-header__tool-tip--fav"];
 
         if (this.state.show) {

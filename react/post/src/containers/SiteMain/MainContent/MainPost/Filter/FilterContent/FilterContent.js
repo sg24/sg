@@ -13,19 +13,19 @@ class FilterContent extends Component {
     state = {
         filterOpt: {
             comment: [
-                {id: 1, filterType: 'Low', filterRangeIcn: 'angle-right', filterRange:  500},
-                {id: 2, filterType: 'Average', filterRangeIcn: 'angle-left', filterRange:  '499 - 999'},
-                {id: 3, filterType: 'High', filterRangeIcn: 'angle-left', filterRange:  999}
+                {id: 1, filterType: 'Low', filterRangeIcn: 'angle-left', filterRange:  500},
+                {id: 2, filterType: 'Average', filterRangeIcn: 'angle-right', filterRange:  '499 - 999'},
+                {id: 3, filterType: 'High', filterRangeIcn: 'angle-right', filterRange:  999}
             ],
             views: [
-                {id: 4, filterType: 'Low', filterRangeIcn: 'angle-right', filterRange:  500},
-                {id: 5, filterType: 'Average', filterRangeIcn: 'angle-left', filterRange:  '499 - 999'},
-                {id: 6, filterType: 'High', filterRangeIcn: 'angle-left', filterRange:  999}
+                {id: 4, filterType: 'Low', filterRangeIcn: 'angle-left', filterRange:  500},
+                {id: 5, filterType: 'Average', filterRangeIcn: 'angle-right', filterRange:  '499 - 999'},
+                {id: 6, filterType: 'High', filterRangeIcn: 'angle-right', filterRange:  999}
             ],
             fav: [
-                {id: 7, filterType: 'Low', filterRangeIcn: 'angle-right', filterRange:  500},
-                {id: 8, filterType: 'Average', filterRangeIcn: 'angle-left', filterRange:  '499 - 999'},
-                {id: 9, filterType: 'High', filterRangeIcn: 'angle-left', filterRange:  999}
+                {id: 7, filterType: 'Low', filterRangeIcn: 'angle-left', filterRange:  500},
+                {id: 8, filterType: 'Average', filterRangeIcn: 'angle-right', filterRange:  '499 - 999'},
+                {id: 9, filterType: 'High', filterRangeIcn: 'angle-right', filterRange:  999}
             ]
         },
         searchCnt: '',
@@ -50,7 +50,7 @@ class FilterContent extends Component {
     }
 
     filterItmHandler = (filterGrp, rangeIcn, range, id) => {
-        let rangeFilter = rangeIcn === 'angle-left' ? '$gt' : '$lt';
+        let rangeFilter = rangeIcn === 'angle-right' ? '$gt' : '$lt';
         let filterPayload = {
           rangeType: rangeFilter,
           rangeValue: range,
@@ -166,11 +166,6 @@ class FilterContent extends Component {
         return (
             <div className="reuse-filter__opt"> 
                 <div className={filterSrchClass.join(' ')}>
-                    <div className="reuse-filter__opt--srch__calend">
-                        <FontAwesomeIcon 
-                            icon={['far', 'calendar-alt']} 
-                            className="icon icon__reuse-filter--calend"/>
-                    </div> 
                     <input 
                         type="text" 
                         className="reuse-filter__opt--srch__input" 

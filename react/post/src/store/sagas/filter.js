@@ -15,6 +15,13 @@ export function* fetchPtCategInitSaga(action) {
     } catch(e){}
 }
 
+export function* fetchTotalInitSaga(action) {
+    try {
+        let response = yield axios.post('/header', {model: 'post'},{headers: {'data-categ':'myModel'}});
+        yield put(actions.fetchTotal(response.data));
+    } catch(e){}
+}
+
 export function* filterContentInitSaga(action) {
     
     let categs = [];

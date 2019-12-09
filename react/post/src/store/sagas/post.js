@@ -13,7 +13,7 @@ export function* fetchPostInitSaga(action) {
                     'skip': action.skipPost}});
             let cntArray = [];
             if (response.data.cnt && response.data.cnt.length > 0 ) { 
-                for (let cnt of response.data.pt) {
+                for (let cnt of response.data.cnt) {
                     const newCnt = {...cnt};
                     let liked = false;
                     for (let userID of newCnt.liked) {

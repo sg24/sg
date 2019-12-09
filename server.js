@@ -11,6 +11,7 @@ let usersRoutes = require('./routes/users');
 let formRoutes = require('./routes/form');
 let authRoutes = require('./routes/auth');
 let sitemapxmlRoute = require('./routes/sitemapxml');
+let postRoute = require('./routes/post');
 
 let app = express();
 
@@ -67,6 +68,7 @@ app.use(function (req, res, next) {
 app.use('/', [appRoutes, formRoutes]);
 app.use('/auth', authRoutes)
 app.use('/users', usersRoutes);
+app.use('/post', postRoute);
 app.use('/sitemap.xml', sitemapxmlRoute);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

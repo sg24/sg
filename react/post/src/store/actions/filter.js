@@ -20,6 +20,19 @@ export const fetchPtCateg = (categ) => {
     }
 };
 
+export const fetchTotalInit = () => {
+    return {
+        type: actionTypes.FETCH_TOTAL_INIT,
+    };
+};
+
+export const fetchTotal = total => {
+    return {
+        type: actionTypes.FETCH_TOTAL,
+        total
+    };
+};
+
 export const filterContentInit = (content) => {
     return {
         type: actionTypes.FILTER_CONTENT_INIT,
