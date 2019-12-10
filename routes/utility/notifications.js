@@ -4,7 +4,7 @@ module.exports =  notification = (shareMe, model, id, field) => {
                 for (let userID of shareMe) {
                     model.findOne({userID}).then(result => {
                         if (result !== null) {
-                            model.findOneAndUpdate({userID}, {$inc: {'notifications': 1}, $addToSet: { [field]: id }}).then(result =>{
+                            model.findOneAndUpdate({userID, [field]: { $ne : id }}, {$inc: {'notifications': 1}, $addToSet: { [field]: id }}).then(result =>{
                                 if(++i === shareMe.length) {
                                    resolve()
                                 }

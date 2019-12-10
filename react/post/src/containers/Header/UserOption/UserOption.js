@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import Avatar from 'react-avatar';
+import Avatar from 'react-avatar';
 
 import * as actions from '../../../store/actions/index';
 
@@ -39,7 +39,7 @@ class UserOption extends Component {
         };
 
         if (this.props.username && !this.props.img) {
-            // userImg = <Avatar  name={this.props.username} size='30' round />;
+            userImg = <Avatar  name={this.props.username} size='30' round />;
         }
 
         return ( 

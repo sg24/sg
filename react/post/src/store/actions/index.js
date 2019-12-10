@@ -73,6 +73,7 @@ export {
 
 export {
     fetchUsersInit,
+    fetchUsersFail,
     fetchUsers,
     userSelect,
     viewUsers,

@@ -97,7 +97,8 @@ router.get('/', authenticate,(req, res, next) => {
     
     if (req.header && req.header('data-categ') &&  req.header('data-categ').startsWith('allteacher')) {
         let model = req.userType === 'authUser' ? authUser : user;
-        let status = req.header('data-categ').split('-')[1] === 'online';
+        let status = req.header('data-categ').split('-')[1] === 'online' ? {status: true} : 
+        req.header('data-categ').split('-')[1] === 'offline' ? {status: false} : {}
         model.findById(req.user).then(result => {
             let student = [...result.student, ...result.teacher];
             fetchAllTeacher(user, student, status, []).then(userTeacher => {
@@ -111,7 +112,7 @@ router.get('/', authenticate,(req, res, next) => {
 
         function fetchAllTeacher(model, allTeacher, status, fndTeacher) {
             return new Promise((resolve,reject) =>{
-                model.find({_id: { $in : allTeacher }, status}).then(result => {
+                model.find({_id: { $in : allTeacher }, ...status}).then(result => {
                     let users = [];
                     for (let cnt of result) {
                         let userDet = {id: cnt.id, username: cnt.username,student: cnt.student.length,status: cnt.status, image: cnt.image || ''}

@@ -392,7 +392,7 @@ router.patch('/header', authenticate, (req, res, next) => {
         let model = req.body.model === 'post' ? posts :
         req.body.model === 'question' ? questions : poets;
         let shareMe = JSON.parse(req.body.users);
-        notification(shareMe, modelNotifies).then(() =>{
+        notification(shareMe, modelNotifies, req.body.id, req.body.field).then(() =>{
             model.findByIdAndUpdate(req.body.id, {$addToSet: { shareMe: { $each: shareMe } }}).then((result) => {
                 res.sendStatus(200);
             }).catch(err => {
