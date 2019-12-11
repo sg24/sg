@@ -196,6 +196,9 @@ class Posts extends Component {
         }, 500)
     }
     changePtHandler = (id, title, det) => {
+        if ( this.props.match.params.id === 'mypost') {
+            det = det === 'draft' ?  'acc-draft' : det;
+        }
         this.props.onChangePt(id, title, det, false);
     }
 

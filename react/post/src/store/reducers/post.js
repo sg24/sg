@@ -38,8 +38,18 @@ const changePostCancel = (state, action) => {
 
 const changePostReset = (state, action) => {
     let posts = [...state.posts];
+    if (state.changePtStart.det === 'publish' || state.changePtStart.det === 'acc-draft') {
+        let filterPost = posts.filter(pt => pt._id === state.changePtStart.id);
+        let updated = posts.filter(pt => pt._id !== state.changePtStart.id);
+        if (filterPost.length > 0) {
+            let updatePost = {...filterPost[0]}
+            updatePost.mode = state.changePtStart.det === 'publish' ? 'publish' : 'draft';
+            updated.push(updatePost) 
+            return updateObject(state, {posts: action.changed ? updated : state.posts, changePtStart: null, changePtErr: null, changePt: false})
+        }
+    }
     let updatePost = posts.filter(pt => pt._id !== state.changePtStart.id);
-    return updateObject(state, {posts: updatePost, changePtStart: null, changePtErr: null, changePt: false})
+    return updateObject(state, {posts: action.changed ? updatePost : state.posts, changePtStart: null, changePtErr: null, changePt: false})
 };
 
 const changePostFail = (state, action) => {

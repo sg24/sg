@@ -18,6 +18,16 @@ const postContent = props => {
     let favAdd = null;
     let isLiked = null;
     let mediaTotal = props.pt.snapshot.length+props.pt.image.length;
+    let userOptMode = (
+            <li 
+                className="reuse-pt__footer--details__options--status"
+                onClick={props.changePt}>
+                <FontAwesomeIcon 
+                    icon={['far', 'eye-slash']} 
+                    className="icon icon__reuse-pt--options__dft" /> 
+                Draft
+            </li>
+    );
 
     let fav = <FontAwesomeIcon 
         icon={['far', 'heart']} 
@@ -25,6 +35,19 @@ const postContent = props => {
     
     let userImage = <img src={props.pt.userImage} alt="" />
 
+    if (props.pt.mode === 'draft') {
+      userOptMode = (
+        <li 
+            className="reuse-pt__footer--details__options--status"
+            onClick={props.changePtPublish}>
+            <FontAwesomeIcon 
+                icon={['far', 'eye']} 
+                className="icon icon__reuse-pt--options__dft" /> 
+            Publish
+        </li>
+      )
+    }
+    
     if (props.pt.username && !props.pt.userImage) {
         userImage = <Avatar  name={props.pt.username} size='36' round />;
     }
@@ -183,14 +206,7 @@ const postContent = props => {
                         Edit 
                     </a>
                 </li>
-                <li 
-                    className="reuse-pt__footer--details__options--status"
-                    onClick={props.changePt}>
-                    <FontAwesomeIcon 
-                        icon={['far', 'eye-slash']} 
-                        className="icon icon__reuse-pt--options__dft" /> 
-                    Draft
-                </li>
+                {userOptMode}
                 <li
                     onClick={props.deletePt}>
                     <FontAwesomeIcon 

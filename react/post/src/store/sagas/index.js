@@ -1,4 +1,4 @@
-import { takeEvery, all } from 'redux-saga/effects';
+import { takeEvery, all, takeLatest } from 'redux-saga/effects';
 
 import * as actionTypes from '../../store/actions/actionTypes';
 import { checkAuthInitSaga } from './auth';
@@ -28,10 +28,10 @@ export function* watchAuth() {
 
 export function* watchPt() {
     yield all([
-        takeEvery(actionTypes.FETCH_POST_INIT, fetchPostInitSaga),
+        takeLatest(actionTypes.FETCH_POST_INIT, fetchPostInitSaga),
         takeEvery(actionTypes.FETCH_VIDEO_INIT, fetchVideoInitSaga),
         takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga),
-        takeEvery(actionTypes.CHANGE_POST_INIT, changePostInitSaga)
+        takeLatest(actionTypes.CHANGE_POST_INIT, changePostInitSaga)
     ])
 } 
 

@@ -133,7 +133,7 @@ router.post('/header', authenticate, (req, res, next) => {
 
     function checkAllNotifies(model, modelType, sort, viewTotal, notify) {
         return new Promise((resolve, reject) => {
-            model.countDocuments({}).then(total => {
+            model.countDocuments({mode: 'publish'}).then(total => {
                 let curNotify = total - viewTotal;
                 notify.collTotal = notify.collTotal + curNotify;
                 if (req.body.fetchCnt && curNotify > 0) {
@@ -196,7 +196,7 @@ router.post('/header', authenticate, (req, res, next) => {
         req.body.model === 'question' ? questions : poets;
         viewnotifies.findOne({userID: req.user}).then(notify => {
             if (notify) {
-                model.countDocuments({}).then(total => {
+                model.countDocuments({mode: 'publish'}).then(total => {
                     let modelTotal = total - notify[req.body.model];
                     res.send(new String(modelTotal )).status(200);
                 }).catch(err => {
@@ -383,6 +383,41 @@ router.post('/header', authenticate, (req, res, next) => {
 
 
 router.patch('/header', authenticate, (req, res, next) => {
+    if (req.header('data-categ') === 'draftmode') {
+        let model = req.body.model === 'post' ? posts :
+        req.body.model === 'question' ? questions : poets;
+        let notify = req.body.model === 'post' ? postnotifies :
+        req.body.model === 'question' ? quenotifies : pwtnotifies;
+        model.findByIdAndUpdate(req.body.id, {mode: 'draft', shareMe: []}).then(result => {
+            let send = 0;
+            if (result.shareMe && result.shareMe.length < 1) {
+                res.sendStatus(200);
+            }
+            for (let userID of result.shareMe){
+                notify.findOneAndUpdate({userID, [req.body.field]: {$in : req.body.id}}, {
+                    $inc: {'notifications': -1}, $pull: { [req.body.field]: req.body.id}
+                }).then(() => {
+                    ++send;
+                    if (send === result.shareMe.length) {
+                        res.sendStatus(200);
+                    }
+                })
+            }
+        })
+        return
+    }
+
+    if (req.header('data-categ') === 'publishmode') {
+        let model = req.body.model === 'post' ? posts :
+        req.body.model === 'question' ? questions : poets;
+        model.findByIdAndUpdate(req.body.id, {mode: 'publish'}).then(result => {
+            res.sendStatus(200);
+        }).catch(err => {
+            res.send(500).send(err);
+        })
+        return
+    }
+
     if(req.header('data-categ') === 'share') {
         let model = req.body.model === 'post' ? postnotifies :
          req.body.model === 'question' ? quenotifies : pwtnotifies;
@@ -439,6 +474,32 @@ router.patch('/header', authenticate, (req, res, next) => {
     }
 });
 
+router.delete('/header', (req,res, next) =>  {
+    if (req.header('data-categ').startsWith('deletecnt')) {
+        let payload = JSON.parse(req.header('data-categ').split('-')[1]);
+        let model = payload.model === 'post' ? posts :
+        payload.model === 'question' ? questions : poets;
+        let notify = payload.model === 'post' ? postnotifies :
+        payload.model === 'question' ? quenotifies : pwtnotifies;
+        model.findByIdAndRemove(payload.id).then(result => {
+            let send = 0;
+            if (result.shareMe && result.shareMe.length < 1) {
+                res.sendStatus(200);
+            }
+            for (let userID of result.shareMe){
+                notify.findOneAndUpdate({userID, [payload.field]: {$in : payload.id}}, {
+                    $inc: {'notifications': -1}, $pull: { [payload.field]: payload.id}
+                }).then(() => {
+                    ++send;
+                    if (send === result.shareMe.length) {
+                        res.sendStatus(200);
+                    }
+                })
+            }
+        })
+        return
+    }
+});
 
 router.get('/poet', (req, res, next) => {
     if (req.header('data-categ') === 'category') {
@@ -622,7 +683,7 @@ router.get('/conversations', (req, res, next) => {
     res.render('conv');
 });
 
-router.get('/add/question', (req, res, next) => {
+router.get('/add/question', authenticate,(req, res, next) => {
     res.render('queform');
 });
 
@@ -638,7 +699,7 @@ router.get('/add/onlineexam', (req, res, next) => {
     res.render('onlineexamform'); 
 });
 
-router.get('/add/poet', (req, res, next) => {
+router.get('/add/poet', authenticate, (req, res, next) => {
     res.render('poetwriterform'); 
 });
 

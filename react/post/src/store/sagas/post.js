@@ -64,16 +64,19 @@ export function* changePostInitSaga(action) {
     }
     try {
         if (action.det === 'delete') {
-            yield axios.delete('/post', {headers: {'data-categ': 'deleteCnt-'+action.id}});
+            let payload = JSON.stringify({id: action.id, model: 'post', field: 'postID'})
+            yield axios.delete('/header', {headers: {'data-categ': `deletecnt-${payload}`}});
+        } else if (action.det === 'draft' || action.det === 'acc-draft'){
+            yield axios.patch('/header', {id: action.id, model: 'post', field: 'postID'} ,{headers: {'data-categ': 'draftmode'}});
         } else {
-            yield axios.patch('/post', {id: action.id} ,{headers: {'data-categ': 'changemode'}});
+            yield axios.patch('/header', {id: action.id, model: 'post', field: 'postID'} ,{headers: {'data-categ': 'publishmode'}});
         }
         yield put(actions.changePt())
         yield delay(1000);
-        yield put(actions.changePtReset())
+        yield put(actions.changePtReset(true))
     } catch(err){
         yield put(actions.changePtFail(err))
         yield delay(1000);
-        yield put(actions.changePtReset())
+        yield put(actions.changePtReset(false))
     }
 }

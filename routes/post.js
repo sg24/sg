@@ -8,11 +8,11 @@ const {category, posts, user, authUser, connectStatus} = require('../serverDB/se
 
 router.get('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'post') {
-        return fetchPost({});
+        return fetchPost({mode: 'publish'});
     }
 
     if (req.header !== null && req.header('data-categ') && req.header('data-categ').startsWith('shared')) {
-        return fetchPost({shareMe: req.user});
+        return fetchPost({mode: 'publish', shareMe: req.user});
     }
 
     if (req.header !== null && req.header('data-categ') === 'mypost') {
@@ -20,7 +20,7 @@ router.get('/', authenticate, (req, res, next) => {
     }
 
     function fetchPost(conditions, meta) {
-        let condition = {mode: 'publish', _isCompleted: true, ...conditions}
+        let condition = { _isCompleted: true, ...conditions}
         connectStatus.then(() => {
             let isMeta = meta ? meta : {};
             let sort = req.header('data-categ').startsWith('filter') ? { score: { $meta: "textScore" } } : {postCreated: -1};
@@ -73,7 +73,20 @@ router.get('/', authenticate, (req, res, next) => {
                             update['username'] = username;
                             update['userImage'] = image;
                             update['userOpt'] = cnt.authorID === req.user;
-                            cntArray.push({...cnt._doc, ...update});
+                            update['authorID'] = cnt.authorID;
+                            update['category'] = cnt.category;
+                            update['comment'] = cnt.comment;
+                            update['desc'] = cnt.desc;
+                            update['favorite'] = cnt.favorite;
+                            update['image'] = cnt.image;
+                            update['mode'] = cnt.mode;
+                            update['postCreated'] = cnt.postCreated;
+                            update['snapshot'] = cnt.snapshot;
+                            update['title'] = cnt.title;
+                            update['video'] = cnt.video;
+                            update['view'] = cnt.view;
+                            update['_id'] = cnt._id;
+                            cntArray.push({...update});
                             resolve(cntArray)
                         })
                     }
@@ -101,7 +114,7 @@ router.get('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') && req.header('data-categ').startsWith('filter')) { 
         filterCnt(JSON.parse(req.header('data-categ').split('==')[1])).then(filter => {
             let category = filter.category && filter.category.length > 0 ? {category: filter.category} : {};
-            return fetchPost({$text: { $search: filter.searchCnt }, ...filter.filterCnt,  ...category},{ score: { $meta: "textScore" } })
+            return fetchPost({$text: { $search: filter.searchCnt },mode: 'publish', ...filter.filterCnt,  ...category},{ score: { $meta: "textScore" } })
          });
          return
     }
@@ -120,61 +133,10 @@ router.get('/', authenticate, (req, res, next) => {
     }
     
     if (req.header !== null && req.header('data-categ')) {  
-        return fetchPost({category: req.header('data-categ')});
+        return fetchPost({category: req.header('data-categ'), mode: 'publish'});
     }
 
     res.render('post')
-});
-
-router.delete('/', authenticate, (req, res, next) => {
-    if (req.header('data-categ').startsWith('deleteCnt')) {
-        let id = req.header('data-categ').split('-')[1];
-        posts.findByIdAndRemove(id).then(() =>{
-            res.send('deleted').status(200);
-        }).catch(err => {
-            res.status(500).send(err);
-        });
-        return;
-    }
-});
-
-
-router.patch('/', authenticate ,(req, res, next) => {
-    if (req.header('data-categ') === 'changemode') {
-        posts.findByIdAndUpdate(req.body.id, {mode: 'draft'}).then(result => {
-            res.send('patch').status(200);
-        })
-        return
-    }
-
-    let content = req.body;
-    let model = req.body.model === 'post' ? posts :
-    req.body.model === 'question' ? questions : poets;
-    model.findOne({_id: content.id}).then(result => {
-        let favorite = result.favorite;
-        let liked = result.liked;
-        let isLiked = true;
-        for ( let userID  of liked) {
-            if (userID === content.userID) {
-                isLiked = false;
-                liked = result.liked.filter(userID => userID !== content.userID);
-                favorite = favorite - 1;
-            }
-        }
-
-        if (isLiked){
-            liked.push(content.userID);
-            favorite = favorite + 1;
-        }
-        
-        model.findByIdAndUpdate(content.id, {liked, favorite}).then(result => {
-            res.sendStatus(200);
-        }).catch(err => {
-            res.status(500).send(err);
-        });
-    }).catch(err => {
-        res.status(500).send(err);
-    });
 });
 
 module.exports = router

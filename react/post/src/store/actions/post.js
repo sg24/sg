@@ -58,9 +58,10 @@ export const changePtCancel = () => {
     }
 };
 
-export const changePtReset = () => {
+export const changePtReset = (changed) => {
     return {
-        type: actionTypes.CHANGE_POST_RESET
+        type: actionTypes.CHANGE_POST_RESET,
+        changed
     }
 };
 
