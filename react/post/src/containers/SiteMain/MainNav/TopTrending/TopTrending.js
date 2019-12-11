@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../../../store/actions/index';
 import TrendItems from '../../../../components/Main/Nav/TrendItems/TrendItems';
+import Loader from '../../../../components/UI/Loader/Loader';
 
 class TopTrending extends Component {
     componentDidMount() {
@@ -14,7 +15,7 @@ class TopTrending extends Component {
     };
 
     render() {
-        let trends = null;
+        let trends = <Loader />;
 
         if (this.props.trd) {
             trends = <TrendItems 

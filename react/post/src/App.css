@@ -1738,6 +1738,7 @@ img {
 }
 
 .reuse-trd__cnt--nav {
+  position: relative;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;

@@ -1,6 +1,7 @@
 import React from 'react';
 import TimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
+import Avatar from 'react-avatar';
 
 import './PostContent.css';
 import '../../../UI/ShareIcn/ShareIcn.css'; 
@@ -21,6 +22,12 @@ const postContent = props => {
     let fav = <FontAwesomeIcon 
         icon={['far', 'heart']} 
         className="icon icon__reuse-pt--footer__heart" />
+    
+    let userImage = <img src={props.pt.userImage} alt="" />
+
+    if (props.pt.username && !props.pt.userImage) {
+        userImage = <Avatar  name={props.pt.username} size='36' round />;
+    }
     
     for (let changedFav of props.changedFav) {
         if (props.pt._id === changedFav.id) {
@@ -169,7 +176,7 @@ const postContent = props => {
             <div className="reuse-pt__footer--details__mid"></div>
             <ul className={userOptClass.join(' ')}>
                 <li>
-                    <a href="/">
+                    <a href={`/edit/post/${props.pt._id}`}>
                         <FontAwesomeIcon 
                             icon={['far', 'edit']} 
                             className="icon icon__reuse-pt--options" /> 
@@ -216,10 +223,10 @@ const postContent = props => {
                     <ul className="reuse-pt__header">
                         <li>
                             <div className="reuse-pt__header--category__img">
-                                <img src={props.pt.userImage} alt="" />
+                                { userImage }
                             </div>
                             <div className="reuse-pt__header--category__det">
-                                <div className="reuse-pt__header--category__det--name"><a href="/"> {props.pt.author} </a></div>
+                                <div className="reuse-pt__header--category__det--name"><a href={`/user/profile/${props.pt.authorID}`}> {props.pt.username} </a></div>
                                 <div className="reuse-pt__header--category__det--timePosted">
                                     @ { <TimeAgo date={props.pt.postCreated} live={false} formatter={formatter}/> }
                                 </div> 

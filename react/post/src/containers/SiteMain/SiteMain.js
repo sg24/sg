@@ -118,7 +118,7 @@ class SiteMain extends Component {
                         msg: this.props.changePtStart.det=== 'delete' ?
                         'Post Deleted Successfully' : 'Post mode change successfully', 
                         close: this.props.changePt}}
-                    changePost={this.changePostHandler}
+                    changeCnt={this.changePostHandler}
                     closeChangePost={this.closeChangePostHandler}/> : null}
             <Route path="/post/share" exact component={AsyncShare} />
         </div>

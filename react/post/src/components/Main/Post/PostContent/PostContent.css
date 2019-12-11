@@ -89,6 +89,22 @@
     }
 }
 
+.reuse-pt__header--category__img > img {
+    display: block;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background-color: rgba(233,235,242, .7);
+    cursor: pointer;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -o-object-position: 50% 50%;
+    object-position: 50% 50%;
+    -o-object-fit: fill;
+    object-fit: fill;
+
+}
+
 .reuse-pt__header--category__det {
     padding-left: 20px;
 }

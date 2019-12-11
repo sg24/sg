@@ -9,8 +9,10 @@ const bcrypt = require('bcryptjs');
 const fetchCnt = require('./utility/fetchCnt');
 let filterCnt = require('./utility/filtercnt');
 let userFilter = require('./utility/userfilter');
+let notification = require('./utility/notifications');
 const {category,  posts, questions, poets, user, tempUser, postnotifies, 
-     authUser, quenotifies, pwtnotifies, viewnotifies, usernotifies,connectStatus} = require('../serverDB/serverDB');
+     authUser, quenotifies, pwtnotifies, viewnotifies, usernotifies,
+     favorite, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', function (req, res, next) {
     res.render('index');
@@ -181,7 +183,8 @@ router.post('/header', authenticate, (req, res, next) => {
         let model = req.body.model === 'post' ? postnotifies :
         req.body.model === 'question' ? quenotifies : pwtnotifies;
         model.findOne({userID: req.user}).then(active => {
-            res.send(new String(active.notifications)).status(200);
+            let isActive = active ? active.notifications :0;
+            res.send(new String(isActive)).status(200);
         }).catch(err => {
             res.status(500).send(err);
         })
@@ -273,12 +276,18 @@ router.post('/header', authenticate, (req, res, next) => {
                         }
                     }
 
+                    let isLiked = req.user ? result.liked.filter(userID => userID === req.user) : [];
+                    if (isLiked.length > 0) {
+                        cnt['liked'] = true
+                    } else {
+                        cnt['liked'] = false
+                    }
+
                     let updateResult = {
                         id: result._id,
                         cntGrp: categ,
                         title: String(result.title).substr(0, 100),
-                        ...cnt,
-                        liked: result.liked
+                        ...cnt
                     }
                     trend.push(updateResult);
                 }
@@ -386,7 +395,6 @@ router.patch('/header', authenticate, (req, res, next) => {
     }
     
     if (req.header('data-categ') === 'shareuser') {
-        let notification = require('./utility/notifications');
         let modelNotifies = req.body.model === 'post' ? postnotifies :
         req.body.model === 'question' ? quenotifies : pwtnotifies;
         let model = req.body.model === 'post' ? posts :
@@ -403,37 +411,34 @@ router.patch('/header', authenticate, (req, res, next) => {
         })
         return
     }
+
+    if (req.header('data-categ') === 'changefavorite') {
+        let model = req.body.model === 'post' ? posts :
+        req.body.model === 'question' ? questions : poets;
+        favorite.find({userID: req.user, [req.body.field]: {$in : req.body.id}}).then(result => {
+            if (result && result.length > 0) {
+                favorite.findOneAndUpdate({userID: req.user}, {$pull: { [req.body.field]: req.body.id}}).then(() => {
+                    model.findByIdAndUpdate(req.body.id, {$inc: {'favorite': -1}, $pull: { liked: req.user}}).then(() => {
+                        res.sendStatus(200);
+                    })
+                })
+            } else {
+                notification([req.user], favorite, req.body.id, req.body.field).then(() =>{
+                    model.findByIdAndUpdate(req.body.id, {$inc: {'favorite': 1}, $addToSet: { liked: { $each: [req.user] } }}).then((result) => {
+                        res.sendStatus(200);
+                    }).catch(err => {
+                        res.status(500).send(err);
+                    })
+                })
+            }
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+  
+        return
+    }
 });
 
-router.get('/media', authenticate, (req, res, next) => {
-    connectStatus.then(() => {
-        let bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
-            bucketName: 'media'
-        });
-        
-        if (req.header('data-categ') === 'media') {
-            let mediaID = req.header('mediaID');
-            let media = bucket.openDownloadStream(mongoose.mongo.ObjectId(mediaID));
-            let base64data = '';
-            
-            media.on('data', function(media) {
-                base64data += Buffer.from(media, 'binary').toString('base64');
-            });
-            
-            media.on('end', function() {
-                let mediaDataUrl = 'data:' + 'video/mp4' + ';base64,' +  base64data;
-                return res.send(mediaDataUrl).status(200)
-            });
-
-            media.on('error', function(err) {
-                return res.status(500).send(err)
-            });
-        }
-        return
-    }).catch(err => {
-        res.sendStatus(500);
-    })
-})
 
 router.get('/poet', (req, res, next) => {
     if (req.header('data-categ') === 'category') {

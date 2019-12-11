@@ -9,6 +9,7 @@ const quenotifies = require('./models/quenotifies');
 const pwtnotifies = require('./models/pwtnotifies');
 const usernotifies = require('./models/usernotifies');
 const viewnotifies = require('./models/viewnotifies');
+const favorite = require('./models/favorite');
 const user = require('./models/user');
 const tempUser = require('./models/tempUser');
 const authUser = require('./models/authUser');
@@ -26,6 +27,7 @@ module.exports = {
     usernotifies,
     pwtnotifies,
     viewnotifies,
+    favorite,
     connectStatus,
     storage
 };

@@ -3,7 +3,7 @@ let router = express.Router();
 let mongoose = require('mongoose');
 let authenticate = require('../serverDB/middleware/authenticate');
 let filterCnt = require('./utility/filtercnt');
-const {category, posts,  connectStatus} = require('../serverDB/serverDB');
+const {category, posts, user, authUser, connectStatus} = require('../serverDB/serverDB');
 
 
 router.get('/', authenticate, (req, res, next) => {
@@ -29,12 +29,54 @@ router.get('/', authenticate, (req, res, next) => {
             posts.find(condition, isMeta).countDocuments({}).then((cntTotal) => {
                 posts.find(condition, isMeta).sort(sort).limit(curLimit).skip(skip).then(result => {
                     let cntArray= [];
-                    for (let cnt of result) {
-                        let desc = JSON.parse(cnt.desc).blocks[0].text;
-                        cnt.desc = String(desc.substr(0, 180));
-                        cntArray.push(cnt);
+                    let send = 0;
+                    if (result.length < 1) {
+                        res.send({cnt: cntArray, cntTotal}).status(200)
                     }
-                    res.send({cnt: cntArray, cntTotal}).status(200)
+                    for (let cnt of result) {
+                        user.findById(cnt.authorID).then(userFnd => {
+                            if (!userFnd) {
+                                authUser.findById(cnt.authorID).then(authFnd => {
+                                   if (authFnd) {
+                                    fetch(authFnd.username, authFnd.image, cnt, cntArray).then(cnt => {
+                                        cntArray = cnt;
+                                        ++send;
+                                        if (send === result.length) {
+                                            res.send({cnt: cntArray, cntTotal}).status(200)
+                                        }
+                                    })
+                                   }
+                                })
+                            } else {
+                                fetch(userFnd.username, userFnd.image, cnt, cntArray).then(cnt => {
+                                    cntArray = cnt;
+                                    ++send 
+                                    if (send === result.length) {
+                                        res.send({cnt: cntArray, cntTotal}).status(200)
+                                    }
+                                })
+                            }
+                        })   
+                    }
+                    
+                    function fetch(username, image, cnt, cntArray) {
+                        return new Promise((resolve, reject) => {
+                            let desc = JSON.parse(cnt.desc).blocks[0].text;
+                            cnt.desc = String(desc.substr(0, 180));
+                            let isLiked = req.user ? cnt.liked.filter(userID => userID === req.user) : [];
+                           let update ={};
+                            if (isLiked.length > 0) {
+                                update['liked'] = true
+                            } else {
+                                update['liked'] = false
+                            }
+                            update['username'] = username;
+                            update['userImage'] = image;
+                            update['userOpt'] = cnt.authorID === req.user;
+                            cntArray.push({...cnt._doc, ...update});
+                            resolve(cntArray)
+                        })
+                    }
                 }).catch(err => {
                     res.status(500).send(err);
                 })

@@ -1,5 +1,5 @@
 import { put, delay } from 'redux-saga/effects';
-import { updateObject, changeFav } from '../../shared/utility';
+import { changeFav } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
@@ -11,27 +11,7 @@ export function* fetchPostInitSaga(action) {
                     'data-categ': action.fetchType, 
                     'limit': action.fetchLimit, 
                     'skip': action.skipPost}});
-            let cntArray = [];
-            if (response.data.cnt && response.data.cnt.length > 0 ) { 
-                for (let cnt of response.data.cnt) {
-                    const newCnt = {...cnt};
-                    let liked = false;
-                    for (let userID of newCnt.liked) {
-                        if(action.userID === userID) {
-                            liked = true
-                        }
-                    }
-                    const valid = action.userID === newCnt.authorID;
-                    const author = 'user' +  newCnt._id;
-                    const newData = updateObject(newCnt, {author,userOpt: valid, liked});
-                    cntArray.push(newData);
-                }
-                yield put(actions.fetchPost(cntArray, action.skipPost, response.data.cntTotal));
-            }
-
-            if (response.data.cnt.length === 0) {
-                yield put(actions.fetchPost([]));
-            }
+                yield put(actions.fetchPost(response.data.cnt, action.skipPost, response.data.cntTotal));
         }  
         
     } catch(err){
@@ -43,7 +23,7 @@ export function* fetchPostInitSaga(action) {
 export function* fetchVideoInitSaga(action) {
     yield put(actions.fetchVideoStart(action.ptVideoID))
     try {
-        let media =  yield axios.get('/media', {headers: {'data-categ':'media', 'mediaID': action.videoID}});
+        let media =  yield axios.post('/media', {mediaID: action.videoID},{headers: {'data-categ':'media'}});
         function dataURLtoBlob(dataurl) {
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
                 bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -64,7 +44,9 @@ export function* changeFavSaga(action) {
     yield put(actions.changeMainFavoriteStart(updateFav.favDet.liked));
     yield put(actions.changeFavPtStart(updateFav.favDet.id, updateFav.favDet.liked))
     try {
-        yield axios.patch('/post', {id: updateFav.favDet.id, userID: action.userID, model: action.cntGrp})
+        let field = action.cntGrp === 'post' ? 'postID' : action.cntGrp === 'question' ?
+        'queID' : 'pwtID';
+        yield axios.patch('/header', {id: updateFav.favDet.id, model: action.cntGrp, field},{headers: {'data-categ': 'changefavorite'}});
         yield delay(500)
         yield put(actions.changeMainFavoriteReset());
         yield put(actions.changeFav(updateFav.updateChangeFav));

@@ -15,7 +15,7 @@ const modal = props => {
                     <button 
                         className="reuse-modal__btn--cancel" 
                         type="button"
-                        onClick={props.closeChangeCnt}>
+                        onClick={props.closeChangePost}>
                         <FontAwesomeIcon 
                             icon={['fas', 'times']} 
                             className="icon icon__reuse-modal--btn"/>
@@ -26,15 +26,9 @@ const modal = props => {
                         type="button"
                         onClick={props.changeCnt}>
                         <FontAwesomeIcon 
-                            icon={
-                                props.warn.det && props.warn.det === 'blockUser' ? ['fas', 'eye-slash']: 
-                                props.warn.det && props.warn.det === 'acceptUser' ? ['fas', 'user-friends'] :
-                                props.warn.det && props.warn.det === 'rejUser' ? ['fas', 'user-slash'] : ['fas', 'user-slash']} 
+                            icon={props.warn.det && props.warn.det === 'delete'? ['far', 'trash-alt'] : ['fas', 'eye-slash']} 
                             className="icon icon__reuse-modal--btn"/>
-                        {props.warn.det && props.warn.det === 'blockUser' ? 'Block': 
-                        props.warn.det && props.warn.det === 'acceptUser' ? 'Accept' :
-                        props.warn.det && props.warn.det === 'rejUser' ? 'Reject' : 
-                        props.warn.det && props.warn.det === 'cancelReq' ? 'Cancel' : 'Unfriend'}
+                        {props.warn.det && props.warn.det === 'delete' ? 'Delete': 'Change'}
                     </button>
                 </div>
             </div>
