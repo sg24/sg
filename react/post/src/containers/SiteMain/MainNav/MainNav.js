@@ -40,7 +40,7 @@ class MainNav extends Component {
             <div className="site-main__nav site-main__nav--sticky">
                 <div className="site-main__nav--wrapper">
                     <ul className="site-main__nav--header">
-                        <li 
+                        {/* <li 
                             className={navExchangeClass.join(' ')}
                             onClick={this.showConvHandler}>
                             <FontAwesomeIcon 
@@ -48,7 +48,7 @@ class MainNav extends Component {
                             <div className="active__main active__main--nav">
                                 <div>99</div>
                             </div>
-                        </li>
+                        </li> */}
                     </ul>
                     { mainNavItm }
                 </div>
