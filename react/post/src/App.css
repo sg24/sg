@@ -615,6 +615,10 @@ img {
   margin-right: 5px;
 }
 
+.icon__site-footer--notify {
+  margin-right: 5px;
+}
+
 .site-header__tool-tip {
     position: absolute;
     top: 40px;
@@ -1901,13 +1905,13 @@ img {
 }
 
 .site-main__expage {
-  top: 54px;
+  margin-top: 54px;
 }
 
 @media (min-width: 800px) {
 
   .site-main__expage {
-    top: 50px;
+    margin-top: 50px;
   }
 }
 
@@ -1921,15 +1925,9 @@ img {
   padding-bottom: 20px;
   margin-top: 10px;
   width: 100%;
-  background-color: rgba(249,249,249, .4);/* box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
-            -o-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
-            -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
-            -webkit-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5);
-            -ms-box-shadow: inset 0px 0 2px 0px rgba($mainLightBlack, .5); */
+  background-color: rgba(249,249,249, .4);
   border: 1px solid #dcdbdc;
-  position: relative;/* display: flex;
-            flex-direction: column;
-            height: 92vh; */
+  position: relative;
   height: 92vh;
 }
 
@@ -3090,4 +3088,62 @@ img {
   .reuse-modal {
     width: 300px;
   }
+}
+
+.site-footer {
+    position: relative;
+    background-color: #437da3;
+    font-size: .8125rem;
+    margin-top: 60px;
+    width: 100%;
+}
+
+.site-footer > ul {
+  padding: 8px 5px;
+  margin: 0;
+  list-style: none;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.site-footer > ul::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.site-footer > ul > li {
+  float: left;
+  width: 33.333%;
+  text-align: center;
+  color: #fff;
+}
+
+.site-footer > ul > li > a {
+  color: #fff;
+}
+
+.site-footer__notify {
+  position: absolute;
+  bottom: 100%;
+  padding: 10px 10px 4px 10px;
+  width: 100%;
+  text-align: center;
+  background-color: #dcdbdc;
+  margin: 5px 0 0 0;
+  font-size: .875rem;
+}
+
+.site-footer__notify > div {
+  display: inline-block;
+  background-color: #ff1600;
+  padding: 3px 10px;
+  border-radius: 10px;
+  color: #fff;
+  margin: 5px 5px 5px 20px;
+  cursor: pointer;
+}
+
+.site-footer__notify > div:hover {
+  background-color: #f22613;
 }

@@ -45,7 +45,6 @@ class SiteMain extends Component {
 
     render() {
         let filterCnt = <Loader />;
-        let checkNotify = null;
 
         if (!this.props.searchCntErr && this.props.searchCnt && this.props.searchCnt.length > 0){
             filterCnt = (
@@ -76,7 +75,7 @@ class SiteMain extends Component {
                 </div> 
             )
         }
-        
+
         return (
             <div className="site-main site-main__expage" onClick={this.checkHeaderDefault}>
             <div className="wrapper__exmain">

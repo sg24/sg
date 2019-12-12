@@ -136,4 +136,8 @@
     &__reuse-notify--categ {
         margin-right: 5px;
     }
+
+    &__site-footer--notify {
+        margin-right: 5px;
+    }
 }

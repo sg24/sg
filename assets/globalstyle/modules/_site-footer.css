@@ -1,0 +1,52 @@
+.site-footer {
+    position: relative;
+    background-color: $mainMiddleDarkBlue;
+    font-size: .8125rem;
+    margin-top: 60px;
+    width: 100%;
+
+    & > ul {
+        @mixin clearfix;
+        padding: 8px 5px; 
+        margin: 0;
+        list-style: none;
+        max-width: 1200px;
+        margin: 0 auto;
+        
+        & > li {
+            float: left;
+            width: 33.333%;
+            text-align: center;
+            color: #fff;
+
+            & > a {
+                color: #fff;
+            }
+        }
+    }
+
+    &__notify {
+        position: absolute;
+        bottom: 100%;
+        padding: 10px 10px 4px 10px;
+        width: 100%;
+        text-align: center;
+        background-color: $mainDarkGray;
+        margin: 5px 0 0 0;
+        font-size: .875rem;
+
+        & > div {
+            display: inline-block;
+            background-color: $mainLightRed;
+            padding: 3px 10px;
+            border-radius: 10px;
+            color: #fff;
+            margin: 5px 5px 5px 20px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: $mainDarkRed;
+            }
+        }
+    }
+}
