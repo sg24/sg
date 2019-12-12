@@ -428,6 +428,19 @@ router.patch('/header', authenticate, (req, res, next) => {
         })
         return ;
     }
+
+    if (req.header('data-categ') === 'modelNotify') {
+        let model = req.body.model === 'post' ? posts :
+        req.body.model === 'question' ? questions : poets;
+        model.countDocuments({mode: 'publish'}).then(total => {
+            viewnotifies.findOneAndUpdate({userID: req.user}, {[req.body.model]: total}).then(() => {
+                res.sendStatus(200);
+            })
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+        return ;
+    }
     
     if (req.header('data-categ') === 'shareuser') {
         let modelNotifies = req.body.model === 'post' ? postnotifies :
