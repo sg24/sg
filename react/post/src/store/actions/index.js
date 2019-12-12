@@ -38,6 +38,7 @@ export {
 
 export {
     fetchPostInit,
+    fetchPostStart,
     fetchPostFail,
     fetchPostReset,
     fetchPost,

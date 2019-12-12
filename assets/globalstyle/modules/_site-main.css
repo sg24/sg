@@ -15,6 +15,7 @@
         width: 100%;
         position: relative;
         float: none;
+        padding-bottom: 70px;
         
         &--wrapper {
             padding-bottom: 20px;
@@ -28,6 +29,21 @@
 
         &--no-tab-wrapper {
             position: relative;
+        }
+
+        &--loader {
+            position: absolute;
+            bottom:0;
+            height: 70px;
+            width: 100%;
+            display: flex;
+            justify-content:  center;
+            align-items: center;
+
+
+            & > section {
+                transform: scale(.5)
+            }
         }
 
         &--filter {

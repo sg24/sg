@@ -11,6 +11,12 @@ export const fetchPostInit = (userID, fetchType, fetchLimit, skipPost, ptTotal) 
     }
 };
 
+export const fetchPostStart = () =>{
+    return {
+        type: actionTypes.FETCH_POST_START
+    };
+}
+
 export const fetchPostReset = () =>{
     return {
         type: actionTypes.FETCH_POST_RESET,

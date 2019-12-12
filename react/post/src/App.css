@@ -1919,6 +1919,7 @@ img {
   width: 100%;
   position: relative;
   float: none;
+  padding-bottom: 70px;
 }
 
 .site-main__content--wrapper {
@@ -1933,6 +1934,23 @@ img {
 
 .site-main__content--no-tab-wrapper {
   position: relative;
+}
+
+.site-main__content--loader {
+  position: absolute;
+  bottom:0;
+  height: 70px;
+  width: 100%;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack:  center;
+      justify-content:  center;
+  -ms-flex-align: center;
+      align-items: center;
+}
+
+.site-main__content--loader > section {
+  transform: scale(.5)
 }
 
 .site-main__content--filter {

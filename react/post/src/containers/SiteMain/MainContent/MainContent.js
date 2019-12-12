@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../../store/actions/index';
 import MainNavigations from '../../../components/MainNavigations/MainNavigations';
+import Loader from '../../../components/UI/Loader/Loader';
 import MainPost from './MainPost/MainPost'; 
 
 class MainContent extends Component {
@@ -51,6 +52,16 @@ class MainContent extends Component {
     }
 
     render() {
+        let loaderCnt = null;
+
+        if (this.props.showLoader) {
+            loaderCnt = (
+                <div className="site-main__content--loader">
+                    <Loader />
+                </div>
+            )
+        }
+
         return (
             <div className="site-main__content">
                 <div className="site-main__content--wrapper">
@@ -66,6 +77,7 @@ class MainContent extends Component {
                     </ul>
                     <MainPost />
                 </div>
+                { loaderCnt }
             </div>
         );
     }
@@ -76,7 +88,8 @@ const mapStateToProps = state => {
        userID: state.auth.userID,
        shareCntActive: state.main.shareCntActive,
        ptActive: state.main.ptActive,
-       ptFetch: state.pt.post !== null
+       ptFetch: state.pt.post !== null,
+       showLoader: state.pt.showLoader
     };
 };
 

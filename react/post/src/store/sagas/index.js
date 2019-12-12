@@ -28,7 +28,7 @@ export function* watchAuth() {
 
 export function* watchPt() {
     yield all([
-        takeLatest(actionTypes.FETCH_POST_INIT, fetchPostInitSaga),
+        takeEvery(actionTypes.FETCH_POST_INIT, fetchPostInitSaga),
         takeEvery(actionTypes.FETCH_VIDEO_INIT, fetchVideoInitSaga),
         takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga),
         takeLatest(actionTypes.CHANGE_POST_INIT, changePostInitSaga)
