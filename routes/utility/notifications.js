@@ -1,6 +1,10 @@
 module.exports =  notification = (shareMe, model, id, field) => {
             return new Promise((resolve, reject) =>{
                 let i = 0;
+                if (shareMe.length < 1) {
+                    resolve()
+                }
+
                 for (let userID of shareMe) {
                     model.findOne({userID}).then(result => {
                         if (result !== null) {

@@ -19,6 +19,18 @@ export const fetchCntCateg = (categ) => {
         categ
     }
 };
+export const fetchTotalInit = () => {
+    return {
+        type: actionTypes.FETCH_TOTAL_INIT,
+    };
+};
+
+export const fetchTotal = total => {
+    return {
+        type: actionTypes.FETCH_TOTAL,
+        total
+    };
+};
 
 export const filterContentInit = (content) => {
     return {

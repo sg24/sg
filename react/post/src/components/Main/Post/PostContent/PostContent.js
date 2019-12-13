@@ -166,7 +166,7 @@ const postContent = props => {
                 </div>
                 
                 {
-                    mediaCnt && mediaCnt.length > 0 ? 
+                    mediaCnt && mediaCnt.length > 1 ? 
                     <Aux>
                         <div 
                             className="reuse-pt__media--cnt reuse-pt__media--cnt__nxt"

@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 const category = props => (
     <li>
         <NavLink
-            to={`/post/${props.categ}`}
+            to={`/question/${props.categ}`}
             className='reuse-categ__opt--itm'
             activeClassName='reuse-categ__opt--itm__active'>
             { props.categ }

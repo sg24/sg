@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import 'pepjs';
 
 import Question from '../../../../../components/Main/Question/Question';
+import Loader from '../../../../../components/UI/Loader/Loader';
 import NoAcc from '../../../../../components/Main/NoAcc/NoAcc';
 import { updateObject } from '../../../../../shared/utility';
 import * as actions from '../../../../../store/actions/index';
@@ -195,30 +196,40 @@ class Questions extends Component {
         }, 500)
     }
     changeCntHandler = (id, title, det) => {
+        console.log(det)
+        if ( this.props.match.params.id === 'myquestion') {
+            det = det === 'draft' ?  'acc-draft' : det;
+        }
         let checkTitle = String(title).length > 149 ? String(title).substr(0, 180) + '...' : title
         this.props.onChangeCnt(id, checkTitle, det, false);
     }
 
     render() {
-        this.props.onFetchShareActive(this.props.userID);
-        this.props.onFetchCntActive(this.props.userID);
-        this.props.onFetchShareCntActive(this.props.userID);
+        this.props.onFetchShareActive();
+        this.props.onFetchCntActive();
+        this.props.onFetchShareCntActive();
+        this.props.onFetchNotifyActive();
+        this.props.onFetchTotal()
 
-        let cnt = "Loading";
+        let cnt = <Loader />;
         if (this.props.postErr) {
             cnt = null
         }
 
         if (this.props.cnts && this.props.cnts.length === 0 && this.state.filterTag === 'shared') {
             cnt = <NoAcc 
-                isAuth={this.props.userID !== null}
-                det='You have no shared Question yet!'/>
+                    isAuth={this.props.userID !== null}
+                    det='No content found!'
+                    icn='clone'
+                    filter />
         }
 
         if (this.props.cnts && this.props.cnts.length === 0 && this.state.filterTag !== 'shared') {
             cnt = <NoAcc 
-                isAuth={this.props.userID !== null}
-                det='Category not found !!'/>
+                    isAuth={this.props.userID !== null}
+                    det='No content found!'
+                    icn='clone'
+                    filter />
         }
 
         if (this.props.cnts && this.props.cnts.length > 0) {
@@ -269,9 +280,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchShareActive: (userID) => dispatch(actions.fetchShareactiveInit(userID)),
-        onFetchShareCntActive: (userID) => dispatch(actions.fetchShareCntactiveInit(userID)),
-        onFetchCntActive: (userID) => dispatch(actions.fetchCntActiveInit(userID)),
+        onFetchShareActive: () => dispatch(actions.fetchShareactiveInit()),
+        onFetchShareCntActive: () => dispatch(actions.fetchShareCntactiveInit()),
+        onFetchCntActive: () => dispatch(actions.fetchCntActiveInit()),
+        onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
+        onFetchTotal: () => dispatch(actions.fetchTotalInit()),
         onFetchCnt: (userID, fetchType, limit, skipCnt, cntTotal) => dispatch(actions.fetchCntInit(userID, fetchType, limit, skipCnt, cntTotal)),
         onFetchCntReset: () => dispatch(actions.fetchCntReset()),
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),

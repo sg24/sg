@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../../store/actions/index';
 import MainNavigations from '../../../components/MainNavigations/MainNavigations';
+import Loader from '../../../components/UI/Loader/Loader';
 import MainQue from './MainQue/MainQue'; 
 
 class MainContent extends Component {
@@ -20,16 +21,15 @@ class MainContent extends Component {
             icnClass: 'icon icon__site-main--content__tab',
             title: 'Help Me',
         },
-        curTab: 'question',
         showCntActive: false,
         showShareActive: true,
-        updateTab: ''
+        cntFetch: false
     }
 
     componentDidUpdate() {
-        if (this.state.curTab !== this.state.updateTab) {
+        if (this.props.cntFetch && !this.state.cntFetch) {
             this.props.onResetActive(this.props.userID, 'question');
-            this.setState({updateTab: this.state.curTab})
+            this.setState({cntFetch: true})
         }
     }
 
@@ -37,10 +37,8 @@ class MainContent extends Component {
         this.props.onResetActive(this.props.userID, curTab);
         if (curTab === 'question') {
             this.setState((prevState, props) => {
-                return {
-                    showCntActive: false,
-                    showShareActive: true,
-                    curTab: 'question'  
+                return {showCntActive: false,
+                  showShareActive: true  
                 }
             });
             return
@@ -48,13 +46,22 @@ class MainContent extends Component {
         this.setState((prevState, props) => {
             return {
               showCntActive: true,
-              showShareActive: false,
-              curTab: 'share'
+              showShareActive: false
             }
         });
     }
 
     render() {
+        let loaderCnt = null;
+
+        if (this.props.showLoader) {
+            loaderCnt = (
+                <div className="site-main__content--loader">
+                    <Loader />
+                </div>
+            )
+        }
+
         return (
             <div className="site-main__content">
                 <div className="site-main__content--wrapper">
@@ -70,6 +77,7 @@ class MainContent extends Component {
                     </ul>
                     <MainQue />
                 </div>
+                { loaderCnt }
             </div>
         );
     }
@@ -79,7 +87,9 @@ const mapStateToProps = state => {
     return {
        userID: state.auth.userID,
        shareCntActive: state.main.shareCntActive,
-       cntActive: state.main.cntActive
+       cntActive: state.main.cntActive,
+       cntFetch: state.cnt.cnts !== null,
+       showLoader: state.cnt.showLoader
     };
 };
 

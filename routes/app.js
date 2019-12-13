@@ -302,13 +302,14 @@ router.post('/header', authenticate, (req, res, next) => {
         let model = req.body.model === 'post' ? posts :
         req.body.model === 'question' ? questions : poets;
         filterCnt(JSON.parse(req.body.filterCnt)).then(filter => {
-            model.find({$text: { $search: filter.searchCnt }, ...filter.comment, ...filter.view, ...filter.helpFull, ...filter.favorite,  ...filter.category, mode: 'publish', _isCompleted: true}).then(result => {
-                let resultCount = new String(result.length);
-                res.send(resultCount).status(200);
-            }).catch(err => {
-                res.status(500).send(err);
-            })
-        });
+            let category = filter.category && filter.category.length > 0 ? {category: filter.category} : {};
+            model.find({$text: { $search: filter.searchCnt }, ...filter.filterCnt,  ...category, mode: 'publish', _isCompleted: true}).then(result => {
+                 let resultCount = new String(result.length);
+                 res.send(resultCount).status(200);
+             }).catch(err => {
+                 res.status(500).send(err);
+             })
+         });
         return ;
     }
 
@@ -388,10 +389,10 @@ router.patch('/header', authenticate, (req, res, next) => {
         req.body.model === 'question' ? questions : poets;
         let notify = req.body.model === 'post' ? postnotifies :
         req.body.model === 'question' ? quenotifies : pwtnotifies;
-        model.findByIdAndUpdate(req.body.id, {mode: 'draft', shareMe: []}).then(result => {
-            let send = 0;
+        model.findOneAndUpdate({_id: req.body.id, authorID: req.user}, {mode: 'draft', shareMe: []}).then(result => {
             if (result.shareMe && result.shareMe.length < 1) {
                 res.sendStatus(200);
+                return
             }
             for (let userID of result.shareMe){
                 notify.findOneAndUpdate({userID, [req.body.field]: {$in : req.body.id}}, {
@@ -410,7 +411,7 @@ router.patch('/header', authenticate, (req, res, next) => {
     if (req.header('data-categ') === 'publishmode') {
         let model = req.body.model === 'post' ? posts :
         req.body.model === 'question' ? questions : poets;
-        model.findByIdAndUpdate(req.body.id, {mode: 'publish'}).then(result => {
+        model.findOneAndUpdate({_id: req.body.id, authorID: req.user}, {mode: 'publish'}).then(result => {
             res.sendStatus(200);
         }).catch(err => {
             res.send(500).send(err);
@@ -487,17 +488,18 @@ router.patch('/header', authenticate, (req, res, next) => {
     }
 });
 
-router.delete('/header', (req,res, next) =>  {
+router.delete('/header', authenticate,(req,res, next) =>  {
     if (req.header('data-categ').startsWith('deletecnt')) {
         let payload = JSON.parse(req.header('data-categ').split('-')[1]);
         let model = payload.model === 'post' ? posts :
         payload.model === 'question' ? questions : poets;
         let notify = payload.model === 'post' ? postnotifies :
         payload.model === 'question' ? quenotifies : pwtnotifies;
-        model.findByIdAndRemove(payload.id).then(result => {
+        model.findOneAndRemove({_id :payload.id, authorID: req.user}).then(result => {
             let send = 0;
             if (result.shareMe && result.shareMe.length < 1) {
                 res.sendStatus(200);
+                return
             }
             for (let userID of result.shareMe){
                 notify.findOneAndUpdate({userID, [payload.field]: {$in : payload.id}}, {
@@ -597,87 +599,6 @@ router.delete('/poet', authenticate, (req, res, next) => {
 
 router.get('/group', (req, res, next) => {
     res.render('group');
-});
-
-
-router.get('/question', (req, res, next) => {
-    if (req.header('data-categ') === 'category') {
-        category.findOne({}).then(result => {
-            let checkRes =  result ? result.question : []
-            res.send(checkRes).status(200);
-        }).catch(err => {
-            res.status(500).send(err);
-        });
-        return;
-    }
-
-    if (req.header('data-categ') === 'question') {
-        return fetchQue({});
-    }
-
-    if (req.header('data-categ').startsWith('shared')) {
-        return fetchQue({shareMe: req.header('data-categ').split('-')[1]});
-    }
-
-    function fetchQue(conditions, meta) {
-        let condition = {mode: 'publish', _isCompleted: true, ...conditions}
-        connectStatus.then(() => {
-            let isMeta = meta ? meta : {};
-            let sort = req.header('data-categ').startsWith('filter') ? { score: { $meta: "textScore" } } : {queCreated: -1};
-            let curLimit = parseInt(req.header('limit'));
-            let skip = parseInt(req.header('skip'));
-            questions.find(condition, isMeta).countDocuments({}).then((cntTotal) => {
-                questions.find(condition, isMeta).sort(sort).limit(curLimit).skip(skip).then(result => {
-                    let cntArray = [];
-                    for (let cnt of result) {
-                        cnt.desc = '';
-                        cnt.title = String(cnt.title).substr(0, 180)
-                        cntArray.push(cnt);
-                    }
-                    res.send({cnt: cntArray, cntTotal}).status(200)
-                }).catch(err => {
-                    res.status(500).send(err);
-                })
-            }).catch(err => {
-                res.status(500).send(err);
-            }) 
-        }).catch(err => {
-            res.status(500).send(err);
-        })
-    }
-
-    if (req.header('data-categ').startsWith('filter')) { 
-        filterCnt((JSON.parse(req.header('data-categ').split('==')[1]))).then(filter => {
-            return fetchQue({$text: { $search: filter.searchCnt }, ...filter.comment, ...filter.helpFull, ...filter.favorite,  ...filter.category},{ score: { $meta: "textScore" } })
-        }).catch(err => {
-            res.status(500).send(err)
-        })
-        return
-    }
-
-    res.render('question');
-});
-
-router.patch('/question', authenticate ,(req, res, next) => {
-    if (req.header('data-categ') === 'changemode') {
-        questions.findByIdAndUpdate(req.body.id, {mode: 'draft'}).then(result => {
-            res.send('patch').status(200);
-        })
-        return
-    }
-});
-
-
-router.delete('/question', authenticate, (req, res, next) => {
-    if (req.header('data-categ').startsWith('deleteCnt')) {
-        let id = req.header('data-categ').split('-')[1];
-        questions.findByIdAndRemove(id).then(() =>{
-            res.send('deleted').status(200);
-        }).catch(err => {
-            res.status(500).send(err);
-        });
-        return;
-    }
 });
 
 router.get('/onlineexam', (req, res, next) => {

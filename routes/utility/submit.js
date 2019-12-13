@@ -130,24 +130,14 @@ module.exports = submitForm = (content, model, files, notify, viewnotify, userMo
                    [field]: categ
                 });
                 newCateg.save().then(() => {
-                    if (shareMe.length > 0) {
-                       notification();
-                    } else {
-                        resolve(id)
-                    }
+                    notification();
                 }).catch(err => {
                     reject(err)
                 });
                 return 
             }
             category.findOneAndUpdate({}, {$addToSet: { [field]: { $each: categ } }}).then(() => {
-                if (shareMe.length > 0) {
-                    notification();
-                } else {
-                    model.findByIdAndUpdate(id, {_isCompleted: true}).then(() => {
-                        resolve(id)
-                    })
-                }
+                notification();
             }).catch(err => {
                 reject(err)
             })

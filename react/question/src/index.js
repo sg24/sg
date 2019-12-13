@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { createStore, combineReducers, compose, applyMiddleware }  from 'redux'; 
+import { createStore, combineReducers, applyMiddleware }  from 'redux'; 
 import { Provider } from 'react-redux';
 import  createSagaMiddleware from 'redux-saga';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
- 
+
+import * as serviceWorker from './serviceWorker';
 import App from './App';
 import './index.css';
 import auth from './store/reducers/auth';
@@ -23,6 +24,7 @@ import header from './store/reducers/header';
 import main from './store/reducers/main';
 
 import { 
+        watchAuth,
         watchCnt,
         watchFilter,
         watchShare,
@@ -50,10 +52,9 @@ const rootReducers = combineReducers({
     main
 })
 
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const store = createStore(rootReducers, applyMiddleware(sagaMiddleware));
 
-const store = createStore(rootReducers, composeEnhancer(applyMiddleware(sagaMiddleware)));
-
+sagaMiddleware.run(watchAuth);
 sagaMiddleware.run(watchCnt);
 sagaMiddleware.run(watchFilter);
 sagaMiddleware.run(watchShare);
@@ -75,3 +76,5 @@ const app = (
 );
 
 ReactDOM.render(app, document.getElementById('root'));
+
+serviceWorker.register();

@@ -205,7 +205,9 @@ class Posts extends Component {
     render() {
         this.props.onFetchShareActive();
         this.props.onFetchPtActive();
-        this.props.onFtechShareCntActive();
+        this.props.onFetchShareCntActive();
+        this.props.onFetchNotifyActive();
+        this.props.onFetchTotal()
 
         let post = <Loader />;
         if (this.props.postErr) {
@@ -277,8 +279,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchShareActive: () => dispatch(actions.fetchShareactiveInit()),
-        onFtechShareCntActive: () => dispatch(actions.fetchShareCntactiveInit()),
+        onFetchShareCntActive: () => dispatch(actions.fetchShareCntactiveInit()),
         onFetchPtActive: () => dispatch(actions.fetchPtActiveInit()),
+        onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
+        onFetchTotal: () => dispatch(actions.fetchTotalInit()),
         onFetchPost: (userID, fetchType, limit, skipPost, ptTotal) => dispatch(actions.fetchPostInit(userID, fetchType, limit, skipPost, ptTotal)),
         onFetchPostReset: () => dispatch(actions.fetchPostReset()),
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),

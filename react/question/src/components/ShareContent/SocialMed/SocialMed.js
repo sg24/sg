@@ -12,19 +12,15 @@ const socialMed = props => {
 
     return (
         <ul className={socialIcnClass.join(' ')}>
-            <li>
-                <a href="/">
-                    <FontAwesomeIcon 
-                        icon={['fab', 'facebook-square']} 
-                        className="icon icon__reuse-share--facebook" />
-                </a>
+            <li onClick={props.shareFacebook}>
+                <FontAwesomeIcon 
+                    icon={['fab', 'facebook-square']} 
+                    className="icon icon__reuse-share--facebook" />
             </li>
-            <li>
-                <a href="/">
-                    <FontAwesomeIcon 
-                        icon={['fab', 'google-plus-square']} 
-                        className="icon icon__reuse-share--googleplus" />
-                </a>
+            <li onClick={props.shareTwitter}>
+                <FontAwesomeIcon 
+                    icon={['fab', 'twitter']} 
+                    className="icon icon__reuse-share--googleplus" />
             </li>
         </ul>
     );

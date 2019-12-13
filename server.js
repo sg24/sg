@@ -12,6 +12,7 @@ let formRoutes = require('./routes/form');
 let authRoutes = require('./routes/auth');
 let sitemapxmlRoute = require('./routes/sitemapxml');
 let postRoute = require('./routes/post');
+let questionRoute = require('./routes/question');
 let mediaRoute = require('./routes/media');
 
 let app = express();
@@ -70,6 +71,7 @@ app.use('/', [appRoutes, formRoutes]);
 app.use('/auth', authRoutes)
 app.use('/users', usersRoutes);
 app.use('/post', postRoute);
+app.use('/question', questionRoute);
 app.use('/media', mediaRoute);
 app.use('/sitemap.xml', sitemapxmlRoute);
 // catch 404 and forward to error handler

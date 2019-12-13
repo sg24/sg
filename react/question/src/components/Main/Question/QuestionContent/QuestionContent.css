@@ -65,6 +65,22 @@
     left: 5px;
 }
 
+.reuse-que__header--category__img > img {
+    display: block;
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    background-color: rgba(233,235,242, .7);
+    cursor: pointer;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -o-object-position: 50% 50%;
+    object-position: 50% 50%;
+    -o-object-fit: fill;
+    object-fit: fill;
+
+}
+
 @media (min-width: 530px) {
 
     .reuse-que__header--category__img {
@@ -387,121 +403,6 @@
     color: #fff;
     -ms-touch-action: none;
         touch-action: none;
-}
-
-.reuse-que__modal {
-    position: relative;
-    font-size: .875rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 200px;
-    margin: 0 auto;
-    background-color: #fff;
-    box-shadow: 0 1px 8px 4px rgba(0,0,0, .65);
-    z-index: 3;
-    padding: 10px;
-}
-
-.reuse-que__modal > h3 {
-    font-weight: 400;
-    font-size: .875rem;
-    margin: 20px 0;
-    padding: 5px;
-    text-align: center;
-    background-color: #f9f9f9;
-}
-
-.reuse-que__modal--success {
-    color: #16cf27;
-    text-align: center;
-    font-weight: 400;
-}
-
-.reuse-que__modal--icn {
-    width: 80px;
-    height: 80px;
-    border-radius: 40px;
-    margin: 0 auto;
-    background-color: #f9f9f9;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: center;
-        justify-content: center;
-    -ms-flex-align: center;
-        align-items: center;
-    font-size: 30px;
-    color: #182427;
-    box-shadow: 0 2px 5px 0 rgba(0,0,0, .75);
-}
-
-.reuse-que__modal--warn {
-    text-align: center;
-    color: #182427;
-}
-
-.reuse-que__modal--warn > h4 {
-    margin: 15px 0 10px 0;
-    padding: 0;
-    text-align: center;
-    font-weight: 400;
-}
-
-.reuse-que__modal--warn > p {
-    color: #182427;
-    padding: 5px;
-    background-color: #f9f9f9;
-    margin: 0;
-    font-weight: bold;
-}
-
-.reuse-que__modal--btn {
-    padding: 5px 10px;
-    margin-top: 20px;
-    width: 100%;
-    font-size: .8125rem;
-}
-
-.reuse-que__modal--btn::after {
-    content: "";
-    clear: both;
-    display: table;
-}
-
-.reuse-que__modal--btn > button {
-    position: relative;
-    padding: 6px 10px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0, .85);
-}
-
-.reuse-que__modal--btn__cancel {
-    background-color: #fff;
-    color: #182427;
-    float: left;
-}
-
-.reuse-que__modal--btn__cancel:hover {
-    background-color: #f2f2f2;
-}
-
-.reuse-que__modal--btn__del {
-    background-color: #ff1600;
-    color: #fff;
-    float: right;
-}
-
-.reuse-que__modal--btn__del:hover {
-    background-color: #f22613;
-}
-
-@media (min-width: 335px) {
-
-    .reuse-que__modal {
-        width: 300px;
-    }
 }
 
 .reuse-que__filter-err {
