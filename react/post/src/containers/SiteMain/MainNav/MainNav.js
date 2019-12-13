@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Aux from '../../../hoc/Auxs/Aux';
-import Tags from './Tags/Tags';
+// import Tags from './Tags/Tags';
 import TopTrending from './TopTrending/TopTrending';
 import Conversation from './Conversation/Conversation';
-import SetQue from './SetQue/SetQue';
+// import SetQue from './SetQue/SetQue';
 
 class MainNav extends Component {
     state = {
@@ -25,7 +25,7 @@ class MainNav extends Component {
             <Aux>
                 {/* <Tags/> */}
                 <TopTrending />
-                <SetQue /> 
+                {/* <SetQue />  */}
             </Aux>
         );
 

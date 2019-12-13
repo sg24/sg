@@ -14,7 +14,6 @@ export function* fetchPostInitSaga(action) {
                     'data-categ': action.fetchType, 
                     'limit': action.fetchLimit, 
                     'skip': action.skipPost}});
-                    console.log(response);
             yield put(actions.fetchPost(response.data.cnt, action.skipPost, response.data.cntTotal));
         }  
         
