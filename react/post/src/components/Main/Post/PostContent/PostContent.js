@@ -253,7 +253,7 @@ const postContent = props => {
                                 <FontAwesomeIcon 
                                     icon={ props.pt.category.length > 1 ? ['fas', 'tags'] : ['fas', 'tag']} 
                                     className="icon icon__reuse-pt--header__tag" />
-                                <a href="/"> { props.pt.category[0] } </a>
+                                { props.pt.category[0] }
                             </p>
                             <div className="reuse-share">
                                 <div className="reuse-share__icn" onClick={props.share}>

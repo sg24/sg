@@ -1,6 +1,45 @@
 export {
+    checkAuthInit,
+    checkAuth,
+    checkUserImg,
+    checkUserName
+} from './auth'
+
+export { 
+    headerFormExpand,
+    headerFormSm,
+    headerNavDefault,
+    headerAddNew,
+    changeMainFavoriteStart,
+    changeMainFavoriteReset,
+    fetchNotifyInit,
+    fetchNotifyStart,
+    fetchNotifyFail,
+    fetchNotify,
+    changeFavNotifyInit,
+    changeFavNotifyStart,
+    changeFavNotifyFail,
+    changeFavNotify,
+    showNavList,
+    fetchNavlistInit,
+    fetchNavlistStart,
+    fetchNavlist,
+    showUserOption,
+    fetchNotifyactiveInit,
+    fetchNotifyActive,
+    defaultNotifyactiveInit,
+    defaultNotifyActive,
+    headerFilterInit,
+    headerFilterStart,
+    headerFilterFail,
+    headerFilter,
+    headerFilterClose
+} from './header';
+
+export {
     fetchCntInit,
     fetchCntFail,
+    fetchCntStart,
     fetchCntReset,
     fetchCnt,
     changeCntInit,
@@ -15,11 +54,12 @@ export {
     changeFav,
 } from './model';
 
-
 export {
     fetchCntCategInit,
     fetchCntCategStart,
     fetchCntCateg,
+    fetchTotalInit,
+    fetchTotal,
     filterContentInit,
     filterContentStart,
     filterContentFail,
@@ -30,6 +70,7 @@ export {
 
 export {
     fetchUsersInit,
+    fetchUsersFail,
     fetchUsers,
     userSelect,
     viewUsers,
@@ -44,8 +85,6 @@ export {
     shareUserfail,
     shareUser
 } from './share';
-
-
 export {
     changeTagsPath,
     fetchTagsInit,
@@ -70,42 +109,13 @@ export {
     fetchConv
 } from './conv';
 
-export { 
-    headerFormExpand,
-    headerFormSm,
-    headerNavDefault,
-    headerAddNew,
-    changeMainFavoriteStart,
-    changeMainFavoriteReset,
-    fetchNotifyInit,
-    fetchNotify,
-    changeFavNotifyInit,
-    changeFavNotifyStart,
-    changeFavNotifyFail,
-    changeFavNotify,
-    showNavList,
-    fetchNavlistInit,
-    fetchNavlistStart,
-    fetchNavlist,
-    showUserOption,
-    fetchNotifyactiveInit,
-    fetchNotifyActive,
-    defaultNotifyactiveInit,
-    defaultNotifyActive,
-    headerFilterInit,
-    headerFilterStart,
-    headerFilterFail,
-    headerFilter,
-    headerFilterClose
-} from './header';
-
 export {
     fetchCntActiveInit,
     fetchCntActive,
-    fetchShareactiveInit,
-    fetchShareActive,
     fetchShareCntactiveInit,
     fetchShareCntActive,
+    fetchShareactiveInit,
+    fetchShareActive,
     resetActiveInit,
     resetActive,
     showMainBackdrop,

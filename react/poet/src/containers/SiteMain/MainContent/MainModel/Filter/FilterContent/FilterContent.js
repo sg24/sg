@@ -13,19 +13,19 @@ class FilterContent extends Component {
     state = {
         filterOpt: {
             comment: [
-                {id: 1, filterType: 'Low', filterRangeIcn: 'angle-right', filterRange:  500},
-                {id: 2, filterType: 'Average', filterRangeIcn: 'angle-left', filterRange:  '499 - 999'},
-                {id: 3, filterType: 'High', filterRangeIcn: 'angle-left', filterRange:  999}
+                {id: 1, filterType: 'Low', filterRangeIcn: 'angle-left', filterRange:  500},
+                {id: 2, filterType: 'Average', filterRangeIcn: 'angle-right', filterRange:  '499 - 999'},
+                {id: 3, filterType: 'High', filterRangeIcn: 'angle-right', filterRange:  999}
             ],
             helpFull: [
-                {id: 4, filterType: 'Low', filterRangeIcn: 'angle-right', filterRange:  500},
-                {id: 5, filterType: 'Average', filterRangeIcn: 'angle-left', filterRange:  '499 - 999'},
-                {id: 6, filterType: 'High', filterRangeIcn: 'angle-left', filterRange:  999}
+                {id: 4, filterType: 'Low', filterRangeIcn: 'angle-left', filterRange:  500},
+                {id: 5, filterType: 'Average', filterRangeIcn: 'angle-right', filterRange:  '499 - 999'},
+                {id: 6, filterType: 'High', filterRangeIcn: 'angle-right', filterRange:  999}
             ],
             fav: [
-                {id: 7, filterType: 'Low', filterRangeIcn: 'angle-right', filterRange:  500},
-                {id: 8, filterType: 'Average', filterRangeIcn: 'angle-left', filterRange:  '499 - 999'},
-                {id: 9, filterType: 'High', filterRangeIcn: 'angle-left', filterRange:  999}
+                {id: 7, filterType: 'Low', filterRangeIcn: 'angle-left', filterRange:  500},
+                {id: 8, filterType: 'Average', filterRangeIcn: 'angle-right', filterRange:  '499 - 999'},
+                {id: 9, filterType: 'High', filterRangeIcn: 'angle-right', filterRange:  999}
             ]
         },
         searchCnt: '',
@@ -50,7 +50,7 @@ class FilterContent extends Component {
     }
 
     filterItmHandler = (filterGrp, rangeIcn, range, id) => {
-        let rangeFilter = rangeIcn === 'angle-left' ? '$gt' : '$lt';
+        let rangeFilter = rangeIcn === 'angle-right' ? '$gt' : '$lt';
         let filterPayload = {
           rangeType: rangeFilter,
           rangeValue: range,
@@ -135,7 +135,7 @@ class FilterContent extends Component {
         if (this.props.filterErr) {
             filterSrchClass = ['reuse-filter__opt--srch']
             totalFoundCnt = (
-                <div className="reuse-pt__filter-err"> {this.props.filterErr.message} </div>
+                <div className="reuse-pwt__filter-err"> {this.props.filterErr.message} </div>
             )
         }
  
@@ -166,15 +166,10 @@ class FilterContent extends Component {
         return (
             <div className="reuse-filter__opt"> 
                 <div className={filterSrchClass.join(' ')}>
-                    <div className="reuse-filter__opt--srch__calend">
-                        <FontAwesomeIcon 
-                            icon={['far', 'calendar-alt']} 
-                            className="icon icon__reuse-filter--calend"/>
-                    </div> 
                     <input 
                         type="text" 
                         className="reuse-filter__opt--srch__input" 
-                        placeholder="Search...." 
+                        placeholder="Search..." 
                         onChange={this.searchHandler}
                         value={this.state.searchCnt}/>
                 </div>
@@ -182,10 +177,10 @@ class FilterContent extends Component {
                 <div className="reuse-filter__opt--cnt">
                     <div className="reuse-filter__opt--cnt__wrapper reuse-filter__opt--cnt__wrapper--mid">
                         <h3 className="reuse-filter__opt--cnt__title">
-                            <FontAwesomeIcon 
-                                icon={['far', 'comment-dots']} 
-                                className="icon icon__reuse-pwt-filter--comment"/>
-                            Comments
+                        <FontAwesomeIcon 
+                        icon={['far', 'comment-dots']} 
+                        className="icon icon__reuse-pwt-filter--comment"/>
+                         Comments
                         </h3>
                         <ul className="reuse-filter__opt--cnt__det">
                             <FilterOptions
@@ -197,15 +192,15 @@ class FilterContent extends Component {
         
                     <div className="reuse-filter__opt--cnt__wrapper reuse-filter__opt--cnt__wrapper--mid">
                         <h3 className="reuse-filter__opt--cnt__title">
-                            <FontAwesomeIcon 
-                                icon={['far', 'smile']} 
-                                className="icon icon__reuse-pwt-filter--smile"/>  
+                        <FontAwesomeIcon 
+                        icon={['far', 'smile']} 
+                        className="icon icon__reuse-pwt-filter--smile"/>  
                             Smile
                         </h3>
                         <ul className="reuse-filter__opt--cnt__det">
                             <FilterOptions
-                                filterOptions={this.state.filterOpt.helpFull}
-                                filterItm={this.filterItmHandler.bind(this, 'helpFull')}
+                            filterOptions={this.state.filterOpt.helpFull}
+                            filterItm={this.filterItmHandler.bind(this, 'helpFull')}
                                 filterSelect={this.state.filterSelect}/>
                         </ul>
                     </div>

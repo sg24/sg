@@ -1,6 +1,7 @@
 import React from 'react';
 import TimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
+import Avatar from 'react-avatar';
 
 import './PoetContent.css'; 
 import '../../../UI/ShareIcn/ShareIcn.css'; 
@@ -16,9 +17,38 @@ const poetContent = props => {
     let userOptClass = ['reuse-pwt__content--det__user--det__opt'];
     let favAdd = null;
     let isLiked = null;
+    let userOptMode = (
+        <li 
+            className="reuse-pwt__content--det__user--det__opt--status"
+            onClick={props.changeCnt}>
+            <FontAwesomeIcon 
+                icon={['far', 'eye-slash']} 
+                className="icon icon__reuse-pwt--options__dft" />
+            Draft
+        </li>
+    );
     let fav = <FontAwesomeIcon 
         icon={['far', 'heart']} 
         className="icon icon__reuse-pwt--footer__heart" />
+
+    let userImage = <img src={props.pwt.userImage} alt="" />
+
+    if (props.pwt.mode === 'draft') {
+      userOptMode = (
+        <li 
+            className="reuse-pwt__content--det__user--det__opt--status"
+            onClick={props.changeCntPublish}>
+            <FontAwesomeIcon 
+                icon={['far', 'eye']} 
+                className="icon icon__reuse-pwt--options__dft" />
+            Publish
+        </li>
+      )
+    }
+    
+    if (props.pwt.username && !props.pwt.userImage) {
+        userImage = <Avatar  name={props.pwt.username} size='50' round />;
+    }
 
     for (let changedFav of props.changedFav) {
         if (props.pwt._id === changedFav.id) {
@@ -38,21 +68,14 @@ const poetContent = props => {
                 <div className="reuse-pwt__content--det__user--det__mid"></div>
                 <ul className={userOptClass.join(' ')}>
                     <li>
-                        <a href="/">
+                        <a href={`/edit/poet/${props.pwt._id}`}>
                             <FontAwesomeIcon 
                                 icon={['far', 'edit']} 
                                 className="icon icon__reuse-pwt--options" />
                             Edit 
                         </a>
                     </li>
-                    <li 
-                        className="reuse-pwt__content--det__user--det__opt--status"
-                        onClick={props.changeCnt}>
-                        <FontAwesomeIcon 
-                            icon={['far', 'eye-slash']} 
-                            className="icon icon__reuse-pwt--options__dft" />
-                        Draft
-                    </li>
+                    { userOptMode }
                     <li
                         onClick={props.deleteCnt}>
                         <FontAwesomeIcon 
@@ -92,12 +115,12 @@ const poetContent = props => {
                     <FontAwesomeIcon 
                         icon={ props.pwt.category.length > 1 ? ['fas', 'tags'] : ['fas', 'tag']} 
                         className="icon icon__reuse-pwt--header__tag" />
-                    <a href="/"> { props.pwt.category[0] } </a>
+                    { props.pwt.category[0] }
                 </span>
             </div>
             <div className="reuse-pwt__content--title">
                 <div className="reuse-pwt__content--title__wrapper">
-                    <a href="/"> 
+                    <a href={"/view/poet/" + props.pwt._id}> 
                       {String(props.pwt.title).length > 149 ? String(props.pwt.title).substr(0, 150) + '...' : props.pwt.title} 
                      </a>
                 </div>
@@ -105,9 +128,9 @@ const poetContent = props => {
             <div className="reuse-pwt__content--det">
                 <div className="reuse-pwt__content--det__user">
                     <div className="reuse-pwt__content--det__user--img">
-                        <img src={props.pwt.userImage} alt="poet" />
+                        { userImage }
                     </div> 
-                    <a href="/"> {String(props.pwt.author).substr(0, 8)} </a>
+                    <a href={"/user/profile/"+props.pwt.authorID}> {String(props.pwt.username).substr(0, 8)} </a>
                         <div className="reuse-pwt__content--det__user--time">
                         @ { <TimeAgo date={props.pwt.pwtCreated} live={false} formatter={formatter} />}
                     </div>

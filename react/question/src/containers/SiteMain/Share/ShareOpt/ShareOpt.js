@@ -45,14 +45,14 @@ class ShareOpt extends Component {
 
     facebookShareHandler = () => {
         let path = document.location.pathname.split('/')[1];
-        var facebookWindow = window.open(`https://www.facebook.com/sharer/sharer.php?u=${document.location.origin}/${path}/${this.props.shareID}`, 'facebook-popup', 'height=350,width=600');
+        var facebookWindow = window.open(`https://www.facebook.com/sharer/sharer.php?u=${document.location.origin}/view/${path}/${this.props.shareID}`, 'facebook-popup', 'height=350,width=600');
         if(facebookWindow.focus) { facebookWindow.focus(); }
           return false;
     }
 
     twitterShareHandler = () => {
         let path = document.location.pathname.split('/')[1];
-        var twitterWindow = window.open(`https://twitter.com/share?url=${document.location.origin}/${path}/${this.props.shareID}`, 'twitter-popup', 'height=350,width=600');
+        var twitterWindow = window.open(`https://twitter.com/share?url=${document.location.origin}/view/${path}/${this.props.shareID}`, 'twitter-popup', 'height=350,width=600');
           if(twitterWindow.focus) { twitterWindow.focus(); }
             return false;
     }

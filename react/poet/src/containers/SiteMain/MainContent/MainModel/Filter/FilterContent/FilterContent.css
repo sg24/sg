@@ -70,7 +70,7 @@
 .reuse-filter__opt--srch__input {
     border: none;
     outline: none;
-    padding: 8px 10px 8px 70px;
+    padding: 8px 10px;
     border-radius: 3px;
     width: 100%;
 }
@@ -78,7 +78,7 @@
 @media (min-width: 530px) {
 
     .reuse-filter__opt--srch__input {
-        padding: 12px 10px 12px 70px;
+        padding: 12px 10px;
     }
 }
 

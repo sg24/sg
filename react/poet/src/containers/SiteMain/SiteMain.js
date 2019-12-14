@@ -9,6 +9,7 @@ import asyncComponent from '../../hoc/asyncComponent/asyncComponent';
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
 import Modal from '../../components/UI/Modal/Modal';
 import MainFilter from '../../components/MainFilter/MainFilter';
+import Loader from '../../components/UI/Loader/Loader';
 import NoAcc from '../../components/Main/NoAcc/NoAcc';
 
 const AsyncShare= asyncComponent(() => {
@@ -43,7 +44,7 @@ class SiteMain extends Component {
     }
 
     render() {
-        let filterCnt = 'loading....';
+        let filterCnt = <Loader />;
 
         if (!this.props.searchCntErr && this.props.searchCnt && this.props.searchCnt.length > 0){
             filterCnt = (
@@ -51,6 +52,7 @@ class SiteMain extends Component {
                     <MainFilter 
                         filterResults={this.props.searchCnt}
                         filterPos={this.props.filterPos}
+                        filterLastPos={this.props.filterLastPos}
                         viewCnt={this.viewCntHandler}/>
                 </ul> 
             )
@@ -59,8 +61,10 @@ class SiteMain extends Component {
         if (!this.props.searchCntErr && this.props.searchCnt && this.props.searchCnt.length === 0) {
             filterCnt = (
                 <NoAcc 
-                isAuth={this.props.userID !== null}
-                det='No content found!' />
+                    isAuth={this.props.userID !== null}
+                    det='No content found!'
+                    icn='clone'
+                    filter />
             );
         }
 
@@ -71,14 +75,14 @@ class SiteMain extends Component {
                 </div> 
             )
         }
-        
+
         return (
             <div className="site-main site-main__expage" onClick={this.checkHeaderDefault}>
             <div className="wrapper__exmain">
-               {this.props.showBackdrop ? 
-                    <Backdrop   
-                        show={ this.props.showBackdrop }
-                        component={ AsyncFilterContent }/> : null}
+            {this.props.showBackdrop ? 
+                 <Backdrop   
+                     show={ this.props.showBackdrop }
+                     component={ AsyncFilterContent }/> : null}
                 { this.props.cntErr ? 
                     <Backdrop 
                         component={ Modal }
@@ -98,24 +102,24 @@ class SiteMain extends Component {
                         { filterCnt }
                     </div>
                 </div> : null}
-            { this.props.changeCntStart !== null ? 
-                <Backdrop   
-                    show={ this.props.showBackdrop }
-                    component={ Modal }
-                    err={ this.props.changeCntErr }
-                    warn={{
-                        msg: this.props.changeCntStart.det === 'delete' ?
-                        'Are you sure you want to delete this' : 'Are you sure you want to change this mode',
-                        cnt: this.props.changeCntStart.title,
-                        det: this.props.changeCntStart.det
-                    }}
-                    exit={{
-                        msg: this.props.changeCntStart.det=== 'delete' ?
-                        'Content Deleted Successfully' : 'Mode change successfully', 
-                        close: this.props.changeCnt}}
-                    changeCnt={this.changeCntHandler}
-                    closeChangeCnt={this.closeChangeCntHandler}/> : null}
-            <Route path="/poet/share" exact component={AsyncShare} />
+                { this.props.changeCntStart !== null ? 
+                    <Backdrop   
+                        show={ this.props.showBackdrop }
+                        component={ Modal }
+                        err={ this.props.changeCntErr }
+                        warn={{
+                            msg: this.props.changeCntStart.det === 'delete' ?
+                            'Are you sure you want to delete this' : 'Are you sure you want to change this mode',
+                            cnt: this.props.changeCntStart.title,
+                            det: this.props.changeCntStart.det
+                        }}
+                        exit={{
+                            msg: this.props.changeCntStart.det=== 'delete' ?
+                            'Content Deleted Successfully' : 'Mode change successfully', 
+                            close: this.props.changeCnt}}
+                        changeCnt={this.changeCntHandler}
+                        closeChangeCnt={this.closeChangeCntHandler}/> : null}
+                <Route path="/poet/share" exact component={AsyncShare} />
         </div>
         )
     }
@@ -131,6 +135,7 @@ const mapStateToProps = state => {
         searchCnt: state.header.searchCnt,
         searchCntErr: state.header.searchCntErr,
         filterPos: state.header.filterPos,
+        filterLastPos: state.header.filterLastPos,
         changeCntStart: state.cnt.changeCntStart,
         changeCntErr: state.cnt.changeCntErr,
         changeCnt: state.cnt.changeCnt

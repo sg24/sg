@@ -30,10 +30,10 @@ module.exports = submitForm = (content, model, files, notify, viewnotify, userMo
         id = result._id;
 
         function notification() {
-            notifications(shareMe, notify, id, updateField).then(() =>{
+            notifications(shareMe, notify, id, updateField).then(() => {
                 viewnotify.findOneAndUpdate({userID}, {$inc: {[field]: 1}}).then(result => {
                    if (result) {
-                       completeSubmit();
+                    completeSubmit();
                    } else {
                     let newNotiy = new viewnotify({
                         userID,
@@ -59,6 +59,13 @@ module.exports = submitForm = (content, model, files, notify, viewnotify, userMo
                                 let fndAuthUser = authUsers ? authUsers : [];
                                 allSubscription.push(...fndAuthUser);
                                 let send = 0;
+                                if (allSubscription && allSubscription.length < 1) {
+                                    model.findByIdAndUpdate(id, {_isCompleted: true}).then(() => {
+                                        resolve(id)
+                                    })
+                                    return
+                                }
+
                                 for (let subUsers of allSubscription) {
                                     if (subUsers.enableNotification) {
                                         var pushConfig = {

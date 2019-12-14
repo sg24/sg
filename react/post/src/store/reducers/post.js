@@ -43,7 +43,7 @@ const changePostCancel = (state, action) => {
 
 const changePostReset = (state, action) => {
     let posts = [...state.posts];
-    if (state.changePtStart.det === 'publish' || state.changePtStart.det === 'acc-draft') {
+    if ((state.changePtStart.det === 'publish' || state.changePtStart.det === 'acc-draft') && state.changePtStart.det !== 'delete') {
         let filterPost = posts.filter(pt => pt._id === state.changePtStart.id);
         let updated = posts.filter(pt => pt._id !== state.changePtStart.id);
         if (filterPost.length > 0) {

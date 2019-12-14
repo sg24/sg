@@ -390,6 +390,7 @@ router.patch('/header', authenticate, (req, res, next) => {
         let notify = req.body.model === 'post' ? postnotifies :
         req.body.model === 'question' ? quenotifies : pwtnotifies;
         model.findOneAndUpdate({_id: req.body.id, authorID: req.user}, {mode: 'draft', shareMe: []}).then(result => {
+            let send = 0;
             if (result.shareMe && result.shareMe.length < 1) {
                 res.sendStatus(200);
                 return
@@ -513,87 +514,6 @@ router.delete('/header', authenticate,(req,res, next) =>  {
             }
         })
         return
-    }
-});
-
-router.get('/poet', (req, res, next) => {
-    if (req.header('data-categ') === 'category') {
-        category.findOne({}).then(result => {
-            let checkRes =  result ? result.poet : []
-            res.send(checkRes).status(200);
-        }).catch(err => {
-            res.status(500).send(err);
-        });
-        return;
-    }
-
-    if (req.header('data-categ') === 'poet') {
-        return fetchCnt({});
-    }
-
-    if (req.header('data-categ').startsWith('shared')) {
-        return fetchCnt({shareMe: req.header('data-categ').split('-')[1]});
-    }
-
-    function fetchCnt(conditions, meta) {
-        let condition = {mode: 'publish', _isCompleted: true, ...conditions}
-        connectStatus.then(() => {
-            let isMeta = meta ? meta : {};
-            let sort = req.header('data-categ').startsWith('filter') ? { score: { $meta: "textScore" } } : {pwtCreated: -1};
-            let curLimit = parseInt(req.header('limit'));
-            let skip = parseInt(req.header('skip'));
-            poets.find(condition, isMeta).countDocuments({}).then((cntTotal) => {
-                poets.find(condition, isMeta).sort(sort).limit(curLimit).skip(skip).then(result => {
-                    let cntArray = [];
-                    for (let pwt of result) {
-                        pwt.desc = '';
-                        pwt.title =  String(pwt.title).substr(0, 180);
-                        cntArray.push(pwt);
-                    }
-                    res.send({cnt: cntArray, cntTotal}).status(200)
-                }).catch(err => {
-                    res.status(500).send(err);
-                })
-            }).catch(err => {
-                res.status(500).send(err);
-            }) 
-        }).catch(err => {
-            res.status(500).send(err);
-        })
-    }
-
-    if (req.header('data-categ').startsWith('filter')) { 
-        let filterCnt = require('./utility/filtercnt');
-        filterCnt((JSON.parse(req.header('data-categ').split('==')[1]))).then(filter => {
-            return fetchCnt({$text: { $search: filter.searchCnt }, ...filter.comment, ...filter.helpFull, ...filter.favorite,  ...filter.category},{ score: { $meta: "textScore" } })
-        }).catch(err => {
-            res.status(500).send(err)
-        })
-        return
-    }
-
-    res.render('poetwriter');
-});
-
-router.patch('/poet', authenticate ,(req, res, next) => {
-    if (req.header('data-categ') === 'changemode') {
-        poets.findByIdAndUpdate(req.body.id, {mode: 'draft'}).then(result => {
-            res.send('patch').status(200);
-        })
-        return
-    }
-});
-
-
-router.delete('/poet', authenticate, (req, res, next) => {
-    if (req.header('data-categ').startsWith('deleteCnt')) {
-        let id = req.header('data-categ').split('-')[1];
-        poets.findByIdAndRemove(id).then(() =>{
-            res.send('deleted').status(200);
-        }).catch(err => {
-            res.status(500).send(err);
-        });
-        return;
     }
 });
 

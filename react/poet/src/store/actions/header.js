@@ -25,10 +25,9 @@ export const headerAddNew = () => {
     };
 };
 
-export const fetchNotifyInit = (userID) => {
+export const fetchNotifyInit = () => {
     return {
-        type: actionTypes.FETCH_NOTIFY_INIT,
-        userID
+        type: actionTypes.FETCH_NOTIFY_INIT
     };
 };
 
@@ -44,9 +43,10 @@ export const fetchNotifySuccess = () => {
     };
 };
 
-export const fetchNotifyFail = () => {
+export const fetchNotifyFail = (err) => {
     return {
-        type: actionTypes.FETCH_NOTIFY_FAIL
+        type: actionTypes.FETCH_NOTIFY_FAIL,
+        err
     };
 };
 
@@ -134,10 +134,9 @@ export const fetchNotifyActive = (notifyActive) =>  {
     }; 
 }; 
 
-export const defaultNotifyactiveInit = (userID) =>  {
+export const defaultNotifyactiveInit = () =>  {
     return {
-        type: actionTypes.DEFAULT_NOTIFYACTIVE_INIT,
-        userID
+        type: actionTypes.DEFAULT_NOTIFYACTIVE_INIT
     }; 
 }; 
 
@@ -146,7 +145,6 @@ export const defaultNotifyActive = () =>  {
         type: actionTypes.DEFAULT_NOTIFYACTIVE
     }; 
 }; 
-
 export const changeMainFavoriteStart = (isLiked) =>  {
     return {
         type: actionTypes.CHANGE_MAINFAVORITE_START,
@@ -160,18 +158,20 @@ export const changeMainFavoriteReset = () =>  {
     }; 
 }; 
 
-export const headerFilterInit = (filterCnt, filterPos) =>  {
+export const headerFilterInit = (filterCnt, filterPos, filterLastPos) =>  {
     return {
         type: actionTypes.HEADER_FILTER_INIT,
         filterCnt,
-        filterPos
+        filterPos,
+        filterLastPos
     }; 
 }; 
 
-export const headerFilterStart = (filterPos) =>  {
+export const headerFilterStart = (filterPos, filterLastPos) =>  {
     return {
         type: actionTypes.HEADER_FILTER_START,
-        filterPos
+        filterPos,
+        filterLastPos
     }; 
 }; 
 

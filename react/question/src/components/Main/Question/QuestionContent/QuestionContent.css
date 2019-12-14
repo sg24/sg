@@ -673,6 +673,7 @@
     color: #777;
     cursor: pointer;
     font-size: .9375rem;
+    margin-right: 5px;
 }
 
 .icon__reuse-que--media__play {
@@ -686,15 +687,7 @@
 
 .icon__reuse-que--media__prev {
     font-size: 1rem;
-}
-
-.icon__reuse-que--modal__icn {
-    color: #ff1600;
-}
-
-.icon__reuse-que--modal__btn {
-    margin-right: 5px;
-}     
+}  
 
 .icon__reuse-que--footer__thumbup {
     color: #0284a8;

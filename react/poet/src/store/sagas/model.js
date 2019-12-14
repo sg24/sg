@@ -1,37 +1,20 @@
 import { put, delay } from 'redux-saga/effects';
-import { updateObject, changeFav } from '../../shared/utility';
+import { changeFav } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
 export function* fetchCntInitSaga(action) {
+    if (action.cntTotal > action.skipCnt) {
+        yield put(actions.fetchCntStart());
+    }
     try {
         if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
-            let response =  yield axios.get('/poet', {
+            let response = yield axios.get('/poet', {
                 headers: {
                     'data-categ': action.fetchType, 
                     'limit': action.fetchLimit, 
                     'skip': action.skipCnt}});
-            let cntArray = [];
-            if (response.data.cnt && response.data.cnt.length > 0 ) { 
-                for (let cnt of response.data.cnt) {
-                    const newCnt = {...cnt};
-                    let liked = false;
-                    for (let userID of newCnt.liked) {
-                        if(action.userID === userID) {
-                            liked = true
-                        }
-                    }
-                    const valid = action.userID === newCnt.authorID;
-                    const author = 'user' +  newCnt._id;
-                    const newData = updateObject(newCnt, {author,userOpt: valid, liked});
-                    cntArray.push(newData);
-                }
-                yield put(actions.fetchCnt(cntArray, action.skipCnt, response.data.cntTotal));
-            }
-
-            if (response.data.cnt.length === 0) {
-                yield put(actions.fetchCnt([]));
-            }
+            yield put(actions.fetchCnt(response.data.cnt, action.skipCnt, response.data.cntTotal));
         }  
         
     } catch(err){
@@ -45,7 +28,9 @@ export function* changeFavSaga(action) {
     yield put(actions.changeMainFavoriteStart(updateFav.favDet.liked));
     yield put(actions.changeFavPtStart(updateFav.favDet.id, updateFav.favDet.liked))
     try {
-        yield axios.patch('/post', {id: updateFav.favDet.id, userID: action.userID, model: action.cntGrp})
+        let field = action.cntGrp === 'post' ? 'postID' : action.cntGrp === 'question' ?
+        'queID' : 'pwtID';
+        yield axios.patch('/header', {id: updateFav.favDet.id, model: action.cntGrp, field},{headers: {'data-categ': 'changefavorite'}});
         yield delay(500)
         yield put(actions.changeMainFavoriteReset());
         yield put(actions.changeFav(updateFav.updateChangeFav));
@@ -63,16 +48,20 @@ export function* changeCntInitSaga(action) {
     }
     try {
         if (action.det === 'delete') {
-            yield axios.delete('/poet', {headers: {'data-categ': 'deleteCnt-'+action.id}});
+            let payload = JSON.stringify({id: action.id, model: 'poet', field: 'pwtID'})
+            yield axios.delete('/header', {headers: {'data-categ': `deletecnt-${payload}`}});
+        } else if (action.det === 'draft' || action.det === 'acc-draft'){
+            console.log(action)
+            yield axios.patch('/header', {id: action.id, model: 'poet', field: 'pwtID'} ,{headers: {'data-categ': 'draftmode'}});
         } else {
-            yield axios.patch('/poet', {id: action.id} ,{headers: {'data-categ': 'changemode'}});
+            yield axios.patch('/header', {id: action.id, model: 'poet', field: 'pwtID'} ,{headers: {'data-categ': 'publishmode'}});
         }
         yield put(actions.changeCnt())
         yield delay(1000);
-        yield put(actions.changeCntReset())
+        yield put(actions.changeCntReset(true))
     } catch(err){
         yield put(actions.changeCntFail(err))
         yield delay(1000);
-        yield put(actions.changeCntReset())
+        yield put(actions.changeCntReset(false))
     }
 }

@@ -43,7 +43,7 @@ const changeCntCancel = (state, action) => {
 
 const changeCntReset = (state, action) => {
     let cnts = [...state.cnts];
-    if (state.changeCntStart.det === 'publish' || state.changeCntStart.det === 'acc-draft') {
+    if ((state.changeCntStart.det === 'publish' || state.changeCntStart.det === 'acc-draft') && state.changeCntStart.det !== 'delete') {
         let filterCnt = cnts.filter(que => que._id === state.changeCntStart.id);
         let updated = cnts.filter(que => que._id !== state.changeCntStart.id);
         if (filterCnt.length > 0) {

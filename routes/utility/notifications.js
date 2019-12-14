@@ -1,8 +1,10 @@
 module.exports =  notification = (shareMe, model, id, field) => {
             return new Promise((resolve, reject) =>{
                 let i = 0;
+                
                 if (shareMe.length < 1) {
                     resolve()
+                    return
                 }
 
                 for (let userID of shareMe) {

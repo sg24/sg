@@ -35,9 +35,7 @@ export function* fetchNavlistInitSaga(action) {
 export function* fetchNotifyActiveInitSaga(action) {
     try {
         let response = yield axios.post('/header', {}, {headers: {'data-categ':'allnotification'}});
-        if (response.data.collTotal > 0) {
-            yield put(actions.fetchNotifyActive(response.data.collTotal));
-        };
+        yield put(actions.fetchNotifyActive(response.data.collTotal));
     } catch(err) {}
 }
 

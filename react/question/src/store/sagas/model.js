@@ -66,7 +66,6 @@ export function* changeCntInitSaga(action) {
         return;
     }
     try {
-        console.log(action)
         if (action.det === 'delete') {
             let payload = JSON.stringify({id: action.id, model: 'question', field: 'queID'})
             yield axios.delete('/header', {headers: {'data-categ': `deletecnt-${payload}`}});

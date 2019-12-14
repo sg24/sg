@@ -261,7 +261,7 @@ const questionContent = props => {
                         { userImage }
                     </div>
                     <div className="reuse-que__header--category__det">
-                        <div className="reuse-que__header--category__det--name"><a href="/">{props.que.username}</a></div>
+                        <div className="reuse-que__header--category__det--name"><a href={`/user/profile/${props.que.authorID}`}>{props.que.username}</a></div>
                         <div className="reuse-que__header--category__det--timePosted">
                             @ { <TimeAgo date={props.que.queCreated} live={false} formatter={formatter}/> }
                         </div> 
@@ -271,8 +271,8 @@ const questionContent = props => {
                     <p className="reuse-que__header--share__category">
                         <FontAwesomeIcon 
                             icon={ props.que.category.length > 1 ? ['fas', 'tags'] : ['fas', 'tag']} 
-                            className="icon icon__reuse-pt--header__tag" />
-                        <a href="/"> { props.que.category[0] } </a>
+                            className="icon icon__reuse-que--header__tag" />
+                        { props.que.category[0] }
                     </p>
                     <div className="reuse-share">
                         <div className="reuse-share__icn" onClick={props.share}>
