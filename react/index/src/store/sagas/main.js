@@ -3,26 +3,60 @@ import { put } from 'redux-saga/effects';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
+export function* fetchPtActiveInitSaga(action) {
+    try {
+        let response = yield axios.post('/header', { model: 'post'}, {headers: {'data-categ': ' modelNotify'}});
+        yield put(actions.fetchPtActive(response.data));
+        return
+    } catch(err) {}
+
+}
+
+export function* fetchQueActiveInitSaga(action) {
+    try {
+        let response = yield axios.post('/header', { model: 'question'}, {headers: {'data-categ': ' modelNotify'}});
+        yield put(actions.fetchQueActive(response.data));
+        return
+    } catch(err) {}
+
+}
+
 export function* fetchCntActiveInitSaga(action) {
-    yield put(actions.fetchCntActive(99));
+    try {
+        let response = yield axios.post('/header', { model: 'poet'}, {headers: {'data-categ': ' modelNotify'}});
+        yield put(actions.fetchCntActive(response.data));
+    } catch(err) {}
+
+}
+
+export function* fetchShareCntActiveInitSaga(action) {
+    try {
+        let response = yield axios.post('/header', { model: 'question'}, {headers: {'data-categ': 'share'}});
+        yield put(actions.fetchShareCntActive(response.data));
+    } catch(err) {}
+}
+
+export function* fetchReqActiveInitSaga(action) {
+    try {
+        let response = yield axios.get('/users', {headers: {'data-categ': 'request-activeOnly'}});
+        yield put(actions.fetchReqActive(response.data));
+    } catch(err) {}
+
 }
 
 export function* fetchShareActiveInitSaga(action) {
     try {
-        let response = yield axios.post('/header', {userID: action.userID}, {headers: {'data-categ':'notification'}});
-        if (response.data > 0) {
-            yield put(actions.fetchShareActive(response.data));
-        }
-        return
+        let response = yield axios.post('/header', {}, {headers: {'data-categ':'notification'}});
+        yield put(actions.fetchShareActive(response.data));        
     } catch(err) {}
 }
 
 export function* resetActiveInitSaga(action) {
-    let modelType = action.curTab === ''|| action.curTab === 'post' ? 'post' : action.curTab === 'question' ?
-    'question':'poet';
     try {
         if (action.curTab === 'share') {
-            yield axios.patch('/header', {userID: action.userID, model: 'question'}, {headers: {'data-categ': action.curTab}});
+            yield axios.patch('/header', {model: 'question'}, {headers: {'data-categ': action.curTab}});
+        } else {
+            yield axios.patch('/header', {model: action.curTab}, {headers: {'data-categ': 'modelNotify'}});
         }
         yield put(actions.resetActive(action.curTab));
     } catch(err) {}

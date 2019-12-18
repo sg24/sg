@@ -1,6 +1,7 @@
 import React from 'react';
 import TimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
+import Avatar from 'react-avatar';
 
 import './PostContent.css';
 import '../../../UI/ShareIcn/ShareIcn.css'; 
@@ -17,10 +18,39 @@ const postContent = props => {
     let favAdd = null;
     let isLiked = null;
     let mediaTotal = props.pt.snapshot.length+props.pt.image.length;
+    let userOptMode = (
+            <li 
+                className="reuse-pt__footer--details__options--status"
+                onClick={props.changePt}>
+                <FontAwesomeIcon 
+                    icon={['far', 'eye-slash']} 
+                    className="icon icon__reuse-pt--options__dft" /> 
+                Draft
+            </li>
+    );
 
     let fav = <FontAwesomeIcon 
         icon={['far', 'heart']} 
         className="icon icon__reuse-pt--footer__heart" />
+    
+    let userImage = <img src={props.pt.userImage} alt="" />
+
+    if (props.pt.mode === 'draft') {
+      userOptMode = (
+        <li 
+            className="reuse-pt__footer--details__options--status"
+            onClick={props.changePtPublish}>
+            <FontAwesomeIcon 
+                icon={['far', 'eye']} 
+                className="icon icon__reuse-pt--options__dft" /> 
+            Publish
+        </li>
+      )
+    }
+    
+    if (props.pt.username && !props.pt.userImage) {
+        userImage = <Avatar  name={props.pt.username} size='36' round />;
+    }
     
     for (let changedFav of props.changedFav) {
         if (props.pt._id === changedFav.id) {
@@ -136,7 +166,7 @@ const postContent = props => {
                 </div>
                 
                 {
-                    mediaCnt && mediaCnt.length > 0 ? 
+                    mediaCnt && mediaCnt.length > 1 ? 
                     <Aux>
                         <div 
                             className="reuse-pt__media--cnt reuse-pt__media--cnt__nxt"
@@ -158,7 +188,7 @@ const postContent = props => {
         );
     } 
 
-    if (props.showCnt && props.showCnt.visible && props.pt._id === props.showCnt.id) {
+    if (props.showPt && props.showPt.visible && props.pt._id === props.showPt.id) {
         userOptDetClass.push('reuse-pt__footer--details__clk');
         userOptClass.push('reuse-pt__footer--details__options--visible')
     }
@@ -169,23 +199,16 @@ const postContent = props => {
             <div className="reuse-pt__footer--details__mid"></div>
             <ul className={userOptClass.join(' ')}>
                 <li>
-                    <a href="/">
+                    <a href={`/edit/post/${props.pt._id}`}>
                         <FontAwesomeIcon 
                             icon={['far', 'edit']} 
                             className="icon icon__reuse-pt--options" /> 
                         Edit 
                     </a>
                 </li>
-                <li 
-                    className="reuse-pt__footer--details__options--status"
-                    onClick={props.changeCnt}>
-                    <FontAwesomeIcon 
-                        icon={['far', 'eye-slash']} 
-                        className="icon icon__reuse-pt--options__dft" /> 
-                    Draft
-                </li>
+                {userOptMode}
                 <li
-                    onClick={props.deleteCnt}>
+                    onClick={props.deletePt}>
                     <FontAwesomeIcon 
                         icon={['far', 'trash-alt']} 
                         className="icon icon__reuse-pt--options" /> 
@@ -216,10 +239,10 @@ const postContent = props => {
                     <ul className="reuse-pt__header">
                         <li>
                             <div className="reuse-pt__header--category__img">
-                                <img src={props.pt.userImage} alt="" />
+                                { userImage }
                             </div>
                             <div className="reuse-pt__header--category__det">
-                                <div className="reuse-pt__header--category__det--name"><a href="/"> {props.pt.author} </a></div>
+                                <div className="reuse-pt__header--category__det--name"><a href={`/user/profile/${props.pt.authorID}`}> {props.pt.username} </a></div>
                                 <div className="reuse-pt__header--category__det--timePosted">
                                     @ { <TimeAgo date={props.pt.postCreated} live={false} formatter={formatter}/> }
                                 </div> 
@@ -230,7 +253,7 @@ const postContent = props => {
                                 <FontAwesomeIcon 
                                     icon={ props.pt.category.length > 1 ? ['fas', 'tags'] : ['fas', 'tag']} 
                                     className="icon icon__reuse-pt--header__tag" />
-                                <a href="/"> { props.pt.category[0] } </a>
+                                { props.pt.category[0] }
                             </p>
                             <div className="reuse-share">
                                 <div className="reuse-share__icn" onClick={props.share}>

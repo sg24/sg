@@ -10,6 +10,9 @@
     top: 3.5px;
     left: 4.4px;
 }
+.icon__reuse-pwt--header__tag {
+    margin-right: 5px;
+}
 
 .icon__reuse-pwt--quoteright {
     font-size: .8125rem;
@@ -112,6 +115,21 @@
     top: 50%;
     transform: translateY(-50%);
     left: -60px;
+}
+
+.reuse-pwt__content--det__user--img > img {
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: rgba(233,235,242, .7);
+    cursor: pointer;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -o-object-position: 50% 50%;
+    object-position: 50% 50%;
+    -o-object-fit: fill;
+    object-fit: fill;
 }
 
 .reuse-pwt__content--det__user--time {
@@ -372,4 +390,4 @@
     .reuse-pwt {
         margin: 40px 20px 60px 20px;
     }
-}
+}    

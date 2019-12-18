@@ -14,12 +14,11 @@
 
 .site-hero__hidden {
     display: none;
-
 }
 
 .site-main {
     color: #182427;
-    margin: 0 0 6px 0;
+    margin-bottom: 6px;
 }
 
 .site-main__content {

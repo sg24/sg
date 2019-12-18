@@ -7,7 +7,10 @@ const NotificationsSchema = new Schema({
     },
     notifications: {
         type: Number
-    }
+    },
+    teacherID: [{
+        type: String
+    }]
 })
 
 const usernotifies = mongoose.model('usernotifies', NotificationsSchema);

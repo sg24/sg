@@ -10,7 +10,7 @@ const post = props => {
             pt={pt} 
             media={props.media}
             userOpt={props.userOpt.bind(this, pt._id)} 
-            showCnt={props.showCntOpt}
+            showPt={props.showCntOpt}
             fav={props.fav.bind(this, pt._id, pt.liked, pt.favorite, 'post')}
             changedFav={props.changedFav}
             favChange={props.favChange}
@@ -29,8 +29,8 @@ const post = props => {
             moveSlidePlay={props.moveSlidePlay}
             clearSlidePlay={props.clearSlidePlay}
             video={props.video}
-            deleteCnt={props.changeCnt.bind(this, pt._id, pt.title, 'delete', 'post')}
-            changeCnt={props.changeCnt.bind(this, pt._id, pt.title, 'mode', 'post')}/>
+            deletePt={props.changeCnt.bind(this, pt._id, pt.title, 'delete', 'post')}
+            changePt={props.changeCnt.bind(this, pt._id, pt.title, 'draft', 'post')}/>
     ));
 
     return allPost;

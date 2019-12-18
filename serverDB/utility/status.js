@@ -1,0 +1,37 @@
+const jwt = require('jsonwebtoken');
+const { authUser , user} = require('../serverDB');
+
+module.exports =  checkStatus = (token, modelType) => {
+    let decoded = null;
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+    let oldDate = new Date((decoded.exp * 1000)).getTime();
+    let newDate = new Date().getTime();
+    let expire = (oldDate - newDate)/(1000*3600*24);
+    let model = modelType === 'authUser' ? authUser : user;
+    if ((oldDate > newDate) && expire < 1) {
+        let access = 'authentication';
+        let newToken = jwt.sign({_id: decoded._id, access}, process.env.JWT_SECRET, { expiresIn: 3600*24*7}).toString();
+        let tokens = [{access, token: newToken}];
+        model.findByIdAndUpdate(decoded._id, {tokens}).catch(err => err)
+    }
+
+    let statustoken = jwt.sign({_id: decoded._id}, process.env.JWT_SECRET, { expiresIn: 60}).toString();
+    model.findByIdAndUpdate(decoded._id, {statustoken, status: true}).then(() => {
+        checkStatus();
+        function checkStatus() {
+            let check = setInterval(() => {
+                let isExpire = true;
+                model.findById(decoded._id).then(result => {
+                    jwt.verify(result.statustoken, process.env.JWT_SECRET);
+                }).catch(err => {
+                    model.findByIdAndUpdate(decoded._id, {status: false}).then(() => {
+                        clearInterval(check);
+                    });
+                    clearInterval(check);
+                })
+            }, 30000) 
+        }
+
+    });
+}
+

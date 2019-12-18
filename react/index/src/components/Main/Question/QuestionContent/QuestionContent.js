@@ -1,6 +1,7 @@
 import React from 'react';
 import TimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
+import Avatar from 'react-avatar';
 
 import './QuestionContent.css';
 import '../../../UI/ShareIcn/ShareIcn.css'; 
@@ -16,19 +17,48 @@ const questionContent = props => {
     let userOptClass = ['reuse-que__footer--details__options'];
     let favAdd = null;
     let isLiked = null;
+    let title = String(props.que.title).length > 149 ? String(props.que.title).substr(0, 150) + '...' :' props.que.title';
     let mediaTotal = props.que.snapshot.length+props.que.image.length;
-
     let desc = (
         <p className="reuse-que__content--title">
             <a href={"/view/question/" + props.que._id}> 
-            {String(props.que.title).length > 149 ? String(props.que.title).substr(0, 180) + '...' : props.que.title} 
+                {title} 
             </a>
         </p>
+    );
+    let userOptMode = (
+        <li 
+            className="reuse-que__footer--details__options--status"
+            onClick={props.changeCnt}>
+            <FontAwesomeIcon 
+                icon={['far', 'eye-slash']} 
+                className="icon icon__reuse-que--options__dft" />
+            Draft
+        </li>
     );
 
     let fav = <FontAwesomeIcon 
         icon={['far', 'heart']} 
         className="icon icon__reuse-que--footer__heart" />
+
+    let userImage = <img src={props.que.userImage} alt="" />
+
+    if (props.que.mode === 'draft') {
+      userOptMode = (
+        <li 
+            className="reuse-que__footer--details__options--status"
+            onClick={props.changeCntPublish}>
+            <FontAwesomeIcon 
+                icon={['far', 'eye']} 
+                className="icon icon__reuse-que--options__dft" />
+            Publish
+        </li>
+      )
+    }
+    
+    if (props.que.username && !props.que.userImage) {
+        userImage = <Avatar  name={props.que.username} size='36' round />;
+    }
 
     for (let changedFav of props.changedFav) {
         if (props.que._id === changedFav.id) {
@@ -63,7 +93,6 @@ const questionContent = props => {
                 if (props.removePrevMedia && props.removePrevMedia.id === props.que._id) {
                     showPrevAnim(props.removePrevMedia);
                 }
-
                 displayMedia(mediaItm.position);
             }
         }
@@ -144,7 +173,7 @@ const questionContent = props => {
                 </div>
                 
                 {
-                    mediaCnt && mediaCnt.length > 0 ? 
+                    mediaCnt && mediaCnt.length > 1 ? 
                     <Aux>
                         <div 
                             className="reuse-que__media--cnt reuse-que__media--cnt__nxt"
@@ -171,7 +200,7 @@ const questionContent = props => {
             <Aux>
                 <p className="reuse-que__content--title reuse-que__content--title__que-img">
                     <a href={"/view/question/" + props.que._id}> 
-                        {String(props.que.title).length > 149 ? String(props.que.title).substr(0, 180) + '...' : props.que.title} 
+                        {title} 
                     </a>
                 </p>
                 <div className="reuse-que__content--wrapper">
@@ -192,21 +221,14 @@ const questionContent = props => {
                 <div className="reuse-que__footer--details__mid"></div>
                 <ul className={userOptClass.join(' ')}>
                     <li>
-                        <a href="/">
+                        <a href={`/edit/question/${props.que._id}`}>
                             <FontAwesomeIcon 
                                 icon={['far', 'edit']} 
                                 className="icon icon__reuse-que--options" />
                             Edit 
                         </a>
                     </li>
-                    <li 
-                        className="reuse-que__footer--details__options--status"
-                        onClick={props.changeCnt}>
-                        <FontAwesomeIcon 
-                            icon={['far', 'eye-slash']} 
-                            className="icon icon__reuse-que--options__dft" />
-                        Draft
-                    </li>
+                    { userOptMode }
                     <li 
                         onClick={props.deleteCnt}>
                         <FontAwesomeIcon 
@@ -236,10 +258,10 @@ const questionContent = props => {
             <ul className="reuse-que__header">
                 <li>
                     <div className="reuse-que__header--category__img">
-                        <img src={props.que.userImage} alt="user" />
+                        { userImage }
                     </div>
                     <div className="reuse-que__header--category__det">
-                        <div className="reuse-que__header--category__det--name"><a href="/">{props.que.author}</a></div>
+                        <div className="reuse-que__header--category__det--name"><a href={`/user/profile/${props.que.authorID}`}>{props.que.username}</a></div>
                         <div className="reuse-que__header--category__det--timePosted">
                             @ { <TimeAgo date={props.que.queCreated} live={false} formatter={formatter}/> }
                         </div> 
@@ -249,8 +271,8 @@ const questionContent = props => {
                     <p className="reuse-que__header--share__category">
                         <FontAwesomeIcon 
                             icon={ props.que.category.length > 1 ? ['fas', 'tags'] : ['fas', 'tag']} 
-                            className="icon icon__reuse-pt--header__tag" />
-                        <a href="/"> { props.que.category[0] } </a>
+                            className="icon icon__reuse-que--header__tag" />
+                        { props.que.category[0] }
                     </p>
                     <div className="reuse-share">
                         <div className="reuse-share__icn" onClick={props.share}>

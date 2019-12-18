@@ -4,6 +4,7 @@ import { updateObject } from '../../shared/utility';
 const initialState = {
     users: null,
     userSelect: null,
+    filterUser: null,
     filterUserSelect: null,
     viewAllUsers: true,
     shareID: null,
@@ -13,7 +14,7 @@ const initialState = {
 }
 
 const fetchUsers = (state, action) => {
-    return updateObject(state, {users: action.users})
+    return updateObject(state, {users: action.users, filterUser: null})
 };
 
 const userSelect = (state, action) => {
@@ -33,7 +34,7 @@ const removeUser = (state, action) => {
 
 const filterUser = (state, action) => {
     return updateObject(state, {
-        users: action.users
+        filterUser: action.users
     })
 };
 
@@ -59,6 +60,7 @@ const shareUser = (state, action) => {
     return updateObject(state, {
         users: null,
         userSelect: null,
+        filterUser: null,
         filterUserSelect: null,
         viewAllUsers: true,
         shareID: null,

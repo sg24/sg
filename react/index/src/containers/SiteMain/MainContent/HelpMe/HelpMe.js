@@ -4,7 +4,8 @@ import { withRouter } from 'react-router-dom';
 import 'pepjs';
 
 import Question from '../../../../components/Main/Question/Question';
-import QueHelp from '../../../../components/Main/QueHelp/QueHelp';
+import Loader from '../../../../components/UI/Loader/Loader';
+import NoAcc from '../../../../components/Main/NoAcc/NoAcc';
 import { updateObject } from '../../../../shared/utility';
 import * as actions from '../../../../store/actions/index';
 
@@ -13,6 +14,7 @@ let IS_ANIMATED = true;
 class Questions extends Component {
     constructor(props) {
         super(props);
+        this.props.onFetchCntReset();
         let limit = 0;
         if (window.innerHeight >= 1200) {
             limit = 6
@@ -37,13 +39,13 @@ class Questions extends Component {
     }
 
     componentDidMount() {
-        this.props.onFetchCntReset();
         this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/question');
         window.addEventListener('scroll', this.onScroll, false);
     }
 
     componentWillUnmount() {
+        this.props.onFetchCntReset();
         window.removeEventListener('scroll', this.onScroll, false);
     }
 
@@ -172,26 +174,37 @@ class Questions extends Component {
     }
 
     render() {
-        this.props.onFetchShareActive(this.props.userID);
-        this.props.onFetchCntActive(this.props.userID);
+        this.props.onFetchShareActive();
+        this.props.onFetchCntActive();
+        this.props.onFetchNotifyActive();
+        this.props.onFetchPtActive();
+        this.props.onFetchQueActive();
+        this.props.onFetchShareCntActive();
+        this.props.onFetchReqActive();
 
-        let cnt = "Loading";
+        let cnt = <Loader />;
         if (this.props.cntErr) {
             cnt = null
         }
 
-        if (!this.props.userID) {
-            cnt = <QueHelp 
-                isAuth={this.props.userID !== null}/>
+        if (this.props.cnts && this.props.cnts.length === 0 ) {
+            cnt = <NoAcc 
+                    isAuth={this.props.userID !== null}
+                    det='No Shared Question found!'
+                    icn='clone'
+                    filter />
         }
 
-        if (this.props.cnts && this.props.cnts.length === 0  && this.props.userID) {
-            cnt = <QueHelp 
-                isAuth={this.props.userID !== null}/>
+        if (this.props.cnts && this.props.cnts.length === 0 ) {
+            cnt = <NoAcc 
+                    isAuth={this.props.userID !== null}
+                    det='No Shared Question found!'
+                    icn='clone'
+                    filter />
         }
 
-        if (this.props.cnts && this.props.cnts.length > 0 && this.props.userID) {
-            cnt = <Question
+        if (this.props.cnts && this.props.cnts.length > 0) {
+            cnt = <Question 
                 content={this.props.cnts} 
                 media={this.props.media}
                 userOpt={this.showUserOptHandler}
@@ -229,18 +242,22 @@ const mapStateToProps = state => {
         cntTotal: state.cnt.cntTotal,
         changedFav: state.cnt.changedFav,
         favChange: state.cnt.favChange,
-        postErr: state.cnt.postErr,
+        cntErr: state.cnt.cntErr,
         postVideo: state.cnt.postVideo,
         videoErr: state.cnt.videoErr,
-        filterDet: state.cnt.filterDet,
-        curTab: state.cnt.curTab
+        filterDet: state.cnt.filterDet
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchShareActive: (userID) => dispatch(actions.fetchShareactiveInit(userID)),
-        onFetchCntActive: (userID) => dispatch(actions.fetchCntActiveInit(userID)),
+        onFetchShareActive: () => dispatch(actions.fetchShareactiveInit()),
+        onFetchShareCntActive: () => dispatch(actions.fetchShareCntactiveInit()),
+        onFetchCntActive: () => dispatch(actions.fetchCntActiveInit()),
+        onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
+        onFetchPtActive: () => dispatch(actions.fetchPtActiveInit()),
+        onFetchQueActive: () => dispatch(actions.fetchQueActiveInit()),
+        onFetchReqActive: () => dispatch(actions.fetchReqActiveInit()),
         onFetchCnt: (userID, fetchType, limit, skipCnt, cntTotal) => dispatch(actions.fetchCntInit(userID, fetchType, limit, skipCnt, cntTotal)),
         onFetchCntReset: () => dispatch(actions.fetchCntReset()),
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),

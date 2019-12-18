@@ -14,7 +14,11 @@ const {category,  posts, questions, poets, user, tempUser, postnotifies,
      authUser, quenotifies, pwtnotifies, viewnotifies, usernotifies,
      favorite, connectStatus} = require('../serverDB/serverDB');
 
-router.get('/', function (req, res, next) {
+router.get('/', authenticate,function (req, res, next) {
+    res.redirect('/index/post')
+});
+
+router.get('/index/:id', authenticate,function (req, res, next) {
     res.render('index');
 });
 
@@ -133,8 +137,16 @@ router.post('/header', authenticate, (req, res, next) => {
 
     function checkAllNotifies(model, modelType, sort, viewTotal, notify) {
         return new Promise((resolve, reject) => {
-            model.countDocuments({mode: 'publish'}).then(total => {
+            model.countDocuments({mode: 'publish',_isCompleted: true}).then(total => {
                 let curNotify = total - viewTotal;
+                if (curNotify < 0) {
+                    let updateModel = modelType === 'poets' ? 'poet' : modelType;
+                    viewnotifies.findOneAndUpdate({userID: req.user}, {[updateModel]: total}).then(() => {
+                        resolve(notify);
+                    })
+                    return 
+                }
+
                 notify.collTotal = notify.collTotal + curNotify;
                 if (req.body.fetchCnt && curNotify > 0) {
                     model.findOne({}).sort(sort).limit(1).then(result => {
@@ -704,6 +716,9 @@ router.post('/forget/reset', (req, res, next) => {
 });
 
 router.post('/signup', (req, res) => {
+    if (req.user) {
+        res.redirect('/index/post')
+    }
     let newUser = new tempUser({
         username: req.body.username,
         password: req.body.password,
@@ -790,6 +805,9 @@ router.get('/signup/confirmation/:id', (req, res, next) => {
 })
 
 router.post('/login', (req, res) => {
+    if (req.user) {
+        res.redirect('/index/post')
+    }
     user.findByCredentials(req.body.username, req.body.password).then(token => {
         let decoded = null;
         decoded = jwt.verify(req.user.token, process.env.JWT_SECRET);

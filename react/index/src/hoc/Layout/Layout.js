@@ -2,13 +2,15 @@ import React from 'react';
 
 import Aux from '../Auxs/Aux';
 import Header from '../../containers/Header/Header';
-import SiteHero from '../../containers/SiteHero/SiteHero';
+// import SiteHero from '../../containers/SiteHero/SiteHero';
+import Footer from '../../containers/Footer/Footer';
 
 const layout = props =>  (
     <Aux>
         <Header />
-        <SiteHero />
+        {/* <SiteHero /> */}
         {props.children}
+        <Footer />
     </Aux>
 );
  

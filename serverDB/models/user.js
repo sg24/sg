@@ -92,6 +92,9 @@ var UserSchema = new mongoose.Schema({
     enableNotification: {
         type: Boolean,
         default: false
+    },
+    statustoken: {
+        type: String
     }
 }) ;
 

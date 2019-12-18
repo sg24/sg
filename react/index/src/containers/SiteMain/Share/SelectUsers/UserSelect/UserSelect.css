@@ -3,6 +3,7 @@
 }
 
 .reuse-share__user-select {
+    position: relative;
     background-color: #fff;
     padding: 0 0 20px 0;
     display: -ms-flexbox;

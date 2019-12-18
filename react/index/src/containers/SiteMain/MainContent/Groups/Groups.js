@@ -2,106 +2,129 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import Group from '../../../../components/Main/Group/Group';
-import NoAcc from '../../../../components/Main/NoAcc/NoAcc';
-import { updateObject } from '../../../../shared/utility';
-import * as actions from '../../../../store/actions/index';
+import Users from '../../../../../components/Main/Users/Users';
+import NoAcc from '../../../../../components/Main/NoAcc/NoAcc';
+import Loader from '../../../../../components/UI/Loader/Loader';
+import * as actions from '../../../../../store/actions/index';
 
-class Groups extends Component {
-    state = {
-        grpOpt: null,
-        filterTag: null
-    };
+class Model extends Component {
+    constructor(props) {
+        super(props);
+        let limit = 0;
+        if (window.innerHeight >= 1200) {
+            limit = 6
+        } else if(window.innerHeight >= 900) {
+            limit = 4;
+        } else if(window.innerHeight >= 500) {
+            limit = 3
+        } else {
+            limit = 2;
+        }
+        this.state = {
+            fetchLimit: limit,
+            filterTag: 'users',
+        }
+    }
 
     componentDidMount() {
-        this.props.onFetchGroup(this.props.userID);
-        this.props.onChangeTag('/group');
-        this.props.onDefaultMainActive(this.props.mainProps, this.props.userID, 'group');
+        this.props.onFetchCnt(this.state.filterTag, this.state.fetchLimit, 0, 0);
+        this.props.onChangeTag('/users');
+        let these = this;
+        window.addEventListener('scroll', function(event) {
+            if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
+                these.props.onFetchCnt(
+                        these.state.filterTag !== 'users' ? 
+                        these.state.filterTag === 'filter' ?  'filter=='+these.props.filterDet : these.state.filterTag : 'users',
+                        these.state.fetchLimit, these.props.skipCnt + these.state.fetchLimit, these.props.cntTotal);
+            }
+        });
     }
 
     componentDidUpdate() {
-        if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id) {
-            this.props.onFilterGrp(this.props.groups, this.props.match.params.id);
+        if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id !== 'filter' && this.props.match.params.id !== 'startfilter') {
+            this.props.onFetchCntReset();
+            this.props.onFetchCnt(this.props.match.params.id, this.state.fetchLimit, 0, 0);
             this.setState({
                 filterTag: this.props.match.params.id
             });
         }
-    }
-
-    componentWillUnmount() {
-        this.props.onFetchMainActive(this.props.mainProps, this.props.userID)
-    }
-
-    showUserOptHandler = (index) => {
-        if (this.state.grpOpt && this.state.grpOpt.index === index) {
-            this.setState((prevState, props) => {
-                return {
-                    grpOpt: updateObject(prevState.grpOpt, {visible: !prevState.grpOpt.visible})
-                }
+  
+        if (this.props.match.params.id && this.props.filterDet && this.state.filterTag !== this.props.history.location.search && this.props.match.params.id === 'filter') {
+            this.props.onFetchCntReset();
+            this.props.onFetchCnt('filter=='+this.props.filterDet, this.state.fetchLimit, 0, 0);
+            this.setState({
+                filterTag: this.props.history.location.search
             });
-            return
         }
 
-        const newGrpOpt = {visible: true, index}
-        this.setState({grpOpt: newGrpOpt})
+        if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id === 'startfilter') {
+            this.setState({
+                filterTag: this.props.match.params.id
+            });
+        }
+
+        if (!this.props.match.params.id && this.state.filterTag !== 'users') {
+            this.props.onFetchCntReset();
+            this.props.onFetchCnt('users', this.state.fetchLimit, 0, 0);
+            this.setState({
+                filterTag: 'users'
+            });
+        }
     }
+
+    changeCntHandler = (id, title, det, confirm) => {
+        this.props.onChangeCnt(id, title, det, confirm);
+    };
 
     render() {
-        let groups = (
-            <NoAcc
-                isAuth={this.props.userID !== null}
-                icnClass="icon icon__reuse-no-acc"
-                det="Group" />
-        ); 
+        this.props.onFetchShareActive();
+        this.props.onFetchNotifyActive();
+        // this.props.onFetchCntActive(this.props.userID);
+        // this.props.onFetchShareCntActive(this.props.userID);
 
-        if (this.props.userID) {
-            groups = "loading"
+        let cnt = <Loader />;
+        if (this.props.postErr) {
+            cnt = null
         }
 
-        if (this.props.userID && this.props.groups) {
-            groups =  (
-                <Group
-                    content={this.props.groups}
-                    userOpt={this.showUserOptHandler}
-                    showUserOpt={this.state.grpOpt}/>
-            ); 
+        if (this.props.cnts && this.props.cnts.length === 0 && this.state.filterTag !== 'shared') {
+            cnt = <NoAcc 
+                isAuth={this.props.status}
+                det='Category not found !!'
+                icn='users'/>
         }
 
-        if (this.props.userID && this.props.filteredGrp && this.props.filteredGrp.length > 0 && this.props.match.url !== '/index/group') {
-            groups =  (
-                <Group
-                    content={this.props.filteredGrp}
-                    userOpt={this.showUserOptHandler}
-                    showUserOpt={this.state.grpOpt}/>
-            ); 
+        if (this.props.cnts && this.props.cnts.length > 0) {
+            cnt = <Users
+                content={this.props.cnts}
+                changeCnt={this.changeCntHandler}/>
         }
 
-        if (this.props.userID && this.props.filteredGrp && this.props.filteredGrp.length < 1 && this.props.match.url !== '/index/group') {
-            groups = "no category found";
-        }
-
-
-        return (
-            groups
-        );
-    }   
+        return cnt
+    }
 }
 
 const mapStateToProps = state => {
     return {
-        userID: state.auth.userID,
-        groups: state.grp.groups,
-        filteredGrp: state.grp.filteredGrp,
-        mainProps: state.main.mainProps
-    }
-}
+        status: state.auth.status,
+        cnts: state.cnt.cnts,
+        skipCnt: state.cnt.skipCnt,
+        cntTotal: state.cnt.cntTotal,
+        filterDet: state.cnt.filterDet
+    };
+};
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchGroup: (userID) => dispatch(actions.fetchGroupInit(userID)),
+        onFetchShareActive: () => dispatch(actions.fetchShareactiveInit()),
+        onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
+        onFetchShareCntActive: (userID) => dispatch(actions.fetchShareCntactiveInit(userID)),
+        onFetchCntActive: (userID) => dispatch(actions.fetchCntActiveInit(userID)),
+        onFetchCnt: (fetchType, limit, skipCnt, cntTotal) => dispatch(actions.fetchCntInit(fetchType, limit, skipCnt, cntTotal)),
+        onFetchCntReset: () => dispatch(actions.fetchCntReset()),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
-        onFilterGrp: (grp, tag) => dispatch(actions.filterGrpInit(grp, tag))
-    }
-}
+        onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm))
+    };
+};
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Groups)); 
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Model));

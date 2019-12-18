@@ -46,9 +46,10 @@ export const removeUser = (users) => {
     };
 };
 
-export const filterUserInit = (filterContent) => {
+export const filterUserInit = (users, filterContent) => {
     return {
         type: actionTypes.FILTER_USER_INIT,
+        users,
         filterContent
     };
 };

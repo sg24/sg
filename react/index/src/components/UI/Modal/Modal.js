@@ -1,11 +1,12 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import './Modal.css';
+import Loader from '../Loader/Loader';
 
 const modal = props => {
-    let modalCnt = <h3>{ props.err ? props.err.message : null }</h3>;
-    if (!props.err && props.warn && props.exit && !props.exit.close) {
+    let modalCnt = <h3>{ props.err ? 
+        props.err.response ? props.err.response.data.name : props.err.message : null }</h3>;
+    if (!props.err && props.warn && props.warn.cnt && props.exit && !props.exit.close) {
         modalCnt = (
             <div className="reuse-modal__warn">
                 <h4 >{props.warn.msg}</h4>
@@ -21,13 +22,23 @@ const modal = props => {
                         Cancel
                     </button>
                     <button 
-                        className="reuse-modal__btn--del" 
+                        className={(props.warn.det && (props.warn.det === 'publish' || props.warn.det === 'acceptUser')) ? "reuse-modal__btn--success" :"reuse-modal__btn--del" }
                         type="button"
                         onClick={props.changeCnt}>
                         <FontAwesomeIcon 
-                            icon={props.warn.det && props.warn.det === 'delete'? ['far', 'trash-alt'] : ['fas', 'eye-slash']} 
+                            icon={props.warn.det && props.warn.det === 'delete'? ['far', 'trash-alt'] : 
+                            props.warn.det && props.warn.det === 'publish' ?  ['fas', 'eye'] : 
+                            props.warn.det && props.warn.det === 'draft' ?  ['fas', 'eye-slash'] : 
+                            props.warn.det && props.warn.det === 'blockUser' ? ['fas', 'eye-slash']: 
+                                props.warn.det && props.warn.det === 'acceptUser' ? ['fas', 'user-friends'] :
+                                props.warn.det && props.warn.det === 'rejUser' ? ['fas', 'user-slash'] : ['fas', 'user-slash']} 
                             className="icon icon__reuse-modal--btn"/>
-                        {props.warn.det && props.warn.det === 'delete' ? 'Delete': 'Change'}
+                        {props.warn.det && props.warn.det === 'delete' ? 'Delete': 
+                        (props.warn.det && (props.warn.det === 'draft' || props.warn.det === 'publish')) ? 'Change' : 
+                        props.warn.det && props.warn.det === 'blockUser' ? 'Block': 
+                        props.warn.det && props.warn.det === 'acceptUser' ? 'Accept' :
+                        props.warn.det && props.warn.det === 'rejUser' ? 'Reject' : 
+                        props.warn.det && props.warn.det === 'cancelReq' ? 'Cancel' : 'Unfriend'}
                     </button>
                 </div>
             </div>
@@ -49,6 +60,10 @@ const modal = props => {
                     </div>
                 ) : null
             }
+            { !props.err && !props.warn.cnt ? (
+                <Loader 
+                   cnt={props.warn.det === 'addUser' ? 'Adding ....' :'Loading ....' }/>
+            ): null}   
             { modalCnt } 
         </div>
     );

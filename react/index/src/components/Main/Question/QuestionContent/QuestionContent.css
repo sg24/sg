@@ -65,6 +65,22 @@
     left: 5px;
 }
 
+.reuse-que__header--category__img > img {
+    display: block;
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    background-color: rgba(233,235,242, .7);
+    cursor: pointer;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -o-object-position: 50% 50%;
+    object-position: 50% 50%;
+    -o-object-fit: fill;
+    object-fit: fill;
+
+}
+
 @media (min-width: 530px) {
 
     .reuse-que__header--category__img {
@@ -657,6 +673,7 @@
     color: #777;
     cursor: pointer;
     font-size: .9375rem;
+    margin-right: 5px;
 }
 
 .icon__reuse-que--media__play {
@@ -670,7 +687,7 @@
 
 .icon__reuse-que--media__prev {
     font-size: 1rem;
-}    
+}  
 
 .icon__reuse-que--footer__thumbup {
     color: #0284a8;

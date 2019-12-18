@@ -15,7 +15,7 @@ const poet = props => {
              favChange={props.favChange}
              share={props.share.bind(this, pwt._id)}
              deleteCnt={props.changeCnt.bind(this, pwt._id, pwt.title, 'delete', 'poet')}
-             changeCnt={props.changeCnt.bind(this, pwt._id, pwt.title, 'mode', 'poet')}/>
+             changeCnt={props.changeCnt.bind(this, pwt._id, pwt.title, 'draft', 'poet')}/>
     ));
 
     return allPwt;

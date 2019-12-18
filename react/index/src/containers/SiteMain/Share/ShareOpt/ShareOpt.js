@@ -43,18 +43,34 @@ class ShareOpt extends Component {
         this.props.onShareUser(this.props.userSelect, this.props.shareID, this.props.cntType)
     };
 
+    facebookShareHandler = () => {
+        var facebookWindow = window.open(`https://www.facebook.com/sharer/sharer.php?u=${document.location.origin}/view/${this.props.cntType}/${this.props.shareID}`, 'facebook-popup', 'height=350,width=600');
+        if(facebookWindow.focus) { facebookWindow.focus(); }
+          return false;
+    }
+
+    twitterShareHandler = () => {
+        var twitterWindow = window.open(`https://twitter.com/share?url=${document.location.origin}/view/${this.props.cntType}/${this.props.shareID}`, 'twitter-popup', 'height=350,width=600');
+          if(twitterWindow.focus) { twitterWindow.focus(); }
+            return false;
+    }
+
     render() {
         let show = null;
         
             if (this.state.showSocialMed) {
-                show = <SocialMed />;
+                show = <SocialMed 
+                    shareFacebook={this.facebookShareHandler}
+                    shareTwitter={this.twitterShareHandler}/>;
             }
          
             if (this.state.userSelect && this.state.userSelect.length > 0 && this.state.showSocialMed ) {
                 show = (
                     <Aux>
                         <SocialMed 
-                            switchOpt/>
+                            switchOpt
+                            shareFacebook={this.facebookShareHandler}
+                            shareTwitter={this.twitterShareHandler}/>
                         <SwitchOpt 
                             switchOpt={this.switchShareOptHandler}/>
                     </Aux>

@@ -4,15 +4,17 @@ import { withRouter } from 'react-router-dom';
 import 'pepjs';
 
 import Post from '../../../../components/Main/Post/Post';
+import Loader from '../../../../components/UI/Loader/Loader';
 import NoAcc from '../../../../components/Main/NoAcc/NoAcc';
 import { updateObject } from '../../../../shared/utility';
 import * as actions from '../../../../store/actions/index';
 
 let IS_ANIMATED = true;
 
-class Questions extends Component {
+class Posts extends Component {
     constructor(props) {
         super(props);
+        this.props.onFetchCntReset();
         let limit = 0;
         if (window.innerHeight >= 1200) {
             limit = 6
@@ -37,13 +39,13 @@ class Questions extends Component {
     }
 
     componentDidMount() {
-        this.props.onFetchCntReset();
         this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/post');
         window.addEventListener('scroll', this.onScroll, false);
     }
 
     componentWillUnmount() {
+        this.props.onFetchCntReset();
         window.removeEventListener('scroll', this.onScroll, false);
     }
 
@@ -172,24 +174,33 @@ class Questions extends Component {
     }
 
     render() {
-        this.props.onFetchShareActive(this.props.userID);
-        this.props.onFetchCntActive(this.props.userID);
+        this.props.onFetchShareActive();
+        this.props.onFetchShareCntActive();
+        this.props.onFetchNotifyActive();
+        this.props.onFetchCntActive();
+        this.props.onFetchQueActive();
+        this.props.onFetchPtActive();
+        this.props.onFetchReqActive();
 
-        let cnt = "Loading";
-        if (this.props.cntErr) {
+        let cnt = <Loader />;
+        if (this.props.postErr) {
             cnt = null
         }
 
-        if (!this.props.userID) {
+        if (this.props.cnts && this.props.cnts.length === 0) {
             cnt = <NoAcc 
-                isAuth={this.props.userID !== null}
-                det='You have no shared Post yet!'/>
+                    isAuth={this.props.userID !== null}
+                    det='No content found!'
+                    icn='clone'
+                    filter />
         }
 
-        if (this.props.cnts && this.props.cnts.length === 0 && this.props.userID) {
+        if (this.props.cnts && this.props.cnts.length === 0) {
             cnt = <NoAcc 
-                isAuth={this.props.userID !== null}
-                det='Category not found !!'/>
+                    isAuth={this.props.userID !== null}
+                    det='No content found!'
+                    icn='clone'
+                    filter />
         }
 
         if (this.props.cnts && this.props.cnts.length > 0) {
@@ -240,8 +251,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchShareActive: (userID) => dispatch(actions.fetchShareactiveInit(userID)),
-        onFetchCntActive: (userID) => dispatch(actions.fetchCntActiveInit(userID)),
+        onFetchShareActive: () => dispatch(actions.fetchShareactiveInit()),
+        onFetchShareCntActive: () => dispatch(actions.fetchShareCntactiveInit()),
+        onFetchQueActive: () => dispatch(actions.fetchQueActiveInit()),
+        onFetchPtActive: () => dispatch(actions.fetchPtActiveInit()),
+        onFetchCntActive: () => dispatch(actions.fetchCntActiveInit()),
+        onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
+        onFetchReqActive: () => dispatch(actions.fetchReqActiveInit()),
         onFetchCnt: (userID, fetchType, limit, skipCnt, cntTotal) => dispatch(actions.fetchCntInit(userID, fetchType, limit, skipCnt, cntTotal)),
         onFetchCntReset: () => dispatch(actions.fetchCntReset()),
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),
@@ -252,4 +268,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Posts));

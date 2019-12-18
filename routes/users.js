@@ -1,7 +1,6 @@
 let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');
-let jwt = require('jsonwebtoken');
 let authenticate = require('../serverDB/middleware/authenticate');
 const bcrypt = require('bcryptjs');
 const fetchCnt = require('./utility/fetchCnt');
@@ -25,7 +24,7 @@ router.get('/', authenticate,(req, res, next) => {
             parseInt(req.header('limit')), parseInt(req.header('skip')), {}, user, {
                 cnt: [],
                 cntTotal: 0
-            }).then(userCnt => {
+            },'user').then(userCnt => {
                 fetchUsers(connectStatus, {
                     block: {$ne: req.user},
                     _id: {$ne: mongoose.mongo.ObjectId(req.user)}
@@ -36,7 +35,8 @@ router.get('/', authenticate,(req, res, next) => {
             })
     }
 
-    if (req.header && req.header('data-categ') === 'request') {
+    if (req.header && req.header('data-categ').startsWith('request')) {
+        let isActive = req.header('data-categ').split('-')[1];
         return fetchReq(connectStatus, {
             block: {$ne: req.user},
             _id: {$ne: mongoose.mongo.ObjectId(req.user)}
@@ -50,7 +50,8 @@ router.get('/', authenticate,(req, res, next) => {
                     _id: {$ne: mongoose.mongo.ObjectId(req.user)}
                 }, {student: -1}, 
                     parseInt(req.header('limit')), parseInt(req.header('skip')), {}, authUser, userCnt).then(result => {
-                        res.status(200).send(result);
+                        let sendReq = isActive === 'activeOnly' ? String(result.cntTotal) : result;
+                        res.status(200).send(sendReq);
                     })
             })
     }
@@ -165,11 +166,12 @@ router.get('/', authenticate,(req, res, next) => {
         return
     }
 
-    function fetchUsers(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt) {
+    function fetchUsers(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt, modelType='authUser') {
         return new Promise((resolve, reject) => {
             fetchCnt(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt).then(result => {
                 let model = req.userType === 'authUser' ? authUser : user;
                 model.findById(req.user).then(resultFilter =>{
+                    modelCnt.cntTotal =  modelType === 'user' ? result.cntTotal - resultFilter.block.length : result.cntTotal;
                     for (let cnt of result.cnt) {
                         let userRequest = resultFilter.request || [];
                         let filterReq = userRequest.filter(id => id === cnt._id.toHexString())
@@ -182,7 +184,7 @@ router.get('/', authenticate,(req, res, next) => {
                         let teacher = cnt.teacher || [];
                         let teacherFilter = teacher.filter(id => id === req.user);
 
-                        let id = jwt.sign(cnt._id.toHexString(), process.env.JWT_SECRET).toString();
+                        let id = cnt._id.toHexString();
                         let userDet = {id, username: cnt.username,student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
                         
                         if (filterReq.length > 0) {
@@ -197,7 +199,6 @@ router.get('/', authenticate,(req, res, next) => {
                        
                         if (filterBlock.length < 1) {
                             modelCnt.cnt.push(userDet)
-                            modelCnt.cntTotal = modelCnt.cntTotal + 1;
                         } 
                     }
                     resolve(modelCnt)
@@ -217,7 +218,7 @@ router.get('/', authenticate,(req, res, next) => {
                         let userBlock = resultFilter.block || [];
                         let filterBlock = userBlock.filter(id => id === cnt._id.toHexString())
 
-                        let id = jwt.sign(cnt._id.toHexString(), process.env.JWT_SECRET).toString();
+                        let id = cnt._id.toHexString();
                         let userDet = {id, username: cnt.username,student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
                        
                         if (filterReq.length > 0 && filterBlock.length < 1) {
@@ -243,7 +244,7 @@ router.get('/', authenticate,(req, res, next) => {
                         let userBlock = resultFilter.block || [];
                         let filterBlock = userBlock.filter(id => id === cnt._id.toHexString())
 
-                        let id = jwt.sign(cnt._id.toHexString(), process.env.JWT_SECRET).toString();
+                        let id = cnt._id.toHexString();
                         let userDet = {id, username: cnt.username,student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
                        
                         if (filterStudent.length > 0 && filterBlock.length < 1) {
@@ -262,12 +263,12 @@ router.get('/', authenticate,(req, res, next) => {
 
 router.patch('/', authenticate,(req, res, next) => {
     if (req.header && req.header('data-categ') === 'addUser') {
-        return update(jwt.verify(req.body.id, process.env.JWT_SECRET), authUser, user, 'request')
+        return update(req.body.id, authUser, user, 'request')
     }
 
     if (req.header && req.header('data-categ') === 'blockUser') {
         let model = req.userType === 'authUser' ? authUser : user;
-        let id = jwt.verify(req.body.id, process.env.JWT_SECRET);
+        let id = req.body.id;
         model.findByIdAndUpdate(req.user, {
             $pull: {student: id, teacher: id},
             multi: true
@@ -296,7 +297,7 @@ router.patch('/', authenticate,(req, res, next) => {
 
     if (req.header && req.header('data-categ') === 'acceptUser') {
         let model = req.userType === 'authUser' ? authUser : user;
-        let id = jwt.verify(req.body.id, process.env.JWT_SECRET);
+        let id = req.body.id;
         model.findByIdAndUpdate(req.user, {
             $addToSet: { student: id },
             $inc: {studenttotal: 1},
@@ -311,7 +312,7 @@ router.patch('/', authenticate,(req, res, next) => {
 
     if (req.header && req.header('data-categ') === 'rejUser') {
         let model = req.userType === 'authUser' ? authUser : user;
-        let id = jwt.verify(req.body.id, process.env.JWT_SECRET);
+        let id = req.body.id;
         model.findByIdAndUpdate(req.user, {
             $pull: {request: id}
         }).then(() => {
@@ -326,7 +327,7 @@ router.patch('/', authenticate,(req, res, next) => {
         let condition = {
             $pull: { request: req.user }
         }
-        let id = jwt.verify(req.body.id, process.env.JWT_SECRET);
+        let id = req.body.id;
         authUser.findByIdAndUpdate(id, condition).then(result => {
             if (!result) {
                 user.findByIdAndUpdate(id, condition).then(() => {
@@ -343,7 +344,7 @@ router.patch('/', authenticate,(req, res, next) => {
 
     if (req.header && req.header('data-categ') === 'unfriend') {
         let model = req.userType === 'authUser' ? authUser : user;
-        let id = jwt.verify(req.body.id, process.env.JWT_SECRET);
+        let id = req.body.id;
         model.findById(req.user).then((result) => {
             let filterStudent = result.student ? result.student.filter(studentID => studentID === id) : [];
             if (filterStudent.length < 1) {
