@@ -3,13 +3,7 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
     showBackdrop: false,
-    cntActive: null,
-    shareActive: null,
-    shareCntActive: null
-};
-
-const fetchCntActive = (state, action) => {
-    return updateObject(state, { cntActive: action.cntActive })
+    shareActive: null
 };
 
 const fetchShareActive = (state, action) => {
@@ -17,8 +11,7 @@ const fetchShareActive = (state, action) => {
 };
 
 const resetActive = (state, action) => {
-    let reset = action.curTab === 'question' ? { cntActive: null} : {shareActive: null, shareCntActive: null };
-    return updateObject(state,  {...reset} )
+    return updateObject(state,  {...state} )
 };
 
 const showMainBackdrop= (state, action) => {
@@ -32,8 +25,6 @@ const hideMainBackdrop= (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
-        case actionTypes.FETCH_CNT_ACTIVE:
-            return fetchCntActive(state, action);
         case actionTypes.FETCH_SHARE_ACTIVE:
             return fetchShareActive(state, action);
         case actionTypes.RESET_ACTIVE:
