@@ -1929,7 +1929,7 @@ img {
   background-color: rgba(249,249,249, .4);
   border: 1px solid #dcdbdc;
   position: relative;
-  height: 92vh;
+  min-height: 92vh;
 }
 
 .site-main__content--no-tab-wrapper {

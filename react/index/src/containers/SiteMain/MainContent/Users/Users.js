@@ -11,7 +11,6 @@ class Model extends Component {
     constructor(props) {
         super(props);
         this.props.onFetchCntReset();
-
         let limit = 0;
         if (window.innerHeight >= 1200) {
             limit = 10;
@@ -36,8 +35,6 @@ class Model extends Component {
 
     componentWillUnmount() {
         this.props.onFetchCntReset();
-        console.log(this.reqInterceptor)
-        // axios.interceptors.request.eject(instance);
         window.removeEventListener('scroll', this.onScroll, false);
     }
 
