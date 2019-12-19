@@ -145,13 +145,24 @@
     border-radius: 5px;
     padding: 4px;
     cursor: pointer;
-    overflow: hidden;
     white-space: nowrap;
     word-wrap: none;
     text-overflow: ellipsis;
     position: relative;
     top: 3px;
 }
+
+.reuse-que__header--share__category--cntgrp {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 110%;
+    padding: 4px 6px;
+    background-color:#ff1600;
+    z-index: 2;
+    color: #fff;
+    border-radius: 5px;
+} 
 
 .reuse-que__header--share__category a {
     color: #182427;

@@ -5,7 +5,7 @@ const initialState = {
     cnts: null,
     cntErr: null,
     skipCnt: null,
-    cntTotal: null,
+    cntTotal: 0,
     showLoader: false,
     changedFav: [],
     favChange: null,
@@ -19,7 +19,13 @@ const initialState = {
 }
 
 const fetchCnt = (state, action) => {
-    let cnts = !state.cnts ? action.cnt : state.cnts.concat(...action.cnt);
+    if (state.cnts) {
+        let cnt = {...action.cnt}
+        state.cnts.post.push(...cnt.post);
+        state.cnts.question.push(...cnt.question);
+        state.cnts.poet.push(...cnt.poet);
+    }
+    let cnts = !state.cnts ? action.cnt : state.cnts;
     return updateObject(state, {cnts, skipCnt: action.skipCnt, cntTotal: action.cntTotal, showLoader: false})
 };
 
@@ -45,43 +51,8 @@ const changeCntCancel = (state, action) => {
 
 const changeCntReset = (state, action) => {
     let cnts = [...state.cnts]
-   
-    if (action.changed) {
-        if (state.changeCntStart.det === 'addUser') {
-            let updateCnts = changeMode(cnts, state.changeCntStart, 'pending', true);
-            return updateObject(state, {cnts: updateCnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
-        }
-    
-        if (state.changeCntStart.det === 'acceptUser') {
-            let updateCnts = changeMode(cnts, state.changeCntStart, 'accept', true);
-            return updateObject(state, {cnts: updateCnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
-        }
-    
-        if (state.changeCntStart.det === 'rejUser') {
-            let updateCnts = changeMode(cnts, state.changeCntStart, 'request', false);
-            return updateObject(state, {cnts: updateCnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
-        }
-         
-        if (state.changeCntStart.det === 'cancelReq') {
-            let updateCnts = changeMode(cnts, state.changeCntStart, 'pending', false);
-            return updateObject(state, {cnts: updateCnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
-        }
-    
-        if (state.changeCntStart.det === 'unfriend') {
-            let updateCnts = changeMode(cnts, state.changeCntStart, 'accept', false);
-            return updateObject(state, {cnts: updateCnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
-        }
-
-        if (state.changeCntStart.det === 'blockUser') {
-            let updateCnt = cnts.filter(cnt => cnt.id !== state.changeCntStart.id);
-            return updateObject(state, {cnts: updateCnt, changeCntStart: null, changeCntErr: null, changeCnt: false})
-        }
-    
-        let updateCnt = cnts.filter(cnt => cnt._id !== state.changeCntStart.id);
-        return updateObject(state, {cnts: updateCnt, changeCntStart: null, changeCntErr: null, changeCnt: false})
-    }
-
-    return updateObject(state, {cnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
+    let updateCnt = cnts.filter(cnt => cnt._id !== state.changeCntStart.id);
+    return updateObject(state, {cnts : action.changed ? updateCnt: cnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
 };
 
 const changeCntFail = (state, action) => {
@@ -116,7 +87,11 @@ const changeFavPtFail = (state, action) => {
 };
 
 const changeFav = (state, action) => {
-    return updateObject(state, {changedFav: action.changedFav, favChange: null})
+    let cnts = {...state.cnts};
+    let modelCnt = cnts[action.modelType];
+    let updateModel = [...modelCnt].filter(model => model._id !== action.modelID);
+    cnts[action.modelType] = updateModel;
+    return updateObject(state, {cnts, favChange: null})
 };
 
 const filterPost = (state, action) => {

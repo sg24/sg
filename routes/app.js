@@ -577,10 +577,6 @@ router.get('/profile', (req, res, next) => {
     res.render('profile');
 });
 
-router.get('/favorite', (req, res, next) => {
-    res.render('favorite');
-});
-
 router.get('/acc/shared', (req, res, next) => {
     res.render('accshared'); 
 });

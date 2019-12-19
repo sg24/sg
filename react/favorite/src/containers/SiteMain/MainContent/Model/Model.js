@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom';
 
 import Loader from '../../../../components/UI/Loader/Loader';
 import NoAcc from '../../../../components/Main/NoAcc/NoAcc';
-import { updateObject } from '../../../../shared/utility';
 import Aux from '../../../../hoc/Auxs/Aux';
 import * as actions from '../../../../store/actions/index';
 import Post from './Posts/Posts';
@@ -60,31 +59,23 @@ class Model extends Component {
             cnt = null
         }
 
-        // if (this.props.cnts && this.props.cnts.length === 0) {
-        //     cnt = <NoAcc 
-        //             isAuth={this.props.userID !== null}
-        //             det='No content found!'
-        //             icn='clone'
-        //             filter />
-        // }
+        if (this.props.cnts && this.props.cnts.post.length === 0 && this.props.cnts.question.length === 0 && this.props.cnts.poet.length === 0) {
+            cnt = <NoAcc 
+                    isAuth={this.props.userID !== null}
+                    det='No content found!'
+                    icn='clone'
+                    filter />
+        }
 
-        // if (this.props.cnts && this.props.cnts.length === 0) {
-        //     cnt = <NoAcc 
-        //             isAuth={this.props.userID !== null}
-        //             det='No content found!'
-        //             icn='clone'
-        //             filter />
-        // }
-
-        if (this.props.cnts && this.props.cnts.length > 0) {
+        if (this.props.cnts) {
            cnt = (
                 <Aux>
                     <Post 
                     cnts={this.props.cnts.post}/>
                     <Question
-                        cnts={this.props.cnts.post} />
+                        cnts={this.props.cnts.question} />
                     <Poet
-                        cnts={this.props.cnts.post} />
+                        cnts={this.props.cnts.poet} />
                 </Aux>
            );
         }

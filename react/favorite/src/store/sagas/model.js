@@ -12,6 +12,7 @@ export function* fetchCntInitSaga(action) {
         if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
             let response = yield axios.get('/favorite', {
                 headers: {
+                    'data-categ': action.fetchType,
                     'limit': action.fetchLimit, 
                     'skip': action.skipCnt}});
             yield put(actions.fetchCnt(response.data.cnt, action.skipCnt, response.data.cntTotal));
@@ -47,12 +48,13 @@ export function* changeFavSaga(action) {
     yield put(actions.changeMainFavoriteStart(updateFav.favDet.liked));
     yield put(actions.changeFavPtStart(updateFav.favDet.id, updateFav.favDet.liked))
     try {
+        console.log(action.cntGrp)
         let field = action.cntGrp === 'post' ? 'postID' : action.cntGrp === 'question' ?
         'queID' : 'pwtID';
         yield axios.patch('/header', {id: updateFav.favDet.id, model: action.cntGrp, field},{headers: {'data-categ': 'changefavorite'}});
         yield delay(500)
         yield put(actions.changeMainFavoriteReset());
-        yield put(actions.changeFav(updateFav.updateChangeFav));
+        yield put(actions.changeFav(updateFav.favDet.id, action.cntGrp));
     }catch(err){
         yield delay(500)
         yield put(actions.changeMainFavoriteReset());
@@ -66,16 +68,11 @@ export function* changeCntInitSaga(action) {
         yield put(actions.changeCntStart(action.title, action.id, action.det, action.modelType))
         return;
     }
-    if (action.det === 'addUser') {
-        yield put(actions.changeCntStart(action.title, action.id, action.det, action.modelType))
-    }
 
     try {
         if (action.det === 'delete') {
             let payload = JSON.stringify({id: action.id, model: action.modelType, field})
             yield axios.delete('/header', {headers: {'data-categ': `deletecnt-${payload}`}});
-        } else if (action.modelType === 'user') {
-            yield axios.patch('/users', {id: action.id}, {headers: {'data-categ': action.det}});
         } else {
             yield axios.patch('/header', {id: action.id, model: action.modelType, field} ,{headers: {'data-categ': 'draftmode'}});
         }

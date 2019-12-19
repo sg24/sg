@@ -1919,11 +1919,11 @@ img {
   width: 100%;
   position: relative;
   float: none;
-  padding-bottom: 70px;
+ 
 }
 
 .site-main__content--wrapper {
-  padding-bottom: 20px;
+  padding-bottom: 90px;
   margin-top: 10px;
   width: 100%;
   background-color: rgba(249,249,249, .4);

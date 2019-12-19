@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import * as actions from '../../../store/actions/index';
-import asyncComponent from '../../../hoc/asyncComponent/asyncComponent';
-import MainNavigations from '../../../components/MainNavigations/MainNavigations';
 import Loader from '../../../components/UI/Loader/Loader';
 import Model from './Model/Model';
 
@@ -23,16 +21,18 @@ class MainContent extends Component {
         return (
             <div className="site-main__content">
                 <div className="site-main__content--wrapper">
-                    <div class="site-main__content--tab">
-                        <div class="site-main__content--tab__icn">
-                            <i class="fas fa-heart icon icon__site-main__fav-main--header"></i>
+                    <div className="site-main__content--tab">
+                        <div className="site-main__content--tab__icn">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'heart']}
+                                className="icon icon__site-main__fav-main--header"/>
                         </div>
                         Favorites
-                        <span>255</span>
+                        <span>{this.props.cntTotal}</span>
                     </div>
                     <Model />
+                    { loaderCnt }
                 </div>
-                { loaderCnt }
             </div>
         );
     }
@@ -40,7 +40,8 @@ class MainContent extends Component {
 
 const mapStateToProps = state => {
     return {
-       showLoader: state.cnt.showLoader
+       showLoader: state.cnt.showLoader,
+       cntTotal: state.cnt.cntTotal
     };
 };
 

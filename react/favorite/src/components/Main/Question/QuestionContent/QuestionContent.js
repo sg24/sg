@@ -269,6 +269,7 @@ const questionContent = props => {
                 </li>
                 <li>
                     <p className="reuse-que__header--share__category">
+                    <div className="reuse-que__header--share__category--cntgrp">Question</div>
                         <FontAwesomeIcon 
                             icon={ props.que.category.length > 1 ? ['fas', 'tags'] : ['fas', 'tag']} 
                             className="icon icon__reuse-que--header__tag" />

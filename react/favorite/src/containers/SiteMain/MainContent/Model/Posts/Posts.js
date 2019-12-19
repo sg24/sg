@@ -10,6 +10,19 @@ import * as actions from '../../../../../store/actions/index';
 let IS_ANIMATED = true;
 
 class Posts extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            cntOpt: null,
+            mediaItms: [],
+            animateItm: null,
+            removeAnim: false,
+            removePrevMedia: null,
+            playerIcnId: null,
+            animationComplete: true
+        }
+    }
+
     showUserOptHandler = (id) => {
         if (this.state.cntOpt && this.state.cntOpt.id === id) {
             this.setState((prevState, props) => {
@@ -127,7 +140,6 @@ class Posts extends Component {
     }
 
     render() {
-        console.log(this.props)
         let cnt = null;
         if (this.props.cnts && this.props.cnts.length > 0) {
             cnt = <Post 
@@ -175,7 +187,6 @@ const mapDispatchToProps = dispatch => {
     return {
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),
         onChangeShareID: (shareID,  cntType) => dispatch(actions.shareID(shareID,  cntType)),
-        onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
         onFetchVideo: (videoID, ptVideoID) => dispatch(actions.fetchVideoInit(videoID, ptVideoID)),
         onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm,  modelType))
     };

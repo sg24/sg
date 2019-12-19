@@ -142,9 +142,10 @@ export const changeFavPtFail = () => {
     };
 };
 
-export const changeFav = (changedFav) => {
+export const changeFav = (modelID, modelType) => {
     return {
         type: actionTypes.CHANGE_FAVORITE,
-        changedFav
+        modelID,
+        modelType
     };
 };

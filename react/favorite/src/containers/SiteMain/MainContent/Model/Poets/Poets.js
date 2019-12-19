@@ -7,6 +7,19 @@ import { updateObject } from '../../../../../shared/utility';
 import * as actions from '../../../../../store/actions/index';
 
 class Model extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            cntOpt: null,
+            mediaItms: [],
+            animateItm: null,
+            removeAnim: false,
+            removePrevMedia: null,
+            playerIcnId: null,
+            animationComplete: true
+        }
+    }
+
     showUserOptHandler = (id) => {
         if (this.state.cntOpt && this.state.cntOpt.id === id) {
             this.setState((prevState, props) => {
@@ -66,7 +79,6 @@ const mapDispatchToProps = dispatch => {
     return {
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),
         onChangeShareID: (shareID, cntType) => dispatch(actions.shareID(shareID, cntType)),
-        onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
         onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm, modelType))
     };
 };

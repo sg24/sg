@@ -339,6 +339,12 @@
     position: relative;
 }
 
+.reuse-pwt__content--tag__cntgrp {
+    background-color: #437da3 !important;
+    padding: 4px 6px !important;
+    color:#fff;
+}
+
 .reuse-pwt__content--tag > span > a {
     color: #182427;
     text-decoration: none;

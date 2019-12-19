@@ -111,6 +111,7 @@ const poetContent = props => {
         </div>
         <div className="reuse-pwt__content">
             <div className="reuse-pwt__content--tag">
+                <span className="reuse-pwt__content--tag__cntgrp">Poet</span>
                 <span>
                     <FontAwesomeIcon 
                         icon={ props.pwt.category.length > 1 ? ['fas', 'tags'] : ['fas', 'tag']} 

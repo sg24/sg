@@ -250,6 +250,7 @@ const postContent = props => {
                         </li>
                         <li>
                             <p className="reuse-pt__header--share__category"> 
+                               <div className="reuse-pt__header--share__category--cntgrp">Post</div>
                                 <FontAwesomeIcon 
                                     icon={ props.pt.category.length > 1 ? ['fas', 'tags'] : ['fas', 'tag']} 
                                     className="icon icon__reuse-pt--header__tag" />
@@ -265,7 +266,7 @@ const postContent = props => {
                         </li>
                     </ul>
                     {media}
-                    <p className="reuse-pt__title">{props.pt.title}</p>
+                    <p className="reuse-pt__title"> <a href={"/view/post/" + props.pt._id}>{props.pt.title}</a></p>
                     <p className="reuse-pt__description">
                         <a href={"/view/post/" + props.pt._id}>
                             {String(props.pt.desc).length > 149 ? String(props.pt.desc).substr(0, 150) + '...' : props.pt.desc} 
