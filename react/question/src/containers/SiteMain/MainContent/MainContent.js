@@ -76,8 +76,8 @@ class MainContent extends Component {
                         active={this.state.showShareActive ? this.props.shareCntActive : null}/>
                     </ul>
                     <MainQue />
+                    { loaderCnt }
                 </div>
-                { loaderCnt }
             </div>
         );
     }

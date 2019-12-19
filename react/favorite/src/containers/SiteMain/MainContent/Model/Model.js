@@ -67,8 +67,8 @@ class Model extends Component {
                     icn='clone'
                     filter />
         }
-
-        if (this.props.cnts) {
+       
+        if (this.props.cnts && (this.props.cnts.post.length > 0 || this.props.cnts.question.length > 0 || this.props.cnts.poet.length > 0)) {
            cnt = (
                 <Aux>
                     <Post 

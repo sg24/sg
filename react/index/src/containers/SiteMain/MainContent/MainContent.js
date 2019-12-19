@@ -143,8 +143,8 @@ class MainContent extends Component {
                     <Route path="/index/poet/:id" exact component={AsyncPoets}/>
                     <Route path="/"  component={AsyncPosts}/> 
                 </Switch>
-                </div>
                 { loaderCnt }
+                </div>
             </div>
         );
     }

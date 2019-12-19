@@ -199,7 +199,8 @@ class Posts extends Component {
         if ( this.props.match.params.id === 'mypost') {
             det = det === 'draft' ?  'acc-draft' : det;
         }
-        this.props.onChangePt(id, title, det, false);
+        let checkTitle = String(title).length > 50 ? String(title).substr(0, 50) + '...' : title
+        this.props.onChangePt(id, checkTitle, det, false);
     }
 
     render() {

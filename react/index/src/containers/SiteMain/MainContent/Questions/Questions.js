@@ -169,7 +169,7 @@ class Questions extends Component {
         }, 500)
     }
     changeCntHandler = (id, title, det, modelType) => {
-        let checkTitle = String(title).length > 149 ? String(title).substr(0, 180) + '...' : title
+        let checkTitle = String(title).length > 50 ? String(title).substr(0, 50) + '...' : title
         this.props.onChangeCnt(id, checkTitle, det, false, modelType);
     }
 

@@ -295,11 +295,15 @@
     text-align: center;
     font-weight: 400;
     font-size: 1rem;
+}
+
+.reuse-pt__title > a {
     color: #437da3;
     cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis;;
+    text-decoration: none;
 }
 
 @media (min-width: 800px) {

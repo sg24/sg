@@ -265,7 +265,7 @@ const postContent = props => {
                         </li>
                     </ul>
                     {media}
-                    <p className="reuse-pt__title">{props.pt.title}</p>
+                    <p className="reuse-pt__title"> <a href={"/view/post/" + props.pt._id}>{props.pt.title}</a></p>
                     <p className="reuse-pt__description">
                         <a href={"/view/post/" + props.pt._id}>
                             {String(props.pt.desc).length > 149 ? String(props.pt.desc).substr(0, 150) + '...' : props.pt.desc} 

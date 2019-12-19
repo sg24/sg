@@ -108,7 +108,7 @@ class Model extends Component {
         if ( this.props.match.params.id === 'mypoet') {
             det = det === 'draft' ?  'acc-draft' : det;
         }
-        let checkTitle = String(title).length > 149 ? String(title).substr(0, 180) + '...' : title
+        let checkTitle = String(title).length > 50 ? String(title).substr(0, 50) + '...' : title
         this.props.onChangeCnt(id, checkTitle, det, false);
     }
 

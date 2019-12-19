@@ -16,7 +16,7 @@ export function* fetchCntInitSaga(action) {
                     'limit': action.fetchLimit, 
                     'skip': action.skipCnt}});
             let total =  response.data.cntTotal ?  response.data.cntTotal : 0;
-            let cnt = response.data.cnt ? response.data.cnt : {post: [], question:[], poet:[]}
+            let cnt = response.data.cnt  ? response.data.cnt : {post: [], question:[], poet:[]}
             yield put(actions.fetchCnt(cnt, action.skipCnt, total));
         }  
         
@@ -50,7 +50,6 @@ export function* changeFavSaga(action) {
     yield put(actions.changeMainFavoriteStart(updateFav.favDet.liked));
     yield put(actions.changeFavPtStart(updateFav.favDet.id, updateFav.favDet.liked))
     try {
-        console.log(action.cntGrp)
         let field = action.cntGrp === 'post' ? 'postID' : action.cntGrp === 'question' ?
         'queID' : 'pwtID';
         yield axios.patch('/header', {id: updateFav.favDet.id, model: action.cntGrp, field},{headers: {'data-categ': 'changefavorite'}});
