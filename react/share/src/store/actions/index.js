@@ -112,18 +112,8 @@ export {
 } from './conv';
 
 export {
-    fetchPtActiveInit,
-    fetchPtActive,
-    fetchQueActiveInit,
-    fetchQueActive,
-    fetchCntActiveInit,
-    fetchCntActive,
-    fetchShareCntactiveInit,
-    fetchShareCntActive,
     fetchShareactiveInit,
     fetchShareActive,
-    fetchReqActiveInit,
-    fetchReqActive,
     resetActiveInit,
     resetActive,
     showMainBackdrop,

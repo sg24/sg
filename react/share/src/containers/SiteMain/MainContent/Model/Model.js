@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import Poet from '../../../../components/Main/Poet/Poet';
 import Loader from '../../../../components/UI/Loader/Loader';
 import NoAcc from '../../../../components/Main/NoAcc/NoAcc';
-import { updateObject } from '../../../../shared/utility';
+import Aux from '../../../../hoc/Auxs/Aux';
 import * as actions from '../../../../store/actions/index';
+import Post from './Posts/Posts';
+import Question from './Questions/Questions';
+import Poet from './Poets/Poets';
 
 class Model extends Component {
     constructor(props) {
@@ -24,7 +26,7 @@ class Model extends Component {
         this.state = {
             cntOpt: null,
             fetchLimit: limit,
-            filterTag: 'poet',
+            filterTag: 'favorite',
             mediaItms: [],
             animateItm: null,
             removeAnim: false,
@@ -36,82 +38,47 @@ class Model extends Component {
 
     componentDidMount() {
         this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
-        this.props.onChangeTag('/poet');
+        this.props.onChangeTag('/favorite');
         window.addEventListener('scroll', this.onScroll, false);
     }
 
     onScroll = () => {
         if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
             this.props.onFetchCnt(
-                    this.props.userID,  'poet' ,
+                    this.props.userID,  'favorite' ,
                     this.state.fetchLimit, this.props.skipCnt + this.state.fetchLimit, this.props.cntTotal);
         }
     } 
-
-    showUserOptHandler = (id) => {
-        if (this.state.cntOpt && this.state.cntOpt.id === id) {
-            this.setState((prevState, props) => {
-                return {
-                    cntOpt: updateObject(prevState.cntOpt, {visible: !prevState.cntOpt.visible})
-                }
-            });
-            return
-        }
-
-        const newCntOpt = {visible: true, id}
-        this.setState({cntOpt: newCntOpt})
-    }
-
-    changeFavoriteHandler = (id, isLiked, favAdd, cntGrp) => {
-        this.props.onChangeFav(id, isLiked, favAdd, this.props.changedFav, this.props.userID, cntGrp);
-    }
-
-    showShareHandler = (shareID) => {
-        this.props.onChangeShareID(shareID, 'poet');
-        this.props.history.push('/index/poet/share')
-    };
-
-    changeCntHandler = (id, title, det, modelType) => {
-        let checkTitle = String(title).length > 149 ? String(title).substr(0, 180) + '...' : title
-        this.props.onChangeCnt(id, checkTitle, det, false, modelType);
-    }
 
     render() {
         this.props.onFetchShareActive();
         this.props.onFetchNotifyActive();
 
         let cnt = <Loader />;
+        
         if (this.props.cntErr) {
             cnt = null
         }
 
-        if (this.props.cnts && this.props.cnts.length === 0) {
+        if (this.props.cnts && this.props.cnts.post.length === 0 && this.props.cnts.question.length === 0 && this.props.cnts.poet.length === 0) {
             cnt = <NoAcc 
                     isAuth={this.props.userID !== null}
                     det='No content found!'
                     icn='clone'
                     filter />
         }
-
-        if (this.props.cnts && this.props.cnts.length === 0) {
-            cnt = <NoAcc 
-                    isAuth={this.props.userID !== null}
-                    det='No content found!'
-                    icn='clone'
-                    filter />
-        }
-
-        if (this.props.cnts && this.props.cnts.length > 0) {
-            cnt = <Poet
-                content={this.props.cnts} 
-                media={this.props.media}
-                userOpt={this.showUserOptHandler}
-                showCntOpt={this.state.cntOpt}
-                fav={this.changeFavoriteHandler}
-                changedFav={this.props.changedFav}
-                favChange={this.props.favChange}
-                share={this.showShareHandler}
-                changeCnt={this.changeCntHandler}/>
+       
+        if (this.props.cnts && (this.props.cnts.post.length > 0 || this.props.cnts.question.length > 0 || this.props.cnts.poet.length > 0)) {
+           cnt = (
+                <Aux>
+                    <Post 
+                    cnts={this.props.cnts.post}/>
+                    <Question
+                        cnts={this.props.cnts.question} />
+                    <Poet
+                        cnts={this.props.cnts.poet} />
+                </Aux>
+           );
         }
 
         return cnt

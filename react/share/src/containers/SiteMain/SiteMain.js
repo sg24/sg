@@ -98,13 +98,13 @@ class SiteMain extends Component {
                         err={ this.props.changeCntErr }
                         warn={{
                             msg: this.props.changeCntStart.det === 'delete' ?
-                            'Are you sure you want to delete this ' : 'Are you sure you want to change the mode';
+                            'Are you sure you want to delete this ' : 'Are you sure you want to change the mode',
                             cnt: this.props.changeCntStart.title,
                             det: this.props.changeCntStart.det
                         }}
                         exit={{
                             msg: this.props.changeCntStart.det=== 'delete' ?
-                            'Deleted Successfully' : 'Mode change successfully'
+                            'Deleted Successfully' : 'Mode change successfully',
                             close: this.props.changeCnt}}
                         changeCnt={this.changeCntHandler}
                         closeChangeCnt={this.closeChangeCntHandler}/> : null}

@@ -3,31 +3,17 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import 'pepjs';
 
-import Question from '../../../../components/Main/Question/Question';
-import Loader from '../../../../components/UI/Loader/Loader';
-import NoAcc from '../../../../components/Main/NoAcc/NoAcc';
-import { updateObject } from '../../../../shared/utility';
-import * as actions from '../../../../store/actions/index';
+import Post from '../../../../../components/Main/Post/Post';
+import { updateObject } from '../../../../../shared/utility';
+import * as actions from '../../../../../store/actions/index';
 
 let IS_ANIMATED = true;
 
-class Questions extends Component {
+class Posts extends Component {
     constructor(props) {
         super(props);
-        let limit = 0;
-        if (window.innerHeight >= 1200) {
-            limit = 6
-        } else if(window.innerHeight >= 900) {
-            limit = 4;
-        } else if(window.innerHeight >= 500) {
-            limit = 3
-        } else {
-            limit = 2;
-        }
         this.state = {
             cntOpt: null,
-            fetchLimit: limit,
-            filterTag: 'question',
             mediaItms: [],
             animateItm: null,
             removeAnim: false,
@@ -36,20 +22,6 @@ class Questions extends Component {
             animationComplete: true
         }
     }
-
-    componentDidMount() {
-        this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
-        this.props.onChangeTag('/question');
-        window.addEventListener('scroll', this.onScroll, false);
-    }
-
-    onScroll = () => {
-        if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
-            this.props.onFetchCnt(
-                    this.props.userID,  'question' ,
-                    this.state.fetchLimit, this.props.skipCnt + this.state.fetchLimit, this.props.cntTotal);
-        }
-    } 
 
     showUserOptHandler = (id) => {
         if (this.state.cntOpt && this.state.cntOpt.id === id) {
@@ -70,8 +42,8 @@ class Questions extends Component {
     }
 
     showShareHandler = (shareID) => {
-        this.props.onChangeShareID(shareID, 'question');
-        this.props.history.push('/index/question/share')
+        this.props.onChangeShareID(shareID, 'post');
+        this.props.history.push('/favorite/post/share')
     };
 
     changeMediaHandler = (id, maxLength, type) => {
@@ -103,9 +75,9 @@ class Questions extends Component {
         let slide = event.target;
         slide.releasePointerCapture(event.pointerId);
         slide.style.left = 0 +'px';
-        let videoPlayerIcn = document.querySelector('.reuse-que__media--wrapper__icn-move');
+        let videoPlayerIcn = document.querySelector('.reuse-pt__media--wrapper__icn-move');
         if (videoPlayerIcn) {
-            videoPlayerIcn.style.left = 42 + '%';
+            videoPlayerIcn.style.left = 45 + '%';
         }
     }
 
@@ -124,10 +96,10 @@ class Questions extends Component {
                     this.animateSlider(id, maxLength, 'prev', 0)
                 }
             } 
-            let videoPlayerIcn = document.querySelector('.reuse-que__media--wrapper__icn-move');
+            let videoPlayerIcn = document.querySelector('.reuse-pt__media--wrapper__icn-move');
             if (videoPlayerIcn) {
                 let playerIcnHeight = (newpos / slide.offsetWidth) * 100
-                videoPlayerIcn.style.left =  playerIcnHeight + 42 + '%';
+                videoPlayerIcn.style.left =  playerIcnHeight + 45 + '%';
             }
             slide.style.left = newpos +'px';
         }
@@ -163,37 +135,14 @@ class Questions extends Component {
         }, 500)
     }
     changeCntHandler = (id, title, det, modelType) => {
-        let checkTitle = String(title).length > 149 ? String(title).substr(0, 180) + '...' : title
+        let checkTitle = String(title).length > 50 ? String(title).substr(0, 50) + '...' : title
         this.props.onChangeCnt(id, checkTitle, det, false, modelType);
     }
 
     render() {
-        this.props.onFetchShareActive();
-        this.props.onFetchNotifyActive();
-
-        let cnt = <Loader />;
-        if (this.props.cntErr) {
-            cnt = null
-        }
-
-        if (this.props.cnts && this.props.cnts.length === 0 ) {
-            cnt = <NoAcc 
-                    isAuth={this.props.userID !== null}
-                    det='No content found!'
-                    icn='clone'
-                    filter />
-        }
-
-        if (this.props.cnts && this.props.cnts.length === 0 ) {
-            cnt = <NoAcc 
-                    isAuth={this.props.userID !== null}
-                    det='No content found!'
-                    icn='clone'
-                    filter />
-        }
-
+        let cnt = null;
         if (this.props.cnts && this.props.cnts.length > 0) {
-            cnt = <Question 
+            cnt = <Post 
                 content={this.props.cnts} 
                 media={this.props.media}
                 userOpt={this.showUserOptHandler}
@@ -225,10 +174,6 @@ class Questions extends Component {
 
 const mapStateToProps = state => {
     return {
-        userID: state.auth.userID,
-        cnts: state.cnt.cnts,
-        skipCnt: state.cnt.skipCnt,
-        cntTotal: state.cnt.cntTotal,
         changedFav: state.cnt.changedFav,
         favChange: state.cnt.favChange,
         cntErr: state.cnt.cntErr,
@@ -240,16 +185,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchShareActive: () => dispatch(actions.fetchShareactiveInit()),
-        onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
-        onFetchCnt: (userID, fetchType, limit, skipCnt, cntTotal) => dispatch(actions.fetchCntInit(userID, fetchType, limit, skipCnt, cntTotal)),
-        onFetchCntReset: () => dispatch(actions.fetchCntReset()),
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),
         onChangeShareID: (shareID,  cntType) => dispatch(actions.shareID(shareID,  cntType)),
-        onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
         onFetchVideo: (videoID, ptVideoID) => dispatch(actions.fetchVideoInit(videoID, ptVideoID)),
         onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm,  modelType))
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Posts));

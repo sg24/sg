@@ -162,13 +162,24 @@
     border-radius: 5px;
     padding: 4px;
     cursor: pointer;
-    overflow: hidden;
     white-space: nowrap;
     word-wrap: none;
     text-overflow: ellipsis;
     position: relative;
     top: 3px;
 }
+
+.reuse-pt__header--share__category--cntgrp {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 110%;
+    padding: 4px 6px;
+    background-color: #0284a8;
+    z-index: 2;
+    color: #fff;
+    border-radius: 5px;
+} 
 
 .reuse-pt__header--share__category a {
     color: #182427;
@@ -295,11 +306,15 @@
     text-align: center;
     font-weight: 400;
     font-size: 1rem;
+}
+
+.reuse-pt__title > a {
     color: #437da3;
     cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis;;
+    text-decoration: none;
 }
 
 @media (min-width: 800px) {

@@ -15,12 +15,7 @@ import { fetchNotifyInitSaga,
             fetchNotifyActiveInitSaga,
             defaultNotifyActiveInitSaga,
             headerFilterInitSaga } from './header';
-import { fetchPtActiveInitSaga,
-        fetchQueActiveInitSaga,
-        fetchCntActiveInitSaga,  
-         fetchShareActiveInitSaga,
-         fetchShareCntActiveInitSaga,
-         fetchReqActiveInitSaga, 
+import { fetchShareActiveInitSaga, 
          resetActiveInitSaga} from './main';
 
 export function* watchAuth() {
@@ -31,7 +26,7 @@ export function* watchAuth() {
 
 export function* watchCnt() {
     yield all([
-        takeLatest(actionTypes.FETCH_CNT_INIT, fetchCntInitSaga),
+        takeEvery(actionTypes.FETCH_CNT_INIT, fetchCntInitSaga),
         takeEvery(actionTypes.FETCH_VIDEO_INIT, fetchVideoInitSaga),
         takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga),
         takeLatest(actionTypes.CHANGE_CNT_INIT, changeCntInitSaga)
@@ -87,12 +82,7 @@ export function* watchHeader() {
 
 export function* watchMain() {
     yield all([
-       takeEvery(actionTypes.FETCH_PT_ACTIVE_INIT, fetchPtActiveInitSaga),
-       takeEvery(actionTypes.FETCH_QUE_ACTIVE_INIT, fetchQueActiveInitSaga),
-       takeEvery(actionTypes.FETCH_CNT_ACTIVE_INIT, fetchCntActiveInitSaga),
        takeEvery(actionTypes.FETCH_SHARE_ACTIVE_INIT, fetchShareActiveInitSaga),
-       takeEvery(actionTypes.FETCH_SHARECNT_ACTIVE_INIT, fetchShareCntActiveInitSaga),
-       takeEvery(actionTypes.FETCH_REQ_ACTIVE_INIT, fetchReqActiveInitSaga),
        takeEvery(actionTypes.RESET_ACTIVE_INIT, resetActiveInitSaga)
     ])
 }
