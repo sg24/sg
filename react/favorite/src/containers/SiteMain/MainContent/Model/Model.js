@@ -55,6 +55,7 @@ class Model extends Component {
         this.props.onFetchNotifyActive();
 
         let cnt = <Loader />;
+        
         if (this.props.cntErr) {
             cnt = null
         }

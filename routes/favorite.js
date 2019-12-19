@@ -32,7 +32,7 @@ router.get('/', authenticate, (req, res, next) => {
                 model.find({_id: { $in : modelID }, mode: 'publish', _isCompleted: true}).countDocuments({}).then(total => {
                     model.find({_id: { $in : modelID }, mode: 'publish', _isCompleted: true}).sort(sort).limit(curLimit).skip(skip).then(result => {
                         cntArray.cntTotal = cntArray.cntTotal + total;
-                        if (result < 1) {
+                        if (result.length < 1) {
                             cntArray.cnt[modelType] = [];
                             resolve(cntArray);
                             return

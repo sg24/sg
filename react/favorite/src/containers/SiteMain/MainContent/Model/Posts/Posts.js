@@ -77,7 +77,7 @@ class Posts extends Component {
         slide.style.left = 0 +'px';
         let videoPlayerIcn = document.querySelector('.reuse-pt__media--wrapper__icn-move');
         if (videoPlayerIcn) {
-            videoPlayerIcn.style.left = 42 + '%';
+            videoPlayerIcn.style.left = 45 + '%';
         }
     }
 
@@ -99,7 +99,7 @@ class Posts extends Component {
             let videoPlayerIcn = document.querySelector('.reuse-pt__media--wrapper__icn-move');
             if (videoPlayerIcn) {
                 let playerIcnHeight = (newpos / slide.offsetWidth) * 100
-                videoPlayerIcn.style.left =  playerIcnHeight + 42 + '%';
+                videoPlayerIcn.style.left =  playerIcnHeight + 45 + '%';
             }
             slide.style.left = newpos +'px';
         }
@@ -135,7 +135,7 @@ class Posts extends Component {
         }, 500)
     }
     changeCntHandler = (id, title, det, modelType) => {
-        let checkTitle = String(title).length > 149 ? String(title).substr(0, 180) + '...' : title
+        let checkTitle = String(title).length > 50 ? String(title).substr(0, 50) + '...' : title
         this.props.onChangeCnt(id, checkTitle, det, false, modelType);
     }
 

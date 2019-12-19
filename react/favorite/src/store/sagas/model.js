@@ -15,7 +15,9 @@ export function* fetchCntInitSaga(action) {
                     'data-categ': action.fetchType,
                     'limit': action.fetchLimit, 
                     'skip': action.skipCnt}});
-            yield put(actions.fetchCnt(response.data.cnt, action.skipCnt, response.data.cntTotal));
+            let total =  response.data.cntTotal ?  response.data.cntTotal : 0;
+            let cnt = response.data.cnt ? response.data.cnt : {post: [], question:[], poet:[]}
+            yield put(actions.fetchCnt(cnt, action.skipCnt, total));
         }  
         
     } catch(err){

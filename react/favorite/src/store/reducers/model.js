@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import { updateObject, changeMode } from '../../shared/utility';
+import { updateObject } from '../../shared/utility';
 
 const initialState = {
     cnts: null,
@@ -19,14 +19,15 @@ const initialState = {
 }
 
 const fetchCnt = (state, action) => {
-    if (state.cnts) {
+    let cnts = state.cnts ? {...state.cnts} : null
+    if (cnts) {
         let cnt = {...action.cnt}
-        state.cnts.post.push(...cnt.post);
-        state.cnts.question.push(...cnt.question);
-        state.cnts.poet.push(...cnt.poet);
+        cnts.post.push(...cnt.post);
+        cnts.question.push(...cnt.question);
+        cnts.poet.push(...cnt.poet);
     }
-    let cnts = !state.cnts ? action.cnt : state.cnts;
-    return updateObject(state, {cnts, skipCnt: action.skipCnt, cntTotal: action.cntTotal, showLoader: false})
+    let newCnts = !state.cnts ? action.cnt : cnts;
+    return updateObject(state, {cnts: newCnts, skipCnt: action.skipCnt, cntTotal: action.cntTotal, showLoader: false})
 };
 
 const fetchCntReset = (state, action) => {
@@ -50,9 +51,11 @@ const changeCntCancel = (state, action) => {
 };
 
 const changeCntReset = (state, action) => {
-    let cnts = [...state.cnts]
-    let updateCnt = cnts.filter(cnt => cnt._id !== state.changeCntStart.id);
-    return updateObject(state, {cnts : action.changed ? updateCnt: cnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
+    let cnts = {...state.cnts};
+    let modelCnt = cnts[state.changeCntStart.modelType];
+    let updateModel = [...modelCnt].filter(model => model._id !== state.changeCntStart.id);
+    cnts[state.changeCntStart.modelType] = updateModel;
+    return updateObject(state, {cnts : action.changed ? cnts : state.cnts, cntTotal: action.changed ?  state.cntTotal-1 : state.cntTotal,changeCntStart: null, changeCntErr: null, changeCnt: false})
 };
 
 const changeCntFail = (state, action) => {
@@ -91,7 +94,7 @@ const changeFav = (state, action) => {
     let modelCnt = cnts[action.modelType];
     let updateModel = [...modelCnt].filter(model => model._id !== action.modelID);
     cnts[action.modelType] = updateModel;
-    return updateObject(state, {cnts, favChange: null})
+    return updateObject(state, {cnts, favChange: null, cntTotal: state.cntTotal - 1})
 };
 
 const filterPost = (state, action) => {

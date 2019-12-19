@@ -250,7 +250,7 @@ const postContent = props => {
                         </li>
                         <li>
                             <p className="reuse-pt__header--share__category"> 
-                               <div className="reuse-pt__header--share__category--cntgrp">Post</div>
+                               <span className="reuse-pt__header--share__category--cntgrp">Post</span>
                                 <FontAwesomeIcon 
                                     icon={ props.pt.category.length > 1 ? ['fas', 'tags'] : ['fas', 'tag']} 
                                     className="icon icon__reuse-pt--header__tag" />
