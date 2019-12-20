@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import * as actions from '../../../store/actions/index';
 import Loader from '../../../components/UI/Loader/Loader';
 import Model from './Model/Model';
 
@@ -24,10 +23,10 @@ class MainContent extends Component {
                     <div className="site-main__content--tab">
                         <div className="site-main__content--tab__icn">
                             <FontAwesomeIcon 
-                                icon={['fas', 'heart']}
-                                className="icon icon__site-main__fav-main--header"/>
+                                icon={['fas', 'location-arrow']}
+                                className="icon icon__acc--shared__tab"/>
                         </div>
-                        Favorites
+                        Shared with me
                         <span>{this.props.cntTotal}</span>
                     </div>
                     <Model />

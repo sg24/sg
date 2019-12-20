@@ -26,26 +26,32 @@ class Model extends Component {
         this.state = {
             cntOpt: null,
             fetchLimit: limit,
-            filterTag: 'favorite',
+            filterTag: 'share',
             mediaItms: [],
             animateItm: null,
             removeAnim: false,
             removePrevMedia: null,
             playerIcnId: null,
-            animationComplete: true
+            animationComplete: true,
+            scrollEnable: false
         }
     }
 
     componentDidMount() {
         this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
-        this.props.onChangeTag('/favorite');
-        window.addEventListener('scroll', this.onScroll, false);
     }
 
+    componentDidUpdate() {
+        if (this.props.cnts && (this.props.cnts.post.length > 0 || this.props.cnts.question.length > 0 || this.props.cnts.poet.length > 0 ) && !this.state.scrollEnable) {
+            window.addEventListener('scroll', this.onScroll, false);
+            this.setState({scrollEnable: true})
+        }
+    }
+    
     onScroll = () => {
         if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
             this.props.onFetchCnt(
-                    this.props.userID,  'favorite' ,
+                    this.props.userID,  'share' ,
                     this.state.fetchLimit, this.props.skipCnt + this.state.fetchLimit, this.props.cntTotal);
         }
     } 
@@ -106,7 +112,6 @@ const mapDispatchToProps = dispatch => {
         onFetchCntReset: () => dispatch(actions.fetchCntReset()),
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),
         onChangeShareID: (shareID, cntType) => dispatch(actions.shareID(shareID, cntType)),
-        onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
         onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm, modelType))
     };
 };

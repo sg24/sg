@@ -408,8 +408,7 @@ router.patch('/header', authenticate, (req, res, next) => {
                 return
             }
             for (let userID of result.shareMe){
-                notify.findOneAndUpdate({userID, [req.body.field]: {$in : req.body.id}}, {
-                    $inc: {'notifications': -1}, $pull: { [req.body.field]: req.body.id}
+                notify.findOneAndUpdate({userID, [req.body.field]: {$in : req.body.id}}, {$pull: { [req.body.field]: req.body.id}
                 }).then(() => {
                     ++send;
                     if (send === result.shareMe.length) {
@@ -515,8 +514,7 @@ router.delete('/header', authenticate,(req,res, next) =>  {
                 return
             }
             for (let userID of result.shareMe){
-                notify.findOneAndUpdate({userID, [payload.field]: {$in : payload.id}}, {
-                    $inc: {'notifications': -1}, $pull: { [payload.field]: payload.id}
+                notify.findOneAndUpdate({userID, [payload.field]: {$in : payload.id}}, {$pull: { [payload.field]: payload.id}
                 }).then(() => {
                     ++send;
                     if (send === result.shareMe.length) {

@@ -1,38 +1,5 @@
-.icon__site-main__fav-main--header {
-    color: #ff1600;
-}
-
-.icon__reuse-pvt-chat--fav {
-    color: #ff1600;
-}
-
-.icon__reuse-fav-filter--srch {
-    color: #fff;
-}
-
-.reuse-fav-filter {
-    width: 100%;
-    position: relative;
-    padding: 10px 15px 10px 15px;  
-    border-bottom: 1px solid #dcdbdc;
-    
-}
-
-.reuse-fav-filter__wrapper {
-    position: relative;
-}
-
-.reuse-fav-filter__wrapper::after {
-    content: "";
-    clear: both;
-    display: table;
-}
-
-@media (min-width: 530px) {
-
-    .reuse-fav-filter {
-        padding: 20px;
-    }
+.icon__acc--shared__tab {
+    color: #15a4fa;
 }
 
 .site-main {

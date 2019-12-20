@@ -10,7 +10,7 @@ export function* fetchCntInitSaga(action) {
     
     try {
         if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
-            let response = yield axios.get('/favorite', {
+            let response = yield axios.get('/share', {
                 headers: {
                     'data-categ': action.fetchType,
                     'limit': action.fetchLimit, 
@@ -55,7 +55,7 @@ export function* changeFavSaga(action) {
         yield axios.patch('/header', {id: updateFav.favDet.id, model: action.cntGrp, field},{headers: {'data-categ': 'changefavorite'}});
         yield delay(500)
         yield put(actions.changeMainFavoriteReset());
-        yield put(actions.changeFav(updateFav.favDet.id, action.cntGrp));
+        yield put(actions.changeFav(updateFav.updateChangeFav));
     }catch(err){
         yield delay(500)
         yield put(actions.changeMainFavoriteReset());

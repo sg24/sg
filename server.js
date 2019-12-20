@@ -15,6 +15,7 @@ let postRoute = require('./routes/post');
 let questionRoute = require('./routes/question');
 let poetRoute = require('./routes/poet');
 let favoriteRoute = require('./routes/favorite');
+let shareRoute = require('./routes/share');
 let mediaRoute = require('./routes/media');
 
 let app = express();
@@ -76,6 +77,7 @@ app.use('/post', postRoute);
 app.use('/question', questionRoute);
 app.use('/poet', poetRoute);
 app.use('/favorite', favoriteRoute);
+app.use('/share', shareRoute);
 app.use('/media', mediaRoute);
 app.use('/sitemap.xml', sitemapxmlRoute);
 // catch 404 and forward to error handler

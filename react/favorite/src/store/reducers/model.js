@@ -25,6 +25,9 @@ const fetchCnt = (state, action) => {
         cnts.post.push(...cnt.post);
         cnts.question.push(...cnt.question);
         cnts.poet.push(...cnt.poet);
+        cnts.post = [...cnts.post];
+        cnts.question = [...cnts.question];
+        cnts.poet = [...cnts.poet];
     }
     let newCnts = !state.cnts ? action.cnt : cnts;
     return updateObject(state, {cnts: newCnts, skipCnt: action.skipCnt, cntTotal: action.cntTotal, showLoader: false})

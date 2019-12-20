@@ -25,7 +25,11 @@ const fetchCnt = (state, action) => {
         cnts.post.push(...cnt.post);
         cnts.question.push(...cnt.question);
         cnts.poet.push(...cnt.poet);
+        cnts.post = [...cnts.post];
+        cnts.question = [...cnts.question];
+        cnts.poet = [...cnts.poet];
     }
+   
     let newCnts = !state.cnts ? action.cnt : cnts;
     return updateObject(state, {cnts: newCnts, skipCnt: action.skipCnt, cntTotal: action.cntTotal, showLoader: false})
 };
@@ -90,11 +94,7 @@ const changeFavPtFail = (state, action) => {
 };
 
 const changeFav = (state, action) => {
-    let cnts = {...state.cnts};
-    let modelCnt = cnts[action.modelType];
-    let updateModel = [...modelCnt].filter(model => model._id !== action.modelID);
-    cnts[action.modelType] = updateModel;
-    return updateObject(state, {cnts, favChange: null, cntTotal: state.cntTotal - 1})
+    return updateObject(state, {changedFav: action.changedFav, favChange: null})
 };
 
 const filterPost = (state, action) => {
