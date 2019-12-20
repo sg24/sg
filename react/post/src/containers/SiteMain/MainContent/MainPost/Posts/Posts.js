@@ -33,26 +33,22 @@ class Posts extends Component {
             removeAnim: false,
             removePrevMedia: null,
             playerIcnId: null,
-            animationComplete: true
+            animationComplete: true,
+            scrollEnable: false
         }
     }
 
     componentDidMount() {
         this.props.onFetchPost(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/post');
-        let these = this;
-        window.addEventListener('scroll', function(event) {
-            if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
-                these.props.onFetchPost(
-                        these.props.userID, 
-                        these.state.filterTag !== 'post' ? 
-                        these.state.filterTag === 'filter' ?  'filter=='+these.props.filterDet : these.state.filterTag : 'post',
-                        these.state.fetchLimit, these.props.skipPost + these.state.fetchLimit, these.props.ptTotal);
-            }
-        });
     }
 
     componentDidUpdate() {
+        if (this.props.posts && this.props.posts.length > 0 && !this.state.scrollEnable) {
+            window.addEventListener('scroll', this.onScroll, false);
+            this.setState({scrollEnable: true})
+        }
+
         if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id !== 'share' && this.props.match.params.id !== 'filter' && this.props.match.params.id !== 'startfilter') {
             this.props.onFetchPostReset();
             this.props.onFetchPost(this.props.userID, this.props.match.params.id === 'shared' ? `shared` : this.props.match.params.id, this.state.fetchLimit, 0, 0);
@@ -83,6 +79,16 @@ class Posts extends Component {
             });
         }
     }
+
+    onScroll = () => {
+        if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
+            this.props.onFetchPost(
+                    this.props.userID, 
+                    this.state.filterTag !== 'post' ? 
+                    this.state.filterTag === 'filter' ?  'filter=='+this.props.filterDet : this.state.filterTag : 'post',
+                    this.state.fetchLimit, this.props.skipPost + this.state.fetchLimit, this.props.ptTotal);
+        }
+    } 
 
     showUserOptHandler = (index) => {
         if (this.state.ptOpt && this.state.ptOpt.index === index) {

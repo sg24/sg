@@ -28,7 +28,7 @@ export function* watchAuth() {
 
 export function* watchCnt() {
     yield all([
-        takeEvery(actionTypes.FETCH_CNT_INIT, fetchCntInitSaga),
+        takeLatest(actionTypes.FETCH_CNT_INIT, fetchCntInitSaga),
         takeEvery(actionTypes.FETCH_VIDEO_INIT, fetchVideoInitSaga),
         takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga),
         takeLatest(actionTypes.CHANGE_CNT_INIT, changeCntInitSaga)

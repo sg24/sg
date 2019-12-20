@@ -32,14 +32,21 @@ class Model extends Component {
             removeAnim: false,
             removePrevMedia: null,
             playerIcnId: null,
-            animationComplete: true
+            animationComplete: true,
+            scrollEnable: false
         }
     }
 
     componentDidMount() {
         this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/favorite');
-        window.addEventListener('scroll', this.onScroll, false);
+    }
+
+    componentDidUpdate() {
+        if (this.props.cnts && (this.props.cnts.post.length > 0 || this.props.cnts.question.length > 0 || this.props.cnts.poet.length > 0 ) && !this.state.scrollEnable) {
+            window.addEventListener('scroll', this.onScroll, false);
+            this.setState({scrollEnable: true})
+        }
     }
 
     onScroll = () => {

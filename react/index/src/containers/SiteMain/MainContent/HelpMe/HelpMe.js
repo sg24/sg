@@ -34,14 +34,21 @@ class Questions extends Component {
             removeAnim: false,
             removePrevMedia: null,
             playerIcnId: null,
-            animationComplete: true
+            animationComplete: true,
+            scrollEnable: false
         }
     }
 
     componentDidMount() {
         this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/question');
-        window.addEventListener('scroll', this.onScroll, false);
+    }
+
+    componentDidUpdate() {
+        if (this.props.cnts && this.props.cnts.length > 0 && !this.state.scrollEnable) {
+            window.addEventListener('scroll', this.onScroll, false);
+            this.setState({scrollEnable: true})
+        }
     }
 
     componentWillUnmount() {

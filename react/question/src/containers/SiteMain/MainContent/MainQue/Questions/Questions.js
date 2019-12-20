@@ -33,26 +33,22 @@ class Questions extends Component {
             removeAnim: false,
             removePrevMedia: null,
             playerIcnId: null,
-            animationComplete: true
+            animationComplete: true,
+            scrollEnable: false
         }
     }
 
     componentDidMount() {
         this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/question');
-        let these = this;
-        window.addEventListener('scroll', function(event) {
-            if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
-                these.props.onFetchCnt(
-                        these.props.userID, 
-                        these.state.filterTag !== 'question' ? 
-                        these.state.filterTag === 'filter' ?  'filter=='+these.props.filterDet : these.state.filterTag : 'question',
-                        these.state.fetchLimit, these.props.skipCnt + these.state.fetchLimit, these.props.cntTotal);
-            }
-        });
     }
 
     componentDidUpdate() {
+        if (this.props.cnts && this.props.cnts.length > 0 && !this.state.scrollEnable) {
+            window.addEventListener('scroll', this.onScroll, false);
+            this.setState({scrollEnable: true})
+        }
+
         if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id !== 'share' && this.props.match.params.id !== 'filter' && this.props.match.params.id !== 'startfilter') {
             this.props.onFetchCntReset();
             this.props.onFetchCnt(this.props.userID, this.props.match.params.id === 'shared' ? `shared-${this.props.userID}` : this.props.match.params.id, this.state.fetchLimit, 0, 0);
@@ -81,6 +77,16 @@ class Questions extends Component {
             this.setState({
                 filterTag: 'question'
             });
+        }
+    }
+
+    onScroll = () => {
+        if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
+            this.props.onFetchCnt(
+                    this.props.userID, 
+                    this.state.filterTag !== 'question' ? 
+                    this.state.filterTag === 'filter' ?  'filter=='+this.props.filterDet : this.state.filterTag : 'question',
+                    this.state.fetchLimit, this.props.skipCnt + this.state.fetchLimit, this.props.cntTotal);
         }
     }
 

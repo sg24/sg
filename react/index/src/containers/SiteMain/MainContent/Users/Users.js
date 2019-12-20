@@ -24,13 +24,20 @@ class Model extends Component {
         this.state = {
             fetchLimit: limit,
             filterTag: 'users',
+            scrollEnable: false
         }
     }
 
     componentDidMount() {
         this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/users');
-        window.addEventListener('scroll', this.onScroll, false);
+    }
+
+    componentDidUpdate() {
+        if (this.props.cnts && this.props.cnts.length > 0 && !this.state.scrollEnable) {
+            window.addEventListener('scroll', this.onScroll, false);
+            this.setState({scrollEnable: true})
+        }
     }
 
     componentWillUnmount() {
