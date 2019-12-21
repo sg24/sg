@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
 const initialState = {
+    cntErr: null,
     categ: null,
     showCateg: false,
     categErr: null,
@@ -21,7 +22,22 @@ const initialState = {
     uploadPercent: null,
     submitError: null,
     submitForm: false,
-    id: null
+    id: null,
+    content: null,
+    redirect: false
+};
+
+const fetchCnt = (state, action) => {
+    if (action.cnt) {
+        let desc = JSON.parse(action.cnt.desc)
+        desc.blocks[0].text = action.cnt.title;
+        return updateObject(state, {newCateg: action.cnt.category, content: desc, cntErr: null})
+    }
+    return updateObject(state, {redirect: true})
+};
+
+const fetchCntFail = (state, action) => {
+    return updateObject(state, {cntErr: action.err})
 };
 
 const fetchCategStart = (state, action) => {
@@ -127,6 +143,10 @@ const formSubmitted = (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.FETCH_CNT:
+            return fetchCnt(state, action);
+        case actionTypes.FETCH_CNT_FAIL:
+            return fetchCntFail(state, action);
         case actionTypes.FETCH_CATEG_START:
             return fetchCategStart(state, action);
         case actionTypes.FETCH_CATEG_FAIL:

@@ -230,6 +230,16 @@ router.post('/header', authenticate, (req, res, next) => {
         return
     }
 
+    if (req.header('data-categ') === 'editform') {
+        let model = req.body.model === 'post' ? posts :
+        req.body.model === 'question' ? questions : poets;
+        model.findOne({_id: req.body.id, authorID: req.user}).then(result => {
+            res.send(result).status(200)
+        })
+        return
+    }
+
+
     if (req.header('data-categ') === 'trend') {
         trends(posts, 'post', []).then(ptArray => {
             trends(questions, 'question', ptArray).then(queArray => {

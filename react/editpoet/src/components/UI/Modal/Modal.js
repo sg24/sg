@@ -45,7 +45,7 @@ const modal = props => {
                     <button 
                         type="button" 
                         className="reuse-form__btn--add"
-                        onClick={props.closeModal}> Add New </button>
+                        onClick={props.closeModal}> Re-Edit </button>
                 </div>
             </Aux>
         )

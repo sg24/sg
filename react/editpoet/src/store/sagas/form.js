@@ -4,6 +4,16 @@ import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 import fileAxios from 'axios';
 
+export function* fetchCntInitSaga(action) {
+    try {
+        const response = yield axios.post('/header', {id: action.id, model: 'poet'},{headers: {'data-categ':`editform`}});
+        yield put(actions.fetchCnt(response.data))
+    } catch(err){
+        yield put(actions.fetchCntFail(err));
+    }
+    
+}
+
 export function* fetchCategInitSaga(action) {
     try {
         yield put(actions.fetchCategStart());

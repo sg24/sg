@@ -62,6 +62,9 @@ const PostSchema = new Schema({
     snapshot: {
         type: Array
     },
+    edit: {
+        type: Date
+    },
     mode: {
         type: String,
         required: true

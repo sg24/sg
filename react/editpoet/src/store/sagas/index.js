@@ -9,7 +9,8 @@ import { fetchNotifyInitSaga,
         defaultNotifyActiveInitSaga,
         headerFilterInitSaga } from './header';
 import { fetchShareActiveInitSaga, resetActiveInitSaga} from './main';
-import { fetchCategInitSaga, 
+import { fetchCntInitSaga,
+            fetchCategInitSaga, 
             addCategInitSaga, 
             checkLinkInitSaga, 
             fetchUsersInitSaga,
@@ -36,6 +37,7 @@ export function* watchHeader() {
 
 export function* watchForm() {
     yield all([
+       takeEvery(actionTypes.FETCH_CNT_INIT, fetchCntInitSaga),
        takeEvery(actionTypes.FETCH_CATEG_INIT, fetchCategInitSaga),
        takeEvery(actionTypes.ADD_CATEG_INIT, addCategInitSaga),
        takeEvery(actionTypes.CHECK_LINK_INIT, checkLinkInitSaga),

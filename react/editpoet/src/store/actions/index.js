@@ -42,6 +42,9 @@ export {
 } from './main';
 
 export {
+    fetchCntInit,
+    fetchCntFail,
+    fetchCnt,
     fetchCategInit,
     fetchCategStart,
     fetchCategFail,
