@@ -13,8 +13,6 @@ const favorite = require('./models/favorites');
 const user = require('./models/user');
 const tempUser = require('./models/tempUser');
 const authUser = require('./models/authUser');
-const mediafiles = require('./models/mediafiles');
-const mediachunks = require('./models/mediachunks');
 
 module.exports = {
     posts,
@@ -29,8 +27,6 @@ module.exports = {
     usernotifies,
     pwtnotifies,
     viewnotifies,
-    mediafiles,
-    mediachunks,
     favorite,
     connectStatus,
     storage

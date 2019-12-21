@@ -1,29 +1,37 @@
-const { authUser , user} = require('../serverDB');
-const checkStatus = require('../utility/status');
-const {posts, questions, poets, viewnotifies, pwtnotifies, connectStatus, user, authUser} = require('../serverDB/serverDB');
+let express = require('express');
+let router = express.Router();
+let mongoose = require('mongoose');
+const {connectStatus} = require('../../serverDB/serverDB');
 
-let deleteMedia = (req, res, next) => {
-    const content = req.body;
-    connectStatus.then(() => {
-        let model = content.modelType === 'post' ? posts : content.modelType === 'question' ? questions : poets; 
-        model.findOne({uniqueID: content.uniqueID}).then(result  => {
-            if (result.length < 1) {
-                next();
+let deleteMedia = (videos) => {
+    return new Promise((resolve, reject) => {
+        let deleted = 0;
+        
+        connectStatus.then(() => {
+            let bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+                bucketName: 'media'
+            });
+            console.log(videos)
+            if ( videos.length < 1) {
+                resolve()
                 return
             }
-            let oldFileID = []
-            for (let video of result.video) {
-                oldFileID.push(video.id);
+            
+            for (let video of videos) {
+                bucket.delete(mongoose.mongo.ObjectId(video.id)).then(() => {
+                    ++deleted;
+                    if (deleted === videos.length) {
+                        resolve()
+                    }
+                }).catch(err=> {
+                    reject(err)
+                });
             }
-            mongoose.mongo.db('media.chunks').find({files_id: {$in : oldFileID}}).then(result => {
-                console.log(result)
-                next()
-            })
+                
+        }).catch(err => {
+           reject(err)
         })
-    }).catch(err => {
-        res.status(500).send(err);
     })
 }
 
-
-module.exports = deleteMedia;
+module.exports = deleteMedia

@@ -1,7 +1,7 @@
 let notifications = require('./notifications');
 const webpush = require('web-push');
-const { user, authUser, mediachunks, mediafiles} = require('../../serverDB/serverDB');
-let mongoose = require('mongoose');
+const { user, authUser} = require('../../serverDB/serverDB');
+const deleteMedia = require('./deletemedia');
 
 module.exports = editForm = (content, model, files, notify, userModel, userID, updateField, userField, field, res, category) => {
    return new Promise ((resolve, reject) => {
@@ -24,23 +24,21 @@ module.exports = editForm = (content, model, files, notify, userModel, userID, u
         desc: content.desc,
         mode: content.mode,
         edit: Date.now(),
+        _isCompleted: false,
         snapshot: content.snapshot !== undefined ? JSON.parse(content.snapshot) : []
     }; 
 
     model.findOneAndUpdate({_id: content.id, authorID: userID}, updates).then(result => {
         id = result._id;
-        let oldFileID = []
-        for (let video of result.video) {
-            oldFileID.push(video.id);
-        }
-        mediachunks.find({files_id: {$in : oldFileID}}).then(result => {
-            console.log(result)
+    
+        deleteMedia(result.video).then(() => {
             category.findOneAndUpdate({}, {$addToSet: { [field]: { $each: categ } }}).then(() => {
                 notification();
-            }).catch(err => {
-                reject(err)
             })
-        });
+        }).catch(err => {
+            reject(err)
+        })
+
         function notification() {
             notifications(shareMe, notify, id, updateField).then(() => {
                 completeSubmit();
