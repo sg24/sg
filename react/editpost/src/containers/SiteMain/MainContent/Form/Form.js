@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter, Redirect } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'promise-polyfill/src/polyfill';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 
-import '../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import '../../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './Form.css';
 import * as actions from '../../../../store/actions/index';
 import PtCategs from '../../../../components/Main/PostCategs/PostCategs';
@@ -15,6 +16,7 @@ import Modal from '../../../../components/UI/Modal/Modal';
 import Aux from '../../../../hoc/Auxs/Aux';
 import asyncComponent from '../../../../hoc/asyncComponent/asyncComponent';
 import { updateObject, checkValidity } from '../../../../shared/utility';
+import Loader from '../../../../components/UI/Loader/Loader';
 
 const AsyncImage = asyncComponent(() => {
     return import ('./AddImage/AddImage');
@@ -68,12 +70,32 @@ class Form extends  Component {
         },
         formIsValid: false,
         showForm: false,
-        mode: null
+        mode: null,
+        updateEditor: false
+    }
+
+    componentDidMount() {
+        this.props.onFetchCnt(this.props.match.params.id);
     }
 
     componentDidUpdate() {
         if (this.state.showCateg && !this.props.showCateg) {
             this.setState({showCateg: false})
+        }
+       
+        if (this.props.content && this.props.title && !this.state.updateEditor) {
+            let oldEditor = this.state.formElement;
+            let title = {...oldEditor.title};
+            title.value = this.props.title;
+            let editor = {...oldEditor.content};
+            editor.value = EditorState.createWithContent(convertFromRaw(this.props.content));
+            oldEditor.content = editor;
+            oldEditor.content.valid = true;
+            oldEditor.content.touched = true;
+            oldEditor.title = title;
+            oldEditor.title.valid = true;
+            oldEditor.title.touched = true; 
+            this.setState({updateEditor: true, formElement: oldEditor, formIsValid: true})
         }
 
         if (this.state.addNewCateg && this.props.newCateg) {
@@ -193,6 +215,9 @@ class Form extends  Component {
                 image: this.props.media.image ? this.props.media.image: [],
                 snapshot: this.props.snapshot,
                 shareMe: this.props.media.user ? this.props.media.user : [],
+                editImage: this.props.editImage,
+                editVideo: this.props.editVideo,
+                id: this.props.match.params.id,
                 mode
             }
             this.props.onSubmitForm(newCnt)
@@ -219,6 +244,23 @@ class Form extends  Component {
     }
 
     render() {
+        let form = <Loader />
+        
+        if (this.props.cntErr) {
+            form = (
+                <Aux>
+                <Backdrop
+                        close={this.closeBackdropHandler}></Backdrop>
+                    {this.props.cntErr ? <Modal uploadErr={this.props.cntErr} type='categ' />: null}
+                </Aux>
+            )
+        }
+
+        if (this.props.redirect) {
+            form = <Redirect 
+                to="/index/post" />
+        }
+
         this.props.onFetchShareActive(this.props.userID);
         let addCateg = null;
         let categListClass = ['reuse-form__cnt--det__selec reuse-form__cnt--det__selec--categ'];
@@ -263,105 +305,105 @@ class Form extends  Component {
             )
         }
 
-        return (
-            <form className="reuse-form">
+        if (this.props.content) {
+            form = (
                 <div className="reuse-form__wrapper">
-                    <h3 className="reuse-form__title">
+                <h3 className="reuse-form__title">
+                    <div>
                         <div>
-                            <div>
+                        <FontAwesomeIcon 
+                            icon={['far', 'edit']} />
+                        </div> 
+                        Edit Post
+                    </div>
+                </h3>
+                <div className="reuse-form__cnt">
+                    <div className="reuse-form__cnt--wrapper">
+                        <label className="reuse-form__cnt--title">
                             <FontAwesomeIcon 
-                                icon={['fas', 'pencil-alt']} />
-                            </div> 
-                            Add Post
-                        </div>
-                    </h3>
-                    <div className="reuse-form__cnt">
-                        <div className="reuse-form__cnt--wrapper">
-                            <label className="reuse-form__cnt--title">
-                                <FontAwesomeIcon 
-                                    icon={['fas', 'tags']} 
-                                    className="icon icon__reuse-form--cnt__tag" />
-                                Tags
-                            </label>
-                            <div className="reuse-form__cnt--det">
-                                <div className="reuse-form__cnt--det__wrapper">
-                                    <div 
-                                        className={categListClass.join(' ')}
-                                        onClick={this.showCategHandler}>
-                                        Category 
-                                        <FontAwesomeIcon 
-                                            icon={['fas', 'angle-down']} 
-                                            className="icon icon__reuse-form--angle" />
-                                       { addCateg }
+                                icon={['fas', 'tags']} 
+                                className="icon icon__reuse-form--cnt__tag" />
+                            Tags
+                        </label>
+                        <div className="reuse-form__cnt--det">
+                            <div className="reuse-form__cnt--det__wrapper">
+                                <div 
+                                    className={categListClass.join(' ')}
+                                    onClick={this.showCategHandler}>
+                                    Category 
+                                    <FontAwesomeIcon 
+                                        icon={['fas', 'angle-down']} 
+                                        className="icon icon__reuse-form--angle" />
+                                   { addCateg }
+                                </div>
+                                <div className="reuse-form__cnt--det__alt">
+                                    <div className="reuse-form__cnt--det__alt--title">
+                                        <div>OR</div>
                                     </div>
-                                    <div className="reuse-form__cnt--det__alt">
-                                        <div className="reuse-form__cnt--det__alt--title">
-                                            <div>OR</div>
-                                        </div>
-                                        <div className="reuse-form__cnt--det__alt--cnt">
-                                            <input 
-                                                type="text" name="" id="" 
-                                                className="reuse-form__cnt--det__input" 
-                                                placeholder="Add Category" 
-                                                value={this.state.addCategInput}
-                                                onChange={this.addCategHandler}/>
-                                            <button
-                                                type="button"
-                                                onClick={this.addNewCategHandler}
-                                                disabled={this.state.disable}>
-                                                <FontAwesomeIcon 
-                                                icon={['fas', 'plus']} />
-                                            </button>
-                                        </div>
+                                    <div className="reuse-form__cnt--det__alt--cnt">
+                                        <input 
+                                            type="text" name="" id="" 
+                                            className="reuse-form__cnt--det__input" 
+                                            placeholder="Add Category" 
+                                            value={this.state.addCategInput}
+                                            onChange={this.addCategHandler}/>
+                                        <button
+                                            type="button"
+                                            onClick={this.addNewCategHandler}
+                                            disabled={this.state.disable}>
+                                            <FontAwesomeIcon 
+                                            icon={['fas', 'plus']} />
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            { categItems }
-                            { this.state.noCateg ?
-                                <div className="reuse-form__err">Select or Add New Category</div>
-                                : null
-                            }
                         </div>
-                        <div className="reuse-form__cnt--wrapper">
-                            <label className="reuse-form__cnt--title">Post Title</label>
-                            <div className="reuse-form__cnt--det">
-                                <input 
-                                    type="text" 
-                                    name=""
-                                    required
-                                    minLength="6"
-                                    value={this.state.formElement.title.value}
-                                    className="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg"
-                                    onChange={(event) => this.inputChangedHandler(event, 'title')} />
-                            </div>
-                            { !this.state.formElement.title.valid && this.state.formElement.title.touched ?
-                                <div className="reuse-form__err">Title must be longer than 5 characters</div>
-                                : null
-                            }
+                        { categItems }
+                        { this.state.noCateg ?
+                            <div className="reuse-form__err">Select or Add New Category</div>
+                            : null
+                        }
+                    </div>
+                    <div className="reuse-form__cnt--wrapper">
+                        <label className="reuse-form__cnt--title">Post Title</label>
+                        <div className="reuse-form__cnt--det">
+                            <input 
+                                type="text" 
+                                name=""
+                                required
+                                minLength="6"
+                                value={this.state.formElement.title.value}
+                                className="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg"
+                                onChange={(event) => this.inputChangedHandler(event, 'title')} />
                         </div>
-                        <div className="reuse-form__cnt--wrapper">
-                            <label className="reuse-form__cnt--title">Content </label>
-                            <div className="reuse-form__cnt--det">
-                                <Editor 
-                                    wrapperClassName=""
-                                    editorClassName="reuse-form__cnt--det__info"
-                                    toolbarClassName="reuse-form__cnt--det__toolbar"
-                                    editorState={this.state.formElement.content.value}
-                                    onEditorStateChange={(event) => this.inputChangedHandler(event, 'content')} 
-                                    toolbar={{
-                                        options: ['inline', 'blockType', 'colorPicker', 'emoji', 'remove', 'history'],
-                                        inline: { inDropdown: true }
-                                }}/>
-                            </div>
-                            { !this.state.formElement.content.valid && this.state.formElement.content.touched ?
-                                <div className="reuse-form__err">Content must be longer than 5 characters</div>
-                                : null
-                            }
+                        { !this.state.formElement.title.valid && this.state.formElement.title.touched ?
+                            <div className="reuse-form__err">Title must be longer than 5 characters</div>
+                            : null
+                        }
+                    </div>
+                    <div className="reuse-form__cnt--wrapper">
+                        <label className="reuse-form__cnt--title">Content </label>
+                        <div className="reuse-form__cnt--det">
+                            <Editor 
+                                wrapperClassName=""
+                                editorClassName="reuse-form__cnt--det__info"
+                                toolbarClassName="reuse-form__cnt--det__toolbar"
+                                editorState={this.state.formElement.content.value}
+                                onEditorStateChange={(event) => this.inputChangedHandler(event, 'content')} 
+                                toolbar={{
+                                    options: ['inline', 'blockType', 'colorPicker', 'emoji', 'remove', 'history'],
+                                    inline: { inDropdown: true }
+                            }}/>
                         </div>
-                        <div className="reuse-form__cnt--wrapper">
-                            <div className="reuse-form__cnt--det">
-                                <div className="reuse-form__cnt--det__wrapper">
-                                    <div 
+                        { !this.state.formElement.content.valid && this.state.formElement.content.touched ?
+                            <div className="reuse-form__err">Content must be longer than 5 characters</div>
+                            : null
+                        }
+                    </div>
+                    <div className="reuse-form__cnt--wrapper">
+                        <div className="reuse-form__cnt--det">
+                            <div className="reuse-form__cnt--det__wrapper">
+                            <div 
                                         className={addItemClass.join(' ')}
                                         onClick={this.addItemHandler}>
                                         Add  Items 
@@ -393,75 +435,81 @@ class Form extends  Component {
                                                 onClick={this.showOptHandler.bind(this, 'video')}>Video</li>
                                         </ul>
                                     </div>
-                                    <div 
-                                        className="reuse-form__cnt--det__selec reuse-form__cnt--det__selec--user"
-                                        onClick={this.showOptHandler.bind(this, 'user')}>
-                                        <FontAwesomeIcon 
-                                            icon={['fas', 'chalkboard-teacher']} 
-                                            className="icon icon__reuse-form--cnt__user" />
-                                            <div className="reuse-form__cnt--det__selec--added">
-                                            <div className="reuse-form__cnt--det__selec--added__img">
-                                                <div className="reuse-form__cnt--det__selec--added__img--icn">
-                                                    <FontAwesomeIcon 
-                                                        icon={['fas', 'chalkboard-teacher']} />
-                                                </div> 
-                                                {this.props.media.user ? this.props.media.user.length : 0}
-                                            </div>
+                                <div 
+                                    className="reuse-form__cnt--det__selec reuse-form__cnt--det__selec--user"
+                                    onClick={this.showOptHandler.bind(this, 'user')}>
+                                    <FontAwesomeIcon 
+                                        icon={['fas', 'chalkboard-teacher']} 
+                                        className="icon icon__reuse-form--cnt__user" />
+                                        <div className="reuse-form__cnt--det__selec--added">
+                                        <div className="reuse-form__cnt--det__selec--added__img">
+                                            <div className="reuse-form__cnt--det__selec--added__img--icn">
+                                                <FontAwesomeIcon 
+                                                    icon={['fas', 'chalkboard-teacher']} />
+                                            </div> 
+                                            {this.props.media.user ? this.props.media.user.length : 0}
                                         </div>
-                                        Share Users 
                                     </div>
+                                    Share Users 
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    { this.state.showAddItm ? 
-                        <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop></Aux> : null }
-                    { this.state.showImgOpt ? <Aux><Backdrop></Backdrop><AsyncImage /></Aux> : null }
-                    { this.state.showVidOpt ? <Aux><Backdrop></Backdrop><AsyncVideo /></Aux> : null }
-                    { this.state.showUserOpt ? <Aux><Backdrop></Backdrop><AsyncUsers /></Aux> : null}
-                    { this.props.submitForm && !this.state.showCateg ? 
-                        <Aux>
-                            <Backdrop></Backdrop>
-                            <Modal 
-                                uploadPercent={this.props.uploadPercent}
-                                isValid={this.props.id}
-                                uploadErr={this.props.submitError}
-                                resend={this.resendCntHander}
-                                closeModal={this.closeModalHandler}
-                                view={this.viewCntHandler}/>
-                        </Aux> : null}
-                    { this.props.showCateg && this.state.showCateg ? 
-                        <Aux>
-                            <Backdrop
-                                close={this.closeBackdropHandler}></Backdrop>
-                            {this.props.categErr ? <Modal uploadErr={this.props.categErr} type='categ' />: null}
-                        </Aux> : null
-                    }
-
-                    <div className="reuse-form__footer reuse-form__btn">
-                        <button 
-                            type="button" 
-                            className="reuse-form__btn--dft"
-                            disabled={!this.state.formIsValid}
-                            onClick={this.submitHandler.bind(this, 'draft')}>
-                            <FontAwesomeIcon 
-                                icon={['fas', 'eye-slash']} 
-                                className="icon icon__reuse-form--btn" />
-                            Draft
-                        </button>
-                        <button 
-                            type="button" 
-                            className="reuse-form__btn--add"
-                            disabled={!this.state.formIsValid}
-                            onClick={this.submitHandler.bind(this, 'publish')}>
-                            <FontAwesomeIcon 
-                                icon={['fas', 'plus']} 
-                                className="icon icon__reuse-form--btn" />
-                            Add
-                        </button>
-                    </div>
                 </div>
+                
+                { this.state.showAddItm ? 
+                    <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop></Aux> : null }
+                { this.state.showImgOpt ? <Aux><Backdrop></Backdrop><AsyncImage /></Aux> : null }
+                { this.state.showVidOpt ? <Aux><Backdrop></Backdrop><AsyncVideo /></Aux> : null }
+                { this.state.showUserOpt ? <Aux><Backdrop></Backdrop><AsyncUsers /></Aux> : null}
+                { this.props.submitForm && !this.state.showCateg ? 
+                    <Aux>
+                        <Backdrop></Backdrop>
+                        <Modal 
+                            uploadPercent={this.props.uploadPercent}
+                            isValid={this.props.id}
+                            uploadErr={this.props.submitError}
+                            resend={this.resendCntHander}
+                            closeModal={this.closeModalHandler}
+                            view={this.viewCntHandler}/>
+                    </Aux> : null}
+                { this.props.showCateg && this.state.showCateg ? 
+                    <Aux>
+                        <Backdrop
+                            close={this.closeBackdropHandler}></Backdrop>
+                        {this.props.categErr ? <Modal uploadErr={this.props.categErr} type='categ' />: null}
+                    </Aux> : null
+                }
+
+                <div className="reuse-form__footer reuse-form__btn">
+                    <button 
+                        type="button" 
+                        className="reuse-form__btn--dft"
+                        disabled={!this.state.formIsValid}
+                        onClick={this.submitHandler.bind(this, 'draft')}>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'eye-slash']} 
+                            className="icon icon__reuse-form--btn" />
+                        Draft
+                    </button>
+                    <button 
+                        type="button" 
+                        className="reuse-form__btn--add"
+                        disabled={!this.state.formIsValid}
+                        onClick={this.submitHandler.bind(this, 'publish')}>
+                        <FontAwesomeIcon 
+                            icon={['far', 'edit']} 
+                            className="icon icon__reuse-form--btn" />
+                        Edit
+                    </button>
+                 </div>
+            </div>
+            );
+        }
+
+        return (
+            <form className="reuse-form">
+                { form }
             </form>
         );
     }
@@ -470,13 +518,19 @@ class Form extends  Component {
 const mapStateToProps = state => {
     return {
         userID: state.auth.userID,
+        cntErr: state.form.cntErr,
+        redirect: state.form.redirect,
         categ: state.form.categ,
         categErr: state.form.categErr,
+        content: state.form.content,
+        title: state.form.title,
         showCateg: state.form.showCateg,
         newCateg: state.form.newCateg,
         hideMediaBox: state.form.hideMediaBox,
         snapshot: state.form.snapshot,
         media: state.form.media,
+        editImage: state.form.editImage,
+        editVideo: state.form.editVideo,
         uploadPercent: state.form.uploadPercent,
         submitForm: state.form.submitForm,
         submitError: state.form.submitError,
@@ -486,6 +540,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        onFetchCnt: (id) => dispatch(actions.fetchCntInit(id)),
         onFetchCateg: () => dispatch(actions.fetchCategInit()),
         onAddCateg: (categ) => dispatch(actions.addCategInit(categ)),
         onShowMediaBox: () => dispatch(actions.showMediaBox()),
@@ -493,4 +548,4 @@ const mapDispatchToProps = dispatch => {
         onFetchShareActive: (userID) => dispatch(actions.fetchShareactiveInit(userID)),
     };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Form));

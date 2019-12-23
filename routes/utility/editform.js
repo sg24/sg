@@ -17,8 +17,6 @@ module.exports = editForm = (content, model, files, notify, userModel, userID, u
 
     let updates = {
         category: categ,
-        video: fileID,
-        image: content.image,
         shareMe,
         title: content.title,
         desc: content.desc,
@@ -27,17 +25,51 @@ module.exports = editForm = (content, model, files, notify, userModel, userID, u
         _isCompleted: false,
         snapshot: content.snapshot !== undefined ? JSON.parse(content.snapshot) : []
     }; 
+  
+    if (files.length > 0) {
+        updates = {
+            ...updates,
+            video: fileID
+        }
+    }
+
+    if (content.deletevideo) {
+        updates = {
+            ...updates,
+            video: []
+        }
+    }
+
+    if (content.deleteimage) {
+        updates = {
+            ...updates,
+            image: []
+        }
+    }
+
+    if (content.image) {
+        updates = {
+            ...updates,
+            image: content.image
+        }
+    }
 
     model.findOneAndUpdate({_id: content.id, authorID: userID}, updates).then(result => {
         id = result._id;
     
-        deleteMedia(result.video).then(() => {
+        if (content.noedit) {
             category.findOneAndUpdate({}, {$addToSet: { [field]: { $each: categ } }}).then(() => {
                 notification();
             })
-        }).catch(err => {
-            reject(err)
-        })
+        } else {
+            deleteMedia(result.video).then(() => {
+                category.findOneAndUpdate({}, {$addToSet: { [field]: { $each: categ } }}).then(() => {
+                    notification();
+                })
+            }).catch(err => {
+                reject(err)
+            })
+        }
 
         function notification() {
             notifications(shareMe, notify, id, updateField).then(() => {

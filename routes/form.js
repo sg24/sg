@@ -30,9 +30,9 @@ router.post('/edit/post', authenticate, upload.array('video', 1100),(req, res, n
     let userModel = req.userType === 'authUser' ? authUser : user;
     const content = req.body;
     connectStatus.then((result) => {
-        submit(content, posts,req.files, postnotifies, viewnotifies, userModel, req.user, 'postID', 'subjectpost', 'post', res, category).then(id =>
+        editForm(content, posts, req.files, postnotifies, userModel, req.user, 'postID', 'subjectpost', 'post', res, category).then(id => {
             res.status(201).send(id)
-        ).catch(err => {
+        }).catch(err => {
             res.status(500).send(err)
         })
     }).catch(err => {
@@ -63,7 +63,6 @@ router.post('/add/poet', authenticate, upload.array('video', 1100),(req, res, ne
         submit(content, poets,req.files, pwtnotifies, viewnotifies, userModel, req.user, 'pwtID', 'subjectpoet', 'poet', res, category).then(id =>
             res.status(201).send(id)
         ).catch(err => {
-            console.log(err)
             res.status(500).send(err)
         })
     }).catch(err => {
@@ -79,7 +78,6 @@ router.post('/edit/poet', authenticate, upload.array('video', 1100),(req, res, n
         editForm(content, poets, req.files, pwtnotifies, userModel, req.user, 'pwtID', 'subjectpoet', 'poet', res, category).then(id => {
             res.status(201).send(id)
         }).catch(err => {
-            console.log(err)
             res.status(500).send(err)
         })
     }).catch(err => {

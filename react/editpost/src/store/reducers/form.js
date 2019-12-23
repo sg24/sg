@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
 const initialState = {
+    cntErr: null,
     categ: null,
     showCateg: false,
     categErr: null,
@@ -21,7 +22,54 @@ const initialState = {
     uploadPercent: null,
     submitError: null,
     submitForm: false,
-    id: null
+    id: null,
+    content: null,
+    title: null,
+    videoFetched: false,
+    showVideo:false,
+    editImage: false,
+    editVideo:false,
+    redirect: false
+};
+
+const fetchCnt = (state, action) => {
+    if (action.cnt) {
+        let desc = JSON.parse(action.cnt.desc)
+        let snapshot = [...action.cnt.snapshot];
+        let image = [...action.cnt.image];
+        let video = [...action.cnt.video];
+        return updateObject(state, {
+            newCateg: action.cnt.category, title: action.cnt.title, content: desc, cntErr: null, snapshot, media: {image, video}})
+    }
+    return updateObject(state, {redirect: true})
+};
+
+const fetchCntFail = (state, action) => {
+    return updateObject(state, {cntErr: action.err})
+};
+
+const fetchVideo = (state, action) => {
+    let media = {...state.media};
+    let videos = [...action.videos];
+    media.video = videos;
+    return updateObject(state, {media, videoFetched: true})
+};
+
+const fetchVideoFail = (state, action) => {
+    return updateObject(state, {cntErr: action.err})
+};
+
+
+const videoFetched = (state, action) => {
+    return updateObject(state, {showVideo: true})
+};
+
+const imageEdit = (state, action) => {
+    return updateObject(state, {editImage: true})
+};
+
+const videoEdit = (state, action) => {
+    return updateObject(state, {editVideo: true})
 };
 
 const fetchCategStart = (state, action) => {
@@ -127,6 +175,20 @@ const formSubmitted = (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.FETCH_CNT:
+            return fetchCnt(state, action);
+        case actionTypes.FETCH_CNT_FAIL:
+            return fetchCntFail(state, action);
+        case actionTypes.FETCH_VIDEO:
+            return fetchVideo(state, action);
+        case actionTypes.FETCH_VIDEO_FAIL:
+            return fetchVideoFail(state, action);
+        case actionTypes.VIDEO_FETCHED:
+            return videoFetched(state, action);
+        case actionTypes.VIDEO_EDIT:
+            return videoEdit(state, action);
+        case actionTypes.IMAGE_EDIT:
+            return imageEdit(state, action);
         case actionTypes.FETCH_CATEG_START:
             return fetchCategStart(state, action);
         case actionTypes.FETCH_CATEG_FAIL:

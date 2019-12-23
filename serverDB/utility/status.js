@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { authUser , user} = require('../serverDB');
 
-module.exports =  checkStatus = (token, modelType) => {
+module.exports =  checkStatus = (token, modelType, res) => {
     let decoded = null;
     decoded = jwt.verify(token, process.env.JWT_SECRET);
     let oldDate = new Date((decoded.exp * 1000)).getTime();
@@ -12,7 +12,14 @@ module.exports =  checkStatus = (token, modelType) => {
         let access = 'authentication';
         let newToken = jwt.sign({_id: decoded._id, access}, process.env.JWT_SECRET, { expiresIn: 3600*24*7}).toString();
         let tokens = [{access, token: newToken}];
-        model.findByIdAndUpdate(decoded._id, {tokens}).catch(err => err)
+        model.findByIdAndUpdate(decoded._id, {tokens}).then(result => {
+            let updateCookie = jwt.verify(newToken, process.env.JWT_SECRET);
+            if (updateCookie) {
+                res.cookie('token', newToken, { signed: true, httpOnly: true , maxAge: 604800000});
+                res.cookie('expiresIn', updateCookie.exp, {maxAge: 604800000});
+                res.cookie('pushMsg', result.pushMsg[0].publickey, {maxAge: 604800000});
+            }
+        }).catch(err => err)
     }
 
     let statustoken = jwt.sign({_id: decoded._id}, process.env.JWT_SECRET, { expiresIn: 60}).toString();

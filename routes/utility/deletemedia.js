@@ -11,7 +11,7 @@ let deleteMedia = (videos) => {
             let bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
                 bucketName: 'media'
             });
-            console.log(videos)
+            
             if ( videos.length < 1) {
                 resolve()
                 return

@@ -3,7 +3,6 @@ const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const webpush = require('web-push');
-const vapidKeys = webpush.generateVAPIDKeys();
 
 var UserSchema = new mongoose.Schema({
     username: {
@@ -108,6 +107,7 @@ UserSchema.methods.toJSON = function() {
 UserSchema.methods.generateAuthToken = function generateAuthToken() {
     return new Promise((resolve, reject) => {
         let User = this;
+        const vapidKeys = webpush.generateVAPIDKeys();
         let access = 'authentication';
         let token = jwt.sign({_id: User._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600}).toString();
         User.tokens.push({access, token});

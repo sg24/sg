@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const validator = require('validator'); 
 const jwt = require('jsonwebtoken');
 const webpush = require('web-push');
-const vapidKeys = webpush.generateVAPIDKeys();
 
 var authUserSchema = new mongoose.Schema({
     username: {
@@ -96,6 +95,7 @@ var authUserSchema = new mongoose.Schema({
 authUserSchema.methods.generateAuthToken = function generateAuthToken() {
     return new Promise((resolve, reject) => {
      let authUser = this;
+     const vapidKeys = webpush.generateVAPIDKeys();
      let access = 'authentication';
      let token = jwt.sign({_id: authUser._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 60*60*24*7}).toString();
      authUser.tokens.push({access, token});

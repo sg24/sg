@@ -12,24 +12,36 @@ export const submit = (formData) => {
                 formContent.append(key, formData[key]);
             }
     
-            if (key === 'video' && formData[key].length > 0) {
+            if (key === 'video') {
                 for (let video of formData[key]) {
-                    formContent.append(key, video.file, video.id);
+                    if (formData.editVideo) {
+                        formContent.append(key, video.file, video.id);
+                    } else {
+                        formContent.append('noedit', true);
+                    }
+                }
+                if (formData[key].length < 1) {
+                    formContent.append('deletevideo', true);
                 }
             }
     
-            if (key === 'image' && formData[key].length > 0) {
+            if (key === 'image') {
                 for (let image of formData[key]) {
-                    formContent.append(key, image.file);
+                    if (formData.editImage) {
+                        formContent.append(key, image.file);
+                    } 
+                }
+                if (formData[key].length < 1) {
+                    formContent.append('deleteimage', true);
                 }
             }
 
-            if (key === 'snapshot' && formData[key].length > 0) {
+            if (key === 'snapshot') {
                 formContent.append(key, JSON.stringify(formData[key]));
             }
         }
 
-        axios.post('/add/post', formContent, {
+        axios.post('/edit/post', formContent, {
             onUploadProgress: function (progressEvent) {
                 if (progressEvent.lengthComputable) {
                     const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);

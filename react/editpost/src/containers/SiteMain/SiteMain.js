@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter, Route } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import LogoSvg from './Logo.svg';
@@ -108,7 +109,7 @@ class SiteMain extends Component {
                 }}>
             <div className="site-main__fm--wrapper">
                 <div className="wrapper__exmain">
-                    <MainContent />
+                <Route path={'/edit/post/:id'} exact component={MainContent} />
                 </div>
                 { this.props.filterStart ? 
                     <div 
@@ -145,4 +146,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SiteMain); 
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SiteMain)); 
