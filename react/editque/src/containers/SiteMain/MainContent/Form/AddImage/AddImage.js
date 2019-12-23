@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import uuid from 'uuid';
 
 import * as actions from '../../../../../store/actions/index';
 import { updateObject, getImageURL } from '../../../../../shared/utility';
@@ -24,7 +25,7 @@ class AddImage extends Component {
         if (this.props.linkValid && this.props.linkValid.media) {
             let media = [...this.state.media];
             getImageURL(this.props.linkValid.media.url).then(dataUrl => {
-                media.push({file: dataUrl, url: this.props.linkValid.media.url});
+                media.push({file: dataUrl, url: this.props.linkValid.media.url, id: uuid()});
                 this.setState({
                     media: media,  inputValue: ''});
                 this.props.onResetLink();
@@ -33,13 +34,16 @@ class AddImage extends Component {
                 let these = this;
                 reader.readAsDataURL(this.props.linkValid.media.file)
                 reader.addEventListener('loadend', function() {
-                    media.push({file: reader.result, url: this.props.linkValid.media.url});
+                    media.push({file: reader.result, url: this.props.linkValid.media.url, id: uuid()});
                     these.setState({
                         media: media,  inputValue: '',
                         snapshotErr: err});
                     these.props.onResetLink();
                 })
             })
+            if (!this.props.imageEdit) {
+                this.props.onImageEdit()
+            }
         }
     }
 
@@ -81,9 +85,12 @@ class AddImage extends Component {
         this.setState({removeMediaItemIndex: null})
     }
     
-    removeMediaItemHandler = (index) => {
+    removeMediaItemHandler = (id) => {
+        if (!this.props.imageEdit) {
+            this.props.onImageEdit()
+        }
         let media = [...this.state.media];
-        let updatedMedia = media.filter((link, CurIndex)=>  CurIndex !== index);
+        let updatedMedia = media.filter(link =>  link.id !== id);
         this.setState({media:  updatedMedia});
         if (this.props.media.image && this.props.media.image.length > 0) {
             this.props.onRemoveMedia(updateObject(this.props.media, {image: updatedMedia}))
@@ -92,19 +99,22 @@ class AddImage extends Component {
 
     handleFiles = (files) => {
         let media = [...this.state.media];
+        if (!this.props.editImage) {
+            this.props.onImageEdit()
+        }
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
             if(file.type.startsWith('image/')) {
                 let url = window.URL.createObjectURL(file)
                 getImageURL(url).then(dataUrl => {
-                    media.push({file: dataUrl, url});
+                    media.push({file: dataUrl, url, id: uuid()});
                     this.setState({media});
                 }).catch(err => {
                     let reader = new FileReader();
                     let these = this;
                     reader.readAsDataURL(file)
                     reader.addEventListener('loadend', function() {
-                        media.push({file: reader.result, url});
+                        media.push({file: reader.result, url, id: uuid()});
                         these.setState({media, snapshotErr: err});
                     })
                 })
@@ -212,8 +222,7 @@ class AddImage extends Component {
                     <button 
                         type="button" 
                         className="reuse-form__btn--add"
-                        onClick={this.submitMediaHandler}
-                        disabled={!this.state.media.length > 0}>Add</button>
+                        onClick={this.submitMediaHandler}>Add</button>
                 </div>
             </div>
         );
@@ -223,7 +232,8 @@ class AddImage extends Component {
 const mapStateToProps = state => {
     return {
         linkValid: state.form.linkValid,
-        media: state.form.media
+        media: state.form.media,
+        editImage: state.form.editImage
     };
 };
 
@@ -231,9 +241,10 @@ const mapDispatchToProps = dispatch => {
     return {
         onCheckLink: (imageLink) => dispatch(actions.checkLinkInit(imageLink, 'image')),
         onResetLink: () => dispatch(actions.resetLink()),
+        onImageEdit: () => dispatch(actions.imageEdit()),
         onRemoveMedia: (media) => dispatch(actions.removeMedia(media)),
         onSubmitMedia: (media) => dispatch(actions.submitMedia(media)),
-        onhideMediaBox: () => dispatch(actions.hideMediaBox())
+        onhideMediaBox: () => dispatch(actions.hideMediaBox()) 
     };
 };
 

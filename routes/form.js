@@ -56,6 +56,21 @@ router.post('/add/question', authenticate, upload.array('video', 1100),(req, res
 
 })
 
+router.post('/edit/question', authenticate, upload.array('video', 1100),(req, res, next) => {
+    let userModel = req.userType === 'authUser' ? authUser : user;
+    const content = req.body;
+    connectStatus.then((result) => {
+        editForm(content, questions, req.files, quenotifies, userModel, req.user, 'queID', 'subjectque', 'question', res, category).then(id => {
+            res.status(201).send(id)
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+    }).catch(err => {
+        res.status(500).send(err);
+    })
+
+})
+
 router.post('/add/poet', authenticate, upload.array('video', 1100),(req, res, next) => {
     let userModel = req.userType === 'authUser' ? authUser : user;
     const content = req.body;

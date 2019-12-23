@@ -1,11 +1,70 @@
 import * as actionTypes from './actionTypes';
 
+export const fetchCntInit = (id) =>  {
+    return {
+        type: actionTypes.FETCH_CNT_INIT,
+        id
+    }; 
+}; 
+
+export const fetchCntFail = (err) =>  {
+    return {
+        type: actionTypes.FETCH_CNT_FAIL,
+        err
+    }; 
+}; 
+
+export const fetchCnt = (cnt) =>  {
+    return {
+        type: actionTypes.FETCH_CNT,
+        cnt
+    }; 
+}; 
+
+export const fetchVideoInit = (videosID) =>  {
+    return {
+        type: actionTypes.FETCH_VIDEO_INIT,
+        videosID
+    }; 
+}; 
+
+export const fetchVideoFail = (err) =>  {
+    return {
+        type: actionTypes.FETCH_VIDEO_FAIL,
+        err
+    }; 
+}; 
+
+export const fetchVideo = (videos) =>  {
+    return {
+        type: actionTypes.FETCH_VIDEO,
+        videos
+    }; 
+}; 
+
+export const videoFetched = () =>  {
+    return {
+        type: actionTypes.VIDEO_FETCHED
+    }; 
+}; 
+
+export const imageEdit = () =>  {
+    return {
+        type: actionTypes.IMAGE_EDIT
+    }; 
+}; 
+
+export const videoEdit = () =>  {
+    return {
+        type: actionTypes.VIDEO_EDIT
+    }; 
+}; 
+
 export const fetchCategInit = () =>  {
     return {
         type: actionTypes.FETCH_CATEG_INIT
     }; 
 }; 
-
 
 export const fetchCategStart = () =>  {
     return {

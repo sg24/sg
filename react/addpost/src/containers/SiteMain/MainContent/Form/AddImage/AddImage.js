@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import uuid from 'uuid';
 
 import * as actions from '../../../../../store/actions/index';
 import { updateObject, getImageURL } from '../../../../../shared/utility';
@@ -24,7 +25,7 @@ class AddImage extends Component {
         if (this.props.linkValid && this.props.linkValid.media) {
             let media = [...this.state.media];
             getImageURL(this.props.linkValid.media.url).then(dataUrl => {
-                media.push({file: dataUrl, url: this.props.linkValid.media.url});
+                media.push({file: dataUrl, url: this.props.linkValid.media.url, id: uuid()});
                 this.setState({
                     media: media,  inputValue: ''});
                 this.props.onResetLink();
@@ -33,7 +34,7 @@ class AddImage extends Component {
                 let these = this;
                 reader.readAsDataURL(this.props.linkValid.media.file)
                 reader.addEventListener('loadend', function() {
-                    media.push({file: reader.result, url: this.props.linkValid.media.url});
+                    media.push({file: reader.result, url: this.props.linkValid.media.url, id: uuid()});
                     these.setState({
                         media: media,  inputValue: '',
                         snapshotErr: err});
@@ -81,9 +82,9 @@ class AddImage extends Component {
         this.setState({removeMediaItemIndex: null})
     }
     
-    removeMediaItemHandler = (index) => {
+    removeMediaItemHandler = (id) => {
         let media = [...this.state.media];
-        let updatedMedia = media.filter((link, CurIndex)=>  CurIndex !== index);
+        let updatedMedia = media.filter(link =>  link.id !== id);
         this.setState({media:  updatedMedia});
         if (this.props.media.image && this.props.media.image.length > 0) {
             this.props.onRemoveMedia(updateObject(this.props.media, {image: updatedMedia}))
@@ -97,14 +98,14 @@ class AddImage extends Component {
             if(file.type.startsWith('image/')) {
                 let url = window.URL.createObjectURL(file)
                 getImageURL(url).then(dataUrl => {
-                    media.push({file: dataUrl, url});
+                    media.push({file: dataUrl, url, id: uuid()});
                     this.setState({media});
                 }).catch(err => {
                     let reader = new FileReader();
                     let these = this;
                     reader.readAsDataURL(file)
                     reader.addEventListener('loadend', function() {
-                        media.push({file: reader.result, url});
+                        media.push({file: reader.result, url, id: uuid()});
                         these.setState({media, snapshotErr: err});
                     })
                 })

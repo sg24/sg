@@ -216,6 +216,7 @@
     margin: 0 auto;
     padding: 20px 15px;
     font-size: .875rem;
+    min-height: 400px;
 }
 
 .reuse-form__wrapper {
@@ -576,13 +577,18 @@
     cursor: pointer;
 }
 
+.reuse-form__cnt--det__toolbar {
+    background-color: #f9f9f9;
+    margin: 0;
+}
+
 .reuse-form__cnt--det__info {
     width: 100%;
     border: none;
     outline: none;
     line-height: 2;
     padding: 5px 10px 5px 10px;
-    height: 100px;
+    height: 200px;
     resize: vertical;
     border-radius: 3px;
     background-color: transparent;
@@ -594,11 +600,6 @@
 
 .reuse-form__cnt--det__info > div > div {
     height: auto;
-}
-
-.reuse-form__cnt--det__toolbar {
-    background-color: #f9f9f9;
-    margin: 0;
 }
 
 .reuse-form__cnt--tag {
@@ -679,6 +680,10 @@
     background-color: #fff;
     box-shadow: 0 1px 8px 4px rgba(0,0,0, .65);
     z-index: 3;
+}
+
+.reuse-form__itm--vid {
+    min-height: 300px;
 }
 
 .reuse-form__itm > h4 {

@@ -42,6 +42,15 @@ export {
 } from './main';
 
 export {
+    fetchCntInit,
+    fetchCntFail,
+    fetchCnt,
+    fetchVideoInit,
+    fetchVideoFail,
+    fetchVideo,
+    videoFetched,
+    imageEdit,
+    videoEdit,
     fetchCategInit,
     fetchCategStart,
     fetchCategFail,
