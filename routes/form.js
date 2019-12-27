@@ -15,7 +15,7 @@ router.post('/add/post', authenticate, upload.array('video', 1100),(req, res, ne
     let userModel = req.userType === 'authUser' ? authUser : user;
     const content = req.body;
     connectStatus.then((result) => {
-        submit(content, posts,req.files, postnotifies, viewnotifies, userModel, req.user, 'postID', 'subjectpost', 'post', res, category).then(id =>
+        submit(content, posts,req.files, postnotifies, viewnotifies, userModel, req.user, 'postID', 'subjectpost', 'post', 'postpub', res, category).then(id =>
             res.status(201).send(id)
         ).catch(err => {
             res.status(500).send(err)
@@ -45,7 +45,7 @@ router.post('/add/question', authenticate, upload.array('video', 1100),(req, res
     let userModel = req.userType === 'authUser' ? authUser : user;
     const content = req.body;
     connectStatus.then((result) => {
-        submit(content, questions,req.files, quenotifies, viewnotifies, userModel, req.user, 'queID', 'subjectque', 'question', res, category).then(id =>
+        submit(content, questions,req.files, quenotifies, viewnotifies, userModel, req.user, 'queID', 'subjectque', 'question', 'quepub', res, category).then(id =>
             res.status(201).send(id)
         ).catch(err => {
             res.status(500).send(err)
@@ -75,7 +75,7 @@ router.post('/add/poet', authenticate, upload.array('video', 1100),(req, res, ne
     let userModel = req.userType === 'authUser' ? authUser : user;
     const content = req.body;
     connectStatus.then((result) => {
-        submit(content, poets,req.files, pwtnotifies, viewnotifies, userModel, req.user, 'pwtID', 'subjectpoet', 'poet', res, category).then(id =>
+        submit(content, poets,req.files, pwtnotifies, viewnotifies, userModel, req.user, 'pwtID', 'subjectpoet', 'poet', 'pwtpub', res, category).then(id =>
             res.status(201).send(id)
         ).catch(err => {
             res.status(500).send(err)

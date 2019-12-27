@@ -2,7 +2,7 @@ let notifications = require('./notifications');
 const webpush = require('web-push');
 const { user, authUser} = require('../../serverDB/serverDB');
 
-module.exports = submitForm = (content, model, files, notify, viewnotify, userModel, userID, updateField, userField, field, res, category) => {
+module.exports = submitForm = (content, model, files, notify, viewnotify, userModel, userID, updateField, userField, field, modelField,res, category) => {
    return new Promise ((resolve, reject) => {
     let categRaw = String(content.categ).split(',');
     let categ = [...new Set(categRaw)];
@@ -49,7 +49,7 @@ module.exports = submitForm = (content, model, files, notify, viewnotify, userMo
                     reject(err)
                 })
                function completeSubmit() {
-                userModel.findByIdAndUpdate(userID, {$addToSet: { [userField]: { $each: categ } }}).then(result => {
+                userModel.findByIdAndUpdate(userID, {$addToSet: { [userField]: { $each: categ }}, $inc: {[modelField]: 1}}).then(result => {
                     if (result.enableNotification) {
                         let allSubscription = [];
                         user.find({_id: { $in : shareMe }}).then(users => {

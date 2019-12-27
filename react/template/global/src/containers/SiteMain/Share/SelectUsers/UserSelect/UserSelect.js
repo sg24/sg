@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './UserSelect.css';
-import User from '../../../../../components/ShareContent/User/User';
+import User from '../../../../../components/ShareContent/Users/Users';
+import Loader from '../../../../../components/UI/Loader/Loader';
 import * as actions from '../../../../../store/actions/index';
 
 class UserSelect extends Component {
@@ -12,13 +13,13 @@ class UserSelect extends Component {
     };
 
     removeSelectedUserHandler = (user) => {
-        const userArray = this.state.users.filter(userObj => userObj.authorID === user.authorID)
+        const userArray = this.state.users.filter(userObj => userObj.id === user.id)
         
         if (userArray.length > 0) {
             const updateUser = {...userArray[0]};
             const users = [...this.state.users];
-            const updateUsers = users.filter(user => user.authorID !== updateUser.authorID);
-            const updateUserSelect = this.props.userSelect.filter(user => user.authorID !== updateUser.authorID);
+            const updateUsers = users.filter(user => user.id !== updateUser.id);
+            const updateUserSelect = this.props.userSelect.filter(user => user.id !== updateUser.id);
             this.props.onRemoveUser(updateUserSelect);
             this.props.onFilterUserSelect(null, updateUsers);
             this.setState({
@@ -43,7 +44,7 @@ class UserSelect extends Component {
     }
 
     render() {
-        let users = "loading";
+        let users = <Loader />;
 
         if (this.state.users) {
             users = <User 

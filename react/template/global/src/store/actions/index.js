@@ -1,18 +1,52 @@
 export {
-    fetchUsersInit,
-    fetchUsers,
-    userSelect,
-    viewUsers,
-    removeUser,
-    filterUserInit,
-    filterUserSelectInit,
-    filterUser,
-    filterUserSelect,
-    shareID,
-    defaultShareProps,
-    shareUserInit
-} from './share';
+    checkAuthInit,
+    checkAuth,
+    checkUserImg,
+    checkUserName
+} from './auth'
 
+export { 
+    headerFormExpand,
+    headerFormSm,
+    headerNavDefault,
+    headerAddNew,
+    changeMainFavoriteStart,
+    changeMainFavoriteReset,
+    fetchNotifyInit,
+    fetchNotifyStart,
+    fetchNotifyFail,
+    fetchNotify,
+    changeFavNotifyInit,
+    changeFavNotifyStart,
+    changeFavNotifyFail,
+    changeFavNotify,
+    showNavList,
+    fetchNavlistInit,
+    fetchNavlistStart,
+    fetchNavlist,
+    showUserOption,
+    fetchNotifyactiveInit,
+    fetchNotifyActive,
+    defaultNotifyactiveInit,
+    defaultNotifyActive,
+    headerFilterInit,
+    headerFilterStart,
+    headerFilterFail,
+    headerFilter,
+    headerFilterClose
+} from './header';
+
+export {
+    fetchCntInit,
+    fetchCntFail,
+    fetchCntStart,
+    fetchCntReset,
+    fetchCnt,
+    changeFavInit,
+    changeFavPtStart,
+    changeFavPtFail,
+    changeFav
+} from './model';
 
 export {
     changeTagsPath,
@@ -25,11 +59,7 @@ export {
 
 export {
     fetchTrdInit,
-    fetchTrd,
-    changeFavTrdInit,
-    changeFavTrdStart,
-    changeFavTrdFail,
-    changeFavTrd
+    fetchTrd
 } from './trend';
 
 export {
@@ -42,32 +72,11 @@ export {
     fetchConv
 } from './conv';
 
-export { 
-    headerFormExpand,
-    headerFormSm,
-    headerNavDefault,
-    headerAddNew,
-    fetchNotifyInit,
-    fetchNotify,
-    changeFavNotifyInit,
-    changeFavNotifyStart,
-    changeFavNotifyFail,
-    changeFavNotify,
-    showNavList,
-    fetchNavlistInit,
-    fetchNavlist,
-    showUserOption,
-    fetchNotifyactiveInit,
-    fetchNotifyActive,
-    defaultNotifyactiveInit,
-    defaultNotifyActive,
-    fetchShareactiveInit,
-    fetchShareActive
-} from './header';
-
 export {
-    fetchMainActiveInit,
-    fetchMainActive,
-    defaultMainActiveInit,
-    defaultMainActive
+    fetchShareactiveInit,
+    fetchShareActive,
+    resetActiveInit,
+    resetActive,
+    showMainBackdrop,
+    hideMainBackdrop
 } from './main';

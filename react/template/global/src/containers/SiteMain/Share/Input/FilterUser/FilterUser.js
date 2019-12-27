@@ -4,12 +4,13 @@ import { connect } from 'react-redux';
 import * as actions from '../../../../../store/actions/index';
 
 class FilterUser extends Component  {
-    filterContentHandler = (event) => {
-        this.props.onFilterUser(event.target.value);
-    }
+    state = {
+        inputValue: ''
+    };
 
-    componentDidMount() {
-        this.props.onFilterUser(null);
+    filterContentHandler = (event) => {
+        this.setState({inputValue: event.target.value})
+        this.props.onFilterUser(this.props.users, event.target.value);
     }
 
     render() {
@@ -18,17 +19,24 @@ class FilterUser extends Component  {
             className="reuse-share__search--cnt" 
             placeholder="search user...." 
             autoFocus
-            onChange={this.filterContentHandler} />
+            onChange={this.filterContentHandler} 
+            value={this.state.inputValue}/>
         )
     }
 }
 
+const mapSateToProps = state => {
+    return {
+        users: state.share.users
+    };
+}
+
 const mapDispatchToProps = dispatch => {
     return {
-        onFilterUser: (filterContent) => dispatch(
-                actions.filterUserInit(filterContent))
+        onFilterUser: (users,filterContent) => dispatch(
+                actions.filterUserInit(users, filterContent))
     };
 };
 
 
-export default connect(null, mapDispatchToProps)(FilterUser); 
+export default connect(mapSateToProps, mapDispatchToProps)(FilterUser); 

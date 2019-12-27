@@ -56,38 +56,40 @@ export const transformString = (val) => {
     return curVal;
 };
 
-export function changeFav(datas, dataID) {
-    const dataArray = [...datas];
-    let dtIndex;
-    let dtArray = dataArray.filter((data, index) => {
-        if (data.id === dataID) {
-            dtIndex = index
-            return true
+export function changeFav(id, liked, favAdd, changedFav) {
+    let changedFavorites = [...changedFav];
+    let favDets = changedFavorites.filter(fav => fav.id === id);
+    for (let favDet of favDets) {
+        return updateFavs(favDet);
+    }   
+    let newChangedFav = {id, liked, favAdd};
+    return updateFavs(newChangedFav);
+    
+    function updateFavs(favDet) {
+        favDet = updateObject(favDet, {liked: !favDet.liked});
+        if (favDet.liked) {
+            favDet = updateObject(favDet, {favAdd: favDet.favAdd + 1});
+        } else {
+            favDet = updateObject(favDet, {favAdd: favDet.favAdd - 1});
         }
-        return false
-    });
-
-   if (dtArray.length > 0) {
-    let data = dtArray[0];
-    data = updateObject(data, {liked: !data.liked})
-
-    if (data.liked) {
-        data = updateObject(data, {favorite: data.favorite + 1})
-
-    } else {
-        data = updateObject(data, {favorite: data.favorite - 1})
+        let updateChangeFav = changedFavorites.filter(fav => fav.id !== id);
+        updateChangeFav.push(favDet)
+        return {favDet, updateChangeFav};
     }
-
-    const updateDataArray = [...dataArray];
-    updateDataArray[dtIndex] = data;
-    let updateStartArray = [...updateDataArray];
-    data = updateObject(data, {changeFavActive: data.liked})
-    updateStartArray[dtIndex] = data;
-    return {
-        updateStartArray,
-        updateDataArray 
-    }
-   }
-
-   return dataArray;
 };
+
+export const engStrings = {
+    suffixAgo: 'ago',
+    seconds: 'sec',
+    minute: '%d min',
+    minutes: '%d min',
+    hour: '%d hr',
+    hours: '%d hrs',
+    day: '%d day',
+    days: '%d days',
+    month: '%d month',
+    months: '%d months',
+    year: '%d yr',
+    years: '%d yrs'
+  };
+

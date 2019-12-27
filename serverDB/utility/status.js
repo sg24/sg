@@ -31,7 +31,7 @@ module.exports =  checkStatus = (token, modelType, res) => {
                 model.findById(decoded._id).then(result => {
                     jwt.verify(result.statustoken, process.env.JWT_SECRET);
                 }).catch(err => {
-                    model.findByIdAndUpdate(decoded._id, {status: false}).then(() => {
+                    model.findByIdAndUpdate(decoded._id, {status: false, offline: Date.now()}).then(() => {
                         clearInterval(check);
                     });
                     clearInterval(check);

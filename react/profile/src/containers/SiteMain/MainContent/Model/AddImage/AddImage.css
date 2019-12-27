@@ -1,0 +1,300 @@
+.icon__reuse-form--itm--title {
+    margin-right: 8px;
+}
+
+.icon__reuse-form--itm--camera {
+    margin-right: 5px;
+}
+
+.reuse-form__cnt {
+    position: relative;
+    background-color: #fff;
+}
+
+
+.reuse-form__cnt--title {
+    color: rgba(0,0,0, .85);
+    font-weight: 400;
+    text-align: center;
+}
+
+.reuse-form__cnt--det {
+    position: relative;
+    width: 100%;
+    margin-top: 10px;
+    background-color: #fff;
+    border-radius: 3px;
+    font-size: .875rem;
+    box-shadow: inset 0 0px 1px 0px rgba(0,0,0, .95);
+}
+
+.reuse-form__cnt--det__input {
+    width: 100%;
+    border: none;
+    padding: 8px 10px;
+    margin: 0;
+    border-radius: 3px;
+    background-color: transparent;
+    outline: none;
+}
+
+.reuse-form__cnt--det__input--lg {
+    padding: 12px 10px;
+}
+
+.reuse-form__cnt--det__btn {
+    position: absolute;
+    width: 35px;
+    background-color: #437da3;
+    border: none;
+    outline: none;
+    color: #fff;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+    cursor: pointer;
+    box-shadow: 0 0 1px 0 rgba(220,219,220, 1);
+    border-radius: 0 3px 3px 0;
+}
+
+.reuse-form__cnt--det__btn:disabled {
+    cursor: not-allowed;
+    background-color: rgba(67,125,163, .45)
+}
+
+.reuse-form__cnt--det__btn:not(:disabled):hover {
+    background-color:#05578b;
+}
+
+
+.reuse-form__cnt--det__fil {
+    position: relative;
+    width: 100%;
+    background-color: #f2f2f2;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+    cursor: pointer;
+    border: 1px dashed #0284a8;
+    padding: 20px 0;
+}
+
+.reuse-form__cnt--det__fil--input {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    border: none;
+    padding: 0 10px;
+    margin: 0;
+    border-radius: 3px;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.reuse-form__itm--det__camera {
+    padding: 10px;
+    border-radius: 5px;
+    background-color:#ff1600;;
+    color: #fff;
+    width:100%;
+    text-align: center;
+    cursor: pointer;
+
+}
+
+.reuse-form__itm {
+    position: relative;
+    font-size: .875rem;
+    width: 100%;
+    top: 60px;
+    background-color: #fff;
+    box-shadow: 0 1px 8px 4px rgba(0,0,0, .65);
+    z-index: 3;
+}
+
+.reuse-form__itm > h4 {
+    padding: 10px 0;
+    margin: 0;
+    background-color: #0284a8;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0, .65);
+    text-align: center;
+    font-weight: 400;
+    color: #fff;
+}
+
+.reuse-form__itm--det {
+    position: relative;
+    padding: 20px;
+    min-height: 300px;
+    max-height: 400px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.reuse-form__itm--det__view {
+    background-color: #f9f9f9;
+    max-height: 200px;
+    width: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    margin: 10px 0;
+}
+
+.reuse-form__itm--det__view-select {
+    background-color: #f9f9f9;
+    width: 100%;
+    margin-top: 10px;
+    padding: 0;
+}
+
+.reuse-form__itm--det__view-select::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.reuse-form__itm--det__view-select--media {
+    width: auto;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.reuse-form__itm--det__view-select--media__wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.reuse-form__itm--det__view-select--media__wrapper--cnt {
+    width: 100%;
+    margin: 0 auto;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -o-object-position: 50% 50%;
+       object-position: 50% 50%;
+    -o-object-fit: fill;
+       object-fit: fill;
+    border: 1px solid #dcdbdc;
+    display: block;
+}
+
+.reuse-form__itm--det__view-select--media__wrapper--video {
+    width: 100%;
+    margin: 10px auto 0 auto;
+    display: block;
+    height: 0;
+}
+
+.reuse-form__itm--det__view-select--media__wrapper--video__show {
+    height: auto;
+    width: 100%;
+}
+
+.reuse-form__itm--det__view-select--media__wrapper--preview {
+    width: 100px;
+    height: 100px;
+}
+
+.reuse-form__itm--det__alt {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    border: 1px solid #dcdbdc;
+    color: #fff;
+    background-color: #0284a8;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+    font-size: .75rem;
+    margin: 5px 0 10px 0;
+}
+
+.reuse-form__itm--footer {
+    padding: 10px 20px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #dcdbdc;
+}
+
+.reuse-form__itm--footer::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+@media (min-width: 530px) {
+
+    .reuse-form__itm {
+        width: 500px;
+        margin: 0 auto;
+    }
+}
+
+.reuse-form__err {
+    position: relative;
+    padding: 5px 20px;
+    margin-top: 10px;
+    font-size: .875rem;
+    background-color: #f9f9f9;
+    color: #ff1600;
+}
+
+.reuse-form__btn {
+    position: relative;
+}
+
+.reuse-form__btn > button {
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    padding: 8px 0;
+    cursor: pointer;
+}
+
+.reuse-form__btn--close, .reuse-form__btn--dft {
+    background-color: #fff;
+    box-shadow: 0 1px 4px 1px rgba(0,0,0, .55);
+    width: 80px;
+    float: left;
+}
+
+.reuse-form__btn--close:disabled, .reuse-form__btn--dft:disabled {
+    cursor: not-allowed;
+    background-color: rgba(255,255,255, .45)
+}
+
+.reuse-form__btn--close:not(:disabled):hover, .reuse-form__btn--dft:not(:disabled):hover {
+    background-color: #f2f2f2;
+}
+
+.reuse-form__btn--add  {
+    position: relative;
+    color: #fff;
+    float: right;
+    box-shadow: 0 2px 4px 1px rgba(0,0,0, .65);
+    width: 70px;
+}
+
+.reuse-form__btn--add {
+    background-color: #437da3;
+}
+
+.reuse-form__btn--add:disabled {
+    cursor: not-allowed;
+    background-color: rgba(67,125,163, .45)
+}
+
+.reuse-form__btn--add:not(:disabled):hover {
+    background-color:#05578b;
+}

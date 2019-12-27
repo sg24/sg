@@ -89,6 +89,24 @@ var authUserSchema = new mongoose.Schema({
     },
     statustoken: {
         type: String
+    },
+    about: {
+        type: String
+    },
+    offline: {
+        type: Date
+    },
+    postpub: {
+        type:Number,
+        default: 0
+    },
+    quepub: {
+        type:Number,
+        default: 0
+    },
+    pwtpub: {
+        type:Number,
+        default: 0
     }
 }) ;
 
@@ -99,7 +117,8 @@ authUserSchema.methods.generateAuthToken = function generateAuthToken() {
      let access = 'authentication';
      let token = jwt.sign({_id: authUser._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 60*60*24*7}).toString();
      authUser.tokens.push({access, token});
-     authUser.pushMsg.push({publickey: vapidKeys.publicKey, privatekey: vapidKeys.privateKey})
+     authUser.pushMsg.push({publickey: vapidKeys.publicKey, privatekey: vapidKeys.privateKey});
+     authUser.offline = Date.now()
      authUser.save().then(res => {
          resolve({token, pushMsg: res.pushMsg[0].publickey});
      });
@@ -112,7 +131,7 @@ authUserSchema.methods.generateAuthToken = function generateAuthToken() {
         let access = 'authentication';
         let newToken = jwt.sign({_id: userID, access}, process.env.JWT_SECRET, { expiresIn: 3600*24*7}).toString();
         let tokens = [{access, token: newToken}];
-        authUser.findByIdAndUpdate(userID, { tokens}).then((res) =>{
+        authUser.findByIdAndUpdate(userID, { tokens, offline: Date.now()}).then((res) =>{
             resolve({token: newToken, pushMsg: res.pushMsg[0].publickey});
         }).catch(err =>{
             reject('Error');

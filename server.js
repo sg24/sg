@@ -15,6 +15,7 @@ let postRoute = require('./routes/post');
 let questionRoute = require('./routes/question');
 let poetRoute = require('./routes/poet');
 let favoriteRoute = require('./routes/favorite');
+let profileRoute = require('./routes/profile');
 let shareRoute = require('./routes/share');
 let mediaRoute = require('./routes/media');
 
@@ -70,7 +71,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use('/', [appRoutes, formRoutes]);
+app.use('/', [appRoutes, formRoutes,profileRoute]);
 app.use('/auth', authRoutes)
 app.use('/users', usersRoutes);
 app.use('/post', postRoute);
@@ -79,6 +80,7 @@ app.use('/poet', poetRoute);
 app.use('/favorite', favoriteRoute);
 app.use('/share', shareRoute);
 app.use('/media', mediaRoute);
+// app.use('/user/profile/', profileRoute);
 app.use('/sitemap.xml', sitemapxmlRoute);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

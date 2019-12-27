@@ -94,6 +94,24 @@ var UserSchema = new mongoose.Schema({
     },
     statustoken: {
         type: String
+    },
+    offline: {
+        type: Date
+    },
+    about: {
+        type: String
+    },
+    postpub: {
+        type:Number,
+        default: 0
+    },
+    quepub: {
+        type:Number,
+        default: 0
+    },
+    pwtpub: {
+        type:Number,
+        default: 0
     }
 }) ;
 
@@ -111,6 +129,7 @@ UserSchema.methods.generateAuthToken = function generateAuthToken() {
         let access = 'authentication';
         let token = jwt.sign({_id: User._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600}).toString();
         User.tokens.push({access, token});
+        User.offline = Date.now()
         User.pushMsg.push({publickey: vapidKeys.publicKey, privatekey: vapidKeys.privateKey})
         User.save().then(res => {
             resolve({token, pushMsg: res.pushMsg[0].publickey});
@@ -149,7 +168,7 @@ UserSchema.statics.findByCredentials = function findByCredentials(username, pass
                     let access = 'authentication';
                     let newToken = jwt.sign({_id: user._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600 * 24* 7}).toString();
                     let tokens = [{access, token: newToken}];
-                  User.findByIdAndUpdate(user._id, { tokens}).then((res) =>{
+                  User.findByIdAndUpdate(user._id, { tokens, offline: Date.now()}).then((res) =>{
                     resolve({token: newToken, pushMsg: res.pushMsg[0].publickey});
                   }).catch(err =>{
                     reject('Error');

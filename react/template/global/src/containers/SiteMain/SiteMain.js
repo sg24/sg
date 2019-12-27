@@ -5,11 +5,11 @@ import { withRouter, Route } from 'react-router-dom';
 import * as actions from '../../store/actions/index';
 import MainContent from './MainContent/MainContent';
 import MainNav from './MainNav/MainNav'
-import asyncComponent from '../../hoc/asyncComponent/asyncComponent';
-
-const AsyncShare= asyncComponent(() => {
-    return import ('./Share/Share');
-});
+import Backdrop from '../../components/UI/Backdrop/Backdrop';
+import Modal from '../../components/UI/Modal/Modal';
+import MainFilter from '../../components/MainFilter/MainFilter';
+import Loader from '../../components/UI/Loader/Loader';
+import NoAcc from '../../components/Main/NoAcc/NoAcc';
 
 class SiteMain extends Component {
     checkHeaderDefault = () => {
@@ -18,14 +18,66 @@ class SiteMain extends Component {
         }
     }
 
+    closeHeaderFilterHandler = () => {
+        this.props.onCloseHeaderFilter();
+    }
+
+    viewCntHandler = (searchDet) => {
+        window.location.assign('/view/'+searchDet.grp+'/'+searchDet.id);
+    };
+
     render() {
+        let filterCnt = <Loader />;
+
+        if (!this.props.searchCntErr && this.props.searchCnt && this.props.searchCnt.length > 0){
+            filterCnt = (
+                <ul>
+                    <MainFilter 
+                        filterResults={this.props.searchCnt}
+                        filterPos={this.props.filterPos}
+                        filterLastPos={this.props.filterLastPos}
+                        viewCnt={this.viewCntHandler}/>
+                </ul> 
+            )
+        }
+
+        if (!this.props.searchCntErr && this.props.searchCnt && this.props.searchCnt.length === 0) {
+            filterCnt = (
+                <NoAcc 
+                    isAuth={this.props.userID !== null}
+                    det='No content found!'
+                    icn='clone'
+                    filter />
+            );
+        }
+
+        if (this.props.searchCntErr) {
+            filterCnt = (
+                <div className="site-main__content--filter__err"> 
+                    {this.props.searchCntErr.message} 
+                </div> 
+            )
+        }
+
         return (
-            <div className="site-main" onClick={this.checkHeaderDefault}>
+            <div className="site-main site-main__expage" onClick={this.checkHeaderDefault}>
             <div className="wrapper__exmain">
-                <MainContent />
+                { this.props.cntErr ? 
+                    <Backdrop 
+                        component={ Modal }
+                        err={ this.props.cntErr } /> : null}
+                <Route path="/user/profile/:id" component={MainContent}/>
                 <MainNav />
             </div>
-            <Route path="/index/share" component={AsyncShare} />
+            { this.props.filterStart ? 
+                <div 
+                    className="site-main__content--filter"
+                    onClick={this.closeHeaderFilterHandler}>
+                    <div
+                        className="site-main__content--filter__wrapper">
+                        { filterCnt }
+                    </div>
+                </div> : null}
         </div>
         )
     }
@@ -33,13 +85,22 @@ class SiteMain extends Component {
 
 const mapStateToProps = state => {
     return {
-         default: state.header.default
+        userID: state.auth.userID,
+        default: state.header.default,
+        showBackdrop: state.main.showBackdrop,
+        cntErr: state.cnt.cntErr,
+        filterStart:state.header.filterStart,
+        searchCnt: state.header.searchCnt,
+        searchCntErr: state.header.searchCntErr,
+        filterPos: state.header.filterPos,
+        filterLastPos: state.header.filterLastPos,
     };
  }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onNavDefault: () => dispatch(actions.headerNavDefault())
+        onNavDefault: () => dispatch(actions.headerNavDefault()),
+        onCloseHeaderFilter: () => dispatch(actions.headerFilterClose())
     };
 };
 

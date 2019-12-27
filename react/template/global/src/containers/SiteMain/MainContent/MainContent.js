@@ -1,65 +1,47 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import * as actions from '../../../store/actions/index';
-import asyncComponent from '../../../hoc/asyncComponent/asyncComponent';
-import MainNavigations from '../../../components/MainNavigations/MainNavigations';
+import Loader from '../../../components/UI/Loader/Loader';
+import Model from './Model/Model';
 
 class MainContent extends Component {
-    state = {
-        mainNavProps: {
-            post: {
-                path: '/index/post',
-                icnGrp: 'clone',
-                icnClass: 'icon icon__site-main__content--tab',
-                title: 'Post',
-                active: null
-            }
-        }
-    }
-
-    componentDidMount() {
-        this.props.onFetchMainActive(this.state.mainNavProps, this.props.userID)
-    }
-
     render() {
+        let loaderCnt = null;
 
-        let mainNavProps = <MainNavigations 
-            content={this.state.mainNavProps}/>;
-  
-        if (this.props.mainProps) {
-            mainNavProps = <MainNavigations 
-                content={this.props.mainProps}/>;
+        if (this.props.showLoader) {
+            loaderCnt = (
+                <div className="site-main__content--loader">
+                    <Loader />
+                </div>
+            )
         }
 
         return (
             <div className="site-main__content">
                 <div className="site-main__content--wrapper">
-                    <ul className="site-main__content--tab"> 
-                        {mainNavProps}
-                    </ul>  
-                    <Switch>
-                        
-                    </Switch>
+                    <div className="site-main__content--tab">
+                        <div className="site-main__content--tab__icn">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'location-arrow']}
+                                className="icon icon__acc--shared__tab"/>
+                        </div>
+                        Shared with me
+                        <span>{this.props.cntTotal}</span>
+                    </div>
+                    <Model />
+                    { loaderCnt }
                 </div>
             </div>
-                
         );
     }
 }
 
 const mapStateToProps = state => {
     return {
-        mainProps: state.main.mainProps,
-       userID: state.auth.userID,
+       showLoader: state.cnt.showLoader,
+       cntTotal: state.cnt.cntTotal
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onFetchMainActive: (mainProps, userID) => dispatch(actions.fetchMainActiveInit(mainProps, userID))
-    };
-};
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainContent));
+export default connect(mapStateToProps, null)(MainContent);

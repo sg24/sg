@@ -581,10 +581,6 @@ router.get('/examtab', (req, res, next) => {
     res.render('examtab');
 });
 
-router.get('/profile', (req, res, next) => {
-    res.render('profile');
-});
-
 router.get('/acc/shared', (req, res, next) => {
     res.render('accshared'); 
 });
