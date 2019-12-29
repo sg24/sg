@@ -107,7 +107,6 @@ export const engStrings = {
         user[0].accept = false;
         user[0][field] = isUpdate;
         cnts[curIndex] = user[0];
-        console.log(cnts[curIndex], curIndex)
        return cnts;
     }
     return oldCnts

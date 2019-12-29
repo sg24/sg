@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import { updateObject } from '../../shared/utility';
+import { updateObject, changeMode } from '../../shared/utility';
 
 const initialState = {
     cnts: null,
@@ -36,8 +36,44 @@ const changeCntCancel = (state, action) => {
 };
 
 const changeCntReset = (state, action) => {
-    window.location.reload();
-    return updateObject(state, {changeCntStart: null, changeCntErr: null, changeCnt: false})
+    let cnts = [...state.cnts]
+
+     if (action.changed) {
+         if (state.changeCntStart.det === 'addUser') {
+             let updateCnts = changeMode(cnts, state.changeCntStart, 'pending', true);
+             return updateObject(state, {cnts: updateCnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
+         }
+     
+         if (state.changeCntStart.det === 'acceptUser') {
+             let updateCnts = changeMode(cnts, state.changeCntStart, 'accept', true);
+             return updateObject(state, {cnts: updateCnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
+         }
+     
+         if (state.changeCntStart.det === 'rejUser') {
+             let updateCnts = changeMode(cnts, state.changeCntStart, 'request', false);
+             return updateObject(state, {cnts: updateCnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
+         }
+          
+         if (state.changeCntStart.det === 'cancelReq') {
+             let updateCnts = changeMode(cnts, state.changeCntStart, 'pending', false);
+             return updateObject(state, {cnts: updateCnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
+         }
+     
+         if (state.changeCntStart.det === 'unfriend') {
+             let updateCnts = changeMode(cnts, state.changeCntStart, 'accept', false);
+             return updateObject(state, {cnts: updateCnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
+         }
+ 
+         if (state.changeCntStart.det === 'blockUser') {
+             let updateCnt = cnts.filter(cnt => cnt.id !== state.changeCntStart.id);
+             return updateObject(state, {cnts: updateCnt, changeCntStart: null, changeCntErr: null, changeCnt: false})
+         }
+     
+         let updateCnt = cnts.filter(cnt => cnt._id !== state.changeCntStart.id);
+         return updateObject(state, {cnts: updateCnt, changeCntStart: null, changeCntErr: null, changeCnt: false})
+     }
+ 
+     return updateObject(state, {cnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
 };
 
 const changeCntFail = (state, action) => {

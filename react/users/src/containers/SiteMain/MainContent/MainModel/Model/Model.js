@@ -23,24 +23,21 @@ class Model extends Component {
         this.state = {
             fetchLimit: limit,
             filterTag: 'users',
+            scrollEnable: false
         }
     }
 
     componentDidMount() {
         this.props.onFetchCnt(this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/users');
-        let these = this;
-        window.addEventListener('scroll', function(event) {
-            if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
-                these.props.onFetchCnt(
-                        these.state.filterTag !== 'users' ? 
-                        these.state.filterTag === 'filter' ?  'filter=='+these.props.filterDet : these.state.filterTag : 'users',
-                        these.state.fetchLimit, these.props.skipCnt + these.state.fetchLimit, these.props.cntTotal);
-            }
-        });
     }
 
     componentDidUpdate() {
+        if (this.props.cnts && this.props.cnts.length > 0 && !this.state.scrollEnable) {
+            window.addEventListener('scroll', this.onScroll, false);
+            this.setState({scrollEnable: true})
+        }
+
         if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id !== 'filter' && this.props.match.params.id !== 'startfilter') {
             this.props.onFetchCntReset();
             this.props.onFetchCnt(this.props.match.params.id, this.state.fetchLimit, 0, 0);
@@ -72,6 +69,15 @@ class Model extends Component {
         }
     }
 
+    onScroll = () => {
+        if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
+            this.props.onFetchCnt(
+                    this.state.filterTag !== 'users' ? 
+                    this.state.filterTag === 'filter' ?  'filter=='+this.props.filterDet : this.state.filterTag : 'users',
+                    this.state.fetchLimit, this.props.skipCnt + this.state.fetchLimit, this.props.cntTotal);
+        }
+    } 
+
     changeCntHandler = (id, title, det, confirm) => {
         this.props.onChangeCnt(id, title, det, confirm);
     };
@@ -79,8 +85,8 @@ class Model extends Component {
     render() {
         this.props.onFetchShareActive();
         this.props.onFetchNotifyActive();
-        // this.props.onFetchCntActive(this.props.userID);
-        // this.props.onFetchShareCntActive(this.props.userID);
+        this.props.onFetchReqActive();
+        this.props.onFetchTotal();
 
         let cnt = <Loader />;
         if (this.props.postErr) {
@@ -90,7 +96,7 @@ class Model extends Component {
         if (this.props.cnts && this.props.cnts.length === 0 && this.state.filterTag !== 'shared') {
             cnt = <NoAcc 
                 isAuth={this.props.status}
-                det='Category not found !!'
+                det='Users not found !!'
                 icn='users'/>
         }
 
@@ -118,11 +124,11 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchShareActive: () => dispatch(actions.fetchShareactiveInit()),
         onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
-        onFetchShareCntActive: (userID) => dispatch(actions.fetchShareCntactiveInit(userID)),
-        onFetchCntActive: (userID) => dispatch(actions.fetchCntActiveInit(userID)),
+        onFetchReqActive: () => dispatch(actions.fetchReqActiveInit()),
         onFetchCnt: (fetchType, limit, skipCnt, cntTotal) => dispatch(actions.fetchCntInit(fetchType, limit, skipCnt, cntTotal)),
         onFetchCntReset: () => dispatch(actions.fetchCntReset()),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
+        onFetchTotal: () => dispatch(actions.fetchTotalInit()),
         onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm))
     };
 };

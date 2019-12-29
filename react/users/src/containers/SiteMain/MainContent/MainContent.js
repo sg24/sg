@@ -28,13 +28,11 @@ class MainContent extends Component {
 
     componentDidUpdate() {
         if (this.state.curTab !== this.state.updateTab) {
-            this.props.onResetActive(this.props.userID, 'users');
             this.setState({updateTab: this.state.curTab})
         }
     }
 
     removeActiveHandler = (curTab) => {
-        this.props.onResetActive(this.props.userID, curTab);
         if (curTab === 'users') {
             this.setState((prevState, props) => {
                 return {
@@ -45,6 +43,7 @@ class MainContent extends Component {
             });
             return
         }
+        this.props.onResetActive(this.props.userID, curTab);
         this.setState((prevState, props) => {
             return {
               showCntActive: true,
@@ -62,11 +61,11 @@ class MainContent extends Component {
                     <MainNavigations 
                         content={this.state.cnt}
                         removeActive={this.removeActiveHandler.bind(this, 'users')}
-                        active={this.state.showCntActive ? this.props.cntActive : null}/>
+                        active={null}/>
                     <MainNavigations 
                         content={this.state.request}
                         removeActive={this.removeActiveHandler.bind(this, 'request')}
-                        active={this.state.showRequestActive ? this.props.requestCntActive : null}/>
+                        active={this.state.showRequestActive ? this.props.reqActive : null}/>
                     </ul>
                     <MainModel />
                 </div>
@@ -78,8 +77,7 @@ class MainContent extends Component {
 const mapStateToProps = state => {
     return {
        userID: state.auth.userID,
-       shareCntActive: state.main.shareCntActive,
-       cntActive: state.main.cntActive
+       reqActive: state.main.reqActive
     };
 };
 

@@ -45,7 +45,7 @@ const user = props => {
                     </div>
                     <ul className="reuse-user__det--user">
                         <li className="reuse-user__det--user__info">  
-                            <a href={'/users/profile/' + props.userDet.id}>{ props.userDet.username }</a>
+                            <a href={'/user/profile/' + props.userDet.id}>{ props.userDet.username }</a>
                         </li>
                         <li><div>{ props.userDet.student }</div> Student</li> 
                     </ul>

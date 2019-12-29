@@ -110,7 +110,7 @@ const user = props => {
             </div>
             <ul className="reuse-user__det--user">
                 <li className="reuse-user__det--user__info">  
-                    <a href={`/users/profile/${props.user.id}`}>{props.user.username}</a>
+                    <a href={`/user/profile/${props.user.id}`}>{props.user.username}</a>
                 </li>
                 <li><div>{props.user.student}</div> Student</li> 
             </ul>

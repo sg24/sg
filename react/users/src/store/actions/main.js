@@ -1,17 +1,17 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchCntActiveInit = (userID) => {
+export const fetchReqActiveInit = () =>  {
     return {
-        type: actionTypes.FETCH_CNT_ACTIVE_INIT,
-        userID
-    };
-};
+        type: actionTypes.FETCH_REQ_ACTIVE_INIT
+        
+    }; 
+}; 
 
-export const fetchCntActive = (cntActive) => {
+export const fetchReqActive = (reqActive) =>  {
     return {
-        type: actionTypes.FETCH_CNT_ACTIVE,
-        cntActive
-    };
+        type: actionTypes.FETCH_REQ_ACTIVE,
+        reqActive
+    }; 
 };
 
 export const fetchShareactiveInit = () =>  {
@@ -24,20 +24,6 @@ export const fetchShareActive = (shareActive) =>  {
     return {
         type: actionTypes.FETCH_SHARE_ACTIVE,
         shareActive
-    }; 
-}; 
-
-export const fetchShareCntactiveInit = (userID) =>  {
-    return {
-        type: actionTypes.FETCH_SHARECNT_ACTIVE_INIT,
-        userID
-    }; 
-}; 
-
-export const fetchShareCntActive = (shareCntActive) =>  {
-    return {
-        type: actionTypes.FETCH_SHARECNT_ACTIVE,
-        shareCntActive
     }; 
 }; 
 

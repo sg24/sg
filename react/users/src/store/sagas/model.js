@@ -50,7 +50,7 @@ export function* changeCntInitSaga(action) {
         } 
         yield put(actions.changeCnt())
         yield delay(1000);
-        yield put(actions.changeCntReset())
+        yield put(actions.changeCntReset(true))
     } catch(err){
         yield put(actions.changeCntFail(err))
         yield delay(1000);

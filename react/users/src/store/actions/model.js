@@ -57,9 +57,10 @@ export const changeCntCancel = () => {
     }
 };
 
-export const changeCntReset = () => {
+export const changeCntReset = (changed) => {
     return {
-        type: actionTypes.CHANGE_CNT_RESET
+        type: actionTypes.CHANGE_CNT_RESET,
+        changed
     }
 };
 

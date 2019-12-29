@@ -33,9 +33,7 @@ class FilterContent extends Component {
 
     componentDidMount() {
         this.props.history.push('/users/startfilter')
-        if (!this.props.categ) {
-            this.props.onFetchCateg(this.state.categSelectGrp);
-        }
+        this.props.onFetchCateg(this.state.categSelectGrp);
     }
 
     componentWillUnmount() {
@@ -103,6 +101,7 @@ class FilterContent extends Component {
             this.props.onFilter({
                 searchCnt: this.state.searchCnt, filterSelect: this.state.filterSelect, 
                 category: [], categoryGrp: categ, apply: false})
+                this.props.onFetchCateg(categ);
         }
     }
 
@@ -110,7 +109,9 @@ class FilterContent extends Component {
         let categs = [...this.state.filterCategory];
         let updateCateg = categs.filter(categ => categ.id !== id);
         this.setState({filterCategory: updateCateg});
-        this.props.onFilter({searchCnt: this.state.searchCnt, filterSelect: this.state.filterSelect, category: updateCateg, apply: false});
+        this.props.onFilter({searchCnt: 
+            this.state.searchCnt, filterSelect: this.state.filterSelect, 
+            category: updateCateg, categoryGrp: this.state.categSelectGrp, apply: false});
     }
 
     
@@ -196,7 +197,7 @@ class FilterContent extends Component {
                             <FontAwesomeIcon 
                                 icon={['fas', 'bars']} 
                                 className="icon icon__reuse-filter--categ"/>
-                            Category Group
+                            Group
                         </h3>
                         <ul className="reuse-filter__opt--cnt__det reuse-filter__opt--cnt__det--categ">
                             <FilterCategory

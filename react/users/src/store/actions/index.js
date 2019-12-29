@@ -95,12 +95,10 @@ export {
 } from './header';
 
 export {
-    fetchCntActiveInit,
-    fetchCntActive,
+    fetchReqActiveInit,
+    fetchReqActive,
     fetchShareactiveInit,
     fetchShareActive,
-    fetchShareCntactiveInit,
-    fetchShareCntActive,
     resetActiveInit,
     resetActive,
     showMainBackdrop,

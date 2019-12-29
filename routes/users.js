@@ -298,12 +298,15 @@ router.patch('/', authenticate,(req, res, next) => {
     if (req.header && req.header('data-categ') === 'acceptUser') {
         let model = req.userType === 'authUser' ? authUser : user;
         let id = req.body.id;
-        model.findByIdAndUpdate(req.user, {
+        model.findOneAndUpdate({_id: req.user, student: { $ne : id }}, {
             $addToSet: { student: id },
             $inc: {studenttotal: 1},
             $pull: {request: id}
-        }).then(() => {
-            return update(id, authUser, user, 'teacher')
+        }).then((result) => {
+            if (result) {
+                return update(id, authUser, user, 'teacher')
+            }
+            res.sendStatus(200)
         }).catch(err =>{
             res.status(500).send(err);
         });
@@ -345,12 +348,16 @@ router.patch('/', authenticate,(req, res, next) => {
     if (req.header && req.header('data-categ') === 'unfriend') {
         let model = req.userType === 'authUser' ? authUser : user;
         let id = req.body.id;
-        model.findById(req.user).then((result) => {
-            let filterStudent = result.student ? result.student.filter(studentID => studentID === id) : [];
-            if (filterStudent.length < 1) {
-                remove(false, true, model, id);
+        model.findOne({_id: req.user, student: { $in : id }}).then((result) => {
+            if (result) {
+                let filterStudent = result.student ? result.student.filter(studentID => studentID === id) : [];
+                if (filterStudent.length < 1) {
+                    remove(false, true, model, id);
+                } else {
+                    remove(true, false, model, id);
+                }
             } else {
-                remove(true, false, model, id);
+                res.sendStatus(200)
             }
         })
        

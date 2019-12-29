@@ -14,9 +14,8 @@ import { fetchNotifyInitSaga,
             fetchNotifyActiveInitSaga,
             defaultNotifyActiveInitSaga,
             headerFilterInitSaga } from './header';
-import { fetchCntActiveInitSaga,  
+import { fetchReqActiveInitSaga,
          fetchShareActiveInitSaga,
-         fetchShareCntActiveInitSaga, 
          resetActiveInitSaga} from './main';
 
 export function* watchAuth() {
@@ -72,9 +71,8 @@ export function* watchHeader() {
 
 export function* watchMain() {
     yield all([
-       takeEvery(actionTypes.FETCH_CNT_ACTIVE_INIT, fetchCntActiveInitSaga),
        takeEvery(actionTypes.FETCH_SHARE_ACTIVE_INIT, fetchShareActiveInitSaga),
-       takeEvery(actionTypes.FETCH_SHARECNT_ACTIVE_INIT, fetchShareCntActiveInitSaga),
+       takeEvery(actionTypes.FETCH_REQ_ACTIVE_INIT, fetchReqActiveInitSaga),
        takeEvery(actionTypes.RESET_ACTIVE_INIT, resetActiveInitSaga)
     ])
 }
