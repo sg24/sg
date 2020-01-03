@@ -25,9 +25,11 @@ export function* fetchCntInitSaga(action) {
 export function* changeFavSaga(action) {
     let updateFav = changeFav(action.id ,action.liked, action.favAdd, action.changedFav);
     yield put(actions.changeMainFavoriteStart(updateFav.favDet.liked));
-    yield put(actions.changeFavPtStart(updateFav.favDet.id, updateFav.favDet.liked))
+    yield put(actions.changeFavPtStart(updateFav.favDet.id, updateFav.favDet.liked));
     try {
-        yield axios.patch('/post', {id: updateFav.favDet.id, userID: action.userID, model: action.cntGrp})
+        let field = action.cntGrp === 'post' ? 'postID' : action.cntGrp === 'question' ?
+        'queID' : 'pwtID';
+        yield axios.patch('/header', {id: updateFav.favDet.id, model: action.cntGrp, field},{headers: {'data-categ': 'changefavorite'}});
         yield delay(500)
         yield put(actions.changeMainFavoriteReset());
         yield put(actions.changeFav(updateFav.updateChangeFav));

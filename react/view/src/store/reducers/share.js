@@ -4,15 +4,17 @@ import { updateObject } from '../../shared/utility';
 const initialState = {
     users: null,
     userSelect: null,
+    filterUser: null,
     filterUserSelect: null,
     viewAllUsers: true,
     shareID: null,
+    cntType: null,
     start: false,
     shareErr: null
 }
 
 const fetchUsers = (state, action) => {
-    return updateObject(state, {users: action.users})
+    return updateObject(state, {users: action.users, filterUser: null})
 };
 
 const userSelect = (state, action) => {
@@ -32,7 +34,7 @@ const removeUser = (state, action) => {
 
 const filterUser = (state, action) => {
     return updateObject(state, {
-        users: action.users
+        filterUser: action.users
     })
 };
 
@@ -43,7 +45,7 @@ const filterUserSelect = (state, action) => {
 };
 
 const shareID = (state, action) => {
-    return updateObject(state, {shareID: String(action.shareID)});
+    return updateObject(state, {shareID: String(action.shareID), cntType: action.cntType});
 };
 
 const shareUserStart = (state, action) => {
@@ -58,6 +60,7 @@ const shareUser = (state, action) => {
     return updateObject(state, {
         users: null,
         userSelect: null,
+        filterUser: null,
         filterUserSelect: null,
         viewAllUsers: true,
         shareID: null,

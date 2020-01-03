@@ -57,7 +57,8 @@ const modal = props => {
                 ) : null
             }
             { !props.err && !props.warn.cnt ? (
-                <Loader />
+                <Loader 
+                   cnt={props.warn.det === 'addUser' ? 'Adding ....' :'Loading ....' }/>
             ): null}   
             { modalCnt } 
         </div>

@@ -1,19 +1,32 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import Views from './Views/Views'; 
+import * as actions from '../../../store/actions/index';
+import MainNavigations from '../../../components/MainNavigations/MainNavigations';
+import MainModel from './MainModel/MainModel'; 
 
 class MainContent extends Component {
     render() {
         return (
             <div className="site-main__content">
                 <div className="site-main__content--no-tab-wrapper">
-                    <div className="site-main__content--top"></div>
-                    <Views />
+                    <MainModel />
                 </div>
             </div>
         );
     }
 }
 
+const mapStateToProps = state => {
+    return {
+       userID: state.auth.userID
+    };
+};
 
-export default MainContent;
+const mapDispatchToProps = dispatch => {
+    return {
+    };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainContent));

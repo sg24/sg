@@ -4,10 +4,15 @@ import { connect } from 'react-redux';
 import * as actions from '../../../../../store/actions/index';
 
 class FilterUserSelect extends Component  {
+    state = {
+        inputValue: ''
+    };
+
     filterContentHandler = (event) => {
         this.props.onFilterUserSelect(
                 event.target.value,
                 this.props.userSelect);
+        this.setState({inputValue: event.target.value})
     }
 
     componentDidMount() {
@@ -20,7 +25,8 @@ class FilterUserSelect extends Component  {
                 className="reuse-share__search--cnt" 
                 placeholder="search user selected...." 
                 autoFocus
-                onChange={this.filterContentHandler} />
+                onChange={this.filterContentHandler} 
+                value={this.state.inputValue}/>
         )
     }
 }

@@ -8,6 +8,7 @@ import SelectUsers from './SelectUsers/SelectUsers';
 import ShareOpt from './ShareOpt/ShareOpt';
 import * as actions from '../../../store/actions/index';
 import Modal from '../../../components/UI/Modal/Modal';
+import Loader from '../../../components/UI/Loader/Loader';
 
 class Share extends Component {
     closeShareHandler = () => {
@@ -17,7 +18,7 @@ class Share extends Component {
     componentWillUnmount() {
         this.props.onDefaultShareProps();
     }
-
+    
     render() { 
         let shareCnt = (
             <div className="reuse-share__wrapper">  
@@ -30,7 +31,8 @@ class Share extends Component {
         if (this.props.start) {
             shareCnt=(
                 <div className="reuse-share__wrapper">  
-                    loading ....
+                    <Loader 
+                        cnt="Sharing ....."/>
                 </div>
             )
         }
@@ -52,7 +54,7 @@ class Share extends Component {
             </div>
         );
 
-        if (!this.props.shareID || !this.props.userID) {
+        if (!this.props.shareID || !this.props.status) {
             this.closeShareHandler();
             share = null
         };
@@ -66,7 +68,7 @@ const mapStateToProps = state => {
         start: state.share.start,
         shareErr: state.share.shareErr,
         shareID: state.share.shareID,
-        userID: state.auth.userID,
+        status: state.auth.status,
     };
 };
 

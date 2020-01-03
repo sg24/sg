@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Route } from 'react-router-dom';
+import { withRouter, Switch,Route } from 'react-router-dom';
 
 import * as actions from '../../store/actions/index';
 import MainContent from './MainContent/MainContent';
 import MainNav from './MainNav/MainNav'
 import asyncComponent from '../../hoc/asyncComponent/asyncComponent';
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
-import Modal from '../../components/UI/Modal/Modal'; 
+import Modal from '../../components/UI/Modal/Modal';
 import MainFilter from '../../components/MainFilter/MainFilter';
+import Loader from '../../components/UI/Loader/Loader';
 import NoAcc from '../../components/Main/NoAcc/NoAcc';
 
-const AsyncShare= asyncComponent(() => {
+const AsyncShare = asyncComponent(() => {
     return import ('./Share/Share');
 });
 
+const AsyncEditor = asyncComponent(() => {
+    return import ('./MainContent/MainModel/ModelEditor/ModelEditor');
+});
 
 class SiteMain extends Component {
     checkHeaderDefault = () => {
@@ -32,7 +36,7 @@ class SiteMain extends Component {
     };
 
     changeCntHandler = () => {
-        this.props.onChangeCnt(this.props.changeCntStart.id, null, this.props.changeCntStart.det, true)
+        this.props.onChangeCnt(this.props.changeCntStart.id, null, this.props.changeCntStart.det, true, this.props.changeCntStart.modelType)
     }
 
     closeChangeCntHandler = () => {
@@ -40,13 +44,15 @@ class SiteMain extends Component {
     }
 
     render() {
-        let filterCnt = 'loading....';
+        let filterCnt = <Loader />;
+
         if (!this.props.searchCntErr && this.props.searchCnt && this.props.searchCnt.length > 0){
             filterCnt = (
                 <ul>
                     <MainFilter 
                         filterResults={this.props.searchCnt}
                         filterPos={this.props.filterPos}
+                        filterLastPos={this.props.filterLastPos}
                         viewCnt={this.viewCntHandler}/>
                 </ul> 
             )
@@ -55,8 +61,10 @@ class SiteMain extends Component {
         if (!this.props.searchCntErr && this.props.searchCnt && this.props.searchCnt.length === 0) {
             filterCnt = (
                 <NoAcc 
-                isAuth={this.props.userID !== null}
-                det='No content found!' />
+                    isAuth={this.props.status}
+                    det='No content found!'
+                    icn='clone'
+                    filter />
             );
         }
 
@@ -67,16 +75,22 @@ class SiteMain extends Component {
                 </div> 
             )
         }
-        
+
         return (
             <div className="site-main site-main__expage" onClick={this.checkHeaderDefault}>
             <div className="wrapper__exmain">
-                { this.props.cntErr ? 
-                    <Backdrop 
-                        component={ Modal }
-                        err={ this.props.cntErr } /> : null}
-                <Route path="/view/:model/:id" exact component={MainContent}/>
-                <MainNav />
+                    { this.props.cntErr ? 
+                        <Backdrop 
+                            component={ Modal }
+                            err={ this.props.cntErr } /> : null}
+                    <Switch>
+                        <Route path="/view/:categ/:id" exact component={MainContent} />
+                        <Route path="/" component={MainContent} />
+                    </Switch>
+                    <Switch>
+                        <Route path="/view/:categ/:id" exact component={MainNav} />
+                        <Route path="/" component={MainNav} />
+                    </Switch>
             </div>
             { this.props.filterStart ? 
                 <div 
@@ -87,24 +101,35 @@ class SiteMain extends Component {
                         { filterCnt }
                     </div>
                 </div> : null}
-            { this.props.changeCntStart !== null ? 
-                <Backdrop   
-                    show={ this.props.showBackdrop }
-                    component={ Modal }
-                    err={ this.props.changeCntErr }
-                    warn={{
-                        msg: this.props.changeCntStart.det=== 'delete' ?
-                        'Are you sure you want to delete this question' : 'Are you sure you want to change this question mode',
-                        cnt: this.props.changeCntStart.title,
-                        det: this.props.changeCntStart.det
-                    }}
-                    exit={{
-                        msg: this.props.changeCntStart.det=== 'delete' ?
-                        'Question Deleted Successfully' : 'Question mode change successfully', 
-                        close: this.props.changeCnt}}
-                    changeCnt={this.changeCntHandler}
-                    closeChangeCnt={this.closeChangeCntHandler}/> : null}
-            <Route path="/question/share" exact component={AsyncShare} />
+                { this.props.changeCntStart !== null ? 
+                    <Backdrop   
+                        show={ this.props.showBackdrop }
+                        component={ Modal }
+                        err={ this.props.changeCntErr }
+                        warn={{
+                            msg: this.props.changeCntStart.det === 'delete' ?
+                            'Are you sure you want to delete this ' : 
+                            this.props.changeCntStart.det=== 'draft' || this.props.changeCntStart.det=== 'publish' ? 'Are you sure you want to change the mode' : 
+                            this.props.changeCntStart.det === 'blockUser' ?
+                            'Are you sure you want to block this user' : 
+                            this.props.changeCntStart.det === 'rejUser' ? 'Are you sure you want to reject this user' :
+                            this.props.changeCntStart.det === 'acceptUser' ? 'Are you sure you want to accept this user' :  
+                            this.props.changeCntStart.det === 'cancelReq' ? 'Are you sure you want to Cancel the request, sent to this user' : 
+                            'Are you sure you want to remove this user',
+                            cnt: this.props.changeCntStart.title,
+                            det: this.props.changeCntStart.det
+                        }}
+                        exit={{
+                            msg: this.props.changeCntStart.det=== 'delete' ?
+                            'Deleted Successfully' : 
+                            this.props.changeCntStart.det=== 'draft' || this.props.changeCntStart.det=== 'publish' ? 'Mode change successfully' :
+                            this.props.changeCntStart.det=== 'authUser' ?
+                        'user added Successfully' : 'Mode change successfully', 
+                            close: this.props.changeCnt}}
+                        changeCnt={this.changeCntHandler}
+                        closeChangeCnt={this.closeChangeCntHandler}/> : null}
+                    <Route path="/view/:id/share" exact component={AsyncShare} />
+                    <Route path="/view/reply/:categ"  component={AsyncEditor}/>
         </div>
         )
     }
@@ -112,7 +137,7 @@ class SiteMain extends Component {
 
 const mapStateToProps = state => {
     return {
-        userID: state.auth.userID,
+        status: state.auth.status,
         default: state.header.default,
         showBackdrop: state.main.showBackdrop,
         cntErr: state.cnt.cntErr,
@@ -120,6 +145,7 @@ const mapStateToProps = state => {
         searchCnt: state.header.searchCnt,
         searchCntErr: state.header.searchCntErr,
         filterPos: state.header.filterPos,
+        filterLastPos: state.header.filterLastPos,
         changeCntStart: state.cnt.changeCntStart,
         changeCntErr: state.cnt.changeCntErr,
         changeCnt: state.cnt.changeCnt
@@ -130,8 +156,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onNavDefault: () => dispatch(actions.headerNavDefault()),
         onCloseHeaderFilter: () => dispatch(actions.headerFilterClose()),
-        onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm)),
-        onCloseChangeCnt: () => dispatch(actions.changeCntCancel()),
+        onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm, modelType)),
+        onCloseChangeCnt: () => dispatch(actions.changeCntCancel())
     };
 };
 

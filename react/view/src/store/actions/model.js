@@ -1,12 +1,24 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchCntInit = (model,id) => {
+export const fetchCntInit = (categ, id) => {
     return {
         type: actionTypes.FETCH_CNT_INIT,
-        model,
+        categ,
         id
     }
 };
+
+export const fetchCntStart = () =>{
+    return {
+        type: actionTypes.FETCH_CNT_START
+    };
+}
+
+export const fetchCntReset = () =>{
+    return {
+        type: actionTypes.FETCH_CNT_RESET,
+    };
+}
 
 export const fetchCntFail = (err) => {
     return {
@@ -22,22 +34,118 @@ export const fetchCnt = (cnt) => {
     }
 };
 
-export const changeCntInit = (id, title, det, confirm) => {
+export const submitCommentInit = (id, cntGrp, cnt, modelType) => {
+    return {
+        type: actionTypes.SUBMIT_COMMENT_INIT,
+        id,
+        cntGrp,
+        cnt,
+        modelType
+    }
+};
+
+export const submitCommentStart = () =>{
+    return {
+        type: actionTypes.SUBMIT_COMMENT_START
+    };
+}
+
+export const submitCommentFail = (err) => {
+    return {
+        type: actionTypes.SUBMIT_COMMENT_FAIL,
+        err
+    }
+};
+
+export const submitComment = (id, categ, cnt) => {
+    return {
+        type: actionTypes.SUBMIT_COMMENT,
+        id,
+        categ,
+        cnt
+    }
+};
+
+export const resetInput = () => {
+    return {
+        type: actionTypes.RESET_INPUT
+    }
+};
+
+export const resetModel = () => {
+    return {
+        type: actionTypes.RESET_MODEL
+    }
+};
+
+export const ansCorrectInit = (commentID, categ, replyID) => {
+    return {
+        type: actionTypes.ANS_CORRECT_INIT,
+        commentID,
+        categ,
+        replyID
+    }
+};
+
+export const ansCorrectFail = (err) => {
+    return {
+        type: actionTypes.ANS_CORRECT_FAIL,
+        err
+    }
+};
+
+export const ansCorrect = (commentID, categ, replyID) => {
+    return {
+        type: actionTypes.ANS_CORRECT,
+        commentID,
+        categ,
+        replyID
+    }
+};
+
+export const ansWrongInit = (commentID, categ, replyID) => {
+    return {
+        type: actionTypes.ANS_WRONG_INIT,
+        commentID,
+        categ,
+        replyID
+    }
+};
+
+export const ansWrongFail = (err) => {
+    return {
+        type: actionTypes.ANS_WRONG_FAIL,
+        err
+    }
+};
+
+export const ansWrong = (commentID, categ, replyID) => {
+    return {
+        type: actionTypes.ANS_WRONG,
+        commentID,
+        categ,
+        replyID
+    }
+};
+
+export const changeCntInit = (id, title, det, confirm, modelType) => {
     return {
         type: actionTypes.CHANGE_CNT_INIT,
         id, 
         title,
         det,
-        confirm
+        confirm,
+        modelType
     }
 };
 
-export const changeCntStart = (title, id, det) => {
+export const changeCntStart = (title, id, det,  modelType) => {
     return {
         type: actionTypes.CHANGE_CNT_START,
         title,
         id,
-        det
+        det,
+        modelType
     }
 };
 
@@ -47,9 +155,10 @@ export const changeCntCancel = () => {
     }
 };
 
-export const changeCntReset = () => {
+export const changeCntReset = (changed) => {
     return {
-        type: actionTypes.CHANGE_CNT_RESET
+        type: actionTypes.CHANGE_CNT_RESET,
+        changed
     }
 };
 

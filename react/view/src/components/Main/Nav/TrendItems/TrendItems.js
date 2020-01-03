@@ -9,7 +9,8 @@ const trendItems = props => {
             trd={trd}
             fav={props.fav.bind(this, trd.id, trd.liked, trd.favorite, trd.cntGrp)}
             changedFav={props.changedFav}
-            favChange={props.favChange}/>
+            favChange={props.favChange}
+            show={props.show}/>
     ));
 
     return allTrends

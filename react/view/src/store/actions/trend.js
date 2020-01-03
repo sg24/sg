@@ -1,9 +1,10 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchTrdInit = (userID) => {
+export const fetchTrdInit = (cntGrp, id) => {
     return {
         type: actionTypes.FETCH_TRD_INIT,
-        userID
+        cntGrp,
+        id
     }
 };
 
@@ -30,5 +31,17 @@ export const fetchTrd = (trd) => {
     return {
         type: actionTypes.FETCH_TRD,
         trd
+    }
+};
+
+export const showTrd = () => {
+    return {
+        type: actionTypes.SHOW_TRD
+    }
+};
+
+export const defaultTrd = () => {
+    return {
+        type: actionTypes.DEFAULT_TRD
     }
 };

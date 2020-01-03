@@ -8,7 +8,7 @@ const navigationOptions = props => {
             <NavigationItem  path="/post">Post</NavigationItem>
             <NavigationItem path="/question">Question</NavigationItem>
             <NavigationItem path="/poet">Poet/Writer</NavigationItem>
-            <NavigationItem path="/conversations">Chat</NavigationItem>
+            <NavigationItem path="/users">Users</NavigationItem>
         </ul>
     )
 };

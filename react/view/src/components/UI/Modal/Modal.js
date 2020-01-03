@@ -1,11 +1,12 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import './Modal.css';
+import Loader from '../Loader/Loader';
 
 const modal = props => {
-    let modalCnt = <h3>{ props.err ? props.err.message : null }</h3>;
-    if (!props.err && props.warn && props.exit && !props.exit.close) {
+    let modalCnt = <h3>{ props.err ? 
+        props.err.response ? props.err.response.data.name : props.err.message : null }</h3>;
+    if (!props.err && props.warn && props.warn.cnt && props.exit && !props.exit.close) {
         modalCnt = (
             <div className="reuse-modal__warn">
                 <h4 >{props.warn.msg}</h4>
@@ -21,11 +22,12 @@ const modal = props => {
                         Cancel
                     </button>
                     <button 
-                        className="reuse-modal__btn--del" 
+                        className={props.warn.det && props.warn.det === 'publish' ? "reuse-modal__btn--success" :"reuse-modal__btn--del" }
                         type="button"
                         onClick={props.changeCnt}>
                         <FontAwesomeIcon 
-                            icon={props.warn.det && props.warn.det === 'delete'? ['far', 'trash-alt'] : ['fas', 'eye-slash']} 
+                            icon={props.warn.det && props.warn.det === 'delete'? ['far', 'trash-alt'] : 
+                            props.warn.det && props.warn.det === 'publish' ?  ['fas', 'eye'] : ['fas', 'eye-slash']} 
                             className="icon icon__reuse-modal--btn"/>
                         {props.warn.det && props.warn.det === 'delete' ? 'Delete': 'Change'}
                     </button>
@@ -49,6 +51,9 @@ const modal = props => {
                     </div>
                 ) : null
             }
+            { !props.err && !props.warn.cnt ? (
+                <Loader />
+            ): null}   
             { modalCnt } 
         </div>
     );

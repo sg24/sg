@@ -16,7 +16,7 @@ const user = props => {
                      Add
                 </div>
             </li>
-            <li>
+            {/* <li>
                 <div 
                     className="reuse-user__opt--blk"
                     onClick={props.blockUser}>
@@ -25,7 +25,7 @@ const user = props => {
                         className="icon icon__reuse-user--opt" />
                     Block
                 </div>
-            </li>
+            </li> */}
         </ul>
     );
 
@@ -70,7 +70,7 @@ const user = props => {
                         Cancel
                     </div>
                 </li>
-                <li>
+                {/* <li>
                     <div 
                         className="reuse-user__opt--blk"
                         onClick={props.blockUser}>
@@ -79,7 +79,7 @@ const user = props => {
                             className="icon icon__reuse-user--opt" />
                         Block
                     </div>
-                </li>
+                </li> */}
             </ul>
         );
     }
@@ -112,7 +112,7 @@ const user = props => {
                 <li className="reuse-user__det--user__info">  
                     <a href={`/user/profile/${props.user.id}`}>{props.user.username}</a>
                 </li>
-                <li><div>{props.user.student}</div> Student</li> 
+                <li><div>{props.user.studenttotal}</div> Student</li> 
             </ul>
         </div>
        {userOpt}

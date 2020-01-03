@@ -1,8 +1,14 @@
-import { takeEvery, all } from 'redux-saga/effects';
+import { takeEvery, all, takeLatest } from 'redux-saga/effects';
 
 import * as actionTypes from '../../store/actions/actionTypes';
-import { fetchCntInitSaga, fetchVideoInitSaga, changeFavSaga, changeCntInitSaga } from './model';
-import { fetchCntCategInitSaga, filterContentInitSaga } from './filter';
+import { checkAuthInitSaga } from './auth';
+import { fetchCntInitSaga, 
+        submitCommentInitSaga, 
+        ansCorrectInitSaga,
+        ansWrongInitSaga,
+        fetchVideoInitSaga, 
+        changeFavSaga, 
+        changeCntInitSaga } from './model';
 import { fetchUsersInitSaga, filterUserInitSaga, filterUserSelectInitSaga, shareUserInitSaga } from './share';
 import { fetchTagsInitSaga } from './tags';
 import { fetchTrdInitSaga } from './trend';
@@ -14,24 +20,24 @@ import { fetchNotifyInitSaga,
             fetchNotifyActiveInitSaga,
             defaultNotifyActiveInitSaga,
             headerFilterInitSaga } from './header';
-import { fetchCntActiveInitSaga,  
-         fetchShareActiveInitSaga,
-         fetchShareCntActiveInitSaga, 
+import { fetchShareActiveInitSaga,
          resetActiveInitSaga} from './main';
 
-export function* watchCnt() {
+export function* watchAuth() {
     yield all([
-        takeEvery(actionTypes.FETCH_CNT_INIT, fetchCntInitSaga),
-        takeEvery(actionTypes.FETCH_VIDEO_INIT, fetchVideoInitSaga),
-        takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga),
-        takeEvery(actionTypes.CHANGE_CNT_INIT, changeCntInitSaga)
+        takeEvery(actionTypes.CHECK_AUTH_INIT, checkAuthInitSaga)
     ])
 } 
 
-export function* watchFilter() {
+export function* watchCnt() {
     yield all([
-        takeEvery(actionTypes.FETCH_CNTCATEG_INIT, fetchCntCategInitSaga),
-        takeEvery(actionTypes.FILTER_CONTENT_INIT, filterContentInitSaga)
+        takeLatest(actionTypes.FETCH_CNT_INIT, fetchCntInitSaga),
+        takeLatest(actionTypes.SUBMIT_COMMENT_INIT, submitCommentInitSaga),
+        takeLatest(actionTypes.ANS_CORRECT_INIT, ansCorrectInitSaga),
+        takeLatest(actionTypes.ANS_WRONG_INIT, ansWrongInitSaga),
+        takeEvery(actionTypes.FETCH_VIDEO_INIT, fetchVideoInitSaga),
+        takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga),
+        takeLatest(actionTypes.CHANGE_CNT_INIT, changeCntInitSaga)
     ])
 } 
 
@@ -64,21 +70,20 @@ export function* watchConv() {
 }
 
 export function* watchHeader() {
-     yield all([
-        takeEvery(actionTypes.FETCH_NOTIFY_INIT, fetchNotifyInitSaga),
-        takeEvery(actionTypes.CHANGE_FAVORITE_NOTIFY_INIT, changeFavNotifySaga),
-        takeEvery(actionTypes.FETCH_NAVLIST_INIT, fetchNavlistInitSaga),
-        takeEvery(actionTypes.FETCH_NOTIFY_ACTIVE_INIT, fetchNotifyActiveInitSaga),
-        takeEvery(actionTypes.DEFAULT_NOTIFYACTIVE_INIT, defaultNotifyActiveInitSaga),
-        takeEvery(actionTypes.HEADER_FILTER_INIT, headerFilterInitSaga)
-     ])
+    yield all([
+       takeEvery(actionTypes.FETCH_NOTIFY_INIT, fetchNotifyInitSaga),
+       takeEvery(actionTypes.CHANGE_FAVORITE_NOTIFY_INIT, changeFavNotifySaga),
+       takeEvery(actionTypes.FETCH_NAVLIST_INIT, fetchNavlistInitSaga),
+       takeEvery(actionTypes.FETCH_NOTIFY_ACTIVE_INIT, fetchNotifyActiveInitSaga),
+       takeEvery(actionTypes.DEFAULT_NOTIFYACTIVE_INIT, defaultNotifyActiveInitSaga),
+       takeEvery(actionTypes.FETCH_SHARE_ACTIVE_INIT, fetchShareActiveInitSaga),
+       takeEvery(actionTypes.HEADER_FILTER_INIT, headerFilterInitSaga)
+    ])
 }
 
 export function* watchMain() {
     yield all([
-       takeEvery(actionTypes.FETCH_CNT_ACTIVE_INIT, fetchCntActiveInitSaga),
        takeEvery(actionTypes.FETCH_SHARE_ACTIVE_INIT, fetchShareActiveInitSaga),
-       takeEvery(actionTypes.FETCH_SHARECNT_ACTIVE_INIT, fetchShareCntActiveInitSaga),
        takeEvery(actionTypes.RESET_ACTIVE_INIT, resetActiveInitSaga)
     ])
 }

@@ -97,7 +97,8 @@ class Model extends Component {
             cnt = <NoAcc 
                 isAuth={this.props.status}
                 det='Users not found !!'
-                icn='users'/>
+                icn='users'
+                filter/>
         }
 
         if (this.props.cnts && this.props.cnts.length > 0) {

@@ -46,9 +46,10 @@ export const removeUser = (users) => {
     };
 };
 
-export const filterUserInit = (filterContent) => {
+export const filterUserInit = (users, filterContent) => {
     return {
         type: actionTypes.FILTER_USER_INIT,
+        users,
         filterContent
     };
 };
@@ -75,18 +76,20 @@ export const filterUserSelect = (userSelect) => {
     };
 };
 
-export const shareID = (shareID) => {
+export const shareID = (shareID, cntType) => {
     return {
         type: actionTypes.SHARE_ID,
-        shareID
+        shareID,
+        cntType
     };
 };
 
-export const shareUserInit = (userSelect, shareID) => {
+export const shareUserInit = (userSelect, shareID, cntType) => {
     return {
         type: actionTypes.SHARE_USER_INIT,
         userSelect,
-        shareID
+        shareID,
+        cntType
     };
 };
 

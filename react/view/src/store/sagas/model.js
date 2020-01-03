@@ -1,32 +1,16 @@
 import { put, delay } from 'redux-saga/effects';
-import { updateObject, changeFav } from '../../shared/utility';
+import uuid from 'uuid';
+
+import { changeFav } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
+
 export function* fetchCntInitSaga(action) {
     try {
-        let response =  yield axios.post('/view', 
-        {model: action.model, id:action.id},
-        {headers: {'data-categ': 'viewcontent'}});
-        let cntArray = [];
-        console.log(response.data)
-        if (response.data) { 
-            const newCnt = {...response.data};
-            let liked = false;
-            for (let userID of newCnt.liked) {
-                if(action.userID === userID) {
-                    liked = true
-                }
-            }
-            const valid = action.userID === newCnt.authorID;
-            const author = 'user' +  newCnt._id;
-            const newData = updateObject(newCnt, {author,userOpt: valid, liked});
-            cntArray.push(newData);
-            yield put(actions.fetchCnt(cntArray));
-        }
-
-        if ([response.data].length === 0) {
-            yield put(actions.fetchCnt([]));
+        let response =  yield axios.get(`/view/${action.categ}/${action.id}`,{headers: {'data-categ': 'viewcnt'}});
+        if (response.data) {
+            yield put(actions.fetchCnt(response.data))
         } 
         
     } catch(err){
@@ -35,10 +19,65 @@ export function* fetchCntInitSaga(action) {
     
 }
 
+export function* ansCorrectInitSaga(action) {
+    
+    try {
+        if (action.categ === 'reply') {
+            yield axios.patch('/view',{id: action.commentID,replyID:action.replyID},{headers: {'data-categ': 'answercorretreply'}});
+        }  else if (action.categ === 'smile') {
+            yield axios.patch('/view',{id: action.commentID},{headers: {'data-categ': 'smile'}});
+        }else if (action.categ === 'smilereply') {
+            yield axios.patch('/view',{id: action.commentID, replyID:action.replyID},{headers: {'data-categ': 'smilereply'}});
+        } else {
+            yield axios.patch('/view',{id: action.commentID},{headers: {'data-categ': 'answercorrect'}});
+        }
+        yield put (actions.ansCorrect(action.commentID, action.categ, action.replyID))
+    } catch(err){
+        // yield put(actions.fetchCntFail(err))
+    }
+    
+}
+
+export function* ansWrongInitSaga(action) {
+    try {
+        if (action.categ === 'reply') {
+            yield axios.patch('/view',{id: action.commentID,replyID:action.replyID},{headers: {'data-categ': 'answerwrongreply'}});
+        } else {
+            yield axios.patch('/view',{id: action.commentID},{headers: {'data-categ': 'answerwrong'}});
+        }
+        yield put (actions.ansWrong(action.commentID, action.categ, action.replyID))
+        
+    } catch(err){
+        // yield put(actions.fetchCntFail(err))
+    }
+    
+}
+
+export function* submitCommentInitSaga(action) {
+    try {
+        yield put(actions.submitCommentStart())
+        let response;
+        if (action.modelType === 'reply') {
+           response =  yield axios.patch('/view', {id: action.id, cnt: action.cnt, cntGrp: action.cntGrp,commentID: uuid()},{headers: {'data-categ': 'reply'}});
+           yield put(actions.submitComment(action.id, action.modelType, response.data))
+        } else {
+            response= yield axios.post('/view', {id: action.id, 
+                cntGrp: action.cntGrp, cnt: action.cnt},{headers: {'data-categ': 'viewcnt'}});
+            yield put(actions.submitComment(action.id, action.cntGrp, response.data))   
+        }
+        
+    } catch(err){
+        yield put(actions.submitCommentFail(err))
+        yield delay(1000)
+        yield put(actions.resetModel())
+    }
+    
+}
+
 export function* fetchVideoInitSaga(action) {
     yield put(actions.fetchVideoStart(action.ptVideoID))
     try {
-        let media =  yield axios.get('/media', {headers: {'data-categ':'media', 'mediaID': action.videoID}});
+        let media =  yield axios.post('/media', {mediaID: action.videoID},{headers: {'data-categ':'media'}});
         function dataURLtoBlob(dataurl) {
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
                 bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -59,7 +98,9 @@ export function* changeFavSaga(action) {
     yield put(actions.changeMainFavoriteStart(updateFav.favDet.liked));
     yield put(actions.changeFavPtStart(updateFav.favDet.id, updateFav.favDet.liked))
     try {
-        yield axios.patch('/post', {id: updateFav.favDet.id, userID: action.userID, model: action.cntGrp})
+        let field = action.cntGrp === 'post' ? 'postID' : action.cntGrp === 'question' ?
+        'queID' : 'pwtID';
+        yield axios.patch('/header', {id: updateFav.favDet.id, model: action.cntGrp, field},{headers: {'data-categ': 'changefavorite'}});
         yield delay(500)
         yield put(actions.changeMainFavoriteReset());
         yield put(actions.changeFav(updateFav.updateChangeFav));
@@ -71,22 +112,27 @@ export function* changeFavSaga(action) {
 }
 
 export function* changeCntInitSaga(action) {
+    let field =   action.modelType === 'post' ? 'postID' : action.modelType === 'question' ? 'queID' : 'pwtID';
     if (!action.confirm) {
-        yield put(actions.changeCntStart(action.title, action.id, action.det))
+        yield put(actions.changeCntStart(action.title, action.id, action.det, action.modelType))
         return;
     }
+
     try {
         if (action.det === 'delete') {
-            yield axios.delete('/question', {headers: {'data-categ': 'deleteCnt-'+action.id}});
+            let payload = JSON.stringify({id: action.id, model: action.modelType, field})
+            yield axios.delete('/header', {headers: {'data-categ': `deletecnt-${payload}`}});
+        } else if (action.det === 'draft'){
+            yield axios.patch('/header', {id: action.id, model: action.modelType, field} ,{headers: {'data-categ': 'draftmode'}});
         } else {
-            yield axios.patch('/question', {id: action.id} ,{headers: {'data-categ': 'changemode'}});
+            yield axios.patch('/header', {id: action.id, model: action.modelType, field} ,{headers: {'data-categ': 'publishmode'}});
         }
         yield put(actions.changeCnt())
         yield delay(1000);
-        yield put(actions.changeCntReset())
+        yield put(actions.changeCntReset(true))
     } catch(err){
         yield put(actions.changeCntFail(err))
         yield delay(1000);
-        yield put(actions.changeCntReset())
+        yield put(actions.changeCntReset(false))
     }
 }

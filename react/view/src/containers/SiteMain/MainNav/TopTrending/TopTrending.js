@@ -1,32 +1,39 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as actions from '../../../../store/actions/index';
 import TrendItems from '../../../../components/Main/Nav/TrendItems/TrendItems';
+import Loader from '../../../../components/UI/Loader/Loader';
 
 class TopTrending extends Component {
     componentDidMount() {
-        this.props.onFetchTrends(this.props.userID);
+        this.props.onFetchTrends(this.props.match.params.categ,  this.props.match.params.id);
     }
 
     changeFavoriteHandler = (id, isLiked, favAdd, cntGrp) => {
         this.props.onChangeFav(id, isLiked, favAdd, this.props.changedFav, this.props.userID, cntGrp)
     };
 
+    showTrendHandler = () => {
+        this.props.onShowTrend()
+    }
+
     render() {
-        let trends = null;
+        let trends = <Loader />;
 
         if (this.props.trd) {
             trends = <TrendItems 
             content={this.props.trd}
             fav={this.changeFavoriteHandler}
             changedFav={this.props.changedFav}
-            favChange={this.props.favChange}/>
+            favChange={this.props.favChange}
+            show={this.showTrendHandler}/>
         }
 
         return (
             <div className="reuse-trd reuse-trd__nav">
-                <h3> Top Trendings</h3>
+                <h3> Related Topics </h3>
                 <div className="reuse-trd__cnt reuse-trd__cnt--nav">
                     { trends }
                 </div>
@@ -46,9 +53,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchTrends: (userID) => dispatch(actions.fetchTrdInit(userID)),
-        onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp))
+        onFetchTrends: (cntGrp, id) => dispatch(actions.fetchTrdInit(cntGrp, id)),
+        onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),
+        onShowTrend: () => dispatch(actions.showTrd())
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopTrending);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TopTrending));

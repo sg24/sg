@@ -13,9 +13,8 @@ import App from './App';
 import './index.css';
 import auth from './store/reducers/auth';
 import cnt from './store/reducers/model';
-import filter from './store/reducers/filter';
-import share from './store/reducers/share';
 import tags from './store/reducers/tags';
+import share from './store/reducers/share';
 import trend from './store/reducers/trend';
 import setQue from './store/reducers/setQue';
 import conv from './store/reducers/conv';
@@ -23,11 +22,11 @@ import header from './store/reducers/header';
 import main from './store/reducers/main';
 
 import { 
+        watchAuth,
         watchCnt,
-        watchFilter,
-        watchShare,
         watchTags,
         watchTrd,
+        watchShare,
         watchSetQue,
         watchConv,
         watchHeader,
@@ -40,10 +39,9 @@ const sagaMiddleware = createSagaMiddleware();
 const rootReducers = combineReducers({
     auth,
     cnt,
-    filter,
-    share: share,
     tags: tags,
     trd: trend,
+    share,
     setQue: setQue,
     conv,
     header,
@@ -54,17 +52,17 @@ const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const store = createStore(rootReducers, composeEnhancer(applyMiddleware(sagaMiddleware)));
 
+sagaMiddleware.run(watchAuth);
 sagaMiddleware.run(watchCnt);
-sagaMiddleware.run(watchFilter);
-sagaMiddleware.run(watchShare);
 sagaMiddleware.run(watchTags);
 sagaMiddleware.run(watchTrd);
+sagaMiddleware.run(watchShare);
 sagaMiddleware.run(watchSetQue);
 sagaMiddleware.run(watchConv);
 sagaMiddleware.run(watchHeader);
 sagaMiddleware.run(watchMain);
 
-library.add(fas,far,fab)
+library.add(fas,far, fab)
 
 const app = (
     <Provider store={store}>
