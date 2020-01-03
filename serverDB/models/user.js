@@ -132,7 +132,7 @@ UserSchema.methods.generateAuthToken = function generateAuthToken() {
         User.offline = Date.now()
         User.pushMsg.push({publickey: vapidKeys.publicKey, privatekey: vapidKeys.privateKey})
         User.save().then(res => {
-            resolve({token, pushMsg: res.pushMsg[0].publickey});
+            resolve({token, pushMsg: res.pushMsg[0].publickey, id: res._id});
         });
        })
 };
@@ -169,7 +169,7 @@ UserSchema.statics.findByCredentials = function findByCredentials(username, pass
                     let newToken = jwt.sign({_id: user._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600 * 24* 7}).toString();
                     let tokens = [{access, token: newToken}];
                   User.findByIdAndUpdate(user._id, { tokens, offline: Date.now()}).then((res) =>{
-                    resolve({token: newToken, pushMsg: res.pushMsg[0].publickey});
+                    resolve({token: newToken, pushMsg: res.pushMsg[0].publickey, id: res._id});
                   }).catch(err =>{
                     reject('Error');
                   })

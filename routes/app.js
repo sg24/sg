@@ -683,9 +683,16 @@ router.post('/forget/reset', (req, res, next) => {
                         let access = 'authentication';
                         let newToken = jwt.sign({_id: token.id, access}, process.env.JWT_SECRET, { expiresIn: 3600 * 24* 7}).toString();
                         let tokens = [{access, token: newToken}];
-                      user.findByIdAndUpdate(token.id, {password: hash, tokens}).then(() =>{
-                        res.cookie('token', newToken, { signed: true, httpOnly: true });
-                        res.redirect('/')
+                      user.findByIdAndUpdate(token.id, {password: hash, tokens}).then(result =>{
+                        let decoded = null;
+                        decoded = jwt.verify(newToken, process.env.JWT_SECRET);
+                        if (decoded) {
+                            res.cookie('token', newToken, { signed: true, httpOnly: true , maxAge: 604800000});
+                            res.cookie('expiresIn', decoded.exp, {maxAge: 604800000});
+                            res.cookie('pushMsg', result.pushMsg[0].publickey, {maxAge: 604800000});
+                            res.cookie('id', result._id, {maxAge: 604800000});
+                            res.redirect('/');
+                        }
                       }).catch(err =>{
                           res.status(500).send({msg: 'Internal Server Error', expire: false})
                       })
@@ -801,6 +808,7 @@ router.post('/login', (req, res) => {
             res.cookie('token', req.user.token, { signed: true, httpOnly: true , maxAge: 604800000});
             res.cookie('expiresIn', decoded.exp, {maxAge: 604800000});
             res.cookie('pushMsg', req.user.pushMsg, {maxAge: 604800000});
+            res.cookie('id', req.user.id, {maxAge: 604800000});
             res.redirect('/');
         }
     }).catch((e) => {

@@ -18,6 +18,7 @@ module.exports =  checkStatus = (token, modelType, res) => {
                 res.cookie('token', newToken, { signed: true, httpOnly: true , maxAge: 604800000});
                 res.cookie('expiresIn', updateCookie.exp, {maxAge: 604800000});
                 res.cookie('pushMsg', result.pushMsg[0].publickey, {maxAge: 604800000});
+                res.cookie('id', result._id, {maxAge: 604800000});
             }
         }).catch(err => err)
     }

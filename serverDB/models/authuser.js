@@ -120,7 +120,7 @@ authUserSchema.methods.generateAuthToken = function generateAuthToken() {
      authUser.pushMsg.push({publickey: vapidKeys.publicKey, privatekey: vapidKeys.privateKey});
      authUser.offline = Date.now()
      authUser.save().then(res => {
-         resolve({token, pushMsg: res.pushMsg[0].publickey});
+         resolve({token, pushMsg: res.pushMsg[0].publickey, id: res._id});
      });
     })
  };
@@ -132,7 +132,7 @@ authUserSchema.methods.generateAuthToken = function generateAuthToken() {
         let newToken = jwt.sign({_id: userID, access}, process.env.JWT_SECRET, { expiresIn: 3600*24*7}).toString();
         let tokens = [{access, token: newToken}];
         authUser.findByIdAndUpdate(userID, { tokens, offline: Date.now()}).then((res) =>{
-            resolve({token: newToken, pushMsg: res.pushMsg[0].publickey});
+            resolve({token: newToken, pushMsg: res.pushMsg[0].publickey, id: res._id});
         }).catch(err =>{
             reject('Error');
         })
