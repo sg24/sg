@@ -12,7 +12,7 @@ class MainContent extends Component {
             path: '/users',
             icnGrp: 'users',
             icnClass: 'icon icon__site-main--user__tab',
-            title: 'Users',
+            title: 'Scholars',
         },
         request: {
             path: '/users/request',
@@ -20,7 +20,7 @@ class MainContent extends Component {
             icnClass: 'icon icon__site-main--user__tab',
             title: 'Request',
         },
-        curTab: 'users',
+        curTab: this.props.match.url.split('/').length > 2 ? this.props.match.url.split('/')[2] : this.props.match.url.split('/')[1],
         showCntActive: false,
         showRequestActive: true,
         updateTab: ''

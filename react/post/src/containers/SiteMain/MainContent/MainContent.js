@@ -11,9 +11,9 @@ class MainContent extends Component {
     state = {
         post: {
             path: '/post',
-            icnGrp: 'clone',
+            icnGrp: 'newspaper',
             icnClass: 'icon icon__site-main--content__tab--clone',
-            title: 'Post',
+            title: 'News feed',
         },
         share: {
             path: '/post/shared',
@@ -28,7 +28,8 @@ class MainContent extends Component {
 
     componentDidUpdate() {
         if (this.props.ptFetch && !this.state.ptFetch) {
-            this.props.onResetActive(this.props.userID, 'post');
+            this.props.onResetActive(this.props.userID, 
+                this.props.match.url.split('/').length > 2 ? this.props.match.url.split('/')[2] : this.props.match.url.split('/')[1]);
             this.setState({ptFetch: true})
         }
     }

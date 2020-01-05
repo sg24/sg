@@ -13,7 +13,7 @@ class MainContent extends Component {
             path: '/poet',
             icnGrp: 'book',
             icnClass: 'icon icon__site-main__ptwrit--tab',
-            title: 'poet&writers',
+            title: 'Writers',
         },
         share: {
             path: '/poet/shared',
@@ -28,7 +28,8 @@ class MainContent extends Component {
 
     componentDidUpdate() {
         if (this.props.cntFetch && !this.state.cntFetch) {
-            this.props.onResetActive(this.props.userID, 'question');
+            this.props.onResetActive(this.props.userID,
+                this.props.match.url.split('/').length > 2 ? this.props.match.url.split('/')[2] : this.props.match.url.split('/')[1]);
             this.setState({cntFetch: true})
         }
     }

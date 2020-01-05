@@ -11,7 +11,7 @@ class MainContent extends Component {
     state = {
         cnt: {
             path: '/question',
-            icnGrp: 'clone',
+            icnGrp: 'question',
             icnClass: 'icon icon__site-main--content__tab',
             title: 'Question',
         },
@@ -19,7 +19,7 @@ class MainContent extends Component {
             path: '/question/shared',
             icnGrp: 'hand-paper',
             icnClass: 'icon icon__site-main--content__tab',
-            title: 'Help Me',
+            title: 'Q Chat',
         },
         showCntActive: false,
         showShareActive: true,
@@ -28,7 +28,8 @@ class MainContent extends Component {
 
     componentDidUpdate() {
         if (this.props.cntFetch && !this.state.cntFetch) {
-            this.props.onResetActive(this.props.userID, 'question');
+            this.props.onResetActive(this.props.userID, 
+                this.props.match.url.split('/').length > 2 ? this.props.match.url.split('/')[2] : this.props.match.url.split('/')[1]);
             this.setState({cntFetch: true})
         }
     }

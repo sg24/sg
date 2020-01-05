@@ -36,13 +36,13 @@ class MainContent extends Component {
     state = {
         post: {
             path: '/index/post',
-            icnGrp: 'clone',
+            icnGrp: 'newspaper',
             icnClass: 'icon icon__site-main__content--tab',
-            title: 'Post'
+            title: 'News feed'
         },
         questions: {
             path: '/index/question',
-            icnGrp: 'clone',
+            icnGrp: 'question',
             icnClass: 'icon icon__site-main__content--tab',
             title: 'Questions'
         },
@@ -56,21 +56,21 @@ class MainContent extends Component {
             path: '/index/user',
             icnGrp: 'users',
             icnClass: 'icon icon__site-main__content--tab',
-            title: 'User',
+            title: 'Scholars',
         },
         helpme: {
             path: '/index/helpme',
             icnGrp: 'hand-paper',
             icnClass: 'icon icon__site-main__content--tab',
-            title: 'Help Me'
+            title: 'Q Chat'
         },
         poet: {
             path: '/index/poet',
             icnGrp: 'book',
             icnClass: 'icon icon__site-main__content--tab',
-            title: 'Poet&Writers'
+            title: 'Writers'
         },
-        curTab: 'post',
+        curTab: this.props.match.url.split('/')[2],
         cntFetch: false
     }
 
@@ -106,8 +106,8 @@ class MainContent extends Component {
                     <ul className="site-main__content--tab">
                     <MainNavigations 
                     content={this.state.post}
-                    removeActive={this.removeActiveHandler.bind(this, 'post')}
-                    active={this.state.curTab !== 'post' ? this.props.ptActive : null}/>
+                    removeActive={this.removeActiveHandler.bind(this, 'Newsfeed')}
+                    active={this.state.curTab !== 'Newsfeed' ? this.props.ptActive : null}/>
                 <MainNavigations 
                     content={this.state.questions}
                     removeActive={this.removeActiveHandler.bind(this, 'question')}
@@ -122,12 +122,12 @@ class MainContent extends Component {
                     active={this.state.curTab !== 'group' ? this.props.cntActive : null}/> */}
                 <MainNavigations 
                     content={this.state.user}
-                    removeActive={this.removeActiveHandler.bind(this, 'user')}
-                    active={this.state.curTab !== 'user' ? this.props.reqActive: null}/>
+                    removeActive={this.removeActiveHandler.bind(this, 'scholars')}
+                    active={this.state.curTab !== 'scholars' ? this.props.reqActive: null}/>
                 <MainNavigations 
                     content={this.state.poet}
-                    removeActive={this.removeActiveHandler.bind(this, 'poet')}
-                    active={this.state.curTab !== 'poet' ? this.props.cntActive : null}/>
+                    removeActive={this.removeActiveHandler.bind(this, 'writer')}
+                    active={this.state.curTab !== 'writer' ? this.props.cntActive : null}/>
                 </ul>
                 <Switch>
                     <Route path="/index/post" exact component={AsyncPosts}/>
