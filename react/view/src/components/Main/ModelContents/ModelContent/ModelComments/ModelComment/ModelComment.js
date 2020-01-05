@@ -65,7 +65,7 @@ const modelComment = props => {
     if (comment.dislike) {
         dislikeClass.push("reuse-view__comments--box__footer--user-like__disliked")
     }
-    console.log(comment.disabled)
+    
     if (comment.smile) {
         smileClass.push("reuse-view__comments--box__footer--user-like__liked")
     }
@@ -74,7 +74,7 @@ const modelComment = props => {
         footerCnt = (
             <Aux>
                 <div className="reuse-view__comments--box__footer--user-det">
-                    <div onClick={props.smile.bind(this, comment._id, 'smile', null)}>
+                    <div onClick={!comment.disabled ? props.smile.bind(this, comment._id, 'smile', null) : null}>
                         <FontAwesomeIcon 
                             icon={['far', 'smile']} 
                             className="icon icon__reuse-view--comments__like" />
@@ -91,7 +91,7 @@ const modelComment = props => {
         footerCnt = (
             <Aux>
                 <div className="reuse-view__comments--box__footer--user-like">
-                    <div onClick={props.wrong.bind(this, comment._id, 'comment', null)}>
+                    <div onClick={!comment.disabled ? props.wrong.bind(this, comment._id, 'comment', null) : null}>
                         <FontAwesomeIcon 
                             icon={['far', 'thumbs-down']} 
                             className="icon icon__reuse-view--comments__like" />
@@ -101,7 +101,7 @@ const modelComment = props => {
                     </div>
                 </div>
                 <div className="reuse-view__comments--box__footer--user-det">
-                    <div onClick={props.correct.bind(this, comment._id, 'comment', null)}>
+                    <div onClick={!comment.disabled ? props.correct.bind(this, comment._id, 'comment', null) : null}>
                         <FontAwesomeIcon 
                             icon={['far', 'thumbs-up']} 
                             className="icon icon__reuse-view--comments__like" />

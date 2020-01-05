@@ -7,8 +7,15 @@ import TrendItems from '../../../../components/Main/Nav/TrendItems/TrendItems';
 import Loader from '../../../../components/UI/Loader/Loader';
 
 class TopTrending extends Component {
+
     componentDidMount() {
         this.props.onFetchTrends(this.props.match.params.categ,  this.props.match.params.id);
+    }
+
+    componentDidUpdate() {
+        if ( this.props.show) {
+            this.props.onFetchTrends(this.props.match.params.categ,  this.props.match.params.id);
+        }
     }
 
     changeFavoriteHandler = (id, isLiked, favAdd, cntGrp) => {
@@ -48,6 +55,7 @@ const mapStateToProps = state => {
         changedFav: state.cnt.changedFav,
         favChange: state.cnt.favChange,
         userID: state.auth.userID,
+        show: state.trd.show
     };
 };
 

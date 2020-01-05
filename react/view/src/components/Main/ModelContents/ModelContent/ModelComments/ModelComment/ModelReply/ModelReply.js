@@ -59,7 +59,7 @@ const modelReply = props => {
         footerCnt = (
             <Aux>
                 <div className="reuse-view__comments--box__footer--user-det">
-                    <div onClick={props.smile.bind(this, props.commentID, 'smilereply', comment._id)}>
+                    <div onClick={!comment.disabled ? props.smile.bind(this, props.commentID, 'smilereply', comment._id) : null}>
                         <FontAwesomeIcon 
                             icon={['far', 'smile']} 
                             className="icon icon__reuse-view--comments__like" />
@@ -77,7 +77,7 @@ const modelReply = props => {
         footerCnt = (
             <Aux>
                 <div className="reuse-view__comments--box__footer--user-like">
-                    <div onClick={props.wrong.bind(this, props.commentID, 'reply', comment._id)}>
+                    <div onClick={!comment.disabled ? props.wrong.bind(this, props.commentID, 'reply', comment._id) : null}>
                         <FontAwesomeIcon 
                             icon={['far', 'thumbs-down']} 
                             className="icon icon__reuse-view--comments__like" />
@@ -87,7 +87,7 @@ const modelReply = props => {
                     </div>
                 </div>
                 <div className="reuse-view__comments--box__footer--user-det">
-                    <div onClick={props.correct.bind(this, props.commentID, 'reply', comment._id)}>
+                    <div onClick={!comment.disabled ? props.correct.bind(this, props.commentID, 'reply', comment._id) : null}>
                         <FontAwesomeIcon 
                             icon={['far', 'thumbs-up']} 
                             className="icon icon__reuse-view--comments__like" />

@@ -8,9 +8,9 @@ import * as actions from '../../../store/actions/index';
 class UserOption extends Component {
     state ={
         show: false,
-        default: false
+        default: false,
+        id: document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1")
     };
-
     componentDidUpdate() {
         if (this.state.show && !this.state.default && this.props.hidUserOption) {
             this.setState({
@@ -33,6 +33,7 @@ class UserOption extends Component {
     render() {
         let userDetClass = ["site-header__user--det"];
         let userImg = <img className="site-header__user--img" src={this.props.img} alt={this.props.username}/>;
+        let profile = null;
 
         if (this.state.show) {
             userDetClass.push("site-header__user--det__visible")
@@ -42,20 +43,26 @@ class UserOption extends Component {
             userImg = <Avatar  name={this.props.username} size='30' round />;
         }
 
+        if (this.state.id){
+            profile = (
+                <li className="site-header__user--det__portal">
+                    <a href={`/user/profile/${this.state.id}`}>
+                        <div className="site-header__user--det__portal--img">
+                        { userImg }
+                        </div>
+                        My Profile
+                        </a>  
+                </li>
+            )
+        }
+
         return ( 
             <div 
                 className="site-header__user"
                 onClick={this.showUserOptionHandler}>
                 { userImg }
                 <ul className={userDetClass.join(' ')}>
-                    {/* <li className="site-header__user--det__portal">
-                    <a href="/acc">
-                        <div className="site-header__user--det__portal--img">
-                        { userImg }
-                        </div>
-                        My Portal 
-                        </a>  
-                    </li>
+                    { profile }
                     <li className="site-header__user--det__acc">
                         <a href="/acc/set">
                             <div>
@@ -76,6 +83,7 @@ class UserOption extends Component {
                             Logout
                         </a>
                     </li>
+                    { profile }
                 </ul>
             </div>
         );

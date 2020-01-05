@@ -360,12 +360,14 @@ const modelContent = props => {
                             liked={props.favChange.isLiked}/> : null}
                     </div>
                 </div>
-                <a href="/view/#Add-Comment" id="Add-Comment-link" className="reuse-view__main--footer__add"> 
+                <div 
+                    className="reuse-view__main--footer__add"
+                    onClick={props.scroll}> 
                     <FontAwesomeIcon 
                         icon={['fas', 'pencil-alt']} 
                         className="icon icon__reuse-view--main__add" />
                     Comment
-                </a>
+                </div>
                 { userOpt }
             </div>
         </div>
@@ -373,7 +375,7 @@ const modelContent = props => {
         <div className="reuse-view__comments">
             <div className="reuse-view__comments--header">
                 <div className="reuse-view__comments--header__ans">Comment Section 
-                    <a href={"/add/"+props.cntGrp} className="reuse-view__comments--header__ask">Add {props.cntGrp}</a>
+                    <a href={"/add/"+props.cntGrp} className="reuse-view__comments--header__ask">Add {props.cntGrp !== 'poet' ? props.cntGrp : null}</a>
                     <div className="reuse-view__comments--box__footer--user-like__total reuse-view__comments--header__total">
                         { props.cnt.comment }
                     </div>
@@ -406,15 +408,13 @@ const modelContent = props => {
                 {/* <textarea className="reuse-view__form--field__textarea" name="editor" ></textarea> */}
                 <div className="reuse-view__form--field__wrapper">
                     <Editor 
-                        id="Add-Comment" 
-                        data-matching-link="#Add-Comment-link"
                         wrapperClassName=""
                         editorClassName="reuse-view__form--field__textarea"
                         toolbarClassName="reuse-view__form--field__textarea--toolbar"
                         editorState={props.inputValue}
                         onEditorStateChange={props.inputChanged} 
                         toolbar={{
-                            options: ['inline', 'blockType', 'colorPicker', 'emoji', 'remove', 'history'],
+                            options: ['inline', 'blockType', 'emoji', 'remove', 'history'],
                             inline: { inDropdown: true }
                     }}/>
                 </div>

@@ -137,7 +137,7 @@ class Model extends Component {
         setTimeout(() => {
             let mediaItms = [...this.state.mediaItms];
             let filterMedia = mediaItms.filter(media => media.id === id);
-            let mediaDet = {id, position: type === 'next' ? 1 : maxLength - 1};
+            let mediaDet = {id, position: type === 'next' ?  maxLength > 1 ? 1 : 0 : maxLength - 1};
             if (filterMedia.length > 0) {
                 for (let mediaItm of filterMedia) {
                     mediaDet = {id: mediaItm.id, position: type === 'next' ? mediaItm.position+=1 : mediaItm.position-=1};
@@ -166,6 +166,10 @@ class Model extends Component {
     changeCntHandler = (id, title, det) => {
         let checkTitle = String(title).length > 50 ? String(title).substr(0, 50) + '...' : title
         this.props.onChangeCnt(id, checkTitle, det, false, this.state.categ);
+    }
+
+    scrollHandler  = () => {
+        document.querySelector('.reuse-view__form--field__wrapper').scrollIntoView({behavior: 'smooth'})
     }
 
     replyHandler = (commentID) => {
@@ -223,6 +227,7 @@ class Model extends Component {
                     moveSlidePlay={this.moveSlidePlayHandler}
                     clearSlidePlay={this.clearSlidePlayhandler}
                     changeCnt={this.changeCntHandler}
+                    scroll={this.scrollHandler}
                     inputValue={this.state.inputValue}
                     inputChanged={this.inputChangedHandler}
                     submitComment={this.submitCommentHandler}

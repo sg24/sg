@@ -270,9 +270,9 @@ class Form extends  Component {
                         <div>
                             <div>
                             <FontAwesomeIcon 
-                                icon={['fas', 'pencil-alt']} />
+                                icon={['fas', 'newspaper']} />
                             </div> 
-                            Add Post
+                            Add
                         </div>
                     </h3>
                     <div className="reuse-form__cnt">
@@ -349,7 +349,7 @@ class Form extends  Component {
                                     editorState={this.state.formElement.content.value}
                                     onEditorStateChange={(event) => this.inputChangedHandler(event, 'content')} 
                                     toolbar={{
-                                        options: ['inline', 'blockType', 'colorPicker', 'emoji', 'remove', 'history'],
+                                        options: ['inline', 'blockType', 'emoji', 'remove', 'history'],
                                         inline: { inDropdown: true }
                                 }}/>
                             </div>

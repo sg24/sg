@@ -31,6 +31,7 @@ const modelContents = props => {
             changeCnt={props.changeCnt.bind(this, props.cnt._id,props.cnt.title, 'draft')}
             changeCntPublish={props.changeCnt.bind(this, props.cnt._id,props.cnt.title, 'publish')}
             comments={props.comments}
+            scroll={props.scroll}
             inputValue={props.inputValue}
             inputChanged={props.inputChanged}
             submitComment={props.submitComment}

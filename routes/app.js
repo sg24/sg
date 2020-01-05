@@ -690,7 +690,7 @@ router.post('/forget/reset', (req, res, next) => {
                             res.cookie('token', newToken, { signed: true, httpOnly: true , maxAge: 604800000});
                             res.cookie('expiresIn', decoded.exp, {maxAge: 604800000});
                             res.cookie('pushMsg', result.pushMsg[0].publickey, {maxAge: 604800000});
-                            res.cookie('id', result._id, {maxAge: 604800000});
+                            res.cookie('id', result._id.toHexString(), {maxAge: 604800000});
                             res.redirect('/');
                         }
                       }).catch(err =>{

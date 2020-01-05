@@ -150,7 +150,7 @@ class Questions extends Component {
         setTimeout(() => {
             let mediaItms = [...this.state.mediaItms];
             let filterMedia = mediaItms.filter(media => media.id === id);
-            let mediaDet = {id, position: type === 'next' ? 1 : maxLength - 1};
+            let mediaDet = {id, position: type === 'next' ?  maxLength > 1 ? 1 : 0 : maxLength - 1};
             if (filterMedia.length > 0) {
                 for (let mediaItm of filterMedia) {
                     mediaDet = {id: mediaItm.id, position: type === 'next' ? mediaItm.position+=1 : mediaItm.position-=1};

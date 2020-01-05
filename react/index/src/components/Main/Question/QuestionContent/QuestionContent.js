@@ -17,7 +17,7 @@ const questionContent = props => {
     let userOptClass = ['reuse-que__footer--details__options'];
     let favAdd = null;
     let isLiked = null;
-    let title = String(props.que.title).length > 149 ? String(props.que.title).substr(0, 150) + '...' :' props.que.title';
+    let title = String(props.que.title).length > 149 ? String(props.que.title).substr(0, 150) + '...' : props.que.title;
     let mediaTotal = props.que.snapshot.length+props.que.image.length;
     let desc = (
         <p className="reuse-que__content--title">

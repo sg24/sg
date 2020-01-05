@@ -325,7 +325,7 @@ class Form extends  Component {
                                     editorState={this.state.formElement.content.value}
                                     onEditorStateChange={(event) => this.inputChangedHandler(event, 'content')} 
                                     toolbar={{
-                                        options: ['inline', 'blockType', 'colorPicker', 'emoji', 'remove', 'history'],
+                                        options: ['inline', 'blockType', 'emoji', 'remove', 'history'],
                                         inline: { inDropdown: true }
                                 }}/>
                             </div>

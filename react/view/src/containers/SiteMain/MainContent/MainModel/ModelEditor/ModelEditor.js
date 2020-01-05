@@ -70,7 +70,7 @@ class ModelEditor extends Component {
                                         editorState={this.state.inputValue}
                                         onEditorStateChange={this.inputChangedHandler} 
                                         toolbar={{
-                                            options: ['inline', 'blockType', 'colorPicker', 'emoji', 'remove', 'history'],
+                                            options: ['inline', 'blockType', 'emoji', 'remove', 'history'],
                                             inline: { inDropdown: true }
                                     }}/>
                                 </div>
