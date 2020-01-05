@@ -1,0 +1,22 @@
+    
+.site-header__user--det__addNew {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 0;
+    right: 0px;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: #16cf27;;
+    cursor: pointer;
+    color: #fff;
+    font-size: .625rem;
+}
+
+@media (min-width:  530px) {
+    .site-header__user--det__addNew {
+        display: none;
+    }
+}
