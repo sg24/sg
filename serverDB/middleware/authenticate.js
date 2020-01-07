@@ -30,9 +30,11 @@ let authenticate = (req, res, next) => {
    
         });
         return
+    } else {
+        res.redirect('/login')
     }
     // res.status(401).send('Your are not authenticated');
-    next()
+    // next()
 }
 
 

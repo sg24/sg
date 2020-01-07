@@ -7,7 +7,7 @@ const options = {
     useFindAndModify: false
   };
 //   mongodb://localhost:27017/sg
-const connectStatus = mongoose.connect("mongodb+srv://slodge24:philipmayowa03@cluster0-somc2.gcp.mongodb.net/test?retryWrites=true&w=majority", options);
+const connectStatus = mongoose.connect("mongodb+srv://slodge24:philipmayowa03@cluster0-z5rab.gcp.mongodb.net/sg?retryWrites=true&w=majority", options);
 
 const storage = new GridFSStorage({
     db: connectStatus,

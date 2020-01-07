@@ -1,12 +1,11 @@
-runtime: nodejs12
+runtime: nodejs
 
 instance_class: F2
 
-env: flex
+# env: flex
 
 env_variables:
-  MONGODB_URI: mongodb://localhost:27017/sg,
-  PORT: 3002,
+  MONGODB_URI: mongodb+srv://slodge24:philipmayowa03@cluster0-z5rab.gcp.mongodb.net/sg?retryWrites=true&w=majority,
   JWT_SECRET: sg must be lunched today by the virtue of grace,
   googleClientID: 384311833459-sfjngj19c85ht0bc94dq5hchou3v6qg6.apps.googleusercontent.com,
   googleClientSecret: YiqKWiCdzxEJj9Tp0KL3xs02,
