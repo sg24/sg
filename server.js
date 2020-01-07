@@ -55,6 +55,8 @@ hbs.registerPartials(__dirname + '/views/partialsviewpt');
 hbs.registerPartials(__dirname + '/views/partialsviewpwt');
 hbs.registerPartials(__dirname + '/views/partialsacc');
 hbs.registerPartials(__dirname + '/views/partialsforgetpwd');
+hbs.registerPartials(__dirname + '/views/term');
+hbs.registerPartials(__dirname + '/views/policy');
 
 app.set('view engine', 'hbs');
 

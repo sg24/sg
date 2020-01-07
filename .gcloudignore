@@ -1,0 +1,9 @@
+/node_modules
+/.idea
+/typings
+/public/js/
+npm-debug.log 
+/react
+/publics
+/gulp
+/assests

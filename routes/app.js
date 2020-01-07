@@ -6,7 +6,7 @@ let authenticate = require('../serverDB/middleware/authenticate');
 const nodemailer = require('nodemailer');
 let passport = require('passport');
 const bcrypt = require('bcryptjs');
-const fetchCnt = require('./utility/fetchCnt');
+const fetchCnt = require('./utility/fetchcnt');
 let filterCnt = require('./utility/filtercnt');
 let userFilter = require('./utility/userfilter');
 let notification = require('./utility/notifications');
@@ -819,5 +819,13 @@ router.post('/login', (req, res) => {
 router.post('token', (req, res, next) =>{
     res.send(req.user);
 })
+
+router.get('/term',function (req, res, next) {
+    res.render('term')
+});
+
+router.get('/privacy',function (req, res, next) {
+    res.render('policy')
+});
 
 module.exports = router;

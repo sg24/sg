@@ -6,8 +6,8 @@ const options = {
     useCreateIndex: true,
     useFindAndModify: false
   };
-
-const connectStatus = mongoose.connect("mongodb://localhost:27017/sg", options);
+//   mongodb://localhost:27017/sg
+const connectStatus = mongoose.connect("mongodb+srv://slodge24:philipmayowa03@cluster0-somc2.gcp.mongodb.net/test?retryWrites=true&w=majority", options);
 
 const storage = new GridFSStorage({
     db: connectStatus,

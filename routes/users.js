@@ -3,7 +3,7 @@ let router = express.Router();
 let mongoose = require('mongoose');
 let authenticate = require('../serverDB/middleware/authenticate');
 const bcrypt = require('bcryptjs');
-const fetchCnt = require('./utility/fetchCnt');
+const fetchCnt = require('./utility/fetchcnt');
 let filterCnt = require('./utility/filtercnt');
 let userFilter = require('./utility/userfilter');
 const {category, user, 

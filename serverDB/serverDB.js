@@ -13,7 +13,7 @@ const favorite = require('./models/favorites');
 const comment = require('./models/comment');
 const user = require('./models/user');
 const tempUser = require('./models/tempUser');
-const authUser = require('./models/authUser');
+const authUser = require('./models/authuser');
 
 module.exports = {
     posts,
