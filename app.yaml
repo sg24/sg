@@ -1,8 +1,13 @@
 runtime: nodejs
 
-instance_class: F2
+env: flex
 
-# env: flex
+manual_scaling:
+  instances: 1
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
 
 env_variables:
   MONGODB_URI: mongodb+srv://slodge24:philipmayowa03@cluster0-z5rab.gcp.mongodb.net/sg?retryWrites=true&w=majority,
@@ -14,8 +19,11 @@ env_variables:
   googleRefreshToken: 1//04MyONqvAd-jKCgYIARAAGAQSNwF-L9IryEjmlN_T_YnKM7ti_QnEt3XB9FvD41AhdVGjmc6u_kQr87AlyRSPPeyIvicOf9W0rp0,
   googleAccessToken: ya29.Il-xByYsBZ0QFU2W-9jsrfVK56i9yH0oW9jG2f9k9PU6A_CsxYUEpaxti5fhDAjjThBX-AGjcKnUwwihjU8uFS1hYZ2c-lJSxDKbJK90W6B8bwZ8wby_gQaVWUv8d-J_tw,
   user: scholarslodge24@gmail.com,
-  pass: philipmayowa03
+  pass: philipmayowa03,
+  NODE_ENV: production
 
 handlers:
-- url: /
-  static_dir: public
+- url: /.*
+  secure: always
+  redirect_http_response_code: 301
+  script: auto
