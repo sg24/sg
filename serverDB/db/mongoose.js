@@ -6,8 +6,8 @@ const options = {
     useCreateIndex: true,
     useFindAndModify: false
   };
-let uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/sg'
-const connectStatus = mongoose.connect(uri, options);
+
+const connectStatus = mongoose.connect(process.env.MONGODB_URI, options);
 
 const storage = new GridFSStorage({
     db: connectStatus,

@@ -21,6 +21,7 @@ env_variables:
   user: scholarslodge24@gmail.com
   pass: philipmayowa03
   NODE_ENV: production
+  SENDGRID_API_KEY: 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
 
 handlers:
 - url: /.*
