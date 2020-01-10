@@ -22,9 +22,9 @@ env_variables:
   pass: philipmayowa03
   NODE_ENV: production
   SENDGRID_API_KEY: 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
-
+  
 handlers:
 - url: /.*
-  secure: always
-  redirect_http_response_code: 301
-  script: auto
+  secure: never
+  http_headers:
+    Access-Control-Allow-Origin: '*'

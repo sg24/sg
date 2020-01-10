@@ -11,11 +11,6 @@ const {category, user,
 
 
 router.get('/', authenticate,(req, res, next) => {
-    if (!req.user) {
-        res.redirect('/login');
-        return
-    }
-
     if (req.header && req.header('data-categ') === 'users') {
         return fetchUsers(connectStatus, {
             block: {$ne: req.user},
@@ -35,7 +30,7 @@ router.get('/', authenticate,(req, res, next) => {
             })
     }
 
-    if (req.header && req.header('data-categ').startsWith('request')) {
+    if (req.header && req.header('data-categ') && req.header('data-categ').startsWith('request')) {
         let isActive = req.header('data-categ').split('-')[1];
         return fetchReq(connectStatus, {
             block: {$ne: req.user},
@@ -185,7 +180,7 @@ router.get('/', authenticate,(req, res, next) => {
                         let teacherFilter = teacher.filter(id => id === req.user);
 
                         let id = cnt._id.toHexString();
-                        let userDet = {id, username: cnt.username,student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
+                        let userDet = {id, username: cnt.username,studenttotal: cnt.studenttotal, student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
                         
                         if (filterReq.length > 0) {
                             userDet['request'] = true

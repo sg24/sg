@@ -23,12 +23,12 @@ let mediaRoute = require('./routes/media');
 let app = express();
 
 app.use(cookieParser('secret'));
-app.use(function(req, res, next) {
-    if(req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === "http") {
-      return res.redirect(['https://', req.get('Host'), req.url].join(''));
-    }
-    next();
-  });
+// app.use(function(req, res, next) {
+//     if(req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === "http") {
+//       return res.redirect(['https://', req.get('Host'), req.url].join(''));
+//     }
+//     next();
+//   });
   
 require('./serverDB/config/passport').auth(passport);
 require('./serverDB/config/passport').authFacebook(passport);
@@ -96,7 +96,7 @@ app.use('/media', mediaRoute);
 app.use('/sitemap.xml', sitemapxmlRoute);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    return res.render('index');
+    return res.redirect('/index/post');
 });
 
 module.exports = {app};
