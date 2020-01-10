@@ -9,7 +9,7 @@ router.get('/google', passport.authenticate('google', {
 }))
 
 router.get('/google/callback', 
-passport.authenticate('google', { failureRedirect: '/login', session: false }), (req, res,next) => {
+passport.authenticate('google', { failureRedirect: '/login', failureFlash: false, session: false }), (req, res,next) => {
     let decoded = null;
     decoded = jwt.verify(req.user.token, process.env.JWT_SECRET);
     if (decoded) {
@@ -25,7 +25,7 @@ router.get('/facebook',
 passport.authenticate('facebook'));
 
 router.get('/facebook/callback',
-passport.authenticate('facebook', { failureRedirect: '/login', session: false  }),(req, res) => {
+passport.authenticate('facebook', { failureRedirect: '/login', failureFlash: false, session: false  }),(req, res) => {
     let decoded = null;
     decoded = jwt.verify(req.user.token, process.env.JWT_SECRET);
     if (decoded) {
@@ -42,6 +42,10 @@ router.get('/verify', authenticate, (req,res,next) =>{
 });
 
 router.get('/logout', (req,res,next) =>{
+    res.cookie('token', null);
+    res.cookie('expiresIn', null);
+    res.cookie('pushMsg', null);
+    res.cookie('id', null);
     req.logout()
     res.redirect('/login')
 })

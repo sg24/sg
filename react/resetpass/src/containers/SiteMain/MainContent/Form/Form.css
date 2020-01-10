@@ -488,7 +488,7 @@ img {
   padding: 5px 0;
   background-color: #dcdbdc;
   border-radius: 10px;
-  width: 135px;
+  width: 155px;
   text-align: center;
   margin: 0 auto;
 }
@@ -591,8 +591,8 @@ img {
   margin-top: 10px;
   background-color: #fff;
   border-radius: 3px;
-  font-size: .875rem;/* border: 1px solid $mainDarkGray;  */
-  box-shadow: inset 0 0px 1px 0px rgba(0,0,0, .95);
+  font-size: .875rem;
+  border: 1px solid #dcdbdc;
 }
 
 .reuse-form__cnt--det > div {
@@ -691,12 +691,34 @@ img {
 }
 
 .reuse-form__footer {
-  padding: 5px;
+  list-style: none;
+  content: "";
+  clear: both;
+  display: table;
+  width: 100%;
+  padding: 5px 20px;
   margin: 5px 0 0 0;
   background-color: #f9f9f9;
-  text-align: center;
+  text-align: left;
   font-size: 0.8125rem;
+}
+
+.reuse-form__footer > li { 
+  float: left;
+  width: 33.33%;
+}
+
+.reuse-form__footer > li > a { 
+  color: #333;
+}
+
+.reuse-form__footer > li:last-child { 
+  text-align: right;
+}
+
+.reuse-form__footer--copy {
   font-weight: bold;
+  text-align: center;
 }
 
 @media (min-width: 530px) {

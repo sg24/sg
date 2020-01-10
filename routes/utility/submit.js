@@ -88,7 +88,7 @@ module.exports = submitForm = (content, model, files, notify, viewnotify, userMo
                                             title: String(content.title).length < 50 ? String(content.title) : String(content.title).substr(0, 50)+'...',
                                             content: String(JSON.parse(content.desc).blocks[0].text).length < 50 ? String(JSON.parse(content.desc).blocks[0].text): 
                                             String(JSON.parse(content.desc).blocks[0].text).substr(0, 50)+'...',
-                                            openUrl: `/${field}/${id}`
+                                            openUrl: `/view/${field}/${id}`
                                           }), pushOptions).then(() => {
                                               ++send;
                                               if (send === allSubscription.length) {

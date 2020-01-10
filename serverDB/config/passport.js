@@ -1,6 +1,6 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
-const { authUser } = require('../serverDB');
+const { authUser, user } = require('../serverDB');
 
 module.exports = {
     auth: function(passport) {
@@ -18,18 +18,30 @@ module.exports = {
                 email: profile.emails[0].value,
                 image
             })
-            authUser.findOne({googleID: profile.id}).then(result => {
-                if (!result) {
-                    newUser.generateAuthToken().then(token => {
-                        done(null, token)
-                    });
-                } else {
-                    authUser.updateAuthToken(result._id).then(token =>{
-                        done(null, token)
-                    })
+            if (profile.emails) {
+                let emails = [];
+                for(let email of profile.emails) {
+                    emails.push(email.value);
                 }
-                
-            })
+                user.findOne({email: {$in: emails}}).then(result => {
+                    if (result) {
+                        done(null, false, {message: 'Email already taken'});
+                    } else {
+                        authUser.findOne({googleID: profile.id}).then(result => {
+                            if (!result) {
+                                newUser.generateAuthToken().then(token => {
+                                    done(null, token)
+                                });
+                            } else {
+                                authUser.updateAuthToken(result._id).then(token =>{
+                                    done(null, token)
+                                })
+                            }
+                            
+                        })
+                    }
+                })
+            }
           }
         ));
     },

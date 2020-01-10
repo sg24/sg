@@ -115,7 +115,7 @@ class Form extends Component {
                 <div className="reuse-form__cnt">
                 <div className="reuse-form__cnt--header">
                         <h4>Welcome to Slodge24</h4>
-                        <p>Knowledge sharing platform | Connecting scholars...</p>
+                        <p>Knowledge sharing platform | Connecting scholars</p>
                     </div>
                     <div className="reuse-form__cnt--main-wrapper">
                         <h4>Login with</h4>

@@ -1,6 +1,6 @@
 {
   "name": "Knowledge sharing platform | Connecting scholars",
-  "short_name": "SG",
+  "short_name": "Slodge24",
   "icons": [
     {
       "src": "/icons/sg-icon-48x48.png",
@@ -38,13 +38,13 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "/index",
+  "start_url": "/",
   "scope": ".",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#fff",
   "theme_color": "#05578b",
-  "description": "SG connects you with scholars all around the world",
+  "description": "Slodge24 connect's you with scholars all around the world",
   "dir": "ltr",
   "lang": "en-US"
 }

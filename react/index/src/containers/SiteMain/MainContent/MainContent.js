@@ -70,7 +70,7 @@ class MainContent extends Component {
             icnClass: 'icon icon__site-main__content--tab',
             title: 'Writers'
         },
-        curTab: this.props.match.url.split('/')[2],
+        curTab: this.props.match.url.split('/')[2] ? this.props.match.url.split('/')[2] : 'Newsfeed',
         cntFetch: false
     }
 

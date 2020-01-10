@@ -11,13 +11,10 @@ const fetchCnt = require('./utility/fetchcnt');
 let filterCnt = require('./utility/filtercnt');
 let userFilter = require('./utility/userfilter');
 let notification = require('./utility/notifications');
+let push = require('./utility/push');
 const {category,  posts, questions, poets, user, tempUser, postnotifies, 
      authUser, quenotifies, pwtnotifies, viewnotifies, usernotifies,
      favorite, connectStatus} = require('../serverDB/serverDB');
-
-router.get('/', authenticate,function (req, res, next) {
-    res.redirect('/index/post')
-});
 
 router.get('/index/:id', authenticate,function (req, res, next) {
     res.render('index');
@@ -460,7 +457,9 @@ router.patch('/header', authenticate, (req, res, next) => {
         let shareMe = JSON.parse(req.body.users);
         notification(shareMe, modelNotifies, req.body.id, req.body.field).then(() =>{
             model.findByIdAndUpdate(req.body.id, {$addToSet: { shareMe: { $each: shareMe } }}).then((result) => {
-                res.sendStatus(200);
+                push(shareMe, result, req.body.model, req.body.id).then(() => {
+                    res.sendStatus(200);
+                })
             }).catch(err => {
                 res.status(500).send(err);
             })
@@ -597,11 +596,27 @@ router.get('/acc/set', (req, res, next) => {
 });
 
 router.get('/login', (req, res, next) => {
-    res.render('loginform'); 
+    if (req.signedCookies.token) {
+        let checkToken = null;
+        checkToken = jwt.verify(req.signedCookies.token, process.env.JWT_SECRET);
+        if (checkToken) {
+            res.redirect('/')
+        }
+    } else {
+        res.render('loginform'); 
+    }
 });
 
 router.get('/signup', (req, res, next) => {
-    res.render('signupform'); 
+    if (req.signedCookies.token) {
+        let checkToken = null;
+        checkToken = jwt.verify(req.signedCookies.token, process.env.JWT_SECRET);
+        if (checkToken) {
+            res.redirect('/')
+        }
+    } else {
+        res.render('signupform'); 
+    }
 });
 
 router.get('/signup/profile', (req, res, next) => {
@@ -616,40 +631,64 @@ router.post('/forget/password', (req, res, next) => {
     user.findOne({email: req.body.email}).then(result => {
         if (result) {
             let token = jwt.sign({ id: result.id }, process.env.JWT_SECRET, {  expiresIn: 60*60 });
-            let transport = nodemailer.createTransport({
-                host: 'smtp.gmail.com',
-                port: 465,
-                secure: true,
-                auth: {
-                    type: 'OAuth2',
-                    user: process.env.user,
-                    clientId: process.env.googleClientID,
-                    clientSecret: process.env.googleClientSecret,
-                    refreshToken: process.env.googleRefreshToken,
-                    accessToken: process.env.googleAccessToken
-                }
-            });
-            const message = {
-                from: 'www.sg24.com',
-                to: req.body.email,   
-                subject: 'SG24 | Knowledge sharing center',
-                html: `
-                    <div>
-                    <h1 style='text-align:center,color:#333'>SG24 |Connecting Scholars</h1>
-                    <h4>Scholars are waiting for you idea's</h4>
-                    <p>Click this 
-                    <a href='http://localhost:3002/forget/reset/${token}' style='color: #0284a8;font-weight: bold;'>link</a> Reset password </p>
+            sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+            const msg = {
+              to: req.body.email, 
+              from: 'Reset password <noreply@slodge24.com>',
+              subject: 'Slodge24 | Knowledge sharing platform',
+              html: `
+              <div class="" style="background-color: #f6f6f6; color: #333;font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
+              <table border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background-color: #f6f6f6;">
+                <tr>
+                  <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
+                  <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
+                    <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
+                      <img src="https://slodge24.com/static/media/logo.png" alt="Slodge24" title="slodge24" style="display:block;margin: 30px auto;max-width:100%;border-style:none;height:48px;width:48px" width="48" height="48">
+                      <table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;">
+                        <tr>
+                          <td class="wrapper" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px; background-color: #fff;height: auto; width:100%">
+                            <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                              <tr>
+                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
+                                  <p style="font-family: sans-serif; font-size: 30px; font-weight: normal; margin: 0; Margin-bottom:5px;display:inline-block;color: #3498db">Reset Password</p>
+                                  <p style="font-family: sans-serif; font-size: 16px; font-weight: normal; margin: 0; Margin-bottom: 15px; color: #333;padding-top:15px; border-top: 1px solid #dcdbdc;">Please, Click the following link to reset password.</p>
+                                  <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;">
+                                    <tbody>
+                                      <tr>
+                                        <td align="left" style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding-bottom: 15px;">
+                                          <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
+                                            <tbody>
+                                              <tr>
+                                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="https://slodge24.com/forget/reset/${token}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 20px; text-transform: capitalize; border-color: #3498db;">Reset Password</a> </td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Or copy and paste this link. https://slodge24.com/forget/reset/${token}</p>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
                     </div>
+                  </td>
+                  <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
+                </tr>
+              </table>
+            </div>
                 `
             };
-            transport.sendMail(message, function(err, info) {
-                if (err) {
-                    res.status(400).send(err) 
-                } else {
-                    console.log(token)
-                    res.sendStatus(200)
-                }
-            });
+            sgMail.send(msg).then(() => {
+                res.sendStatus(201);
+            }).catch(err =>{
+                tempUser.findByIdAndRemove(result.id).then(() =>{
+                    res.status(400).send(err)
+                })
+            })
         } else {
             res.sendStatus(200)
         }
@@ -710,9 +749,6 @@ router.post('/forget/reset', (req, res, next) => {
 });
 
 router.post('/signup', (req, res) => {
-    if (req.user) {
-        res.redirect('/index/post')
-    }
     let newUser = new tempUser({
         username: req.body.username,
         password: req.body.password,
@@ -721,90 +757,76 @@ router.post('/signup', (req, res) => {
 
     user.findOne({email: req.body.email}).then(result => {
         if (result) {res.status(422).send('Email Already taken'); return}
-        user.findOne({username: req.body.username}).then(result => {
-        if (result) {  res.status(422).send('Username Already taken');return }
         authUser.findOne({email: req.body.email}).then(result => {
             if (result) {res.status(422).send('Email Already taken'); return}
-            authUser.findOne({username: req.body.username}).then(result => {
-                if (result) {res.status(422).send('Username Already taken'); return}
                 newUser.save().then(result => {
                     let token = jwt.sign({ id: result.id }, process.env.JWT_SECRET, {  expiresIn: 60*60 });
                     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
                     const msg = {
-                      to: req.body.email, 
-                      from: 'Slodge24 <noreply@slodge24.com>',
-                      subject: 'Slodge24 | Knowledge sharing platform',
-                      html: `
-                      <div class="" style="background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
-                      <table border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background-color: #f6f6f6;">
+                        to: req.body.email, 
+                        from: 'Slodge24 <noreply@slodge24.com>',
+                        subject: 'Slodge24 | Knowledge sharing platform',
+                        html: `
+                        <div class="" style="background-color: #f6f6f6; color: #333;font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
+                        <table border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background-color: #f6f6f6;">
                         <tr>
-                          <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
-                          <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
+                            <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
+                            <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
                             <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
-           
-                              <!-- START CENTERED WHITE CONTAINER -->
-                              <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">Please click this link  <a href="https://localhost:3000/signup/confirmation/${token}" target="_blank">Confirm Email</a>.</span>
-                            
-                              <table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;">
-                  
-                                <!-- START MAIN CONTENT AREA -->
+            
+                                <!--  <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">Please click this link  <a href="https://localhost:3000/signup/confirmation/" target="_blank">Confirm Email</a>.</span> -->
+                                <img src="https://slodge24.com/static/media/logo.png" alt="Slodge24" title="slodge24" style="display:block;margin: 30px auto;max-width:100%;border-style:none;height:48px;width:48px" width="48" height="48">
+
+                                <table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;">
                                 <tr>
-                                  <td class="wrapper" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px; background-color: #fff;height: auto; width:100%">
+                                    <td class="wrapper" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px; background-color: #fff;height: auto; width:100%">
                                     <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
-                                      <tr>
+                                        <tr>
                                         <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
-                                          <div style="position:relative;padding-left: 65px;"> 
-                                              <div style="position: absolute; width: 65px; height: 32px; background: #fff;left:0; top: 50%;transform: translateY(-50%); z-index: 1; display: -ms-flexbox; display: flex;-ms-flex-pack: center; justify-content: center;border-radius: 5px;">
-                                                <img alt="Slodge24" title="Logo" src="https://slodge24.com/static/media/logo.png" style="max-width:100%;border-style:none;height:32px;width:65px" width="65" height="32">
-                                              </div>  
-                                              <p style="font-family: sans-serif; font-size: 30px; font-weight: normal; margin: 0; Margin-bottom: 5px;">Welcome to Slodge24</p>
-                                          </div>
-                                          <p style="font-family: sans-serif; font-size: 16px; font-weight: normal; margin: 0; Margin-bottom: 15px;padding-top:15px; border-top: 1px solid #dcdbdc;">Scholars are waiting for your idea's.</p>
-                                          <p style="font-family: sans-serif; font-size: 16px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Please, Click the following link to get started .</p>
-                                          <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;">
+                                            <p style="font-family: sans-serif; font-size: 30px; font-weight: normal; margin: 0; Margin-bottom:5px;display:inline-block;color: #3498db">Welcome to Slodge24</p>
+                                            <p style="font-family: sans-serif; font-size: 16px; font-weight: normal; margin: 0; Margin-bottom: 15px;padding-top:15px; border-top: 1px solid #dcdbdc;color: #333;">Scholars are waiting for your idea's.</p>
+                                            <p style="font-family: sans-serif; font-size: 16px; font-weight: normal; margin: 0; Margin-bottom: 15px; color: #333;">Please, Click the following link to get started .</p>
+                                            <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;">
                                             <tbody>
-                                              <tr>
+                                                <tr>
                                                 <td align="left" style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding-bottom: 15px;">
-                                                  <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
                                                     <tbody>
-                                                      <tr>
-                                                        <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="https://localhost:3000/signup/confirmation/${token}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 20px; text-transform: capitalize; border-color: #3498db;">Confirm Email</a> </td>
-                                                      </tr>
+                                                        <tr>
+                                                        <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="https://slodge24.com/signup/confirmation/${token}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 20px; text-transform: capitalize; border-color: #3498db;">Confirm Email</a> </td>
+                                                        </tr>
                                                     </tbody>
-                                                  </table>
+                                                    </table>
                                                 </td>
-                                              </tr>
+                                                </tr>
                                             </tbody>
-                                          </table>
-                                          <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Or copy and paste this link. https://localhost:3000/signup/confirmation/${token}</p>
+                                            </table>
+                                            <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Or copy and paste this link. https://slodge24.com/signup/confirmation/${token}</p>
                                         </td>
-                                      </tr>
+                                        </tr>
                                     </table>
-                                  </td>
+                                    </td>
                                 </tr>
-                              </table>
+                                </table>
                             </div>
-                          </td>
-                          <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
+                            </td>
+                            <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
                         </tr>
-                      </table>
+                        </table>
                     </div>
                         `
                     };
-                    // https://drive.google.com/file/d/1ZV6oKSN5R6Kj_N3FxKLI0mmgopnyUmCC/view
-                    sgMail.send(msg).then(() => {
-                        res.sendStatus(201);
-                    }).catch(err =>{
-                        tempUser.findByIdAndRemove(result.id).then(() =>{
-                            res.status(400).send(err)
-                        })
-                    })
+                sgMail.send(msg).then(() => {
+                    res.sendStatus(201);
                 }).catch(err =>{
-                    res.status(422).send(err)
+                    tempUser.findByIdAndRemove(result.id).then(() =>{
+                        res.status(400).send(err)
+                    })
                 })
+            }).catch(err =>{
+                res.status(422).send(err)
             })
-         }) 
-      })
+        })
     })
 })
 
@@ -819,9 +841,17 @@ router.get('/signup/confirmation/:id', (req, res, next) => {
                             password:  result.password,
                             email: result.email
                         });
-                        newUser.generateAuthToken().then(() => {
+                        newUser.generateAuthToken().then(result => {
                             tempUser.findByIdAndRemove(token.id).then(() =>{
-                                res.redirect('/login')
+                                let decoded = null;
+                                decoded = jwt.verify(result.token, process.env.JWT_SECRET);
+                                if (decoded) {
+                                    res.cookie('token', result.token, { signed: true, httpOnly: true , maxAge: 604800000});
+                                    res.cookie('expiresIn', decoded.exp, {maxAge: 604800000});
+                                    res.cookie('pushMsg', result.pushMsg, {maxAge: 604800000});
+                                    res.cookie('id', result.id, {maxAge: 604800000});
+                                    res.redirect('/');
+                                }
                                 return
                             });
                         })
@@ -838,17 +868,14 @@ router.get('/signup/confirmation/:id', (req, res, next) => {
 })
 
 router.post('/login', (req, res) => {
-    if (req.user) {
-        res.redirect('/index/post')
-    }
-    user.findByCredentials(req.body.username, req.body.password).then(token => {
+    user.findByCredentials(req.body.username, req.body.password).then(result => {
         let decoded = null;
-        decoded = jwt.verify(req.user.token, process.env.JWT_SECRET);
+        decoded = jwt.verify(result.token, process.env.JWT_SECRET);
         if (decoded) {
-            res.cookie('token', req.user.token, { signed: true, httpOnly: true , maxAge: 604800000});
+            res.cookie('token', result.token, { signed: true, httpOnly: true , maxAge: 604800000});
             res.cookie('expiresIn', decoded.exp, {maxAge: 604800000});
-            res.cookie('pushMsg', req.user.pushMsg, {maxAge: 604800000});
-            res.cookie('id', req.user.id, {maxAge: 604800000});
+            res.cookie('pushMsg', result.pushMsg, {maxAge: 604800000});
+            res.cookie('id', result.id, {maxAge: 604800000});
             res.redirect('/');
         }
     }).catch((e) => {

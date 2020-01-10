@@ -61,7 +61,7 @@ class Form extends Component {
                 <Logo />
                 <div className="reuse-form__cnt">
                 <div className="reuse-form__cnt--header">
-                        <h4>Welcome to SG</h4>
+                        <h4>Welcome to Slodge24</h4>
                         <p>Knowledge sharing platform | Connecting scholars</p>
                     </div>
                     { this.props.submitError ?
@@ -97,10 +97,14 @@ class Form extends Component {
                             </button>
                         </div>
                     </div>
-                    <p>No Account <a href="/signup">Sign up</a></p>
+                    <p>Create New Account <a href="/signup">Sign up</a></p>
                     <p>Already have an account <a href="/login">Login in</a></p>
                 </div>
-                <div className="reuse-form__footer">&copy; SG , 2019</div>
+                <ul className="reuse-form__footer">
+                    <li><a href="/privacy">Privacy policy</a></li>
+                    <li className="reuse-form__footer--copy">&copy; Slodge24 , 2019</li>
+                    <li><a href="/term">Terms of service</a></li>
+                </ul>
             </Aux>
         );
 

@@ -14,7 +14,7 @@ router.get('/', function(req, res) {
     return
   }
   try {
-    const smStream = new SitemapStream({ hostname: 'https://localhost:3002/' })
+    const smStream = new SitemapStream({ hostname: 'https://slodge24.com/' })
     const pipeline = smStream.pipe(createGzip())
  
     smStream.write({ url: '/post/',  changefreq: 'daily', priority: 0.9 })
