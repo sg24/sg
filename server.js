@@ -63,6 +63,10 @@ hbs.registerPartials(__dirname + '/views/partialsacc');
 hbs.registerPartials(__dirname + '/views/partialsforgetpwd');
 hbs.registerPartials(__dirname + '/views/term');
 hbs.registerPartials(__dirname + '/views/policy');
+hbs.registerPartials(__dirname + '/views/editpoet');
+hbs.registerPartials(__dirname + '/views/editpost');
+hbs.registerPartials(__dirname + '/views/editque');
+hbs.registerPartials(__dirname + '/views/share');
 
 app.set('view engine', 'hbs');
 

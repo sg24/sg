@@ -523,77 +523,105 @@ router.delete('/header', authenticate,(req,res, next) =>  {
     }
 });
 
-router.get('/group', (req, res, next) => {
-    res.render('group');
-});
+// router.get('/group', (req, res, next) => {
+//     res.render('group');
+// });
 
-router.get('/onlineexam', (req, res, next) => {
-    res.render('onlineexam');
-});
+// router.get('/onlineexam', (req, res, next) => {
+//     res.render('onlineexam');
+// });
 
-router.get('/chat', (req, res, next) => {
-    res.render('groupchat');
-});
+// router.get('/chat', (req, res, next) => {
+//     res.render('groupchat');
+// });
 
-router.get('/community', (req, res, next) => {
-    res.render('community');
-});
+// router.get('/community', (req, res, next) => {
+//     res.render('community');
+// });
 
-router.get('/conversations', (req, res, next) => {
-    res.render('conv');
-});
+// router.get('/conversations', (req, res, next) => {
+//     res.render('conv');
+// });
 
 router.get('/add/question', authenticate,(req, res, next) => {
     res.render('queform');
+});
+
+router.get('/edit/question/:id', authenticate, (req, res, next) => {
+    if (req.params) { 
+        res.render('editque'); 
+    } else {
+        res.redirect('/')
+    }
 });
 
 router.get('/add/post', authenticate, (req, res, next) => {
     res.render('postform');
 });
 
-router.get('/add/group', (req, res, next) => {
-    res.render('groupform'); 
+router.get('/edit/post/:id', authenticate, (req, res, next) => {
+    if (req.params) { 
+        res.render('editpost'); 
+    } else {
+        res.redirect('/')
+    }
 });
 
-router.get('/add/onlineexam', (req, res, next) => {
-    res.render('onlineexamform'); 
-});
+// router.get('/add/group', (req, res, next) => {
+//     res.render('groupform'); 
+// });
+
+// router.get('/add/onlineexam', (req, res, next) => {
+//     res.render('onlineexamform'); 
+// });
 
 router.get('/add/poet', authenticate, (req, res, next) => {
     res.render('poetwriterform'); 
 });
 
-router.get('/examtab', (req, res, next) => {
-    res.render('examtab');
+router.get('/edit/poet/:id', authenticate, (req, res, next) => {
+    if (req.params) { 
+        res.render('editpoet'); 
+    } else {
+        res.redirect('/')
+    }
 });
 
-router.get('/acc/shared', (req, res, next) => {
-    res.render('accshared'); 
-});
+// router.get('/examtab', (req, res, next) => {
+//     res.render('examtab');
+// });
 
-router.get('/acc/user', (req, res, next) => {
-    res.render('accuser'); 
-});
+// router.get('/acc/shared', (req, res, next) => {
+//     res.render('accshared'); 
+// });
 
-router.get('/acc/published', (req, res, next) => {
-    res.render('accpub'); 
-});
+// router.get('/acc/user', (req, res, next) => {
+//     res.render('accuser'); 
+// });
 
-router.get('/acc/draft', (req, res, next) => {
-    res.render('accdft'); 
-});
+// router.get('/acc/published', (req, res, next) => {
+//     res.render('accpub'); 
+// });
 
-router.get('/acc/profile', (req, res, next) => {
-    res.render('accprf'); 
-});
+// router.get('/acc/draft', (req, res, next) => {
+//     res.render('accdft'); 
+// });
 
-router.get('/acc/help', (req, res, next) => {
-    res.render('acchelp'); 
-});
+// router.get('/acc/profile', (req, res, next) => {
+//     res.render('accprf'); 
+// });
 
-router.get('/acc/set', (req, res, next) => {
-    res.render('accset'); 
-});
+// router.get('/acc/help', (req, res, next) => {
+//     res.render('acchelp'); 
+// });
+
+// router.get('/acc/set', (req, res, next) => {
+//     res.render('accset'); 
+// });
+
+router.get('/acc/shared', authenticate, function (req, res, next) {
+    res.render('share');
+})
 
 router.get('/login', (req, res, next) => {
     if (req.signedCookies.token) {
@@ -617,10 +645,6 @@ router.get('/signup', (req, res, next) => {
     } else {
         res.render('signupform'); 
     }
-});
-
-router.get('/signup/profile', (req, res, next) => {
-    res.render('signprfform'); 
 });
 
 router.get('/forget/password', (req, res, next) => {
