@@ -16,6 +16,10 @@ const {category,  posts, questions, poets, user, tempUser, postnotifies,
      authUser, quenotifies, pwtnotifies, viewnotifies, usernotifies,
      favorite, connectStatus} = require('../serverDB/serverDB');
 
+router.get('/', authenticate,function (req, res, next) {
+    res.redirect('/index/post');
+});
+
 router.get('/index/:id', authenticate,function (req, res, next) {
     res.render('index');
 });
@@ -625,11 +629,22 @@ router.get('/acc/shared', authenticate, function (req, res, next) {
 
 router.get('/login', (req, res, next) => {
     if (req.signedCookies.token) {
-        let checkToken = null;
-        checkToken = jwt.verify(req.signedCookies.token, process.env.JWT_SECRET);
-        if (checkToken) {
-            res.redirect('/')
-        }
+        user.findByToken(req.signedCookies.token).then((result) => {
+            if (!result) {
+                authUser.findByToken(req.signedCookies.token).then(result => {
+                    if (!result) {
+                    res.render('loginform'); 
+                    return
+                   }
+                   res.redirect('/index/post')
+                })
+                return
+            }
+            res.redirect('/index/post')
+        }).catch((e) => {
+            res.render('loginform'); 
+        });
+        return
     } else {
         res.render('loginform'); 
     }
@@ -637,11 +652,22 @@ router.get('/login', (req, res, next) => {
 
 router.get('/signup', (req, res, next) => {
     if (req.signedCookies.token) {
-        let checkToken = null;
-        checkToken = jwt.verify(req.signedCookies.token, process.env.JWT_SECRET);
-        if (checkToken) {
-            res.redirect('/')
-        }
+        user.findByToken(req.signedCookies.token).then((result) => {
+            if (!result) {
+                authUser.findByToken(req.signedCookies.token).then(result => {
+                    if (!result) {
+                    res.render('signupform'); 
+                    return
+                   }
+                   res.redirect('/index/post')
+                })
+                return
+            }
+            res.redirect('/index/post')
+        }).catch((e) => {
+            res.render('signupform'); 
+        });
+        return
     } else {
         res.render('signupform'); 
     }
@@ -874,7 +900,7 @@ router.get('/signup/confirmation/:id', (req, res, next) => {
                                     res.cookie('expiresIn', decoded.exp, {maxAge: 604800000});
                                     res.cookie('pushMsg', result.pushMsg, {maxAge: 604800000});
                                     res.cookie('id', result.id, {maxAge: 604800000});
-                                    res.redirect('/');
+                                    res.redirect('/index/post');
                                 }
                                 return
                             });
@@ -891,7 +917,7 @@ router.get('/signup/confirmation/:id', (req, res, next) => {
     }
 })
 
-router.post('/login', (req, res) => {
+router.post('/login', (req, res,next) => {
     user.findByCredentials(req.body.username, req.body.password).then(result => {
         let decoded = null;
         decoded = jwt.verify(result.token, process.env.JWT_SECRET);
@@ -900,7 +926,7 @@ router.post('/login', (req, res) => {
             res.cookie('expiresIn', decoded.exp, {maxAge: 604800000});
             res.cookie('pushMsg', result.pushMsg, {maxAge: 604800000});
             res.cookie('id', result.id, {maxAge: 604800000});
-            res.redirect('/');
+            res.sendStatus(200);
         }
     }).catch((e) => {
         res.status(401).send(e)

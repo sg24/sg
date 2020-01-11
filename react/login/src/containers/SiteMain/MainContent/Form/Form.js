@@ -38,6 +38,12 @@ class Form extends Component {
         formIsValid: false
     }
 
+    componentDidUpdate() {
+        if (this.props.submitted) {
+            window.location.replace('/index/post');
+        }
+    }
+
     changeFieldHandler = () =>{
         if (this.state.field.isChange) {
             this.setState({field: updateObject(this.state.field, {type: 'password', isChange: false})});
