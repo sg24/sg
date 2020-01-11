@@ -781,7 +781,7 @@ router.post('/forget/reset', (req, res, next) => {
                             res.cookie('expiresIn', decoded.exp, {maxAge: 604800000});
                             res.cookie('pushMsg', result.pushMsg[0].publickey, {maxAge: 604800000});
                             res.cookie('id', result._id.toHexString(), {maxAge: 604800000});
-                            res.redirect('/');
+                            res.sendStatus(200);
                         }
                       }).catch(err =>{
                           res.status(500).send({msg: 'Internal Server Error', expire: false})
