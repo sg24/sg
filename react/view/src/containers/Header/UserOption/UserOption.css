@@ -6,9 +6,9 @@
     align-items: center;
     bottom: 0;
     right: 0px;
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
     background-color: #16cf27;;
     cursor: pointer;
     color: #fff;
@@ -18,5 +18,29 @@
 @media (min-width:  530px) {
     .site-header__user--det__addNew {
         display: none;
+    }
+}
+
+.site-header__user--det__opt {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 0;
+    right: auto;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #15a4fa;
+    background-color: #fff;
+    cursor: pointer;
+    color: #333;
+    font-size: .625rem;
+}
+
+@media (min-width:  530px) {
+    .site-header__user--det__opt {
+        right: 0;
+        left: auto;
     }
 }

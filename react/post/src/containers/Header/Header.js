@@ -96,7 +96,7 @@ class Header extends Component {
         return (
             <header className="site-header">
                 <div className="wrapper">
-                    <Logo />
+                    <a href="/index/post"><Logo /></a>
                     <NavigationInput />
                     <div 
                         className="site-header__form-sm"

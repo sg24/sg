@@ -101,7 +101,6 @@ class UserOption extends Component {
         )
 
         if (this.state.showAddOpt) {
-            console.log(this)
             cnt = (
             <Aux>
                 <li className="site-header__user--det__logout">
@@ -157,7 +156,12 @@ class UserOption extends Component {
                     <ul className={userDetClass.join(' ')}>
                         { cnt }
                     </ul>
-               </div>
+                    <div 
+                        className="site-header__user--det__opt">
+                        <FontAwesomeIcon 
+                            icon={['fas', 'caret-down']} />
+                    </div>
+                </div>
             </div>
         );
     }
