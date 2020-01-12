@@ -98,15 +98,20 @@ export const engStrings = {
     let curIndex;
 
     let user = cnts.filter((userFnd, index) => {
-        curIndex = index;
-        return userFnd.id === changeCntStart.id;
+        if (userFnd.id === changeCntStart.id) {
+            curIndex = index;
+            return true
+        }
+        return false;
     });
+    
     if (user.length > 0) {
-        user[0].pending = false;
-        user[0].request = false;
-        user[0].accept = false;
-        user[0][field] = isUpdate;
-        cnts[curIndex] = user[0];
+        let updateUser = {...user[0]}
+        updateUser['pending'] = false;
+        updateUser['request'] = false;
+        updateUser['accept'] = false;
+        updateUser[field] = isUpdate;
+        cnts[curIndex] = updateUser;
        return cnts;
     }
     return oldCnts

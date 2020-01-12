@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import './NavigationList.css';
 import * as actions from '../../../store/actions/index';
 import NavigationLists from '../../../components/Navigation/NavigationLists/NavigationLists';
 import Loader from '../../../components/UI/Loader/Loader';
+import Aux from '../../../hoc/Auxs/Aux';
 
 class NavigationList extends Component {
     state = {
         show: false,
         showNavList: false,
+        showNavItm: false,
         default: false,
         category: null
     };
@@ -44,7 +47,20 @@ class NavigationList extends Component {
             return {
                 show: false,
                 default: false,
-                showNavList: !prevState.showNavList
+                showNavList: prevState.showNavItm ? true : !prevState.showNavList,
+                showNavItm: false
+            }
+        });
+    }
+
+    showNavItmHandler = () => {
+        this.props.onshowNavList();
+        this.setState((prevState, props) => {
+            return {
+                showNavItm: true,
+                show: false,
+                default: false,
+                showNavList: prevState.showNavItm ? !prevState.showNavList: true,
             }
         });
     }
@@ -71,9 +87,9 @@ class NavigationList extends Component {
         if (this.state.showNavList && this.state.category) {
             let navOptCateg = this.state.category === 'post' ? 'site-header__menu--nav__opt--det__pt' : null;
             navOptCateg = this.state.category === 'question' ? 'site-header__menu--nav__opt--det__que' : navOptCateg;
-            navOptCateg = this.state.category === 'onlineque' ? 'site-header__menu--nav__opt--det__onlineque' : navOptCateg;
+            navOptCateg = this.state.category === 'onlineque' ? 'site-header__menu--nav__opt--det__pwt' : navOptCateg;
             navOptCateg = this.state.category === 'group' ? 'site-header__menu--nav__opt--det__grp' : navOptCateg;
-            navOptCateg = this.state.category === 'poet' ? 'site-header__menu--nav__opt--det__pwt' : navOptCateg;
+            navOptCateg = this.state.category === 'poet' ? 'site-header__menu--nav__opt--det__onlineque' : navOptCateg;
             navOptClass.push(navOptCateg);
             navList =  this.props.navList  ? (
                 <ul className={navOptClass.join(' ')}>
@@ -86,6 +102,109 @@ class NavigationList extends Component {
                     <Loader />
                 </div>
             );
+        }
+
+        let navItm = (
+            <Aux>
+                { navList }
+                <ul className="site-header__menu--nav__opt--itm">
+                    <li
+                        onMouseEnter={this.fetchNavListHandler.bind(this, 'post')}
+                        className={this.state.category === 'post' ? 'active-header-nav' : null}>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'newspaper']} 
+                            className="icon icon__site-header--nav__itm" />
+                        News Feed
+                        <FontAwesomeIcon 
+                            icon={['fas', 'caret-right']} 
+                            className="icon icon__site-header--nav__angle" />
+                    </li>
+                    <li
+                        onMouseEnter={this.fetchNavListHandler.bind(this, 'question')}
+                        className={this.state.category === 'question' ? 'active-header-nav' : null}>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'question']} 
+                            className="icon icon__site-header--nav__itm" />
+                        Questions  
+                        <FontAwesomeIcon 
+                            icon={['fas', 'caret-right']} 
+                            className="icon icon__site-header--nav__angle" />
+                    </li>
+                    {/* <li
+                        onMouseEnter={this.fetchNavListHandler.bind(this, 'onlineque')}
+                        className={this.state.category === 'onlineque' ? 'active-header-nav' : null}>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'coffee']} 
+                            className="icon icon__site-header--nav__itm" />
+                        Online Exam  
+                        <FontAwesomeIcon 
+                            icon={['fas', 'caret-right']} 
+                            className="icon icon__site-header--nav__angle" />
+                    </li> */}
+                    {/* <li
+                        onMouseEnter={this.fetchNavListHandler.bind(this, 'group')}
+                        className={this.state.category === 'group' ? 'active-header-nav' : null}>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'users']} 
+                            className="icon icon__site-header--nav__itm" />
+                        Group 
+                        <FontAwesomeIcon 
+                            icon={['fas', 'caret-right']} 
+                            className="icon icon__site-header--nav__angle" />
+                    </li> */}
+                    <li
+                        onMouseEnter={this.fetchNavListHandler.bind(this, 'poet')}
+                        className={this.state.category === 'poet' ? 'active-header-nav' : null}>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'book']} 
+                            className="icon icon__site-header--nav__itm" />
+                        Writers
+                        <FontAwesomeIcon 
+                            icon={['fas', 'caret-right']} 
+                            className="icon icon__site-header--nav__angle" />
+                    </li>
+                </ul>
+            </Aux>
+        )
+
+        if (this.state.showNavItm) {
+            navItm = (
+                <ul className="site-header__menu--nav__opt--itm__sm-categ--cnt">
+                    <li>
+                        <a href="/post">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'newspaper']} 
+                                className="icon icon__site-header--nav__itm" />
+                            News Feed
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/question">
+                        <FontAwesomeIcon 
+                                icon={['fas', 'question']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Questions  
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/poet">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'book']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Writers
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/poet">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'users']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Scholars
+                        </a>
+                    </li>
+                </ul>
+            )
+
         }
 
         return (
@@ -102,65 +221,14 @@ class NavigationList extends Component {
                 <div className={navTipClass.join(' ')}>
                     Options
                 </div>
+                <div 
+                    className="site-header__menu--nav__opt--itm__sm-categ"
+                    onClick={this.showNavItmHandler}>
+                     <FontAwesomeIcon 
+                        icon={['fas', 'external-link-alt']} />
+                </div>
                 <nav className={navClass.join(' ')}>
-                    { navList }
-                    <ul className="site-header__menu--nav__opt--itm">
-                        <li
-                            onMouseEnter={this.fetchNavListHandler.bind(this, 'post')}
-                            className={this.state.category === 'post' ? 'active-header-nav' : null}>
-                            <FontAwesomeIcon 
-                                icon={['fas', 'newspaper']} 
-                                className="icon icon__site-header--nav__itm" />
-                            News Feed
-                            <FontAwesomeIcon 
-                                icon={['fas', 'caret-right']} 
-                                className="icon icon__site-header--nav__angle" />
-                        </li>
-                        <li
-                            onMouseEnter={this.fetchNavListHandler.bind(this, 'question')}
-                            className={this.state.category === 'question' ? 'active-header-nav' : null}>
-                            <FontAwesomeIcon 
-                                icon={['fas', 'question']} 
-                                className="icon icon__site-header--nav__itm" />
-                            Questions  
-                            <FontAwesomeIcon 
-                                icon={['fas', 'caret-right']} 
-                                className="icon icon__site-header--nav__angle" />
-                        </li>
-                        {/* <li
-                            onMouseEnter={this.fetchNavListHandler.bind(this, 'onlineque')}
-                            className={this.state.category === 'onlineque' ? 'active-header-nav' : null}>
-                            <FontAwesomeIcon 
-                                icon={['fas', 'coffee']} 
-                                className="icon icon__site-header--nav__itm" />
-                            Online Exam  
-                            <FontAwesomeIcon 
-                                icon={['fas', 'caret-right']} 
-                                className="icon icon__site-header--nav__angle" />
-                        </li> */}
-                        {/* <li
-                            onMouseEnter={this.fetchNavListHandler.bind(this, 'group')}
-                            className={this.state.category === 'group' ? 'active-header-nav' : null}>
-                            <FontAwesomeIcon 
-                                icon={['fas', 'users']} 
-                                className="icon icon__site-header--nav__itm" />
-                            Group 
-                            <FontAwesomeIcon 
-                                icon={['fas', 'caret-right']} 
-                                className="icon icon__site-header--nav__angle" />
-                        </li> */}
-                        <li
-                            onMouseEnter={this.fetchNavListHandler.bind(this, 'poet')}
-                            className={this.state.category === 'poet' ? 'active-header-nav' : null}>
-                            <FontAwesomeIcon 
-                                icon={['fas', 'book']} 
-                                className="icon icon__site-header--nav__itm" />
-                            Writers
-                            <FontAwesomeIcon 
-                                icon={['fas', 'caret-right']} 
-                                className="icon icon__site-header--nav__angle" />
-                        </li>
-                    </ul>
+                    { navItm }
                 </nav> 
             </div>
         );
