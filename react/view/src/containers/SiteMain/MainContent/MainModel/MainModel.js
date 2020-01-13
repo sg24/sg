@@ -193,7 +193,8 @@ class Model extends Component {
     render() {
         this.props.onFetchShareActive();
         this.props.onFetchNotifyActive();
-        let cnt = <Loader />;
+        let cnt = <Loader 
+            view/>;
         if (this.props.cntErr) {
             cnt = null
         }

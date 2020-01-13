@@ -195,7 +195,7 @@ class NavigationList extends Component {
                         </a>
                     </li>
                     <li>
-                        <a href="/poet">
+                        <a href="/users">
                             <FontAwesomeIcon 
                                 icon={['fas', 'users']} 
                                 className="icon icon__site-header--nav__itm" />

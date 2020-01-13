@@ -9,6 +9,10 @@
   background-color: #fff;
 }
 
+.global_view {
+  background-color: #dcdbdc;
+}
+
 .global__wrapper {
   position: relative;
   top: 50%;

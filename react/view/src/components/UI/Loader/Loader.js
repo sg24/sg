@@ -3,11 +3,17 @@ import React from 'react';
 import './Loader.css';
 const loader = props => {
     let cnt = 'Loading ....';
+    let loaderClass = ["global"];
+
     if (props.cnt) {
         cnt = props.cnt
     }
+    if (props.view) {
+        loaderClass.push("global_view");
+    }
+
     return (
-        <section className="global">
+        <section className={loaderClass.join(' ')}>
         <div className="global__wrapper">
         <div>
             <div className="top mask">
