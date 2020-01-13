@@ -1,5 +1,6 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
+import 'events-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers, applyMiddleware }  from 'redux'; 

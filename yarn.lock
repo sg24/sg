@@ -1958,6 +1958,11 @@ eventemitter3@1.x.x:
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-1.2.0.tgz#1c86991d816ad1e504750e73874224ecf3bec508"
   integrity sha1-HIaZHYFq0eUEdQ5zh0Ik7PO+xQg=
 
+events-polyfill@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/events-polyfill/-/events-polyfill-2.1.2.tgz#61567ed0cdd350bd836b3b94284d8b658560c1b9"
+  integrity sha512-vx4kpGzymyD3CEjmg2wTQA6k5e0RhGTkX3ZwfC9m/Ol7+me2tbVuJ0GjSd8eIJxFioubicA0nUL0SIOAyfrgZA==
+
 exec-sh@^0.2.0:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/exec-sh/-/exec-sh-0.2.2.tgz#2a5e7ffcbd7d0ba2755bdecb16e5a427dfbdec36"
