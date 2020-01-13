@@ -29,7 +29,7 @@ class MainContent extends Component {
     componentDidUpdate() {
         if (this.props.ptFetch && !this.state.ptFetch) {
             this.props.onResetActive(this.props.userID, 
-                this.props.match.url.split('/').length > 2 ? this.props.match.url.split('/')[2] : this.props.match.url.split('/')[1]);
+                this.props.location.pathname.split('/').length > 2 ? this.props.location.pathname.split('/')[2] : this.props.location.pathname.split('/')[1]);
             this.setState({ptFetch: true})
         }
     }
@@ -73,7 +73,7 @@ class MainContent extends Component {
                         active={this.state.showPtActive ? this.props.ptActive : null}/>
                     <MainNavigations 
                         content={this.state.share}
-                        removeActive={this.removeActiveHandler.bind(this, 'share')}
+                        removeActive={this.removeActiveHandler.bind(this, 'shared')}
                         active={this.state.showShareActive ? this.props.shareCntActive : null}/>
                     </ul>
                     <MainPost />

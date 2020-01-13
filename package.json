@@ -39,7 +39,9 @@
     "postcss-import": "^8.1.2",
     "postcss-mixins": "^4.0.2",
     "postcss-nested": "^1.0.0",
+    "react-app-polyfill": "^1.0.5",
     "postcss-simple-vars": "^1.2.0",
-    "workbox-cli": "^4.3.1"
+    "workbox-cli": "^4.3.1",
+    "window-location-origin": "^0.1.0"
   }
 }

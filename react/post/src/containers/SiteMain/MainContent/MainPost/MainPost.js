@@ -32,7 +32,7 @@ class MainPost extends Component {
                             <div>{this.props.total}</div>
                         </div>
                         <div className="reuse-pt-filter__add">
-                            <a href="/add/post">Add Post</a>
+                            <a href="/add/post">Add </a>
                         </div>
                     </div>
                 </div>

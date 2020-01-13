@@ -20,7 +20,7 @@ router.get('/', authenticate, (req, res, next) => {
         return fetchQue({mode: 'publish'});
     }
 
-    if (req.header !== null && req.header('data-categ').startsWith('shared')) {
+    if (req.header !== null && req.header('data-categ') && req.header('data-categ').startsWith('shared')) {
         return fetchQue({mode: 'publish', shareMe: req.user});
     }
 

@@ -2,6 +2,7 @@
   "name": "addpoet",
   "version": "0.1.0",
   "private": true,
+  "homepage": "static/profile",
   "dependencies": {
     "react-cropper": "^1.3.0",
     "react-scripts": "3.0.1"
