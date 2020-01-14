@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import autofill from 'react-autofill';
 
 import './Form.css';
 import * as actions from '../../../../store/actions/index';
@@ -198,4 +199,5 @@ const mapDispatchToProps = dispatch => {
         onSubmitForm: (formData) => dispatch(actions.submitFormInit(formData))
     };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+
+export default autofill(connect(mapStateToProps, mapDispatchToProps)(Form));

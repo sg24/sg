@@ -5210,6 +5210,11 @@ react-app-polyfill@^1.0.5:
     regenerator-runtime "^0.13.3"
     whatwg-fetch "^3.0.0"
 
+react-autofill@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/react-autofill/-/react-autofill-1.1.4.tgz#37e726c1339fdc4d47977da4ae708afe2b78dde0"
+  integrity sha1-N+cmwTOf3E1Hl32krnCK/it43eA=
+
 read-cache@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/read-cache/-/read-cache-1.0.0.tgz#e664ef31161166c9751cdbe8dbcf86b5fb58f774"
