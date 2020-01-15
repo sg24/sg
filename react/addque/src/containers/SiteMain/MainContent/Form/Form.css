@@ -312,6 +312,10 @@
     position: relative;
 }
 
+.reuse-form__cnt--det__selec--opt__loading {
+    height: 200px;
+}
+
 .reuse-form__cnt--det__selec--added {
     position: absolute;
     bottom: 100%;

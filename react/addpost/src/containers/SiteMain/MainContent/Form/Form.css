@@ -504,6 +504,10 @@
     background-color:#05578b;
 }
 
+.reuse-form__cnt--det__selec--opt__loading {
+    height: 200px;
+}
+
 .reuse-form__cnt--det__input {
     width: 100%;
     border: none;

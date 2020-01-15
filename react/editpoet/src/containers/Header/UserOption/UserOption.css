@@ -4,7 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    bottom: 0;
+    top: 0;
     right: 0px;
     width: 16px;
     height: 16px;
@@ -29,13 +29,13 @@
     bottom: 0;
     right: auto;
     left: 0;
-    width: 10px;
-    height: 10px;
+    width: 16px;
+    height: 16px;
     border: 1px solid #15a4fa;
     background-color: #fff;
     cursor: pointer;
     color: #333;
-    font-size: .625rem;
+    font-size: 1rem;
 }
 
 @media (min-width:  530px) {

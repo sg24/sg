@@ -12,6 +12,7 @@ import PtCategs from '../../../../components/Main/PostCategs/PostCategs';
 import Categs from '../../../../components/Main/PostCategs/Categs/Categs';
 import Backdrop from '../../../../components/UI/Backdrop/Backdrop';
 import Modal from '../../../../components/UI/Modal/Modal';
+import Loader from '../../../../components/UI/Loader/Loader';
 import Aux from '../../../../hoc/Auxs/Aux';
 import asyncComponent from '../../../../hoc/asyncComponent/asyncComponent';
 import { updateObject, checkValidity } from '../../../../shared/utility';
@@ -224,6 +225,17 @@ class Form extends  Component {
             addItemOptClass.push('reuse-form__cnt--det__selec--opt__visible')
         }
         
+        if (this.state.showCateg && !this.props.categ) {
+            categListClass.push('icon--rotate');
+            addCateg =  (
+                <ul className="reuse-form__cnt--det__selec--opt reuse-form__cnt--det__selec--opt__visible">
+                    <li className="reuse-form__cnt--det__selec--opt__loading">
+                        <Loader />
+                    </li>
+                </ul>
+            );
+        }
+
         if (this.state.showCateg && this.props.categ) {
             categListClass.push('icon--rotate');
             addCateg =  (
@@ -295,7 +307,7 @@ class Form extends  Component {
                                             <input 
                                                 type="text" name="" id="" 
                                                 className="reuse-form__cnt--det__input" 
-                                                placeholder="Add Category" 
+                                                placeholder="Write new category ..." 
                                                 value={this.state.addCategInput}
                                                 onChange={this.addCategHandler}/>
                                             <button
@@ -409,9 +421,7 @@ class Form extends  Component {
                         </Aux> : null}
                     { this.props.showCateg && this.state.showCateg ? 
                         <Aux>
-                            <Backdrop
-                                close={this.closeBackdropHandler}></Backdrop>
-                            {this.props.categErr ? <Modal uploadErr={this.props.categErr} type='categ' />: null}
+                            {this.props.categErr ? <Backdrop close={this.closeBackdropHandler}><Modal uploadErr={this.props.categErr} type='categ' /></Backdrop>: null}
                         </Aux> : null
                     }
 

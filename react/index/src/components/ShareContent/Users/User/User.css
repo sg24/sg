@@ -1,18 +1,18 @@
-.reuse-user {
+.share-user {
     position: relative;
-    border-radius: 10px 0 10px 10px;
+    border-radius: 10px;
     box-shadow: 0px 2px 9px 0px rgba(0,0,0, .3);
     margin-top: 10px;
     margin-bottom: 30px;
 }
 
-.reuse-user__det {
+.share-user__det {
     position: relative;
     background-color: #fff;
-    border-radius: 10px 0 10px 10px;
+    border-radius: 10px;
 }
 
-.reuse-user__det--img {
+.share-user__det--img {
     position: absolute;
     left: 20px;
     top: 50%;
@@ -29,7 +29,7 @@
 
 }
 
-.reuse-user__det--img > img {
+.share-user__det--img > img {
     display: block;
     width: 60px;
     height: 60px;
@@ -45,7 +45,7 @@
 
 }
 
-.reuse-user__det--img__status {
+.share-user__det--img__status {
     position: absolute;
     width: 8px;
     height: 8px;
@@ -55,34 +55,34 @@
     right: 8px;
 }
 
-.reuse-user__det--img__status--on {
+.share-user__det--img__status--on {
     background-color: #16cf27;
 }
 
-.reuse-user__det--img__status--off {
+.share-user__det--img__status--off {
     background-color: #ff1600;
 }
 
-.reuse-user__det--user {
+.share-user__det--user {
     list-style: none;
     font-size: .875rem;
     margin: 0;
     padding: 10px 20px 10px 100px;
 }
 
-.reuse-user__det--user::after {
+.share-user__det--user::after {
     content: "";
     clear: both;
     display: table;
 }
 
-.reuse-user__det--user > li {
+.share-user__det--user > li {
     float: none;
     padding: 6px 0;
     position: relative;
 }
 
-.reuse-user__det--user > li:first-child {
+.share-user__det--user > li:first-child {
     color: rgba(0,0,0, .85);
     font-weight: 400;
     font-size: .9375rem;
@@ -91,18 +91,18 @@
     text-overflow: ellipsis;
 }
 
-.reuse-user__det--user > li:first-child > a {
+.share-user__det--user > li:first-child > a {
     text-decoration: none;
     color: rgba(0,0,0, .85);
     font-weight: 400;
 }
 
-.reuse-user__det--user > li:last-child {
+.share-user__det--user > li:last-child {
     color: #0284a8;
     padding-left: 35px;
 }
 
-.reuse-user__det--user > li:last-child > div {
+.share-user__det--user > li:last-child > div {
     position: absolute;
     left: 0;
     top: 50%;
@@ -121,7 +121,7 @@
     font-weight: bold;
 }
 
-.reuse-user__det--select {
+.share-user__det--select {
     position: absolute;
     top: -5px;
     right: -2px;
@@ -130,16 +130,16 @@
     color: #dcdbdc;
 }
 
-.reuse-user__det--select__clk > svg{
+.share-user__det--select__clk > svg{
     color: #16cf27;
     transition: all .3s ease-in;
 }
 
-.reuse-user__det:not(.reuse-user__det--clk):hover {
+.share-user__det:not(.share-user__det--clk):hover {
     box-shadow: 0 0 0 1px #16cf27;
 }
 
-.reuse-user__det--clk {
+.share-user__det--clk {
     box-shadow: 0 0 0 1px #16cf27;
     transition: all .3s ease-in;
 }

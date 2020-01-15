@@ -20,7 +20,7 @@ const modal = props => {
          modalContent = props.uploadErr ?  (
             <Aux>
                 <h3 className="reuse-form__modal--err"> { 
-                    props.uploadErr.code === 'ECONNABORTED' && props.uploadErr.message ? 'Network Error' : props.uploadErr.message } </h3>
+                    props.uploadErr.code === 'ECONNABORTED' && props.uploadErr.message ? 'Network Error' : 'Network Error' } </h3>
                 {props.uploadErr && !props.type ? <div className="reuse-form__btn">
                     <button 
                         type="button"  

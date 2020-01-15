@@ -4,18 +4,18 @@ import Avatar from 'react-avatar';
 
 import './User.css';
 const user = props => {
-    let userClass = ['reuse-user__det'];
-    let userSelectClass = ['reuse-user__det--select'];
+    let userClass = ['share-user__det'];
+    let userSelectClass = ['share-user__det--select'];
     let userImg = <img src={props.userDet.image} alt=""/>;
 
     let userStatus = (
-        <div className="reuse-user__det--img__status reuse-user__det--img__status--on">
+        <div className="share-user__det--img__status share-user__det--img__status--on">
         </div>
     );
 
     if (!props.userDet.status) {
         userStatus = (
-            <div className="reuse-user__det--img__status reuse-user__det--img__status--off">
+            <div className="share-user__det--img__status share-user__det--img__status--off">
             </div>
         );
     }
@@ -28,23 +28,23 @@ const user = props => {
     if (props.selectedUser.length > 0) {
         for (let user of props.selectedUser) {
             if (user.id === props.id) {
-                userClass.push('reuse-user__det--clk');
-                userSelectClass.push('reuse-user__det--select__clk > svg')
+                userClass.push('share-user__det--clk');
+                userSelectClass.push('share-user__det--select__clk > svg')
             }
         }
     }
 
     return (
             <div  
-                className="reuse-user"
+                className="share-user"
                 onClick={props.selected}>
                 <div className={userClass.join(' ')}>
-                    <div className="reuse-user__det--img">
+                    <div className="share-user__det--img">
                         {userImg}
                         { userStatus }
                     </div>
-                    <ul className="reuse-user__det--user">
-                        <li className="reuse-user__det--user__info">  
+                    <ul className="share-user__det--user">
+                        <li className="share-user__det--user__info">  
                             <a href={'/user/profile/' + props.userDet.id}>{ props.userDet.username }</a>
                         </li>
                         <li><div>{ props.userDet.student }</div> Student</li> 

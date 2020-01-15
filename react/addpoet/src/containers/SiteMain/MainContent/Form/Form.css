@@ -414,6 +414,10 @@
     transition: all .3s ease-in;
 }
 
+.reuse-form__cnt--det__selec--opt__loading {
+    height: 200px;
+}
+
 .reuse-form__cnt--det__selec--opt::after {
     content: "";
     clear: both;

@@ -2,8 +2,8 @@ const { authUser , user} = require('../serverDB');
 const checkStatus = require('../utility/status');
 
 let authenticate = (req, res, next) => {
-    let tempToken = null;
-    // let tempToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTAzMjU3ZDAwNGZiNDFlY2NmNDIwY2EiLCJhY2Nlc3MiOiJhdXRoZW50aWNhdGlvbiIsImlhdCI6MTU3ODE0NzIwNiwiZXhwIjoxNTc4NzUyMDA2fQ.1kxChjv1Viinxsju7SxtuxIVNHzudhT2nH68A93Dn5c';
+    // let tempToken = null;
+    let tempToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTAzMjU3ZDAwNGZiNDFlY2NmNDIwY2EiLCJhY2Nlc3MiOiJhdXRoZW50aWNhdGlvbiIsImlhdCI6MTU3OTAzNDAyMywiZXhwIjoxNTc5NjM4ODIzfQ.O-TCLqMOr0S_vVIJ149c3pkDFZgzb6WQggcnLm9Kfms';
     if (req.signedCookies.token || tempToken) {
         user.findByToken(req.signedCookies.token || tempToken).then((result) => {
             if (!result) {

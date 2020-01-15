@@ -261,6 +261,17 @@ class Form extends  Component {
             addItemOptClass.push('reuse-form__cnt--det__selec--opt__visible')
         }
         
+        if (this.state.showCateg && !this.props.categ) {
+            categListClass.push('icon--rotate');
+            addCateg =  (
+                <ul className="reuse-form__cnt--det__selec--opt reuse-form__cnt--det__selec--opt__visible">
+                    <li className="reuse-form__cnt--det__selec--opt__loading">
+                        <Loader />
+                    </li>
+                </ul>
+            );
+        }
+
         if (this.state.showCateg && this.props.categ) {
             categListClass.push('icon--rotate');
             addCateg =  (
@@ -332,7 +343,7 @@ class Form extends  Component {
                                         <input 
                                             type="text" name="" id="" 
                                             className="reuse-form__cnt--det__input" 
-                                            placeholder="Add Category" 
+                                            placeholder="Write new category ..." 
                                             value={this.state.addCategInput}
                                             onChange={this.addCategHandler}/>
                                         <button
@@ -448,7 +459,7 @@ class Form extends  Component {
                     <Aux>
                         <Backdrop
                             close={this.closeBackdropHandler}></Backdrop>
-                        {this.props.categErr ? <Modal uploadErr={this.props.categErr} type='categ' />: null}
+                        {this.props.categErr ? <Backdrop close={this.closeBackdropHandler}><Modal uploadErr={this.props.categErr} type='categ' /></Backdrop>: null}
                     </Aux> : null
                 }
 

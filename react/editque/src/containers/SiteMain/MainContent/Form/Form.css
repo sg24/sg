@@ -301,6 +301,10 @@
     border: 1px solid #dcdbdc;
 }
 
+.reuse-form__cnt--det__selec--opt__loading {
+    height: 200px;
+}
+
 .reuse-form__cnt--det__wrapper {
     padding: 8px 10px;
     font-size: .8125rem;
