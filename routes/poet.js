@@ -5,7 +5,11 @@ let authenticate = require('../serverDB/middleware/authenticate');
 let filterCnt = require('./utility/filtercnt');
 const {category, poets, user, authUser, connectStatus} = require('../serverDB/serverDB');
 
-router.get('/', authenticate, (req, res, next) => {
+router.get('/', authenticate, (req, res,next) => {
+    res.render('poetwriter');
+})
+
+router.post('/', authenticate, (req, res, next) => {
     if (req.header('data-categ') && req.header('data-categ') === 'category') {
         category.findOne({}).then(result => {
             let checkRes =  result ? result.poet : []
@@ -119,8 +123,6 @@ router.get('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ')) {  
         return fetchCnt({category: req.header('data-categ'), mode: 'publish'});
     }
-
-    res.render('poetwriter');
 });
 
 module.exports = router

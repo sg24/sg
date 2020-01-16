@@ -9,6 +9,15 @@ router.get('/view/:categ/:id', authenticate, (req, res, next) => {
         res.redirect('/index/post')
         return
     }
+    res.render('view');
+})
+
+
+router.post('/view/:categ/:id', authenticate, (req, res, next) => {
+    if (!req.params.id || !req.params.categ) {
+        res.redirect('/index/post')
+        return
+    }
     connectStatus.then((result) => {
         if (req.header && req.header('data-categ') === 'viewcnt') {
             let categ = req.params.categ;
@@ -245,57 +254,54 @@ router.get('/view/:categ/:id', authenticate, (req, res, next) => {
                     resolve(update)
             })
         }
-        res.render('view');
     }).catch(err => {
         console.log(err)
         res.status(500).send(err);
-    })
-
-})
-
-
-router.post('/view', authenticate, (req, res, next) => {
-    let id = req.body.id;
-    let categ = req.body.cntGrp;
-    let cnt = req.body.cnt;
-    let model =  categ === 'post' ? posts : categ === 'question' ? questions : poets;
-    model.findByIdAndUpdate(id, {$inc: {'comment': 1}}).then(() => {
-        let newComment = new comment({
-            authorID: req.user,
-            userType: req.userType,
-            commentID: req.body.id,
-            comment: req.body.cnt
-        });
-        newComment.save().then(result => {
-            let model = result.userType === 'authUser' ? authUser : user;
-            model.findById(result.authorID).then(userDet => {
-                let cnt = {
-                    authorID: result.authorID,
-                    username: userDet.username,
-                    status: true,
-                    offline: userDet.offline,
-                    image: userDet.image,
-                    comment: result.comment,
-                    commentCreated: result.commentCreated,
-                    _id: result._id,
-                    like: false,
-                    dislike: false,
-                    liked: 0,
-                    disliked: 0,
-                    smile: false,
-                    smiled: 0,
-                    disabled: true
-                }
-                res.status(200).send(cnt)
-            })
-        }).catch(err => {
-            res.status(200).send(err);
-        })
     })
 })
 
 
 router.patch('/view', authenticate, (req, res, next) => {
+    if (req.header && req.header('data-categ') === 'viewcnt') {
+        let id = req.body.id;
+        let categ = req.body.cntGrp;
+        let cnt = req.body.cnt;
+        let model =  categ === 'post' ? posts : categ === 'question' ? questions : poets;
+        model.findByIdAndUpdate(id, {$inc: {'comment': 1}}).then(() => {
+            let newComment = new comment({
+                authorID: req.user,
+                userType: req.userType,
+                commentID: req.body.id,
+                comment: req.body.cnt
+            });
+            newComment.save().then(result => {
+                let model = result.userType === 'authUser' ? authUser : user;
+                model.findById(result.authorID).then(userDet => {
+                    let cnt = {
+                        authorID: result.authorID,
+                        username: userDet.username,
+                        status: true,
+                        offline: userDet.offline,
+                        image: userDet.image,
+                        comment: result.comment,
+                        commentCreated: result.commentCreated,
+                        _id: result._id,
+                        like: false,
+                        dislike: false,
+                        liked: 0,
+                        disliked: 0,
+                        smile: false,
+                        smiled: 0,
+                        disabled: true
+                    }
+                    res.status(200).send(cnt)
+                })
+            }).catch(err => {
+                res.status(200).send(err);
+            })
+        })
+    }
+
     if (req.header && req.header('data-categ') === 'reply') {
         let id = req.body.id;
         let cnt = {

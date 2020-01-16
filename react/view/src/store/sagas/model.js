@@ -8,7 +8,7 @@ import axios from '../../axios';
 
 export function* fetchCntInitSaga(action) {
     try {
-        let response =  yield axios.get(`/view/${action.categ}/${action.id}`,{headers: {'data-categ': 'viewcnt'}});
+        let response =  yield axios.post(`/view/${action.categ}/${action.id}`,null,{headers: {'data-categ': 'viewcnt'}});
         if (response.data) {
             yield put(actions.fetchCnt(response.data))
         } 
@@ -33,7 +33,9 @@ export function* ansCorrectInitSaga(action) {
         }
         yield put (actions.ansCorrect(action.commentID, action.categ, action.replyID))
     } catch(err){
-        // yield put(actions.fetchCntFail(err))
+        yield put(actions.fetchCntFail(err))
+        yield delay(1000)
+        yield put(actions.resetModel())
     }
     
 }
@@ -48,7 +50,9 @@ export function* ansWrongInitSaga(action) {
         yield put (actions.ansWrong(action.commentID, action.categ, action.replyID))
         
     } catch(err){
-        // yield put(actions.fetchCntFail(err))
+        yield put(actions.fetchCntFail(err))
+        yield delay(1000)
+        yield put(actions.resetModel())
     }
     
 }
@@ -61,7 +65,7 @@ export function* submitCommentInitSaga(action) {
            response =  yield axios.patch('/view', {id: action.id, cnt: action.cnt, cntGrp: action.cntGrp,commentID: uuid()},{headers: {'data-categ': 'reply'}});
            yield put(actions.submitComment(action.id, action.modelType, response.data))
         } else {
-            response= yield axios.post('/view', {id: action.id, 
+            response= yield axios.patch('/view', {id: action.id, 
                 cntGrp: action.cntGrp, cnt: action.cnt},{headers: {'data-categ': 'viewcnt'}});
             yield put(actions.submitComment(action.id, action.cntGrp, response.data))   
         }

@@ -5,8 +5,11 @@ let authenticate = require('../serverDB/middleware/authenticate');
 let filterCnt = require('./utility/filtercnt');
 const {category, posts, user, authUser, connectStatus} = require('../serverDB/serverDB');
 
+router.get('/', authenticate, (req,res, next) => {
+    res.render('post')
+})
 
-router.get('/', authenticate, (req, res, next) => {
+router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'post') {
         return fetchPost({mode: 'publish'});
     }
@@ -135,8 +138,6 @@ router.get('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ')) {  
         return fetchPost({category: req.header('data-categ'), mode: 'publish'});
     }
-
-    res.render('post')
 });
 
 module.exports = router

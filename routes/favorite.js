@@ -5,6 +5,10 @@ let authenticate = require('../serverDB/middleware/authenticate');
 const {category, favorite, posts, questions, poets, user, authUser, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', authenticate, (req, res, next) => {
+    res.render('favorite');
+})
+
+router.post('/', authenticate, (req, res, next) => {
     if (req.header('data-categ') &&  req.header('data-categ') === 'favorite') {
         let cntArray = {
             cnt: {},
@@ -116,7 +120,5 @@ router.get('/', authenticate, (req, res, next) => {
         }
         return
    }
-
-    res.render('favorite');
 })
 module.exports = router

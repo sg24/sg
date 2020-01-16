@@ -4,7 +4,12 @@ let mongoose = require('mongoose');
 let authenticate = require('../serverDB/middleware/authenticate');
 const {category, favorite, posts, questions, poets, postnotifies, quenotifies, pwtnotifies, user, authUser, connectStatus} = require('../serverDB/serverDB');
 
+
 router.get('/', authenticate, (req, res, next) => {
+    res.render('share');
+})
+
+router.post('/', authenticate, (req, res, next) => {
     if (req.header('data-categ') &&  req.header('data-categ') === 'share') {
         let cntArray = {
             cnt: {},
@@ -121,7 +126,5 @@ router.get('/', authenticate, (req, res, next) => {
         }
         return
    }
-
-    res.render('share');
 })
 module.exports = router

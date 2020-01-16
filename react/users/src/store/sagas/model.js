@@ -6,7 +6,7 @@ import axios from '../../axios';
 export function* fetchCntInitSaga(action) {
     try {
         if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
-            let response =  yield axios.get('/users', {
+            let response =  yield axios.post('/users', null,{
                 headers: {
                     'data-categ': action.fetchType, 
                     'limit': action.fetchLimit, 

@@ -21,16 +21,17 @@ class MainContent extends Component {
             icnClass: 'icon icon__site-main--content__tab--share',
             title: 'Shared',
         },
-        showPtActive: false,
+        showPtActive: true,
         showShareActive: true,
         ptFetch: false
     }
 
     componentDidUpdate() {
+        let curTab = this.props.location.pathname.split('/').length > 2 ? this.props.location.pathname.split('/')[2] : this.props.location.pathname.split('/')[1];
+        let cur = curTab === 'shared' ? {showShareActive: false} : {showPtActive: false}
         if (this.props.ptFetch && !this.state.ptFetch) {
-            this.props.onResetActive(this.props.userID, 
-                this.props.location.pathname.split('/').length > 2 ? this.props.location.pathname.split('/')[2] : this.props.location.pathname.split('/')[1]);
-            this.setState({ptFetch: true})
+            this.props.onResetActive(this.props.userID, curTab);
+            this.setState({ptFetch: true, ...cur})
         }
     }
 

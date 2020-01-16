@@ -7,13 +7,13 @@ import fileAxios from 'axios';
 
 export function* fetchCntInitSaga(action) {
     try {
-        let response = yield axios.get(`/user/profile/${action.userID}`, {
+        let response = yield axios.post(`/user/profile/${action.userID}`, null,{
             headers: {
                 'data-categ': 'userdet'}});
         let cnt = response.data  ? response.data : {}
         yield put(actions.fetchCnt(cnt));
     } catch(err){
-        yield put(actions.fetchCntFail(err))
+        yield put(actions.fetchCntFail(err));
     }
     
 }
@@ -21,12 +21,14 @@ export function* fetchCntInitSaga(action) {
 export function* saveAboutInitSaga(action) {
     try {
         yield put(actions.saveAboutStart())
-        yield axios.post(`/user/profile`, {det: action.userDet}, {
+        yield axios.post(`/user/profile/${action.userID}`, {det: action.userDet}, {
             headers: {
                 'data-categ': 'about'}});
         yield put(actions.saveAbout(action.userDet));
     } catch(err){
         yield put(actions.saveAboutFail(err))
+        yield delay(1000)
+        yield put(actions.resetModel())
     }
     
 }
@@ -34,13 +36,15 @@ export function* saveAboutInitSaga(action) {
 export function* submitImageInitSaga(action) {
     try {
         yield put(actions.submitImageStart())
-        yield axios.post(`/user/profile`, {image: action.image}, {
+        yield axios.post(`/user/profile/${action.userID}`, {image: action.image}, {
             headers: {
                 'data-categ': 'profileImage'}});
         yield put(actions.submitImage());
         yield put(actions.checkUserImg(action.url));
     } catch(err){
         yield put(actions.submitImageFail(err))
+        yield delay(1000)
+        yield put(actions.resetModel())
     }
     
 }

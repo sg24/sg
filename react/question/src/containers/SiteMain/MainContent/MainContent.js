@@ -21,16 +21,17 @@ class MainContent extends Component {
             icnClass: 'icon icon__site-main--content__tab',
             title: 'Q Chat',
         },
-        showCntActive: false,
+        showCntActive: true,
         showShareActive: true,
         cntFetch: false
     }
 
     componentDidUpdate() {
         if (this.props.cntFetch && !this.state.cntFetch) {
-            this.props.onResetActive(this.props.userID, 
-                this.props.location.pathname.split('/').length > 2 ? this.props.location.pathname.split('/')[2] : this.props.location.pathname.split('/')[1]);
-            this.setState({cntFetch: true})
+            let curTab = this.props.location.pathname.split('/').length > 2 ? this.props.location.pathname.split('/')[2] : this.props.location.pathname.split('/')[1];
+            let cur = curTab === 'shared' ? {showShareActive: false} : {showCntActive: false}
+            this.props.onResetActive(this.props.userID, curTab);
+            this.setState({cntFetch: true, ...cur})
         }
     }
 

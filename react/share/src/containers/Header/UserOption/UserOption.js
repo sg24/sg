@@ -151,16 +151,17 @@ class UserOption extends Component {
                     <FontAwesomeIcon 
                         icon={['fas', 'plus']} />
                 </div>
-               <div  onClick={this.showUserOptionHandler}>
+               <div>
                     { userImg }
-                    <ul className={userDetClass.join(' ')}>
-                        { cnt }
-                    </ul>
-                    <div 
-                        className="site-header__user--det__opt">
-                        <FontAwesomeIcon 
-                            icon={['fas', 'caret-down']} />
-                    </div>
+                </div>
+                <ul className={userDetClass.join(' ')}>
+                    { cnt }
+                </ul>
+                <div 
+                    className="site-header__user--det__opt"
+                    onClick={this.showUserOptionHandler}>
+                    <FontAwesomeIcon 
+                        icon={['fas', 'caret-down']} />
                 </div>
             </div>
         );

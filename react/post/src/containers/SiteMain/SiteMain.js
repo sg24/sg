@@ -43,6 +43,14 @@ class SiteMain extends Component {
         this.props.onCloseChangePt()
     }
 
+    closeBackdropHandler = () => {
+        this.props.onCloseBackdrop();
+    }
+
+    closeModelBackdropHandler = () => {
+        this.props.onCloseModelBackdrop();
+    }
+
     render() {
         let filterCnt = <Loader />;
 
@@ -82,10 +90,12 @@ class SiteMain extends Component {
                {this.props.showBackdrop ? 
                     <Backdrop   
                         show={ this.props.showBackdrop }
+                        close={this.closeBackdropHandler}
                         component={ AsyncFilterContent }/> : null}
                 { this.props.postErr ? 
                     <Backdrop 
                         component={ Modal }
+                        close={this.closeModelBackdropHandler}
                         err={ this.props.postErr } /> : null}
                 <Switch>
                     <Route path="/post" exact component={MainContent} />
@@ -106,6 +116,7 @@ class SiteMain extends Component {
                 <Backdrop   
                     show={ this.props.showBackdrop }
                     component={ Modal }
+                    close={this.closeModelBackdropHandler}
                     err={ this.props.changePtErr }
                     warn={{
                         msg: this.props.changePtStart.det=== 'delete' ?
@@ -148,6 +159,8 @@ const mapDispatchToProps = dispatch => {
         onCloseHeaderFilter: () => dispatch(actions.headerFilterClose()),
         onChangePt: (id, title, det, confirm) => dispatch(actions.changePtInit(id, title, det, confirm)),
         onCloseChangePt: () => dispatch(actions.changePtCancel()),
+        onCloseBackdrop: () => dispatch(actions.hideMainBackdrop()),
+        onCloseModelBackdrop: () => dispatch(actions.resetModel())
     };
 };
 

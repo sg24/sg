@@ -48,19 +48,20 @@ class Model extends Component {
 
     saveProfileHandler = () => {
          if (this.state.inputValue !== this.state.userDet) {
-            this.props.onSaveAbout(this.state.inputValue)
+            this.props.onSaveAbout(this.state.inputValue,this.props.match.params.id)
         }
     }
 
     changeImageHandler = () => {
-        this.props.onChangeImage()
+        this.props.onChangeImage(this.props.match.params.id)
     }
 
     render() {
         this.props.onFetchShareActive();
         this.props.onFetchNotifyActive();
 
-        let cnt = <Loader />;
+        let cnt = <Loader 
+            view/>;
         
         if (this.props.cntErr) {
             cnt = null
@@ -106,8 +107,8 @@ const mapDispatchToProps = dispatch => {
         onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
         onFetchCnt: (userID) => dispatch(actions.fetchCntInit(userID)),
         onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm, modelType)),
-        onSaveAbout: (about) => dispatch(actions.saveAboutInit(about)),
-        onChangeImage: () => dispatch(actions.changeImage())
+        onSaveAbout: (about,userID) => dispatch(actions.saveAboutInit(about, userID)),
+        onChangeImage: (userID) => dispatch(actions.changeImage(userID))
     };
 };
 

@@ -5,7 +5,7 @@ import * as actions from '../../store/actions/index';
 
 export function* fetchTagsInitSaga() {
     try {
-        let response = yield axios.get('/post', {headers: {'data-categ':'postCateg'}});
+        let response = yield axios.post('/post', null,{headers: {'data-categ':'postCateg'}});
         yield put(actions.fetchTags(response.data));
     } catch(e) {}
 

@@ -21,14 +21,15 @@ class MainContent extends Component {
             title: 'Request',
         },
         curTab: this.props.location.pathname.split('/').length > 2 ? this.props.location.pathname.split('/')[2] : this.props.location.pathname.split('/')[1],
-        showCntActive: false,
+        showCntActive: true,
         showRequestActive: true,
         updateTab: ''
     }
 
     componentDidUpdate() {
         if (this.state.curTab !== this.state.updateTab) {
-            this.setState({updateTab: this.state.curTab})
+            let cur = this.state.curTab === 'request' ? {showRequestActive: false} : {showCntActive: false}
+            this.setState({updateTab: this.state.curTab, ...cur})
         }
     }
 

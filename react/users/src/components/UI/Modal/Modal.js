@@ -5,7 +5,7 @@ import Loader from '../Loader/Loader';
 
 const modal = props => {
     let modalCnt = <h3>{ props.err ? 
-        props.err.response ? props.err.response.data.name : props.err.message : null }</h3>;
+        props.err.response ? 'Network Error' : 'Network Error' : null }</h3>;
     if (!props.err && props.warn && props.warn.cnt && props.exit && !props.exit.close) {
         modalCnt = (
             <div className="reuse-modal__warn">

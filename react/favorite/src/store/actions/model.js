@@ -149,3 +149,9 @@ export const changeFav = (modelID, modelType) => {
         modelType
     };
 };
+
+export const resetModel = () => {
+    return {
+        type: actionTypes.RESET_MODEL
+    }
+};

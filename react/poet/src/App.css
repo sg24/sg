@@ -2046,6 +2046,15 @@ img {
   z-index: 4;
 }
 
+.site-main__content--overlay__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+
 .site-main__content--fav-change  {
   position: absolute;
   font-size: 1.875rem;

@@ -85,7 +85,7 @@ const changeFavPtStart = (state, action) => {
 };
 
 const changeFavPtFail = (state, action) => {
-    return updateObject(state, {favChange: null })
+    return updateObject(state, {favChange: null, cntErr: null })
 };
 
 const changeFav = (state, action) => {
@@ -95,6 +95,11 @@ const changeFav = (state, action) => {
 const filterPost = (state, action) => {
     return updateObject(state, {filterDet: action.filterDet})
 };
+
+const resetModel = (state, action) => {
+    return updateObject(state, {cntErr: null,changeCntStart: null, changeCntErr: null, changeCnt: false})
+};
+
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
@@ -130,6 +135,8 @@ const reducer = (state = initialState, action) => {
             return changeFavPtFail(state, action);
         case actionTypes.FILTER_POST:
             return filterPost(state, action);
+        case actionTypes.RESET_MODEL:
+            return resetModel(state, action);
         default: return state
     }
 };

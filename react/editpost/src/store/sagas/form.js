@@ -50,7 +50,7 @@ export function* fetchVideoInitSaga(action) {
 export function* fetchCategInitSaga(action) {
     try {
         yield put(actions.fetchCategStart());
-        const category = yield axios.get('/post', {headers: {'data-categ':'postCateg'}});
+        const category = yield axios.post('/post', null,{headers: {'data-categ':'postCateg'}});
         const categ =  category.data && category.data.length > 0 ? category.data : null;
         yield put(actions.fetchCateg(categ))
     } catch(err){
@@ -90,7 +90,7 @@ export function* checkLinkInitSaga(action) {
 
 export function* fetchUsersInitSaga(action) {
     try {
-        let response = yield axios.get('/users', {headers: {'data-categ':`allteacher-${action.userStatus}`}});
+        let response = yield axios.post('/users', null,{headers: {'data-categ':`allteacher-${action.userStatus}`}});
         yield put(actions.fetchUsers(response.data, action.userStatus));
     } catch(err) {
         yield put(actions.fetchUsersFail(err))

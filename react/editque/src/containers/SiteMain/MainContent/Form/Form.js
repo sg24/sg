@@ -129,7 +129,7 @@ class Form extends  Component {
 
     addCategHandler = (event) => {
         let value =  event.target.value;
-        this.setState({addCateg: value, addCategInput: value, disable: value.length < 4})
+        this.setState({addCateg: value, addCategInput: value, disable: value.length < 1})
     }
 
     addNewCategHandler = () => {

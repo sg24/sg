@@ -9,7 +9,7 @@ export function* fetchPtCategInitSaga(action) {
         if (action.categ && action.categ.length > 0) {
             yield put (actions.fetchPtCateg([...action.categ]))
         } else {
-            let response = yield axios.get('/post', {headers: {'data-categ':'postCateg'}});
+            let response = yield axios.post('/post', null,{headers: {'data-categ':'postCateg'}});
             yield put(actions.fetchPtCateg(response.data));
         }
     } catch(e){}
@@ -33,7 +33,7 @@ export function* filterContentInitSaga(action) {
     if(!action.content.apply) {
         try {
             yield put(actions.filterContentStart());
-            let response = yield axios.get('/post', {headers: {'data-categ':'postSearch=='+filterCnt}});
+            let response = yield axios.post('/post', null,{headers: {'data-categ':'postSearch=='+filterCnt}});
             yield put(actions.filterContent(response.data));
         } catch(err) {
             yield put (actions.filterContentFail(err))

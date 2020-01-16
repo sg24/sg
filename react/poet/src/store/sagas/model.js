@@ -9,11 +9,11 @@ export function* fetchCntInitSaga(action) {
     }
     try {
         if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
-            let response = yield axios.get('/poet', {
-                headers: {
-                    'data-categ': action.fetchType, 
-                    'limit': action.fetchLimit, 
-                    'skip': action.skipCnt}});
+            let response = yield axios.post('/poet', null, {headers: {
+                'data-categ': action.fetchType, 
+                'limit': action.fetchLimit, 
+                'skip': action.skipCnt
+            }});
             yield put(actions.fetchCnt(response.data.cnt, action.skipCnt, response.data.cntTotal));
         }  
         
@@ -51,7 +51,6 @@ export function* changeCntInitSaga(action) {
             let payload = JSON.stringify({id: action.id, model: 'poet', field: 'pwtID'})
             yield axios.delete('/header', {headers: {'data-categ': `deletecnt-${payload}`}});
         } else if (action.det === 'draft' || action.det === 'acc-draft'){
-            console.log(action)
             yield axios.patch('/header', {id: action.id, model: 'poet', field: 'pwtID'} ,{headers: {'data-categ': 'draftmode'}});
         } else {
             yield axios.patch('/header', {id: action.id, model: 'poet', field: 'pwtID'} ,{headers: {'data-categ': 'publishmode'}});

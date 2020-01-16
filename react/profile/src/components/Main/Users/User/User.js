@@ -4,7 +4,6 @@ import Avatar from 'react-avatar';
 import TimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 
-import Aux from '../../../../hoc/Auxs/Aux';
 import { transformNumber, engStrings } from '../../../../shared/utility';
 import './User.css';
 

@@ -9,7 +9,7 @@ export function* fetchCntInitSaga(action) {
     }
     try {
         if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
-            let response = yield axios.get('/question', {
+            let response = yield axios.post('/question', null, {
                 headers: {
                     'data-categ': action.fetchType, 
                     'limit': action.fetchLimit, 

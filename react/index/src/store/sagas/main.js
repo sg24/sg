@@ -38,7 +38,7 @@ export function* fetchShareCntActiveInitSaga(action) {
 
 export function* fetchReqActiveInitSaga(action) {
     try {
-        let response = yield axios.get('/users', {headers: {'data-categ': 'request-activeOnly'}});
+        let response = yield axios.post('/users', null,{headers: {'data-categ': 'request-activeOnly'}});
         yield put(actions.fetchReqActive(response.data));
     } catch(err) {}
 

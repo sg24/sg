@@ -52,6 +52,7 @@ export {
     changeFavPtStart,
     changeFavPtFail,
     changeFav,
+    resetModel
 } from './model';
 
 export {

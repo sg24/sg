@@ -6,6 +6,10 @@ let filterCnt = require('./utility/filtercnt');
 const {category, questions, user, authUser, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', authenticate, (req, res, next) => {
+    res.render('question');
+})
+
+router.post('/', authenticate, (req, res, next) => {
     if (req.header('data-categ') === 'category') {
         category.findOne({}).then(result => {
             let checkRes =  result ? result.question : []
@@ -123,9 +127,6 @@ router.get('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ')) {  
         return fetchQue({category: req.header('data-categ'), mode: 'publish'});
     }
-
-
-    res.render('question');
 });
 
 module.exports = router

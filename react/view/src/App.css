@@ -2157,6 +2157,14 @@ img {
   }
 }
 
+.site-main__content--overlay__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
 .site-main__nav {
         width: 35%;
         background-color: rgba(249,249,249, .4);    

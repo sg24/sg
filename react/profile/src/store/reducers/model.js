@@ -146,6 +146,10 @@ const changeFav = (state, action) => {
     return updateObject(state, {changedFav: action.changedFav, favChange: null})
 };
 
+const resetModel = (state, action) => {
+    return updateObject(state, {cntErr: null})
+};
+
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.FETCH_CNT:
@@ -192,6 +196,8 @@ const reducer = (state = initialState, action) => {
             return changeFavPtStart(state, action);
         case actionTypes.CHANGE_FAVORITE_PT_FAIL:
             return changeFavPtFail(state, action);
+        case actionTypes.RESET_MODEL:
+            return resetModel(state, action);
         default: return state
     }
 };

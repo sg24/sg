@@ -37,8 +37,8 @@ export function* fetchShareActiveInitSaga(action) {
 
 export function* resetActiveInitSaga(action) {
     try {
-        if (action.curTab === 'share') {
-            yield axios.patch('/header', {model: 'post'}, {headers: {'data-categ': action.curTab}});
+        if (action.curTab === 'shared') {
+            yield axios.patch('/header', {model: 'post'}, {headers: {'data-categ': 'share'}});
         } else {
             yield axios.patch('/header', {model: 'post'}, {headers: {'data-categ': 'modelNotify'}});
         }

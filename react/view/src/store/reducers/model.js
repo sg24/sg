@@ -75,7 +75,7 @@ const resetInput = (state, action) => {
 };
 
 const resetModel = (state, action) => {
-    return updateObject(state, {cntErr: null})
+    return updateObject(state, {cntErr: null,changeCntStart: null, changeCntErr: null, changeCnt: false})
 };
 
 const ansCorrect = (state, action) => {

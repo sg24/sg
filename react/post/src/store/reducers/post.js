@@ -96,6 +96,10 @@ const filterPost = (state, action) => {
     return updateObject(state, {filterDet: action.filterDet})
 };
 
+const resetModel = (state, action) => {
+    return updateObject(state, {postErr: null,changePtStart: null, changePtErr: null, changePt: false})
+};
+
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.FETCH_POST:
@@ -130,6 +134,8 @@ const reducer = (state = initialState, action) => {
             return changeFavPtFail(state, action);
         case actionTypes.FILTER_POST:
             return filterPost(state, action);
+        case actionTypes.RESET_MODEL:
+            return resetModel(state, action);
         default: return state
     }
 };

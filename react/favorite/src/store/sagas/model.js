@@ -10,7 +10,7 @@ export function* fetchCntInitSaga(action) {
     
     try {
         if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
-            let response = yield axios.get('/favorite', {
+            let response = yield axios.post('/favorite', null,{
                 headers: {
                     'data-categ': action.fetchType,
                     'limit': action.fetchLimit, 

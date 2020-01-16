@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './AddImage.css';
 import * as actions from '../../../../../store/actions/index';
 import MediaItem from './MediaItem/MediaItem';
-import Aux from '../../../../../hoc/Auxs/Aux';
 import { getImageURL, dataURLtoBlob } from '../../../../../shared/utility';
 
 const videoRef = React.createRef(null);

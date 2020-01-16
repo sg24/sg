@@ -9,8 +9,11 @@ let userFilter = require('./utility/userfilter');
 const {category, user, 
      authUser,connectStatus} = require('../serverDB/serverDB');
 
-
 router.get('/', authenticate,(req, res, next) => {
+    res.render('users')
+})
+
+router.post('/', authenticate,(req, res, next) => {
     if (req.header && req.header('data-categ') === 'users') {
         return fetchUsers(connectStatus, {
             block: {$ne: req.user},
@@ -253,7 +256,6 @@ router.get('/', authenticate,(req, res, next) => {
             })  
         })
     }
-    res.render('users')
 });
 
 router.patch('/', authenticate,(req, res, next) => {

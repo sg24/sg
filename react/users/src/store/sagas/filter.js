@@ -13,7 +13,7 @@ export function* fetchCntCategInitSaga(action) {
 
 export function* fetchTotalInitSaga(action) {
     try {
-        let response = yield axios.get('/users', {headers: {'data-categ':'studenttotal'}});
+        let response = yield axios.post('/users', null,{headers: {'data-categ':'studenttotal'}});
         yield put(actions.fetchTotal(response.data));
     } catch(e){}
 }

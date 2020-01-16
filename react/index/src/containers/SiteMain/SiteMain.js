@@ -39,6 +39,10 @@ class SiteMain extends Component {
         this.props.onCloseChangeCnt()
     }
 
+    closeModelBackdropHandler = () => {
+        this.props.onCloseModelBackdrop();
+    }
+
     render() {
         let filterCnt = <Loader />;
 
@@ -78,6 +82,7 @@ class SiteMain extends Component {
                 { this.props.cntErr ? 
                     <Backdrop 
                         component={ Modal }
+                        close={this.closeModelBackdropHandler}
                         err={ this.props.cntErr } /> : null}
                         <MainContent />
                 <MainNav />
@@ -95,6 +100,7 @@ class SiteMain extends Component {
                     <Backdrop   
                         show={ this.props.showBackdrop }
                         component={ Modal }
+                        close={this.closeModelBackdropHandler}
                         err={ this.props.changeCntErr }
                         warn={{
                             msg: this.props.changeCntStart.det === 'delete' ?
@@ -148,6 +154,7 @@ const mapDispatchToProps = dispatch => {
         onCloseHeaderFilter: () => dispatch(actions.headerFilterClose()),
         onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm, modelType)),
         onCloseChangeCnt: () => dispatch(actions.changeCntCancel()),
+        onCloseModelBackdrop: () => dispatch(actions.resetModel())
     };
 };
 

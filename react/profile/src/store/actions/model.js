@@ -35,10 +35,11 @@ export const fetchCnt = (cnt, skipCnt, cntTotal) => {
     }
 };
 
-export const saveAboutInit = (userDet) => {
+export const saveAboutInit = (userDet, userID) => {
     return {
         type: actionTypes.SAVE_ABOUT_INIT,
-        userDet
+        userDet,
+        userID
     }
 };
 
@@ -62,9 +63,10 @@ export const saveAbout = (det) => {
     }
 };
 
-export const changeImage = () =>  {
+export const changeImage = (userID) =>  {
     return {
-        type: actionTypes.CHANGE_IMAGE
+        type: actionTypes.CHANGE_IMAGE,
+        userID
     }; 
 }; 
 
@@ -203,4 +205,10 @@ export const changeFav = (changedFav) => {
         type: actionTypes.CHANGE_FAVORITE,
         changedFav
     };
+};
+
+export const resetModel = () => {
+    return {
+        type: actionTypes.RESET_MODEL
+    }
 };
