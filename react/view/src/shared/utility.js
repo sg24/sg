@@ -1,3 +1,5 @@
+import io from 'socket.io-client';
+
 export const updateObject = (oldObject, updatedProperties) => {
     return {
         ...oldObject,
@@ -111,3 +113,5 @@ export function changeMode (oldCnts,changeCntStart,field, isUpdate) {
     }
     return oldCnts
 }
+
+export const socket = io('http://localhost:3002');

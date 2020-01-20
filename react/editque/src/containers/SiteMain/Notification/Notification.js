@@ -56,7 +56,7 @@ function displayConfirmNotification() {
         })
         .then(function(newSub) {
           let sub = JSON.stringify(newSub);
-          return axios.get('/users', {headers: {'data-categ': `subscribe==${sub}`}})
+          return axios.post('/users', null,{headers: {'data-categ': `subscribe==${sub}`}})
         })
         .then(function(res) {
           if (res.status === 200) {

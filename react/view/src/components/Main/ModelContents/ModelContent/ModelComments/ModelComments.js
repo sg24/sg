@@ -1,9 +1,11 @@
 import React from 'react';
+import arraySort from 'array-sort';
 
 import ModelComment from'./ModelComment/ModelComment';
 
 const modelComments = props => {
-    return props.comments.map((comment, index) => (
+    let comments = arraySort(props.comments, 'commentCreated')
+    return comments.map((comment, index) => (
         <ModelComment 
             key={index}
             comment={comment}

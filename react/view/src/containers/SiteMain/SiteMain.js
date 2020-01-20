@@ -11,17 +11,14 @@ import Modal from '../../components/UI/Modal/Modal';
 import MainFilter from '../../components/MainFilter/MainFilter';
 import Loader from '../../components/UI/Loader/Loader';
 import NoAcc from '../../components/Main/NoAcc/NoAcc';
+import Editor from './MainContent/MainModel/ModelEditor/ModelEditor'
 
 const AsyncShare = asyncComponent(() => {
     return import ('./Share/Share');
 });
 
-const AsyncEditor = asyncComponent(() => {
-    return import ('./MainContent/MainModel/ModelEditor/ModelEditor');
-});
-
 class SiteMain extends Component {
-    checkHeaderDefault = () => {
+  checkHeaderDefault = () => {
         if (!this.props.default) {
             this.props.onNavDefault()
         }
@@ -91,7 +88,7 @@ class SiteMain extends Component {
                     <Switch>
                         <Route path="/view/:categ/:id" exact component={MainContent} />
                         <Route path="/" component={MainContent} />
-                    </Switch>
+                    </Switch>,
                     <Switch>
                         <Route path="/view/:categ/:id" exact component={MainNav} />
                         <Route path="/" component={MainNav} />
@@ -135,7 +132,7 @@ class SiteMain extends Component {
                         changeCnt={this.changeCntHandler}
                         closeChangeCnt={this.closeChangeCntHandler}/> : null}
                     <Route path="/view/:id/share" exact component={AsyncShare} />
-                    <Route path="/view/reply/:categ"  component={AsyncEditor}/>
+                {this.props.commentID ? <Editor id={this.props.commentID.id} categ={this.props.commentID.categ}/> : null}
         </div>
         )
     }
@@ -154,7 +151,8 @@ const mapStateToProps = state => {
         filterLastPos: state.header.filterLastPos,
         changeCntStart: state.cnt.changeCntStart,
         changeCntErr: state.cnt.changeCntErr,
-        changeCnt: state.cnt.changeCnt
+        changeCnt: state.cnt.changeCnt,
+        commentID: state.cnt.commentID
     };
  }
 

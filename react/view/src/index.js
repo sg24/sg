@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { createStore, combineReducers, compose, applyMiddleware }  from 'redux'; 
 import { Provider } from 'react-redux';
 import  createSagaMiddleware from 'redux-saga';
+import reduxThunk from 'redux-thunk';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
@@ -53,7 +54,7 @@ const rootReducers = combineReducers({
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-const store = createStore(rootReducers, composeEnhancer(applyMiddleware(sagaMiddleware)));
+const store = createStore(rootReducers, composeEnhancer(applyMiddleware(reduxThunk, sagaMiddleware)));
 
 sagaMiddleware.run(watchAuth);
 sagaMiddleware.run(watchCnt);

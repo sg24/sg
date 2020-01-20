@@ -1,9 +1,11 @@
 import React from 'react';
+import arraySort from 'array-sort';
 
 import PoetContent from './PoetContent/PoetContent';
 
 const poet = props => {
-    const allPwt = props.content.map((pwt, index) => (
+    let content = arraySort(props.content, 'pwtCreated', {reverse: true})
+    const allPwt = content.map((pwt, index) => (
         <PoetContent 
              key={index} 
              pwt={pwt} 

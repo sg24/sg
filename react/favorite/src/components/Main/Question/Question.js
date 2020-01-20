@@ -1,10 +1,11 @@
 import React from 'react';
+import arraySort from 'array-sort';
 
 import QuestionContent from './QuestionContent/QuestionContent';
 
 const question = props => {
-   
-    const allQuestion = props.content.map((que, index) => (
+    let content = arraySort(props.content, 'queCreated', {reverse: true})
+    const allQuestion = content.map((que, index) => (
         <QuestionContent 
              key={index} 
              que={que} 

@@ -9,6 +9,10 @@ router.get('/', authenticate, (req,res, next) => {
     res.render('post')
 })
 
+router.get('/:id', authenticate, (req, res,next) => {
+    res.render('post');
+})
+
 router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'post') {
         return fetchPost({mode: 'publish'});

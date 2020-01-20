@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import * as actions from '../../../store/actions/index';
-import MainNavigations from '../../../components/MainNavigations/MainNavigations';
 import MainModel from './MainModel/MainModel'; 
 
 class MainContent extends Component {

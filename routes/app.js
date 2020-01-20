@@ -9,6 +9,7 @@ const bcrypt = require('bcryptjs');
 const sgMail = require('@sendgrid/mail');
 const fetchCnt = require('./utility/fetchcnt');
 let filterCnt = require('./utility/filtercnt');
+let deleteMedia = require('./utility/deleteMedia');
 let userFilter = require('./utility/userfilter');
 let notification = require('./utility/notifications');
 let push = require('./utility/push');
@@ -508,19 +509,29 @@ router.delete('/header', authenticate,(req,res, next) =>  {
         let notify = payload.model === 'post' ? postnotifies :
         payload.model === 'question' ? quenotifies : pwtnotifies;
         model.findOneAndRemove({_id :payload.id, authorID: req.user}).then(result => {
-            let send = 0;
-            if (result.shareMe && result.shareMe.length < 1) {
-                res.sendStatus(200);
-                return
-            }
-            for (let userID of result.shareMe){
-                notify.findOneAndUpdate({userID, [payload.field]: {$in : payload.id}}, {$pull: { [payload.field]: payload.id}
-                }).then(() => {
-                    ++send;
-                    if (send === result.shareMe.length) {
-                        res.sendStatus(200);
-                    }
+            if (result.video && result.video.length > 0){
+                deleteMedia(result.video).then(() => {
+                    removeShare(result, res, notify, payload)
                 })
+            } else {
+                removeShare(result, res, notify, payload)
+            }
+
+            function removeShare(result, res, notify, payload) {
+                let send = 0;
+                if (result.shareMe && result.shareMe.length < 1) {
+                    res.sendStatus(200);
+                    return
+                }
+                for (let userID of result.shareMe){
+                    notify.findOneAndUpdate({userID, [payload.field]: {$in : payload.id}}, {$pull: { [payload.field]: payload.id}
+                    }).then(() => {
+                        ++send;
+                        if (send === result.shareMe.length) {
+                            res.sendStatus(200);
+                        }
+                    })
+                }
             }
         })
         return

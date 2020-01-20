@@ -16,13 +16,15 @@ const initialState = {
     changeCntStart: null,
     comments: [],
     submitStart: false,
-    resetInput: false
+    resetInput: false,
+    commentID: null,
+    commentTotal: 0
 }
 
 const fetchCnt = (state, action) => {
     let comments = [...state.comments]
     comments.push(...action.cnt.commentcnt)
-    return updateObject(state, {cnts: action.cnt, comments})
+    return updateObject(state, {cnts: action.cnt, comments, commentTotal: action.cnt.comment})
 };
 
 const fetchCntReset = (state, action) => {
@@ -56,10 +58,10 @@ const submitComment = (state, action) => {
         comment['reply'] = [{...action.cnt}]
        }
         comments[indexPos] = comment;
-        return updateObject(state, {comments, submitStart: false, resetInput: true})
+        return updateObject(state, {comments, submitStart: false, resetInput: true, commentTotal: state.commentTotal+=1})
     } 
     comments.push(action.cnt);
-    return updateObject(state, {comments, submitStart: false, resetInput: true})
+    return updateObject(state, {comments, submitStart: false, resetInput: true, commentTotal: state.commentTotal+=1})
 };
 
 const submitCommentFail = (state, action) => {
@@ -71,7 +73,7 @@ const submitCommentStart = (state, action) => {
 };
 
 const resetInput = (state, action) => {
-    return updateObject(state, {resetInput: false})
+    return updateObject(state, {resetInput: false, commentID: null})
 };
 
 const resetModel = (state, action) => {
@@ -229,6 +231,10 @@ const filterPost = (state, action) => {
     return updateObject(state, {filterDet: action.filterDet})
 };
 
+const setCommentID = (state, action) => {
+    return updateObject(state, {commentID: {id: action.commentID, categ: action.categ}})
+};
+
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.FETCH_CNT:
@@ -277,6 +283,8 @@ const reducer = (state = initialState, action) => {
             return changeFavPtFail(state, action);
         case actionTypes.FILTER_POST:
             return filterPost(state, action);
+        case actionTypes.SET_COMMENTID:
+            return setCommentID(state, action);
         default: return state
     }
 };

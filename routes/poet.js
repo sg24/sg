@@ -9,6 +9,10 @@ router.get('/', authenticate, (req, res,next) => {
     res.render('poetwriter');
 })
 
+router.get('/:id', authenticate, (req, res,next) => {
+    res.render('poetwriter');
+})
+
 router.post('/', authenticate, (req, res, next) => {
     if (req.header('data-categ') && req.header('data-categ') === 'category') {
         category.findOne({}).then(result => {

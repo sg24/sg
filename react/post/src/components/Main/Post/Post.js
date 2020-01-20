@@ -1,10 +1,11 @@
 import React from 'react';
+import arraySort from 'array-sort';
 
 import PostContent from './PostContent/PostContent';
 
 const post = props => {    
-    
-    const allPost = props.content.map( (pt, index) => (
+    let content= arraySort(props.content, 'postCreated', {reverse: true})
+    const allPost = content.map( (pt, index) => (
         <PostContent 
             key={index} 
             pt={pt} 

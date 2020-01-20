@@ -1,10 +1,8 @@
 import { put, delay } from 'redux-saga/effects';
-import uuid from 'uuid';
 
 import { changeFav } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
-
 
 export function* fetchCntInitSaga(action) {
     try {
@@ -58,23 +56,28 @@ export function* ansWrongInitSaga(action) {
 }
 
 export function* submitCommentInitSaga(action) {
-    try {
-        yield put(actions.submitCommentStart())
-        let response;
-        if (action.modelType === 'reply') {
-           response =  yield axios.patch('/view', {id: action.id, cnt: action.cnt, cntGrp: action.cntGrp,commentID: uuid()},{headers: {'data-categ': 'reply'}});
-           yield put(actions.submitComment(action.id, action.modelType, response.data))
-        } else {
-            response= yield axios.patch('/view', {id: action.id, 
-                cntGrp: action.cntGrp, cnt: action.cnt},{headers: {'data-categ': 'viewcnt'}});
-            yield put(actions.submitComment(action.id, action.cntGrp, response.data))   
-        }
+    
+    // try {
+    //     yield put(actions.submitCommentStart())
+    //     let response;
+    //     if (action.modelType === 'reply') {
+    //        response =  yield axios.patch('/view', {id: action.id, cnt: action.cnt, cntGrp: action.cntGrp,commentID: uuid()},{headers: {'data-categ': 'reply'}});
+    //        yield put(actions.submitComment(action.id, action.modelType, response.data))
+    //     } else {
+    //         // response= yield axios.patch('/view', {id: action.id, 
+    //         //     cntGrp: action.cntGrp, cnt: action.cnt},{headers: {'data-categ': 'viewcnt'}});
+    //         socket.emit('createComment',  {id: action.id, cntGrp: action.cntGrp, cnt: action.cnt})
+    //         socket.on('newComment', function(msg) {
+    //             console.log(msg)
+    //             // yield put(actions.submitComment(action.id, action.cntGrp, response.data)) 
+    //         });  
+    //     }
         
-    } catch(err){
-        yield put(actions.submitCommentFail(err))
-        yield delay(1000)
-        yield put(actions.resetModel())
-    }
+    // } catch(err){
+    //     yield put(actions.submitCommentFail(err))
+    //     yield delay(1000)
+    //     yield put(actions.resetModel())
+    // }
     
 }
 

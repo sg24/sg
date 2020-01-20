@@ -5,9 +5,10 @@ import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { convertFromRaw } from 'draft-js';
 import { stateToHTML } from "draft-js-export-html";
+import arraySort from 'array-sort';
 
 import '../../../../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { transformNumber, engStrings } from '../../../../../../shared/utility';
+import {  engStrings } from '../../../../../../shared/utility';
 import ModelReply from './ModelReply/ModelReply';
 import Aux from '../../../../../../hoc/Auxs/Aux';
 
@@ -45,7 +46,8 @@ const modelComment = props => {
     }
  
     if (comment.reply) {
-        reply = comment.reply.map((reply, index) => (
+        let commentsreply = arraySort(comment.reply, 'commentCreated')
+        reply = commentsreply.map((reply, index) => (
             <ModelReply 
                 key={index}
                 comment={reply}

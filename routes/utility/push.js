@@ -4,7 +4,7 @@ module.exports = push = (shareMe, content, field, id) => {
     return new Promise((resolve, reject) => {
         let allSubscription = [];
         user.find({_id: { $in : shareMe }}).then(users => {
-            let fndUsers = users ? users : []
+            let fndUsers = users ? users : [];
             allSubscription.push(...fndUsers);
             authUser.find({_id: { $in : shareMe }}).then(authUsers => {
                 let fndAuthUser = authUsers ? authUsers : [];

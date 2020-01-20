@@ -6,7 +6,7 @@ import { EditorState, convertToRaw } from 'draft-js';
 
 import ModelContents from '../../../../components/Main/ModelContents/ModelContents';
 import Loader from '../../../../components/UI/Loader/Loader';
-import { updateObject } from '../../../../shared/utility';
+import { updateObject, socket } from '../../../../shared/utility';
 import * as actions from '../../../../store/actions/index';
 
 let IS_ANIMATED = true;
@@ -14,6 +14,12 @@ let IS_ANIMATED = true;
 class Model extends Component {
     constructor(props) {
         super(props);
+        let these = this;
+        socket.on('connect', function(msg) {
+            socket.emit('join',these.props.match.params.id, function(err) {
+                these.props.onJoinErr()
+            })
+        }); 
         this.state = {
             cntOpt: null,
             categ: this.props.match.params.categ,
@@ -31,6 +37,13 @@ class Model extends Component {
 
     componentDidMount() {
         this.props.onFetchCnt( this.props.match.params.categ,  this.props.match.params.id);
+        let these = this;
+        socket.on('newComment', function(msg) {
+            these.props.onSubmitSuccess(these.state.id, these.state.categ, msg)
+        }); 
+        socket.on('newReplyComment', function(msg) {
+            these.props.onSubmitSuccess(msg.id, 'reply', msg.cnt)
+        }); 
     }
 
     componentDidUpdate() {
@@ -173,7 +186,8 @@ class Model extends Component {
     }
 
     replyHandler = (commentID) => {
-        this.props.history.push(`/view/reply/${this.state.categ}?id=${commentID}`)
+        // this.props.history.push(`/view/reply/${this.state.categ}?id=${}`)
+        this.props.onSetCommentID(commentID,this.state.categ);
     }
 
     correctHandler = (commentID, type, replyID) => {
@@ -233,15 +247,16 @@ class Model extends Component {
                     inputChanged={this.inputChangedHandler}
                     submitComment={this.submitCommentHandler}
                     comments={this.props.comments}
-                    submitEnable={this.props.submitStart || String(convertToRaw(this.state.inputValue.getCurrentContent()).blocks[0].text).length < 6}
+                    submitEnable={this.props.submitStart || String(convertToRaw(this.state.inputValue.getCurrentContent()).blocks[0].text).length < 1}
                     reply={this.replyHandler}
                     correct={this.correctHandler}
-                    wrong={this.wrongHandler}/>
+                    wrong={this.wrongHandler}
+                    commentTotal={this.props.commentTotal}/>
         }
 
         return cnt
     }
-}
+} 
 
 const mapStateToProps = state => {
     return {
@@ -256,7 +271,9 @@ const mapStateToProps = state => {
         comments: state.cnt.comments,
         submitStart: state.cnt.submitStart,
         resetInput: state.cnt.resetInput,
-        show: state.trd.show
+        commentID: state.cnt.commentID,
+        show: state.trd.show,
+        commentTotal: state.cnt.commentTotal
     };
 };
 
@@ -275,7 +292,10 @@ const mapDispatchToProps = dispatch => {
         onResetInput: () => dispatch(actions.resetInput()),
         onDefaultTrd: () => dispatch(actions.defaultTrd()),
         onAnsCorrect: (commentID, categ, replyID, modelType) => dispatch(actions.ansCorrectInit(commentID, categ, replyID, modelType)),
-        onAnsWrong: (commentID, categ, replyID) => dispatch(actions.ansWrongInit(commentID, categ,replyID))
+        onAnsWrong: (commentID, categ, replyID) => dispatch(actions.ansWrongInit(commentID, categ,replyID)),
+        onSubmitSuccess: (id, cntGrp, msg) => dispatch(actions.submitComment(id, cntGrp, msg)),
+        onJoinErr: (err) => dispatch(actions.submitCommentFail(err)) ,
+        onSetCommentID: (commentID, categ) => dispatch(actions.setCommentID(commentID, categ))
     };
 };
 

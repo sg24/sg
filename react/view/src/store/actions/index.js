@@ -42,7 +42,6 @@ export {
     fetchCntStart,
     fetchCntReset,
     fetchCnt,
-    submitCommentInit,
     submitCommentFail,
     submitCommentStart,
     submitComment,
@@ -68,6 +67,7 @@ export {
     changeFavPtStart,
     changeFavPtFail,
     changeFav,
+    setCommentID
 } from './model';
 
 export {
@@ -121,3 +121,7 @@ export {
     showMainBackdrop,
     hideMainBackdrop
 } from './main';
+
+export {
+    submitCommentInit
+} from '../thunk/submit';

@@ -38,7 +38,8 @@ const modelContents = props => {
             submitEnable={props.submitEnable}
             reply={props.reply}
             correct={props.correct}
-            wrong={props.wrong}/>
+            wrong={props.wrong}
+            commentTotal={props.commentTotal}/>
     )
     return contents;
 }

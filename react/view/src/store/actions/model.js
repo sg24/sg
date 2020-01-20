@@ -34,16 +34,6 @@ export const fetchCnt = (cnt) => {
     }
 };
 
-export const submitCommentInit = (id, cntGrp, cnt, modelType) => {
-    return {
-        type: actionTypes.SUBMIT_COMMENT_INIT,
-        id,
-        cntGrp,
-        cnt,
-        modelType
-    }
-};
-
 export const submitCommentStart = () =>{
     return {
         type: actionTypes.SUBMIT_COMMENT_START
@@ -234,5 +224,13 @@ export const changeFav = (changedFav) => {
     return {
         type: actionTypes.CHANGE_FAVORITE,
         changedFav
+    };
+};
+
+export const setCommentID = (commentID, categ) => {
+    return {
+        type: actionTypes.SET_COMMENTID,
+        commentID,
+        categ
     };
 };

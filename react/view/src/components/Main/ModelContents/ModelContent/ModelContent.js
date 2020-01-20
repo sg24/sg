@@ -195,7 +195,7 @@ const modelContent = props => {
                         className="icon icon__reuse-view--main__tm" />
                     {<TimeAgo date={props.cnt.postCreated} live={false} formatter={formatter}/>}
                 </li>
-                <li className="reuse-view__main--header__det--ans">Comments <div>{ props.cnt.comment}</div></li>
+                <li className="reuse-view__main--header__det--ans">Comments <div>{ props.commentTotal }</div></li>
                 <li>
                     <div>
                         <FontAwesomeIcon 
@@ -377,7 +377,7 @@ const modelContent = props => {
                 <div className="reuse-view__comments--header__ans">Comment Section 
                     <a href={"/add/"+props.cntGrp} className="reuse-view__comments--header__ask">Add {props.cntGrp !== 'poet' ? props.cntGrp : null}</a>
                     <div className="reuse-view__comments--box__footer--user-like__total reuse-view__comments--header__total">
-                        { props.cnt.comment }
+                        { props.commentTotal }
                     </div>
                 </div>
             </div> 

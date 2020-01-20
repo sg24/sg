@@ -32,10 +32,10 @@
     "autoprefixer": "^6.3.6",
     "browser-sync": "^2.26.7",
     "events-polyfill": "^2.1.2",
-    "react-autofill": "^1.1.4",
     "gulp": "^4.0.2",
     "gulp-postcss": "^8.0.0",
     "gulp-watch": "^4.3.5",
+    "jquery": "^3.4.1",
     "normalize.css": "^4.1.1",
     "postcss-hexrgba": "^0.2.0",
     "postcss-import": "^8.1.2",
@@ -43,6 +43,9 @@
     "postcss-nested": "^1.0.0",
     "postcss-simple-vars": "^1.2.0",
     "react-app-polyfill": "^1.0.5",
+    "react-autofill": "^1.1.4",
+    "socket.io": "^2.3.0",
+    "array-sort": "^1.0.0",
     "window-location-origin": "^0.1.0",
     "workbox-cli": "^4.3.1"
   }

@@ -3,7 +3,6 @@ import { takeEvery, all, takeLatest } from 'redux-saga/effects';
 import * as actionTypes from '../../store/actions/actionTypes';
 import { checkAuthInitSaga } from './auth';
 import { fetchCntInitSaga, 
-        submitCommentInitSaga, 
         ansCorrectInitSaga,
         ansWrongInitSaga,
         fetchVideoInitSaga, 
@@ -32,7 +31,6 @@ export function* watchAuth() {
 export function* watchCnt() {
     yield all([
         takeLatest(actionTypes.FETCH_CNT_INIT, fetchCntInitSaga),
-        takeLatest(actionTypes.SUBMIT_COMMENT_INIT, submitCommentInitSaga),
         takeLatest(actionTypes.ANS_CORRECT_INIT, ansCorrectInitSaga),
         takeLatest(actionTypes.ANS_WRONG_INIT, ansWrongInitSaga),
         takeEvery(actionTypes.FETCH_VIDEO_INIT, fetchVideoInitSaga),
