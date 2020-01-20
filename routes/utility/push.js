@@ -1,4 +1,5 @@
 const { user, authUser} = require('../../serverDB/serverDB');
+const webpush = require('web-push');
 
 module.exports = push = (shareMe, content, field, id) => {
     return new Promise((resolve, reject) => {
