@@ -4,7 +4,7 @@ const global = require('../../global/global');
 
 let authenticate = (req, res, next) => {
     let tempToken = null;
-    // let tempToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTAzMjU3ZDAwNGZiNDFlY2NmNDIwY2EiLCJhY2Nlc3MiOiJhdXRoZW50aWNhdGlvbiIsImlhdCI6MTU3OTUwNDU3MywiZXhwIjoxNTgwMTA5MzczfQ.JXteFo2lVu15q6qjHCqbGDPeo-oQjruLbTkfApIqrQI';
+    // let tempToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTE3NmZhZGMzMjhhYzgzNTBjMDM5YTUiLCJhY2Nlc3MiOiJhdXRoZW50aWNhdGlvbiIsImlhdCI6MTU3OTU5MzA0MCwiZXhwIjoxNTgwMTk3ODQwfQ.fHuaVbzr1XXSXqHgTjJESf3iEcATBRxmc1VfvEid6ps';
     if (req.signedCookies.token || tempToken) {
         user.findByToken(req.signedCookies.token || tempToken).then((result) => {
             if (!result) {
