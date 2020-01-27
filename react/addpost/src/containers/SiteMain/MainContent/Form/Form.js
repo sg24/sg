@@ -192,7 +192,6 @@ class Form extends  Component {
                 title: this.state.formElement.title.value,
                 video: this.props.media.video ? this.props.media.video : [],
                 image: this.props.media.image ? this.props.media.image: [],
-                snapshot: this.props.snapshot,
                 shareMe: this.props.media.user ? this.props.media.user : [],
                 mode
             }

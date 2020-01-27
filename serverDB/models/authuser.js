@@ -108,6 +108,10 @@ var authUserSchema = new mongoose.Schema({
     pwtpub: {
         type:Number,
         default: 0
+    },
+    groups: {
+        type:Number,
+        default: 0
     }
 }) ;
 

@@ -14,6 +14,7 @@ const comment = require('./models/comment');
 const user = require('./models/user');
 const tempUser = require('./models/tempUser');
 const authUser = require('./models/authuser');
+const tempFile = require('./models/tempfile');
 
 module.exports = {
     posts,
@@ -24,6 +25,7 @@ module.exports = {
     tempUser,
     authUser,
     comment,
+    tempFile,
     postnotifies,
     quenotifies,
     usernotifies,

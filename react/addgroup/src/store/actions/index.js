@@ -73,7 +73,8 @@ export {
     submitFormSuccess,
     submitFormStart,
     submitForm,
-    formSubmitted
+    formSubmitted,
+    addGroupImg
 } from './form';
 
 export {

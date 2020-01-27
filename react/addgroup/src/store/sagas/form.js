@@ -7,7 +7,7 @@ import fileAxios from 'axios';
 export function* fetchCategInitSaga(action) {
     try {
         yield put(actions.fetchCategStart());
-        const category = yield axios.post('/poet', null,{headers: {'data-categ':'category'}});
+        const category = yield axios.post('/group', null,{headers: {'data-categ':'postCateg'}});
         const categ =  category.data && category.data.length > 0 ? category.data : null;
         yield put(actions.fetchCateg(categ))
     } catch(err){

@@ -5,28 +5,20 @@ import 'promise-polyfill/src/polyfill';
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 
-import '../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import './react-draft-wysiwyg.css';
 import './Form.css';
 import * as actions from '../../../../store/actions/index';
 import PtCategs from '../../../../components/Main/PostCategs/PostCategs';
 import Categs from '../../../../components/Main/PostCategs/Categs/Categs';
 import Backdrop from '../../../../components/UI/Backdrop/Backdrop';
-import Modal from '../../../../components/UI/Modal/Modal';
 import Loader from '../../../../components/UI/Loader/Loader';
+import Modal from '../../../../components/UI/Modal/Modal';
 import Aux from '../../../../hoc/Auxs/Aux';
 import asyncComponent from '../../../../hoc/asyncComponent/asyncComponent';
 import { updateObject, checkValidity } from '../../../../shared/utility';
 
 const AsyncImage = asyncComponent(() => {
     return import ('./AddImage/AddImage');
-});
-
-const AsyncVideo = asyncComponent(() => {
-    return import ('./AddVideo/AddVideo');
-});
-
-const AsyncUsers = asyncComponent(() => {
-    return import ('./AddUsers/AddUsers');
 });
 
 class Form extends  Component {
@@ -48,6 +40,15 @@ class Form extends  Component {
         showUserOpt: false,
         showAddItmOpt: true,
         formElement: {
+            title: {
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 6
+                },
+                valid: false,
+                touched: false
+            },
             content: {
                 value: EditorState.createEmpty(),
                 validation: {
@@ -157,9 +158,9 @@ class Form extends  Component {
     }
 
     inputChangedHandler = (editorState, inputType) => {
-        let text = convertToRaw(editorState.getCurrentContent()).blocks[0].text;
+        let text = inputType === 'title' ? editorState.target.value : convertToRaw(editorState.getCurrentContent()).blocks[0].text;
         let updateFormType = updateObject(this.state.formElement[inputType], {
-            value: editorState,
+            value: inputType === 'title' ? editorState.target.value: editorState,
             valid: checkValidity(text, this.state.formElement[inputType].validation),
             touched: true
         });
@@ -175,14 +176,12 @@ class Form extends  Component {
     }
 
     submitHandler = (mode) => {
-        let updateEditorBlock = updateObject(convertToRaw(this.state.formElement.content.value.getCurrentContent()).blocks[0], {text: ''})
-        let updateEditorState = updateObject(convertToRaw(this.state.formElement.content.value.getCurrentContent()), {blocks: [updateEditorBlock]});
        this.setState({showForm: true,  showAddItm: false, mode});
        if (this.state.categs.length > 0 && this.state.formIsValid) {
             let newCnt = {
                 categ: this.state.categs,
-                desc: JSON.stringify(updateEditorState),
-                title: convertToRaw(this.state.formElement.content.value.getCurrentContent()).blocks[0].text,
+                desc: JSON.stringify(convertToRaw(this.state.formElement.content.value.getCurrentContent())),
+                title: this.state.formElement.title.value,
                 video: this.props.media.video ? this.props.media.video : [],
                 image: this.props.media.image ? this.props.media.image: [],
                 snapshot: this.props.snapshot,
@@ -209,7 +208,7 @@ class Form extends  Component {
     }
 
     viewCntHandler = () => {
-        window.location.assign('/view/poet/' + this.props.id)
+        window.location.assign('/view/post/' + this.props.id)
     }
 
     render() {
@@ -224,7 +223,6 @@ class Form extends  Component {
             addItemClass.push('reuse-form__cnt--det__selec--add__visible icon--rotate');
             addItemOptClass.push('reuse-form__cnt--det__selec--opt__visible')
         }
-       
         if (this.state.showCateg && !this.props.categ) {
             categListClass.push('icon--rotate');
             addCateg =  (
@@ -235,8 +233,9 @@ class Form extends  Component {
                 </ul>
             );
         }
-
+        
         if (this.state.showCateg && this.props.categ) {
+            categListClass.push('icon--rotate');
             addCateg =  (
                 <ul className="reuse-form__cnt--det__selec--opt reuse-form__cnt--det__selec--opt__visible">
                     <PtCategs 
@@ -274,9 +273,9 @@ class Form extends  Component {
                         <div>
                             <div>
                             <FontAwesomeIcon 
-                                icon={['fas', 'book']} />
+                                icon={['fas', 'users']} />
                             </div> 
-                            Add
+                            Create Group Chat
                         </div>
                     </h3>
                     <div className="reuse-form__cnt">
@@ -327,7 +326,24 @@ class Form extends  Component {
                             }
                         </div>
                         <div className="reuse-form__cnt--wrapper">
-                            <label className="reuse-form__cnt--title">Content </label>
+                            <label className="reuse-form__cnt--title">Group Name</label>
+                            <div className="reuse-form__cnt--det">
+                                <input 
+                                    type="text" 
+                                    name=""
+                                    required
+                                    minLength="6"
+                                    value={this.state.formElement.title.value}
+                                    className="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg"
+                                    onChange={(event) => this.inputChangedHandler(event, 'title')} />
+                            </div>
+                            { !this.state.formElement.title.valid && this.state.formElement.title.touched ?
+                                <div className="reuse-form__err">Group name must be longer than 5 characters</div>
+                                : null
+                            }
+                        </div>
+                        <div className="reuse-form__cnt--wrapper">
+                            <label className="reuse-form__cnt--title">Description </label>
                             <div className="reuse-form__cnt--det">
                                 <Editor 
                                     wrapperClassName=""
@@ -341,7 +357,7 @@ class Form extends  Component {
                                 }}/>
                             </div>
                             { !this.state.formElement.content.valid && this.state.formElement.content.touched ?
-                                <div className="reuse-form__err">Content must be longer than 5 characters</div>
+                                <div className="reuse-form__err">Description must be longer than 5 characters</div>
                                 : null
                             }
                         </div>
@@ -349,21 +365,26 @@ class Form extends  Component {
                             <div className="reuse-form__cnt--det">
                                 <div className="reuse-form__cnt--det__wrapper">
                                     <div 
-                                        className="reuse-form__cnt--det__selec reuse-form__cnt--det__selec--add"
-                                        onClick={this.showOptHandler.bind(this, 'user')}>
+                                        className={addItemClass.join(' ')}
+                                        onClick={this.addItemHandler}>
+                                        Add Image 
                                         <FontAwesomeIcon 
-                                            icon={['fas', 'chalkboard-teacher']} 
-                                            className="icon icon__reuse-form--cnt__user" />
-                                            <div className="reuse-form__cnt--det__selec--added">
+                                            icon={['fas', 'angle-down']} 
+                                            className="icon icon__reuse-form--angle" />
+                                        <div className="reuse-form__cnt--det__selec--added">
                                             <div className="reuse-form__cnt--det__selec--added__img">
                                                 <div className="reuse-form__cnt--det__selec--added__img--icn">
                                                     <FontAwesomeIcon 
-                                                        icon={['fas', 'chalkboard-teacher']} />
+                                                        icon={['fas', 'images']} />
                                                 </div> 
-                                                {this.props.media.user ? this.props.media.user.length : 0}
+                                                {this.props.media.image ? this.props.media.image.length : 0}
                                             </div>
                                         </div>
-                                        Share Users 
+                                        <ul className={addItemOptClass.join(' ')}>
+                                            <li 
+                                                className="reuse-form__cnt--det__selec--opt__img"
+                                                onClick={this.showOptHandler.bind(this, 'image')}>Image</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -373,8 +394,6 @@ class Form extends  Component {
                     { this.state.showAddItm ? 
                         <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop></Aux> : null }
                     { this.state.showImgOpt ? <Aux><Backdrop></Backdrop><AsyncImage /></Aux> : null }
-                    { this.state.showVidOpt ? <Aux><Backdrop></Backdrop><AsyncVideo /></Aux> : null }
-                    { this.state.showUserOpt ? <Aux><Backdrop></Backdrop><AsyncUsers /></Aux> : null}
                     { this.props.submitForm && !this.state.showCateg ? 
                         <Aux>
                             <Backdrop></Backdrop>
@@ -395,23 +414,13 @@ class Form extends  Component {
                     <div className="reuse-form__footer reuse-form__btn">
                         <button 
                             type="button" 
-                            className="reuse-form__btn--dft"
-                            disabled={!this.state.formIsValid}
-                            onClick={this.submitHandler.bind(this, 'draft')}>
-                            <FontAwesomeIcon 
-                                icon={['fas', 'eye-slash']} 
-                                className="icon icon__reuse-form--btn" />
-                            Draft
-                        </button>
-                        <button 
-                            type="button" 
                             className="reuse-form__btn--add"
                             disabled={!this.state.formIsValid}
                             onClick={this.submitHandler.bind(this, 'publish')}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'plus']} 
                                 className="icon icon__reuse-form--btn" />
-                            Add
+                            Create
                         </button>
                     </div>
                 </div>

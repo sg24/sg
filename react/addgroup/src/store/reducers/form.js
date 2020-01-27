@@ -9,7 +9,6 @@ const initialState = {
     hideMediaBox: false,
     hidAddItm: false,
     linkValid: null,
-    snapshot: [],
     media: {},
     curTab: 'online',
     startUser: true,
@@ -125,6 +124,10 @@ const formSubmitted = (state, action) => {
     return updateObject(state, {id: action.id})
 };
 
+const addGroupImg = (state, action) => {
+
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_CATEG_START:
@@ -175,6 +178,8 @@ const reducer = (state = initialState, action) => {
             return submitFormFail(state, action);
         case actionTypes.FORM_SUBMITTED:
             return formSubmitted(state, action);
+        case actionTypes.ADD_GROUPIMG:
+            return addGroupImg(state, action);
         default: return state
     };
 };
