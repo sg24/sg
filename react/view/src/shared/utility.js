@@ -114,4 +114,4 @@ export function changeMode (oldCnts,changeCntStart,field, isUpdate) {
     return oldCnts
 }
 
-export const socket = io('http://localhost:3002');
+export const socket = io(window.location.protocol + '//' + window.location.host);
