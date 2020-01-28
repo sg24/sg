@@ -42,23 +42,15 @@ class AddVideo extends Component {
         if (this.props.linkValid && this.props.linkValid.media) {
             let id = uuid();
             let media = [...this.state.media];
-            let snapshot = [...this.state.snapshot];
-            getSnapshot(this.props.linkValid.media.url, 'video').then(curSnapshot => {
-                snapshot.push({id, snapshot: curSnapshot})
+            getSnapshot(this.props.linkValid.media.url, 'video').then(() => {
                 media.push(updateObject(this.props.linkValid.media, {id}));
-                this.setState({
-                    media: media, inputValue: '',
-                    snapshot});
+                this.setState({media: media, inputValue: ''});
                 this.props.onResetLink();
                 if (!this.props.editVideo) {
                     this.props.onVideoEdit()
                 }
             }).catch(err => {
-                media.push(this.props.linkValid.media);
-                this.setState({
-                    media: media, inputValue: '',
-                    snapshotErr: err});
-                this.props.onResetLink();
+                this.setState({snapshotErr: err});
             })
         }
     }
@@ -118,7 +110,6 @@ class AddVideo extends Component {
 
     handleFiles = (files) => {
         let media = [...this.state.media];
-        let snapshot = [...this.state.snapshot];
         if (!this.props.editVideo) {
             this.props.onVideoEdit()
         }
@@ -127,13 +118,11 @@ class AddVideo extends Component {
             if(file.type.startsWith('video/')) {
                 let id = uuid();
                 let url = window.URL.createObjectURL(file);
-                getSnapshot(url, 'video').then(curSnapshot => {
-                    snapshot.push({id, snapshot: curSnapshot});
+                getSnapshot(url, 'video').then(() => {
                     media.push({file, url, id});
-                    this.setState({media, snapshot});
+                    this.setState({media});
                 }).catch(err => {
-                    media.push({file, url});
-                    this.setState({media, snapshotErr: err});
+                    this.setState({snapshotErr: err});
                 })
             }
         }
@@ -232,7 +221,7 @@ class AddVideo extends Component {
                             </div>
                         </div>
                         { this.state.snapshotErr ? 
-                            <div className="reuse-form__err">Some features are not available in your browser, { this.state.snapshotErr }</div> : null}
+                            <div className="reuse-form__err">{ this.state.snapshotErr }</div> : null}
                         { mediaAddedViewer }
                     </div>
                     <div className="reuse-form__itm--footer reuse-form__btn">

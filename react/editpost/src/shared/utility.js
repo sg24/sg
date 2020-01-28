@@ -111,32 +111,26 @@ export const checkValidity = (value, rules) => {
 }
 
 export const getSnapshot = (url, mediaType) => {
-    let canvas = document.createElement('canvas');
     return new Promise ((resolve, reject) => {
-        if (canvas.getContext) {
-            let media = document.createElement(mediaType);
-            function multipleEventListener(el, mediaLoadHandler) {
-                'loadedmetadata loadeddata suspend'.split(' ').forEach(event => {
-                    el.addEventListener(event, mediaLoadHandler, false)
+        let media = document.createElement(mediaType);
+        function multipleEventListener(el, mediaLoadHandler) {
+            'loadedmetadata loadeddata suspend'.split(' ').forEach(event => {
+                el.addEventListener(event, mediaLoadHandler, false)
+            })
+        }
+        media.onerror = function() {
+            reject(media.error.message);
+        }
+        media.src = url;
+        multipleEventListener(media, mediaLoadHandler)
+        let event_fired = 0;
+        function mediaLoadHandler() {
+            if (++event_fired === 3) {
+                media.currentTime = 1;
+                media.addEventListener('seeked', function(event) {
+                    resolve();
                 })
             }
-            media.src = url;
-            multipleEventListener(media, mediaLoadHandler)
-            let event_fired = 0;
-            function mediaLoadHandler() {
-                if (++event_fired === 3) {
-                    media.currentTime = 1000;
-                    media.addEventListener('seeked', function(event) {
-                        canvas.width = media.videoWidth;
-                        canvas.height = media.videoHeight;
-                        canvas.getContext('2d').drawImage(media, 0, 0);
-                        let snapshot = canvas.toDataURL('image/png');
-                        resolve(snapshot);
-                    })
-                }
-            }
-        } else {
-            reject('Please update your Browser')
         }
     })
 }

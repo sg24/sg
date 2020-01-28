@@ -19,8 +19,13 @@ router.post('/', (req, res, next) => {
             });
             
             media.on('end', function() {
-                let mediaDataUrl = 'data:' + 'video/mp4' + ';base64,' +  base64data;
-                return res.send(mediaDataUrl).status(200)
+                var FILES_COLL = 'media.files';
+                var filesQuery = mongoose.connection.db.collection(FILES_COLL).find({ _id: mongoose.mongo.ObjectId(mediaID) });
+                filesQuery.toArray(function(error, docs) {
+                    let ext = docs[0].filename.split('.').pop();
+                    let mediaDataUrl = 'data:' + `video/${ext}` + ';base64,' +  base64data;
+                    return res.send(mediaDataUrl).status(200)
+                });
             });
 
             media.on('error', function(err) {

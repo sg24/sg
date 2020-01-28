@@ -4,7 +4,7 @@ let uploadMedia = require('./uploadmedia');
 const fs = require('fs');
 
 
-module.exports = upload = (files, userID, curFiles) => {
+module.exports = upload = (files, tempFileID) => {
     return new Promise((resolve, reject) => {
       let snapshot = 0;
       let videos =[];
@@ -18,9 +18,9 @@ module.exports = upload = (files, userID, curFiles) => {
           videos.push(media.video)
           images.push(media.image);
           if(snapshot === files.length) {
-            tempFile.findOneAndRemove({userID, files:  { $in : curFiles }}).then(() => {
+            tempFile.findByIdAndRemove(tempFileID).then(() => {
               resolve({videos,images})
-            }).catch(err => {b
+            }).catch(err => {
               reject(err)
             })
             

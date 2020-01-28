@@ -201,7 +201,6 @@ class Form extends  Component {
                 title: convertToRaw(this.state.formElement.content.value.getCurrentContent()).blocks[0].text,
                 video: this.props.media.video ? this.props.media.video : [],
                 image: this.props.media.image ? this.props.media.image: [],
-                snapshot: this.props.snapshot,
                 shareMe: this.props.media.user ? this.props.media.user : [],
                 editImage: this.props.editImage,
                 editVideo: this.props.editVideo,

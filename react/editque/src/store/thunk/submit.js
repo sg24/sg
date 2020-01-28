@@ -8,14 +8,15 @@ export const submit = (formData) => {
         let formContent = new FormData();
         
         for (let key in formData) {
-            if (key !== 'video' && key !== 'image' && key !== 'snapshot') {
+            if (key !== 'video' && key !== 'image') {
                 formContent.append(key, formData[key]);
             }
     
             if (key === 'video') {
                 for (let video of formData[key]) {
                     if (formData.editVideo) {
-                        formContent.append(key, video.file, video.id);
+                        let ext = video.file.type.split('/').pop();
+                        formContent.append(key, video.file, `${video.id}.${ext}`);
                     } else {
                         formContent.append('noedit', true);
                     }
@@ -34,10 +35,6 @@ export const submit = (formData) => {
                 if (formData[key].length < 1) {
                     formContent.append('deleteimage', true);
                 }
-            }
-
-            if (key === 'snapshot') {
-                formContent.append(key, JSON.stringify(formData[key]));
             }
         }
 

@@ -3,17 +3,12 @@ const webpush = require('web-push');
 const { user, authUser} = require('../../serverDB/serverDB');
 const deleteMedia = require('./deletemedia');
 
-module.exports = editForm = (content, model, files, notify, userModel, userID, updateField, userField, field, res, category) => {
+module.exports = editForm = (content, model, media, notify, userModel, userID, updateField, userField, field, res, category) => {
    return new Promise ((resolve, reject) => {
     let categRaw = String(content.categ).split(',');
     let categ = [...new Set(categRaw)];
     let shareMe = content.shareMe !== '' ? String(content.shareMe).split(',') : [];
     let id = null;
-    let fileID = [];
-
-    for( let file of files) {
-        fileID.push({id: file.id, type: file.contentType, snapshotID: file.filename});
-    }
 
     let updates = {
         category: categ,
@@ -22,21 +17,22 @@ module.exports = editForm = (content, model, files, notify, userModel, userID, u
         desc: content.desc,
         mode: content.mode,
         edit: Date.now(),
-        _isCompleted: false,
-        snapshot: content.snapshot !== undefined ? JSON.parse(content.snapshot) : []
+        _isCompleted: false
     }; 
   
-    if (files.length > 0) {
+    if (media.videos.length > 0) {
         updates = {
             ...updates,
-            video: fileID
+            video: media.videos,
+            snapshot: media.images
         }
     }
 
     if (content.deletevideo) {
         updates = {
             ...updates,
-            video: []
+            video: [],
+            snapshot: []
         }
     }
 

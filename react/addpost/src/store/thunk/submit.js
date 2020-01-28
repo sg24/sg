@@ -14,7 +14,7 @@ export const submit = (formData) => {
     
             if (key === 'video' && formData[key].length > 0) {
                 for (let video of formData[key]) {
-                    let ext = video.file.name.split('.').pop();
+                    let ext = video.file.type.split('/').pop();
                     formContent.append(key, video.file, `${video.id}.${ext}`);
                 }
             }
