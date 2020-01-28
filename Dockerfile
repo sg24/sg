@@ -7,7 +7,7 @@ FROM gcr.io/google_appengine/nodejs
 # script fails, and may have other adverse consequences
 # as well.
 RUN npm install --unsafe-perm --global yarn
-COPY . /sg/
+COPY . /app/
 RUN apt-get update && apt-get install -y ffmpeg
 
 RUN yarn install --production || \
