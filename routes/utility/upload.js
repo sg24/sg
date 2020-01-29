@@ -32,8 +32,8 @@ module.exports = upload = (files, tempFileID) => {
 
 function snap(file, imageName) {
   return new Promise((resolve, reject) => {
-    require('child_process').exec(('ffmpeg -ss 00:00:1 -i ' + file.path + ' -vframes 1 -q:v 2 ' + `./tmp/${imageName}.png`), function () {
-      uploadMedia({path: file.path, filename: file.name}).then(videoInfo => {
+    require('child_process').exec(('ffmpeg -ss 00:00:1 -i ' + `./${file.path}` + ' -vframes 1 -q:v 2 ' + `./tmp/${imageName}.png`), function () {
+      uploadMedia({path: `./${file.path}`, filename: file.name}).then(videoInfo => {
         let fileID = uuid();
         let base64File  = fs.readFileSync(`./tmp/${imageName}.png`)
         let base64data = '';
