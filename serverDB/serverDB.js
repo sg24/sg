@@ -1,5 +1,5 @@
 require('./config/config');
-const {connectStatus, storage} = require('./db/mongoose');
+const {connectStatus} = require('./db/mongoose');
 const posts = require('./models/posts');
 const questions = require('./models/questions');
 const poets = require('./models/poets');
@@ -32,7 +32,6 @@ module.exports = {
     pwtnotifies,
     viewnotifies,
     favorite,
-    connectStatus,
-    storage
+    connectStatus
 };
 

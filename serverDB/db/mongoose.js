@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const GridFSStorage = require('multer-gridfs-storage');
 
 const options = {
     useNewUrlParser: true,
@@ -9,19 +8,4 @@ const options = {
 
 const connectStatus = mongoose.connect(process.env.MONGODB_URI, options);
 
-const storage = new GridFSStorage({
-    db: connectStatus,
-    file: (req, file) => {
-        return new Promise((resolve, reject) => {
-            const filename = file.originalname;
-            const fileInfo = {
-              filename,
-              bucketName: 'media'
-            };
-            resolve(fileInfo);
-        });
-    }
-}); 
-
-
-module.exports = { connectStatus, storage }
+module.exports = { connectStatus }
