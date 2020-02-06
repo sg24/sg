@@ -78,9 +78,9 @@ const postContent = props => {
                     }
                 }
 
-                if (props.animateItm === null) {
-                    mediaWrapperClass.push('reuse-pt__media--wrapper__anim');
-                }
+                // if (props.animateItm === null) {
+                //     mediaWrapperClass.push('reuse-pt__media--wrapper__anim');
+                // }
 
                 if (props.removePrevMedia && props.removePrevMedia.id === props.pt._id) {
                     showPrevAnim(props.removePrevMedia);
@@ -106,14 +106,16 @@ const postContent = props => {
     }
 
     function displayMedia(position) {
-        let curMedia = mediaCnt[position];
-        if (curMedia && typeof curMedia === "object") {
+        let updateMedia = mediaCnt[position];
+        let curMedia = updateMedia.videoCnt ? {url: `${window.location.protocol + '//' + window.location.host}/media/image/${updateMedia.id}`, ...updateMedia, mediaType: 'snapshot'} : 
+        {url: `${window.location.protocol + '//' + window.location.host}/media/image/${updateMedia.id}`, ...updateMedia, mediaType: 'image'};
+        if (curMedia && curMedia.mediaType === 'snapshot') {
             playVideo = (
                 props.video && props.video.id !== curMedia.id ? 
                 <div 
                     className={props.playerIcnId && props.playerIcnId === props.pt._id ? 
                         'reuse-pt__media--wrapper__icn reuse-pt__media--wrapper__icn-move' : 'reuse-pt__media--wrapper__icn'}
-                    onClick={props.playVideo.bind(this, curMedia.id, props.pt.video)}>
+                        onClick={props.playVideo.bind(this, curMedia)}>
                     <FontAwesomeIcon 
                         icon={['fas', 'play-circle']} 
                         className="icon icon__reuse-pt--media__play" /> 
@@ -142,7 +144,7 @@ const postContent = props => {
                         <img 
                             draggable="false"
                             onDragStart={() => false }
-                            src={typeof curMedia === "object" ? curMedia.snapshot : curMedia}  alt="post"
+                            src={curMedia.url}  alt="post"
                             onPointerDown={(event) => props.slidePlay(props.pt._id, mediaTotal, event)}
                             onPointerMove={(event) => props.moveSlidePlay(props.pt._id, mediaTotal, event)}
                             onPointerUp={(event) => props.clearSlidePlay(event)} />

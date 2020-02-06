@@ -8,7 +8,8 @@ const mediaItems = props => {
             key={index}
             link={link.url}
             index={index}
-            mediaType={props.mediaType}
+            mediaType={link.mediaType}
+            playVideo={props.playVideo.bind(this, link.videoCnt)}
             removeMediaItem={props.removeMediaItem.bind(this, link.id)}
             removeMediaItemEnable={props.removeMediaItemEnable.bind(this, index)}
             removeMediaItemDisable={props.removeMediaItemDisable.bind(this, index)}

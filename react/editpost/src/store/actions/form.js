@@ -142,6 +142,13 @@ export const removeSnapshot = (snapshot) => {
     };
 };
 
+export const saveRemoveSnap = (snapshotDet) => {
+    return {
+        type: actionTypes.SAVE_REMOVE_SNAP,
+        snapshotDet
+    };
+};
+
 export const removeMedia = (media) => {
     return {
         type: actionTypes.REMOVE_MEDIA,

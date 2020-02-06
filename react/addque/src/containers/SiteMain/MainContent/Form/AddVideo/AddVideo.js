@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import uuid from 'uuid';
 
 import * as actions from '../../../../../store/actions/index';
-import { updateObject, getSnapshot } from '../../../../../shared/utility';
+import { updateObject } from '../../../../../shared/utility';
 import MediaItems from '../../../../../components/Main/MediaItems/MediaItems';
 
 class AddVideo extends Component {
@@ -26,16 +26,11 @@ class AddVideo extends Component {
         if (this.props.linkValid && this.props.linkValid.media) {
             let id = uuid();
             let media = [...this.state.media];
-            getSnapshot(this.props.linkValid.media.url, 'video').then(() => {
-                media.push(updateObject(this.props.linkValid.media, {id}));
-                this.setState({media: media, inputValue: ''});
-                this.props.onResetLink();
-            }).catch(err => {
-                this.setState({snapshotErr: err});
-            })
+            media.push(updateObject(this.props.linkValid.media, {id}));
+            this.setState({media: media, inputValue: ''});
+            this.props.onResetLink();
         }
     }
-
     selectMediaHandler = (event) => {
         this.setState({snapshotErr: null});
         event.stopPropagation();
@@ -89,15 +84,12 @@ class AddVideo extends Component {
         let media = [...this.state.media];
         for (let i = 0; i < files.length; i++) {
             const file = files[i];  
+            
             if(file.type.startsWith('video/')) {
                 let id = uuid();
                 let url = window.URL.createObjectURL(file);
-                getSnapshot(url, 'video').then(() => {
-                    media.push({file, url, id});
-                    this.setState({media});
-                }).catch(err => {
-                    this.setState({snapshotErr: err});
-                })
+                media.push({file, url, id});
+                this.setState({media});
             }
         }
     }
@@ -177,7 +169,7 @@ class AddVideo extends Component {
                     <div className="reuse-form__cnt">
                         <div className="reuse-form__cnt--det">
                             <div className="reuse-form__cnt--det__fil">
-                                Drag and Drop Videos
+                            <div>Upload / Drag and Drop Videos</div>
                                 <input 
                                     type="file" 
                                     name="" 

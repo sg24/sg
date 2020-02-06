@@ -8,7 +8,18 @@ export function* fetchCntInitSaga(action) {
     try {
         let response =  yield axios.post(`/view/${action.categ}/${action.id}`,null,{headers: {'data-categ': 'viewcnt'}});
         if (response.data) {
-            yield put(actions.fetchCnt(response.data))
+            let images = [];
+            let snaps = [];
+            for (let image of response.data.image) {
+                images.push({url: `${window.location.protocol + '//' + window.location.host}/media/image/${image.id}`, ...image, mediaType: 'image'})            
+            }
+            for (let snap of response.data.snapshot) {
+                snaps.push({url: `${window.location.protocol + '//' + window.location.host}/media/image/${snap.id}`, ...snap, mediaType: 'snapshot'})            
+            }
+            response.data.image = images;
+            response.data.snapshot = snaps;
+            response.data.video = [];
+            yield put(actions.fetchCnt(response.data));
         } 
         
     } catch(err){
@@ -53,51 +64,6 @@ export function* ansWrongInitSaga(action) {
         yield put(actions.resetModel())
     }
     
-}
-
-export function* submitCommentInitSaga(action) {
-    
-    // try {
-    //     yield put(actions.submitCommentStart())
-    //     let response;
-    //     if (action.modelType === 'reply') {
-    //        response =  yield axios.patch('/view', {id: action.id, cnt: action.cnt, cntGrp: action.cntGrp,commentID: uuid()},{headers: {'data-categ': 'reply'}});
-    //        yield put(actions.submitComment(action.id, action.modelType, response.data))
-    //     } else {
-    //         // response= yield axios.patch('/view', {id: action.id, 
-    //         //     cntGrp: action.cntGrp, cnt: action.cnt},{headers: {'data-categ': 'viewcnt'}});
-    //         socket.emit('createComment',  {id: action.id, cntGrp: action.cntGrp, cnt: action.cnt})
-    //         socket.on('newComment', function(msg) {
-    //             console.log(msg)
-    //             // yield put(actions.submitComment(action.id, action.cntGrp, response.data)) 
-    //         });  
-    //     }
-        
-    // } catch(err){
-    //     yield put(actions.submitCommentFail(err))
-    //     yield delay(1000)
-    //     yield put(actions.resetModel())
-    // }
-    
-}
-
-export function* fetchVideoInitSaga(action) {
-    yield put(actions.fetchVideoStart(action.ptVideoID))
-    try {
-        let media =  yield axios.post('/media', {mediaID: action.videoID},{headers: {'data-categ':'media'}});
-        function dataURLtoBlob(dataurl) {
-            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while(n--){
-                u8arr[n] = bstr.charCodeAt(n);
-            }
-            return new Blob([u8arr], {type:mime});
-        }
-        let url = window.URL.createObjectURL(dataURLtoBlob(media.data));
-        yield put(actions.fetchVideo(url))
-    } catch(err) {
-        yield put(actions.fetchVideoFail(err))
-    }
 }
 
 export function* changeFavSaga(action) {

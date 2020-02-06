@@ -17,11 +17,12 @@ const mediaItem = props => {
         mediaCloseClass.push('reuse-form__itm--det__view-select--media__wrapper--close__active');
     }
 
-    if (props.mediaType === 'video') {
+    if (props.mediaType === 'video' || props.mediaType === 'snapvideo') {
         mediaType = (
             <video 
                 src={props.link} 
                 controls
+                autoPlay={props.mediaType === 'snapvideo'}
                 className="reuse-form__itm--det__view-select--media__wrapper--cnt">
                 <p>our browser doesn't support embedded videos</p>
             </video>
@@ -32,6 +33,14 @@ const mediaItem = props => {
         <div className="reuse-form__itm--det__view-select--media">
             <div className={mediaCntClass.join(' ')}>
                 { mediaType }
+                { props.mediaType === 'snapshot' ? 
+                    <div 
+                        className="reuse-form__itm--det__view-select--media__play" 
+                        onClick={props.playVideo}>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'play-circle']} 
+                            className="icon icon__reuse-form--media__play" /> 
+                    </div>: null}
                 <div 
                     className={mediaCloseClass.join(' ')}
                     onClick={props.removeMediaItem}

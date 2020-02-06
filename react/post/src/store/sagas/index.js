@@ -2,7 +2,7 @@ import { takeEvery, all, takeLatest } from 'redux-saga/effects';
 
 import * as actionTypes from '../../store/actions/actionTypes';
 import { checkAuthInitSaga } from './auth';
-import { fetchPostInitSaga, fetchVideoInitSaga, changeFavSaga, changePostInitSaga } from './post';
+import { fetchPostInitSaga, changeFavSaga, changePostInitSaga } from './post';
 import { fetchPtCategInitSaga, filterContentInitSaga, fetchTotalInitSaga } from './filter';
 import { fetchUsersInitSaga, filterUserInitSaga, filterUserSelectInitSaga, shareUserInitSaga } from './share';
 import { fetchTagsInitSaga } from './tags';
@@ -29,7 +29,6 @@ export function* watchAuth() {
 export function* watchPt() {
     yield all([
         takeLatest(actionTypes.FETCH_POST_INIT, fetchPostInitSaga),
-        takeEvery(actionTypes.FETCH_VIDEO_INIT, fetchVideoInitSaga),
         takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga),
         takeLatest(actionTypes.CHANGE_POST_INIT, changePostInitSaga)
     ])

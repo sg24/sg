@@ -3,12 +3,13 @@ const webpush = require('web-push');
 const { user, authUser} = require('../../serverDB/serverDB');
 const deleteMedia = require('./deletemedia');
 
-module.exports = editForm = (content, model, media, notify, userModel, userID, updateField, userField, field, res, category) => {
+module.exports = editForm = (content, model, mediaCnt, notify, userModel, userID, updateField, userField, field, res, category) => {
    return new Promise ((resolve, reject) => {
     let categRaw = String(content.categ).split(',');
     let categ = [...new Set(categRaw)];
     let shareMe = content.shareMe !== '' ? String(content.shareMe).split(',') : [];
     let id = null;
+    let removedMedia = content.removedmedia ? JSON.parse(content.removedmedia) : [];
 
     let updates = {
         category: categ,
@@ -17,53 +18,48 @@ module.exports = editForm = (content, model, media, notify, userModel, userID, u
         desc: content.desc,
         mode: content.mode,
         edit: Date.now(),
+        video: mediaCnt.video,
+        snapshot: mediaCnt.snapshot,
+        image: mediaCnt.image,
         _isCompleted: false
     }; 
-  
-    if (media.videos.length > 0) {
-        updates = {
-            ...updates,
-            video: media.videos,
-            snapshot: media.images
-        }
-    }
-
-    if (content.deletevideo) {
-        updates = {
-            ...updates,
-            video: [],
-            snapshot: []
-        }
-    }
-
-    if (content.deleteimage) {
-        updates = {
-            ...updates,
-            image: []
-        }
-    }
-
-    if (content.image) {
-        updates = {
-            ...updates,
-            image: content.image
-        }
-    }
 
     model.findOneAndUpdate({_id: content.id, authorID: userID}, updates).then(result => {
         id = result._id;
-    
-        if (content.noedit) {
+        
+        removeMedia(removedMedia).then(() => {
             category.findOneAndUpdate({}, {$addToSet: { [field]: { $each: categ } }}).then(() => {
                 notification();
             })
-        } else {
-            deleteMedia(result.video).then(() => {
-                category.findOneAndUpdate({}, {$addToSet: { [field]: { $each: categ } }}).then(() => {
-                    notification();
-                })
-            }).catch(err => {
-                reject(err)
+        });
+
+        
+        function removeMedia(removedMedia) {
+            return new Promise((resolve,reject) => {
+                if (removedMedia.length > 0) {
+                    let deleted = 0;
+                    for (let media of removedMedia) {
+                        if (media.mediaType === 'snapvideo' || media.mediaType === 'snapshot' ){
+                            deleteMedia([media], 'image').then(() => {
+                                deleteMedia([{id: media.videoCnt}], 'media').then(() => {
+                                    ++deleted;
+                                    if (deleted === removedMedia.length) {
+                                        resolve();
+                                    }
+                                })
+                            })
+                        } else {
+                           deleteMedia([media], 'image').then(() => {
+                                ++deleted;
+                                if (deleted === removedMedia.length) {
+                                    resolve();
+                                }
+                            })
+                        }
+                    }
+                } else {
+                    resolve()
+                }
             })
         }
 

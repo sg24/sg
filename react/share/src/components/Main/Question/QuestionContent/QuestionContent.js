@@ -69,6 +69,7 @@ const questionContent = props => {
 
     let media = null;
     let mediaCnt =  [...props.que.snapshot, ...props.que.image];
+   
     let playVideo = null;
     let mediaWrapperClass = ['reuse-que__media--wrapper'];
 
@@ -86,9 +87,9 @@ const questionContent = props => {
                     }
                 }
 
-                if (props.animateItm === null) {
-                    mediaWrapperClass.push('reuse-que__media--wrapper__anim');
-                }
+                // if (props.animateItm === null) {
+                //     mediaWrapperClass.push('reuse-que__media--wrapper__anim');
+                // }
 
                 if (props.removePrevMedia && props.removePrevMedia.id === props.que._id) {
                     showPrevAnim(props.removePrevMedia);
@@ -113,14 +114,16 @@ const questionContent = props => {
     }
 
     function displayMedia(position) {
-        let curMedia = mediaCnt[position];
-        if (curMedia && typeof curMedia === "object") {
+        let medias = mediaCnt[position];
+        let curMedia = medias.videoCnt ? {url: `${window.location.protocol + '//' + window.location.host}/media/image/${medias.id}`, ...medias, mediaType: 'snapshot'} : 
+        {url: `${window.location.protocol + '//' + window.location.host}/media/image/${medias.id}`, ...medias, mediaType: 'image'}
+        if (curMedia && curMedia.mediaType === 'snapshot') {
             playVideo = (
                 props.video && props.video.id !== curMedia.id ? 
                 <div 
                     className={props.playerIcnId && props.playerIcnId === props.que._id ? 
                         'reuse-que__media--wrapper__icn reuse-que__media--wrapper__icn-move' : 'reuse-que__media--wrapper__icn'}
-                    onClick={props.playVideo.bind(this, curMedia.id, props.que.video)}>
+                    onClick={props.playVideo.bind(this, curMedia)}>
                     <FontAwesomeIcon 
                         icon={['fas', 'play-circle']} 
                         className="icon icon__reuse-que--media__play" /> 
@@ -149,7 +152,7 @@ const questionContent = props => {
                         <img 
                             draggable="false"
                             onDragStart={() => false }
-                            src={typeof curMedia === "object" ? curMedia.snapshot : curMedia}  alt="question"
+                            src={curMedia.url}  alt="question"
                             onPointerDown={(event) => props.slidePlay(props.que._id, mediaTotal, event)}
                             onPointerMove={(event) => props.moveSlidePlay(props.que._id, mediaTotal, event)}
                             onPointerUp={(event) => props.clearSlidePlay(event)} />

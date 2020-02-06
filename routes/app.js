@@ -510,7 +510,7 @@ router.delete('/header', authenticate,(req,res, next) =>  {
         payload.model === 'question' ? quenotifies : pwtnotifies;
         model.findOneAndRemove({_id :payload.id, authorID: req.user}).then(result => {
             if (result.video && result.video.length > 0){
-                deleteMedia(result.video).then(() => {
+                deleteMedia(result.video, 'media').then(() => {
                     removeShare(result, res, notify, payload)
                 })
             } else {

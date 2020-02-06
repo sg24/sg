@@ -63,6 +63,7 @@ export {
     resetLink,
     addSnapshot,
     removeSnapshot,
+    saveRemoveSnap,
     removeMedia,
     submitMedia,
     hideMediaBox,

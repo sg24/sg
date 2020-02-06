@@ -101,13 +101,13 @@ const modelContent = props => {
 
     function displayMedia(position) {
         let curMedia = mediaCnt[position];
-        if (curMedia && typeof curMedia === "object") {
+        if (curMedia && curMedia.mediaType === 'snapshot') {
             playVideo = (
                 props.video && props.video.id !== curMedia.id ? 
                 <div 
                     className={props.playerIcnId && props.playerIcnId === props.cnt._id ? 
                         'reuse-pt__media--wrapper__icn reuse-pt__media--wrapper__icn-move' : 'reuse-pt__media--wrapper__icn'}
-                    onClick={props.playVideo.bind(this, curMedia.id, props.cnt.video)}>
+                    onClick={props.playVideo.bind(this, curMedia)}>
                     <FontAwesomeIcon 
                         icon={['fas', 'play-circle']} 
                         className="icon icon__reuse-pt--media__play" /> 
@@ -136,7 +136,7 @@ const modelContent = props => {
                         <img 
                             draggable="false"
                             onDragStart={() => false }
-                            src={typeof curMedia === "object" ? curMedia.snapshot : curMedia}  alt="post"
+                            src={curMedia.url}  alt="post"
                             onPointerDown={(event) => props.slidePlay(props.cnt._id, mediaTotal, event)}
                             onPointerMove={(event) => props.moveSlidePlay(props.cnt._id, mediaTotal, event)}
                             onPointerUp={(event) => props.clearSlidePlay(event)} />

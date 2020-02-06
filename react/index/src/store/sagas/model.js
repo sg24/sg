@@ -27,25 +27,6 @@ export function* fetchCntInitSaga(action) {
     
 }
 
-export function* fetchVideoInitSaga(action) {
-    yield put(actions.fetchVideoStart(action.ptVideoID))
-    try {
-        let media =  yield axios.post('/media', {mediaID: action.videoID},{headers: {'data-categ':'media'}});
-        function dataURLtoBlob(dataurl) {
-            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while(n--){
-                u8arr[n] = bstr.charCodeAt(n);
-            }
-            return new Blob([u8arr], {type:mime});
-        }
-        let url = window.URL.createObjectURL(dataURLtoBlob(media.data));
-        yield put(actions.fetchVideo(url))
-    } catch(err) {
-        yield put(actions.fetchVideoFail(err))
-    }
-}
-
 export function* changeFavSaga(action) {
     let updateFav = changeFav(action.id ,action.liked, action.favAdd, action.changedFav);
     yield put(actions.changeMainFavoriteStart(updateFav.favDet.liked));

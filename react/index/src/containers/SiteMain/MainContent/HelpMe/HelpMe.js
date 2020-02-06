@@ -17,13 +17,13 @@ class Questions extends Component {
         this.props.onFetchCntReset();
         let limit = 0;
         if (window.innerHeight >= 1200) {
-            limit = 6
+            limit = 18
         } else if(window.innerHeight >= 900) {
-            limit = 4;
+            limit = 12;
         } else if(window.innerHeight >= 500) {
-            limit = 3
+            limit = 9
         } else {
-            limit = 2;
+            limit = 6;
         }
         this.state = {
             cntOpt: null,
@@ -98,12 +98,8 @@ class Questions extends Component {
         }
     }
 
-    playVideoHandler = (snapshotID, postVideos) => {
-        for (let ptVideo of postVideos) {
-            if (ptVideo.snapshotID === snapshotID) {
-                this.props.onFetchVideo(ptVideo.id, snapshotID)
-            }
-        }
+    playVideoHandler = (snapshot) => {
+        this.props.onFetchVideo(snapshot.id, `${window.location.protocol + '//' + window.location.host}/media/video/${snapshot.videoCnt}`)
     }
 
     slidePlayHandler = (id, maxLength, event) => {
@@ -270,7 +266,7 @@ const mapDispatchToProps = dispatch => {
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),
         onChangeShareID: (shareID,  cntType) => dispatch(actions.shareID(shareID,  cntType)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
-        onFetchVideo: (videoID, ptVideoID) => dispatch(actions.fetchVideoInit(videoID, ptVideoID)),
+        onFetchVideo: (id, url) => dispatch(actions.fetchVideo(id, url)),
         onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm,  modelType))
     };
 };

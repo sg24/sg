@@ -65,19 +65,8 @@ const changePost = (state, action) => {
     return updateObject(state, {changePt: true})
 };
 
-const fetchVideoStart = (state, action) => {
-    if (state.postVideo.url) {
-        window.URL.revokeObjectURL(state.postVideo.url);
-    }
-    return updateObject(state, {postVideo: {id: action.ptVideoID}, videoErr: null})
-};
-
-const fetchVideoFail = (state, action) => {
-    return updateObject(state, {videoErr: {id: state.postVideo.id, err: action.err}})
-};
-
 const fetchVideo = (state, action) => {
-    return updateObject(state, {postVideo: {id: state.postVideo.id, url: action.url}})
+    return updateObject(state, {postVideo: {id: action.id, url: action.url}})
 };
 
 const changeFavPtStart = (state, action) => {
@@ -120,10 +109,6 @@ const reducer = (state = initialState, action) => {
             return changePostFail(state, action);
         case actionTypes.CHANGE_POST:
             return changePost(state, action);
-        case actionTypes.FETCH_VIDEO_START:
-            return fetchVideoStart(state, action);
-        case actionTypes.FETCH_VIDEO_FAIL:
-            return fetchVideoFail(state, action);
         case actionTypes.FETCH_VIDEO:
             return fetchVideo(state, action);
         case actionTypes.CHANGE_FAVORITE:

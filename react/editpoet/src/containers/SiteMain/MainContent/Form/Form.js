@@ -53,7 +53,7 @@ class Form extends  Component {
                 value: EditorState.createEmpty(),
                 validation: {
                     required: true,
-                    minLength: 6
+                    minLength: 1
                 },
                 valid: false,
                 touched: false
@@ -216,7 +216,7 @@ class Form extends  Component {
 
     closeBackdropHandler = () => {
         this.setState({
-            showCateg: false, showAddItm: false});
+            showCateg: false, showAddItm: false,showVidOpt: false,showImgOpt: false,showUserOpt: false});
     }
 
     closeModalHandler = () => {
@@ -228,7 +228,11 @@ class Form extends  Component {
     }
 
     render() {
-        let form = <Loader />
+        let form = (
+            <div className="reuse-form__wrapper">
+                <Loader />
+            </div>
+        )
 
         if (this.props.cntErr) {
             form = (
@@ -374,7 +378,7 @@ class Form extends  Component {
                             }}/>
                         </div>
                         { !this.state.formElement.content.valid && this.state.formElement.content.touched ?
-                            <div className="reuse-form__err">Content must be longer than 5 characters</div>
+                            <div className="reuse-form__err">Content must not be empty</div>
                             : null
                         }
                     </div>
@@ -405,9 +409,9 @@ class Form extends  Component {
                 
                 { this.state.showAddItm ? 
                     <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop></Aux> : null }
-                { this.state.showImgOpt ? <Aux><Backdrop></Backdrop><AsyncImage /></Aux> : null }
-                { this.state.showVidOpt ? <Aux><Backdrop></Backdrop><AsyncVideo /></Aux> : null }
-                { this.state.showUserOpt ? <Aux><Backdrop></Backdrop><AsyncUsers /></Aux> : null}
+                { this.state.showImgOpt ? <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop><AsyncImage /></Aux> : null }
+                { this.state.showVidOpt ? <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop><AsyncVideo /></Aux> : null }
+                { this.state.showUserOpt ? <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop><AsyncUsers /></Aux> : null}
                 { this.props.submitForm && !this.state.showCateg ? 
                     <Aux>
                         <Backdrop></Backdrop>

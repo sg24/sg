@@ -57,12 +57,8 @@ class Posts extends Component {
         }
     }
 
-    playVideoHandler = (snapshotID, postVideos) => {
-        for (let ptVideo of postVideos) {
-            if (ptVideo.snapshotID === snapshotID) {
-                this.props.onFetchVideo(ptVideo.id, snapshotID)
-            }
-        }
+    playVideoHandler = (snapshot) => {
+        this.props.onFetchVideo(snapshot.id, `${window.location.protocol + '//' + window.location.host}/media/video/${snapshot.videoCnt}`)
     }
 
     slidePlayHandler = (id, maxLength, event) => {
@@ -187,7 +183,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),
         onChangeShareID: (shareID,  cntType) => dispatch(actions.shareID(shareID,  cntType)),
-        onFetchVideo: (videoID, ptVideoID) => dispatch(actions.fetchVideoInit(videoID, ptVideoID)),
+        onFetchVideo: (id, url) => dispatch(actions.fetchVideo(id, url)),
         onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm,  modelType))
     };
 };

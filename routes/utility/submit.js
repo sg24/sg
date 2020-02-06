@@ -2,7 +2,7 @@ let notifications = require('./notifications');
 const webpush = require('web-push');
 const { user, authUser} = require('../../serverDB/serverDB');
 
-module.exports = submitForm = (content, model, media, notify, viewnotify, userModel, userID, updateField, userField, field, modelField,res, category) => {
+module.exports = submitForm = (content, model, mediaCnt, notify, viewnotify, userModel, userID, updateField, userField, field, modelField,res, category) => {
    return new Promise ((resolve, reject) => {
     let categRaw = String(content.categ).split(',');
     let categ = [...new Set(categRaw)];
@@ -13,13 +13,13 @@ module.exports = submitForm = (content, model, media, notify, viewnotify, userMo
     let newDoc = new model({
         authorID: userID,
         category: categ,
-        video: media.videos,
-        image: content.image,
+        video: mediaCnt.video,
+        image: mediaCnt.image,
         shareMe,
         title: content.title,
         desc: content.desc,
         mode: content.mode,
-        snapshot: media.images
+        snapshot: mediaCnt.snapshot
     }); 
 
     newDoc.save().then(result => {

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import uuid from 'uuid';
 
 import * as actions from '../../../../../store/actions/index';
-import { updateObject, getImageURL } from '../../../../../shared/utility';
+import { updateObject } from '../../../../../shared/utility';
 import MediaItems from '../../../../../components/Main/MediaItems/MediaItems';
 
 class AddImage extends Component {
@@ -24,23 +24,10 @@ class AddImage extends Component {
     addMediaHandler = () => {
         if (this.props.linkValid && this.props.linkValid.media) {
             let media = [...this.state.media];
-            getImageURL(this.props.linkValid.media.url).then(dataUrl => {
-                media.push({file: dataUrl, url: this.props.linkValid.media.url, id: uuid()});
-                this.setState({
-                    media: media,  inputValue: ''});
-                this.props.onResetLink();
-            }).catch(err => {
-                let reader = new FileReader();
-                let these = this;
-                reader.readAsDataURL(this.props.linkValid.media.file)
-                reader.addEventListener('loadend', function() {
-                    media.push({file: reader.result, url: this.props.linkValid.media.url, id: uuid()});
-                    these.setState({
-                        media: media,  inputValue: '',
-                        snapshotErr: err});
-                    these.props.onResetLink();
-                })
-            })
+            media.push({file: this.props.linkValid.media.file, url: this.props.linkValid.media.url, id: uuid()});
+            this.setState({
+                media: media,  inputValue: ''});
+            this.props.onResetLink();
             if (!this.props.imageEdit) {
                 this.props.onImageEdit()
             }
@@ -92,8 +79,12 @@ class AddImage extends Component {
         let media = [...this.state.media];
         let updatedMedia = media.filter(link =>  link.id !== id);
         this.setState({media:  updatedMedia});
+        let removedSnap = media.filter(link =>  link.id === id);
         if (this.props.media.image && this.props.media.image.length > 0) {
-            this.props.onRemoveMedia(updateObject(this.props.media, {image: updatedMedia}))
+            this.props.onRemoveMedia(updateObject(this.props.media, {image: updatedMedia}));
+            if (removedSnap[0]) {
+                this.props.onSaveRemoveSnap(...removedSnap);
+            }
         }
     }
 
@@ -106,18 +97,8 @@ class AddImage extends Component {
             const file = files[i];
             if(file.type.startsWith('image/')) {
                 let url = window.URL.createObjectURL(file)
-                getImageURL(url).then(dataUrl => {
-                    media.push({file: dataUrl, url, id: uuid()});
-                    this.setState({media});
-                }).catch(err => {
-                    let reader = new FileReader();
-                    let these = this;
-                    reader.readAsDataURL(file)
-                    reader.addEventListener('loadend', function() {
-                        media.push({file: reader.result, url});
-                        these.setState({media, snapshotErr: err});
-                    })
-                })
+                media.push({file, url, id: uuid()});
+                this.setState({media});
             }
         }
     }
@@ -127,6 +108,9 @@ class AddImage extends Component {
         this.props.onSubmitMedia(updateObject(media, {image: [...this.state.media]}));
     }
 
+    playVideoHandler = () => {
+
+    }
     closeMediaBoxHandler = () => {
         this.props.onhideMediaBox();
     }
@@ -151,7 +135,8 @@ class AddImage extends Component {
                        removeMediaItemEnable={this.removeMediaItemEnableHandler}
                        removeMediaItemDisable={this.removeMediaItemDisableHandler}
                        removeMediaItemIndex={this.state.removeMediaItemIndex}
-                       removeMediaItem={this.removeMediaItemHandler}/>
+                       removeMediaItem={this.removeMediaItemHandler}
+                       playVideo={this.playVideoHandler}/>
                 </div>
             ); 
         }
@@ -196,7 +181,7 @@ class AddImage extends Component {
                     <div className="reuse-form__cnt">
                         <div className="reuse-form__cnt--det">
                             <div className="reuse-form__cnt--det__fil">
-                                Drag and Drop Images
+                                <div>Upload / Drag and Drop Images</div>
                                 <input 
                                     type="file" 
                                     name=""
@@ -243,6 +228,7 @@ const mapDispatchToProps = dispatch => {
         onResetLink: () => dispatch(actions.resetLink()),
         onImageEdit: () => dispatch(actions.imageEdit()),
         onRemoveMedia: (media) => dispatch(actions.removeMedia(media)),
+        onSaveRemoveSnap: (imageDet) => dispatch(actions.saveRemoveSnap(imageDet)),
         onSubmitMedia: (media) => dispatch(actions.submitMedia(media)),
         onhideMediaBox: () => dispatch(actions.hideMediaBox()) 
     };

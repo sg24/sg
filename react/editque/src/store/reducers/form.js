@@ -21,9 +21,11 @@ const initialState = {
     defaultValue: false,
     uploadPercent: null,
     submitError: null,
+    removedSnap: [],
     submitForm: false,
     id: null,
     content: null,
+    title: null,
     videoFetched: false,
     showVideo:false,
     editImage: false,
@@ -106,6 +108,12 @@ const addSnapshot = (state, action) => {
 
 const removeSnapshot= (state, action) => {
     return updateObject(state, {snapshot: action.snapshot})
+};
+
+const saveRemoveSnap = (state, action) => {
+    let snap = [...state.removedSnap];
+    snap.push(action.snapshotDet)
+    return updateObject(state, {removedSnap: snap})
 };
 
 const removeMedia = (state, action) => {
@@ -211,6 +219,8 @@ const reducer = (state = initialState, action) => {
             return addSnapshot(state, action);
         case actionTypes.REMOVE_SNAPSHOT:
             return removeSnapshot(state, action);
+        case actionTypes.SAVE_REMOVE_SNAP:
+            return saveRemoveSnap(state, action);
         case actionTypes.REMOVE_MEDIA:
             return removeMedia(state, action);
         case actionTypes.SUBMIT_MEDIA:

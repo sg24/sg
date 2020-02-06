@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\g\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @ffmpeg-installer/ffmpeg uuid busyboy
+  C:\Program Files\nodejs\node.exe C:\Users\g\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-app-rewire --dev
 
 PATH: 
-  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\g\bin;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\PC Connectivity Solution;C:\Program Files (x86)\Silverfrost\FTN95;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn;C:\Program Files\Microsoft SQL Server\100\Tools\Binn;C:\Program Files\Microsoft SQL Server\100\DTS\Binn;C:\Program Files (x86)\Dev-Cpp\MinGW64\bin;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files\Java\jdk1.8.0_111\bin;C:\Python27;C:\ C;C:\Program Files\Git\Python27\Scripts;C:\Program Files\PuTTY;C:\Program Files\apache-maven-3.5.0;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Microsoft SQL Server\130\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio;C:\xampp\php;C:\Program Files (x86)\Brackets\command;C:\Program Files\nodejs;C:\Users\g\Anaconda3;C:\Users\g\Anaconda3\Library\mingw-w64\bin;C:\Users\g\Anaconda3\Library\usr\bin;C:\Users\g\Anaconda3\Library\bin;C:\Users\g\Anaconda3\Scripts;C:\Program Files\Java\jdk1.8.0_111\bin; C;C:\Program Files\Git\Python27\Scripts;C:\Program Files\apache-maven-3.5.0\bin;C:\Program Files\Microsoft VS Code\bin;C:\Users\g\AppData\Roaming\Composer\vendor\bin;C:\Program Files\heroku\bin;C:\Users\g\AppData\Roaming\npm;C:\Program Files\google-cloud-sdk\path.bash.inc;C:\Program Files\google-cloud-sdk\completion.bash.inc;C:\Program Files\google-cloud-sdk\path.zsh.inc;C:\Program Files\google-cloud-sdk\completion.zsh.inc;C:\Program Files\google-cloud-sdk\path.fish.inc
+  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\g\bin;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\PC Connectivity Solution;C:\Program Files (x86)\Silverfrost\FTN95;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn;C:\Program Files\Microsoft SQL Server\100\Tools\Binn;C:\Program Files\Microsoft SQL Server\100\DTS\Binn;C:\Program Files (x86)\Dev-Cpp\MinGW64\bin;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files\Java\jdk1.8.0_111\bin;C:\Python27;C:\ C;C:\Program Files\Git\Python27\Scripts;C:\Program Files\PuTTY;C:\Program Files\apache-maven-3.5.0;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Microsoft SQL Server\130\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio;C:\xampp\php;C:\Program Files (x86)\Brackets\command;C:\Program Files\nodejs;C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin;C:\Users\g\Anaconda3;C:\Users\g\Anaconda3\Library\mingw-w64\bin;C:\Users\g\Anaconda3\Library\usr\bin;C:\Users\g\Anaconda3\Library\bin;C:\Users\g\Anaconda3\Scripts;C:\Program Files\Java\jdk1.8.0_111\bin; C;C:\Program Files\Git\Python27\Scripts;C:\Program Files\apache-maven-3.5.0\bin;C:\Users\g\AppData\Roaming\Composer\vendor\bin;C:\Program Files\heroku\bin;C:\Users\g\AppData\Roaming\npm;C:\Program Files\google-cloud-sdk\path.bash.inc;C:\Program Files\google-cloud-sdk\completion.bash.inc;C:\Program Files\google-cloud-sdk\path.zsh.inc;C:\Program Files\google-cloud-sdk\completion.zsh.inc;C:\Program Files\google-cloud-sdk\path.fish.inc;C:\Program Files\ffmpeg\bin;C:\Program Files\Microsoft VS Code\bin
 
 Yarn version: 
   1.17.3
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/busyboy: Not found
+  Error: https://registry.yarnpkg.com/react-app-rewire: Not found
       at Request.params.callback [as _callback] (C:\Users\g\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66830:18)
       at Request.self.callback (C:\Users\g\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140464:22)
       at Request.emit (events.js:209:13)
@@ -36,27 +36,26 @@ npm manifest:
       "generate-sw": "workbox injectManifest"
     },
     "dependencies": {
+      "@ffmpeg-installer/ffmpeg": "^1.0.20",
       "@sendgrid/mail": "^6.4.0",
       "bcryptjs": "^2.4.3",
       "body-parser": "^1.19.0",
       "cookie-parser": "^1.4.4",
       "express": "^4.17.1",
       "express-session": "^1.17.0",
-      "ffmpeg": "^0.0.4",
-      "fluent-ffmpeg": "^2.1.2",
+      "formidable": "^1.2.1",
       "gridfs-stream": "^1.1.1",
       "hbs": "^4.0.4",
       "jsonwebtoken": "^8.5.1",
       "mongoose": "^5.6.10",
-      "multer": "^1.4.2",
-      "multer-gridfs-storage": "^3.3.0",
       "nodemailer": "^6.3.1",
       "passport": "^0.4.0",
       "passport-facebook": "^3.0.0",
       "passport-google-oauth20": "^2.0.0",
       "serve-favicon": "^2.5.0",
-      "socket.io": "^2.3.0",
       "sitemap": "^5.1.0",
+      "socket.io": "^2.3.0",
+      "uuid": "^3.4.0",
       "validator": "^12.0.0",
       "web-push": "^3.4.3"
     },
@@ -80,6 +79,9 @@ npm manifest:
       "react-cropper": "^1.3.0",
       "window-location-origin": "^0.1.0",
       "workbox-cli": "^4.3.1"
+    },
+    "engines": {
+      "node": ">10.0.0"
     }
   }
 
@@ -97,6 +99,54 @@ Lockfile:
     integrity sha512-r24eVUUr0QqNZa+qrImUk8fn5SPhHq+IfYvIoIMg0do3GdK9sMdiLKP3GYVVaxpPKORgm8KRKaNTEhAjgIpLMw==
     dependencies:
       regenerator-runtime "^0.13.2"
+  
+  "@ffmpeg-installer/darwin-x64@4.1.0":
+    version "4.1.0"
+    resolved "https://registry.yarnpkg.com/@ffmpeg-installer/darwin-x64/-/darwin-x64-4.1.0.tgz#48e1706c690e628148482bfb64acb67472089aaa"
+    integrity sha512-Z4EyG3cIFjdhlY8wI9aLUXuH8nVt7E9SlMVZtWvSPnm2sm37/yC2CwjUzyCQbJbySnef1tQwGG2Sx+uWhd9IAw==
+  
+  "@ffmpeg-installer/ffmpeg@^1.0.20":
+    version "1.0.20"
+    resolved "https://registry.yarnpkg.com/@ffmpeg-installer/ffmpeg/-/ffmpeg-1.0.20.tgz#d3c9c2bbcd76149468fb0886c2b3fe9e4795490b"
+    integrity sha512-wbgd//6OdwbFXYgV68ZyKrIcozEQpUKlvV66XHaqO2h3sFbX0jYLzx62Q0v8UcFWN21LoxT98NU2P+K0OWsKNA==
+    optionalDependencies:
+      "@ffmpeg-installer/darwin-x64" "4.1.0"
+      "@ffmpeg-installer/linux-arm" "4.1.3"
+      "@ffmpeg-installer/linux-arm64" "4.1.4"
+      "@ffmpeg-installer/linux-ia32" "4.1.0"
+      "@ffmpeg-installer/linux-x64" "4.1.0"
+      "@ffmpeg-installer/win32-ia32" "4.1.0"
+      "@ffmpeg-installer/win32-x64" "4.1.0"
+  
+  "@ffmpeg-installer/linux-arm64@4.1.4":
+    version "4.1.4"
+    resolved "https://registry.yarnpkg.com/@ffmpeg-installer/linux-arm64/-/linux-arm64-4.1.4.tgz#7219f3f901bb67f7926cb060b56b6974a6cad29f"
+    integrity sha512-dljEqAOD0oIM6O6DxBW9US/FkvqvQwgJ2lGHOwHDDwu/pX8+V0YsDL1xqHbj1DMX/+nP9rxw7G7gcUvGspSoKg==
+  
+  "@ffmpeg-installer/linux-arm@4.1.3":
+    version "4.1.3"
+    resolved "https://registry.yarnpkg.com/@ffmpeg-installer/linux-arm/-/linux-arm-4.1.3.tgz#c554f105ed5f10475ec25d7bec94926ce18db4c1"
+    integrity sha512-NDf5V6l8AfzZ8WzUGZ5mV8O/xMzRag2ETR6+TlGIsMHp81agx51cqpPItXPib/nAZYmo55Bl2L6/WOMI3A5YRg==
+  
+  "@ffmpeg-installer/linux-ia32@4.1.0":
+    version "4.1.0"
+    resolved "https://registry.yarnpkg.com/@ffmpeg-installer/linux-ia32/-/linux-ia32-4.1.0.tgz#adad70b0d0d9d8d813983d6e683c5a338a75e442"
+    integrity sha512-0LWyFQnPf+Ij9GQGD034hS6A90URNu9HCtQ5cTqo5MxOEc7Rd8gLXrJvn++UmxhU0J5RyRE9KRYstdCVUjkNOQ==
+  
+  "@ffmpeg-installer/linux-x64@4.1.0":
+    version "4.1.0"
+    resolved "https://registry.yarnpkg.com/@ffmpeg-installer/linux-x64/-/linux-x64-4.1.0.tgz#b4a5d89c4e12e6d9306dbcdc573df716ec1c4323"
+    integrity sha512-Y5BWhGLU/WpQjOArNIgXD3z5mxxdV8c41C+U15nsE5yF8tVcdCGet5zPs5Zy3Ta6bU7haGpIzryutqCGQA/W8A==
+  
+  "@ffmpeg-installer/win32-ia32@4.1.0":
+    version "4.1.0"
+    resolved "https://registry.yarnpkg.com/@ffmpeg-installer/win32-ia32/-/win32-ia32-4.1.0.tgz#6eac4fb691b64c02e7a116c1e2d167f3e9b40638"
+    integrity sha512-FV2D7RlaZv/lrtdhaQ4oETwoFUsUjlUiasiZLDxhEUPdNDWcH1OU9K1xTvqz+OXLdsmYelUDuBS/zkMOTtlUAw==
+  
+  "@ffmpeg-installer/win32-x64@4.1.0":
+    version "4.1.0"
+    resolved "https://registry.yarnpkg.com/@ffmpeg-installer/win32-x64/-/win32-x64-4.1.0.tgz#17e8699b5798d4c60e36e2d6326a8ebe5e95a2c5"
+    integrity sha512-Drt5u2vzDnIONf4ZEkKtFlbvwj6rI3kxw1Ck9fpudmtgaZIHD4ucsWB2lCZBXRxJgXR+2IMSti+4rtM4C4rXgg==
   
   "@hapi/address@2.x.x":
     version "2.1.4"
@@ -332,11 +382,6 @@ Lockfile:
     dependencies:
       buffer-equal "^1.0.0"
   
-  append-field@^1.0.0:
-    version "1.0.0"
-    resolved "https://registry.yarnpkg.com/append-field/-/append-field-1.0.0.tgz#1e3440e915f0b1203d23748e78edd7b9b5b43e56"
-    integrity sha1-HjRA6RXwsSA9I3SOeO3XubW0PlY=
-  
   aproba@^1.0.3:
     version "1.2.0"
     resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
@@ -558,11 +603,6 @@ Lockfile:
     integrity sha512-H1qVYh1MYhEEFLsP97cVKqCGo7KfCyTt6uEWqsTBr9SO84oK9Uwbyd/yCW+6rKJLHksBNUVWZDAjfS+Ccx0Bbg==
     dependencies:
       lodash "^4.17.11"
-  
-  async@>=0.2.9:
-    version "3.1.0"
-    resolved "https://registry.yarnpkg.com/async/-/async-3.1.0.tgz#42b3b12ae1b74927b5217d8c0016baaf62463772"
-    integrity sha512-4vx/aaY6j/j3Lw3fbCHNWP0pPaTCew3F6F3hYyl/tHs/ndmV1q7NW9T5yuJ2XAGwdQrP+6Wu20x06U4APo/iQQ==
   
   async@^2.5.0:
     version "2.6.3"
@@ -1117,14 +1157,6 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/buffer-peek-stream/-/buffer-peek-stream-1.0.1.tgz#53b47570a1347787c5bad4ca2ca3021f9d8b3cfd"
     integrity sha1-U7R1cKE0d4fFutTKLKMCH52LPP0=
   
-  busboy@^0.2.11:
-    version "0.2.14"
-    resolved "https://registry.yarnpkg.com/busboy/-/busboy-0.2.14.tgz#6c2a622efcf47c57bbbe1e2a9c37ad36c7925453"
-    integrity sha1-bCpiLvz0fFe7vh4qnDetNseSVFM=
-    dependencies:
-      dicer "0.2.5"
-      readable-stream "1.1.x"
-  
   bytes@3.1.0:
     version "3.1.0"
     resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
@@ -1463,7 +1495,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
     integrity sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
   
-  concat-stream@^1.5.2, concat-stream@^1.6.0:
+  concat-stream@^1.6.0:
     version "1.6.2"
     resolved "https://registry.yarnpkg.com/concat-stream/-/concat-stream-1.6.2.tgz#904bdf194cd3122fc675c77fc4ac3d4ff0fd1a34"
     integrity sha512-27HBghJxjiZtIk3Ycvn/4kbJk/1uZuJFfuPEns6LaEvpvG1f0hTea8lilrouyo9mVc2GWdcEZ8OLoGmSADlrCw==
@@ -1798,14 +1830,6 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/dev-ip/-/dev-ip-1.0.1.tgz#a76a3ed1855be7a012bb8ac16cb80f3c00dc28f0"
     integrity sha1-p2o+0YVb56ASu4rBbLgPPADcKPA=
-  
-  dicer@0.2.5:
-    version "0.2.5"
-    resolved "https://registry.yarnpkg.com/dicer/-/dicer-0.2.5.tgz#5996c086bb33218c812c090bddc09cd12facb70f"
-    integrity sha1-WZbAhrszIYyBLAkL3cCc0S+stw8=
-    dependencies:
-      readable-stream "1.1.x"
-      streamsearch "0.1.2"
   
   dot-prop@^4.1.0:
     version "4.2.0"
@@ -2310,13 +2334,6 @@ Lockfile:
     dependencies:
       bser "^2.0.0"
   
-  ffmpeg@^0.0.4:
-    version "0.0.4"
-    resolved "https://registry.yarnpkg.com/ffmpeg/-/ffmpeg-0.0.4.tgz#1c460df8e7da5127f62ceef4bfa06c59c89630cb"
-    integrity sha1-HEYN+OfaUSf2LO70v6BsWciWMMs=
-    dependencies:
-      when ">= 0.0.1"
-  
   figures@^2.0.0:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/figures/-/figures-2.0.0.tgz#3ab1a2d2a62c8bfb431a0c94cb797a2fce27c962"
@@ -2434,14 +2451,6 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/flagged-respawn/-/flagged-respawn-1.0.1.tgz#e7de6f1279ddd9ca9aac8a5971d618606b3aab41"
     integrity sha512-lNaHNVymajmk0OJMBn8fVUAU1BtDeKIqKoVhk4xAALB57aALg6b4W0MfJ/cUE0g9YBXy5XhSlPIpYIJ7HaY/3Q==
   
-  fluent-ffmpeg@^2.1.2:
-    version "2.1.2"
-    resolved "https://registry.yarnpkg.com/fluent-ffmpeg/-/fluent-ffmpeg-2.1.2.tgz#c952de2240f812ebda0aa8006d7776ee2acf7d74"
-    integrity sha1-yVLeIkD4EuvaCqgAbXd27irPfXQ=
-    dependencies:
-      async ">=0.2.9"
-      which "^1.1.1"
-  
   flush-write-stream@^1.0.2:
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/flush-write-stream/-/flush-write-stream-1.1.1.tgz#8dd7d873a1babc207d94ead0c2e0e44276ebf2e8"
@@ -2508,6 +2517,11 @@ Lockfile:
       asynckit "^0.4.0"
       combined-stream "^1.0.6"
       mime-types "^2.1.12"
+  
+  formidable@^1.2.1:
+    version "1.2.1"
+    resolved "https://registry.yarnpkg.com/formidable/-/formidable-1.2.1.tgz#70fb7ca0290ee6ff961090415f4b3df3d2082659"
+    integrity sha512-Fs9VRguL0gqGHkXS5GQiMCr1VhZBxz0JnJs4JmMp/2jL18Fmbzvv7vOFRU+U8TBkHEE/CX1qDXzJplVULgsLeg==
   
   forwarded@~0.1.2:
     version "0.1.2"
@@ -3353,11 +3367,6 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/is-fullwidth-code-point/-/is-fullwidth-code-point-2.0.0.tgz#a3b30a5c4f199183167aaab93beefae3ddfb654f"
     integrity sha1-o7MKXE8ZkYMWeqq5O+764937ZU8=
   
-  is-generator@^1.0.3:
-    version "1.0.3"
-    resolved "https://registry.yarnpkg.com/is-generator/-/is-generator-1.0.3.tgz#c14c21057ed36e328db80347966c693f886389f3"
-    integrity sha1-wUwhBX7TbjKNuANHlmxpP4hjifM=
-  
   is-glob@^2.0.0, is-glob@^2.0.1:
     version "2.0.1"
     resolved "https://registry.yarnpkg.com/is-glob/-/is-glob-2.0.1.tgz#d096f926a3ded5600f3fdfd91198cb0888c2d863"
@@ -3986,7 +3995,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/lodash.isnumber/-/lodash.isnumber-3.0.3.tgz#3ce76810c5928d03352301ac287317f11c0b1ffc"
     integrity sha1-POdoEMWSjQM1IwGsKHMX8RwLH/w=
   
-  lodash.isplainobject@>=0.8.0, lodash.isplainobject@^4.0.6:
+  lodash.isplainobject@^4.0.6:
     version "4.0.6"
     resolved "https://registry.yarnpkg.com/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz#7c526a52d89b45c45cc690b88163be0497f550cb"
     integrity sha1-fFJqUtibRcRcxpC4gWO+BJf1UMs=
@@ -4342,26 +4351,12 @@ Lockfile:
     optionalDependencies:
       saslprep "^1.0.0"
   
-  mongodb-uri@^0.9.7:
-    version "0.9.7"
-    resolved "https://registry.yarnpkg.com/mongodb-uri/-/mongodb-uri-0.9.7.tgz#0f771ad16f483ae65f4287969428e9fbc4aa6181"
-    integrity sha1-D3ca0W9IOuZfQoeWlCjp+8SqYYE=
-  
   mongodb@3.2.7:
     version "3.2.7"
     resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.2.7.tgz#8ba149e4be708257cad0dea72aebb2bbb311a7ac"
     integrity sha512-2YdWrdf1PJgxcCrT1tWoL6nHuk6hCxhddAAaEh8QJL231ci4+P9FLyqopbTm2Z2sAU6mhCri+wd9r1hOcHdoMw==
     dependencies:
       mongodb-core "3.2.7"
-      safe-buffer "^5.1.2"
-  
-  mongodb@>=2:
-    version "3.3.2"
-    resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.3.2.tgz#ff086b5f552cf07e24ce098694210f3d42d668b2"
-    integrity sha512-fqJt3iywelk4yKu/lfwQg163Bjpo5zDKhXiohycvon4iQHbrfflSAz9AIlRE6496Pm/dQKQK5bMigdVo2s6gBg==
-    dependencies:
-      bson "^1.1.1"
-      require_optional "^1.0.1"
       safe-buffer "^5.1.2"
   
   mongoose-legacy-pluralize@1.0.2:
@@ -4418,33 +4413,6 @@ Lockfile:
     version "2.1.2"
     resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
     integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
-  
-  multer-gridfs-storage@^3.3.0:
-    version "3.3.0"
-    resolved "https://registry.yarnpkg.com/multer-gridfs-storage/-/multer-gridfs-storage-3.3.0.tgz#fdf72d53066430ace1fdeff4773263c3af1486f7"
-    integrity sha512-nhm33TwWBGiO1fN0ANyL00bnIYXCSMSZQ8nflNRbkSR/Mby4BEc0TGtOs/I5pl46/PWGfwSK/mNJrgNf9k9eNQ==
-    dependencies:
-      is-generator "^1.0.3"
-      is-promise "^2.1.0"
-      lodash.isplainobject ">=0.8.0"
-      mongodb ">=2"
-      mongodb-uri "^0.9.7"
-      multer "^1.4.1"
-      pump "^1.0.3"
-  
-  multer@^1.4.1, multer@^1.4.2:
-    version "1.4.2"
-    resolved "https://registry.yarnpkg.com/multer/-/multer-1.4.2.tgz#2f1f4d12dbaeeba74cb37e623f234bf4d3d2057a"
-    integrity sha512-xY8pX7V+ybyUpbYMxtjM9KAiD9ixtg5/JkeKUTD6xilfDv0vzzOFcCp4Ljb1UU3tSOM3VTZtKo63OmzOrGi3Cg==
-    dependencies:
-      append-field "^1.0.0"
-      busboy "^0.2.11"
-      concat-stream "^1.5.2"
-      mkdirp "^0.5.1"
-      object-assign "^4.1.1"
-      on-finished "^2.3.0"
-      type-is "^1.6.4"
-      xtend "^4.0.0"
   
   multipipe@^0.1.2:
     version "0.1.2"
@@ -4729,7 +4697,7 @@ Lockfile:
       for-own "^1.0.0"
       make-iterator "^1.0.0"
   
-  on-finished@^2.3.0, on-finished@~2.3.0:
+  on-finished@~2.3.0:
     version "2.3.0"
     resolved "https://registry.yarnpkg.com/on-finished/-/on-finished-2.3.0.tgz#20f1336481b083cd75337992a16971aa2d906947"
     integrity sha1-IPEzZIGwg811M3mSoWlxqi2QaUc=
@@ -5265,7 +5233,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/psl/-/psl-1.3.0.tgz#e1ebf6a3b5564fa8376f3da2275da76d875ca1bd"
     integrity sha512-avHdspHO+9rQTLbv1RO+MPYeP/SzsCoxofjVnHanETfQhTJrmB0HlDoW+EiN/R+C0BZ+gERab9NY0lPN2TxNag==
   
-  pump@^1.0.0, pump@^1.0.3:
+  pump@^1.0.0:
     version "1.0.3"
     resolved "https://registry.yarnpkg.com/pump/-/pump-1.0.3.tgz#5dfe8311c33bbf6fc18261f9f34702c47c08a954"
     integrity sha512-8k0JupWme55+9tCVE+FS5ULT3K6AbgqrGa58lTT49RpyfwwcGedHqaC5LlQNdEAumn/wFsu6aPwkuPMioy8kqw==
@@ -5448,16 +5416,6 @@ Lockfile:
       normalize-package-data "^2.3.2"
       path-type "^3.0.0"
   
-  readable-stream@1.1.x, readable-stream@~1.1.9:
-    version "1.1.14"
-    resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-1.1.14.tgz#7cf4c54ef648e3813084c636dd2079e166c081d9"
-    integrity sha1-fPTFTvZI44EwhMY23SB54WbAgdk=
-    dependencies:
-      core-util-is "~1.0.0"
-      inherits "~2.0.1"
-      isarray "0.0.1"
-      string_decoder "~0.10.x"
-  
   readable-stream@^2.0.0, readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.5, readable-stream@^2.0.6, readable-stream@^2.1.5, readable-stream@^2.2.2, readable-stream@^2.3.0, readable-stream@^2.3.3, readable-stream@^2.3.5, readable-stream@^2.3.6, readable-stream@~2.3.6:
     version "2.3.6"
     resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.6.tgz#b11c27d88b8ff1fbe070643cf94b0c79ae1b0aaf"
@@ -5470,6 +5428,16 @@ Lockfile:
       safe-buffer "~5.1.1"
       string_decoder "~1.1.1"
       util-deprecate "~1.0.1"
+  
+  readable-stream@~1.1.9:
+    version "1.1.14"
+    resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-1.1.14.tgz#7cf4c54ef648e3813084c636dd2079e166c081d9"
+    integrity sha1-fPTFTvZI44EwhMY23SB54WbAgdk=
+    dependencies:
+      core-util-is "~1.0.0"
+      inherits "~2.0.1"
+      isarray "0.0.1"
+      string_decoder "~0.10.x"
   
   readdirp@^2.0.0, readdirp@^2.2.1:
     version "2.2.1"
@@ -6298,11 +6266,6 @@ Lockfile:
       commander "^2.2.0"
       limiter "^1.0.5"
   
-  streamsearch@0.1.2:
-    version "0.1.2"
-    resolved "https://registry.yarnpkg.com/streamsearch/-/streamsearch-0.1.2.tgz#808b9d0e56fc273d809ba57338e929919a1a9f1a"
-    integrity sha1-gIudDlb8Jz2Am6VzOOkpkZoanxo=
-  
   string-width@^1.0.1, string-width@^1.0.2:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/string-width/-/string-width-1.0.2.tgz#118bdf5b8cdc51a2a7e70d211e07e2b0b9b107d3"
@@ -6679,7 +6642,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
     integrity sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=
   
-  type-is@^1.6.4, type-is@~1.6.17, type-is@~1.6.18:
+  type-is@~1.6.17, type-is@~1.6.18:
     version "1.6.18"
     resolved "https://registry.yarnpkg.com/type-is/-/type-is-1.6.18.tgz#4e552cd05df09467dcbc4ef739de89f2cf37c131"
     integrity sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==
@@ -6880,6 +6843,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
     integrity sha512-pW0No1RGHgzlpHJO1nsVrHKpOEIxkGg1xB+v0ZmdNH5OAeAwzAVrCnI2/6Mtx+Uys6iaylxa+D3g4j63IKKjSQ==
   
+  uuid@^3.4.0:
+    version "3.4.0"
+    resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
+    integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+  
   v8flags@^3.0.1:
     version "3.1.3"
     resolved "https://registry.yarnpkg.com/v8flags/-/v8flags-3.1.3.tgz#fc9dc23521ca20c5433f81cc4eb9b3033bb105d8"
@@ -7047,7 +7015,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.0.0.tgz#fc804e458cc460009b1a2b966bc8817d2578aefb"
     integrity sha512-9GSJUgz1D4MfyKU7KRqwOjXCXTqWdFNvEr7eUBYchQiVc744mqK/MzXPNR2WsPkmkOa4ywfg8C2n8h+13Bey1Q==
   
-  "when@>= 0.0.1", when@^3.7.5:
+  when@^3.7.5:
     version "3.7.8"
     resolved "https://registry.yarnpkg.com/when/-/when-3.7.8.tgz#c7130b6a7ea04693e842cdc9e7a1f2aa39a39f82"
     integrity sha1-xxMLan6gRpPoQs3J56Hyqjmjn4I=

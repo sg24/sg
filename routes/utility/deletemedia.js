@@ -3,24 +3,24 @@ let router = express.Router();
 let mongoose = require('mongoose');
 const {connectStatus} = require('../../serverDB/serverDB');
 
-let deleteMedia = (videos) => {
+let deleteMedia = (medias, bucketName) => {
     return new Promise((resolve, reject) => {
         let deleted = 0;
         
         connectStatus.then(() => {
             let bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
-                bucketName: 'media'
+                bucketName
             });
             
-            if ( videos.length < 1) {
+            if (medias.length < 1) {
                 resolve()
                 return
             }
             
-            for (let video of videos) {
-                bucket.delete(mongoose.mongo.ObjectId(video.id)).then(() => {
+            for (let media of medias) {
+                bucket.delete(mongoose.mongo.ObjectId(media.id)).then(() => {
                     ++deleted;
-                    if (deleted === videos.length) {
+                    if (deleted === medias.length) {
                         resolve()
                     }
                 }).catch(err=> {

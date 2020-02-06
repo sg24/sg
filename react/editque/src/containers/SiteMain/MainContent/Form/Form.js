@@ -53,7 +53,7 @@ class Form extends  Component {
                 value: EditorState.createEmpty(),
                 validation: {
                     required: true,
-                    minLength: 6
+                    minLength: 1
                 },
                 valid: false,
                 touched: false
@@ -202,6 +202,8 @@ class Form extends  Component {
                 video: this.props.media.video ? this.props.media.video : [],
                 image: this.props.media.image ? this.props.media.image: [],
                 shareMe: this.props.media.user ? this.props.media.user : [],
+                removedSnap: this.props.removedSnap,
+                snapshot: this.props.snapshot,
                 editImage: this.props.editImage,
                 editVideo: this.props.editVideo,
                 id: this.props.match.params.id,
@@ -219,7 +221,7 @@ class Form extends  Component {
 
     closeBackdropHandler = () => {
         this.setState({
-            showCateg: false, showAddItm: false});
+            showCateg: false, showAddItm: false,showVidOpt: false,showImgOpt: false,showUserOpt: false});
     }
 
     closeModalHandler = () => {
@@ -231,8 +233,12 @@ class Form extends  Component {
     }
 
     render() {
-        let form = <Loader />
-        
+        let form = (
+            <div className="reuse-form__wrapper">
+                <Loader />
+            </div>
+        )
+
         if (this.props.cntErr) {
             form = (
                 <Aux>
@@ -321,7 +327,7 @@ class Form extends  Component {
                             <FontAwesomeIcon 
                                 icon={['fas', 'tags']} 
                                 className="icon icon__reuse-form--cnt__tag" />
-                                Question Tags
+                            Question Tags
                         </label>
                         <div className="reuse-form__cnt--det">
                             <div className="reuse-form__cnt--det__wrapper">
@@ -377,7 +383,7 @@ class Form extends  Component {
                             }}/>
                         </div>
                         { !this.state.formElement.content.valid && this.state.formElement.content.touched ?
-                            <div className="reuse-form__err">Content must be longer than 5 characters</div>
+                            <div className="reuse-form__err">Content must not be empty</div>
                             : null
                         }
                     </div>
@@ -404,7 +410,7 @@ class Form extends  Component {
                                                     <FontAwesomeIcon 
                                                         icon={['fas', 'video']} />
                                                 </div> 
-                                                {this.props.media.video ? this.props.media.video.length : 0}
+                                                {this.props.snapshot || this.props.media.video ? [...this.props.snapshot,...this.props.media.video].length : 0}
                                             </div>
                                         </div>
                                         <ul className={addItemOptClass.join(' ')}>
@@ -440,9 +446,9 @@ class Form extends  Component {
                 
                 { this.state.showAddItm ? 
                     <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop></Aux> : null }
-                { this.state.showImgOpt ? <Aux><Backdrop></Backdrop><AsyncImage /></Aux> : null }
-                { this.state.showVidOpt ? <Aux><Backdrop></Backdrop><AsyncVideo /></Aux> : null }
-                { this.state.showUserOpt ? <Aux><Backdrop></Backdrop><AsyncUsers /></Aux> : null}
+                { this.state.showImgOpt ? <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop><AsyncImage /></Aux> : null }
+                { this.state.showVidOpt ? <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop><AsyncVideo /></Aux> : null }
+                { this.state.showUserOpt ? <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop><AsyncUsers /></Aux> : null}
                 { this.props.submitForm && !this.state.showCateg ? 
                     <Aux>
                         <Backdrop></Backdrop>
@@ -456,8 +462,6 @@ class Form extends  Component {
                     </Aux> : null}
                 { this.props.showCateg && this.state.showCateg ? 
                     <Aux>
-                        <Backdrop
-                            close={this.closeBackdropHandler}></Backdrop>
                         {this.props.categErr ? <Backdrop close={this.closeBackdropHandler}><Modal uploadErr={this.props.categErr} type='categ' /></Backdrop>: null}
                     </Aux> : null
                 }
@@ -508,6 +512,7 @@ const mapStateToProps = state => {
         newCateg: state.form.newCateg,
         hideMediaBox: state.form.hideMediaBox,
         snapshot: state.form.snapshot,
+        removedSnap: state.form.removedSnap,
         media: state.form.media,
         editImage: state.form.editImage,
         editVideo: state.form.editVideo,

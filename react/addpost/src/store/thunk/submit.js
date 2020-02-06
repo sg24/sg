@@ -21,7 +21,8 @@ export const submit = (formData) => {
     
             if (key === 'image' && formData[key].length > 0) {
                 for (let image of formData[key]) {
-                    formContent.append(key, image.file);
+                    let ext = image.file.type.split('/').pop();
+                    formContent.append(key, image.file, `${image.id}.${ext}`);
                 }
             }
         }

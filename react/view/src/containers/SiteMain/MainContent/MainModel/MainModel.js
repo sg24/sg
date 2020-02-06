@@ -98,12 +98,8 @@ class Model extends Component {
         }
     }
 
-    playVideoHandler = (snapshotID, postVideos) => {
-        for (let ptVideo of postVideos) {
-            if (ptVideo.snapshotID === snapshotID) {
-                this.props.onFetchVideo(ptVideo.id, snapshotID)
-            }
-        }
+    playVideoHandler = (snapshot) => {
+        this.props.onFetchVideo(snapshot.id, `${window.location.protocol + '//' + window.location.host}/media/video/${snapshot.videoCnt}`)
     }
 
     slidePlayHandler = (id, maxLength, event) => {
@@ -287,7 +283,7 @@ const mapDispatchToProps = dispatch => {
         onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm, modelType)),
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),
         onChangeShareID: (shareID, categ) => dispatch(actions.shareID(shareID, categ)),
-        onFetchVideo: (videoID, ptVideoID) => dispatch(actions.fetchVideoInit(videoID, ptVideoID)),
+        onFetchVideo: (id, url) => dispatch(actions.fetchVideo(id, url)),
         onSubmitComment: (id, cntGp, cnt) => dispatch(actions.submitCommentInit(id, cntGp, cnt)),
         onResetInput: () => dispatch(actions.resetInput()),
         onDefaultTrd: () => dispatch(actions.defaultTrd()),

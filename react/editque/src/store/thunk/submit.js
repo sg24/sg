@@ -8,33 +8,51 @@ export const submit = (formData) => {
         let formContent = new FormData();
         
         for (let key in formData) {
-            if (key !== 'video' && key !== 'image') {
+            if (key !== 'video' && key !== 'image' && key !== 'removedSnap' && key !== 'snapshot') {
                 formContent.append(key, formData[key]);
             }
     
             if (key === 'video') {
                 for (let video of formData[key]) {
-                    if (formData.editVideo) {
-                        let ext = video.file.type.split('/').pop();
-                        formContent.append(key, video.file, `${video.id}.${ext}`);
-                    } else {
-                        formContent.append('noedit', true);
-                    }
-                }
-                if (formData[key].length < 1) {
-                    formContent.append('deletevideo', true);
+                    let ext = video.file.type.split('/').pop();
+                    formContent.append(key, video.file, `${video.id}.${ext}`);
                 }
             }
     
             if (key === 'image') {
+                let send = 0;
+                let uploaded = []
                 for (let image of formData[key]) {
-                    if (formData.editImage) {
-                        formContent.append(key, image.file);
-                    } 
+                    if (image.mediaType) {
+                        uploaded.push({id: image.id, filename: image.filename, type: image.type});
+                        ++send;
+                        if (send === formData[key].length) {
+                            formContent.append('uploadedimage', JSON.stringify(uploaded));
+                        }
+                    } else {
+                        let ext = image.file.type.split('/').pop();
+                        formContent.append(key, image.file, `${image.id}.${ext}`);
+                        ++send;
+                        if (send === formData[key].length) {
+                            formContent.append('uploadedimage', JSON.stringify(uploaded));
+                        }
+                    }
                 }
-                if (formData[key].length < 1) {
-                    formContent.append('deleteimage', true);
+            }
+
+            if (key === 'snapshot') {
+                let uploadedSnap = [];
+                let uploadedVideo = []
+                for (let media of formData[key]) {
+                    uploadedSnap.push({id: media.id, videoID: media.videoID, videoCnt: media.videoCnt})
+                    uploadedVideo.push({id: media.video.id, snapshotID: media.video.snapshotID, type: media.video.type})
                 }
+                formContent.append('uploadedvideo', JSON.stringify(uploadedVideo));
+                formContent.append('uploadedsnap', JSON.stringify(uploadedSnap));
+            }
+
+            if (key === 'removedSnap' && formData[key].length > 0) { 
+                formContent.append('removedmedia', JSON.stringify(formData[key]));
             }
         }
 

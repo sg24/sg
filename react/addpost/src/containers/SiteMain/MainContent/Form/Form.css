@@ -567,8 +567,13 @@
     padding: 20px 0;
 }
 
+.reuse-form__cnt--det__fil > div {
+    z-index: 0;
+}
+
 .reuse-form__cnt--det__fil--input {
     position: absolute;
+    visibility: visible;
     top: 0;
     bottom: 0;
     width: 100%;
@@ -578,6 +583,7 @@
     border-radius: 3px;
     opacity: 0;
     cursor: pointer;
+    z-index: 1;
 }
 
 .reuse-form__cnt--det__info {

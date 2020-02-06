@@ -1,5 +1,4 @@
 import { put, delay } from 'redux-saga/effects';
-import uuid from 'uuid';
 
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
@@ -9,13 +8,19 @@ import { dataURLtoBlob } from '../../shared/utility';
 export function* fetchCntInitSaga(action) {
     try {
         const response = yield axios.post('/header', {id: action.id, model: 'post'},{headers: {'data-categ':`editform`}});
-        if (response.data && (response.data.image.length > 0 || response.data.snapshot.length > 0)) {
+        if (response.data && (response.data.image.length > 0  || response.data.snapshot.length > 0)) {
             let images = [];
+            let snaps = [];
             for (let image of response.data.image) {
-                let url = window.URL.createObjectURL(dataURLtoBlob(image));
-                images.push({file: image, url, id: uuid()})
+                images.push({url: `${window.location.protocol + '//' + window.location.host}/media/image/${image.id}`, ...image, mediaType: 'image'})            
+            }
+            for (let snap of response.data.snapshot) {
+                let video = response.data.video.filter(videoDet => videoDet.snapshotID === snap.videoID);
+                snaps.push({url: `${window.location.protocol + '//' + window.location.host}/media/image/${snap.id}`, ...snap, mediaType: 'snapshot', video: video[0]})            
             }
             response.data.image = images;
+            response.data.snapshot = snaps;
+            response.data.video = [];
         }
         yield put(actions.fetchCnt(response.data))
     } catch(err){

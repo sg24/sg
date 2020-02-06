@@ -2,7 +2,7 @@ import { takeEvery, all, takeLatest } from 'redux-saga/effects';
 
 import * as actionTypes from '../../store/actions/actionTypes';
 import { checkAuthInitSaga } from './auth';
-import { fetchCntInitSaga, fetchVideoInitSaga, changeFavSaga, changeCntInitSaga } from './model';
+import { fetchCntInitSaga, changeFavSaga, changeCntInitSaga } from './model';
 import { fetchCntCategInitSaga, filterContentInitSaga } from './filter';
 import { fetchUsersInitSaga, filterUserInitSaga, filterUserSelectInitSaga, shareUserInitSaga } from './share';
 import { fetchTagsInitSaga } from './tags';
@@ -32,7 +32,6 @@ export function* watchAuth() {
 export function* watchCnt() {
     yield all([
         takeLatest(actionTypes.FETCH_CNT_INIT, fetchCntInitSaga),
-        takeEvery(actionTypes.FETCH_VIDEO_INIT, fetchVideoInitSaga),
         takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga),
         takeLatest(actionTypes.CHANGE_CNT_INIT, changeCntInitSaga)
     ])

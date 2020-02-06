@@ -5,7 +5,6 @@ import { checkAuthInitSaga } from './auth';
 import { fetchCntInitSaga, 
         ansCorrectInitSaga,
         ansWrongInitSaga,
-        fetchVideoInitSaga, 
         changeFavSaga, 
         changeCntInitSaga } from './model';
 import { fetchUsersInitSaga, filterUserInitSaga, filterUserSelectInitSaga, shareUserInitSaga } from './share';
@@ -33,7 +32,6 @@ export function* watchCnt() {
         takeLatest(actionTypes.FETCH_CNT_INIT, fetchCntInitSaga),
         takeLatest(actionTypes.ANS_CORRECT_INIT, ansCorrectInitSaga),
         takeLatest(actionTypes.ANS_WRONG_INIT, ansWrongInitSaga),
-        takeEvery(actionTypes.FETCH_VIDEO_INIT, fetchVideoInitSaga),
         takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga),
         takeLatest(actionTypes.CHANGE_CNT_INIT, changeCntInitSaga)
     ])
