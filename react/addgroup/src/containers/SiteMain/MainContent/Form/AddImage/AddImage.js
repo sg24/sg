@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import uuid from 'uuid';
 
-import * as actions from '../../../../../store/actions/index';
 import MediaItem from './MediaItem/MediaItem';
+import * as actions from '../../../../../store/actions/index';
+import { updateObject } from '../../../../../shared/utility';
 import { getImageURL, dataURLtoBlob } from '../../../../../shared/utility';
 
 const videoRef = React.createRef(null);
@@ -11,15 +13,20 @@ const videoRef = React.createRef(null);
 class AddImage extends Component {
     state = {
         inputValue: '',
+        media: null,
+        removeMediaItemIndex: null,
+        snapshotErr: null,
         mediaUrl: null,
         err: null,
-        startCapture: false
+        startCapture: false,
+        start: false
     };
 
     linkVerifyHandler = (event) => {
         let inputValue =  event.target.value;
-        this.setState({inputValue});
+        this.setState({inputValue, snapshotErr: null});
         this.props.onCheckLink(inputValue);
+
         if (this.state.startCapture) {
             videoRef.current.srcObject.getVideoTracks().forEach(function(track) {
                 track.stop();
@@ -28,10 +35,11 @@ class AddImage extends Component {
         }
     }
 
-    componentDidUpdate() {
-        if (this.props.linkValid && !this.props.linkValid.err) {
-            this.setState({mediaUrl: this.state.inputValue});
-            this.props.onResetLink()
+    addMediaHandler = () => {
+        if (this.props.linkValid && this.props.linkValid.media) {
+            this.setState({
+                media: {file: this.props.linkValid.media.file, url: this.props.linkValid.media.url, id: uuid()},  inputValue: ''});
+            this.props.onResetLink();
         }
     }
 
@@ -107,8 +115,25 @@ class AddImage extends Component {
         }
     }
 
+    removeMediaItemEnableHandler = (index) => {
+        this.setState({removeMediaItemIndex: index})
+    }
+
+    removeMediaItemDisableHandler = () => {
+        this.setState({removeMediaItemIndex: null})
+    }
+    
+    removeMediaItemHandler = (id) => {
+        let media = [...this.state.media];
+        let updatedMedia = media.filter(link =>  link.id !== id);
+        this.setState({media:  updatedMedia});
+        if (this.props.media.image && this.props.media.image.length > 0) {
+            this.props.onRemoveMedia(updateObject(this.props.media, {image: updatedMedia}))
+        }
+    }
+
     handleFiles = (files) => {
-        if (this.state.startCapture) {
+         if (this.state.startCapture) {
             videoRef.current.srcObject.getVideoTracks().forEach(function(track) {
                 track.stop();
           });
@@ -121,14 +146,13 @@ class AddImage extends Component {
         }
     }
 
-    submitMediaHandler = () => {
-        if (this.props.profileImage) {
-            this.props.onSubmitImage(this.props.profileImage, this.props.imageUrl);
-        }
+     submitMediaHandler = () => {
+        let media = {...this.props.media};
+        this.props.onSubmitMedia(updateObject(media, {image: [{...this.props.imageCapture}]}));
     }
 
     closeMediaBoxHandler = () => {
-        
+        this.props.onhideMediaBox();
     }
 
 
@@ -147,7 +171,7 @@ class AddImage extends Component {
             mediaAddedViewer = (
                 <div className="reuse-form__itm--det__view-select">
                     <MediaItem
-                       url={this.state.mediaUrl }/>
+                       url={this.state.mediaUrl}/>
                 </div>
             ); 
         }
@@ -168,9 +192,9 @@ class AddImage extends Component {
             <div className="reuse-form__itm">
                 <h4 className="reuse-form__itm--title">
                     <FontAwesomeIcon 
-                        icon={['fas', 'image']}
+                        icon={['fas', 'images']}
                         className="icon icon__reuse-form--itm--title" />
-                 Add Image
+                  Add Image
                 </h4>
                 <div className="reuse-form__itm--det">
                     <div className="reuse-form__cnt">
@@ -185,6 +209,14 @@ class AddImage extends Component {
                                 value={this.state.inputValue}
                                 spellCheck={false}
                                 pattern="https://.*"/>
+                                <button
+                                    type="button"
+                                    onClick={this.addMediaHandler}
+                                    disabled={this.props.linkValid ? this.props.linkValid.err !== null : true}
+                                    className="reuse-form__cnt--det__btn">
+                                    <FontAwesomeIcon 
+                                    icon={['fas', 'plus']} />
+                                </button>
                         </div>
                     </div>
                     <div className="reuse-form__itm--det__view">
@@ -204,7 +236,7 @@ class AddImage extends Component {
                     <div className="reuse-form__cnt">
                         <div className="reuse-form__cnt--det">
                             <div className="reuse-form__cnt--det__fil">
-                                Upload Image
+                            <div>Upload Image</div>
                                 <input 
                                     type="file" 
                                     name=""
@@ -213,7 +245,7 @@ class AddImage extends Component {
                                     onDragEnter={this.dragEnterMediaHandler}
                                     onDragOver={this.dragOverMediaHandler}
                                     onDrop={this.dropMediaHandler}
-                                    accept=".jpg,.jpeg,.png" />
+                                    accept="image/*" />
                             </div>
                         </div>
                     </div>
@@ -236,8 +268,8 @@ class AddImage extends Component {
                     <button 
                         type="button" 
                         className="reuse-form__btn--add"
-                        disabled={!this.props.profileImage || this.props.startUpload || this.state.startCapture}
-                        onClick={this.submitMediaHandler}>Change</button>
+                        onClick={this.submitMediaHandler}
+                        disabled={!this.props.imageCapture}>Add</button>
                 </div>
             </div>
         );
@@ -246,16 +278,19 @@ class AddImage extends Component {
 
 const mapStateToProps = state => {
     return {
-        linkValid: state.cnt.linkValid,
-        profileImage: state.cnt.profileImage,
-        imageUrl: state.cnt.imageUrl,
+        linkValid: state.form.linValid,
+        media: state.form.media,
+        imageCapture: state.form.imageCapture
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onCheckLink: (imageLink) => dispatch(actions.checkLinkInit(imageLink, 'image')),
-        onResetLink: () => dispatch(actions.resetLink())
+        onResetLink: () => dispatch(actions.resetLink()),
+        onRemoveMedia: (media) => dispatch(actions.removeMedia(media)),
+        onSubmitMedia: (media) => dispatch(actions.submitMedia(media)),
+        onhideMediaBox: () => dispatch(actions.hideMediaBox()),
     };
 };
 

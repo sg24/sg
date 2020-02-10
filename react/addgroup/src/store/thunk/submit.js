@@ -8,24 +8,22 @@ export const submit = (formData) => {
         let formContent = new FormData();
         
         for (let key in formData) {
-            if (key !== 'video' && key !== 'image' && key !== 'snapshot') {
+            if (key !== 'video' && key !== 'image') {
                 formContent.append(key, formData[key]);
             }
     
             if (key === 'video' && formData[key].length > 0) {
                 for (let video of formData[key]) {
-                    formContent.append(key, video.file, video.id);
+                    let ext = video.file.type.split('/').pop();
+                    formContent.append(key, video.file, `${video.id}.${ext}`);
                 }
             }
     
             if (key === 'image' && formData[key].length > 0) {
                 for (let image of formData[key]) {
-                    formContent.append(key, image.file);
+                    let ext = image.imageCapture.type.split('/').pop();
+                    formContent.append(key, image.imageCapture, `${image.id}.${ext}`);
                 }
-            }
-
-            if (key === 'snapshot' && formData[key].length > 0) {
-                formContent.append(key, JSON.stringify(formData[key]));
             }
         }
 

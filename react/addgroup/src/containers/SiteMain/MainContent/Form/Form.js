@@ -44,7 +44,7 @@ class Form extends  Component {
                 value: '',
                 validation: {
                     required: true,
-                    minLength: 6
+                    minLength: 1
                 },
                 valid: false,
                 touched: false
@@ -53,7 +53,7 @@ class Form extends  Component {
                 value: EditorState.createEmpty(),
                 validation: {
                     required: true,
-                    minLength: 6
+                    minLength: 1
                 },
                 valid: false,
                 touched: false
@@ -182,10 +182,7 @@ class Form extends  Component {
                 categ: this.state.categs,
                 desc: JSON.stringify(convertToRaw(this.state.formElement.content.value.getCurrentContent())),
                 title: this.state.formElement.title.value,
-                video: this.props.media.video ? this.props.media.video : [],
                 image: this.props.media.image ? this.props.media.image: [],
-                snapshot: this.props.snapshot,
-                shareMe: this.props.media.user ? this.props.media.user : [],
                 mode
             }
             this.props.onSubmitForm(newCnt)
@@ -200,7 +197,7 @@ class Form extends  Component {
 
     closeBackdropHandler = () => {
         this.setState({
-            showCateg: false, showAddItm: false});
+            showCateg: false, showAddItm: false,showVidOpt: false,showImgOpt: false,showUserOpt: false});
     }
 
     closeModalHandler = () => {
@@ -208,7 +205,7 @@ class Form extends  Component {
     }
 
     viewCntHandler = () => {
-        window.location.assign('/view/post/' + this.props.id)
+        window.location.assign('/group/' + this.props.id)
     }
 
     render() {
@@ -275,7 +272,7 @@ class Form extends  Component {
                             <FontAwesomeIcon 
                                 icon={['fas', 'users']} />
                             </div> 
-                            Create Group Chat
+                            Add Group
                         </div>
                     </h3>
                     <div className="reuse-form__cnt">
@@ -284,7 +281,7 @@ class Form extends  Component {
                                 <FontAwesomeIcon 
                                     icon={['fas', 'tags']} 
                                     className="icon icon__reuse-form--cnt__tag" />
-                                Tags
+                                Group Tags
                             </label>
                             <div className="reuse-form__cnt--det">
                                 <div className="reuse-form__cnt--det__wrapper">
@@ -332,13 +329,13 @@ class Form extends  Component {
                                     type="text" 
                                     name=""
                                     required
-                                    minLength="6"
+                                    minLength="1"
                                     value={this.state.formElement.title.value}
                                     className="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg"
                                     onChange={(event) => this.inputChangedHandler(event, 'title')} />
                             </div>
                             { !this.state.formElement.title.valid && this.state.formElement.title.touched ?
-                                <div className="reuse-form__err">Group name must be longer than 5 characters</div>
+                                <div className="reuse-form__err">Group Name must not be empty </div>
                                 : null
                             }
                         </div>
@@ -357,7 +354,7 @@ class Form extends  Component {
                                 }}/>
                             </div>
                             { !this.state.formElement.content.valid && this.state.formElement.content.touched ?
-                                <div className="reuse-form__err">Description must be longer than 5 characters</div>
+                                <div className="reuse-form__err">Description must not be empty</div>
                                 : null
                             }
                         </div>
@@ -367,7 +364,7 @@ class Form extends  Component {
                                     <div 
                                         className={addItemClass.join(' ')}
                                         onClick={this.addItemHandler}>
-                                        Add Image 
+                                        Add  Items 
                                         <FontAwesomeIcon 
                                             icon={['fas', 'angle-down']} 
                                             className="icon icon__reuse-form--angle" />
@@ -393,7 +390,7 @@ class Form extends  Component {
                     
                     { this.state.showAddItm ? 
                         <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop></Aux> : null }
-                    { this.state.showImgOpt ? <Aux><Backdrop></Backdrop><AsyncImage /></Aux> : null }
+                    { this.state.showImgOpt ? <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop><AsyncImage /></Aux> : null }
                     { this.props.submitForm && !this.state.showCateg ? 
                         <Aux>
                             <Backdrop></Backdrop>

@@ -12,13 +12,13 @@ class Model extends Component {
         super(props);
         let limit = 0;
         if (window.innerHeight >= 1200) {
-            limit = 6
+            limit = 20;
         } else if(window.innerHeight >= 900) {
-            limit = 4;
+            limit = 16;
         } else if(window.innerHeight >= 500) {
-            limit = 3
+            limit = 12;
         } else {
-            limit = 2;
+            limit = 8;
         }
         this.state = {
             fetchLimit: limit,

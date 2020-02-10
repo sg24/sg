@@ -19,6 +19,7 @@ let profileRoute = require('./routes/profile');
 let viewRoute = require('./routes/view');
 let shareRoute = require('./routes/share');
 let mediaRoute = require('./routes/media');
+let groupRoute = require('./routes/group');
 
 let app = express();
 
@@ -93,6 +94,7 @@ app.use('/poet', poetRoute);
 app.use('/favorite', favoriteRoute);
 app.use('/share', shareRoute);
 app.use('/media', mediaRoute);
+app.use('/group', groupRoute);
 app.use('/sitemap.xml', sitemapxmlRoute);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

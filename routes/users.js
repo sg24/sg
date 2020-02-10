@@ -10,13 +10,18 @@ const {category, user,
      authUser,connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', authenticate,(req, res, next) => {
-    res.render('users')
+    if (!req.authType) {
+        res.render('users')
+    } else {
+        res.redirect('/login')
+    }
 })
 
 router.post('/', authenticate,(req, res, next) => {
     if (req.header && req.header('data-categ') === 'users') {
         return fetchUsers(connectStatus, {
             block: {$ne: req.user},
+            temp: false,
             _id: {$ne: mongoose.mongo.ObjectId(req.user)}
         }, {student: -1}, 
             parseInt(req.header('limit')), parseInt(req.header('skip')), {}, user, {
@@ -25,6 +30,7 @@ router.post('/', authenticate,(req, res, next) => {
             },'user').then(userCnt => {
                 fetchUsers(connectStatus, {
                     block: {$ne: req.user},
+                    temp: false,
                     _id: {$ne: mongoose.mongo.ObjectId(req.user)}
                 }, {student: -1}, 
                     parseInt(req.header('limit')), parseInt(req.header('skip')), {}, authUser, userCnt).then(result => {
@@ -37,6 +43,7 @@ router.post('/', authenticate,(req, res, next) => {
         let isActive = req.header('data-categ').split('-')[1];
         return fetchReq(connectStatus, {
             block: {$ne: req.user},
+            temp: false,
             _id: {$ne: mongoose.mongo.ObjectId(req.user)}
         }, {student: -1}, 
             parseInt(req.header('limit')), parseInt(req.header('skip')), {}, user, {
@@ -45,6 +52,7 @@ router.post('/', authenticate,(req, res, next) => {
             }).then(userCnt => {
                 fetchReq(connectStatus, {
                     block: {$ne: req.user},
+                    temp: false,
                     _id: {$ne: mongoose.mongo.ObjectId(req.user)}
                 }, {student: -1}, 
                     parseInt(req.header('limit')), parseInt(req.header('skip')), {}, authUser, userCnt).then(result => {
@@ -57,6 +65,7 @@ router.post('/', authenticate,(req, res, next) => {
     if (req.header && req.header('data-categ') === 'student') {
         return fetchTeacher(connectStatus, {
             block: {$ne: req.user},
+            temp: false,
             _id: {$ne: mongoose.mongo.ObjectId(req.user)}
         }, {student: -1}, 
             parseInt(req.header('limit')), parseInt(req.header('skip')), {}, user, {
@@ -65,6 +74,7 @@ router.post('/', authenticate,(req, res, next) => {
             }).then(userCnt => {
                 fetchTeacher(connectStatus, {
                     block: {$ne: req.user},
+                    temp: false,
                     _id: {$ne: mongoose.mongo.ObjectId(req.user)}
                 }, {student: -1}, 
                     parseInt(req.header('limit')), parseInt(req.header('skip')), {}, authUser, userCnt).then(result => {
@@ -134,6 +144,7 @@ router.post('/', authenticate,(req, res, next) => {
                 connectStatus,
                 {$text: { $search: `\"${filter.searchCnt}\"`},
                 block: {$ne: req.user},
+                temp: false,
                 _id: {$ne: mongoose.mongo.ObjectId(req.user)},
                 ...filterCnt},
                 { score: { $meta: "textScore" } },
@@ -146,6 +157,7 @@ router.post('/', authenticate,(req, res, next) => {
                     connectStatus,
                     {$text: { $search: `\"${filter.searchCnt}\"`},
                     block: {$ne: req.user},
+                    temp: false,
                     _id: {$ne: mongoose.mongo.ObjectId(req.user)},
                     ...filterCnt},
                     { score: { $meta: "textScore" } },

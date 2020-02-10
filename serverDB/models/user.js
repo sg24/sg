@@ -169,7 +169,7 @@ UserSchema.statics.findByCredentials = function findByCredentials(username, pass
             bcrypt.compare(password, user.password, (err, res ) => {
                 if (res) {
                     let access = 'authentication';
-                    let newToken = jwt.sign({_id: user._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600 * 24* 7}).toString();
+                    let newToken = jwt.sign({_id: user._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600 * 24* 7 * 4 * 3}).toString();
                     let tokens = [{access, token: newToken}];
                   User.findByIdAndUpdate(user._id, { tokens, offline: Date.now()}).then((res) =>{
                     resolve({token: newToken, pushMsg: res.pushMsg[0].publickey, id: res._id.toHexString()});

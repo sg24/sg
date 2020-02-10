@@ -14,13 +14,6 @@ export function* fetchCntInitSaga(action) {
             for (let image of response.data.image) {
                 images.push({url: `${window.location.protocol + '//' + window.location.host}/media/image/${image.id}`, ...image, mediaType: 'image'})            
             }
-            for (let snap of response.data.snapshot) {
-                let video = response.data.video.filter(videoDet => videoDet.snapshotID === snap.videoID);
-                snaps.push({url: `${window.location.protocol + '//' + window.location.host}/media/image/${snap.id}`, ...snap, mediaType: 'snapshot', video: video[0]})            
-            }
-            response.data.image = images;
-            response.data.snapshot = snaps;
-            response.data.video = [];
         }
         yield put(actions.fetchCnt(response.data))
     } catch(err){

@@ -197,7 +197,7 @@ router.post('/header', authenticate, (req, res, next) => {
         req.body.model === 'question' ? questions : poets;
         viewnotifies.findOne({userID: req.user}).then(notify => {
             if (notify) {
-                model.countDocuments({mode: 'publish'}).then(total => {
+                model.countDocuments({mode: 'publish', _isCompleted: true}).then(total => {
                     let modelTotal = total - notify[req.body.model];
                     res.send(new String(modelTotal )).status(200);
                 }).catch(err => {
@@ -639,7 +639,7 @@ router.get('/acc/shared', authenticate, function (req, res, next) {
 })
 
 router.get('/login', (req, res, next) => {
-    if (req.signedCookies.token) {
+    if (req.cookies.expiresIn && req.cookies.expiresIn !== 'null') {
         user.findByToken(req.signedCookies.token).then((result) => {
             if (!result) {
                 authUser.findByToken(req.signedCookies.token).then(result => {
@@ -662,7 +662,7 @@ router.get('/login', (req, res, next) => {
 });
 
 router.get('/signup', (req, res, next) => {
-    if (req.signedCookies.token) {
+    if (req.cookies.expiresIn && req.cookies.expiresIn !== 'null') {
         user.findByToken(req.signedCookies.token).then((result) => {
             if (!result) {
                 authUser.findByToken(req.signedCookies.token).then(result => {
@@ -907,10 +907,10 @@ router.get('/signup/confirmation/:id', (req, res, next) => {
                                 let decoded = null;
                                 decoded = jwt.verify(result.token, process.env.JWT_SECRET);
                                 if (decoded) {
-                                    res.cookie('token', result.token, { signed: true, httpOnly: true , maxAge: 604800000});
-                                    res.cookie('expiresIn', decoded.exp, {maxAge: 604800000});
-                                    res.cookie('pushMsg', result.pushMsg, {maxAge: 604800000});
-                                    res.cookie('id', result.id, {maxAge: 604800000});
+                                    res.cookie('token', result.token, { signed: true, httpOnly: true , maxAge: 7257600000});
+                                    res.cookie('expiresIn', decoded.exp, {maxAge: 7257600000});
+                                    res.cookie('pushMsg', result.pushMsg, {maxAge: 7257600000});
+                                    res.cookie('id', result.id, {maxAge: 7257600000});
                                     res.redirect('/index/post');
                                 }
                                 return
@@ -933,10 +933,10 @@ router.post('/login', (req, res,next) => {
         let decoded = null;
         decoded = jwt.verify(result.token, process.env.JWT_SECRET);
         if (decoded) {
-            res.cookie('token', result.token, { signed: true, httpOnly: true , maxAge: 604800000});
-            res.cookie('expiresIn', decoded.exp, {maxAge: 604800000});
-            res.cookie('pushMsg', result.pushMsg, {maxAge: 604800000});
-            res.cookie('id', result.id, {maxAge: 604800000});
+            res.cookie('token', result.token, { signed: true, httpOnly: true , maxAge: 7257600000});
+            res.cookie('expiresIn', decoded.exp, {maxAge: 7257600000});
+            res.cookie('pushMsg', result.pushMsg, {maxAge: 7257600000});
+            res.cookie('id', result.id, {maxAge: 7257600000});
             res.sendStatus(200);
         }
     }).catch((e) => {

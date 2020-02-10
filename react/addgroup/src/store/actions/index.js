@@ -74,7 +74,7 @@ export {
     submitFormStart,
     submitForm,
     formSubmitted,
-    addGroupImg
+    groupImage,
 } from './form';
 
 export {

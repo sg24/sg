@@ -10,15 +10,15 @@ module.exports =  checkStatus = (token, modelType, res) => {
     let model = modelType === 'authUser' ? authUser : user;
     if ((oldDate > newDate) && expire < 1) {
         let access = 'authentication';
-        let newToken = jwt.sign({_id: decoded._id, access}, process.env.JWT_SECRET, { expiresIn: 3600*24*7}).toString();
+        let newToken = jwt.sign({_id: decoded._id, access}, process.env.JWT_SECRET, { expiresIn: 3600*24*7*4*3}).toString();
         let tokens = [{access, token: newToken}];
         model.findByIdAndUpdate(decoded._id, {tokens}).then(result => {
             let updateCookie = jwt.verify(newToken, process.env.JWT_SECRET);
             if (updateCookie) {
-                res.cookie('token', newToken, { signed: true, httpOnly: true , maxAge: 604800000});
-                res.cookie('expiresIn', updateCookie.exp, {maxAge: 604800000});
-                res.cookie('pushMsg', result.pushMsg[0].publickey, {maxAge: 604800000});
-                res.cookie('id', result._id, {maxAge: 604800000});
+                res.cookie('token', newToken, { signed: true, httpOnly: true , maxAge: 7257600000});
+                res.cookie('expiresIn', updateCookie.exp, {maxAge: 7257600000});
+                res.cookie('pushMsg', result.pushMsg[0].publickey, {maxAge: 7257600000});
+                res.cookie('id', result._id, {maxAge: 7257600000});
             }
         }).catch(err => err)
     }

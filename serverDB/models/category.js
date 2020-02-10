@@ -17,6 +17,10 @@ const CategorySchema = new Schema({
     poet: {
         type: Array,
         default: [String]
+    },
+    group: {
+        type: Array,
+        default: [String]
     }
 })
 

@@ -9,8 +9,8 @@ const noAcc = props => {
         <div className="reuse-no-acc__cnt">
             <h4 className="reuse-no-acc__cnt--title">You are not logged in.</h4>
             <ul>
-                <li><a href="/" className="reuse-no-acc__cnt--login">login in</a> </li>
-                <li><a href="/" className="reuse-no-acc__cnt--sign">sign up</a></li>
+                <li><a href="/login" className="reuse-no-acc__cnt--login">login in</a> </li>
+                <li><a href="/signup" className="reuse-no-acc__cnt--sign">sign up</a></li>
             </ul>
         </div>
     );

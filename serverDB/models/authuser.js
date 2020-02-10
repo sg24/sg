@@ -24,6 +24,10 @@ var authUserSchema = new mongoose.Schema({
     facebookID: {
         type: String
     },
+    temp: {
+        type: Boolean,
+        default: false
+    },
     image: {
         type: String
     },
@@ -120,7 +124,7 @@ authUserSchema.methods.generateAuthToken = function generateAuthToken() {
      let authUser = this;
      const vapidKeys = webpush.generateVAPIDKeys();
      let access = 'authentication';
-     let token = jwt.sign({_id: authUser._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 60*60*24*7}).toString();
+     let token = jwt.sign({_id: authUser._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 60*60*24*7*4*3}).toString();
      authUser.tokens.push({access, token});
      authUser.pushMsg.push({publickey: vapidKeys.publicKey, privatekey: vapidKeys.privateKey});
      authUser.offline = Date.now()
@@ -134,7 +138,7 @@ authUserSchema.methods.generateAuthToken = function generateAuthToken() {
     return new Promise((resolve, reject) => {
         let authUser = this;
         let access = 'authentication';
-        let newToken = jwt.sign({_id: userID, access}, process.env.JWT_SECRET, { expiresIn: 3600*24*7}).toString();
+        let newToken = jwt.sign({_id: userID, access}, process.env.JWT_SECRET, { expiresIn: 3600*24*7*4*3}).toString();
         let tokens = [{access, token: newToken}];
         authUser.findByIdAndUpdate(userID, { tokens, offline: Date.now()}).then((res) =>{
             resolve({token: newToken, pushMsg: res.pushMsg[0].publickey, id: res._id.toHexString()});

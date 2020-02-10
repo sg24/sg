@@ -9,6 +9,7 @@ const initialState = {
     hideMediaBox: false,
     hidAddItm: false,
     linkValid: null,
+    snapshot: [],
     media: {},
     curTab: 'online',
     startUser: true,
@@ -20,6 +21,7 @@ const initialState = {
     uploadPercent: null,
     submitError: null,
     submitForm: false,
+    imageCapture: null,
     id: null
 };
 
@@ -61,6 +63,10 @@ const removeSnapshot= (state, action) => {
 
 const removeMedia = (state, action) => {
     return updateObject(state, {media: action.media})
+};
+
+const imageCapture = (state, action) => {
+    return updateObject(state, {imageCapture: action.imageCapture})
 };
 
 const submitMedia = (state, action) => {
@@ -124,10 +130,6 @@ const formSubmitted = (state, action) => {
     return updateObject(state, {id: action.id})
 };
 
-const addGroupImg = (state, action) => {
-
-};
-
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_CATEG_START:
@@ -152,6 +154,8 @@ const reducer = (state = initialState, action) => {
             return addSnapshot(state, action);
         case actionTypes.REMOVE_SNAPSHOT:
             return removeSnapshot(state, action);
+         case actionTypes.IMAGE_CAPTURE:
+            return imageCapture(state, action);
         case actionTypes.REMOVE_MEDIA:
             return removeMedia(state, action);
         case actionTypes.SUBMIT_MEDIA:
@@ -178,8 +182,6 @@ const reducer = (state = initialState, action) => {
             return submitFormFail(state, action);
         case actionTypes.FORM_SUBMITTED:
             return formSubmitted(state, action);
-        case actionTypes.ADD_GROUPIMG:
-            return addGroupImg(state, action);
         default: return state
     };
 };

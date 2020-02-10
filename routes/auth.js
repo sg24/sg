@@ -13,10 +13,10 @@ passport.authenticate('google', { failureRedirect: '/login', failureFlash: false
     let decoded = null;
     decoded = jwt.verify(req.user.token, process.env.JWT_SECRET);
     if (decoded) {
-        res.cookie('token', req.user.token, { signed: true, httpOnly: true , maxAge: 604800000});
-        res.cookie('expiresIn', decoded.exp, {maxAge: 604800000});
-        res.cookie('pushMsg', req.user.pushMsg, {maxAge: 604800000});
-        res.cookie('id', req.user.id, {maxAge: 604800000});
+        res.cookie('token', req.user.token, { signed: true, httpOnly: true , maxAge: 7257600000});
+        res.cookie('expiresIn', decoded.exp, {maxAge: 7257600000});
+        res.cookie('pushMsg', req.user.pushMsg, {maxAge: 7257600000});
+        res.cookie('id', req.user.id, {maxAge: 7257600000});
         res.redirect('/');
     }
 });
@@ -29,10 +29,10 @@ passport.authenticate('facebook', { failureRedirect: '/login', failureFlash: fal
     let decoded = null;
     decoded = jwt.verify(req.user.token, process.env.JWT_SECRET);
     if (decoded) {
-        res.cookie('token', req.user.token, { signed: true, httpOnly: true , maxAge: 604800000});
-        res.cookie('expiresIn', decoded.exp, {maxAge: 604800000});
-        res.cookie('pushMsg', req.user.pushMsg, {maxAge: 604800000});
-        res.cookie('id', req.user.id, {maxAge: 604800000});
+        res.cookie('token', req.user.token, { signed: true, httpOnly: true , maxAge: 7257600000});
+        res.cookie('expiresIn', decoded.exp, {maxAge: 7257600000});
+        res.cookie('pushMsg', req.user.pushMsg, {maxAge: 7257600000});
+        res.cookie('id', req.user.id, {maxAge: 7257600000});
         res.redirect('/');
     }
 });

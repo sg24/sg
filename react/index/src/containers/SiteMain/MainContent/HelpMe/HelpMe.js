@@ -189,20 +189,12 @@ class Questions extends Component {
         if (this.props.cntErr) {
             cnt = null
         }
-
+        
         if (this.props.cnts && this.props.cnts.length === 0 ) {
             cnt = <NoAcc 
-                    isAuth={this.props.userID !== null}
+                    isAuth={this.props.status}
                     det='No Shared Question found!'
-                    icn='clone'
-                    filter />
-        }
-
-        if (this.props.cnts && this.props.cnts.length === 0 ) {
-            cnt = <NoAcc 
-                    isAuth={this.props.userID !== null}
-                    det='No Shared Question found!'
-                    icn='clone'
+                    icn='hand-paper'
                     filter />
         }
 
@@ -239,7 +231,7 @@ class Questions extends Component {
 
 const mapStateToProps = state => {
     return {
-        userID: state.auth.userID,
+        status: state.auth.status,
         cnts: state.cnt.cnts,
         skipCnt: state.cnt.skipCnt,
         cntTotal: state.cnt.cntTotal,

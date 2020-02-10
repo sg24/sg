@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import Cropper from 'react-cropper';
 import { connect } from 'react-redux';
 import 'cropperjs/dist/cropper.css';
+import uuid from 'uuid';
 
-import { dataURLtoBlob } from '../../../../../../shared/utility';
+import { dataURLtoBlob, updateObject } from '../../../../../../shared/utility';
 import * as actions from '../../../../../../store/actions/index';
 
 const cropper = React.createRef(null);
@@ -16,10 +17,10 @@ class mediaItem extends Component {
         let image = cropper.current.cropper.getCroppedCanvas({ imageSmoothingQuality: 'high'}).toDataURL()
         let file = dataURLtoBlob(image);
         let url = window.URL.createObjectURL(file);
-        this.setState({url})
-        this.props.onImageChange(image, url)
+        this.setState({url});
+        this.props.onImageCapture({imageUrl: this.props.url, imageCapture: file, id: uuid()})
     }
-
+    
   render() {
       let preview = null
       if (this.state.url) {
@@ -54,7 +55,7 @@ class mediaItem extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onImageChange: (image, url) => dispatch(actions.addGroupImg(image, url))
+        onImageCapture: (imageCapture) => dispatch(actions.groupImage(imageCapture))
     };
 };
 

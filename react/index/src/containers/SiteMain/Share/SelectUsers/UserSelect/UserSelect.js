@@ -9,7 +9,7 @@ import * as actions from '../../../../../store/actions/index';
 
 class UserSelect extends Component {
     state = {
-        users: null
+        users: this.props.userSelect 
     };
 
     removeSelectedUserHandler = (user) => {
@@ -27,12 +27,6 @@ class UserSelect extends Component {
             });
             return
         }
-    }
-
-    componentDidMount() {
-        this.setState({
-            users: this.props.userSelect 
-        });
     }
 
     componentDidUpdate() {

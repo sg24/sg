@@ -221,10 +221,11 @@ export const formSubmitted = (id) => {
     };
 };
 
-export const addGroupImg = (image, url) => {
+export const groupImage = (imageCapture) => {
     return {
-        type: actionTypes.ADD_GROUPIMG,
-        image,
-        url
+        type: actionTypes.IMAGE_CAPTURE,
+        imageCapture
     };
 };
+
+

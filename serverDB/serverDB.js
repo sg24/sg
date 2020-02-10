@@ -11,6 +11,7 @@ const usernotifies = require('./models/usernotifies');
 const viewnotifies = require('./models/viewnotifies');
 const favorite = require('./models/favorites');
 const comment = require('./models/comment');
+const group = require('./models/group');
 const user = require('./models/user');
 const tempUser = require('./models/tempUser');
 const authUser = require('./models/authuser');
@@ -22,6 +23,7 @@ module.exports = {
     poets,
     category,
     user,
+    group,
     tempUser,
     authUser,
     comment,
