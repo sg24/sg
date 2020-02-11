@@ -28,6 +28,10 @@ var authUserSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    created: {
+        type: Date,
+        default: Date.now
+    },
     image: {
         type: String
     },

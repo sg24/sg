@@ -18,7 +18,7 @@ class Share extends Component {
     componentWillUnmount() {
         this.props.onDefaultShareProps();
     }
-    
+
     render() { 
         let shareCnt = (
             <div className="reuse-share__wrapper">  
@@ -54,7 +54,7 @@ class Share extends Component {
             </div>
         );
 
-        if (!this.props.shareID || !this.props.status) {
+        if (!this.props.shareID) {
             this.closeShareHandler();
             share = null
         };

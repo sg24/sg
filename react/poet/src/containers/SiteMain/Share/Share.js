@@ -31,7 +31,8 @@ class Share extends Component {
         if (this.props.start) {
             shareCnt=(
                 <div className="reuse-share__wrapper">  
-                    <Loader />
+                    <Loader 
+                        cnt="Sharing ....."/>
                 </div>
             )
         }
@@ -53,7 +54,7 @@ class Share extends Component {
             </div>
         );
 
-        if (!this.props.shareID || !this.props.status) {
+        if (!this.props.shareID) {
             this.closeShareHandler();
             share = null
         };

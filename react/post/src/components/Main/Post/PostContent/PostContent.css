@@ -210,19 +210,19 @@
 }
 
 .reuse-pt__media--wrapper__anim {
-    animation: slide-in 3s linear -2s reverse backwards;
+    animation: slide-in 4s linear -2s reverse backwards;
 }
 
 .reuse-pt__media--wrapper__anim-rev {
-    animation: slide-rev 3s linear -2s  forwards;
+    animation: slide-rev 4s linear -2s  forwards;
 }
 
 .reuse-pt__media--wrapper__anim-exit {
-    animation: slide-rev-exit 3.2s linear -2s reverse backwards;
+    animation: slide-rev-exit 4s linear -2s reverse backwards;
 }
 
 .reuse-pt__media--wrapper__anim-exit-rev {
-    animation: slide-in-exit 3.2s linear -2s forwards;
+    animation: slide-in-exit 4s linear -2s forwards;
 }
 
 .reuse-pt__media--wrapper__icn {

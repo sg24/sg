@@ -1,4 +1,5 @@
 import React from 'react';
+import MetaTags from 'react-meta-tags';
 import Avatar from 'react-avatar';
 import TimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
@@ -57,6 +58,33 @@ const modelContent = props => {
     let mediaCnt =  [...props.cnt.snapshot, ...props.cnt.image];
     let playVideo = null;
     let mediaWrapperClass = ['reuse-pt__media--wrapper'];
+
+let meta = null;
+    let metaCateg = props.cnt.category && props.cnt.category.length > 0 ? props.cnt.category.filter(categ => categ === 'facebook game') : null; 
+    if (metaCateg.length > 0) {
+        let yrs = Math.floor(Math.random()*20);
+        meta = (
+             <MetaTags>
+                <meta property="og:title" content={`This is when you marry, next ${yrs} ${yrs > 1 ? 'years' : 'year'}`} />
+                <meta property="og:type" content="article" />
+                <meta property="og:url" content={`${props.url}`} />
+                <meta property="og:image" content={`https://images.pexels.com/photos/256737/pexels-photo-256737.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=1200`} />
+                <meta property="og:description" content="slodge24 | Knowledge sharing platform."/>
+                <meta property="og:site_name" content={`https://www.slodge24.com - When will you get married?`}/>	
+            </MetaTags>
+        )
+    } else {
+        meta = (
+             <MetaTags>
+                <meta property="og:title" content={`${props.cnt.title}`} />
+                <meta property="og:type" content="article" />
+                <meta property="og:url" content={`${props.url}`} />
+                {mediaCnt.length > 0 ?  <meta property="og:image" content={`${mediaCnt[0].url}`} /> : null}
+                <meta property="og:description" content={`${props.cntGrp === 'post' ? desc.blocks[0].text : 'slodge24 | Knowledge sharing platform'}`}/>
+                <meta property="og:site_name" content={`https://www.slodge24.com`}/>	
+            </MetaTags>
+        )
+    }
 
     if (mediaCnt.length > 0 && props.cntGrp !== 'poet') {
         let isShowned = false;
@@ -315,6 +343,7 @@ const modelContent = props => {
 
     return (
         <div className="reuse-view">
+            { meta }
         <div className="reuse-view__main">
             { header }
             {/* <ul className="site-main__content--tab">

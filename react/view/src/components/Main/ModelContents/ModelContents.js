@@ -39,7 +39,8 @@ const modelContents = props => {
             reply={props.reply}
             correct={props.correct}
             wrong={props.wrong}
-            commentTotal={props.commentTotal}/>
+            commentTotal={props.commentTotal}
+            url={props.url}/>
     )
     return contents;
 }

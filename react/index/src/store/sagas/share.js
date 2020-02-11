@@ -14,20 +14,22 @@ export function* fetchUsersInitSaga () {
 }
 
 export function* filterUserInitSaga(action) {
-   let filterUser = action.users.filter(user => user.username.toLowerCase().indexOf(action.filterContent.toLowerCase()) !== -1);
+   let filterUser = null;
    if (!action.filterContent) {
         filterUser = action.users
+    } else {
+        filterUser = action.users.filter(user => user.username.toLowerCase().indexOf(action.filterContent.toLowerCase()) !== -1);
     }
    yield put(actions.filterUser(filterUser))
 }
 
 export function* filterUserSelectInitSaga(action) {
-    let filterUser = action.userSelect.filter(user => user.username.toLowerCase().indexOf(action.filterContent.toLowerCase()) !== -1 );
-  
+    let filterUser = null;
     if (!action.filterContent) {
         filterUser = action.userSelect
+    } else {
+        filterUser = action.userSelect.filter(user => user.username.toLowerCase().indexOf(action.filterContent.toLowerCase()) !== -1 );
     }
-
     yield put(actions.filterUserSelect(filterUser))
 }
 

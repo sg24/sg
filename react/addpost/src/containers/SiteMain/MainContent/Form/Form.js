@@ -69,7 +69,8 @@ class Form extends  Component {
         },
         formIsValid: false,
         showForm: false,
-        mode: null
+        mode: null,
+        isGame: false
     }
 
     componentDidUpdate() {
@@ -78,9 +79,16 @@ class Form extends  Component {
         }
 
         if (this.state.addNewCateg && this.props.newCateg) {
-            let categs = [...this.state.categs]
+            let categs = [...this.state.categs];
+            let isGame = false;
             categs.push(...this.props.newCateg);
-            this.setState({categs,addNewCateg: false, noCateg: !categs.length > 1})
+            for (let categ of categs) {
+                if (categ === 'facebook game') {
+                    isGame= true;
+                }
+            }
+
+            this.setState({categs,addNewCateg: false, noCateg: !categs.length > 1, isGame})
         }
         if (this.state.showAddItmOpt && this.props.hideMediaBox) {
             this.props.onShowMediaBox();
@@ -273,6 +281,10 @@ class Form extends  Component {
             )
         }
 
+        if (this.state.isGame) {
+
+        }
+
         return (
             <form className="reuse-form">
                 <div className="reuse-form__wrapper">
@@ -328,6 +340,87 @@ class Form extends  Component {
                             </div>
                             { categItems }
                             { this.state.noCateg ?
+                                <div className="reuse-form__err">Select or Add New Category</div>
+                                : null
+                            }
+                        </div>
+                        <div className="reuse-form__cnt--wrapper">
+                            <label className="reuse-form__cnt--title">Set Game Question</label>
+                            <div className="reuse-form__cnt--det">
+                                <input 
+                                    type="text" 
+                                    name=""
+                                    required
+                                    minLength="1"
+                                    value={this.state.formElement.title.value}
+                                    className="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg"
+                                    onChange={(event) => this.inputChangedHandler(event, 'game')}
+                                    placeholder="When you are old ?" />
+                            </div>
+                            { !this.state.formElement.title.valid && this.state.formElement.title.touched ?
+                                <div className="reuse-form__err">Game question must not be empty </div>
+                                : null
+                            }
+                        </div>
+                        <div className="reuse-form__cnt--wrapper">
+                            <label className="reuse-form__cnt--title">Set Game Answer</label>
+                            <div className="reuse-form__cnt--det">
+                                <input 
+                                    type="text" 
+                                    name=""
+                                    required
+                                    minLength="1"
+                                    value={this.state.formElement.gameans.value}
+                                    className="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg"
+                                    onChange={(event) => this.inputChangedHandler(event, 'gameans')}
+                                    placeholder="This how you will look" />
+                            </div>
+                            { !this.state.formElement.title.valid && this.state.formElement.title.touched ?
+                                <div className="reuse-form__err">Game answer must not be empty </div>
+                                : null
+                            }
+                        </div>
+                        <div className="reuse-form__cnt--wrapper">
+                            <label className="reuse-form__cnt--title">
+                                <FontAwesomeIcon 
+                                    icon={['fas', 'tags']} 
+                                    className="icon icon__reuse-form--cnt__tag" />
+                                Tags
+                            </label>
+                            <div className="reuse-form__cnt--det">
+                                <div className="reuse-form__cnt--det__wrapper">
+                                    <div 
+                                        className={categListClass.join(' ')}
+                                        onClick={this.showCategHandler}>
+                                        Category 
+                                        <FontAwesomeIcon 
+                                            icon={['fas', 'angle-down']} 
+                                            className="icon icon__reuse-form--angle" />
+                                       { addCateg }
+                                    </div>
+                                    <div className="reuse-form__cnt--det__alt">
+                                        <div className="reuse-form__cnt--det__alt--title">
+                                            <div>OR</div>
+                                        </div>
+                                        <div className="reuse-form__cnt--det__alt--cnt">
+                                            <input 
+                                                type="text" name="" id="" 
+                                                className="reuse-form__cnt--det__input" 
+                                                placeholder="Write new category ..." 
+                                                value={this.state.addCategInput}
+                                                onChange={this.addCategHandler}/>
+                                            <button
+                                                type="button"
+                                                onClick={this.addNewCategHandler}
+                                                disabled={this.state.disable}>
+                                                <FontAwesomeIcon 
+                                                icon={['fas', 'plus']} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            { this.state.gamefullans?
                                 <div className="reuse-form__err">Select or Add New Category</div>
                                 : null
                             }

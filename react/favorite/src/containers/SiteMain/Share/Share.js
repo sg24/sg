@@ -54,7 +54,7 @@ class Share extends Component {
             </div>
         );
 
-        if (!this.props.shareID || !this.props.status) {
+        if (!this.props.shareID) {
             this.closeShareHandler();
             share = null
         };

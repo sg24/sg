@@ -559,11 +559,16 @@ router.delete('/header', authenticate,(req,res, next) =>  {
 // });
 
 router.get('/add/question', authenticate,(req, res, next) => {
-    res.render('queform');
+    if (!req.authType) {
+        res.render('queform');
+    } else {
+        res.redirect('/login')
+    }
+    
 });
 
 router.get('/edit/question/:id', authenticate, (req, res, next) => {
-    if (req.params) { 
+    if (req.params && !req.authType) { 
         res.render('editque'); 
     } else {
         res.redirect('/')
@@ -571,11 +576,16 @@ router.get('/edit/question/:id', authenticate, (req, res, next) => {
 });
 
 router.get('/add/post', authenticate, (req, res, next) => {
-    res.render('postform');
+    if (!req.authType) {
+        res.render('postform');
+    } else {
+        res.redirect('/login')
+    }
+    
 });
 
 router.get('/edit/post/:id', authenticate, (req, res, next) => {
-    if (req.params) { 
+    if (req.params && !req.authType) { 
         res.render('editpost'); 
     } else {
         res.redirect('/')
@@ -591,11 +601,15 @@ router.get('/edit/post/:id', authenticate, (req, res, next) => {
 // });
 
 router.get('/add/poet', authenticate, (req, res, next) => {
-    res.render('poetwriterform'); 
+    if (!req.authType) {
+        res.render('poetwriterform');
+    } else {
+        res.redirect('/login')
+    }
 });
 
 router.get('/edit/poet/:id', authenticate, (req, res, next) => {
-    if (req.params) { 
+    if (req.params && !req.authType) { 
         res.render('editpoet'); 
     } else {
         res.redirect('/')

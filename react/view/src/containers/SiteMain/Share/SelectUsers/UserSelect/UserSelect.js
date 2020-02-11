@@ -9,7 +9,7 @@ import * as actions from '../../../../../store/actions/index';
 
 class UserSelect extends Component {
     state = {
-        users: null
+        users: this.props.userSelect 
     };
 
     removeSelectedUserHandler = (user) => {
@@ -29,14 +29,8 @@ class UserSelect extends Component {
         }
     }
 
-    componentDidMount() {
-        this.setState({
-            users: this.props.userSelect 
-        });
-    }
-
     componentDidUpdate() {
-        if (this.props.filterUserSelect && this.state.users !== this.props.filterUserSelect) {
+        if (this.props.filterUserSelect && JSON.stringify(this.state.users) !== JSON.stringify(this.props.filterUserSelect)) {
             this.setState({
                     users: this.props.filterUserSelect
             });

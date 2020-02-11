@@ -40,19 +40,17 @@ class ShareOpt extends Component {
     }
 
     shareUserHandler = () => {
-        this.props.onShareUser(this.props.userSelect, this.props.shareID)
+        this.props.onShareUser(this.props.userSelect, this.props.shareID, this.props.cntType)
     };
 
     facebookShareHandler = () => {
-        let path = document.location.pathname.split('/')[1];
-        var facebookWindow = window.open(`https://www.facebook.com/sharer/sharer.php?u=${document.location.origin}/view/${path}/${this.props.shareID}`, 'facebook-popup', 'height=350,width=600');
+        var facebookWindow = window.open(`https://www.facebook.com/sharer/sharer.php?u=${document.location.origin}/view/${this.props.cntType}/${this.props.shareID}`, 'facebook-popup', 'height=350,width=600');
         if(facebookWindow.focus) { facebookWindow.focus(); }
           return false;
     }
 
     twitterShareHandler = () => {
-        let path = document.location.pathname.split('/')[1];
-        var twitterWindow = window.open(`https://twitter.com/share?url=${document.location.origin}/view/${path}/${this.props.shareID}`, 'twitter-popup', 'height=350,width=600');
+        var twitterWindow = window.open(`https://twitter.com/share?url=${document.location.origin}/view/${this.props.cntType}/${this.props.shareID}`, 'twitter-popup', 'height=350,width=600');
           if(twitterWindow.focus) { twitterWindow.focus(); }
             return false;
     }
@@ -102,14 +100,15 @@ const mapStateToProps = state => {
     return {
         userSelect: state.share.userSelect,
         viewAllUsers: state.share.viewAllUsers,
-        shareID: state.share.shareID
+        shareID: state.share.shareID,
+        cntType: state.share.cntType
     };
 };
 
 const mapDispatchToProp = dispatch => {
     return {
         onViewUsers: () => dispatch(actions.viewUsers()),
-        onShareUser: (userSelect, shareID) => dispatch(actions.shareUserInit(userSelect, shareID))
+        onShareUser: (userSelect, shareID, cntType) => dispatch(actions.shareUserInit(userSelect, shareID, cntType))
     };
 };
 

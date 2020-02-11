@@ -30,7 +30,7 @@ class UserSelect extends Component {
     }
 
     componentDidUpdate() {
-        if (this.props.filterUserSelect && this.state.users !== this.props.filterUserSelect) {
+        if (this.props.filterUserSelect && JSON.stringify(this.state.users) !== JSON.stringify(this.props.filterUserSelect)) {
             this.setState({
                     users: this.props.filterUserSelect
             });

@@ -30,6 +30,10 @@ var UserSchema = new mongoose.Schema({
     image: {
         type: String
     },
+    created: {
+        type: Date,
+        default: Date.now
+    },
     comment:{
         type: Number,
         default: 0

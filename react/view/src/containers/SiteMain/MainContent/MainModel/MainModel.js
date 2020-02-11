@@ -247,7 +247,8 @@ class Model extends Component {
                     reply={this.replyHandler}
                     correct={this.correctHandler}
                     wrong={this.wrongHandler}
-                    commentTotal={this.props.commentTotal}/>
+                    commentTotal={this.props.commentTotal}
+                    url={`${window.location.protocol + '//' + window.location.host}/view/${this.state.categ}/${this.state.id}`}/>
         }
 
         return cnt

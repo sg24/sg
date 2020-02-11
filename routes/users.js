@@ -19,31 +19,32 @@ router.get('/', authenticate,(req, res, next) => {
 
 router.post('/', authenticate,(req, res, next) => {
     if (req.header && req.header('data-categ') === 'users') {
-        return fetchUsers(connectStatus, {
-            block: {$ne: req.user},
-            temp: false,
-            _id: {$ne: mongoose.mongo.ObjectId(req.user)}
-        }, {student: -1}, 
-            parseInt(req.header('limit')), parseInt(req.header('skip')), {}, user, {
-                cnt: [],
-                cntTotal: 0
-            },'user').then(userCnt => {
-                fetchUsers(connectStatus, {
-                    block: {$ne: req.user},
-                    temp: false,
-                    _id: {$ne: mongoose.mongo.ObjectId(req.user)}
-                }, {student: -1}, 
-                    parseInt(req.header('limit')), parseInt(req.header('skip')), {}, authUser, userCnt).then(result => {
-                        res.status(200).send(result);
-                    })
-            })
+        if (!req.authType) {
+            return fetchUsers(connectStatus, {
+                block: {$ne: req.user},
+                _id: {$ne: mongoose.mongo.ObjectId(req.user)}
+            }, {student: -1}, 
+                parseInt(req.header('limit')), parseInt(req.header('skip')), {}, user, {
+                    cnt: [],
+                    cntTotal: 0
+                },'user').then(userCnt => {
+                    fetchUsers(connectStatus, {
+                        block: {$ne: req.user},
+                        _id: {$ne: mongoose.mongo.ObjectId(req.user)}
+                    }, {student: -1}, 
+                        parseInt(req.header('limit')), parseInt(req.header('skip')), {}, authUser, userCnt).then(result => {
+                            res.status(200).send(result);
+                        })
+                })
+        } else {
+            res.send({cnt:[], cntTotal: 0}).status(200);
+        }
     }
 
     if (req.header && req.header('data-categ') && req.header('data-categ').startsWith('request')) {
         let isActive = req.header('data-categ').split('-')[1];
         return fetchReq(connectStatus, {
             block: {$ne: req.user},
-            temp: false,
             _id: {$ne: mongoose.mongo.ObjectId(req.user)}
         }, {student: -1}, 
             parseInt(req.header('limit')), parseInt(req.header('skip')), {}, user, {
@@ -52,7 +53,6 @@ router.post('/', authenticate,(req, res, next) => {
             }).then(userCnt => {
                 fetchReq(connectStatus, {
                     block: {$ne: req.user},
-                    temp: false,
                     _id: {$ne: mongoose.mongo.ObjectId(req.user)}
                 }, {student: -1}, 
                     parseInt(req.header('limit')), parseInt(req.header('skip')), {}, authUser, userCnt).then(result => {
@@ -65,7 +65,6 @@ router.post('/', authenticate,(req, res, next) => {
     if (req.header && req.header('data-categ') === 'student') {
         return fetchTeacher(connectStatus, {
             block: {$ne: req.user},
-            temp: false,
             _id: {$ne: mongoose.mongo.ObjectId(req.user)}
         }, {student: -1}, 
             parseInt(req.header('limit')), parseInt(req.header('skip')), {}, user, {
@@ -74,7 +73,6 @@ router.post('/', authenticate,(req, res, next) => {
             }).then(userCnt => {
                 fetchTeacher(connectStatus, {
                     block: {$ne: req.user},
-                    temp: false,
                     _id: {$ne: mongoose.mongo.ObjectId(req.user)}
                 }, {student: -1}, 
                     parseInt(req.header('limit')), parseInt(req.header('skip')), {}, authUser, userCnt).then(result => {
@@ -144,7 +142,6 @@ router.post('/', authenticate,(req, res, next) => {
                 connectStatus,
                 {$text: { $search: `\"${filter.searchCnt}\"`},
                 block: {$ne: req.user},
-                temp: false,
                 _id: {$ne: mongoose.mongo.ObjectId(req.user)},
                 ...filterCnt},
                 { score: { $meta: "textScore" } },
@@ -157,7 +154,6 @@ router.post('/', authenticate,(req, res, next) => {
                     connectStatus,
                     {$text: { $search: `\"${filter.searchCnt}\"`},
                     block: {$ne: req.user},
-                    temp: false,
                     _id: {$ne: mongoose.mongo.ObjectId(req.user)},
                     ...filterCnt},
                     { score: { $meta: "textScore" } },
@@ -183,33 +179,35 @@ router.post('/', authenticate,(req, res, next) => {
                 model.findById(req.user).then(resultFilter =>{
                     modelCnt.cntTotal =  modelType === 'user' ? result.cntTotal - resultFilter.block.length : result.cntTotal;
                     for (let cnt of result.cnt) {
-                        let userRequest = resultFilter.request || [];
-                        let filterReq = userRequest.filter(id => id === cnt._id.toHexString())
-                        let mainRequest = cnt.request || [];
-                        let filterMainReq = mainRequest.filter(id => id ===  req.user);
-                        let userBlock = resultFilter.block || [];
-                        let filterBlock = userBlock.filter(id => id === cnt._id.toHexString())
-                        let userTeacher = resultFilter.teacher || [];
-                        let userTeacherFilter = userTeacher.filter(id => id === cnt._id.toHexString());
-                        let teacher = cnt.teacher || [];
-                        let teacherFilter = teacher.filter(id => id === req.user);
+                        if (!cnt.temp) {
+                            let userRequest = resultFilter.request || [];
+                            let filterReq = userRequest.filter(id => id === cnt._id.toHexString())
+                            let mainRequest = cnt.request || [];
+                            let filterMainReq = mainRequest.filter(id => id ===  req.user);
+                            let userBlock = resultFilter.block || [];
+                            let filterBlock = userBlock.filter(id => id === cnt._id.toHexString())
+                            let userTeacher = resultFilter.teacher || [];
+                            let userTeacherFilter = userTeacher.filter(id => id === cnt._id.toHexString());
+                            let teacher = cnt.teacher || [];
+                            let teacherFilter = teacher.filter(id => id === req.user);
 
-                        let id = cnt._id.toHexString();
-                        let userDet = {id, username: cnt.username,studenttotal: cnt.studenttotal, student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
+                            let id = cnt._id.toHexString();
+                            let userDet = {id, username: cnt.username,studenttotal: cnt.studenttotal, student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
+                            
+                            if (filterReq.length > 0) {
+                                userDet['request'] = true
+                            }
+                            if (filterMainReq.length > 0) {
+                                userDet['pending'] = true
+                            }
+                            if (userTeacherFilter.length > 0 || teacherFilter.length > 0) {
+                                userDet['accept'] = true;
+                            }
                         
-                        if (filterReq.length > 0) {
-                            userDet['request'] = true
+                            if (filterBlock.length < 1) {
+                                modelCnt.cnt.push(userDet)
+                            } 
                         }
-                        if (filterMainReq.length > 0) {
-                            userDet['pending'] = true
-                        }
-                        if (userTeacherFilter.length > 0 || teacherFilter.length > 0) {
-                            userDet['accept'] = true;
-                        }
-                       
-                        if (filterBlock.length < 1) {
-                            modelCnt.cnt.push(userDet)
-                        } 
                     }
                     resolve(modelCnt)
                 })
