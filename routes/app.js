@@ -13,16 +13,19 @@ let deleteMedia = require('./utility/deletemedia');
 let userFilter = require('./utility/userfilter');
 let notification = require('./utility/notifications');
 let push = require('./utility/push');
+const global = require('../global/global');
+
 const {category,  posts, questions, poets, user, tempUser, postnotifies, 
      authUser, quenotifies, pwtnotifies, viewnotifies, usernotifies,
      favorite, connectStatus} = require('../serverDB/serverDB');
 
-router.get('/', authenticate,function (req, res, next) {
-    res.redirect('/index/post');
-});
+// router.get('/', authenticate,function (req, res, next) {
+//     res.redirect('/index/post');
+// });
 
 router.get('/index/:id', authenticate,function (req, res, next) {
-    res.render('index');
+    console.log(req.query)
+    global.app.render(req, res, '/index', req.query);
 });
 
 router.post('/header', authenticate, (req, res, next) => {

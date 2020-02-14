@@ -1,6 +1,7 @@
 let Global = {
     userDet: {},
-    io: {}
+    io: {},
+    app: {}
 }
 
 module.exports = Global;
