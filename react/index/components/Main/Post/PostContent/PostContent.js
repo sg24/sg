@@ -2,6 +2,7 @@ import React from 'react';
 import TimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
 import Avatar from 'react-avatar';
+import global from '../../../../../../global/global';
 
 import './PostContent.css';
 import '../../../UI/ShareIcn/ShareIcn.css'; 
@@ -107,8 +108,8 @@ const postContent = props => {
 
     function displayMedia(position) {
         let updateMedia = mediaCnt[position];
-        let curMedia = updateMedia.videoCnt ? {url: `${window.location.protocol + '//' + window.location.host}/media/image/${updateMedia.id}`, ...updateMedia, mediaType: 'snapshot'} : 
-        {url: `${window.location.protocol + '//' + window.location.host}/media/image/${updateMedia.id}`, ...updateMedia, mediaType: 'image'};
+        let curMedia = updateMedia.videoCnt ? {url: `${global.url}/media/image/${updateMedia.id}`, ...updateMedia, mediaType: 'snapshot'} : 
+        {url: `${global.url}/media/image/${updateMedia.id}`, ...updateMedia, mediaType: 'image'};
         if (curMedia && curMedia.mediaType === 'snapshot') {
             playVideo = (
                 props.video && props.video.id !== curMedia.id ? 

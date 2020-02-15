@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'next/router'
-typeof window !== 'undefined' ? require('pepjs'): null;
+import { withRouter } from 'next/router';
 import Post from '../react/index/components/Main/Post/Post';
 import Loader from '../react/index/components/UI/Loader/Loader';
 import NoAcc from '../react/index/components/Main/NoAcc/NoAcc';
 import { updateObject } from '../react/index/shared/utility';
 import * as actions from '../react/index/store/actions/index';
 import App from '../react/index/App';
+import global from '../global/global';
 
 let IS_ANIMATED = true;
 
@@ -32,7 +32,7 @@ class Posts extends Component {
           if (!store.getState().cnt.cnts) {
             store.dispatch(actions.fetchCntInit(null, 'post', limit, 0, 0))
             store.dispatch(actions.changeTagsPath('/post'));
-            console.log(store.getState())
+            store.dispatch(actions.fetchTrdInit(null));
           }
   
           return { cnts: store.getState().cnt.cnts }
@@ -52,10 +52,6 @@ class Posts extends Component {
             animationComplete: true,
             scrollEnable: false
         }
-    }
-
-    componentDidMount() {
-        console.log(this.props)
     }
 
     componentDidUpdate() {
@@ -115,7 +111,7 @@ class Posts extends Component {
     }
 
     playVideoHandler = (snapshot) => {
-        this.props.onFetchVideo(snapshot.id, `${typeof window !== `undefined` ? window.location.protocol + '//' + window.location.host : null}/media/video/${snapshot.videoCnt}`)
+        this.props.onFetchVideo(snapshot.id, `${global.url}/media/video/${snapshot.videoCnt}`)
     }
 
     slidePlayHandler = (id, maxLength, event) => {

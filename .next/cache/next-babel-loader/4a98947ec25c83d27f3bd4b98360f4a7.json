@@ -1,0 +1,1 @@
+{"ast":null,"code":"var Global = {\n  userDet: {},\n  io: {},\n  app: {},\n  url: 'http://localhost:3000'\n};\nmodule.exports = Global;","map":null,"metadata":{},"sourceType":"script"}

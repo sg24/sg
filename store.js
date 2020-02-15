@@ -12,6 +12,7 @@ import setQue from './react/index/store/reducers/setQue';
 import conv from './react/index/store/reducers/conv';
 import header from './react/index/store/reducers/header';
 import main from './react/index/store/reducers/main';
+typeof window !== 'undefined' ? require('pepjs'): null;
 
 import { 
     rootSaga

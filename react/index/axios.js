@@ -1,8 +1,8 @@
 import axios from 'axios';
-
+import global from '../../global/global';
 
 const instance = axios.create({
-    baseURL: typeof window !== `undefined` ? window.location.protocol + '//' + window.location.host : null
+    baseURL: global.url
 });
 instance.defaults.headers.common['authorization'] = 'authorization';
 

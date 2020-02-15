@@ -6,16 +6,6 @@ import TrendItems from '../../../../components/Main/Nav/TrendItems/TrendItems';
 import Loader from '../../../../components/UI/Loader/Loader';
 
 class TopTrending extends Component {
-    static async getInitialProps(props) {
-        const { store, isServer } = props.ctx
-
-        if (!store.getState().trd.trends) {
-            store.dispatch(actions.fetchTrdInit(null));
-        }
-
-        return { trd: store.getState().trd.trends}
-    }
-
     changeFavoriteHandler = (id, isLiked, favAdd, cntGrp) => {
         this.props.onChangeFav(id, isLiked, favAdd, this.props.changedFav, this.props.userID, cntGrp)
     };

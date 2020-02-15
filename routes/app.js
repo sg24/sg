@@ -24,7 +24,9 @@ const {category,  posts, questions, poets, user, tempUser, postnotifies,
 // });
 
 router.get('/', authenticate,function (req, res, next) {
-    res.render('index');
+    console.log(req.query)
+    global.app.render(req, res, '/index', req.query);
+    // res.render('index');
 });
 
 router.get('/index/:id', authenticate,function (req, res, next) {

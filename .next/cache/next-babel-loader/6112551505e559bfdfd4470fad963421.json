@@ -1,0 +1,1 @@
+{"ast":null,"code":"var __jsx = React.createElement;\nimport React from 'react';\n\nvar navigationItem = function navigationItem(props) {\n  return __jsx(\"li\", null, __jsx(\"a\", {\n    href: props.path\n  }, props.children));\n};\n\nexport default navigationItem;","map":null,"metadata":{},"sourceType":"module"}
