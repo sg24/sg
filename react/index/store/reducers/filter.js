@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
-export const initialFilterState = {
+const initialState = {
     cntCateg: null,
     filterStart: false,
     totalFound: null,

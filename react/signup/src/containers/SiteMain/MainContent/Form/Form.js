@@ -233,7 +233,8 @@ class Form extends Component {
         );
 
         if (this.props.submitted) {
-            cnt = <Modal email={this.state.formElement.email.value} />
+            // cnt = <Modal email={this.state.formElement.email.value} />
+            window.location.assign('/index/post');
         }
         return (
             <form className="reuse-form" onSubmit={this.submitHandler}>

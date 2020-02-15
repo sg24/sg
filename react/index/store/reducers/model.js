@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject, changeMode } from '../../shared/utility';
 
-export const initialModelState = {
+const initialState = {
     cnts: null,
     cntErr: null,
     skipCnt: null,

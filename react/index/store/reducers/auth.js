@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
-export const initialAuthState = {
+const initialState = {
     status: false,
     img: null,
     username: null

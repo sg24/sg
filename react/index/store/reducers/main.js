@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
-export const initialMainState = {
+const initialState = {
     showBackdrop: false,
     cntActive: null,
     ptActive: null,

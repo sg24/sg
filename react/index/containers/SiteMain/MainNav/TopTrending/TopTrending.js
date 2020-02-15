@@ -9,12 +9,11 @@ class TopTrending extends Component {
     static async getInitialProps(props) {
         const { store, isServer } = props.ctx
 
-        if (!store.getState().trends) {
+        if (!store.getState().trd.trends) {
             store.dispatch(actions.fetchTrdInit(null));
-            console.log(store)
         }
 
-        return { trd: store.getState().trends}
+        return { trd: store.getState().trd.trends}
     }
 
     changeFavoriteHandler = (id, isLiked, favAdd, cntGrp) => {

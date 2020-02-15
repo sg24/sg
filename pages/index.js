@@ -29,13 +29,13 @@ class Posts extends Component {
         const { store, isServer } = props.ctx
         store.dispatch(actions.fetchCntReset())
   
-          if (!store.getState().cnts) {
+          if (!store.getState().cnt.cnts) {
             store.dispatch(actions.fetchCntInit(null, 'post', limit, 0, 0))
             store.dispatch(actions.changeTagsPath('/post'));
             console.log(store.getState())
           }
   
-          return { cnts: store.getState().cnts }
+          return { cnts: store.getState().cnt.cnts }
       }
 
     constructor(props) {

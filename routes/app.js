@@ -23,9 +23,14 @@ const {category,  posts, questions, poets, user, tempUser, postnotifies,
 //     res.redirect('/index/post');
 // });
 
+router.get('/', authenticate,function (req, res, next) {
+    res.render('index');
+});
+
 router.get('/index/:id', authenticate,function (req, res, next) {
     console.log(req.query)
-    global.app.render(req, res, '/index', req.query);
+    // global.app.render(req, res, '/index', req.query);
+    res.render('index');
 });
 
 router.post('/header', authenticate, (req, res, next) => {
@@ -827,7 +832,12 @@ router.post('/forget/reset', (req, res, next) => {
 });
 
 router.post('/signup', (req, res) => {
-    let newUser = new tempUser({
+    // let newUser = new tempUser({
+    //     username: req.body.username,
+    //     password: req.body.password,
+    //     email: req.body.email
+    // });
+    let newUser = new user({
         username: req.body.username,
         password: req.body.password,
         email: req.body.email
@@ -837,73 +847,85 @@ router.post('/signup', (req, res) => {
         if (result) {res.status(422).send('Email Already taken'); return}
         authUser.findOne({email: req.body.email}).then(result => {
             if (result) {res.status(422).send('Email Already taken'); return}
-                newUser.save().then(result => {
-                    let token = jwt.sign({ id: result.id }, process.env.JWT_SECRET, {  expiresIn: 60*60 });
-                    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-                    const msg = {
-                        to: req.body.email, 
-                        from: 'Slodge24 <noreply@slodge24.com>',
-                        subject: 'Slodge24 | Knowledge sharing platform',
-                        html: `
-                        <div class="" style="background-color: #f6f6f6; color: #333;font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
-                        <table border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background-color: #f6f6f6;">
-                        <tr>
-                            <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
-                            <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
-                            <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
-            
-                                <!--  <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">Please click this link  <a href="https://localhost:3000/signup/confirmation/" target="_blank">Confirm Email</a>.</span> -->
-                                <img src="https://slodge24.com/static/media/logo.png" alt="Slodge24" title="slodge24" style="display:block;margin: 30px auto;max-width:100%;border-style:none;height:48px;width:48px" width="48" height="48">
-
-                                <table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;">
-                                <tr>
-                                    <td class="wrapper" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px; background-color: #fff;height: auto; width:100%">
-                                    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
-                                        <tr>
-                                        <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
-                                            <p style="font-family: sans-serif; font-size: 30px; font-weight: normal; margin: 0; Margin-bottom:5px;display:inline-block;color: #3498db">Welcome to Slodge24</p>
-                                            <p style="font-family: sans-serif; font-size: 16px; font-weight: normal; margin: 0; Margin-bottom: 15px;padding-top:15px; border-top: 1px solid #dcdbdc;color: #333;">Scholars are waiting for your idea's.</p>
-                                            <p style="font-family: sans-serif; font-size: 16px; font-weight: normal; margin: 0; Margin-bottom: 15px; color: #333;">Please, Click the following link to get started .</p>
-                                            <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;">
-                                            <tbody>
-                                                <tr>
-                                                <td align="left" style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding-bottom: 15px;">
-                                                    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
-                                                    <tbody>
-                                                        <tr>
-                                                        <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="https://slodge24.com/signup/confirmation/${token}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 20px; text-transform: capitalize; border-color: #3498db;">Confirm Email</a> </td>
-                                                        </tr>
-                                                    </tbody>
-                                                    </table>
-                                                </td>
-                                                </tr>
-                                            </tbody>
-                                            </table>
-                                            <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Or copy and paste this link. https://slodge24.com/signup/confirmation/${token}</p>
-                                        </td>
-                                        </tr>
-                                    </table>
-                                    </td>
-                                </tr>
-                                </table>
-                            </div>
-                            </td>
-                            <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
-                        </tr>
-                        </table>
-                    </div>
-                        `
-                    };
-                sgMail.send(msg).then(() => {
-                    res.sendStatus(201);
-                }).catch(err =>{
-                    tempUser.findByIdAndRemove(result.id).then(() =>{
-                        res.status(400).send(err)
-                    })
-                })
-            }).catch(err =>{
-                res.status(422).send(err)
+            newUser.generateAuthToken().then(result => {
+                let decoded = null;
+                decoded = jwt.verify(result.token, process.env.JWT_SECRET);
+                if (decoded) {
+                    res.cookie('token', result.token, { signed: true, httpOnly: true , maxAge: 7257600000});
+                    res.cookie('expiresIn', decoded.exp, {maxAge: 7257600000});
+                    res.cookie('pushMsg', result.pushMsg, {maxAge: 7257600000});
+                    res.cookie('id', result.id, {maxAge: 7257600000});
+                    res.sendStatus(200)
+                }
+                return
             })
+    //             newUser.save().then(result => {
+    //                 let token = jwt.sign({ id: result.id }, process.env.JWT_SECRET, {  expiresIn: 60*60 });
+    //                 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    //                 const msg = {
+    //                     to: req.body.email, 
+    //                     from: 'Slodge24 <noreply@slodge24.com>',
+    //                     subject: 'Slodge24 | Knowledge sharing platform',
+    //                     html: `
+    //                     <div class="" style="background-color: #f6f6f6; color: #333;font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
+    //                     <table border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background-color: #f6f6f6;">
+    //                     <tr>
+    //                         <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
+    //                         <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
+    //                         <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
+            
+    //                             <!--  <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">Please click this link  <a href="https://localhost:3000/signup/confirmation/" target="_blank">Confirm Email</a>.</span> -->
+    //                             <img src="https://slodge24.com/static/media/logo.png" alt="Slodge24" title="slodge24" style="display:block;margin: 30px auto;max-width:100%;border-style:none;height:48px;width:48px" width="48" height="48">
+
+    //                             <table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;">
+    //                             <tr>
+    //                                 <td class="wrapper" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px; background-color: #fff;height: auto; width:100%">
+    //                                 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+    //                                     <tr>
+    //                                     <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
+    //                                         <p style="font-family: sans-serif; font-size: 30px; font-weight: normal; margin: 0; Margin-bottom:5px;display:inline-block;color: #3498db">Welcome to Slodge24</p>
+    //                                         <p style="font-family: sans-serif; font-size: 16px; font-weight: normal; margin: 0; Margin-bottom: 15px;padding-top:15px; border-top: 1px solid #dcdbdc;color: #333;">Scholars are waiting for your idea's.</p>
+    //                                         <p style="font-family: sans-serif; font-size: 16px; font-weight: normal; margin: 0; Margin-bottom: 15px; color: #333;">Please, Click the following link to get started .</p>
+    //                                         <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;">
+    //                                         <tbody>
+    //                                             <tr>
+    //                                             <td align="left" style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding-bottom: 15px;">
+    //                                                 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
+    //                                                 <tbody>
+    //                                                     <tr>
+    //                                                     <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="https://slodge24.com/signup/confirmation/${token}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 20px; text-transform: capitalize; border-color: #3498db;">Confirm Email</a> </td>
+    //                                                     </tr>
+    //                                                 </tbody>
+    //                                                 </table>
+    //                                             </td>
+    //                                             </tr>
+    //                                         </tbody>
+    //                                         </table>
+    //                                         <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Or copy and paste this link. https://slodge24.com/signup/confirmation/${token}</p>
+    //                                     </td>
+    //                                     </tr>
+    //                                 </table>
+    //                                 </td>
+    //                             </tr>
+    //                             </table>
+    //                         </div>
+    //                         </td>
+    //                         <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
+    //                     </tr>
+    //                     </table>
+    //                 </div>
+    //                     `
+    //                 };
+    //             sgMail.send(msg).then(() => {
+    //                 res.sendStatus(201);
+    //             }).catch(err =>{
+    //                 tempUser.findByIdAndRemove(result.id).then(() =>{
+    //                     res.status(400).send(err)
+    //                 })
+    //             })
+    //         }).catch(err =>{
+    //             res.status(422).send(err)
+    //         })
         })
     })
 })
