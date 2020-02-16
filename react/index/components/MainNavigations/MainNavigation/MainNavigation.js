@@ -1,6 +1,6 @@
 import React from 'react';
-
-import ActiveLink from './ActiveLink';
+import NavLink from '../../../hoc/Link/Link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const mainNavigation = props => {
     let active = null;
@@ -15,13 +15,15 @@ const mainNavigation = props => {
     return (
         <li
             onClick={props.removeActive}>
-            <ActiveLink
+            <NavLink 
                 href={props.path}
-                icnGrp={props.icnGrp}
-                icnClass={props.icnClass}>
-                { props.children }
+                activeClassName="active-content-tab">
+                <FontAwesomeIcon 
+                    icon={['fas', props.icnGrp]} 
+                    className={props.icnClass} /> 
+                {props.children}
                 {active}
-            </ActiveLink>
+            </NavLink>
         </li>
     )
 };

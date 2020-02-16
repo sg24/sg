@@ -30,7 +30,7 @@ class Posts extends Component {
         store.dispatch(actions.fetchCntReset())
   
           if (!store.getState().cnt.cnts) {
-            store.dispatch(actions.fetchCntInit(null, 'post', limit, 0, 0))
+            store.dispatch(actions.fetchCntInit(null, 'post', 6, 0, 0))
             store.dispatch(actions.changeTagsPath('/post'));
             store.dispatch(actions.fetchTrdInit(null));
           }
@@ -51,6 +51,12 @@ class Posts extends Component {
             playerIcnId: null,
             animationComplete: true,
             scrollEnable: false
+        }
+    }
+
+    componentDidMount() {
+        if (limit > 6) {
+            store.dispatch(actions.fetchCntInit(null, 'post', (limit - 6), 6, 0))
         }
     }
 

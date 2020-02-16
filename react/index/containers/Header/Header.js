@@ -45,12 +45,10 @@ class Header extends Component {
     }
 
     filterContentHandler = (event) => {
-        if (typeof window !== 'undefined') {
-            let inputElem = document.documentElement.querySelector('.site-header__sm-form--srch');
-            let inputLastElem = document.documentElement.querySelector('.site-header__sm-form--srch__icn');
-            this.props.onHeaderFilter(event.target.value, inputElem.offsetLeft, window.innerWidth-inputLastElem.offsetLeft-150);
-            this.setState({inputValue: event.target.value})
-        }
+        let inputElem = document.documentElement.querySelector('.site-header__sm-form--srch');
+        let inputLastElem = document.documentElement.querySelector('.site-header__sm-form--srch__icn');
+        this.props.onHeaderFilter(event.target.value, inputElem.offsetLeft, window.innerWidth-inputLastElem.offsetLeft-150);
+        this.setState({inputValue: event.target.value})
     }
 
     render() {
@@ -100,6 +98,7 @@ class Header extends Component {
             <header className="site-header">
                 <Head>
                     <meta charSet="utf-8" />
+                    <meta description="slodge24 | Knowledge sharing platform" />
                     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"/>
                     <meta httpEquiv="X-UA-Compatible" content="ie=edge"/>
                     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -130,7 +129,7 @@ class Header extends Component {
                     <script data-ad-client="ca-pub-2645721953100564" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                 </Head>
                 <div className="wrapper">
-                    <a href="/index/post"><Logo /></a>
+                    <Logo />
                     <NavigationInput />
                     <div 
                         className="site-header__form-sm"

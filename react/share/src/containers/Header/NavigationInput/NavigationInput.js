@@ -23,8 +23,8 @@ class NavigationInput extends Component {
     filterContentHandler = (event) => {
         this.setState({value: event.target.value});
         let inputElem = window.document.querySelector('.site-header__form');
-        let inputLastElem = window.document.querySelector('.site-header__user');
-        let updateInputLastElem = window.innerWidth - inputLastElem.offsetLeft - 30;
+        let inputLastElem = this.props.status ?  window.document.querySelector('.site-header__user') : window.document.querySelector('.site-header__no-acc');
+        let updateInputLastElem = this.props.status ? window.innerWidth - inputLastElem.offsetLeft - 30 : window.innerWidth - (inputLastElem.offsetLeft + 140);
         let updateInputElem = inputElem.offsetLeft;
         if (window.innerWidth > 1200) {
             updateInputElem = 220;
@@ -63,7 +63,8 @@ class NavigationInput extends Component {
 
 const mapStateToProps = state => {
     return {
-        expand: state.header.expand
+        expand: state.header.expand,
+        status: state.auth.status
     };
 };
 
