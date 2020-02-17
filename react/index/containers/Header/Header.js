@@ -98,7 +98,7 @@ class Header extends Component {
             <header className="site-header">
                 <Head>
                     <meta charSet="utf-8" />
-                    <meta description="slodge24 | Knowledge sharing platform" />
+                    <meta description="SG24 connects you with scholars all around the world" />
                     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"/>
                     <meta httpEquiv="X-UA-Compatible" content="ie=edge"/>
                     <link rel="icon" type="image/x-icon" href="/favicon.ico" />

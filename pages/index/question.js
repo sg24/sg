@@ -1,31 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'next/router';
 typeof window !== 'undefined' ? require('pepjs') : null;
+import { withRouter } from 'next/router';
 
-import Post from '../react/index/components/Main/Post/Post';
-import Loader from '../react/index/components/UI/Loader/Loader';
-import NoAcc from '../react/index/components/Main/NoAcc/NoAcc';
-import { updateObject } from '../react/index/shared/utility';
-import * as actions from '../react/index/store/actions/index';
-import App from '../react/index/App';
-import global from '../global/global';
+import Question from '../../react/index/components/Main/Question/Question';
+import Loader from '../../react/index/components/UI/Loader/Loader';
+import NoAcc from '../../react/index/components/Main/NoAcc/NoAcc';
+import { updateObject } from '../../react/index/shared/utility';
+import * as actions from '../../react/index/store/actions/index';
+import global from '../../global/global';
+import App from '../../react/index/App';
 
 let IS_ANIMATED = true;
 
-class Posts extends Component {
+class Questions extends Component {
     static async getInitialProps(props) {
         const { store, isServer } = props.ctx
             store.dispatch(actions.fetchCntReset())
   
           if (!store.getState().cnt.cnts) {
-            store.dispatch(actions.fetchCntInit(null, 'post', 6, 0, 0))
-            store.dispatch(actions.changeTagsPath('/post'));
+            store.dispatch(actions.fetchCntInit(null, 'question', 6, 0, 0))
+            store.dispatch(actions.changeTagsPath('/question'));
             store.dispatch(actions.fetchTrdInit(null));
           }
   
           return { cnts: store.getState().cnt.cnts }
-    }
+      }
 
     constructor(props) {
         super(props);
@@ -44,7 +44,7 @@ class Posts extends Component {
         this.state = {
             cntOpt: null,
             fetchLimit: limit,
-            filterTag: 'post',
+            filterTag: 'question',
             mediaItms: [],
             animateItm: null,
             removeAnim: false,
@@ -57,7 +57,7 @@ class Posts extends Component {
 
     componentDidMount() {
         if (this.state.fetchLimit > 6) {
-            this.props.onFetchCnt(null, 'post', (this.state.fetchLimit - 6)+6, 6, 0);
+            this.props.onFetchCnt(null, 'question', (this.state.fetchLimit - 6)+6, 6, 0);
         }
     }
 
@@ -74,10 +74,10 @@ class Posts extends Component {
     }
 
     onScroll = () => {
-        if (typeof window !== `undefined`) {
+        if (typeof window !== 'undefined') {
             if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
                 this.props.onFetchCnt(
-                        this.props.userID,  'post' ,
+                        this.props.userID,  'question' ,
                         this.state.fetchLimit, this.props.skipCnt + this.state.fetchLimit, this.props.cntTotal);
             }
         }
@@ -102,8 +102,8 @@ class Posts extends Component {
     }
 
     showShareHandler = (shareID) => {
-        this.props.onChangeShareID(shareID, 'post');
-        this.props.router.push('/index/post/share')
+        this.props.onChangeShareID(shareID, 'question');
+        this.props.history.push('/index/question/share')
     };
 
     changeMediaHandler = (id, maxLength, type) => {
@@ -131,9 +131,9 @@ class Posts extends Component {
         let slide = event.target;
         slide.releasePointerCapture(event.pointerId);
         slide.style.left = 0 +'px';
-        let videoPlayerIcn = document.querySelector('.reuse-pt__media--wrapper__icn-move');
+        let videoPlayerIcn = document.querySelector('.reuse-que__media--wrapper__icn-move');
         if (videoPlayerIcn) {
-            videoPlayerIcn.style.left = 45 + '%';
+            videoPlayerIcn.style.left = 42 + '%';
         }
     }
 
@@ -152,10 +152,10 @@ class Posts extends Component {
                     this.animateSlider(id, maxLength, 'prev', 0)
                 }
             } 
-            let videoPlayerIcn = document.querySelector('.reuse-pt__media--wrapper__icn-move');
+            let videoPlayerIcn = document.querySelector('.reuse-que__media--wrapper__icn-move');
             if (videoPlayerIcn) {
                 let playerIcnHeight = (newpos / slide.offsetWidth) * 100
-                videoPlayerIcn.style.left =  playerIcnHeight + 45 + '%';
+                videoPlayerIcn.style.left =  playerIcnHeight + 42 + '%';
             }
             slide.style.left = newpos +'px';
         }
@@ -197,19 +197,19 @@ class Posts extends Component {
 
     render() {
         this.props.onFetchShareActive();
+        this.props.onFetchCntActive();
         this.props.onFetchShareCntActive();
         this.props.onFetchNotifyActive();
-        this.props.onFetchCntActive();
-        this.props.onFetchQueActive();
         this.props.onFetchPtActive();
+        this.props.onFetchQueActive();
         this.props.onFetchReqActive();
 
         let cnt = <Loader />;
-        if (this.props.postErr) {
+        if (this.props.cntErr) {
             cnt = null
         }
 
-        if (this.props.cnts && this.props.cnts.length === 0) {
+        if (this.props.cnts && this.props.cnts.length === 0 ) {
             cnt = <NoAcc 
                     isAuth={this.props.userID !== null}
                     det='No content found!'
@@ -217,7 +217,7 @@ class Posts extends Component {
                     filter />
         }
 
-        if (this.props.cnts && this.props.cnts.length === 0) {
+        if (this.props.cnts && this.props.cnts.length === 0 ) {
             cnt = <NoAcc 
                     isAuth={this.props.userID !== null}
                     det='No content found!'
@@ -226,7 +226,7 @@ class Posts extends Component {
         }
 
         if (this.props.cnts && this.props.cnts.length > 0) {
-            cnt = <Post 
+            cnt = <Question 
                 content={this.props.cnts} 
                 media={this.props.media}
                 userOpt={this.showUserOptHandler}
@@ -253,10 +253,10 @@ class Posts extends Component {
         }
 
         return (
-          <App>
-            { cnt }
-          </App>
-        )
+            <App>
+              { cnt }
+            </App>
+          )
     }
 }
 
@@ -279,10 +279,10 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchShareActive: () => dispatch(actions.fetchShareactiveInit()),
         onFetchShareCntActive: () => dispatch(actions.fetchShareCntactiveInit()),
-        onFetchQueActive: () => dispatch(actions.fetchQueActiveInit()),
-        onFetchPtActive: () => dispatch(actions.fetchPtActiveInit()),
         onFetchCntActive: () => dispatch(actions.fetchCntActiveInit()),
         onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
+        onFetchPtActive: () => dispatch(actions.fetchPtActiveInit()),
+        onFetchQueActive: () => dispatch(actions.fetchQueActiveInit()),
         onFetchReqActive: () => dispatch(actions.fetchReqActiveInit()),
         onFetchCnt: (userID, fetchType, limit, skipCnt, cntTotal) => dispatch(actions.fetchCntInit(userID, fetchType, limit, skipCnt, cntTotal)),
         onFetchCntReset: () => dispatch(actions.fetchCntReset()),
@@ -294,4 +294,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Posts));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions));

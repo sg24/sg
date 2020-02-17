@@ -24,11 +24,15 @@ const {category,  posts, questions, poets, user, tempUser, postnotifies,
 // });
 
 router.get('/', authenticate,function (req, res, next) {
+    console.log(req.query)
     global.app.render(req, res, '/index', req.query);
+    // res.render('index');
 });
 
 router.get('/index/:id', authenticate,function (req, res, next) {
-    global.app.render(req, res, `/index/${req.params.id}`, req.query);
+    console.log(req.query)
+    // global.app.render(req, res, '/index', req.query);
+    res.render('index');
 });
 
 router.post('/header', authenticate, (req, res, next) => {
