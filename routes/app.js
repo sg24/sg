@@ -27,8 +27,24 @@ router.get('/', authenticate,function (req, res, next) {
     global.app.render(req, res, '/index', req.query);
 });
 
-router.get('/index/:id', authenticate,function (req, res, next) {
-    global.app.render(req, res, `/index/${req.params.id}`, req.query);
+router.get('/index/post', authenticate,function (req, res, next) {
+    global.app.render(req, res, `/index/post`, req.query);
+});
+
+router.get('/index/question', authenticate,function (req, res, next) {
+    global.app.render(req, res, `/index/question`, req.query);
+});
+
+router.get('/index/poet', authenticate,function (req, res, next) {
+    global.app.render(req, res, `/index/poet`, req.query);
+});
+
+router.get('/index/helpme', authenticate,function (req, res, next) {
+    global.app.render(req, res, `/index/helpme`, req.query);
+});
+
+router.get('/index/user', authenticate,function (req, res, next) {
+    global.app.render(req, res, `/index/user`, req.query);
 });
 
 router.post('/header', authenticate, (req, res, next) => {

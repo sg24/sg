@@ -1,1 +1,0 @@
-{"ast":null,"code":"var __jsx = React.createElement;\nimport React from 'react';\nimport Logo from './Logo.svg';\n\nconst logo = props => __jsx(\"div\", {\n  className: \"site-header__logo\"\n}, __jsx(\"div\", {\n  className: \"site-header__logo--graphics\"\n}, __jsx(Logo, null)));\n\nexport default logo;","map":null,"metadata":{},"sourceType":"module"}

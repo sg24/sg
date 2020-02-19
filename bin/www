@@ -58,12 +58,6 @@ nextApp.prepare().then(() => {
     return handle(req, res)
   })
 
- 
-  // catch 404 and forward to error handler
-  // app.use(function (req, res, next) {
-  //   return res.redirect('/index/post');
-  // });
-  
   var server = http.createServer(app);
   global.io = socketIO(server);
 

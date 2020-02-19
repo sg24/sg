@@ -1,17 +1,12 @@
 import App from 'next/app'
-import React from 'react'
-import { Provider } from 'react-redux'
-import withRedux from 'next-redux-wrapper'
-import withReduxSaga from 'next-redux-saga'
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import { fab } from '@fortawesome/free-brands-svg-icons';
-import '@fortawesome/fontawesome-svg-core/styles.css';
-const serviceWorker = typeof window !== 'undefined' ? require('../react/index/serviceWorker'): null;
-import createStore from '../store'
+import NProgress from 'nprogress'
+import Router from 'next/router'
 
-library.add(fas,far,fab)
+Router.events.on('routeChangeStart', url => {
+  NProgress.start()
+})
+Router.events.on('routeChangeComplete', () => NProgress.done())
+Router.events.on('routeChangeError', () => NProgress.done())
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -25,16 +20,10 @@ class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps, store } = this.props;
-    if (typeof window !== 'undefined') {
-      serviceWorker.register();
-    }
-    return (
-      <Provider store={store}>
-        <Component {...pageProps} />
-      </Provider>
-    )
+    const { Component, pageProps } = this.props;
+    
+    return <Component {...pageProps} />
   }
 }
 
-export default withRedux(createStore)(withReduxSaga(MyApp))
+export default MyApp

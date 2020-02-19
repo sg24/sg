@@ -1,1 +1,0 @@
-{"ast":null,"code":"var __jsx = React.createElement;\nimport React from 'react';\n\nvar navigationList = function navigationList(props) {\n  return __jsx(\"li\", null, __jsx(\"a\", {\n    href: '/' + props.category + '/' + props.navList\n  }, \" \", props.navList));\n};\n\nexport default navigationList;","map":null,"metadata":{},"sourceType":"module"}

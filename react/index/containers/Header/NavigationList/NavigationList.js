@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import './NavigationList.css';
 import * as actions from '../../../store/actions/index';
 import NavigationLists from '../../../components/Navigation/NavigationLists/NavigationLists';
 import Loader from '../../../components/UI/Loader/Loader';

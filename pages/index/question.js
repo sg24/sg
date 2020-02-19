@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-typeof window !== 'undefined' ? require('pepjs') : null;
 import { withRouter } from 'next/router';
 
 import Question from '../../react/index/components/Main/Question/Question';
@@ -10,6 +9,7 @@ import { updateObject } from '../../react/index/shared/utility';
 import * as actions from '../../react/index/store/actions/index';
 import global from '../../global/global';
 import App from '../../react/index/App';
+import { indexStore } from '../../react/hoc/withStore/withStore';
 
 let IS_ANIMATED = true;
 
@@ -56,9 +56,9 @@ class Questions extends Component {
     }
 
     componentDidMount() {
-        if (this.state.fetchLimit > 6) {
-            this.props.onFetchCnt(null, 'question', (this.state.fetchLimit - 6)+6, 6, 0);
-        }
+        // if (this.state.fetchLimit > 6) {
+        //     this.props.onFetchCnt(null, 'question', (this.state.fetchLimit - 6)+6, 6, 0);
+        // }
     }
 
     componentDidUpdate() {
@@ -294,4 +294,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions));
+export default indexStore(withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions)));

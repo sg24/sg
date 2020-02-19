@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-typeof window !== 'undefined' ? require('pepjs') : null
 
 import Users from '../../react/index/components/Main/Users/Users';
-import NoAcc from '../../react/index/components/Main/NoAcc/NoAcc';
 import Loader from '../../react/index/components/UI/Loader/Loader';
+import NoAcc from '../../react/index/components/Main/NoAcc/NoAcc';
 import * as actions from '../../react/index/store/actions/index';
 import App from '../../react/index/App';
+import { indexStore } from '../../react/hoc/withStore/withStore';
 
 class Model extends Component {
     static async getInitialProps(props) {
@@ -44,9 +44,9 @@ class Model extends Component {
     }
 
     componentDidMount() {
-        if (this.state.fetchLimit > 6) {
-            this.props.onFetchCnt(null, 'users', (this.state.fetchLimit - 6)+6, 6, 0);
-        }
+        // if (this.state.fetchLimit > 6) {
+        //     this.props.onFetchCnt(null, 'users', (this.state.fetchLimit - 6)+6, 6, 0);
+        // }
     }
 
     componentDidUpdate() {
@@ -144,4 +144,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Model);
+export default indexStore(connect(mapStateToProps, mapDispatchToProps)(Model));

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'next/router';
-typeof window !== 'undefined' ? require('pepjs') : null
 
 import Poet from '../../react/index/components/Main/Poet/Poet';
 import Loader from '../../react/index/components/UI/Loader/Loader';
@@ -9,6 +8,7 @@ import NoAcc from '../../react/index/components/Main/NoAcc/NoAcc';
 import { updateObject } from '../../react/index/shared/utility';
 import * as actions from '../../react/index/store/actions/index';
 import App from '../../react/index/App';
+import { indexStore } from '../../react/hoc/withStore/withStore';
 
 class Model extends Component {
     static async getInitialProps(props) {
@@ -53,9 +53,9 @@ class Model extends Component {
     }
 
     componentDidMount() {
-        if (this.state.fetchLimit > 6) {
-            this.props.onFetchCnt(null, 'poet', (this.state.fetchLimit - 6)+6, 6, 0);
-        }
+        // if (this.state.fetchLimit > 6) {
+        //     this.props.onFetchCnt(null, 'poet', (this.state.fetchLimit - 6)+6, 6, 0);
+        // }
     }
 
     componentDidUpdate() {
@@ -191,4 +191,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Model));
+export default indexStore(withRouter(connect(mapStateToProps, mapDispatchToProps)(Model)));
