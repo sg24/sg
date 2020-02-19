@@ -286,4 +286,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default indexStore(withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions)));
+export default withRouter(indexStore(connect(mapStateToProps, mapDispatchToProps)(Questions)));
