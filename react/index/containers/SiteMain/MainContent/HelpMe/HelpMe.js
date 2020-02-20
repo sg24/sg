@@ -1,29 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import 'pepjs';
+import { withRouter } from 'next/router';
 
 import Question from '../../../../components/Main/Question/Question';
 import Loader from '../../../../components/UI/Loader/Loader';
 import NoAcc from '../../../../components/Main/NoAcc/NoAcc';
 import { updateObject } from '../../../../shared/utility';
 import * as actions from '../../../../store/actions/index';
+import App from '../../../../App';
+import global from '../../../../../../global/global';
 
 let IS_ANIMATED = true;
 
 class Questions extends Component {
     constructor(props) {
         super(props);
-        this.props.onFetchCntReset();
         let limit = 0;
-        if (window.innerHeight >= 1200) {
-            limit = 18
-        } else if(window.innerHeight >= 900) {
-            limit = 12;
-        } else if(window.innerHeight >= 500) {
-            limit = 9
-        } else {
-            limit = 6;
+        if (typeof window !== 'undefined') {
+            if (window.innerHeight >= 1200) {
+                limit = 18
+            } else if(window.innerHeight >= 900) {
+                limit = 12;
+            } else if(window.innerHeight >= 500) {
+                limit = 9
+            } else {
+                limit = 6;
+            }
         }
         this.state = {
             cntOpt: null,
@@ -40,8 +42,9 @@ class Questions extends Component {
     }
 
     componentDidMount() {
-        this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
-        this.props.onChangeTag('/question');
+        // if (this.state.fetchLimit > 6) {
+        //     this.props.onFetchCnt(null, 'shared', (this.state.fetchLimit - 6)+6, 6, 0);
+        // }
     }
 
     componentDidUpdate() {
@@ -57,10 +60,12 @@ class Questions extends Component {
     }
 
     onScroll = () => {
-        if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
-            this.props.onFetchCnt(
-                    this.props.userID,  'shared' ,
-                    this.state.fetchLimit, this.props.skipCnt + this.state.fetchLimit, this.props.cntTotal);
+        if (typeof window !== 'undefined') {
+            if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
+                this.props.onFetchCnt(
+                        this.props.userID,  'shared' ,
+                        this.state.fetchLimit, this.props.skipCnt + this.state.fetchLimit, this.props.cntTotal);
+            }
         }
     } 
 
@@ -99,7 +104,7 @@ class Questions extends Component {
     }
 
     playVideoHandler = (snapshot) => {
-        this.props.onFetchVideo(snapshot.id, `${window.location.protocol + '//' + window.location.host}/media/video/${snapshot.videoCnt}`)
+        this.props.onFetchVideo(snapshot.id, `${global.url}/media/video/${snapshot.videoCnt}`)
     }
 
     slidePlayHandler = (id, maxLength, event) => {
@@ -225,7 +230,11 @@ class Questions extends Component {
                 changeCnt={this.changeCntHandler}/>
         }
 
-        return cnt
+        return (
+            <App>
+                { cnt }
+            </App>
+        )
     }
 }
 

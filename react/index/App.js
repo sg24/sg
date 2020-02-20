@@ -4,7 +4,6 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 
-
 import Layout from './hoc/Layout/Layout'; 
 import * as actions from './store/actions/index';
 typeof window !== 'undefined' ? require('pepjs') : null

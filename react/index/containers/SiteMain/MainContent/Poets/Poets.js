@@ -1,26 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'next/router';
 
 import Poet from '../../../../components/Main/Poet/Poet';
 import Loader from '../../../../components/UI/Loader/Loader';
 import NoAcc from '../../../../components/Main/NoAcc/NoAcc';
 import { updateObject } from '../../../../shared/utility';
 import * as actions from '../../../../store/actions/index';
+import App from '../../../../App';
 
 class Model extends Component {
     constructor(props) {
         super(props);
-        this.props.onFetchCntReset();
         let limit = 0;
-        if (window.innerHeight >= 1200) {
-            limit = 18
-        } else if(window.innerHeight >= 900) {
-            limit = 12;
-        } else if(window.innerHeight >= 500) {
-            limit = 9
-        } else {
-            limit = 6;
+        if (typeof window !== 'undefined') {
+            if (window.innerHeight >= 1200) {
+                limit = 18
+            } else if(window.innerHeight >= 900) {
+                limit = 12;
+            } else if(window.innerHeight >= 500) {
+                limit = 9
+            } else {
+                limit = 6;
+            }
         }
         this.state = {
             cntOpt: null,
@@ -37,8 +39,9 @@ class Model extends Component {
     }
 
     componentDidMount() {
-        this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
-        this.props.onChangeTag('/poet');
+        // if (this.state.fetchLimit > 6) {
+        //     this.props.onFetchCnt(null, 'poet', (this.state.fetchLimit - 6)+6, 6, 0);
+        // }
     }
 
     componentDidUpdate() {
@@ -55,10 +58,12 @@ class Model extends Component {
     }
 
     onScroll = () => {
-        if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
-            this.props.onFetchCnt(
-                    this.props.userID,  'poet' ,
-                    this.state.fetchLimit, this.props.skipCnt + this.state.fetchLimit, this.props.cntTotal);
+        if (typeof window !== `undefined`) {
+            if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
+                this.props.onFetchCnt(
+                        this.props.userID,  'poet' ,
+                        this.state.fetchLimit, this.props.skipCnt + this.state.fetchLimit, this.props.cntTotal);
+            }
         }
     } 
 
@@ -133,7 +138,11 @@ class Model extends Component {
                 changeCnt={this.changeCntHandler}/>
         }
 
-        return cnt
+        return (
+            <App>
+                { cnt }
+            </App>
+        )
     }
 }
 

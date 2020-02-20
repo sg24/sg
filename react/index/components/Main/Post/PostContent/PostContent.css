@@ -670,7 +670,7 @@
 }
 
 .icon__reuse-pt--media__play {
-    font-size: 3.875rem;
+    font-size: 3.875rem !important;
     color: #dcdbdc;
 }
 
