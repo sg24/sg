@@ -1,0 +1,399 @@
+.icon__reuse-pwt--tag {
+    color: #777;
+    margin-right: 5px;
+}
+
+.icon__reuse-pwt--quote {
+    font-size: .8125rem;
+    color: #0284a8;
+    position: absolute;
+    top: 3.5px;
+    left: 4.4px;
+}
+.icon__reuse-pwt--header__tag {
+    margin-right: 5px;
+}
+
+.icon__reuse-pwt--quoteright {
+    font-size: .8125rem;
+    color: #0284a8;
+    position: absolute;
+    top: 5px;
+    left: 4.4px;
+}
+
+.icon__reuse-pwt--options {
+    margin-right: 10px;
+}
+
+.icon__reuse-pwt--options__dft {
+    margin-right: 5px;
+}
+
+.icon__reuse-pwt--footer__smile {
+    margin-right: 8px;
+    color: #0284a8;
+    font-size: .9375rem;
+}
+
+.icon__reuse-pwt--footer__heart {
+    margin-right: 8px;
+    color: #ff1600;
+    font-size: .9375rem;
+    cursor: pointer;
+}
+
+.icon__reuse-pwt--footer__comments {
+    margin-right: 8px;
+    color: #000;
+    font-size: .9375rem;
+}
+
+.reuse-pwt {
+    font-weight: 400;
+    background-color: #fff;
+    box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+    -o-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+    -ms-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+    -webkit-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+    -moz-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+    border-radius: 10px; 
+    position: relative;
+    margin: 40px  15px;
+}
+
+.reuse-pwt__content {
+    color: #182427;
+    padding: 10px 0px;
+    width: 100%;
+    position: relative;
+}
+
+.reuse-pwt__content--firstptwritIcon {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    border: 1px solid #dcdbdc;
+    position: absolute;
+    margin-left: 10px;
+    left: 0;
+    top: 5px;
+}
+
+.reuse-pwt__content--det {
+    width: 100%;
+    position: relative;
+    margin-bottom: 30px;
+    left:  10px;
+}
+
+.reuse-pwt__content--det__quoteright {
+    left: -10px;
+}
+
+.reuse-pwt__content--det__user {
+    font-size: .8125rem;
+    position: absolute;
+    right: 38px;
+    top: 6px;
+}
+
+.reuse-pwt__content--det__user > a {
+    color: rgba(5,87,139, .8);
+    position: relative;
+    top: -2px;
+}
+
+.reuse-pwt__content--det__user--img {
+    cursor: pointer;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    border: 1px solid #e9ebf2;
+    border-radius: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -60px;
+}
+
+.reuse-pwt__content--det__user--img > img {
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: rgba(233,235,242, .7);
+    cursor: pointer;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -o-object-position: 50% 50%;
+    object-position: 50% 50%;
+    -o-object-fit: fill;
+    object-fit: fill;
+}
+
+.reuse-pwt__content--det__user--time {
+    margin-top: 2px;
+    color: #182427;
+}
+
+.reuse-pwt__content--det__user--det {
+    position: relative;
+    cursor: pointer;
+    width: 40px;
+    height: 10px;
+    background-color: #e9ebf2;
+    border-radius: 10px;
+    left: 0;
+    margin-top: 2px;
+    bottom: -2px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+        align-items: center;
+}
+
+.reuse-pwt__content--det__user--det::before, .reuse-pwt__content--det__user--det::after {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: #0284a8;
+}
+
+.reuse-pwt__content--det__user--det::before {
+    left: 5px;
+}
+
+.reuse-pwt__content--det__user--det::after {
+    left: 30px;
+}
+
+.reuse-pwt__content--det__user--det__mid {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 18px;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: #0284a8;
+}
+
+.reuse-pwt__content--det__user--det__opt {
+    position: absolute;
+    list-style: none;
+    top: -57px;
+    right: 53px;
+    padding: 0;
+    margin: 0;
+    background-color: #fff;
+    box-shadow: 0 0 4.15px 0.85px rgba(0,0,0, 0.65);
+    font-size: .8125rem;
+    margin-bottom: 40px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s ease-out;
+}
+
+.reuse-pwt__content--det__user--det__opt li {
+    padding: 5px;
+    margin: 5px;
+    background-color: #e9ebf2;
+    font-weight: 300;
+    white-space: nowrap;
+    border: 1px solid rgba(0,0,0, .25);
+    cursor: pointer;
+}
+
+.reuse-pwt__content--det__user--det__opt li:first-child {
+    background-color: #05578b;
+    border: none;
+    padding: 0;
+}
+
+.reuse-pwt__content--det__user--det__opt li:last-child {
+    background-color: #f22613;
+    color: #fff;
+}
+
+.reuse-pwt__content--det__user--det__opt li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 5px;
+}
+
+.reuse-pwt__content--det__user--det__opt::after {
+    position: absolute;
+    content: "";
+    top: 50px;
+    right: -24px;
+    border-color: transparent;
+    border-width: 12px;
+    border-bottom-color: #fff;
+    border-style: solid;
+    transform: rotate(90deg);
+    pointer-events: none;
+}
+
+.reuse-pwt__content--det__user--det__opt::before {
+    position: absolute;
+    content: "";
+    top: 49px;
+    right: -26px;
+    border-color: transparent;
+    border-width: 13px;
+    border-bottom-color: rgba(0,0,0, 0.25);
+    border-style: solid;
+    transform: rotate(90deg);
+    pointer-events: none;
+}
+
+.reuse-pwt__content--det__user--det__opt--visible {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+    transition: all .3s ease-out;
+}
+
+.reuse-pwt__content--det__user--det__clk {
+    background-color: #e9ebf2;
+    transition: all .3s ease-in;
+}
+
+@media (min-width: 530px) {
+
+    .reuse-pwt__content--det__user--det {
+        right: 40px;
+    }
+}
+
+.reuse-pwt__content--det__quote-wrapper {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    border: 1px solid #dcdbdc;
+    position: absolute;
+    right: 0;
+    top: 10px;
+}
+
+.reuse-pwt__content--title {
+    font-size: .9375rem;
+    margin: 10px 0 0 0;
+    width: 100%;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+    text-align: center;
+    line-height: 2;
+    border-top: 1px solid #dcdbdc;
+    padding: 10px 0 0 0;
+    position: relative;
+}
+
+.reuse-pwt__content--title__mt {
+    padding-top: 20px;
+}
+
+.reuse-pwt__content--title__wrapper {
+    width: 90%;
+}
+
+.reuse-pwt__content--title__wrapper a {
+    color: #182427;
+    text-decoration: none;
+    font-weight: 400;
+}
+
+@media (min-width: 530px) {
+
+    .reuse-pwt__content--title {
+        font-size: 1rem;
+    }
+}
+
+.reuse-pwt__content--tag {
+    margin-bottom: 15px;
+}
+
+.reuse-pwt__content--tag > span {
+    font-size: .8125rem;
+    margin-left: 10px;
+    max-width: 90% !important;
+    background-color: rgba(220,219,220, .4);
+    border-radius: 5px;
+    padding: 4px;
+    cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+    word-wrap: none;
+    text-overflow: ellipsis;
+    position: relative;
+}
+
+.reuse-pwt__content--tag__cntgrp {
+    background-color: #437da3 !important;
+    padding: 4px 6px !important;
+    color:#fff;
+}
+
+.reuse-pwt__content--tag > span > a {
+    color: #182427;
+    text-decoration: none;
+}
+
+.reuse-pwt__filter-err {
+    color: #ff1600;
+    padding: 10px 0;
+    margin: 10px 0;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+.reuse-pwt__footer {
+    margin: 12px 0 0 0;
+    color: #182427;
+    list-style: none;
+    border-top: 1px solid #dcdbdc;
+    font-size: .8125rem;
+    padding: 0;
+}
+
+.reuse-pwt__footer::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.reuse-pwt__footer li {
+    position: relative;
+    float: left;
+    width: 33.333%;
+    border-right: 1px solid #dcdbdc;
+    text-align: center;
+    padding: 8px 0;
+}
+
+.reuse-pwt__footer li:first-child {
+    border-right: 1px solid #dcdbdc;
+    width: 33.333%;
+}
+
+.reuse-pwt__footer li:last-child {
+    border-right: none;
+}
+
+@media (min-width: 530px) {
+
+    .reuse-pwt {
+        margin: 40px 20px 60px 20px;
+    }
+}    

@@ -1,0 +1,61 @@
+.reuse-form__modal {
+    position: relative;
+    font-size: .875rem;
+    /* top: 50%; */
+    background-color: #fff;
+    z-index: 3;
+    padding-top: 10px;
+}
+
+.reuse-form__modal > h4 {
+    font-size: .875rem;
+    margin: 20px 0 5px 0;
+    padding: 0 5px;
+    text-align: center;
+    line-height: 2;
+    width: 100%;
+}
+
+.reuse-form__modal--success {
+    font-weight: 400;
+    font-size: .875rem;
+    margin: 0;
+    padding: 5px 10px;
+    text-align: center;
+    background-color: #f9f9f9;
+    line-height: 2;
+    width: 100%;
+}
+
+.reuse-form__modal--success__cnt {
+    font-weight: bold;
+    color: #333;
+}
+
+.reuse-form__modal--icn {
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+    font-size: 30px;
+    color: #16cf27;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0, .75);
+}
+
+.reuse-form__modal--success {
+    color: #182427;
+}
+
+@media (min-width: 530px) {
+
+    .reuse-form__modal {
+        width: 100%;
+    }
+}

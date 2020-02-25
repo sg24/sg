@@ -2,14 +2,22 @@ const withCSS = require('@zeit/next-css');
 const withReactSvg = require('next-react-svg');
 const path = require('path');
 
-module.exports = withCSS(
-    withReactSvg({
-        include: path.resolve(__dirname, 'react/index/components/UI/Logo/'),
-        webpack(config, options) {
-          return config
-        }
-      })
-)
+module.exports = withCSS({
+  webpack(config, options) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack', 'url-loader']
+    });
+    return config
+}
+})
+
+// withReactSvg({
+//   include: path.resolve(__dirname, 'react/index/components/UI/Logo/'),
+//   webpack(config, options) {
+//     return config
+//   }
+// })
 
 // const withCSS = require('@zeit/next-css')
 // module.exports = withLess(withCSS(withSass({

@@ -39,9 +39,8 @@ class Model extends Component {
     }
 
     componentDidMount() {
-        // if (this.state.fetchLimit > 6) {
-        //     this.props.onFetchCnt(null, 'poet', (this.state.fetchLimit - 6)+6, 6, 0);
-        // }
+        this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
+        this.props.onChangeTag('/poet');
     }
 
     componentDidUpdate() {

@@ -2,6 +2,7 @@ import App from 'next/app'
 import NProgress from 'nprogress'
 import Router from 'next/router'
 import React from 'react'
+typeof window !== 'undefined' ? require('events-polyfill') : null
 
 Router.events.on('routeChangeStart', url => {
   // NProgress.configure({spinner: false})

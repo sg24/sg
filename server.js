@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const hbs = require('hbs');
 const passport = require('passport');
+const useragent = require('express-useragent');
 
 // let appRoutes = require('./routes/app');
 // let usersRoutes = require('./routes/users');
@@ -23,6 +24,22 @@ const passport = require('passport');
 
 let app = express();
 
+// let sess = {
+//   secret: 'keyboard cat',
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: {
+//     maxAge: 7257600000
+//   }
+// }
+ 
+// if (app.get('env') === 'production') {
+//   app.set('trust proxy', 1) // trust first proxy
+//   sess.cookie.secure = true // serve secure cookies
+// }
+ 
+// app.use(session(sess))
+app.use(useragent.express())
 app.use(cookieParser('secret'));
 app.use(function(req, res, next) {
     if(req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === "http") {
