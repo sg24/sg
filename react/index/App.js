@@ -18,7 +18,7 @@ library.add(fas,far,fab)
 
 class App extends Component {
   componentDidMount() {
-    this.props.onCheckAuth();
+    // this.props.onCheckAuth();
   }
   render() {
     return (

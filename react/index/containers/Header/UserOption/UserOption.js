@@ -5,7 +5,7 @@ import Avatar from 'react-avatar';
 
 import './UserOption.css';
 import * as actions from '../../../store/actions/index';
-import Aux from '../../../hoc/Auxs/Aux';
+import Aux from '../../../hoc/Auxs/Auxs';
 
 class UserOption extends Component {
     state ={

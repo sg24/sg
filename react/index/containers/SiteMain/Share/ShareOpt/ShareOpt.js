@@ -5,7 +5,7 @@ import ShareUsers from '../../../../components/ShareContent/ShareUsers/ShareUser
 import SocialMed from '../../../../components/ShareContent/SocialMed/SocialMed';
 import SwitchOpt from '../../../../components/ShareContent/SwitchOpt/SwitchOpt';
 import * as actions from '../../../../store/actions/index';
-import Aux from '../../../../hoc/Auxs/Aux';
+import Aux from '../../../../hoc/Auxs/Auxs';
 
 class ShareOpt extends Component {
     state = {

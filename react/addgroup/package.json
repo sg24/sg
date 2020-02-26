@@ -1,9 +1,8 @@
 {
-  "name": "addpoet",
+  "name": "addgroup",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react-cropper": "^1.3.0",
     "react-scripts": "3.3.0"
   },
   "scripts": {

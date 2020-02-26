@@ -39,8 +39,8 @@ class Model extends Component {
     }
 
     componentDidMount() {
-        this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
-        this.props.onChangeTag('/poet');
+        // this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
+        // this.props.onChangeTag('/poet');
     }
 
     componentDidUpdate() {

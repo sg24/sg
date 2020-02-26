@@ -5,7 +5,7 @@ import Head from 'next/head'
 
 import * as actions from '../../store/actions/index';
 import Logo from '../../components/UI/Logo/Logo';
-import Aux from '../../hoc/Auxs/Aux';
+import Aux from '../../hoc/Auxs/Auxs';
 import NavigationInput from './NavigationInput/NavigationInput';
 import NavigationList from './NavigationList/NavigationList'
 import NavigationNotify from './NavigationNotify/NavigationNotify'

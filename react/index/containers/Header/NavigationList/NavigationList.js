@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as actions from '../../../store/actions/index';
 import NavigationLists from '../../../components/Navigation/NavigationLists/NavigationLists';
 import Loader from '../../../components/UI/Loader/Loader';
-import Aux from '../../../hoc/Auxs/Aux';
+import Aux from '../../../hoc/Auxs/Auxs';
 
 class NavigationList extends Component {
     state = {

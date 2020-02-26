@@ -14,12 +14,29 @@ Router.events.on('routeChangeError', () => NProgress.done())
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {}
-
+    let redirect = false;
+    let url = null;
+    if (ctx.req && ctx.req.useragent && !ctx.req.useragent.isBot) {
+      // var newHost = req.headers.host.slice(4);
+      ctx.req.redirect(301, '/index/post');
+    }
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps({ ctx })
     }
 
-    return { pageProps }
+    return { pageProps,redirect, url }
+  }
+
+  componentDidMount() {
+    if (this.props.redirect) {
+      window.location.assign(this.props.url)
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.redirect) {
+      window.location.assign(this.props.url)
+    }
   }
 
   render() {

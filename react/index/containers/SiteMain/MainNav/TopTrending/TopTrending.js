@@ -7,7 +7,7 @@ import Loader from '../../../../components/UI/Loader/Loader';
 
 class TopTrending extends Component {
     componentDidMount() {
-        this.props.onFetchTrends(this.props.userID);
+        // this.props.onFetchTrends(this.props.userID);
     }
 
     changeFavoriteHandler = (id, isLiked, favAdd, cntGrp) => {

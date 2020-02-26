@@ -42,8 +42,8 @@ class Posts extends Component {
     }
 
     componentDidMount() {
-        this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
-        this.props.onChangeTag('/post');
+        // this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
+        // this.props.onChangeTag('/post');
     }
 
     componentDidUpdate() {

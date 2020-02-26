@@ -41,6 +41,7 @@ nextApp.prepare().then(() => {
   let shareRoute = require('../routes/share');
   let mediaRoute = require('../routes/media');
   let groupRoute = require('../routes/group');
+  let robotonlyRoute = require('../routes/robot');
 
   app.use('/', [appRoutes, formRoutes,profileRoute, viewRoute]);
   app.use('/auth', authRoutes)
@@ -52,6 +53,7 @@ nextApp.prepare().then(() => {
   app.use('/share', shareRoute);
   app.use('/media', mediaRoute);
   app.use('/group', groupRoute);
+  app.use('/robotonly', robotonlyRoute);
   app.use('/sitemap.xml', sitemapxmlRoute);
 
   app.all('*', (req, res) => {

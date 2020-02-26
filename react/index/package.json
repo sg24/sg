@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "react-scripts": "^3.4.0",
     "uuid": "^3.4.0"
   },
   "scripts": {
-    "build": "react-scripts build && react-snapshot"
+    "build": "react-scripts"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -17,10 +18,12 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "reactSnap": {
     "inlineCss": true,
-    "puppeteerArgs": ["--no-sandbox", "--disable-setuid-sandbox"]
+    "puppeteerArgs": [
+      "--no-sandbox",
+      "--disable-setuid-sandbox"
+    ]
   }
 }
