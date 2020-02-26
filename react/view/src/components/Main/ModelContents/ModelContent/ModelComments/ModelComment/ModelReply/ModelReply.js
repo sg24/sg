@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { convertFromRaw } from 'draft-js';
 import { stateToHTML } from "draft-js-export-html";
 
-import '../../../../../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import '../../../../../../../react-draft-wysiwyg.css';
 import { transformNumber, engStrings } from '../../../../../../../shared/utility';
 import Aux from '../../../../../../../hoc/Auxs/Aux';
 

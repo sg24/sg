@@ -105,4 +105,12 @@ router.get('/edit/poet/:id', authenticate, (req, res, next) => {
     }
 });
 
+router.get('/view/:categ/:id', authenticate, (req, res, next) => {
+    if (req.params && req.params.id && req.params.categ) { 
+        global.app.render(req, res, '/view', req.params); 
+    } else {
+        res.redirect('/')
+    }
+});
+
 module.exports = router;

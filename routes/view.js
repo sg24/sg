@@ -9,7 +9,11 @@ router.get('/view/:categ/:id', authenticate, (req, res, next) => {
         res.redirect('/index/post')
         return
     }
-    res.render('view');
+    if (req.useragent &&  req.useragent.isBot) {
+        res.redirect(301, `/robotonly/view/${req.params.categ}/${req.params.id}`)
+    } else {
+        res.render('view');
+    }
 })
 
 

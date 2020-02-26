@@ -7,7 +7,7 @@ import { convertFromRaw } from 'draft-js';
 import { stateToHTML } from "draft-js-export-html";
 import arraySort from 'array-sort';
 
-import '../../../../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import '../../../../../../react-draft-wysiwyg.css';
 import {  engStrings } from '../../../../../../shared/utility';
 import ModelReply from './ModelReply/ModelReply';
 import Aux from '../../../../../../hoc/Auxs/Aux';

@@ -69,7 +69,7 @@ router.post('/', authenticate, (req, res, next) => {
                     function fetch(username, image, cnt, cntArray) {
                         return new Promise((resolve, reject) => {
                             let desc = JSON.parse(cnt.desc).blocks[0].text;
-                            cnt.desc = String(desc.substr(0, 180));
+                            cnt.desc = String(desc.substr(0, 180000));
                             let isLiked = req.user ? cnt.liked.filter(userID => userID === req.user) : [];
                            let update ={};
                             if (isLiked.length > 0) {

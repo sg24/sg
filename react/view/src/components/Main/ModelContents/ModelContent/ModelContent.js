@@ -9,7 +9,7 @@ import { convertFromRaw } from 'draft-js';
 import { stateToHTML } from "draft-js-export-html";
 import ModelComments from './ModelComments/ModelComments';
 
-import '../../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import '../../../../react-draft-wysiwyg.css';
 import './ModelContent.css'; 
 import { transformNumber, engStrings } from '../../../../shared/utility';
 import '../../../UI/ShareIcn/ShareIcn.css'; 

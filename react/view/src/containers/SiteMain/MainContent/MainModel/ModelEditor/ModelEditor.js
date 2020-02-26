@@ -6,7 +6,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './ModelEditor.css';
-import '../../../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import '../../../../../react-draft-wysiwyg.css';
 import * as actions from '../../../../../store/actions/index';
 
 class ModelEditor extends Component {

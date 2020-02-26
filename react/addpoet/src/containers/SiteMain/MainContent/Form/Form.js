@@ -5,7 +5,7 @@ import 'promise-polyfill/src/polyfill';
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 
-import '../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import './react-draft-wysiwyg.css';
 import './Form.css';
 import * as actions from '../../../../store/actions/index';
 import PtCategs from '../../../../components/Main/PostCategs/PostCategs';

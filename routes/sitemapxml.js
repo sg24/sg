@@ -1,22 +1,24 @@
 let express = require('express');
 let router = express.Router();
-const sm = require('sitemap')
-// const posts = require('./posts')
+const {posts, questions, poets, user, authUser, comment, connectStatus} = require('../serverDB/serverDB');
+const authenticate = require('../serverDB/middleware/authenticate');
+const sm = require('sitemap');
 
 const sitemap = sm.createSitemap({
   hostname: 'https://slodge24.com',
   cacheTime: 600000, // 600 sec - cache purge period
 })
 
-// const Posts = posts()
-//   for (let i = 0; i < Posts.length; i += 1) {
-//     const post = Posts[i]
-//     sitemap.add({
-//       url: `/posts/${post.slug}`,
-//       changefreq: 'daily',
-//       priority: 0.9,
-//     })
-// }
+function fetchCntID(model,modelType, allID) {
+  return new Promise((resolve, reject) => {
+    model.find({}).then(results => {
+      for (let result of results) {
+        allID.push(`/robotonly/view/${modelType}/${result.id}`)
+      }
+      resolve(allID)
+    })
+  })
+}
 
 sitemap.add({
   url: '/robotonly/post',
@@ -43,13 +45,26 @@ sitemap.add({
 })
 
 router.get('/', (req, res) => {
-  sitemap.toXML((err, xml) => {
-    if (err) {
-      res.status(500).end()
-      return
-    }
-    res.header('Content-Type', 'application/xml')
-    res.send(xml)
+  fetchCntID(posts, 'post', []).then(postID => {
+    fetchCntID(questions, 'question', postID).then(queID => {
+      fetchCntID(poets, 'poet', queID).then(allUrl => {
+        for (let url of allUrl) {
+          sitemap.add({
+            url,
+            changefreq: 'daily',
+            priority: 0.9,
+          })
+        }
+        sitemap.toXML((err, xml) => {
+          if (err) {
+            res.status(500).end()
+            return
+          }
+          res.header('Content-Type', 'application/xml')
+          res.send(xml)
+        })
+      })
+    })
   })
 })
 

@@ -12,6 +12,7 @@ import addqueMainStore from '../../addque/store'
 import editpoetMainStore from '../../editpoet/store'
 import editpostMainStore from '../../editpost/store'
 import editqueMainStore from '../../editque/store'
+import viewMainStore from '../../view/store'
 
 export const indexStore = cmp => withRedux(indexMainStore)(withReduxSaga(cmp))
 export const signupStore = cmp => withRedux(signupMainStore)(withReduxSaga(cmp))
@@ -25,3 +26,4 @@ export const addqueStore = cmp => withRedux(addqueMainStore)(withReduxSaga(cmp))
 export const editpoetStore = cmp => withRedux(editpoetMainStore)(withReduxSaga(cmp))
 export const editpostStore = cmp => withRedux(editpostMainStore)(withReduxSaga(cmp))
 export const editqueStore = cmp => withRedux(editqueMainStore)(withReduxSaga(cmp))
+export const viewStore = cmp => withRedux(viewMainStore)(withReduxSaga(cmp))

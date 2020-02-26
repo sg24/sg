@@ -17,8 +17,7 @@ class MyApp extends App {
     let redirect = false;
     let url = null;
     if (ctx.req && ctx.req.useragent && !ctx.req.useragent.isBot) {
-      // var newHost = req.headers.host.slice(4);
-      ctx.req.redirect(301, '/index/post');
+      ctx.res.redirect(301, '/index/post');
     }
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps({ ctx })

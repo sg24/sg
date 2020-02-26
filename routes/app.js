@@ -20,7 +20,12 @@ const {category,  posts, questions, poets, user, tempUser, postnotifies,
      favorite, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/',function (req, res, next) {
-    res.redirect(301,'/index/post');
+    // res.redirect(301,'/index/post');
+    if (req.useragent &&  req.useragent.isBot) {
+        res.redirect(301, `/robotonly/post`)
+    } else {
+        res.render('index');
+    }
 });
 
 // router.get('/', authenticate,function (req, res, next) {
