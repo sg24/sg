@@ -3,8 +3,7 @@ import Avatar from 'react-avatar';
 import TimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { convertFromRaw } from 'draft-js';
-import { stateToHTML } from "draft-js-export-html";
+import draftToHtml from 'draftjs-to-html'
 
 import '../../../../../../../react-draft-wysiwyg.css';
 import { transformNumber, engStrings } from '../../../../../../../shared/utility';
@@ -14,8 +13,7 @@ const modelReply = props => {
     const formatter = buildFormatter(engStrings);
     const comment = props.comment;
     let cnt =  JSON.parse(comment.comment)
-    let raw = convertFromRaw(cnt);
-    const htmlContent = stateToHTML(raw);
+    const htmlContent = draftToHtml(cnt,{ trigger: '#',separator: ' '}, true);
     let footerCnt = null;
 
    

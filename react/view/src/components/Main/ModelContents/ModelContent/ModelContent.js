@@ -5,9 +5,8 @@ import TimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Editor } from 'react-draft-wysiwyg';
-import { convertFromRaw } from 'draft-js';
-import { stateToHTML } from "draft-js-export-html";
 import ModelComments from './ModelComments/ModelComments';
+import draftToHtml from 'draftjs-to-html'
 
 import '../../../../react-draft-wysiwyg.css';
 import './ModelContent.css'; 
@@ -22,8 +21,8 @@ const modelContent = props => {
     if (props.cntGrp !== 'post') {
         desc.blocks[0].text = props.cnt.title;
     }
-    let raw = convertFromRaw(desc);
-    const htmlContent = stateToHTML(raw);
+    const htmlContent = draftToHtml(desc,{ trigger: '#',separator: ' '}, true);
+
     let edit = null;
     let userStatus = (
         <li className="reuse-view__main--det__user--status">

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter} from 'react-router-dom';
+import { withRouter} from 'next/router';
 import { EditorState, convertToRaw } from 'draft-js';
 // import { Editor } from 'react-draft-wysiwyg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
