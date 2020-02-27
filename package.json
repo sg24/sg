@@ -23,6 +23,7 @@
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",
     "draft-js": "0.10.5",
+    "draft-js-export-html": "^1.4.1",
     "events-polyfill": "^2.1.2",
     "express": "^4.17.1",
     "express-session": "^1.17.0",

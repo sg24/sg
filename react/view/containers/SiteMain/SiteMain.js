@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import { withRouter, Switch,Route } from 'react-router-dom';
 
 import * as actions from '../../store/actions/index';
 import MainContent from './MainContent/MainContent';
@@ -125,7 +124,6 @@ class SiteMain extends Component {
                             close: this.props.changeCnt}}
                         changeCnt={this.changeCntHandler}
                         closeChangeCnt={this.closeChangeCntHandler}/> : null}
-                    <Route path="/view/:id/share" exact component={AsyncShare} />
                 {this.props.commentID ? <Editor id={this.props.commentID.id} categ={this.props.commentID.categ}/> : null}
         </div>
         )
@@ -160,4 +158,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SiteMain)); 
+export default connect(mapStateToProps, mapDispatchToProps)(SiteMain); 

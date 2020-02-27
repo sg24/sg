@@ -30,22 +30,11 @@ class Model extends Component {
         }
     }
 
-    componentDidMount() {
-        this.props.onFetchCnt( this.props.match.params.categ,  this.props.match.params.id);
-        // let these = this;
-        // socket.on('newComment', function(msg) {
-        //     these.props.onSubmitSuccess(these.state.id, these.state.categ, msg)
-        // }); 
-        // socket.on('newReplyComment', function(msg) {
-        //     these.props.onSubmitSuccess(msg.id, 'reply', msg.cnt)
-        // }); 
-    }
-
     componentDidUpdate() {
         if ( this.props.show) {
             this.props.onFetchCntReset();
-            this.props.onFetchCnt( this.props.match.params.categ,  this.props.match.params.id);
-            this.setState({categ: this.props.match.params.categ, id: this.props.match.params.id})
+            this.props.onFetchCnt( this.state.categ,  this.state.id);
+            this.setState({categ: this.state.categ, id: this.state.id})
             this.props.onDefaultTrd()
         }
 
@@ -204,7 +193,7 @@ class Model extends Component {
             cnt = null
         }
 
-        if (!this.props.match.params.categ || !this.props.match.params.id) {
+        if (!this.state.categ || !this.state.id) {
             
         }
 
