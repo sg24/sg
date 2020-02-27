@@ -3,6 +3,7 @@ import { put, delay } from 'redux-saga/effects';
 import { changeFav } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
+import global from '../../../../global/global'
 
 export function* fetchCntInitSaga(action) {
     try {
@@ -11,10 +12,10 @@ export function* fetchCntInitSaga(action) {
             let images = [];
             let snaps = [];
             for (let image of response.data.image) {
-                images.push({url: `${window.location.protocol + '//' + window.location.host}/media/image/${image.id}`, ...image, mediaType: 'image'})            
+                images.push({url: `${global.url}/media/image/${image.id}`, ...image, mediaType: 'image'})            
             }
             for (let snap of response.data.snapshot) {
-                snaps.push({url: `${window.location.protocol + '//' + window.location.host}/media/image/${snap.id}`, ...snap, mediaType: 'snapshot'})            
+                snaps.push({url: `${global.url}/media/image/${snap.id}`, ...snap, mediaType: 'snapshot'})            
             }
             response.data.image = images;
             response.data.snapshot = snaps;

@@ -2,6 +2,10 @@ import Document, { Head, Main, NextScript } from 'next/document'
 
 export default class MyDocument extends Document {
   static getInitialProps(ctx) {
+    if (ctx.req && ctx.req.useragent && !ctx.req.useragent.isBot) {
+      let url = ctx.req.originalUrl.split('robotonly').pop()
+      ctx.res.redirect(301, url);
+    }
     return Document.getInitialProps(ctx)
   }
 

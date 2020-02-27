@@ -12,7 +12,7 @@
     background-color: #fff;
     border: 1px solid #dcdbdc;
     border-top: none;
-    top: 88px;
+    /* top: 88px; */
     width: 90%;
     padding: 10px 40px 20px 10px; 
     opacity: 0;
@@ -84,8 +84,8 @@
 }
 
 .reuse-srch__visible {
-    position: -webkit-sticky;
-    position: sticky;
+    /* position: -webkit-sticky; */
+    /* position: sticky; */
     right: 0;
     opacity: 1;
     visibility: visible;
@@ -97,13 +97,13 @@
 @media (min-width: 530px) {
 
     .reuse-srch {
-        top: 90px;
+        /* top: 90px; */
     }
 }
 
 @media (min-width: 1010px) {
 
     .reuse-srch {
-        top: 100px;
+        /* top: 100px; */
     }
 }  

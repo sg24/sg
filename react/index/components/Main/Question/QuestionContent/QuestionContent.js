@@ -6,7 +6,7 @@ import Avatar from 'react-avatar';
 import './QuestionContent.css';
 import '../../../UI/ShareIcn/ShareIcn.css'; 
 import { transformNumber, engStrings } from '../../../../shared/utility';
-import Aux from '../../../../hoc/Auxs/Aux';
+import Aux from '../../../../hoc/Auxs/Auxs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FavoriteActive from '../../../UI/FavoriteActive/FavoriteActive';
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Aux from '../../../hoc/Auxs/Aux';
+import Aux from '../../../hoc/Auxs/Auxs';
 // import Tags from './Tags/Tags';
 import TopTrending from './TopTrending/TopTrending';
 import Conversation from './Conversation/Conversation';

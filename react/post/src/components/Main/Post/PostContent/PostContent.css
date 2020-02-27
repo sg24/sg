@@ -302,6 +302,7 @@
 }
 
 .reuse-pt__title > a {
+    display: block;
     color: #437da3;
     cursor: pointer;
     white-space: nowrap;

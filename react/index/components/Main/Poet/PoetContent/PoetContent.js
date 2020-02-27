@@ -6,7 +6,7 @@ import Avatar from 'react-avatar';
 import './PoetContent.css'; 
 import '../../../UI/ShareIcn/ShareIcn.css'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Aux from '../../../../hoc/Auxs/Aux';
+import Aux from '../../../../hoc/Auxs/Auxs';
 import { transformNumber, engStrings } from '../../../../shared/utility';
 import FavoriteActive from '../../../UI/FavoriteActive/FavoriteActive';
 

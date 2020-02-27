@@ -44,7 +44,7 @@ app.use(cookieParser('secret'));
 app.use(function(req, res, next) {
   if((req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === "http") || req.headers.host.slice(0, 4) === 'www.' || !req.secure) {
     var newHost = req.headers.host.slice(4);
-  //   return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
+    //   return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
      return res.redirect(301, 'https://' + newHost + req.originalUrl);
   }
   next();

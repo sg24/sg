@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Aux from '../Auxs/Aux';
+import Aux from '../Auxs/Auxs';
 import Header from '../../containers/Header/Header';
 import Footer from '../../containers/Footer/Footer';
 
