@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 
-import * as actions from '../react/index/store/actions/index';
-import App from '../react/index/containers/SiteMain/MainContent/HelpMe/HelpMe';
-import { indexStore } from '../react/hoc/withStore/withStore';
+import * as actions from '../../react/index/store/actions/index';
+import App from '../../react/index/containers/SiteMain/MainContent/HelpMe/HelpMe';
+import { indexStore } from '../../react/hoc/withStore/withStore';
 
 class Questions extends Component {
     static async getInitialProps(props) {
