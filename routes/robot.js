@@ -3,8 +3,8 @@ let router = express.Router();
 let authenticate = require('../serverDB/middleware/authenticate');
 const global = require('../global/global');
 
-router.get('/rbpt', authenticate,function (req, res, next) {
-    global.app.render(req, res, `/robotonly/rbpt`, req.params);
+router.get('/rbindex', authenticate,function (req, res, next) {
+    global.app.render(req, res, `/robotonly/rbindex`, req.params);
 });
 
 router.get('/rbquestion', authenticate,function (req, res, next) {
