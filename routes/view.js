@@ -10,7 +10,7 @@ router.get('/view/:categ/:id', authenticate, (req, res, next) => {
         return
     }
     if (req.useragent &&  req.useragent.isBot) {
-        res.redirect(301, `/robotonly/view/${req.params.categ}/${req.params.id}`)
+        res.redirect(301, `/robotonly/rbview/${req.params.categ}/${req.params.id}`)
     } else {
         res.render('view');
     }

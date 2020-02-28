@@ -43,7 +43,7 @@ function fetchCntID(model,modelType, allID) {
          if (modelType !== 'post') {
             desc = result.title;
         }
-        allID.push({genre: modelType, url: `/robotonly/view/${modelType}/${result._id}`, 
+        allID.push({genre: modelType, url: `/view/${modelType}/${result._id}`, 
         title, desc, category: result.category.join(''), create, video: result.snapshot, image: result.image})
       }
       resolve(allID)
@@ -65,25 +65,25 @@ router.get('/', (req, res) => {
     })
     const pipeline = smStream.pipe(createGzip())
     smStream.write({
-        url: '/robotonly/post',
+        url: '/index/post',
         changefreq: 'daily',
         priority: 1,
     })
 
     smStream.write({
-        url: '/robotonly/question',
+        url: '/index/question',
         changefreq: 'daily',
         priority: 1,
     })
 
     smStream.write({
-        url: '/robotonly/helpme',
+        url: '/index/helpme',
         changefreq: 'daily',
         priority: 1,
     })
 
     smStream.write({
-        url: '/robotonly/user',
+        url: '/index/user',
         changefreq: 'daily',
         priority: 1,
     })
