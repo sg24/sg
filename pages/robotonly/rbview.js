@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { withRouter } from 'next/router';
 
-import * as actions from '../../react/index/store/actions/index';
+import * as actions from '../../react/view/store/actions/index';
 import App from '../../react/view/App';
 import { viewStore } from '../../react/hoc/withStore/withStore';
 
@@ -10,8 +10,8 @@ class Model extends Component {
     static async getInitialProps(props) {
       const { store, isServer, req } = props.ctx
       if (!store.getState().cnt.cnts && req && req.useragent && req.useragent.isBot) {
-        store.dispatch(actions.fetchCntInit(ctx.req.params.categ, ctx.req.params.id))
-        store.dispatch(actions.fetchTrdInit(ctx.req.params.categ, ctx.req.params.id))
+        store.dispatch(actions.fetchCntInit(req.params.categ, req.params.id))
+        store.dispatch(actions.fetchTrdInit(req.params.categ, req.params.id))
       }
       return {  }
     }

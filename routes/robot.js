@@ -3,35 +3,35 @@ let router = express.Router();
 let authenticate = require('../serverDB/middleware/authenticate');
 const global = require('../global/global');
 
-router.get('/post', authenticate,function (req, res, next) {
-    global.app.render(req, res, `/robotonly/rbpost`, req.params);
+router.get('/rbpt', authenticate,function (req, res, next) {
+    global.app.render(req, res, `/robotonly/rbpt`, req.params);
 });
 
-router.get('/question', authenticate,function (req, res, next) {
+router.get('/rbquestion', authenticate,function (req, res, next) {
     global.app.render(req, res, `/robotonly/rbquestion`, req.params);
 });
 
-router.get('/poet', authenticate,function (req, res, next) {
+router.get('/rbpoet', authenticate,function (req, res, next) {
     global.app.render(req, res, `/robotonly/rbpoet`, req.params);
 });
 
-router.get('/helpme', authenticate,function (req, res, next) {
+router.get('/rbhelpme', authenticate,function (req, res, next) {
     global.app.render(req, res, `/robotonly/rbhelpme`, req.params);
 });
 
-router.get('/signup', authenticate,function (req, res, next) {
+router.get('/rbsignup', authenticate,function (req, res, next) {
     global.app.render(req, res, `/robotonly/rbsignup`, req.params);
 });
 
-router.get('/login', authenticate,function (req, res, next) {
+router.get('/rblogin', authenticate,function (req, res, next) {
     global.app.render(req, res, `/robotonly/rblogin`, req.params);
 });
 
-router.get('/user', authenticate,function (req, res, next) {
+router.get('/rbuser', authenticate,function (req, res, next) {
     global.app.render(req, res, `/robotonly/rbuser`, req.params);
 });
 
-router.get('/add/question', authenticate,(req, res, next) => {
+router.get('/add/rbquestion', authenticate,(req, res, next) => {
     if (!req.authType) {
         global.app.render(req, res, '/robotonly/add/rbquestion', req.params);
     } else {
@@ -40,7 +40,7 @@ router.get('/add/question', authenticate,(req, res, next) => {
     
 });
 
-router.get('/edit/question/:id', authenticate, (req, res, next) => {
+router.get('/edit/rbquestion/:id', authenticate, (req, res, next) => {
     if (req.params && !req.authType) { 
         global.app.render(req, res, '/robotonly/edit/rbquestion', req.params);
     } else {
@@ -48,7 +48,7 @@ router.get('/edit/question/:id', authenticate, (req, res, next) => {
     }
 });
 
-router.get('/add/post', authenticate, (req, res, next) => {
+router.get('/add/rbpost', authenticate, (req, res, next) => {
     if (!req.authType) {
         global.app.render(req, res, '/robotonly/add/rbpost', req.params);
     } else {
@@ -57,7 +57,7 @@ router.get('/add/post', authenticate, (req, res, next) => {
     
 });
 
-router.get('/edit/post/:id', authenticate, (req, res, next) => {
+router.get('/edit/rbpost/:id', authenticate, (req, res, next) => {
     console.log(req.params)
     if (req.params && !req.authType) { 
         global.app.render(req, res, '/robotonly/edit/rbpost', req.params);
@@ -74,7 +74,7 @@ router.get('/edit/post/:id', authenticate, (req, res, next) => {
 //     res.render('onlineexamform'); 
 // });
 
-router.get('/add/poet', authenticate, (req, res, next) => {
+router.get('/add/rbpoet', authenticate, (req, res, next) => {
     if (!req.authType) {
         global.app.render(req, res, '/robotonly/add/rbpoet', req.params);
     } else {
@@ -82,7 +82,7 @@ router.get('/add/poet', authenticate, (req, res, next) => {
     }
 });
 
-router.get('/edit/poet/:id', authenticate, (req, res, next) => {
+router.get('/edit/rbpoet/:id', authenticate, (req, res, next) => {
     if (req.params && !req.authType) { 
         global.app.render(req, res, '/robotonly/edit/rbpoet', req.params); 
     } else {
@@ -90,7 +90,7 @@ router.get('/edit/poet/:id', authenticate, (req, res, next) => {
     }
 });
 
-router.get('/view/:categ/:id', authenticate, (req, res, next) => {
+router.get('/rbview/:categ/:id', authenticate, (req, res, next) => {
     if (req.params && req.params.id && req.params.categ) { 
         global.app.render(req, res, '/robotonly/rbview', req.params); 
     } else {

@@ -22,7 +22,7 @@ const {category,  posts, questions, poets, user, tempUser, postnotifies,
 router.get('/',function (req, res, next) {
     // res.redirect(301,'/index/post');
     if (req.useragent &&  req.useragent.isBot) {
-        res.redirect(301, `/robotonly/rbpost`)
+        res.redirect(301, `/robotonly/rbpt`)
     } else {
         res.render('index');
     }
@@ -35,7 +35,8 @@ router.get('/',function (req, res, next) {
 
 router.get('/index/:id', authenticate,function (req, res, next) {
     if (req.useragent &&  req.useragent.isBot) {
-        res.redirect(301, `/robotonly/rb${req.params.id}`)
+        let id = req.params.id === 'post' ? 'pt' : req.params.id;
+        res.redirect(301, `/robotonly/rb${id}`)
     } else {
         res.render('index');
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import NavLink from '../../../hoc/Link/Link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const mainNavigation = props => {
@@ -16,9 +16,8 @@ const mainNavigation = props => {
         <li
             onClick={props.removeActive}>
             <NavLink 
-                to={props.path}
-                activeClassName="active-content-tab"
-                exact>
+                href={props.path}
+                activeClassName="active-content-tab">
                 <FontAwesomeIcon 
                     icon={['fas', props.icnGrp]} 
                     className={props.icnClass} /> 
