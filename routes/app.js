@@ -35,7 +35,7 @@ router.get('/',function (req, res, next) {
 
 router.get('/index/:id', authenticate,function (req, res, next) {
     if (req.useragent &&  req.useragent.isBot) {
-        let id = req.params.id === 'index' ? 'post' : req.params.id
+        let id = req.params.id === 'post' ? 'index' : req.params.id
         res.redirect(301, `/robotonly/rb${id}`)
     } else {
         res.render('index');

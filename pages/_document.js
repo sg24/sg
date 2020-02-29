@@ -4,7 +4,8 @@ export default class MyDocument extends Document {
   static getInitialProps(ctx) {
     if (ctx.req && ctx.req.useragent && !ctx.req.useragent.isBot) {
       let url = ctx.req.originalUrl.split('robotonly').pop().split('rb').splice(0).join('')
-      ctx.res.redirect(301, url);
+      let updateUrl = (url === ('/index' || 'index')) ? '/index/post' : url
+      ctx.res.redirect(301, updateUrl);
     }
     return Document.getInitialProps(ctx)
   }
