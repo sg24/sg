@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import NavLink from '../../../../../hoc/Link/Link';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { transformNumber, transformString } from '../../../../../shared/utility';
@@ -42,9 +42,7 @@ const trendItem = props => {
                 </div>
                 <h4 className="reuse-trd__cnt--title">
                     <NavLink
-                        to={'/view/post/' + props.trd.id}
-                        exact
-                        onClick={props.show}> 
+                        href={'/view/post/' + props.trd.id}> 
                         { transformString(props.trd.title) }
                     </NavLink> 
                 </h4>
@@ -83,9 +81,7 @@ const trendItem = props => {
                 </div>
                 <h4 className="reuse-trd__cnt--title">  
                     <NavLink
-                        to={'/view/poet/' + props.trd.id }
-                        exact
-                        onClick={props.show}> 
+                        href={'/view/poet/' + props.trd.id }> 
                         { transformString(props.trd.title) }
                     </NavLink> 
                 </h4>
@@ -124,8 +120,7 @@ const trendItem = props => {
                 </div>
                 <h4 className="reuse-trd__cnt--title">   
                     <NavLink
-                        to={'/view/question/' + props.trd.id }
-                        exact
+                        href={'/view/question/' + props.trd.id }
                         onClick={props.show}> 
                         { transformString(props.trd.title) }
                     </NavLink>

@@ -1,10 +1,10 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import NavLink from '../../../hoc/Link/Link';
 
 const Filter = props => (
     <li> 
         <NavLink
-            to={ props.path + '/' + props.tag}
+            href={ props.path + '/' + props.tag}
             activeClassName='reuse-tag__cnt--active'
             className="reuse-tag__cnt--tag">{ props.tag } </NavLink> 
     </li> 

@@ -350,13 +350,13 @@ let meta = null;
                 <li>image</li>
             </ul> */}
             {media}
-            <p 
+            {/* <p 
                 className="reuse-view__main--cnt" 
                 dangerouslySetInnerHTML={{
                     __html: htmlContent
                 }}>
-                {/* {temp} */}
-            </p>
+            </p> */}
+            <p> { htmlContent } </p>
             <div className="reuse-view__main--det">
                 { edit }
                 <div className="reuse-view__main--det__user">

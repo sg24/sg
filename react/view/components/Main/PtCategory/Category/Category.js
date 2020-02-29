@@ -1,10 +1,10 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import NavLink from '../../../../hoc/Link/Link';
 
 const category = props => (
     <li>
         <NavLink
-            to={`/post/${props.categ}`}
+            href={`/post/${props.categ}`}
             className='reuse-categ__opt--itm'
             activeClassName='reuse-categ__opt--itm__active'>
             { props.categ }
