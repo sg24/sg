@@ -31,12 +31,6 @@ class Model extends Component {
     }
 
     componentDidUpdate() {
-        if ( this.props.show) {
-            this.props.onFetchCntReset();
-            this.props.onFetchCnt( this.state.categ,  this.state.id);
-            this.setState({categ: this.state.categ, id: this.state.id})
-            this.props.onDefaultTrd()
-        }
 
         if (this.state.submitStart && this.props.resetInput){
             this.setState({inputValue: EditorState.createEmpty(), submitStart: false})
@@ -196,7 +190,6 @@ class Model extends Component {
         if (!this.state.categ || !this.state.id) {
             
         }
-
         if (this.props.cnts) {
             cnt = <ModelContents
                     cnt={this.props.cnts}
@@ -232,7 +225,7 @@ class Model extends Component {
                     correct={this.correctHandler}
                     wrong={this.wrongHandler}
                     commentTotal={this.props.commentTotal}
-                    url={`${global.url}/view/${this.state.categ}/${this.state.id}`}/>
+                    url={`https://slodge24.com/robotonly/rbview/${this.state.categ}/${this.state.id}`}/>
         }
 
         return cnt

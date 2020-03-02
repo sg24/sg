@@ -26,11 +26,11 @@ function fetchCntID(model,modelType, allID) {
                 let images = [];
                 let snaps = [];
                 for (let image of result.image) {
-                    images.push({url: `https://3000-dot-10885986-dot-devshell.appspot.com/media/image/${image.id}`})            
+                    images.push({url: `https://slodge24.com/media/image/${image.id}`})            
             }
             for (let snap of result.snapshot) {
                 let video = result.video.filter(videoDet => videoDet.snapshotID === snap.videoID);
-                snaps.push({thumbnail_loc: `https://3000-dot-10885986-dot-devshell.appspot.com/media/image/${snap.id}`,'player_loc': `https://3000-dot-10885986-dot-devshell.appspot.com/media/video/${video.videoCnt}`})            
+                snaps.push({thumbnail_loc: `https://slodge24.com/media/image/${snap.id}`,'player_loc': `https://slodge24.com/media/video/${video.videoCnt}`})            
             }
             result.image = images;
             result.snapshot = snaps;
@@ -60,7 +60,7 @@ router.get('/', (req, res) => {
     }
     try {
     const smStream = new SitemapStream({ 
-        hostname: 'https://3000-dot-10885986-dot-devshell.appspot.com',
+        hostname: 'https://slodge24.com',
         cacheTime: 600000, // 600 sec - cache purge period
     })
     const pipeline = smStream.pipe(createGzip())
@@ -96,8 +96,7 @@ router.get('/', (req, res) => {
             url: cnt.url,
             changefreq: 'daily',
             priority: 0.9,
-            img: cnt.image,
-            video: cnt.video
+            img: cnt.image
           })
         }
         smStream.end()

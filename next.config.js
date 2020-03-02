@@ -9,7 +9,8 @@ module.exports = withCSS({
       use: ['@svgr/webpack', 'url-loader']
     });
     return config
-}
+},
+distDir: 'build'
 })
 
 // withReactSvg({

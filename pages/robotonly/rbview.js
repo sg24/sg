@@ -9,7 +9,7 @@ import { viewStore } from '../../react/hoc/withStore/withStore';
 class Model extends Component {
     static async getInitialProps(props) {
       const { store, isServer, req } = props.ctx
-      if (!store.getState().cnt.cnts && req && req.useragent && req.useragent.isBot) {
+      if (!store.getState().cnt.cnts) {
         store.dispatch(actions.fetchCntInit(req.params.categ, req.params.id))
         store.dispatch(actions.fetchTrdInit(req.params.categ, req.params.id))
       }

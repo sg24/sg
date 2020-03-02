@@ -124,9 +124,9 @@ class Header extends Component {
                     <meta name="msapplication-TileColor" content="#fff"/>
                     <meta name="msapplication-config" content="/favicon/browserconfig.xml"/>
                     <meta name="theme-color" content="#05578b"/>
+                    <meta property="fb:app_id"	content="1419681334861541" />
                     <link rel="manifest" href="/manifest.json" />
                     <title>Slodge24 | knowledge sharing platform</title>
-                    <script data-ad-client="ca-pub-2645721953100564" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                 </Head>
                 <div className="wrapper">
                     <Logo />

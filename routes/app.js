@@ -21,11 +21,15 @@ const {category,  posts, questions, poets, user, tempUser, postnotifies,
 
 router.get('/',function (req, res, next) {
     // res.redirect(301,'/index/post');
-    if (req.useragent &&  req.useragent.isBot) {
-        res.redirect(301, `/robotonly/rbindex`)
-    } else {
-        res.render('index');
-    }
+    // if ((req.useragent && req.useragent.isBot) ||
+    // req.useragent.source === 'facebookexternalhit/1.1' ||
+    // req.useragent.source === 'Facebot' ||
+    // req.useragent.source === 'Twitterbot') {
+    //     res.redirect(301, `/robotonly/rbindex`)
+    // } else {
+    //     res.render('index');
+    // }
+    res.render('index');
 });
 
 // router.get('/', authenticate,function (req, res, next) {
@@ -34,12 +38,16 @@ router.get('/',function (req, res, next) {
 // });
 
 router.get('/index/:id', authenticate,function (req, res, next) {
-    if (req.useragent &&  req.useragent.isBot) {
-        let id = req.params.id === 'post' ? 'index' : req.params.id
-        res.redirect(301, `/robotonly/rb${id}`)
-    } else {
-        res.render('index');
-    }
+    // if ((req.useragent && req.useragent.isBot) ||
+    // req.useragent.source === 'facebookexternalhit/1.1' ||
+    // req.useragent.source === 'Facebot' ||
+    // req.useragent.source === 'Twitterbot') {
+    //     let id = req.params.id === 'post' ? 'index' : req.params.id
+    //     res.redirect(301, `/robotonly/rb${id}`)
+    // } else {
+    //     res.render('index');
+    // }
+    res.render('index');
 });
 
 router.post('/header', authenticate, (req, res, next) => {

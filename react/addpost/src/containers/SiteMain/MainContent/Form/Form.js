@@ -344,7 +344,7 @@ class Form extends  Component {
                                 : null
                             }
                         </div>
-                        <div className="reuse-form__cnt--wrapper">
+                        {/* <div className="reuse-form__cnt--wrapper">
                             <label className="reuse-form__cnt--title">Set Game Question</label>
                             <div className="reuse-form__cnt--det">
                                 <input 
@@ -361,8 +361,8 @@ class Form extends  Component {
                                 <div className="reuse-form__err">Game question must not be empty </div>
                                 : null
                             }
-                        </div>
-                        <div className="reuse-form__cnt--wrapper">
+                        </div> */}
+                        {/* <div className="reuse-form__cnt--wrapper">
                             <label className="reuse-form__cnt--title">Set Game Answer</label>
                             <div className="reuse-form__cnt--det">
                                 <input 
@@ -379,8 +379,8 @@ class Form extends  Component {
                                 <div className="reuse-form__err">Game answer must not be empty </div>
                                 : null
                             }
-                        </div>
-                        <div className="reuse-form__cnt--wrapper">
+                        </div> */}
+                        {/* <div className="reuse-form__cnt--wrapper">
                             <label className="reuse-form__cnt--title">
                                 <FontAwesomeIcon 
                                     icon={['fas', 'tags']} 
@@ -424,7 +424,7 @@ class Form extends  Component {
                                 <div className="reuse-form__err">Select or Add New Category</div>
                                 : null
                             }
-                        </div>
+                        </div> */}
                         <div className="reuse-form__cnt--wrapper">
                             <label className="reuse-form__cnt--title">Post Title</label>
                             <div className="reuse-form__cnt--det">

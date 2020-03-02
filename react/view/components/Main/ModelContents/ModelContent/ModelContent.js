@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { convertFromRaw } from 'draft-js';
 import { stateToHTML } from "draft-js-export-html";
 import ModelComments from './ModelComments/ModelComments';
+import Head from 'next/head'
 
 import './react-draft-wysiwyg.css';
 import './ModelContent.css'; 
@@ -60,29 +61,29 @@ const modelContent = props => {
     let mediaWrapperClass = ['reuse-pt__media--wrapper'];
 
 let meta = null;
-    let metaCateg = props.cnt.category && props.cnt.category.length > 0 ? props.cnt.category.filter(categ => categ === 'facebook game') : null; 
+    let metaCateg = props.cnt.category && props.cnt.category.length > 0 ? props.cnt.category.filter(categ => categ === 'facebook game') : []; 
     if (metaCateg.length > 0) {
         let yrs = Math.floor(Math.random()*20);
         meta = (
-             <MetaTags>
+             <Head>
                 <meta property="og:title" content={`This is when you marry, next ${yrs} ${yrs > 1 ? 'years' : 'year'}`} />
                 <meta property="og:type" content="article" />
                 <meta property="og:url" content={`${props.url}`} />
                 <meta property="og:image" content={`https://images.pexels.com/photos/256737/pexels-photo-256737.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=1200`} />
                 <meta property="og:description" content="slodge24 | Knowledge sharing platform."/>
-                <meta property="og:site_name" content={`https://www.slodge24.com - When will you get married?`}/>	
-            </MetaTags>
+                <meta property="og:site_name" content={`https://slodge24.com - When will you get married?`}/>	
+            </Head>
         )
     } else {
         meta = (
-             <MetaTags>
+            <Head>
                 <meta property="og:title" content={`${props.cnt.title}`} />
                 <meta property="og:type" content="article" />
                 <meta property="og:url" content={`${props.url}`} />
                 {mediaCnt.length > 0 ?  <meta property="og:image" content={`${mediaCnt[0].url}`} /> : null}
                 <meta property="og:description" content={`${props.cntGrp === 'post' ? desc.blocks[0].text : 'slodge24 | Knowledge sharing platform'}`}/>
-                <meta property="og:site_name" content={`https://www.slodge24.com`}/>	
-            </MetaTags>
+                <meta property="og:site_name" content={`https://slodge24.com`}/>
+            </Head>
         )
     }
 
@@ -340,23 +341,21 @@ let meta = null;
             correct={props.correct}
             wrong={props.wrong}/>
     }
-
     return (
         <div className="reuse-view">
-            { meta }
+             { meta }
         <div className="reuse-view__main">
             { header }
             {/* <ul className="site-main__content--tab">
                 <li>image</li>
             </ul> */}
             {media}
-            {/* <p 
+            <p 
                 className="reuse-view__main--cnt" 
                 dangerouslySetInnerHTML={{
                     __html: htmlContent
                 }}>
-            </p> */}
-            <p> { htmlContent } </p>
+            </p> 
             <div className="reuse-view__main--det">
                 { edit }
                 <div className="reuse-view__main--det__user">

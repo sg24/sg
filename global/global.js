@@ -2,7 +2,7 @@ let Global = {
     userDet: {},
     io: {},
     app: {},
-    url: 'http://localhost:3000'
-}
+    url: 'https://sg24-1573916290047.appspot.com'
+ }
 
 module.exports = Global;

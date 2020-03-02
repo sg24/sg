@@ -9,7 +9,10 @@ router.get('/view/:categ/:id', authenticate, (req, res, next) => {
         res.redirect('/index/post')
         return
     }
-    if (req.useragent &&  req.useragent.isBot) {
+    if ((req.useragent && req.useragent.isBot) ||
+    req.useragent.source === 'facebookexternalhit/1.1' ||
+    req.useragent.source === 'Facebot' ||
+    req.useragent.source === 'Twitterbot'){
         res.redirect(301, `/robotonly/rbview/${req.params.categ}/${req.params.id}`)
     } else {
         res.render('view');
@@ -18,7 +21,7 @@ router.get('/view/:categ/:id', authenticate, (req, res, next) => {
 
 
 router.post('/view/:categ/:id', authenticate, (req, res, next) => {
-    if (!req.params.id || !req.params.categ) {
+     if (!req.params.id || !req.params.categ) {
         res.redirect('/index/post')
         return
     }

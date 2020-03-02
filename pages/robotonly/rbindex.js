@@ -8,7 +8,7 @@ import { indexStore } from '../../react/hoc/withStore/withStore';
 class Posts extends Component {
     static async getInitialProps(props) {
         const { store, isServer, req } = props.ctx
-        if (!store.getState().cnt.cnts && req && req.useragent && req.useragent.isBot) {
+        if (!store.getState().cnt.cnts) {
             store.dispatch(actions.fetchCntInit(null, 'post', 200, 0, 0))
             store.dispatch(actions.fetchTrdInit(null))
         }
