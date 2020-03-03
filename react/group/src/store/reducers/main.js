@@ -3,7 +3,12 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
     showBackdrop: false,
+    reqActive: null,
     shareActive: null
+};
+
+const fetchReqActive = (state, action) => {
+    return updateObject(state, { reqActive: action.reqActive })
 };
 
 const fetchShareActive = (state, action) => {
@@ -11,7 +16,7 @@ const fetchShareActive = (state, action) => {
 };
 
 const resetActive = (state, action) => {
-    return updateObject(state,  {...state} )
+    return updateObject(state,  {reqActive: null} )
 };
 
 const showMainBackdrop= (state, action) => {
@@ -25,6 +30,8 @@ const hideMainBackdrop= (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
+        case actionTypes.FETCH_REQ_ACTIVE:
+            return fetchReqActive(state, action);
         case actionTypes.FETCH_SHARE_ACTIVE:
             return fetchShareActive(state, action);
         case actionTypes.RESET_ACTIVE:

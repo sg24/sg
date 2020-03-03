@@ -1,7 +1,15 @@
 import { put } from 'redux-saga/effects';
 
-import * as actions from '../../store/actions/index';
+import * as actions from '../actions/index';
 import axios from '../../axios';
+
+export function* fetchReqActiveInitSaga(action) {
+    try {
+        let response = yield axios.post('/users', null,{headers: {'data-categ': 'request-activeOnly'}});
+        yield put(actions.fetchReqActive(response.data));
+    } catch(err) {}
+
+}
 
 export function* fetchShareActiveInitSaga(action) {
     try {
@@ -12,7 +20,6 @@ export function* fetchShareActiveInitSaga(action) {
 
 export function* resetActiveInitSaga(action) {
     try {
-         yield axios.patch('/header', {model: action.curTab}, {headers: {'data-categ': 'modelNotify'}});
-        yield put(actions.resetActive(action.curTab));
+        yield put(actions.resetActive('user'));
     } catch(err) {}
 }

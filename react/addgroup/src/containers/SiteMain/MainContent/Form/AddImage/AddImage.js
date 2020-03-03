@@ -16,7 +16,7 @@ class AddImage extends Component {
         media: null,
         removeMediaItemIndex: null,
         snapshotErr: null,
-        mediaUrl: null,
+        mediaUrl: this.props.media && this.props.media.image && this.props.media.image.length > 0 ? this.props.media.image[0].imageUrl : null,
         err: null,
         startCapture: false,
         start: false
@@ -149,10 +149,20 @@ class AddImage extends Component {
      submitMediaHandler = () => {
         let media = {...this.props.media};
         this.props.onSubmitMedia(updateObject(media, {image: [{...this.props.imageCapture}]}));
+        if (videoRef.current && videoRef.current.srcObject){
+            videoRef.current.srcObject.getVideoTracks().forEach(function(track) {
+                track.stop();
+          });
+        }
     }
 
     closeMediaBoxHandler = () => {
         this.props.onhideMediaBox();
+        if (videoRef.current && videoRef.current.srcObject){
+            videoRef.current.srcObject.getVideoTracks().forEach(function(track) {
+                track.stop();
+          });
+        }
     }
 
 

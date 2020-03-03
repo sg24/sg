@@ -349,7 +349,7 @@ class Form extends  Component {
                                     editorState={this.state.formElement.content.value}
                                     onEditorStateChange={(event) => this.inputChangedHandler(event, 'content')} 
                                     toolbar={{
-                                        options: ['inline', 'blockType', 'emoji', 'remove', 'history'],
+                                        options: ['inline', 'blockType', 'list', 'textAlign', 'emoji','remove', 'history'],
                                         inline: { inDropdown: true }
                                 }}/>
                             </div>
@@ -390,7 +390,7 @@ class Form extends  Component {
                     
                     { this.state.showAddItm ? 
                         <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop></Aux> : null }
-                    { this.state.showImgOpt ? <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop><AsyncImage /></Aux> : null }
+                    { this.state.showImgOpt ? <Aux><Backdrop></Backdrop><AsyncImage /></Aux> : null }
                     { this.props.submitForm && !this.state.showCateg ? 
                         <Aux>
                             <Backdrop></Backdrop>

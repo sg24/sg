@@ -1,7 +1,7 @@
 import { put } from 'redux-saga/effects';
 
 import axios from '../../axios';
-import * as actions from '../../store/actions/index';
+import * as actions from '../actions/index';
 
 export function* fetchTrdInitSaga(action) {
     try {

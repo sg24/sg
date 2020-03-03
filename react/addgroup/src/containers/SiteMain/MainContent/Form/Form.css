@@ -1069,7 +1069,7 @@
     background-color: #fff;
     box-shadow: 0 1px 4px 1px rgba(0,0,0, .55);
     width: 80px;
-    float: right;
+    float: left;
 }
 
 .reuse-form__btn--close:disabled, .reuse-form__btn--dft:disabled {
