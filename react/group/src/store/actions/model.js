@@ -1,14 +1,21 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchCntInit = (fetchType, fetchLimit, skipCnt, cntTotal) => {
+export const fetchCntInit = (userID, fetchType, fetchLimit, skipCnt, cntTotal) => {
     return {
         type: actionTypes.FETCH_CNT_INIT,
+        userID,
         fetchType,        
         fetchLimit,
         skipCnt,
         cntTotal
     }
 };
+
+export const fetchCntStart = () =>{
+    return {
+        type: actionTypes.FETCH_CNT_START
+    };
+}
 
 export const fetchCntReset = () =>{
     return {
@@ -74,6 +81,14 @@ export const changeCntFail = (err) => {
 export const changeCnt= () => {
     return {
         type: actionTypes.CHANGE_CNT
+    }
+};
+
+export const fetchVideo = (id, url) => {
+    return {
+        type: actionTypes.FETCH_VIDEO,
+        id,
+        url
     }
 };
 

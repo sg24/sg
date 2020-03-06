@@ -11,8 +11,8 @@
 }
 
 .icon__reuse-form--cnt__user {
-    color: #0284a8;
-    margin-right: 5px;
+    color: #fff;
+    margin-right: 10px;
 }
 
 .icon__reuse-form--srch {
@@ -220,6 +220,7 @@
     margin: 0 auto;
     padding: 20px 15px;
     font-size: .875rem;
+    min-height: 400px;
 }
 
 .reuse-form__wrapper {
@@ -305,6 +306,10 @@
     border: 1px solid #dcdbdc;
 }
 
+.reuse-form__cnt--det__selec--opt__loading {
+    height: 200px;
+}
+
 .reuse-form__cnt--det__wrapper {
     padding: 8px 10px;
     font-size: .8125rem;
@@ -385,8 +390,8 @@
 }
 
 .reuse-form__cnt--det__selec--add {
-    background-color: #0284a8;
-    color: #fff;
+    background-color: #f2f2f2;
+    color: #05578B;
     padding: 8px 0px;
     width: 110px;
     box-shadow: 0 2px 5px 0 rgba(0,0,0, .45);
@@ -398,8 +403,13 @@
     transform: translateY(-50%);
     left: 150px;
     padding: 8px 0px;
-    width: 120px;
+    width: 80px;
     box-shadow: 0 2px 5px 0 rgba(0,0,0, .45);
+    color: #fff;
+    background: linear-gradient( 180deg, rgb(5,87,139) 20%,  rgb(19,51,97) 100%);
+    background: -moz-linear-gradient( 180deg, rgb(5,87,139) 20%,  rgb(19,51,97) 100%);
+    background: -webkit-linear-gradient( 180deg, rgb(5,87,139) 20%,  rgb(19,51,97) 100%);
+    background: -ms-linear-gradient( 180deg, rgb(5,87,139) 20%,  rgb(19,51,97) 100%);
 }
 
 .reuse-form__cnt--det__selec--opt {
@@ -590,13 +600,19 @@
     cursor: pointer;
     z-index: 1;
 }
+
+.reuse-form__cnt--det__toolbar {
+    background-color: #f9f9f9;
+    margin: 0;
+}
+
 .reuse-form__cnt--det__info {
     width: 100%;
     border: none;
     outline: none;
     line-height: 2;
     padding: 5px 10px 5px 10px;
-    height: 100px;
+    height: 200px;
     resize: vertical;
     border-radius: 3px;
     background-color: transparent;
@@ -608,11 +624,6 @@
 
 .reuse-form__cnt--det__info > div > div {
     height: auto;
-}
-
-.reuse-form__cnt--det__toolbar {
-    background-color: #f9f9f9;
-    margin: 0;
 }
 
 .reuse-form__cnt--tag {

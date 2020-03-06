@@ -7,8 +7,7 @@ const filterCategory = props => {
         <Category
             key={index}
             category={category}
-            categSelect={props.categSelect.bind(this, category, index)}
-            categSelectGrp={props.categSelectGrp}/>
+            categSelect={props.categSelect.bind(this, category, index)}/>
     ));
 
     return allFilterOpt;

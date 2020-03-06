@@ -1,19 +1,20 @@
 import { put, delay } from 'redux-saga/effects';
 import { changeFav } from '../../shared/utility';
-import * as actions from '../actions/index';
+import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
 export function* fetchCntInitSaga(action) {
+    if (action.cntTotal > action.skipCnt) {
+        yield put(actions.fetchCntStart());
+    }
     try {
         if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
-            let response =  yield axios.post('/users', null,{
+            let response = yield axios.post('/question', null, {
                 headers: {
                     'data-categ': action.fetchType, 
                     'limit': action.fetchLimit, 
                     'skip': action.skipCnt}});
-            if (response.data && response.data.cnt) {
-                yield put(actions.fetchCnt(response.data.cnt, action.skipCnt,response.data.cntTotal))
-            } 
+            yield put(actions.fetchCnt(response.data.cnt, action.skipCnt, response.data.cntTotal));
         }  
         
     } catch(err){
@@ -25,7 +26,7 @@ export function* fetchCntInitSaga(action) {
 export function* changeFavSaga(action) {
     let updateFav = changeFav(action.id ,action.liked, action.favAdd, action.changedFav);
     yield put(actions.changeMainFavoriteStart(updateFav.favDet.liked));
-    yield put(actions.changeFavPtStart(updateFav.favDet.id, updateFav.favDet.liked));
+    yield put(actions.changeFavPtStart(updateFav.favDet.id, updateFav.favDet.liked))
     try {
         let field = action.cntGrp === 'post' ? 'postID' : action.cntGrp === 'question' ?
         'queID' : 'pwtID';
@@ -46,16 +47,20 @@ export function* changeCntInitSaga(action) {
         return;
     }
     try {
-        if (action.det) {
-            yield put(actions.changeCntStart(action.title, action.id, action.det))
-            yield axios.patch('/users', {id: action.id}, {headers: {'data-categ': action.det}});
-        } 
+        if (action.det === 'delete') {
+            let payload = JSON.stringify({id: action.id, model: 'question', field: 'queID'})
+            yield axios.delete('/header', {headers: {'data-categ': `deletecnt-${payload}`}});
+        } else if (action.det === 'draft' || action.det === 'acc-draft'){
+            yield axios.patch('/header', {id: action.id, model: 'question', field: 'queID'} ,{headers: {'data-categ': 'draftmode'}});
+        } else {
+            yield axios.patch('/header', {id: action.id, model: 'question', field: 'queID'} ,{headers: {'data-categ': 'publishmode'}});
+        }
         yield put(actions.changeCnt())
         yield delay(1000);
         yield put(actions.changeCntReset(true))
     } catch(err){
         yield put(actions.changeCntFail(err))
         yield delay(1000);
-        yield put(actions.changeCntReset())
+        yield put(actions.changeCntReset(false))
     }
 }

@@ -21,6 +21,10 @@ const AsyncImage = asyncComponent(() => {
     return import ('./AddImage/AddImage');
 });
 
+const AsyncUsers = asyncComponent(() => {
+    return import ('./AddUsers/AddUsers');
+});
+
 class Form extends  Component {
     state = {
         showCateg: false,
@@ -183,6 +187,7 @@ class Form extends  Component {
                 desc: JSON.stringify(convertToRaw(this.state.formElement.content.value.getCurrentContent())),
                 title: this.state.formElement.title.value,
                 image: this.props.media.image ? this.props.media.image: [],
+                shareMe: this.props.media.user ? this.props.media.user : [],
                 mode
             }
             this.props.onSubmitForm(newCnt)
@@ -383,6 +388,23 @@ class Form extends  Component {
                                                 onClick={this.showOptHandler.bind(this, 'image')}>Image</li>
                                         </ul>
                                     </div>
+                                    <div 
+                                        className="reuse-form__cnt--det__selec reuse-form__cnt--det__selec--user"
+                                        onClick={this.showOptHandler.bind(this, 'user')}>
+                                        <FontAwesomeIcon 
+                                            icon={['fas', 'envelope']} 
+                                            className="icon icon__reuse-form--cnt__user" />
+                                            <div className="reuse-form__cnt--det__selec--added">
+                                            <div className="reuse-form__cnt--det__selec--added__img">
+                                                <div className="reuse-form__cnt--det__selec--added__img--icn">
+                                                    <FontAwesomeIcon 
+                                                        icon={['fas', 'user-friends']} />
+                                                </div> 
+                                                {this.props.media.user ? this.props.media.user.length : 0}
+                                            </div>
+                                        </div>
+                                        Invite 
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -391,6 +413,7 @@ class Form extends  Component {
                     { this.state.showAddItm ? 
                         <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop></Aux> : null }
                     { this.state.showImgOpt ? <Aux><Backdrop></Backdrop><AsyncImage /></Aux> : null }
+                    { this.state.showUserOpt ? <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop><AsyncUsers /></Aux> : null}
                     { this.props.submitForm && !this.state.showCateg ? 
                         <Aux>
                             <Backdrop></Backdrop>

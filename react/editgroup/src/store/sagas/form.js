@@ -3,6 +3,47 @@ import { put, delay } from 'redux-saga/effects';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 import fileAxios from 'axios';
+import { dataURLtoBlob } from '../../shared/utility';
+
+export function* fetchCntInitSaga(action) {
+    try {
+        const response = yield axios.post('/header', {id: action.id, model: 'group'},{headers: {'data-categ':`editform`}});
+        if (response.data && (response.data.image.length > 0 )) {
+            let images = [];
+            for (let image of response.data.image) {
+                images.push({url: `${window.location.protocol + '//' + window.location.host}/media/image/${image.id}`, ...image, mediaType: 'image'})            
+            }
+            response.data.image = images;
+        }
+        yield put(actions.fetchCnt(response.data))
+    } catch(err){
+        yield put(actions.fetchCntFail(err));
+    }
+    
+}
+
+export function* fetchVideoInitSaga(action) {
+    try {
+        let videos = [];
+        let video = 0;
+        if (action.videosID.length < 1) {
+            yield put(actions.fetchVideo([]))
+            return;
+        }
+        for (let vid of action.videosID) {
+            let media =  yield axios.post('/media', {mediaID: vid.id},{headers: {'data-categ':'media'}});
+            let vidData = dataURLtoBlob(media.data);
+            let url = window.URL.createObjectURL(vidData);
+            ++video;
+            videos.push({file: vidData, url, id: vid.snapshotID})
+            if (video === action.videosID.length) {
+                yield put(actions.fetchVideo(videos))
+            }
+        }
+    } catch(err) {
+        yield put(actions.fetchVideoFail(err))
+    }
+}
 
 export function* fetchCategInitSaga(action) {
     try {

@@ -7,6 +7,7 @@ const category = require('./models/category');
 const postnotifies = require('./models/postnotifies');
 const quenotifies = require('./models/quenotifies');
 const pwtnotifies = require('./models/pwtnotifies');
+const grpnotifies = require('./models/grpnotifies');
 const usernotifies = require('./models/usernotifies');
 const viewnotifies = require('./models/viewnotifies');
 const favorite = require('./models/favorites');
@@ -30,6 +31,7 @@ module.exports = {
     tempFile,
     postnotifies,
     quenotifies,
+    grpnotifies,
     usernotifies,
     pwtnotifies,
     viewnotifies,

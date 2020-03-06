@@ -4,7 +4,6 @@ const fs = require('fs');
 let saveTemp = (allFiles, image, userID) => {
     return new Promise((resolve, reject) => {
         let files = []
-        let images = []
         if ((!allFiles && !image) || (allFiles.length < 1 && image.length < 1)) {
             resolve();
             return;
@@ -14,10 +13,9 @@ let saveTemp = (allFiles, image, userID) => {
             allFiles = [allFiles]
         }
         if (image.length === undefined) {
-            images = [image]
+            image = [image]
         }
-
-        for (let file of [...allFiles, ...images]){
+        for (let file of [...allFiles, ...image]){
             files.push(file.path);
         }
 

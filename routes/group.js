@@ -14,7 +14,7 @@ router.get('/:id', authenticate, (req, res,next) => {
 })
 
 router.post('/', authenticate, (req, res, next) => {
-    if (req.header !== null && req.header('data-categ') === 'post') {
+    if (req.header !== null && req.header('data-categ') === 'group') {
         return fetchGroup({mode: 'publish'});
     }
 
@@ -22,7 +22,7 @@ router.post('/', authenticate, (req, res, next) => {
         return fetchGroup({mode: 'publish', shareMe: req.user});
     }
 
-    if (req.header !== null && req.header('data-categ') === 'mypost') {
+    if (req.header !== null && req.header('data-categ') === 'mygroup') {
         return fetchGroup({authorID: req.user});
     }
 

@@ -15,21 +15,20 @@ let notification = require('./utility/notifications');
 let push = require('./utility/push');
 const global = require('../global/global');
 
-const {category,  posts, questions, poets, user, tempUser, postnotifies, 
+const {category,  posts, questions, poets, group, user, tempUser, postnotifies, 
      authUser, quenotifies, pwtnotifies, viewnotifies, usernotifies,
      favorite, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/',function (req, res, next) {
-    // res.redirect(301,'/index/post');
-    // if ((req.useragent && req.useragent.isBot) ||
-    // req.useragent.source === 'facebookexternalhit/1.1' ||
-    // req.useragent.source === 'Facebot' ||
-    // req.useragent.source === 'Twitterbot') {
-    //     res.redirect(301, `/robotonly/rbindex`)
-    // } else {
-    //     res.render('index');
-    // }
-    res.render('index');
+    res.redirect(301,'/index/post');
+    if ((req.useragent && req.useragent.isBot) ||
+    req.useragent.source === 'facebookexternalhit/1.1' ||
+    req.useragent.source === 'Facebot' ||
+    req.useragent.source === 'Twitterbot') {
+        res.redirect(301, `/robotonly/rbindex`)
+    } else {
+        res.render('index');
+    }
 });
 
 // router.get('/', authenticate,function (req, res, next) {
@@ -38,16 +37,15 @@ router.get('/',function (req, res, next) {
 // });
 
 router.get('/index/:id', authenticate,function (req, res, next) {
-    // if ((req.useragent && req.useragent.isBot) ||
-    // req.useragent.source === 'facebookexternalhit/1.1' ||
-    // req.useragent.source === 'Facebot' ||
-    // req.useragent.source === 'Twitterbot') {
-    //     let id = req.params.id === 'post' ? 'index' : req.params.id
-    //     res.redirect(301, `/robotonly/rb${id}`)
-    // } else {
-    //     res.render('index');
-    // }
-    res.render('index');
+    if ((req.useragent && req.useragent.isBot) ||
+    req.useragent.source === 'facebookexternalhit/1.1' ||
+    req.useragent.source === 'Facebot' ||
+    req.useragent.source === 'Twitterbot') {
+        let id = req.params.id === 'post' ? 'index' : req.params.id
+        res.redirect(301, `/robotonly/rb${id}`)
+    } else {
+        res.render('index');
+    }
 });
 
 router.post('/header', authenticate, (req, res, next) => {
@@ -246,7 +244,7 @@ router.post('/header', authenticate, (req, res, next) => {
 
     if (req.header('data-categ') === 'editform') {
         let model = req.body.model === 'post' ? posts :
-        req.body.model === 'question' ? questions : poets;
+        req.body.model === 'question' ? questions : req.body.model === 'group'  ? group : poets;
         model.findOne({_id: req.body.id, authorID: req.user}).then(result => {
             res.send(result).status(200)
         })
@@ -617,9 +615,21 @@ router.get('/edit/post/:id', authenticate, (req, res, next) => {
     }
 });
 
-// router.get('/add/group', (req, res, next) => {
-//     res.render('groupform'); 
-// });
+router.get('/edit/group/:id', authenticate, (req, res, next) => {
+    if (req.params && !req.authType) { 
+        res.render('editgroup'); 
+    } else {
+        res.redirect('/')
+    }
+});
+
+router.get('/add/group',  authenticate,(req, res, next) => {
+    if (!req.authType) {
+        res.render('groupform');
+    } else {
+        res.redirect('/login')
+    }
+});
 
 // router.get('/add/onlineexam', (req, res, next) => {
 //     res.render('onlineexamform'); 

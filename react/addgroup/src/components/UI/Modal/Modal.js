@@ -40,7 +40,7 @@ const modal = props => {
                 <div className="reuse-form__btn">
                     <button 
                         type="button" 
-                        className="reuse-form__btn--close"
+                        className="reuse-form__btn--close reuse-form__btn--close-grp"
                         onClick={props.view}> View </button>
                 </div>
             </Aux>

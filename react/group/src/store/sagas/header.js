@@ -2,7 +2,7 @@ import { put } from 'redux-saga/effects';
 
 import axios from '../../axios';
 import { changeFav } from '../../shared/utility';
-import * as actions from '../actions/index';
+import * as actions from '../../store/actions/index';
 
 export function* fetchNotifyInitSaga(action) {
     try {

@@ -1,6 +1,6 @@
 import { put } from 'redux-saga/effects';
 
-import * as actions from '../actions/index';
+import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
 export function* checkAuthInitSaga(action) {

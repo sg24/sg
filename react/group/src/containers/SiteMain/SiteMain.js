@@ -12,8 +12,12 @@ import MainFilter from '../../components/MainFilter/MainFilter';
 import Loader from '../../components/UI/Loader/Loader';
 import NoAcc from '../../components/Main/NoAcc/NoAcc';
 
+const AsyncShare= asyncComponent(() => {
+    return import ('./Share/Share');
+});
+
 const AsyncFilterContent= asyncComponent(() => {
-    return import ('./MainContent/MainModel/Filter/FilterContent/FilterContent');
+    return import ('./MainContent/MainGrp/Filter/FilterContent/FilterContent');
 });
 
 class SiteMain extends Component {
@@ -65,7 +69,7 @@ class SiteMain extends Component {
         if (!this.props.searchCntErr && this.props.searchCnt && this.props.searchCnt.length === 0) {
             filterCnt = (
                 <NoAcc 
-                    isAuth={this.props.status}
+                    isAuth={this.props.userID !== null}
                     det='No content found!'
                     icn='clone'
                     filter />
@@ -84,20 +88,19 @@ class SiteMain extends Component {
             <div className="site-main site-main__expage" onClick={this.checkHeaderDefault}>
             <div className="wrapper__exmain">
             {this.props.showBackdrop ? 
-                <Backdrop   
-                    show={ this.props.showBackdrop }
-                    close={this.closeBackdropHandler}
-                    component={ AsyncFilterContent }/> : null}
-                    { this.props.cntErr ? 
-                        <Backdrop 
-                            component={ Modal }
-                            close={this.closeModelBackdropHandler}
-                            err={ this.props.cntErr } /> : null}
-                    <Switch>
-                        <Route path="/users" exact component={MainContent} />
-                        <Route path="/users/:id" exact component={MainContent} />
-                        <Route path={"/users/:id/?search=/:id"} exact component={MainContent} />
-                    </Switch>
+                 <Backdrop   
+                     show={ this.props.showBackdrop }
+                     close={this.closeBackdropHandler}
+                     component={ AsyncFilterContent }/> : null}
+                { this.props.cntErr ? 
+                    <Backdrop 
+                        component={ Modal }
+                        close={this.closeModelBackdropHandler}
+                        err={ this.props.cntErr } /> : null}
+                <Switch>
+                    <Route path="/group" exact component={MainContent} />
+                    <Route path="/group/:id" exact component={MainContent} />
+                </Switch>
                 <MainNav />
             </div>
             { this.props.filterStart ? 
@@ -116,21 +119,18 @@ class SiteMain extends Component {
                         close={this.closeModelBackdropHandler}
                         err={ this.props.changeCntErr }
                         warn={{
-                            msg: this.props.changeCntStart.det === 'blockUser' ?
-                            'Are you sure you want to block this user' : 
-                            this.props.changeCntStart.det === 'rejUser' ? 'Are you sure you want to reject this user' :
-                            this.props.changeCntStart.det === 'acceptUser' ? 'Are you sure you want to accept this user' :  
-                            this.props.changeCntStart.det === 'cancelReq' ? 'Are you sure you want to Cancel the request, sent to this user' : 
-                            'Are you sure you want to remove this user',
+                            msg: this.props.changeCntStart.det=== 'delete' ?
+                            'Are you sure you want to delete this question' : 'Are you sure you want to change this question mode',
                             cnt: this.props.changeCntStart.title,
                             det: this.props.changeCntStart.det
                         }}
                         exit={{
-                            msg: this.props.changeCntStart.det=== 'acceptUser' ?
-                            'User added Successfully' : 'Successful', 
+                            msg: this.props.changeCntStart.det=== 'delete' ?
+                            'Question Deleted Successfully' : 'Question mode change successfully', 
                             close: this.props.changeCnt}}
                         changeCnt={this.changeCntHandler}
                         closeChangeCnt={this.closeChangeCntHandler}/> : null}
+                <Route path="/group/share" exact component={AsyncShare} />
         </div>
         )
     }
@@ -138,7 +138,7 @@ class SiteMain extends Component {
 
 const mapStateToProps = state => {
     return {
-        status: state.auth.status,
+        userID: state.auth.userID,
         default: state.header.default,
         showBackdrop: state.main.showBackdrop,
         cntErr: state.cnt.cntErr,

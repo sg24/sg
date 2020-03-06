@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import 'cropperjs/dist/cropper.css';
 import uuid from 'uuid';
 
-import { dataURLtoBlob, updateObject } from '../../../../../../shared/utility';
+import { dataURLtoBlob } from '../../../../../../shared/utility';
 import * as actions from '../../../../../../store/actions/index';
 
 const cropper = React.createRef(null);

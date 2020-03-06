@@ -1,22 +1,23 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchReqActiveInit = () =>  {
+export const fetchCntActiveInit = (userID) => {
     return {
-        type: actionTypes.FETCH_REQ_ACTIVE_INIT
-        
-    }; 
-}; 
-
-export const fetchReqActive = (reqActive) =>  {
-    return {
-        type: actionTypes.FETCH_REQ_ACTIVE,
-        reqActive
-    }; 
+        type: actionTypes.FETCH_CNT_ACTIVE_INIT,
+        userID
+    };
 };
 
-export const fetchShareactiveInit = () =>  {
+export const fetchCntActive = (cntActive) => {
     return {
-        type: actionTypes.FETCH_SHARE_ACTIVE_INIT
+        type: actionTypes.FETCH_CNT_ACTIVE,
+        cntActive
+    };
+};
+
+export const fetchShareactiveInit = (userID) =>  {
+    return {
+        type: actionTypes.FETCH_SHARE_ACTIVE_INIT,
+        userID
     }; 
 }; 
 
@@ -24,6 +25,20 @@ export const fetchShareActive = (shareActive) =>  {
     return {
         type: actionTypes.FETCH_SHARE_ACTIVE,
         shareActive
+    }; 
+}; 
+
+export const fetchShareCntactiveInit = (userID) =>  {
+    return {
+        type: actionTypes.FETCH_SHARECNT_ACTIVE_INIT,
+        userID
+    }; 
+}; 
+
+export const fetchShareCntActive = (shareCntActive) =>  {
+    return {
+        type: actionTypes.FETCH_SHARECNT_ACTIVE,
+        shareCntActive
     }; 
 }; 
 

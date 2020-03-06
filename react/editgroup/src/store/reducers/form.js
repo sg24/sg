@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
 const initialState = {
+    cntErr: null,
     categ: null,
     showCateg: false,
     categErr: null,
@@ -20,9 +21,57 @@ const initialState = {
     defaultValue: false,
     uploadPercent: null,
     submitError: null,
+    removedSnap: [],
     submitForm: false,
+    content: null,
+    title: null,
+    videoFetched: false,
+    showVideo:false,
+    editImage: false,
+    editVideo:false,
+    redirect: false,
     imageCapture: null,
     id: null
+};
+
+const fetchCnt = (state, action) => {
+    if (action.cnt) {
+        let desc = JSON.parse(action.cnt.desc)
+        let snapshot = [];
+        let image = [...action.cnt.image];
+        let video = [];
+        return updateObject(state, {
+            newCateg: action.cnt.category, title: action.cnt.title, content: desc, cntErr: null, snapshot, media: {image, video}})
+    }
+    return updateObject(state, {redirect: true})
+};
+
+const fetchCntFail = (state, action) => {
+    return updateObject(state, {cntErr: action.err})
+};
+
+const fetchVideo = (state, action) => {
+    let media = {...state.media};
+    let videos = [...action.videos];
+    media.video = videos;
+    return updateObject(state, {media, videoFetched: true})
+};
+
+const fetchVideoFail = (state, action) => {
+    return updateObject(state, {cntErr: action.err})
+};
+
+
+const videoFetched = (state, action) => {
+    return updateObject(state, {showVideo: true})
+};
+
+const imageEdit = (state, action) => {
+    return updateObject(state, {editImage: true})
+};
+
+const videoEdit = (state, action) => {
+    return updateObject(state, {editVideo: true})
 };
 
 const fetchCategStart = (state, action) => {
@@ -59,6 +108,12 @@ const addSnapshot = (state, action) => {
 
 const removeSnapshot= (state, action) => {
     return updateObject(state, {snapshot: action.snapshot})
+};
+
+const saveRemoveSnap = (state, action) => {
+    let snap = [...state.removedSnap];
+    snap.push(action.snapshotDet)
+    return updateObject(state, {removedSnap: snap})
 };
 
 const removeMedia = (state, action) => {
@@ -132,6 +187,20 @@ const formSubmitted = (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.FETCH_CNT:
+            return fetchCnt(state, action);
+        case actionTypes.FETCH_CNT_FAIL:
+            return fetchCntFail(state, action);
+        case actionTypes.FETCH_VIDEO:
+            return fetchVideo(state, action);
+        case actionTypes.FETCH_VIDEO_FAIL:
+            return fetchVideoFail(state, action);
+        case actionTypes.VIDEO_FETCHED:
+            return videoFetched(state, action);
+        case actionTypes.VIDEO_EDIT:
+            return videoEdit(state, action);
+        case actionTypes.IMAGE_EDIT:
+            return imageEdit(state, action);
         case actionTypes.FETCH_CATEG_START:
             return fetchCategStart(state, action);
         case actionTypes.FETCH_CATEG_FAIL:
@@ -154,7 +223,9 @@ const reducer = (state = initialState, action) => {
             return addSnapshot(state, action);
         case actionTypes.REMOVE_SNAPSHOT:
             return removeSnapshot(state, action);
-         case actionTypes.IMAGE_CAPTURE:
+        case actionTypes.SAVE_REMOVE_SNAP:
+            return saveRemoveSnap(state, action);
+        case actionTypes.IMAGE_CAPTURE:
             return imageCapture(state, action);
         case actionTypes.REMOVE_MEDIA:
             return removeMedia(state, action);

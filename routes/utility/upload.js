@@ -33,9 +33,7 @@ let upload = (files, tempFileID, type, bucketName, coll) => {
             videos.push(media.video)
             images.push(media.image);
             if(snapshot === files.length) {
-              tempFile.findByIdAndRemove(tempFileID).then(() => {
-                resolve({videos,images})
-              })
+              resolve({videos,images})
             }
           }).catch(err => {
             return reject(err)
@@ -49,11 +47,7 @@ let upload = (files, tempFileID, type, bucketName, coll) => {
               }
               ++imageUploaded;
               if (imageUploaded === files.length) {
-                tempFile.findByIdAndRemove(tempFileID).then(() => {
-                  resolve(imgDet)
-                }).catch(err => {
-                  reject(err)
-                })
+                resolve(imgDet)
               }
             })
           } else {
@@ -61,11 +55,7 @@ let upload = (files, tempFileID, type, bucketName, coll) => {
               imgDet.push({id: imgInfo._id, filename: imgInfo.filename, type: `image/${imgInfo.filename.split('.')[1]}`})
               ++imageUploaded;
               if (imageUploaded === files.length) {
-                tempFile.findByIdAndRemove(tempFileID).then(() => {
-                  resolve(imgDet)
-                }).catch(err => {
-                  reject(err)
-                })
+                resolve(imgDet)
               }
             })
           }

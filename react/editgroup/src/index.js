@@ -3,6 +3,7 @@ import 'react-app-polyfill/stable';
 import 'events-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom'; 
 import { createStore, combineReducers, applyMiddleware }  from 'redux'; 
 import { Provider } from 'react-redux';
 import  createSagaMiddleware from 'redux-saga';
@@ -10,7 +11,7 @@ import reduxThunk from 'redux-thunk';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
- 
+
 import * as serviceWorker from './serviceWorker';
 import App from './App';
 import './index.css';
@@ -47,7 +48,9 @@ library.add(fas,far)
 
 const app = (
     <Provider store={store}>
-        <App />
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
     </Provider>
 );
 

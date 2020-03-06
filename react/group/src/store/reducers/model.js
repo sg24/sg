@@ -1,13 +1,15 @@
 import * as actionTypes from '../actions/actionTypes';
-import { updateObject, changeMode } from '../../shared/utility';
+import { updateObject } from '../../shared/utility';
 
 const initialState = {
     cnts: null,
     cntErr: null,
     skipCnt: null,
-    cntTotal: null,
+    showLoader: false,
     changedFav: [],
     favChange: null,
+    postVideo: {id: null},
+    videoErr: null,
     filterDet: null,
     changeCnt: false,
     changeCntErr: null,
@@ -16,15 +18,19 @@ const initialState = {
 
 const fetchCnt = (state, action) => {
     let cnts = !state.cnts ? action.cnt : state.cnts.concat(...action.cnt);
-    return updateObject(state, {cnts, skipCnt: action.skipCnt, cntTotal: action.cntTotal})
+    return updateObject(state, {cnts, skipCnt: action.skipCnt, cntTotal: action.cntTotal, showLoader: false})
 };
 
 const fetchCntReset = (state, action) => {
-    return updateObject(state, {cnts: null, skipCnt: null, cntTotal: null})
+    return updateObject(state, {cnts: null, skipCnt: null, cntTotal: null, showLoader: false})
+};
+
+const fetchCntStart = (state, action) => {
+    return updateObject(state, {showLoader: true})
 };
 
 const fetchPostFail = (state, action) => {
-    return updateObject(state, {cntErr: action.err})
+    return updateObject(state, {cntErr: action.err, showLoader: false})
 };
 
 const changeCntStart = (state, action) => {
@@ -36,44 +42,19 @@ const changeCntCancel = (state, action) => {
 };
 
 const changeCntReset = (state, action) => {
-    let cnts = [...state.cnts]
-
-     if (action.changed) {
-         if (state.changeCntStart.det === 'addUser') {
-             let updateCnts = changeMode(cnts, state.changeCntStart, 'pending', true);
-             return updateObject(state, {cnts: updateCnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
-         }
-     
-         if (state.changeCntStart.det === 'acceptUser') {
-             let updateCnts = changeMode(cnts, state.changeCntStart, 'accept', true);
-             return updateObject(state, {cnts: updateCnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
-         }
-     
-         if (state.changeCntStart.det === 'rejUser') {
-             let updateCnts = changeMode(cnts, state.changeCntStart, 'request', false);
-             return updateObject(state, {cnts: updateCnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
-         }
-          
-         if (state.changeCntStart.det === 'cancelReq') {
-             let updateCnts = changeMode(cnts, state.changeCntStart, 'pending', false);
-             return updateObject(state, {cnts: updateCnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
-         }
-     
-         if (state.changeCntStart.det === 'unfriend') {
-             let updateCnts = changeMode(cnts, state.changeCntStart, 'accept', false);
-             return updateObject(state, {cnts: updateCnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
-         }
- 
-         if (state.changeCntStart.det === 'blockUser') {
-             let updateCnt = cnts.filter(cnt => cnt.id !== state.changeCntStart.id);
-             return updateObject(state, {cnts: updateCnt, changeCntStart: null, changeCntErr: null, changeCnt: false})
-         }
-     
-         let updateCnt = cnts.filter(cnt => cnt._id !== state.changeCntStart.id);
-         return updateObject(state, {cnts: updateCnt, changeCntStart: null, changeCntErr: null, changeCnt: false})
-     }
- 
-     return updateObject(state, {cnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
+    let cnts = [...state.cnts];
+    if ((state.changeCntStart.det === 'publish' || state.changeCntStart.det === 'acc-draft') && state.changeCntStart.det !== 'delete') {
+        let filterCnt = cnts.filter(que => que._id === state.changeCntStart.id);
+        let updated = cnts.filter(que => que._id !== state.changeCntStart.id);
+        if (filterCnt.length > 0) {
+            let updateCnt = {...filterCnt[0]}
+            updateCnt.mode = state.changeCntStart.det === 'publish' ? 'publish' : 'draft';
+            updated.push(updateCnt) 
+            return updateObject(state, {cnts: action.changed ? updated : state.cnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
+        }
+    }
+    let updateCnt = cnts.filter(que => que._id !== state.changeCntStart.id);
+    return updateObject(state, {cnts: action.changed ? updateCnt : state.cnts, changeCntStart: null, changeCntErr: null, changeCnt: false})
 };
 
 const changeCntFail = (state, action) => {
@@ -82,6 +63,10 @@ const changeCntFail = (state, action) => {
 
 const changeCnt = (state, action) => {
     return updateObject(state, {changeCnt: true})
+};
+
+const fetchVideo = (state, action) => {
+    return updateObject(state, {postVideo: {id: action.id, url: action.url}})
 };
 
 const changeFavPtStart = (state, action) => {
@@ -104,15 +89,18 @@ const resetModel = (state, action) => {
     return updateObject(state, {cntErr: null,changeCntStart: null, changeCntErr: null, changeCnt: false})
 };
 
+
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.FETCH_CNT:
             return fetchCnt(state, action);
-        case actionTypes.FETCH_CNT_RESET:
+        case actionTypes.FETCH_CNT_START:
+            return fetchCntStart(state, action);
+            case actionTypes.FETCH_CNT_RESET:
             return fetchCntReset(state, action);
-        case actionTypes.FETCH_CNT_FAIL:
+            case actionTypes.FETCH_CNT_FAIL:
             return fetchPostFail(state, action);
-        case actionTypes.CHANGE_CNT_START:
+            case actionTypes.CHANGE_CNT_START:
             return changeCntStart(state, action);
         case actionTypes.CHANGE_CNT_CANCEL:
             return changeCntCancel(state, action);
@@ -122,6 +110,8 @@ const reducer = (state = initialState, action) => {
             return changeCntFail(state, action);
         case actionTypes.CHANGE_CNT:
             return changeCnt(state, action);
+        case actionTypes.FETCH_VIDEO:
+            return fetchVideo(state, action);
         case actionTypes.CHANGE_FAVORITE:
             return changeFav(state, action);
         case actionTypes.CHANGE_FAVORITE_PT_START:

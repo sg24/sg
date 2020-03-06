@@ -29,7 +29,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-      onCheckAuth: (userID) => dispatch(actions.checkAuthInit()),
+      onCheckAuth: () => dispatch(actions.checkAuthInit()),
   };
 };
 

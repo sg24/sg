@@ -123,12 +123,11 @@ class AddImage extends Component {
         this.setState({removeMediaItemIndex: null})
     }
     
-    removeMediaItemHandler = (id) => {
-        let media = [...this.state.media];
-        let updatedMedia = media.filter(link =>  link.id !== id);
-        this.setState({media:  updatedMedia});
-        if (this.props.media.image && this.props.media.image.length > 0) {
-            this.props.onRemoveMedia(updateObject(this.props.media, {image: updatedMedia}))
+    removeMediaItemHandler = () => {
+        if (!this.props.imageEdit && this.props.media && this.props.media.image && this.props.media.image.length > 0 && !this.props.media.image[0].imageUrl) {
+            this.props.onImageEdit()
+            let media = [{...this.props.media.image[0]}];
+            this.props.onSaveRemoveSnap(media[0]);
         }
     }
 
@@ -148,6 +147,7 @@ class AddImage extends Component {
 
      submitMediaHandler = () => {
         let media = {...this.props.media};
+        this.removeMediaItemHandler()
         this.props.onSubmitMedia(updateObject(media, {image: [{...this.props.imageCapture}]}));
         if (videoRef.current && videoRef.current.srcObject){
             videoRef.current.srcObject.getVideoTracks().forEach(function(track) {
@@ -290,7 +290,8 @@ const mapStateToProps = state => {
     return {
         linkValid: state.form.linValid,
         media: state.form.media,
-        imageCapture: state.form.imageCapture
+        imageCapture: state.form.imageCapture,
+        editImage: state.form.editImage
     };
 };
 
@@ -298,9 +299,11 @@ const mapDispatchToProps = dispatch => {
     return {
         onCheckLink: (imageLink) => dispatch(actions.checkLinkInit(imageLink, 'image')),
         onResetLink: () => dispatch(actions.resetLink()),
+        onImageEdit: () => dispatch(actions.imageEdit()),
         onRemoveMedia: (media) => dispatch(actions.removeMedia(media)),
+        onSaveRemoveSnap: (imageDet) => dispatch(actions.saveRemoveSnap(imageDet)),
         onSubmitMedia: (media) => dispatch(actions.submitMedia(media)),
-        onhideMediaBox: () => dispatch(actions.hideMediaBox()),
+        onhideMediaBox: () => dispatch(actions.hideMediaBox()) 
     };
 };
 

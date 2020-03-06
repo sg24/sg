@@ -1,9 +1,9 @@
 let notifications = require('./notifications');
 const webpush = require('web-push');
-const { user, authUser} = require('../../serverDB/serverDB');
+const { user, authUser, tempFile} = require('../../serverDB/serverDB');
 const deleteMedia = require('./deletemedia');
 
-module.exports = editForm = (content, model, mediaCnt, notify, userModel, userID, updateField, userField, field, res, category) => {
+module.exports = editForm = (content, model, mediaCnt, notify, userModel, userID, updateField, userField, field, res, category, tempFileID) => {
    return new Promise ((resolve, reject) => {
     let categRaw = String(content.categ).split(',');
     let categ = [...new Set(categRaw)];
@@ -29,7 +29,9 @@ module.exports = editForm = (content, model, mediaCnt, notify, userModel, userID
         
         removeMedia(removedMedia).then(() => {
             category.findOneAndUpdate({}, {$addToSet: { [field]: { $each: categ } }}).then(() => {
-                notification();
+                tempFile.findByIdAndRemove(tempFileID).then(() => {
+                    notification();
+                })
             })
         });
 

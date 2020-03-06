@@ -1,8 +1,8 @@
 let notifications = require('./notifications');
 const webpush = require('web-push');
-const { user, authUser} = require('../../serverDB/serverDB');
+const { user, authUser, tempFile} = require('../../serverDB/serverDB');
 
-module.exports = submitForm = (content, model, mediaCnt, notify, viewnotify, userModel, userID, updateField, userField, field, modelField,res, category) => {
+module.exports = submitForm = (content, model, mediaCnt, notify, viewnotify, userModel, userID, updateField, userField, field, modelField,res, category, tempFileID) => {
    return new Promise ((resolve, reject) => {
     let categRaw = String(content.categ).split(',');
     let categ = [...new Set(categRaw)];
@@ -29,14 +29,18 @@ module.exports = submitForm = (content, model, mediaCnt, notify, viewnotify, use
             notifications(shareMe, notify, id, updateField).then(() => {
                 viewnotify.findOneAndUpdate({userID}, {$inc: {[field]: 1}}).then(result => {
                    if (result) {
-                    completeSubmit();
+                    tempFile.findByIdAndRemove(tempFileID).then(() => {
+                        completeSubmit();
+                    })
                    } else {
                     let newNotiy = new viewnotify({
                         userID,
                         [field]: 1
                     });
                     newNotify.save().then(() => {
-                        completeSubmit();
+                        tempFile.findByIdAndRemove(tempFileID).then(() => {
+                            completeSubmit();
+                        })
                     }).catch(err => {
                         reject(err)
                     })

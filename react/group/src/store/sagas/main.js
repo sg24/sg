@@ -1,25 +1,47 @@
 import { put } from 'redux-saga/effects';
 
-import * as actions from '../actions/index';
+import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
-export function* fetchReqActiveInitSaga(action) {
+export function* fetchCntActiveInitSaga(action) {
     try {
-        let response = yield axios.post('/users', null,{headers: {'data-categ': 'request-activeOnly'}});
-        yield put(actions.fetchReqActive(response.data));
+        let response = yield axios.post('/header', { model: 'question'}, {headers: {'data-categ': ' modelNotify'}});
+        if (response.data > 0) {
+            yield put(actions.fetchCntActive(response.data));
+        }
+        return
     } catch(err) {}
 
 }
 
+export function* fetchShareCntActiveInitSaga(action) {
+    try {
+        let response = yield axios.post('/header', { model: 'question'}, {headers: {'data-categ': 'share'}});
+        if (response.data > 0) {
+            yield put(actions.fetchShareCntActive(response.data));
+        }
+        return
+    } catch(err) {}
+}
+
+
 export function* fetchShareActiveInitSaga(action) {
     try {
         let response = yield axios.post('/header', {}, {headers: {'data-categ':'notification'}});
-        yield put(actions.fetchShareActive(response.data));        
+        if (response.data > 0) {
+            yield put(actions.fetchShareActive(response.data));
+        }
+        return
     } catch(err) {}
 }
 
 export function* resetActiveInitSaga(action) {
     try {
-        yield put(actions.resetActive('user'));
+        if (action.curTab === 'shared') {
+            yield axios.patch('/header', {model: 'question'}, {headers: {'data-categ': 'share'}});
+        } else {
+            yield axios.patch('/header', {model: 'question'}, {headers: {'data-categ': 'modelNotify'}});
+        }
+        yield put(actions.resetActive(action.curTab));
     } catch(err) {}
 }

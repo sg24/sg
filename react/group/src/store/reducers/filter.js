@@ -6,24 +6,15 @@ const initialState = {
     filterStart: false,
     totalFound: null,
     filterErr: null,
-    startSearch: false,
-    student: 0
+    cnt: 0
 }
 
 const fetchCntCateg = (state, action) => {
     return updateObject(state, {cntCateg: action.categ})
 };
 
-const startSearch = (state, action) => {
-    return updateObject(state, {startSearch: true})
-};
-
-const closeSearch = (state, action) => {
-    return updateObject(state, {startSearch: false})
-};
-
 const fetchTotal = (state, action) => {
-    return updateObject(state, {student: action.total})
+    return updateObject(state, {cnt: action.total})
 };
 
 const filterContentStart = (state, action) => {
@@ -45,13 +36,9 @@ const resetFilter  = (state, action) => {
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.FETCH_CNTCATEG:
-            return fetchCntCateg(state, action);
-        case actionTypes.START_SEARCH:
-            return startSearch(state, action);
+        return fetchCntCateg(state, action);
         case actionTypes.FETCH_TOTAL:
             return fetchTotal(state, action);
-        case actionTypes.CLOSE_SEARCH:
-            return closeSearch(state, action);
         case actionTypes.FILTER_CONTENT_START:
             return filterContentStart(state, action);
         case actionTypes.FILTER_CONTENT_FAIL:

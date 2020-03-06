@@ -92,27 +92,3 @@ export const engStrings = {
     year: '%d yr',
     years: '%d yrs'
   };
-
-  export function changeMode (oldCnts,changeCntStart,field, isUpdate) {
-    let cnts = [...oldCnts];
-    let curIndex;
-
-    let user = cnts.filter((userFnd, index) => {
-        if (userFnd.id === changeCntStart.id) {
-            curIndex = index;
-            return true
-        }
-        return false;
-    });
-    
-    if (user.length > 0) {
-        let updateUser = {...user[0]}
-        updateUser['pending'] = false;
-        updateUser['request'] = false;
-        updateUser['accept'] = false;
-        updateUser[field] = isUpdate;
-        cnts[curIndex] = updateUser;
-       return cnts;
-    }
-    return oldCnts
-  }
