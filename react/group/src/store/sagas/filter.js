@@ -9,7 +9,7 @@ export function* fetchCntCategInitSaga(action) {
         if (action.categ && action.categ.length > 0) {
             yield put (actions.fetchCntCateg([...action.categ]))
         } else {
-            let response = yield axios.post('/header', {categ: 'question'}, {headers: {'data-categ':'category'}});
+            let response = yield axios.post('/header', {categ: 'group'}, {headers: {'data-categ':'category'}});
             yield put(actions.fetchCntCateg(response.data));
         }
     } catch(e){}
@@ -17,7 +17,7 @@ export function* fetchCntCategInitSaga(action) {
 
 export function* fetchTotalInitSaga(action) {
     try {
-        let response = yield axios.post('/header', {model: 'question'},{headers: {'data-categ':'myModel'}});
+        let response = yield axios.post('/header', {model: 'group'},{headers: {'data-categ':'myModel'}});
         yield put(actions.fetchTotal(response.data));
     } catch(e){}
 }
@@ -33,7 +33,7 @@ export function* filterContentInitSaga(action) {
     if(!action.content.apply) {
         try {
             yield put(actions.filterContentStart());
-            let response = yield axios.post('/header',{filterCnt, model: 'question'},{headers: {'data-categ':'cntSearch'}});
+            let response = yield axios.post('/header',{filterCnt, model: 'group'},{headers: {'data-categ':'groupSearch'}});
             yield put(actions.filterContent(response.data));
         } catch(err) {
             yield put (actions.filterContentFail(err))

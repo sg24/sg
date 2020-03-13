@@ -16,7 +16,7 @@ class FilterUser extends Component  {
     render() {
         return (
             <input 
-            className="reuse-share__search--cnt" 
+            className="reuse-share__tab--srch__input" 
             placeholder="search user...." 
             autoFocus
             onChange={this.filterContentHandler} 

@@ -31,9 +31,29 @@ const GroupSchema = new Schema({
         required: true,
         trim: true
     },
+    request: {
+        type: Array,
+        default: [String]
+    },
     member: {
         type: Array,
         default: [String]
+    },
+    online: {
+        type: Array,
+        default: [String]
+    },
+    memberTotal: {
+        type: Number,
+        default: 0
+    },
+    onlineTotal: {
+        type: Number,
+        default: 0
+    },
+    mode: {
+        type: String,
+        default: 'publish'
     },
     _isCompleted: {
         type: Boolean,

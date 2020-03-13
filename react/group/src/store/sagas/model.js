@@ -8,8 +8,9 @@ export function* fetchCntInitSaga(action) {
         yield put(actions.fetchCntStart());
     }
     try {
+        console.log(action.fetchType)
         if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
-            let response = yield axios.post('/question', null, {
+            let response = yield axios.post('/group', null, {
                 headers: {
                     'data-categ': action.fetchType, 
                     'limit': action.fetchLimit, 
@@ -21,6 +22,18 @@ export function* fetchCntInitSaga(action) {
         yield put(actions.fetchCntFail(err))
     }
     
+}
+
+export function* joinGrpInitSaga(action) {
+    yield put(actions.joinGrpStart(action.id));
+    try {
+        yield axios.post('/group', {id: action.id}, {
+            headers: {
+                'data-categ': action.categ}});
+        yield put(actions.joinGrp(action.id, action.categ));
+    }catch(err){
+        yield put(actions.joinGrpFail(err, action.id))
+    }
 }
 
 export function* changeFavSaga(action) {
@@ -38,29 +51,5 @@ export function* changeFavSaga(action) {
         yield delay(500)
         yield put(actions.changeMainFavoriteReset());
         yield put(actions.changeFavPtFail())
-    }
-}
-
-export function* changeCntInitSaga(action) {
-    if (!action.confirm) {
-        yield put(actions.changeCntStart(action.title, action.id, action.det))
-        return;
-    }
-    try {
-        if (action.det === 'delete') {
-            let payload = JSON.stringify({id: action.id, model: 'question', field: 'queID'})
-            yield axios.delete('/header', {headers: {'data-categ': `deletecnt-${payload}`}});
-        } else if (action.det === 'draft' || action.det === 'acc-draft'){
-            yield axios.patch('/header', {id: action.id, model: 'question', field: 'queID'} ,{headers: {'data-categ': 'draftmode'}});
-        } else {
-            yield axios.patch('/header', {id: action.id, model: 'question', field: 'queID'} ,{headers: {'data-categ': 'publishmode'}});
-        }
-        yield put(actions.changeCnt())
-        yield delay(1000);
-        yield put(actions.changeCntReset(true))
-    } catch(err){
-        yield put(actions.changeCntFail(err))
-        yield delay(1000);
-        yield put(actions.changeCntReset(false))
     }
 }

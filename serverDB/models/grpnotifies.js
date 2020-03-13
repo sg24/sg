@@ -20,6 +20,10 @@ const NotificationsSchema = new Schema({
             type: Boolean,
             default: false
         },
+        request: {
+            type: Number,
+            default: 0
+        },
         isMember: {
             type: Boolean,
             default: false

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import './MainQue.css';
+import './MainGrp.css';
+import Search from './Search/Search';
 import Category from './Category/Category';
 import Filter from './Filter/Filter';  
 import Groups from './Groups/Groups';
@@ -18,21 +20,30 @@ class MainGrp extends Component {
         this.props.history.push('/group/mygroup')
     }
     
+    inputSearchHandler = () => {
+        this.props.onShowSearch();
+    }
+
     render() {
         return (
             <Aux>
-                <div className="reuse-que-filter">
-                    <div className="reuse-que-filter__wrapper">
+                <Search />
+                <div className="reuse-grp-filter">
+                    <div className="reuse-grp-filter__wrapper">
                         <Category />
                         <Filter />
                         <div 
-                            className="reuse-que-filter__que"
+                            className="reuse-grp-filter__grp"
                             onClick={this.fetchCntHandler}>
                             My Group 
                             <div>{this.props.total}</div>
                         </div>
-                        <div className="reuse-que-filter__add">
-                            <a href="/add/group">Add Group</a>
+                        <div 
+                            className="reuse-grp-filter__srch"
+                            onClick={this.inputSearchHandler}>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'search']} 
+                                className="icon icon__reuse-grp-filter--srch" />
                         </div>
                     </div>
                 </div>
@@ -51,6 +62,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
    return {
+    onShowSearch: () => dispatch(actions.startSearch()),
     onFetchTotal: () => dispatch(actions.fetchTotalInit())
    };
 };

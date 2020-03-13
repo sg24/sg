@@ -39,48 +39,34 @@ export const fetchCnt = (cnt, skipCnt, cntTotal) => {
     }
 };
 
-export const changeCntInit = (id, title, det, confirm) => {
+export const joinGrpInit = (id, categ) => {
     return {
-        type: actionTypes.CHANGE_CNT_INIT,
-        id, 
-        title,
-        det,
-        confirm
-    }
-};
-
-export const changeCntStart = (title, id, det) => {
-    return {
-        type: actionTypes.CHANGE_CNT_START,
-        title,
+        type: actionTypes.JOIN_GRP_INIT,
         id,
-        det
+        categ
     }
 };
 
-export const changeCntCancel = () => {
+export const joinGrpFail = (err, id) => {
     return {
-        type: actionTypes.CHANGE_CNT_CANCEL
+        type: actionTypes.JOIN_GRP_FAIL,
+        err,
+        id
     }
 };
 
-export const changeCntReset = (changed) => {
+export const joinGrpStart = (id) => {
     return {
-        type: actionTypes.CHANGE_CNT_RESET,
-        changed
+        type: actionTypes.JOIN_GRP_START,
+        id
     }
 };
 
-export const changeCntFail = (err) => {
+export const joinGrp = (id, categ) => {
     return {
-        type: actionTypes.CHANGE_CNT_FAIL,
-        err
-    }
-};
-
-export const changeCnt= () => {
-    return {
-        type: actionTypes.CHANGE_CNT
+        type: actionTypes.JOIN_GRP,
+        id,
+        categ
     }
 };
 
@@ -128,5 +114,12 @@ export const changeFav = (changedFav) => {
 export const resetModel = () => {
     return {
         type: actionTypes.RESET_MODEL
+    }
+};
+
+export const removeRequest = (id) => {
+    return {
+        type: actionTypes.REMOVE_REQUEST,
+        id
     }
 };

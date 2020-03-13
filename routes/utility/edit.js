@@ -84,6 +84,8 @@ module.exports = editForm = (content, model, mediaCnt, notify, userModel, userID
                                     grpNotiy[0].view = false;
                                     grpsNotify = result.group.filter(grpDet => grpDet.ID !== id)
                                     grpsNotify.push(grpNotify[0])
+                                } else {
+                                    grpsNotify.push(result.group);
                                 }
                             } else {
                                 grpsNotify.push(...result.group, {ID: id, view: false})

@@ -36,7 +36,7 @@ class SiteMain extends Component {
     };
 
     changeCntHandler = () => {
-        this.props.onChangeCnt(this.props.changeCntStart.id, null, this.props.changeCntStart.det, true)
+        this.props.onChangeCnt(this.props.changeCntStart.id, this.props.changeCntStart.user, this.props.changeCntStart.categ, this.props.changeCntStart.username, this.props.changeCntStart.curTab, true)
     }
 
     closeChangeCntHandler = () => {
@@ -99,7 +99,7 @@ class SiteMain extends Component {
                         err={ this.props.cntErr } /> : null}
                 <Switch>
                     <Route path="/group" exact component={MainContent} />
-                    <Route path="/group/:id" exact component={MainContent} />
+                    <Route path="/group/:id" component={MainContent} />
                 </Switch>
                 <MainNav />
             </div>
@@ -119,18 +119,18 @@ class SiteMain extends Component {
                         close={this.closeModelBackdropHandler}
                         err={ this.props.changeCntErr }
                         warn={{
-                            msg: this.props.changeCntStart.det=== 'delete' ?
-                            'Are you sure you want to delete this question' : 'Are you sure you want to change this question mode',
-                            cnt: this.props.changeCntStart.title,
-                            det: this.props.changeCntStart.det
+                            msg: this.props.changeCntStart.categ === 'reject'  || this.props.changeCntStart.categ === 'remove' ?
+                            `Are you sure you want to ${this.props.changeCntStart.categ}` : `Are you sure you want to ${this.props.changeCntStart.categ}`,
+                            cnt: this.props.changeCntStart.username,
+                            det: this.props.changeCntStart.categ
                         }}
                         exit={{
-                            msg: this.props.changeCntStart.det=== 'delete' ?
-                            'Question Deleted Successfully' : 'Question mode change successfully', 
+                            msg: this.props.changeCntStart.categ === 'reject'  || this.props.changeCntStart.categ === 'remove' ?
+                            `${this.props.changeCntStart.username} ${this.props.changeCntStart.categ === 'reject' ? 'rejected' : 'removed'} successfully` : this.props.changeCntStart.categ,
                             close: this.props.changeCnt}}
                         changeCnt={this.changeCntHandler}
                         closeChangeCnt={this.closeChangeCntHandler}/> : null}
-                <Route path="/group/share" exact component={AsyncShare} />
+                <Route path="/group/info/:id" exact component={AsyncShare} />
         </div>
         )
     }
@@ -147,9 +147,9 @@ const mapStateToProps = state => {
         searchCntErr: state.header.searchCntErr,
         filterPos: state.header.filterPos,
         filterLastPos: state.header.filterLastPos,
-        changeCntStart: state.cnt.changeCntStart,
-        changeCntErr: state.cnt.changeCntErr,
-        changeCnt: state.cnt.changeCnt
+        changeCntStart: state.share.changeCntStart,
+        changeCntErr: state.share.changeCntErr,
+        changeCnt: state.share.changeCnt
     };
  }
 
@@ -157,7 +157,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onNavDefault: () => dispatch(actions.headerNavDefault()),
         onCloseHeaderFilter: () => dispatch(actions.headerFilterClose()),
-        onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm)),
+         onChangeCnt: (id, userID, categ, username, curTab, confirm) => dispatch(actions.changeCntInit(id, userID, categ, username, curTab, confirm)),
         onCloseChangeCnt: () => dispatch(actions.changeCntCancel()),
         onCloseBackdrop: () => dispatch(actions.hideMainBackdrop()),
         onCloseModelBackdrop: () => dispatch(actions.resetModel())

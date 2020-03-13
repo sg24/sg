@@ -235,7 +235,7 @@ router.post('/header', authenticate, (req, res, next) => {
 
     if (req.header('data-categ') === 'myModel') {
         let model = req.body.model === 'post' ? posts :
-        req.body.model === 'question' ? questions : poets;
+        req.body.model === 'question' ? questions : req.body.model === 'group'  ? group : poets;
         model.find({authorID: req.user}).count().then(result => {
             res.status(200).send(String(result))
         })
@@ -334,10 +334,23 @@ router.post('/header', authenticate, (req, res, next) => {
     
     if (req.header('data-categ') === 'cntSearch') {
         let model = req.body.model === 'post' ? posts :
-        req.body.model === 'question' ? questions : poets;
+        req.body.model === 'question' ? questions : req.body.model === 'group' ? group : poets;
         filterCnt(JSON.parse(req.body.filterCnt)).then(filter => {
             let category = filter.category && filter.category.length > 0 ? {category: filter.category} : {};
             model.find({$text: { $search: filter.searchCnt }, ...filter.filterCnt,  ...category, mode: 'publish', _isCompleted: true}).then(result => {
+                 let resultCount = new String(result.length);
+                 res.send(resultCount).status(200);
+             }).catch(err => {
+                 res.status(500).send(err);
+             })
+         });
+        return ;
+    }
+
+    if (req.header('data-categ') === 'groupSearch') {
+        filterCnt(JSON.parse(req.body.filterCnt)).then(filter => {
+            let category = filter.category && filter.category.length > 0 ? {category: filter.category} : {};
+            group.find({$text: { $search: filter.searchCnt }, ...filter.filterCnt,  ...category, _isCompleted: true}).then(result => {
                  let resultCount = new String(result.length);
                  res.send(resultCount).status(200);
              }).catch(err => {

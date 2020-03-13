@@ -2,9 +2,9 @@ import { takeEvery, all, takeLatest } from 'redux-saga/effects';
 
 import * as actionTypes from '../../store/actions/actionTypes';
 import { checkAuthInitSaga } from './auth';
-import { fetchCntInitSaga, changeFavSaga, changeCntInitSaga } from './model';
+import { fetchCntInitSaga, joinGrpInitSaga, changeFavSaga } from './model';
 import { fetchCntCategInitSaga, filterContentInitSaga, fetchTotalInitSaga } from './filter';
-import { fetchUsersInitSaga, filterUserInitSaga, filterUserSelectInitSaga, shareUserInitSaga } from './share';
+import { fetchUsersInitSaga, filterUserInitSaga, fetchInfoInitSaga, changeCntInitSaga } from './share';
 import { fetchTagsInitSaga } from './tags';
 import { fetchTrdInitSaga } from './trend';
 import { fetchCategInitSaga } from './setQue';
@@ -15,9 +15,9 @@ import { fetchNotifyInitSaga,
             fetchNotifyActiveInitSaga,
             defaultNotifyActiveInitSaga,
             headerFilterInitSaga } from './header';
-import { fetchCntActiveInitSaga,  
+import { fetchJoinActiveInitSaga,  
          fetchShareActiveInitSaga,
-         fetchShareCntActiveInitSaga, 
+         fetchReqActiveInitSaga, 
          resetActiveInitSaga} from './main';
 
 export function* watchAuth() {
@@ -29,8 +29,8 @@ export function* watchAuth() {
 export function* watchCnt() {
     yield all([
         takeLatest(actionTypes.FETCH_CNT_INIT, fetchCntInitSaga),
-        takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga),
-        takeLatest(actionTypes.CHANGE_CNT_INIT, changeCntInitSaga)
+        takeLatest(actionTypes.JOIN_GRP_INIT, joinGrpInitSaga),
+        takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga)
     ])
 } 
 
@@ -46,8 +46,8 @@ export function* watchShare() {
     yield all([
         takeEvery(actionTypes.FETCH_USERS_INIT, fetchUsersInitSaga),
         takeEvery(actionTypes.FILTER_USER_INIT, filterUserInitSaga),
-        takeEvery(actionTypes.FILTER_USER_SELECT_INIT, filterUserSelectInitSaga),
-        takeEvery(actionTypes.SHARE_USER_INIT, shareUserInitSaga),
+        takeEvery(actionTypes.FETCH_INFO_INIT, fetchInfoInitSaga),
+        takeEvery(actionTypes.CHANGE_CNT_INIT, changeCntInitSaga)
     ])
 
 }
@@ -84,9 +84,9 @@ export function* watchHeader() {
 
 export function* watchMain() {
     yield all([
-       takeEvery(actionTypes.FETCH_CNT_ACTIVE_INIT, fetchCntActiveInitSaga),
+       takeEvery(actionTypes.FETCH_JOIN_ACTIVE_INIT, fetchJoinActiveInitSaga),
        takeEvery(actionTypes.FETCH_SHARE_ACTIVE_INIT, fetchShareActiveInitSaga),
-       takeEvery(actionTypes.FETCH_SHARECNT_ACTIVE_INIT, fetchShareCntActiveInitSaga),
+       takeEvery(actionTypes.FETCH_REQ_ACTIVE_INIT, fetchReqActiveInitSaga),
        takeEvery(actionTypes.RESET_ACTIVE_INIT, resetActiveInitSaga)
     ])
 }

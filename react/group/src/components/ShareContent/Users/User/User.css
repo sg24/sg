@@ -1,3 +1,7 @@
+.icon__reuse-user--det__opt {
+    margin-right: 5px;
+}
+
 .reuse-user {
     position: relative;
     border-radius: 10px 0 10px 10px;
@@ -121,25 +125,44 @@
     font-weight: bold;
 }
 
-.reuse-user__det--select {
-    position: absolute;
-    top: -5px;
-    right: -2px;
-    font-size: 1rem;
+.reuse-user__det--opt {
+    position: relative;
+    font-size: .8125rem
+}
+.reuse-user__det--opt__acc--disable {
+    opacity: .5;
+    cursor: not-allowed
+}
+
+.reuse-user__det--opt > button {
+    padding: 5px;
+    border-radius: 2px;
+    outline: none;
+    display: inline-block;
+    font-weight: 400;
     cursor: pointer;
-    color: #dcdbdc;
 }
 
-.reuse-user__det--select__clk > svg{
-    color: #16cf27;
-    transition: all .3s ease-in;
+.reuse-user__det--opt__acc {
+    color: #fff; 
+    border: none;
+    margin-right: 10px;
+    background: linear-gradient( 180deg, rgb(5,87,139) 20%,  rgb(19,51,97) 100%);
+    background: -moz-linear-gradient( 180deg, rgb(5,87,139) 20%,  rgb(19,51,97) 100%);
+    background: -webkit-linear-gradient( 180deg, rgb(5,87,139) 20%,  rgb(19,51,97) 100%);
+    background: -ms-linear-gradient( 180deg, rgb(5,87,139) 20%,  rgb(19,51,97) 100%);
 }
 
-.reuse-user__det:not(.reuse-user__det--clk):hover {
-    box-shadow: 0 0 0 1px #16cf27;
+.reuse-user__det--opt__rej { 
+    background: #f2f2f2;
+    border: none;
+    color: #333;
+    box-shadow: 0px 1px 5px 1px rgba(0,0,0, 0.26);
 }
 
-.reuse-user__det--clk {
-    box-shadow: 0 0 0 1px #16cf27;
-    transition: all .3s ease-in;
+.reuse-user__det--opt__blk {
+    border: none;
+    color: #ff1600; 
+    background: #f2f2f2;
+    box-shadow: 0px 1px 5px 1px rgba(0,0,0, 0.26);
 }

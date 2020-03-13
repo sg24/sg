@@ -22,14 +22,13 @@ const modal = props => {
                         Cancel
                     </button>
                     <button 
-                        className={props.warn.det && props.warn.det === 'publish' ? "reuse-modal__btn--success" :"reuse-modal__btn--del" }
+                        className={(props.warn.det && (props.warn.det === 'reject' || props.warn.det === 'remove')) ? "reuse-modal__btn--del" :"reuse-modal__btn--del" }
                         type="button"
                         onClick={props.changeCnt}>
                         <FontAwesomeIcon 
-                            icon={props.warn.det && props.warn.det === 'delete'? ['far', 'trash-alt'] : 
-                            props.warn.det && props.warn.det === 'publish' ?  ['fas', 'eye'] : ['fas', 'eye-slash']} 
+                            icon={(props.warn.det && (props.warn.det === 'reject' || props.warn.det === 'remove')) ? ['fas', 'user-slash'] : ['fas', 'eye-slash']} 
                             className="icon icon__reuse-modal--btn"/>
-                        {props.warn.det && props.warn.det === 'delete' ? 'Delete': 'Change'}
+                        {(props.warn.det && (props.warn.det === 'reject' || props.warn.det === 'remove')) ? props.warn.det : 'Change'}
                     </button>
                 </div>
             </div>

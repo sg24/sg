@@ -112,3 +112,102 @@ export const shareUser = () => {
 
 
 
+export const fetchInfoInit = (id, status) => {
+    return {
+        type: actionTypes.FETCH_INFO_INIT,
+        id,
+        status
+    };
+};
+
+export const fetchInfoStart = (curTab) => {
+    return {
+        type: actionTypes.FETCH_INFO_START,
+        curTab
+    };
+};
+
+export const fetchInfoFail = (err) => {
+    return {
+        type: actionTypes.FETCH_INFO_FAIL,
+        err
+    };
+};
+
+export const fetchInfo = (users) => {
+    return {
+        type: actionTypes.FETCH_INFO,
+        users
+    };
+};
+
+export const setGrpInfo = (grpInfo) => {
+    return {
+        type: actionTypes.SET_GRP_INFO,
+        grpInfo
+    };
+};
+
+
+export const resetInputFilter = () => {
+    return {
+        type: actionTypes.RESET_INPUT_FILTER
+    };
+};
+
+
+export const changeCntInit = (id, user, categ, username, curTab, confirm) => {
+    return {
+        type: actionTypes.CHANGE_CNT_INIT,
+        id, 
+        user,
+        categ,
+        username,
+        curTab,
+        confirm
+    }
+};
+export const changeCntStartInit = (userID, categ) => {
+    return {
+        type: actionTypes.CHANGE_CNT_STARTINIT,
+        userID,
+        categ
+    }
+};
+
+export const changeCntStart = ( id, user, categ,username, curTab) => {
+    return {
+        type: actionTypes.CHANGE_CNT_START,
+        id,
+        user,
+        categ,
+        username,
+        curTab   
+    }
+};
+
+export const changeCntCancel = () => {
+    return {
+        type: actionTypes.CHANGE_CNT_CANCEL
+    }
+};
+
+export const changeCntReset = (user) => {
+    return {
+        type: actionTypes.CHANGE_CNT_RESET,
+        user
+    }
+};
+
+export const changeCntFail = (err) => {
+    return {
+        type: actionTypes.CHANGE_CNT_FAIL,
+        err
+    }
+};
+
+export const changeCnt= () => {
+    return {
+        type: actionTypes.CHANGE_CNT
+    }
+};

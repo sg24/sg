@@ -42,24 +42,25 @@ export {
     fetchCntStart,
     fetchCntReset,
     fetchCnt,
-    changeCntInit,
-    changeCntStart,
-    changeCntFail,
-    changeCntCancel,
-    changeCntReset,
-    changeCnt,
+    joinGrpInit,
+    joinGrpFail,
+    joinGrpStart,
+    joinGrp,
     fetchVideo,
     changeFavInit,
     changeFavPtStart,
     changeFavPtFail,
     changeFav,
-    resetModel
+    resetModel,
+    removeRequest
 } from './model';
 
 export {
     fetchCntCategInit,
     fetchCntCategStart,
     fetchCntCateg,
+    startSearch,
+    closeSearch,
     fetchTotalInit,
     fetchTotal,
     filterContentInit,
@@ -85,7 +86,20 @@ export {
     shareUserInit,
     shareUserStart,
     shareUserfail,
-    shareUser
+    shareUser,
+    fetchInfoInit,
+    fetchInfoFail,
+    fetchInfoStart,
+    resetInputFilter,
+    fetchInfo,
+    setGrpInfo,
+    changeCntInit,
+    changeCntStartInit,
+    changeCntStart,
+    changeCntFail,
+    changeCntCancel,
+    changeCntReset,
+    changeCnt
 } from './share';
 export {
     changeTagsPath,
@@ -112,10 +126,10 @@ export {
 } from './conv';
 
 export {
-    fetchCntActiveInit,
-    fetchCntActive,
-    fetchShareCntactiveInit,
-    fetchShareCntActive,
+    fetchJoinActiveInit,
+    fetchJoinActive,
+    fetchReqActiveInit,
+    fetchReqActive,
     fetchShareactiveInit,
     fetchShareActive,
     resetActiveInit,

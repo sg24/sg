@@ -2,16 +2,17 @@
     position: relative;
     background-color: #fff;
     padding: 0 10px 20px 10px;
-    overflow: hidden;
-    overflow-y: auto;
-    border-bottom: 1px solid #dcdbdc;
-    display: -ms-flexbox;
+    min-height: 400px;
+    /* overflow: hidden; */
+    /* overflow-y: auto; */
+    /* border-bottom: 1px solid #dcdbdc; */
+    /* display: -ms-flexbox;
     display: flex;
     -ms-flex-direction: column;
         flex-direction: column;
     -ms-flex-positive: 1;
         flex-grow: 1;
-    transition: all .3s ease-in;
+    transition: all .3s ease-in; */
 }
 
 

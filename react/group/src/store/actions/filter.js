@@ -19,6 +19,20 @@ export const fetchCntCateg = (categ) => {
         categ
     }
 };
+
+export const startSearch = () => {
+    return {
+        type: actionTypes.START_SEARCH
+    };
+};
+
+export const closeSearch = () => {
+    return {
+        type: actionTypes.CLOSE_SEARCH
+    };
+};
+
+
 export const fetchTotalInit = () => {
     return {
         type: actionTypes.FETCH_TOTAL_INIT,

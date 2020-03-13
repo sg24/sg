@@ -3,7 +3,6 @@ import { put, delay } from 'redux-saga/effects';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
-
 export function* fetchUsersInitSaga () {
     try {
         let response = yield axios.post('/users', null,{headers: {'data-categ':`allteacher-notab`}});
@@ -23,32 +22,40 @@ export function* filterUserInitSaga(action) {
    yield put(actions.filterUser(filterUser))
 }
 
-export function* filterUserSelectInitSaga(action) {
-    let filterUser = null;
-    if (!action.filterContent) {
-        filterUser = action.userSelect
-    } else {
-        filterUser = action.userSelect.filter(user => user.username.toLowerCase().indexOf(action.filterContent.toLowerCase()) !== -1 );
+export function* fetchInfoInitSaga(action) {
+    yield put(actions.fetchInfoStart(action.status))
+    try {
+        let response;
+        if (action.status === 'request') {
+            response = yield axios.post('/group', {id: action.id},{headers: {'data-categ':`grpreq`}});
+        } else {
+            response = yield axios.post('/group', {id: action.id, status: action.status},{headers: {'data-categ':`grpinfo`}});
+        }
+        yield put(actions.fetchInfo(response.data));
+    } catch(err) {
+        yield put(actions.fetchInfoFail(err))
     }
-    yield put(actions.filterUserSelect(filterUser))
 }
 
-export function* shareUserInitSaga(action) {
-    let shareUser = [];
-
-    for (let user of [...action.userSelect] ) {
-        shareUser.push(user.id)
+export function* changeCntInitSaga(action) {
+    yield put(actions.changeCntStartInit(action.user, action.categ))
+    if (!action.confirm) {
+        yield put(actions.changeCntStart(action.id,action.user,action.categ, action.username, action.curTab))
+        return;
     }
-    
     try {
-        yield put(actions.shareUserStart())
-        let field =   action.cntType === 'post' ? 'postID' : action.cntType === 'question' ? 'queID' : 'pwtID'
-        yield axios.patch('/header', {users: JSON.stringify(shareUser), id: action.shareID, model: action.cntType, field},{headers: {'data-categ': 'shareuser'}});
+        yield axios.post('/group', {id: action.id, user: action.user}, {
+            headers: {'data-categ': action.categ}})
+        yield put(actions.changeCnt())
         yield delay(1000);
-        yield put(actions.shareUser());
+        if (action.curTab === 'request') {
+            yield put(actions.removeRequest(action.id))
+        }
+
+        yield put(actions.changeCntReset(action.user))
     } catch(err){
-        yield put(actions.shareUserfail(err));
+        yield put(actions.changeCntFail(err))
         yield delay(1000);
-        yield put(actions.shareUser());
+        yield put(actions.changeCntReset(false))
     }
 }

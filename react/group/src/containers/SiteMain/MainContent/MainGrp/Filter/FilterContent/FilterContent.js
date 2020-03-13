@@ -12,12 +12,12 @@ import SelectCategs from '../../../../../../components/Main/FilterCategory/Selec
 class FilterContent extends Component {
     state = {
         filterOpt: {
-            comment: [
+            memberTotal: [
                 {id: 1, filterType: 'Low', filterRangeIcn: 'angle-left', filterRange:  500},
                 {id: 2, filterType: 'Average', filterRangeIcn: 'angle-right', filterRange:  '499 - 999'},
                 {id: 3, filterType: 'High', filterRangeIcn: 'angle-right', filterRange:  999}
             ],
-            helpFull: [
+            onlineTotal: [
                 {id: 4, filterType: 'Low', filterRangeIcn: 'angle-left', filterRange:  500},
                 {id: 5, filterType: 'Average', filterRangeIcn: 'angle-right', filterRange:  '499 - 999'},
                 {id: 6, filterType: 'High', filterRangeIcn: 'angle-right', filterRange:  999}
@@ -34,7 +34,7 @@ class FilterContent extends Component {
     }
 
     componentDidMount() {
-        this.props.history.push('/question/startfilter')
+        this.props.history.push('/group/startfilter')
         if (!this.props.categ) {
             this.props.onFetchCateg(this.props.tags);
         }
@@ -105,7 +105,7 @@ class FilterContent extends Component {
     applyFilterHandler = () => {
         this.props.onHideBackdrop();
         this.props.onFilter({searchCnt: this.state.searchCnt, filterSelect: this.state.filterSelect, category: this.state.filterCategory, apply: true});
-        this.props.history.push('/question/filter')
+        this.props.history.push('/group/filter')
     };
     
     render() {
@@ -169,7 +169,7 @@ class FilterContent extends Component {
                     <input 
                         type="text" 
                         className="reuse-filter__opt--srch__input" 
-                        placeholder="Enter Question..." 
+                        placeholder="Enter group Name..." 
                         onChange={this.searchHandler}
                         value={this.state.searchCnt}/>
                 </div>
@@ -177,15 +177,15 @@ class FilterContent extends Component {
                 <div className="reuse-filter__opt--cnt">
                     <div className="reuse-filter__opt--cnt__wrapper reuse-filter__opt--cnt__wrapper--mid">
                         <h3 className="reuse-filter__opt--cnt__title">
-                        <FontAwesomeIcon 
-                        icon={['fas', 'pencil-alt']} 
-                        className="icon icon__reuse-que-filter--ans"/>
-                    Answers
+                            <FontAwesomeIcon 
+                            icon={['fas', 'users']} 
+                            className="icon icon__reuse-grp-filter--user"/>
+                            Scholars
                         </h3>
                         <ul className="reuse-filter__opt--cnt__det">
                             <FilterOptions
-                                filterOptions={this.state.filterOpt.comment}
-                                filterItm={this.filterItmHandler.bind(this, 'comment')}
+                                filterOptions={this.state.filterOpt.memberTotal}
+                                filterItm={this.filterItmHandler.bind(this, 'memberTotal')}
                                 filterSelect={this.state.filterSelect}/>
                         </ul>
                     </div>
@@ -193,29 +193,14 @@ class FilterContent extends Component {
                     <div className="reuse-filter__opt--cnt__wrapper reuse-filter__opt--cnt__wrapper--mid">
                         <h3 className="reuse-filter__opt--cnt__title">
                             <FontAwesomeIcon 
-                                icon={['far', 'thumbs-up']} 
-                                className="icon icon__reuse-que-filter--rgt"/>  
-                            Correct
+                                icon={['fas', 'circle']} 
+                                className="icon icon__reuse-grp-filter--online"/>  
+                            online
                         </h3>
                         <ul className="reuse-filter__opt--cnt__det">
                             <FilterOptions
-                            filterOptions={this.state.filterOpt.helpFull}
-                            filterItm={this.filterItmHandler.bind(this, 'helpFull')}
-                                filterSelect={this.state.filterSelect}/>
-                        </ul>
-                    </div>
-        
-                    <div className="reuse-filter__opt--cnt__wrapper reuse-filter__opt--cnt__wrapper--mid">
-                        <h3 className="reuse-filter__opt--cnt__title">
-                            <FontAwesomeIcon 
-                                icon={['fas', 'heart']} 
-                                className="icon icon__reuse-que-filter--fav"/>  
-                            Favorites
-                        </h3>
-                        <ul className="reuse-filter__opt--cnt__det">
-                            <FilterOptions
-                                filterOptions={this.state.filterOpt.fav}
-                                filterItm={this.filterItmHandler.bind(this, 'favorite')}
+                            filterOptions={this.state.filterOpt.onlineTotal}
+                            filterItm={this.filterItmHandler.bind(this, 'onlineTotal')}
                                 filterSelect={this.state.filterSelect}/>
                         </ul>
                     </div>
