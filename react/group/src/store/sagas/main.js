@@ -29,7 +29,7 @@ export function* fetchShareActiveInitSaga(action) {
     try {
         let response = yield axios.post('/header', {}, {headers: {'data-categ':'notification'}});
         if (response.data > 0) {
-            // yield put(actions.fetchShareActive(response.data));
+            yield put(actions.fetchShareActive(response.data));
         }
         return
     } catch(err) {}

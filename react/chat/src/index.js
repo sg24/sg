@@ -1,12 +1,56 @@
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/stable';
+import 'events-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { createStore, combineReducers, applyMiddleware }  from 'redux'; 
+import { Provider } from 'react-redux';
+import  createSagaMiddleware from 'redux-saga';
+import reduxThunk from 'redux-thunk';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+ 
 import * as serviceWorker from './serviceWorker';
+import App from './App';
+import './index.css';
+import auth from './store/reducers/auth';
+import header from './store/reducers/header';
+import model from './store/reducers/model';
+import main from './store/reducers/main';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import { 
+        watchAuth,
+        watchHeader,
+        watchMain,
+        watchModel
+    } from './store/sagas/index';
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const sagaMiddleware = createSagaMiddleware();
+
+
+const rootReducers = combineReducers({
+    auth,
+    header,
+    main,
+    model
+})
+
+const store = createStore(rootReducers, applyMiddleware(reduxThunk, sagaMiddleware));
+
+sagaMiddleware.run(watchAuth);
+sagaMiddleware.run(watchHeader);
+sagaMiddleware.run(watchMain);
+sagaMiddleware.run(watchModel);
+
+library.add(fas,far)
+
+const app = (
+    <Provider store={store}>
+        <App />
+    </Provider>
+);
+
+ReactDOM.render(app, document.getElementById('root'));
+
+serviceWorker.register();
