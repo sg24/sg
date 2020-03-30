@@ -4,7 +4,7 @@ let arraySort = require('array-sort');
 let mongoose = require('mongoose');
 let authenticate = require('../serverDB/middleware/authenticate');
 let filterCnt = require('./utility/filtercnt');
-const {category, grpnotifies, group, user, authUser, connectStatus} = require('../serverDB/serverDB');
+const {category, grpnotifies, chat, group, user, authUser, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/:categ/:id', authenticate, (req, res,next) => {
     if (!req.params.id || !req.params.categ) {
@@ -18,6 +18,15 @@ router.get('/:categ/:id', authenticate, (req, res,next) => {
                 res.render('groupchat');
             } else {
                 res.redirect('/index/group')
+            }
+        })
+    } else {
+        let model = req.userType === 'authUser' ? authUser : user;
+        model.findOne({_id:  mongoose.mongo.ObjectId(req.user), $or: [ { student: { $in: req.params.id } }, { teacher: { $in: req.params.id} } ]}).then(userDet => {
+            if (userDet) {
+                res.render('pvtChat');
+            } else {
+                res.redirect('/index/group');
             }
         })
     }
@@ -66,8 +75,38 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
         })
     }
 
-    if (req.header !== null && req.header('data-categ') === 'allgroup') {
-        
+    if (req.header !== null && req.header('data-categ') === 'userDet') {
+        chat.findOne({$or: {$and: [ { host: { $in: req.body.id } }, { reply: { $in: req.user} } ]},  $and: [ { host: { $in: req.user } }, { reply: { $in: req.body.id} } ]}).then(chatDet => {
+            let lastMsg = null;
+            if (chatDet) {
+                lastMsg = chatDet.chat.length > 0 ? chatDet.chat[chatDet.chat.length - 1].msg : null
+            }
+            user.findOne({_id:  mongoose.mongo.ObjectId(req.body.id), $or: [ { student: { $in: req.user } }, { teacher: { $in: req.user} } ]}).then(userDet => {
+                if (userDet) {
+                    res.status(200).send({
+                        _id: userDet._id,
+                        image: userDet.image,
+                        username: userDet.username,
+                        status: userDet.status,
+                        studenttotal: userDet.studenttotal,
+                        lastMsg
+                    })
+                } else {
+                    authUser.findOne({_id:  mongoose.mongo.ObjectId(req.body.id), $or: [ { student: { $in: req.user } }, { teacher: { $in: req.user} } ]}).then(authDet => {
+                        if (authDet) {
+                            res.status(200).send({
+                                _id: authDet._id,
+                                image: authDet.image,
+                                username: authDet.username,
+                                status: authDet.status,
+                                studenttotal: authDet.studenttotal,
+                                lastMsg
+                            })
+                        }
+                    })
+                }
+            })
+        })
     }
 
     if (req.header !== null && req.header('data-categ') === 'friends') {

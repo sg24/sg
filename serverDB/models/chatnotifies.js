@@ -5,11 +5,11 @@ const NotificationsSchema = new Schema({
     userID: {
         type: String
     },
-    notifications: {
-        type: Number
-    },
     member: [{
-        type: String
+        ID: String,
+        notifications: {
+            type: Number
+        }
     }]
 })
 

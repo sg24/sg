@@ -15,6 +15,8 @@ const favorite = require('./models/favorites');
 const comment = require('./models/comment');
 const group = require('./models/group');
 const user = require('./models/user');
+const chat = require('./models/chat');
+const chatnotifies = require('./models/chatnotifies');
 const tempUser = require('./models/tempUser');
 const authUser = require('./models/authuser');
 const tempFile = require('./models/tempfile');
@@ -33,6 +35,8 @@ module.exports = {
     postnotifies,
     quenotifies,
     grpnotifies,
+    chat,
+    chatnotifies,
     grpchatnotifies,
     usernotifies,
     pwtnotifies,

@@ -45,11 +45,11 @@ class Main extends Component {
     };
 
     render() {
-        let groupImage = <Avatar  name={this.props.cnt.title} size='50' round />
+        let userImage = <Avatar  name={this.props.cnt.username} size='50' round />
         let userOpt = null
         let status = <div className="site-main__chat--header__status"></div>
         if (this.props.cnt.image && this.props.cnt.image.length > 0) {
-            groupImage = <img src={`${window.location.protocol + '//' + window.location.host}/media/image/${this.props.cnt.image[0].id}`} alt="group" />
+            userImage = <img src={this.props.cnt.image} alt="group" />
         }
 
         if (this.props.connect) {
@@ -61,73 +61,37 @@ class Main extends Component {
         let header = (
             <>
                 <div className="site-main__chat--header__img">
-                    { groupImage }
+                    { userImage }
                 </div>
                 <h3 className="site-main__chat--header__title">
-                    { this.props.cnt.title }
+                    { this.props.cnt.username }
                 </h3>
                 <div className="site-main__chat--header__det">
-                    <div className="site-main__chat--header__det--users site-main__chat--header__det--users__grp">
-                        <div className="site-main__chat--header__det--users__icn"><FontAwesomeIcon  icon={['fas', 'users']} className="icon icon__site-main--chat__header--user"/></div>
-                        <span> { transformNumber(this.props.cnt.members)} </span>
+                    <div className="site-main__chat--header__det--status site-main__chat--header__det--status__on">
+                        { this.props.cnt.lastMsg }
                     </div>
-                    <div 
-                        className="site-main__chat--header__det--cnt site-main__chat--header__det--cnt__lg"
-                        onClick={this.groupDetHandler}>
-                        Details
-                        <div></div>
+                    <div className="site-main__chat--header__det--status site-main__chat--header__det--status__off">
+                        <div></div> offline
                     </div>
-                    <div 
-                        className="site-main__chat--header__det--cnt site-main__chat--header__det--cnt__sm"
-                        onClick={this.chatRoomHandler}>
-                        Chat Room
+                    {/* <div className="site-main__chat--header__det--status site-main__chat--header__det--status__on">
+                            <div></div> online
+                        </div> */}
+                    <div className="site-main__chat--header__det--cnt site-main__chat--header__det--cnt__prf">
+                        Profile
                     </div>
-                    <div className="site-main__chat--header__det--calend">
-                        <FontAwesomeIcon  icon={['far', 'calendar-alt']} className="icon icon__site-main--chat__header--calend"/> 
-                        <Moment format="MMM YYYY">
-                            {this.props.cnt.groupCreated}
-                        </Moment>
+                    <div className="site-main__chat--header__det--users site-main__chat--header__det--users__pvt">
+                        <div className="site-main__chat--header__det--users__icn"><FontAwesomeIcon  icon={['fas', 'user-friends']} className="icon icon__site-main--chat__header--user"/></div>
+                        <span>{ transformNumber(this.props.cnt.studenttotal)}</span>
                     </div>
-                </div> 
-            </> 
+                </div>  
+            </>
         );
 
-        let footerOpt =(
+        let  footerOpt = (
             <li 
-                className="site-main__chat--header__user-opt--list__grp-det"
-                onClick={this.groupDetHandler}>Group Details</li>
+                className="site-main__chat--header__user-opt--list__prf"
+                onClick={this.profileHandler}>Profile</li>
         )
-
-        if (this.state.categ === 'user') {
-            header = (
-                <>
-                    <div className="site-main__chat--header__img">
-                    </div>
-                    <h3 className="site-main__chat--header__title">
-                        User user
-                    </h3>
-                    <div className="site-main__chat--header__det">
-                        <div className="site-main__chat--header__det--status site-main__chat--header__det--status__on">
-                            <div></div> online
-                        </div>
-                        {/* {{!-- <div className="site-main__chat--header__det--status site-main__chat--header__det--status__off">
-                            <div></div> offline
-                        </div> --}} */}
-                        <div className="site-main__chat--header__det--cnt site-main__chat--header__det--cnt__prf">
-                            Profile
-                        </div>
-                        <div className="site-main__chat--header__det--users site-main__chat--header__det--users__pvt">
-                            <div className="site-main__chat--header__det--users__icn"><FontAwesomeIcon  icon={['fas', 'user-friends']} className="icon icon__site-main--chat__header--user"/></div>
-                            <span>{ transformNumber(this.props.cnt.studenttotal)}</span>
-                        </div>
-                    </div>  
-                </>
-            )
-            
-            footerOpt = (
-                <li className="site-main__chat--header__user-opt--list__prf">Profile</li>
-            )
-        }
 
         if (this.props.userBackdrop) {
             userOpt = (

@@ -7,7 +7,7 @@ export function* fetchCntInitSaga(action) {
     try {
         let response = yield axios.post(`/chat/${action.categ}/${action.id}`, { id: action.id }, {
             headers: {
-                'data-categ': 'groupdet'}});
+                'data-categ': 'userdet'}});
         yield put(actions.fetchCnt(response.data));
         
     } catch(err){
