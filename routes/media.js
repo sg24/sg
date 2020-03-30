@@ -5,7 +5,7 @@ const {connectStatus} = require('../serverDB/serverDB');
 
 router.get('/:bucket/:id', (req, res, next) => {
     let bucketName = req.params.bucket === 'video' ? 'media' : req.params.bucket;
-    let id = req.params.id;
+    let id = req.params.id.split('.')[0];
 
     if (!bucketName || !id) {
         res.sendStatus(404);

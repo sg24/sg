@@ -68,6 +68,7 @@ class Share extends Component {
         let searchIcnClass = ['reuse-share__tab--srch__icn'];
         let adminImage = null;
         let groupImage = null;
+        let adminStatus = <div className="reuse-prf__grp--img__status reuse-prf__grp--img__status--off"></div>
 
         if (this.state.showInput) {
             searchIcnClass.push('reuse-share__tab--srch__icn--hidden')
@@ -113,6 +114,10 @@ class Share extends Component {
             let desc =  JSON.parse(this.props.grpInfo.desc)
             const htmlContent = draftToHtml(desc,{ trigger: '#',separator: ' '}, true);
 
+            if (this.props.grpInfo.status) {
+                adminStatus = <div className="reuse-prf__grp--img__status reuse-prf__grp--img__status--on"></div>
+            }
+            
             if (this.props.grpInfo.userOpt) {
                 requestCnt = (
                     <li
@@ -149,7 +154,7 @@ class Share extends Component {
                                         <div className="reuse-prf__grp--det__admin--info-wrapper">
                                             <div>
                                                 { adminImage }
-                                                <div className="reuse-prf__grp--img__status reuse-prf__grp--img__status--on"></div>
+                                                { adminStatus }
                                             </div>
                                             <ul>
                                                 <li><a href={`/user/profile/${this.props.grpInfo.authorID}`}>{ this.props.grpInfo.username } </a></li>
@@ -176,7 +181,7 @@ class Share extends Component {
                                 Online
                             </li>
                             <li
-                                className={this.state.curTab === 'offline' ? "active-grp-content-tab" : null}
+                                className={this.state.curTab === 'offline' ? "reuse-share__tab--cnt__offline active-grp-content-tab" : 'reuse-share__tab--cnt__offline'}
                                 onClick={this.changeTabHandler.bind(this, 'offline')}>
                                 {this.state.curTab === 'offline' ? <div className="active-grp-content-tab__active"></div> : null }
                                 Offline

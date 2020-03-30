@@ -178,7 +178,7 @@ class Model extends Component {
     }
 
     scrollHandler  = () => {
-        document.querySelector('.reuse-view__form--field__wrapper').scrollIntoView({behavior: 'smooth'})
+        document.querySelector('.reuse-view__form--field__wrapper').scrollIntoView()
     }
 
     replyHandler = (commentID) => {

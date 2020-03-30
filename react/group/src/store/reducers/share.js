@@ -21,7 +21,7 @@ const setGrpInfo = (state, action) => {
 };
 
 const fetchInfoStart = (state, action) => {
-    return updateObject(state, {users: null, curTab: action.curTab})
+    return updateObject(state, {users: null, filterUser: null, curTab: action.curTab})
 };
 
 const fetchInfoFail = (state, action) => {

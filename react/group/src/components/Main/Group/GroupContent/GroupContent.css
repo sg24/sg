@@ -154,6 +154,20 @@
     -moz-box-shadow: 0px 0px 20px 0px rgba(220,219,220, 0.57); 
 }
 
+.reuse-group__cnt--img > img{ 
+    position: relative;
+    border-radius: 30px;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -o-object-position: 50% 50%;
+       object-position: 50% 50%;
+    -o-object-fit: contain;
+       object-fit: contain;
+    width: 60px;
+    height: 60px;
+    display: block;
+}
+
 .reuse-group__cnt--desc {
     margin: 0;
     padding: 0 10px 0 100px;

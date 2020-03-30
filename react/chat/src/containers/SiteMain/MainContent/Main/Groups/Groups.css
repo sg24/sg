@@ -1,0 +1,106 @@
+  .site-main__chat--grp {
+    position: absolute;
+    background-color: #fff;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+        flex-direction: column;
+    overflow: hidden;
+    overflow-y: auto;
+    transition: all .3s ease-out;
+  }
+  
+  .site-main__chat--grp__wrapper {
+    width: 100%;
+    padding: 10px;
+    background-color: #fff;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+        flex-direction: column;
+    height: 100vh;
+    position: relative;
+  }
+  
+  .site-main__chat--grp__close {
+    position: relative;
+    background-color: #f2f2f2;
+    padding: 8px 30px 8px 8px;
+    /* text-align: right; */
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .site-main__chat--grp__close > h4 {
+    display: inline-block;
+    color: #05578b;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-main__chat--grp__close > span {
+    color: rgba(0,0,0, .25);
+  }
+  
+  .site-main__chat--grp__close--wrapper {
+    width: 20px;
+    height: 20px;
+    background-color: #e9ebf2;
+    border: 1px solid rgba(0,0,0, .5);
+    color: #ff1600;
+    font-size: .75rem;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .site-main__chat--grp__input {
+    padding: 12px;
+    border-radius: 5px;
+    border: none;
+    border: 1px solid #dcdbdc;
+    width: 100%;
+    font-size: .8125rem;
+    margin-top: 15px;
+  }
+  
+  /* box-shadow: 0 0 1px 1px rgba($mainDarkBlack, .25); */
+  
+  @media (min-width: 530px) {
+  
+    .site-main__chat--grp__input {
+      padding: 12px  10px;
+    }
+  }
+  
+  .site-main__chat--grp__cnt {
+    border: 1px solid #dcdbdc;
+    margin: 15px 0 0  0;
+    background-color: #f9f9f9;
+    font-size: .875rem;
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+        flex-direction: column;
+    -ms-flex-positive: 1;
+        flex-grow: 1;
+    overflow: hidden;
+    overflow-y: auto;
+    padding: 20px 10px 10px 10px;
+  }

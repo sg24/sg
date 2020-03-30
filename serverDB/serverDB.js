@@ -8,6 +8,7 @@ const postnotifies = require('./models/postnotifies');
 const quenotifies = require('./models/quenotifies');
 const pwtnotifies = require('./models/pwtnotifies');
 const grpnotifies = require('./models/grpnotifies');
+const grpchatnotifies = require('./models/grpchatnotifies');
 const usernotifies = require('./models/usernotifies');
 const viewnotifies = require('./models/viewnotifies');
 const favorite = require('./models/favorites');
@@ -32,6 +33,7 @@ module.exports = {
     postnotifies,
     quenotifies,
     grpnotifies,
+    grpchatnotifies,
     usernotifies,
     pwtnotifies,
     viewnotifies,

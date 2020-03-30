@@ -1,9 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const {posts, questions, poets, user, authUser, comment, connectStatus} = require('../serverDB/serverDB');
-const authenticate = require('../serverDB/middleware/authenticate');
-let notifications = require('./utility/notifications');
+const {posts, questions, poets, group, tempFile,user, authUser, grpchatnotifies,comment, connectStatus} = require('../serverDB/serverDB');
+const webpush = require('web-push');
 let global = require('../global/global');
+let mongoose = require('mongoose');
+let uuid = require('uuid');
+let fs = require('fs');
+let arraySort = require('array-sort');
+
+let uploadStream = require('./utility/uploadStream')
+let savetemp = require('./utility/savetemp');
+let deleteMedia = require('./utility/deletemedia');
 
 module.exports = {
    comment: (id, categ , cnts) => {
@@ -84,5 +91,554 @@ module.exports = {
             reject(err)
          })   
        })
-   }
+   },
+   members: ( id ) => {
+    return new Promise((resolve, reject) => {
+        group.findOne({_id: mongoose.mongo.ObjectId(id), _isCompleted: true}).then(grp => {
+            if (grp) {
+                let memberDet = {users: {online: [], offline: []},online: 0,offline: 0};
+                let memberTotal = 0;
+                let member = [...grp.member, grp.authorID];
+                for(let userID  of member) {
+                    fetchMember(userID, grp.lastMsg, grp.authorID, grp._id, memberDet).then(members => {
+                        memberDet = members;
+                        ++memberTotal;
+                        if (memberTotal === member.length) {
+                            group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true}, {
+                                online: memberDet.users.online,
+                            }).then(() => {
+                                resolve({memberDet, lastMsg: grp.lastMsg})
+                            })
+                        }
+                    })
+                }
+            } else {
+                reject('No group found')
+            }
+        })
+    })
+
+    function fetchMember(userID, grp, authorID, id,cnt ) {
+        return new Promise((resolve,reject) => {
+            user.findById(userID).then(userFnd => {
+                if (!userFnd) {
+                    authUser.findById(userID).then(authFnd => {
+                        lastChat(userID, grp, id).then(msgCnt => {
+                            let msg = msgCnt ? {cnt: msgCnt.msg, created: msgCnt.created}: {cnt: null, created: null};
+                            if (authFnd.status) {
+                                cnt.users.online.push({
+                                    id: userID,
+                                    username: authFnd.username,
+                                    status: authFnd.status, 
+                                    image: authFnd.image,
+                                    created: msg.created,
+                                    msg: msg.cnt,
+                                    isAdmin: userID === authorID
+                                 })
+                            } else {
+                                cnt.users.offline.push({
+                                    id: userID,
+                                    username: authFnd.username,
+                                    status: authFnd.status, 
+                                    image: authFnd.image,
+                                    created: msg.created,
+                                    msg: msg.cnt,
+                                    isAdmin: userID === authorID
+                                 })
+                            }
+                            authFnd.status ? cnt.online = cnt.online + 1 : cnt.offline = cnt.offline + 1
+                            resolve(cnt)
+                        })  
+                    })
+                } else {
+                    lastChat(userID, grp, id).then(msgCnt => {
+                        let msg = msgCnt ? {cnt: msgCnt.msg, created: msgCnt.created}: {cnt: null, created: null};
+                        if (userFnd.status) {
+                            cnt.users.online.push({
+                                id: userID,
+                                username: userFnd.username,
+                                status: userFnd.status, 
+                                image: userFnd.image,
+                                created: msg.created,
+                                msg: msg.cnt,
+                                isAdmin: userID === authorID
+                            })
+                        } else {
+                            cnt.users.offline.push({
+                                id: userID,
+                                username: userFnd.username,
+                                status: userFnd.status, 
+                                image: userFnd.image,
+                                created: msg.created,
+                                msg: msg.cnt,
+                                isAdmin: userID === authorID
+                            })
+                        }
+                        userFnd.status ? cnt.online = cnt.online + 1 : cnt.offline = cnt.offline + 1
+                        resolve(cnt)
+                    })  
+                }
+            }) 
+        })
+    }
+
+    function lastChat (userID, lastMsg) {
+        return new Promise((resolve, reject) => {
+            if (lastMsg && lastMsg.length > 0) {
+                for (let msg of lastMsg) {
+                    if (msg.userID === userID) {
+                        return resolve(msg.msgCnt);
+                    }
+                }
+            }
+            resolve(null)
+        })
+    }
+   },
+   typing: () => {
+       return new Promise((resolve, reject) => {
+           resolve(global.userDet.id)
+       })
+   },
+   getUserID:() => {
+       return new Promise((resolve,reject) =>{
+           resolve(global.userDet.id)
+       })
+   },
+   createChat: (id, cnt, lastMsg) => {
+    return new Promise((resolve, reject) => {
+        let chat = {
+            ID: global.userDet.id,
+            userType: global.userDet.type,
+            cntType: 'typedPlain',
+            msg: cnt.msg,
+            chatID: cnt.chatID,
+            format: 'typedPlain'
+        }
+        saveFile(id, chat).then((result) => {
+            let msgCnt = []
+            for (let cnt of lastMsg) {
+                if (cnt.room === id) {
+                    msgCnt = cnt.msg;
+                }
+            }
+            group.findByIdAndUpdate(id, {lastMsg: msgCnt}).then(() => {
+                resolve(result)
+            })
+        }).catch(err =>{
+            reject(err)
+        })
+    })
+   },
+   mediaRecChat: (id, cnt) => {
+    return new Promise((resolve, reject) => {
+        let dataUrl = cnt.msg;
+        let buff = Buffer.from(dataUrl.split(",")[1], 'base64');
+        let path =  `./tmp/${uuid()}.${cnt.format}`;
+        fs.writeFile(path, buff, function(err) {
+            if (!err) {
+                savetemp({path, type: cnt.type, name: uuid()}, [], global.userDet.id).then(tempFileID => {
+                    let doc = {
+                        path,
+                        bucketName: cnt.type,
+                        filename: uuid()
+                    }
+                    uploadStream(doc).then((fileDet) => {
+                        if (fileDet) {
+                            let chat = {
+                                ID: global.userDet.id,
+                                userType: global.userDet.type,
+                                cntType: cnt.type,
+                                msg: fileDet._id,
+                                chatID: cnt.chatID,
+                                format: cnt.format
+                            }
+                            tempFile.findByIdAndRemove(tempFileID).then(() => {
+                                saveFile(id, chat).then((result) => {
+                                    resolve(result)
+                                }).catch(err =>{
+                                    reject(err)
+                                })
+                            })
+                        } else {
+                            reject('Server Error')
+                        }
+                    }).catch(err => {
+                       reject(err)
+                    })
+                })
+            } else {
+                reject(err)
+            }
+        })
+    })
+   },
+   deleteChat: (id, cnt, lastMsg) => {
+       return new Promise((resolve, reject) => {
+        group.findOne({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
+            $or: [ { member: { $in: global.userDet.id } }, { authorID:  global.userDet.id } ]}).then(grp => {
+                if (grp) {
+                    let chats = grp.chat;
+                    if (chats && chats.length > 0) {
+                        let deleteTotal = 0;
+                        let curIndex = 0;
+                        for (let chatID of cnt) {
+                            let filterCnt = chats.filter((chat, index)=> {
+                                if (chat.chatID === chatID) {
+                                    curIndex = index;
+                                    return true;
+                                }
+                                return false;
+                            })[0];
+                            if (filterCnt && (filterCnt.ID === global.userDet.id)) {
+                                chats = chats.filter(chat => chat.chatID !== chatID)
+                                if (filterCnt && (filterCnt.cntType !== 'typedPlain')) {
+                                    deleteMedia([{id: filterCnt.msg }], filterCnt.cntType).then(() => {
+                                        ++deleteTotal;
+                                        if (cnt.length === deleteTotal) {
+                                            updateChat(id, chats, lastMsg).then(() => {
+                                                resolve(cnt)
+                                            })
+                                        }
+                                    })
+                                } else {
+                                    ++deleteTotal;
+                                    if (cnt.length === deleteTotal) {
+                                        updateChat(id, chats, lastMsg).then(() => {
+                                            resolve(cnt)
+                                        })
+                                    }
+                                }
+                            } else {
+                                ++deleteTotal;
+                                let block = filterCnt.block ? filterCnt.block.concat(global.userDet.id) : [global.userDet.id];
+                                block = [...new Set(block)]
+                                let cloned = JSON.parse(JSON.stringify(filterCnt));
+                                let update = {...cloned, block}
+                                chats[curIndex] = update;
+                                if (cnt.length === deleteTotal) {
+                                    updateChat(id, chats, lastMsg).then(() => {
+                                        resolve(cnt)
+                                    }).catch(err => {
+                                        reject(err)
+                                    })
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    reject('Not Authorized')
+                }
+            })
+       })
+       function updateObject(old, newCnt) {
+           let upddateOld = old
+           console.log({...upddateOld})
+           return {
+               ...old,
+               ...newCnt
+           }
+       }
+       function updateChat (id, chat, lastMsg) {
+        return new Promise((resolve, reject) => {
+            let msgCnt = []
+            for (let cnt of lastMsg) {
+                if (cnt.room === id) {
+                    msgCnt = cnt.msg
+                    if (msgCnt.length > 0) {
+                        msgCnt = msgCnt.filter(msg => msg.userID !== global.userDet.id)
+                    }
+                }
+            }
+            group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
+                $or: [ { member: { $in: global.userDet.id } }, { authorID:  global.userDet.id } ]}, {
+                   chat, lastMsg: msgCnt }).then(() => {
+                resolve()
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    }
+        
+   },
+   groups: () => {
+       return new Promise((resolve, reject) => {
+        group.find({_isCompleted: true, 
+            $or: [ { member: { $in: global.userDet.id} }, 
+                { authorID:  global.userDet.id } ]}).sort({groupCreated: -1}).then(grp => {
+                let grpCnt = []
+                let cntTotal = 0;
+                if (grp) {
+                    for(let cnt of grp) {
+                        let update = {};
+                        update['authorID'] = cnt.authorID;
+                        update['category'] = cnt.category;
+                        update['desc'] = cnt.desc;
+                        update['image'] = cnt.image;
+                        update['members'] = cnt.member.length + 1;
+                        update['title'] = cnt.title;
+                        update['online'] = cnt.online.length;
+                        update['groupCreated'] = cnt.groupCreated;
+                        update['offline'] = (cnt.member.length + 1) - cnt.online.length;
+                        let chats = arraySort(cnt.chat, 'groupCreated', {reverse: true});
+                        let lastMsg = null;
+                        for (let chat of chats) {
+                            if (chat.cntType === 'typedPlain') {
+                                lastMsg = chat.msg
+                            }
+                        }
+                        update['lastChat'] = lastMsg;
+                        update['_id'] = cnt._id;
+                        grpchatnotifies.findOne({userID: global.userDet.id}).then(notifyCnt => {
+                            ++cntTotal;
+                            if (notifyCnt) {
+                                for (let notify of notifyCnt.grp) {
+                                    if (notify.ID === cnt._id.toHexString()) {
+                                        update['notify'] = notify.notifications;
+                                    }
+                                }
+                            }
+                            grpCnt.push(update);
+                            if (cntTotal === grp.length) {
+                                resolve(grpCnt)
+                            }
+                        }).catch(err =>{
+                            reject(err)
+                        });
+                    }
+             } else {
+                reject(err)
+            }}).catch(err =>{
+                reject(err)
+            })
+       })
+   },
+   groupNotify: () => {
+        return new Promise((resolve, reject) => {
+            grpchatnotifies.findOne({userID: global.userDet.id}).then(notifyCnt => {
+                resolve(notifyCnt)
+            }).catch(err =>{
+                reject(err)
+            })
+        })
+    },
+    setLastMsg: (id) => {
+         return new Promise((resolve, reject) => {
+            group.findOne({_id:  mongoose.mongo.ObjectId(id),_isCompleted: true, 
+                $or: [ { member: { $in: global.userDet.id} }, 
+                    { authorID:  global.userDet.id } ]}).then(grp => {
+                if (grp && grp.member && grp.member.length > 0 && grp.chat.length > 0) {
+                    let chats = arraySort(grp.chat, 'created', {reverse: true});
+                    let lastMsg = []
+                    for (let userID of grp.member) {
+                        if (checkChat(userID, chats)) {
+                            let cnt = checkChat(userID, chats);
+                            lastMsg.push({userID, msgCnt: {msg: cnt.msg, created: cnt.created}})
+                        }
+                    }
+                    group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
+                        $or: [ { member: { $in: global.userDet.id } }, { authorID:  global.userDet.id } ]}, {
+                           lastMsg}).then(() => {
+                        resolve()
+                    }).catch(err => {
+                        reject(err)
+                    })
+
+                    function checkChat(userID, chats) {
+                        for (let chat of chats) {
+                            let block = chat.block ? chat.block.filter(id => id === userID)[0] : null;
+                            if (chat.ID === userID && !block) {
+                                return {
+                                    msg: chat.cntType === 'typedPlain' ? chat.msg : chat.cntType,
+                                    created: chat.created
+                                }
+                            }
+                        }
+                        return null
+                    }
+                } else {
+                    resolve()
+                }
+            })
+         })
+    }
+}
+
+function notify(userID, grpID, members) {
+    return new Promise((resolve, reject) => {
+        grpchatnotifies.findOne({userID}).then(result => {
+            if (result) {
+                let grpCnt = result.grp.filter(grpDet => grpDet.ID === grpID);
+                if (grpCnt.length < 1) {
+                    grpchatnotifies.findOneAndUpdate({userID}, {
+                        $push: {grp: {ID: grpID, $inc: {'notifications': 1}}}
+                    }).then(() => {
+                        members.push(userID)
+                        resolve(members)
+                    })
+                } else {
+                    let removeGrpNotify = result.grp.filter(grpDet => grpDet.ID !== grpID);
+                    let updateGrpNotify = grpCnt[0] ;
+                    updateGrpNotify.notifications = updateGrpNotify.notifications + 1;
+                    removeGrpNotify.push(updateGrpNotify);
+                    grpchatnotifies.findOneAndUpdate({userID}, {grp: removeGrpNotify }).then(() => {
+                        members.push(userID)
+                        resolve(members)
+                    })
+                }
+            } else {
+                let grpNof = new grpchatnotifies({
+                    userID,
+                    grp: {
+                        ID: grpID,
+                        notifications: 1
+                    } 
+                })
+                grpNof.save().then(() => {
+                    members.push(userID)
+                    resolve(members)
+                })
+            }
+        }).catch(err => {
+            reject(err)
+        })
+    })
+}
+
+function saveFile(id, chat) {
+    return new Promise((resolve, reject) => {
+        let model =  global.userDet.type === 'authUser' ? authUser : user;
+        model.findById(global.userDet.id).then(userDet => {
+            group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
+                $or: [ { member: { $in: global.userDet.id } }, { authorID:  global.userDet.id } ]}, {
+                    $push: {chat}, $addToSet: { active : global.userDet.id }}).then(grp => {
+                chat['username'] = userDet.username;
+                chat['image'] = userDet.image; 
+                if (grp) {
+                    if (grp.member && grp.member.length > 0) {
+                        let cntTotal = 0;
+                        let allUser = []
+                        for (let userID of grp.member) {
+                            user.findById(userID).then(res => {
+                                if (!res) {
+                                    authUser.findById(userID).then(authRes => {
+                                        if (!authRes.status) {
+                                            notify(userID, id, allUser).then(members => {
+                                                allUser = members;
+                                                ++cntTotal;
+                                                if (cntTotal === grp.member.length) {
+                                                    let msg = chat.cntType === 'audio' ? 'Audio chat' : chat.msg
+                                                    pushNotify(id, allUser, 'group', grp.title, msg).then(() => {
+                                                        resolve([chat])
+                                                    })
+                                                }
+                                            })
+                                        } else {
+                                            ++cntTotal;
+                                            if (cntTotal === grp.member.length) {
+                                                let msg = chat.cntType === 'audio' ? 'Audio chat' : chat.msg
+                                                pushNotify(id, allUser, 'group', grp.title, msg).then(() => {
+                                                    resolve([chat])
+                                                })
+                                            }
+                                        }
+    
+                                    })
+                                } else {
+                                    if (!res.status) {
+                                  
+                                        notify(userID, id, allUser).then(members => {
+                                            allUser = members;
+                                            ++cntTotal;
+                                            if (cntTotal === grp.member.length) {
+                                                let msg = (chat.cntType === 'audio' || chat.cntType === 'video') ? `${chat.cntType} message` : chat.msg
+                                                pushNotify(id, allUser, 'group', grp.title, msg).then(() => {
+                                                    resolve([chat])
+                                                })
+                                            }
+                                        })
+                                    } else {
+                                        ++cntTotal;
+                                        if (cntTotal === grp.member.length) {
+                                            let msg = (chat.cntType === 'audio' || chat.cntType === 'video') ? `${chat.cntType} message` : chat.msg
+                                            pushNotify(id, allUser, 'group', grp.title, msg).then(() => {
+                                                resolve([chat])
+                                            })
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                    } else {
+                        return resolve([chat])
+                    }
+                } else {
+                    reject('No Group found')
+                } 
+            })
+        }).catch(err => {
+            reject(err)
+        })
+    })
+}
+
+function pushNotify(id, shareMe, field, title, msg) {
+    return new Promise((resolve, reject) => {
+        let allSubscription = [];
+        user.find({_id: { $in : shareMe }}).then(users => {
+            let fndUsers = users ? users : []
+            allSubscription.push(...fndUsers);
+            authUser.find({_id: { $in : shareMe }}).then(authUsers => {
+                let fndAuthUser = authUsers ? authUsers : [];
+                allSubscription.push(...fndAuthUser);
+                let send = 0;
+                if (allSubscription && allSubscription.length < 1) {
+                    resolve();
+                    return
+                }
+
+                for (let subUsers of allSubscription) {
+                    if (subUsers.enableNotification) {
+                        var pushConfig = {
+                            endpoint: subUsers.subscription[0].endpoint,
+                            keys: {
+                            auth: subUsers.subscription[0].keys.auth,
+                            p256dh: subUsers.subscription[0].keys.p256dh
+                            }
+                        };
+                        var pushOptions = {
+                            vapidDetails: {
+                                subject: "https://slodge24.com",
+                                privateKey: subUsers.pushMsg[0].privatekey,
+                                publicKey: subUsers.pushMsg[0].publickey
+                            },
+                            headers: {}
+                        };
+                        let isImage = content.image && content.image.length > 0 ? {image:  content.image[0]} : {}; 
+                        webpush.sendNotification(pushConfig, JSON.stringify({
+                            title: msg,
+                            content: `from ${field} ${title}`,
+                            openUrl: `/chat/${field}/${id}`
+                        }), pushOptions).then(() => {
+                            ++send;
+                            if (send === allSubscription.length) {
+                                resolve()
+                            }
+                        })
+                        .catch((err) => {
+                            ++send;
+                            if (send === allSubscription.length) {
+                                resolve()
+                            }
+                        })
+                    } else {
+                        ++send;
+                        if (send === allSubscription.length) {
+                            resolve()
+                        }
+                    }
+                }
+            })
+        })
+    })
 }

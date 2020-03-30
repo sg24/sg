@@ -371,7 +371,7 @@ router.post('/', authenticate, (req, res, next) => {
                             if (!userFnd) {
                                 authUser.findById(cnt.authorID).then(authFnd => {
                                    if (authFnd) {
-                                    fetch(authFnd.username, authFnd.studenttotal, authFnd.image, cnt, cntArray).then(cnt => {
+                                    fetch(authFnd.username, authFnd.studenttotal, authFnd.image, authFnd.status, cnt, cntArray).then(cnt => {
                                         cntArray = cnt;
                                         ++send;
                                         if (send === result.length) {
@@ -381,7 +381,7 @@ router.post('/', authenticate, (req, res, next) => {
                                    }
                                 })
                             } else {
-                                fetch(userFnd.username, userFnd.studenttotal, userFnd.image, cnt, cntArray).then(cnt => {
+                                fetch(userFnd.username, userFnd.studenttotal, userFnd.image, userFnd.status, cnt, cntArray).then(cnt => {
                                     cntArray = cnt;
                                     ++send 
                                     if (send === result.length) {
@@ -392,7 +392,7 @@ router.post('/', authenticate, (req, res, next) => {
                         })   
                     }
                     
-                    function fetch(username, studenttotal, image, cnt, cntArray) {
+                    function fetch(username, studenttotal, image, status , cnt, cntArray) {
                         return new Promise((resolve, reject) => {
                             let update = {};
                             let isMember = req.user ? cnt.member.filter(userID => userID === req.user) : [];
@@ -410,6 +410,7 @@ router.post('/', authenticate, (req, res, next) => {
                             update['username'] = username;
                             update['studenttotal'] = studenttotal;
                             update['userImage'] = image;
+                            update['status'] = status;
                             update['userOpt'] = cnt.authorID === req.user;
                             update['authorID'] = cnt.authorID;
                             update['category'] = cnt.category;

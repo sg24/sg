@@ -574,16 +574,8 @@ router.delete('/header', authenticate,(req,res, next) =>  {
     }
 });
 
-// router.get('/group', (req, res, next) => {
-//     res.render('group');
-// });
-
 // router.get('/onlineexam', (req, res, next) => {
 //     res.render('onlineexam');
-// });
-
-// router.get('/chat', (req, res, next) => {
-//     res.render('groupchat');
 // });
 
 // router.get('/community', (req, res, next) => {

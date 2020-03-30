@@ -334,10 +334,12 @@
 
 .reuse-share__tab--cnt li:first-child::before {
     background-color: #16cf27;
+    left: 10px;
 }
 
 .reuse-share__tab--cnt li:first-child::after {
     background-color: #16cf27;
+    right: 10px;
 }
 
 .reuse-share__tab--cnt li:last-child {
@@ -361,8 +363,14 @@
     overflow: hidden;
 }
 
-.reuse-share__tab--cnt li:last-child::before, .reuse-share__tab--cnt li:last-child::after {
-    display: none;
+.reuse-share__tab--cnt__offline::before {
+    left: 10px;
+    background-color: #ff1600;
+}
+
+.reuse-share__tab--cnt__offline::after {
+    right: 10px;
+    background-color: #ff1600;
 }
 
 .reuse-share__tab--cnt li:not(.active-content-tab):hover {

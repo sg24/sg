@@ -55,6 +55,36 @@ const GroupSchema = new Schema({
         type: String,
         default: 'publish'
     },
+    chat: [{
+        ID: String,
+        userType: String,
+        msg: String,
+        cntType: String,
+        chatID: String,
+        format: String,
+        created: {
+            type: Date,
+            default: Date.now
+        },
+        block: {
+            type: Array,
+            default: []
+        }
+    }],
+    lastMsg: [{
+        userID: String,
+        msgCnt: {
+            msg: String,
+            created: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    }],
+    active: {
+        type: Array,
+        default: [String]
+    },
     _isCompleted: {
         type: Boolean,
         default: false

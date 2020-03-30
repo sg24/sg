@@ -1,3 +1,6 @@
+import io from 'socket.io-client';
+import uuid from 'uuid';
+
 export const updateObject = (oldObject, updatedProperties) => {
     return {
         ...oldObject,
@@ -135,21 +138,91 @@ export const getSnapshot = (url, mediaType) => {
     })
 }
 
-export const getImageURL = url => {
-    let image = new Image();
-    image.src = url;
+export const getImageURL = image => {
     let canvas = document.createElement('canvas');
     return new Promise((resolve, reject) => {
         if (canvas.getContext) {
-            image.onload = function() {
-                canvas.width = image.naturalWidth;
-                canvas.height = image.naturalHeight;
+                canvas.width = image.videoWidth;
+                canvas.height = image.videoHeight;
                 canvas.getContext('2d').drawImage(image, 0, 0);
                 let snapShot = canvas.toDataURL('image/png');
-                resolve(snapShot);
-            }
+                resolve(snapShot);;
         } else {
             reject('Please update your Browser')
+        }
+    })
+}
+
+export const engStrings = {
+    suffixAgo: 'ago',
+    seconds: 'sec',
+    minute: '%d min',
+    minutes: '%d min',
+    hour: '%d hr',
+    hours: '%d hrs',
+    day: '%d day',
+    days: '%d days',
+    month: '%d month',
+    months: '%d months',
+    year: '%d yr',
+    years: '%d yrs'
+  };
+
+  export const socket = io(window.location.protocol + '//' + window.location.host);
+
+  let chunks = [];
+  export const webCameraApi = (socketConnect, mediaRecorder, cnt, opt, format, formatType,type, socketKey) => {
+    return new Promise((resolve, reject) => {
+        if (!cnt) {
+            chunks = []
+            if (!('mediaDevices' in navigator)) {
+                navigator.mediaDevices = {};
+            }
+            
+            if (!('getUserMedia' in navigator.mediaDevices)) {
+                navigator.mediaDevices.getUserMedia = function(constraints) {
+                var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+            
+                if (!getUserMedia) {
+                    return Promise.reject(new Error('getUserMedia is not implemented!'));
+                }
+            
+                return new Promise(function(resolve, reject) {
+                    getUserMedia.call(navigator, constraints, resolve, reject);
+                });
+                }
+            }
+            navigator.mediaDevices.getUserMedia(opt)
+                .then(function(stream) {
+                    let mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder.start();
+                    mediaRecorder.ondataavailable = function(e) {
+                        chunks.push(e.data);
+                    }
+                    resolve({mediaRecorder, stream})
+                })
+                .catch(function(err) {
+                    reject(err)
+                });   
+        } else {
+            mediaRecorder.stop();
+            mediaRecorder.onstop = function(e) {
+                var blob = new Blob(chunks, { 'type' : format });
+                chunks = [];
+                mediaRecorder.stream.getTracks().forEach( track => 
+                    track.stop())
+                var reader = new FileReader();
+                reader.onload = function(evt) {
+                    resolve(null)
+                    socketConnect.emit(socketKey, {msg: evt.target.result, type, format: formatType, chatID: uuid()}, function(err) {
+                        reject(err)
+                    })
+                };
+                reader.onerror = function(err) {
+                    reject(err)
+                }
+                reader.readAsDataURL(blob);
+            }
         }
     })
 }
