@@ -788,6 +788,10 @@
     background-color: #ff1600;
   }
   
+  .site-main__chat--opt__del--disable {
+    opacity: .7;
+  }
+  
   .site-main__chat--opt__share {
     background-color: #05578b;
   }

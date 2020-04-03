@@ -23,8 +23,8 @@ const AsyncGroup = asyncComponent(() => {
     return import ('./Main/Groups/Groups');
 });
 
-const AsyncGroupInfo = asyncComponent(() => {
-    return import ('./Main/GroupInfo/GroupInfo');
+const AsyncProfile = asyncComponent(() => {
+    return import ('./Main/Profile/Profile');
 });
 
 const AsyncUsers = asyncComponent(() => {
@@ -44,7 +44,8 @@ class MainContent extends Component {
         id: this.props.match.params.id,
         categ: this.props.match.params.categ,
         chatLimit: 300,
-        err: null
+        err: null,
+        disable: false
     }
 
     componentDidMount() {
@@ -52,14 +53,17 @@ class MainContent extends Component {
         socket.on('connect', function(msg) {
             socket.emit('join',these.state.id, function(err) {
                 these.props.onJoinErr(err)
+                console.log(err)
             });
-            socket.on('member', function(members){
-                these.props.onFetchMember(members)
-            })
             these.props.onConnect()
         });
         socket.on('disconnect', function(members){
             these.props.onDisconnect()
+        })
+        socket.on('member', function(members){
+            if ( members && members.cnt && members.cnt.length > 0) {
+                these.props.onFetchMember(members)
+            }
         })
         socket.on('typing', function(users){
             these.props.onUserTyping(users)
@@ -70,24 +74,19 @@ class MainContent extends Component {
         socket.on('allgroup', function(grps){
             these.props.onFetchGroup(grps)
         })
-        socket.on('getGroupNotify', function(notifyCnt){
-            these.props.onFetchGroupNotify(notifyCnt)
-        })
+        // socket.on('getGroupNotify', function(notifyCnt){
+        //     these.props.onFetchGroupNotify(notifyCnt)
+        // })
         socket.on('chatRemoved', function(cnt){
-            console.log(cnt)
+            these.setState({disable: false})
             these.props.onRemoveChat(cnt)
         })
 
-        socket.emit('setLastMsg', {}, function(err) {
-            these.props.onTypingErr(err)
-        })
+        // socket.emit('setLastMsg', {}, function(err) {
+        //     these.props.onTypingErr(err)
+        // })
         
         this.props.onFetchCnt(this.state.id, this.state.categ)
-        // setInterval(() => {
-        //     socket.emit('checkMember', null, function(err) {
-        //         these.setState({err})
-        //     })
-        // }, 10000)
     }
 
     closeModelBackdropHandler = () => {
@@ -101,9 +100,10 @@ class MainContent extends Component {
 
     deleteChatHandler= () => {
         let these = this;
-        socket.emit('deleteChat', this.props.chatSelected, function(err) {
+        socket.emit('pvtDeleteChat', this.props.chatSelected, function(err) {
             these.props.onTypingErr(err)
         })
+        this.setState({disable: true})
     }
 
     editChatHandler = () => {
@@ -111,16 +111,33 @@ class MainContent extends Component {
     }
 
     render() {
+        this.props.onFetchShareActive();
+        this.props.onFetchNotifyActive();
+
         let cnt = null
         let backdrop = null;
         let showSnapshot = this.props.location.search && (this.props.location.search.split('=')[1] === 'camera')
         let showVidCam = this.props.location.search && (this.props.location.search.split('=')[1] === 'videoCamera')
         let showSearch = this.props.location.search && (this.props.location.search.split('=')[1] === 'search')
         let showGroups = this.props.location.search && (this.props.location.search.split('=')[1] === 'groups');
-        let showGroupInfo = this.props.location.search && (this.props.location.search.split('=')[1] === 'groupInfo')
+        let showProfile = this.props.location.search && (this.props.location.search.split('=')[1] === 'profile')
         let showFriends = this.props.location.search && (this.props.location.search.split('=')[1] === 'friends')
         let chatOpt = null;
+        let err = null;
+        let deleteClass = ['site-main__chat--opt__del'];
 
+        if ((this.props.cntErr || this.state.err)) {
+            err = (
+                <Backdrop 
+                    component={ Modal }
+                    close={this.closeModelBackdropHandler}
+                    err={ this.props.cntErr } /> 
+            )
+        }
+  
+        if (this.state.disable) {
+            deleteClass.push('site-main__chat--opt__del--disable')
+        }
         if (this.props.chatSelected && this.props.chatSelected.length > 0) {
             chatOpt = (
                 <div className="site-main__chat--opt__wrapper">
@@ -131,8 +148,8 @@ class MainContent extends Component {
                     </div>
                     <ul className="site-main__chat--opt">
                         <li 
-                            onClick={this.deleteChatHandler}
-                            className="site-main__chat--opt__del"><FontAwesomeIcon  icon={['far', 'trash-alt']} className="icon icon icon__site-main--chat__header--opt"/></li>
+                            onClick={!this.state.disable ? this.deleteChatHandler: null}
+                            className={deleteClass.join(' ')}><FontAwesomeIcon  icon={['far', 'trash-alt']} className="icon icon icon__site-main--chat__header--opt"/></li>
                         {/* <li 
                             onClick={this.editChatHandler}
                             className="site-main__chat--opt__edit"><FontAwesomeIcon  icon={['far', 'edit']} className="icon icon__site-main--chat__header--opt"/></li> */}
@@ -152,7 +169,7 @@ class MainContent extends Component {
 
         if (this.props.addBackdrop || this.props.userBackdrop || 
            showSnapshot || showVidCam ||this.props.emojiBackdrop || 
-           showGroups || showGroupInfo || showFriends || this.props.showSideNav) {
+           showGroups || showProfile || showFriends || this.props.showSideNav) {
             backdrop = (
                 <div 
                     className="site-main__chat--overlay"
@@ -173,8 +190,8 @@ class MainContent extends Component {
                                 < AsyncGroup /> : null }
                             { showFriends ? 
                                 <AsyncUsers/> : null }
-                            { showGroupInfo ? 
-                                <AsyncGroupInfo /> : null}
+                            { showProfile ? 
+                                <AsyncProfile /> : null}
                             {showSearch ? 
                                 <AsyncSearch /> : null}
                             {showVidCam ? 
@@ -191,12 +208,7 @@ class MainContent extends Component {
         this.props.onFetchShareActive();
         return (
             <div className="site-main__chat">
-                { this.props.cntErr || this.state.err ? 
-                    <Backdrop 
-                        component={ Modal }
-                        close={this.closeModelBackdropHandler}
-                        err={ this.props.cntErr } /> : null}
-                { cnt }
+                { err ? err : cnt }
             </div>
         )
     }
@@ -206,7 +218,7 @@ const mapStateToProps = state => {
     return {
         showLoader: state.cnt.showLoader,
         cnts: state.cnt.cnts,
-        navCnt: state.cnt.navCnt,
+        members: state.cnt.members,
         addBackdrop: state.cnt.addBackdrop,
         userBackdrop: state.cnt.userBackdrop,
         emojiBackdrop: state.cnt.emojiBackdrop,
@@ -218,6 +230,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        onFetchShareActive: () => dispatch(actions.fetchShareactiveInit()),
+        onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
         onConnect: () => dispatch(actions.chatConnect()), 
         onDisconnect: () => dispatch(actions.chatDisconnect()), 
         onFetchCnt: (id, categ) => dispatch(actions.fetchCntInit(id, categ)),
@@ -225,7 +239,6 @@ const mapDispatchToProps = dispatch => {
         onJoinErr: (err) => dispatch(actions.fetchCntFail(err)) ,
         onUserTyping: (users) => dispatch(actions.userTyping(users)),
         onCloseBackdrop: () => dispatch(actions.closeBackdrop()),
-        onFetchShareActive: (userID) => dispatch(actions.fetchShareactiveInit(userID)),
         onNewChat: (chat) => dispatch(actions.addNewChat(chat)),
         onFetchGroup: (grp) => dispatch(actions.fetchGroup(grp)),
         onFetchGroupNotify: (notifyCnt) => dispatch(actions.fetchGroupNotify(notifyCnt)),

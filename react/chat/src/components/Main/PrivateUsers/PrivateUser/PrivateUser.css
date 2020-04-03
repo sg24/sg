@@ -22,6 +22,21 @@
   left: 10px;
 }
 
+.reuse-pvt-chat__img > img {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  display: block;
+  background-color: rgba(233,235,242, .7);
+  cursor: pointer;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -o-object-position: 50% 50%;
+  object-position: 50% 50%;
+  -o-object-fit: fill;
+  object-fit: fill;
+}
+
 .reuse-pvt-chat__img--status {
   position: absolute;
   width: 8px;

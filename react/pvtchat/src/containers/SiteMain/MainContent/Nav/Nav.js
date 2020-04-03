@@ -13,7 +13,13 @@ class Nav extends Component {
         showNewTab: false,
         curTab: 'online',
         inputValue: '',
-        users: []
+        users: [],
+        id: this.props.match.params.id,
+        categ: this.props.match.params.categ,
+    }
+
+    componentDidMount() {
+        this.props.onFetchMember(this.state.id, this.state.categ)
     }
 
     componentDidUpdate() {  
@@ -26,22 +32,15 @@ class Nav extends Component {
             this.setState({users: this.props.filterUser})
         }
      
-        if (!this.props.filterUser && this.props.navCnt && (JSON.stringify(this.state.users) !== JSON.stringify(this.props.navCnt.users))) {
-            this.setState({users: this.props.navCnt.users})
+        if (!this.props.filterUser && this.props.member && (JSON.stringify(this.state.users) !== JSON.stringify(this.props.member))) {
+            this.setState({users: this.props.member})
         }
     }
 
-    changeTabHandler = (newtab) => { 
-        let curTab = null;
-        curTab =  newtab === 'online' ? newtab : curTab;
-        curTab =  newtab === 'offline' ? newtab : curTab;
-        this.setState({curTab, showNewTab: true})
-    }
-
     filterContentHandler = (event) => {
-        if (this.props.navCnt && this.props.navCnt.users ) {
+        if (this.props.member) {
             this.setState({inputValue: event.target.value})
-            this.props.onFilterUser(this.props.navCnt.users, event.target.value);
+            this.props.onFilterUser(this.props.member, event.target.value);
         }
     }
 
@@ -50,34 +49,20 @@ class Nav extends Component {
     }
 
     render() {
-        let header = 'Teachers';
+        let header = ' ';
         let users = <Loader 
             nav/>;
         let navClass = ["site-main__chat--nav"];
 
         let tabOpt = (
-            <>
-                <li 
-                    className={this.state.curTab === 'online' ? "site-main__chat--nav__cnt--tab__active site-main__chat--nav__cnt--tab__active-on" : null}
-                    onClick={this.changeTabHandler.bind(this, 'online')}> Online</li>
-                <li
-                    className={this.state.curTab === 'offline' ? "site-main__chat--nav__cnt--tab__active site-main__chat--nav__cnt--tab__active-off" : null}
-                    onClick={this.changeTabHandler.bind(this, 'offline')}>Offline</li>
-            </>
+            <li className="site-main__chat--nav__cnt--tab__conv"> Conversation </li>
         )
 
         if (this.props.showSideNav) {
             navClass.push('site-main__chat--nav__visible')
         }
 
-        if (this.props.match.params.categ === 'user') {
-            header =''
-            tabOpt = (
-                <li className="site-main__chat--nav__cnt--tab__conv"> Conversation </li>
-            )
-        }
-
-        if (this.state.users && this.props.navCnt && this.props.navCnt.users && this.props.navCnt.users) {
+        if (this.state.users && this.props.member) {
             users = (
                 <Users 
                 content={this.state.users}
@@ -98,10 +83,10 @@ class Nav extends Component {
                 <div className="site-main__chat--nav__header site-main__chat--nav__header--teach">
                     <div className="site-main__chat--nav__header--det">
                         <div className="site-main__chat--nav__header--det__on">
-                            { this.props.navCnt && this.props.navCnt.online ? this.props.navCnt.online : 0 }
+                            { this.props.online }
                         </div>
                         <div className="site-main__chat--nav__header--det__off">
-                            { this.props.navCnt && this.props.navCnt.offline ? this.props.navCnt.offline : 0 }
+                            { this.props.offline }
                         </div>
                         <h4 className="site-main__chat--nav__header--det__title site-main__chat--nav__header--det__title--teach">
                             { header }
@@ -142,8 +127,10 @@ class Nav extends Component {
 const mapStateToProps = state => {
     return {
         cnt: state.cnt.cnts,
-        navCnt: state.cnt.navCnt,
+        member: state.cnt.members,
         typing: state.cnt.typing,
+        offline: state.cnt.offline,
+        online: state.cnt.online,
         memberLoader: state.cnt.memberLoader,
         filterUser: state.cnt.filterUser,
         showSideNav: state.cnt.showSideNav
@@ -152,7 +139,7 @@ const mapStateToProps = state => {
 
  const mapDispatchToProps = dispatch => {
      return {
-        onChangeTab: (curTab) => dispatch(actions.changeTab(curTab)),
+        onFetchMember: (id, categ) => dispatch(actions.fetchMemberInit(id, categ)),
         onFilterUser: (users,filterContent) => dispatch(
             actions.filterUserInit(users, filterContent)),
         onCloseSideNav: () => dispatch(actions.closeSideNav())

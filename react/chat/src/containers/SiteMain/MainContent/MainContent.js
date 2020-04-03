@@ -44,7 +44,8 @@ class MainContent extends Component {
         id: this.props.match.params.id,
         categ: this.props.match.params.categ,
         chatLimit: 300,
-        err: null
+        err: null,
+        disable: false
     }
 
     componentDidMount() {
@@ -74,7 +75,7 @@ class MainContent extends Component {
             these.props.onFetchGroupNotify(notifyCnt)
         })
         socket.on('chatRemoved', function(cnt){
-            console.log(cnt)
+            these.setState({disable: false})
             these.props.onRemoveChat(cnt)
         })
 
@@ -104,6 +105,7 @@ class MainContent extends Component {
         socket.emit('deleteChat', this.props.chatSelected, function(err) {
             these.props.onTypingErr(err)
         })
+        this.setState({disable: true})
     }
 
     editChatHandler = () => {
@@ -120,6 +122,11 @@ class MainContent extends Component {
         let showGroupInfo = this.props.location.search && (this.props.location.search.split('=')[1] === 'groupInfo')
         let showFriends = this.props.location.search && (this.props.location.search.split('=')[1] === 'friends')
         let chatOpt = null;
+        let deleteClass = ['site-main__chat--opt__del'];
+
+        if (this.state.disable) {
+            deleteClass.push('site-main__chat--opt__del--disable')
+        }
 
         if (this.props.chatSelected && this.props.chatSelected.length > 0) {
             chatOpt = (
@@ -131,8 +138,8 @@ class MainContent extends Component {
                     </div>
                     <ul className="site-main__chat--opt">
                         <li 
-                            onClick={this.deleteChatHandler}
-                            className="site-main__chat--opt__del"><FontAwesomeIcon  icon={['far', 'trash-alt']} className="icon icon icon__site-main--chat__header--opt"/></li>
+                            onClick={!this.state.disable ? this.deleteChatHandler: null}
+                            className={deleteClass.join(' ')}><FontAwesomeIcon  icon={['far', 'trash-alt']} className="icon icon icon__site-main--chat__header--opt"/></li>
                         {/* <li 
                             onClick={this.editChatHandler}
                             className="site-main__chat--opt__edit"><FontAwesomeIcon  icon={['far', 'edit']} className="icon icon__site-main--chat__header--opt"/></li> */}

@@ -1,23 +1,21 @@
 import React from 'react';
 import arraySort from 'array-sort';
 
-import Chat from './Chat/Chat';
+import Edit from './Edit/Edit';
 
-const chats = (props) =>{
+const edits = (props) =>{
     let content= arraySort(props.cnts, 'created', {reverse: false});
     let allChat = content.map((cnt, index) => (
-            <Chat 
+            <Edit 
                 key={index}
                 cnt={cnt}
                 users={props.users}
                 userImage={props.userImage}
                 filterChat={props.filterChat}
-                hold={props.hold.bind(this, cnt.chatID)}
-                released={props.released.bind(this, cnt.chatID)}
                 selected={props.selected}/>
         ))
 
         return allChat;
 }
 
-export default chats;
+export default edits;

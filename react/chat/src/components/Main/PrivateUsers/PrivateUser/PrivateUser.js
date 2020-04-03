@@ -37,17 +37,17 @@ const user = props => {
         )
     }
 
-    if (props.userDet.msgCreated) {
+    if (props.userDet.created) {
         msgCreated = (
             <span>
-                @ <TimeAgo date={props.userDet.msgCreated} live={false} formatter={formatter} />
+                @ <TimeAgo date={props.userDet.created} live={false} formatter={formatter} />
             </span>
         )
     }
 
-    if(props.userDet.active && props.userDet.active > 0) {
+    if(props.userDet.notifications && props.userDet.notifications > 0) {
         active = (
-        <div className="active__main active__main--chat-cnt"><div>{ props.userDet.active }</div></div>
+        <div className="active__main active__main--chat-cnt"><div>{ props.userDet.notifications }</div></div>
         )
     }
 

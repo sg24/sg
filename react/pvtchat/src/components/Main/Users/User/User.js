@@ -18,7 +18,7 @@ const user = props => {
              <li>
                 <a href={`/chat/user/${props.userDet.id}`}>
                     { props.userDet.isAdmin ? props.userDet.username + '(Admin)' : props.userDet.username}
-                    {props.userDet.msg ? <span>@ { <TimeAgo date={props.userDet.created} live={false} formatter={formatter}/> }</span> : null}
+                    {props.userDet.msg ? <span>@ { <TimeAgo date={props.userDet.created} live={true} formatter={formatter}/> }</span> : null}
                 </a>
             </li>
             <li className={lastMsgClass.join(' ')}>
@@ -45,7 +45,7 @@ const user = props => {
                          <li>
                             <a href={`/chat/user/${props.userDet.id}`}>
                                 { props.userDet.isAdmin ? props.userDet.username + '(Admin)' : props.userDet.username}
-                                {props.userDet.msg ? <span>@ { <TimeAgo date={props.userDet.created} live={false} formatter={formatter}/> }</span> : null}
+                                {props.userDet.msg ? <span>@ { <TimeAgo date={props.userDet.created} live formatter={formatter}/> }</span> : null}
                             </a>
                         </li>
                         <li><a href={`/chat/user/${props.userDet.id}`}><span>Typing . . .</span></a></li>

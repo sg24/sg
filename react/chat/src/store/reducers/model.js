@@ -150,7 +150,7 @@ const userTyping = (state, action) => {
 
 const closeBackdrop = (state, action) => {
     return updateObject(state, {cntErr: null, pvtUserErr: null,addBackdrop: false, userBackdrop: false,
-        audRecBackdrop: false, vidRecBackdrop: false, filterChat: null,filterGrp: null,mojiBackdrop: false, showSideNav: false})
+        audRecBackdrop: false, vidRecBackdrop: false, filterChat: null,filterGrp: null, emojiBackdrop: false, showSideNav: false})
 };
 
 const showAddBackdrop = (state, action) => {

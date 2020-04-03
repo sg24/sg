@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Moment from 'react-moment';
+import TimeAgo from 'react-timeago';
+import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 import Avatar from 'react-avatar';
 
 import './Main.css';
-import { transformNumber } from '../../../../shared/utility';
+import { transformNumber, engStrings } from '../../../../shared/utility';
 import * as actions from '../../../../store/actions/index';
 
 class Main extends Component {
@@ -29,9 +30,9 @@ class Main extends Component {
         this.props.history.push(`/chat/${this.state.categ}/${this.state.id}?id=groups`);
     };
 
-    groupDetHandler = () => {
+    profileHandler = () => {
         this.props.onCloseBackdrop();
-        this.props.history.push(`/chat/${this.state.categ}/${this.state.id}?id=groupInfo`);
+        this.props.history.push(`/chat/${this.state.categ}/${this.state.id}?id=profile`);
     };
 
     showMemberHandler = () => {
@@ -45,11 +46,45 @@ class Main extends Component {
     };
 
     render() {
+        const formatter = buildFormatter(engStrings);
         let userImage = <Avatar  name={this.props.cnt.username} size='50' round />
         let userOpt = null
         let status = <div className="site-main__chat--header__status"></div>
         if (this.props.cnt.image && this.props.cnt.image.length > 0) {
             userImage = <img src={this.props.cnt.image} alt="group" />
+        }
+        let userStatusIcn = null;
+
+        let userStatus = (
+            <div className="site-main__chat--header__det--status site-main__chat--header__det--status__off">
+                 @ <TimeAgo date={this.props.cnt.offline} live={true} formatter={formatter}/>
+            </div> 
+        )
+
+        if (!this.props.cnt.status) {
+            userStatusIcn = (
+                <div className="site-main__chat--header__img--status">
+                </div>
+            )
+        }
+
+        if (this.props.users) {
+            for (let user of this.props.users) {
+                if ((user.id === this.props.cnt._id)) {
+                    if (user.status) {
+                        userStatus = (
+                            <div className="site-main__chat--header__det--status site-main__chat--header__det--status__on">
+                                <div></div> online
+                            </div>
+                        )
+                    } else {
+                        userStatusIcn = (
+                            <div className="site-main__chat--header__img--status">
+                            </div>
+                        )
+                    }
+                }
+            }
         }
 
         if (this.props.connect) {
@@ -62,6 +97,7 @@ class Main extends Component {
             <>
                 <div className="site-main__chat--header__img">
                     { userImage }
+                    { userStatusIcn }
                 </div>
                 <h3 className="site-main__chat--header__title">
                     { this.props.cnt.username }
@@ -70,13 +106,10 @@ class Main extends Component {
                     <div className="site-main__chat--header__det--status site-main__chat--header__det--status__on">
                         { this.props.cnt.lastMsg }
                     </div>
-                    <div className="site-main__chat--header__det--status site-main__chat--header__det--status__off">
-                        <div></div> offline
-                    </div>
-                    {/* <div className="site-main__chat--header__det--status site-main__chat--header__det--status__on">
-                            <div></div> online
-                        </div> */}
-                    <div className="site-main__chat--header__det--cnt site-main__chat--header__det--cnt__prf">
+                    { userStatus }
+                    <div 
+                        className="site-main__chat--header__det--cnt site-main__chat--header__det--cnt__prf"
+                        onClick={this.profileHandler}>
                         Profile
                     </div>
                     <div className="site-main__chat--header__det--users site-main__chat--header__det--users__pvt">
@@ -135,6 +168,7 @@ const mapStateToProps = state => {
     return {
         cnt: state.cnt.cnts,
         userBackdrop: state.cnt.userBackdrop,
+        users: state.cnt.users,
         connect: state.cnt.connect
     };
  }

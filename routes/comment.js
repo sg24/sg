@@ -113,7 +113,7 @@ module.exports = {
                     })
                 }
             } else {
-                reject('No group found')
+                resolve({memberDet: [], lastMsg: []})
             }
         })
     })
@@ -369,6 +369,9 @@ module.exports = {
                 let grpCnt = []
                 let cntTotal = 0;
                 if (grp) {
+                    if (grp.length < 1) {
+                        return resolve([])
+                    }
                     for(let cnt of grp) {
                         let update = {};
                         update['authorID'] = cnt.authorID;
@@ -471,7 +474,7 @@ function notify(userID, grpID, members) {
                 let grpCnt = result.grp.filter(grpDet => grpDet.ID === grpID);
                 if (grpCnt.length < 1) {
                     grpchatnotifies.findOneAndUpdate({userID}, {
-                        $push: {grp: {ID: grpID, $inc: {'notifications': 1}}}
+                        $push: {grp: {ID: grpID, notifications: 1}}
                     }).then(() => {
                         members.push(userID)
                         resolve(members)

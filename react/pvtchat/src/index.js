@@ -11,7 +11,7 @@ import reduxThunk from 'redux-thunk';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
- 
+
 import * as serviceWorker from './serviceWorker';
 import App from './App';
 import './index.css';
@@ -19,6 +19,7 @@ import auth from './store/reducers/auth';
 import header from './store/reducers/header';
 import model from './store/reducers/model';
 import main from './store/reducers/main';
+import profile from './store/reducers/profile';
 import groupInfo from './store/reducers/groupInfo';
 
 import { 
@@ -26,7 +27,8 @@ import {
         watchHeader,
         watchMain,
         watchModel,
-        watchGroupInfo
+        watchGroupInfo,
+        watchPrf
     } from './store/sagas/index';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -37,6 +39,7 @@ const rootReducers = combineReducers({
     header,
     main,
     cnt: model,
+    prf: profile,
     groupInfo
 })
 
@@ -47,6 +50,7 @@ sagaMiddleware.run(watchHeader);
 sagaMiddleware.run(watchMain);
 sagaMiddleware.run(watchModel);
 sagaMiddleware.run(watchGroupInfo);
+sagaMiddleware.run(watchPrf);
 
 library.add(fas,far)
 

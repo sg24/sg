@@ -131,7 +131,7 @@ const chats = (props) => {
                         <Moment date={props.cnt.created} format="h:mm a"/>
                     </li>
                     <li className="site-main__chat--box__hst--footer__user">
-                        <a href={`/user/profile/${props.cnt.id}`}>{ props.cnt.username.substr(0,7) }</a>   
+                        <a href={`/user/profile/${props.cnt.ID}`}>{ props.cnt.username.substr(0,7) }</a>   
                         <div className="site-main__chat--box__hst--footer__user--img">
                             { userImage }
                             { status }
@@ -161,7 +161,7 @@ const chats = (props) => {
                     </div>
                     <ul className="site-main__chat--box__reply--footer">
                         <li className="site-main__chat--box__reply--footer__user">
-                            <a href={`/user/profile/${props.cnt.id}`}>{ props.cnt.username.substr(0,7) }</a>   
+                            <a href={`/user/profile/${props.cnt.ID}`}>{ props.cnt.username.substr(0,7) }</a>   
                             <div className="site-main__chat--box__reply--footer__user--img">
                                 { userImage }
                                 { status }

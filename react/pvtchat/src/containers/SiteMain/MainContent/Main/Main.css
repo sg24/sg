@@ -441,9 +441,19 @@
     float: left;
     color: #e9ebf2;
     position: relative;
-    padding-left: 18px;
   }
   
+  .site-main__chat--header__img--status {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    border: 1px solid #dcdbdc;
+    bottom: 2px;
+    right: 8px;
+    background-color: #ff1600;
+  }
+
   .site-main__chat--header__det--status > div {
     position: absolute;
     width: 8px;
@@ -457,6 +467,7 @@
   
   .site-main__chat--header__det--status__on {
     position: relative;
+    padding-left: 18px;
   }
   
   .site-main__chat--header__det--status__on > div {
@@ -465,10 +476,6 @@
   
   .site-main__chat--header__det--status__off {
     position: relative;
-  }
-  
-  .site-main__chat--header__det--status__off > div {
-    background-color: #16cf27;
   }
   
   .site-main__chat--header__det--users {
@@ -786,6 +793,10 @@
   
   .site-main__chat--opt__del {
     background-color: #ff1600;
+  }
+  
+  .site-main__chat--opt__del--disable {
+    opacity: .7;
   }
   
   .site-main__chat--opt__share {

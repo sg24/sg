@@ -3,6 +3,7 @@ class Comments {
         this.users = [];
         this.typing = [];
         this.lastMsg = [];
+        this.pvtTyping = [];
     }
 
     addUser (id, room) {
@@ -25,6 +26,10 @@ class Comments {
 
     getUserTyping(id) {
         return this.typing.filter((user) => user.id === id)[0];
+    }
+
+    getPvtTyping(id) {
+        return this.pvtTyping.filter((user) => user.id === id)[0];
     }
 
     userTyping(id) {
@@ -50,6 +55,29 @@ class Comments {
         return this.typing
     }
 
+    pvtUserTyping(id) {
+        let userFnd = this.pvtTyping.filter((user) => user.id === id)
+        if (userFnd.length < 1) {
+            this.pvtTyping.push({id, intervalID: null});
+        }
+        let check  = setInterval(() =>{
+            let userDet = this.pvtTyping.filter(user => user.id === id);
+            if (userDet.length > 0) {
+                let user = this.users.filter((user) => user.id === id)[0];
+                if (!user) {
+                    this.pvtTyping = this.pvtTyping.filter(user => user.id !== id);
+                    clearInterval(check)
+                } else {
+                    this.pvtTyping = this.pvtTyping.filter(user => user.id !== id);
+                    this.pvtTyping.push({id, intervalID: check})
+                }
+            } else {
+                clearInterval(check)
+            }
+        }, 1000)
+        return this.pvtTyping
+    }
+
     cancelTyping(userID) {
         let check = this.typing.filter(user => user.id === userID)[0];
         if (check && check.intervalID) {
@@ -58,6 +86,16 @@ class Comments {
         this.typing = this.typing.filter(user => user.id !== userID);
         
         return this.typing
+    }
+
+    pvtcancelTyping(userID) {
+        let check = this.pvtTyping.filter(user => user.id === userID)[0];
+        if (check && check.intervalID) {
+            clearInterval(check.intervalID)
+        }
+        this.pvtTyping = this.pvtTyping.filter(user => user.id !== userID);
+        
+        return this.pvtTyping
     }
 
     getUserList (room) {

@@ -355,7 +355,7 @@ router.patch('/', authenticate,(req, res, next) => {
     if (req.header && req.header('data-categ') === 'unfriend') {
         let model = req.userType === 'authUser' ? authUser : user;
         let id = req.body.id;
-        model.findOne({_id: req.user, student: { $in : id }}).then((result) => {
+        model.findOne({_id: req.user, $or: [{student: { $in : id }}, {teacher: { $in : id }}]}).then((result) => {
             if (result) {
                 let filterStudent = result.student ? result.student.filter(studentID => studentID === id) : [];
                 if (filterStudent.length < 1) {

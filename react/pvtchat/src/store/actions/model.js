@@ -34,12 +34,11 @@ export const fetchCnt = (cnt) => {
     }
 };
 
-export const fetchMemberInit = (id, categ, curTab) => {
+export const fetchMemberInit = (id, categ) => {
     return {
         type: actionTypes.FETCH_MEMBER_INIT,
         id,
-        categ,
-        curTab
+        categ
     }
 };
 
@@ -354,6 +353,37 @@ export const deleteChat = (cnt) => {
 export const chatRemoved = (cnt) => {
     return {
         type: actionTypes.CHAT_REMOVED,
+        cnt
+    }
+};
+
+export const uploadMediaStart = (chatID, cntType, percentage) =>{
+    return {
+        type: actionTypes.UPLOAD_MEDIA_START,
+        chatID,
+        cntType,
+        percentage
+    };
+}
+
+export const uploadMediaFail = (err) => {
+    return {
+        type: actionTypes.UPLOAD_MEDIA_FAIL,
+        err
+    }
+};
+
+
+export const uploadMediaSet = (total) => {
+    return {
+        type: actionTypes.UPLOAD_MEDIA_SET,
+        total
+    }
+};
+
+export const uploadMedia = (cnt) => {
+    return {
+        type: actionTypes.UPLOAD_MEDIA,
         cnt
     }
 };

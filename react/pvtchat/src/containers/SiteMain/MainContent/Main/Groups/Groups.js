@@ -25,9 +25,6 @@ class Groups extends Component {
         socket.emit('groups', null, function(err) {
             these.setState({err})
         })
-        // socket.emit('groupNotify', null, function(err) {
-        //     these.setState({err})
-        // })
     }
 
 

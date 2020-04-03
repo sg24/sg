@@ -142,3 +142,23 @@ export const SHOW_SIDE_NAV =  'SHOW_SIDE_NAV';
 export const CLOSE_SIDE_NAV =  'CLOSE_SIDE_NAV';
 export const HOLD_CHAT =  'HOLD_CHAT';
 export const RELEASE_CHAT =  'RELEASE_CHAT';
+
+export const FETCH_PRF_INIT = 'FETCH_PRF_INIT';
+export const FETCH_PRF_START = 'FETCH_PRF_START';
+export const FETCH_PRF_RESET = 'FETCH_PRF_RESET';
+export const FETCH_PRF_FAIL = 'FETCH_PRF_FAIL';
+export const FETCH_PRF = 'FETCH_PRF';
+
+
+export const CHANGE_PRF_INIT = 'CHANGE_PRF_INIT';
+export const CHANGE_PRF_FAIL = 'CHANGE_PRF_FAIL';
+export const CHANGE_PRF_START = 'CHANGE_PRF_START';
+export const CHANGE_PRF_CANCEL = 'CHANGE_PRF_CANCEL';
+export const CHANGE_PRF_RESET= 'CHANGE_PRF_RESET';
+export const CHANGE_PRF = 'CHANGE_PRF';
+
+export const UPLOAD_MEDIA_FAIL = 'UPLOAD_MEDIA_FAIL';
+export const UPLOAD_MEDIA_START = 'UPLOAD_MEDIA_START';
+export const UPLOAD_MEDIA_CANCEL = 'UPLOAD_MEDIA_CANCEL';
+export const UPLOAD_MEDIA = 'UPLOAD_MEDIA';
+export const UPLOAD_MEDIA_SET = 'UPLOAD_MEDIA_SET';

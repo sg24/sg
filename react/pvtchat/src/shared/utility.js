@@ -145,8 +145,9 @@ export const getImageURL = image => {
                 canvas.width = image.videoWidth;
                 canvas.height = image.videoHeight;
                 canvas.getContext('2d').drawImage(image, 0, 0);
-                let snapShot = canvas.toDataURL('image/png');
-                resolve(snapShot);;
+                canvas.toBlob((blob) => {
+                    resolve(blob)
+                });
         } else {
             reject('Please update your Browser')
         }
@@ -168,7 +169,7 @@ export const engStrings = {
     years: '%d yrs'
   };
 
-  export const socket = io('http://localhost:3002');
+  export const socket = io(`${window.location.protocol + '//' + window.location.host}`);
 
   let chunks = [];
   export const webCameraApi = (socketConnect, mediaRecorder, cnt, opt, format, formatType,type, socketKey) => {
@@ -211,18 +212,27 @@ export const engStrings = {
                 chunks = [];
                 mediaRecorder.stream.getTracks().forEach( track => 
                     track.stop())
-                var reader = new FileReader();
-                reader.onload = function(evt) {
-                    resolve(null)
-                    socketConnect.emit(socketKey, {msg: evt.target.result, type, format: formatType, chatID: uuid()}, function(err) {
-                        reject(err)
-                    })
-                };
-                reader.onerror = function(err) {
-                    reject(err)
-                }
-                reader.readAsDataURL(blob);
+                resolve([{file: blob, type, format: formatType, chatID: uuid()}])
             }
         }
     })
 }
+
+export function changeMode (oldCnts,changeCntStart,field, isUpdate) {
+    let cnts = [{...oldCnts}];
+    let curIndex;
+
+    let user = cnts.filter((userFnd, index) => {
+        curIndex = index;
+        return userFnd.id === changeCntStart.id;
+    });
+    if (user.length > 0) {
+        user[0].pending = false;
+        user[0].request = false;
+        user[0].accept = false;
+        user[0][field] = isUpdate;
+        cnts[curIndex] = user[0];
+       return {...cnts[0]};
+    }
+    return oldCnts
+  }

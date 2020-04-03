@@ -5,6 +5,8 @@ const {members, comment, groupNotify,
   replyComment, typing, createChat, 
   mediaRecChat, groups, getUserID, 
   deleteChat, setLastMsg} = require('../routes/comment');
+const {conv, pvtcreateChat, pvtMediaRecChat, pvtDeleteChat} = require("../routes/pvtchat");
+
 let io = global.io;
 
 io.on('connection', (socket) => {
@@ -17,7 +19,6 @@ io.on('connection', (socket) => {
         members(roomID).then(member => {
           io.to(roomID).emit('member', member.memberDet);
           room.defaultLastMsg(roomID, member.lastMsg);
-        }).catch(err =>{
         })
       } else {
         return callback('Invalid RoomID')
@@ -71,11 +72,36 @@ io.on('connection', (socket) => {
       });
     })
 
+    socket.on('pvtusertyping', (msg, callback) => {
+      let user = room.getUser(socket.id);
+      typing().then(userID => {
+        if (!room.getPvtTyping(userID) && user) {
+          io.to(user.room).emit('typing', room.pvtUserTyping(userID))
+          conv().then(member => {
+            io.to(user.room).emit('member', member)
+          })
+        }
+      }).catch(err => {
+        callback(err)
+      });
+    })
+
     socket.on('canceltyping', (msg, callback) => {
       let user = room.getUser(socket.id);
       typing().then(userID => {
         if (user) {
           io.to(user.room).emit('typing', room.cancelTyping(userID))
+        }
+      }).catch(err => {
+        callback(err)
+      });
+    })
+
+    socket.on('pvtcanceltyping', (msg, callback) => {
+      let user = room.getUser(socket.id);
+      typing().then(userID => {
+        if (user) {
+          io.to(user.room).emit('typing', room.pvtcancelTyping(userID))
         }
       }).catch(err => {
         callback(err)
@@ -98,6 +124,20 @@ io.on('connection', (socket) => {
           }).catch(err => {
             callback(err)
           })
+        })
+      }
+    })
+
+    socket.on('pvtcreateChat', (msgCnt, callback) => {
+      let user = room.getUser(socket.id);
+      if (user)  {
+        pvtcreateChat(user.room, msgCnt).then(chat =>{
+          io.to(user.room).emit('newChat', chat)
+          conv().then(member => {
+            io.to(user.room).emit('member', member)
+          })
+        }).catch(err => {
+          callback(err)
         })
       }
     })
@@ -129,6 +169,18 @@ io.on('connection', (socket) => {
       }
     })
 
+    socket.on('pvtDeleteChat', (cnt) => {
+      let user = room.getUser(socket.id);
+      if (user)  {
+        pvtDeleteChat(user.room, cnt).then(() => {
+          conv().then(member => {
+            io.to(user.room).emit('member', member)
+          })
+          io.to(user.room).emit('chatRemoved', cnt);
+        })
+      }
+    })
+
     socket.on('mediaRecChat', (msg, callback) => {
       let user = room.getUser(socket.id);
       if (user)  {
@@ -143,6 +195,16 @@ io.on('connection', (socket) => {
         }).catch(err => {
           callback(err)
           console.log(err)
+        })
+      }
+    })
+
+    socket.on('pvtMediaRecChat', (msg, callback) => {
+      let user = room.getUser(socket.id);
+      if (user)  {
+        io.to(user.room).emit('newChat', msg)
+        conv().then(member => {
+          io.to(user.room).emit('member', member)
         })
       }
     })

@@ -16,13 +16,28 @@ export function* fetchCntInitSaga(action) {
     
 }
 
+export function* fetchMemberInitSaga(action) {
+    yield put(actions.fetchChatStart());
+    try {
+        let response = yield axios.post(`/chat/${action.categ}/${action.id}`, { }, {
+            headers: {
+                'data-categ': 'member'}});
+        let cnt = response.data;
+        yield put(actions.fetchMember(cnt));
+        
+    } catch(err){
+        yield put(actions.fetchMemberFail(err))
+    }
+}
+
+
 export function* fetchChatInitSaga(action) {
     yield put(actions.fetchChatStart());
     try {
         let response = yield axios.post(`/chat/${action.categ}/${action.id}`, { id: action.id,
             skipChat: action.skipChat, chatLimit: action.chatLimit}, {
             headers: {
-                'data-categ': 'chat'}});
+                'data-categ': 'pvtchat'}});
         let cnt = response.data;
         yield put(actions.fetchChat(cnt.chat, action.skipChat, cnt.chatTotal));
         

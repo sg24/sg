@@ -30,14 +30,15 @@ class ChatInput extends Component {
     chatCntHandler = (event) => {
         this.setState({chat: event.target.value.trimLeft()});
         let these = this;
-        socket.emit('usertyping', {}, function(err) {
+        socket.emit('pvtusertyping', {}, function(err) {
             these.props.onTypingErr(err)
+            console.log(err)
         })
     }
 
     stopTypingHandler = (event) => {
         let these = this;
-        socket.emit('canceltyping', {}, function(err) {
+        socket.emit('pvtcanceltyping', {}, function(err) {
             these.props.onTypingErr(err)
         })
         if (event.key === 'Enter' && this.state.chat.length > 0) {
@@ -51,7 +52,7 @@ class ChatInput extends Component {
 
     createChatHandler = () => {
         let these = this;
-        socket.emit('createChat', {type: 'text', msg: this.state.chat, chatID: uuid()}, function(err) {
+        socket.emit('pvtcreateChat', {type: 'text', msg: this.state.chat, chatID: uuid()}, function(err) {
             these.props.onTypingErr(err)
         })
         this.setState({chat: ''});
@@ -59,11 +60,12 @@ class ChatInput extends Component {
 
     audioRecorderHandler = () => {
         webCameraApi(socket, this.state.mediaRecorder, this.state.audioRec, {audio: true}, 
-            'audio/ogg; codecs=opus', 'ogg','audio', 'mediaRecChat').then(media => {
+            'audio/ogg; codecs=opus', 'ogg','audio', 'pvtMediaRecChat').then(media => {
                 if (!this.state.audioRec) {
                 this.setState({audioRec: true, mediaRecorder: media.mediaRecorder})
             } else {
                 this.setState({audioRec: false, mediaRecorder: null})
+                this.props.onUploadMedia(media, this.state.id, this.state.categ)
             }
         }).catch(err => {
             this.setState({audioRec: false})
@@ -107,26 +109,18 @@ class ChatInput extends Component {
     }
 
     handleFiles = (files) => {
+        let media = []
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
-            let cntType = file.type.split('/')[0] === 'video' ? 'media' : file.type.split('/')[0] 
-            let format = file.type.split('/')[1]
+            let cntType = file.type.split('/')[0] === 'video' ? 'media' :  file.type.split('/')[0];
+            let format = file.type.split('/')[1];
             if(cntType) {
-                let these = this;
-                var reader = new FileReader();
-                reader.onload = function(evt) {
-                    socket.emit('mediaRecChat', {msg: evt.target.result, type: cntType, format,chatID: uuid()}, function(err) {
-                        these.props.onTypingErr(err)
-                    })
-                    these.setState({disable: false})
-                };
-                reader.onerror = function(err) {
-                    these.props.onTypingErr(err)  
-                }
-                reader.readAsDataURL(file);
+                media.push({file, type: cntType, format, chatID: uuid()})
             } 
         }
+        this.props.onUploadMedia(media, this.state.id, this.state.categ)
         this.props.onCloseChatBackdrop();
+        this.setState({disable: false})
     }
 
     emojiHandler = () => {
@@ -145,31 +139,10 @@ class ChatInput extends Component {
         if (('navigator' in window) && ('geolocation' in navigator)) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 let fetchedLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
-                // function getUserLocation() {
-                //     return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${fetchedLocation.lat},${fetchedLocation.lng}&key=AIzaSyD2OUDjZ-urf2MAVcxPc03HA4X8KbB-jlk`);
-                // }
-                
-                // function getUserWeather() {
-                //     return axios.get(`https://api.darksky.net/forecast/7128c0510f5a9f55f658c4afcfec9778/${fetchedLocation.lat},${fetchedLocation.lng}`);
-                // }
-                
-                // axios.all([getUserLocation(), getUserWeather()])
-                // .then(axios.spread(function (loc, weather) {
-                //     if (!loc.data.error_message) {
-                //         socket.emit('createChat', {type: 'text', msg: `In ${loc.results[0].formatted_address}`, chatID: uuid()}, function(err) {
-                //             these.props.onTypingErr(err)
-                //         })
-                //         this.setState({chat: ''});
-                //     }
-                // })).catch(err => {
-                //     console.log(err)
-                //     these.setState({err})
-                //     these.props.onCloseChatBackdrop();
-                // })
                 axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${fetchedLocation.lat},${fetchedLocation.lng}&key=AIzaSyD2OUDjZ-urf2MAVcxPc03HA4X8KbB-jlk`).then(loc => {
                     if (!loc.data.error_message) {
-                        socket.emit('createChat', {type: 'text', msg: `In ${loc.results[0].formatted_address}`, chatID: uuid()}, function(err) {
-                            these.props.onTypingErr(err)
+                        socket.emit('pvtcreateChat', {type: 'text', msg: `In ${loc.data.results[0].formatted_address}`, chatID: uuid()}, function(err) {
+                            these.props.onTypingErr(err);
                         })
                         these.props.onCloseChatBackdrop()
                         these.setState({disable: false})
@@ -390,6 +363,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onTypingErr: (err) => dispatch(actions.fetchCntFail(err)) ,
         onShowBackdrop: () => dispatch(actions.showAddBackdrop()),
+        onUploadMedia: (cnt, id, categ) => dispatch(actions.uploadMediaInit(cnt, id, categ)),
         onShowEmojiBackdrop: () => dispatch(actions.showEmojiBackdrop()),
         onCloseChatBackdrop: () => dispatch(actions.closeChatBackdrop())
     };

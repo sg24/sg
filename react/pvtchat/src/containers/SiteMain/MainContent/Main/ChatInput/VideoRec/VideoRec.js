@@ -12,12 +12,14 @@ let videoRef = React.createRef(null);
 class VideoCam extends Component {
     state = {
         start: false,
-        mediaRecorder: null
+        mediaRecorder: null,
+        id: this.props.match.params.id,
+        categ: this.props.match.params.categ,
     };
 
     componentDidMount() {
         webCameraApi(socket, this.state.mediaRecorder, this.state.start, {video: true, audio: true}, 
-            'video/mp4', 'mp4','media', 'mediaRecChat').then(media => {
+            'video/mp4', 'mp4','media', 'pvtMediaRecChat').then(media => {
         videoRef.current.srcObject = media.stream
         this.setState({mediaRecorder: media.mediaRecorder, start: true})
         }).catch(err => {
@@ -34,9 +36,10 @@ class VideoCam extends Component {
 
     stopRecHandler = () => {
         webCameraApi(socket, this.state.mediaRecorder, this.state.start, {video: true, audio: true}, 
-            'video/mp4', 'mp4','media', 'mediaRecChat').then(media => {
+            'video/mp4', 'mp4','media', 'pvtMediaRecChat').then(media => {
             this.setState({mediaRecorder: null, start: false})
-            this.props.history.goBack()
+            this.props.onUploadMedia(media, this.state.id, this.state.categ)
+            this.props.history.goBack();
         }).catch(err => {
             this.setState({start: false})
         })
@@ -84,7 +87,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onTypingErr: (err) => dispatch(actions.fetchCntFail(err))
+        onTypingErr: (err) => dispatch(actions.fetchCntFail(err)),
+        onUploadMedia: (cnt, id, categ) => dispatch(actions.uploadMediaInit(cnt, id, categ))
     };
 };
 

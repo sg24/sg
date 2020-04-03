@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Schema  = mongoose.Schema;
 
 const ChatSchema = new Schema({
     host: {
@@ -9,6 +10,10 @@ const ChatSchema = new Schema({
         type: String,
         required: true
     },
+    position: {
+        type: Number,
+        default: 0
+    },
     chat: [{
         ID: String,
         userType: String,
@@ -16,6 +21,10 @@ const ChatSchema = new Schema({
         cntType: String,
         chatID: String,
         format: String,
+        position: {
+            type: Number,
+            default: 0
+        },
         created: {
             type: Date,
             default: Date.now
@@ -23,29 +32,34 @@ const ChatSchema = new Schema({
         block: {
             type: Array,
             default: []
-        }
-    }],
-    lastMsg: [{
-        userID: String,
-        msgCnt: {
+        },
+        delete: {
+            type: Boolean,
+            default: false
+        },
+        reply: [{
+            ID: String,
+            userType: String,
             msg: String,
+            cntType: String,
+            chatID: String,
+            format: String,
+            mainID: String,
+            position: {
+                type: Number,
+                default: 0
+            },
             created: {
                 type: Date,
                 default: Date.now
-            }
-        }
+            }}]
     }],
-    active: {
-        type: Array,
-        default: [String]
-    },
-    _isCompleted: {
-        type: Boolean,
-        default: false
+    lastID: {
+        type: String,
+        required: true
     }
 })
 
-ChatSchema.index({title: 'text'});
-const groups = mongoose.model('groups', ChatSchema);
+const chat = mongoose.model('chat', ChatSchema);
 
-module.exports = groups;
+module.exports = chat;
