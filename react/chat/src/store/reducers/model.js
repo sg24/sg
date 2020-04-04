@@ -299,7 +299,7 @@ const uploadMediaStart = (state, action) => {
 };
 
 const uploadMediaFail = (state, action) => {
-    return updateObject(state, {cntErr: action.err, uploadTotal: 0, checkUploadTotal: 0, tempchat: 0})
+    return updateObject(state, {cntErr: action.err, uploadTotal: 0, checkUploadTotal: 0, tempchat: []})
 };
 const resetPvtInputFilter = (state, action) => {
     return updateObject(state, {filterPvtuser: null})
