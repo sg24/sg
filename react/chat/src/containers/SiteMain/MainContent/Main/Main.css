@@ -656,6 +656,7 @@
   }
   
   .site-main__chat--header__user-opt--list li {
+    position: relative;
     float: none;
     font-size: .8125rem;
     padding: 10px 20px;

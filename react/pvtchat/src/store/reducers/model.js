@@ -40,6 +40,8 @@ const initialState = {
     offline: 0,
     checkUploadTotal: 0,
     uploadTotal: 0,
+    groupNotify: 0,
+    userNotify: 0,
     connect: false
 }
 
@@ -353,6 +355,14 @@ const chatRemoved = (state, action) => {
     return updateObject(state, {chat: chats, chatSelected: []})
 };
 
+const groupNotify = (state, action) => {
+    return updateObject(state, {groupNotify: action.cnt})
+};
+
+const userNotify = (state, action) => {
+    return updateObject(state, {userNotify: action.cnt})
+};
+
 const chatConnect= (state, action) => {
     let members = state.members;
     let users= [{id: state.userID, status: true}]
@@ -457,6 +467,10 @@ const reducer = (state = initialState, action) => {
             return releaseChat(state, action);
         case actionTypes.CHAT_REMOVED:
             return chatRemoved(state, action);
+        case actionTypes.GROUP_NOTIFY:
+            return groupNotify(state, action);
+        case actionTypes.USER_NOTIFY:
+            return userNotify(state, action);
         case actionTypes.CHAT_CONNECT:
             return chatConnect(state, action);
         case actionTypes.CHAT_DISCONNECT:

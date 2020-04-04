@@ -72,7 +72,7 @@
      cursor: pointer;
    }
 
-  .site-main__chat--cam__control:hover {
+  .site-main__chat--cam__control:not(:disabled):hover {
     font-size: 2rem;
     width: 70px;
      height: 70px;

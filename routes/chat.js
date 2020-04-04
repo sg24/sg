@@ -10,7 +10,7 @@ let savetemp = require('./utility/savetemp');
 let authenticate = require('../serverDB/middleware/authenticate');
 let filterCnt = require('./utility/filtercnt');
 let formInit = require('./utility/forminit');
-const {category, chatnotifies, grpnotifies, tempFile,chat, group, user, authUser, connectStatus} = require('../serverDB/serverDB');
+const {category, chatnotifies, grpchatnotifies, tempFile,chat, group, user, authUser, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/:categ/:id', authenticate, (req, res,next) => {
     if (!req.params.id || !req.params.categ) {
@@ -66,7 +66,10 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                                 msg: cnt.msg,
                                 ID: cnt.ID,
                                 chatID: cnt.chatID,
-                                format: cnt.format
+                                format: cnt.format,
+                                position: cnt.position,
+                                reply: !cnt.delete ?  cnt.block.filter(id => id === req.user)[0] ? [] : cnt.reply : cnt.reply,
+                                delete: !cnt.delete ?  cnt.block.filter(id => id === req.user)[0] ? true : false : cnt.delete
                             })
                         }
                         ++allChatTotal;
@@ -194,7 +197,7 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                             format: cnt.format,
                             position: cnt.position,
                             reply: !cnt.delete ?  cnt.block.filter(id => id === req.user)[0] ? [] : cnt.reply : cnt.reply,
-                            delete: !cnt.delete ?  cnt.block.filter(id => id === req.user)[0] ? true : false : cnt.delete,
+                            delete: !cnt.delete ?  cnt.block.filter(id => id === req.user)[0] ? true : false : cnt.delete
                         })
                         ++allChatTotal;
                         if (allChatTotal === updateChat.length) {
@@ -406,41 +409,101 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
 
     }
 
+    if(req.header !== null && req.header('data-categ') === 'uploadcntmedia'){
+        formInit(req, formidable).then(form => {
+            let files = form.files && form.files.media ? form.files.media.length === undefined ? [form.files.media] : form.files.media : []
+            let fields = form.fields;
+            for (let file of files) {
+                savetemp({path: file.path, type: fields.type, name: file.name}, [], req.user).then(tempFileID => {
+                    let doc = {
+                        path: file.path,
+                        bucketName: fields.type,
+                        filename: file.name
+                    }
+                    uploadStream(doc).then((fileDet) => {
+                        if (fileDet) {
+                            let chats = {
+                                ID: req.user,
+                                userType: req.userType,
+                                cntType: fields.type,
+                                msg: fileDet._id,
+                                chatID: fields.chatID,
+                                format: fields.format
+                            }
+                            tempFile.findByIdAndRemove(tempFileID).then(() => {
+                                saveChatFile(req.params.id, chats).then((result) => {
+                                    res.status(200).send(result)
+                                }).catch(err =>{
+                                    res.status(500).send(err)
+                                })
+                            })
+                        } else {
+                            res.sendStatus(500)
+                        }
+                    }).catch(err => {
+                        res.status(500).send(err)
+                    })
+                })
+            }
+        })
+
+    }
+
     if (req.header !== null && req.header('data-categ') === 'groupdet') {
         let id = req.body.id
         group.findOne({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
         $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}).then(grp => {
             if (grp) {
-                adminDet(grp.authorID).then(adminDet => {
-                    let update = {};
-                    let isMember = req.user ? grp.member.filter(userID => userID === req.user) : [];
-                    if (isMember.length > 0) {
-                        update['member'] = true
-                    } else {
-                        update['member'] = false
+                grpchatnotifies.findOne({userID: req.user}).then(notify => {
+                    let grpnotify = [];
+                    if (notify) {
+                        let filterNotify = notify.grp.filter(grpdet => grpdet.ID === id)[0];
+                        grpnotify = notify.grp;
+                        if (filterNotify) {
+                            let cloned = JSON.parse(JSON.stringify(filterNotify));
+                            let update = {...cloned}
+                            let updateCnt = {
+                                ...update,
+                                notifications: 0
+                            };
+                            grpnotify = notify.grp.filter(grpdet => grpdet.ID !== id);
+                            grpnotify.push(updateCnt);
+                        }
                     }
-                    let isRequest = req.user ? grp.request.filter(userID => userID === req.user) : [];
-                    if (isRequest.length > 0) {
-                        update['request'] = true
-                    } else {
-                        update['request'] = false
-                    }
-                    update['username'] = adminDet.username;
-                    update['studenttotal'] = adminDet.studenttotal;
-                    update['userImage'] = adminDet.image;
-                    update['status'] = adminDet.status;
-                    update['userOpt'] = grp.authorID === req.user;
-                    update['authorID'] = grp.authorID;
-                    update['category'] = grp.category;
-                    update['desc'] = grp.desc;
-                    update['image'] = grp.image;
-                    update['members'] = grp.member.length + 1;
-                    update['groupCreated'] = grp.groupCreated;
-                    update['title'] = grp.title;
-                    update['requestTotal'] = grp.request.length;
-                    update['online'] = grp.online.length,
-                    update['_id'] = grp._id;
-                    res.status(200).send(update)
+    
+                    grpchatnotifies.findOneAndUpdate({userID: req.user}, {grp: grpnotify}).then(() => {        
+                        adminDet(grp.authorID).then(adminDet => {
+                            let update = {};
+                            let isMember = req.user ? grp.member.filter(userID => userID === req.user) : [];
+                            if (isMember.length > 0) {
+                                update['member'] = true
+                            } else {
+                                update['member'] = false
+                            }
+                            let isRequest = req.user ? grp.request.filter(userID => userID === req.user) : [];
+                            if (isRequest.length > 0) {
+                                update['request'] = true
+                            } else {
+                                update['request'] = false
+                            }
+                            update['username'] = adminDet.username;
+                            update['studenttotal'] = adminDet.studenttotal;
+                            update['userImage'] = adminDet.image;
+                            update['status'] = adminDet.status;
+                            update['userOpt'] = grp.authorID === req.user;
+                            update['authorID'] = grp.authorID;
+                            update['category'] = grp.category;
+                            update['desc'] = grp.desc;
+                            update['image'] = grp.image;
+                            update['members'] = grp.member.length + 1;
+                            update['groupCreated'] = grp.groupCreated;
+                            update['title'] = grp.title;
+                            update['requestTotal'] = grp.request.length;
+                            update['online'] = grp.online.length,
+                            update['_id'] = grp._id;
+                            res.status(200).send(update)
+                        })
+                    })
                 })
                 
             } else {
@@ -523,8 +586,8 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                         if (chatDet.lastID && chatDet.lastID === req.user) {
                             let updateChat = chatDet.chat
                             let lastChat = updateChat[updateChat.length - 1];
-                            chats['mainID'] = lastChat.chatID;
-                            if ( chatDet.lastID === lastChat.ID) {
+                            if (lastChat && (chatDet.lastID === lastChat.ID)) {
+                                chats['mainID'] = lastChat.chatID;
                                 if (!lastChat.delete) {
                                     lastChat.reply.push(chats);
                                 } else {
@@ -675,6 +738,173 @@ function pushNotify(id, userID, field, name, msg) {
         })
     })
     }
+
+    function notifyChat(userID, grpID, members) {
+        return new Promise((resolve, reject) => {
+            grpchatnotifies.findOne({userID}).then(result => {
+                if (result) {
+                    let grpCnt = result.grp.filter(grpDet => grpDet.ID === grpID);
+                    if (grpCnt.length < 1) {
+                        grpchatnotifies.findOneAndUpdate({userID}, {
+                            $push: {grp: {ID: grpID, notifications: 1}}
+                        }).then(() => {
+                            members.push(userID)
+                            resolve(members)
+                        })
+                    } else {
+                        let removeGrpNotify = result.grp.filter(grpDet => grpDet.ID !== grpID);
+                        let updateGrpNotify = grpCnt[0] ;
+                        updateGrpNotify.notifications = updateGrpNotify.notifications + 1;
+                        removeGrpNotify.push(updateGrpNotify);
+                        grpchatnotifies.findOneAndUpdate({userID}, {grp: removeGrpNotify }).then(() => {
+                            members.push(userID)
+                            resolve(members)
+                        })
+                    }
+                } else {
+                    let grpNof = new grpchatnotifies({
+                        userID,
+                        grp: {
+                            ID: grpID,
+                            notifications: 1
+                        } 
+                    })
+                    grpNof.save().then(() => {
+                        members.push(userID)
+                        resolve(members)
+                    })
+                }
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    }
+    
+    function saveChatFile(id, chat) {
+        return new Promise((resolve, reject) => {
+            let model =  req.userType === 'authUser' ? authUser : user;
+            model.findById(req.user).then(userDet => {
+                group.findOne({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
+                    $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}).then(grp => {
+                    if (grp) {
+                        let position = grp.lastID && grp.lastID === req.user ? grp.position : grp.lastID === '' || !grp.lastID ? 0  : grp.position + 1;
+                        chat['position'] = position;
+                        if (grp.lastID && grp.lastID === req.user) {
+                            let updateChat = grp.chat
+                            let lastChat = updateChat[updateChat.length - 1];
+                            if ( lastChat && (grp.lastID === lastChat.ID)) {
+                                chat['mainID'] = lastChat.chatID;
+                                if (!lastChat.delete) {
+                                    lastChat.reply.push(chat);
+                                } else {
+                                    lastChat['delete'] = false;
+                                    lastChat = {...chat, chatID: lastChat.chatID}
+                                }
+                                updateChat[updateChat.length - 1] = lastChat;
+                                group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
+                                $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}, {
+                                    chat: updateChat, lastID: req.user, position, $addToSet: { active : req.user }}).then(() => {
+                                    saveChat(grp, id, lastChat, userDet, position).then(cnt => {
+                                        resolve(cnt)
+                                    })        
+                                })
+    
+                            } else {
+                                group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
+                                    $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}, {
+                                    $push: {chat}, lastID: req.user, position, $addToSet: { active : req.user }}).then(() => {
+                                    saveChat(grp, id, chat, userDet, position).then(cnt => {
+                                        resolve(cnt)
+                                    })        
+                                })
+                            }
+                        } else {
+                            group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
+                                $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}, {
+                                $push: {chat}, lastID: req.user, position, $addToSet: { active : req.user }}).then(() => {
+                                saveChat(grp, id, chat, userDet, position).then(cnt => {
+                                    resolve(cnt)
+                                })        
+                            })
+                        }
+                        
+                    } else {
+                        reject('No Group found')
+                    } 
+                })
+            }).catch(err => {
+                reject(err)
+            })
+        })
+    }
+    
+    function saveChat(grp, id, chat, userDet,position) { 
+        let cloned = JSON.parse(JSON.stringify(chat));
+        let update = {...cloned}
+        update['username'] = userDet.username;
+        update['image'] = userDet.image;
+        update['position'] = position;
+        update['reply'] = update.reply ? update.reply : [];
+        return new Promise((resolve, reject) => {
+            if (grp.member && grp.member.length > 0) {
+                let cntTotal = 0;
+                let allUser = []
+                for (let userID of grp.member) {
+                    user.findById(userID).then(res => {
+                        if (!res) {
+                            authUser.findById(userID).then(authRes => {
+                                if (!authRes.status) {
+                                    notifyChat(userID, id, allUser).then(members => {
+                                        allUser = members;
+                                        ++cntTotal;
+                                        if (cntTotal === grp.member.length) {
+                                            let msg = chat.cntType === 'audio' ? 'Audio chat' : chat.msg
+                                            pushNotify(id, allUser, 'group', grp.title, msg).then(() => {
+                                                resolve([update])
+                                            })
+                                        }
+                                    })
+                                } else {
+                                    ++cntTotal;
+                                    if (cntTotal === grp.member.length) {
+                                        let msg = chat.cntType === 'audio' ? 'Audio chat' : chat.msg
+                                        pushNotify(id, allUser, 'group', grp.title, msg).then(() => {
+                                            resolve([update])
+                                        })
+                                    }
+                                }
+    
+                            })
+                        } else {
+                            if (!res.status) {
+                                notifyChat(userID, id, allUser).then(members => {
+                                    allUser = members;
+                                    ++cntTotal;
+                                    if (cntTotal === grp.member.length) {
+                                        let msg = (chat.cntType === 'audio' || chat.cntType === 'video') ? `${chat.cntType} message` : chat.msg
+                                        pushNotify(id, allUser, 'group', grp.title, msg).then(() => {
+                                            resolve([update])
+                                        })
+                                    }
+                                })
+                            } else {
+                                ++cntTotal;
+                                if (cntTotal === grp.member.length) {
+                                    let msg = (chat.cntType === 'audio' || chat.cntType === 'video') ? `${chat.cntType} message` : chat.msg
+                                    pushNotify(id, allUser, 'group', grp.title, msg).then(() => {
+                                        resolve([update])
+                                    })
+                                }
+                            }
+                        }
+                    })
+                }
+            } else {
+                return resolve([update])
+            }
+        })
+    }
+
 });
 
 module.exports = router

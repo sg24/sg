@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {posts, questions, poets, group, tempFile,user, authUser, grpchatnotifies,comment, connectStatus} = require('../serverDB/serverDB');
+const {posts, questions, poets, group, tempFile,user, authUser, grpchatnotifies, chatnotifies,comment, connectStatus} = require('../serverDB/serverDB');
 const webpush = require('web-push');
 let global = require('../global/global');
 let mongoose = require('mongoose');
@@ -96,7 +96,8 @@ module.exports = {
     return new Promise((resolve, reject) => {
         group.findOne({_id: mongoose.mongo.ObjectId(id), _isCompleted: true}).then(grp => {
             if (grp) {
-                let memberDet = {users: {online: [], offline: []},online: 0,offline: 0};
+                grp = JSON.parse(JSON.stringify(grp))
+                let memberDet = {users: {online: [], offline: [], onlineOnly: []},online: 0,offline: 0};
                 let memberTotal = 0;
                 let member = [...grp.member, grp.authorID];
                 for(let userID  of member) {
@@ -105,7 +106,7 @@ module.exports = {
                         ++memberTotal;
                         if (memberTotal === member.length) {
                             group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true}, {
-                                online: memberDet.users.online,
+                                online: memberDet.users.onlineOnly,
                             }).then(() => {
                                 resolve({memberDet, lastMsg: grp.lastMsg})
                             })
@@ -135,6 +136,9 @@ module.exports = {
                                     msg: msg.cnt,
                                     isAdmin: userID === authorID
                                  })
+                                 cnt.users.onlineOnly.push({
+                                    id: userID
+                                 })
                             } else {
                                 cnt.users.offline.push({
                                     id: userID,
@@ -163,6 +167,9 @@ module.exports = {
                                 msg: msg.cnt,
                                 isAdmin: userID === authorID
                             })
+                            cnt.users.onlineOnly.push({
+                                id: userID
+                             })
                         } else {
                             cnt.users.offline.push({
                                 id: userID,
@@ -222,9 +229,11 @@ module.exports = {
                     msgCnt = cnt.msg;
                 }
             }
-            group.findByIdAndUpdate(id, {lastMsg: msgCnt}).then(() => {
+            // group.findByIdAndUpdate(id, {lastMsg: msgCnt}).then(() => {
                 resolve(result)
-            })
+            // }).catch(err => {
+                // console.log(err)
+            // })
         }).catch(err =>{
             reject(err)
         })
@@ -291,37 +300,89 @@ module.exports = {
                                 return false;
                             })[0];
                             if (filterCnt && (filterCnt.ID === global.userDet.id)) {
-                                chats = chats.filter(chat => chat.chatID !== chatID)
+                                let cloned = JSON.parse(JSON.stringify(filterCnt));
+                                let update = {...cloned, delete: true, reply: [], msg: null}
+                                chats[curIndex] = update;
                                 if (filterCnt && (filterCnt.cntType !== 'typedPlain')) {
                                     deleteMedia([{id: filterCnt.msg }], filterCnt.cntType).then(() => {
+                                       if (filterCnt.reply && filterCnt.reply.length > 0) {
+                                           for (let replyCnt of filterCnt.reply) {
+                                               if (replyCnt.cntType !== 'typedPlain') {
+                                                deleteMedia([{id: replyCnt.msg }], replyCnt.cntType).then(() => {
+                                                    ++deleteTotal;
+                                                    if (cnt.length === deleteTotal) {
+                                                        updateChat(id, chats, lastMsg).then(() => {
+                                                            resolve(cnt)
+                                                        })
+                                                    }
+                                                })
+                                               } else {
+                                                    ++deleteTotal;
+                                                    if (cnt.length === deleteTotal) {
+                                                        updateChat(id, chats, lastMsg).then(() => {
+                                                            resolve(cnt)
+                                                        })
+                                                    }
+                                               }
+                                           }
+                                       } else {
+                                            ++deleteTotal;
+                                            if (cnt.length === deleteTotal) {
+                                                updateChat(id, chats, lastMsg).then(() => {
+                                                    resolve(cnt)
+                                                })
+                                            }
+                                       }
+                                       
+                                    })
+                                } else {
+                                    if (filterCnt.reply && filterCnt.reply.length > 0) {
+                                        for (let replyCnt of filterCnt.reply) {
+                                            if (replyCnt.cntType !== 'typedPlain') {
+                                             deleteMedia([{id: replyCnt.msg }], replyCnt.cntType).then(() => {
+                                                 ++deleteTotal;
+                                                 if (cnt.length === deleteTotal) {
+                                                     updateChat(id, chats, lastMsg).then(() => {
+                                                         resolve(cnt)
+                                                     })
+                                                 }
+                                             })
+                                            } else {
+                                                 ++deleteTotal;
+                                                 if (cnt.length === deleteTotal) {
+                                                     updateChat(id, chats, lastMsg).then(() => {
+                                                         resolve(cnt)
+                                                     })
+                                                 }
+                                            }
+                                        }
+                                    } else {
                                         ++deleteTotal;
                                         if (cnt.length === deleteTotal) {
                                             updateChat(id, chats, lastMsg).then(() => {
                                                 resolve(cnt)
                                             })
                                         }
-                                    })
-                                } else {
+                                    }
+                                   
+                                }
+                            } else {
+                                if (filterCnt) {
                                     ++deleteTotal;
+                                    let block = filterCnt.block ? filterCnt.block.concat(global.userDet.id) : [global.userDet.id];
+                                    block = [...new Set(block)]
+                                    let cloned = JSON.parse(JSON.stringify(filterCnt));
+                                    let update = {...cloned, block}
+                                    chats[curIndex] = update;
                                     if (cnt.length === deleteTotal) {
                                         updateChat(id, chats, lastMsg).then(() => {
                                             resolve(cnt)
+                                        }).catch(err => {
+                                            reject(err)
                                         })
                                     }
-                                }
-                            } else {
-                                ++deleteTotal;
-                                let block = filterCnt.block ? filterCnt.block.concat(global.userDet.id) : [global.userDet.id];
-                                block = [...new Set(block)]
-                                let cloned = JSON.parse(JSON.stringify(filterCnt));
-                                let update = {...cloned, block}
-                                chats[curIndex] = update;
-                                if (cnt.length === deleteTotal) {
-                                    updateChat(id, chats, lastMsg).then(() => {
-                                        resolve(cnt)
-                                    }).catch(err => {
-                                        reject(err)
-                                    })
+                                } else {
+                                    resolve(cnt)
                                 }
                             }
                         }
@@ -331,14 +392,6 @@ module.exports = {
                 }
             })
        })
-       function updateObject(old, newCnt) {
-           let upddateOld = old
-           console.log({...upddateOld})
-           return {
-               ...old,
-               ...newCnt
-           }
-       }
        function updateChat (id, chat, lastMsg) {
         return new Promise((resolve, reject) => {
             let msgCnt = []
@@ -419,7 +472,28 @@ module.exports = {
    groupNotify: () => {
         return new Promise((resolve, reject) => {
             grpchatnotifies.findOne({userID: global.userDet.id}).then(notifyCnt => {
-                resolve(notifyCnt)
+                let notifications = 0;
+                if (notifyCnt && notifyCnt.grp && notifyCnt.grp.length > 0 ) {
+                        for (let cnt of notifyCnt.grp) {
+                            notifications += cnt.notifications;
+                        }
+                }
+                resolve(notifications)
+            }).catch(err =>{
+                reject(err)
+            })
+        })
+    },
+    userNotify: () => {
+        return new Promise((resolve, reject) => {
+            chatnotifies.findOne({userID: global.userDet.id}).then(notifyCnt => {
+               let notifications = 0;
+               if (notifyCnt && notifyCnt.member && notifyCnt.member.length > 0 ) {
+                    for (let cnt of notifyCnt.member) {
+                        notifications += cnt.notifications;
+                    }
+               }
+                resolve(notifications)
             }).catch(err =>{
                 reject(err)
             })
@@ -433,10 +507,12 @@ module.exports = {
                 if (grp && grp.member && grp.member.length > 0 && grp.chat.length > 0) {
                     let chats = arraySort(grp.chat, 'created', {reverse: true});
                     let lastMsg = []
-                    for (let userID of grp.member) {
+                    for (let userID of [...grp.member, grp.authorID]) {
                         if (checkChat(userID, chats)) {
                             let cnt = checkChat(userID, chats);
-                            lastMsg.push({userID, msgCnt: {msg: cnt.msg, created: cnt.created}})
+                            if (cnt) {
+                                lastMsg.push({userID, msgCnt: {msg: cnt.msg, created: cnt.created}})
+                            }
                         }
                     }
                     group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
@@ -449,11 +525,11 @@ module.exports = {
 
                     function checkChat(userID, chats) {
                         for (let chat of chats) {
-                            let block = chat.block ? chat.block.filter(id => id === userID)[0] : null;
-                            if (chat.ID === userID && !block) {
+                            if (chat.ID === userID) {
+                                let updateCnt = chat.reply && chat.reply.length > 0 ? chat.reply[chat.reply.length - 1] : chat;
                                 return {
-                                    msg: chat.cntType === 'typedPlain' ? chat.msg : chat.cntType,
-                                    created: chat.created
+                                    msg: updateCnt.cntType !== 'typedPlain' ? updateCnt.cntType === 'media' ? 'Video' : updateCnt.cntType : updateCnt.msg,
+                                    created: updateCnt.created
                                 }
                             }
                         }
@@ -512,69 +588,50 @@ function saveFile(id, chat) {
     return new Promise((resolve, reject) => {
         let model =  global.userDet.type === 'authUser' ? authUser : user;
         model.findById(global.userDet.id).then(userDet => {
-            group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
-                $or: [ { member: { $in: global.userDet.id } }, { authorID:  global.userDet.id } ]}, {
-                    $push: {chat}, $addToSet: { active : global.userDet.id }}).then(grp => {
-                chat['username'] = userDet.username;
-                chat['image'] = userDet.image; 
+            group.findOne({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
+                $or: [ { member: { $in: global.userDet.id } }, { authorID:  global.userDet.id } ]}).then(grp => {
                 if (grp) {
-                    if (grp.member && grp.member.length > 0) {
-                        let cntTotal = 0;
-                        let allUser = []
-                        for (let userID of grp.member) {
-                            user.findById(userID).then(res => {
-                                if (!res) {
-                                    authUser.findById(userID).then(authRes => {
-                                        if (!authRes.status) {
-                                            notify(userID, id, allUser).then(members => {
-                                                allUser = members;
-                                                ++cntTotal;
-                                                if (cntTotal === grp.member.length) {
-                                                    let msg = chat.cntType === 'audio' ? 'Audio chat' : chat.msg
-                                                    pushNotify(id, allUser, 'group', grp.title, msg).then(() => {
-                                                        resolve([chat])
-                                                    })
-                                                }
-                                            })
-                                        } else {
-                                            ++cntTotal;
-                                            if (cntTotal === grp.member.length) {
-                                                let msg = chat.cntType === 'audio' ? 'Audio chat' : chat.msg
-                                                pushNotify(id, allUser, 'group', grp.title, msg).then(() => {
-                                                    resolve([chat])
-                                                })
-                                            }
-                                        }
-    
-                                    })
-                                } else {
-                                    if (!res.status) {
-                                  
-                                        notify(userID, id, allUser).then(members => {
-                                            allUser = members;
-                                            ++cntTotal;
-                                            if (cntTotal === grp.member.length) {
-                                                let msg = (chat.cntType === 'audio' || chat.cntType === 'video') ? `${chat.cntType} message` : chat.msg
-                                                pushNotify(id, allUser, 'group', grp.title, msg).then(() => {
-                                                    resolve([chat])
-                                                })
-                                            }
-                                        })
-                                    } else {
-                                        ++cntTotal;
-                                        if (cntTotal === grp.member.length) {
-                                            let msg = (chat.cntType === 'audio' || chat.cntType === 'video') ? `${chat.cntType} message` : chat.msg
-                                            pushNotify(id, allUser, 'group', grp.title, msg).then(() => {
-                                                resolve([chat])
-                                            })
-                                        }
-                                    }
-                                }
+                    let position = grp.lastID && grp.lastID === global.userDet.id ? grp.position : grp.lastID === '' || !grp.lastID ? 0  : grp.position + 1;
+                    chat['position'] = position;
+                    if (grp.lastID && grp.lastID === global.userDet.id) {
+                        let updateChat = grp.chat
+                        let lastChat = updateChat[updateChat.length - 1];
+                        if (lastChat && (grp.lastID === lastChat.ID)) {
+                            chat['mainID'] = lastChat.chatID;
+                            if (!lastChat.delete) {
+                                lastChat.reply.push(chat);
+                            } else {
+                                lastChat['delete'] = false;
+                                lastChat = {...chat, chatID: lastChat.chatID}
+                            }
+                            updateChat[updateChat.length - 1] = lastChat;
+                            group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
+                            $or: [ { member: { $in: global.userDet.id } }, { authorID:  global.userDet.id } ]}, {
+                                chat: updateChat, lastID: global.userDet.id, position, $addToSet: { active : global.userDet.id }}).then(() => {
+                                save(grp, id, lastChat, userDet, position).then(cnt => {
+                                    resolve(cnt)
+                                })        
+                            })
+
+                        } else {
+                            group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
+                                $or: [ { member: { $in: global.userDet.id } }, { authorID:  global.userDet.id } ]}, {
+                                $push: {chat}, lastID: global.userDet.id, position, $addToSet: { active : global.userDet.id }}).then(() => {
+                                save(grp, id, chat, userDet, position).then(cnt => {
+                                    resolve(cnt)
+                                })        
                             })
                         }
                     } else {
-                        return resolve([chat])
+                        group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
+                            $or: [ { member: { $in: global.userDet.id } }, { authorID:  global.userDet.id } ]}, {
+                            $push: {chat}, lastID: global.userDet.id, position, $addToSet: { active : global.userDet.id }}).then(() => {
+                            save(grp, id, chat, userDet, position).then(cnt => {
+                                resolve(cnt)
+                            })        
+                        })
                     }
+                    
                 } else {
                     reject('No Group found')
                 } 
@@ -582,6 +639,74 @@ function saveFile(id, chat) {
         }).catch(err => {
             reject(err)
         })
+    })
+}
+
+function save(grp, id, chat, userDet, position) {
+    let cloned = JSON.parse(JSON.stringify(chat));
+    let update = {...cloned}
+    update['username'] = userDet.username;
+    update['image'] = userDet.image;
+    update['position'] = position;
+    update['reply'] = update.reply ? update.reply : [];
+    return new Promise((resolve, reject) => {
+        if (grp.member && grp.member.length > 0) {
+            let cntTotal = 0;
+            let allUser = []
+            for (let userID of grp.member) {
+                user.findById(userID).then(res => {
+                    if (!res) {
+                        authUser.findById(userID).then(authRes => {
+                            if (!authRes.status) {
+                                notify(userID, id, allUser).then(members => {
+                                    allUser = members;
+                                    ++cntTotal;
+                                    if (cntTotal === grp.member.length) {
+                                        let msg = chat.cntType === 'audio' ? 'Audio chat' : chat.msg
+                                        pushNotify(id, allUser, 'group', grp.title, msg).then(() => {
+                                            resolve([update])
+                                        })
+                                    }
+                                })
+                            } else {
+                                ++cntTotal;
+                                if (cntTotal === grp.member.length) {
+                                    let msg = chat.cntType === 'audio' ? 'Audio chat' : chat.msg
+                                    pushNotify(id, allUser, 'group', grp.title, msg).then(() => {
+                                        resolve([update])
+                                    })
+                                }
+                            }
+
+                        })
+                    } else {
+                        if (!res.status) {
+                      
+                            notify(userID, id, allUser).then(members => {
+                                allUser = members;
+                                ++cntTotal;
+                                if (cntTotal === grp.member.length) {
+                                    let msg = (chat.cntType === 'audio' || chat.cntType === 'video') ? `${chat.cntType} message` : chat.msg
+                                    pushNotify(id, allUser, 'group', grp.title, msg).then(() => {
+                                        resolve([update])
+                                    })
+                                }
+                            })
+                        } else {
+                            ++cntTotal;
+                            if (cntTotal === grp.member.length) {
+                                let msg = (chat.cntType === 'audio' || chat.cntType === 'video') ? `${chat.cntType} message` : chat.msg
+                                pushNotify(id, allUser, 'group', grp.title, msg).then(() => {
+                                    resolve([update])
+                                })
+                            }
+                        }
+                    }
+                })
+            }
+        } else {
+            return resolve([update])
+        }
     })
 }
 

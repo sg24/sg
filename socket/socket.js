@@ -4,7 +4,7 @@ let room = new Comments();
 const {members, comment, groupNotify,
   replyComment, typing, createChat, 
   mediaRecChat, groups, getUserID, 
-  deleteChat, setLastMsg} = require('../routes/comment');
+  deleteChat, setLastMsg, userNotify} = require('../routes/comment');
 const {conv, pvtcreateChat, pvtMediaRecChat, pvtDeleteChat} = require("../routes/pvtchat");
 
 let io = global.io;
@@ -30,7 +30,6 @@ io.on('connection', (socket) => {
         comment(msg.id, msg.cntGrp, msg.cnt).then((cnt) => {
           io.to(user.room).emit('newComment', cnt);
         }).catch(err => {
-          console.log(err)
           callback(err)
         });
     });
@@ -63,7 +62,13 @@ io.on('connection', (socket) => {
           setLastMsg(user.room).then(() => {
             members(user.room).then(member => {
               io.to(user.room).emit('member', member.memberDet);
-              room.defaultLastMsg(user.room, member.lastMsg)
+              room.defaultLastMsg(user.room, member.lastMsg);
+              groupNotify().then(notifyCnt => {
+                io.emit('getGroupNotify', notifyCnt)
+                userNotify().then(chatNotify => {
+                  io.emit('getUserNotify', chatNotify)
+                })
+              })
             })
           })
         }
@@ -78,7 +83,13 @@ io.on('connection', (socket) => {
         if (!room.getPvtTyping(userID) && user) {
           io.to(user.room).emit('typing', room.pvtUserTyping(userID))
           conv().then(member => {
-            io.to(user.room).emit('member', member)
+            io.emit('member', member);
+            groupNotify().then(notifyCnt => {
+              io.emit('getGroupNotify', notifyCnt)
+              userNotify().then(chatNotify => {
+                io.emit('getUserNotify', chatNotify)
+              })
+            })
           })
         }
       }).catch(err => {
@@ -119,6 +130,12 @@ io.on('connection', (socket) => {
               members(user.room).then(member => {
                 io.to(user.room).emit('member', member.memberDet);
                 room.defaultLastMsg(user.room, member.lastMsg)
+                groupNotify().then(notifyCnt => {
+                  io.emit('getGroupNotify', notifyCnt)
+                  userNotify().then(chatNotify => {
+                    io.emit('getUserNotify', chatNotify)
+                  })
+                })
               })
             })
           }).catch(err => {
@@ -134,7 +151,13 @@ io.on('connection', (socket) => {
         pvtcreateChat(user.room, msgCnt).then(chat =>{
           io.to(user.room).emit('newChat', chat)
           conv().then(member => {
-            io.to(user.room).emit('member', member)
+            io.emit('member', member);
+            groupNotify().then(notifyCnt => {
+              io.emit('getGroupNotify', notifyCnt)
+              userNotify().then(chatNotify => {
+                io.emit('getUserNotify', chatNotify)
+              })
+            })
           })
         }).catch(err => {
           callback(err)
@@ -162,6 +185,12 @@ io.on('connection', (socket) => {
             members(user.room).then(member => {
               io.to(user.room).emit('member', member.memberDet);
               room.defaultLastMsg(user.room, member.lastMsg)
+              groupNotify().then(notifyCnt => {
+                io.emit('getGroupNotify', notifyCnt)
+                userNotify().then(chatNotify => {
+                  io.emit('getUserNotify', chatNotify)
+                })
+              })
             })
           })
           io.to(user.room).emit('chatRemoved', cnt);
@@ -174,7 +203,13 @@ io.on('connection', (socket) => {
       if (user)  {
         pvtDeleteChat(user.room, cnt).then(() => {
           conv().then(member => {
-            io.to(user.room).emit('member', member)
+            io.emit('member', member);
+            groupNotify().then(notifyCnt => {
+              io.emit('getGroupNotify', notifyCnt)
+              userNotify().then(chatNotify => {
+                io.emit('getUserNotify', chatNotify)
+              })
+            })
           })
           io.to(user.room).emit('chatRemoved', cnt);
         })
@@ -184,17 +219,20 @@ io.on('connection', (socket) => {
     socket.on('mediaRecChat', (msg, callback) => {
       let user = room.getUser(socket.id);
       if (user)  {
-        mediaRecChat(user.room, msg).then(chat =>{
-          io.to(user.room).emit('newChat', chat)
+          io.to(user.room).emit('newChat', msg)
           setLastMsg(user.room).then(() => {
-            members(user.room).then(member => {
-              io.to(user.room).emit('member', member.memberDet);
-              room.defaultLastMsg(user.room, member.lastMsg)
+          members(user.room).then(member => {
+            io.to(user.room).emit('member', member.memberDet);
+            room.defaultLastMsg(user.room, member.lastMsg)
+            groupNotify().then(notifyCnt => {
+              io.emit('getGroupNotify', notifyCnt)
+              userNotify().then(chatNotify => {
+                io.emit('getUserNotify', chatNotify)
+              })
             })
           })
         }).catch(err => {
           callback(err)
-          console.log(err)
         })
       }
     })
@@ -203,8 +241,16 @@ io.on('connection', (socket) => {
       let user = room.getUser(socket.id);
       if (user)  {
         io.to(user.room).emit('newChat', msg)
-        conv().then(member => {
-          io.to(user.room).emit('member', member)
+          conv().then(member => {
+            io.emit('member', member);
+            groupNotify().then(notifyCnt => {
+              io.emit('getGroupNotify', notifyCnt)
+              userNotify().then(chatNotify => {
+                io.emit('getUserNotify', chatNotify)
+              })
+            })
+          }).catch(err => {
+            callback(err)
         })
       }
     })
@@ -222,7 +268,6 @@ io.on('connection', (socket) => {
           })
         }).catch(err => {
           callback(err)
-          console.log(err)
         })
       }
     })
@@ -230,10 +275,9 @@ io.on('connection', (socket) => {
     socket.on('groups', (msg, callback) => {
       let user = room.getUser(socket.id);
       if (user)  {
-        groups().then(group =>{
-          io.to(user.room).emit('allgroup', group)
+        groups().then(group => {
+          io.emit('allgroup', group)
         }).catch(err => {
-          console.log(err)
           callback(err)
         })
       }

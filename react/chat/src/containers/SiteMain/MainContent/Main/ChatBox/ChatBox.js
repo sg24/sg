@@ -15,7 +15,9 @@ class ChatBox extends Component {
         id: this.props.match.params.id,
         categ: this.props.match.params.categ,
         chatLimit: 300,
-        err: null
+        height: 0,
+        err: null,
+        scrolled: false
     }
 
     componentDidMount() {
@@ -23,9 +25,25 @@ class ChatBox extends Component {
     }
 
     componentDidUpdate() {
+        let chatHold = document.querySelector('.site-main__chat--box');
+        let chatBoxWrapper = document.querySelector('.site-main__chat--box__wrapper'); 
         if (this.props.chat && this.props.chat.length > 0 && !this.state.scrollEnable) {
-           document.querySelector('.site-main__chat--box').addEventListener('scroll', this.onScroll, false);
+            chatHold.addEventListener('scroll', this.onScroll, false);
             this.setState({scrollEnable: true})
+        }
+
+         if (chatBoxWrapper && document.querySelector('.site-main__chat--box__wrapper > div') && !this.state.scrolled) { 
+            chatHold.scrollTop = chatHold.scrollHeight;
+            this.setState({scrolled: true})
+        }
+
+        if (this.props.chatSelected.length < 1 
+                && chatBoxWrapper 
+                && document.querySelector('.site-main__chat--box__wrapper > div') 
+                && document.querySelectorAll('.site-main__chat--srch__highlight').length < 1
+                && (chatHold.clientHeight + chatHold.scrollTop   > (chatHold.scrollHeight/2) + (chatHold.scrollHeight/4))
+                && this.state.scrolled) { 
+            chatHold.scrollTop = chatHold.scrollHeight;
         }
     }
 
@@ -33,19 +51,6 @@ class ChatBox extends Component {
         if (document.querySelector('.site-main__chat--box').scrollTop <= 0) {
             this.props.onFetchChat(this.state.id, this.state.categ,
                 this.state.chatLimit, this.props.skipChat + this.state.chatLimit, this.props.chatTotal);
-        }
-    } 
-
-    scrollToBottom = () => {
-        if (this.props.chatSelected.length < 1 && document.querySelector('.site-main__chat--box__wrapper') && document.querySelector('.site-main__chat--box__wrapper > div') && document.querySelectorAll('.site-main__chat--srch__highlight').length < 1) { 
-            // let chatBox = document.querySelector('.site-main__chat--box'); 
-            // let scrollTop = chatBox.scrollTop;
-            // let chatWrapper = document.querySelector('.site-main__chat--box__wrapper')
-            // let scrollHeight = chatWrapper.scrollHeight;
-            // if (scrollTop >= scrollHeight/4) {
-            //     console.log(chatWrapper.lastChild)
-            // }
-            document.querySelector('.site-main__chat--box__wrapper') && document.querySelector('.site-main__chat--box__wrapper > div:last-child').scrollIntoView()
         }
     }
 
@@ -80,14 +85,13 @@ class ChatBox extends Component {
         if (!this.props.chatLoader) {
             chat = (
                 <Chats 
-                    cnts={this.props.chat}
+                    cnts={this.props.tempchat.length > 0 ?  this.props.tempchat : this.props.chat}
                     users={this.props.members && this.props.members.users  ? this.props.members.users.online : []}
                     filterChat={this.props.filterChat}
                     hold={this.chatHoldHandler}
                     released={this.chatReleasedHandler}
                     selected={this.props.chatSelected}/>
             )
-            this.scrollToBottom()
         }
       
         return (
@@ -107,6 +111,7 @@ const mapStateToProps = state => {
         typing: state.cnt.typing,
         chatLoader: state.cnt.chatLoader,
         chat: state.cnt.chat,
+        tempchat: state.cnt.tempchat,
         members: state.cnt.members,
         filterChat: state.cnt.filterChat,
         chatSelected: state.cnt.chatSelected,

@@ -257,7 +257,7 @@ class Share extends Component {
                         closeChangeCnt={this.closeChangeCntHandler}/> : null}
                  <div className="site-main__chat--grp-info__wrapper">
                     <div className="site-main__chat--grp-info__close">
-                        <h4>Group Details</h4>
+                        <h4>Room</h4>
                         <div 
                             className="site-main__chat--grp-info__close--wrapper"
                             onClick={this.closeModelBackdropHandler}>

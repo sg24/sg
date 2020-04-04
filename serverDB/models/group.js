@@ -55,22 +55,10 @@ const GroupSchema = new Schema({
         type: String,
         default: 'publish'
     },
-    chat: [{
-        ID: String,
-        userType: String,
-        msg: String,
-        cntType: String,
-        chatID: String,
-        format: String,
-        created: {
-            type: Date,
-            default: Date.now
-        },
-        block: {
-            type: Array,
-            default: []
-        }
-    }],
+    active: {
+        type: Array,
+        default: [String]
+    },
     lastMsg: [{
         userID: String,
         msgCnt: {
@@ -81,9 +69,53 @@ const GroupSchema = new Schema({
             }
         }
     }],
-    active: {
-        type: Array,
-        default: [String]
+    position: {
+        type: Number,
+        default: 0
+    },
+    chat: [{
+        ID: String,
+        userType: String,
+        msg: String,
+        cntType: String,
+        chatID: String,
+        format: String,
+        position: {
+            type: Number,
+            default: 0
+        },
+        created: {
+            type: Date,
+            default: Date.now
+        },
+        block: {
+            type: Array,
+            default: []
+        },
+        delete: {
+            type: Boolean,
+            default: false
+        },
+        reply: [{
+            ID: String,
+            userType: String,
+            msg: String,
+            cntType: String,
+            chatID: String,
+            format: String,
+            mainID: String,
+            position: {
+                type: Number,
+                default: 0
+            },
+            created: {
+                type: Date,
+                default: Date.now
+            }}]
+    }],
+    lastID: {
+        type: String,
+        required: true
     },
     _isCompleted: {
         type: Boolean,

@@ -145,8 +145,9 @@ export const getImageURL = image => {
                 canvas.width = image.videoWidth;
                 canvas.height = image.videoHeight;
                 canvas.getContext('2d').drawImage(image, 0, 0);
-                let snapShot = canvas.toDataURL('image/png');
-                resolve(snapShot);;
+                canvas.toBlob((blob) => {
+                    resolve(blob)
+                });
         } else {
             reject('Please update your Browser')
         }
@@ -211,17 +212,7 @@ export const engStrings = {
                 chunks = [];
                 mediaRecorder.stream.getTracks().forEach( track => 
                     track.stop())
-                var reader = new FileReader();
-                reader.onload = function(evt) {
-                    resolve(null)
-                    socketConnect.emit(socketKey, {msg: evt.target.result, type, format: formatType, chatID: uuid()}, function(err) {
-                        reject(err)
-                    })
-                };
-                reader.onerror = function(err) {
-                    reject(err)
-                }
-                reader.readAsDataURL(blob);
+                resolve([{file: blob, type, format: formatType, chatID: uuid()}])
             }
         }
     })

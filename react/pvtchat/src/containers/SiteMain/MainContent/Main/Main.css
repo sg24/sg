@@ -534,10 +534,13 @@
       display: block;
     }
   }
-  
+  .site-main__chat--header__user-opt--list__conv {
+    display: block;
+  }
+
   @media (min-width: 1010px) {
   
-    .site-main__chat--header__det--cnt__sm {
+    .site-main__chat--header__det--cnt__sm, .site-main__chat--header__user-opt--list__conv {
       display: none;
     }
   }
@@ -663,6 +666,7 @@
   }
   
   .site-main__chat--header__user-opt--list li {
+    position: relative;
     float: none;
     font-size: .8125rem;
     padding: 10px 20px;

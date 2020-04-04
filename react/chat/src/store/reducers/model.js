@@ -16,6 +16,7 @@ const initialState = {
     userBackdrop: false,
     addBackdrop: false,
     chat: [],
+    tempchat: [],
     skipChat: 0,
     chatTotal: 0,
     chatLoader: false,
@@ -33,6 +34,12 @@ const initialState = {
     filterPvtuser: null,
     showSideNav: false,
     chatSelected: [],
+    online: 0,
+    offline: 0,
+    checkUploadTotal: 0,
+    uploadTotal: 0,
+    groupNotify: 0,
+    userNotify: 0,
     connect: false
 }
 
@@ -122,8 +129,20 @@ const fetchChat = (state, action) => {
 
 const addNewChat =  (state, action) => {
     let chat  = [...state.chat];
-    chat.push(...action.chat)
-    return updateObject(state, {chat})
+    let curIndex = 0;
+    let filterChat = chat.filter((cnt, index) => {
+        if (cnt.chatID === action.chat[0].chatID) {
+            curIndex = index;
+            return true;
+        }
+        return false
+    })[0];
+    if (filterChat) {
+        chat[curIndex] = action.chat[0];
+    } else {
+        chat.push(...action.chat)
+    }
+    return updateObject(state, {chat, tempchat: []})
 };
 
 const filterUser = (state, action) => {
@@ -169,7 +188,7 @@ const closeChatBackdrop = (state, action) => {
 
 const showEmojiBackdrop = (state, action) => {
     return updateObject(state, {cntErr: null, pvtUserErr: null,addBackdrop: false, userBackdrop: false,
-        audRecBackdrop: false, vidRecBackdrop: false, emojiBackdrop: true, showSideNav: false})
+        audRecBackdrop: false, vidRecBackdrop: false, emojiBackdrop: !state.emojiBackdrop, showSideNav: false})
 };
 
 const searchChat = (state, action) => {
@@ -224,6 +243,64 @@ const filterPvtuser = (state, action) => {
     return updateObject(state, {filterPvtuser: pvtUser})
 };
 
+const uploadMedia = (state, action) => {
+    let total = ++state.checkUploadTotal;
+    if (total === state.uploadTotal) {
+        return updateObject(state, {checkUploadTotal: 0, uploadTotal: 0, tempchat: []})
+    }
+    return updateObject(state, {checkUploadTotal: total})
+};
+
+const uploadMediaSet = (state, action) => {
+    return updateObject(state, {uploadTotal: action.total, checkUploadTotal: 0, tempchat: []})
+};
+
+const uploadMediaStart = (state, action) => {
+    let chats = state.tempchat.length < 1 ? [...state.chat] : [...state.tempchat];
+    let content = arraySort(chats, 'created', {reverse: false});
+    let lastChat = content.length > 0 ? content[content.length - 1] : null;
+    if (lastChat) {
+        if (lastChat.ID === state.userID) {
+            let curIndex = 0;
+            if (!lastChat.delete) {
+                if (lastChat.chatID === action.chatID) {
+                    lastChat = {ID: state.userID, upload: true, position: lastChat.position, cntType: action.cntType, 
+                        chatID: action.chatID, percentage: action.percentage, reply: [], created: new Date().getTime()}
+                } else {
+                    let filterLastChat = lastChat.reply.filter((chat, index) => {
+                        if (chat.chatID === action.chatID) {
+                            curIndex = index;
+                            return true;
+                        }
+                        return false;
+                    })[0];
+                    
+                    if (filterLastChat) {
+                        lastChat.reply[curIndex].percentage = action.percentage;
+                    } else {
+                        lastChat.reply.push({upload: true, position: lastChat.position, cntType: action.cntType, 
+                            chatID: action.chatID, percentage: action.percentage});
+                    }
+                }
+            } else {
+                lastChat = {ID: state.userID, upload: true, position: lastChat.position, cntType: action.cntType, 
+                    chatID: action.chatID, percentage: action.percentage, reply: [], created: new Date().getTime()}
+            }
+            content[content.length - 1] = lastChat;
+        } else {
+            content.push({ID: state.userID, upload: true, position: lastChat.position + 1, cntType: action.cntType, 
+                chatID: action.chatID, percentage: action.percentage, reply: [], created: new Date().getTime()})
+        }
+    } else {
+        content.push({ID: state.userID, upload: true, position: 0, cntType: action.cntType, 
+            chatID: action.chatID, percentage: action.percentage, reply: [], created: new Date().getTime()})
+    }
+    return updateObject(state, {tempchat: content, cntErr: null})
+};
+
+const uploadMediaFail = (state, action) => {
+    return updateObject(state, {cntErr: action.err, uploadTotal: 0, checkUploadTotal: 0, tempchat: 0})
+};
 const resetPvtInputFilter = (state, action) => {
     return updateObject(state, {filterPvtuser: null})
 };
@@ -255,10 +332,24 @@ const chatRemoved = (state, action) => {
     let chats = [...state.chat]
     if (chats.length > 0 && action.cnt && action.cnt.length > 0) {
         for (let id of action.cnt) {
-            chats = chats.filter(chat => chat.chatID !== id);
+            let chat = chats.filter(chat => chat.chatID === id)[0];
+            let index = chats.findIndex(chat => chat.chatID === id)
+            if (chat) {
+                chat.delete = true;
+            }
+            chat.reply = [];
+            chats[index] = chat
         }
     }
     return updateObject(state, {chat: chats, chatSelected: []})
+};
+
+const groupNotify = (state, action) => {
+    return updateObject(state, {groupNotify: action.cnt})
+};
+
+const userNotify = (state, action) => {
+    return updateObject(state, {userNotify: action.cnt})
 };
 
 const chatConnect= (state, action) => {
@@ -267,13 +358,13 @@ const chatConnect= (state, action) => {
     if(members && members.users && (members.users.online.length > 0 || members.users.offline.length > 0)) {
         let user = members.users.offline.filter(user => user.id === state.userID)[0];
         let users = state.navCnt.users;
-        if (user && state.curTab === 'offline') {
+        if (user) {
             let updateOffline = members.users.offline.filter(user => user.id !== state.userID);
             members.users.online.push({...user, status: true});
             members.users.offline = updateOffline;
             members.online = members.online + 1;
             members.offline = members.offline - 1;
-            users = members.users.offline
+            users = state.curTab === 'online' ? members.users.online : members.users.offline;
         }
         navCnt = {users, online: members.online, offline: members.offline}
     }
@@ -286,13 +377,13 @@ const chatDisconnect= (state, action) => {
     if(members && members.users && (members.users.online.length > 0 || members.users.offline.length > 0)) {
         let user = members.users.online.filter(user => user.id === state.userID)[0];
         let users = state.navCnt.users;
-        if (user && state.curTab === 'online') {
+        if (user) {
             let updateOnline = members.users.online.filter(user => user.id !== state.userID);
             members.users.offline.push({...user, status: false});
             members.users.online = updateOnline;
             members.online = members.online - 1;
             members.offline = members.offline + 1;
-            users = members.users.online;
+            users = state.curTab === 'online' ? members.users.online : members.users.offline;
         }
         navCnt = {users, online: members.online, offline: members.offline}
     }
@@ -326,6 +417,14 @@ const reducer = (state = initialState, action) => {
             return fetchChatReset(state, action);
         case actionTypes.FETCH_CHAT_FAIL:
             return fetchChatFail(state, action);
+        case actionTypes.UPLOAD_MEDIA:
+            return uploadMedia(state, action);
+        case actionTypes.UPLOAD_MEDIA_START:
+            return uploadMediaStart(state, action);
+        case actionTypes.UPLOAD_MEDIA_FAIL:
+            return uploadMediaFail(state, action);
+        case actionTypes.UPLOAD_MEDIA_SET:
+            return uploadMediaSet(state, action);
         case actionTypes.ADD_NEW_CHAT:
             return addNewChat(state, action);
         case actionTypes.FILTER_USER:
@@ -376,6 +475,10 @@ const reducer = (state = initialState, action) => {
             return holdChat(state, action);
         case actionTypes.RELEASE_CHAT:
             return releaseChat(state, action);
+        case actionTypes.GROUP_NOTIFY:
+            return groupNotify(state, action);
+        case actionTypes.USER_NOTIFY:
+            return userNotify(state, action);
         case actionTypes.CHAT_REMOVED:
             return chatRemoved(state, action);
         case actionTypes.CHAT_CONNECT:

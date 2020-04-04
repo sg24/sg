@@ -95,6 +95,8 @@ export {
     uploadMediaSet,
     uploadMediaFail,
     uploadMedia,
+    groupNotify,
+    userNotify,
     chatConnect,
     chatDisconnect
 } from './model';

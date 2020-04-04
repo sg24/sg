@@ -357,3 +357,49 @@ export const chatRemoved = (cnt) => {
         cnt
     }
 };
+
+
+export const uploadMediaStart = (chatID, cntType, percentage) =>{
+    return {
+        type: actionTypes.UPLOAD_MEDIA_START,
+        chatID,
+        cntType,
+        percentage
+    };
+}
+
+export const uploadMediaFail = (err) => {
+    return {
+        type: actionTypes.UPLOAD_MEDIA_FAIL,
+        err
+    }
+};
+
+
+export const uploadMediaSet = (total) => {
+    return {
+        type: actionTypes.UPLOAD_MEDIA_SET,
+        total
+    }
+};
+
+export const uploadMedia = (cnt) => {
+    return {
+        type: actionTypes.UPLOAD_MEDIA,
+        cnt
+    }
+};
+
+export const groupNotify = (cnt) => {
+    return {
+        type: actionTypes.GROUP_NOTIFY,
+        cnt
+    }
+};
+
+export const userNotify = (cnt) => {
+    return {
+        type: actionTypes.USER_NOTIFY,
+        cnt
+    }
+};

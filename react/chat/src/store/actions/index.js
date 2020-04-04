@@ -91,6 +91,12 @@ export {
     closeSideNav,
     holdChat,
     releaseChat,
+    uploadMediaStart,
+    uploadMediaSet,
+    uploadMediaFail,
+    uploadMedia,
+    groupNotify,
+    userNotify,
     chatConnect,
     chatDisconnect
 } from './model';
@@ -121,3 +127,7 @@ export {
     filterMember,
     resetModel
 } from './groupInfo'
+
+export {
+    uploadMediaInit
+} from '../thunk/upload'

@@ -387,3 +387,18 @@ export const uploadMedia = (cnt) => {
         cnt
     }
 };
+
+
+export const groupNotify = (cnt) => {
+    return {
+        type: actionTypes.GROUP_NOTIFY,
+        cnt
+    }
+};
+
+export const userNotify = (cnt) => {
+    return {
+        type: actionTypes.USER_NOTIFY,
+        cnt
+    }
+};

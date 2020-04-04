@@ -142,3 +142,12 @@ export const SHOW_SIDE_NAV =  'SHOW_SIDE_NAV';
 export const CLOSE_SIDE_NAV =  'CLOSE_SIDE_NAV';
 export const HOLD_CHAT =  'HOLD_CHAT';
 export const RELEASE_CHAT =  'RELEASE_CHAT';
+
+export const UPLOAD_MEDIA_FAIL = 'UPLOAD_MEDIA_FAIL';
+export const UPLOAD_MEDIA_START = 'UPLOAD_MEDIA_START';
+export const UPLOAD_MEDIA_CANCEL = 'UPLOAD_MEDIA_CANCEL';
+export const UPLOAD_MEDIA = 'UPLOAD_MEDIA';
+export const UPLOAD_MEDIA_SET = 'UPLOAD_MEDIA_SET';
+
+export const GROUP_NOTIFY = 'GROUP_NOTIFY';
+export const USER_NOTIFY = 'USER_NOTIFY';

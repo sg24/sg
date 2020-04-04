@@ -77,6 +77,14 @@ class MainContent extends Component {
         // socket.on('getGroupNotify', function(notifyCnt){
         //     these.props.onFetchGroupNotify(notifyCnt)
         // })
+        socket.on('getGroupNotify', function(cnt){
+            these.props.onGroupNotify(cnt)
+        })
+
+        socket.on('getUserNotify', function(cnt){
+            these.props.onUserNotify(cnt)
+        })
+
         socket.on('chatRemoved', function(cnt){
             these.setState({disable: false})
             these.props.onRemoveChat(cnt)
@@ -148,7 +156,7 @@ class MainContent extends Component {
                     </div>
                     <ul className="site-main__chat--opt">
                         <li 
-                            onClick={!this.state.disable ? this.deleteChatHandler: null}
+                            onClick={!this.state.disable && this.props.tempchat < 1 ? this.deleteChatHandler: null}
                             className={deleteClass.join(' ')}><FontAwesomeIcon  icon={['far', 'trash-alt']} className="icon icon icon__site-main--chat__header--opt"/></li>
                         {/* <li 
                             onClick={this.editChatHandler}
@@ -224,7 +232,8 @@ const mapStateToProps = state => {
         emojiBackdrop: state.cnt.emojiBackdrop,
         showSideNav: state.cnt.showSideNav,
         cntErr: state.cnt.cntErr,
-        chatSelected: state.cnt.chatSelected
+        chatSelected: state.cnt.chatSelected,
+        tempchat: state.cnt.tempchat.length
     };
  }
 
@@ -245,7 +254,9 @@ const mapDispatchToProps = dispatch => {
         onReleaseChat: () => dispatch(actions.releaseChat()),
         onTypingErr: (err) => dispatch(actions.fetchCntFail(err)),
         onDeleteChat: (chat) => dispatch(actions.deleteChatInit(chat)),
-        onRemoveChat: (cnt) => dispatch(actions.chatRemoved(cnt))
+        onRemoveChat: (cnt) => dispatch(actions.chatRemoved(cnt)),
+        onGroupNotify: (cnt) => dispatch(actions.groupNotify(cnt)),
+        onUserNotify: (cnt) => dispatch(actions.userNotify(cnt))
     };
 };
 

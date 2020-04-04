@@ -40,7 +40,7 @@ class Main extends Component {
         this.props.history.push(`/chat/${this.state.categ}/${this.state.id}?id=friends`);
     };
 
-    chatRoomHandler = () => {
+    convHandler = () => {
         this.props.onCloseBackdrop();
         this.props.onShowNav()
     };
@@ -134,12 +134,23 @@ class Main extends Component {
                         onClick={this.searchChatHandler}> Search Chat </li>
                     <li 
                         className="site-main__chat--header__user-opt--list__grp"
-                        onClick={this.groupListHandler}> Groups <FontAwesomeIcon  icon={['fas', 'caret-right']} className="icon icon__site-main--chat__header--angle"/></li>
+                        onClick={this.groupListHandler}> 
+                        Groups <FontAwesomeIcon  icon={['fas', 'caret-right']} className="icon icon__site-main--chat__header--angle"/>
+                        { this.props.groupNotify > 0 ?
+                            <div className="active__main active__main--chat-tab"><div>{this.props.groupNotify}</div></div> : null}    
+                    </li>
                     {/* <li className="site-main__chat--header__user-opt--list__chat"> Conversation <FontAwesomeIcon  icon={['fas', 'caret-right']} className="icon icon__site-main--chat__header--angle"/></li> */}
                     <li 
                         className="site-main__chat--header__user-opt--list__srch-user"
-                        onClick={this.showMemberHandler}> Friends <FontAwesomeIcon  icon={['fas', 'caret-right']} className="icon icon__site-main--chat__header--angle"/></li>
+                        onClick={this.showMemberHandler}> 
+                        Friends <FontAwesomeIcon  icon={['fas', 'caret-right']} className="icon icon__site-main--chat__header--angle"/>
+                        { this.props.userNotify > 0 ?
+                            <div className="active__main active__main--chat-tab"><div>{this.props.userNotify}</div></div> : null}
+                    </li>
                     { footerOpt }
+                    <li 
+                        className="site-main__chat--header__user-opt--list__prf site-main__chat--header__user-opt--list__conv"
+                        onClick={this.convHandler}>Conversation</li>
                 </ul>
             )
         }
@@ -154,6 +165,8 @@ class Main extends Component {
                             onClick={this.showUserOptHandler}>
                             <div className="site-main__chat--header__user-opt--circle__middle"></div>
                         </div>
+                        { this.props.groupNotify+this.props.userNotify > 0 ?
+                            <div className="active__main active__main--chat-opt"><div>{this.props.groupNotify+this.props.userNotify}</div></div> : null}
                         {/* <div className="active__main active__main--chat-opt"><div>99</div></div> */}
                         { userOpt }
                     </div>
@@ -169,6 +182,8 @@ const mapStateToProps = state => {
         cnt: state.cnt.cnts,
         userBackdrop: state.cnt.userBackdrop,
         users: state.cnt.users,
+        groupNotify: state.cnt.groupNotify,
+        userNotify: state.cnt.userNotify,
         connect: state.cnt.connect
     };
  }

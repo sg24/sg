@@ -5,7 +5,7 @@ import uuid from 'uuid';
 import { withRouter } from 'react-router-dom';
 
 import './Snapshot.css';
-import { socket, getImageURL } from '../../../../../../shared/utility';
+import { getImageURL } from '../../../../../../shared/utility';
 import * as actions from '../../../../../../store/actions/index';
 import Loader from '../../../../../../components/UI/Loader/Loader';
 
@@ -13,7 +13,9 @@ let videoRef = React.createRef(null);
 class Snapshot extends Component {
     state = {
         start: false,
-        err: null
+        err: null,
+        id: this.props.match.params.id,
+        categ: this.props.match.params.categ,
     };
 
     componentDidMount() {
@@ -59,10 +61,8 @@ class Snapshot extends Component {
                 videoRef.current.srcObject.getVideoTracks().forEach(function(track) {
                     track.stop();
                 });
-                socket.emit('mediaRecChat', {msg: imageData, type: 'image', format: 'png',chatID: uuid()}, function(err) {
-                    this.setState({err})
-                })
                 this.props.history.goBack()
+                this.props.onUploadMedia([{file: imageData, type: 'image', format: 'png',chatID: uuid()}], this.state.id, this.state.categ)
             }).catch(err => {
                 this.setState({err})
             })
@@ -111,7 +111,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onTypingErr: (err) => dispatch(actions.fetchCntFail(err)) 
+        onTypingErr: (err) => dispatch(actions.fetchCntFail(err)),
+        onUploadMedia: (cnt, id, categ) => dispatch(actions.uploadMediaInit(cnt, id, categ))
     };
 };
 

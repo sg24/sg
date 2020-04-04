@@ -344,8 +344,8 @@ function saveFile(id, chats) {
                     if (chatDet.lastID && chatDet.lastID === global.userDet.id) {
                         let updateChat = chatDet.chat
                         let lastChat = updateChat[updateChat.length - 1];
-                        chats['mainID'] = lastChat.chatID;
-                        if ( chatDet.lastID === lastChat.ID) {
+                        if (lastChat && (chatDet.lastID === lastChat.ID)) {
+                            chats['mainID'] = lastChat.chatID;
                             if (!lastChat.delete) {
                                 lastChat.reply.push(chats);
                             } else {
