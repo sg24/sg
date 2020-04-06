@@ -81,7 +81,7 @@ io.on('connection', (socket) => {
       let user = room.getUser(socket.id);
       typing().then(userID => {
         if (!room.getPvtTyping(userID) && user) {
-          io.to(user.room).emit('typing', room.pvtUserTyping(userID))
+          socket.emit('typing', room.pvtUserTyping(userID))
           conv().then(member => {
             socket.emit('member', member);
             groupNotify().then(notifyCnt => {
@@ -112,7 +112,7 @@ io.on('connection', (socket) => {
       let user = room.getUser(socket.id);
       typing().then(userID => {
         if (user) {
-          io.to(user.room).emit('typing', room.pvtcancelTyping(userID))
+          socket.emit('typing', room.pvtcancelTyping(userID))
         }
       }).catch(err => {
         callback(err)
@@ -149,7 +149,7 @@ io.on('connection', (socket) => {
       let user = room.getUser(socket.id);
       if (user)  {
         pvtcreateChat(user.room, msgCnt).then(chat =>{
-          io.to(user.room).emit('newChat', chat)
+          socket.emit('newChat', chat)
           conv().then(member => {
             socket.emit('member', member);
             groupNotify().then(notifyCnt => {
@@ -211,7 +211,7 @@ io.on('connection', (socket) => {
               })
             })
           })
-          io.to(user.room).emit('chatRemoved', cnt);
+          socket.emit('chatRemoved', cnt);
         })
       }
     })
@@ -240,7 +240,7 @@ io.on('connection', (socket) => {
     socket.on('pvtMediaRecChat', (msg, callback) => {
       let user = room.getUser(socket.id);
       if (user)  {
-        io.to(user.room).emit('newChat', msg)
+        socket.emit('newChat', msg)
           conv().then(member => {
             socket.emit('member', member);
             groupNotify().then(notifyCnt => {
@@ -276,7 +276,7 @@ io.on('connection', (socket) => {
       let user = room.getUser(socket.id);
       if (user)  {
         groups().then(group => {
-          io.emit('allgroup', group)
+          socket.emit('allgroup', group)
         }).catch(err => {
           callback(err)
         })
@@ -287,7 +287,7 @@ io.on('connection', (socket) => {
       let user = room.getUser(socket.id);
       if (user)  {
         groupNotify().then(notifyCnt => {
-          io.to(user.room).emit('getGroupNotify', notifyCnt)
+          socket.emit('getGroupNotify', notifyCnt)
         }).catch(err => {
           callback(err)
         })
