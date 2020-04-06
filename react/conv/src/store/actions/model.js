@@ -1,0 +1,144 @@
+import * as actionTypes from './actionTypes';
+
+export const fetchCntInit = (userID, fetchType, fetchLimit, skipCnt, cntTotal) => {
+    return {
+        type: actionTypes.FETCH_CNT_INIT,
+        userID,
+        fetchType,        
+        fetchLimit,
+        skipCnt,
+        cntTotal
+    }
+};
+
+export const fetchCntStart = () =>{
+    return {
+        type: actionTypes.FETCH_CNT_START
+    };
+}
+
+export const fetchCntReset = () =>{
+    return {
+        type: actionTypes.FETCH_CNT_RESET,
+    };
+}
+
+export const fetchCntFail = (err) => {
+    return {
+        type: actionTypes.FETCH_CNT_FAIL,
+        err
+    }
+};
+
+export const fetchCnt = (cnt, skipCnt, cntTotal) => {
+    return {
+        type: actionTypes.FETCH_CNT,
+        cnt,
+        skipCnt,
+        cntTotal
+    }
+};
+
+export const changeFavInit = (id, liked, favAdd, changedFav, userID, cntGrp) => {
+    return {
+        type: actionTypes.CHANGE_FAVORITE_INIT,
+        id,
+        liked,
+        favAdd,
+        changedFav,
+        userID,
+        cntGrp
+    };
+};
+
+export const changeFavPtStart = (id, isLiked) => {
+    return {
+        type: actionTypes.CHANGE_FAVORITE_PT_START,
+        id,
+        isLiked
+    };
+};
+
+export const changeFavPtFail = () => {
+    return {
+        type: actionTypes.CHANGE_FAVORITE_PT_FAIL
+    };
+};
+
+export const changeFav = (changedFav) => {
+    return {
+        type: actionTypes.CHANGE_FAVORITE,
+        changedFav
+    };
+};
+
+export const resetModel = () => {
+    return {
+        type: actionTypes.RESET_MODEL
+    }
+};
+
+export const filterCnt = (curTab, filterContent) => {
+    return {
+        type: actionTypes.FILTER_CNT,
+        curTab,
+        filterContent
+    }
+};
+
+
+export const changeCntInit = (id, title, det, confirm) => {
+    return {
+        type: actionTypes.CHANGE_CNT_INIT,
+        id, 
+        title,
+        det,
+        confirm
+    }
+};
+
+export const changeCntStart = (title, id, det) => {
+    return {
+        type: actionTypes.CHANGE_CNT_START,
+        title,
+        id,
+        det
+    }
+};
+
+export const changeCntCancel = () => {
+    return {
+        type: actionTypes.CHANGE_CNT_CANCEL
+    }
+};
+
+export const changeCntReset = (changed) => {
+    return {
+        type: actionTypes.CHANGE_CNT_RESET,
+        changed
+    }
+};
+
+export const changeCntFail = (err) => {
+    return {
+        type: actionTypes.CHANGE_CNT_FAIL,
+        err
+    }
+};
+
+export const changeCnt= () => {
+    return {
+        type: actionTypes.CHANGE_CNT
+    }
+};
+export const startSearch = () => {
+    return {
+        type: actionTypes.START_SEARCH
+    };
+};
+
+export const closeSearch = () => {
+    return {
+        type: actionTypes.CLOSE_SEARCH
+    };
+};

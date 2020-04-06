@@ -64,9 +64,9 @@ io.on('connection', (socket) => {
               io.to(user.room).emit('member', member.memberDet);
               room.defaultLastMsg(user.room, member.lastMsg);
               groupNotify().then(notifyCnt => {
-                io.emit('getGroupNotify', notifyCnt)
+                socket.emit('getGroupNotify', notifyCnt)
                 userNotify().then(chatNotify => {
-                  io.emit('getUserNotify', chatNotify)
+                  socket.emit('getUserNotify', chatNotify)
                 })
               })
             })
@@ -83,11 +83,11 @@ io.on('connection', (socket) => {
         if (!room.getPvtTyping(userID) && user) {
           io.to(user.room).emit('typing', room.pvtUserTyping(userID))
           conv().then(member => {
-            io.emit('member', member);
+            socket.emit('member', member);
             groupNotify().then(notifyCnt => {
-              io.emit('getGroupNotify', notifyCnt)
+              socket.emit('getGroupNotify', notifyCnt)
               userNotify().then(chatNotify => {
-                io.emit('getUserNotify', chatNotify)
+                socket.emit('getUserNotify', chatNotify)
               })
             })
           })
@@ -131,9 +131,9 @@ io.on('connection', (socket) => {
                 io.to(user.room).emit('member', member.memberDet);
                 room.defaultLastMsg(user.room, member.lastMsg)
                 groupNotify().then(notifyCnt => {
-                  io.emit('getGroupNotify', notifyCnt)
+                  socket.emit('getGroupNotify', notifyCnt)
                   userNotify().then(chatNotify => {
-                    io.emit('getUserNotify', chatNotify)
+                    socket.emit('getUserNotify', chatNotify)
                   })
                 })
               })
@@ -151,11 +151,11 @@ io.on('connection', (socket) => {
         pvtcreateChat(user.room, msgCnt).then(chat =>{
           io.to(user.room).emit('newChat', chat)
           conv().then(member => {
-            io.emit('member', member);
+            socket.emit('member', member);
             groupNotify().then(notifyCnt => {
-              io.emit('getGroupNotify', notifyCnt)
+              socket.emit('getGroupNotify', notifyCnt)
               userNotify().then(chatNotify => {
-                io.emit('getUserNotify', chatNotify)
+                socket.emit('getUserNotify', chatNotify)
               })
             })
           })
@@ -186,9 +186,9 @@ io.on('connection', (socket) => {
               io.to(user.room).emit('member', member.memberDet);
               room.defaultLastMsg(user.room, member.lastMsg)
               groupNotify().then(notifyCnt => {
-                io.emit('getGroupNotify', notifyCnt)
+                socket.emit('getGroupNotify', notifyCnt)
                 userNotify().then(chatNotify => {
-                  io.emit('getUserNotify', chatNotify)
+                  socket.emit('getUserNotify', chatNotify)
                 })
               })
             })
@@ -203,11 +203,11 @@ io.on('connection', (socket) => {
       if (user)  {
         pvtDeleteChat(user.room, cnt).then(() => {
           conv().then(member => {
-            io.emit('member', member);
+            socket.emit('member', member);
             groupNotify().then(notifyCnt => {
-              io.emit('getGroupNotify', notifyCnt)
+              socket.emit('getGroupNotify', notifyCnt)
               userNotify().then(chatNotify => {
-                io.emit('getUserNotify', chatNotify)
+                socket.emit('getUserNotify', chatNotify)
               })
             })
           })
@@ -225,9 +225,9 @@ io.on('connection', (socket) => {
             io.to(user.room).emit('member', member.memberDet);
             room.defaultLastMsg(user.room, member.lastMsg)
             groupNotify().then(notifyCnt => {
-              io.emit('getGroupNotify', notifyCnt)
+              socket.emit('getGroupNotify', notifyCnt)
               userNotify().then(chatNotify => {
-                io.emit('getUserNotify', chatNotify)
+                socket.emit('getUserNotify', chatNotify)
               })
             })
           })
@@ -242,11 +242,11 @@ io.on('connection', (socket) => {
       if (user)  {
         io.to(user.room).emit('newChat', msg)
           conv().then(member => {
-            io.emit('member', member);
+            socket.emit('member', member);
             groupNotify().then(notifyCnt => {
-              io.emit('getGroupNotify', notifyCnt)
+              socket.emit('getGroupNotify', notifyCnt)
               userNotify().then(chatNotify => {
-                io.emit('getUserNotify', chatNotify)
+                socket.emit('getUserNotify', chatNotify)
               })
             })
           }).catch(err => {
@@ -299,7 +299,7 @@ io.on('connection', (socket) => {
         if (user) {
           setLastMsg(user.room).then(() => {
             members(user.room).then(member => {
-              io.to(user.room).emit('member', member.memberDet);
+              io.to(user.room).broadcast('member', member.memberDet);
               room.defaultLastMsg(user.room, member.lastMsg)
             })
           })
