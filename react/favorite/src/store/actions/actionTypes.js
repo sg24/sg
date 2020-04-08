@@ -132,3 +132,6 @@ export const RESET_FILTER = 'RESET_FILTER';
 
 export const RESET_MODEL = 'RESET_MODEL';
 
+
+export const FETCH_NAV_ACTIVE_INIT = 'FETCH_NAV_ACTIVE_INIT';
+export const FETCH_NAV_ACTIVE = 'FETCH_NAV_ACTIVE';

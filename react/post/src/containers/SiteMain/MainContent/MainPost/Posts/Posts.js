@@ -34,13 +34,28 @@ class Posts extends Component {
             removePrevMedia: null,
             playerIcnId: null,
             animationComplete: true,
-            scrollEnable: false
+            scrollEnable: false,
+            active: null
         }
     }
 
     componentDidMount() {
         this.props.onFetchPost(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/post');
+        let active = setInterval(() => {
+            this.props.onFetchShareActive();
+            this.props.onFetchPtActive();
+            this.props.onFetchShareCntActive();
+            this.props.onFetchNotifyActive();
+            this.props.onFetchTotal()
+        }, 5000);
+        this.setState({active})
+    }
+
+    componentWillUnmount() {
+        if (this.state.active) {
+            clearInterval(this.state.active)
+        }
     }
 
     componentDidUpdate() {
@@ -206,12 +221,6 @@ class Posts extends Component {
     }
 
     render() {
-        this.props.onFetchShareActive();
-        this.props.onFetchPtActive();
-        this.props.onFetchShareCntActive();
-        this.props.onFetchNotifyActive();
-        this.props.onFetchTotal()
-
         let post = <Loader />;
         if (this.props.postErr) {
             post = null

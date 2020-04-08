@@ -137,6 +137,13 @@ class Share extends Component {
                             <div className="reuse-prf__grp--img">
                                 <div className="reuse-prf__grp--img__wrapper">
                                     { groupImage }
+                                    { this.props.grpInfo.userOpt ? 
+                                     <div>
+                                        <a href={`/edit/group/${this.props.grpInfo._id}`}>
+                                        <FontAwesomeIcon 
+                                            icon={['fas', 'edit']}  />
+                                        </a>
+                                    </div> : null}
                                 </div>
                             </div>
                             <div className="reuse-prf__grp--det">

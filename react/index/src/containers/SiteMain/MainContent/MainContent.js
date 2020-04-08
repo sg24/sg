@@ -24,9 +24,9 @@ const AsyncUsers = asyncComponent(() => {
     return import ('./Users/Users');
 });
 
-// const AsyncGroups = asyncComponent(() => {
-//     return import ('./Groups/Groups');
-// });
+const AsyncGroups = asyncComponent(() => {
+    return import ('./Groups/Groups');
+});
 
 const AsyncPoets= asyncComponent(() => {
     return import ('./Poets/Poets');
@@ -58,6 +58,12 @@ class MainContent extends Component {
             icnClass: 'icon icon__site-main__content--tab',
             title: 'Scholars',
         },
+       group: {
+            path: '/index/group',
+            icnGrp: 'user-graduate',
+            icnClass: 'icon icon__site-main__content--tab',
+            title: 'Chat Room',
+        },
         helpme: {
             path: '/index/helpme',
             icnGrp: 'hand-paper',
@@ -71,7 +77,29 @@ class MainContent extends Component {
             title: 'Writers'
         },
         curTab: this.props.location.pathname.split('/')[2] ? this.props.location.pathname.split('/')[2] : 'post',
-        cntFetch: false
+        cntFetch: false,
+        active: null
+    }
+
+    componentDidMount() {
+        let active = setInterval(() => {
+            this.props.onFetchShareActive();
+            this.props.onFetchShareCntActive();
+            this.props.onFetchNotifyActive();
+            this.props.onFetchNavActive();
+            this.props.onFetchCntActive();
+            this.props.onFetchQueActive();
+            this.props.onFetchPtActive();
+            this.props.onFetchReqActive();
+            this.props.onFetchJoinActive();
+        }, 5000);
+        this.setState({active})
+    }
+
+    componentWillUnmount() {
+        if (this.state.active) {
+            clearInterval(this.state.active)
+        }
     }
 
     componentDidUpdate() {
@@ -80,8 +108,6 @@ class MainContent extends Component {
             this.setState({cntFetch: true})
         }
     }
-
-
     removeActiveHandler = (curTab) => {
         if (this.state.curTab !== curTab) {
             this.props.onResetActive(this.props.userID, curTab);
@@ -124,6 +150,10 @@ class MainContent extends Component {
                     content={this.state.user}
                     removeActive={this.removeActiveHandler.bind(this, 'user')}
                     active={this.state.curTab !== 'user' ? this.props.reqActive: null}/>
+                    <MainNavigations 
+                    content={this.state.group}
+                    removeActive={this.removeActiveHandler.bind(this, 'group')}
+                    active={this.state.curTab !== 'group' ? this.props.joinActive: null}/>
                 <MainNavigations 
                     content={this.state.poet}
                     removeActive={this.removeActiveHandler.bind(this, 'poet')}
@@ -136,8 +166,7 @@ class MainContent extends Component {
                     <Route path="/index/question/:id" component={AsyncQuestions}/>
                     <Route path="/index/helpme" exact component={AsyncHelpme}/>
                     <Route path="/index/helpme/:id" exact component={AsyncHelpme}/>
-                    {/* <Route path="/index/group" exact component={AsyncGroups}/>
-                    <Route path="/index/group/:id" exact component={AsyncGroups}/> */}
+                    <Route path="/index/group"  component={AsyncGroups}/>
                      <Route path="/index/user" exact component={AsyncUsers}/>
                     <Route path="/index/poet" exact component={AsyncPoets}/>
                     <Route path="/index/poet/:id" exact component={AsyncPoets}/>
@@ -158,6 +187,7 @@ const mapStateToProps = state => {
        ptActive: state.main.ptActive,
        queActive: state.main.queActive,
        reqActive: state.main.reqActive,
+       joinActive: state.main.joinActive,
        cntFetch: state.cnt.cnts !== null,
        showLoader: state.cnt.showLoader
     };
@@ -165,7 +195,16 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onResetActive: (userID, curTab) => dispatch(actions.resetActiveInit(userID, curTab))
+        onFetchJoinActive: () => dispatch(actions.fetchJoinActiveInit()),
+        onResetActive: (userID, curTab) => dispatch(actions.resetActiveInit(userID, curTab)),
+        onFetchShareActive: () => dispatch(actions.fetchShareactiveInit()),
+        onFetchShareCntActive: () => dispatch(actions.fetchShareCntactiveInit()),
+        onFetchQueActive: () => dispatch(actions.fetchQueActiveInit()),
+        onFetchPtActive: () => dispatch(actions.fetchPtActiveInit()),
+        onFetchCntActive: () => dispatch(actions.fetchCntActiveInit()),
+        onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
+        onFetchNavActive: () => dispatch(actions.fetchNavActiveInit()),
+        onFetchReqActive: () => dispatch(actions.fetchReqActiveInit()),
     };
 };
 

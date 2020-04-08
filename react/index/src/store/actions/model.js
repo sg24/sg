@@ -128,6 +128,44 @@ export const changeFav = (changedFav) => {
     };
 };
 
+export const joinGrpInit = (id, categ) => {
+    return {
+        type: actionTypes.JOIN_GRP_INIT,
+        id,
+        categ
+    }
+};
+
+export const joinGrpFail = (err, id) => {
+    return {
+        type: actionTypes.JOIN_GRP_FAIL,
+        err,
+        id
+    }
+};
+
+export const joinGrpStart = (id) => {
+    return {
+        type: actionTypes.JOIN_GRP_START,
+        id
+    }
+};
+
+export const joinGrp = (id, categ) => {
+    return {
+        type: actionTypes.JOIN_GRP,
+        id,
+        categ
+    }
+};
+
+export const removeRequest = (id) => {
+    return {
+        type: actionTypes.REMOVE_REQUEST,
+        id
+    }
+};
+
 export const resetModel = () => {
     return {
         type: actionTypes.RESET_MODEL

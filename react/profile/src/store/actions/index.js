@@ -97,6 +97,8 @@ export {
     fetchShareActive,
     resetActiveInit,
     resetActive,
+    fetchNavActiveInit,
+    fetchNavActive,
     showMainBackdrop,
     hideMainBackdrop
 } from './main';

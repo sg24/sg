@@ -7,6 +7,8 @@ const initialState = {
     skipCnt: null,
     cntTotal: null,
     showLoader: false,
+    joined: [],
+    joinStartID: [],
     changedFav: [],
     favChange: null,
     postVideo: {id: null},
@@ -116,6 +118,56 @@ const resetModel = (state, action) => {
     return updateObject(state, {cntErr: null,changeCntStart: null, changeCntErr: null, changeCnt: false})
 };
 
+
+const joinGrpStart = (state, action) => {
+    let joinStartID = [...state.joinStartID]
+    joinStartID.push(action.id);
+    return updateObject(state, {joinStartID})
+};
+
+const joinGrpFail = (state, action) => {
+    let joinStartID = state.joinStartID.filter(id => id !== action.id);
+    return updateObject(state, {joinErr: true, joinStartID})
+};
+
+const joinGrp = (state, action) => {
+    let joined = [...state.joined];
+    if (action.categ === 'join') {
+        let joinStartID = state.joinStartID.filter(id => id !== action.id);
+        joined.push(action.id)
+        return updateObject(state, {joined, joinStartID})
+    }
+    if (action.categ === 'cancel') {
+        let joinStartID = state.joinStartID.filter(id => id !== action.id);
+        let removeGroup = joined.filter(id => id !== action.id)
+        let grp = state.cnts.filter(grpdet => grpdet._id === action.id);
+        let updateGrp = [...state.cnts]
+        if (grp && grp.length > 0) {
+            grp[0].request = false;
+            let updateGrp = state.cnts.filter(grpdet => grpdet._id !== action.id);
+            updateGrp.push(grp[0]);
+        }
+        return updateObject(state, {cnts: updateGrp, joined: removeGroup, joinStartID})
+    }
+};
+
+const removeRequest = (state, action) => {
+    let group = [...state.cnts];
+    let indexPos = 0;
+    let updateGrp = group.filter((grp, index) => {
+        if (grp._id === action.id) {
+            indexPos = index;
+            return true
+        }
+        return false
+    });
+    if (updateGrp.length > 0) {
+        updateGrp[0].requestTotal = updateGrp[0].requestTotal - 1;
+    }
+    group[indexPos] = updateGrp[0]
+    return updateObject(state, {cnts: group, cntErr: null,changeCntStart: null, changeCntErr: null, changeCnt: false})
+};
+
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.FETCH_CNT:
@@ -146,6 +198,14 @@ const reducer = (state = initialState, action) => {
             return changeFavPtFail(state, action);
         case actionTypes.FILTER_POST:
             return filterPost(state, action);
+        case actionTypes.JOIN_GRP_START:
+            return joinGrpStart(state, action);
+        case actionTypes.JOIN_GRP_FAIL:
+            return joinGrpFail(state, action);
+        case actionTypes.JOIN_GRP:
+            return joinGrp(state, action);
+        case actionTypes.REMOVE_REQUEST:
+            return removeRequest(state, action);
         case actionTypes.RESET_MODEL:
             return resetModel(state, action);
         default: return state

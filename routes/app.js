@@ -17,7 +17,7 @@ const global = require('../global/global');
 
 const {category,  posts, questions, poets, group, user, tempUser, postnotifies, 
      authUser, quenotifies, pwtnotifies, viewnotifies, usernotifies,
-     favorite, connectStatus} = require('../serverDB/serverDB');
+     favorite, connectStatus, chatnotifies, grpchatnotifies} = require('../serverDB/serverDB');
 
 router.get('/',function (req, res, next) {
     res.redirect(301,'/index/post');
@@ -93,8 +93,16 @@ router.post('/header', authenticate, (req, res, next) => {
             if (result) {
                 checkAllNotifies(posts, 'post', {postCreated: -1}, result.post,  {coll: [], collTotal: 0}).then(ptNotify  => {
                     checkAllNotifies(questions, 'question', {queCreated: -1}, result.question, ptNotify).then(queNotify => {
-                        checkAllNotifies(poets, 'poets', {pwtCreated: -1}, result.poet, queNotify).then(totalNotify  => {
-                            res.status(200).send(totalNotify);
+                        checkAllNotifies(poets, 'poets', {pwtCreated: -1}, result.poet, queNotify).then(pwtNotify  => {
+                            checkAllNotifies(chatnotifies, 'chat', null, null, pwtNotify).then(chatNotify  => {
+                                checkAllNotifies(grpchatnotifies, 'group', null, null, chatNotify).then(grpNotify  => {
+                                    checkAllNotifies(group, 'grpreq', null, null, grpNotify).then(grpReqNotify  => {
+                                        checkAllNotifies(user, 'userReq', null, null, grpReqNotify).then(totalNotify  => {
+                                            res.status(200).send(totalNotify);
+                                        })
+                                    })
+                                })
+                            })
                         })
                     })
                 })
@@ -104,10 +112,18 @@ router.post('/header', authenticate, (req, res, next) => {
                 userID: req.user
             })
             newViewNotifies.save().then(result => {
-                checkAllNotifies(posts, 'post',{postCreated: -1}, 0, {coll: [], collTotal: 0}).then(ptNotify  => {
-                    checkAllNotifies(questions, 'question', {queCreated: -1}, 0, ptNotify).then(queNotify => {
-                        checkAllNotifies(poets, 'poets', {pwtCreated: -1}, 0, queNotify).then(totalNotify  => {
-                            res.status(200).send(totalNotify);
+                checkAllNotifies(posts, 'post', {postCreated: -1}, result.post,  {coll: [], collTotal: 0}).then(ptNotify  => {
+                    checkAllNotifies(questions, 'question', {queCreated: -1}, result.question, ptNotify).then(queNotify => {
+                        checkAllNotifies(poets, 'poets', {pwtCreated: -1}, result.poet, queNotify).then(pwtNotify  => {
+                            checkAllNotifies(chatnotifies, 'chat', null, null, pwtNotify).then(chatNotify  => {
+                                checkAllNotifies(grpchatnotifies, 'group', null, null, chatNotify).then(grpNotify  => {
+                                    checkAllNotifies(group, 'grpreq', null, null, grpNotify).then(grpReqNotify  => {
+                                        checkAllNotifies(user, 'userReq', null, null, grpReqNotify).then(totalNotify  => {
+                                            res.status(200).send(totalNotify);
+                                        })
+                                    })
+                                })
+                            })
                         })
                     })
                 }).catch(err => {
@@ -149,6 +165,123 @@ router.post('/header', authenticate, (req, res, next) => {
 
     function checkAllNotifies(model, modelType, sort, viewTotal, notify) {
         return new Promise((resolve, reject) => {
+            if (modelType === 'grpreq') {
+                model.find({authorID: req.user}).then(grp => {
+                    let totalNotify  = 0;
+                    if (grp && grp.length > 0) {
+                        for (let grpdet of grp) {
+                            if (grpdet.request.length > 0 && grpdet._isCompleted) {
+                                notify.coll.push({id: grpdet._id, title: grpdet.title, category: modelType, notifications: grpdet.request.length})
+                                notify.collTotal = notify.collTotal + 1;
+                                ++totalNotify
+                                if (totalNotify === grp.length) {
+                                   return resolve(notify)
+                                }
+                            } else {
+                                ++totalNotify
+                                if (totalNotify === grp.length) {
+                                   return resolve(notify)
+                                }
+                            }
+                        }
+                    } else {
+                        resolve(notify)
+                    }
+                })
+                return
+            }
+            if (modelType === 'userReq') {
+                user.findById(req.user).then(userdet => {
+                    if (!userdet) {
+                        authUser.findById(req.user).then(authdet => {
+                            if (authdet.request.length > 0) {
+                                notify.coll.push({ category: modelType, notifications: authdet.request.length})
+                                notify.collTotal = notify.collTotal + 1;
+                                return resolve(notify)
+                            } else {
+                                return resolve(notify)
+                            }
+                        })
+                    } else {
+                        if (userdet.request.length > 0) {
+                            notify.coll.push({ category: modelType, notifications: userdet.request.length})
+                            notify.collTotal = notify.collTotal + 1;
+                            return resolve(notify)
+                        } else {
+                            return resolve(notify)
+                        }
+                    }
+                })
+                return
+            }
+            if (modelType === 'chat' || modelType === 'group') {
+                if (modelType === 'chat') {
+                    model.findOne({userID: req.user}).then(notifyCnt => {
+                        let totalNotify = 0;
+                        if (notifyCnt && notifyCnt.member && notifyCnt.member.length > 0 ) {
+                            for (let cnt of notifyCnt.member) {
+                                if (cnt.notifications > 0) {
+                                    user.findById(cnt.ID).then(userDet => {
+                                        if (!userDet) {
+                                            authUser.findById(cnt.ID).then(authDet => {
+                                                notify.coll.push({id: cnt.ID, username: authDet.username, category: modelType, notifications: cnt.notifications})
+                                                notify.collTotal = notify.collTotal + 1;
+                                                ++totalNotify;
+                                                if (totalNotify === notifyCnt.member.length) {
+                                                   return resolve(notify)
+                                                }
+                                            })
+                                        } else {
+                                            notify.coll.push({id: cnt.ID, username: userDet.username,category: modelType, notifications: cnt.notifications})
+                                            ++totalNotify
+                                            notify.collTotal = notify.collTotal + 1;
+                                            if (totalNotify === notifyCnt.member.length) {
+                                               return resolve(notify)
+                                            }
+                                        }
+                                    })
+                                } else {
+                                    ++totalNotify
+                                    if (totalNotify === notifyCnt.member.length) {
+                                        return resolve(notify)
+                                    }
+                                }
+                            }
+                        } else {
+                            return resolve(notify)
+                        }
+                    })
+                } else {
+                    model.findOne({userID: req.user}).then(notifyCnt => {
+                        let totalNotify = 0;
+                        if (notifyCnt && notifyCnt.grp && notifyCnt.grp.length > 0 ) {
+                            for (let cnt of notifyCnt.grp) {
+                                if (cnt.notifications > 0) {
+                                    group.findById(cnt.ID).then(grpdet => {
+                                        if (grpdet) {
+                                            notify.coll.push({id: cnt.ID, title: grpdet.title,category: modelType, notifications: cnt.notifications})
+                                            notify.collTotal = notify.collTotal + 1;
+                                            ++totalNotify
+                                            if (totalNotify === notifyCnt.grp.length) {
+                                               return resolve(notify)
+                                            }
+                                        }
+                                    })
+                                } else {
+                                    ++totalNotify
+                                    if (totalNotify === notifyCnt.grp.length) {
+                                        return resolve(notify)
+                                    }
+                                }
+                            }
+                        } else {
+                            return resolve(notify)
+                        }
+                    })
+                }
+                return 
+            } 
+
             model.countDocuments({mode: 'publish',_isCompleted: true}).then(total => {
                 let curNotify = total - viewTotal;
                 if (curNotify < 0) {

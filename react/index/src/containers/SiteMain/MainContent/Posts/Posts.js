@@ -177,13 +177,6 @@ class Posts extends Component {
     }
 
     render() {
-        this.props.onFetchShareActive();
-        this.props.onFetchShareCntActive();
-        this.props.onFetchNotifyActive();
-        this.props.onFetchCntActive();
-        this.props.onFetchQueActive();
-        this.props.onFetchPtActive();
-        this.props.onFetchReqActive();
 
         let cnt = <Loader />;
         if (this.props.postErr) {
@@ -254,13 +247,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchShareActive: () => dispatch(actions.fetchShareactiveInit()),
-        onFetchShareCntActive: () => dispatch(actions.fetchShareCntactiveInit()),
-        onFetchQueActive: () => dispatch(actions.fetchQueActiveInit()),
-        onFetchPtActive: () => dispatch(actions.fetchPtActiveInit()),
-        onFetchCntActive: () => dispatch(actions.fetchCntActiveInit()),
-        onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
-        onFetchReqActive: () => dispatch(actions.fetchReqActiveInit()),
         onFetchCnt: (userID, fetchType, limit, skipCnt, cntTotal) => dispatch(actions.fetchCntInit(userID, fetchType, limit, skipCnt, cntTotal)),
         onFetchCntReset: () => dispatch(actions.fetchCntReset()),
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),

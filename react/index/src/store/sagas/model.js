@@ -45,6 +45,18 @@ export function* changeFavSaga(action) {
     }
 }
 
+export function* joinGrpInitSaga(action) {
+    yield put(actions.joinGrpStart(action.id));
+    try {
+        yield axios.post('/group', {id: action.id}, {
+            headers: {
+                'data-categ': action.categ}});
+        yield put(actions.joinGrp(action.id, action.categ));
+    }catch(err){
+        yield put(actions.joinGrpFail(err, action.id))
+    }
+}
+
 export function* changeCntInitSaga(action) {
     let field =   action.modelType === 'post' ? 'postID' : action.modelType === 'question' ? 'queID' : 'pwtID'
     if (!action.confirm) {

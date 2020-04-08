@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Loader from '../../../../components/UI/Loader/Loader';
-import NoAcc from '../../../../components/Main/NoAcc/NoAcc';
 import Users from '../../../../components/Main/Users/Users';
-import Aux from '../../../../hoc/Auxs/Aux';
 import * as actions from '../../../../store/actions/index';
 
 class Model extends Component {
@@ -13,11 +11,23 @@ class Model extends Component {
         editEnable: false,
         inputValue: '',
         updateDet: false,
-        userDet: null
+        userDet: null,
+        active: null
     }
 
     componentDidMount() {
         this.props.onFetchCnt(this.props.match.params.id);
+        let active = setInterval(() => {
+            this.props.onFetchShareActive();
+            this.props.onFetchNotifyActive();
+        }, 5000);
+        this.setState({active})
+    }
+
+    componentWillUnmount() {
+        if (this.state.active) {
+            clearInterval(this.state.active)
+        }
     }
 
     componentDidUpdate() {
@@ -57,9 +67,6 @@ class Model extends Component {
     }
 
     render() {
-        this.props.onFetchShareActive();
-        this.props.onFetchNotifyActive();
-
         let cnt = <Loader 
             view/>;
         

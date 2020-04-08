@@ -13,6 +13,14 @@ export function* fetchShareActiveInitSaga(action) {
     } catch(err) {}
 }
 
+export function* fetchNavActiveInitSaga(action) {
+    try {
+        let response = yield axios.post('conv', {}, {headers: {'data-categ':'navActive'}});
+        yield put(actions.fetchNavActive(response.data));        
+    } catch(err) {}
+}
+
+
 export function* resetActiveInitSaga(action) {
     try {
         if (action.curTab === 'share') {

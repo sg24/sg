@@ -1,95 +1,93 @@
 import React from 'react';
+import TimeAgo from 'react-timeago';
+import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
+import Avatar from 'react-avatar';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { transformNumber } from '../../../../../shared/utility';
+import { transformNumber, engStrings } from '../../../../../shared/utility';
 
 const convItem = props => {
-    let conv = null;
-    let userStatus = <div className="reuse-pvt-chat__img--status reuse-pvt-chat__img--status__on"></div>;
-    let pvtUserOptDetClass= ['reuse-pvt-chat__opt'];
-    let pvtUserOptClass= ['reuse-pvt-chat__opt--det'];
-    let grpUserOptDetClass= ['reuse-grp-chat__opt'];
-    let grpUserOptClass= ['reuse-grp-chat__opt--det'];
-
-    if (!props.conv.status) {
-        userStatus =  <div className="reuse-pvt-chat__img--status reuse-pvt-chat__img--status__off"></div>
+    const formatter = buildFormatter(engStrings);
+    let pvtImg =  <img src={props.conv.userImage} alt=""/>
+    let pvtStatus = <div className="reuse-pvt-chat__img--status reuse-pvt-chat__img--status__off"></div> 
+    if(props.conv.username && !props.conv.userImage) {
+        pvtImg = <Avatar  name={props.conv.username} size='50' round />;
     }
 
-    if (props.showConv && props.showConv.visible && props.index === props.showConv.index && props.conv.type === 'pvtChat') {
-        pvtUserOptDetClass.push('reuse-pvt-chat__opt--clk');
-        pvtUserOptClass.push('reuse-pvt-chat__opt--det__visible')
+    if (props.conv.status) {
+        pvtStatus = <div className="reuse-pvt-chat__img--status reuse-pvt-chat__img--status__on"></div>
+    }
+    let pvtActive = null;
+
+    if (props.conv.active && (props.conv.active > 0)){
+        pvtActive = <div className="active__main active__main--chat-cnt"><div>{props.conv.active}</div></div>
     }
 
-    if (props.showConv && props.showConv.visible && props.index === props.showConv.index && props.conv.type === 'grpChat') {
-        grpUserOptDetClass.push('reuse-grp-chat__opt--clk');
-        grpUserOptClass.push('reuse-grp-chat__opt--det__visible')
+    let grpImg =  <Avatar  name={props.conv.title} size='50' round />;
+
+    if(props.conv.image && props.conv.image.length > 0) {
+        grpImg = <img src={`${window.location.protocol + '//' + window.location.host}/media/image/${props.conv.image[0].id}`} alt="group" />
     }
 
-    if (props.conv.type === 'pvtChat') {
-        conv = (
+    let cnt =  (
+        <div className="reuse-grp-chat reuse-grp-chat__nav">
+            { pvtActive }
+            <div className="reuse-grp-chat__img">
+                { grpImg }
+            </div>
+            <ul className="reuse-grp-chat__det">
+                <li className="reuse-grp-chat__det--title"><a href={`/chat/group/${props.conv._id}`}>{ props.conv.title }</a></li>
+                <li className="reuse-grp-chat__det--last-msg">{ props.conv.msg ? props.conv.msg : '...'}</li>
+                <li className="reuse-grp-chat__det--status"><div className="reuse-grp-chat__det--status__on"> online <span>{ transformNumber(props.conv.online) }</span></div> <div className="reuse-grp-chat__det--status__off"> offline <span>{ transformNumber(props.conv.offline)}</span></div> </li>
+            </ul>
+            {/* <div className="reuse-grp-chat__opt">
+                <div className="reuse-grp-chat__opt--mid"></div>
+                <ul className="reuse-grp-chat__opt--det">
+                    <li> 
+                        <FontAwesomeIcon 
+                            icon={['fas', 'eye-slash']} className="icon__reuse-conv--blk" />
+                        Block
+                    </li>
+                    <li>
+                        <FontAwesomeIcon 
+                            icon={['far', 'trash-alt']} className="icon icon__reuse-conv--del" />
+                        Delete
+                    </li>
+                </ul>
+            </div> */}
+        </div>
+    )
+    if (props.conv.username) {
+        cnt = (
             <div className="reuse-pvt-chat reuse-pvt-chat__nav">
-                <div className="active__main active__main--chat-cnt"><div>9</div></div>
+                { pvtActive}
                 <div className="reuse-pvt-chat__img">
-                    <img src={ props.conv.userImage } alt="" />
-                    { userStatus }
+                   { pvtImg }
+                    { pvtStatus }
                 </div>
                 <ul className="reuse-pvt-chat__det">
-                    <li><a href="/">{ props.conv.user } <span>@ { props.conv.convCreated }</span></a></li>
-                    <li><a href="/">{ props.conv.lastMsg }</a></li>
+                    <li><a href={`/chat/user/${ props.conv._id}`}> { props.conv.username } <span> @ { <TimeAgo date={props.conv.created} live={false} formatter={formatter} />}</span></a></li>
+                    <li className="reuse-pvt-chat__det--msg"><a href={`/chat/user/${ props.conv._id}`}>{ props.conv.msg ? props.conv.msg : '...'}</a></li>
                 </ul>
-                <div className={pvtUserOptDetClass.join(' ')} onClick={props.userOpt}>
+                {/* <div className="reuse-pvt-chat__opt">
                     <div className="reuse-pvt-chat__opt--mid"></div>
-                    <ul className={pvtUserOptClass.join(' ')}>
-                        <li>
-                            <FontAwesomeIcon 
-                                icon={['fas', 'eye-slash']} 
-                                className="icon icon__reuse-conv--blk" /> 
-                            Block
-                        </li>
-                        <li>
-                            <FontAwesomeIcon 
-                                icon={['fas', 'trash-alt']} 
-                                className="icon icon__reuse-conv--del" /> 
-                            Delete
-                        </li>
+                    <ul className="reuse-pvt-chat__opt--det">
+                    <li> 
+                        <FontAwesomeIcon 
+                            icon={['fas', 'eye-slash']} className="icon__reuse-conv--blk" />
+                        Block
+                    </li>
+                    <li>
+                        <FontAwesomeIcon 
+                            icon={['far', 'trash-alt']} className="icon icon__reuse-conv--del" />
+                        Delete
+                    </li>
                     </ul>
-                </div>
-            </div> 
-        );
-    }
-
-    if (props.conv.type === 'grpChat') {
-        conv = (
-            <div className="reuse-grp-chat reuse-grp-chat__nav">
-                <div className="active__main active__main--chat-cnt"><div>9</div></div>
-                <div className="reuse-grp-chat__img"><img src={ props.conv.groupImage } alt=""/></div>
-                <ul className="reuse-grp-chat__det">
-                    <li className="reuse-grp-chat__det--title"><a href="/">{ props.conv.title }</a></li>
-                    <li className="reuse-grp-chat__det--last-msg">{ props.conv.lastMsg }</li>
-                    <li className="reuse-grp-chat__det--status"><div className="reuse-grp-chat__det--status__on reuse-grp-chat__det--status__on--nav"> online <span>{ transformNumber(props.conv.online) }</span></div> <div className="reuse-grp-chat__det--status__off"> offline <span>{ transformNumber(props.conv.offline) }</span></div> </li>
-                </ul>
-                <div className={grpUserOptDetClass.join(' ')} onClick={props.userOpt}>
-                    <div className="reuse-grp-chat__opt--mid"></div>
-                    <ul className={grpUserOptClass.join(' ')}>
-                        <li>
-                            <FontAwesomeIcon 
-                                icon={['fas', 'eye-slash']} 
-                                className="icon icon__reuse-conv--blk" /> 
-                            Block
-                        </li>
-                        <li>
-                            <FontAwesomeIcon 
-                                icon={['fas', 'trash-alt']} 
-                                className="icon icon__reuse-conv--del" />
-                            Delete
-                        </li>
-                    </ul>
-                </div>
+                </div> */}
             </div>
-        );
+        )
     }
 
-    return conv;
-}
+    return cnt;
+ };
 
 export default convItem;

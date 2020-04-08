@@ -144,6 +144,21 @@
     margin: 0;
 }
 
+.reuse-prf__grp--img__wrapper > div { 
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    font-size: .8125rem;
+}
+
+.reuse-prf__grp--img__wrapper > div > a { 
+    text-decoration: none;
+    color: #05578b;
+    background: #f9f9f9;
+    padding: 5px;
+    display: block;
+} 
+
 .reuse-prf__grp--img__wrapper >img {
     display: block;
     width: 100px;

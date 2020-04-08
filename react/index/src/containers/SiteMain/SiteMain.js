@@ -16,6 +16,10 @@ const AsyncShare= asyncComponent(() => {
     return import ('./Share/Share');
 });
 
+const AsyncGroupInfo = asyncComponent(() => {
+    return import ('./GroupInfo/GroupInfo');
+});
+
 class SiteMain extends Component {
     checkHeaderDefault = () => {
         if (!this.props.default) {
@@ -32,15 +36,27 @@ class SiteMain extends Component {
     };
 
     changeCntHandler = () => {
-        this.props.onChangeCnt(this.props.changeCntStart.id, null, this.props.changeCntStart.det, true, this.props.changeCntStart.modelType)
+        this.props.onChangeCnt(this.props.changeGrpCntStart.id, null, this.props.changeGrpCntStart.det, true, this.props.changeGrpCntStart.modelType)
+    }
+
+    changeGrpCntHandler = () => {
+        this.props.onChangeGrpCnt(this.props.changeGrpCntStart.id, this.props.changeGrpCntStart.user, this.props.changeGrpCntStart.categ, this.props.changeGrpCntStart.username, this.props.changeGrpCntStart.curTab, true)
     }
 
     closeChangeCntHandler = () => {
         this.props.onCloseChangeCnt()
     }
 
+    closeChangeGrpCntHandler = () => {
+        this.props.onCloseChangeGrpCnt()
+    }
+
     closeModelBackdropHandler = () => {
         this.props.onCloseModelBackdrop();
+    }
+
+    closeGrpModalBackdropHandler = () => {
+        this.props.onCloseChangeGrpCnt()
     }
 
     render() {
@@ -124,7 +140,26 @@ class SiteMain extends Component {
                             close: this.props.changeCnt}}
                         changeCnt={this.changeCntHandler}
                         closeChangeCnt={this.closeChangeCntHandler}/> : null}
+                    { this.props.changeGrpCntStart !== null ? 
+                    <Backdrop   
+                        show={ this.props.showBackdrop }
+                        component={ Modal }
+                        close={this.closeGrpModalBackdropHandler}
+                        err={ this.props.changeGrpCntErr }
+                        warn={{
+                            msg: this.props.changeGrpCntStart.categ === 'reject'  || this.props.changeGrpCntStart.categ === 'remove' ?
+                            `Are you sure you want to ${this.props.changeGrpCntStart.categ}` : `Are you sure you want to ${this.props.changeGrpCntStart.categ}`,
+                            cnt: this.props.changeGrpCntStart.username,
+                            det: this.props.changeGrpCntStart.categ
+                        }}
+                        exit={{
+                            msg: this.props.changeGrpCntStart.categ === 'reject'  || this.props.changeGrpCntStart.categ === 'remove' ?
+                            `${this.props.changeGrpCntStart.username} ${this.props.changeGrpCntStart.categ === 'reject' ? 'rejected' : 'removed'} successfully` : this.props.changeGrpCntStart.categ,
+                            close: this.props.changeGrpCnt}}
+                        changeCnt={this.changeGrpCntHandler}
+                        closeChangeCnt={this.closeChangeGrpCntHandler}/> : null}
                 <Route path={'/index/:id/share'} exact component={AsyncShare} />
+                <Route path="/index/group/:id" exact component={AsyncGroupInfo} />
         </div>
         )
     }
@@ -144,7 +179,10 @@ const mapStateToProps = state => {
         changeCntStart: state.cnt.changeCntStart,
         changeCntErr: state.cnt.changeCntErr,
         changeCnt: state.cnt.changeCnt,
-        cntType: state.share.cntType
+        cntType: state.share.cntType,
+        changeGrpCntStart: state.grp.changeGrpCntStart,
+        changeGrpCntErr: state.grp.changeGrpCntErr,
+        changeGrpCnt: state.grp.changeGrpCnt
     };
  }
 
@@ -153,7 +191,9 @@ const mapDispatchToProps = dispatch => {
         onNavDefault: () => dispatch(actions.headerNavDefault()),
         onCloseHeaderFilter: () => dispatch(actions.headerFilterClose()),
         onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm, modelType)),
+        onChangeGrpCnt: (id, userID, categ, username, curTab, confirm) => dispatch(actions.changeGrpCntInit(id, userID, categ, username, curTab, confirm)),
         onCloseChangeCnt: () => dispatch(actions.changeCntCancel()),
+        onCloseChangeGrpCnt: () => dispatch(actions.changeGrpCntCancel()),
         onCloseModelBackdrop: () => dispatch(actions.resetModel())
     };
 };

@@ -2,7 +2,7 @@ import { takeEvery, all, takeLatest } from 'redux-saga/effects';
 
 import * as actionTypes from '../../store/actions/actionTypes';
 import { checkAuthInitSaga } from './auth';
-import { fetchCntInitSaga, fetchVideoInitSaga, changeFavSaga, changeCntInitSaga } from './model';
+import { fetchCntInitSaga, changeFavSaga, changeCntInitSaga } from './model';
 import { fetchCntCategInitSaga, filterContentInitSaga, fetchTotalInitSaga } from './filter';
 import { fetchUsersInitSaga, filterUserInitSaga, filterUserSelectInitSaga, shareUserInitSaga } from './share';
 import { fetchTagsInitSaga } from './tags';
@@ -18,6 +18,7 @@ import { fetchNotifyInitSaga,
 import { fetchCntActiveInitSaga,  
          fetchShareActiveInitSaga,
          fetchShareCntActiveInitSaga, 
+         fetchNavActiveInitSaga,
          resetActiveInitSaga} from './main';
 
 export function* watchAuth() {
@@ -87,6 +88,7 @@ export function* watchMain() {
        takeEvery(actionTypes.FETCH_CNT_ACTIVE_INIT, fetchCntActiveInitSaga),
        takeEvery(actionTypes.FETCH_SHARE_ACTIVE_INIT, fetchShareActiveInitSaga),
        takeEvery(actionTypes.FETCH_SHARECNT_ACTIVE_INIT, fetchShareCntActiveInitSaga),
+       takeEvery(actionTypes.FETCH_NAV_ACTIVE_INIT, fetchNavActiveInitSaga),
        takeEvery(actionTypes.RESET_ACTIVE_INIT, resetActiveInitSaga)
     ])
 }

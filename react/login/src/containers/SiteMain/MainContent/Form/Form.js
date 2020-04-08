@@ -167,7 +167,7 @@ class Form extends Component {
                 </div>
                 <ul className="reuse-form__footer">
                     <li><a href="/privacy">Privacy policy</a></li>
-                    <li className="reuse-form__footer--copy">&copy; Slodge24 , 2019</li>
+                    <li className="reuse-form__footer--copy">&copy; Slodge24 , 2020</li>
                     <li><a href="/term">Terms of service</a></li>
                 </ul>
             </Aux>

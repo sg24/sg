@@ -3,6 +3,7 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
     showBackdrop: false,
+    navActive: null,
     shareActive: null
 };
 
@@ -12,6 +13,10 @@ const fetchShareActive = (state, action) => {
 
 const resetActive = (state, action) => {
     return updateObject(state,  {...state} )
+};
+
+const fetchNavActive = (state, action) => {
+    return updateObject(state, {navActive: action.active })
 };
 
 const showMainBackdrop= (state, action) => {
@@ -29,6 +34,8 @@ const reducer = (state = initialState, action) => {
             return fetchShareActive(state, action);
         case actionTypes.RESET_ACTIVE:
             return resetActive(state, action);
+        case actionTypes.FETCH_NAV_ACTIVE:
+            return fetchNavActive(state, action);
         case actionTypes.SHOW_MAIN_BACKDROP:
             return showMainBackdrop(state, action);
         case actionTypes.HIDE_MAIN_BACKDROP:

@@ -57,6 +57,19 @@ export const resetActive = (curTab) => {
     };
 };
 
+export const fetchNavActiveInit = () => {
+    return {
+        type: actionTypes.FETCH_NAV_ACTIVE_INIT
+    };
+};
+
+export const fetchNavActive = (active) => {
+    return {
+        type: actionTypes.FETCH_NAV_ACTIVE,
+        active
+    };
+};
+
 export const showMainBackdrop = () => {
     return {
         type: actionTypes.SHOW_MAIN_BACKDROP

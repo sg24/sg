@@ -88,8 +88,8 @@ class NavigationList extends Component {
             let navOptCateg = this.state.category === 'post' ? 'site-header__menu--nav__opt--det__pt' : null;
             navOptCateg = this.state.category === 'question' ? 'site-header__menu--nav__opt--det__que' : navOptCateg;
             navOptCateg = this.state.category === 'onlineque' ? 'site-header__menu--nav__opt--det__pwt' : navOptCateg;
-            navOptCateg = this.state.category === 'group' ? 'site-header__menu--nav__opt--det__grp' : navOptCateg;
-            navOptCateg = this.state.category === 'poet' ? 'site-header__menu--nav__opt--det__onlineque' : navOptCateg;
+            navOptCateg = this.state.category === 'group' ? 'site-header__menu--nav__opt--det__onlineque' : navOptCateg;
+            navOptCateg = this.state.category === 'poet' ? 'site-header__menu--nav__opt--det__grp' : navOptCateg;
             navOptClass.push(navOptCateg);
             navList =  this.props.navList  ? (
                 <ul className={navOptClass.join(' ')}>
@@ -141,17 +141,17 @@ class NavigationList extends Component {
                             icon={['fas', 'caret-right']} 
                             className="icon icon__site-header--nav__angle" />
                     </li> */}
-                    {/* <li
+                    <li
                         onMouseEnter={this.fetchNavListHandler.bind(this, 'group')}
                         className={this.state.category === 'group' ? 'active-header-nav' : null}>
                         <FontAwesomeIcon 
-                            icon={['fas', 'users']} 
+                            icon={['fas', 'user-graduate']} 
                             className="icon icon__site-header--nav__itm" />
-                        Group 
+                        Chat Room 
                         <FontAwesomeIcon 
                             icon={['fas', 'caret-right']} 
                             className="icon icon__site-header--nav__angle" />
-                    </li> */}
+                    </li>
                     <li
                         onMouseEnter={this.fetchNavListHandler.bind(this, 'poet')}
                         className={this.state.category === 'poet' ? 'active-header-nav' : null}>
@@ -200,6 +200,14 @@ class NavigationList extends Component {
                                 icon={['fas', 'users']} 
                                 className="icon icon__site-header--nav__itm" />
                             Scholars
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/group">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'user-graduate']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Chat Room
                         </a>
                     </li>
                 </ul>

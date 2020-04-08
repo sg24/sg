@@ -33,7 +33,7 @@
 
 .site-main__content--tab li {
     padding: 0;
-    width: 25%;
+    width: 16.666%;
     white-space: nowrap;
     text-overflow: ellipsis;
 
@@ -49,15 +49,15 @@
 
 }
 
-.site-main__content--tab li:last-child {
-    display: none;
+.site-main__content--tab li > a > svg {
+    display: none !important;
 
 }
 
 @media (min-width: 530px) {
 
-    .site-main__content--tab li:last-child {
-        display: block;
+    .site-main__content--tab li > a > svg {
+        display: inline-block !important;
 
     }
 
@@ -66,7 +66,7 @@
 @media (min-width: 530px) {
 
     .site-main__content--tab li {
-        width: 20%;
+        width: 16.666%;
         font-size: .875rem;
 
     }

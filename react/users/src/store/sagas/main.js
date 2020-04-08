@@ -23,3 +23,10 @@ export function* resetActiveInitSaga(action) {
         yield put(actions.resetActive('user'));
     } catch(err) {}
 }
+
+export function* fetchNavActiveInitSaga(action) {
+    try {
+        let response = yield axios.post('conv', {}, {headers: {'data-categ':'navActive'}});
+        yield put(actions.fetchNavActive(response.data));        
+    } catch(err) {}
+}

@@ -8,7 +8,6 @@ export function* fetchCntInitSaga(action) {
         yield put(actions.fetchCntStart());
     }
     try {
-        console.log(action.fetchType)
         if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
             let response = yield axios.post('/group', null, {
                 headers: {

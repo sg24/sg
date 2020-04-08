@@ -26,13 +26,28 @@ class Groups extends Component {
             fetchLimit: limit,
             filterTag: 'group',
             mediaItms: [],
-            scrollEnable: false
+            scrollEnable: false,
+            active: null
         }
     }
 
     componentDidMount() {
         this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/group');
+        let active = setInterval(() => {
+            this.props.onFetchReqActive();
+            this.props.onFetchJoinActive();
+            this.props.onFetchTotal();
+            this.props.onFetchShareActive();
+            this.props.onFetchNotifyActive();
+        }, 5000);
+        this.setState({active})
+    }
+
+    componentWillUnmount() {
+        if (this.state.active) {
+            clearInterval(this.state.active)
+        }
     }
 
     componentDidUpdate() {
@@ -95,10 +110,6 @@ class Groups extends Component {
     };
 
     render() {
-        this.props.onFetchReqActive();
-        this.props.onFetchJoinActive();
-        this.props.onFetchTotal()
-
         let cnt = <Loader />;
         if (this.props.postErr) {
             cnt = null

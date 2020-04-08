@@ -5,13 +5,12 @@ import axios from '../../axios';
 
 export function* fetchJoinActiveInitSaga(action) {
     try {
-        // let response = yield axios.post('/group', { model: 'group'}, {headers: {'data-categ': 'requestTotal'}});
-        // if (response.data > 0) {
-        //     yield put(actions.fetchJoinActive(response.data));
-        // }
-        // return
+        let response = yield axios.post('/conv', null, {headers: {'data-categ': 'groupActive'}});
+        if (response.data > 0) {
+            yield put(actions.fetchJoinActive(response.data));
+        }
+        return
     } catch(err) {}
-
 }
 
 export function* fetchReqActiveInitSaga(action) {
@@ -39,5 +38,12 @@ export function* resetActiveInitSaga(action) {
     try {
         // yield axios.patch('/header', {model: action.curTab}, {headers: {'data-categ': 'groupNotify'}});
         // yield put(actions.resetActive(action.curTab));
+    } catch(err) {}
+}
+
+export function* fetchNavActiveInitSaga(action) {
+    try {
+        let response = yield axios.post('conv', {}, {headers: {'data-categ':'navActive'}});
+        yield put(actions.fetchNavActive(response.data));        
     } catch(err) {}
 }

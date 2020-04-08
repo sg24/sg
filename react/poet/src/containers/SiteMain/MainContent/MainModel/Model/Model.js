@@ -31,13 +31,28 @@ class Model extends Component {
             removePrevMedia: null,
             playerIcnId: null,
             animationComplete: true,
-            scrollEnable: false
+            scrollEnable: false,
+            active: null
         }
     }
 
     componentDidMount() {
         this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/poet');
+        let active = setInterval(() => {
+            this.props.onFetchShareActive();
+            this.props.onFetchCntActive();
+            this.props.onFetchShareCntActive();
+            this.props.onFetchNotifyActive();
+            this.props.onFetchTotal()
+        }, 5000);
+        this.setState({active})
+    }
+
+    componentWillUnmount() {
+        if (this.state.active) {
+            clearInterval(this.state.active)
+        }
     }
 
     componentDidUpdate() {
@@ -119,12 +134,6 @@ class Model extends Component {
     }
 
     render() {
-        this.props.onFetchShareActive();
-        this.props.onFetchCntActive();
-        this.props.onFetchShareCntActive();
-        this.props.onFetchNotifyActive();
-        this.props.onFetchTotal()
-
         let cnt = <Loader />;
         if (this.props.cntErr) {
             cnt = null

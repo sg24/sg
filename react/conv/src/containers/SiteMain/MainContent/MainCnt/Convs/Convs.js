@@ -26,13 +26,27 @@ class Convs extends Component {
             fetchLimit: limit,
             filterTag: 'private',
             mediaItms: [],
-            scrollEnable: false
+            scrollEnable: false,
+            active: null
         }
     }
 
     componentDidMount() {
         this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/conv');
+        let active = setInterval(() => {
+            this.props.onFetchPrivateActive();
+            this.props.onFetchGroupActive();
+            this.props.onFetchShareActive();
+            this.props.onFetchNotifyActive();
+        }, 5000);
+        this.setState({active})
+    }
+
+    componentWillUnmount() {
+        if (this.state.active) {
+            clearInterval(this.state.active)
+        }
     }
 
     componentDidUpdate() {
@@ -71,11 +85,6 @@ class Convs extends Component {
     };
 
     render() {
-        this.props.onFetchPrivateActive();
-        this.props.onFetchGroupActive();
-        this.props.onFetchShareActive();
-        this.props.onFetchNotifyActive();
-
         let cnt = <Loader/>;
         if (this.props.postErr) {
             cnt = null

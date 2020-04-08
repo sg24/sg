@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ConvItems from '../../../../components/Main/Nav/ConvItems/ConvItems';
 import * as actions from '../../../../store/actions/index';
 import { updateObject } from '../../../../shared/utility';
+import Loader from '../../../../components/UI/Loader/Loader';
 
 class Conversation extends Component {
     state = {
@@ -30,13 +31,11 @@ class Conversation extends Component {
     }
 
     render() {
-        let convs = null;
+        let convs = <Loader />;
 
         if (this.props.conv) {
             convs = <ConvItems 
-                convs={this.props.conv}
-                userOpt={this.showUserOptHandler}
-                showConvOpt={this.state.convOpt}/>
+                convs={this.props.conv}/>
         }
 
         return (
@@ -51,7 +50,9 @@ class Conversation extends Component {
                     Conversations
                </div>
             </div>
-            { convs }
+            <div className="reuse-conv__cnt">
+                { convs }
+            </div>
         </div>
         );
     }

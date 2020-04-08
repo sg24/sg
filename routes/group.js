@@ -103,6 +103,13 @@ router.post('/', authenticate, (req, res, next) => {
         return
     }
 
+    if (req.header !== null && req.header('data-categ') === 'cancel') {
+        group.findByIdAndUpdate(req.body.id, { $pull: {request: req.user }}).then(grp =>{
+           res.sendStatus(200)
+        })
+        return
+    }
+
     if (req.header !== null && req.header('data-categ') === 'grpreq') {
         let request = [];
         let requestTotal = 0;

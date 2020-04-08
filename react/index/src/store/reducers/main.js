@@ -7,12 +7,22 @@ const initialState = {
     ptActive: null,
     queActive: null,
     reqActive: null,
+    navActive: null,
+    joinActive: null,
     shareActive: null,
     shareCntActive: null
 };
 
+const fetchJoinActive = (state, action) => {
+    return updateObject(state, { joinActive: action.joinActive })
+};
+
 const fetchPtActive = (state, action) => {
     return updateObject(state, { ptActive: action.ptActive })
+};
+
+const fetchNavActive = (state, action) => {
+    return updateObject(state, {navActive: action.active })
 };
 
 const fetchQueActive = (state, action) => {
@@ -51,6 +61,8 @@ const hideMainBackdrop= (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
+        case actionTypes.FETCH_JOIN_ACTIVE:
+            return fetchJoinActive(state, action);
         case actionTypes.FETCH_PT_ACTIVE:
             return fetchPtActive(state, action);
         case actionTypes.FETCH_QUE_ACTIVE:
@@ -63,6 +75,8 @@ const reducer = (state = initialState, action) => {
             return fetchShareActive(state, action);
         case actionTypes.FETCH_REQ_ACTIVE:
             return fetchReqActive(state, action);
+        case actionTypes.FETCH_NAV_ACTIVE:
+            return fetchNavActive(state, action);
         case actionTypes.RESET_ACTIVE:
             return resetActive(state, action);
         case actionTypes.SHOW_MAIN_BACKDROP:

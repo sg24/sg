@@ -2,7 +2,7 @@ import { takeEvery, all, takeLatest } from 'redux-saga/effects';
 
 import * as actionTypes from '../../store/actions/actionTypes';
 import { checkAuthInitSaga } from './auth';
-import { fetchCntInitSaga, changeFavSaga, changeCntInitSaga } from './model';
+import { fetchCntInitSaga, joinGrpInitSaga, changeFavSaga, changeCntInitSaga } from './model';
 import { fetchCntCategInitSaga, filterContentInitSaga } from './filter';
 import { fetchUsersInitSaga, filterUserInitSaga, filterUserSelectInitSaga, shareUserInitSaga } from './share';
 import { fetchTagsInitSaga } from './tags';
@@ -16,12 +16,15 @@ import { fetchNotifyInitSaga,
             defaultNotifyActiveInitSaga,
             headerFilterInitSaga } from './header';
 import { fetchPtActiveInitSaga,
+        fetchJoinActiveInitSaga, 
         fetchQueActiveInitSaga,
         fetchCntActiveInitSaga,  
          fetchShareActiveInitSaga,
          fetchShareCntActiveInitSaga,
          fetchReqActiveInitSaga, 
+         fetchNavActiveInitSaga,
          resetActiveInitSaga} from './main';
+import { filterGrpUserInitSaga, fetchInfoInitSaga, changeGrpCntInitSaga } from './group';
 
 export function* watchAuth() {
     yield all([
@@ -32,6 +35,7 @@ export function* watchAuth() {
 export function* watchCnt() {
     yield all([
         takeLatest(actionTypes.FETCH_CNT_INIT, fetchCntInitSaga),
+        takeLatest(actionTypes.JOIN_GRP_INIT, joinGrpInitSaga),
         takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga),
         takeLatest(actionTypes.CHANGE_CNT_INIT, changeCntInitSaga)
     ])
@@ -86,12 +90,23 @@ export function* watchHeader() {
 
 export function* watchMain() {
     yield all([
+        takeEvery(actionTypes.FETCH_JOIN_ACTIVE_INIT, fetchJoinActiveInitSaga),
        takeEvery(actionTypes.FETCH_PT_ACTIVE_INIT, fetchPtActiveInitSaga),
        takeEvery(actionTypes.FETCH_QUE_ACTIVE_INIT, fetchQueActiveInitSaga),
        takeEvery(actionTypes.FETCH_CNT_ACTIVE_INIT, fetchCntActiveInitSaga),
        takeEvery(actionTypes.FETCH_SHARE_ACTIVE_INIT, fetchShareActiveInitSaga),
        takeEvery(actionTypes.FETCH_SHARECNT_ACTIVE_INIT, fetchShareCntActiveInitSaga),
        takeEvery(actionTypes.FETCH_REQ_ACTIVE_INIT, fetchReqActiveInitSaga),
+       takeEvery(actionTypes.FETCH_NAV_ACTIVE_INIT, fetchNavActiveInitSaga),
        takeEvery(actionTypes.RESET_ACTIVE_INIT, resetActiveInitSaga)
     ])
+}
+
+export function* watchGroup() {
+    yield all([
+        takeEvery(actionTypes.FILTER_GRPUSER_INIT, filterGrpUserInitSaga),
+        takeEvery(actionTypes.FETCH_INFO_INIT, fetchInfoInitSaga),
+        takeEvery(actionTypes.CHANGE_GRPCNT_INIT, changeGrpCntInitSaga)
+    ])
+
 }

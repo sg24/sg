@@ -18,6 +18,7 @@ import { fetchNotifyInitSaga,
 import { fetchCntActiveInitSaga,  
          fetchShareActiveInitSaga,
          fetchShareCntActiveInitSaga, 
+         fetchNavActiveInitSaga,
          resetActiveInitSaga} from './main';
 
 export function* watchAuth() {
@@ -87,6 +88,7 @@ export function* watchMain() {
        takeEvery(actionTypes.FETCH_CNT_ACTIVE_INIT, fetchCntActiveInitSaga),
        takeEvery(actionTypes.FETCH_SHARE_ACTIVE_INIT, fetchShareActiveInitSaga),
        takeEvery(actionTypes.FETCH_SHARECNT_ACTIVE_INIT, fetchShareCntActiveInitSaga),
+       takeEvery(actionTypes.FETCH_NAV_ACTIVE_INIT, fetchNavActiveInitSaga),
        takeEvery(actionTypes.RESET_ACTIVE_INIT, resetActiveInitSaga)
     ])
 }

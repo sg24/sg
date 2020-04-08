@@ -25,6 +25,7 @@ import setQue from './store/reducers/setQue';
 import conv from './store/reducers/conv';
 import header from './store/reducers/header';
 import main from './store/reducers/main';
+import group from './store/reducers/group';
 
 import { 
         watchAuth,
@@ -36,7 +37,8 @@ import {
         watchSetQue,
         watchConv,
         watchHeader,
-        watchMain
+        watchMain,
+        watchGroup
     } from './store/sagas/index';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -52,6 +54,7 @@ const rootReducers = combineReducers({
     setQue: setQue,
     conv,
     header,
+    grp: group,
     main
 })
 
@@ -67,6 +70,7 @@ sagaMiddleware.run(watchSetQue);
 sagaMiddleware.run(watchConv);
 sagaMiddleware.run(watchHeader);
 sagaMiddleware.run(watchMain);
+sagaMiddleware.run(watchGroup);
 
 library.add(fas,far,fab)
 

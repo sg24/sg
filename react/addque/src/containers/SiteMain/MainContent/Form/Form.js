@@ -60,7 +60,22 @@ class Form extends  Component {
         },
         formIsValid: false,
         showForm: false,
-        mode: null
+        mode: null,
+        active: null
+    }
+
+    componentDidMount() {
+        let active = setInterval(() => {
+            this.props.onFetchShareActive();
+            this.props.onFetchNotifyActive();
+        }, 5000);
+        this.setState({active})
+    }
+
+    componentWillUnmount() {
+        if (this.state.active) {
+            clearInterval(this.state.active)
+        }
     }
 
     componentDidUpdate() {
@@ -212,7 +227,6 @@ class Form extends  Component {
     }
 
     render() {
-        this.props.onFetchShareActive(this.props.userID);
         let addCateg = null;
         let categListClass = ['reuse-form__cnt--det__selec reuse-form__cnt--det__selec--categ'];
         let categItems = null;
@@ -476,6 +490,7 @@ const mapDispatchToProps = dispatch => {
         onShowMediaBox: () => dispatch(actions.showMediaBox()),
         onSubmitForm: (formData) => dispatch(actions.submit(formData)),
         onFetchShareActive: (userID) => dispatch(actions.fetchShareactiveInit(userID)),
+        onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

@@ -23,7 +23,7 @@ const convContent = props => {
         pvtActive = <div className="active__main active__main--chat-cnt"><div>{props.conv.active}</div></div>
     }
 
-    let grpImg =  <Avatar  name={props.conv.title} size='60' round />;
+    let grpImg =  <Avatar  name={props.conv.title} size='50' round />;
 
     if(props.conv.image && props.conv.image.length > 0) {
         grpImg = <img src={`${window.location.protocol + '//' + window.location.host}/media/image/${props.conv.image[0].id}`} alt="group" />

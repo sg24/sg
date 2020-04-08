@@ -31,7 +31,8 @@ class Model extends Component {
             playerIcnId: null,
             animationComplete: true,
             inputValue: EditorState.createEmpty(),
-            submitStart: false
+            submitStart: false,
+            active: null
         }
     }
 
@@ -44,6 +45,18 @@ class Model extends Component {
         socket.on('newReplyComment', function(msg) {
             these.props.onSubmitSuccess(msg.id, 'reply', msg.cnt)
         }); 
+        let active = setInterval(() => {
+            this.props.onFetchShareActive();
+            this.props.onFetchNotifyActive();
+        }, 5000);
+        this.setState({active})
+    }
+
+
+    componentWillUnmount() {
+        if (this.state.active) {
+            clearInterval(this.state.active)
+        }
     }
 
     componentDidUpdate() {
@@ -51,7 +64,7 @@ class Model extends Component {
             this.props.onFetchCntReset();
             this.props.onFetchCnt( this.props.match.params.categ,  this.props.match.params.id);
             this.setState({categ: this.props.match.params.categ, id: this.props.match.params.id})
-            this.props.onDefaultTrd()
+            this.props.onDefaultTrd();
         }
 
         if (this.state.submitStart && this.props.resetInput){
@@ -201,8 +214,6 @@ class Model extends Component {
     }
 
     render() {
-        this.props.onFetchShareActive();
-        this.props.onFetchNotifyActive();
         let cnt = <Loader 
             view/>;
         if (this.props.cntErr) {

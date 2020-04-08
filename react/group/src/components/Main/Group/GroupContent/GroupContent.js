@@ -55,7 +55,7 @@ const groupContent = props => {
     if ( props.cnt.isMember || props.cnt.userOpt) {
         memOpt = (
             <div className="reuse-group__cnt--desc__opt--chat">
-                <a href={`/group/${props.cnt._id}`}>
+                <a href={`/chat/group/${props.cnt._id}`}>
                     <FontAwesomeIcon 
                         icon={['fas', 'comment-dots']}
                         className="icon icon__reuse-group--cnt__comment" />
@@ -110,7 +110,7 @@ const groupContent = props => {
                     <div className="reuse-group__cnt--desc">
                         <div className="reuse-group__cnt--desc__title">
                             { props.cnt.isMember || props.cnt.userOpt ? 
-                                <a href={`/group/${props.cnt._id}`}>
+                                <a href={`/chat/group/${props.cnt._id}`}>
                                 { props.cnt.title }
                             </a> :  props.cnt.title }
                         </div>

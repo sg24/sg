@@ -1923,6 +1923,14 @@ img {
  
 }
 
+.site-main__content--overlay__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
 .site-main__content--wrapper {
   padding-bottom: 90px;
   margin-top: 10px;
@@ -1931,14 +1939,6 @@ img {
   border: 1px solid #dcdbdc;
   position: relative;
   min-height: 92vh;
-}
-
-.site-main__content--overlay__close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
 }
 
 .site-main__content--no-tab-wrapper {
@@ -2209,7 +2209,7 @@ img {
   background-color: #437da3;
   list-style: none;
   margin: 0;
-  padding: 20px 0;
+  padding: 0;
   position: relative;
   color: #fff;
   font-size: .875rem;
@@ -2565,6 +2565,31 @@ img {
   transition: all .3s ease-in;
 }
 
+.reuse-pvt-chat__img > img , .reuse-grp-chat__img > img {
+  background-color: rgba(233,235,242, .7);
+  cursor: pointer;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -o-object-position: 50% 50%;
+  object-position: 50% 50%;
+  -o-object-fit: fill;
+  object-fit: fill;
+}
+
+.reuse-pvt-chat__img > img {
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+}
+
+.reuse-grp-chat__img > img  {
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+}
+
 .reuse-pvt-chat {
     border-radius: 10px;
     position: relative;
@@ -2793,16 +2818,13 @@ img {
 }
 
 .reuse-conv {
-    margin: 10px;           
-    background-color: #e9ebf2; 
+    margin: 10px;   
     display: -ms-flexbox; 
-    display: flex;
-    -ms-flex-direction: column;
-        flex-direction: column;
-    -ms-flex-positive: 1;
-        flex-grow: 1;       
-    border: 1px solid #dcdbdc;  
-    overflow: hidden;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-positive: 1;
+      flex-grow: 1;              
 }
 
 .reuse-conv__title {
@@ -2849,6 +2871,8 @@ img {
       flex-direction: column;
   -ms-flex-positive: 1;
       flex-grow: 1;
+      position: relative;
+      background-color: #e9ebf2;
 }
 
 .reuse-tag {
@@ -2963,7 +2987,7 @@ img {
 
 .reuse-notify__title {
   position: relative;
-  padding: 10px 5px;
+  padding: 5px;
 }
 
 .reuse-notify__title > div {

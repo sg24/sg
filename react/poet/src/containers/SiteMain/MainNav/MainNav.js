@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { connect } from 'react-redux';
 
-import Aux from '../../../hoc/Auxs/Aux';
+import Aux from '../../../../../view/src/hoc/Auxs/Aux';
 // import Tags from './Tags/Tags';
 import TopTrending from './TopTrending/TopTrending';
 import Conversation from './Conversation/Conversation';
@@ -40,15 +41,16 @@ class MainNav extends Component {
             <div className="site-main__nav site-main__nav--sticky">
                 <div className="site-main__nav--wrapper">
                     <ul className="site-main__nav--header">
-                        {/* <li 
+                        <li 
                             className={navExchangeClass.join(' ')}
                             onClick={this.showConvHandler}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'exchange-alt']} />
-                            <div className="active__main active__main--nav">
-                                <div>99</div>
-                            </div>
-                        </li> */}
+                            {this.props.navActive && this.props.navActive > 0 ? 
+                                <div className="active__main active__main--nav">
+                                <div> {this.props.navActive } </div>
+                            </div> : null}
+                        </li>
                     </ul>
                     { mainNavItm }
                 </div>
@@ -57,4 +59,11 @@ class MainNav extends Component {
     }
 }
 
-export default MainNav;
+const mapStateToProps = state => {
+    return {
+        navActive: state.main.navActive
+    };
+ }
+
+
+export default connect(mapStateToProps, null)(MainNav); 

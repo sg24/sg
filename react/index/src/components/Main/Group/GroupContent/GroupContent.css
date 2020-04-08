@@ -11,6 +11,7 @@
 .icon__reuse-group--header__tag {
     color: #777;
     cursor: pointer; 
+    margin-right: 5px;
 }
 
 .icon__reuse-group--cnt__det {
@@ -19,6 +20,11 @@
 }
 
 .icon__reuse-group--cnt__comment {
+    margin-right: 10px;
+    color: #05578b; 
+}
+
+.icon__reuse-group--cnt__join {
     margin-right: 10px;
     color: #fff; 
 }
@@ -38,6 +44,11 @@
 .icon__reuse-group--footer__exit {
     margin-right: 10px;
     color: #fff; 
+}
+
+.icon__reuse-group--cnt__cancel {
+    color: #f22613;
+    margin-right: 5px;
 }
 
 .reuse-group {
@@ -143,14 +154,18 @@
     -moz-box-shadow: 0px 0px 20px 0px rgba(220,219,220, 0.57); 
 }
 
-@media (min-width: 530px) {
-
-    .reuse-group__cnt--img {
-        width: 70px;
-        height: 70px;
-        border-radius: 35px;
-        left: 40px; 
-    } 
+.reuse-group__cnt--img > img{ 
+    position: relative;
+    border-radius: 30px;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -o-object-position: 50% 50%;
+       object-position: 50% 50%;
+    -o-object-fit: contain;
+       object-fit: contain;
+    width: 60px;
+    height: 60px;
+    display: block;
 }
 
 .reuse-group__cnt--desc {
@@ -187,7 +202,7 @@
     margin-top: 10px; 
 }
 
-.reuse-group__cnt--desc__opt--join {
+.reuse-group__cnt--desc__opt--join, .reuse-group__cnt--desc__opt--chat, .reuse-group__cnt--desc__opt--cancel {
     display: inline-block;
     cursor: pointer;
     border-radius: 3px;
@@ -195,6 +210,38 @@
     box-shadow: 0px 1px 5px 1px rgba(0,0,0, 0.26);
     padding: 6px;
     color: #fff; 
+    background: linear-gradient( 180deg, rgb(5,87,139) 20%,  rgb(19,51,97) 100%);
+    background: -moz-linear-gradient( 180deg, rgb(5,87,139) 20%,  rgb(19,51,97) 100%);
+    background: -webkit-linear-gradient( 180deg, rgb(5,87,139) 20%,  rgb(19,51,97) 100%);
+    background: -ms-linear-gradient( 180deg, rgb(5,87,139) 20%,  rgb(19,51,97) 100%);
+}
+
+.reuse-group__cnt--desc__opt--chat {
+    display: inline-block;
+    color: #05578b;  
+    background: #f2f2f2;
+    padding: 0;
+}
+
+.reuse-group__cnt--desc__opt--chat > a {
+    display: block;
+    text-decoration: none;
+    color: #05578b;
+    padding: 6px;
+}
+
+.reuse-group__cnt--desc__opt--cancel {
+    background: #fff;
+    color: #333
+}
+
+.reuse-group__cnt--desc__opt--join__start {
+    opacity: .65;
+    cursor: not-allowed;
+}
+
+.reuse-group__cnt--desc__opt--join:not(.reuse-group__cnt--desc__opt--join__start):hover {
+    background: #05578b;
 }
 
 @media (min-width: 530px) {
@@ -242,6 +289,7 @@
 
 .reuse-group__footer--grp-det > li {
     float: left;
+    /* width: 33.333%; */
     text-align: center;
     color: #182427;
     padding: 15px 30px;
@@ -399,6 +447,41 @@
 .reuse-group__footer--user-det:hover {
     background-color: #f2f2f2;
     transition: all .3s ease-in; 
+}
+
+.reuse-group__footer--info {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: .8125rem;
+    background: #e9ebf2 ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #555;
+    cursor: pointer;
+}
+.reuse-group__footer--info > div {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background: #ff1600;
+    color: #fff;
+    top: -4px;
+    right: -2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.reuse-group__footer--info:hover {
+    background:#dcdbdc;
 }
 
 @media (min-width: 530px) {

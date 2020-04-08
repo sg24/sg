@@ -48,6 +48,11 @@ export {
     changeCntCancel,
     changeCntReset,
     changeCnt,
+    joinGrpInit,
+    joinGrpFail,
+    joinGrpStart,
+    joinGrp,
+    removeRequest,
     fetchVideo,
     changeFavInit,
     changeFavPtStart,
@@ -85,6 +90,7 @@ export {
     shareUserfail,
     shareUser
 } from './share';
+
 export {
     changeTagsPath,
     fetchTagsInit,
@@ -110,6 +116,26 @@ export {
 } from './conv';
 
 export {
+    filterGrpUserInit ,
+    filterGrpUser,
+    shareCnt,
+    fetchInfoInit,
+    shareGrpUser,
+    fetchInfoFail,
+    fetchInfoStart,
+    resetInputFilter,
+    fetchInfo,
+    setGrpInfo,
+    changeGrpCntInit,
+    changeGrpCntStartInit,
+    changeGrpCntStart,
+    changeGrpCntFail,
+    changeGrpCntCancel,
+    changeGrpCntReset,
+    changeGrpCnt
+} from './group';
+
+export {
     fetchPtActiveInit,
     fetchPtActive,
     fetchQueActiveInit,
@@ -124,6 +150,10 @@ export {
     fetchReqActive,
     resetActiveInit,
     resetActive,
+    fetchJoinActiveInit,
+    fetchJoinActive,
+    fetchNavActiveInit,
+    fetchNavActive,
     showMainBackdrop,
     hideMainBackdrop
 } from './main';

@@ -45,7 +45,8 @@ class MainContent extends Component {
         categ: this.props.match.params.categ,
         chatLimit: 300,
         err: null,
-        disable: false
+        disable: false,
+        active: null
     }
 
     componentDidMount() {
@@ -89,11 +90,17 @@ class MainContent extends Component {
         })
         
         this.props.onFetchCnt(this.state.id, this.state.categ)
-        // setInterval(() => {
-        //     socket.emit('checkMember', null, function(err) {
-        //         these.setState({err})
-        //     })
-        // }, 10000)
+        let active = setInterval(() => {
+            this.props.onFetchShareActive();
+            this.props.onFetchNotifyActive();
+        }, 5000);
+        this.setState({active})
+    }
+
+    componentWillUnmount() {
+        if (this.state.active) {
+            clearInterval(this.state.active)
+        }
     }
 
     closeModelBackdropHandler = () => {
@@ -118,9 +125,6 @@ class MainContent extends Component {
     }
 
     render() {
-        this.props.onFetchShareActive();
-        this.props.onFetchNotifyActive();
-
         let cnt = null
         let backdrop = null;
         let showSnapshot = this.props.location.search && (this.props.location.search.split('=')[1] === 'camera')
@@ -214,7 +218,7 @@ class MainContent extends Component {
             </Aux>
             )
         }
-        this.props.onFetchShareActive();
+        
         return (
            <div className="site-main__chat">
                 { err ? err : cnt }
