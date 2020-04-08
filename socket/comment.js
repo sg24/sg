@@ -4,10 +4,23 @@ class Comments {
         this.typing = [];
         this.lastMsg = [];
         this.pvtTyping = [];
+        this.pvtUser = []
     }
 
-    addUser (id, room) {
-        var user = {id, room};
+    addPvtUser (host, reply, roomID) {
+        let pvtUser = this.pvtUser.filter(userDet => 
+            (userDet.reply === host && userDet.host === reply) || (userDet.reply === reply && userDet.host === host))[0];
+        if (pvtUser) {
+            let pvtUserIndex = this.pvtUser.findIndex(userDet => 
+                (userDet.reply === host && userDet.host === reply) || (userDet.reply === reply && userDet.host === host));
+            this.pvtUser[pvtUserIndex].room.push(roomID);
+        } else {
+            this.pvtUser.push({host, reply, room: [roomID]})
+        }
+    }
+
+    addUser (id, room, pos) {
+        var user = {id, room, pos};
         this.users.push(user);
         return user;
     }
@@ -20,8 +33,27 @@ class Comments {
        return user;
     }
 
+    removePvtUser(id) {
+        let pvtUser = []
+        for (let user of this.pvtUser) {
+            user.room = user.room.filter(roomID => roomID !== id);
+            pvtUser.push(user);
+        }
+        this.pvtUser = pvtUser;
+    }
+
     getUser (id) {
         return this.users.filter((user) => user.id === id)[0];
+    }
+
+    getPvtUser (id) {
+        for(let user of this.pvtUser) {
+            let room = user.room.filter(roomID => roomID === id)[0]
+            if (room) {
+                return user.room.filter(roomID => roomID !== id)[0]
+            }
+        }
+        return null
     }
 
     getUserTyping(id) {

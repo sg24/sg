@@ -52,7 +52,7 @@ class MainContent extends Component {
     componentDidMount() {
         let these = this;
         socket.on('connect', function(msg) {
-            socket.emit('join',these.state.id, function(err) {
+            socket.emit('join',{room: these.state.id, public: true}, function(err) {
                 these.props.onJoinErr(err)
             });
             socket.on('member', function(members){

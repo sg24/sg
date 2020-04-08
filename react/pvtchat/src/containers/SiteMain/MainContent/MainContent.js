@@ -43,6 +43,7 @@ class MainContent extends Component {
     state = {
         id: this.props.match.params.id,
         categ: this.props.match.params.categ,
+        userID: document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1"),
         chatLimit: 300,
         err: null,
         disable: false,
@@ -56,7 +57,7 @@ class MainContent extends Component {
             this.props.onFetchNotifyActive();
         }, 5000);
         socket.on('connect', function(msg) {
-            socket.emit('join',these.state.id, function(err) {
+            socket.emit('join', {private: true, host: these.state.userID, reply: these.state.id}, function(err) {
                 these.props.onJoinErr(err)
                 console.log(err)
             });
