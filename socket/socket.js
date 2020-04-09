@@ -100,6 +100,7 @@ io.on('connection', (socket) => {
         if (!room.getPvtTyping(userID)) {
           if (roomID) {
             io.to(roomID).emit('typing', room.pvtUserTyping(userID))
+            socket.emit('typing', room.pvtUserTyping(userID))
           } else {
             socket.emit('typing', room.pvtUserTyping(userID))
           }
@@ -134,6 +135,7 @@ io.on('connection', (socket) => {
       typing().then(userID => {
         if (roomID) {
           io.to(roomID).emit('typing', room.pvtcancelTyping(userID))
+          socket.emit('typing', room.pvtcancelTyping(userID))
         } else {
           socket.emit('typing', room.pvtcancelTyping(userID))
         }
@@ -175,6 +177,7 @@ io.on('connection', (socket) => {
           let roomID = room.getPvtUser(socket.id);
           if (roomID) {
             io.to(roomID).emit('newChat', chat)
+            socket.emit('newChat', chat)
           } else {
             socket.emit('newChat', chat)
           }
@@ -242,6 +245,7 @@ io.on('connection', (socket) => {
           let roomID = room.getPvtUser(socket.id);
           if (roomID) {
             io.to(roomID).emit('chatRemoved', cnt);
+            socket.emit('chatRemoved', cnt);
           } else {
             socket.emit('chatRemoved', cnt);
           }
@@ -273,7 +277,8 @@ io.on('connection', (socket) => {
     socket.on('pvtMediaRecChat', (msg, callback) => {
       let roomID = room.getPvtUser(socket.id);
       if (roomID) {
-        io.to(roomID).emit('newChat', chat)
+        io.to(roomID).emit('newChat', msg)
+        socket.emit('newChat', msg)
       } else {
         socket.emit('newChat', msg)
       }
