@@ -20,6 +20,7 @@ class Model extends Component {
         let active = setInterval(() => {
             this.props.onFetchShareActive();
             this.props.onFetchNotifyActive();
+            this.props.onFetchNavActive();
         }, 5000);
         this.setState({active})
     }
@@ -115,7 +116,8 @@ const mapDispatchToProps = dispatch => {
         onFetchCnt: (userID) => dispatch(actions.fetchCntInit(userID)),
         onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm, modelType)),
         onSaveAbout: (about,userID) => dispatch(actions.saveAboutInit(about, userID)),
-        onChangeImage: (userID) => dispatch(actions.changeImage(userID))
+        onChangeImage: (userID) => dispatch(actions.changeImage(userID)),
+        onFetchNavActive: () => dispatch(actions.fetchNavActiveInit())
     };
 };
 

@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
 import uuid from 'uuid';
+import axios from '../axios'
 
 export const updateObject = (oldObject, updatedProperties) => {
     return {
@@ -215,5 +216,15 @@ export const engStrings = {
                 resolve([{file: blob, type, format: formatType, chatID: uuid()}])
             }
         }
+    })
+}
+
+export const createChat = (url, category, cnt) => {
+    return new Promise((resolve, reject) => {
+        axios.post(url, cnt, {headers: {'data-categ': category}}).then(res => {
+            resolve(res.data)
+        }).catch(err => {
+            reject(err)
+        })
     })
 }

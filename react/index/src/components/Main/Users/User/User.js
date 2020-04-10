@@ -96,6 +96,14 @@ const user = props => {
                         Unfriend
                     </div>
                 </li>
+                <li >
+                    <a href={`/chat/user/${props.user.id}`} className="reuse-user__opt--comment">
+                        <FontAwesomeIcon 
+                            icon={['fas', 'comment']} 
+                            className="icon icon__reuse-user--opt" />
+                            Chat
+                    </a>
+                </li>
             </ul>
         );
     }

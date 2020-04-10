@@ -7,7 +7,7 @@ import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
 import axios from 'axios';
 
-import { socket, webCameraApi } from '../../../../../shared/utility';
+import { socket, webCameraApi, createChat } from '../../../../../shared/utility';
 import * as actions from '../../../../../store/actions/index';
 import Backdrop from '../../../../../components/UI/Backdrop/Backdrop';
 import Modal from '../../../../../components/UI/Modal/Modal';
@@ -52,7 +52,12 @@ class ChatInput extends Component {
 
     createChatHandler = () => {
         let these = this;
-        socket.emit('pvtcreateChat', {type: 'text', msg: this.state.chat, chatID: uuid()}, function(err) {
+        createChat(`/chat/${this.state.categ}/${this.state.id}`, 
+            'pvtcreateChat', {type: 'text', msg: this.state.chat, chatID: uuid()}).then(res => {
+            socket.emit('pvtcreateChat', res, function(err) {
+                these.props.onTypingErr(err)
+            })
+        }).catch(err => {
             these.props.onTypingErr(err)
         })
         this.setState({chat: ''});
@@ -365,7 +370,9 @@ const mapDispatchToProps = dispatch => {
         onShowBackdrop: () => dispatch(actions.showAddBackdrop()),
         onUploadMedia: (cnt, id, categ) => dispatch(actions.uploadMediaInit(cnt, id, categ)),
         onShowEmojiBackdrop: () => dispatch(actions.showEmojiBackdrop()),
-        onCloseChatBackdrop: () => dispatch(actions.closeChatBackdrop())
+        onFetchMember: (members) => dispatch(actions.fetchMember(members)),
+        onCloseChatBackdrop: () => dispatch(actions.closeChatBackdrop()),
+
     };
 };
 

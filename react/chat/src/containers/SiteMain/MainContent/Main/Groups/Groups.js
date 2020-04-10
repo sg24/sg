@@ -9,7 +9,7 @@ import Loader from '../../../../../components/UI/Loader/Loader';
 import GroupContent from '../../../../../components/Main/GroupContents/GroupContents';
 import Backdrop from '../../../../../components/UI/Backdrop/Backdrop';
 import Modal from '../../../../../components/UI/Modal/Modal';
-import { socket } from '../../../../../shared/utility';
+import { createChat } from '../../../../../shared/utility';
 
 class Groups extends Component {
     state = {
@@ -22,22 +22,16 @@ class Groups extends Component {
 
     componentDidMount() {
         let these = this;
-        socket.emit('groups', null, function(err) {
-            these.setState({err})
+        createChat(`/chat/${this.state.categ}/${this.state.id}`, 
+            'allgroup', {}).then(res => {
+                these.props.onFetchGroup(res)
+        }).catch(err => {
+            these.props.onTypingErr(err)
         })
-        // socket.emit('groupNotify', null, function(err) {
-        //     these.setState({err})
-        // })
     }
 
 
     componentDidUpdate(props, state) {
-        // let these = this;
-        // socket.emit('groups', null, function(err) {
-        //     if (JSON.stringify(these.state.err) !== JSON.stringify(err)) {
-        //         these.setState({err})
-        //     }
-        // })
         if (!this.props.filterGrp && this.props.groups && (JSON.stringify(this.props.groups) !== JSON.stringify(this.state.groups))) {
             this.setState({groups: this.props.groups})
         }
@@ -116,7 +110,8 @@ const mapStateToProps = state => {
  const mapDispatchToProps = dispatch => {
     return {
         onCloseBackdrop: () => dispatch(actions.closeBackdrop()),
-        onFilterGroup: (filterContent) => dispatch(actions.filterGroup(filterContent))
+        onFilterGroup: (filterContent) => dispatch(actions.filterGroup(filterContent)),
+        onFetchGroup: (grp) => dispatch(actions.fetchGroup(grp))
     };
 };
 

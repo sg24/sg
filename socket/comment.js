@@ -19,8 +19,8 @@ class Comments {
         }
     }
 
-    addUser (id, room, pos) {
-        var user = {id, room, pos};
+    addUser (id, room, pos, host) {
+        var user = {id, room, pos, host};
         this.users.push(user);
         return user;
     }
@@ -196,7 +196,7 @@ class Comments {
         }
     }
 
-    getLastMsg = (room) => {
+    getLastMsg (room) {
         let lastMsg = this.lastMsg.filter(rooms => rooms.room === room);
         if (lastMsg.length > 0) {
             return lastMsg[0].msg.pop().msgCnt;

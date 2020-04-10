@@ -1016,6 +1016,10 @@ router.post('/signup', (req, res) => {
                 let decoded = null;
                 decoded = jwt.verify(result.token, process.env.JWT_SECRET);
                 if (decoded) {
+                    res.cookie('token', null);
+                    res.cookie('expiresIn', null);
+                    res.cookie('pushMsg', null);
+                    res.cookie('id', null);
                     res.cookie('token', result.token, { signed: true, httpOnly: true , maxAge: 7257600000});
                     res.cookie('expiresIn', decoded.exp, {maxAge: 7257600000});
                     res.cookie('pushMsg', result.pushMsg, {maxAge: 7257600000});

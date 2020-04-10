@@ -7,7 +7,7 @@ import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
 import axios from 'axios';
 
-import { socket, webCameraApi } from '../../../../../shared/utility';
+import { socket, webCameraApi, createChat } from '../../../../../shared/utility';
 import * as actions from '../../../../../store/actions/index';
 import Backdrop from '../../../../../components/UI/Backdrop/Backdrop';
 import Modal from '../../../../../components/UI/Modal/Modal';
@@ -51,7 +51,14 @@ class ChatInput extends Component {
 
     createChatHandler = () => {
         let these = this;
-        socket.emit('createChat', {type: 'text', msg: this.state.chat, chatID: uuid()}, function(err) {
+        createChat(`/chat/${this.state.categ}/${this.state.id}`, 
+            'createChat', {type: 'text', msg: this.state.chat, chatID: uuid()}).then(res => {
+            socket.emit('createChat', res, function(err) {
+                these.props.onTypingErr(err)
+            })
+            createChat(`/chat/${this.state.categ}/${this.state.id}`, 
+            'setLastMsg', {})
+        }).catch(err => {
             these.props.onTypingErr(err)
         })
         this.setState({chat: ''});

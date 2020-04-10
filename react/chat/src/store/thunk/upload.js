@@ -1,6 +1,6 @@
 import * as actions from '../actions/index';
 import axios from '../../axios';
-import { socket } from '../../shared/utility';
+import { socket, createChat } from '../../shared/utility';
 
 export const uploadMediaInit = (cnt, id, categ) => {
     return dispatch => {
@@ -32,6 +32,8 @@ export const uploadMediaInit = (cnt, id, categ) => {
                 socket.emit('mediaRecChat', res.data, (err) => {
                     dispatch(actions.uploadMediaFail(err))
                 })
+                createChat(`/chat/${categ}/${id}`, 
+                    'setLastMsg', {})
                 dispatch(actions.uploadMedia(res.data))
                 ++index;
                 if (index < media.length) {

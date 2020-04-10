@@ -9,7 +9,6 @@ import Loader from '../../components/UI/Loader/Loader';
 import NoAcc from '../../components/Main/NoAcc/NoAcc';
 
 class SiteMain extends Component {
-
     checkHeaderDefault = () => {
         if (!this.props.default) {
             this.props.onNavDefault()
@@ -19,6 +18,10 @@ class SiteMain extends Component {
     closeHeaderFilterHandler = () => {
         this.props.onCloseHeaderFilter();
     }
+
+    viewCntHandler = (searchDet) => {
+        window.location.assign('/view/'+searchDet.grp+'/'+searchDet.id);
+    };
 
     render() {
         let filterCnt = <Loader />;

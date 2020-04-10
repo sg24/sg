@@ -16,6 +16,12 @@ class Nav extends Component {
         users: []
     }
 
+    componentDidMount() {
+        if (!this.props.filterUser && this.props.navCnt && (JSON.stringify(this.state.users) !== JSON.stringify(this.props.navCnt.users))) {
+            this.setState({users: this.props.navCnt.users})
+        }
+    }
+
     componentDidUpdate() {  
         if (this.state.showNewTab) {
             this.props.onChangeTab(this.state.curTab)

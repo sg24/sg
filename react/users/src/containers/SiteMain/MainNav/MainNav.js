@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
 
-import Aux from '../../../../../view/src/hoc/Auxs/Aux';
+import Aux from '../../../hoc/Auxs/Aux';
 // import Tags from './Tags/Tags';
 import TopTrending from './TopTrending/TopTrending';
 import Conversation from './Conversation/Conversation';

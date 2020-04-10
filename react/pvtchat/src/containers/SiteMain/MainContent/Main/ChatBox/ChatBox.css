@@ -177,10 +177,6 @@
     padding-right: 45px;
   }
 
-  .site-main__chat--box__reply--footer__user-img {
-    padding-left: 45px;
-  }
-
   .site-main__chat--box__hst--footer__user > a {
     text-decoration: none;
     color: #05578b;
@@ -379,7 +375,11 @@
   .site-main__chat--box__reply--footer__user--img__status--off {
     background-color: #ff1600;
   }
-  
+
+  .site-main__chat--box__reply--footer__user-img {
+    padding-left: 45px;
+  }
+
   @media (min-width: 530px) {
   
     .site-main__chat--box__reply {

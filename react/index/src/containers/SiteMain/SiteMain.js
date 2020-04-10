@@ -36,7 +36,7 @@ class SiteMain extends Component {
     };
 
     changeCntHandler = () => {
-        this.props.onChangeCnt(this.props.changeGrpCntStart.id, null, this.props.changeGrpCntStart.det, true, this.props.changeGrpCntStart.modelType)
+        this.props.onChangeCnt(this.props.changeCntStart.id, null, this.props.changeCntStart.det, true, this.props.changeCntStart.modelType)
     }
 
     changeGrpCntHandler = () => {
@@ -53,6 +53,7 @@ class SiteMain extends Component {
 
     closeModelBackdropHandler = () => {
         this.props.onCloseModelBackdrop();
+
     }
 
     closeGrpModalBackdropHandler = () => {

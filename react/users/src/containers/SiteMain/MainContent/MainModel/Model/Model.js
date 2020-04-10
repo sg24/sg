@@ -35,6 +35,7 @@ class Model extends Component {
             this.props.onFetchShareActive();
             this.props.onFetchNotifyActive();
             this.props.onFetchReqActive();
+            this.props.onFetchNavActive();
             this.props.onFetchTotal();
         }, 5000);
         this.setState({active})
@@ -139,7 +140,8 @@ const mapDispatchToProps = dispatch => {
         onFetchCntReset: () => dispatch(actions.fetchCntReset()),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
         onFetchTotal: () => dispatch(actions.fetchTotalInit()),
-        onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm))
+        onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm)),
+        onFetchNavActive: () => dispatch(actions.fetchNavActiveInit())
     };
 };
 

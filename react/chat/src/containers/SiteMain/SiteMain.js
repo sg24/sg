@@ -20,6 +20,10 @@ class SiteMain extends Component {
         this.props.onCloseHeaderFilter();
     }
 
+    viewCntHandler = (searchDet) => {
+        window.location.assign('/view/'+searchDet.grp+'/'+searchDet.id);
+    };
+
     render() {
         let filterCnt = <Loader />;
 

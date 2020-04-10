@@ -1,11 +1,7 @@
 let global = require('../global/global');
 let { Comments } = require('./comment');
 let room = new Comments();
-const {members, comment, groupNotify,
-  replyComment, typing, createChat, 
-  mediaRecChat, groups, getUserID, 
-  deleteChat, setLastMsg, userNotify} = require('../routes/comment');
-const {conv, pvtcreateChat, pvtMediaRecChat, pvtDeleteChat} = require("../routes/pvtchat");
+const {comment, replyComment } = require('../routes/comment');
 
 let io = global.io;
 
@@ -16,23 +12,19 @@ io.on('connection', (socket) => {
           let roomID = id.trim()
           socket.join(roomID);
           room.removeUser(socket.id);
-          room.addUser(socket.id, roomID, 1);
+          room.addUser(socket.id, roomID, 1, null);
         }        
 
         if (id.public) {
           let roomID = id.room.trim()
           socket.join(roomID);
           room.removeUser(socket.id);
-          room.addUser(socket.id, roomID, 2);
-          members(roomID).then(member => {
-            io.to(roomID).emit('member', member.memberDet);
-            room.defaultLastMsg(roomID, member.lastMsg);
-          })
+          room.addUser(socket.id, roomID, 2, id.host);
         }
         
         if (id.private) {
           room.removeUser(socket.id);
-          room.addUser(socket.id, id.reply, 3);
+          room.addUser(socket.id, id.reply, 3, id.host);
           room.removePvtUser(socket.id)
           room.addPvtUser(id.host, id.reply, socket.id)
         }
@@ -60,217 +52,90 @@ io.on('connection', (socket) => {
       });
     })
 
-    socket.on('setLastMsg', (msg, callback) => {
-      let user = room.getUser(socket.id);
-     if (user) {
-      setLastMsg(user.room).then(() => {
-        
-      }).catch(err => {
-        callback(err)
-      });
-     }
-    })
-
     socket.on('usertyping', (msg, callback) => {
       let user = room.getUser(socket.id);
-      typing().then(userID => {
-        if (!room.getUserTyping(userID) && user) {
-          io.to(user.room).emit('typing', room.userTyping(userID))
-          setLastMsg(user.room).then(() => {
-            members(user.room).then(member => {
-              io.to(user.room).emit('member', member.memberDet);
-              room.defaultLastMsg(user.room, member.lastMsg);
-              groupNotify().then(notifyCnt => {
-                socket.emit('getGroupNotify', notifyCnt)
-                userNotify().then(chatNotify => {
-                  socket.emit('getUserNotify', chatNotify)
-                })
-              })
-            })
-          })
-        }
-      }).catch(err => {
-        callback(err)
-      });
+      if (!room.getUserTyping(user.host) && user) {
+        io.to(user.room).emit('typing', room.userTyping(user.host))
+      }
     })
 
     socket.on('pvtusertyping', (msg, callback) => {
-      let roomID = room.getPvtUser(socket.id);
-      typing().then(userID => {
-        if (!room.getPvtTyping(userID)) {
+      let user = room.getUser(socket.id);
+      if (user) {
+        let roomID = room.getPvtUser(socket.id);
+        if (!room.getPvtTyping(user.host)) {
           if (roomID) {
-            io.to(roomID).emit('typing', room.pvtUserTyping(userID))
-            socket.emit('typing', room.pvtUserTyping(userID))
+            io.to(roomID).emit('typing', room.pvtUserTyping(user.host))
+            socket.emit('typing', room.pvtUserTyping(user.host))
           } else {
-            socket.emit('typing', room.pvtUserTyping(userID))
+            socket.emit('typing', room.pvtUserTyping(user.host))
           }
-          conv().then(member => {
-            socket.emit('member', member);
-            groupNotify().then(notifyCnt => {
-              socket.emit('getGroupNotify', notifyCnt)
-              userNotify().then(chatNotify => {
-                socket.emit('getUserNotify', chatNotify)
-              })
-            })
-          })
         }
-      }).catch(err => {
-        callback(err)
-      });
+      }
     })
 
     socket.on('canceltyping', (msg, callback) => {
       let user = room.getUser(socket.id);
-      typing().then(userID => {
-        if (user) {
-          io.to(user.room).emit('typing', room.cancelTyping(userID))
-        }
-      }).catch(err => {
-        callback(err)
-      });
+      if (user) {
+        io.to(user.room).emit('typing', room.cancelTyping(user.host))
+      }
     })
 
     socket.on('pvtcanceltyping', (msg, callback) => {
-      let roomID = room.getPvtUser(socket.id);
-      typing().then(userID => {
+      let user = room.getUser(socket.id);
+      if (user) {
+        let roomID = room.getPvtUser(socket.id);
         if (roomID) {
-          io.to(roomID).emit('typing', room.pvtcancelTyping(userID))
-          socket.emit('typing', room.pvtcancelTyping(userID))
+          io.to(roomID).emit('typing', room.pvtcancelTyping(user.host))
+          socket.emit('typing', room.pvtcancelTyping(user.host))
         } else {
-          socket.emit('typing', room.pvtcancelTyping(userID))
+          socket.emit('typing', room.pvtcancelTyping(user.host))
         }
-      }).catch(err => {
-        callback(err)
-      });
+      }
     })
 
-    socket.on('createChat', (msgCnt, callback) => {
+    socket.on('createChat', (chat, callback) => {
       let user = room.getUser(socket.id);
       if (user)  {
-        getUserID().then(userID => {
-          let lastMsg = room.setLastMsg(userID, user.room, msgCnt.msg)
-          createChat(user.room, msgCnt, lastMsg).then(chat =>{
-            io.to(user.room).emit('newChat', chat)
-            setLastMsg(user.room).then(() => {
-              members(user.room).then(member => {
-                io.to(user.room).emit('member', member.memberDet);
-                room.defaultLastMsg(user.room, member.lastMsg)
-                groupNotify().then(notifyCnt => {
-                  socket.emit('getGroupNotify', notifyCnt)
-                  userNotify().then(chatNotify => {
-                    socket.emit('getUserNotify', chatNotify)
-                  })
-                })
-              })
-            })
-          }).catch(err => {
-            callback(err)
-          })
-        })
+        io.to(user.room).emit('newChat', chat)
       }
     })
 
     socket.on('pvtcreateChat', (msgCnt, callback) => {
       let user = room.getUser(socket.id);
       if (user)  {
-        pvtcreateChat(user.room, msgCnt).then(chat => {
-          let roomID = room.getPvtUser(socket.id);
+         let roomID = room.getPvtUser(socket.id);
           if (roomID) {
-            io.to(roomID).emit('newChat', chat)
-            socket.emit('newChat', chat)
+            let cnt = {...msgCnt[0], image: msgCnt[0].ID !== user.room}
+            io.to(roomID).emit('newChat', [cnt])
+            socket.emit('newChat', msgCnt)
           } else {
-            socket.emit('newChat', chat)
+            socket.emit('newChat', msgCnt)
           }
-          conv().then(member => {
-            socket.emit('member', member);
-            groupNotify().then(notifyCnt => {
-              socket.emit('getGroupNotify', notifyCnt)
-              userNotify().then(chatNotify => {
-                socket.emit('getUserNotify', chatNotify)
-              })
-            })
-          })
-        }).catch(err => {
-          callback(err)
-        })
-      }
-    })
-
-    socket.on('checkMember', (msgCnt, callback) => {
-      let user = room.getUser(socket.id);
-      if (user)  {
-        setLastMsg(user.room).then(() => {
-          members(user.room).then(member => {
-            io.to(user.room).emit('member', member.memberDet);
-            room.defaultLastMsg(user.room, member.lastMsg)
-          })
-        })
       }
     })
 
     socket.on('deleteChat', (cnt) => {
       let user = room.getUser(socket.id);
       if (user)  {
-        deleteChat(user.room, cnt, room.lastMsg).then(() => {
-          setLastMsg(user.room).then(() => {
-            members(user.room).then(member => {
-              io.to(user.room).emit('member', member.memberDet);
-              room.defaultLastMsg(user.room, member.lastMsg)
-              groupNotify().then(notifyCnt => {
-                socket.emit('getGroupNotify', notifyCnt)
-                userNotify().then(chatNotify => {
-                  socket.emit('getUserNotify', chatNotify)
-                })
-              })
-            })
-          })
           io.to(user.room).emit('chatRemoved', cnt);
-        })
       }
     })
 
     socket.on('pvtDeleteChat', (cnt) => {
-      let user = room.getUser(socket.id);
-      if (user)  {
-        pvtDeleteChat(user.room, cnt).then(() => {
-          conv().then(member => {
-            socket.emit('member', member);
-            groupNotify().then(notifyCnt => {
-              socket.emit('getGroupNotify', notifyCnt)
-              userNotify().then(chatNotify => {
-                socket.emit('getUserNotify', chatNotify)
-              })
-            })
-          })
-          let roomID = room.getPvtUser(socket.id);
-          if (roomID) {
-            io.to(roomID).emit('chatRemoved', cnt);
-            socket.emit('chatRemoved', cnt);
-          } else {
-            socket.emit('chatRemoved', cnt);
-          }
-        })
+      let roomID = room.getPvtUser(socket.id);
+      if (roomID) {
+        io.to(roomID).emit('chatRemoved', cnt);
+        socket.emit('chatRemoved', cnt);
+      } else {
+        socket.emit('chatRemoved', cnt);
       }
     })
 
     socket.on('mediaRecChat', (msg, callback) => {
       let user = room.getUser(socket.id);
       if (user)  {
-          io.to(user.room).emit('newChat', msg)
-          setLastMsg(user.room).then(() => {
-          members(user.room).then(member => {
-            io.to(user.room).emit('member', member.memberDet);
-            room.defaultLastMsg(user.room, member.lastMsg)
-            groupNotify().then(notifyCnt => {
-              socket.emit('getGroupNotify', notifyCnt)
-              userNotify().then(chatNotify => {
-                socket.emit('getUserNotify', chatNotify)
-              })
-            })
-          })
-        }).catch(err => {
-          callback(err)
-        })
+        io.to(user.room).emit('newChat', msg)
       }
     })
 
@@ -282,68 +147,10 @@ io.on('connection', (socket) => {
       } else {
         socket.emit('newChat', msg)
       }
-      conv().then(member => {
-        socket.emit('member', member);
-        groupNotify().then(notifyCnt => {
-          socket.emit('getGroupNotify', notifyCnt)
-          userNotify().then(chatNotify => {
-            socket.emit('getUserNotify', chatNotify)
-          })
-        })
-      }).catch(err => {
-        callback(err)
-      })
-    })
-
-    socket.on('snapshot', (msg, callback) => {
-      let user = room.getUser(socket.id);
-      if (user)  {
-        mediaRecChat(user.room, msg).then(chat =>{
-          io.to(user.room).emit('newChat', chat)
-          setLastMsg(user.room).then(() => {
-            members(user.room).then(member => {
-              io.to(user.room).emit('member', member.memberDet);
-              room.defaultLastMsg(user.room, member.lastMsg)
-            })
-          })
-        }).catch(err => {
-          callback(err)
-        })
-      }
-    })
-
-    socket.on('groups', (msg, callback) => {
-      let user = room.getUser(socket.id);
-      if (user)  {
-        groups().then(group => {
-          socket.emit('allgroup', group)
-        }).catch(err => {
-          callback(err)
-        })
-      }
-    })
-
-    socket.on('groupNotify', (msg, callback) => {
-      let user = room.getUser(socket.id);
-      if (user)  {
-        groupNotify().then(notifyCnt => {
-          socket.emit('getGroupNotify', notifyCnt)
-        }).catch(err => {
-          callback(err)
-        })
-      }
     })
 
     socket.on('disconnect', () => {
         let user = room.removeUser(socket.id);
-        if (user && (user.pos === 2)) {
-          setLastMsg(user.room).then(() => {
-            members(user.room).then(member => {
-              io.to(user.room).broadcast('member', member.memberDet);
-              room.defaultLastMsg(user.room, member.lastMsg)
-            })
-          })
-        } 
         if(user && (user.pos === 3)) {
           room.removePvtUser(socket.id);
         }

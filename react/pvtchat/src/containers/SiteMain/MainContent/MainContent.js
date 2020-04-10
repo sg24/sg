@@ -10,7 +10,7 @@ import * as actions from '../../../store/actions/index';
 import Aux from '../../../hoc/Auxs/Aux';
 import asyncComponent from '../../../hoc/asyncComponent/asyncComponent';
 import Loader from '../../../components/UI/Loader/Loader';
-import { socket } from '../../../shared/utility';
+import { socket, createChat } from '../../../shared/utility';
 import ChatInput from './Main/ChatInput/ChatInput';
 import Backdrop from '../../../components/UI/Backdrop/Backdrop';
 import Modal from '../../../components/UI/Modal/Modal';
@@ -55,11 +55,19 @@ class MainContent extends Component {
         let active = setInterval(() => {
             this.props.onFetchShareActive();
             this.props.onFetchNotifyActive();
+            createChat(`/chat/${this.state.categ}/${this.state.id}`, 
+            'pvtconv', null).then(members => {
+                this.props.onFetchMember(members)
+                createChat(`/chat/${this.state.categ}/${this.state.id}`, 
+                    'chatActive', null).then(active => {
+                        this.props.onGroupNotify(active ? active.grpchat : null)
+                        this.props.onUserNotify(active ? active.pvtchat : null)
+                    })
+            })
         }, 5000);
         socket.on('connect', function(msg) {
             socket.emit('join', {private: true, host: these.state.userID, reply: these.state.id}, function(err) {
                 these.props.onJoinErr(err)
-                console.log(err)
             });
             these.props.onConnect()
         });
@@ -77,19 +85,19 @@ class MainContent extends Component {
         socket.on('newChat', function(chats){
             these.props.onNewChat(chats)
         })
-        socket.on('allgroup', function(grps){
-            these.props.onFetchGroup(grps)
-        })
+        // socket.on('allgroup', function(grps){
+        //     these.props.onFetchGroup(grps)
+        // })
         // socket.on('getGroupNotify', function(notifyCnt){
         //     these.props.onFetchGroupNotify(notifyCnt)
         // })
-        socket.on('getGroupNotify', function(cnt){
-            these.props.onGroupNotify(cnt)
-        })
+        // socket.on('getGroupNotify', function(cnt){
+        //     these.props.onGroupNotify(cnt)
+        // })
 
-        socket.on('getUserNotify', function(cnt){
-            these.props.onUserNotify(cnt)
-        })
+        // socket.on('getUserNotify', function(cnt){
+        //     these.props.onUserNotify(cnt)
+        // })
 
         socket.on('chatRemoved', function(cnt){
             these.setState({disable: false})
@@ -121,7 +129,12 @@ class MainContent extends Component {
 
     deleteChatHandler= () => {
         let these = this;
-        socket.emit('pvtDeleteChat', this.props.chatSelected, function(err) {
+        createChat(`/chat/${this.state.categ}/${this.state.id}`, 
+            'pvtDeleteChat', {cnt: this.props.chatSelected}).then(cnt=> {
+                socket.emit('pvtDeleteChat', cnt, function(err) {
+                these.props.onTypingErr(err)
+            })
+        }).catch(err =>{
             these.props.onTypingErr(err)
         })
         this.setState({disable: true})
@@ -149,7 +162,8 @@ class MainContent extends Component {
                 <Backdrop 
                     component={ Modal }
                     close={this.closeModelBackdropHandler}
-                    err={ this.props.cntErr } /> 
+                    err={ this.props.cntErr }
+                    isCnt={this.props.cnts} /> 
             )
         }
   
@@ -225,7 +239,8 @@ class MainContent extends Component {
         }
         return (
             <div className="site-main__chat">
-                { err ? err : cnt }
+                { err ? err: null }
+                { cnt }
             </div>
         )
     }

@@ -2,6 +2,7 @@ import React from 'react';
 import Avatar from 'react-avatar';
 import TimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { engStrings } from '../../../../shared/utility';
 
@@ -12,12 +13,15 @@ const user = props => {
     if (!props.userDet.msg) {
         lastMsgClass.push('site-main__chat--nav__cnt--user__wrapper-msg')
     }
-
+    let isAdmin = <FontAwesomeIcon  icon={['fas', 'cogs']} className="icon icon__site-main--chat__box--dwn"/>
     let cnt = (
         <>
              <li>
                 <a href={`/chat/user/${props.userDet.id}`}>
-                    { props.userDet.isAdmin ? props.userDet.username + '(Admin)' : props.userDet.username}
+                    { props.userDet.isAdmin ? 
+                        isAdmin  : props.userDet.username}
+                    { props.userDet.isAdmin ? 
+                        props.userDet.username  : null}
                     {props.userDet.msg ? <span>@ { <TimeAgo date={props.userDet.created} live={false} formatter={formatter}/> }</span> : null}
                 </a>
             </li>

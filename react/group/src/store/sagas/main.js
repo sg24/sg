@@ -43,7 +43,7 @@ export function* resetActiveInitSaga(action) {
 
 export function* fetchNavActiveInitSaga(action) {
     try {
-        let response = yield axios.post('conv', {}, {headers: {'data-categ':'navActive'}});
+        let response = yield axios.post('/conv', {}, {headers: {'data-categ':'navActive'}});
         yield put(actions.fetchNavActive(response.data));        
     } catch(err) {}
 }

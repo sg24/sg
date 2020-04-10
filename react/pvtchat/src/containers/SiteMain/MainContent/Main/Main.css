@@ -324,6 +324,10 @@
     transition: all .3s ease-in;
   }
   
+  .site-main__chat--err {
+    left: 0
+  }
+
   .site-main__chat--cnt-overlay { 
     z-index: 4;
   }
@@ -353,7 +357,9 @@
   }
   
   @media (min-width: 1010px) {
-  
+    .site-main__chat--err {
+      left: 398px;
+    }
     .site-main__chat--main {
       padding-left: 398px;
     }
@@ -694,6 +700,7 @@
     width: 100%;
     height: 2px;
     background: #ff1600;
+    z-index: 1;
   }
 
 .site-main__chat--header__status-on {

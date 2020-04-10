@@ -115,10 +115,10 @@ class Form extends Component {
                     }
                     <div className="reuse-form__cnt--main-wrapper">
                         <div className="reuse-form__cnt--wrapper">
-                            <label  className="reuse-form__cnt--title">Username</label>
+                            <label  className="reuse-form__cnt--title">Email</label>
                             <div className="reuse-form__cnt--det">
                                 <input 
-                                    type="text" 
+                                    type="email" 
                                     className="reuse-form__cnt--det__input"
                                     required
                                     minLength="6"
@@ -126,7 +126,7 @@ class Form extends Component {
                                     onChange={(event) => this.inputChangedHandler(event, 'username')}/>
                             </div>
                             { !this.state.formElement.username.valid && this.state.formElement.username.touched ?
-                                <div className="reuse-form__err">Username must be longer than 6 characters</div>
+                                <div className="reuse-form__err">Email must be longer than 6 characters</div>
                                 : null
                             }
                         </div>

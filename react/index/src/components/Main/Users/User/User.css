@@ -264,7 +264,7 @@
 
 }
 
-.reuse-user__opt > li > div {
+.reuse-user__opt > li > div, .reuse-user__opt > li > a {
     margin-right: 20px;
     margin-left: 20px;
 
@@ -335,7 +335,9 @@
 
 .reuse-user__opt--comment {
     padding: 5px 10px;
-
+    text-decoration: none;
+    display: block;
+    color: #fff;
 }
 
 .reuse-user__opt--blk {

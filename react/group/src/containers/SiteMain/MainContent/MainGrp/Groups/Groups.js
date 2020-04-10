@@ -39,6 +39,7 @@ class Groups extends Component {
             this.props.onFetchJoinActive();
             this.props.onFetchTotal();
             this.props.onFetchShareActive();
+            this.props.onFetchNavActive();
             this.props.onFetchNotifyActive();
         }, 5000);
         this.setState({active})
@@ -177,7 +178,8 @@ const mapDispatchToProps = dispatch => {
         onChangeShareID: (shareID) => dispatch(actions.shareID(shareID)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
         onFetchVideo: (id, url) => dispatch(actions.fetchVideo(id, url)),
-        onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm))
+        onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm)),
+        onFetchNavActive: () => dispatch(actions.fetchNavActiveInit())
     };
 };
 

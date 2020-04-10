@@ -47,6 +47,7 @@ class Posts extends Component {
             this.props.onFetchPtActive();
             this.props.onFetchShareCntActive();
             this.props.onFetchNotifyActive();
+            this.props.onFetchNavActive();
             this.props.onFetchTotal()
         }, 5000);
         this.setState({active})
@@ -301,7 +302,8 @@ const mapDispatchToProps = dispatch => {
         onChangeShareID: (shareID) => dispatch(actions.shareID(shareID)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
         onFetchVideo: (id, url) => dispatch(actions.fetchVideo(id, url)),
-        onChangePt: (id, title, det, confirm) => dispatch(actions.changePtInit(id, title, det, confirm))
+        onChangePt: (id, title, det, confirm) => dispatch(actions.changePtInit(id, title, det, confirm)),
+        onFetchNavActive: () => dispatch(actions.fetchNavActiveInit())
     };
 };
 

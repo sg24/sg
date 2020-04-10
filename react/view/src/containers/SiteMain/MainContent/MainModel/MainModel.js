@@ -48,6 +48,7 @@ class Model extends Component {
         let active = setInterval(() => {
             this.props.onFetchShareActive();
             this.props.onFetchNotifyActive();
+            this.props.onFetchNavActive();
         }, 5000);
         this.setState({active})
     }
@@ -303,7 +304,8 @@ const mapDispatchToProps = dispatch => {
         onAnsWrong: (commentID, categ, replyID) => dispatch(actions.ansWrongInit(commentID, categ,replyID)),
         onSubmitSuccess: (id, cntGrp, msg) => dispatch(actions.submitComment(id, cntGrp, msg)),
         onJoinErr: (err) => dispatch(actions.submitCommentFail(err)) ,
-        onSetCommentID: (commentID, categ) => dispatch(actions.setCommentID(commentID, categ))
+        onSetCommentID: (commentID, categ) => dispatch(actions.setCommentID(commentID, categ)),
+        onFetchNavActive: () => dispatch(actions.fetchNavActiveInit())
     };
 };
 

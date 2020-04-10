@@ -94,7 +94,7 @@ const fetchChatFail= (state, action) => {
 };
 
 const fetchChatReset = (state, action) => {
-    return updateObject(state, {chat: null})
+    return updateObject(state, {chat: []})
 }
 
 const fetchChat = (state, action) => {
