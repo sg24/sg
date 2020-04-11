@@ -1,7 +1,7 @@
 let global = require('../global/global');
 let { Comments } = require('./comment');
 let room = new Comments();
-const {comment, replyComment } = require('../routes/comment');
+// const {comment, replyComment } = require('../routes/comment');
 
 let io = global.io;
 
@@ -34,22 +34,18 @@ io.on('connection', (socket) => {
       }
   });
 
-    socket.on('createComment', (msg, callback) => {
+    socket.on('createComment', (cnt, callback) => {
         let user = room.getUser(socket.id);
-        comment(msg.id, msg.cntGrp, msg.cnt).then((cnt) => {
+        if (user && user.room) {
           io.to(user.room).emit('newComment', cnt);
-        }).catch(err => {
-          callback(err)
-        });
+        }
     });
   
-    socket.on('createReplyComment', (msg, callback) => {
+    socket.on('createReplyComment', (cnt, callback) => {
       let user = room.getUser(socket.id);
-      replyComment(msg.id, msg.cntGrp, msg.cnt, msg.commentID).then(cnt => {
-        io.to(user.room).emit('newReplyComment', {cnt, id: msg.id})
-      }).catch(err => {
-        callback(err)
-      });
+      if (user && user.room) {
+        io.to(user.room).emit('newReplyComment', {cnt: cnt.cnts, id: cnt.id})
+      }
     })
 
     socket.on('usertyping', (msg, callback) => {

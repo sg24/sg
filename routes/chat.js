@@ -536,39 +536,36 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
         group.findOne({_id:  mongoose.mongo.ObjectId(id),_isCompleted: true, 
             $or: [ { member: { $in: req.user} }, 
                 { authorID:  req.user } ]}).then(grp => {
-            if (grp && grp.member && grp.member.length > 0 && grp.chat.length > 0) {
-                let chats = arraySort(grp.chat, 'created', {reverse: true});
-                let lastMsg = []
-                for (let userID of [...grp.member, grp.authorID]) {
-                    if (checkChat(userID, chats)) {
-                        let cnt = checkChat(userID, chats);
-                        if (cnt) {
-                            lastMsg.push({userID, msgCnt: {msg: cnt.msg, created: cnt.created}})
-                        }
+            let chats = arraySort(grp.chat, 'created', {reverse: true});
+            let lastMsg = []
+            for (let userID of [...grp.member, grp.authorID]) {
+                if (checkChat(userID, chats)) {
+                    let cnt = checkChat(userID, chats);
+                    if (cnt) {
+                        lastMsg.push({userID, msgCnt: {msg: cnt.msg, created: cnt.created}})
                     }
                 }
-                group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
-                    $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}, {
-                       lastMsg}).then(() => {
-                        res.sendStatus(200)
-                }).catch(err => {
-                    res.status(500).send(err)
-                })
+            }
+            
+            group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
+                $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}, {
+                    lastMsg}).then(() => {
+                    res.sendStatus(200)
+            }).catch(err => {
+                res.status(500).send(err)
+            })
 
-                function checkChat(userID, chats) {
-                    for (let chat of chats) {
-                        if (chat.ID === userID) {
-                            let updateCnt = chat.reply && chat.reply.length > 0 ? chat.reply[chat.reply.length - 1] : chat;
-                            return {
-                                msg: updateCnt.cntType !== 'typedPlain' ? updateCnt.cntType === 'media' ? 'Video' : updateCnt.cntType : updateCnt.msg,
-                                created: updateCnt.created
-                            }
+            function checkChat(userID, chats) {
+                for (let chat of chats) {
+                    if (chat.ID === userID) {
+                        let updateCnt = chat.reply && chat.reply.length > 0 ? chat.reply[chat.reply.length - 1] : chat;
+                        return {
+                            msg: updateCnt.cntType !== 'typedPlain' ? updateCnt.cntType === 'media' ? 'Video' : updateCnt.cntType : updateCnt.msg,
+                            created: updateCnt.created
                         }
                     }
-                    return null
                 }
-            } else {
-                res.sendStatus(200)
+                return null
             }
         })
     }

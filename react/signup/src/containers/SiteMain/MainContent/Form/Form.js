@@ -54,6 +54,12 @@ class Form extends Component {
         formIsValid: false
     }
 
+    componentDidUpdate() {
+        if (this.props.submitted) {
+            window.location.replace('/index/post');
+        }
+    }
+    
     changeFieldHandler = () =>{
         if (this.state.field.isChange) {
             this.setState({field: updateObject(this.state.field, {type: 'password', isChange: false})});
@@ -231,11 +237,7 @@ class Form extends Component {
                 </ul>
             </Aux>
         );
-
-        if (this.props.submitted) {
-            // cnt = <Modal email={this.state.formElement.email.value} />
-            window.location.assign('/index/post');
-        }
+        
         return (
             <form className="reuse-form" onSubmit={this.submitHandler}>
             <div className="reuse-form__wrapper">

@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import axios from '../axios'
 
 export const updateObject = (oldObject, updatedProperties) => {
     return {
@@ -115,3 +116,13 @@ export function changeMode (oldCnts,changeCntStart,field, isUpdate) {
 }
 
 export const socket = io(window.location.protocol + '//' + window.location.host);
+
+export const createChat = (url, category, cnt) => {
+    return new Promise((resolve, reject) => {
+        axios.post(url, cnt, {headers: {'data-categ': category}}).then(res => {
+            resolve(res.data)
+        }).catch(err => {
+            reject(err)
+        })
+    })
+}

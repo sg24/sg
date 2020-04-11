@@ -114,8 +114,7 @@ const GroupSchema = new Schema({
             }}]
     }],
     lastID: {
-        type: String,
-        required: true
+        type: String
     },
     _isCompleted: {
         type: Boolean,

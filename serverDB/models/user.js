@@ -134,7 +134,7 @@ UserSchema.methods.generateAuthToken = function generateAuthToken() {
         let User = this;
         const vapidKeys = webpush.generateVAPIDKeys();
         let access = 'authentication';
-        let token = jwt.sign({_id: User._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600}).toString();
+        let token = jwt.sign({_id: User._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600*24*7*4*3}).toString();
         User.tokens.push({access, token});
         User.offline = Date.now()
         User.pushMsg.push({publickey: vapidKeys.publicKey, privatekey: vapidKeys.privateKey})
