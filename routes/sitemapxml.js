@@ -87,6 +87,18 @@ router.get('/', (req, res) => {
         changefreq: 'daily',
         priority: 1,
     })
+
+    smStream.write({
+        url: '/index/group',
+        changefreq: 'daily',
+        priority: 1,
+    })
+
+    smStream.write({
+        url: '/conversation',
+        changefreq: 'daily',
+        priority: 1,
+    })
  
  fetchCntID(posts, 'post', []).then(postID => {
     fetchCntID(questions, 'question', postID).then(queID => {

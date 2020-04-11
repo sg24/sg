@@ -17,6 +17,14 @@ router.get('/', authenticate,(req, res, next) => {
     }
 })
 
+router.get('/request', authenticate,(req, res, next) => {
+    if (!req.authType) {
+        res.render('users')
+    } else {
+        res.redirect('/login')
+    }
+})
+
 router.post('/', authenticate,(req, res, next) => {
     if (req.header && req.header('data-categ') === 'users') {
         if (!req.authType) {

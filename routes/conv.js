@@ -6,11 +6,19 @@ let filterCnt = require('./utility/filtercnt');
 const {chat, chatnotifies, group, grpchatnotifies, user, authUser, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', authenticate, (req, res,next) => {
-    res.render('conv');
+    if (!req.authType) {
+        res.render('conv');
+    } else {
+        res.redirect('/login')
+    }
 })
 
 router.get('/:id', authenticate, (req, res,next) => {
-    res.render('conv');
+    if (!req.authType) {
+        res.render('conv');
+    } else {
+        res.redirect('/login')
+    }
 })
 
 router.post('/', authenticate, (req, res, next) => {

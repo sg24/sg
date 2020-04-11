@@ -57,7 +57,7 @@ nextApp.prepare().then(() => {
   app.use('/group', groupRoute);
   app.use('/robotonly', robotonlyRoute);
   app.use('/chat', chatRoute);
-  app.use('/conv', convRoute);
+  app.use('/conversation', convRoute);
   app.use('/sitemap.xml', sitemapxmlRoute);
 
   app.all('*', (req, res) => {

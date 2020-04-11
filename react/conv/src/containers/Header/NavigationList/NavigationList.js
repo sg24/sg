@@ -210,6 +210,14 @@ class NavigationList extends Component {
                             Chat Room
                         </a>
                     </li>
+                    <li>
+                        <a href="/conversation">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'comment']} 
+                                className="icon icon__site-header--nav__itm" />
+                            conversation
+                        </a>
+                    </li>
                 </ul>
             )
 
