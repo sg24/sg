@@ -1316,7 +1316,7 @@ function pushNotify(id, userID, field, name, msg) {
                             },
                             headers: {}
                         };
-                        let isImage = content.image && content.image.length > 0 ? {image:  content.image[0]} : {}; 
+                        // let isImage = content.image && content.image.length > 0 ? {image:  content.image[0]} : {}; 
                         webpush.sendNotification(pushConfig, JSON.stringify({
                             title: msg,
                             content: `from ${name}`,
