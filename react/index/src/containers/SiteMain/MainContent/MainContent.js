@@ -7,6 +7,7 @@ import * as actions from '../../../store/actions/index';
 import asyncComponent from '../../../hoc/asyncComponent/asyncComponent';
 import MainNavigations from '../../../components/MainNavigations/MainNavigations';
 import Loader from '../../../components/UI/Loader/Loader';
+import axios from '../../../axios';
 
 const AsyncPosts = asyncComponent(() => {
     return import ('./Posts/Posts');
@@ -82,18 +83,36 @@ class MainContent extends Component {
     }
 
     componentDidMount() {
-        let active = setInterval(() => {
-            this.props.onFetchShareActive();
-            this.props.onFetchShareCntActive();
-            this.props.onFetchNotifyActive();
-            this.props.onFetchNavActive();
-            this.props.onFetchCntActive();
-            this.props.onFetchQueActive();
-            this.props.onFetchPtActive();
-            this.props.onFetchReqActive();
-            this.props.onFetchJoinActive();
-        }, 5000);
-        this.setState({active})
+        let numberOfAjaxCAllPending = 0;
+        let these = this;
+
+        axios.interceptors.request.use(function (config) {
+            numberOfAjaxCAllPending++;
+            return config;
+        }, function (error) {
+            return Promise.reject(error);
+        });
+
+        axios.interceptors.response.use(function (response) {
+            numberOfAjaxCAllPending--;
+            let active = setInterval(() => {
+                if (numberOfAjaxCAllPending === 0) {
+                    these.props.onFetchShareActive();
+                    these.props.onFetchShareCntActive();
+                    these.props.onFetchNotifyActive();
+                    these.props.onFetchNavActive();
+                    these.props.onFetchCntActive();
+                    these.props.onFetchQueActive();
+                    these.props.onFetchPtActive();
+                    these.props.onFetchReqActive();
+                    these.props.onFetchJoinActive();
+                }
+            }, 5000);
+            these.setState({active})
+            return response;
+        }, function (error) {
+            numberOfAjaxCAllPending--;
+        });
     }
 
     componentWillUnmount() {

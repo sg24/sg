@@ -7,6 +7,7 @@ import Group from '../../../../../components/Main/Group/Group';
 import Loader from '../../../../../components/UI/Loader/Loader';
 import NoAcc from '../../../../../components/Main/NoAcc/NoAcc';
 import * as actions from '../../../../../store/actions/index';
+import axios from '../../../../../axios';
 
 class Groups extends Component {
     constructor(props) {
@@ -34,15 +35,33 @@ class Groups extends Component {
     componentDidMount() {
         this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/group');
-        let active = setInterval(() => {
-            this.props.onFetchReqActive();
-            this.props.onFetchJoinActive();
-            this.props.onFetchTotal();
-            this.props.onFetchShareActive();
-            this.props.onFetchNavActive();
-            this.props.onFetchNotifyActive();
-        }, 5000);
-        this.setState({active})
+        let numberOfAjaxCAllPending = 0;
+        let these = this;
+
+        axios.interceptors.request.use(function (config) {
+            numberOfAjaxCAllPending++;
+            return config;
+        }, function (error) {
+            return Promise.reject(error);
+        });
+
+        axios.interceptors.response.use(function (response) {
+            numberOfAjaxCAllPending--;
+            let active = setInterval(() => {
+                if (numberOfAjaxCAllPending === 0) {
+                    these.props.onFetchReqActive();
+                    these.props.onFetchJoinActive();
+                    these.props.onFetchTotal();
+                    these.props.onFetchShareActive();
+                    these.props.onFetchNavActive();
+                    these.props.onFetchNotifyActive();
+                }
+            }, 5000);
+            these.setState({active})
+            return response;
+        }, function (error) {
+            numberOfAjaxCAllPending--;
+        });
     }
 
     componentWillUnmount() {

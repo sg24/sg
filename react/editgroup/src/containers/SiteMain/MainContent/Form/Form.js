@@ -17,6 +17,7 @@ import Aux from '../../../../hoc/Auxs/Aux';
 import asyncComponent from '../../../../hoc/asyncComponent/asyncComponent';
 import { updateObject, checkValidity } from '../../../../shared/utility';
 import Loader from '../../../../components/UI/Loader/Loader';
+import axios from '../../../../axios';
 
 const AsyncImage = asyncComponent(() => {
     return import ('./AddImage/AddImage');
@@ -73,11 +74,29 @@ class Form extends  Component {
 
     componentDidMount() {
         this.props.onFetchCnt(this.props.match.params.id);
-        let active = setInterval(() => {
-            this.props.onFetchShareActive();
-            this.props.onFetchNotifyActive();
-        }, 5000);
-        this.setState({active})
+        let numberOfAjaxCAllPending = 0;
+        let these = this;
+
+        axios.interceptors.request.use(function (config) {
+            numberOfAjaxCAllPending++;
+            return config;
+        }, function (error) {
+            return Promise.reject(error);
+        });
+
+        axios.interceptors.response.use(function (response) {
+            numberOfAjaxCAllPending--;
+            let active = setInterval(() => {
+                if (numberOfAjaxCAllPending === 0) {
+                    these.props.onFetchShareActive();
+                    these.props.onFetchNotifyActive();
+                }
+            }, 5000);
+            these.setState({active})
+            return response;
+        }, function (error) {
+            numberOfAjaxCAllPending--;
+        });
     }
 
     componentWillUnmount() {

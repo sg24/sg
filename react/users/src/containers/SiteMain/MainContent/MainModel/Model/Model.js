@@ -6,6 +6,7 @@ import Users from '../../../../../components/Main/Users/Users';
 import NoAcc from '../../../../../components/Main/NoAcc/NoAcc';
 import Loader from '../../../../../components/UI/Loader/Loader';
 import * as actions from '../../../../../store/actions/index';
+import axios from '../../../../../axios';
 
 class Model extends Component {
     constructor(props) {
@@ -31,14 +32,32 @@ class Model extends Component {
     componentDidMount() {
         this.props.onFetchCnt(this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/users');
-        let active = setInterval(() => {
-            this.props.onFetchShareActive();
-            this.props.onFetchNotifyActive();
-            this.props.onFetchReqActive();
-            this.props.onFetchNavActive();
-            this.props.onFetchTotal();
-        }, 5000);
-        this.setState({active})
+        let numberOfAjaxCAllPending = 0;
+        let these = this;
+
+        axios.interceptors.request.use(function (config) {
+            numberOfAjaxCAllPending++;
+            return config;
+        }, function (error) {
+            return Promise.reject(error);
+        });
+
+        axios.interceptors.response.use(function (response) {
+            numberOfAjaxCAllPending--;
+            let active = setInterval(() => {
+                if (numberOfAjaxCAllPending === 0) {
+                    these.props.onFetchShareActive();
+                    these.props.onFetchNotifyActive();
+                    these.props.onFetchReqActive();
+                    these.props.onFetchNavActive();
+                    these.props.onFetchTotal();
+                }
+            }, 5000);
+            these.setState({active})
+            return response;
+        }, function (error) {
+            numberOfAjaxCAllPending--;
+        });
     }
 
     componentWillUnmount() {

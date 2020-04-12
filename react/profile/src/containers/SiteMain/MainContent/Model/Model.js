@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import Loader from '../../../../components/UI/Loader/Loader';
 import Users from '../../../../components/Main/Users/Users';
 import * as actions from '../../../../store/actions/index';
+import axios from '../../../../axios';
 
 class Model extends Component {
     state = {
@@ -17,12 +18,30 @@ class Model extends Component {
 
     componentDidMount() {
         this.props.onFetchCnt(this.props.match.params.id);
-        let active = setInterval(() => {
-            this.props.onFetchShareActive();
-            this.props.onFetchNotifyActive();
-            this.props.onFetchNavActive();
-        }, 5000);
-        this.setState({active})
+        let numberOfAjaxCAllPending = 0;
+        let these = this;
+
+        axios.interceptors.request.use(function (config) {
+            numberOfAjaxCAllPending++;
+            return config;
+        }, function (error) {
+            return Promise.reject(error);
+        });
+
+        axios.interceptors.response.use(function (response) {
+            numberOfAjaxCAllPending--;
+            let active = setInterval(() => {
+                if (numberOfAjaxCAllPending === 0) {
+                    these.props.onFetchShareActive();
+                    these.props.onFetchNotifyActive();
+                    these.props.onFetchNavActive();
+                }
+            }, 5000);
+            these.setState({active})
+            return response;
+        }, function (error) {
+            numberOfAjaxCAllPending--;
+        });
     }
 
     componentWillUnmount() {

@@ -7,6 +7,7 @@ import Conv from '../../../../../components/Main/Conv/Conv';
 import Loader from '../../../../../components/UI/Loader/Loader';
 import NoAcc from '../../../../../components/Main/NoAcc/NoAcc';
 import * as actions from '../../../../../store/actions/index';
+import axios from '../../../../../axios';
 
 class Convs extends Component {
     constructor(props) {
@@ -34,13 +35,31 @@ class Convs extends Component {
     componentDidMount() {
         this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/conv');
-        let active = setInterval(() => {
-            this.props.onFetchPrivateActive();
-            this.props.onFetchGroupActive();
-            this.props.onFetchShareActive();
-            this.props.onFetchNotifyActive();
-        }, 5000);
-        this.setState({active})
+        let numberOfAjaxCAllPending = 0;
+        let these = this;
+
+        axios.interceptors.request.use(function (config) {
+            numberOfAjaxCAllPending++;
+            return config;
+        }, function (error) {
+            return Promise.reject(error);
+        });
+
+        axios.interceptors.response.use(function (response) {
+            numberOfAjaxCAllPending--;
+            let active = setInterval(() => {
+                if (numberOfAjaxCAllPending === 0) {
+                    these.props.onFetchPrivateActive();
+                    these.props.onFetchGroupActive();
+                    these.props.onFetchShareActive();
+                    these.props.onFetchNotifyActive();
+                }
+            }, 5000);
+            these.setState({active})
+            return response;
+        }, function (error) {
+            numberOfAjaxCAllPending--;
+        });
     }
 
     componentWillUnmount() {

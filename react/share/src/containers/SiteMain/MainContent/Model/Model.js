@@ -9,6 +9,7 @@ import * as actions from '../../../../store/actions/index';
 import Post from './Posts/Posts';
 import Question from './Questions/Questions';
 import Poet from './Poets/Poets';
+import axios from '../../../../axios';
 
 class Model extends Component {
     constructor(props) {
@@ -40,12 +41,30 @@ class Model extends Component {
 
     componentDidMount() {
         this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
-        let active = setInterval(() => {
-            this.props.onFetchShareActive();
-            this.props.onFetchNotifyActive();
-            this.props.onFetchNavActive();
-        }, 5000);
-        this.setState({active})
+        let numberOfAjaxCAllPending = 0;
+        let these = this;
+
+        axios.interceptors.request.use(function (config) {
+            numberOfAjaxCAllPending++;
+            return config;
+        }, function (error) {
+            return Promise.reject(error);
+        });
+
+        axios.interceptors.response.use(function (response) {
+            numberOfAjaxCAllPending--;
+            let active = setInterval(() => {
+                if (numberOfAjaxCAllPending === 0) {
+                    these.props.onFetchShareActive();
+                    these.props.onFetchNotifyActive();
+                    these.props.onFetchNavActive();
+                }
+            }, 5000);
+            these.setState({active})
+            return response;
+        }, function (error) {
+            numberOfAjaxCAllPending--;
+        });
     }
 
     componentWillUnmount() {

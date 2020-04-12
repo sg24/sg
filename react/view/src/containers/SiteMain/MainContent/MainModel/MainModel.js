@@ -8,6 +8,7 @@ import ModelContents from '../../../../components/Main/ModelContents/ModelConten
 import Loader from '../../../../components/UI/Loader/Loader';
 import { updateObject, socket } from '../../../../shared/utility';
 import * as actions from '../../../../store/actions/index';
+import axios from '../../../../axios';
 
 let IS_ANIMATED = true;
 
@@ -45,12 +46,29 @@ class Model extends Component {
         socket.on('newReplyComment', function(msg) {
             these.props.onSubmitSuccess(msg.id, 'reply', msg.cnt)
         }); 
-        let active = setInterval(() => {
-            this.props.onFetchShareActive();
-            this.props.onFetchNotifyActive();
-            this.props.onFetchNavActive();
-        }, 5000);
-        this.setState({active})
+        let numberOfAjaxCAllPending = 0;
+
+        axios.interceptors.request.use(function (config) {
+            numberOfAjaxCAllPending++;
+            return config;
+        }, function (error) {
+            return Promise.reject(error);
+        });
+
+        axios.interceptors.response.use(function (response) {
+            numberOfAjaxCAllPending--;
+            let active = setInterval(() => {
+                if (numberOfAjaxCAllPending === 0) {
+                    these.props.onFetchShareActive();
+                    these.props.onFetchNotifyActive();
+                    these.props.onFetchNavActive();
+                }
+            }, 5000);
+            these.setState({active})
+            return response;
+        }, function (error) {
+            numberOfAjaxCAllPending--;
+        });
     }
 
 

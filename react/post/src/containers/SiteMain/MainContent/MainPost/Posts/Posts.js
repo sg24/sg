@@ -8,6 +8,7 @@ import Loader from '../../../../../components/UI/Loader/Loader';
 import NoAcc from '../../../../../components/Main/NoAcc/NoAcc';
 import { updateObject } from '../../../../../shared/utility';
 import * as actions from '../../../../../store/actions/index';
+import axios from '../../../../../axios';
 
 let IS_ANIMATED = true;
 
@@ -42,15 +43,33 @@ class Posts extends Component {
     componentDidMount() {
         this.props.onFetchPost(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
         this.props.onChangeTag('/post');
-        let active = setInterval(() => {
-            this.props.onFetchShareActive();
-            this.props.onFetchPtActive();
-            this.props.onFetchShareCntActive();
-            this.props.onFetchNotifyActive();
-            this.props.onFetchNavActive();
-            this.props.onFetchTotal()
-        }, 5000);
-        this.setState({active})
+        let numberOfAjaxCAllPending = 0;
+        let these = this;
+
+        axios.interceptors.request.use(function (config) {
+            numberOfAjaxCAllPending++;
+            return config;
+        }, function (error) {
+            return Promise.reject(error);
+        });
+
+        axios.interceptors.response.use(function (response) {
+            numberOfAjaxCAllPending--;
+            let active = setInterval(() => {
+                if (numberOfAjaxCAllPending === 0) {
+                    these.props.onFetchShareActive();
+                    these.props.onFetchPtActive();
+                    these.props.onFetchShareCntActive();
+                    these.props.onFetchNotifyActive();
+                    these.props.onFetchNavActive();
+                    these.props.onFetchTotal()
+                }
+            }, 5000);
+            these.setState({active})
+            return response;
+        }, function (error) {
+            numberOfAjaxCAllPending--;
+        });
     }
 
     componentWillUnmount() {

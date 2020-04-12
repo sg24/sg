@@ -14,6 +14,7 @@ import { socket, createChat } from '../../../shared/utility';
 import ChatInput from './Main/ChatInput/ChatInput';
 import Backdrop from '../../../components/UI/Backdrop/Backdrop';
 import Modal from '../../../components/UI/Modal/Modal';
+import axios from '../../../axios';
 
 const AsyncSearch = asyncComponent(() => {
     return import ('./Main/Search/Search');
@@ -52,19 +53,38 @@ class MainContent extends Component {
 
     componentDidMount() {
         let these = this;
-        let active = setInterval(() => {
-            this.props.onFetchShareActive();
-            this.props.onFetchNotifyActive();
-            createChat(`/chat/${this.state.categ}/${this.state.id}`, 
-            'members', {}).then(members => {
-                this.props.onFetchMember(members)
-                createChat(`/chat/${this.state.categ}/${this.state.id}`, 
-                    'chatActive', null).then(active => {
-                        this.props.onGroupNotify(active ? active.grpchat : null)
-                        this.props.onUserNotify(active ? active.pvtchat : null)
+        let numberOfAjaxCAllPending = 0;
+
+        axios.interceptors.request.use(function (config) {
+            numberOfAjaxCAllPending++;
+            return config;
+        }, function (error) {
+            return Promise.reject(error);
+        });
+
+        axios.interceptors.response.use(function (response) {
+            numberOfAjaxCAllPending--;
+            let active = setInterval(() => {
+                if (numberOfAjaxCAllPending === 0) {
+                    these.props.onFetchShareActive();
+                    these.props.onFetchNotifyActive();
+                    createChat(`/chat/${these.state.categ}/${these.state.id}`, 
+                    'members', {}).then(members => {
+                        this.props.onFetchMember(members)
+                        createChat(`/chat/${these.state.categ}/${these.state.id}`, 
+                            'chatActive', null).then(active => {
+                                these.props.onGroupNotify(active ? active.grpchat : null)
+                                these.props.onUserNotify(active ? active.pvtchat : null)
+                            })
                     })
-            })
-        }, 5000);
+                }
+            }, 5000);
+            these.setState({active})
+            return response;
+        }, function (error) {
+            numberOfAjaxCAllPending--;
+        });
+
         socket.on('connect', function(msg) {
             socket.emit('join',{room: these.state.id, host: these.state.userID, public: true}, function(err) {
                 these.props.onJoinErr(err)
@@ -92,7 +112,6 @@ class MainContent extends Component {
         })
 
         this.props.onFetchCnt(this.state.id, this.state.categ)
-        this.setState({active})
     }
 
     componentWillUnmount() {

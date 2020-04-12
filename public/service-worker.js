@@ -74,39 +74,19 @@ workbox.precaching.precacheAndRoute([
   },
   {
     "url": "manifest.json",
-    "revision": "3ca8b7d6c1c2428f6578f163cf250f63"
+    "revision": "b7fde4e2ad76bac8a4a1efd4f79ab151"
   },
   {
-    "url": "static/css/css/2.2fe65d49.chunk.css",
-    "revision": "5b973bff2aa31d3d9775e8e54740530d"
+    "url": "static/addgroup/css/main.c02ece1d.chunk.css",
+    "revision": "97a558412e318b615722f642b062b358"
   },
   {
-    "url": "static/css/css/main.6a9c55c1.chunk.css",
-    "revision": "35670cae58787e1d9f9c6ed81ce61225"
+    "url": "static/addgroup/Form.css",
+    "revision": "2760cb475b036a5ccc97639075d2142d"
   },
   {
-    "url": "static/css/main.342e57df.chunk.css",
-    "revision": "0167b8193576e9114af137a829fb649d"
-  },
-  {
-    "url": "static/css/main.ad2c23ce.chunk.css",
-    "revision": "e7a49db3f8dd3ff2b88c5006cf799928"
-  },
-  {
-    "url": "static/media/Logo.7a8e6dba.svg",
-    "revision": "7a8e6dba7c873ae05990fa23b1ad5c07"
-  },
-  {
-    "url": "static/media/logo.e88880ec.svg",
-    "revision": "e88880ecacdf53ff5fa4a8e8850852bd"
-  },
-  {
-    "url": "stylesheets/global.css",
-    "revision": "9d767589e2c689b137a0e074f60e1f8f"
-  },
-  {
-    "url": "stylesheets/miniglobal.css",
-    "revision": "122e5cbd69e349995453eccdf97dffdb"
+    "url": "static/addgroup/index.css",
+    "revision": "7773f6d8ea7d6a4a99ac58e815ae93c7"
   }
 ]);
   
