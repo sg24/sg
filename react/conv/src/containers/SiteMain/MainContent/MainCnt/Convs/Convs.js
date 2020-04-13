@@ -48,10 +48,11 @@ class Convs extends Component {
         axios.interceptors.response.use(function (response) {
             numberOfAjaxCAllPending--;
             let active = setInterval(() => {
-                if (numberOfAjaxCAllPending === 0) {
+                if (numberOfAjaxCAllPending === 0 && these.props.status) {
                     these.props.onFetchPrivateActive();
                     these.props.onFetchGroupActive();
                     these.props.onFetchShareActive();
+                    these.props.onFetchNavActive();
                     these.props.onFetchNotifyActive();
                 }
             }, 5000);
@@ -142,6 +143,7 @@ const mapStateToProps = state => {
         cnts: state.cnt.cnts,
         skipCnt: state.cnt.skipCnt,
         cntTotal: state.cnt.cntTotal,
+        status: state.auth.status,
         filterCnt: state.cnt.filterCnt
     };
 };
@@ -157,7 +159,8 @@ const mapDispatchToProps = dispatch => {
        
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
-        onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm))
+        onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm)),
+        onFetchNavActive: () => dispatch(actions.fetchNavActiveInit())
     };
 };
 

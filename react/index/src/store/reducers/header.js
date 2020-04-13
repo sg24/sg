@@ -18,6 +18,9 @@ const initialState = {
     filterPos: 0,
     filterLastPos: 0,
     searchCntErr: null,
+    chatDet: null,
+    chatDetLoader: false,
+    chatDetErr: null,
     filterStart: false
 };
 
@@ -101,6 +104,22 @@ const headerFilterClose = (state, action) => {
     return updateObject(state, {searchCnt: null, filterStart: false})
 };
 
+const fetchChatDetStart = (state, action) => {
+    return updateObject(state, {chatDetErr: null, chatDetLoader: true})
+};
+
+const fetchChatDet = (state, action) => {
+    return updateObject(state, {chatDet: action.cnt, chatDetLoader: false})
+};
+
+const fetchChatDetFail = (state, action) => {
+    return updateObject(state, {chatDetErr: action.err, chatDetLoader: false})
+};
+
+const showChatDet = (state, action) => {
+    return updateObject(state, {default: false})
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.HEADER_FORM_EXPAND:
@@ -143,6 +162,14 @@ const reducer = (state = initialState, action) => {
             return headerFilterClose(state, action);
         case actionTypes.HEADER_FILTER:
             return headerFilter(state, action);
+        case actionTypes.FETCH_CHATDET:
+            return fetchChatDet(state, action);
+        case actionTypes.FETCH_CHATDET_FAIL:
+            return fetchChatDetFail(state, action);
+        case actionTypes.FETCH_CHATDET_START:
+            return fetchChatDetStart(state, action);
+        case actionTypes.SHOW_CHATDET:
+            return showChatDet(state, action);
         default: return state
     };
 };

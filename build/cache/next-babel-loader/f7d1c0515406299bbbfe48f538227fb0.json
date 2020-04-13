@@ -1,0 +1,1 @@
+{"ast":null,"code":"export const SUBMIT_FORM_INIT = 'SUBMIT_FORM_INIT';\nexport const SUBMIT_FORM_START = 'SUBMIT_FORM_START';\nexport const SUBMIT_FORM_FAIL = 'SUBMIT_FORM_FAIL';\nexport const SUBMIT_FORM = 'SUBMIT_FORM';\nexport const FORM_SUBMITTED = 'FORM_SUBMITTED';","map":null,"metadata":{},"sourceType":"module"}

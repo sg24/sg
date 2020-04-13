@@ -79,9 +79,10 @@ class Form extends  Component {
         axios.interceptors.response.use(function (response) {
             numberOfAjaxCAllPending--;
             let active = setInterval(() => {
-                if (numberOfAjaxCAllPending === 0) {
+                if (numberOfAjaxCAllPending === 0 && these.props.status) {
                     these.props.onFetchShareActive();
                     these.props.onFetchNotifyActive();
+                    these.props.onFetchNavActive();
                 }
             }, 5000);
             these.setState({active})
@@ -487,7 +488,7 @@ class Form extends  Component {
 
 const mapStateToProps = state => {
     return {
-        userID: state.auth.userID,
+        status: state.auth.status,
         categ: state.form.categ,
         categErr: state.form.categErr,
         showCateg: state.form.showCateg,
@@ -510,6 +511,7 @@ const mapDispatchToProps = dispatch => {
         onSubmitForm: (formData) => dispatch(actions.submit(formData)),
         onFetchShareActive: (userID) => dispatch(actions.fetchShareactiveInit(userID)),
         onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
+        onFetchNavActive: () => dispatch(actions.fetchNavActiveInit())
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

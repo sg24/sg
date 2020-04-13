@@ -55,3 +55,19 @@ export function* headerFilterInitSaga(action) {
         yield put(actions.headerFilterFail(err))
     }
 }
+
+export function* fetchChatDetInitSaga(action) {
+    try {
+        yield put(actions.fetchChatDetStart());
+        let response
+        if (action.categ === 'friends') {
+            response = yield axios.post('/conv', null, {headers: {'data-categ':'friends'}});
+        } else {
+            response = yield axios.post('/conv', null, {headers: {'data-categ':'allgroup'}})
+        }
+        
+        yield put(actions.fetchChatDet(response.data));
+    } catch(err) {
+        yield put(actions.fetchChatDetFail(err))
+    }
+}

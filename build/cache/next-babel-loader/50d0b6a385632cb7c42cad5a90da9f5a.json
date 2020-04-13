@@ -1,0 +1,1 @@
+{"ast":null,"code":"var aux = function aux(props) {\n  return props.children;\n};\n\nexport default aux;","map":null,"metadata":{},"sourceType":"module"}

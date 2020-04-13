@@ -33,7 +33,12 @@ export {
     headerFilterStart,
     headerFilterFail,
     headerFilter,
-    headerFilterClose
+    headerFilterClose,
+    fetchChatDetInit,
+    fetchChatDetStart,
+    fetchChatDetFail,
+    fetchChatDet,
+    showChatDet
 } from './header';
 
 export {
@@ -84,6 +89,8 @@ export {
     fetchGroupActive,
     fetchShareactiveInit,
     fetchShareActive,
+    fetchNavActiveInit,
+    fetchNavActive,
     showMainBackdrop,
     hideMainBackdrop
 } from './main';

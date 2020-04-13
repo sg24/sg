@@ -1,0 +1,561 @@
+{
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\index.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\App.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\containers\\Header\\NavigationList\\NavigationList.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\signup\\index.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\node_modules\\@fortawesome\\fontawesome-svg-core\\styles.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\containers\\Header\\NavigationList\\NavigationList.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\components\\Main\\NoAcc\\NoAcc.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\components\\UI\\Loader\\Loader.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\components\\Main\\NoAcc\\NoAcc.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\containers\\SiteMain\\MainContent\\MainModel\\ModelEditor\\react-draft-wysiwyg.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\components\\UI\\Loader\\Loader.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\containers\\SiteMain\\MainContent\\MainModel\\ModelEditor\\ModelEditor.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\containers\\Header\\UserOption\\UserOption.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\signup\\components\\UI\\Loader\\Loader.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\signup\\components\\UI\\Modal\\Modal.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\containers\\Header\\UserOption\\UserOption.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\components\\Main\\Poet\\PoetContent\\PoetContent.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\components\\Main\\Users\\User\\User.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\components\\UI\\ShareIcn\\ShareIcn.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\components\\Main\\Question\\QuestionContent\\QuestionContent.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\components\\Main\\Post\\PostContent\\PostContent.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\components\\Main\\ModelContents\\ModelContent\\react-draft-wysiwyg.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\components\\Main\\ModelContents\\ModelContent\\ModelContent.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\components\\UI\\ShareIcn\\ShareIcn.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\components\\Main\\ModelContents\\ModelContent\\ModelComments\\ModelComment\\react-draft-wysiwyg.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "mini-css-extract-plugin ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\login\\components\\UI\\Loader\\Loader.css": [
+    {
+      "modules": {
+        "byIdentifier": {},
+        "usedIds": {}
+      },
+      "chunks": {
+        "byName": {
+          "mini-css-extract-plugin": 0
+        },
+        "bySource": {},
+        "usedIds": [
+          0
+        ]
+      }
+    }
+  ],
+  "modules": {
+    "byIdentifier": {
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\components\\UI\\ShareIcn\\ShareIcn.css 0": 0,
+      "multi next-client-pages-loader?page=%2F_app&absolutePagePath=private-next-pages%2F_app.js! ../my-sg final deploy\\node_modules\\next\\dist\\client\\router.js": 1,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\components\\Main\\Question\\QuestionContent\\QuestionContent.css 0": 2,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\components\\UI\\Loader\\Loader.css 0": 3,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\components\\Main\\NoAcc\\NoAcc.css 0": 4,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\containers\\Header\\UserOption\\UserOption.css 0": 5,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\node_modules\\@fortawesome\\fontawesome-svg-core\\styles.css 0": 6,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\containers\\Header\\NavigationList\\NavigationList.css 0": 7,
+      "ignored ../my-sg final deploy\\react\\view\\node_modules\\engine.io-client\\lib\\transports ws": 8,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\components\\Main\\Post\\PostContent\\PostContent.css 0": 9,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\login\\components\\UI\\Loader\\Loader.css 0": 10,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\components\\Main\\Poet\\PoetContent\\PoetContent.css 0": 11,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\signup\\components\\UI\\Loader\\Loader.css 0": 12,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\signup\\components\\UI\\Modal\\Modal.css 0": 13,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\signup\\index.css 0": 14,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\index\\components\\Main\\Users\\User\\User.css 0": 15,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\containers\\Header\\NavigationList\\NavigationList.css 0": 16,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\components\\UI\\Loader\\Loader.css 0": 17,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\components\\Main\\NoAcc\\NoAcc.css 0": 18,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\containers\\Header\\UserOption\\UserOption.css 0": 19,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\components\\Main\\ModelContents\\ModelContent\\ModelComments\\ModelComment\\react-draft-wysiwyg.css 0": 20,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\components\\Main\\ModelContents\\ModelContent\\react-draft-wysiwyg.css 0": 21,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\components\\Main\\ModelContents\\ModelContent\\ModelContent.css 0": 22,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\components\\UI\\ShareIcn\\ShareIcn.css 0": 23,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\containers\\SiteMain\\MainContent\\MainModel\\ModelEditor\\ModelEditor.css 0": 24,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\containers\\SiteMain\\MainContent\\MainModel\\ModelEditor\\react-draft-wysiwyg.css 0": 25,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\index.css 0": 26,
+      "css ../my-sg final deploy\\node_modules\\css-loader\\index.js??ref--5-1!../my-sg final deploy\\react\\view\\App.css 0": 27
+    },
+    "usedIds": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "5": 5,
+      "6": 6,
+      "7": 7,
+      "8": 8,
+      "9": 9,
+      "10": 10,
+      "11": 11,
+      "12": 12,
+      "13": 13,
+      "14": 14,
+      "15": 15,
+      "16": 16,
+      "17": 17,
+      "18": 18,
+      "19": 19,
+      "20": 20,
+      "21": 21,
+      "22": 22,
+      "23": 23,
+      "24": 24,
+      "25": 25,
+      "26": 26,
+      "27": 27
+    }
+  },
+  "chunks": {
+    "byName": {
+      "commons": 0,
+      "static/runtime/webpack.js": 1,
+      "framework": 2,
+      "536898f062937414a3069de8831e72b6cbcea3a7": 3,
+      "b8b9d42129d62df3138769e62466998cb9a2681a": 4,
+      "cb1608f2": 5,
+      "a9a7754c": 6,
+      "59f094a32643cc1e76494f3f98453a06e7c6f2c0": 7,
+      "styles": 8,
+      "8e35b615e55e475f7736e8d348fb0eca7884f1f8": 9,
+      "d6eee17a94f96ee20a38c014fd686446a59a35f2": 10,
+      "8fdf4cb644614573c2499b23e52093acd9f95ed1": 11,
+      "static/runtime/main.js": 12,
+      "static/runtime/polyfills.js": 13,
+      "static\\G96PwlR_KXI-B5K6HVEqC\\pages\\_app.js": 14,
+      "static\\G96PwlR_KXI-B5K6HVEqC\\pages\\_error.js": 15,
+      "static\\G96PwlR_KXI-B5K6HVEqC\\pages\\robotonly\\rbhelpme.js": 16,
+      "static\\G96PwlR_KXI-B5K6HVEqC\\pages\\robotonly\\rbindex.js": 17,
+      "static\\G96PwlR_KXI-B5K6HVEqC\\pages\\robotonly\\rblogin.js": 18,
+      "static\\G96PwlR_KXI-B5K6HVEqC\\pages\\robotonly\\rbpoet.js": 19,
+      "static\\G96PwlR_KXI-B5K6HVEqC\\pages\\robotonly\\rbquestion.js": 20,
+      "static\\G96PwlR_KXI-B5K6HVEqC\\pages\\robotonly\\rbsignup.js": 21,
+      "static\\G96PwlR_KXI-B5K6HVEqC\\pages\\robotonly\\rbuser.js": 22,
+      "static\\G96PwlR_KXI-B5K6HVEqC\\pages\\robotonly\\rbview.js": 23
+    },
+    "bySource": {},
+    "usedIds": [
+      0,
+      1,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      2,
+      20,
+      21,
+      22,
+      23,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  }
+}

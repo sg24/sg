@@ -7,8 +7,9 @@ import { fetchNotifyInitSaga,
         fetchNavlistInitSaga, 
         fetchNotifyActiveInitSaga,
         defaultNotifyActiveInitSaga,
+        fetchChatDetInitSaga,
         headerFilterInitSaga } from './header';
-import { fetchShareActiveInitSaga, resetActiveInitSaga} from './main';
+import { fetchShareActiveInitSaga, fetchNavActiveInitSaga,resetActiveInitSaga} from './main';
 import { fetchCntInitSaga,
             fetchCategInitSaga, 
             addCategInitSaga, 
@@ -31,6 +32,7 @@ export function* watchHeader() {
         takeEvery(actionTypes.FETCH_NOTIFY_ACTIVE_INIT, fetchNotifyActiveInitSaga),
         takeEvery(actionTypes.DEFAULT_NOTIFYACTIVE_INIT, defaultNotifyActiveInitSaga),
         takeEvery(actionTypes.FETCH_SHARE_ACTIVE_INIT, fetchShareActiveInitSaga),
+        takeEvery(actionTypes.FETCH_CHATDET_INIT, fetchChatDetInitSaga),
         takeEvery(actionTypes.HEADER_FILTER_INIT, headerFilterInitSaga)
      ])
 }
@@ -50,6 +52,7 @@ export function* watchForm() {
 export function* watchMain() {
     yield all([
        takeEvery(actionTypes.FETCH_SHARE_ACTIVE_INIT, fetchShareActiveInitSaga),
+       takeEvery(actionTypes.FETCH_NAV_ACTIVE_INIT, fetchNavActiveInitSaga),
        takeEvery(actionTypes.RESET_ACTIVE_INIT, resetActiveInitSaga)
     ])
 }

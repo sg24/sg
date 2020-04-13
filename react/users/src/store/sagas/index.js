@@ -13,6 +13,7 @@ import { fetchNotifyInitSaga,
             fetchNavlistInitSaga, 
             fetchNotifyActiveInitSaga,
             defaultNotifyActiveInitSaga,
+            fetchChatDetInitSaga,
             headerFilterInitSaga } from './header';
 import { fetchReqActiveInitSaga,
          fetchShareActiveInitSaga,
@@ -66,6 +67,7 @@ export function* watchHeader() {
         takeEvery(actionTypes.FETCH_NAVLIST_INIT, fetchNavlistInitSaga),
         takeEvery(actionTypes.FETCH_NOTIFY_ACTIVE_INIT, fetchNotifyActiveInitSaga),
         takeEvery(actionTypes.DEFAULT_NOTIFYACTIVE_INIT, defaultNotifyActiveInitSaga),
+        takeEvery(actionTypes.FETCH_CHATDET_INIT, fetchChatDetInitSaga),
         takeEvery(actionTypes.HEADER_FILTER_INIT, headerFilterInitSaga)
      ])
 }

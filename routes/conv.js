@@ -4,6 +4,7 @@ let mongoose = require('mongoose');
 let authenticate = require('../serverDB/middleware/authenticate');
 let filterCnt = require('./utility/filtercnt');
 const {chat, chatnotifies, group, grpchatnotifies, user, authUser, connectStatus} = require('../serverDB/serverDB');
+let arraySort = require('array-sort');
 
 router.get('/', authenticate, (req, res,next) => {
     if (!req.authType) {
@@ -43,6 +44,145 @@ router.post('/', authenticate, (req, res, next) => {
         })
     }
 
+    if (req.header('data-categ') &&  req.header('data-categ') === 'friends') { 
+        let model =  req.userType === 'authUser' ? authUser : user;
+        model.findById(req.user).then(userDet => {
+            if (userDet) {
+                let users = [...userDet.teacher , ...userDet.student];
+                if (users.length < 1) {
+                    return res.status(200).send(users)
+                }
+                let cnt = [];
+                let userTotal = 0;
+                for (let id of users) {
+                    chat.findOne({$or: [{$and: [ { host: { $in: id } }, { reply: { $in: req.user} } ]}, {$and: [ { host: { $in: req.user } }, { reply: { $in: id} }]}]}).then(chatDet => {
+                        let lastMsg = {};
+                        if (chatDet) {
+                            let msg = chatDet.chat.length > 0 ? arraySort(chatDet.chat, 'created', {reverse: true}) : null;
+                            lastMsg = checkMsg(msg);
+                            function checkMsg(msg) {
+                                for (let cnt of msg) {
+                                    if (cnt.ID === id) {
+                                        let updateCnt = cnt.reply && cnt.reply.length > 0 ? cnt.reply[cnt.reply.length - 1] : cnt;
+                                        return {
+                                            msg: updateCnt.cntType !== 'typedPlain' ? updateCnt.cntType === 'media' ? 'Video' : updateCnt.cntType : updateCnt.msg,
+                                            created: updateCnt.created
+                                        }
+                                    }
+                                }
+                                return null
+                            }
+                        }
+
+                        chatnotifies.findOne({userID: req.user}).then(notify => {
+                            let notifications = 0;
+                            if (notify) {
+                                for (let member of notify.member) {
+                                    if (member.ID === id) {
+                                        notifications = member.notifications;
+                                    }
+                                }
+                            }
+                            getUserDet(id, cnt, lastMsg, notifications).then(userFnd => {
+                                cnt = userFnd;
+                                ++userTotal;
+                                if (userTotal === users.length) {
+                                    res.status(200).send(cnt) 
+                                }
+                            })
+                        })  
+                    })
+                }
+            } else {
+                res.sendStatus(200)
+            }
+
+            function getUserDet(id, cnt, lastMsg, notifications) {
+                return new Promise((resolve, reject) => {
+                    user.findById(id).then(userdet => {
+                        if (!userDet) {
+                            authUser.findById(userID).then(authdet => {
+                                cnt.push({
+                                    id,
+                                    username: authdet.username,
+                                    status: authdet.status, 
+                                    image: authdet.image,
+                                    ...lastMsg,
+                                    notifications
+                                })
+                                return resolve(cnt)
+                            })
+                        } else {
+                            cnt.push({
+                                id,
+                                username: userdet.username,
+                                status: userdet.status, 
+                                image: userdet.image,
+                                ...lastMsg,
+                                notifications
+                            })
+                           return resolve(cnt)
+                        }
+                    })
+                })
+            }
+        })
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'allgroup') {
+        group.find({_isCompleted: true, 
+            $or: [ { member: { $in: req.user} }, 
+                { authorID:  req.user } ]}).sort({groupCreated: -1}).then(grp => {
+            let grpCnt = []
+            let cntTotal = 0;
+            if (grp) {
+                if (grp.length < 1) {
+                    return res.status(200).send([])
+                }
+                for(let cnt of grp) {
+                    let update = {};
+                    update['authorID'] = cnt.authorID;
+                    update['category'] = cnt.category;
+                    update['desc'] = cnt.desc;
+                    update['image'] = cnt.image;
+                    update['members'] = cnt.member.length + 1;
+                    update['title'] = cnt.title;
+                    update['online'] = cnt.online.length;
+                    update['groupCreated'] = cnt.groupCreated;
+                    update['offline'] = (cnt.member.length + 1) - cnt.online.length;
+                    let chats = arraySort(cnt.chat, 'groupCreated', {reverse: true});
+                    let lastMsg = null;
+                    for (let chat of chats) {
+                        if (chat.cntType === 'typedPlain') {
+                            lastMsg = chat.msg
+                        }
+                    }
+                    update['lastChat'] = lastMsg;
+                    update['_id'] = cnt._id;
+                    grpchatnotifies.findOne({userID: req.user}).then(notifyCnt => {
+                        ++cntTotal;
+                        if (notifyCnt) {
+                            for (let notify of notifyCnt.grp) {
+                                if (notify.ID === cnt._id.toHexString()) {
+                                    update['notify'] = notify.notifications;
+                                }
+                            }
+                        }
+                        grpCnt.push(update);
+                        if (cntTotal === grp.length) {
+                            res.status(200).send(grpCnt)
+                        }
+                    }).catch(err =>{
+                        res.status(500).send(err)
+                    });
+                }
+            } else {
+                res.status(500).send(err)
+        }}).catch(err =>{
+            res.status(500).send(err)
+        })
+    }
+    
     if (req.header('data-categ') && req.header('data-categ') === 'navActive') {
         chatnotifies.findOne({userID: req.user}).then(notifyCnt => {
             let notifications = 0;
@@ -58,7 +198,9 @@ router.post('/', authenticate, (req, res, next) => {
                     }
                     res.status(200).send(String(notifications))
                 })
+                return
             }
+            res.sendStatus(200)
          }).catch(err =>{
              res.sendStatus(500)
          })

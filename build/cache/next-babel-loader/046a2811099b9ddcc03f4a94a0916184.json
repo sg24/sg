@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { takeEvery, all } from 'redux-saga/effects';\nimport { submitFormInitSaga } from './form';\nimport * as actionTypes from '../../store/actions/actionTypes';\nexport function* watchForm() {\n  yield all([takeEvery(actionTypes.SUBMIT_FORM_INIT, submitFormInitSaga)]);\n}","map":null,"metadata":{},"sourceType":"module"}

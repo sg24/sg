@@ -31,12 +31,19 @@ export {
     headerFilterStart,
     headerFilterFail,
     headerFilter,
-    headerFilterClose
+    headerFilterClose,
+    fetchChatDetInit,
+    fetchChatDetStart,
+    fetchChatDetFail,
+    fetchChatDet,
+    showChatDet
 } from './header';
 
 export {
     fetchShareactiveInit,
     fetchShareActive,
+    fetchNavActiveInit,
+    fetchNavActive,
     resetActiveInit,
     resetActive
 } from './main';

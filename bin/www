@@ -43,7 +43,6 @@ nextApp.prepare().then(() => {
   let groupRoute = require('../routes/group');
   let chatRoute = require('../routes/chat');
   let convRoute = require('../routes/conv');
-  let conversationRoute = require('../routes/conv');
   let robotonlyRoute = require('../routes/robot');
 
   app.use('/', [appRoutes, formRoutes,profileRoute, viewRoute]);
@@ -59,7 +58,6 @@ nextApp.prepare().then(() => {
   app.use('/robotonly', robotonlyRoute);
   app.use('/chat', chatRoute);
   app.use('/conv', convRoute);
-  app.use('/conversation', conversationRoute);
   app.use('/sitemap.xml', sitemapxmlRoute);
 
   app.all('*', (req, res) => {

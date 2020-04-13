@@ -35,7 +35,7 @@ export function* fetchNavlistInitSaga(action) {
 export function* fetchNotifyActiveInitSaga(action) {
     try {
         let response = yield axios.post('/header', {}, {headers: {'data-categ':'allnotification'}});
-            yield put(actions.fetchNotifyActive(response.data.collTotal))
+        yield put(actions.fetchNotifyActive(response.data.collTotal));
     } catch(err) {}
 }
 
@@ -53,5 +53,21 @@ export function* headerFilterInitSaga(action) {
         yield put(actions.headerFilter(response.data));
     } catch(err) {
         yield put(actions.headerFilterFail(err))
+    }
+}
+
+export function* fetchChatDetInitSaga(action) {
+    try {
+        yield put(actions.fetchChatDetStart());
+        let response
+        if (action.categ === 'friends') {
+            response = yield axios.post('/conv', null, {headers: {'data-categ':'friends'}});
+        } else {
+            response = yield axios.post('/conv', null, {headers: {'data-categ':'allgroup'}})
+        }
+        
+        yield put(actions.fetchChatDet(response.data));
+    } catch(err) {
+        yield put(actions.fetchChatDetFail(err))
     }
 }

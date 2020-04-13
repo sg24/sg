@@ -56,7 +56,7 @@ class Posts extends Component {
         axios.interceptors.response.use(function (response) {
             numberOfAjaxCAllPending--;
             let active = setInterval(() => {
-                if (numberOfAjaxCAllPending === 0) {
+                if (numberOfAjaxCAllPending === 0 && these.props.status) {
                     these.props.onFetchShareActive();
                     these.props.onFetchPtActive();
                     these.props.onFetchShareCntActive();
@@ -295,7 +295,7 @@ class Posts extends Component {
 
 const mapStateToProps = state => {
     return {
-        userID: state.auth.userID,
+        status: state.auth.status,
         posts: state.pt.posts,
         skipPost: state.pt.skipPost,
         ptTotal: state.pt.ptTotal,

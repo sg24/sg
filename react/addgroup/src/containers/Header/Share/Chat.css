@@ -1,0 +1,108 @@
+.icon__site-header--chat {
+    margin-right: 5px
+}
+
+.site-header__chat {
+    position: absolute;
+    top: 40px;
+    box-shadow: 0px 0px 4.15px 0.85px rgba(0,0,0, 0.65);
+    padding: 2px 0 0 0;
+    color: #182427;
+    font-size: .8125rem;
+    background-color: #fff;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    margin: 0;
+    cursor: default;
+}
+
+.site-header__chat > li {
+    list-style: none;
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+.site-header__chat > li:first-child {
+    border-bottom: 1px solid #dcdbdc;;
+}
+
+.site-header__chat > li:hover {
+    background-color: #0284a8;
+    color: #fff
+}
+
+.site-header__chat::after {
+  content: "";
+  border-color: transparent;
+  position: absolute;
+  border-width: 9px;
+  border-style: solid;
+  border-bottom-color: #fff;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.site-header__chat::before {
+  border-color: transparent;
+  content: "";
+  position: absolute;
+  border-width: 10px;
+  border-bottom-color: rgba(0,0,0, 0.25);
+  border-style: solid;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.site-header__chat--opt {
+    position: absolute;
+    top: 40px;
+    width: 18rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #0284a8;
+    padding: 0;
+    margin: 0;
+    z-index: 1;
+    border-radius: 5px;
+    cursor: default;
+    border-bottom: 5px solid #0284a8;
+    border-top: 5px solid #0284a8;
+    box-shadow: 0px 1px 4.15px 0.85px rgba(0,0,0, 0.65);
+    transition: all .3s ease-in;
+  }
+  
+  .site-header__chat--opt::before {
+    border-color: transparent;
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom-color: #0284a8;
+    border-style: solid;
+    border-width: 14px;
+    top: -28px;
+  }
+  
+  .site-header__chat--opt--det {
+    height: 18.75rem;
+    overflow: hidden ;
+    overflow-x: hidden ;
+    overflow-y: auto ;
+    background: #dcdbdc;
+    padding: 20px 10px;
+  }
+  
+  @media (min-width: 380px) {
+  
+    .site-header__chat--opt {
+      width: 25rem;
+    }
+  }
+  
+  .site-header__chat--err {
+      color: #f22613;
+      text-align: center;
+  }

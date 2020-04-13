@@ -63,7 +63,8 @@ class NavigationInput extends Component {
 
 const mapStateToProps = state => {
     return {
-        expand: state.header.expand
+        expand: state.header.expand,
+        status: state.auth.status
     };
 };
 

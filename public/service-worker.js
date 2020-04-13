@@ -75,18 +75,6 @@ workbox.precaching.precacheAndRoute([
   {
     "url": "manifest.json",
     "revision": "b7fde4e2ad76bac8a4a1efd4f79ab151"
-  },
-  {
-    "url": "static/addgroup/css/main.c02ece1d.chunk.css",
-    "revision": "97a558412e318b615722f642b062b358"
-  },
-  {
-    "url": "static/addgroup/Form.css",
-    "revision": "2760cb475b036a5ccc97639075d2142d"
-  },
-  {
-    "url": "static/addgroup/index.css",
-    "revision": "7773f6d8ea7d6a4a99ac58e815ae93c7"
   }
 ]);
   

@@ -96,7 +96,7 @@ class MainContent extends Component {
         axios.interceptors.response.use(function (response) {
             numberOfAjaxCAllPending--;
             let active = setInterval(() => {
-                if (numberOfAjaxCAllPending === 0) {
+                if (numberOfAjaxCAllPending === 0 && these.props.status) {
                     these.props.onFetchShareActive();
                     these.props.onFetchShareCntActive();
                     these.props.onFetchNotifyActive();
@@ -201,6 +201,7 @@ class MainContent extends Component {
 const mapStateToProps = state => {
     return {
        userID: state.auth.userID,
+       status: state.auth.status,
        shareCntActive: state.main.shareCntActive,
        cntActive: state.main.cntActive,
        ptActive: state.main.ptActive,

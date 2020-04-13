@@ -181,3 +181,37 @@ export const headerFilterClose = () => {
         type: actionTypes.HEADER_FILTER_CLOSE
     };
 };
+
+export const fetchChatDetInit = (categ) =>  {
+    return {
+        type: actionTypes.FETCH_CHATDET_INIT,
+        categ
+    }; 
+}; 
+
+export const fetchChatDetStart = () => {
+    return {
+        type: actionTypes.FETCH_CHATDET_START
+    };
+};
+
+export const fetchChatDetFail = (err) => {
+    return {
+        type: actionTypes.FETCH_CHATDET_FAIL,
+        err
+    };
+};
+
+export const fetchChatDet = (cnt) => {
+    return {
+        type: actionTypes.FETCH_CHATDET,
+        cnt
+    };
+};
+
+export const showChatDet = (cnt) => {
+    return {
+        type: actionTypes.SHOW_CHATDET,
+        cnt
+    };
+};

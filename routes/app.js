@@ -20,14 +20,15 @@ const {category,  posts, questions, poets, group, user, tempUser, postnotifies,
      favorite, connectStatus, chatnotifies, grpchatnotifies} = require('../serverDB/serverDB');
 
 router.get('/',function (req, res, next) {
-    if ((req.useragent && req.useragent.isBot) ||
-    req.useragent.source === 'facebookexternalhit/1.1' ||
-    req.useragent.source === 'Facebot' ||
-    req.useragent.source === 'Twitterbot') {
-        res.redirect(301, `/robotonly/rbindex`)
-    } else {
-        res.render('index');
-    }
+    res.redirect(301,'/index/post');
+    // if ((req.useragent && req.useragent.isBot) ||
+    // req.useragent.source === 'facebookexternalhit/1.1' ||
+    // req.useragent.source === 'Facebot' ||
+    // req.useragent.source === 'Twitterbot') {
+    //     res.redirect(301, `/robotonly/rbindex`)
+    // } else {
+    //     res.render('index');
+    // }
 });
 
 // router.get('/', authenticate,function (req, res, next) {

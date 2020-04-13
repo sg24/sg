@@ -1,0 +1,1 @@
+{"ast":null,"code":"const aux = props => props.children;\n\nexport default aux;","map":null,"metadata":{},"sourceType":"module"}

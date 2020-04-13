@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
 
 import Aux from '../../../hoc/Auxs/Aux';
@@ -41,7 +41,7 @@ class MainNav extends Component {
             <div className="site-main__nav site-main__nav--sticky">
                 <div className="site-main__nav--wrapper">
                     <ul className="site-main__nav--header">
-                        <li 
+                        {/* <li 
                             className={navExchangeClass.join(' ')}
                             onClick={this.showConvHandler}>
                             <FontAwesomeIcon 
@@ -50,7 +50,7 @@ class MainNav extends Component {
                                 <div className="active__main active__main--nav">
                                 <div> {this.props.navActive } </div>
                             </div> : null}
-                        </li>
+                        </li> */}
                     </ul>
                     { mainNavItm }
                 </div>

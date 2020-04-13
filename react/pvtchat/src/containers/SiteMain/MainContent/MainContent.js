@@ -65,7 +65,7 @@ class MainContent extends Component {
         axios.interceptors.response.use(function (response) {
             numberOfAjaxCAllPending--;
             let active = setInterval(() => {
-                if (numberOfAjaxCAllPending === 0) {
+                if (numberOfAjaxCAllPending === 0 && these.props.status) {
                     these.props.onFetchShareActive();
                     these.props.onFetchNotifyActive();
                     createChat(`/chat/${these.state.categ}/${these.state.id}`, 
@@ -266,6 +266,7 @@ class MainContent extends Component {
 
 const mapStateToProps = state => {
     return {
+        status: state.auth.status,
         showLoader: state.cnt.showLoader,
         cnts: state.cnt.cnts,
         members: state.cnt.members,

@@ -31,7 +31,7 @@ class Model extends Component {
         axios.interceptors.response.use(function (response) {
             numberOfAjaxCAllPending--;
             let active = setInterval(() => {
-                if (numberOfAjaxCAllPending === 0) {
+                if (numberOfAjaxCAllPending === 0 && these.props.status) {
                     these.props.onFetchShareActive();
                     these.props.onFetchNotifyActive();
                     these.props.onFetchNavActive();
@@ -115,7 +115,7 @@ class Model extends Component {
 
 const mapStateToProps = state => {
     return {
-        userID: state.auth.userID,
+        status: state.auth.status,
         cnts: state.cnt.cnts,
         cntErr: state.cnt.cntErr,
         addUser: state.cnt.addUser,

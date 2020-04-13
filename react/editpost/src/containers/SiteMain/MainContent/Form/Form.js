@@ -91,9 +91,10 @@ class Form extends  Component {
         axios.interceptors.response.use(function (response) {
             numberOfAjaxCAllPending--;
             let active = setInterval(() => {
-                if (numberOfAjaxCAllPending === 0) {
+                if (numberOfAjaxCAllPending === 0 && these.props.status) {
                     these.props.onFetchShareActive();
                     these.props.onFetchNotifyActive();
+                    these.props.onFetchNavActive();
                 }
             }, 5000);
             these.setState({active})
@@ -561,7 +562,7 @@ class Form extends  Component {
 
 const mapStateToProps = state => {
     return {
-        userID: state.auth.userID,
+        status: state.auth.status,
         cntErr: state.form.cntErr,
         redirect: state.form.redirect,
         categ: state.form.categ,
@@ -591,7 +592,8 @@ const mapDispatchToProps = dispatch => {
         onShowMediaBox: () => dispatch(actions.showMediaBox()),
         onSubmitForm: (formData) => dispatch(actions.submit(formData)),
         onFetchShareActive: (userID) => dispatch(actions.fetchShareactiveInit(userID)),
-        onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit())
+        onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
+        onFetchNavActive: () => dispatch(actions.fetchNavActiveInit())
     };
 };
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Form));

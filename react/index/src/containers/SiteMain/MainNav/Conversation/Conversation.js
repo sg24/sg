@@ -6,6 +6,7 @@ import ConvItems from '../../../../components/Main/Nav/ConvItems/ConvItems';
 import * as actions from '../../../../store/actions/index';
 import { updateObject } from '../../../../shared/utility';
 import Loader from '../../../../components/UI/Loader/Loader';
+import NoAcc from '../../../../components/Main/NoAcc/NoAcc';
 
 class Conversation extends Component {
     state = {
@@ -13,7 +14,9 @@ class Conversation extends Component {
     }
 
     componentDidMount() {
-        this.props.onFetchConv();
+        if (this.props.status) {
+            this.props.onFetchConv();
+        }
     }
 
     showUserOptHandler = (index) => {
@@ -38,6 +41,13 @@ class Conversation extends Component {
                 convs={this.props.conv}/>
         }
 
+        if (!this.props.status) {
+            convs = <NoAcc 
+                isAuth={this.props.status}
+                det='No Convesation found!'
+                icn='users' />
+        }
+
         return (
             <div className="reuse-conv">
             <div className="reuse-conv__title">
@@ -60,7 +70,8 @@ class Conversation extends Component {
 
 const mapStateToPros = state => {
     return {
-        conv: state.conv.conv
+        conv: state.conv.conv,
+        status: state.auth.status
     };
 }
 

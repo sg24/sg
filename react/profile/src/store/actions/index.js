@@ -33,7 +33,12 @@ export {
     headerFilterStart,
     headerFilterFail,
     headerFilter,
-    headerFilterClose
+    headerFilterClose,
+    fetchChatDetInit,
+    fetchChatDetStart,
+    fetchChatDetFail,
+    fetchChatDet,
+    showChatDet
 } from './header';
 
 export {

@@ -21,3 +21,10 @@ export function* resetActiveInitSaga(action) {
         yield put(actions.resetActive(action.curTab));
     } catch(err) {}
 }
+
+export function* fetchNavActiveInitSaga(action) {
+    try {
+        let response = yield axios.post('/conv', {}, {headers: {'data-categ':'navActive'}});
+        yield put(actions.fetchNavActive(response.data));        
+    } catch(err) {}
+}

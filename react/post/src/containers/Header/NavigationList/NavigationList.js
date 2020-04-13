@@ -211,11 +211,19 @@ class NavigationList extends Component {
                         </a>
                     </li>
                     <li>
-                        <a href="/conversation">
+                        <a href="/conv">
                             <FontAwesomeIcon 
                                 icon={['fas', 'comment']} 
                                 className="icon icon__site-header--nav__itm" />
                             conversation
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/acc/shared">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'location-arrow']} 
+                                className="icon icon__site-header--nav__itm" />
+                            shared
                         </a>
                     </li>
                 </ul>

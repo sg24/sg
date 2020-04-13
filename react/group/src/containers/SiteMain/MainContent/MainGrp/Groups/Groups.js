@@ -48,7 +48,7 @@ class Groups extends Component {
         axios.interceptors.response.use(function (response) {
             numberOfAjaxCAllPending--;
             let active = setInterval(() => {
-                if (numberOfAjaxCAllPending === 0) {
+                if (numberOfAjaxCAllPending === 0 && these.props.status) {
                     these.props.onFetchReqActive();
                     these.props.onFetchJoinActive();
                     these.props.onFetchTotal();
@@ -167,7 +167,7 @@ class Groups extends Component {
 
 const mapStateToProps = state => {
     return {
-        userID: state.auth.userID,
+        status: state.auth.status,
         cnts: state.cnt.cnts,
         skipCnt: state.cnt.skipCnt,
         cntTotal: state.cnt.cntTotal,

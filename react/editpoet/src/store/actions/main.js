@@ -14,6 +14,19 @@ export const fetchShareActive = (shareActive) =>  {
     }; 
 }; 
 
+export const fetchNavActiveInit = () => {
+    return {
+        type: actionTypes.FETCH_NAV_ACTIVE_INIT
+    };
+};
+
+export const fetchNavActive = (active) => {
+    return {
+        type: actionTypes.FETCH_NAV_ACTIVE,
+        active
+    };
+};
+
 export const resetActiveInit = (userID, curTab) => {
     return {
         type: actionTypes.RESET_ACTIVE_INIT,

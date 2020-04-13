@@ -5,6 +5,7 @@ const initialState = {
     showBackdrop: false,
     privateActive: null,
     groupActive: null,
+    navActive: null,
     reqActive: null
 };
 
@@ -16,6 +17,9 @@ const fetchShareActive = (state, action) => {
     return updateObject(state, {shareActive: action.shareActive})
 };
 
+const fetchNavActive = (state, action) => {
+    return updateObject(state, {navActive: action.active })
+};
 
 const fetchGroupActive = (state, action) => {
     return updateObject(state, {groupActive: action.groupActive})
@@ -39,6 +43,8 @@ const reducer = (state = initialState, action) => {
             return fetchGroupActive(state, action);
         case actionTypes.FETCH_SHARE_ACTIVE:
             return fetchShareActive(state, action);
+        case actionTypes.FETCH_NAV_ACTIVE:
+            return fetchNavActive(state, action);
         case actionTypes.SHOW_MAIN_BACKDROP:
             return showMainBackdrop(state, action);
         case actionTypes.HIDE_MAIN_BACKDROP:

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { connect } from 'react-redux';
 
 import Aux from '../../../hoc/Auxs/Aux';
 // import Tags from './Tags/Tags';
@@ -45,9 +46,10 @@ class MainNav extends Component {
                             onClick={this.showConvHandler}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'exchange-alt']} />
-                            <div className="active__main active__main--nav">
-                                <div>99</div>
-                            </div>
+                            {this.props.navActive && this.props.navActive > 0 ? 
+                                <div className="active__main active__main--nav">
+                                <div> {this.props.navActive } </div>
+                            </div> : null}
                         </li> */}
                     </ul>
                     { mainNavItm }
@@ -57,4 +59,11 @@ class MainNav extends Component {
     }
 }
 
-export default MainNav;
+const mapStateToProps = state => {
+    return {
+        navActive: state.main.navActive
+    };
+ }
+
+
+export default connect(mapStateToProps, null)(MainNav); 
