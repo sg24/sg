@@ -42,14 +42,14 @@ let app = express();
 app.use(useragent.express())
 app.use(cookieParser('secret'));
 app.use(function(req, res, next) {
-  // if(req.headers.host.slice(0, 4) === 'www.') {
-  //     var newHost = req.headers.host.slice(4);
-  //     //   return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
-  //     return res.redirect(301, 'https://slodge24.com' + req.url);
-  //   }
+  if(req.headers.host.slice(0, 4) === 'www.') {
+      var newHost = req.headers.host.slice(4);
+      //   return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
+      return res.redirect(301, 'https://slodge24.com' + req.url);
+    }
     
     if(req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === "http") {
-      return res.redirect(301, 'https://www.slodge24.com' + req.url);
+      return res.redirect(301, 'https://slodge24.com' + req.url);
     }
   next();
 });
