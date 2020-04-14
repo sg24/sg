@@ -101,7 +101,7 @@ router.post('/', authenticate, (req, res, next) => {
                 return new Promise((resolve, reject) => {
                     user.findById(id).then(userdet => {
                         if (!userdet) {
-                            authUser.findById(userID).then(authdet => {
+                            authUser.findById(id).then(authdet => {
                                 cnt.push({
                                     id,
                                     username: authdet.username,
