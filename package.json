@@ -6,6 +6,7 @@
     "dev": "next",
     "build": "next build",
     "start": "node ./bin/www",
+    "heroku-postbuild": "next build",
     "generate-sw": "workbox injectManifest"
   },
   "dependencies": {
