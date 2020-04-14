@@ -100,8 +100,7 @@ router.post('/', authenticate, (req, res, next) => {
             function getUserDet(id, cnt, lastMsg, notifications) {
                 return new Promise((resolve, reject) => {
                     user.findById(id).then(userdet => {
-                        console.log(userdet, id)
-                        if (!userDet) {
+                        if (!userdet) {
                             authUser.findById(userID).then(authdet => {
                                 cnt.push({
                                     id,
