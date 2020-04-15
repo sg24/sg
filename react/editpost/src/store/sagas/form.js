@@ -56,7 +56,7 @@ export function* fetchCategInitSaga(action) {
     try {
         yield put(actions.fetchCategStart());
         const category = yield axios.post('/post', null,{headers: {'data-categ':'postCateg'}});
-        const categ =  category.data && category.data.length > 0 ? category.data : null;
+        const categ =  category.data && category.data.length > 0 ? category.data : [];
         yield put(actions.fetchCateg(categ))
     } catch(err){
         yield put(actions.fetchCategFail(err));
