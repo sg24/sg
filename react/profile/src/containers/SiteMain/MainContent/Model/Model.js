@@ -87,7 +87,7 @@ class Model extends Component {
     }
 
     chatHandler = () => {
-        this.props.history.push(`/chat/user/${this.props.match.params.id}`)
+        window.location.assign(`/chat/user/${this.props.match.params.id}`)
     }
 
     render() {
