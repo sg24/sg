@@ -45,7 +45,7 @@ class MainContent extends Component {
         id: this.props.match.params.id,
         categ: this.props.match.params.categ,
         userID: document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1"),
-        chatLimit: 300,
+        chatLimit: 50,
         err: null,
         disable: false,
         active: null
@@ -149,9 +149,11 @@ class MainContent extends Component {
         let these = this;
         createChat(`/chat/${this.state.categ}/${this.state.id}`, 
             'pvtDeleteChat', {cnt: this.props.chatSelected}).then(cnt=> {
-                socket.emit('pvtDeleteChat', cnt, function(err) {
-                these.props.onTypingErr(err)
-            })
+            //     socket.emit('pvtDeleteChat', cnt, function(err) {
+            //     these.props.onTypingErr(err)
+            // })
+            these.setState({disable: false})
+            these.props.onRemoveChat(cnt)
         }).catch(err =>{
             these.props.onTypingErr(err)
         })

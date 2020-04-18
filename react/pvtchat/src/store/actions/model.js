@@ -366,10 +366,14 @@ export const uploadMediaStart = (chatID, cntType, percentage) =>{
     };
 }
 
-export const uploadMediaFail = (err) => {
+export const uploadMediaFail = (ext, msgType, format, chatID, file) => {
     return {
         type: actionTypes.UPLOAD_MEDIA_FAIL,
-        err
+        ext, 
+        msgType, 
+        format, 
+        chatID, 
+        file
     }
 };
 
@@ -400,5 +404,37 @@ export const userNotify = (cnt) => {
     return {
         type: actionTypes.USER_NOTIFY,
         cnt
+    }
+};
+
+export const createChatStart = (msgType, msg, msgID, msgCateg) => {
+    return {
+        type: actionTypes.CREATE_CHAT_START,
+        msgType,
+        msg,
+        msgID,
+        msgCateg
+    };
+}
+
+export const createChatFail = (msgType, msg, msgID, msgCateg) => {
+    return {
+        type: actionTypes.CREATE_CHAT_FAIL,
+        msgType,
+        msg,
+        msgID,
+        msgCateg
+    }
+};
+
+export const createChat = (cnt) => {
+    return {
+        type: actionTypes.CREATE_CHAT
+    }
+};
+
+export const resetResendChat = () => {
+    return {
+        type: actionTypes.RESET_RESEND_CHAT
     }
 };

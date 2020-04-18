@@ -77,6 +77,7 @@ class Main extends Component {
                                 <div></div> online
                             </div>
                         )
+                        userStatusIcn = null;
                     } else {
                         userStatusIcn = (
                             <div className="site-main__chat--header__img--status">

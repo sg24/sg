@@ -262,6 +262,7 @@
 .reuse-prf__user--det__opt--chat {
     background-color: rgba(0,0,0, .2);
     box-shadow: 0 2px 2px 0 rgba(233,235,242, .5);
+    color: #fff;
 }
 
 .reuse-prf__user--det__opt--add {

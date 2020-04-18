@@ -13,7 +13,7 @@ class MainContent extends Component {
             path: '/poet',
             icnGrp: 'book',
             icnClass: 'icon icon__site-main__ptwrit--tab',
-            title: 'Writers',
+            title: 'Writer Up',
         },
         share: {
             path: '/poet/shared',

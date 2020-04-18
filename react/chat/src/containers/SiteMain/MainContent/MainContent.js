@@ -45,7 +45,7 @@ class MainContent extends Component {
         id: this.props.match.params.id,
         categ: this.props.match.params.categ,
         userID: document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1"),
-        chatLimit: 300,
+        chatLimit: 50,
         err: null,
         disable: false,
         active: null
@@ -133,11 +133,13 @@ class MainContent extends Component {
         let these = this;
         createChat(`/chat/${this.state.categ}/${this.state.id}`, 
             'deleteChat', {cnt: this.props.chatSelected}).then(cnt=> {
-                socket.emit('deleteChat', cnt, function(err) {
-                these.props.onTypingErr(err)
-            })
+            //     socket.emit('deleteChat', cnt, function(err) {
+            //     these.props.onTypingErr(err)
+            // })
             createChat(`/chat/${this.state.categ}/${this.state.id}`, 
             'setLastMsg', {})
+            these.setState({disable: false})
+            these.props.onRemoveChat(cnt)
         }).catch(err =>{
             these.props.onTypingErr(err)
         })
@@ -170,7 +172,7 @@ class MainContent extends Component {
                     isCnt={this.props.cnts} /> 
             )
         }
-  
+
 
         if (this.state.disable) {
             deleteClass.push('site-main__chat--opt__del--disable')
@@ -206,8 +208,8 @@ class MainContent extends Component {
         }
 
         if (this.props.addBackdrop || this.props.userBackdrop || 
-           showSnapshot || showVidCam ||this.props.emojiBackdrop || 
-           showGroups || showGroupInfo || showFriends || this.props.showSideNav) {
+            showSnapshot || showVidCam ||this.props.emojiBackdrop ||  
+            showGroups || showGroupInfo || showFriends || this.props.showSideNav) {
             backdrop = (
                 <div 
                     className="site-main__chat--overlay"
@@ -228,7 +230,7 @@ class MainContent extends Component {
                                 < AsyncGroup /> : null }
                             { showFriends ? 
                                 <AsyncUsers/> : null }
-                            { showGroupInfo ? 
+                           { showGroupInfo ? 
                                 <AsyncGroupInfo /> : null}
                             {showSearch ? 
                                 <AsyncSearch /> : null}
@@ -245,8 +247,9 @@ class MainContent extends Component {
         }
         
         return (
-           <div className="site-main__chat">
-                { err ? err : cnt }
+            <div className="site-main__chat">
+                { err ? err : null }
+                { cnt }
             </div>
         )
     }

@@ -84,7 +84,7 @@ const chats = (props) => {
     }
 
     if (props.cnt.cntType !== 'audio' && props.cnt.cntType !== 'media' &&
-    props.cnt.cntType !== 'image' && props.cnt.cntType !== 'typedPlain' && !props.cnt.delete && !props.cnt.upload) {
+    props.cnt.cntType !== 'image' && props.cnt.cntType !== 'typedPlain' && !props.cnt.delete && !props.cnt.upload && !props.cnt.pending) {
         docContent = (
             <>
                 <FileIcon 
@@ -178,8 +178,8 @@ const chats = (props) => {
              className={hstClass.join(' ')}>
             <div 
                 className="site-main__chat--box__hst--wrapper"
-                onMouseDown={!props.cnt.upload && !props.cnt.delete ? props.hold : null}
-                onMouseUp={!props.cnt.upload && !props.cnt.delete ? props.released : null}>
+                onMouseDown={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold : null}
+                onMouseUp={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.released : null}>
                 <div className="site-main__chat--box__hst--cnt">
                     <div className="site-main__chat--box__hst--cnt__wrapper">
                         <div dangerouslySetInnerHTML={{
@@ -189,11 +189,15 @@ const chats = (props) => {
                                     props.cnt.cntType === 'media' ? videoCnt :
                                     props.cnt.cntType === 'image' ? imageCnt : 
                                     props.cnt.cntType === 'typedPlain' ? typedPlain : null : 'Deleted': null}
-                            {docContent }  
+                            {docContent } 
                     </div>
                     { edit }
+                    {!props.cnt.delete && props.cnt.ID === props.userID ? 
+                        <div className={!props.cnt.pending ? "site-main__chat--box__check-hst site-main__chat--box__check--mark" : "site-main__chat--box__check-hst"}>
+                            <FontAwesomeIcon  icon={['fas', 'check-circle']}/> 
+                        </div> : null}
                 </div>
-                { !props.cnt.upload && !props.cnt.delete ? 
+                { !props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? 
                     <ul className="site-main__chat--box__hst--footer">
                         <li className={footerHstClass.join(' ')}>
                             <a href={`/user/profile/${props.cnt.ID}`}>{ props.cnt.username.substr(0,7) }</a>   
@@ -212,8 +216,8 @@ const chats = (props) => {
             <div className={replyClass.join(' ')}>
                 <div 
                     className="site-main__chat--box__reply--wrapper"
-                    onMouseDown={!props.cnt.upload && !props.cnt.delete ? props.hold : null}
-                    onMouseUp={!props.cnt.upload && !props.cnt.delete ? props.released : null}>
+                    onMouseDown={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold : null}
+                    onMouseUp={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.released : null}>
                     <div className="site-main__chat--box__reply--cnt">
                         <div className="site-main__chat--box__reply--cnt__wrapper">
                             <div dangerouslySetInnerHTML={{
@@ -223,11 +227,15 @@ const chats = (props) => {
                                 props.cnt.cntType === 'media' ? videoCnt :
                                 props.cnt.cntType === 'image' ? imageCnt : 
                                 props.cnt.cntType === 'typedPlain' ? typedPlain : null : 'Deleted' : null}
-                              {docContent } 
+                              {docContent }  
                         </div>    
-                        { edit }        
+                        { edit } 
+                        {!props.cnt.delete && props.cnt.ID === props.userID ? 
+                            <div className={!props.cnt.pending ? "site-main__chat--box__check-reply site-main__chat--box__check--mark" : "site-main__chat--box__check-reply"}>
+                                <FontAwesomeIcon  icon={['fas', 'check-circle']}/> 
+                            </div> : null}       
                     </div>
-                    { !props.cnt.delete && !props.cnt.upload ? 
+                    { !props.cnt.delete && !props.cnt.upload && !props.cnt.pending ? 
                         <ul className="site-main__chat--box__reply--footer">
                             <li className={footerReplyClass.join(' ')}>
                                 <a href={`/user/profile/${props.cnt.ID}`}>{ props.cnt.username.substr(0,7) }</a>   

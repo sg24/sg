@@ -335,7 +335,7 @@ router.post('/', authenticate, (req, res, next) => {
                       };
                       var pushOptions = {
                         vapidDetails: {
-                            subject: "https://slodge24.com",
+                            subject: "https://www.slodge24.com",
                             privateKey: result.pushMsg[0].privatekey,
                             publicKey: result.pushMsg[0].publickey
                         },

@@ -102,6 +102,10 @@ export {
     uploadMedia,
     groupNotify,
     userNotify,
+    createChat,
+    createChatFail,
+    createChatStart,
+    resetResendChat,
     chatConnect,
     chatDisconnect
 } from './model';
@@ -148,5 +152,7 @@ export {
 } from './profile';
 
 export {
-    uploadMediaInit
+    uploadMediaInit,
+    createChatInit,
+    resendChatInit
 } from '../thunk/upload'

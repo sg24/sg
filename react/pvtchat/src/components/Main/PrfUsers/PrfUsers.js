@@ -18,7 +18,8 @@ const prfUsers = props => {
         start={props.start}
         updateDet={props.updateDet}
         saveEnable={props.saveEnable}
-        changeImage={props.changeImage}/>
+        changeImage={props.changeImage}
+        chat={props.chat}/>
 }
 
 export default prfUsers;

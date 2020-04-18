@@ -736,13 +736,13 @@ function pushNotify(id, shareMe, field, title, msg) {
                         };
                         var pushOptions = {
                             vapidDetails: {
-                                subject: "https://slodge24.com",
+                                subject: "https://www.slodge24.com",
                                 privateKey: subUsers.pushMsg[0].privatekey,
                                 publicKey: subUsers.pushMsg[0].publickey
                             },
                             headers: {}
                         };
-                        let isImage = content.image && content.image.length > 0 ? {image:  content.image[0]} : {}; 
+                        // let isImage = content.image && content.image.length > 0 ? {image:  content.image[0]} : {}; 
                         webpush.sendNotification(pushConfig, JSON.stringify({
                             title: msg,
                             content: `from ${field} ${title}`,

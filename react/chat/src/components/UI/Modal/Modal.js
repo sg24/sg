@@ -54,7 +54,7 @@ const modal = props => {
             { !props.err && !props.warn.cnt ? (
                 <Loader />
             ): null}   
-            { modalCnt } 
+            { props.media ? <h3>{typeof props.err === 'object' ? props.err.toString() : props.err} </h3>: modalCnt } 
         </div>
     );
 };

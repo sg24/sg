@@ -86,6 +86,10 @@ class Model extends Component {
         this.props.onChangeImage(this.props.match.params.id)
     }
 
+    chatHandler = () => {
+        this.props.history.push(`/chat/user/${this.props.match.params.id}`)
+    }
+
     render() {
         let cnt = <Loader 
             view/>;
@@ -106,7 +110,8 @@ class Model extends Component {
                 start={this.props.start}
                 saveEnable={this.state.inputValue !== this.props.det}
                 updateDet={this.props.det}
-                changeImage={this.changeImageHandler}/>
+                changeImage={this.changeImageHandler}
+                chat={this.chatHandler}/>
         }
 
         return cnt

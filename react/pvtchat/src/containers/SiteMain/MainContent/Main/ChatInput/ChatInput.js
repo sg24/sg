@@ -7,7 +7,7 @@ import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
 import axios from 'axios';
 
-import { socket, webCameraApi, createChat } from '../../../../../shared/utility';
+import { socket, webCameraApi } from '../../../../../shared/utility';
 import * as actions from '../../../../../store/actions/index';
 import Backdrop from '../../../../../components/UI/Backdrop/Backdrop';
 import Modal from '../../../../../components/UI/Modal/Modal';
@@ -24,7 +24,8 @@ class ChatInput extends Component {
         addImage: false,
         showEmoji: false,
         disable: false,
-        err: null
+        err: null,
+        disableResend: false
     };
 
     chatCntHandler = (event) => {
@@ -32,7 +33,6 @@ class ChatInput extends Component {
         let these = this;
         socket.emit('pvtusertyping', {}, function(err) {
             these.props.onTypingErr(err)
-            console.log(err)
         })
     }
 
@@ -51,16 +51,8 @@ class ChatInput extends Component {
     }
 
     createChatHandler = () => {
-        let these = this;
-        createChat(`/chat/${this.state.categ}/${this.state.id}`, 
-            'pvtcreateChat', {type: 'text', msg: this.state.chat, chatID: uuid()}).then(res => {
-            socket.emit('pvtcreateChat', res, function(err) {
-                these.props.onTypingErr(err)
-            })
-        }).catch(err => {
-            these.props.onTypingErr(err)
-        })
-        this.setState({chat: ''});
+        this.props.onCreateChatInit(this.state.id, this.state.categ,'typedPlain', this.state.chat, uuid(), 'pvtcreateChat')
+        this.setState({chat: '', disableResend: false});
     }
 
     audioRecorderHandler = () => {
@@ -73,7 +65,7 @@ class ChatInput extends Component {
                 this.props.onUploadMedia(media, this.state.id, this.state.categ)
             }
         }).catch(err => {
-            this.setState({audioRec: false})
+            this.setState({audioRec: false, err})
         })
     }
 
@@ -146,9 +138,7 @@ class ChatInput extends Component {
                 let fetchedLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
                 axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${fetchedLocation.lat},${fetchedLocation.lng}&key=AIzaSyD2OUDjZ-urf2MAVcxPc03HA4X8KbB-jlk`).then(loc => {
                     if (!loc.data.error_message) {
-                        socket.emit('pvtcreateChat', {type: 'text', msg: `In ${loc.data.results[0].formatted_address}`, chatID: uuid()}, function(err) {
-                            these.props.onTypingErr(err);
-                        })
+                        these.props.onCreateChatInit(these.state.id, these.state.categ,'typedPlain', `In ${loc.data.results[0].formatted_address}`, uuid(), 'pvtcreateChat')
                         these.props.onCloseChatBackdrop()
                         these.setState({disable: false})
                     }
@@ -165,6 +155,13 @@ class ChatInput extends Component {
 
     closeModelBackdropHandler = () => {
         this.setState({err: null})
+    }
+
+    componentDidUpdate() {
+        if ((this.props.resend.length > 0) && this.props.connect) {
+            this.props.onResendChatInit(this.state.id, this.state.categ, this.props.resend);
+            this.props.onResetResendChat()
+        }
     }
 
     render() {
@@ -316,7 +313,8 @@ class ChatInput extends Component {
                 <Backdrop 
                     component={ Modal }
                     close={this.closeModelBackdropHandler}
-                    err={  this.state.err } />
+                    err={  this.state.err }
+                    media />
             )
         }
 
@@ -360,7 +358,9 @@ class ChatInput extends Component {
 const mapStateToProps = state => {
     return {
         addBackdrop: state.cnt.addBackdrop,
-        emojiBackdrop: state.cnt.emojiBackdrop
+        emojiBackdrop: state.cnt.emojiBackdrop,
+        resend: state.cnt.resend,
+        connect: state.cnt.connect
     };
  }
 
@@ -372,7 +372,9 @@ const mapDispatchToProps = dispatch => {
         onShowEmojiBackdrop: () => dispatch(actions.showEmojiBackdrop()),
         onFetchMember: (members) => dispatch(actions.fetchMember(members)),
         onCloseChatBackdrop: () => dispatch(actions.closeChatBackdrop()),
-
+        onCreateChatInit: (id, categ, msgType, msg, ID, msgCateg) => dispatch(actions.createChatInit(id, categ, msgType, msg, ID, msgCateg)),
+        onResendChatInit: (id, categ, chats) => dispatch(actions.resendChatInit(id, categ, chats)),
+        onResetResendChat: () => dispatch(actions.resetResendChat())
     };
 };
 

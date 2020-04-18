@@ -75,7 +75,7 @@ class MainContent extends Component {
             path: '/index/poet',
             icnGrp: 'book',
             icnClass: 'icon icon__site-main__content--tab',
-            title: 'Writers'
+            title: 'Writer Up'
         },
         curTab: this.props.location.pathname.split('/')[2] ? this.props.location.pathname.split('/')[2] : 'post',
         cntFetch: false,

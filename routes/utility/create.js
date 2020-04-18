@@ -84,7 +84,7 @@ module.exports = create = (content, model, mediaCnt, notify, userModel, userID, 
                                         };
                                         var pushOptions = {
                                             vapidDetails: {
-                                                subject: "https://slodge24.com",
+                                                subject: "https://www.slodge24.com",
                                                 privateKey: subUsers.pushMsg[0].privatekey,
                                                 publicKey: subUsers.pushMsg[0].publickey
                                             },

@@ -1306,7 +1306,6 @@ img {
 }
 
 .site-header__menu--notify__icn, .site-header__menu--nav__icn {
-  position: absolute;
   border-radius: 15px;
   width: 30px;
   height: 30px;

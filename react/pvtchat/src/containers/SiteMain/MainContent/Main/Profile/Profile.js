@@ -51,6 +51,10 @@ class Model extends Component {
         this.props.onChangeCnt(this.props.changeCntStart.id, null, this.props.changeCntStart.det, true, this.props.changeCntStart.modelType)
     }
 
+    chatHandler = () => {
+        this.props.history.push(`/chat/user/${this.state.id}`)
+    }
+
     render() {
         let prfCnt = <Loader 
             view/>;
@@ -68,7 +72,8 @@ class Model extends Component {
                 saveProfile={this.saveProfileHandler}
                 start={this.props.start}
                 saveEnable={this.state.inputValue !== this.props.det}
-                updateDet={this.props.det}/>
+                updateDet={this.props.det}
+                chat={this.chatHandler}/>
         }
 
         cnt = (

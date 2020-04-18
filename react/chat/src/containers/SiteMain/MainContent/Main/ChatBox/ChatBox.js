@@ -14,7 +14,7 @@ class ChatBox extends Component {
         scrollEnable: false,
         id: this.props.match.params.id,
         categ: this.props.match.params.categ,
-        chatLimit: 300,
+        chatLimit: 50,
         height: 0,
         err: null,
         scrolled: false
@@ -41,7 +41,7 @@ class ChatBox extends Component {
                 && chatBoxWrapper 
                 && document.querySelector('.site-main__chat--box__wrapper > div') 
                 && document.querySelectorAll('.site-main__chat--srch__highlight').length < 1
-                && (chatHold.clientHeight + chatHold.scrollTop   > (chatHold.scrollHeight/2) + (chatHold.scrollHeight/4))
+                && (chatHold.clientHeight + chatHold.scrollTop + 100  > chatHold.scrollHeight)
                 && this.state.scrolled) { 
             chatHold.scrollTop = chatHold.scrollHeight;
         }
@@ -85,12 +85,13 @@ class ChatBox extends Component {
         if (!this.props.chatLoader) {
             chat = (
                 <Chats 
-                    cnts={this.props.tempchat.length > 0 ?  this.props.tempchat : this.props.chat}
-                    users={this.props.members && this.props.members.users  ? this.props.members.users.online : []}
-                    filterChat={this.props.filterChat}
-                    hold={this.chatHoldHandler}
-                    released={this.chatReleasedHandler}
-                    selected={this.props.chatSelected}/>
+                cnts={this.props.tempchat.length > 0 ?  this.props.tempchat : this.props.chat}
+                users={this.props.members && this.props.members.users  ? this.props.members.users.online : []}
+                filterChat={this.props.filterChat}
+                hold={this.chatHoldHandler}
+                released={this.chatReleasedHandler}
+                selected={this.props.chatSelected}
+                userID={this.props.userID}/>
             )
         }
       
@@ -117,6 +118,7 @@ const mapStateToProps = state => {
         chatSelected: state.cnt.chatSelected,
         skipChat: state.cnt.skipChat,
         chatTotal: state.cnt.chatTotal,
+        userID: state.cnt.userID
     };
  }
 

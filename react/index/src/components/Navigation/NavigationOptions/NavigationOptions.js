@@ -7,7 +7,7 @@ const navigationOptions = props => {
         <ul className="site-header__nav-opt">
             <NavigationItem  path="/post">News Feed</NavigationItem>
             <NavigationItem path="/question">Question</NavigationItem>
-            <NavigationItem path="/poet">Writers</NavigationItem>
+            <NavigationItem path="/poet">Write Up</NavigationItem>
             <NavigationItem path="/users">Scholars</NavigationItem>
         </ul>
     )

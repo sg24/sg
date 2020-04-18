@@ -158,7 +158,7 @@ class NavigationList extends Component {
                         <FontAwesomeIcon 
                             icon={['fas', 'book']} 
                             className="icon icon__site-header--nav__itm" />
-                        Writers
+                        Write Up
                         <FontAwesomeIcon 
                             icon={['fas', 'caret-right']} 
                             className="icon icon__site-header--nav__angle" />
@@ -191,7 +191,7 @@ class NavigationList extends Component {
                             <FontAwesomeIcon 
                                 icon={['fas', 'book']} 
                                 className="icon icon__site-header--nav__itm" />
-                            Writers
+                            Write Up
                         </a>
                     </li>
                     <li>

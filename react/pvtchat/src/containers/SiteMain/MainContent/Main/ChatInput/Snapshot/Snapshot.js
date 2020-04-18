@@ -8,6 +8,8 @@ import './Snapshot.css';
 import { getImageURL } from '../../../../../../shared/utility';
 import * as actions from '../../../../../../store/actions/index';
 import Loader from '../../../../../../components/UI/Loader/Loader';
+import Backdrop from '../../../../../../components/UI/Backdrop/Backdrop';
+import Modal from '../../../../../../components/UI/Modal/Modal';
 
 let videoRef = React.createRef(null);
 class Snapshot extends Component {
@@ -22,13 +24,13 @@ class Snapshot extends Component {
         if (!('mediaDevices' in navigator)) {
             navigator.mediaDevices = {};
         }
-        
+        let these = this;
         if (!('getUserMedia' in navigator.mediaDevices)) {
             navigator.mediaDevices.getUserMedia = function(constraints) {
             var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
         
             if (!getUserMedia) {
-                return Promise.reject(new Error('getUserMedia is not implemented!'));
+                return these.setState({err: 'getUserMedia is not implemented!'});
             }
         
             return new Promise(function(resolve, reject) {
@@ -36,7 +38,7 @@ class Snapshot extends Component {
             });
             }
         }
-        let these = this;
+    
         navigator.mediaDevices.getUserMedia({video: true})
             .then(function(stream) {
                 videoRef.current.srcObject= stream;
@@ -73,16 +75,25 @@ class Snapshot extends Component {
         let cnt = <Loader 
             bg/>
 
+        let err = null;
+
         if (this.state.start) {
             cnt = null
         }
 
         if (this.state.err) {
-            this.props.onTypingErr(this.state.err)
+            err = (
+                <Backdrop 
+                    component={ Modal }
+                    close={this.closeModelBackdropHandler}
+                    err={  this.state.err }
+                    media />
+            )
         }
 
        return(
            <div className="site-main__chat--cam">
+               { err }
                <div className="site-main__chat--cam__wrapper">
                     {cnt }
                     <video 

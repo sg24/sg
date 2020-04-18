@@ -127,7 +127,7 @@
 
   .site-main__chat--box__hst--cnt__wrapper {
     /* float: right; */
-
+    
     min-width: 250px;
     padding: 10px;
     text-align: center;
@@ -298,6 +298,29 @@
     min-height: 100px;
     min-width: 100px;
     background: #dcdbdc;
+  }
+
+  .site-main__chat--box__check-hst {
+    position: absolute;
+    right: 8px;
+    bottom: 2px;
+    font-size: .625rem;
+    color: #182427;
+    opacity: .7
+  }
+
+  .site-main__chat--box__check-reply {
+    position: absolute;
+    left: 8px;
+    bottom: 4px;
+    font-size: .625rem;
+    color: #182427;
+    opacity: .7
+  }
+
+  .site-main__chat--box__check--mark {
+    color: #16cf27;
+    opacity: 1;
   }
 
   .site-main__chat--box__reply--footer {

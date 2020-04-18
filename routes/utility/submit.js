@@ -77,7 +77,7 @@ module.exports = submitForm = (content, model, mediaCnt, notify, viewnotify, use
                                           };
                                           var pushOptions = {
                                             vapidDetails: {
-                                                subject: "https://slodge24.com",
+                                                subject: "https://www.slodge24.com",
                                                 privateKey: subUsers.pushMsg[0].privatekey,
                                                 publicKey: subUsers.pushMsg[0].publickey
                                             },

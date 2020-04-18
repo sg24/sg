@@ -116,14 +116,16 @@ const prfUser = props => {
     if (props.cnt.accept) {
         userOpt = (
             <ul className="reuse-prf__user--det__opt">
-                 {/* <li className="reuse-prf__user--det__opt--chat">
+                 <li 
+                    className="reuse-prf__user--det__opt--chat"
+                    onClick={props.chat}>
                     <div>
                         <FontAwesomeIcon 
                             icon={['fas', 'comment-alt']} 
                             className="icon icon__reuse-prf--comment" />
                     </div> 
                     Chat
-                </li> */}
+                </li>
                 <li 
                     className="reuse-prf__user--det__opt--add"
                     onClick={props.unfriend}>
@@ -280,7 +282,7 @@ const prfUser = props => {
                                 className="icon icon__reuse-prf--que" /> 
                         </div>
                         <ul className="reuse-prf__det--cnt">
-                            <li className="reuse-prf__det--cnt__pt"> Poets published <span>{ transformNumber(props.cnt.pwtpub) }</span></li>
+                            <li className="reuse-prf__det--cnt__pt"> Write Up <span>{ transformNumber(props.cnt.pwtpub) }</span></li>
                         </ul>
                     </div>
                     {/* <div className="reuse-prf__det--wrapper">

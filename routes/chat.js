@@ -3,6 +3,7 @@ let router = express.Router();
 let arraySort = require('array-sort');
 let mongoose = require('mongoose');
 let fs = require('fs');
+const webpush = require('web-push');
 
 let formidable = require('formidable');
 let uploadStream = require('./utility/uploadStream')
@@ -47,8 +48,8 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
         $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}).then(grp => {
             if (grp) {
                 let chatTotal = grp.chat.length
-                let chat = arraySort(grp.chat, 'created', {reverse: true});
-                let updateChat =  chat.splice(req.body.skipChat, req.body.chatLimit);
+                let chat = arraySort(grp.chat, 'position', {reverse: true});
+                let updateChat =  chat.splice(req.body.skipChat, req.body.chatLimit -1);
                 let allChat = []
                 let allChatTotal = 0
                 if (updateChat.length < 1) {
@@ -177,8 +178,8 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
         chat.findOne({$or: [{$and: [ { host: { $in: req.body.id } }, { reply: { $in: req.user} } ]}, {$and: [ { host: { $in: req.user } }, { reply: { $in: req.body.id} }]}]}).then(chatDet => {
             if (chatDet) {
                 let chatTotal = chatDet.chat.length
-                let chat = arraySort(chatDet.chat, 'created', {reverse: true});
-                let updateChat =  chat.splice(req.body.skipChat, req.body.chatLimit);
+                let chat = arraySort(chatDet.chat, 'position', {reverse: true});
+                let updateChat =  chat.splice(req.body.skipChat, req.body.chatLimit - 1);
                 let allChat = []
                 let allChatTotal = 0
                 if (updateChat.length < 1) {
@@ -341,8 +342,8 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
             function getUserDet(id, cnt, lastMsg, notifications) {
                 return new Promise((resolve, reject) => {
                     user.findById(id).then(userdet => {
-                        if (!userDet) {
-                            authUser.findById(userID).then(authdet => {
+                        if (!userdet) {
+                            authUser.findById(id).then(authdet => {
                                 cnt.push({
                                     id,
                                     username: authdet.username,
@@ -499,15 +500,15 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                  for (let cnt of notifyCnt.member) {
                      notifications.pvtchat +=  cnt.notifications;
                  }
-                 grpchatnotifies.findOne({userID: req.user}).then(notifyCnt => {
-                    if (notifyCnt && notifyCnt.grp && notifyCnt.grp.length > 0 ) {
-                        for (let cnt of notifyCnt.grp) {
-                            notifications.grpchat += cnt.notifications;
-                        }
-                    }
-                    res.status(200).send(notifications)
-                })
             }
+            grpchatnotifies.findOne({userID: req.user}).then(notifyCnt => {
+                if (notifyCnt && notifyCnt.grp && notifyCnt.grp.length > 0 ) {
+                    for (let cnt of notifyCnt.grp) {
+                        notifications.grpchat += cnt.notifications;
+                    }
+                }
+                res.status(200).send(notifications)
+            })
          }).catch(err =>{
              res.sendStatus(500)
          })
@@ -1310,7 +1311,7 @@ function pushNotify(id, userID, field, name, msg) {
                         };
                         var pushOptions = {
                             vapidDetails: {
-                                subject: "https://slodge24.com",
+                                subject: "https://www.slodge24.com",
                                 privateKey: subUsers.pushMsg[0].privatekey,
                                 publicKey: subUsers.pushMsg[0].publickey
                             },

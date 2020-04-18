@@ -186,7 +186,7 @@ export const engStrings = {
                 var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
             
                 if (!getUserMedia) {
-                    return Promise.reject(new Error('getUserMedia is not implemented!'));
+                    return reject('getUserMedia is not implemented!');
                 }
             
                 return new Promise(function(resolve, reject) {
@@ -219,12 +219,14 @@ export const engStrings = {
     })
 }
 
-export const createChat = (url, category, cnt) => {
-    return new Promise((resolve, reject) => {
-        axios.post(url, cnt, {headers: {'data-categ': category}}).then(res => {
-            resolve(res.data)
-        }).catch(err => {
-            reject(err)
-        })
-    })
-}
+  export const createChat = (url, category, cnt) => {
+      return new Promise((resolve, reject) => {
+          axios.post(url, cnt, {headers: {'data-categ': category}}).then(res => {
+              if (res) {
+                resolve(res.data)
+              }
+          }).catch(err => {
+              reject(err)
+          })
+      })
+  }

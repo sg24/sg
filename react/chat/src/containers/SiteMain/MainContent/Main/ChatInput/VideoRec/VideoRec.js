@@ -7,6 +7,8 @@ import './VideoRec.css';
 import { socket, webCameraApi } from '../../../../../../shared/utility';
 import * as actions from '../../../../../../store/actions/index';
 import Loader from '../../../../../../components/UI/Loader/Loader';
+import Backdrop from '../../../../../../components/UI/Backdrop/Backdrop';
+import Modal from '../../../../../../components/UI/Modal/Modal';
 
 let videoRef = React.createRef(null);
 class VideoCam extends Component {
@@ -15,6 +17,7 @@ class VideoCam extends Component {
         mediaRecorder: null,
         id: this.props.match.params.id,
         categ: this.props.match.params.categ,
+        err: null
     };
 
     componentDidMount() {
@@ -23,7 +26,7 @@ class VideoCam extends Component {
         videoRef.current.srcObject = media.stream
         this.setState({mediaRecorder: media.mediaRecorder, start: true})
         }).catch(err => {
-            this.setState({start: false})
+            this.setState({start: false, err})
         })
     }
 
@@ -48,17 +51,25 @@ class VideoCam extends Component {
     render() {
         let cnt = <Loader 
         bg/>
-
+        let err = null;
+    
         if (this.state.start) {
             cnt = null
         }
 
         if (this.state.err) {
-            this.props.onTypingErr(this.state.err)
+            err = (
+                <Backdrop 
+                    component={ Modal }
+                    close={this.closeModelBackdropHandler}
+                    err={  this.state.err }
+                    media />
+            )
         }
 
         return(
         <div className="site-main__chat--vidcam">
+            { err }
             <div className="site-main__chat--vidcam__wrapper">
                 {cnt }
                 <video 

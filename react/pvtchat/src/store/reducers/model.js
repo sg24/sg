@@ -42,6 +42,8 @@ const initialState = {
     uploadTotal: 0,
     groupNotify: 0,
     userNotify: 0,
+    resend: [],
+    resendMedia: [],
     connect: false
 }
 
@@ -254,6 +256,40 @@ const filterPvtuser = (state, action) => {
     return updateObject(state, {filterPvtuser: pvtUser})
 };
 
+const createChatFail = (state, action) => {
+    let resend = [...state.resend];
+    let checkRes = resend.filter(cnt => cnt.msgID === action.msgID)[0];
+    if (!checkRes) {
+        resend.push({type: action.msgType, msg: action.msg, msgID: action.msgID, msgCateg: action.msgCateg, created: new Date().getTime()})
+    }
+    return updateObject(state, {resend})
+};
+
+const createChatStart = (state, action) => {
+    let chats = [...state.chat];
+    let content = arraySort(chats, 'position', {reverse: false});
+    let lastChat = content.length > 0 ? content[content.length - 1] : {};
+    if (lastChat.ID === state.userID) {
+        if (!lastChat.delete) {
+            lastChat.reply.push({ID: state.userID, position: lastChat.position, cntType: action.msgType, sent: false, viewed: false, 
+                chatID: action.msgID, mainID: lastChat.chatID,delete: false,pending: true, msg: action.msg, created: new Date().getTime()});
+            lastChat['pending'] = true;
+        } else {
+            lastChat = {ID: state.userID, position: lastChat.position, cntType: action.msgType, sent: false, viewed: false, 
+                chatID:  lastChat.chatID, delete: false, pending: true, msg: action.msg, created: new Date().getTime()}
+        }
+        content[content.length - 1] = lastChat;
+    } else {
+        content.push({ID: state.userID, position: !lastChat.position ? 0 : lastChat.position + 1, cntType: action.msgType, sent: false, viewed: false, 
+            chatID: action.msgID, delete: false, pending: true, msg: action.msg, reply: [], created: new Date().getTime()})
+    }
+    return updateObject(state, {chat: content, cntErr: null})
+};
+
+const resetResendChat= (state, action) => {
+    return updateObject(state, {resend: []})
+};
+
 const uploadMedia = (state, action) => {
     let total = ++state.checkUploadTotal;
     if (total === state.uploadTotal) {
@@ -268,7 +304,7 @@ const uploadMediaSet = (state, action) => {
 
 const uploadMediaStart = (state, action) => {
     let chats = state.tempchat.length < 1 ? [...state.chat] : [...state.tempchat];
-    let content = arraySort(chats, 'created', {reverse: false});
+    let content = arraySort(chats, 'position', {reverse: false});
     let lastChat = content.length > 0 ? content[content.length - 1] : [];
     if (lastChat) {
         if (lastChat.ID === state.userID) {
@@ -276,7 +312,7 @@ const uploadMediaStart = (state, action) => {
             if (!lastChat.delete) {
                 if (lastChat.chatID === action.chatID) {
                     lastChat = {ID: state.userID, upload: true, position: lastChat.position, cntType: action.cntType, 
-                        chatID: action.chatID, percentage: action.percentage, reply: [], created: new Date().getTime()}
+                        chatID: action.chatID, percentage: action.percentage, pending: true,reply: [], created: new Date().getTime()}
                 } else {
                     let filterLastChat = lastChat.reply.filter((chat, index) => {
                         if (chat.chatID === action.chatID) {
@@ -289,28 +325,50 @@ const uploadMediaStart = (state, action) => {
                     if (filterLastChat) {
                         lastChat.reply[curIndex].percentage = action.percentage;
                     } else {
-                        lastChat.reply.push({upload: true, position: lastChat.position, cntType: action.cntType, 
+                        lastChat.reply.push({upload: true, pending: true,position: lastChat.position, cntType: action.cntType, 
                             chatID: action.chatID, percentage: action.percentage});
+                        lastChat['pending'] = true;
+                        lastChat.replyID ? lastChat.replyID.push(action.chatID) : lastChat['replyID'] = [action.chatID]
                     }
                 }
             } else {
                 lastChat = {ID: state.userID, upload: true, position: lastChat.position, cntType: action.cntType, 
-                    chatID: action.chatID, percentage: action.percentage, reply: [], created: new Date().getTime()}
+                    chatID: action.chatID, percentage: action.percentage, pending: true,reply: [], created: new Date().getTime()}
             }
             content[content.length - 1] = lastChat;
         } else {
             content.push({ID: state.userID, upload: true, position: lastChat.position + 1, cntType: action.cntType, 
-                chatID: action.chatID, percentage: action.percentage, reply: [], created: new Date().getTime()})
+                chatID: action.chatID, percentage: action.percentage, pending: true,reply: [], created: new Date().getTime()})
         }
     } else {
         content.push({ID: state.userID, upload: true, position: lastChat.position + 1, cntType: action.cntType, 
-            chatID: action.chatID, percentage: action.percentage, reply: [], created: new Date().getTime()})
+            chatID: action.chatID, percentage: action.percentage, pending: true,reply: [], created: new Date().getTime()})
     }
     return updateObject(state, {tempchat: content, cntErr: null})
 };
 
 const uploadMediaFail = (state, action) => {
-    return updateObject(state, {cntErr: action.err, uploadTotal: 0, checkUploadTotal: 0, tempchat: []})
+    let chats = [...state.tempchat];
+    let index = 0;
+    let filterchats = chats.filter(chat => chat.chatID === action.chatID)[0]
+    if (filterchats) {
+        chats = chats.filter(chat => chat.chatID !== action.chatID);
+    } else {
+        for (let cnt of chats) {
+            if (cnt.replyID && cnt.replyID.length > 0) {
+                let filterReplyID = cnt.replyID.filter(id => id === action.chatID)[0];
+                if (filterReplyID) {
+                let reply = chats[index].reply.filter(chat => chat.chatID !== action.chatID)
+                // let replyCnt = chats[index].reply.filter(chat => chat.chatID === action.chatID)[0];
+                // let resendMedia = state.resendMedia.push(replyCnt)
+                chats[index].reply = reply;
+                return updateObject(state, {tempchat: chats})
+                } 
+            }
+            ++index;
+        }
+    }
+    return updateObject(state, {tempchat: chats})
 };
 const resetPvtInputFilter = (state, action) => {
     return updateObject(state, {filterPvtuser: null})
@@ -407,6 +465,8 @@ const reducer = (state = initialState, action) => {
             return fetchChatReset(state, action);
         case actionTypes.FETCH_CHAT_FAIL:
             return fetchChatFail(state, action);
+        case actionTypes.RESET_RESEND_CHAT:
+            return resetResendChat(state, action);
         case actionTypes.UPLOAD_MEDIA:
             return uploadMedia(state, action);
         case actionTypes.UPLOAD_MEDIA_START:
@@ -443,6 +503,10 @@ const reducer = (state = initialState, action) => {
             return fetchGroupFail(state, action);
         case actionTypes.FETCH_PVTUSER_START:
             return fetchPvtuserStart(state, action);
+        case actionTypes.CREATE_CHAT_FAIL:
+            return createChatFail(state, action);
+        case actionTypes.CREATE_CHAT_START:
+            return createChatStart(state, action);
         case actionTypes.FETCH_PVTUSER_RESET:
             return fetchPvtuserReset(state, action);
         case actionTypes.FETCH_PVTUSER:
