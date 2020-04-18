@@ -116,7 +116,7 @@ const User = props => {
     if (props.cnt.accept) {
         userOpt = (
             <ul className="reuse-prf__user--det__opt">
-                 {/* <li 
+                 <li 
                     className="reuse-prf__user--det__opt--chat"
                     onClick={props.chat}>
                     <div>
@@ -125,7 +125,7 @@ const User = props => {
                             className="icon icon__reuse-prf--comment" />
                     </div> 
                     Chat
-                </li> */}
+                </li>
                 <li 
                     className="reuse-prf__user--det__opt--add"
                     onClick={props.unfriend}>
