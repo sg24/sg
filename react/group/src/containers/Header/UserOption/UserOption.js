@@ -103,6 +103,7 @@ class UserOption extends Component {
         if (this.state.showAddOpt) {
             cnt = (
             <Aux>
+                <li className="site-header__user--det__add">select to Add New</li>
                 <li className="site-header__user--det__logout">
                     <a href="/add/post">
                         <div>
@@ -136,7 +137,7 @@ class UserOption extends Component {
                             <FontAwesomeIcon 
                                 icon={['fas', 'book']}  /> 
                         </div>
-                        Writer
+                        Write Up
                     </a>
                 </li>
             </Aux>

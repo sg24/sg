@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import MainModel from './MainModel/MainModel'; 
@@ -9,7 +9,7 @@ class MainContent extends Component {
         return (
             <div className="site-main__content">
                 <div className="site-main__content--no-tab-wrapper">
-                    <MainModel />
+                    <Route path="/view/:categ/:id" exact  component={MainModel} />
                 </div>
             </div>
         );

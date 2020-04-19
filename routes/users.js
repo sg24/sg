@@ -49,6 +49,19 @@ router.post('/', authenticate,(req, res, next) => {
         }
     }
 
+    if (req.header && req.header('data-categ') && req.header('data-categ') === 'request-activeOnly') {
+        user.findById(req.user).then(userdet => {
+            if (!userdet) {
+                authUser.findById(req.user).then(authdet => {
+                    res.send(String(authdet.request)).status(200)
+                })
+            } else {
+                res.send(String(userdet.request)).status(200)
+            }
+        })
+        return 
+    }
+
     if (req.header && req.header('data-categ') && req.header('data-categ').startsWith('request')) {
         let isActive = req.header('data-categ').split('-')[1];
         return fetchReq(connectStatus, {

@@ -15,6 +15,13 @@
     font-size: .625rem;
 }
 
+.site-header__user--det__add {
+    background: #0284a8;
+    color: #fff;
+    text-align: center !important;
+    padding: 5px 0 !important;
+}
+
 @media (min-width:  530px) {
     .site-header__user--det__addNew {
         display: none;

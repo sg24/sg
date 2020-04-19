@@ -107,7 +107,7 @@ class NavigationList extends Component {
         let navItm = (
             <Aux>
                 { navList }
-                <ul className="site-header__menu--nav__opt--itm">
+                {/* <ul className="site-header__menu--nav__opt--itm">
                     <li
                         onMouseEnter={this.fetchNavListHandler.bind(this, 'post')}
                         className={this.state.category === 'post' ? 'active-header-nav' : null}>
@@ -130,7 +130,7 @@ class NavigationList extends Component {
                             icon={['fas', 'caret-right']} 
                             className="icon icon__site-header--nav__angle" />
                     </li>
-                    {/* <li
+                     <li
                         onMouseEnter={this.fetchNavListHandler.bind(this, 'onlineque')}
                         className={this.state.category === 'onlineque' ? 'active-header-nav' : null}>
                         <FontAwesomeIcon 
@@ -140,7 +140,7 @@ class NavigationList extends Component {
                         <FontAwesomeIcon 
                             icon={['fas', 'caret-right']} 
                             className="icon icon__site-header--nav__angle" />
-                    </li> */}
+                    </li> 
                     <li
                         onMouseEnter={this.fetchNavListHandler.bind(this, 'group')}
                         className={this.state.category === 'group' ? 'active-header-nav' : null}>
@@ -162,6 +162,64 @@ class NavigationList extends Component {
                         <FontAwesomeIcon 
                             icon={['fas', 'caret-right']} 
                             className="icon icon__site-header--nav__angle" />
+                    </li>
+                </ul> */}
+                <ul className="site-header__menu--nav__opt--itm__sm-categ--cnt">
+                    <li className="site-header__menu--nav__opt--itm__sm-categ--cnt-sm">
+                        <a href="/post">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'newspaper']} 
+                                className="icon icon__site-header--nav__itm" />
+                            News Feed
+                        </a>
+                    </li>
+                    <li className="site-header__menu--nav__opt--itm__sm-categ--cnt-sm">
+                        <a href="/question">
+                        <FontAwesomeIcon 
+                                icon={['fas', 'question']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Questions  
+                        </a>
+                    </li>
+                    <li className="site-header__menu--nav__opt--itm__sm-categ--cnt-sm">
+                        <a href="/poet">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'book']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Write Up
+                        </a>
+                    </li>
+                    <li className="site-header__menu--nav__opt--itm__sm-categ--cnt-sm">
+                        <a href="/users">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'users']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Scholars
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/group">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'user-graduate']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Chat Room
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/conv">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'comment']} 
+                                className="icon icon__site-header--nav__itm" />
+                            conversation
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/acc/shared">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'location-arrow']} 
+                                className="icon icon__site-header--nav__itm" />
+                            shared
+                        </a>
                     </li>
                 </ul>
             </Aux>
@@ -245,12 +303,12 @@ class NavigationList extends Component {
                 <div className={navTipClass.join(' ')}>
                     Options
                 </div>
-                <div 
+                {/* <div 
                     className="site-header__menu--nav__opt--itm__sm-categ"
                     onClick={this.showNavItmHandler}>
                      <FontAwesomeIcon 
                         icon={['fas', 'external-link-alt']} />
-                </div>
+                </div> */}
                 <nav className={navClass.join(' ')}>
                     { navItm }
                 </nav> 

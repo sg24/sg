@@ -14,8 +14,9 @@
     font-size: .625rem;
 }
 
+
 @media (min-width:  1010px) {
-    .site-header__menu--nav__opt--itm__sm-categ {
+    .site-header__menu--nav__opt--itm__sm-categ, .site-header__menu--nav__opt--itm__sm-categ--cnt-sm {
         display: none;
     }
 }
