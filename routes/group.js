@@ -7,11 +7,19 @@ let filterCnt = require('./utility/filtercnt');
 const {category, grpnotifies, group, user, authUser, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', authenticate, (req,res, next) => {
-    res.render('group')
+    if (!req.authType) {
+        res.render('group')
+    } else {
+        res.redirect('/login')
+    }
 })
 
 router.get('/:id', authenticate, (req, res,next) => {
-    res.render('group');
+    if (!req.authType) {
+        res.render('group')
+    } else {
+        res.redirect('/login')
+    }
 })
 
 router.post('/', authenticate, (req, res, next) => {

@@ -5,7 +5,11 @@ let authenticate = require('../serverDB/middleware/authenticate');
 const {category, favorite, posts, questions, poets, user, authUser, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', authenticate, (req, res, next) => {
-    res.render('favorite');
+    if (!req.authType) {
+        res.render('favorite');
+    } else {
+        res.redirect('/login')
+    }
 })
 
 router.post('/', authenticate, (req, res, next) => {

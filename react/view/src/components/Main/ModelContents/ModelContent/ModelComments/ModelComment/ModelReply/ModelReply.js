@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import draftToHtml from 'draftjs-to-html'
 
 import '../../../../../../../react-draft-wysiwyg.css';
-import { transformNumber, engStrings } from '../../../../../../../shared/utility';
+import { engStrings } from '../../../../../../../shared/utility';
 import Aux from '../../../../../../../hoc/Auxs/Aux';
 
 const modelReply = props => {

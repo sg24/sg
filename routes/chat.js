@@ -20,24 +20,28 @@ router.get('/:categ/:id', authenticate, (req, res,next) => {
         return
     }
    
-    if (req.params.categ === 'group'){
-        group.findOne({_id: mongoose.mongo.ObjectId(req.params.id), _isCompleted: true, 
-            $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}).then(grp => {
-            if (grp) {
-                res.render('groupchat');
-            } else {
-                res.redirect('/index/group')
-            }
-        })
+    if (!req.authType) {
+        if (req.params.categ === 'group'){
+            group.findOne({_id: mongoose.mongo.ObjectId(req.params.id), _isCompleted: true, 
+                $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}).then(grp => {
+                if (grp) {
+                    res.render('groupchat');
+                } else {
+                    res.redirect('/index/group')
+                }
+            })
+        } else {
+            let model = req.userType === 'authUser' ? authUser : user;
+            model.findOne({_id:  mongoose.mongo.ObjectId(req.user), $or: [ { student: { $in: req.params.id } }, { teacher: { $in: req.params.id} } ]}).then(userDet => {
+                if (userDet) {
+                    res.render('pvtchat');
+                } else {
+                    res.redirect('/index/user');
+                }
+            })
+        }
     } else {
-        let model = req.userType === 'authUser' ? authUser : user;
-        model.findOne({_id:  mongoose.mongo.ObjectId(req.user), $or: [ { student: { $in: req.params.id } }, { teacher: { $in: req.params.id} } ]}).then(userDet => {
-            if (userDet) {
-                res.render('pvtchat');
-            } else {
-                res.redirect('/index/user');
-            }
-        })
+        res.redirect('/login')
     }
 })
 

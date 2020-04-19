@@ -102,12 +102,21 @@ class Groups extends Component {
                 />
         }
 
+        if (!this.props.status) {
+            cnt = <NoAcc 
+            isAuth={this.props.status}
+            det='No Group found!'
+            icn='user-friends'
+            filter />
+        }
+
         return cnt
     }
 }
 
 const mapStateToProps = state => {
     return {
+        status: state.auth.status,
         userID: state.auth.userID,
         cnts: state.cnt.cnts,
         skipCnt: state.cnt.skipCnt,

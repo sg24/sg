@@ -7,7 +7,7 @@ import { convertFromRaw } from 'draft-js';
 import { stateToHTML } from "draft-js-export-html";
 
 import '../react-draft-wysiwyg.css';
-import { transformNumber, engStrings } from '../../../../../../../shared/utility';
+import {  engStrings } from '../../../../../../../shared/utility';
 import Aux from '../../../../../../../hoc/Auxs/Auxs';
 
 const modelReply = props => {

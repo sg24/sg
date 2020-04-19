@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Switch,Route } from 'react-router-dom';
+import { withRouter, Route } from 'react-router-dom';
 
 import * as actions from '../../store/actions/index';
 import MainContent from './MainContent/MainContent';
@@ -85,14 +85,8 @@ class SiteMain extends Component {
                             component={ Modal }
                             close={this.closeBackdropHandler}
                             err={ this.props.cntErr } /> : null}
-                    <Switch>
-                        <Route path="/view/:categ/:id" exact component={MainContent} />
-                        <Route path="/" component={MainContent} />
-                    </Switch>,
-                    <Switch>
-                        <Route path="/view/:categ/:id" exact component={MainNav} />
-                        <Route path="/" component={MainNav} />
-                    </Switch>
+                    <Route path="/view/:categ/:id" exact component={MainContent} />
+                    <Route path="/view/:categ/:id" exact component={MainNav} />
             </div>
             { this.props.filterStart ? 
                 <div 

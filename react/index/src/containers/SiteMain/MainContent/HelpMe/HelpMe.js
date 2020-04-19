@@ -217,6 +217,14 @@ class Questions extends Component {
                 changeCnt={this.changeCntHandler}/>
         }
 
+        if (!this.props.status) {
+            cnt = <NoAcc 
+            isAuth={this.props.status}
+            det='No Shared Question found!'
+            icn='hand-paper'
+            filter />
+        }
+
         return cnt
     }
 }
