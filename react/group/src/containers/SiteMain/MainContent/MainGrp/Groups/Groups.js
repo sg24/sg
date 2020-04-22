@@ -8,6 +8,7 @@ import Loader from '../../../../../components/UI/Loader/Loader';
 import NoAcc from '../../../../../components/Main/NoAcc/NoAcc';
 import * as actions from '../../../../../store/actions/index';
 import axios from '../../../../../axios';
+import { updateObject } from '../../../../../shared/utility';
 
 class Groups extends Component {
     constructor(props) {
@@ -120,13 +121,27 @@ class Groups extends Component {
         this.props.onJoinGrp(id, categ)
     };
 
+    showUserOptHandler = (id) => {
+        if (this.state.cntOpt && this.state.cntOpt.id === id) {
+            this.setState((prevState, props) => {
+                return {
+                    cntOpt: updateObject(prevState.cntOpt, {visible: !prevState.cntOpt.visible})
+                }
+            });
+            return
+        }
+
+        const newCntOpt = {visible: true, id}
+        this.setState({cntOpt: newCntOpt})
+    }
+
     groupInfoHandler = (id) => {
         this.props.onChangeShareID(id);
         this.props.history.push(`/group/info/${id}`)
     }
 
     changeCntHandler = (id, title, det, confirm) => {
-        this.props.onChangeCnt(id, title, det, confirm);
+        this.props.onChangeCnt(id, det, det,`${title} Group`, det === 'delete' ? 'deletegroup': 'exitgroup', confirm);
     };
 
     render() {
@@ -158,6 +173,9 @@ class Groups extends Component {
                 joinStartID ={this.props.joinStartID}
                 joined={this.props.joined}
                 groupInfo={this.groupInfoHandler}
+                userOpt={this.showUserOptHandler}
+                showOpt={this.state.cntOpt}
+                changeCnt={this.changeCntHandler}
                 />
         }
 
@@ -197,7 +215,7 @@ const mapDispatchToProps = dispatch => {
         onChangeShareID: (shareID) => dispatch(actions.shareID(shareID)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
         onFetchVideo: (id, url) => dispatch(actions.fetchVideo(id, url)),
-        onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm)),
+        onChangeCnt: (id, userID, categ,  username, curTab, confirm) => dispatch(actions.changeCntInit(id, userID, categ,  username, curTab, confirm)),
         onFetchNavActive: () => dispatch(actions.fetchNavActiveInit())
     };
 };

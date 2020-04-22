@@ -126,7 +126,7 @@ class SiteMain extends Component {
                         }}
                         exit={{
                             msg: this.props.changeCntStart.categ === 'reject'  || this.props.changeCntStart.categ === 'remove' ?
-                            `${this.props.changeCntStart.username} ${this.props.changeCntStart.categ === 'reject' ? 'rejected' : 'removed'} successfully` : this.props.changeCntStart.categ,
+                            `${this.props.changeCntStart.username} ${this.props.changeCntStart.categ === 'reject' ? 'rejected' : this.props.changeCntStart.categ === 'delete' ? 'deleted' : 'removed'} successfully` : this.props.changeCntStart.categ,
                             close: this.props.changeCnt}}
                         changeCnt={this.changeCntHandler}
                         closeChangeCnt={this.closeChangeCntHandler}/> : null}

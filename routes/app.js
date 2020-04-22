@@ -148,7 +148,7 @@ router.post('/header', authenticate, (req, res, next) => {
                 })
             })
         }).catch(err => {
-            res.status(400).send(err)
+            res.status(401).send(err)
         })
         function modelTotal(model, field, modelTotal) {
             return new Promise((resolve, reject) => {
@@ -934,7 +934,7 @@ router.post('/forget/password', (req, res, next) => {
                 res.sendStatus(201);
             }).catch(err =>{
                 tempUser.findByIdAndRemove(result.id).then(() =>{
-                    res.status(400).send(err)
+                    res.status(401).send(err)
                 })
             })
         } else {
@@ -1089,7 +1089,7 @@ router.post('/signup', (req, res) => {
     //                 res.sendStatus(201);
     //             }).catch(err =>{
     //                 tempUser.findByIdAndRemove(result.id).then(() =>{
-    //                     res.status(400).send(err)
+    //                     res.status(401).send(err)
     //                 })
     //             })
     //         }).catch(err =>{

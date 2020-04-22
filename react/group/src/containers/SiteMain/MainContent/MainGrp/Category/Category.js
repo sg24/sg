@@ -26,7 +26,7 @@ class Category extends Component {
         let categOpt = null;
         let categOptClass = ['reuse-categ'];
 
-        if (this.props.categ && this.props.categ.length > 0) {
+        if (this.props.categ) {
             category = <PtCategory 
                 category={this.props.categ}/>
         }

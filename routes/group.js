@@ -4,6 +4,7 @@ let mongoose = require('mongoose');
 const webpush = require('web-push');
 let authenticate = require('../serverDB/middleware/authenticate');
 let filterCnt = require('./utility/filtercnt');
+let deleteMedia = require('./utility/deletemedia');
 const {category, grpnotifies, group, user, authUser, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', authenticate, (req,res, next) => {
@@ -260,7 +261,7 @@ router.post('/', authenticate, (req, res, next) => {
                     }
                     grpnotifies.findOneAndUpdate({userID: reqUser}, {group: grpsNotify }).then(() =>{
                         pushNotify(reqUser,`Welcome to ${grp.title} group`, 
-                            `From Group Admin`, `/group/${grp._id}`).then(() => {
+                            `From Group Admin`, `/chat/group/${grp._id}`).then(() => {
                             res.sendStatus(200)
                         })
                     }).catch(err =>{
@@ -274,7 +275,7 @@ router.post('/', authenticate, (req, res, next) => {
                     });
                     newNotify.save().then(() => {
                         pushNotify(reqUser,`Welcome to ${grp.title} group`, 
-                            `From Group Admin`, `/group/${grp._id}`).then(() => {
+                            `From Group Admin`, `/chat/group/${grp._id}`).then(() => {
                             res.sendStatus(200)
                         })
                     }).catch(err =>{
@@ -282,6 +283,43 @@ router.post('/', authenticate, (req, res, next) => {
                     })
                 }
             })
+        })
+        return
+    }
+    
+    if (req.header !== null && req.header('data-categ') === 'exitgroup') {
+        let id = mongoose.mongo.ObjectId(req.body.id);
+        group.findOne({_id: id}).then(fnd => {
+            if(fnd) {
+                let member = fnd.member.filter(userID => userID !== req.user);
+                group.findOneAndUpdate({_id: id}, {member}).then(()=> {
+                    res.sendStatus(200)
+                })
+            } else {
+                res.sendStatus(404)
+            }
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'deletegroup') {
+        let id = mongoose.mongo.ObjectId(req.body.id);
+        group.findOneAndDelete({_id: id, authorID: req.user}).then(fnd => {
+            if(fnd) {
+                if (fnd.image.length > 0) {
+                    deleteMedia([{id: fnd.image[0].id.toHexString() }], 'image').then(() => {
+                        res.sendStatus(200)
+                    })
+                    return
+                }
+                res.sendStatus(200)
+            } else {
+                res.sendStatus(401)
+            }
+        }).catch(err => {
+            res.status(500).send(err)
         })
         return
     }
@@ -431,7 +469,7 @@ router.post('/', authenticate, (req, res, next) => {
                             update['category'] = cnt.category;
                             update['desc'] = cnt.desc;
                             update['image'] = cnt.image;
-                            update['members'] = cnt.member.length;
+                            update['members'] = cnt.member.length + 1;
                             update['groupCreated'] = cnt.groupCreated;
                             update['title'] = cnt.title;
                             update['requestTotal'] = cnt.request.length;

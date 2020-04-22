@@ -12,9 +12,9 @@ const chats = (props) =>{
                 users={props.users}
                 userImage={props.userImage}
                 filterChat={props.filterChat}
-                hold={props.hold.bind(this, cnt.chatID)}
-                released={props.released.bind(this, cnt.chatID)}
+                hold={props.hold}
                 selected={props.selected}
+                editChat={props.editChat}
                 userID={props.userID}/>
         ))
 

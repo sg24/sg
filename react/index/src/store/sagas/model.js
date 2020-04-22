@@ -68,6 +68,20 @@ export function* changeCntInitSaga(action) {
     }
 
     try {
+        if (action.modelType === 'exitgroup') {
+            yield axios.post('/group', {id: action.id}, {
+                headers: {'data-categ': 'exitgroup'}})
+            window.location.reload()
+            return
+        }
+
+        if (action.modelType === 'deletegroup') {
+            yield axios.post('/group', {id: action.id}, {
+                headers: {'data-categ': 'deletegroup'}})
+            window.location.reload()
+            return
+        } 
+
         if (action.det === 'delete') {
             let payload = JSON.stringify({id: action.id, model: action.modelType, field})
             yield axios.delete('/header', {headers: {'data-categ': `deletecnt-${payload}`}});
@@ -79,6 +93,7 @@ export function* changeCntInitSaga(action) {
         yield put(actions.changeCnt())
         yield delay(1000);
         yield put(actions.changeCntReset(true))
+        
     } catch(err){
         yield put(actions.changeCntFail(err))
         yield delay(1000);

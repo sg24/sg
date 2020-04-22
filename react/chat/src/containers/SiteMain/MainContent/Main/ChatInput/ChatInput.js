@@ -51,8 +51,11 @@ class ChatInput extends Component {
     }
 
     createChatHandler = () => {
-        this.props.onCreateChatInit(this.state.id, this.state.categ,'typedPlain', this.state.chat, uuid(), 'createChat')
-
+        if (this.props.editChat) {
+            this.props.onCreateChatInit(this.state.id, this.state.categ,'typedPlain', {editMsg: this.state.chat, mainID: this.props.editChat.mainID, chatID: this.props.editChat.chatID}, uuid(), 'createChat')
+        } else {
+            this.props.onCreateChatInit(this.state.id, this.state.categ,'typedPlain', this.state.chat, uuid(), 'createChat')
+        }
         this.setState({chat: '', disableResend: false});
     }
 
@@ -63,7 +66,11 @@ class ChatInput extends Component {
                 this.setState({audioRec: true, mediaRecorder: media.mediaRecorder})
             } else {
                 this.setState({audioRec: false, mediaRecorder: null})
-                this.props.onUploadMedia(media, this.state.id, this.state.categ)
+                if (this.props.editChat) {
+                    this.props.onUploadMedia([{file: media[0].file, type: media[0].type, format: media[0].format, chatID: {mainID: this.props.editChat.mainID, chatID: this.props.editChat.chatID}}], this.state.id, this.state.categ)
+                } else {
+                    this.props.onUploadMedia(media, this.state.id, this.state.categ)
+                }
             }
         }).catch(err => {
             this.setState({audioRec: false, err})
@@ -113,7 +120,11 @@ class ChatInput extends Component {
             let cntType = file.type.split('/')[0] === 'video' ? 'media' :  file.type.split('/')[0];
             let format = file.type.split('/')[1];
             if(cntType) {
-                media.push({file, type: cntType, format, chatID: uuid()})
+                if (this.props.editChat) {
+                    media.push({file, type: cntType, format, chatID: {mainID: this.props.editChat.mainID, chatID: this.props.editChat.chatID}})
+                } else {
+                    media.push({file, type: cntType, format, chatID: uuid()})
+                }
             } 
         }
         this.props.onUploadMedia(media, this.state.id, this.state.categ)
@@ -139,7 +150,11 @@ class ChatInput extends Component {
                 let fetchedLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
                 axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${fetchedLocation.lat},${fetchedLocation.lng}&key=AIzaSyD2OUDjZ-urf2MAVcxPc03HA4X8KbB-jlk`).then(loc => {
                     if (!loc.data.error_message) {
-                        these.props.onCreateChatInit(these.state.id, these.state.categ,'typedPlain', `In ${loc.data.results[0].formatted_address}`, uuid(), 'createChat')
+                        if (these.props.editChat) {
+                            these.props.onCreateChatInit(these.state.id, these.state.categ,'typedPlain', {editMsg: `In ${loc.data.results[0].formatted_address}`, mainID: these.props.editChat.mainID, chatID: these.props.editChat.chatID}, uuid(), 'createChat')
+                        } else {
+                            these.props.onCreateChatInit(these.state.id, these.state.categ,'typedPlain', `In ${loc.data.results[0].formatted_address}`, uuid(), 'createChat')
+                        }
                         these.props.onCloseChatBackdrop()
                         these.setState({disable: false})
                     }
@@ -360,6 +375,7 @@ const mapStateToProps = state => {
     return {
         addBackdrop: state.cnt.addBackdrop,
         emojiBackdrop: state.cnt.emojiBackdrop,
+        editChat: state.cnt.editChat,
         resend: state.cnt.resend,
         connect: state.cnt.connect
     };

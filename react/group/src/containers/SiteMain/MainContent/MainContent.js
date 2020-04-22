@@ -11,9 +11,9 @@ class MainContent extends Component {
     state = {
         cnt: {
             path: '/group',
-            icnGrp: 'users',
+            icnGrp: 'user-graduate',
             icnClass: 'icon icon__site-main--content__tab',
-            title: 'Group',
+            title: 'Chat Room',
         },
         request: {
             path: '/group/request',

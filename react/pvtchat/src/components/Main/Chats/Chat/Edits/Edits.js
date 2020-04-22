@@ -12,7 +12,11 @@ const edits = (props) =>{
                 users={props.users}
                 userImage={props.userImage}
                 filterChat={props.filterChat}
-                selected={props.selected}/>
+                cntID={props.cntID}
+                hold={props.hold}
+                selected={props.selected}
+                editChat={props.editChat}
+                userID={props.userID}/>
         ))
 
         return allChat;

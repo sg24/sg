@@ -96,6 +96,10 @@ const GroupSchema = new Schema({
             type: Boolean,
             default: false
         },
+        edit: {
+            type: Boolean,
+            default: false
+        },
         reply: [{
             ID: String,
             userType: String,
@@ -107,6 +111,18 @@ const GroupSchema = new Schema({
             position: {
                 type: Number,
                 default: 0
+            },
+            block: {
+                type: Array,
+                default: []
+            },
+            delete: {
+                type: Boolean,
+                default: false
+            },
+            edit: {
+                type: Boolean,
+                default: false
             },
             created: {
                 type: Date,

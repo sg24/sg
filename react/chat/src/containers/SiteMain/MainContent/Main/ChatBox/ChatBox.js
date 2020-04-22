@@ -41,7 +41,7 @@ class ChatBox extends Component {
                 && chatBoxWrapper 
                 && document.querySelector('.site-main__chat--box__wrapper > div') 
                 && document.querySelectorAll('.site-main__chat--srch__highlight').length < 1
-                && (chatHold.clientHeight + chatHold.scrollTop + 100  > chatHold.scrollHeight)
+                && (chatHold.clientHeight + chatHold.scrollTop  > (chatHold.scrollHeight/2) + (chatHold.scrollHeight/4))
                 && this.state.scrolled) { 
             chatHold.scrollTop = chatHold.scrollHeight;
         }
@@ -54,11 +54,8 @@ class ChatBox extends Component {
         }
     }
 
-    chatHoldHandler = (id) => {
-        let hold = setTimeout(() => {
-            this.props.onHoldChat(id);
-        },1000)
-        this.setState({hold})
+    chatHoldHandler = (mainID, chatID, ID) => {
+        this.props.onHoldChat(mainID, chatID, ID)
     }
 
     chatReleasedHandler = (id) => {
@@ -85,13 +82,14 @@ class ChatBox extends Component {
         if (!this.props.chatLoader) {
             chat = (
                 <Chats 
-                cnts={this.props.tempchat.length > 0 ?  this.props.tempchat : this.props.chat}
-                users={this.props.members && this.props.members.users  ? this.props.members.users.online : []}
-                filterChat={this.props.filterChat}
-                hold={this.chatHoldHandler}
-                released={this.chatReleasedHandler}
-                selected={this.props.chatSelected}
-                userID={this.props.userID}/>
+                    cnts={this.props.tempchat.length > 0 ?  this.props.tempchat : this.props.chat}
+                    users={this.props.members && this.props.members.users  ? this.props.members.users.online : []}
+                    filterChat={this.props.filterChat}
+                    hold={this.chatHoldHandler}
+                    released={this.chatReleasedHandler}
+                    selected={this.props.chatSelected}
+                    editChat={this.props.editChat}
+                    userID={this.props.userID}/>
             )
         }
       
@@ -118,6 +116,7 @@ const mapStateToProps = state => {
         chatSelected: state.cnt.chatSelected,
         skipChat: state.cnt.skipChat,
         chatTotal: state.cnt.chatTotal,
+        editChat: state.cnt.editChat,
         userID: state.cnt.userID
     };
  }
@@ -125,7 +124,7 @@ const mapStateToProps = state => {
 
  const mapDispatchToProps = dispatch => {
     return {
-        onHoldChat: (id) => dispatch(actions.holdChat(id)),
+        onHoldChat: (mainID, chatID, ID) => dispatch(actions.holdChat(mainID, chatID, ID)),
         onFetchChat: (id, categ, chatLimit, skipChat,chatTotal) => dispatch(actions.fetchChatInit(id, categ, chatLimit, skipChat,chatTotal)),
     };
 };

@@ -359,7 +359,7 @@ class Form extends  Component {
                         <FontAwesomeIcon 
                             icon={['fas', 'users']} />
                         </div> 
-                        Edit Group
+                        Edit Chat Room
                     </div>
                 </h3>
                 <div className="reuse-form__cnt">
@@ -368,7 +368,7 @@ class Form extends  Component {
                             <FontAwesomeIcon 
                                 icon={['fas', 'tags']} 
                                 className="icon icon__reuse-form--cnt__tag" />
-                            Group Tags
+                            Chat Room Tags
                         </label>
                         <div className="reuse-form__cnt--det">
                             <div className="reuse-form__cnt--det__wrapper">
@@ -410,7 +410,7 @@ class Form extends  Component {
                         }
                     </div>
                     <div className="reuse-form__cnt--wrapper">
-                        <label className="reuse-form__cnt--title">Group Name</label>
+                        <label className="reuse-form__cnt--title">Chat Room Name</label>
                         <div className="reuse-form__cnt--det">
                             <input 
                                 type="text" 
@@ -422,7 +422,7 @@ class Form extends  Component {
                                 onChange={(event) => this.inputChangedHandler(event, 'title')} />
                         </div>
                         { !this.state.formElement.title.valid && this.state.formElement.title.touched ?
-                            <div className="reuse-form__err">Group Name must not be empty </div>
+                            <div className="reuse-form__err">Chat Room Name must not be empty </div>
                             : null
                         }
                     </div>

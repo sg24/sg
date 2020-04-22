@@ -12,7 +12,7 @@ class MainContent extends Component {
             path: '/users',
             icnGrp: 'users',
             icnClass: 'icon icon__site-main--user__tab',
-            title: 'Scholars',
+            title: 'Users',
         },
         request: {
             path: '/users/request',

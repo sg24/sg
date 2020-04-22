@@ -44,15 +44,29 @@ export function* changeCntInitSaga(action) {
         return;
     }
     try {
-        yield axios.post('/group', {id: action.id, user: action.user}, {
-            headers: {'data-categ': action.categ}})
-        yield put(actions.changeCnt())
-        yield delay(1000);
-        if (action.curTab === 'request') {
-            yield put(actions.removeRequest(action.id))
+        if (action.curTab === 'deletegroup') {
+            yield axios.post('/group', {id: action.id}, {
+                headers: {'data-categ': 'deletegroup'}})
+            window.location.reload()
+            return
+        } 
+
+        if (action.curTab === 'exitgroup') {
+            yield axios.post('/group', {id: action.id}, {
+                headers: {'data-categ': 'exitgroup'}})
+            window.location.reload()
+            return
         }
 
-        yield put(actions.changeCntReset(action.user))
+        yield axios.post('/group', {id: action.id, user: action.user}, {
+                headers: {'data-categ': action.categ}})
+            yield put(actions.changeCnt())
+            yield delay(1000);
+            if (action.curTab === 'request') {
+                yield put(actions.removeRequest(action.id))
+            }
+            yield put(actions.changeCntReset(action.user))
+
     } catch(err){
         yield put(actions.changeCntFail(err))
         yield delay(1000);

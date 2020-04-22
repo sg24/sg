@@ -361,7 +361,7 @@ class Form extends  Component {
                         <FontAwesomeIcon 
                             icon={['far', 'newspaper']} />
                         </div> 
-                        Edit
+                        Edit News Feed
                     </div>
                 </h3>
                 <div className="reuse-form__cnt">
@@ -412,7 +412,7 @@ class Form extends  Component {
                         }
                     </div>
                     <div className="reuse-form__cnt--wrapper">
-                        <label className="reuse-form__cnt--title">Post Title</label>
+                        <label className="reuse-form__cnt--title">Title</label>
                         <div className="reuse-form__cnt--det">
                             <input 
                                 type="text" 

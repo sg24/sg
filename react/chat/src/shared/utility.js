@@ -170,7 +170,7 @@ export const engStrings = {
     years: '%d yrs'
   };
 
-  export const socket = io(window.location.protocol + '//' + window.location.host);
+  export const socket = io(`https://www.slodge24.com`);
 
   let chunks = [];
   export const webCameraApi = (socketConnect, mediaRecorder, cnt, opt, format, formatType,type, socketKey) => {

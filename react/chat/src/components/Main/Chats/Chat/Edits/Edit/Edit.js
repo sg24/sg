@@ -3,20 +3,21 @@ import FileIcon, { defaultStyles } from 'react-file-icon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const edit = (props) => {
- 
+    let hstClass = ['site-main__chat--box__hst--cnt__wrapper'];
+    let replyClass = ['site-main__chat--box__reply--cnt__wrapper'];
     let audioCnt = (
-        <audio controls src={`${window.location.protocol + '//' + window.location.host}/media/audio/${props.cnt.msg}.${props.cnt.format}`}>
+        <audio controls src={`https://www.slodge24.com/media/audio/${props.cnt.msg}.${props.cnt.format}`}>
             <p>Your browser does not support this feature</p>
         </audio>
     );
     let videoCnt = (
-        <video controls src={`${window.location.protocol + '//' + window.location.host}/media/video/${props.cnt.msg}.${props.cnt.format}`}>
+        <video controls src={`https://www.slodge24.com/media/video/${props.cnt.msg}.${props.cnt.format}`}>
             <p>Your browser does not support this feature</p>
         </video>
     );
 
     let imageCnt =(
-        <img src={`${window.location.protocol + '//' + window.location.host}/media/image/${props.cnt.msg}.${props.cnt.format}`} alt=""/>
+        <img src={`https://www.slodge24.com/media/image/${props.cnt.msg}.${props.cnt.format}`} alt=""/>
     )
     
     let typedPlain = props.cnt.msg;
@@ -33,7 +34,7 @@ const edit = (props) => {
                     {...defaultStyles[props.cnt.format]} 
                     size={100}/>
                 <a 
-                    href={`${window.location.protocol + '//' + window.location.host}/media/${props.cnt.cntType}/${props.cnt.msg}.${props.cnt.format}`}  
+                    href={`https://www.slodge24.com/media/${props.cnt.cntType}/${props.cnt.msg}.${props.cnt.format}`}  
                     downloads="true"
                     className="site-main__chat--box__download"> 
                     <FontAwesomeIcon  icon={['fas', 'download']} className="icon icon__site-main--chat__box--dwn"/> 
@@ -70,8 +71,32 @@ const edit = (props) => {
         )
     }
 
+    if (props.selected && props.selected.length > 0)  {
+        for (let cnt of props.selected) {
+            if ((cnt.chatID  === props.cnt.chatID)) {
+                hstClass.push('site-main__chat--box__highlight')
+                replyClass.push('site-main__chat--box__highlight')
+            }
+        }
+        
+    }
+
+    if (props.editChat && props.editChat.chatID) {
+        if ((props.editChat.chatID  === props.cnt.chatID)) {
+            hstClass.push('site-main__chat--box__highlight-edit')
+            replyClass.push('site-main__chat--box__highlight-edit')
+        }
+    }
+
+    if (props.cnt.delete) {
+        hstClass.push('site-main__chat--box__chat-del');
+        replyClass.push('site-main__chat--box__chat-del');
+    }
+
     let chatCnt = (
-        <div className="site-main__chat--box__hst--cnt__wrapper">
+        <div 
+            className={hstClass.join(' ')}
+            onClick={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold.bind(this, props.cntID, props.cnt.chatID, props.cnt.ID) : null}>
             <div dangerouslySetInnerHTML={{
                     __html: typedCnt
                 }}></div>
@@ -80,12 +105,18 @@ const edit = (props) => {
                         props.cnt.cntType === 'image' ? imageCnt : 
                         props.cnt.cntType === 'typedPlain' ? typedPlain : null : 'Deleted': null}
                 {docContent }  
+                {!props.cnt.delete && props.cnt.ID === props.userID ? 
+                        <div className={!props.cnt.pending ? "site-main__chat--box__check-hst site-main__chat--box__check--mark" : "site-main__chat--box__check-hst"}>
+                            <FontAwesomeIcon  icon={['fas', 'check-circle']}/> 
+                        </div> : null}
         </div>
     )
    
     if (props.cnt.position % 2 !== 0) {
         chatCnt = (
-            <div className="site-main__chat--box__reply--cnt__wrapper">
+            <div 
+                className={replyClass.join(' ')}
+                onClick={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold.bind(this, props.cntID, props.cnt.chatID, props.cnt.ID) : null}>
                 <div dangerouslySetInnerHTML={{
                         __html: typedCnt
                     }}></div>
@@ -93,7 +124,11 @@ const edit = (props) => {
                     props.cnt.cntType === 'media' ? videoCnt :
                     props.cnt.cntType === 'image' ? imageCnt : 
                     props.cnt.cntType === 'typedPlain' ? typedPlain : null : 'Deleted' : null}
-                {docContent }  
+                {docContent } 
+                {!props.cnt.delete && props.cnt.ID === props.userID ? 
+                    <div className={!props.cnt.pending ? "site-main__chat--box__check-reply site-main__chat--box__check--mark" : "site-main__chat--box__check-reply"}>
+                        <FontAwesomeIcon  icon={['fas', 'check-circle']}/> 
+                    </div> : null}
             </div> 
         )
     }

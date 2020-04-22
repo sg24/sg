@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { transformNumber, transformString } from '../../../../../shared/utility';
@@ -38,15 +37,10 @@ const trendItem = props => {
             <div className="reuse-trd__cnt--wrapper reuse-trd__cnt--wrapper__nav">
                 <div className="reuse-trd__cnt--categ">
                     <FontAwesomeIcon icon={['fas', 'clone']} className="icon icon__reuse-trd--categ" />
-                    { props.trd.category } 
+                    News Feed
                 </div>
                 <h4 className="reuse-trd__cnt--title">
-                    <NavLink
-                        to={'/view/post/' + props.trd.id}
-                        exact
-                        onClick={props.show}> 
-                        { transformString(props.trd.title) }
-                    </NavLink> 
+                    <a href={'/view/post/' + props.trd.id }>{ transformString(props.trd.title) }</a>   
                 </h4>
                 <ul className="reuse-trd__cnt--footer">  
                     <li>
@@ -79,15 +73,10 @@ const trendItem = props => {
                     <FontAwesomeIcon 
                         icon={['fas', 'book']} 
                         className="icon icon__reuse-trd--categ" />
-                    { props.trd.category }
+                    Write Up
                 </div>
-                <h4 className="reuse-trd__cnt--title">  
-                    <NavLink
-                        to={'/view/poet/' + props.trd.id }
-                        exact
-                        onClick={props.show}> 
-                        { transformString(props.trd.title) }
-                    </NavLink> 
+                <h4 className="reuse-trd__cnt--title">
+                    <a href={'/view/poet/' + props.trd.id }>{ transformString(props.trd.title) }</a>    
                 </h4>
                 <ul className="reuse-trd__cnt--footer">  
                     <li>
@@ -122,13 +111,8 @@ const trendItem = props => {
                         className="icon icon__reuse-trd--categ" />
                     { props.trd.category }
                 </div>
-                <h4 className="reuse-trd__cnt--title">   
-                    <NavLink
-                        to={'/view/question/' + props.trd.id }
-                        exact
-                        onClick={props.show}> 
-                        { transformString(props.trd.title) }
-                    </NavLink>
+                <h4 className="reuse-trd__cnt--title">
+                    <a href={'/view/question/' + props.trd.id }>{ transformString(props.trd.title) }</a>    
                 </h4>
                 <ul className="reuse-trd__cnt--footer">  
                     <li>

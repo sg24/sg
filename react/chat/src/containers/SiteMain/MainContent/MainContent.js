@@ -14,7 +14,7 @@ import { socket, createChat } from '../../../shared/utility';
 import ChatInput from './Main/ChatInput/ChatInput';
 import Backdrop from '../../../components/UI/Backdrop/Backdrop';
 import Modal from '../../../components/UI/Modal/Modal';
-import axios from '../../../axios';
+import axios from '../../../axios'
 
 const AsyncSearch = asyncComponent(() => {
     return import ('./Main/Search/Search');
@@ -147,7 +147,7 @@ class MainContent extends Component {
     }
 
     editChatHandler = () => {
-        this.props.onEditChat(this.props.chatSelected);
+        this.props.onEditChat(this.props.chatSelected[0]);
     }
 
     render() {
@@ -168,11 +168,11 @@ class MainContent extends Component {
                 <Backdrop 
                     component={ Modal }
                     close={this.closeModelBackdropHandler}
-                    err={ this.props.cntErr } 
+                    err={ this.props.cntErr }
                     isCnt={this.props.cnts} /> 
             )
         }
-
+  
 
         if (this.state.disable) {
             deleteClass.push('site-main__chat--opt__del--disable')
@@ -190,9 +190,10 @@ class MainContent extends Component {
                         <li 
                             onClick={!this.state.disable && this.props.tempchat < 1 ? this.deleteChatHandler: null}
                             className={deleteClass.join(' ')}><FontAwesomeIcon  icon={['far', 'trash-alt']} className="icon icon icon__site-main--chat__header--opt"/></li>
-                        {/* <li 
-                            onClick={this.editChatHandler}
-                            className="site-main__chat--opt__edit"><FontAwesomeIcon  icon={['far', 'edit']} className="icon icon__site-main--chat__header--opt"/></li> */}
+                        {this.props.chatSelected.length < 2 && this.props.chatSelected[0].edit ?
+                            <li 
+                                onClick={!this.state.disable && this.props.tempchat < 1  && this.props.chatSelected[0].edit ? this.editChatHandler : null}
+                                className="site-main__chat--opt__edit"><FontAwesomeIcon  icon={['far', 'edit']} className="icon icon__site-main--chat__header--opt"/></li> : null}
                         {/* <li className="site-main__chat--opt__fav"><FontAwesomeIcon  icon={['far', 'heart']} className="icon icon__site-main--chat__header--opt__fav"/></li>
                         <li className="site-main__chat--opt__share"><FontAwesomeIcon  icon={['fas', 'location-arrow']} className="icon icon icon__site-main--chat__header--opt"/></li> */}
                     </ul>
@@ -208,8 +209,8 @@ class MainContent extends Component {
         }
 
         if (this.props.addBackdrop || this.props.userBackdrop || 
-            showSnapshot || showVidCam ||this.props.emojiBackdrop ||  
-            showGroups || showGroupInfo || showFriends || this.props.showSideNav) {
+           showSnapshot || showVidCam ||this.props.emojiBackdrop || 
+           showGroups || showGroupInfo || showFriends || this.props.showSideNav) {
             backdrop = (
                 <div 
                     className="site-main__chat--overlay"
@@ -230,7 +231,7 @@ class MainContent extends Component {
                                 < AsyncGroup /> : null }
                             { showFriends ? 
                                 <AsyncUsers/> : null }
-                           { showGroupInfo ? 
+                            { showGroupInfo ? 
                                 <AsyncGroupInfo /> : null}
                             {showSearch ? 
                                 <AsyncSearch /> : null}
@@ -245,7 +246,7 @@ class MainContent extends Component {
             </Aux>
             )
         }
-        
+
         return (
             <div className="site-main__chat">
                 { err ? err : null }
@@ -257,9 +258,10 @@ class MainContent extends Component {
 
 const mapStateToProps = state => {
     return {
-        showLoader: state.cnt.showLoader,
         status: state.auth.status,
+        showLoader: state.cnt.showLoader,
         cnts: state.cnt.cnts,
+        userID: state.cnt.userID,
         navCnt: state.cnt.navCnt,
         addBackdrop: state.cnt.addBackdrop,
         userBackdrop: state.cnt.userBackdrop,
@@ -286,6 +288,7 @@ const mapDispatchToProps = dispatch => {
         onFetchGroup: (grp) => dispatch(actions.fetchGroup(grp)),
         onReleaseChat: () => dispatch(actions.releaseChat()),
         onTypingErr: (err) => dispatch(actions.fetchCntFail(err)),
+        onEditChat: (cnt) => dispatch(actions.editChat(cnt)),
         onDeleteChat: (chat) => dispatch(actions.deleteChatInit(chat)),
         onRemoveChat: (cnt) => dispatch(actions.chatRemoved(cnt)),
         onGroupNotify: (cnt) => dispatch(actions.groupNotify(cnt)),

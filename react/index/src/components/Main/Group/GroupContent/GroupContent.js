@@ -12,6 +12,9 @@ const groupContent = props => {
     let joinClass = ['reuse-group__cnt--desc__opt--join'];
     let joined = false;
     let cancelClass = ["reuse-group__cnt--desc__opt--cancel reuse-group__cnt--desc__opt--cancel"]
+    let userInfoClass = ['reuse-group__footer--info__options'];
+    let deletOpt = null;
+    let exit = null
 
     let groupImage = <Avatar  name={props.cnt.title} size='60' round />;
     if (props.cnt.image && props.cnt.image.length > 0) {
@@ -37,7 +40,7 @@ const groupContent = props => {
 
     if (props.cnt.userOpt && props.cnt.requestTotal > 0) {
         userOpt = (
-            <div>{ props.cnt.requestTotal }</div>
+            <div className="reuse-group__footer--info__active">{ props.cnt.requestTotal }</div>
         );
     };
 
@@ -52,7 +55,11 @@ const groupContent = props => {
         </div>
     );
 
-    if ( props.cnt.isMember || props.cnt.userOpt) {
+    if (props.showOpt && props.showOpt.visible && props.cnt._id === props.showOpt.id) {
+        userInfoClass.push('reuse-group__footer--info__options--visible');
+    }
+
+    if ( props.cnt.member || props.cnt.userOpt) {
         memOpt = (
             <div className="reuse-group__cnt--desc__opt--chat">
                 <a href={`/chat/group/${props.cnt._id}`}>
@@ -63,6 +70,40 @@ const groupContent = props => {
                 </a>
             </div>
         );
+        
+    }
+
+    if (props.cnt.member) {
+        exit = (
+            <li
+                onClick={props.exitGrp}
+                className="reuse-group__footer--info__options--del">
+                Exit Group
+            </li>
+        )
+    }
+
+    if (props.cnt.userOpt) {
+        deletOpt = (
+            <>
+                <li className="reuse-group__footer--info__options--edit">
+                    <a href={`/edit/group/${props.cnt._id}`}>
+                        <FontAwesomeIcon 
+                            icon={['far', 'edit']} 
+                            className="icon icon__reuse-grp--options" /> 
+                        Edit 
+                    </a>
+                </li>
+                <li
+                    onClick={props.deleteGrp}
+                    className="reuse-group__footer--info__options--del">
+                    <FontAwesomeIcon 
+                        icon={['far', 'trash-alt']} 
+                        className="icon icon__reuse-grp--options" /> 
+                    Delete 
+                </li>
+            </>
+        )
     }
 
     if (joined || props.cnt.request) {
@@ -109,7 +150,7 @@ const groupContent = props => {
                     </div>
                     <div className="reuse-group__cnt--desc">
                         <div className="reuse-group__cnt--desc__title">
-                            { props.cnt.isMember || props.cnt.userOpt ? 
+                            { props.cnt.member || props.cnt.userOpt ? 
                                 <a href={`/chat/group/${props.cnt._id}`}>
                                 { props.cnt.title }
                             </a> :  props.cnt.title }
@@ -131,7 +172,7 @@ const groupContent = props => {
                                 { transformNumber(props.cnt.members)  }
                             </div>
                         </li>
-                        <li className="reuse-group__footer--grp-det__status"> 
+                        {/* <li className="reuse-group__footer--grp-det__status"> 
                             <div className="reuse-group__footer--grp-det__status--wrapper">
                                 <div className="reuse-group__footer--grp-det__status--icn">
                                     <FontAwesomeIcon 
@@ -141,14 +182,24 @@ const groupContent = props => {
                                 </div> 
                                 { transformNumber(props.cnt.online) }
                             </div>
-                        </li>
+                        </li> */}
                     </ul>
                     <div 
                         className="reuse-group__footer--info"
-                        onClick={props.groupInfo}>
-                        <FontAwesomeIcon 
-                            icon={['fas', 'info']}
-                            className="icon icon__reuse-group--footer__info" />
+                        onClick={props.userOpt}>
+                         <div className="reuse-group__footer--info__mid"></div>
+                         <ul className={userInfoClass.join(' ')}>
+                            <li 
+                                className="reuse-group__footer--info__options--status"
+                                onClick={props.groupInfo}>
+                                <FontAwesomeIcon 
+                                    icon={['fas', 'info']} 
+                                    className="icon icon__reuse-grp--options__info" /> 
+                                Info
+                            </li>
+                            {deletOpt }
+                            {exit}
+                        </ul>
                         { userOpt }
                     </div>
                 </div>

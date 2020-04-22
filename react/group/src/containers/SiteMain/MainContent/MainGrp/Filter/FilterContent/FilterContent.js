@@ -139,7 +139,7 @@ class FilterContent extends Component {
             )
         }
  
-        if (this.props.categ && this.props.categ.length > 0) {
+        if (this.props.categ) {
             category = <FilterCategory
                 filterCategs={this.props.categ}
                 categSelect={this.categSelectHandler}/>

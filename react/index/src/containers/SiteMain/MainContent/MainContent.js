@@ -57,7 +57,7 @@ class MainContent extends Component {
             path: '/index/user',
             icnGrp: 'users',
             icnClass: 'icon icon__site-main__content--tab',
-            title: 'Scholars',
+            title: 'Users',
         },
        group: {
             path: '/index/group',

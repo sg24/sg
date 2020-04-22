@@ -60,24 +60,46 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                     return res.status(200).send({chat: allChat, chatTotal})
                 }
                 for (let cnt of updateChat) {
+                    let reply = []
+                    for (let replyCnt of cnt.reply) {
+                        let cnt = {
+                            created: replyCnt.created,
+                            cntType: replyCnt.cntType,
+                            msg: replyCnt.msg,
+                            ID: replyCnt.ID,
+                            chatID: replyCnt.chatID,
+                            format: replyCnt.format,
+                            position: replyCnt.position
+                        }
+                        if (!replyCnt.delete && !replyCnt.block) {
+                            cnt['delete'] = false;
+                            reply.push(cnt);
+                        }
+                        if (!replyCnt.delete && replyCnt.block && replyCnt.block.filter(id => id !== req.user)) {
+                            cnt['delete'] = false;
+                            reply.push(cnt);
+                        }
+                        
+                        if (replyCnt.delete || (replyCnt.block && replyCnt.block.filter(id => id === req.user)[0])) {
+                            cnt['delete'] =  true;
+                            reply.push(cnt)
+                        } 
+                    }
                     let model = cnt.userType === 'authUser' ? authUser : user;
                     model.findById(cnt.ID).then(userDet => {
-                        let block = cnt.block ? cnt.block.filter(id => id === req.user) : [];
-                        if (!block[0]) {
-                            allChat.push({
-                                username: userDet.username,
-                                image: userDet.image,
-                                created: cnt.created,
-                                cntType: cnt.cntType,
-                                msg: cnt.msg,
-                                ID: cnt.ID,
-                                chatID: cnt.chatID,
-                                format: cnt.format,
-                                position: cnt.position,
-                                reply: !cnt.delete ?  cnt.block.filter(id => id === req.user)[0] ? [] : cnt.reply : cnt.reply,
-                                delete: !cnt.delete ?  cnt.block.filter(id => id === req.user)[0] ? true : false : cnt.delete
-                            })
-                        }
+                        allChat.push({
+                            username: userDet.username,
+                            image: userDet.image,
+                            created: cnt.created,
+                            cntType: cnt.cntType,
+                            msg: cnt.msg,
+                            ID: cnt.ID,
+                            chatID: cnt.chatID,
+                            format: cnt.format,
+                            position: cnt.position,
+                            reply,
+                            delete: !cnt.delete ?  cnt.block.filter(id => id === req.user)[0] ? true : false : cnt.delete
+                        })
                         ++allChatTotal;
                         if (allChatTotal === updateChat.length) {
                             res.status(200).send({chat: allChat, chatTotal})
@@ -190,6 +212,31 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                     return res.status(200).send({chat: allChat, chatTotal})
                 }
                 for (let cnt of updateChat) {
+                    let reply = []
+                    for (let replyCnt of cnt.reply) {
+                        let cnt = {
+                            created: replyCnt.created,
+                            cntType: replyCnt.cntType,
+                            msg: replyCnt.msg,
+                            ID: replyCnt.ID,
+                            chatID: replyCnt.chatID,
+                            format: replyCnt.format,
+                            position: replyCnt.position
+                        }
+                        if (!replyCnt.delete && !replyCnt.block) {
+                            cnt['delete'] = false;
+                            reply.push(cnt);
+                        }
+                        if (!replyCnt.delete && replyCnt.block && replyCnt.block.filter(id => id !== req.user)) {
+                            cnt['delete'] = false;
+                            reply.push(cnt);
+                        }
+                        
+                        if (replyCnt.delete || (replyCnt.block && replyCnt.block.filter(id => id === req.user)[0])) {
+                            cnt['delete'] =  true;
+                            reply.push(cnt)
+                        } 
+                    }
                     let model = cnt.userType === 'authUser' ? authUser : user;
                     model.findById(cnt.ID).then(userDet => {
                         allChat.push({
@@ -202,7 +249,7 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                             chatID: cnt.chatID,
                             format: cnt.format,
                             position: cnt.position,
-                            reply: !cnt.delete ?  cnt.block.filter(id => id === req.user)[0] ? [] : cnt.reply : cnt.reply,
+                            reply,
                             delete: !cnt.delete ?  cnt.block.filter(id => id === req.user)[0] ? true : false : cnt.delete
                         })
                         ++allChatTotal;
@@ -282,7 +329,7 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                                         ...msg
                                     })
                                 } else {
-                                    res.sendStatus(400)
+                                    res.sendStatus(401)
                                 }
                             })
                         }
@@ -381,19 +428,100 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
         let model = req.userType === 'authUser' ? authUser : user;
         model.findOne({_id:  mongoose.mongo.ObjectId(req.user), $or: [ { student: { $in: id } }, { teacher: { $in: id} } ]}).then(userDet => {
             if (userDet) {
-                let chats = {
-                    ID: req.user,
-                    userType: req.userType,
-                    cntType: 'typedPlain',
-                    msg: cnt.msg,
-                    chatID: cnt.chatID,
-                    format: 'typedPlain'
+                if (cnt.msg && !cnt.msg.editMsg) {
+                    let chats = {
+                        ID: req.user,
+                        userType: req.userType,
+                        cntType: 'typedPlain',
+                        msg: cnt.msg,
+                        chatID: cnt.chatID,
+                        format: 'typedPlain'
+                    }
+                    saveFile(id, chats).then((result) => {
+                        res.status(200).send(result)
+                    }).catch(err =>{
+                        res.status(500).send(err)
+                    })
+                } else {
+                    let msg = cnt.msg
+                     chat.findOne({$or: [{$and: [ { host: { $in: id } }, { reply: { $in: req.user} } ]}, {$and: [ { host: { $in: req.user } }, { reply: { $in: id} }]}]}).then(chatDet => {
+                         if (chatDet && chatDet.chat) {
+                             let content = chatDet.chat;
+                             let update = content.filter(cnt => cnt.chatID === msg.mainID)[0];
+                             if (update && update.ID === req.user) {
+                                if (!msg.chatID) {
+                                    let index = content.findIndex(cnt => cnt.chatID === msg.mainID)
+                                    if (update) {
+                                        if (update && (update.cntType !== 'typedPlain')) {
+                                            deleteMedia([{id: update.msg }], update.cntType).then(() => {
+                                                update.msg = msg.editMsg;
+                                                update['edit'] = true;
+                                                update.cntType = 'typedPlain'
+                                                update.format = 'typedPlain'
+                                                content[index] = update;
+                                                editCnt(content, update).then(cnt => {
+                                                    return res.status(200).send(cnt)
+                                                })
+                                            })
+                                        } else {
+                                            update.msg = msg.editMsg;
+                                            update['edit'] = true;
+                                            content[index] = update
+                                            editCnt(content, update).then(cnt => {
+                                                return res.status(200).send(cnt)
+                                            })
+                                        }
+                                    }
+                                } else {
+                                    let index = content.findIndex(cnt => cnt.chatID === msg.mainID)
+                                    if (update) {
+                                        let filterReply = update.reply.filter(replyCnt => replyCnt.chatID === msg.chatID)[0];
+                                        let filterIndex = update.reply.findIndex(replyCnt => replyCnt.chatID === msg.chatID)[0];
+                                        if (filterReply) {
+                                            if (filterReply && (filterReply.cntType !== 'typedPlain')) {
+                                                deleteMedia([{id: filterReply.msg }], filterReply.cntType).then(() => {
+                                                    filterReply.msg = msg.editMsg
+                                                    filterReply['edit'] = true;
+                                                    filterReply.cntType = 'typedPlain';
+                                                    filterReply.format = 'typedPlain';
+                                                    update.reply[filterIndex] = filterReply;
+                                                    content[index] = update
+                                                    editCnt(content, update).then(cnt => {
+                                                        return res.status(200).send(cnt)
+                                                    })
+                                                })
+                                            } else {
+                                                filterReply.msg = msg.editMsg
+                                                filterReply['edit'] = true;
+                                                update.reply[filterIndex] = filterReply;
+                                                content[index] = update
+                                                editCnt(content, update).then(cnt => {
+                                                    return res.status(200).send(cnt)
+                                                })
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                res.sendStatus(200)
+                            }
+                            
+                            function editCnt(content, update) {
+                                return new Promise((resolve, reject) => {
+                                    chat.findOneAndUpdate({$or: [{$and: [ { host: { $in: id } }, { reply: { $in: req.user} } ]}, {$and: [ { host: { $in: req.user } }, { reply: { $in: id} }]}]}, {
+                                        chat: content}).then(grp => {
+                                            let model =  req.userType === 'authUser' ? authUser : user;
+                                            model.findById(req.user).then(userDet => {
+                                                save(update, userDet, id, req.user, update.position).then(cnt => {
+                                                    resolve(cnt)
+                                                })
+                                            })
+                                        })
+                                })
+                            }
+                        }
+                     })
                 }
-                saveFile(id, chats).then((result) => {
-                    res.status(200).send(result)
-                }).catch(err =>{
-                    res.status(500).send(err)
-                })
             } else {
                 res.status(500).send(err)
             }
@@ -458,40 +586,158 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
         formInit(req, formidable).then(form => {
             let files = form.files && form.files.media ? form.files.media.length === undefined ? [form.files.media] : form.files.media : []
             let fields = form.fields;
-            for (let file of files) {
-                savetemp({path: file.path, type: fields.type, name: file.name}, [], req.user).then(tempFileID => {
-                    let doc = {
-                        path: file.path,
-                        bucketName: fields.type,
-                        filename: file.name
-                    }
-                    uploadStream(doc).then((fileDet) => {
-                        if (fileDet) {
-                            let chats = {
-                                ID: req.user,
-                                userType: req.userType,
-                                cntType: fields.type,
-                                msg: fileDet._id,
-                                chatID: fields.chatID,
-                                format: fields.format
-                            }
-                            tempFile.findByIdAndRemove(tempFileID).then(() => {
-                                saveFile(req.params.id, chats).then((result) => {
-                                    res.status(200).send(result)
-                                }).catch(err =>{
-                                    res.status(500).send(err)
-                                })
-                            })
-                        } else {
-                            res.sendStatus(500)
+            let chatID = JSON.parse(fields.chatID);
+            let id = req.params.id;
+            if (chatID && !chatID.mainID) {
+                for (let file of files) {
+                    savetemp({path: file.path, type: fields.type, name: file.name}, [], req.user).then(tempFileID => {
+                        let doc = {
+                            path: file.path,
+                            bucketName: fields.type,
+                            filename: file.name
                         }
-                    }).catch(err => {
-                        res.status(500).send(err)
+                        uploadStream(doc).then((fileDet) => {
+                            if (fileDet) {
+                                let chats = {
+                                    ID: req.user,
+                                    userType: req.userType,
+                                    cntType: fields.type,
+                                    msg: fileDet._id,
+                                    chatID: fields.chatID,
+                                    format: fields.format
+                                }
+                                tempFile.findByIdAndRemove(tempFileID).then(() => {
+                                    saveFile(req.params.id, chats).then((result) => {
+                                        res.status(200).send(result)
+                                    }).catch(err =>{
+                                        res.status(500).send(err)
+                                    })
+                                })
+                            } else {
+                                res.sendStatus(500)
+                            }
+                        }).catch(err => {
+                            res.status(500).send(err)
+                        })
                     })
+                }
+            } else {
+                let msg = chatID
+                chat.findOne({$or: [{$and: [ { host: { $in: id } }, { reply: { $in: req.user} } ]}, {$and: [ { host: { $in: req.user } }, { reply: { $in: id} }]}]}).then(chatDet => {
+                    if (chatDet && chatDet.chat) {
+                        let content = chatDet.chat;
+                        let update = content.filter(cnt => cnt.chatID === msg.mainID)[0];
+                        if(update && update.ID === req.user) {
+                            if (!msg.chatID) {
+                                let index = content.findIndex(cnt => cnt.chatID === msg.mainID)
+                                if (update) {
+                                    if (update && (update.cntType !== 'typedPlain')) {
+                                        deleteMedia([{id: update.msg }], update.cntType).then(() => {
+                                            editMedia().then(result => {
+                                                update.msg = result
+                                                update['edit'] = true;
+                                                update.cntType = fields.type;
+                                                update.format = fields.format;
+                                                content[index] = update
+                                                editCnt(content, update).then(cnt => {
+                                                    return res.status(200).send(cnt)
+                                                })
+                                            })
+                                        })
+                                    } else {
+                                        editMedia().then(result => {
+                                            update.msg = result
+                                            update['edit'] = true;
+                                            update.cntType = fields.type;
+                                            update.format = fields.format;
+                                            content[index] = update
+                                            editCnt(content, update).then(cnt => {
+                                                return res.status(200).send(cnt)
+                                            })
+                                        })
+                                    }
+                                }
+                            } else {
+                                let index = content.findIndex(cnt => cnt.chatID === msg.mainID)
+                                if (update) {
+                                    let filterReply = update.reply.filter(replyCnt => replyCnt.chatID === msg.chatID)[0];
+                                    let filterIndex = update.reply.findIndex(replyCnt => replyCnt.chatID === msg.chatID)[0];
+                                    if (filterReply) {
+                                        if (filterReply && (filterReply.cntType !== 'typedPlain')) {
+                                            deleteMedia([{id: filterReply.msg }], filterReply.cntType).then(() => {
+                                                editMedia().then(result => {
+                                                    filterReply.msg = result
+                                                    filterReply['edit'] = true;
+                                                    filterReply.cntType = fields.type;
+                                                    filterReply.format = fields.format;
+                                                    update.reply[filterIndex] = filterReply;
+                                                    content[index] = update
+                                                    editCnt(content, update).then(cnt => {
+                                                        return res.status(200).send(cnt)
+                                                    })
+                                                })
+                                            })
+                                        } else {
+                                            editMedia().then(result => {
+                                                filterReply.msg = result
+                                                filterReply['edit'] = true;
+                                                filterReply.cntType = fields.type;
+                                                filterReply.format = fields.format;
+                                                update.reply[filterIndex] = filterReply;
+                                                content[index] = update
+                                                editCnt(content, update).then(cnt => {
+                                                    return res.status(200).send(cnt)
+                                                })
+                                            })
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            res.sendStatus(200)
+                        }
+                    }   
                 })
             }
+            function editMedia() {
+                return new Promise((resolve, reject) => {
+                    for (let file of files) {
+                        savetemp({path: file.path, type: fields.type, name: file.name}, [], req.user).then(tempFileID => {
+                            let doc = {
+                                path: file.path,
+                                bucketName: fields.type,
+                                filename: file.name
+                            }
+                            uploadStream(doc).then((fileDet) => {
+                                if (fileDet) {
+                                    tempFile.findByIdAndRemove(tempFileID).then(() => {
+                                        resolve(fileDet._id)
+                                    })
+                                } else {
+                                    reject()
+                                }
+                            }).catch(err => {
+                            reject(err)
+                            })
+                        })
+                    }
+                })
+            }
+            function editCnt(content, update) {
+                return new Promise((resolve, reject) => {
+                    chat.findOneAndUpdate({$or: [{$and: [ { host: { $in: id } }, { reply: { $in: req.user} } ]}, {$and: [ { host: { $in: req.user } }, { reply: { $in: id} }]}]}, {
+                        chat: content}).then(grp => {
+                            let model =  req.userType === 'authUser' ? authUser : user;
+                            model.findById(req.user).then(userDet => {
+                                save(update, userDet, id, req.user, update.position).then(cnt => {
+                                    resolve(cnt)
+                                })
+                            })
+                        })
+                })
+            }
+            
         })
-
     }
 
     if (req.header('data-categ') && req.header('data-categ') === 'chatActive') {
@@ -521,19 +767,102 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'createChat') {
         let id = req.params.id;
         let cnt = req.body;
-        let chat = {
-            ID: req.user,
-            userType: req.userType,
-            cntType: 'typedPlain',
-            msg: cnt.msg,
-            chatID: cnt.chatID,
-            format: 'typedPlain'
+        if (cnt.msg && !cnt.msg.editMsg) {
+            let chat = {
+                ID: req.user,
+                userType: req.userType,
+                cntType: 'typedPlain',
+                msg: cnt.msg,
+                chatID: cnt.chatID,
+                format: 'typedPlain'
+            }
+            saveChatFile(id, chat).then((result) => {
+                res.status(200).send(result)
+            }).catch(err =>{
+                res.status(500).send(err)
+            })
+        } else {
+            let msg = cnt.msg
+            group.findOne({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
+                $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}).then((grp) => {
+                if (!grp || grp.chat.length < 1 ) {
+                    return res.sendStatus(200)
+                }
+                let content = grp.chat;
+                let update = content.filter(cnt => cnt.chatID === msg.mainID)[0];
+                if (update && update.ID === req.user) {
+                    if (!msg.chatID) {
+                        let index = content.findIndex(cnt => cnt.chatID === msg.mainID)
+                        if (update) {
+                            if (update && (update.cntType !== 'typedPlain')) {
+                                deleteMedia([{id: update.msg }], update.cntType).then(() => {
+                                    update.msg = msg.editMsg;
+                                    update['edit'] = true;
+                                    update.cntType = 'typedPlain'
+                                    update.format = 'typedPlain'
+                                    content[index] = update;
+                                    editCnt(content, update).then(cnt => {
+                                        return res.status(200).send(cnt)
+                                    })
+                                })
+                            } else {
+                                update.msg = msg.editMsg;
+                                update['edit'] = true;
+                                content[index] = update
+                                editCnt(content, update).then(cnt => {
+                                    return res.status(200).send(cnt)
+                                })
+                            }
+                        }
+                    } else {
+                        let index = content.findIndex(cnt => cnt.chatID === msg.mainID)
+                        if (update) {
+                            let filterReply = update.reply.filter(replyCnt => replyCnt.chatID === msg.chatID)[0];
+                            let filterIndex = update.reply.findIndex(replyCnt => replyCnt.chatID === msg.chatID)[0];
+                            if (filterReply) {
+                                if (filterReply && (filterReply.cntType !== 'typedPlain')) {
+                                    deleteMedia([{id: filterReply.msg }], filterReply.cntType).then(() => {
+                                        filterReply.msg = msg.editMsg
+                                        filterReply['edit'] = true;
+                                        filterReply.cntType = 'typedPlain';
+                                        filterReply.format = 'typedPlain';
+                                        update.reply[filterIndex] = filterReply;
+                                        content[index] = update
+                                        editCnt(content, update).then(cnt => {
+                                            return res.status(200).send(cnt)
+                                        })
+                                    })
+                                } else {
+                                    filterReply.msg = msg.editMsg
+                                    filterReply['edit'] = true;
+                                    update.reply[filterIndex] = filterReply;
+                                    content[index] = update
+                                    editCnt(content, update).then(cnt => {
+                                        return res.status(200).send(cnt)
+                                    })
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    res.sendStatus(200)
+                }
+            })
+            function editCnt(content, update) {
+                return new Promise((resolve, reject) => {
+                    group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
+                        $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}, {
+                            chat: content}).then(grp => {
+                                let model =  req.userType === 'authUser' ? authUser : user;
+                                model.findById(req.user).then(userDet => {
+                                    saveChat(grp, id, update, userDet, update.position).then(cnt => {
+                                        resolve(cnt)
+                                    })
+                                })        
+                        })
+                })
+            }
         }
-        saveChatFile(id, chat).then((result) => {
-            res.status(200).send(result)
-        }).catch(err =>{
-            res.status(500).send(err)
-        })
     }
 
     if (req.header !== null && req.header('data-categ') === 'setLastMsg') {
@@ -577,7 +906,7 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
 
     if (req.header !== null && req.header('data-categ') === 'deleteChat') {
        let id = req.params.id;
-       let cnt = req.body.cnt;
+       let cnts = req.body.cnt;
         group.findOne({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
             $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}).then(grp => {
             if (grp) {
@@ -585,104 +914,123 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                 if (chats && chats.length > 0) {
                     let deleteTotal = 0;
                     let curIndex = 0;
-                    for (let chatID of cnt) {
-                        let filterCnt = chats.filter((chat, index)=> {
-                            if (chat.chatID === chatID) {
-                                curIndex = index;
-                                return true;
-                            }
-                            return false;
-                        })[0];
-                        if (filterCnt && (filterCnt.ID === req.user)) {
-                            let cloned = JSON.parse(JSON.stringify(filterCnt));
-                            let update = {...cloned, delete: true, reply: [], msg: null}
-                            chats[curIndex] = update;
-                            if (filterCnt && (filterCnt.cntType !== 'typedPlain')) {
-                                deleteMedia([{id: filterCnt.msg }], filterCnt.cntType).then(() => {
-                                    if (filterCnt.reply && filterCnt.reply.length > 0) {
-                                        for (let replyCnt of filterCnt.reply) {
-                                            if (replyCnt.cntType !== 'typedPlain') {
-                                            deleteMedia([{id: replyCnt.msg }], replyCnt.cntType).then(() => {
-                                                ++deleteTotal;
-                                                if (cnt.length === deleteTotal) {
-                                                    updateChat(id, chats).then(() => {
-                                                        res.status(200).send(cnt)
-                                                    })
-                                                }
-                                            })
-                                            } else {
-                                                ++deleteTotal;
-                                                if (cnt.length === deleteTotal) {
-                                                    updateChat(id, chats).then(() => {
-                                                        res.status(200).send(cnt)
-                                                    })
-                                                }
-                                            }
-                                        }
-                                    } else {
+                    for (let cnt of cnts) {
+                        if (!cnt.chatID) {
+                            let filterCnt = chats.filter((chat, index)=> {
+                                if (chat.chatID === cnt.mainID) {
+                                    curIndex = index;
+                                    return true;
+                                }
+                                return false;
+                            })[0];
+                            if (filterCnt && (filterCnt.ID === req.user)) {
+                                let cloned = JSON.parse(JSON.stringify(filterCnt));
+                                let update = {...cloned, delete: true, msg: null}
+                                chats[curIndex] = update;
+                                if (filterCnt && (filterCnt.cntType !== 'typedPlain')) {
+                                    deleteMedia([{id: filterCnt.msg }], filterCnt.cntType).then(() => {
                                         ++deleteTotal;
-                                        if (cnt.length === deleteTotal) {
+                                        if (cnts.length === deleteTotal) {
                                             updateChat(id, chats).then(() => {
-                                                res.status(200).send(cnt)
+                                                res.status(200).send(cnts)
                                             })
                                         }
+                                    })
+                                } else {
+                                    ++deleteTotal;
+                                    if (cnts.length === deleteTotal) {
+                                        updateChat(id, chats).then(() => {
+                                            res.status(200).send(cnts)
+                                        })
                                     }
-                                    
-                                })
+                                }
                             } else {
-                                if (filterCnt.reply && filterCnt.reply.length > 0) {
-                                    for (let replyCnt of filterCnt.reply) {
-                                        if (replyCnt.cntType !== 'typedPlain') {
-                                            deleteMedia([{id: replyCnt.msg }], replyCnt.cntType).then(() => {
+                                if (filterCnt) {
+                                    ++deleteTotal;
+                                    let block = filterCnt.block ? filterCnt.block.concat(req.user) : [req.user];
+                                    block = [...new Set(block)]
+                                    let cloned = JSON.parse(JSON.stringify(filterCnt));
+                                    let update = {...cloned, block}
+                                    chats[curIndex] = update;
+                                    if (cnts.length === deleteTotal) {
+                                        updateChat(id, chats).then(() => {
+                                            res.status(200).send(cnts)
+                                        }).catch(err => {
+                                            res.status(500).send(err)
+                                        })
+                                    }
+                                } else {
+                                    res.status(200).send(cnts)
+                                }
+                            }
+                        } else {
+                            let filterReply = chats.filter((chat, index)=> {
+                                if (chat.chatID === cnt.mainID) {
+                                    curIndex = index;
+                                    return true;
+                                }
+                                return false;
+                            })[0];
+                            if (filterReply) {
+                                let filterCnt = filterReply.reply.filter(replyCnt => replyCnt.chatID === cnt.chatID)[0];
+                                let filterIndex = filterReply.reply.findIndex(replyCnt => replyCnt.chatID === cnt.chatID);
+                                
+                                if (filterCnt) {
+                                    if (filterCnt && (filterCnt.ID === req.user)) {
+                                        let cloned = JSON.parse(JSON.stringify(filterCnt));
+                                        let update = {...cloned, delete: true, msg: null}
+                                        filterReply.reply[filterIndex] = update;
+                                        chats[curIndex] = filterReply;
+                                        if (filterCnt && (filterCnt.cntType !== 'typedPlain')) {
+                                            deleteMedia([{id: filterCnt.msg }], filterCnt.cntType).then(() => {
                                                 ++deleteTotal;
-                                                if (cnt.length === deleteTotal) {
+                                                if (cnts.length === deleteTotal) {
                                                     updateChat(id, chats).then(() => {
-                                                        res.status(200).send(cnt)
+                                                        res.status(200).send(cnts)
                                                     })
                                                 }
                                             })
                                         } else {
-                                                ++deleteTotal;
-                                                if (cnt.length === deleteTotal) {
-                                                    updateChat(id, chats).then(() => {
-                                                        res.status(200).send(cnt)
-                                                    })
-                                                }
+                                            ++deleteTotal;
+                                            if (cnts.length === deleteTotal) {
+                                                updateChat(id, chats).then(() => {
+                                                    res.status(200).send(cnts)
+                                                })
+                                            }
+                                        }
+                                    } else {
+                                        if (filterCnt) {
+                                            ++deleteTotal;
+                                            let block = filterCnt.block ? filterCnt.block.concat(req.user) : [req.user];
+                                            block = [...new Set(block)]
+                                            let cloned = JSON.parse(JSON.stringify(filterCnt));
+                                            let update = {...cloned, block}
+                                            filterReply.reply[filterIndex] = update;
+                                            chats[curIndex] = filterReply;
+                                            if (cnts.length === deleteTotal) {
+                                                updateChat(id, chats).then(() => {
+                                                    res.status(200).send(cnts)
+                                                }).catch(err => {
+                                                    res.status(500).send(err)
+                                                })
+                                            }
+                                        } else {
+                                            res.status(200).send(cnts)
                                         }
                                     }
                                 } else {
-                                    ++deleteTotal;
-                                    if (cnt.length === deleteTotal) {
-                                        updateChat(id, chats).then(() => {
-                                            res.status(200).send(cnt)
-                                        })
-                                    }
-                                }
-                                
-                            }
-                        } else {
-                            if (filterCnt) {
-                                ++deleteTotal;
-                                let block = filterCnt.block ? filterCnt.block.concat(req.user) : [req.user];
-                                block = [...new Set(block)]
-                                let cloned = JSON.parse(JSON.stringify(filterCnt));
-                                let update = {...cloned, block}
-                                chats[curIndex] = update;
-                                if (cnt.length === deleteTotal) {
-                                    updateChat(id, chats).then(() => {
-                                        res.status(200).send(cnt)
-                                    }).catch(err => {
-                                        res.status(500).send(err)
-                                    })
-                                }
+                                    res.status(200).send(cnts)
+                                } 
                             } else {
-                                res.status(200).send(cnt)
+                                res.status(200).send(cnts)
                             }
                         }
+                        
+                        
                     }
                 }
             } else {
-                res.sendStatus(400)
+                res.sendStatus(401)
             }
         })
        function updateChat (id, chat) {
@@ -812,111 +1160,130 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
 
     if (req.header !== null && req.header('data-categ') === 'pvtDeleteChat') {
         let id = req.params.id;
-        let cnt = req.body.cnt
+        let cnts = req.body.cnt
         chat.findOne({$or: [{$and: [ { host: { $in: req.user } }, { reply: { $in: id} } ]}, {$and: [ { host: { $in: id } }, { reply: { $in: req.user} }]}]}).then(chatDet => {
             if (chatDet) {
                 let chats = chatDet.chat;
                 if (chats && chats.length > 0) {
                     let deleteTotal = 0;
                     let curIndex = 0;
-                    for (let chatID of cnt) {
-                        let filterCnt = chats.filter((chat, index)=> {
-                            if (chat.chatID === chatID) {
-                                curIndex = index;
-                                return true;
-                            }
-                            return false;
-                        })[0];
-                        if (filterCnt && (filterCnt.ID === req.user)) {
-                            let cloned = JSON.parse(JSON.stringify(filterCnt));
-                            let update = {...cloned, delete: true, reply: [], msg: null}
-                            chats[curIndex] = update;
-                            if (filterCnt && (filterCnt.cntType !== 'typedPlain')) {
-                                deleteMedia([{id: filterCnt.msg }], filterCnt.cntType).then(() => {
-                                   if (filterCnt.reply && filterCnt.reply.length > 0) {
-                                       for (let replyCnt of filterCnt.reply) {
-                                           if (replyCnt.cntType !== 'typedPlain') {
-                                            deleteMedia([{id: replyCnt.msg }], replyCnt.cntType).then(() => {
-                                                ++deleteTotal;
-                                                if (cnt.length === deleteTotal) {
-                                                    updateChat(id, chats).then(() => {
-                                                        res.status(200).send(cnt)
-                                                    })
-                                                }
-                                            })
-                                           } else {
-                                                ++deleteTotal;
-                                                if (cnt.length === deleteTotal) {
-                                                    updateChat(id, chats).then(() => {
-                                                        res.status(200).send(cnt)
-                                                    })
-                                                }
-                                           }
-                                       }
-                                   } else {
+                    for (let cnt of cnts) {
+                        if (!cnt.chatID) {
+                            let filterCnt = chats.filter((chat, index)=> {
+                                if (chat.chatID === cnt.mainID) {
+                                    curIndex = index;
+                                    return true;
+                                }
+                                return false;
+                            })[0];
+                            if (filterCnt && (filterCnt.ID === req.user)) {
+                                let cloned = JSON.parse(JSON.stringify(filterCnt));
+                                let update = {...cloned, delete: true, msg: null}
+                                chats[curIndex] = update;
+                                if (filterCnt && (filterCnt.cntType !== 'typedPlain')) {
+                                    deleteMedia([{id: filterCnt.msg }], filterCnt.cntType).then(() => {
                                         ++deleteTotal;
-                                        if (cnt.length === deleteTotal) {
+                                        if (cnts.length === deleteTotal) {
                                             updateChat(id, chats).then(() => {
-                                                res.status(200).send(cnt)
+                                                res.status(200).send(cnts)
                                             })
                                         }
-                                   }
-                                   
-                                })
-                            } else {
-                                if (filterCnt.reply && filterCnt.reply.length > 0) {
-                                    for (let replyCnt of filterCnt.reply) {
-                                        if (replyCnt.cntType !== 'typedPlain') {
-                                         deleteMedia([{id: replyCnt.msg }], replyCnt.cntType).then(() => {
-                                             ++deleteTotal;
-                                             if (cnt.length === deleteTotal) {
-                                                 updateChat(id, chats).then(() => {
-                                                    res.status(200).send(cnt)
-                                                 })
-                                             }
-                                         })
-                                        } else {
-                                             ++deleteTotal;
-                                             if (cnt.length === deleteTotal) {
-                                                 updateChat(id, chats).then(() => {
-                                                    res.status(200).send(cnt)
-                                                 })
-                                             }
-                                        }
-                                    }
+                                    })
                                 } else {
                                     ++deleteTotal;
-                                    if (cnt.length === deleteTotal) {
+                                    if (cnts.length === deleteTotal) {
                                         updateChat(id, chats).then(() => {
-                                            res.status(200).send(cnt)
+                                            res.status(200).send(cnts)
                                         })
                                     }
                                 }
-                               
+                            } else {
+                                if (filterCnt) {
+                                    ++deleteTotal;
+                                    let block = filterCnt.block ? filterCnt.block.concat(req.user) : [req.user];
+                                    block = [...new Set(block)]
+                                    let cloned = JSON.parse(JSON.stringify(filterCnt));
+                                    let update = {...cloned, block}
+                                    chats[curIndex] = update;
+                                    if (cnts.length === deleteTotal) {
+                                        updateChat(id, chats).then(() => {
+                                            res.status(200).send(cnts)
+                                        }).catch(err => {
+                                            res.status(500).send(err)
+                                        })
+                                    }
+                                } else {
+                                    res.status(200).send(cnts)
+                                }
                             }
                         } else {
-                            if (filterCnt) {
-                                ++deleteTotal;
-                                let block = filterCnt.block ? filterCnt.block.concat(req.user) : [req.user];
-                                block = [...new Set(block)]
-                                let cloned = JSON.parse(JSON.stringify(filterCnt));
-                                let update = {...cloned, block}
-                                chats[curIndex] = update;
-                                if (cnt.length === deleteTotal) {
-                                    updateChat(id, chats).then(() => {
-                                        res.status(200).send(cnt)
-                                    }).catch(err => {
-                                        res.status(500).send(err)
-                                    })
+                            let filterReply = chats.filter((chat, index)=> {
+                                if (chat.chatID === cnt.mainID) {
+                                    curIndex = index;
+                                    return true;
                                 }
+                                return false;
+                            })[0];
+                            if (filterReply) {
+                                let filterCnt = filterReply.reply.filter(replyCnt => replyCnt.chatID === cnt.chatID)[0];
+                                let filterIndex = filterReply.reply.findIndex(replyCnt => replyCnt.chatID === cnt.chatID);
+                                
+                                if (filterCnt) {
+                                    if (filterCnt && (filterCnt.ID === req.user)) {
+                                        let cloned = JSON.parse(JSON.stringify(filterCnt));
+                                        let update = {...cloned, delete: true, msg: null}
+                                        filterReply.reply[filterIndex] = update;
+                                        chats[curIndex] = filterReply;
+                                        if (filterCnt && (filterCnt.cntType !== 'typedPlain')) {
+                                            deleteMedia([{id: filterCnt.msg }], filterCnt.cntType).then(() => {
+                                                ++deleteTotal;
+                                                if (cnts.length === deleteTotal) {
+                                                    updateChat(id, chats).then(() => {
+                                                        res.status(200).send(cnts)
+                                                    })
+                                                }
+                                            })
+                                        } else {
+                                            ++deleteTotal;
+                                            if (cnts.length === deleteTotal) {
+                                                updateChat(id, chats).then(() => {
+                                                    res.status(200).send(cnts)
+                                                })
+                                            }
+                                        }
+                                    } else {
+                                        if (filterCnt) {
+                                            ++deleteTotal;
+                                            let block = filterCnt.block ? filterCnt.block.concat(req.user) : [req.user];
+                                            block = [...new Set(block)]
+                                            let cloned = JSON.parse(JSON.stringify(filterCnt));
+                                            let update = {...cloned, block}
+                                            filterReply.reply[filterIndex] = update;
+                                            chats[curIndex] = filterReply;
+                                            if (cnts.length === deleteTotal) {
+                                                updateChat(id, chats).then(() => {
+                                                    res.status(200).send(cnts)
+                                                }).catch(err => {
+                                                    res.status(500).send(err)
+                                                })
+                                            }
+                                        } else {
+                                            res.status(200).send(cnts)
+                                        }
+                                    }
+                                } else {
+                                    res.status(200).send(cnts)
+                                } 
                             } else {
-                                res.status(200).send(cnt)
+                                res.status(200).send(cnts)
                             }
                         }
+                        
+                        
                     }
                 }
             } else {
-                res.sendStatus(400)
+                res.sendStatus(401)
             }
         })
         function updateChat (id, chats) {
@@ -1024,36 +1391,156 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
         formInit(req, formidable).then(form => {
             let files = form.files && form.files.media ? form.files.media.length === undefined ? [form.files.media] : form.files.media : []
             let fields = form.fields;
-            for (let file of files) {
-                savetemp({path: file.path, type: fields.type, name: file.name}, [], req.user).then(tempFileID => {
-                    let doc = {
-                        path: file.path,
-                        bucketName: fields.type,
-                        filename: file.name
-                    }
-                    uploadStream(doc).then((fileDet) => {
-                        if (fileDet) {
-                            let chats = {
-                                ID: req.user,
-                                userType: req.userType,
-                                cntType: fields.type,
-                                msg: fileDet._id,
-                                chatID: fields.chatID,
-                                format: fields.format
-                            }
-                            tempFile.findByIdAndRemove(tempFileID).then(() => {
-                                saveChatFile(req.params.id, chats).then((result) => {
-                                    res.status(200).send(result)
-                                }).catch(err =>{
-                                    res.status(500).send(err)
-                                })
-                            })
-                        } else {
-                            res.sendStatus(500)
+            let chatID = JSON.parse(fields.chatID);
+            let id = req.params.id;
+            if (chatID && !chatID.mainID) {
+                for (let file of files) {
+                    savetemp({path: file.path, type: fields.type, name: file.name}, [], req.user).then(tempFileID => {
+                        let doc = {
+                            path: file.path,
+                            bucketName: fields.type,
+                            filename: file.name
                         }
-                    }).catch(err => {
-                        res.status(500).send(err)
+                        uploadStream(doc).then((fileDet) => {
+                            if (fileDet) {
+                                let chats = {
+                                    ID: req.user,
+                                    userType: req.userType,
+                                    cntType: fields.type,
+                                    msg: fileDet._id,
+                                    chatID: fields.chatID,
+                                    format: fields.format
+                                }
+                                tempFile.findByIdAndRemove(tempFileID).then(() => {
+                                    saveChatFile(req.params.id, chats).then((result) => {
+                                        res.status(200).send(result)
+                                    }).catch(err =>{
+                                        res.status(500).send(err)
+                                    })
+                                })
+                            } else {
+                                res.sendStatus(500)
+                            }
+                        }).catch(err => {
+                            res.status(500).send(err)
+                        })
                     })
+                }
+            } else {
+                let msg = chatID
+                group.findOne({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
+                    $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}).then((chatDet) => {
+                    if (chatDet && chatDet.chat) {
+                        let content = chatDet.chat;
+                        let update = content.filter(cnt => cnt.chatID === msg.mainID)[0];
+                        if (update && update.ID === req.user) {
+                            if (!msg.chatID) {
+                                let index = content.findIndex(cnt => cnt.chatID === msg.mainID)
+                                if (update) {
+                                    if (update && (update.cntType !== 'typedPlain')) {
+                                        deleteMedia([{id: update.msg }], update.cntType).then(() => {
+                                            editMedia().then(result => {
+                                                update.msg = result
+                                                update['edit'] = true;
+                                                update.cntType = fields.type;
+                                                update.format = fields.format;
+                                                content[index] = update
+                                                editCnt(content, update).then(cnt => {
+                                                    return res.status(200).send(cnt)
+                                                })
+                                            })
+                                        })
+                                    } else {
+                                        editMedia().then(result => {
+                                            update.msg = result
+                                            update['edit'] = true;
+                                            update.cntType = fields.type;
+                                            update.format = fields.format;
+                                            content[index] = update
+                                            editCnt(content, update).then(cnt => {
+                                                return res.status(200).send(cnt)
+                                            })
+                                        })
+                                    }
+                                }
+                            } else {
+                                let index = content.findIndex(cnt => cnt.chatID === msg.mainID)
+                                if (update) {
+                                    let filterReply = update.reply.filter(replyCnt => replyCnt.chatID === msg.chatID)[0];
+                                    let filterIndex = update.reply.findIndex(replyCnt => replyCnt.chatID === msg.chatID)[0];
+                                    if (filterReply) {
+                                        if (filterReply && (filterReply.cntType !== 'typedPlain')) {
+                                            deleteMedia([{id: filterReply.msg }], filterReply.cntType).then(() => {
+                                                editMedia().then(result => {
+                                                    filterReply.msg = result
+                                                    filterReply['edit'] = true;
+                                                    filterReply.cntType = fields.type;
+                                                    filterReply.format = fields.format;
+                                                    update.reply[filterIndex] = filterReply;
+                                                    content[index] = update
+                                                    editCnt(content, update).then(cnt => {
+                                                        return res.status(200).send(cnt)
+                                                    })
+                                                })
+                                            })
+                                        } else {
+                                            editMedia().then(result => {
+                                                filterReply.msg = result
+                                                filterReply['edit'] = true;
+                                                filterReply.cntType = fields.type;
+                                                filterReply.format = fields.format;
+                                                update.reply[filterIndex] = filterReply;
+                                                content[index] = update
+                                                editCnt(content, update).then(cnt => {
+                                                    return res.status(200).send(cnt)
+                                                })
+                                            })
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            res.sendStatus(200)
+                        }
+                    }   
+                })
+            }
+            function editMedia() {
+                return new Promise((resolve, reject) => {
+                    for (let file of files) {
+                        savetemp({path: file.path, type: fields.type, name: file.name}, [], req.user).then(tempFileID => {
+                            let doc = {
+                                path: file.path,
+                                bucketName: fields.type,
+                                filename: file.name
+                            }
+                            uploadStream(doc).then((fileDet) => {
+                                if (fileDet) {
+                                    tempFile.findByIdAndRemove(tempFileID).then(() => {
+                                        resolve(fileDet._id)
+                                    })
+                                } else {
+                                    reject()
+                                }
+                            }).catch(err => {
+                            reject(err)
+                            })
+                        })
+                    }
+                })
+            }
+            function editCnt(content, update) {
+                return new Promise((resolve, reject) => {
+                    group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
+                        $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}, {
+                            chat: content}).then((grp) => {
+                                let model =  req.userType === 'authUser' ? authUser : user;
+                                model.findById(req.user).then(userDet => {
+                                    saveChat(grp, id, update, userDet, update.position).then(cnt => {
+                                        resolve(cnt)
+                                    })
+                                })        
+                        })
                 })
             }
         })
@@ -1199,12 +1686,7 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                             let lastChat = updateChat[updateChat.length - 1];
                             if (lastChat && (chatDet.lastID === lastChat.ID)) {
                                 chats['mainID'] = lastChat.chatID;
-                                if (!lastChat.delete) {
-                                    lastChat.reply.push(chats);
-                                } else {
-                                    lastChat['delete'] = false;
-                                    lastChat = {...chats, chatID: lastChat.chatID}
-                                }
+                                lastChat.reply.push(chats);
                                 updateChat[updateChat.length - 1] = lastChat;
                                 chat.findOneAndUpdate({$or: [{$and: [ { host: { $in: id } }, { reply: { $in: req.user} } ]}, {$and: [ { host: { $in: req.user } }, { reply: { $in: id} }]}]}, {
                                 chat: updateChat, lastID: req.user, position}).then(grp => {
@@ -1405,12 +1887,7 @@ function pushNotify(id, userID, field, name, msg) {
                             let lastChat = updateChat[updateChat.length - 1];
                             if ( lastChat && (grp.lastID === lastChat.ID)) {
                                 chat['mainID'] = lastChat.chatID;
-                                if (!lastChat.delete) {
-                                    lastChat.reply.push(chat);
-                                } else {
-                                    lastChat['delete'] = false;
-                                    lastChat = {...chat, chatID: lastChat.chatID}
-                                }
+                                lastChat.reply.push(chat);
                                 updateChat[updateChat.length - 1] = lastChat;
                                 group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(id), _isCompleted: true, 
                                 $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}, {

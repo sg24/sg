@@ -64,7 +64,11 @@ class Snapshot extends Component {
                     track.stop();
                 });
                 this.props.history.goBack()
-                this.props.onUploadMedia([{file: imageData, type: 'image', format: 'png',chatID: uuid()}], this.state.id, this.state.categ)
+                if (this.props.editChat) {
+                    this.props.onUploadMedia([{file: imageData, type: 'image', format: 'png', chatID: {mainID: this.props.editChat.mainID, chatID: this.props.editChat.chatID}}], this.state.id, this.state.categ)
+                } else {
+                    this.props.onUploadMedia([{file: imageData, type: 'image', format: 'png',chatID: uuid()}], this.state.id, this.state.categ)
+                }
             }).catch(err => {
                 this.setState({err})
             })
@@ -116,7 +120,8 @@ class Snapshot extends Component {
 
 const mapStateToProps = state => {
     return {
-        vidRecBackdrop: state.cnt.vidRecBackdrop
+        vidRecBackdrop: state.cnt.vidRecBackdrop,
+        editChat: state.cnt.editChat,
     };
  }
 

@@ -110,7 +110,7 @@ class UserOption extends Component {
                             <FontAwesomeIcon 
                                 icon={['fas', 'newspaper']} /> 
                         </div>
-                        News Feed
+                        Post
                     </a>
                 </li>
                 <li className="site-header__user--det__logout">
@@ -138,6 +138,15 @@ class UserOption extends Component {
                                 icon={['fas', 'book']}  /> 
                         </div>
                         Write Up
+                    </a>
+                </li>
+                <li className="site-header__user--det__logout">
+                    <a href="/add/group">
+                        <div>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'user-graduate']}  /> 
+                        </div>
+                        Chat Room
                     </a>
                 </li>
             </Aux>

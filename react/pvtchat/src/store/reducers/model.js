@@ -44,6 +44,7 @@ const initialState = {
     userNotify: 0,
     resend: [],
     resendMedia: [],
+    editChat: null,
     connect: false
 }
 
@@ -155,7 +156,7 @@ const addNewChat =  (state, action) => {
     } else {
         chat.push(...action.chat)
     }
-    return updateObject(state, {chat})
+    return updateObject(state, {chat, editChat: null})
 };
 
 const filterUser = (state, action) => {
@@ -269,19 +270,43 @@ const createChatStart = (state, action) => {
     let chats = [...state.chat];
     let content = arraySort(chats, 'position', {reverse: false});
     let lastChat = content.length > 0 ? content[content.length - 1] : {};
-    if (lastChat.ID === state.userID) {
-        if (!lastChat.delete) {
+    if (action.msg && !action.msg.editMsg) {
+        if (lastChat.ID === state.userID) {
             lastChat.reply.push({ID: state.userID, position: lastChat.position, cntType: action.msgType, sent: false, viewed: false, 
                 chatID: action.msgID, mainID: lastChat.chatID,delete: false,pending: true, msg: action.msg, created: new Date().getTime()});
-            lastChat['pending'] = true;
+            content[content.length - 1] = lastChat;
         } else {
-            lastChat = {ID: state.userID, position: lastChat.position, cntType: action.msgType, sent: false, viewed: false, 
-                chatID:  lastChat.chatID, delete: false, pending: true, msg: action.msg, created: new Date().getTime()}
+            content.push({ID: state.userID, position: !lastChat.position ? 0 : lastChat.position + 1, cntType: action.msgType, sent: false, viewed: false, 
+                chatID: action.msgID, delete: false, pending: true, msg: action.msg, reply: [], created: new Date().getTime()})
         }
-        content[content.length - 1] = lastChat;
     } else {
-        content.push({ID: state.userID, position: !lastChat.position ? 0 : lastChat.position + 1, cntType: action.msgType, sent: false, viewed: false, 
-            chatID: action.msgID, delete: false, pending: true, msg: action.msg, reply: [], created: new Date().getTime()})
+        let msg = action.msg;
+        if (!msg.chatID) {
+            let chat = content.filter(chat => chat.chatID === msg.mainID)[0];
+            let index = content.findIndex(chat => chat.chatID === msg.mainID)
+            if (chat) {
+                chat.msg = msg.editMsg;
+                chat.cntType = 'typedPlain';
+                chat.format = 'typedPlain';
+                chat['pending'] = true;
+            }
+            content[index] = chat
+        } else {
+            let chat = content.filter(chat => chat.chatID === msg.mainID)[0];
+            let index = content.findIndex(chat => chat.chatID === msg.mainID)
+            if (chat) {
+                let filterReply = chat.reply.filter(replyCnt => replyCnt.chatID === msg.chatID)[0];
+                let filterIndex = chat.reply.findIndex(replyCnt => replyCnt.chatID === msg.chatID)[0];
+                if (filterReply) {
+                    filterReply.msg = msg.editMsg
+                    filterReply.cntType = 'typedPlain';
+                    filterReply.format = 'typedPlain';
+                    filterReply['pending'] = true;
+                }
+                chat.reply[filterIndex] = filterReply;
+                content[index] = chat
+            }
+        }
     }
     return updateObject(state, {chat: content, cntErr: null})
 };
@@ -305,11 +330,11 @@ const uploadMediaSet = (state, action) => {
 const uploadMediaStart = (state, action) => {
     let chats = state.tempchat.length < 1 ? [...state.chat] : [...state.tempchat];
     let content = arraySort(chats, 'position', {reverse: false});
-    let lastChat = content.length > 0 ? content[content.length - 1] : [];
-    if (lastChat) {
-        if (lastChat.ID === state.userID) {
-            let curIndex = 0;
-            if (!lastChat.delete) {
+    let lastChat = content.length > 0 ? content[content.length - 1] : null;
+    if (action.chatID && !action.chatID.mainID) {
+        if (lastChat) {
+            if (lastChat.ID === state.userID) {
+                let curIndex = 0;
                 if (lastChat.chatID === action.chatID) {
                     lastChat = {ID: state.userID, upload: true, position: lastChat.position, cntType: action.cntType, 
                         chatID: action.chatID, percentage: action.percentage, pending: true,reply: [], created: new Date().getTime()}
@@ -327,22 +352,46 @@ const uploadMediaStart = (state, action) => {
                     } else {
                         lastChat.reply.push({upload: true, pending: true,position: lastChat.position, cntType: action.cntType, 
                             chatID: action.chatID, percentage: action.percentage});
-                        lastChat['pending'] = true;
                         lastChat.replyID ? lastChat.replyID.push(action.chatID) : lastChat['replyID'] = [action.chatID]
                     }
                 }
+                content[content.length - 1] = lastChat;
             } else {
-                lastChat = {ID: state.userID, upload: true, position: lastChat.position, cntType: action.cntType, 
-                    chatID: action.chatID, percentage: action.percentage, pending: true,reply: [], created: new Date().getTime()}
+                content.push({ID: state.userID, upload: true, position: lastChat.position + 1, cntType: action.cntType, 
+                    chatID: action.chatID, percentage: action.percentage, pending: true,reply: [], created: new Date().getTime()})
             }
-            content[content.length - 1] = lastChat;
         } else {
-            content.push({ID: state.userID, upload: true, position: lastChat.position + 1, cntType: action.cntType, 
+            content.push({ID: state.userID, upload: true, position: 0, cntType: action.cntType, 
                 chatID: action.chatID, percentage: action.percentage, pending: true,reply: [], created: new Date().getTime()})
         }
     } else {
-        content.push({ID: state.userID, upload: true, position: lastChat.position + 1, cntType: action.cntType, 
-            chatID: action.chatID, percentage: action.percentage, pending: true,reply: [], created: new Date().getTime()})
+        let msg = action.chatID;
+        if (!msg.chatID) {
+            let chat = content.filter(chat => chat.chatID === msg.mainID)[0];
+            let index = content.findIndex(chat => chat.chatID === msg.mainID)
+            if (chat) {
+                chat.cntType = action.cntType;
+                chat['percentage'] = action.percentage
+                chat['pending'] = true;
+                chat['upload'] = true;
+            }
+            content[index] = chat
+        } else {
+            let chat = content.filter(chat => chat.chatID === msg.mainID)[0];
+            let index = content.findIndex(chat => chat.chatID === msg.mainID)
+            if (chat) {
+                let filterReply = chat.reply.filter(replyCnt => replyCnt.chatID === msg.chatID)[0];
+                let filterIndex = chat.reply.findIndex(replyCnt => replyCnt.chatID === msg.chatID)[0];
+                if (filterReply) {
+                    filterReply['pending'] = true;
+                    filterReply['upload'] = true;
+                    filterReply.cntType = action.cntType;
+                    filterReply['percentage'] = action.percentage
+                }
+                chat.reply[filterIndex] = filterReply;
+                content[index] = chat
+            }
+        }
     }
     return updateObject(state, {tempchat: content, cntErr: null})
 };
@@ -384,33 +433,63 @@ const closeSideNav = (state, action) => {
 
 const holdChat =  (state, action) => {
     let chatSelected  = [...state.chatSelected];
-    let filterSelect = chatSelected.filter(id => id === action.id)[0];
-    if (filterSelect) {
-        chatSelected = chatSelected.filter(id => id !== action.id);
-        return updateObject(state, {chatSelected})
+    if (!action.chatID) {
+        let filterSelect = chatSelected.filter(cnt => (cnt.mainID === action.mainID) && !cnt.chatID)[0];
+        if (filterSelect) {
+            let selected = []
+            for (let cnt of chatSelected) {
+                if ((cnt.mainID === action.mainID) && !cnt.chatID) {
+
+                } else {
+                    selected.push(cnt)
+                }
+            }
+            return updateObject(state, {chatSelected: selected})
+        }
+        
+    } else {
+        let filterCnt = chatSelected.filter(cnt => cnt.chatID === action.chatID)[0];
+        if (filterCnt) {
+            chatSelected = chatSelected.filter(cnt => cnt.chatID !== action.chatID);
+            return updateObject(state, {chatSelected})
+        } 
     }
-    chatSelected.push(action.id)
-    return updateObject(state, {chatSelected})
+    chatSelected.push({mainID: action.mainID, chatID: action.chatID, edit: action.ID === state.userID})
+    
+    return updateObject(state, {chatSelected, editChat:  null})
 };
 
 const releaseChat =  (state, action) => {
-    return updateObject(state, {chatSelected: []})
+    return updateObject(state, {chatSelected: [], editChat: null})
 };
 
 const chatRemoved = (state, action) => {
     let chats = [...state.chat]
     if (chats.length > 0 && action.cnt && action.cnt.length > 0) {
-        for (let id of action.cnt) {
-            let chat = chats.filter(chat => chat.chatID === id)[0];
-            let index = chats.findIndex(chat => chat.chatID === id)
-            if (chat) {
-                chat.delete = true;
+        for (let cnt of action.cnt) {
+            if (!cnt.chatID) {
+                let chat = chats.filter(chat => chat.chatID === cnt.mainID)[0];
+                let index = chats.findIndex(chat => chat.chatID === cnt.mainID)
+                if (chat) {
+                    chat.delete = true;
+                }
+                chats[index] = chat
+            } else {
+                let chat = chats.filter(chat => chat.chatID === cnt.mainID)[0];
+                let index = chats.findIndex(chat => chat.chatID === cnt.mainID)
+                if (chat) {
+                    let filterReply = chat.reply.filter(replyCnt => replyCnt.chatID === cnt.chatID)[0];
+                    let filterIndex = chat.reply.findIndex(replyCnt => replyCnt.chatID === cnt.chatID)[0];
+                    if (filterReply) {
+                        filterReply.delete = true
+                    }
+                    chat.reply[filterIndex] = filterReply;
+                    chats[index] = chat
+                }
             }
-            chat.reply = [];
-            chats[index] = chat
         }
     }
-    return updateObject(state, {chat: chats, chatSelected: []})
+    return updateObject(state, {chat: chats, chatSelected: [], editChat: null})
 };
 
 const groupNotify = (state, action) => {
@@ -419,6 +498,10 @@ const groupNotify = (state, action) => {
 
 const userNotify = (state, action) => {
     return updateObject(state, {userNotify: action.cnt})
+};
+
+const editChat = (state, action) => {
+    return updateObject(state, {editChat: action.cnt, chatSelected: []})
 };
 
 const chatConnect= (state, action) => {
@@ -535,6 +618,8 @@ const reducer = (state = initialState, action) => {
             return groupNotify(state, action);
         case actionTypes.USER_NOTIFY:
             return userNotify(state, action);
+        case actionTypes.EDIT_CHAT:
+            return editChat(state, action);
         case actionTypes.CHAT_CONNECT:
             return chatConnect(state, action);
         case actionTypes.CHAT_DISCONNECT:

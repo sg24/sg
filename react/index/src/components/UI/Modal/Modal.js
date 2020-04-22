@@ -31,14 +31,16 @@ const modal = props => {
                             props.warn.det && props.warn.det === 'draft' ?  ['fas', 'eye-slash'] : 
                             props.warn.det && props.warn.det === 'blockUser' ? ['fas', 'eye-slash']: 
                                 props.warn.det && props.warn.det === 'acceptUser' ? ['fas', 'user-friends'] :
-                                props.warn.det && props.warn.det === 'rejUser' ? ['fas', 'user-slash'] : ['fas', 'user-slash']} 
+                                props.warn.det && props.warn.det === 'rejUser' ? ['fas', 'user-slash'] :
+                                props.warn.det && props.warn.det === 'exit' ? ['fas', 'eye-slash'] : ['fas', 'user-slash']} 
                             className="icon icon__reuse-modal--btn"/>
                         {props.warn.det && props.warn.det === 'delete' ? 'Delete': 
                         (props.warn.det && (props.warn.det === 'draft' || props.warn.det === 'publish')) ? 'Change' : 
                         props.warn.det && props.warn.det === 'blockUser' ? 'Block': 
                         props.warn.det && props.warn.det === 'acceptUser' ? 'Accept' :
                         props.warn.det && props.warn.det === 'rejUser' ? 'Reject' : 
-                        props.warn.det && props.warn.det === 'cancelReq' ? 'Cancel' : 'Unfriend'}
+                        props.warn.det && props.warn.det === 'cancelReq' ? 'Cancel' : 
+                        props.warn.det && props.warn.det === 'exit' ?  'Exit' : 'Unfriend'}
                     </button>
                 </div>
             </div>

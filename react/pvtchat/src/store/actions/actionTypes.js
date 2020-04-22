@@ -179,3 +179,5 @@ export const CREATE_CHAT_FAIL = 'CREATE_CHAT_FAIL';
 
 export const RESEND_CHAT_INIT = 'RESEND_CHAT_INIT';
 export const RESET_RESEND_CHAT = 'RESET_RESEND_CHAT';
+
+export const EDIT_CHAT = 'EDIT_CHAT';

@@ -156,7 +156,7 @@ let meta = null;
                                 onPointerDown={(event) => props.slidePlay(props.cnt._id, mediaTotal, event)}
                                 onPointerMove={(event) => props.moveSlidePlay(props.cnt._id, mediaTotal, event)}
                                 onPointerUp={(event) => props.clearSlidePlay(event)}
-                                src={props.video.url} controls autoPlay>
+                                src={props.video.url} controls autoPlay id="video">
                                 <p>our browser doesn't support embedded videos</p>
                             </video> :
                         props.video && props.video.id === curMedia.id ? null : 

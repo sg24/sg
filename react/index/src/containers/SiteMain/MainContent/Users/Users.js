@@ -78,6 +78,14 @@ class Model extends Component {
                 changeCnt={this.changeCntHandler}/>
         }
 
+        if (!this.props.status) {
+            cnt = <NoAcc 
+                isAuth={this.props.status}
+                det='Users not found !!'
+                icn='users'
+                filter/>
+        }
+
         return cnt
     }
 }

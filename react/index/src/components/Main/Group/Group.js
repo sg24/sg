@@ -13,7 +13,11 @@ const group = props => {
              join={props.join.bind(this, cnt._id, 'join')} 
              joinStartID ={props.joinStartID }
              joined={props.joined}
-             cancelReq={props.join.bind(this, cnt._id, 'cancel')}/>
+             cancelReq={props.join.bind(this, cnt._id, 'cancel')}
+             userOpt={props.userOpt.bind(this, cnt._id)}
+             showOpt={props.showOpt}
+             deleteGrp={props.changeCnt.bind(this, cnt._id, cnt.title, 'delete', false)}
+             exitGrp={props.changeCnt.bind(this, cnt._id, cnt.title, 'exit', false)}/>
     ));
 
     return allGroup;

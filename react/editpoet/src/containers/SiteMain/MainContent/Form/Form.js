@@ -345,7 +345,7 @@ class Form extends  Component {
                         <FontAwesomeIcon 
                             icon={['fas', 'book']} />
                         </div> 
-                        Edit 
+                        Edit Write Up
                     </div>
                 </h3>
                 <div className="reuse-form__cnt">

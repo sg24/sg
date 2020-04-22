@@ -96,6 +96,7 @@ export {
     closeSideNav,
     holdChat,
     releaseChat,
+    editChat,
     uploadMediaStart,
     uploadMediaSet,
     uploadMediaFail,

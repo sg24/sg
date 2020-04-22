@@ -19,7 +19,7 @@ export const uploadMediaInit = (cnt, id, categ) => {
             formContent.append('media', media[index].file, `${media[index].chatID}.${ext.split(';')[0]}`);
             formContent.append('type', media[index].type === 'video' ? 'media' : media[index].type);
             formContent.append('format', media[index].format);
-            formContent.append('chatID', media[index].chatID);
+            formContent.append('chatID', JSON.stringify(media[index].chatID));
             axios.post(`/chat/${categ}/${id}`, formContent, {
                 headers: {'data-categ': 'uploadcntmedia'},
                 onUploadProgress: function (progressEvent) {
@@ -47,10 +47,9 @@ export const uploadMediaInit = (cnt, id, categ) => {
                     submit(media, index)
                 } 
             }).catch((err) => {
-                let ext =  cnt[index].file.type.split('/').pop()
-                dispatch(actions.uploadMediaFail(`${cnt[index].chatID}.${ext.split(';')[0]}`,  cnt[index].type === 'video' ? 'media' : cnt[index].type,
-                cnt[index].format, cnt[index].chatID, cnt[index].file))
+                ++index;
                 dispatch(actions.uploadMedia())
+                dispatch(actions.fetchChatFail(err));
             });
         }
         
@@ -75,7 +74,8 @@ export const createChatInit = (id, categ, msgType, msg, msgID, msgCateg) => {
             dispatch(actions.createChatFail(msgType, msg, msgID, msgCateg));
            }
         }).catch(err => {
-            dispatch(actions.createChatFail(msgType, msg, msgID, msgCateg));
+            dispatch(actions.fetchChatFail(err));
+            // dispatch(actions.createChatFail(msgType, msg, msgID, msgCateg));
         })
     }
 };
@@ -105,7 +105,9 @@ export const resendChatInit = (id, categ, cnt) => {
                     dispatch(actions.createChatFail(cnt[index].msgType, cnt[index].msg, cnt[index].msgID, cnt[index].msgCateg));
                 }
             }).catch(err => {
-                dispatch(actions.createChatFail(cnt[index].msgType, cnt[index].msg, cnt[index].msgID, cnt[index].msgCateg));
+                ++curIndex;
+                dispatch(actions.fetchChatFail(err));
+                // dispatch(actions.createChatFail(cnt[index].msgType, cnt[index].msg, cnt[index].msgID, cnt[index].msgCateg));
             })
         }
     }

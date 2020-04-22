@@ -128,7 +128,7 @@ class SiteMain extends Component {
                             this.props.changeCntStart.det === 'rejUser' ? 'Are you sure you want to reject this user' :
                             this.props.changeCntStart.det === 'acceptUser' ? 'Are you sure you want to accept this user' :  
                             this.props.changeCntStart.det === 'cancelReq' ? 'Are you sure you want to Cancel the request, sent to this user' : 
-                            'Are you sure you want to remove this user',
+                            this.props.changeCntStart.det === 'exit' ? 'Are you sure you want to exit ' : 'Are you sure you want to remove this user',
                             cnt: this.props.changeCntStart.title,
                             det: this.props.changeCntStart.det
                         }}

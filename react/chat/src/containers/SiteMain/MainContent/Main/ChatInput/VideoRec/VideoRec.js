@@ -22,7 +22,7 @@ class VideoCam extends Component {
 
     componentDidMount() {
         webCameraApi(socket, this.state.mediaRecorder, this.state.start, {video: true, audio: true}, 
-            'video/mp4', 'mp4','media', 'mediaRecChat').then(media => {
+            'video/mp4', 'mp4','media', 'pvtMediaRecChat').then(media => {
         videoRef.current.srcObject = media.stream
         this.setState({mediaRecorder: media.mediaRecorder, start: true})
         }).catch(err => {
@@ -41,7 +41,11 @@ class VideoCam extends Component {
         webCameraApi(socket, this.state.mediaRecorder, this.state.start, {video: true, audio: true}, 
             'video/mp4', 'mp4','media', 'mediaRecChat').then(media => {
             this.setState({mediaRecorder: null, start: false})
-            this.props.onUploadMedia(media, this.state.id, this.state.categ)
+            if (this.props.editChat) {
+                this.props.onUploadMedia([{file: media[0].file, type: media[0].type, format: media[0].format, chatID: {mainID: this.props.editChat.mainID, chatID: this.props.editChat.chatID}}], this.state.id, this.state.categ)
+            } else {
+                this.props.onUploadMedia(media, this.state.id, this.state.categ)
+            }
             this.props.history.goBack();
         }).catch(err => {
             this.setState({start: false})
@@ -92,7 +96,8 @@ class VideoCam extends Component {
 
 const mapStateToProps = state => {
     return {
-        vidRecBackdrop: state.cnt.vidRecBackdrop
+        vidRecBackdrop: state.cnt.vidRecBackdrop,
+        editChat: state.cnt.editChat
     };
  }
 

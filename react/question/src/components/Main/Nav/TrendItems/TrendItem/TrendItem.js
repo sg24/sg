@@ -37,7 +37,7 @@ const trendItem = props => {
             <div className="reuse-trd__cnt--wrapper reuse-trd__cnt--wrapper__nav">
                 <div className="reuse-trd__cnt--categ">
                     <FontAwesomeIcon icon={['fas', 'clone']} className="icon icon__reuse-trd--categ" />
-                    { props.trd.category } 
+                    News Feed
                 </div>
                 <h4 className="reuse-trd__cnt--title">
                     <a href={'/view/post/' + props.trd.id }>{ transformString(props.trd.title) }</a>   
@@ -73,7 +73,7 @@ const trendItem = props => {
                     <FontAwesomeIcon 
                         icon={['fas', 'book']} 
                         className="icon icon__reuse-trd--categ" />
-                    { props.trd.category }
+                    Write Up
                 </div>
                 <h4 className="reuse-trd__cnt--title">
                     <a href={'/view/poet/' + props.trd.id }>{ transformString(props.trd.title) }</a>    

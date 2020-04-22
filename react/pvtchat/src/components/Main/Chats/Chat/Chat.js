@@ -9,8 +9,8 @@ import './Chat.css';
 
 const chats = (props) => {
     let time = null;
-    let hstClass = ['site-main__chat--box__hst'];
-    let replyClass = ['site-main__chat--box__reply'];
+    let hstClass = ['site-main__chat--box__hst--cnt__wrapper'];
+    let replyClass = ['site-main__chat--box__reply--cnt__wrapper'];
     let footerReplyClass = ['site-main__chat--box__reply--footer__user'];
     let footerHstClass = ['site-main__chat--box__hst--footer__user'];
     let edit = null;
@@ -29,7 +29,12 @@ const chats = (props) => {
             cnts={props.cnt.reply}
             users={props.users}
             userImage={props.userImage}
-            filterChat={props.filterChat}/>
+            filterChat={props.filterChat}
+            cntID={props.cnt.chatID}
+            hold={props.hold}
+            selected={props.selected}
+            userID={props.userID}
+            editChat={props.editChat}/>
     }
 
         
@@ -55,18 +60,18 @@ const chats = (props) => {
     )
   
     let audioCnt = (
-        <audio controls src={`${window.location.protocol + '//' + window.location.host}/media/audio/${props.cnt.msg}.${props.cnt.format}`}>
+        <audio controls src={`https://www.slodge24.com/media/audio/${props.cnt.msg}.${props.cnt.format}`}>
             <p>Your browser does not support this feature</p>
         </audio>
     );
     let videoCnt = (
-        <video controls src={`${window.location.protocol + '//' + window.location.host}/media/video/${props.cnt.msg}.${props.cnt.format}`}>
+        <video controls src={`https://www.slodge24.com/media/video/${props.cnt.msg}.${props.cnt.format}`}>
             <p>Your browser does not support this feature</p>
         </video>
     );
 
     let imageCnt =(
-        <img src={`${window.location.protocol + '//' + window.location.host}/media/image/${props.cnt.msg}.${props.cnt.format}`} alt=""/>
+        <img src={`https://www.slodge24.com/media/image/${props.cnt.msg}.${props.cnt.format}`} alt=""/>
     )
     
     let typedPlain = props.cnt.msg;
@@ -75,11 +80,18 @@ const chats = (props) => {
     let typedCnt = null;
 
     if (props.selected && props.selected.length > 0)  {
-        for (let id of props.selected) {
-            if (id  === props.cnt.chatID) {
+        for (let cnt of props.selected) {
+            if ((cnt.mainID  === props.cnt.chatID) && !cnt.chatID) {
                 hstClass.push('site-main__chat--box__highlight')
                 replyClass.push('site-main__chat--box__highlight')
             }
+        }
+    }
+
+    if (props.editChat && props.editChat.mainID && !props.editChat.chatID) {
+        if ((props.editChat.mainID  === props.cnt.chatID) && !props.editChat.chatID) {
+            hstClass.push('site-main__chat--box__highlight-edit')
+            replyClass.push('site-main__chat--box__highlight-edit')
         }
     }
 
@@ -92,7 +104,7 @@ const chats = (props) => {
                     {...defaultStyles[props.cnt.format]} 
                     size={100}/>
                 <a 
-                    href={`${window.location.protocol + '//' + window.location.host}/media/${props.cnt.cntType}/${props.cnt.msg}.${props.cnt.format}`}  
+                    href={`https://www.slodge24.com/media/${props.cnt.cntType}/${props.cnt.msg}.${props.cnt.format}`}  
                     downloads="true"
                     className="site-main__chat--box__download"> 
                     <FontAwesomeIcon  icon={['fas', 'download']} className="icon icon__site-main--chat__box--dwn"/> 
@@ -174,14 +186,12 @@ const chats = (props) => {
     }
 
     let chatCnt = (
-        <div
-             className={hstClass.join(' ')}>
-            <div 
-                className="site-main__chat--box__hst--wrapper"
-                onMouseDown={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold : null}
-                onMouseUp={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.released : null}>
+        <div className="site-main__chat--box__hst">
+            <div  className="site-main__chat--box__hst--wrapper">
                 <div className="site-main__chat--box__hst--cnt">
-                    <div className="site-main__chat--box__hst--cnt__wrapper">
+                    <div 
+                        className={hstClass.join(' ')}
+                        onClick={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold.bind(this, props.cnt.chatID, null, props.cnt.ID) : null}>
                         <div dangerouslySetInnerHTML={{
                                 __html: typedCnt
                             }}></div>
@@ -190,14 +200,14 @@ const chats = (props) => {
                                     props.cnt.cntType === 'image' ? imageCnt : 
                                     props.cnt.cntType === 'typedPlain' ? typedPlain : null : 'Deleted': null}
                             {docContent } 
+                            {!props.cnt.delete && props.cnt.ID === props.userID ? 
+                            <div className={!props.cnt.pending ? "site-main__chat--box__check-hst site-main__chat--box__check--mark" : "site-main__chat--box__check-hst"}>
+                                <FontAwesomeIcon  icon={['fas', 'check-circle']}/> 
+                            </div> : null}
                     </div>
                     { edit }
-                    {!props.cnt.delete && props.cnt.ID === props.userID ? 
-                        <div className={!props.cnt.pending ? "site-main__chat--box__check-hst site-main__chat--box__check--mark" : "site-main__chat--box__check-hst"}>
-                            <FontAwesomeIcon  icon={['fas', 'check-circle']}/> 
-                        </div> : null}
                 </div>
-                { !props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? 
+                { !props.cnt.upload && !props.cnt.pending ? 
                     <ul className="site-main__chat--box__hst--footer">
                         <li className={footerHstClass.join(' ')}>
                             <a href={`/user/profile/${props.cnt.ID}`}>{ props.cnt.username.substr(0,7) }</a>   
@@ -213,13 +223,12 @@ const chats = (props) => {
    
     if (props.cnt.position % 2 !== 0) {
         chatCnt = (
-            <div className={replyClass.join(' ')}>
-                <div 
-                    className="site-main__chat--box__reply--wrapper"
-                    onMouseDown={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold : null}
-                    onMouseUp={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.released : null}>
+            <div className="site-main__chat--box__reply">
+                <div className="site-main__chat--box__reply--wrapper">
                     <div className="site-main__chat--box__reply--cnt">
-                        <div className="site-main__chat--box__reply--cnt__wrapper">
+                        <div 
+                            className={replyClass.join(' ')}
+                            onClick={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold.bind(this, props.cnt.chatID, null, props.cnt.ID) : null}>
                             <div dangerouslySetInnerHTML={{
                                     __html: typedCnt
                                 }}></div>
@@ -228,14 +237,14 @@ const chats = (props) => {
                                 props.cnt.cntType === 'image' ? imageCnt : 
                                 props.cnt.cntType === 'typedPlain' ? typedPlain : null : 'Deleted' : null}
                               {docContent }  
+                              {!props.cnt.delete && props.cnt.ID === props.userID ? 
+                                <div className={!props.cnt.pending ? "site-main__chat--box__check-reply site-main__chat--box__check--mark" : "site-main__chat--box__check-reply"}>
+                                    <FontAwesomeIcon  icon={['fas', 'check-circle']}/> 
+                                </div> : null} 
                         </div>    
-                        { edit } 
-                        {!props.cnt.delete && props.cnt.ID === props.userID ? 
-                            <div className={!props.cnt.pending ? "site-main__chat--box__check-reply site-main__chat--box__check--mark" : "site-main__chat--box__check-reply"}>
-                                <FontAwesomeIcon  icon={['fas', 'check-circle']}/> 
-                            </div> : null}       
+                        { edit }      
                     </div>
-                    { !props.cnt.delete && !props.cnt.upload && !props.cnt.pending ? 
+                    { !props.cnt.upload && !props.cnt.pending ? 
                         <ul className="site-main__chat--box__reply--footer">
                             <li className={footerReplyClass.join(' ')}>
                                 <a href={`/user/profile/${props.cnt.ID}`}>{ props.cnt.username.substr(0,7) }</a>   

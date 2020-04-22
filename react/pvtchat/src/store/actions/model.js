@@ -284,16 +284,25 @@ export const closeSideNav = () => {
     }
 };
 
-export const holdChat = (id) => {
+export const holdChat = (mainID, chatID, ID) => {
     return {
         type: actionTypes.HOLD_CHAT,
-        id
+        mainID,
+        chatID,
+        ID
     }
 };
 
 export const releaseChat = () => {
     return {
         type: actionTypes.RELEASE_CHAT
+    }
+};
+
+export const editChat = (cnt) => {
+    return {
+        type: actionTypes.EDIT_CHAT,
+        cnt
     }
 };
 

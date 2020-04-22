@@ -26,9 +26,10 @@ const modal = props => {
                         type="button"
                         onClick={props.changeCnt}>
                         <FontAwesomeIcon 
-                            icon={(props.warn.det && (props.warn.det === 'reject' || props.warn.det === 'remove')) ? ['fas', 'user-slash'] : ['fas', 'eye-slash']} 
+                            icon={(props.warn.det && (props.warn.det === 'reject' || props.warn.det === 'remove')) ? ['fas', 'user-slash'] : 
+                            props.warn.det === 'delete' ? ['far', 'trash-alt']: ['fas', 'eye-slash']} 
                             className="icon icon__reuse-modal--btn"/>
-                        {(props.warn.det && (props.warn.det === 'reject' || props.warn.det === 'remove')) ? props.warn.det : 'Change'}
+                        {(props.warn.det && (props.warn.det === 'reject' || props.warn.det === 'remove' || props.warn.det === 'delete')) ? props.warn.det : 'Change'}
                     </button>
                 </div>
             </div>

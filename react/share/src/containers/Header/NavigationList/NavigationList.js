@@ -194,7 +194,7 @@ class NavigationList extends Component {
                             <FontAwesomeIcon 
                                 icon={['fas', 'users']} 
                                 className="icon icon__site-header--nav__itm" />
-                            Scholars
+                            Users
                         </a>
                     </li>
                     <li>
@@ -257,7 +257,7 @@ class NavigationList extends Component {
                             <FontAwesomeIcon 
                                 icon={['fas', 'users']} 
                                 className="icon icon__site-header--nav__itm" />
-                            Scholars
+                            Users
                         </a>
                     </li>
                     <li>

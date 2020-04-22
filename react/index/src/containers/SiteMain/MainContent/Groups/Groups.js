@@ -7,6 +7,7 @@ import Group from '../../../../components/Main/Group/Group';
 import Loader from '../../../../components/UI/Loader/Loader';
 import NoAcc from '../../../../components/Main/NoAcc/NoAcc';
 import * as actions from '../../../../store/actions/index';
+import { updateObject } from '../../../../shared/utility';
 
 class Groups extends Component {
     constructor(props) {
@@ -66,8 +67,22 @@ class Groups extends Component {
         this.props.history.push(`/index/group/${cnt._id}`)
     }
 
+    showUserOptHandler = (id) => {
+        if (this.state.cntOpt && this.state.cntOpt.id === id) {
+            this.setState((prevState, props) => {
+                return {
+                    cntOpt: updateObject(prevState.cntOpt, {visible: !prevState.cntOpt.visible})
+                }
+            });
+            return
+        }
+
+        const newCntOpt = {visible: true, id}
+        this.setState({cntOpt: newCntOpt})
+    }
+
     changeCntHandler = (id, title, det, confirm) => {
-        this.props.onChangeCnt(id, title, det, confirm);
+        this.props.onChangeCnt(id, title, det, confirm, det === 'delete' ? 'deletegroup': 'exitgroup')
     };
 
     render() {
@@ -99,6 +114,9 @@ class Groups extends Component {
                 joinStartID ={this.props.joinStartID}
                 joined={this.props.joined}
                 groupInfo={this.groupInfoHandler}
+                userOpt={this.showUserOptHandler}
+                showOpt={this.state.cntOpt}
+                changeCnt={this.changeCntHandler}
                 />
         }
 
@@ -141,7 +159,7 @@ const mapDispatchToProps = dispatch => {
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),
         onShareCnt: (shareID) => dispatch(actions.shareCnt(shareID)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
-        onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm))
+        onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm, modelType))
     };
 };
 

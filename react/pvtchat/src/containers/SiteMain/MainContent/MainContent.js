@@ -161,7 +161,7 @@ class MainContent extends Component {
     }
 
     editChatHandler = () => {
-        this.props.onEditChat(this.props.chatSelected);
+        this.props.onEditChat(this.props.chatSelected[0]);
     }
 
     render() {
@@ -202,9 +202,10 @@ class MainContent extends Component {
                         <li 
                             onClick={!this.state.disable && this.props.tempchat < 1 ? this.deleteChatHandler: null}
                             className={deleteClass.join(' ')}><FontAwesomeIcon  icon={['far', 'trash-alt']} className="icon icon icon__site-main--chat__header--opt"/></li>
-                        {/* <li 
-                            onClick={this.editChatHandler}
-                            className="site-main__chat--opt__edit"><FontAwesomeIcon  icon={['far', 'edit']} className="icon icon__site-main--chat__header--opt"/></li> */}
+                        {this.props.chatSelected.length < 2 && this.props.chatSelected[0].edit ?
+                            <li 
+                                onClick={!this.state.disable && this.props.tempchat < 1  && this.props.chatSelected[0].edit ? this.editChatHandler : null}
+                                className="site-main__chat--opt__edit"><FontAwesomeIcon  icon={['far', 'edit']} className="icon icon__site-main--chat__header--opt"/></li> : null}
                         {/* <li className="site-main__chat--opt__fav"><FontAwesomeIcon  icon={['far', 'heart']} className="icon icon__site-main--chat__header--opt__fav"/></li>
                         <li className="site-main__chat--opt__share"><FontAwesomeIcon  icon={['fas', 'location-arrow']} className="icon icon icon__site-main--chat__header--opt"/></li> */}
                     </ul>
@@ -298,6 +299,7 @@ const mapDispatchToProps = dispatch => {
         onFetchGroupNotify: (notifyCnt) => dispatch(actions.fetchGroupNotify(notifyCnt)),
         onReleaseChat: () => dispatch(actions.releaseChat()),
         onTypingErr: (err) => dispatch(actions.fetchCntFail(err)),
+        onEditChat: (cnt) => dispatch(actions.editChat(cnt)),
         onDeleteChat: (chat) => dispatch(actions.deleteChatInit(chat)),
         onRemoveChat: (cnt) => dispatch(actions.chatRemoved(cnt)),
         onGroupNotify: (cnt) => dispatch(actions.groupNotify(cnt)),
