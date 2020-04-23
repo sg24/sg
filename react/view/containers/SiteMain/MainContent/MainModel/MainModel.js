@@ -225,7 +225,7 @@ class Model extends Component {
                     correct={this.correctHandler}
                     wrong={this.wrongHandler}
                     commentTotal={this.props.commentTotal}
-                    url={`https://slodge24.com/robotonly/rbview/${this.state.categ}/${this.state.id}`}/>
+                    url={`https://www.slodge24.com/robotonly/rbview/${this.state.categ}/${this.state.id}`}/>
         }
 
         return cnt

@@ -71,7 +71,7 @@ let meta = null;
                 <meta property="og:url" content={`${props.url}`} />
                 <meta property="og:image" content={`https://images.pexels.com/photos/256737/pexels-photo-256737.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=1200`} />
                 <meta property="og:description" content="slodge24 | Knowledge sharing platform."/>
-                <meta property="og:site_name" content={`https://slodge24.com - When will you get married?`}/>	
+                <meta property="og:site_name" content={`https://www.slodge24.com - When will you get married?`}/>	
             </Head>
         )
     } else {
@@ -82,7 +82,7 @@ let meta = null;
                 <meta property="og:url" content={`${props.url}`} />
                 {mediaCnt.length > 0 ?  <meta property="og:image" content={`${mediaCnt[0].url}`} /> : null}
                 <meta property="og:description" content={`${props.cntGrp === 'post' ? desc.blocks[0].text : 'slodge24 | Knowledge sharing platform'}`}/>
-                <meta property="og:site_name" content={`https://slodge24.com`}/>
+                <meta property="og:site_name" content={`https://www.slodge24.com`}/>
             </Head>
         )
     }
