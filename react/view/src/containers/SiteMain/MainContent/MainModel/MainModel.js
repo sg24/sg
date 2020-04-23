@@ -16,11 +16,11 @@ class Model extends Component {
     constructor(props) {
         super(props);
         let these = this;
-        socket._connectTimer = setTimeout(function() {
-            socket.close();
-        }, 20000);
+        // socket._connectTimer = setTimeout(function() {
+        //     socket.close();
+        // }, 20000);
         socket.on('connect', function(msg) {
-            clearTimeout(socket._connectTimer);
+            // clearTimeout(socket._connectTimer);
             socket.emit('join',these.props.match.params.id, function(err) {
                 these.props.onJoinErr()
             })
