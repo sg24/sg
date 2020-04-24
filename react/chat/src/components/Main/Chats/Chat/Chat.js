@@ -11,8 +11,6 @@ const chats = (props) => {
     let time = null;
     let hstClass = ['site-main__chat--box__hst--cnt__wrapper'];
     let replyClass = ['site-main__chat--box__reply--cnt__wrapper'];
-    let footerReplyClass = ['site-main__chat--box__reply--footer__user'];
-    let footerHstClass = ['site-main__chat--box__hst--footer__user'];
     let edit = null;
 
     const calendarStrings = {  
@@ -164,7 +162,7 @@ const chats = (props) => {
                 <div className="site-main__chat--box__hst--cnt">
                     <div 
                         className={hstClass.join(' ')}
-                        onClick={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold.bind(this, props.cnt.chatID, null, props.cnt.ID) : null}>
+                        onDoubleClick={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold.bind(this, props.cnt.chatID, null, props.cnt.ID) : null}>
                         <div dangerouslySetInnerHTML={{
                                 __html: typedCnt
                             }}></div>
@@ -204,7 +202,7 @@ const chats = (props) => {
                     <div className="site-main__chat--box__reply--cnt">
                         <div 
                             className={replyClass.join(' ')}
-                            onClick={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold.bind(this, props.cnt.chatID, null,  props.cnt.ID) : null}>
+                            onDoubleClick={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold.bind(this, props.cnt.chatID, null,  props.cnt.ID) : null}>
                             <div dangerouslySetInnerHTML={{
                                     __html: typedCnt
                                 }}></div>

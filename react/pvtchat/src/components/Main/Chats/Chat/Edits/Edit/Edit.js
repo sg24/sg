@@ -96,7 +96,7 @@ const edit = (props) => {
     let chatCnt = (
         <div 
             className={hstClass.join(' ')}
-            onClick={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold.bind(this, props.cntID, props.cnt.chatID, props.cnt.ID) : null}>
+            onDoubleClick={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold.bind(this, props.cntID, props.cnt.chatID, props.cnt.ID) : null}>
             <div dangerouslySetInnerHTML={{
                     __html: typedCnt
                 }}></div>
@@ -116,7 +116,7 @@ const edit = (props) => {
         chatCnt = (
             <div 
                 className={replyClass.join(' ')}
-                onClick={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold.bind(this, props.cntID, props.cnt.chatID, props.cnt.ID) : null}>
+                onDoubleClick={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold.bind(this, props.cntID, props.cnt.chatID, props.cnt.ID) : null}>
                 <div dangerouslySetInnerHTML={{
                         __html: typedCnt
                     }}></div>

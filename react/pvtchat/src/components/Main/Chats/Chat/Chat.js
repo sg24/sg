@@ -191,7 +191,7 @@ const chats = (props) => {
                 <div className="site-main__chat--box__hst--cnt">
                     <div 
                         className={hstClass.join(' ')}
-                        onClick={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold.bind(this, props.cnt.chatID, null, props.cnt.ID) : null}>
+                        onDoubleClick={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold.bind(this, props.cnt.chatID, null, props.cnt.ID) : null}>
                         <div dangerouslySetInnerHTML={{
                                 __html: typedCnt
                             }}></div>
@@ -228,7 +228,7 @@ const chats = (props) => {
                     <div className="site-main__chat--box__reply--cnt">
                         <div 
                             className={replyClass.join(' ')}
-                            onClick={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold.bind(this, props.cnt.chatID, null, props.cnt.ID) : null}>
+                            onDoubleClick={!props.cnt.upload && !props.cnt.delete && !props.cnt.pending ? props.hold.bind(this, props.cnt.chatID, null, props.cnt.ID) : null}>
                             <div dangerouslySetInnerHTML={{
                                     __html: typedCnt
                                 }}></div>
