@@ -291,7 +291,12 @@ router.post('/', authenticate,(req, res, next) => {
 
 router.patch('/', authenticate,(req, res, next) => {
     if (req.header && req.header('data-categ') === 'addUser') {
-        return update(req.body.id, authUser, user, 'request')
+        if (!req.authType) {
+           update(req.body.id, authUser, user, 'request')
+        } else {
+            res.redirect('/login')
+        }
+        return 
     }
 
     if (req.header && req.header('data-categ') === 'blockUser') {

@@ -56,50 +56,54 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'join') {
-        let id = req.body.id;
-        group.findByIdAndUpdate(id, {$addToSet: { request: req.user }}).then(grp => {
-            grpnotifies.findOne({userID: grp.authorID}).then(result => {
-                let grpsNotify = [];
-                let request = 0;
-                if (result) {
-                    let grpNotify = result.group.filter(grpDet => grpDet.ID === id)
-                    if (grpNotify.length > 0) {
-                        grpNotify[0].edit = false;
-                        grpNotify[0].view = false;
-                        grpNotify[0].isMember = true;
-                        grpNotify[0].request = ++grpNotify[0].request;
-                        grpsNotify = result.group.filter(grpDet => grpDet.ID !== id)
-                        grpsNotify.push(grpNotify[0]);
-                        request = grpNotify[0].request;
-                    } else {
-                        request = 1;
-                        grpsNotify.push(...result.group, {ID: id, view: false, request: 1, isMember: true})
+        if (!req.authType) {
+            let id = req.body.id;
+            group.findByIdAndUpdate(id, {$addToSet: { request: req.user }}).then(grp => {
+                grpnotifies.findOne({userID: grp.authorID}).then(result => {
+                    let grpsNotify = [];
+                    let request = 0;
+                    if (result) {
+                        let grpNotify = result.group.filter(grpDet => grpDet.ID === id)
+                        if (grpNotify.length > 0) {
+                            grpNotify[0].edit = false;
+                            grpNotify[0].view = false;
+                            grpNotify[0].isMember = true;
+                            grpNotify[0].request = ++grpNotify[0].request;
+                            grpsNotify = result.group.filter(grpDet => grpDet.ID !== id)
+                            grpsNotify.push(grpNotify[0]);
+                            request = grpNotify[0].request;
+                        } else {
+                            request = 1;
+                            grpsNotify.push(...result.group, {ID: id, view: false, request: 1, isMember: true})
+                        }
+                        grpnotifies.findOneAndUpdate({userID: grp.authorID}, {group: grpsNotify }).then(() =>{
+                            pushNotify(grp.authorID,`You have ${request} scholars request`, 
+                            `From ${grp.title} Group`, `/group/request`).then(() => {
+                                res.sendStatus(200)
+                            })
+                        }).catch(err =>{
+                            res.status(500).send(err)
+                        })
+                    }else {
+                        let newNotify = new grpnotifies({
+                            userID: grp.authorID,
+                            notifications: 1,
+                            group:  [{ID: id, view: false, request: 1, isMember: true}] 
+                        });
+                        newNotify.save().then(() => {
+                            pushNotify(grp.authorID,`You have 1 scholar's request`, 
+                            `From ${grp.title} Group`, `/group/request`).then(() => {
+                                res.sendStatus(200)
+                            })
+                        }).catch(err =>{
+                            res.status(500).send(err)
+                        })
                     }
-                    grpnotifies.findOneAndUpdate({userID: grp.authorID}, {group: grpsNotify }).then(() =>{
-                        pushNotify(grp.authorID,`You have ${request} scholars request`, 
-                        `From ${grp.title} Group`, `/group/request`).then(() => {
-                            res.sendStatus(200)
-                        })
-                    }).catch(err =>{
-                        res.status(500).send(err)
-                    })
-                }else {
-                    let newNotify = new grpnotifies({
-                        userID: grp.authorID,
-                        notifications: 1,
-                        group:  [{ID: id, view: false, request: 1, isMember: true}] 
-                    });
-                    newNotify.save().then(() => {
-                        pushNotify(grp.authorID,`You have 1 scholar's request`, 
-                        `From ${grp.title} Group`, `/group/request`).then(() => {
-                            res.sendStatus(200)
-                        })
-                    }).catch(err =>{
-                        res.status(500).send(err)
-                    })
-                }
+                })
             })
-        })
+        } else {
+            res.redirect('/login')
+        }
         return
     }
 
