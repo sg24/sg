@@ -44,6 +44,7 @@ class Form extends  Component {
         showVidOpt: false,
         showImgOpt: false,
         showUserOpt: false,
+        showGroupOpt: false,
         showAddItmOpt: true,
         formElement: {
             title: {
@@ -69,6 +70,7 @@ class Form extends  Component {
         showForm: false,
         mode: null,
         updateEditor: false,
+        groupMode: null,
         active: null
     }
 
@@ -111,7 +113,7 @@ class Form extends  Component {
             this.setState({showCateg: false})
         }
        
-        if (this.props.content && this.props.title && !this.state.updateEditor) {
+        if (this.props.content && this.props.title  && !this.state.updateEditor) {
             let oldEditor = this.state.formElement;
             let title = {...oldEditor.title};
             title.value = this.props.title;
@@ -123,7 +125,8 @@ class Form extends  Component {
             oldEditor.title = title;
             oldEditor.title.valid = true;
             oldEditor.title.touched = true; 
-            this.setState({updateEditor: true, formElement: oldEditor, formIsValid: true})
+            let groupMode = this.props.groupMode ? String(this.props.groupMode).substr(0, 1).toUpperCase() + String(this.props.groupMode).substr(1).toLowerCase() : null;
+            this.setState({updateEditor: true, formElement: oldEditor, groupMode, formIsValid: true})
         }
 
         if (this.state.addNewCateg && this.props.newCateg) {
@@ -216,6 +219,18 @@ class Form extends  Component {
         this.setState({showUserOpt: true,showImgOpt: false,showVidOpt: false, showAddItmOpt: true});
     }
 
+    setGroupModeHandler = (opt) => {
+        this.setState({groupMode: opt})
+    }
+
+    setGroupHandler = () => {
+        this.setState((prevState, props) => {
+            return {
+                showGroupOpt: !prevState.showGroupOpt
+            }
+        })
+    }
+
     inputChangedHandler = (editorState, inputType) => {
         let text = inputType === 'title' ? editorState.target.value : convertToRaw(editorState.getCurrentContent()).blocks[0].text;
         let updateFormType = updateObject(this.state.formElement[inputType], {
@@ -236,7 +251,7 @@ class Form extends  Component {
 
     submitHandler = (mode) => {
        this.setState({showForm: true,  showAddItm: false, mode});
-       if (this.state.categs.length > 0 && this.state.formIsValid) {
+       if (this.state.categs.length > 0 && this.state.formIsValid && this.state.groupMode) {
             let newCnt = {
                 categ: this.state.categs,
                 desc: JSON.stringify(convertToRaw(this.state.formElement.content.value.getCurrentContent())),
@@ -249,6 +264,7 @@ class Form extends  Component {
                 editImage: this.props.editImage,
                 editVideo: this.props.editVideo,
                 id: this.props.match.params.id,
+                groupmode: String(this.state.groupMode).toLowerCase(),
                 mode
             }
             this.props.onSubmitForm(newCnt)
@@ -263,7 +279,7 @@ class Form extends  Component {
 
     closeBackdropHandler = () => {
         this.setState({
-            showCateg: false, showAddItm: false,showVidOpt: false,showImgOpt: false,showUserOpt: false});
+            showCateg: false, showAddItm: false,showVidOpt: false,showImgOpt: false,showUserOpt: false, showGroupOpt: false});
     }
 
     closeModalHandler = () => {
@@ -300,11 +316,18 @@ class Form extends  Component {
         let categListClass = ['reuse-form__cnt--det__selec reuse-form__cnt--det__selec--categ'];
         let categItems = null;
         let addItemClass = ['reuse-form__cnt--det__selec reuse-form__cnt--det__selec--add'];
+        let setGroupClass = ['reuse-form__cnt--det__mode reuse-form__cnt--det__mode--add']
         let addItemOptClass = ['reuse-form__cnt--det__selec--opt'];
+        let setGroupOptClass = ['reuse-form__cnt--det__mode--opt']
 
         if (this.state.showAddItm) {
             addItemClass.push('reuse-form__cnt--det__selec--add__visible icon--rotate');
             addItemOptClass.push('reuse-form__cnt--det__selec--opt__visible')
+        }
+
+        if (this.state.showGroupOpt) {
+            setGroupClass.push('icon--rotate');
+            setGroupOptClass.push('reuse-form__cnt--det__mode--opt__visible')
         }
         
         if (this.state.showCateg && !this.props.categ) {
@@ -410,7 +433,7 @@ class Form extends  Component {
                         }
                     </div>
                     <div className="reuse-form__cnt--wrapper">
-                        <label className="reuse-form__cnt--title">Chat Room Name</label>
+                        <label className="reuse-form__cnt--title">Room Name</label>
                         <div className="reuse-form__cnt--det">
                             <input 
                                 type="text" 
@@ -444,6 +467,28 @@ class Form extends  Component {
                             <div className="reuse-form__err">Description must not be empty</div>
                             : null
                         }
+                    </div>
+                    <div className="reuse-form__cnt--wrapper">
+                        <div className="reuse-form__cnt--det">
+                            <div className="reuse-form__cnt--det__wrapper">
+                                <div 
+                                    className={setGroupClass.join(' ')}
+                                    onClick={this.setGroupHandler}>
+                                    {this.state.groupMode ? this.state.groupMode : 'Room Type'}
+                                    <FontAwesomeIcon 
+                                        icon={['fas', 'angle-down']} 
+                                        className="icon icon__reuse-form--angle" />
+                                    <ul className={setGroupOptClass.join(' ')}>
+                                        <li 
+                                            className="reuse-form__cnt--det__selec--opt__img"
+                                            onClick={this.setGroupModeHandler.bind(this, 'General')}>General</li>
+                                        <li 
+                                            className="reuse-form__cnt--det__selec--opt__img"
+                                            onClick={this.setGroupModeHandler.bind(this, 'Private')}>Private</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div className="reuse-form__cnt--wrapper">
                         <div className="reuse-form__cnt--det">
@@ -494,6 +539,8 @@ class Form extends  Component {
                 
                 { this.state.showAddItm ? 
                     <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop></Aux> : null }
+               { this.state.showGroupOpt ? 
+                        <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop></Aux> : null }
                { this.state.showImgOpt ? <Aux><Backdrop></Backdrop><AsyncImage /></Aux> : null }
                { this.state.showUserOpt ? <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop><AsyncUsers /></Aux> : null}
                 { this.props.submitForm && !this.state.showCateg ? 
@@ -513,11 +560,11 @@ class Form extends  Component {
                     </Aux> : null
                 }
 
-                <div className="reuse-form__footer reuse-form__btn">
-                <button 
+                    <div className="reuse-form__footer reuse-form__btn">
+                        <button 
                             type="button" 
                             className="reuse-form__btn--add"
-                            disabled={!this.state.formIsValid}
+                            disabled={!this.state.formIsValid || !this.state.groupMode}
                             onClick={this.submitHandler.bind(this, 'publish')}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'edit']} 
@@ -555,6 +602,7 @@ const mapStateToProps = state => {
         editImage: state.form.editImage,
         editVideo: state.form.editVideo,
         uploadPercent: state.form.uploadPercent,
+        groupMode: state.form.groupMode,
         submitForm: state.form.submitForm,
         submitError: state.form.submitError,
         id: state.form.id

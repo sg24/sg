@@ -73,6 +73,8 @@ export {
     filterUserInit,
     filterUser,
     userSelect,
+    resetSelect,
+    addQchat,
     showUserSelectInit,
     showUserSelect,
     submitFormInit,

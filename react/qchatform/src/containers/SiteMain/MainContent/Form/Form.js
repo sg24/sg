@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'promise-polyfill/src/polyfill';
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
+import { withRouter } from 'react-router-dom';
 
 import './react-draft-wysiwyg.css';
 import './Form.css';
@@ -257,11 +258,11 @@ class Form extends  Component {
         let value = event.target.value;
         let updateFormType = updateObject(this.state.setTime[inputType], {
             value,
-            valid: inputType === 'hour' && (value < 4 || !value) ? true : (inputType === 'minute' || inputType === 'second') && (value < 60 || !value) ?  true : false,
+            valid: inputType === 'hour' ? true : (inputType === 'minute' || inputType === 'second') && (value < 60 || !value) ?  true : false,
             touched: true
         });
         
-        let formIsValid = !this.state.setTime.hour.value && !this.state.setTime.minute.value && !this.state.setTime.second.value ? false : true;
+        let formIsValid = true;
         let updateFormElement = updateObject(this.state.setTime, {[inputType]: updateFormType})
 
         for (let inputType in updateFormElement) {
@@ -280,21 +281,36 @@ class Form extends  Component {
 
     selectItmHandler = (opt) => {
         this.setState({selectItm: opt})
+        this.props.resetSelect()
     }
 
     submitHandler = (mode) => {
         this.setState({showForm: true,  showAddItm: false, mode});
-        if (this.state.categs.length > 0 && this.state.formIsValid) {
+        if (this.state.categs.length > 0 && this.state.formIsValid && this.state.setTimeValid) {
+             let hour = this.state.setTime.hour.value ? this.state.setTime.hour.value*60*60*1000 : 0;
+             let minute = this.state.setTime.minute.value ? this.state.setTime.minute.value*60*1000 : 0;
+             let second = this.state.setTime.second.value ? this.state.setTime.second.value*1000 : 0;
              let newCnt = {
-                 categ: this.state.categs,
-                 desc: JSON.stringify(convertToRaw(this.state.formElement.content.value.getCurrentContent())),
-                 title: this.state.formElement.title.value,
-                 video: this.props.media.video ? this.props.media.video : [],
-                 image: this.props.media.image ? this.props.media.image: [],
-                 shareMe: this.state.selectItm ? this.state.selectItm : this.props.media.user ? this.props.media.user : [],
-                 mode
+                position: 0,
+                categ: this.state.categs,
+                desc: JSON.stringify(convertToRaw(this.state.formElement.content.value.getCurrentContent())),
+                title: this.state.formElement.title.value,
+                video: this.props.media.video ? this.props.media.video : [],
+                image: this.props.media.image ? this.props.media.image: [],
+                participant: this.props.media.user ? this.props.media.user : this.state.selectItm ? this.state.selectItm :  'public',
+                duration: hour+minute+second,
+                hour,
+                minute,
+                second,
+                mode
+            }
+             if (mode === 'next') {
+                this.props.onAddQchat(newCnt)
+                this.props.history.push('/add/qchat/?id=1')
+             } else {
+                this.props.onSubmitForm(newCnt)
              }
-             this.props.onSubmitForm(newCnt)
+             
          return
         }
         this.setState({noCateg: true});
@@ -451,7 +467,8 @@ class Form extends  Component {
                                         placeholder="Hrs" 
                                         className="reuse-form__cnt--det__input reuse-form__cnt--det__input--tm reuse-form__cnt--det__input--tm__hrs"
                                         onChange={(event) => this.setTimeHandler(event, 'hour')}
-                                        value={this.state.setTime.hour.value} />
+                                        value={this.state.setTime.hour.value}
+                                        maxLength="2" />
                                     <input 
                                         type="number" 
                                         placeholder="Minute" 
@@ -465,7 +482,7 @@ class Form extends  Component {
                                         onChange={(event) => this.setTimeHandler(event, 'second')}
                                         value={this.state.setTime.second.value} />
                                     <div className="reuse-form__cnt--det__input--pre">
-                                        {this.state.setTime.hour.value && this.state.setTime.hour.value < 4 ? '0'+String(this.state.setTime.hour.value) : '00'}:
+                                        {this.state.setTime.hour.value && this.state.setTime.hour.value < 10 ? '0'+String(this.state.setTime.hour.value) : this.state.setTime.hour.value ? this.state.setTime.hour.value : '00'}:
                                         {this.state.setTime.minute.value && this.state.setTime.minute.value < 60 ? this.state.setTime.minute.value < 10 ? '0'+String(this.state.setTime.minute.value)  : this.state.setTime.minute.value : '00'}: 
                                         {this.state.setTime.second.value && this.state.setTime.second.value < 60 ? this.state.setTime.second.value < 10 ? '0'+String(this.state.setTime.second.value)  : this.state.setTime.second.value : '00'}
                                     </div>
@@ -476,7 +493,7 @@ class Form extends  Component {
                                     : null
                                 }
                                 { !this.state.setTime.hour.valid  && this.state.setTime.hour.touched ?
-                                    <div className="reuse-form__err"> Qchat Hour must not be greater than 3hrs </div>
+                                    <div className="reuse-form__err"> Qchat Hour must not be empty </div>
                                     : null
                                 }
                                 { (!this.state.setTime.minute.valid || !this.state.setTime.second.valid)  && (this.state.setTime.minute.touched || this.state.setTime.second.touched) ?
@@ -563,12 +580,12 @@ class Form extends  Component {
                                             icon={['fas', 'caret-down']} 
                                             className="icon icon__reuse-form--cnt__user" />
                                             
-                                        {this.state.selectItm ? this.state.selectItm : this.props.media.user ? 'Friends' : 'participant'}
+                                        {this.props.media.user && this.props.media.user.length > 0 ?  'Picked Friends' : this.state.selectItm ? this.state.selectItm : 'participant'}
                                         <ul className={selectOptClass.join(' ')}>
                                             <li 
-                                                onClick={this.selectItmHandler.bind(this, 'alluser')}>All Users</li>
+                                                onClick={this.selectItmHandler.bind(this, 'public')}>public</li>
                                             <li 
-                                                onClick={this.selectItmHandler.bind(this, 'allfriend')}>All Friends</li>
+                                                onClick={this.selectItmHandler.bind(this, 'friends')}>friends</li>
                                             <li 
                                                 onClick={this.showOptHandler.bind(this, 'user')}>Pick Friend</li>
                                         </ul>
@@ -614,8 +631,11 @@ class Form extends  Component {
                         <button 
                             type="button" 
                             className="reuse-form__btn--nxt"
-                            disabled={!this.state.formIsValid ? true : !this.state.setTimeValid}
-                            onClick={this.submitHandler.bind(this, 'publish')}>
+                            disabled={!this.state.formIsValid ? true : 
+                            !this.state.setTimeValid ? true : 
+                            !this.state.setTime.hour.value && !this.state.setTime.minute.value && !this.state.setTime.second.value
+                            ? true : this.state.categs.length < 1 ? true : !this.state.selectItm || (this.props.media.user && !this.props.media.user.length > 0)}
+                            onClick={this.submitHandler.bind(this, 'next')}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'angle-double-right']} 
                                 className="icon icon__reuse-form--btn" />
@@ -653,7 +673,9 @@ const mapDispatchToProps = dispatch => {
         onSubmitForm: (formData) => dispatch(actions.submit(formData)),
         onFetchShareActive: (userID) => dispatch(actions.fetchShareactiveInit(userID)),
         onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
+        resetSelect: () => dispatch(actions.resetSelect()),
+        onAddQchat: (cnt) => dispatch(actions.addQchat(cnt)),
         onFetchNavActive: () => dispatch(actions.fetchNavActiveInit())
     };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Form));

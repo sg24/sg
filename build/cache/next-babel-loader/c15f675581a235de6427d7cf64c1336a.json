@@ -1,1 +1,0 @@
-{"ast":null,"code":"var __jsx = React.createElement;\nimport React, { Component } from 'react';\nimport Form from './Form/Form';\n\nclass MainContent extends Component {\n  render() {\n    return __jsx(Form, null);\n  }\n\n}\n\n;\nexport default MainContent;","map":null,"metadata":{},"sourceType":"module"}

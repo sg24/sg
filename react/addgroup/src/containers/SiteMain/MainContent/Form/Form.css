@@ -309,7 +309,7 @@
     font-size: .8125rem;
 }
 
-.reuse-form__cnt--det__selec {
+.reuse-form__cnt--det__selec, .reuse-form__cnt--det__mode {
     background-color: #f2f2f2;
     text-align: center;
     cursor: pointer;
@@ -391,6 +391,14 @@
     box-shadow: 0 2px 5px 0 rgba(0,0,0, .45);
 }
 
+.reuse-form__cnt--det__mode--add {
+    background-color: #dcdbdc;
+    color: #333;
+    padding: 8px 0px;
+    width: 110px;
+    border: 1px solid #dcdbdc;
+}
+
 .reuse-form__cnt--det__selec--user {
     position: absolute;
     top: 50%;
@@ -406,7 +414,7 @@
     background: -ms-linear-gradient( 180deg, rgb(5,87,139) 20%,  rgb(19,51,97) 100%);
 }
 
-.reuse-form__cnt--det__selec--opt {
+.reuse-form__cnt--det__selec--opt, .reuse-form__cnt--det__mode--opt {
     margin: 0;
     padding: 2px 0;
     list-style: none;
@@ -427,13 +435,13 @@
     transition: all .3s ease-in;
 }
 
-.reuse-form__cnt--det__selec--opt::after {
+.reuse-form__cnt--det__selec--opt::after, .reuse-form__cnt--det__mode--opt::after {
     content: "";
     clear: both;
     display: table;
 }
 
-.reuse-form__cnt--det__selec--opt > li {
+.reuse-form__cnt--det__selec--opt > li, .reuse-form__cnt--det__mode--opt > li {
     float: none;
     white-space: nowrap;
     overflow: hidden;
@@ -442,12 +450,12 @@
     padding: 6px 20px;
 }
 
-.reuse-form__cnt--det__selec--opt > li:hover {
+.reuse-form__cnt--det__selec--opt > li:hover, .reuse-form__cnt--det__mode--opt > li:hover {
     background-color: #0284a8;
     color: #fff;
 }
 
-.reuse-form__cnt--det__selec--opt__visible {
+.reuse-form__cnt--det__selec--opt__visible, .reuse-form__cnt--det__mode--opt__visible {
     opacity: 1;
     visibility: visible;
     transition: all .3s ease-in;

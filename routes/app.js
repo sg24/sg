@@ -834,11 +834,11 @@ router.get('/login', (req, res, next) => {
                     res.render('loginform'); 
                     return
                    }
-                   res.redirect('/index/post')
+                   res.redirect('../login')
                 })
                 return
             }
-            res.redirect('/index/post')
+            res.redirect('../login')
         }).catch((e) => {
             res.render('loginform'); 
         });

@@ -86,3 +86,5 @@ export const SHOW_CHATDET = 'SHOW_CHATDET';
 
 export const FETCH_NAV_ACTIVE_INIT = 'FETCH_NAV_ACTIVE_INIT';
 export const FETCH_NAV_ACTIVE = 'FETCH_NAV_ACTIVE';
+export const RESET_SELECT = 'RESET_SELECT';
+export const ADD_QCHAT = 'ADD_QCHAT';

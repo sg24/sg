@@ -453,7 +453,7 @@ router.post('/', authenticate, (req, res, next) => {
                         return new Promise((resolve, reject) => {
                             let update = {};
                             let isMember = req.user ? cnt.member.filter(userID => userID === req.user) : [];
-                            if (isMember.length > 0) {
+                            if (isMember.length > 0 || cnt.groupMode === 'general') {
                                 update['member'] = true
                             } else {
                                 update['member'] = false
@@ -478,6 +478,7 @@ router.post('/', authenticate, (req, res, next) => {
                             update['title'] = cnt.title;
                             update['requestTotal'] = cnt.request.length;
                             update['online'] = cnt.online.length,
+                            update['groupMode'] = cnt.groupMode ? cnt.groupMode : 'private'
                             update['_id'] = cnt._id;
                             cntArray.push({...update});
                             resolve(cntArray)

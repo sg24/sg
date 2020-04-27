@@ -29,6 +29,9 @@ class Groups extends Component {
             filterTag: 'group',
             mediaItms: [],
             scrollEnable: false,
+            clipboard: null,
+            resetClipboard: false,
+            clearClipboard: null,
             active: null
         }
     }
@@ -106,6 +109,14 @@ class Groups extends Component {
                 filterTag: 'group'
             });
         }
+
+        if (this.state.clipboard && this.state.resetClipboard) {
+            clearTimeout(this.state.clearClipboard)
+            let clearClipboard = setTimeout(() => {
+                this.setState({clipboard: null})
+            }, 2000)
+            this.setState({resetClipboard: false, clearClipboard})
+        }
     }
 
     onScroll = () => {
@@ -144,6 +155,50 @@ class Groups extends Component {
         this.props.onChangeCnt(id, det, det,`${title} Group`, det === 'delete' ? 'deletegroup': 'exitgroup', confirm);
     };
 
+    copyLinkHandler = (id) => {
+        copyTextToClipboard(`https://www.slodge24.com/chat/group/${id}`);
+        let these = this;
+        function fallbackCopyTextToClipboard(text) {
+            var textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            textArea.style.padding = 0;
+            textArea.style.width = '2em';
+            textArea.style.height = '2em';
+            textArea.style.border = 'none';
+            textArea.style.outline = 'none';
+            textArea.style.boxShadow = 'none';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'successful' : 'unsuccessful';
+                these.setState({clipboard: msg === 'successful' ? 'Copying to clipboard was successful!' : 'Could not copy link to clipboard',
+                    resetClipboard: msg === 'successful' ? true: false});
+            } catch (err) {
+                these.setState({clipboard: 'Could not copy link to clipboard'});
+            }
+
+            document.body.removeChild(textArea);
+        }
+        function copyTextToClipboard(text) {
+            if (!navigator.clipboard) {
+              fallbackCopyTextToClipboard(text);
+              return;
+            }
+            navigator.clipboard.writeText(text).then(function() {
+              these.setState({clipboard: 'Copying to clipboard was successful!', resetClipboard: true});
+            }, function(err) {
+              these.setState({clipboard: 'Could not copy link to clipboard'});
+            });
+          }
+       
+    }
+
     render() {
         let cnt = <Loader />;
         if (this.props.postErr) {
@@ -176,6 +231,8 @@ class Groups extends Component {
                 userOpt={this.showUserOptHandler}
                 showOpt={this.state.cntOpt}
                 changeCnt={this.changeCntHandler}
+                copyLink={this.copyLinkHandler}
+                clipboard={this.state.clipboard}
                 />
         }
 

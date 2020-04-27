@@ -136,6 +136,12 @@ const groupContent = props => {
                         </div>
                     </li>
                     <li>
+                        <div className="reuse-group__header--categ reuse-group__header--categ__mode">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'tag']} 
+                                className="icon icon__reuse-group--header__tag--mode" />
+                            { String(props.cnt.groupMode).substr(0, 1).toUpperCase() +  String(props.cnt.groupMode).substr(1).toLowerCase()}
+                        </div>
                         <div className="reuse-group__header--categ">
                             <FontAwesomeIcon 
                                 icon={ props.cnt.category.length > 1 ? ['fas', 'tags'] : ['fas', 'tag']} 
@@ -184,6 +190,10 @@ const groupContent = props => {
                             </div>
                         </li> */}
                     </ul>
+                    {props.clipboard ? 
+                        <div className="reuse-group__footer--tooltip">
+                        { props.clipboard }
+                    </div> : null}
                     <div 
                         className="reuse-group__footer--info"
                         onClick={props.userOpt}>
@@ -196,6 +206,14 @@ const groupContent = props => {
                                     icon={['fas', 'info']} 
                                     className="icon icon__reuse-grp--options__info" /> 
                                 Info
+                            </li>
+                            <li 
+                                className="reuse-group__footer--info__options--status"
+                                onClick={props.copyLink}>
+                                <FontAwesomeIcon 
+                                    icon={['fas', 'clipboard']} 
+                                    className="icon icon__reuse-grp--options" /> 
+                                Invite
                             </li>
                             {deletOpt }
                             {exit}

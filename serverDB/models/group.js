@@ -55,6 +55,10 @@ const GroupSchema = new Schema({
         type: String,
         default: 'publish'
     },
+    groupMode: {
+        type: String,
+        required: true
+    },
     active: {
         type: Array,
         default: [String]

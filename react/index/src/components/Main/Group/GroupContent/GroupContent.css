@@ -14,6 +14,11 @@
     margin-right: 5px;
 }
 
+.icon__reuse-group--header__tag--mode {
+    cursor: pointer; 
+    margin-right: 5px;
+}
+
 .icon__reuse-group--cnt__det {
     color: #182427;
     margin-right: 5px; 
@@ -113,6 +118,11 @@
     word-wrap: none;
     text-overflow: ellipsis;
     position: relative; 
+}
+
+.reuse-group__header--categ__mode {
+    background-color: #dcdbdc !important;
+    color: #05578b
 }
 
 .reuse-group__header--categ a {
@@ -464,6 +474,29 @@
     overflow: hidden;
 }
 
+.reuse-group__footer--tooltip {
+    position: absolute;
+    right: 65px;
+    padding: 5px;
+    cursor: pointer;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #182427;
+    font-size: .75rem;
+    color: #fff;
+}
+
+.reuse-group__footer--tooltip::before {
+    border-color: transparent;
+    content: "";
+    position: absolute;
+    border-width: 8px;
+    border-bottom-color: #182427;
+    border-style: solid;
+    transform: rotate(90deg);
+    right: -13px;
+}
+
 .reuse-group__footer--info {
     position: absolute;
     right: 20px;
@@ -581,6 +614,10 @@
 }
 
 @media (min-width: 530px) {
+
+    .reuse-group__footer--tooltip {
+        right: 85px;
+    }
 
     .reuse-group__footer--info {
         right: 40px;

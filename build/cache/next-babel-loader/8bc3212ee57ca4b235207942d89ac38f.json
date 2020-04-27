@@ -1,1 +1,0 @@
-{"ast":null,"code":"let Global = {\n  userDet: {},\n  io: {},\n  app: {},\n  url: 'https://sg24-1573916290047.appspot.com'\n};\nmodule.exports = Global;","map":null,"metadata":{},"sourceType":"script"}

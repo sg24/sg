@@ -3,6 +3,7 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
     categ: null,
+    qchat: [],
     showCateg: false,
     categErr: null,
     newCateg: null,
@@ -97,6 +98,15 @@ const inputDefaultValue = (state, action) => {
     return updateObject(state, {defaultValue: false})
 };
 
+const resetSelect = (state, action) => {
+    let media = state.media;
+    if (media && media.user) {
+        media.user = null
+    }
+    return updateObject(state, {media})
+};
+
+
 const filterUser = (state, action) => {
     return updateObject(state, {filteredUser: action.users})
 };
@@ -107,6 +117,18 @@ const userSelect = (state, action) => {
 
 const showUserSelect = (state, action) => {
     return updateObject(state, {users: action.users, curTab: 'userSelect', filteredUser: null, defaultValue: true})
+};
+
+const addQchat = (state, action) => {
+    let qchat = [...state.qchat];
+    let filterQueChat = qchat.filter(que => que.position === action.cnt.position)[0];
+    if (filterQueChat) {
+        let qchatIndex = qchat.findIndex(que => que.position === action.cnt.position)
+        qchat[qchatIndex] = {...action.cnt}
+        return updateObject(state, {qchat, media: {}})
+    }
+    qchat.push(action.cnt)
+    return updateObject(state, {qchat, media: {}})
 };
 
 const submitFormStart = (state, action) => {
@@ -165,8 +187,12 @@ const reducer = (state = initialState, action) => {
             return filterUser(state, action);
         case actionTypes.USER_SELECT:
             return userSelect(state, action);
+        case actionTypes.RESET_SELECT:
+            return resetSelect(state, action);
         case actionTypes.SHOW_USER_SELECT:
             return showUserSelect(state, action);
+        case actionTypes.ADD_QCHAT:
+            return addQchat(state, action);
         case actionTypes.SUBMIT_FORM_START:
             return submitFormStart(state, action);
         case actionTypes.SUBMIT_FORM_SUCCESS:

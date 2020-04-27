@@ -17,7 +17,9 @@ const group = props => {
              userOpt={props.userOpt.bind(this, cnt._id)}
              showOpt={props.showOpt}
              deleteGrp={props.changeCnt.bind(this, cnt._id, cnt.title, 'delete', false)}
-             exitGrp={props.changeCnt.bind(this, cnt._id, cnt.title, 'exit', false)}/>
+             exitGrp={props.changeCnt.bind(this, cnt._id, cnt.title, 'exit', false)}
+             copyLink={props.copyLink.bind(this, cnt._id)}
+             clipboard={props.clipboard}/>
     ));
 
     return allGroup;

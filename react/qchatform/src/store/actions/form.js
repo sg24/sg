@@ -214,6 +214,19 @@ export const submitForm = () => {
     };
 };
 
+export const resetSelect = () => {
+    return {
+        type: actionTypes.RESET_SELECT
+    };
+};
+
+export const addQchat = (cnt) => {
+    return {
+        type: actionTypes.ADD_QCHAT,
+        cnt
+    };
+};
+
 export const formSubmitted = (id) => {
     return {
         type: actionTypes.FORM_SUBMITTED,

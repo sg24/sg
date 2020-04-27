@@ -1,1 +1,0 @@
-{"ast":null,"code":"import axios from 'axios';\nimport global from '../../global/global';\nconst instance = axios.create({\n  baseURL: global.url\n});\ninstance.defaults.headers.common['authorization'] = 'authorization';\nexport default instance;","map":null,"metadata":{},"sourceType":"module"}

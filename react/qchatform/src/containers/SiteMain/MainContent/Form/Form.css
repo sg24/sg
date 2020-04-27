@@ -404,19 +404,18 @@
     box-shadow: inset 0 0px 1px 0px rgba(0,0,0, .95);
 }
 
-.reuse-form__cnt--det__wrapper {
-    padding: 8px 10px;
-    font-size: .8125rem;
+.reuse-form__cnt--det__tm {
+    width: 200px;
 }
 
-.reuse-form__cnt--det__tm {
-    width: 155px;
-    display: none;
+.reuse-form__cnt--det__input--tm-selec {
+    background: #f2f2f2 !important;
+    width: 240px !important;
 }
 
 .reuse-form__cnt--det__tm--edit {
     position: absolute;
-    left: 165px;
+    left: 260px;
     top: 50%;
     transform: translateY(-50%);
     padding: 5px 10px;
@@ -431,6 +430,13 @@
         align-items: center;
     cursor: pointer;
     box-shadow: 0 1px 2px 0px rgba(0,0,0, .65);
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.reuse-form__cnt--det__tm--edit-show {
+    opacity: 1;
+    cursor: pointer;
 }
 
 .reuse-form__cnt--det__tm--visible {
@@ -1267,6 +1273,16 @@
     background-color: #ff1600;
   }
 
+  .reuse-form__btn--done  {
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 2px 4px 1px rgba(0,0,0, .65);
+    width: 70px;
+    background-color: #437da3;
+  }
+
 .reuse-form__btn--add  {
     position: relative;
     color: #fff;
@@ -1285,12 +1301,12 @@
     background-color: #df1401;
 }
 
-.reuse-form__btn--add:disabled {
+.reuse-form__btn--add:disabled, .reuse-form__btn--done:disabled {
     cursor: not-allowed;
     background-color: rgba(67,125,163, .45)
 }
 
-.reuse-form__btn--add:not(:disabled):hover {
+.reuse-form__btn--add:not(:disabled):hover, .reuse-form__btn--done:not(:disabled):hover {
     background-color:#05578b;
 }
 

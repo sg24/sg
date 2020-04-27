@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'https://www.slodge24.com'
+    baseURL: window.location.protocol + '//' + window.location.host
 });
 instance.defaults.headers.common['authorization'] = 'authorization';
 

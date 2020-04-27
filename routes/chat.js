@@ -22,12 +22,24 @@ router.get('/:categ/:id', authenticate, (req, res,next) => {
    
     if (!req.authType) {
         if (req.params.categ === 'group'){
-            group.findOne({_id: mongoose.mongo.ObjectId(req.params.id), _isCompleted: true, 
-                $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}).then(grp => {
-                if (grp) {
-                    res.render('groupchat');
+            group.findOne({_id: mongoose.mongo.ObjectId(req.params.id), _isCompleted: true}).then(grpdet => {
+                if (grpdet.groupMode && grpdet.groupMode === 'general') {
+                    group.findOneAndUpdate({_id: mongoose.mongo.ObjectId(req.params.id), _isCompleted: true}, {$addToSet: { member : req.user }}).then((grp) => {
+                        if (grp) {
+                            res.render('groupchat');
+                        } else {
+                            res.redirect('/index/group')
+                        }
+                    })
                 } else {
-                    res.redirect('/index/group')
+                    group.findOne({_id: mongoose.mongo.ObjectId(req.params.id), _isCompleted: true, 
+                        $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}).then(grp => {
+                        if (grp) {
+                            res.render('groupchat');
+                        } else {
+                            res.redirect('/index/group')
+                        }
+                    })
                 }
             })
         } else {

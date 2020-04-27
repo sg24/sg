@@ -43,6 +43,7 @@ class Form extends  Component {
         showVidOpt: false,
         showImgOpt: false,
         showUserOpt: false,
+        showGroupOpt: false,
         showAddItmOpt: true,
         formElement: {
             title: {
@@ -67,6 +68,7 @@ class Form extends  Component {
         formIsValid: false,
         showForm: false,
         mode: null,
+        groupMode: null,
         active: null
     }
 
@@ -196,6 +198,18 @@ class Form extends  Component {
         this.setState({showUserOpt: true,showImgOpt: false,showVidOpt: false, showAddItmOpt: true});
     }
 
+    setGroupModeHandler = (opt) => {
+        this.setState({groupMode: opt})
+    }
+
+    setGroupHandler = () => {
+        this.setState((prevState, props) => {
+            return {
+                showGroupOpt: !prevState.showGroupOpt
+            }
+        })
+    }
+
     inputChangedHandler = (editorState, inputType) => {
         let text = inputType === 'title' ? editorState.target.value : convertToRaw(editorState.getCurrentContent()).blocks[0].text;
         let updateFormType = updateObject(this.state.formElement[inputType], {
@@ -216,13 +230,14 @@ class Form extends  Component {
 
     submitHandler = (mode) => {
        this.setState({showForm: true,  showAddItm: false, mode});
-       if (this.state.categs.length > 0 && this.state.formIsValid) {
+       if (this.state.categs.length > 0 && this.state.formIsValid && this.state.groupMode) {
             let newCnt = {
                 categ: this.state.categs,
                 desc: JSON.stringify(convertToRaw(this.state.formElement.content.value.getCurrentContent())),
                 title: this.state.formElement.title.value,
                 image: this.props.media.image ? this.props.media.image: [],
                 shareMe: this.props.media.user ? this.props.media.user : [],
+                groupmode: String(this.state.groupMode).toLowerCase(),
                 mode
             }
             this.props.onSubmitForm(newCnt)
@@ -237,7 +252,7 @@ class Form extends  Component {
 
     closeBackdropHandler = () => {
         this.setState({
-            showCateg: false, showAddItm: false,showVidOpt: false,showImgOpt: false,showUserOpt: false});
+            showCateg: false, showAddItm: false,showVidOpt: false,showImgOpt: false,showUserOpt: false, showGroupOpt: false});
     }
 
     closeModalHandler = () => {
@@ -253,11 +268,17 @@ class Form extends  Component {
         let categListClass = ['reuse-form__cnt--det__selec reuse-form__cnt--det__selec--categ'];
         let categItems = null;
         let addItemClass = ['reuse-form__cnt--det__selec reuse-form__cnt--det__selec--add'];
+        let setGroupClass = ['reuse-form__cnt--det__mode reuse-form__cnt--det__mode--add']
         let addItemOptClass = ['reuse-form__cnt--det__selec--opt'];
+        let setGroupOptClass = ['reuse-form__cnt--det__mode--opt']
 
         if (this.state.showAddItm) {
             addItemClass.push('reuse-form__cnt--det__selec--add__visible icon--rotate');
             addItemOptClass.push('reuse-form__cnt--det__selec--opt__visible')
+        }
+        if (this.state.showGroupOpt) {
+            setGroupClass.push('icon--rotate');
+            setGroupOptClass.push('reuse-form__cnt--det__mode--opt__visible')
         }
         if (this.state.showCateg && !this.props.categ) {
             categListClass.push('icon--rotate');
@@ -379,7 +400,7 @@ class Form extends  Component {
                             }
                         </div>
                         <div className="reuse-form__cnt--wrapper">
-                            <label className="reuse-form__cnt--title">Description </label>
+                            <label className="reuse-form__cnt--title">Description</label>
                             <div className="reuse-form__cnt--det">
                                 <Editor 
                                     wrapperClassName=""
@@ -396,6 +417,28 @@ class Form extends  Component {
                                 <div className="reuse-form__err">Description must not be empty</div>
                                 : null
                             }
+                        </div>
+                        <div className="reuse-form__cnt--wrapper">
+                            <div className="reuse-form__cnt--det">
+                                <div className="reuse-form__cnt--det__wrapper">
+                                    <div 
+                                        className={setGroupClass.join(' ')}
+                                        onClick={this.setGroupHandler}>
+                                        {this.state.groupMode ? this.state.groupMode : 'Room Type'}
+                                        <FontAwesomeIcon 
+                                            icon={['fas', 'angle-down']} 
+                                            className="icon icon__reuse-form--angle" />
+                                        <ul className={setGroupOptClass.join(' ')}>
+                                            <li 
+                                                className="reuse-form__cnt--det__selec--opt__img"
+                                                onClick={this.setGroupModeHandler.bind(this, 'General')}>General</li>
+                                            <li 
+                                                className="reuse-form__cnt--det__selec--opt__img"
+                                                onClick={this.setGroupModeHandler.bind(this, 'Private')}>Private</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div className="reuse-form__cnt--wrapper">
                             <div className="reuse-form__cnt--det">
@@ -435,8 +478,8 @@ class Form extends  Component {
                                                         icon={['fas', 'user-friends']} />
                                                 </div> 
                                                 {this.props.media.user ? this.props.media.user.length : 0}
+                                                </div>
                                             </div>
-                                        </div>
                                         Invite 
                                     </div>
                                 </div>
@@ -445,6 +488,8 @@ class Form extends  Component {
                     </div>
                     
                     { this.state.showAddItm ? 
+                        <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop></Aux> : null }
+                    { this.state.showGroupOpt ? 
                         <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop></Aux> : null }
                     { this.state.showImgOpt ? <Aux><Backdrop></Backdrop><AsyncImage /></Aux> : null }
                     { this.state.showUserOpt ? <Aux><Backdrop close={this.closeBackdropHandler}></Backdrop><AsyncUsers /></Aux> : null}
@@ -469,7 +514,7 @@ class Form extends  Component {
                         <button 
                             type="button" 
                             className="reuse-form__btn--add"
-                            disabled={!this.state.formIsValid}
+                            disabled={!this.state.formIsValid || !this.state.groupMode}
                             onClick={this.submitHandler.bind(this, 'publish')}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'plus']} 

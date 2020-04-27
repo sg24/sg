@@ -31,6 +31,7 @@ const initialState = {
     editVideo:false,
     redirect: false,
     imageCapture: null,
+    groupMode: null,
     id: null
 };
 
@@ -41,7 +42,7 @@ const fetchCnt = (state, action) => {
         let image = [...action.cnt.image];
         let video = [];
         return updateObject(state, {
-            newCateg: action.cnt.category, title: action.cnt.title, content: desc, cntErr: null, snapshot, media: {image, video}})
+            newCateg: action.cnt.category, title: action.cnt.title, content: desc, cntErr: null, snapshot, groupMode: action.cnt.groupMode, media: {image, video}})
     }
     return updateObject(state, {redirect: true})
 };
