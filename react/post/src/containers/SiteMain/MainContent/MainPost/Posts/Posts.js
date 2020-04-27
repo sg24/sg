@@ -116,7 +116,7 @@ class Posts extends Component {
     }
 
     onScroll = () => {
-        if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
+        if ((window.innerHeight + Math.ceil(window.pageYOffset + 1)) >= document.body.offsetHeight) {
             this.props.onFetchPost(
                     this.props.userID, 
                     this.state.filterTag !== 'post' ? 

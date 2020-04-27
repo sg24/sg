@@ -113,13 +113,18 @@ router.post('/', authenticate,(req, res, next) => {
     }
 
     if (req.header && req.header('data-categ') &&  req.header('data-categ').startsWith('subscribe')) {
-        let subscription = JSON.parse(req.header('data-categ').split('==')[1]);
-        let model = req.userType === 'authUser' ? authUser : user;
-        model.findByIdAndUpdate(req.user, { $push: {subscription: {$each: [subscription],$slice: -1 }}, enableNotification: true}).then(() => {
+        if (req.header('data-categ').split('==')[1]) {
+            let subscription = JSON.parse(req.header('data-categ').split('==')[1]);
+            let model = req.userType === 'authUser' ? authUser : user;
+            model.findByIdAndUpdate(req.user, { $push: {subscription: {$each: [subscription],$slice: -1 }}, enableNotification: true}).then(() => {
+                res.sendStatus(200)
+            }).catch(err => {
+                res.status(500).send(err)
+            })
+        } else {
             res.sendStatus(200)
-        }).catch(err => {
-            res.status(500).send(err)
-        })
+        }
+        
         return;
     }
     

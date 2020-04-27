@@ -120,7 +120,7 @@ class Groups extends Component {
     }
 
     onScroll = () => {
-        if (document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight) {
+        if ((window.innerHeight + Math.ceil(window.pageYOffset + 1)) >= document.body.offsetHeight) {
             this.props.onFetchCnt(
                     this.state.filterTag !== 'group' ? 
                     this.state.filterTag === 'filter' ?  'filter=='+this.props.filterDet : this.state.filterTag : 'group',

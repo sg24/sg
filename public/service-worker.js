@@ -75,14 +75,6 @@ workbox.precaching.precacheAndRoute([
   {
     "url": "manifest.json",
     "revision": "b7fde4e2ad76bac8a4a1efd4f79ab151"
-  },
-  {
-    "url": "static/media/Logo.7a8e6dba.svg",
-    "revision": "7a8e6dba7c873ae05990fa23b1ad5c07"
-  },
-  {
-    "url": "static/media/Logo.e88880ec.svg",
-    "revision": "e88880ecacdf53ff5fa4a8e8850852bd"
   }
 ]);
   

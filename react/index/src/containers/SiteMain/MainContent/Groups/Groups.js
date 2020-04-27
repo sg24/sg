@@ -61,22 +61,11 @@ class Groups extends Component {
     }
 
     onScroll = () => {
-        if (document.documentElement.scrollHeight - document.documentElement.scrollTop - document.documentElement.clientHeight < 1) {
-            alert('set')
+        if ((window.innerHeight + Math.ceil(window.pageYOffset + 1)) >= document.body.offsetHeight) {
             this.props.onFetchCnt(
                     this.state.filterTag !== 'group' ? 
                     this.state.filterTag === 'filter' ?  'filter=='+this.props.filterDet : this.state.filterTag : 'group',
                     this.state.fetchLimit, this.props.skipCnt + this.state.fetchLimit, this.props.cntTotal);
-        }
-        if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
-            alert("you're at the bottom of the page");
-        }
-        if ((window.innerHeight + Math.ceil(window.pageYOffset + 1)) >= document.body.offsetHeight) {
-            alert("you're at the bottom of the page mac");
-        }
-        if ((window.innerHeight + window.pageYOffset) >= document.body.scrollHeight) {
-            // you're at the bottom of the page
-            alert("Bottom of page");
         }
     } 
 
@@ -202,7 +191,7 @@ class Groups extends Component {
 
 const mapStateToProps = state => {
     return {
-        status: true,
+        status: state.auth.status,
         userID: state.auth.userID,
         cnts: state.cnt.cnts,
         skipCnt: state.cnt.skipCnt,
