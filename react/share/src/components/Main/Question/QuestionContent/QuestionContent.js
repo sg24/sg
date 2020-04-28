@@ -142,9 +142,9 @@ const questionContent = props => {
                         { playVideo }
                         { props.video && props.video.id === curMedia.id && props.video.url ? 
                             <video 
-                                onPointerDown={(event) => props.slidePlay(props.que._id, mediaTotal, event)}
-                                onPointerMove={(event) => props.moveSlidePlay(props.que._id, mediaTotal, event)}
-                                onPointerUp={(event) => props.clearSlidePlay(event)}
+                                // onPointerDown={(event) => props.slidePlay(props.que._id, mediaTotal, event)}
+                                // onPointerMove={(event) => props.moveSlidePlay(props.que._id, mediaTotal, event)}
+                                // onPointerUp={(event) => props.clearSlidePlay(event)}
                                 src={props.video.url} controls autoPlay>
                                 <p>our browser doesn't support embedded videos</p>
                             </video> :
@@ -153,16 +153,18 @@ const questionContent = props => {
                             draggable="false"
                             onDragStart={() => false }
                             src={curMedia.url}  alt="question"
-                            onPointerDown={(event) => props.slidePlay(props.que._id, mediaTotal, event)}
-                            onPointerMove={(event) => props.moveSlidePlay(props.que._id, mediaTotal, event)}
-                            onPointerUp={(event) => props.clearSlidePlay(event)} />
+                            // onPointerDown={(event) => props.slidePlay(props.que._id, mediaTotal, event)}
+                            // onPointerMove={(event) => props.moveSlidePlay(props.que._id, mediaTotal, event)}
+                            // onPointerUp={(event) => props.clearSlidePlay(event)} 
+                            />
                         }
                         { props.videoErr && props.videoErr.id === curMedia.id ? 
                             <div 
                                 className="reuse-que__video-err"
-                                onPointerDown={(event) => props.slidePlay(props.que._id, mediaTotal, event)}
-                                onPointerMove={(event) => props.moveSlidePlay(props.que._id, mediaTotal, event)}
-                                onPointerUp={(event) => props.clearSlidePlay(event)}>
+                                // onPointerDown={(event) => props.slidePlay(props.que._id, mediaTotal, event)}
+                                // onPointerMove={(event) => props.moveSlidePlay(props.que._id, mediaTotal, event)}
+                                // onPointerUp={(event) => props.clearSlidePlay(event)}
+                                >
                                 <div 
                                     className="reuse-que__video-err--icn"
                                     onClick={props.playVideo.bind(this, curMedia.id, props.que.video)}>

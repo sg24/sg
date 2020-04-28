@@ -190,9 +190,9 @@ const groupContent = props => {
                             </div>
                         </li> */}
                     </ul>
-                    {props.clipboard ? 
+                    {props.clipboard && props.clipboard.id === props.cnt._id ? 
                         <div className="reuse-group__footer--tooltip">
-                        { props.clipboard }
+                        { props.clipboard.msg }
                     </div> : null}
                     <div 
                         className="reuse-group__footer--info"

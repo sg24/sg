@@ -17,7 +17,7 @@ const postContent = props => {
     let userOptClass = ['reuse-pt__footer--details__options'];
     let favAdd = null;
     let isLiked = null;
-    let mediaTotal = props.pt.snapshot.length+props.pt.image.length;
+    // let mediaTotal = props.pt.snapshot.length+props.pt.image.length;
     let userOptMode = (
             <li 
                 className="reuse-pt__footer--details__options--status"
@@ -134,9 +134,9 @@ const postContent = props => {
                         { playVideo }
                         { props.video && props.video.id === curMedia.id && props.video.url ? 
                             <video 
-                                onPointerDown={(event) => props.slidePlay(props.pt._id, mediaTotal, event)}
-                                onPointerMove={(event) => props.moveSlidePlay(props.pt._id, mediaTotal, event)}
-                                onPointerUp={(event) => props.clearSlidePlay(event)}
+                                // onPointerDown={(event) => props.slidePlay(props.pt._id, mediaTotal, event)}
+                                // onPointerMove={(event) => props.moveSlidePlay(props.pt._id, mediaTotal, event)}
+                                // onPointerUp={(event) => props.clearSlidePlay(event)}
                                 src={props.video.url} controls autoPlay>
                                 <p>our browser doesn't support embedded videos</p>
                             </video> :
@@ -145,16 +145,18 @@ const postContent = props => {
                             draggable="false"
                             onDragStart={() => false }
                             src={curMedia.url}  alt="post"
-                            onPointerDown={(event) => props.slidePlay(props.pt._id, mediaTotal, event)}
-                            onPointerMove={(event) => props.moveSlidePlay(props.pt._id, mediaTotal, event)}
-                            onPointerUp={(event) => props.clearSlidePlay(event)} />
+                            // onPointerDown={(event) => props.slidePlay(props.pt._id, mediaTotal, event)}
+                            // onPointerMove={(event) => props.moveSlidePlay(props.pt._id, mediaTotal, event)}
+                            // onPointerUp={(event) => props.clearSlidePlay(event)} 
+                            />
                         }
                         { props.videoErr && props.videoErr.id === curMedia.id ? 
                             <div 
                                 className="reuse-pt__video-err"
-                                onPointerDown={(event) => props.slidePlay(props.pt._id, mediaTotal, event)}
-                                onPointerMove={(event) => props.moveSlidePlay(props.pt._id, mediaTotal, event)}
-                                onPointerUp={(event) => props.clearSlidePlay(event)}>
+                                // onPointerDown={(event) => props.slidePlay(props.pt._id, mediaTotal, event)}
+                                // onPointerMove={(event) => props.moveSlidePlay(props.pt._id, mediaTotal, event)}
+                                // onPointerUp={(event) => props.clearSlidePlay(event)}
+                                >
                                 <div 
                                     className="reuse-pt__video-err--icn"
                                     onClick={props.playVideo.bind(this, curMedia.id, props.pt.video)}>

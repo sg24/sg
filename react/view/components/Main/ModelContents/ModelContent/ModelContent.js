@@ -69,6 +69,8 @@ let meta = null;
                 <meta property="og:title" content={`This is when you marry, next ${yrs} ${yrs > 1 ? 'years' : 'year'}`} />
                 <meta property="og:type" content="article" />
                 <meta property="og:url" content={`${props.url}`} />
+                <meta property="og:image:width" content="1200" />
+                <meta property="og:image:height" content="600" />
                 <meta property="og:image" content={`https://images.pexels.com/photos/256737/pexels-photo-256737.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=1200`} />
                 <meta property="og:description" content="slodge24 | Knowledge sharing platform."/>
                 <meta property="og:site_name" content={`https://www.slodge24.com - When will you get married?`}/>	
@@ -80,6 +82,8 @@ let meta = null;
                 <meta property="og:title" content={`${props.cnt.title}`} />
                 <meta property="og:type" content="article" />
                 <meta property="og:url" content={`${props.url}`} />
+                <meta property="og:image:width" content="1200" />
+                <meta property="og:image:height" content="600" />
                 {mediaCnt.length > 0 ?  <meta property="og:image" content={`${mediaCnt[0].url}`} /> : null}
                 <meta property="og:description" content={`${props.cntGrp === 'post' ? desc.blocks[0].text : 'slodge24 | Knowledge sharing platform'}`}/>
                 <meta property="og:site_name" content={`https://www.slodge24.com`}/>

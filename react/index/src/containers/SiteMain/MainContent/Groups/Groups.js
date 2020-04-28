@@ -118,10 +118,10 @@ class Groups extends Component {
             try {
                 var successful = document.execCommand('copy');
                 var msg = successful ? 'successful' : 'unsuccessful';
-                these.setState({clipboard: msg === 'successful' ? 'Copying to clipboard was successful!' : 'Could not copy link to clipboard',
+                these.setState({clipboard: msg === 'successful' ? {msg: 'Copying to clipboard was successful!', id} : {msg: 'Could not copy link to clipboard', id},
                     resetClipboard: msg === 'successful' ? true: false});
             } catch (err) {
-                these.setState({clipboard: 'Could not copy link to clipboard'});
+                these.setState({clipboard: {msg: 'Could not copy link to clipboard', id}});
             }
 
             document.body.removeChild(textArea);
@@ -132,9 +132,9 @@ class Groups extends Component {
               return;
             }
             navigator.clipboard.writeText(text).then(function() {
-              these.setState({clipboard: 'Copying to clipboard was successful!', resetClipboard: true});
+              these.setState({clipboard: {msg: 'Copying to clipboard was successful!', id}, resetClipboard: true});
             }, function(err) {
-              these.setState({clipboard: 'Could not copy link to clipboard'});
+              these.setState({clipboard: {msg: 'Could not copy link to clipboard', id}});
             });
           }
        

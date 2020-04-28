@@ -9,7 +9,7 @@ const group = props => {
         <GroupContent 
              key={index} 
              cnt={cnt}
-             groupInfo={props.groupInfo.bind(this, cnt._id)}
+             groupInfo={props.groupInfo.bind(this, cnt)}
              join={props.join.bind(this, cnt._id, 'join')} 
              joinStartID ={props.joinStartID }
              joined={props.joined}
