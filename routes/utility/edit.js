@@ -81,8 +81,8 @@ module.exports = editForm = (content, model, mediaCnt, notify, userModel, userID
                             let grpNotify = result.group.filter(grpDet => grpDet.ID === id)
                             if (grpNotify.length > 0) {
                                 if (grpNotify[0].isMember){
-                                    grpNotiy[0].edit = true;
-                                    grpNotiy[0].view = false;
+                                    grpNotify[0].edit = true;
+                                    grpNotify[0].view = false;
                                     grpsNotify = result.group.filter(grpDet => grpDet.ID !== id)
                                     grpsNotify.push(grpNotify[0])
                                 } else {

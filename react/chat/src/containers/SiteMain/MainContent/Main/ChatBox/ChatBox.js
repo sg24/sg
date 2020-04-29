@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
+import { saveAs } from 'file-saver';
 
 import Chats from '../../../../../components/Main/Chats/Chats';
 import './ChatBox.css';
@@ -62,6 +63,10 @@ class ChatBox extends Component {
         clearTimeout(this.state.hold);
     }
 
+    downloadHandler = (url, name) => {
+        saveAs(url, name)
+    }
+
     render() {
         let typing = null;
         let chat = <Loader />
@@ -89,7 +94,8 @@ class ChatBox extends Component {
                     released={this.chatReleasedHandler}
                     selected={this.props.chatSelected}
                     editChat={this.props.editChat}
-                    userID={this.props.userID}/>
+                    userID={this.props.userID}
+                    download={this.downloadHandler}/>
             )
         }
       

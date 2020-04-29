@@ -26,20 +26,20 @@ const edit = (props) => {
     let typedCnt = null;
 
     if (props.cnt.cntType !== 'audio' && props.cnt.cntType !== 'media' &&
-    props.cnt.cntType !== 'image' && props.cnt.cntType !== 'typedPlain' && !props.cnt.upload) {
+    props.cnt.cntType !== 'image' && props.cnt.cntType !== 'typedPlain' && !props.cnt.delete && !props.cnt.upload && !props.cnt.pending) {
         docContent = (
             <>
                 <FileIcon 
                     extension={props.cnt.format ? props.cnt.format.substr(0, 7) : props.cnt.format} 
                     {...defaultStyles[props.cnt.format]} 
                     size={100}/>
-                <a 
+                <div 
                     href={`https://www.slodge24.com/media/${props.cnt.cntType}/${props.cnt.msg}.${props.cnt.format}`}  
-                    downloads="true"
+                    onClick={props.download.bind(this, `https://www.slodge24.com/media/${props.cnt.cntType}/${props.cnt.msg}.${props.cnt.format}`, `${props.cnt.msg}.${props.cnt.format}`)}
                     className="site-main__chat--box__download"> 
                     <FontAwesomeIcon  icon={['fas', 'download']} className="icon icon__site-main--chat__box--dwn"/> 
                     download
-                </a>
+                </div>
             </>
         )
     }

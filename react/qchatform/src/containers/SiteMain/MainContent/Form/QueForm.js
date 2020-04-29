@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'promise-polyfill/src/polyfill';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import { withRouter } from 'react-router-dom';
 
@@ -14,6 +14,7 @@ import Modal from '../../../../components/UI/Modal/Modal';
 import Aux from '../../../../hoc/Auxs/Aux';
 import asyncComponent from '../../../../hoc/asyncComponent/asyncComponent';
 import { updateObject, checkValidity } from '../../../../shared/utility';
+import Loader from '../../../../components/UI/Loader/Loader';
 import axios from '../../../../axios';
 
 const AsyncImage = asyncComponent(() => {
@@ -87,20 +88,64 @@ class QueForm extends  Component {
             }
         },
         formIsValid: false,
-        modeIsValid: false,
         showForm: false,
         answer: [],
         queNum: Number.parseInt(this.props.location.search.split('=')[1]),
         oldQueNum: Number.parseInt(this.props.location.search.split('=')[1]),
         active: null,
-        isGame: false,
-        default: null
+        default: null,
+        reset: false
     }
 
     componentDidMount() {
         this.setState({default: {...this.state}})
+
+        if (this.props.qchat && this.props.qchat.length > 0 && this.props.qchat.filter(cnt => cnt.position === this.state.queNum)[0]) {
+            let cnt = this.props.qchat.filter(cnt => cnt.position === this.state.queNum)[0];
+            let qchat = JSON.parse(cnt.option)
+            let oldEditor = this.state.formElement;
+            let q1 = {...oldEditor.q1};
+            q1.value = qchat.q1;
+            let q2 = {...oldEditor.q2};
+            q2.value = qchat.q2;
+            let q3 = {...oldEditor.q3};
+            q3.value = qchat.q3;
+            let q4 = {...oldEditor.q4};
+            q4.value = qchat.q4;
+            let editor = {...oldEditor.question};
+            editor.value = EditorState.createWithContent(convertFromRaw(JSON.parse(qchat.question)));
+            oldEditor.question = editor;
+            oldEditor.question.valid = true;
+            oldEditor.question.touched = true;
+            oldEditor.q1 = q1;
+            oldEditor.q1.valid = true;
+            oldEditor.q1.touched = true;
+            oldEditor.q2 = q2;
+            oldEditor.q2.valid = true;
+            oldEditor.q2.touched = true;
+            oldEditor.q3 = q3;
+            oldEditor.q3.valid = true;
+            oldEditor.q3.touched = true;
+            oldEditor.q4 = q4;
+            oldEditor.q4.valid = true;
+            oldEditor.q4.touched = true;
+            
+            this.props.onSetMedia({
+                video: cnt.video,
+                image: cnt.image
+            })
+            this.setState({
+                formElement: oldEditor,
+                answer: JSON.parse(cnt.answer),
+                formIsValid: true
+            })
+        }
+
         let numberOfAjaxCAllPending = 0;
         let these = this;
+        if (!this.props.qchat.length > 0 || !this.props.qchat.filter(cnt => cnt.position === 0)[0]) {
+            this.props.history.push(`/add/qchat/?id=0`)
+        }
 
         axios.interceptors.request.use(function (config) {
             numberOfAjaxCAllPending++;
@@ -152,8 +197,13 @@ class QueForm extends  Component {
         } 
         if (this.state.oldQueNum !== this.state.queNum) {
             this.props.history.push('/add/qchat/?id='+this.state.queNum)
-            let cnt = updateObject(this.state.default, {oldQueNum: this.state.queNum, queNum: this.state.queNum})
-            this.setState({...cnt})
+            this.setState({
+                ...this.state.default,
+                oldQueNum: this.state.queNum, 
+                queNum: this.state.queNum,
+                reset: false,
+                default: {...this.state.default}
+            })
         }
     }
 
@@ -203,6 +253,10 @@ class QueForm extends  Component {
             }})
     }
 
+    navHandler = () => {
+        this.props.history.push(`/add/qchat/?id=${this.state.editInput}`)
+    };
+
     submitHandler = (mode) => {
         this.setState({showForm: true,  showAddItm: false, mode});
         if (this.state.formIsValid && this.state.answer.length > 0) {
@@ -222,7 +276,7 @@ class QueForm extends  Component {
             }
              if (mode === 'next') {
                 this.props.onAddQchat(newCnt);
-                this.setState({queNum: Number.parseInt(this.state.queNum)+1})
+                this.setState({queNum: Number.parseInt(this.state.queNum)+1, reset: true})
              } else {
                 if (this.props.qchat.length > 1 && this.props.qchat.filter(cnt => cnt.position === '0')[0]) {
                     this.props.onSubmitForm(newCnt)
@@ -296,13 +350,21 @@ class QueForm extends  Component {
                             value={this.state.editInput}
                             onChange={this.editChangeHandler}/>
                     </div>
-                    <div className={editClass.join(' ')}>GO</div>
+                    <div 
+                        className={editClass.join(' ')}
+                        onClick={this.navHandler}>GO</div>
                 </div>
             )
         }
 
-        return (
-            <form className="reuse-form">
+        let form = (
+            <div className="reuse-form__wrapper">
+                <Loader />
+            </div>
+        )
+
+        if (!this.state.reset) {
+            form = (
                 <div className="reuse-form__wrapper">
                     <h3 className="reuse-form__title">
                         <div>
@@ -465,23 +527,24 @@ class QueForm extends  Component {
                         <button 
                             type="button" 
                             className="reuse-form__btn--dft"
-                            disabled={!this.state.formIsValid || this.state.answer.length < 1}
+                            disabled={this.props.qchat.length < 1 && !this.props.qchat.filter(cnt => cnt.position === '0')[0]}
                             onClick={this.submitHandler.bind(this, 'draft')}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'eye-slash']} 
                                 className="icon icon__reuse-form--btn" />
                             Draft
                         </button>
-                        <button 
-                            type="button" 
-                            className="reuse-form__btn--done reuse-form__btn--mid"
-                            disabled={!this.state.formIsValid || this.state.answer.length < 1}
-                            onClick={this.submitHandler.bind(this, 'done')}>
-                            <FontAwesomeIcon 
-                                icon={['fas', 'check']} 
-                                className="icon icon__reuse-form--btn" />
-                            Done
-                        </button>
+                        {this.props.qchat.length > 1 && this.props.qchat.filter(cnt => cnt.position === '0')[0] ?
+                            <button 
+                                type="button" 
+                                className="reuse-form__btn--done reuse-form__btn--mid"
+                                disabled={this.props.qchat.length < 2 && !this.props.qchat.filter(cnt => cnt.position === '0')[0]}
+                                onClick={this.submitHandler.bind(this, 'done')}>
+                                <FontAwesomeIcon 
+                                    icon={['fas', 'check']} 
+                                    className="icon icon__reuse-form--btn" />
+                                Done
+                            </button> : null}
                         <button 
                             type="button" 
                             className="reuse-form__btn--nxt"
@@ -494,6 +557,12 @@ class QueForm extends  Component {
                         </button>
                     </div>
                 </div>
+            )
+        }
+
+        return (
+            <form className="reuse-form">
+                { form }
             </form>
         );
     }
@@ -526,6 +595,7 @@ const mapDispatchToProps = dispatch => {
         onFetchShareActive: (userID) => dispatch(actions.fetchShareactiveInit(userID)),
         onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
         onAddQchat: (cnt) => dispatch(actions.addQchat(cnt)),
+        onSetMedia: (media) => dispatch(actions.setMedia(media)),
         onFetchNavActive: () => dispatch(actions.fetchNavActiveInit())
     };
 };

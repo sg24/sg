@@ -32,7 +32,7 @@ module.exports =  checkStatus = (token, modelType, res) => {
         function checkStatus() {
             let check = setInterval(() => {
                 let isExpire = true;
-                model.findById(decoded._id).then(result => {
+                model.findByIdAndUpdate(decoded._id, {statustoken, status: true,  offline: Date.now()}).then(result => {
                     jwt.verify(result.statustoken, process.env.JWT_SECRET);
                 }).catch(err => {
                     model.findByIdAndUpdate(decoded._id, {status: false, offline: Date.now()}).then(() => {

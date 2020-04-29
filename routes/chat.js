@@ -1766,7 +1766,7 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                         if (!authRes.status) {
                             notify(userID, id).then(() => {
                                 let msg = chat.cntType !== 'typedPlain' ? `${chat.cntType} chat` : chat.msg
-                                pushNotify(id, userID, 'user', chat.username, msg).then(() => {
+                                pushNotify(id, userID, 'user', userDet.username, msg).then(() => {
                                     resolve([update])
                                 })
                             })
@@ -1778,7 +1778,7 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                     if (!res.status) {
                         notify(userID, id).then(() => {
                             let msg = chat.cntType !== 'typedPlain' ? `${chat.cntType} chat` : chat.msg
-                            pushNotify(id, userID, 'user', chat.username, msg).then(() => {
+                            pushNotify(id, userID, 'user', userDet.username, msg).then(() => {
                                 resolve([update])
                             })
                         })

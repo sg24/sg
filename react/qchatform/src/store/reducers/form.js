@@ -128,7 +128,11 @@ const addQchat = (state, action) => {
         return updateObject(state, {qchat, media: {}})
     }
     qchat.push(action.cnt)
-    return updateObject(state, {qchat, media: {}})
+    return updateObject(state, {qchat, media: {}, categ: null})
+};
+
+const setMedia = (state, action) => {
+    return updateObject(state, {media: action.media})
 };
 
 const submitFormStart = (state, action) => {
@@ -193,6 +197,8 @@ const reducer = (state = initialState, action) => {
             return showUserSelect(state, action);
         case actionTypes.ADD_QCHAT:
             return addQchat(state, action);
+        case actionTypes.SET_MEDIA:
+            return setMedia(state, action);
         case actionTypes.SUBMIT_FORM_START:
             return submitFormStart(state, action);
         case actionTypes.SUBMIT_FORM_SUCCESS:

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'promise-polyfill/src/polyfill';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import { withRouter } from 'react-router-dom';
 
@@ -102,7 +102,6 @@ class Form extends  Component {
         },
         formIsValid: false,
         setTimeValid: false,
-        modeIsValid: false,
         showForm: false,
         mode: null,
         active: null,
@@ -112,6 +111,51 @@ class Form extends  Component {
     componentDidMount() {
         let numberOfAjaxCAllPending = 0;
         let these = this;
+
+        if (this.props.qchat && this.props.qchat.length > 0 && this.props.qchat.filter(cnt => cnt.position === 0)[0]) {
+            let qchat = this.props.qchat.filter(cnt => cnt.position === 0)[0];
+            let oldEditor = this.state.formElement;
+            let title = {...oldEditor.title};
+            title.value = qchat.title;
+            let editor = {...oldEditor.content};
+            editor.value = EditorState.createWithContent(convertFromRaw(JSON.parse(qchat.desc)));
+            oldEditor.content = editor;
+            oldEditor.content.valid = true;
+            oldEditor.content.touched = true;
+            oldEditor.title = title;
+            oldEditor.title.valid = true;
+            oldEditor.title.touched = true;
+            
+            let oldSetTime = this.state.setTime;
+            let hour = {...oldSetTime.hour};
+            hour.value = qchat.hour;
+            let minute = {...oldSetTime.minute};
+            minute.value = qchat.minute;
+            let second = {...oldSetTime.second};
+            second.value = qchat.second;
+            oldSetTime.hour = hour;
+            oldSetTime.hour.valid = true;
+            oldSetTime.hour.touched = true;
+            oldSetTime.minute = minute;
+            oldSetTime.minute.valid = true;
+            oldSetTime.minute.touched = true;
+            oldSetTime.second = second;
+            oldSetTime.second.valid = true;
+            oldSetTime.second.touched = true;
+            this.props.onSetMedia({
+                video: qchat.video,
+                image: qchat.image,
+                user: typeof qchat.participant === 'object'?  qchat.participant : null
+            })
+            this.setState({
+                categs: qchat.categ,
+                formElement: oldEditor,
+                selectItm: typeof qchat.participant === 'object' ? null : qchat.participant,
+                setTime: oldSetTime,
+                formIsValid: true,
+                setTimeValid: true
+            })
+        }
 
         axios.interceptors.request.use(function (config) {
             numberOfAjaxCAllPending++;
@@ -299,9 +343,9 @@ class Form extends  Component {
                 image: this.props.media.image ? this.props.media.image: [],
                 participant: this.props.media.user ? this.props.media.user : this.state.selectItm ? this.state.selectItm :  'public',
                 duration: hour+minute+second,
-                hour,
-                minute,
-                second,
+                hour: this.state.setTime.hour.value,
+                minute: this.state.setTime.minute.value,
+                second: this.state.setTime.second.value,
                 mode
             }
              if (mode === 'next') {
@@ -621,20 +665,30 @@ class Form extends  Component {
                         <button 
                             type="button" 
                             className="reuse-form__btn--dft"
-                            disabled={!this.state.formIsValid}
+                            disabled={!this.state.formIsValid || !this.state.setTimeValid || (!this.state.setTime.hour.value && !this.state.setTime.minute.value && !this.state.setTime.second.value)
+                                || this.state.categs.length < 1 || (!this.state.selectItm && (!this.props.media.user || (this.props.media.user && !this.props.media.user.length > 0)))}
                             onClick={this.submitHandler.bind(this, 'draft')}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'eye-slash']} 
                                 className="icon icon__reuse-form--btn" />
                             Draft
                         </button>
+                        {this.props.qchat.length > 1 && this.props.qchat.filter(cnt => cnt.position === '0')[0] ?
+                            <button 
+                                type="button" 
+                                className="reuse-form__btn--done reuse-form__btn--mid"
+                                disabled={this.props.qchat.length < 2 && !this.props.qchat.filter(cnt => cnt.position === '0')[0]}
+                                onClick={this.submitHandler.bind(this, 'done')}>
+                                <FontAwesomeIcon 
+                                    icon={['fas', 'check']} 
+                                    className="icon icon__reuse-form--btn" />
+                                Done
+                            </button> : null}
                         <button 
                             type="button" 
                             className="reuse-form__btn--nxt"
-                            disabled={!this.state.formIsValid ? true : 
-                            !this.state.setTimeValid ? true : 
-                            !this.state.setTime.hour.value && !this.state.setTime.minute.value && !this.state.setTime.second.value
-                            ? true : this.state.categs.length < 1 ? true : !this.state.selectItm || (this.props.media.user && !this.props.media.user.length > 0)}
+                            disabled={!this.state.formIsValid || !this.state.setTimeValid || (!this.state.setTime.hour.value && !this.state.setTime.minute.value && !this.state.setTime.second.value)
+                            || this.state.categs.length < 1 || (!this.state.selectItm && (!this.props.media.user || (this.props.media.user && !this.props.media.user.length > 0)))}
                             onClick={this.submitHandler.bind(this, 'next')}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'angle-double-right']} 
@@ -658,6 +712,7 @@ const mapStateToProps = state => {
         hideMediaBox: state.form.hideMediaBox,
         snapshot: state.form.snapshot,
         media: state.form.media,
+        qchat: state.form.qchat,
         uploadPercent: state.form.uploadPercent,
         submitForm: state.form.submitForm,
         submitError: state.form.submitError,
@@ -675,6 +730,7 @@ const mapDispatchToProps = dispatch => {
         onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
         resetSelect: () => dispatch(actions.resetSelect()),
         onAddQchat: (cnt) => dispatch(actions.addQchat(cnt)),
+        onSetMedia: (media) => dispatch(actions.setMedia(media)),
         onFetchNavActive: () => dispatch(actions.fetchNavActiveInit())
     };
 };

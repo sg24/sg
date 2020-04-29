@@ -34,7 +34,8 @@ const chats = (props) => {
             hold={props.hold}
             selected={props.selected}
             userID={props.userID}
-            editChat={props.editChat}/>
+            editChat={props.editChat}
+            download={props.download}/>
     }
 
         
@@ -103,13 +104,13 @@ const chats = (props) => {
                     extension={props.cnt.format ? props.cnt.format.substr(0, 7) : props.cnt.format} 
                     {...defaultStyles[props.cnt.format]} 
                     size={100}/>
-                <a 
+                <div 
                     href={`https://www.slodge24.com/media/${props.cnt.cntType}/${props.cnt.msg}.${props.cnt.format}`}  
-                    downloads="true"
+                    onClick={props.download.bind(this, `https://www.slodge24.com/media/${props.cnt.cntType}/${props.cnt.msg}.${props.cnt.format}`, `${props.cnt.msg}.${props.cnt.format}`)}
                     className="site-main__chat--box__download"> 
                     <FontAwesomeIcon  icon={['fas', 'download']} className="icon icon__site-main--chat__box--dwn"/> 
                     download
-                </a>
+                </div>
             </>
         )
     }

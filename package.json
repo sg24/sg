@@ -68,6 +68,7 @@
     "browser-sync": "^2.26.7",
     "draftjs-to-html": "^0.9.1",
     "emoji-mart": "^3.0.0",
+    "file-saver": "^2.0.2",
     "gulp": "^4.0.2",
     "gulp-postcss": "^8.0.0",
     "gulp-watch": "^4.3.5",

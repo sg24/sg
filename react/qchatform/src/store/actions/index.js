@@ -75,6 +75,7 @@ export {
     userSelect,
     resetSelect,
     addQchat,
+    setMedia,
     showUserSelectInit,
     showUserSelect,
     submitFormInit,

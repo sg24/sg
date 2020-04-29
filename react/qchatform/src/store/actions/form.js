@@ -227,6 +227,13 @@ export const addQchat = (cnt) => {
     };
 };
 
+export const setMedia = (media) => {
+    return {
+        type: actionTypes.SET_MEDIA,
+        media
+    };
+};
+
 export const formSubmitted = (id) => {
     return {
         type: actionTypes.FORM_SUBMITTED,

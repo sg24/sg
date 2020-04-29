@@ -16,7 +16,8 @@ const edits = (props) =>{
                 hold={props.hold}
                 selected={props.selected}
                 editChat={props.editChat}
-                userID={props.userID}/>
+                userID={props.userID}
+                download={props.download}/>
         ))
 
         return allChat;

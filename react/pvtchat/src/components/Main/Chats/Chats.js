@@ -15,6 +15,7 @@ const chats = (props) =>{
                 hold={props.hold}
                 selected={props.selected}
                 editChat={props.editChat}
+                download={props.download}
                 userID={props.userID}/>
         ))
 
