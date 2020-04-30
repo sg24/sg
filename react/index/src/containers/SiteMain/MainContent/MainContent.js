@@ -107,7 +107,7 @@ class MainContent extends Component {
                     these.props.onFetchReqActive();
                     these.props.onFetchJoinActive();
                 }
-            }, 5000);
+            }, 20000);
             these.setState({active})
             return response;
         }, function (error) {

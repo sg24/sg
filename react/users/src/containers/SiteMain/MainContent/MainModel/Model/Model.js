@@ -52,7 +52,7 @@ class Model extends Component {
                     these.props.onFetchNavActive();
                     these.props.onFetchTotal();
                 }
-            }, 5000);
+            }, 20000);
             these.setState({active})
             return response;
         }, function (error) {

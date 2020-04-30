@@ -8,6 +8,7 @@ export {
 export {
     fetchCntInit,
     fetchCntFail,
+    fetchCntStart,
     fetchCntReset,
     fetchCnt,
     changeCntInit,

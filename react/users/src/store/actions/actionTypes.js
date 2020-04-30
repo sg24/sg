@@ -4,6 +4,7 @@ export const CHECK_USERIMG = 'CHECK_USERIMG';
 export const CHECK_USERNAME = 'CHECK_USERNAME';
 
 export const FETCH_CNT_INIT = 'FETCH_CNT_INIT';
+export const FETCH_CNT_START = 'FETCH_CNT_START';
 export const FETCH_CNT_RESET = 'FETCH_CNT_RESET';
 export const FETCH_CNT_FAIL = 'FETCH_CNT_FAIL';
 export const FETCH_CNT = 'FETCH_CNT';

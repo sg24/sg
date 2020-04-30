@@ -11,20 +11,25 @@ const initialState = {
     filterDet: null,
     changeCnt: false,
     changeCntErr: null,
-    changeCntStart: null
+    changeCntStart: null,
+    showLoader: false
 }
 
 const fetchCnt = (state, action) => {
     let cnts = !state.cnts ? action.cnt : state.cnts.concat(...action.cnt);
-    return updateObject(state, {cnts, skipCnt: action.skipCnt, cntTotal: action.cntTotal})
+    return updateObject(state, {cnts, skipCnt: action.skipCnt, cntTotal: action.cntTotal, showLoader: false})
+};
+
+const fetchCntStart = (state, action) => {
+    return updateObject(state, {showLoader: true})
 };
 
 const fetchCntReset = (state, action) => {
-    return updateObject(state, {cnts: null, skipCnt: null, cntTotal: null})
+    return updateObject(state, {cnts: null, skipCnt: null, cntTotal: null, showLoader: false})
 };
 
 const fetchPostFail = (state, action) => {
-    return updateObject(state, {cntErr: action.err})
+    return updateObject(state, {cntErr: action.err, showLoader: false})
 };
 
 const changeCntStart = (state, action) => {
@@ -110,6 +115,8 @@ const reducer = (state = initialState, action) => {
             return fetchCnt(state, action);
         case actionTypes.FETCH_CNT_RESET:
             return fetchCntReset(state, action);
+        case actionTypes.FETCH_CNT_START:
+            return fetchCntStart(state, action);
         case actionTypes.FETCH_CNT_FAIL:
             return fetchPostFail(state, action);
         case actionTypes.CHANGE_CNT_START:

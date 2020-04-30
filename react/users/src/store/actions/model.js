@@ -10,6 +10,12 @@ export const fetchCntInit = (fetchType, fetchLimit, skipCnt, cntTotal) => {
     }
 };
 
+export const fetchCntStart = () =>{
+    return {
+        type: actionTypes.FETCH_CNT_START
+    };
+}
+
 export const fetchCntReset = () =>{
     return {
         type: actionTypes.FETCH_CNT_RESET,

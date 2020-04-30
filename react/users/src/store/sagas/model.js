@@ -4,6 +4,9 @@ import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
 export function* fetchCntInitSaga(action) {
+    if (action.cntTotal > action.skipCnt) {
+        yield put(actions.fetchCntStart());
+    }
     try {
         if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
             let response =  yield axios.post('/users', null,{
