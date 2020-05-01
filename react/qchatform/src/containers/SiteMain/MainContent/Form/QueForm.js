@@ -90,57 +90,17 @@ class QueForm extends  Component {
         formIsValid: false,
         showForm: false,
         answer: [],
+        qchat: null,
         queNum: Number.parseInt(this.props.location.search.split('=')[1]),
         oldQueNum: Number.parseInt(this.props.location.search.split('=')[1]),
         active: null,
         default: null,
+        update: false,
         reset: false
     }
 
     componentDidMount() {
-        this.setState({default: {...this.state}})
-
-        if (this.props.qchat && this.props.qchat.length > 0 && this.props.qchat.filter(cnt => cnt.position === this.state.queNum)[0]) {
-            let cnt = this.props.qchat.filter(cnt => cnt.position === this.state.queNum)[0];
-            let qchat = JSON.parse(cnt.option)
-            let oldEditor = this.state.formElement;
-            let q1 = {...oldEditor.q1};
-            q1.value = qchat.q1;
-            let q2 = {...oldEditor.q2};
-            q2.value = qchat.q2;
-            let q3 = {...oldEditor.q3};
-            q3.value = qchat.q3;
-            let q4 = {...oldEditor.q4};
-            q4.value = qchat.q4;
-            let editor = {...oldEditor.question};
-            editor.value = EditorState.createWithContent(convertFromRaw(JSON.parse(qchat.question)));
-            oldEditor.question = editor;
-            oldEditor.question.valid = true;
-            oldEditor.question.touched = true;
-            oldEditor.q1 = q1;
-            oldEditor.q1.valid = true;
-            oldEditor.q1.touched = true;
-            oldEditor.q2 = q2;
-            oldEditor.q2.valid = true;
-            oldEditor.q2.touched = true;
-            oldEditor.q3 = q3;
-            oldEditor.q3.valid = true;
-            oldEditor.q3.touched = true;
-            oldEditor.q4 = q4;
-            oldEditor.q4.valid = true;
-            oldEditor.q4.touched = true;
-            
-            this.props.onSetMedia({
-                video: cnt.video,
-                image: cnt.image
-            })
-            this.setState({
-                formElement: oldEditor,
-                answer: JSON.parse(cnt.answer),
-                formIsValid: true
-            })
-        }
-
+        this.updateForm()
         let numberOfAjaxCAllPending = 0;
         let these = this;
         if (!this.props.qchat.length > 0 || !this.props.qchat.filter(cnt => cnt.position === 0)[0]) {
@@ -195,14 +155,71 @@ class QueForm extends  Component {
             }
             this.setState({showForm: false});
         } 
-        if (this.state.oldQueNum !== this.state.queNum) {
-            this.props.history.push('/add/qchat/?id='+this.state.queNum)
+        if ((this.state.oldQueNum !== this.state.queNum)) {
+            this.props.history.push('/add/qchat/?id='+this.state.queNum)   
             this.setState({
-                ...this.state.default,
+                disable: true,showAddItm: false, showVidOpt: false,showImgOpt: false,showUserOpt: false, showAddItmOpt: true,editCnt: false,editInput: '',
+                formElement: {
+                    question: {value: EditorState.createEmpty(),validation: {required: true,minLength: 1},valid: false,touched: false },
+                    q1: {value: '',validation: {required: true,minLength: 1},valid: false,touched: false},
+                    q2: {value: '',validation: {required: true,minLength: 1},valid: false,touched: false},
+                    q3: {value: '',validation: {required: true,minLength: 1},valid: false,touched: false},
+                    q4: {value: '',validation: {required: true,minLength: 1},valid: false,touched: false}
+                },
                 oldQueNum: this.state.queNum, 
                 queNum: this.state.queNum,
+                formIsValid: false,showForm: false, answer: [], default: null,update: false,reset: false
+            })
+        }
+        this.updateForm()
+    }
+
+    updateForm = () => {
+        if (this.props.qchat && this.props.qchat.length > 0 && this.props.qchat.filter(cnt => cnt.position === this.state.queNum)[0] && !this.state.update) {
+            let cnt = this.props.qchat.filter(cnt => cnt.position === this.state.queNum)[0];
+            let qchat = JSON.parse(cnt.option)
+            let oldEditor = this.state.formElement;
+            let q1 = {...oldEditor.q1};
+            q1.value = qchat.q1;
+            let q2 = {...oldEditor.q2};
+            q2.value = qchat.q2;
+            let q3 = {...oldEditor.q3};
+            q3.value = qchat.q3;
+            let q4 = {...oldEditor.q4};
+            q4.value = qchat.q4;
+            let editor = {...oldEditor.question};
+            editor.value = EditorState.createWithContent(convertFromRaw(JSON.parse(cnt.question)));
+            oldEditor.question = editor;
+            oldEditor.question.valid = true;
+            oldEditor.question.touched = true;
+            oldEditor.q1 = q1;
+            oldEditor.q1.valid = true;
+            oldEditor.q1.touched = true;
+            oldEditor.q2 = q2;
+            oldEditor.q2.valid = true;
+            oldEditor.q2.touched = true;
+            oldEditor.q3 = q3;
+            oldEditor.q3.valid = true;
+            oldEditor.q3.touched = true;
+            oldEditor.q4 = q4;
+            oldEditor.q4.valid = true;
+            oldEditor.q4.touched = true;
+            
+            this.props.onSetMedia({
+                video: cnt.video,
+                image: cnt.image
+            })
+            
+            this.setState({
+                disable: true,showAddItm: false, showVidOpt: false,showImgOpt: false,showUserOpt: false, showAddItmOpt: true,editCnt: false,editInput: '',
                 reset: false,
-                default: {...this.state.default}
+                default: {...this.state.default},
+                formElement: oldEditor,
+                answer: JSON.parse(cnt.answer),
+                oldQueNum: this.state.queNum, 
+                queNum: this.state.queNum,
+                update: true,
+                formIsValid: true
             })
         }
     }
@@ -254,7 +271,8 @@ class QueForm extends  Component {
     }
 
     navHandler = () => {
-        this.props.history.push(`/add/qchat/?id=${this.state.editInput}`)
+        this.props.history.push(`/add/qchat/?id=${this.state.editInput}`);
+        this.setState({reset: true, queNum: this.state.editInput, oldQueNum: this.state.editInput, update: false})
     };
 
     submitHandler = (mode) => {
@@ -276,14 +294,9 @@ class QueForm extends  Component {
             }
              if (mode === 'next') {
                 this.props.onAddQchat(newCnt);
-                this.setState({queNum: Number.parseInt(this.state.queNum)+1, reset: true})
+                this.setState({queNum: Number.parseInt(this.state.queNum)+1, reset: true, update: true})
              } else {
-                if (this.props.qchat.length > 1 && this.props.qchat.filter(cnt => cnt.position === '0')[0]) {
-                    this.props.onSubmitForm(newCnt)
-                } else {
-                    this.props.history.push(`/add/qchat/?id=0`)
-                }
-                
+                this.props.onSubmitForm(this.props.qchat ? this.props.qchat : newCnt)
              }
              
          return
@@ -296,8 +309,8 @@ class QueForm extends  Component {
      }
 
      editChangeHandler = (event) => {
-         let value = event.target.value;
-         this.setState({editInput: value > this.props.qchat.length ? this.props.qchat.length : value})
+         let value = Number.parseInt(event.target.value);
+         this.setState({editInput: value > this.props.qchat.length - 1 ? this.props.qchat.length - 1 : value})
      }
  
     ansTickedHandler = (event, opt) => {
@@ -335,7 +348,7 @@ class QueForm extends  Component {
             addItemOptClass.push('reuse-form__cnt--det__selec--opt__visible')
         }
 
-        if (this.state.editInput) {
+        if (this.state.editInput !== '') {
             editClass.push('reuse-form__cnt--det__tm--edit-show')
         }
 
@@ -527,19 +540,19 @@ class QueForm extends  Component {
                         <button 
                             type="button" 
                             className="reuse-form__btn--dft"
-                            disabled={this.props.qchat.length < 1 && !this.props.qchat.filter(cnt => cnt.position === '0')[0]}
+                            disabled={this.props.qchat.length < 1 && !this.props.qchat.filter(cnt => cnt.position === 0)[0]}
                             onClick={this.submitHandler.bind(this, 'draft')}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'eye-slash']} 
                                 className="icon icon__reuse-form--btn" />
                             Draft
                         </button>
-                        {this.props.qchat.length > 1 && this.props.qchat.filter(cnt => cnt.position === '0')[0] ?
+                        {this.props.qchat.length > 1 && this.props.qchat.filter(cnt => cnt.position === 0)[0] ?
                             <button 
                                 type="button" 
                                 className="reuse-form__btn--done reuse-form__btn--mid"
-                                disabled={this.props.qchat.length < 2 && !this.props.qchat.filter(cnt => cnt.position === '0')[0]}
-                                onClick={this.submitHandler.bind(this, 'done')}>
+                                disabled={this.props.qchat.length < 2 && !this.props.qchat.filter(cnt => cnt.position === 0)[0]}
+                                onClick={this.submitHandler.bind(this, 'publish')}>
                                 <FontAwesomeIcon 
                                     icon={['fas', 'check']} 
                                     className="icon icon__reuse-form--btn" />
@@ -579,7 +592,7 @@ const mapStateToProps = state => {
         snapshot: state.form.snapshot,
         media: state.form.media,
         uploadPercent: state.form.uploadPercent,
-        qchat: state.form.qchat,
+        qchat: localStorage.getItem('question') ? JSON.parse(localStorage.getItem('question')) : state.form.qchat,
         submitForm: state.form.submitForm,
         submitError: state.form.submitError,
         id: state.form.id

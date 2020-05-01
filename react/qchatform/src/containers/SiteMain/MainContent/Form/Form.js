@@ -147,6 +147,7 @@ class Form extends  Component {
                 image: qchat.image,
                 user: typeof qchat.participant === 'object'?  qchat.participant : null
             })
+            
             this.setState({
                 categs: qchat.categ,
                 formElement: oldEditor,
@@ -352,7 +353,7 @@ class Form extends  Component {
                 this.props.onAddQchat(newCnt)
                 this.props.history.push('/add/qchat/?id=1')
              } else {
-                this.props.onSubmitForm(newCnt)
+                this.props.onSubmitForm(this.props.qchat ? this.props.qchat : newCnt)
              }
              
          return
@@ -673,12 +674,12 @@ class Form extends  Component {
                                 className="icon icon__reuse-form--btn" />
                             Draft
                         </button>
-                        {this.props.qchat.length > 1 && this.props.qchat.filter(cnt => cnt.position === '0')[0] ?
+                        {this.props.qchat.length > 1 && this.props.qchat.filter(cnt => cnt.position === 0)[0] ?
                             <button 
                                 type="button" 
                                 className="reuse-form__btn--done reuse-form__btn--mid"
-                                disabled={this.props.qchat.length < 2 && !this.props.qchat.filter(cnt => cnt.position === '0')[0]}
-                                onClick={this.submitHandler.bind(this, 'done')}>
+                                disabled={this.props.qchat.length < 2 && !this.props.qchat.filter(cnt => cnt.position === 0)[0]}
+                                onClick={this.submitHandler.bind(this, 'publish')}>
                                 <FontAwesomeIcon 
                                     icon={['fas', 'check']} 
                                     className="icon icon__reuse-form--btn" />
@@ -712,7 +713,7 @@ const mapStateToProps = state => {
         hideMediaBox: state.form.hideMediaBox,
         snapshot: state.form.snapshot,
         media: state.form.media,
-        qchat: state.form.qchat,
+        qchat: localStorage.getItem('question') ? JSON.parse(localStorage.getItem('question')) : state.form.qchat,
         uploadPercent: state.form.uploadPercent,
         submitForm: state.form.submitForm,
         submitError: state.form.submitError,

@@ -120,15 +120,19 @@ const showUserSelect = (state, action) => {
 };
 
 const addQchat = (state, action) => {
-    let qchat = [...state.qchat];
+    let qchat = [...state.qchat].length < 1 ? localStorage.getItem('question') ? JSON.parse(localStorage.getItem('question')) : [...state.qchat] :  [...state.qchat];
     let filterQueChat = qchat.filter(que => que.position === action.cnt.position)[0];
     if (filterQueChat) {
         let qchatIndex = qchat.findIndex(que => que.position === action.cnt.position)
         qchat[qchatIndex] = {...action.cnt}
+        localStorage.removeItem('question')
+        localStorage.setItem('question', JSON.stringify(qchat))
         return updateObject(state, {qchat, media: {}})
     }
     qchat.push(action.cnt)
-    return updateObject(state, {qchat, media: {}, categ: null})
+    localStorage.removeItem('question')
+    localStorage.setItem('question', JSON.stringify(qchat))
+    return updateObject(state, {qchat, media: {}, categ: null, newCateg: null})
 };
 
 const setMedia = (state, action) => {
