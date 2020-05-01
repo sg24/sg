@@ -40,7 +40,7 @@ class Form extends Component {
 
     componentDidUpdate() {
         if (this.props.submitted) {
-            window.history.back()
+            window.location.assign(`/index/post`)
         }
     }
 
