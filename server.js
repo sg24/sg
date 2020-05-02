@@ -51,12 +51,12 @@ app.use(function(req, res, next) {
     // if(req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === "http") {
     //   return res.redirect(301, 'https://www.slodge24.com' + req.url);
     // }
-      let host = req.headers.host;
-      if (!host.match(/^www\..*/i)) {
-        return res.redirect(301, "https://www." + host + req.url);
-      } else if (req.headers['x-forwarded-proto'] !== 'https') {
-        return res.redirect('https://' + req.hostname + req.url);
-      }
+      // let host = req.headers.host;
+      // if (!host.match(/^www\..*/i)) {
+      //   return res.redirect(301, "https://www." + host + req.url);
+      // } else if (req.headers['x-forwarded-proto'] !== 'https') {
+      //   return res.redirect('https://' + req.hostname + req.url);
+      // }
   next();
 });
 
