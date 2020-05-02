@@ -1,6 +1,9 @@
-import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import 'events-polyfill';
+import 'core-js/features/array/find';
+import 'core-js/features/array/includes';
+import 'core-js/features/number/is-nan';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
@@ -85,3 +88,5 @@ const app = (
 ReactDOM.render(app, document.getElementById('root'));
 
 serviceWorker.register();
+
+// yarn add array.prototype.fill<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,es6"></script><script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.prototype.includes"></script>
