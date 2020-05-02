@@ -67,7 +67,7 @@ router.post('/user/profile/:id',authenticate, (req, res,next) => {
                         subjectque: cnt.subjectque,
                         subjectpoet: cnt.subjectpoet,
                         student: cnt.student,
-                        studenttotal: cnt.studenttotal,
+                        studenttotal: cnt.studenttotal + teacher.length,
                         status: cnt.status,
                         about: cnt.about,
                         offline: cnt.offline,
