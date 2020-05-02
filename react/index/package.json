@@ -15,10 +15,7 @@
     "extends": "react-app"
   },
   "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not op_mini all",
-    "ie 11"
+    ">0.01%"
   ],
   "devDependencies": {}
 }
