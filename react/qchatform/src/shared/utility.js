@@ -1,3 +1,5 @@
+import './idb';
+
 export const updateObject = (oldObject, updatedProperties) => {
     return {
         ...oldObject,
