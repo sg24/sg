@@ -59,7 +59,10 @@ nextApp.prepare().then(() => {
   app.use('/chat', chatRoute);
   app.use('/conv', convRoute);
   app.use('/sitemap.xml', sitemapxmlRoute);
-
+  app.use(function (req, res, next) {
+      return res.redirect('/index/post');
+  });
+  
   app.all('*', (req, res) => {
     return handle(req, res)
   })
