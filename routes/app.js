@@ -1,5 +1,6 @@
 let express = require('express');
 let router = express.Router();
+let path = require('path');
 let mongoose = require('mongoose');
 let jwt = require('jsonwebtoken');
 let authenticate = require('../serverDB/middleware/authenticate');
@@ -873,6 +874,10 @@ router.get('/signup', (req, res, next) => {
 
 router.get('/forget/password', (req, res, next) => {
     res.render('forgetpwd'); 
+});
+
+router.get('/ads.txt', (req, res, next) => {
+    res.sendFile(path.join(__dirname, '../public', 'ads.txt'));
 });
 
 router.post('/forget/password', (req, res, next) => {
