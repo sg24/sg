@@ -102,7 +102,10 @@ export {
     fetchTagsStart,
     fetchTagsFail,
     fetchTags,
-    fetchTagsSuccess
+    fetchTagsSuccess,
+    fetchTagsCategInit,
+    fetchTagsCategStart,
+    fetchTagsCateg,
 } from './tags';
 
 export {

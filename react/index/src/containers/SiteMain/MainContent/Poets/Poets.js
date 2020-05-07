@@ -46,6 +46,13 @@ class Model extends Component {
             window.addEventListener('scroll', this.onScroll, false);
             this.setState({scrollEnable: true})
         }
+        if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id !== 'share' && this.props.match.params.id !== 'filter' && this.props.match.params.id !== 'startfilter') {
+            this.props.onFetchCntReset();;
+            this.props.onFetchCnt(this.props.userID, `poet-${this.props.match.params.id}`, this.state.fetchLimit, 0, 0);
+            this.setState({
+                filterTag: this.props.match.params.id
+            });
+        }
     }
 
 

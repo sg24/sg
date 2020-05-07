@@ -5,7 +5,7 @@ import { checkAuthInitSaga } from './auth';
 import { fetchCntInitSaga, joinGrpInitSaga, changeFavSaga, changeCntInitSaga } from './model';
 import { fetchCntCategInitSaga, filterContentInitSaga } from './filter';
 import { fetchUsersInitSaga, filterUserInitSaga, filterUserSelectInitSaga, shareUserInitSaga } from './share';
-import { fetchTagsInitSaga } from './tags';
+import { fetchTagsInitSaga, fetchTagsCategInitSaga } from './tags';
 import { fetchTrdInitSaga } from './trend';
 import { fetchCategInitSaga } from './setQue';
 import { fetchConvInitSaga } from './conv';
@@ -65,7 +65,8 @@ export function* watchTags() {
 
 export function* watchTrd() {
     yield all([
-        takeEvery(actionTypes.FETCH_TRD_INIT, fetchTrdInitSaga)
+        takeEvery(actionTypes.FETCH_TRD_INIT, fetchTrdInitSaga),
+        takeEvery(actionTypes.FETCH_TAGS_CATEG_INIT, fetchTagsCategInitSaga)
     ])
 }
 

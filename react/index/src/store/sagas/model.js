@@ -4,13 +4,14 @@ import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
 export function* fetchCntInitSaga(action) {
-    let model = action.fetchType === 'post' ? '/post' : action.fetchType === 'question' || action.fetchType === 'shared' ?
-    '/question':'/'+action.fetchType;
-    let categ = action.fetchType === 'shared' ? `shared-${action.userID}` : action.fetchType;
+    let fetchType = action.fetchType.split('-')[0];
+    let model = fetchType === 'post' ? '/post' : fetchType === 'question' || fetchType === 'shared' ?
+    '/question':'/'+fetchType;
+    let categ = fetchType === 'shared' ? `shared-${action.userID}` : action.fetchType.split('-')[1] ? action.fetchType.split('-')[1] : action.fetchType.split('-')[0];
     if (action.cntTotal > action.skipCnt) {
         yield put(actions.fetchCntStart());
     }
-    
+ 
     try {
         if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
             let response = yield axios.post(model, null,{

@@ -8,6 +8,7 @@ const ptCatgory = props => {
         <Category 
             key={index}
             categ={category}
+            path={props.path}
         />
     ));
 

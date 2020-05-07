@@ -38,3 +38,24 @@ export const fetchTags = (tags) => {
         tags
     };
 };
+
+export const fetchTagsCategInit = (path) => {
+    return {
+        type: actionTypes.FETCH_TAGS_CATEG_INIT,
+        path
+    };
+};
+
+export const fetchTagsCategStart = (path) => {
+    return {
+        type: actionTypes.FETCH_TAGS_CATEG_START,
+        path
+    };
+};
+
+export const fetchTagsCateg= (categ) => {
+    return {
+        type: actionTypes.FETCH_TAGS_CATEG,
+        categ
+    };
+};

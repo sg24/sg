@@ -10,3 +10,12 @@ export function* fetchTagsInitSaga() {
     } catch(e) {}
 
 }
+
+export function* fetchTagsCategInitSaga(action) {
+    try {
+        yield put(actions.fetchTagsCategStart())
+        let response = yield axios.post('/header', {categ: String(action.path).split('/')[1]}, {headers: {'data-categ':'category'}});
+        yield put(actions.fetchTagsCateg(response.data));
+    } catch(e) {}
+
+}

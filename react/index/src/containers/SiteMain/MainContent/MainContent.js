@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 
+import './MainContent.css';
 import * as actions from '../../../store/actions/index';
+import Category from './Category/Category';
 import asyncComponent from '../../../hoc/asyncComponent/asyncComponent';
 import MainNavigations from '../../../components/MainNavigations/MainNavigations';
 import Loader from '../../../components/UI/Loader/Loader';
@@ -137,6 +138,19 @@ class MainContent extends Component {
     render() {
         let loaderCnt = null;
 
+        let categ = (
+            <div className="reuse-filter">
+                <div className="reuse-filter__wrapper">
+                { this.props.path !== '/users' && this.props.path !== '/helpme' ? <Category /> : null}
+                <div className="reuse-filter__add">
+                    <a href={this.props.path}>
+                        More Filter
+                    </a>
+                </div>
+                </div>
+            </div>
+        )
+
         if (this.props.showLoader) {
             loaderCnt = (
                 <div className="site-main__content--loader">
@@ -178,6 +192,9 @@ class MainContent extends Component {
                     removeActive={this.removeActiveHandler.bind(this, 'poet')}
                     active={this.state.curTab !== 'poet' ? this.props.cntActive : null}/>
                 </ul>
+                {this.props.status && (this.props.path === '/users' || this.props.path === '/group')
+                ? categ: null }
+                {this.props.path !== '/users' && this.props.path !== '/group' && this.props.path !== '/helpme'  ? categ : null }
                 <Switch>
                     <Route path="/index/post" exact component={AsyncPosts}/>
                     <Route path="/index/post/:id" exact component={AsyncPosts}/>
@@ -186,6 +203,7 @@ class MainContent extends Component {
                     <Route path="/index/helpme" exact component={AsyncHelpme}/>
                     <Route path="/index/helpme/:id" exact component={AsyncHelpme}/>
                     <Route path="/index/group"  component={AsyncGroups}/>
+                    <Route path="/index/group/:id" exact component={AsyncGroups}/>
                      <Route path="/index/user" exact component={AsyncUsers}/>
                     <Route path="/index/poet" exact component={AsyncPoets}/>
                     <Route path="/index/poet/:id" exact component={AsyncPoets}/>
@@ -209,7 +227,8 @@ const mapStateToProps = state => {
        reqActive: state.main.reqActive,
        joinActive: state.main.joinActive,
        cntFetch: state.cnt.cnts !== null,
-       showLoader: state.cnt.showLoader
+       showLoader: state.cnt.showLoader,
+       path: state.tags.path
     };
 };
 
