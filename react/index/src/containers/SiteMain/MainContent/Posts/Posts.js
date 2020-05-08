@@ -17,9 +17,9 @@ class Posts extends Component {
         this.props.onFetchCntReset();
         let limit = 0;
         if (window.innerHeight >= 1200) {
-            limit = 18
+            limit = 12
         } else if(window.innerHeight >= 900) {
-            limit = 12;
+            limit = 10;
         } else if(window.innerHeight >= 500) {
             limit = 9
         } else {

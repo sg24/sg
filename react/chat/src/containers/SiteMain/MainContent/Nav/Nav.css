@@ -27,6 +27,7 @@
       flex-direction: column;
   -ms-flex-positive: 1;
       flex-grow: 1;
+    overflow: hidden;
 }
 
 .site-main__chat--nav__shad {

@@ -137,7 +137,6 @@ class MainContent extends Component {
 
     render() {
         let loaderCnt = null;
-
         let categ = (
             <div className="reuse-filter">
                 <div className="reuse-filter__wrapper">
@@ -202,7 +201,7 @@ class MainContent extends Component {
                     <Route path="/index/question/:id" component={AsyncQuestions}/>
                     <Route path="/index/helpme" exact component={AsyncHelpme}/>
                     <Route path="/index/helpme/:id" exact component={AsyncHelpme}/>
-                    <Route path="/index/group"  component={AsyncGroups}/>
+                    <Route path="/index/group" exact component={AsyncGroups}/>
                     <Route path="/index/group/:id" exact component={AsyncGroups}/>
                      <Route path="/index/user" exact component={AsyncUsers}/>
                     <Route path="/index/poet" exact component={AsyncPoets}/>
