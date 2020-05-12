@@ -46,9 +46,9 @@ export function* watchFilter() {
 
 export function* watchShare() {
     yield all([
-        takeEvery(actionTypes.FETCH_USERS_INIT, fetchUsersInitSaga),
+        takeLatest(actionTypes.FETCH_USERS_INIT, fetchUsersInitSaga),
         takeEvery(actionTypes.FILTER_USER_INIT, filterUserInitSaga),
-        takeEvery(actionTypes.FETCH_INFO_INIT, fetchInfoInitSaga),
+        takeLatest(actionTypes.FETCH_INFO_INIT, fetchInfoInitSaga),
         takeEvery(actionTypes.CHANGE_CNT_INIT, changeCntInitSaga)
     ])
 

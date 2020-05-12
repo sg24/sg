@@ -108,7 +108,7 @@ export function* watchMain() {
 export function* watchGroup() {
     yield all([
         takeEvery(actionTypes.FILTER_GRPUSER_INIT, filterGrpUserInitSaga),
-        takeEvery(actionTypes.FETCH_INFO_INIT, fetchInfoInitSaga),
+        takeLatest(actionTypes.FETCH_INFO_INIT, fetchInfoInitSaga),
         takeEvery(actionTypes.CHANGE_GRPCNT_INIT, changeGrpCntInitSaga)
     ])
 

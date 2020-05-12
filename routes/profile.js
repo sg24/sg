@@ -1,8 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const {posts, questions, poets, connectStatus, user, authUser} = require('../serverDB/serverDB');
+const { connectStatus, user, authUser, tempFile} = require('../serverDB/serverDB');
+let formidable = require('formidable');
+
+let formInit = require('./utility/forminit');
+let uploadToBucket = require('./utility/upload');
+let savetemp = require('./utility/savetemp');
 const authenticate = require('../serverDB/middleware/authenticate');
-let notifications = require('./utility/notifications');
 
 router.get('/user/profile/:id', authenticate, (req, res, next) => {
     if (!req.params.id) {
@@ -56,7 +60,6 @@ router.post('/user/profile/:id',authenticate, (req, res,next) => {
                     let userTeacherFilter = userTeacher.filter(id => id === cnt._id.toHexString());
                     let teacher = cnt.teacher || [];
                     let teacherFilter = teacher.filter(id => id === req.user);
-
                     let id = cnt._id.toHexString();
                     let userDet = {
                         id, 
@@ -109,11 +112,30 @@ router.post('/user/profile/:id',authenticate, (req, res,next) => {
     }
 
     if (req.header && req.header('data-categ') === 'profileImage') { 
-        let model = req.userType === 'authUser' ? authUser : user;
-        model.findByIdAndUpdate(req.user, {image: req.body.image}).then(() => {
-            res.sendStatus(200);
-        }).catch(err => {
-            res.status(500).send(err)
+        formInit(req, formidable).then(form => {
+            let imageFile = form.files && form.files.image ? form.files.image : null; 
+            if (imageFile) {
+                savetemp([], imageFile, req.user).then(tempFileID => {
+                    uploadToBucket(imageFile, tempFileID, 'image', 'image', 'image.files').then(image => {
+                        if (image && image.length > 0) {
+                            let model = req.userType === 'authUser' ? authUser : user;
+                            model.findByIdAndUpdate(req.user, {image: `https://wwww.slodge24.com/media/image/${image[0].id}`}).then(() => {
+                                tempFile.findByIdAndRemove(tempFileID).then(() => {
+                                    res.sendStatus(200);
+                                })
+                            }).catch(err => {
+                                res.status(500).send(err)
+                            })
+                        } else {
+                            res.sendStatus(500)
+                        }
+                    })
+                }).catch(err => {
+                    res.status(500).send(err)
+                })
+            } else {
+                res.sendStatus(442);
+            }
         })
         return;
     }

@@ -1,0 +1,53 @@
+    
+.site-header__user--det__addNew {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    right: 0px;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    background-color: #16cf27;;
+    cursor: pointer;
+    color: #fff;
+    font-size: .625rem;
+}
+
+.site-header__user--det__add {
+    background: #0284a8;
+    color: #fff;
+    text-align: center !important;
+    padding: 5px 0 !important;
+}
+
+@media (min-width:  530px) {
+    .site-header__user--det__addNew {
+        display: none;
+    }
+}
+
+.site-header__user--det__opt {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 0;
+    right: auto;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #15a4fa;
+    background-color: #fff;
+    cursor: pointer;
+    color: #333;
+    font-size: 1rem;
+}
+
+@media (min-width:  530px) {
+    .site-header__user--det__opt {
+        right: 0;
+        left: auto;
+    }
+}

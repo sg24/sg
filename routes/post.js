@@ -41,29 +41,13 @@ router.post('/', authenticate, (req, res, next) => {
                         res.send({cnt: cntArray, cntTotal}).status(200)
                     }
                     for (let cnt of result) {
-                        user.findById(cnt.authorID).then(userFnd => {
-                            if (!userFnd) {
-                                authUser.findById(cnt.authorID).then(authFnd => {
-                                   if (authFnd) {
-                                    fetch(authFnd.username, authFnd.image, cnt, cntArray).then(cnt => {
-                                        cntArray = cnt;
-                                        ++send;
-                                        if (send === result.length) {
-                                            res.send({cnt: cntArray, cntTotal}).status(200)
-                                        }
-                                    })
-                                   }
-                                })
-                            } else {
-                                fetch(userFnd.username, userFnd.image, cnt, cntArray).then(cnt => {
-                                    cntArray = cnt;
-                                    ++send 
-                                    if (send === result.length) {
-                                        res.send({cnt: cntArray, cntTotal}).status(200)
-                                    }
-                                })
+                        fetch(cnt.username, cnt.userImage, cnt, cntArray).then(cnt => {
+                            cntArray = cnt;
+                            ++send 
+                            if (send === result.length) {
+                                res.send({cnt: cntArray, cntTotal}).status(200)
                             }
-                        })   
+                        }) 
                     }
                     
                     function fetch(username, image, cnt, cntArray) {

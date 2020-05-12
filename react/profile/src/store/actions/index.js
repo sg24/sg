@@ -56,7 +56,6 @@ export {
     checkLink,
     resetLink,
     changePrfImage,
-    submitImageInit,
     submitImageFail,
     submitImageStart,
     submitImage,
@@ -107,3 +106,7 @@ export {
     showMainBackdrop,
     hideMainBackdrop
 } from './main';
+
+export {
+    submitImageInit
+} from '../thunk/submit'

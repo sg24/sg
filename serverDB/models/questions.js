@@ -9,6 +9,13 @@ const QuestionSchema = new Schema({
         type: String,
         required: true
     },
+    username: {
+        type: String,
+        required: true
+    },
+    userImage: {
+        type: String
+    },
     queCreated: { 
         type: Date, 
         default: Date.now,

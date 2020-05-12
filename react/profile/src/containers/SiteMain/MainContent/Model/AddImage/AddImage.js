@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {  withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './AddImage.css';
@@ -124,7 +125,7 @@ class AddImage extends Component {
 
     submitMediaHandler = () => {
         if (this.props.profileImage) {
-            this.props.onSubmitImage(this.props.profileImage, this.props.imageUrl);
+            this.props.onSubmitImage(this.props.profileImage, this.props.imageUrl, this.props.match.params.id);
         }
     }
 
@@ -258,9 +259,9 @@ const mapDispatchToProps = dispatch => {
     return {
         onCheckLink: (imageLink) => dispatch(actions.checkLinkInit(imageLink, 'image')),
         onResetLink: () => dispatch(actions.resetLink()),
-        onSubmitImage: (image, url) => dispatch(actions.submitImageInit(image, url)),
+        onSubmitImage: (image, url, userID) => dispatch(actions.submitImageInit(image, url, userID)),
         onChangeImage: () => dispatch(actions.changeImage())
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddImage)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddImage))

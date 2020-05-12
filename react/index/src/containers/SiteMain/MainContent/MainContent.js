@@ -198,7 +198,7 @@ class MainContent extends Component {
                     <Route path="/index/post" exact component={AsyncPosts}/>
                     <Route path="/index/post/:id" exact component={AsyncPosts}/>
                     <Route path="/index/question" exact component={AsyncQuestions}/>
-                    <Route path="/index/question/:id" component={AsyncQuestions}/>
+                    <Route path="/index/question/:id" exact component={AsyncQuestions}/>
                     <Route path="/index/helpme" exact component={AsyncHelpme}/>
                     <Route path="/index/helpme/:id" exact component={AsyncHelpme}/>
                     <Route path="/index/group" exact component={AsyncGroups}/>

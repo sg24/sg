@@ -9,6 +9,13 @@ const PoetSchema = new Schema({
         type: String,
         required: true
     },
+    username: {
+        type: String,
+        required: true
+    },
+    userImage: {
+        type: String
+    },
     pwtCreated: { 
         type: Date, 
         default: Date.now,

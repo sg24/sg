@@ -5,7 +5,7 @@ import { checkAuthInitSaga } from './auth';
 import { fetchCntInitSaga, 
             saveAboutInitSaga,  
             checkLinkInitSaga, 
-            changeFavSaga, changeCntInitSaga, submitImageInitSaga } from './model';
+            changeFavSaga, changeCntInitSaga } from './model';
 import { fetchTagsInitSaga } from './tags';
 import { fetchTrdInitSaga } from './trend';
 import { fetchCategInitSaga } from './setQue';
@@ -32,7 +32,6 @@ export function* watchCnt() {
         takeLatest(actionTypes.FETCH_CNT_INIT, fetchCntInitSaga),
         takeLatest(actionTypes.SAVE_ABOUT_INIT, saveAboutInitSaga),
         takeEvery(actionTypes.CHECK_LINK_INIT, checkLinkInitSaga),
-        takeEvery(actionTypes.SUBMIT_IMAGE_INIT, submitImageInitSaga),
         takeEvery(actionTypes.CHANGE_FAVORITE_INIT, changeFavSaga),
         takeLatest(actionTypes.CHANGE_CNT_INIT, changeCntInitSaga)
     ])

@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { createStore, combineReducers, applyMiddleware }  from 'redux'; 
 import { Provider } from 'react-redux';
 import  createSagaMiddleware from 'redux-saga';
+import reduxThunk from 'redux-thunk';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
@@ -49,7 +50,7 @@ const rootReducers = combineReducers({
     main
 })
 
-const store = createStore(rootReducers, applyMiddleware(sagaMiddleware));
+const store = createStore(rootReducers, applyMiddleware(reduxThunk, sagaMiddleware));
 
 sagaMiddleware.run(watchAuth);
 sagaMiddleware.run(watchCnt);

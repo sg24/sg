@@ -33,7 +33,7 @@ router.post('/add/post', authenticate, (req, res, next) => {
                     let userModel = req.userType === 'authUser' ? authUser : user;
                     const content = form.fields;
                     connectStatus.then((result) => {
-                        submit(content, posts, mediaCnt, postnotifies, viewnotifies, userModel, req.user, 'postID', 'subjectpost', 'post', 'postpub', res, category, tempFileID).then(id =>
+                        submit(content, posts, mediaCnt, postnotifies, viewnotifies, userModel, {authorID: req.user, username: req.username, userImage: req.userImage}, 'postID', 'subjectpost', 'post', 'postpub', res, category, tempFileID).then(id =>
                             res.status(201).send(id)
                         ).catch(err => {
                             res.status(500).send(err)
@@ -110,7 +110,7 @@ router.post('/add/question', authenticate, (req, res, next) => {
                     let userModel = req.userType === 'authUser' ? authUser : user;
                     const content = form.fields;
                     connectStatus.then((result) => {
-                        submit(content, questions, mediaCnt, quenotifies, viewnotifies, userModel, req.user, 'queID', 'subjectque', 'question', 'quepub', res, category, tempFileID).then(id =>
+                        submit(content, questions, mediaCnt, quenotifies, viewnotifies, userModel, {authorID: req.user, username: req.username, userImage: req.userImage}, 'queID', 'subjectque', 'question', 'quepub', res, category, tempFileID).then(id =>
                             res.status(201).send(id)
                         ).catch(err => {
                             res.status(500).send(err)
@@ -187,7 +187,7 @@ router.post('/add/poet', authenticate, (req, res, next) => {
                     let userModel = req.userType === 'authUser' ? authUser : user;
                     const content = form.fields;
                     connectStatus.then((result) => {
-                        submit(content, poets,mediaCnt, pwtnotifies, viewnotifies, userModel, req.user, 'pwtID', 'subjectpoet', 'poet', 'pwtpub', res, category, tempFileID).then(id =>
+                        submit(content, poets,mediaCnt, pwtnotifies, viewnotifies, userModel, {authorID: req.user, username: req.username, userImage: req.userImage}, 'pwtID', 'subjectpoet', 'poet', 'pwtpub', res, category, tempFileID).then(id =>
                             res.status(201).send(id)
                         ).catch(err => {
                             res.status(500).send(err)
@@ -264,7 +264,7 @@ router.post('/add/group', authenticate, (req, res, next) => {
                     let userModel = req.userType === 'authUser' ? authUser : user;
                     const content = form.fields;
                     connectStatus.then((result) => {
-                       create(content, group, mediaCnt, grpnotifies, userModel, req.user, 'group', 'groups', res, category, tempFileID).then(id =>
+                        create(content, group, mediaCnt, grpnotifies, userModel, req.user, 'group', 'groups', res, category, tempFileID).then(id =>
                             res.status(201).send(id)
                         ).catch(err => {
                             res.status(500).send(err)

@@ -9,9 +9,10 @@ module.exports = submitForm = (content, model, mediaCnt, notify, viewnotify, use
     let shareMe = content.shareMe !== '' ? String(content.shareMe).split(',') : [];
     let id = null;
     let fileID = [];
-
     let newDoc = new model({
-        authorID: userID,
+        authorID: userID.authorID,
+        username: userID.username, 
+        userImage: userID.userImage,
         category: categ,
         video: mediaCnt.video,
         image: mediaCnt.image,
@@ -27,14 +28,14 @@ module.exports = submitForm = (content, model, mediaCnt, notify, viewnotify, use
 
         function notification() {
             notifications(shareMe, notify, id, updateField).then(() => {
-                viewnotify.findOneAndUpdate({userID}, {$inc: {[field]: 1}}).then(result => {
+                viewnotify.findOneAndUpdate({userID: userID.authorID}, {$inc: {[field]: 1}}).then(result => {
                    if (result) {
                     tempFile.findByIdAndRemove(tempFileID).then(() => {
                         completeSubmit();
                     })
                    } else {
                     let newNotiy = new viewnotify({
-                        userID,
+                        userID: userID.authorID,
                         [field]: 1
                     });
                     newNotify.save().then(() => {
@@ -49,7 +50,7 @@ module.exports = submitForm = (content, model, mediaCnt, notify, viewnotify, use
                     reject(err)
                 })
                function completeSubmit() {
-                userModel.findByIdAndUpdate(userID, {$addToSet: { [userField]: { $each: categ }}, $inc: {[modelField]: 1}}).then(result => {
+                userModel.findByIdAndUpdate(userID.authorID, {$addToSet: { [userField]: { $each: categ }}, $inc: {[modelField]: 1}}).then(result => {
                     if (result.enableNotification) {
                         let allSubscription = [];
                         user.find({_id: { $in : shareMe }}).then(users => {

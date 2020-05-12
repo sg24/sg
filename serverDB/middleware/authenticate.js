@@ -30,6 +30,8 @@ let authenticate = (req, res, next) => {
                    req.user = result._id.toHexString();
                    req.userType = 'authUser'
                    req.authType = result.temp;
+                   req.username = result.username;
+                   req.userImage = result.image
                    next();
                    checkStatus(req.signedCookies.token, 'authUser', res)
                    global.userDet = {id: result._id.toHexString(), type: 'authUser'}
@@ -39,6 +41,8 @@ let authenticate = (req, res, next) => {
             req.user = result._id.toHexString();
             req.userType = 'user';
             req.authType = false;
+            req.username = result.username;
+            req.userImage = result.image
             next();
             checkStatus(req.signedCookies.token, 'user', res)
             global.userDet = {id: result._id.toHexString(), type: 'user'}
