@@ -71,8 +71,9 @@ class Groups extends Component {
     onScroll = () => {
         if ((window.innerHeight + Math.ceil(window.pageYOffset + 1)) >= document.body.offsetHeight) {
             this.props.onFetchCnt(
+                    this.props.userID,
                     this.state.filterTag !== 'group' ? 
-                    this.state.filterTag === 'filter' ?  'filter=='+this.props.filterDet : this.state.filterTag : 'group',
+                    this.state.filterTag === 'filter' ?  'filter=='+this.props.filterDet : `group-${this.state.filterTag}` : 'group',
                     this.state.fetchLimit, this.props.skipCnt + this.state.fetchLimit, this.props.cntTotal);
         }
     } 
@@ -83,7 +84,7 @@ class Groups extends Component {
 
     groupInfoHandler = (cnt) => {
         this.props.onShareCnt({...cnt});
-        this.props.history.push(`/index/group/${cnt._id}`)
+        this.props.history.push(`/index/group/info/${cnt._id}`)
     }
 
     showUserOptHandler = (id) => {

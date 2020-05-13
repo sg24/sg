@@ -160,7 +160,7 @@ class SiteMain extends Component {
                         changeCnt={this.changeGrpCntHandler}
                         closeChangeCnt={this.closeChangeGrpCntHandler}/> : null}
                 <Route path={'/index/:id/share'} exact component={AsyncShare} />
-                <Route path="/index/group/:id" exact component={AsyncGroupInfo} />
+                <Route path="/index/group/info/:id" exact component={AsyncGroupInfo} />
         </div>
         )
     }

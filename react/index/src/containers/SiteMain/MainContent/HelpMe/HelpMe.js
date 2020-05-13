@@ -59,7 +59,7 @@ class Questions extends Component {
     onScroll = () => {
         if ((window.innerHeight + Math.ceil(window.pageYOffset + 1)) >= document.body.offsetHeight) {
             this.props.onFetchCnt(
-                    this.props.userID,  'shared' ,
+                    this.props.userID,  `shared-${this.state.filterTag}` ,
                     this.state.fetchLimit, this.props.skipCnt + this.state.fetchLimit, this.props.cntTotal);
         }
     } 

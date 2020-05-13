@@ -48,7 +48,9 @@ class Model extends Component {
     onScroll = () => {
         if ((window.innerHeight + Math.ceil(window.pageYOffset + 1)) >= document.body.offsetHeight) {
             this.props.onFetchCnt(
-                    this.props.userID,  'users' ,
+                    this.props.userID,  
+                    this.state.filterTag !== 'users' ? 
+                    this.state.filterTag === 'filter' ?  'filter=='+this.props.filterDet : `users-${this.state.filterTag}` : 'users' ,
                     this.state.fetchLimit, this.props.skipCnt + this.state.fetchLimit, this.props.cntTotal);
         }
     } 

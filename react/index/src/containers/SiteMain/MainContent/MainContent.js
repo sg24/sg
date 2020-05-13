@@ -96,8 +96,8 @@ class MainContent extends Component {
 
         axios.interceptors.response.use(function (response) {
             numberOfAjaxCAllPending--;
-            let active = setInterval(() => {
-                if (numberOfAjaxCAllPending === 0 && these.props.status) {
+            if (numberOfAjaxCAllPending === 0 && these.props.status) {
+                let active = setTimeout(() => {
                     these.props.onFetchShareActive();
                     these.props.onFetchShareCntActive();
                     these.props.onFetchNotifyActive();
@@ -107,9 +107,12 @@ class MainContent extends Component {
                     these.props.onFetchPtActive();
                     these.props.onFetchReqActive();
                     these.props.onFetchJoinActive();
-                }
-            }, 20000);
-            these.setState({active})
+                    clearTimeout(these.state.active)
+                    clearTimeout(active)
+                }, 20000);
+                these.setState({active})
+            }
+        
             return response;
         }, function (error) {
             numberOfAjaxCAllPending--;
@@ -118,7 +121,7 @@ class MainContent extends Component {
 
     componentWillUnmount() {
         if (this.state.active) {
-            clearInterval(this.state.active)
+            clearTimeout(this.state.active)
         }
     }
 
@@ -201,8 +204,8 @@ class MainContent extends Component {
                     <Route path="/index/question/:id" exact component={AsyncQuestions}/>
                     <Route path="/index/helpme" exact component={AsyncHelpme}/>
                     <Route path="/index/helpme/:id" exact component={AsyncHelpme}/>
-                    <Route path="/index/group" exact component={AsyncGroups}/>
                     <Route path="/index/group/:id" exact component={AsyncGroups}/>
+                    <Route path="/index/group"  component={AsyncGroups}/>
                      <Route path="/index/user" exact component={AsyncUsers}/>
                     <Route path="/index/poet" exact component={AsyncPoets}/>
                     <Route path="/index/poet/:id" exact component={AsyncPoets}/>
