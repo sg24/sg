@@ -7,7 +7,7 @@ import fileAxios from 'axios';
 export function* fetchCategInitSaga(action) {
     try {
         yield put(actions.fetchCategStart());
-        const category = yield axios.post('/group', null,{headers: {'data-categ':'groupCateg'}});
+        const category = yield axios.post('/header', {categ: 'advert'},{headers: {'data-categ':'category'}});
         const categ =  category.data && category.data.length > 0 ? category.data : [];
         yield put(actions.fetchCateg(categ))
     } catch(err){
@@ -51,6 +51,19 @@ export function* fetchUsersInitSaga(action) {
         yield put(actions.fetchUsers(response.data, action.userStatus));
     } catch(err) {
         yield put(actions.fetchUsersFail(err))
+    }
+}
+
+export function* fetchGroupInitSaga(action) {
+    try {
+        yield put(actions.fetchGroupStart())
+        let response = yield axios.post('/group', null,{headers: {'data-categ': 'onlygroup'}});
+        console.log(response.data)
+        yield put(actions.fetchGroup(response.data));
+    } catch(err) {
+        yield put(actions.fetchCategFail(err));
+        yield delay(2000);
+        yield put(actions.fetchCategReset());
     }
 }
 

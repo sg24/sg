@@ -75,13 +75,17 @@ export {
     userSelect,
     showUserSelectInit,
     showUserSelect,
+    showGroup,
+    fetchGroupInit,
+    fetchGroupStart,
+    fetchGroupFail,
+    fetchGroup,
     submitFormInit,
     submitFormFail,
     submitFormSuccess,
     submitFormStart,
     submitForm,
-    formSubmitted,
-    groupImage,
+    formSubmitted
 } from './form';
 
 export {

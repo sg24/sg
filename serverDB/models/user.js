@@ -119,6 +119,10 @@ var UserSchema = new mongoose.Schema({
     groups: {
         type:Number,
         default: 0
+    },
+    advert: {
+        type:Number,
+        default: 0
     }
 }) ;
 

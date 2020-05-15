@@ -21,13 +21,13 @@ export const submit = (formData) => {
     
             if (key === 'image' && formData[key].length > 0) {
                 for (let image of formData[key]) {
-                    let ext = image.imageCapture.type.split('/').pop();
-                    formContent.append(key, image.imageCapture, `${image.id}.${ext}`);
+                    let ext = image.file.type.split('/').pop();
+                    formContent.append(key, image.file, `${image.id}.${ext}`);
                 }
             }
         }
 
-        axios.post('/add/group', formContent, {
+        axios.post('/add/advert', formContent, {
             onUploadProgress: function (progressEvent) {
                 if (progressEvent.lengthComputable) {
                     const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);

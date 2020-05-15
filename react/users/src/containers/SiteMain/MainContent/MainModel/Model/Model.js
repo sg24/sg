@@ -44,16 +44,18 @@ class Model extends Component {
 
         axios.interceptors.response.use(function (response) {
             numberOfAjaxCAllPending--;
-            let active = setInterval(() => {
-                if (numberOfAjaxCAllPending === 0 && these.props.status) {
+            if (numberOfAjaxCAllPending === 0 && these.props.status) {
+                let active = setTimeout(() => {
                     these.props.onFetchShareActive();
                     these.props.onFetchNotifyActive();
                     these.props.onFetchReqActive();
                     these.props.onFetchNavActive();
                     these.props.onFetchTotal();
-                }
-            }, 20000);
-            these.setState({active})
+                    clearTimeout(these.state.active)
+                    clearTimeout(active)
+                }, 10000);
+                these.setState({active})
+            }
             return response;
         }, function (error) {
             numberOfAjaxCAllPending--;
@@ -62,7 +64,7 @@ class Model extends Component {
 
     componentWillUnmount() {
         if (this.state.active) {
-            clearInterval(this.state.active)
+            clearTimeout(this.state.active)
         }
     }
 

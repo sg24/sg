@@ -18,7 +18,7 @@ import Aux from '../../../../hoc/Auxs/Aux';
 const modelContent = props => {
     const formatter = buildFormatter(engStrings);
     let desc =  JSON.parse(props.cnt.desc)
-    if (props.cntGrp !== 'post') {
+    if (props.cntGrp !== 'post' && props.cntGrp !== 'advert') {
         desc.blocks[0].text = props.cnt.title;
     }
     const htmlContent = draftToHtml(desc,{ trigger: '#',separator: ' '}, true);
@@ -79,7 +79,7 @@ let meta = null;
                 <meta property="og:type" content="article" />
                 <meta property="og:url" content={`${props.url}`} />
                 {mediaCnt.length > 0 ?  <meta property="og:image" content={`${mediaCnt[0].url}`} /> : null}
-                <meta property="og:description" content={`${props.cntGrp === 'post' ? desc.blocks[0].text : 'slodge24 | Knowledge sharing platform'}`}/>
+                <meta property="og:description" content={`${props.cntGrp === 'post' ? desc.blocks[0].text : props.cntGrp === 'advert' ? 'Advertise your product free on www.slodge24.com' : 'slodge24 | Knowledge sharing platform'}`}/>
                 <meta property="og:site_name" content={`https://www.slodge24.com`}/>	
             </MetaTags>
         )
@@ -209,7 +209,7 @@ let meta = null;
         );
     } 
 
-    if (props.cntGrp === 'post') {
+    if (props.cntGrp === 'post' || props.cntGrp === 'advert') {
         header = (
             <div className="reuse-view__main--header">
             <p className="reuse-view__main--header__title">
@@ -220,7 +220,7 @@ let meta = null;
                     <FontAwesomeIcon 
                         icon={['far', 'clock']} 
                         className="icon icon__reuse-view--main__tm" />
-                    {<TimeAgo date={props.cnt.postCreated} live={false} formatter={formatter}/>}
+                    {<TimeAgo date={props.cntGrp === 'advert' ? props.cnt.created : props.cnt.postCreated} live={false} formatter={formatter}/>}
                 </li>
                 <li className="reuse-view__main--header__det--ans">Comments <div>{ props.commentTotal }</div></li>
                 <li>

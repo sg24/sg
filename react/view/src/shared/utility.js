@@ -115,7 +115,7 @@ export function changeMode (oldCnts,changeCntStart,field, isUpdate) {
     return oldCnts
 }
 
-export const socket = io('https://www.slodge24.com');
+export const socket = io('http://localhost:3002');
 
 export const createChat = (url, category, cnt) => {
     return new Promise((resolve, reject) => {

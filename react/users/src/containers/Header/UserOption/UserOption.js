@@ -144,9 +144,18 @@ class UserOption extends Component {
                     <a href="/add/group">
                         <div>
                             <FontAwesomeIcon 
-                                icon={['fas', 'user-graduate']}  /> 
+                                icon={['fas', 'comment-alt']}  /> 
                         </div>
                         Chat Room
+                    </a>
+                </li>
+                <li className="site-header__user--det__logout">
+                    <a href="/add/advert">
+                        <div>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'bullhorn']}  /> 
+                        </div>
+                        Advert
                     </a>
                 </li>
             </Aux>

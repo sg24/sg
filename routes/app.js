@@ -16,7 +16,7 @@ let notification = require('./utility/notifications');
 let push = require('./utility/push');
 const global = require('../global/global');
 
-const {category,  posts, questions, poets, group, user, tempUser, postnotifies, 
+const {category,  posts, questions, poets, group, user,  adverts, tempUser, postnotifies, 
      authUser, quenotifies, pwtnotifies, viewnotifies, usernotifies,
      favorite, connectStatus, chatnotifies, grpchatnotifies} = require('../serverDB/serverDB');
 
@@ -369,7 +369,8 @@ router.post('/header', authenticate, (req, res, next) => {
 
     if (req.header('data-categ') === 'myModel') {
         let model = req.body.model === 'post' ? posts :
-        req.body.model === 'question' ? questions : req.body.model === 'group'  ? group : poets;
+        req.body.model === 'question' ? questions : req.body.model === 'group'  ? group : 
+        req.body.model === 'advert' ? adverts : poets;
         model.find({authorID: req.user}).count().then(result => {
             res.status(200).send(String(result))
         })
@@ -378,7 +379,8 @@ router.post('/header', authenticate, (req, res, next) => {
 
     if (req.header('data-categ') === 'editform') {
         let model = req.body.model === 'post' ? posts :
-        req.body.model === 'question' ? questions : req.body.model === 'group'  ? group : poets;
+        req.body.model === 'question' ? questions : req.body.model === 'group'  ? group :
+        req.body.model === 'advert' ? adverts : poets;
         model.findOne({_id: req.body.id, authorID: req.user}).then(result => {
             res.send(result).status(200)
         })
@@ -468,9 +470,10 @@ router.post('/header', authenticate, (req, res, next) => {
     
     if (req.header('data-categ') === 'cntSearch') {
         let model = req.body.model === 'post' ? posts :
-        req.body.model === 'question' ? questions : req.body.model === 'group' ? group : poets;
+        req.body.model === 'question' ? questions : req.body.model === 'group' ? group :
+        req.body.model === 'advert' ? adverts : poets;
         filterCnt(JSON.parse(req.body.filterCnt)).then(filter => {
-            let category = filter.category && filter.category.length > 0 ? {category: filter.category} : {};
+            let category = filter.category && filter.category.length > 0 ? {category: {$in: filter.category}} : {};
             model.find({$text: { $search: filter.searchCnt }, ...filter.filterCnt,  ...category, mode: 'publish', _isCompleted: true}).then(result => {
                  let resultCount = new String(result.length);
                  res.send(resultCount).status(200);
@@ -567,23 +570,26 @@ router.post('/header', authenticate, (req, res, next) => {
 router.patch('/header', authenticate, (req, res, next) => {
     if (req.header('data-categ') === 'draftmode') {
         let model = req.body.model === 'post' ? posts :
-        req.body.model === 'question' ? questions : poets;
+        req.body.model === 'question' ? questions : 
+        req.body.model === 'advert' ?  adverts : poets;
         let notify = req.body.model === 'post' ? postnotifies :
         req.body.model === 'question' ? quenotifies : pwtnotifies;
         model.findOneAndUpdate({_id: req.body.id, authorID: req.user}, {mode: 'draft', shareMe: []}).then(result => {
             let send = 0;
-            if (result.shareMe && result.shareMe.length < 1) {
+            if ((result.shareMe && result.shareMe.length < 1) || req.body.model === 'advert') {
                 res.sendStatus(200);
                 return
             }
-            for (let userID of result.shareMe){
-                notify.findOneAndUpdate({userID, [req.body.field]: {$in : req.body.id}}, {$pull: { [req.body.field]: req.body.id}
-                }).then(() => {
-                    ++send;
-                    if (send === result.shareMe.length) {
-                        res.sendStatus(200);
-                    }
-                })
+            if (req.body.model !== 'advert') {
+                for (let userID of result.shareMe){
+                    notify.findOneAndUpdate({userID, [req.body.field]: {$in : req.body.id}}, {$pull: { [req.body.field]: req.body.id}
+                    }).then(() => {
+                        ++send;
+                        if (send === result.shareMe.length) {
+                            res.sendStatus(200);
+                        }
+                    })
+                }
             }
         })
         return
@@ -591,7 +597,8 @@ router.patch('/header', authenticate, (req, res, next) => {
 
     if (req.header('data-categ') === 'publishmode') {
         let model = req.body.model === 'post' ? posts :
-        req.body.model === 'question' ? questions : poets;
+        req.body.model === 'question' ? questions : 
+        req.body.model === 'advert' ? adverts : poets;
         model.findOneAndUpdate({_id: req.body.id, authorID: req.user}, {mode: 'publish'}).then(result => {
             res.sendStatus(200);
         }).catch(err => {
@@ -628,8 +635,20 @@ router.patch('/header', authenticate, (req, res, next) => {
         let modelNotifies = req.body.model === 'post' ? postnotifies :
         req.body.model === 'question' ? quenotifies : pwtnotifies;
         let model = req.body.model === 'post' ? posts :
-        req.body.model === 'question' ? questions : poets;
+        req.body.model === 'question' ? questions : 
+        req.body.model === 'advert' ? adverts : poets;
         let shareMe = JSON.parse(req.body.users);
+        if (req.body.model === 'advert') {
+            model.findByIdAndUpdate(req.body.id, {$addToSet: { shareMe: { $each: shareMe } }}).then((result) => {
+                push(shareMe, result, req.body.model, req.body.id).then(() => {
+                    res.sendStatus(200);
+                })
+            }).catch(err => {
+                res.status(500).send(err);
+            })
+            return
+        }
+
         notification(shareMe, modelNotifies, req.body.id, req.body.field).then(() =>{
             model.findByIdAndUpdate(req.body.id, {$addToSet: { shareMe: { $each: shareMe } }}).then((result) => {
                 push(shareMe, result, req.body.model, req.body.id).then(() => {
@@ -646,7 +665,8 @@ router.patch('/header', authenticate, (req, res, next) => {
 
     if (req.header('data-categ') === 'changefavorite') {
         let model = req.body.model === 'post' ? posts :
-        req.body.model === 'question' ? questions : poets;
+        req.body.model === 'question' ? questions :
+        req.body.model === 'advert' ? adverts :  poets;
         favorite.find({userID: req.user, [req.body.field]: {$in : req.body.id}}).then(result => {
             if (result && result.length > 0) {
                 favorite.findOneAndUpdate({userID: req.user}, {$pull: { [req.body.field]: req.body.id}}).then(() => {
@@ -675,12 +695,17 @@ router.delete('/header', authenticate,(req,res, next) =>  {
     if (req.header('data-categ').startsWith('deletecnt')) {
         let payload = JSON.parse(req.header('data-categ').split('-')[1]);
         let model = payload.model === 'post' ? posts :
-        payload.model === 'question' ? questions : poets;
+        payload.model === 'question' ? questions : 
+        payload.model === 'advert' ? adverts : poets;
         let notify = payload.model === 'post' ? postnotifies :
         payload.model === 'question' ? quenotifies : pwtnotifies;
         model.findOneAndRemove({_id :payload.id, authorID: req.user}).then(result => {
             if (result.video && result.video.length > 0){
                 deleteMedia(result.video, 'media').then(() => {
+                    removeShare(result, res, notify, payload)
+                })
+            }else if (result.image && result.image.length > 0){
+                deleteMedia(result.image, 'image').then(() => {
                     removeShare(result, res, notify, payload)
                 })
             } else {
@@ -689,18 +714,20 @@ router.delete('/header', authenticate,(req,res, next) =>  {
 
             function removeShare(result, res, notify, payload) {
                 let send = 0;
-                if (result.shareMe && result.shareMe.length < 1) {
+                if ((result.shareMe && result.shareMe.length < 1) || payload.model === 'advert') {
                     res.sendStatus(200);
                     return
                 }
-                for (let userID of result.shareMe){
-                    notify.findOneAndUpdate({userID, [payload.field]: {$in : payload.id}}, {$pull: { [payload.field]: payload.id}
-                    }).then(() => {
-                        ++send;
-                        if (send === result.shareMe.length) {
-                            res.sendStatus(200);
-                        }
-                    })
+                if (payload.model !== 'advert') {
+                    for (let userID of result.shareMe){
+                        notify.findOneAndUpdate({userID, [payload.field]: {$in : payload.id}}, {$pull: { [payload.field]: payload.id}
+                        }).then(() => {
+                            ++send;
+                            if (send === result.shareMe.length) {
+                                res.sendStatus(200);
+                            }
+                        })
+                    }
                 }
             }
         })
@@ -749,6 +776,23 @@ router.get('/add/post', authenticate, (req, res, next) => {
 router.get('/edit/post/:id', authenticate, (req, res, next) => {
     if (req.params && !req.authType) { 
         res.render('editpost'); 
+    } else {
+        res.redirect('/')
+    }
+});
+
+router.get('/add/advert', authenticate, (req, res, next) => {
+    if (!req.authType) {
+        res.render('adsform');
+    } else {
+        res.redirect('/login')
+    }
+    
+});
+
+router.get('/edit/advert/:id', authenticate, (req, res, next) => {
+    if (req.params && !req.authType) { 
+        res.render('editads'); 
     } else {
         res.redirect('/')
     }

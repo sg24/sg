@@ -7,13 +7,20 @@ import { dataURLtoBlob } from '../../shared/utility';
 
 export function* fetchCntInitSaga(action) {
     try {
-        const response = yield axios.post('/header', {id: action.id, model: 'group'},{headers: {'data-categ':`editform`}});
-        if (response.data && (response.data.image.length > 0 )) {
+        const response = yield axios.post('/header', {id: action.id, model: 'advert'},{headers: {'data-categ':`editform`}});
+        if (response.data && (response.data.image.length > 0  || response.data.snapshot.length > 0)) {
             let images = [];
+            let snaps = [];
             for (let image of response.data.image) {
                 images.push({url: `${window.location.protocol + '//' + window.location.host}/media/image/${image.id}`, ...image, mediaType: 'image'})            
             }
+            for (let snap of response.data.snapshot) {
+                let video = response.data.video.filter(videoDet => videoDet.snapshotID === snap.videoID);
+                snaps.push({url: `${window.location.protocol + '//' + window.location.host}/media/image/${snap.id}`, ...snap, mediaType: 'snapshot', video: video[0]})            
+            }
             response.data.image = images;
+            response.data.snapshot = snaps;
+            response.data.video = [];
         }
         yield put(actions.fetchCnt(response.data))
     } catch(err){
@@ -48,7 +55,7 @@ export function* fetchVideoInitSaga(action) {
 export function* fetchCategInitSaga(action) {
     try {
         yield put(actions.fetchCategStart());
-        const category = yield axios.post('/group', null,{headers: {'data-categ':'groupCateg'}});
+        const category = yield axios.post('/header',{categ: 'advert'},{headers: {'data-categ':'category'}});
         const categ =  category.data && category.data.length > 0 ? category.data : [];
         yield put(actions.fetchCateg(categ))
     } catch(err){

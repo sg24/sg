@@ -287,11 +287,3 @@ export const formSubmitted = (id) => {
     };
 };
 
-export const groupImage = (imageCapture) => {
-    return {
-        type: actionTypes.IMAGE_CAPTURE,
-        imageCapture
-    };
-};
-
-

@@ -21,6 +21,10 @@ const CategorySchema = new Schema({
     group: {
         type: Array,
         default: [String]
+    },
+    advert: {
+        type: Array,
+        default: [String]
     }
 })
 

@@ -64,22 +64,25 @@ class MainContent extends Component {
 
         axios.interceptors.response.use(function (response) {
             numberOfAjaxCAllPending--;
-            let active = setInterval(() => {
+            
                 if (numberOfAjaxCAllPending === 0 && these.props.status) {
-                    these.props.onFetchShareActive();
-                    these.props.onFetchNotifyActive();
-                    createChat(`/chat/${these.state.categ}/${these.state.id}`, 
-                    'pvtconv', null).then(members => {
-                        these.props.onFetchMember(members)
+                    let active = setTimeout(() => {
+                        these.props.onFetchShareActive();
+                        these.props.onFetchNotifyActive();
                         createChat(`/chat/${these.state.categ}/${these.state.id}`, 
-                            'chatActive', null).then(active => {
-                                these.props.onGroupNotify(active ? active.grpchat : null)
-                                these.props.onUserNotify(active ? active.pvtchat : null)
-                            })
-                    })
+                        'pvtconv', null).then(members => {
+                            these.props.onFetchMember(members)
+                            createChat(`/chat/${these.state.categ}/${these.state.id}`, 
+                                'chatActive', null).then(active => {
+                                    these.props.onGroupNotify(active ? active.grpchat : null)
+                                    these.props.onUserNotify(active ? active.pvtchat : null)
+                                })
+                        })
+                        clearTimeout(these.state.active)
+                        clearTimeout(active)
+                    }, 10000);
+                    these.setState({active})
                 }
-            }, 5000);
-            these.setState({active})
             return response;
         }, function (error) {
             numberOfAjaxCAllPending--;
@@ -136,7 +139,7 @@ class MainContent extends Component {
 
     componentWillUnmount() {
         if (this.state.active) {
-            clearInterval(this.state.active)
+            clearTimeout(this.state.active)
         }
     }
 

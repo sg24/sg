@@ -35,6 +35,19 @@ router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'mygroup') {
         return fetchGroup({authorID: req.user});
     }
+    
+
+    if (req.header !== null && req.header('data-categ') === 'onlygroup') {
+        group.find({_isCompleted: true, 
+            $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}).then(grp => {
+                let cntArray = [];
+                for (let cnt of grp) {
+                    cntArray.push({id: cnt._id, title: cnt.title, image: cnt.image})
+                }
+                res.status(200).send(cntArray)
+            })
+        return
+    }
 
     if (req.header !== null && req.header('data-categ') === 'requestTotal') {
         return group.find({authorID: req.user}).then(result => {

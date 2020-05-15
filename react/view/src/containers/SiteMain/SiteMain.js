@@ -62,7 +62,7 @@ class SiteMain extends Component {
         if (!this.props.searchCntErr && this.props.searchCnt && this.props.searchCnt.length === 0) {
             filterCnt = (
                 <NoAcc 
-                    isAuth={this.props.status}
+                    isAuth={true}
                     det='No content found!'
                     icn='clone'
                     filter />

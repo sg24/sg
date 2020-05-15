@@ -3,7 +3,7 @@ import 'react-app-polyfill/stable';
 import 'events-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom'; 
+import { BrowserRouter } from 'react-router-dom';
 import { createStore, combineReducers, applyMiddleware }  from 'redux'; 
 import { Provider } from 'react-redux';
 import  createSagaMiddleware from 'redux-saga';

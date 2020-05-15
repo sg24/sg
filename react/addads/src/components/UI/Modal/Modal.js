@@ -39,9 +39,13 @@ const modal = props => {
                 <h3 className="reuse-form__modal--success">Form Submitted Successfully </h3>
                 <div className="reuse-form__btn">
                     <button 
+                            type="button"  
+                            className="reuse-form__btn--close"
+                            onClick={props.view}> View </button>
+                    <button 
                         type="button" 
-                        className="reuse-form__btn--close reuse-form__btn--close-grp"
-                        onClick={props.view}> View </button>
+                        className="reuse-form__btn--add"
+                        onClick={props.closeModal}> Add New </button>
                 </div>
             </Aux>
         )

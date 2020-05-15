@@ -110,6 +110,50 @@ export const checkValidity = (value, rules) => {
     return isValid;
 }
 
+export const getSnapshot = (url, mediaType) => {
+    return new Promise ((resolve, reject) => {
+        let media = document.createElement(mediaType);
+        function multipleEventListener(el, mediaLoadHandler) {
+            'loadedmetadata loadeddata suspend'.split(' ').forEach(event => {
+                el.addEventListener(event, mediaLoadHandler, false)
+            })
+        }
+        media.onerror = function() {
+            reject(media.error.message);
+        }
+        media.src = url;
+        multipleEventListener(media, mediaLoadHandler)
+        let event_fired = 0;
+        function mediaLoadHandler() {
+            if (++event_fired === 3) {
+                media.currentTime = 1;
+                media.addEventListener('seeked', function(event) {
+                    resolve();
+                })
+            }
+        }
+    })
+}
+
+export const getImageURL = url => {
+    let image = new Image();
+    image.src = url;
+    let canvas = document.createElement('canvas');
+    return new Promise((resolve, reject) => {
+        if (canvas.getContext) {
+            image.onload = function() {
+                canvas.width = image.naturalWidth;
+                canvas.height = image.naturalHeight;
+                canvas.getContext('2d').drawImage(image, 0, 0);
+                let snapShot = canvas.toDataURL('image/png');
+                resolve(snapShot);
+            }
+        } else {
+            reject('Please update your Browser')
+        }
+    })
+}
+
 export const dataURLtoBlob = (dataurl) => {
     var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -117,21 +161,6 @@ export const dataURLtoBlob = (dataurl) => {
         u8arr[n] = bstr.charCodeAt(n);
     }
     return new Blob([u8arr], {type:mime});
-}
-
-export const getImageURL = image => {
-    let canvas = document.createElement('canvas');
-    return new Promise((resolve, reject) => {
-        if (canvas.getContext) {
-                canvas.width = image.videoWidth;
-                canvas.height = image.videoHeight;
-                canvas.getContext('2d').drawImage(image, 0, 0);
-                let snapShot = canvas.toDataURL('image/png');
-                resolve(snapShot);;
-        } else {
-            reject('Please update your Browser')
-        }
-    })
 }
 
 export const engStrings = {

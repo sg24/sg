@@ -42,8 +42,8 @@ export function* shareUserInitSaga(action) {
     
     try {
         yield put(actions.shareUserStart())
-        let field =   action.cntType === 'post' ? 'postID' : action.cntType === 'question' ? 'queID' : 'pwtID'
-        yield axios.patch('/header', {users: JSON.stringify(shareUser), id: action.shareID, model: action.cntType, field},{headers: {'data-categ': 'shareuser'}});
+        let field =  'postID'
+        yield axios.patch('/header', {users: JSON.stringify(shareUser), id: action.shareID, model: 'post', field},{headers: {'data-categ': 'shareuser'}});
         yield delay(1000);
         yield put(actions.shareUser());
     } catch(err){

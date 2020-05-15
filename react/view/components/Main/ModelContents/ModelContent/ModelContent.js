@@ -1,5 +1,4 @@
 import React from 'react';
-import MetaTags from 'react-meta-tags';
 import Avatar from 'react-avatar';
 import TimeAgo from 'react-timeago';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
@@ -20,7 +19,7 @@ import Aux from '../../../../hoc/Auxs/Auxs';
 const modelContent = props => {
     const formatter = buildFormatter(engStrings);
     let desc =  JSON.parse(props.cnt.desc)
-    if (props.cntGrp !== 'post') {
+    if (props.cntGrp !== 'post' && props.cntGrp !== 'advert') {
         desc.blocks[0].text = props.cnt.title;
     }
     let raw = convertFromRaw(desc);
@@ -85,7 +84,7 @@ let meta = null;
                 <meta property="og:image:width" content="1200" />
                 <meta property="og:image:height" content="600" />
                 {mediaCnt.length > 0 ?  <meta property="og:image" content={`${mediaCnt[0].url}`} /> : null}
-                <meta property="og:description" content={`${props.cntGrp === 'post' ? desc.blocks[0].text : 'slodge24 | Knowledge sharing platform'}`}/>
+                <meta property="og:description" content={`${props.cntGrp === 'post' ? desc.blocks[0].text : props.cntGrp === 'advert' ? 'Advertise your product free on www.slodge24.com' : 'slodge24 | Knowledge sharing platform'}`}/>
                 <meta property="og:site_name" content={`https://www.slodge24.com`}/>
             </Head>
         )
@@ -215,7 +214,7 @@ let meta = null;
         );
     } 
 
-    if (props.cntGrp === 'post') {
+    if (props.cntGrp === 'post' || props.cntGrp === 'advert') {
         header = (
             <div className="reuse-view__main--header">
             <p className="reuse-view__main--header__title">
@@ -226,7 +225,7 @@ let meta = null;
                     <FontAwesomeIcon 
                         icon={['far', 'clock']} 
                         className="icon icon__reuse-view--main__tm" />
-                    {<TimeAgo date={props.cnt.postCreated} live={false} formatter={formatter}/>}
+                    {<TimeAgo date={props.cntGrp === 'advert' ? props.cnt.created : props.cnt.postCreated} live={false} formatter={formatter}/>}
                 </li>
                 <li className="reuse-view__main--header__det--ans">Comments <div>{ props.commentTotal }</div></li>
                 <li>

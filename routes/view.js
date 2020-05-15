@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {posts, questions, poets, user, authUser, comment, connectStatus} = require('../serverDB/serverDB');
+const {posts, questions, poets, adverts, user, authUser, comment, connectStatus} = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
 let notifications = require('./utility/notifications');
 
@@ -28,8 +28,9 @@ router.post('/view/:categ/:id', authenticate, (req, res, next) => {
     connectStatus.then((result) => {
         if (req.header && req.header('data-categ') === 'viewcnt') {
             let categ = req.params.categ;
-            let model =  categ === 'post' ? posts : categ === 'question' ? questions : poets;
-            if (categ === 'post') {
+            let model =  categ === 'post' ? posts : categ === 'question' ? questions :
+            categ === 'advert' ? adverts : poets;
+            if (categ === 'post' || categ === 'advert') {
                 model.findByIdAndUpdate(req.params.id,{$inc: {'view': 1}}).then(() =>{
                     return fetchCnt(model, categ, updateCnt, req.params.id);
                 })
@@ -42,8 +43,9 @@ router.post('/view/:categ/:id', authenticate, (req, res, next) => {
         if (req.header && req.header('data-categ') === 'createComment') {
             let id = req.body.id;
             let cnts = req.body.cnt;
-            let categ = req.body.cntGrp
-            let model =  categ === 'post' ? posts : categ === 'question' ? questions : poets;
+            let categ = req.body.cntGrp;
+            let model =  categ === 'post' ? posts : categ === 'question' ? questions :
+            categ === 'advert' ? adverts : poets;
             model.findByIdAndUpdate(id, {$inc: {'comment': 1}}).then(() => {
                 let newComment = new comment({
                     authorID: req.user,
@@ -92,7 +94,8 @@ router.post('/view/:categ/:id', authenticate, (req, res, next) => {
             }
 
             comment.findOneAndUpdate({_id: id}, {$push: {reply: cnt}}).then(result => {
-                let model =  categ === 'post' ? posts : categ === 'question' ? questions : poets;
+                let model =  categ === 'post' ? posts : categ === 'question' ? questions : 
+                categ === 'advert' ? adverts : poets;
                 model.findByIdAndUpdate(result.commentID, {$inc: {'comment': 1}}).then(() => {
                     comment.findById(id).then(commentRes => {
                         let replyFilter = commentRes.reply.filter(reply => reply.commentID === commentID);
@@ -127,7 +130,8 @@ router.post('/view/:categ/:id', authenticate, (req, res, next) => {
         if (req.header && req.header('data-categ') === 'related') {
             let categ = req.params.categ;
             let id = req.params.id;
-            let model =  categ === 'post' ? posts : categ === 'question' ? questions : poets;
+            let model =  categ === 'post' ? posts : categ === 'question' ? questions : 
+            categ === 'advert' ? adverts : poets;
             model.findById(id).then(result => {
                 if(result && result.title) {
                     let title = result.title;
@@ -315,6 +319,12 @@ router.post('/view/:categ/:id', authenticate, (req, res, next) => {
                         update['postCreated'] = cnt.postCreated;
                         update['view'] = cnt.view;
                     }
+
+                    if (modelType === 'advert') {
+                        update['created'] = cnt.created;
+                        update['view'] = cnt.view;
+                    }
+
                     if (modelType === 'question') {
                         update['helpFull'] = cnt.helpFull;
                         update['notHelpFull'] = cnt.notHelpFull;
@@ -358,7 +368,8 @@ router.patch('/view', authenticate, (req, res, next) => {
         let id = req.body.id;
         let categ = req.body.cntGrp;
         let cnt = req.body.cnt;
-        let model =  categ === 'post' ? posts : categ === 'question' ? questions : poets;
+        let model =  categ === 'post' ? posts : categ === 'question' ? questions : 
+        categ === 'advert' ? adverts : poets;
         model.findByIdAndUpdate(id, {$inc: {'comment': 1}}).then(() => {
             let newComment = new comment({
                 authorID: req.user,
@@ -404,7 +415,8 @@ router.patch('/view', authenticate, (req, res, next) => {
         }
         comment.findOneAndUpdate({_id: id}, {$push: {reply: cnt}}).then(result => {
             let categ = req.body.cntGrp;
-            let model =  categ === 'post' ? posts : categ === 'question' ? questions : poets;
+            let model =  categ === 'post' ? posts : categ === 'question' ? questions : 
+            categ === 'advert' ? adverts : poets;
             model.findByIdAndUpdate(result.commentID, {$inc: {'comment': 1}}).then(() => {
                 comment.findById(id).then(commentRes => {
                     let replyFilter = commentRes.reply.filter(reply => reply.commentID === req.body.commentID);

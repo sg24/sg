@@ -7,8 +7,5 @@ export function* fetchTrdInitSaga(action) {
     try {
         let response = yield axios.post(`/view/${action.cntGrp}/${action.id}`,null,{headers: {'data-categ': 'related'}});;
         yield put(actions.fetchTrd(response.data));
-        
     }  catch(e) {}
-
-  
 }

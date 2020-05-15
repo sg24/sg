@@ -177,8 +177,8 @@ class AddUsers extends Component {
                     <button 
                         type="button" 
                         className="reuse-form__btn--add"
-                        onClick={this.submitMediaHandler}  
-                        disabled={this.state.userSelected.length < 1}>Invite</button>
+                        onClick={this.submitMediaHandler}
+                        disabled={this.state.userSelected.length < 1}>Share</button>
                 </div>
             </div>
         )

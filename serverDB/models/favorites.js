@@ -13,6 +13,9 @@ const FavoriteSchema = new Schema({
     }],
     pwtID: [{
         type: String
+    }],
+    advertID: [{
+        type: String
     }]
 })
 

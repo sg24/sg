@@ -3,7 +3,7 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
     shareActive: null,
-    navActive: null
+    navActive: null,
 };
 
 const fetchShareActive = (state, action) => {

@@ -15,7 +15,8 @@ import { fetchCategInitSaga,
             checkLinkInitSaga, 
             fetchUsersInitSaga,
             filterUserInitSaga,
-            showUserSelectInitSaga} from './form';
+            showUserSelectInitSaga,
+            fetchGroupInitSaga } from './form';
 
 export function* watchAuth() {
     yield all([
@@ -43,6 +44,7 @@ export function* watchForm() {
        takeEvery(actionTypes.CHECK_LINK_INIT, checkLinkInitSaga),
        takeEvery(actionTypes.FETCH_USERS_INIT, fetchUsersInitSaga),
        takeEvery(actionTypes.FILTER_USER_INIT, filterUserInitSaga),
+       takeEvery(actionTypes.FETCH_GROUP_INIT, fetchGroupInitSaga),
        takeEvery(actionTypes.SHOW_USER_SELECT_INIT, showUserSelectInitSaga)
     ])
 }

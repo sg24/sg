@@ -90,8 +90,7 @@ export {
     submitFormSuccess,
     submitFormStart,
     submitForm,
-    formSubmitted,
-    groupImage
+    formSubmitted
 } from './form';
 
 export {

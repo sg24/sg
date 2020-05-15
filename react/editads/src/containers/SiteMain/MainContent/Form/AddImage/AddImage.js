@@ -3,86 +3,35 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import uuid from 'uuid';
 
-import MediaItem from './MediaItem/MediaItem';
 import * as actions from '../../../../../store/actions/index';
 import { updateObject } from '../../../../../shared/utility';
-import { getImageURL, dataURLtoBlob } from '../../../../../shared/utility';
-
-const videoRef = React.createRef(null);
+import MediaItems from '../../../../../components/Main/MediaItems/MediaItems';
 
 class AddImage extends Component {
     state = {
         inputValue: '',
-        media: null,
+        media: this.props.media.image ? [...this.props.media.image] : [],
         removeMediaItemIndex: null,
-        snapshotErr: null,
-        mediaUrl: this.props.media && this.props.media.image && this.props.media.image.length > 0 ? this.props.media.image[0].imageUrl : null,
-        err: null,
-        startCapture: false,
-        start: false
+        snapshotErr: null
     };
 
     linkVerifyHandler = (event) => {
         let inputValue =  event.target.value;
         this.setState({inputValue, snapshotErr: null});
         this.props.onCheckLink(inputValue);
-
-        if (this.state.startCapture) {
-            videoRef.current.srcObject.getVideoTracks().forEach(function(track) {
-                track.stop();
-          });
-          this.setState({startCapture: false});
-        }
     }
 
     addMediaHandler = () => {
         if (this.props.linkValid && this.props.linkValid.media) {
+            let media = [...this.state.media];
+            media.push({file: this.props.linkValid.media.file, url: this.props.linkValid.media.url, id: uuid()});
             this.setState({
-                media: {file: this.props.linkValid.media.file, url: this.props.linkValid.media.url, id: uuid()},  inputValue: ''});
+                media: media,  inputValue: ''});
             this.props.onResetLink();
-        }
-    }
-
-    openCameraHandler = () => {
-        if (!('mediaDevices' in navigator)) {
-            navigator.mediaDevices = {};
-        }
-        
-        if (!('getUserMedia' in navigator.mediaDevices)) {
-            navigator.mediaDevices.getUserMedia = function(constraints) {
-            var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        
-            if (!getUserMedia) {
-                return Promise.reject(new Error('getUserMedia is not implemented!'));
-            }
-        
-            return new Promise(function(resolve, reject) {
-                getUserMedia.call(navigator, constraints, resolve, reject);
-            });
+            if (!this.props.imageEdit) {
+                this.props.onImageEdit()
             }
         }
-        let these = this;
-        navigator.mediaDevices.getUserMedia({video: true})
-            .then(function(stream) {
-                videoRef.current.srcObject= stream;
-                these.setState({startCapture: true, mediaUrl: null})
-            })
-            .catch(function(err) {
-                these.setState({err, startCapture: false})
-            });
-    }
-
-    captureImageHandler = () => {
-        getImageURL(videoRef.current).then(imageData => {
-            videoRef.current.srcObject.getVideoTracks().forEach(function(track) {
-                  track.stop();
-            });
-            let imageFile = dataURLtoBlob(imageData);
-            let url = window.URL.createObjectURL(imageFile)
-            this.setState({mediaUrl: url, startCapture: false})
-        }).catch(err => {
-            this.setState({err})
-        })
     }
 
     selectMediaHandler = (event) => {
@@ -123,79 +72,73 @@ class AddImage extends Component {
         this.setState({removeMediaItemIndex: null})
     }
     
-    removeMediaItemHandler = () => {
-        if (!this.props.imageEdit && this.props.media && this.props.media.image && this.props.media.image.length > 0 && !this.props.media.image[0].imageUrl) {
+    removeMediaItemHandler = (id) => {
+        if (!this.props.imageEdit) {
             this.props.onImageEdit()
-            let media = [{...this.props.media.image[0]}];
-            this.props.onSaveRemoveSnap(media[0]);
+        }
+        let media = [...this.state.media];
+        let updatedMedia = media.filter(link =>  link.id !== id);
+        this.setState({media:  updatedMedia});
+        let removedSnap = media.filter(link =>  link.id === id);
+        if (this.props.media.image && this.props.media.image.length > 0) {
+            this.props.onRemoveMedia(updateObject(this.props.media, {image: updatedMedia}));
+            if (removedSnap[0]) {
+                this.props.onSaveRemoveSnap(...removedSnap);
+            }
         }
     }
 
     handleFiles = (files) => {
-         if (this.state.startCapture) {
-            videoRef.current.srcObject.getVideoTracks().forEach(function(track) {
-                track.stop();
-          });
-          this.setState({startCapture: false});
+        let media = [...this.state.media];
+        if (!this.props.editImage) {
+            this.props.onImageEdit()
         }
-        const file = files[0];
-        if(file.type.startsWith('image/')) {
-            let url = window.URL.createObjectURL(file)
-            this.setState({mediaUrl: url})
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            if(file.type.startsWith('image/')) {
+                let url = window.URL.createObjectURL(file)
+                media.push({file, url, id: uuid()});
+                this.setState({media});
+            }
         }
     }
 
-     submitMediaHandler = () => {
+    submitMediaHandler = () => {
         let media = {...this.props.media};
-        this.removeMediaItemHandler()
-        this.props.onSubmitMedia(updateObject(media, {image: [{...this.props.imageCapture}]}));
-        if (videoRef.current && videoRef.current.srcObject){
-            videoRef.current.srcObject.getVideoTracks().forEach(function(track) {
-                track.stop();
-          });
-        }
+        this.props.onSubmitMedia(updateObject(media, {image: [...this.state.media]}));
     }
 
+    playVideoHandler = () => {
+
+    }
     closeMediaBoxHandler = () => {
         this.props.onhideMediaBox();
-        if (videoRef.current && videoRef.current.srcObject){
-            videoRef.current.srcObject.getVideoTracks().forEach(function(track) {
-                track.stop();
-          });
-        }
     }
 
 
     render() {
         let mediaPreview = null;
         let mediaAddedViewer = null;
-        let streamVideoCLass = ["reuse-form__itm--det__view-select--media__wrapper--video"];
-        let captureBtn = null;
 
-        if (this.props.linkValid || this.state.err) {
-            mediaPreview = this.props.linkValid && this.props.linkValid.err ?
-            <div className="reuse-form__err">{ this.props.linkValid.err.message}</div> : 
-            this.state.err ? <div className="reuse-form__err">{ this.state.err.message }</div> : null
+        if (this.props.linkValid) {
+            mediaPreview = this.props.linkValid.media ? (
+                <img src={this.props.linkValid.media.url}  alt="post" />
+            ): <div className="reuse-form__err">{ this.props.linkValid.err.message}</div>
         }
-        if (this.state.mediaUrl) {
+
+        if (this.state.media.length > 0) {
             mediaAddedViewer = (
                 <div className="reuse-form__itm--det__view-select">
-                    <MediaItem
-                       url={this.state.mediaUrl}/>
+                    <MediaItems 
+                       media={this.state.media}
+                       mediaType="image"
+                       removeMediaItemEnable={this.removeMediaItemEnableHandler}
+                       removeMediaItemDisable={this.removeMediaItemDisableHandler}
+                       removeMediaItemIndex={this.state.removeMediaItemIndex}
+                       removeMediaItem={this.removeMediaItemHandler}
+                       playVideo={this.playVideoHandler}/>
                 </div>
             ); 
-        }
-
-        if (!this.state.err && this.state.startCapture) {
-            streamVideoCLass.push('reuse-form__itm--det__view-select--media__wrapper--video__show');
-            captureBtn = (
-                <div className="reuse-form__itm--footer reuse-form__btn">
-                <button 
-                    type="button" 
-                    className="reuse-form__btn--add"
-                    onClick={this.captureImageHandler}>Capture</button>
-            </div>
-            )
         }
 
         return (
@@ -235,21 +178,14 @@ class AddImage extends Component {
                     <div className="reuse-form__itm--det__alt">
                         OR
                     </div>
-                    <div 
-                        className="reuse-form__itm--det__camera"
-                        onClick={this.openCameraHandler}>
-                        <FontAwesomeIcon 
-                            icon={['fas', 'camera']}
-                            className="icon icon__reuse-form--itm--camera" />
-                        Take Snapshot 
-                    </div>
                     <div className="reuse-form__cnt">
                         <div className="reuse-form__cnt--det">
                             <div className="reuse-form__cnt--det__fil">
-                            <div>Upload Image</div>
+                                <div>Upload / Drag and Drop Images</div>
                                 <input 
                                     type="file" 
                                     name=""
+                                    multiple
                                     className="reuse-form__cnt--det__fil--input"
                                     onChange={this.selectMediaHandler}
                                     onDragEnter={this.dragEnterMediaHandler}
@@ -259,13 +195,6 @@ class AddImage extends Component {
                             </div>
                         </div>
                     </div>
-                    <video 
-                        ref={videoRef}
-                        autoPlay
-                        className={streamVideoCLass.join(' ')}>
-                        <p>our browser doesn't support embedded videos</p>
-                    </video>
-                    { captureBtn }
                     { this.state.snapshotErr ? 
                         <div className="reuse-form__err">Some features are not available in your browser, { this.state.snapshotErr }</div> : null}
                     { mediaAddedViewer }
@@ -278,8 +207,7 @@ class AddImage extends Component {
                     <button 
                         type="button" 
                         className="reuse-form__btn--add"
-                        onClick={this.submitMediaHandler}
-                        disabled={!this.props.imageCapture}>Add</button>
+                        onClick={this.submitMediaHandler}>Add</button>
                 </div>
             </div>
         );
@@ -288,9 +216,8 @@ class AddImage extends Component {
 
 const mapStateToProps = state => {
     return {
-        linkValid: state.form.linValid,
+        linkValid: state.form.linkValid,
         media: state.form.media,
-        imageCapture: state.form.imageCapture,
         editImage: state.form.editImage
     };
 };

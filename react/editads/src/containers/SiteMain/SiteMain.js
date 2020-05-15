@@ -13,7 +13,7 @@ import  { requestPermission } from  './Notification/Notification';
 
 class SiteMain extends Component {
     state = {
-        isNotify: true 
+        isNotify: true
     }
 
     componentDidMount() {
@@ -109,7 +109,7 @@ class SiteMain extends Component {
                 }}>
             <div className="site-main__fm--wrapper">
                 <div className="wrapper__exmain">
-                <Route path={'/edit/group/:id'} exact component={MainContent} />
+                <Route path={'/edit/advert/:id'} exact component={MainContent} />
                 </div>
                 { this.props.filterStart ? 
                     <div 

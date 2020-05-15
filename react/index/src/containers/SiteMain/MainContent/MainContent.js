@@ -34,13 +34,17 @@ const AsyncPoets= asyncComponent(() => {
     return import ('./Poets/Poets');
 });
 
+const AsyncAdverts = asyncComponent(() => {
+    return import ('./Adverts/Adverts');
+});
+
 class MainContent extends Component {
     state = {
         post: {
             path: '/index/post',
             icnGrp: 'newspaper',
             icnClass: 'icon icon__site-main__content--tab',
-            title: 'News feed'
+            title: 'Feeds'
         },
         questions: {
             path: '/index/question',
@@ -60,11 +64,17 @@ class MainContent extends Component {
             icnClass: 'icon icon__site-main__content--tab',
             title: 'Users',
         },
+        advert: {
+            path: '/index/advert',
+            icnGrp: 'bullhorn',
+            icnClass: 'icon icon__site-main__content--tab',
+            title: 'Advert',
+        },
        group: {
             path: '/index/group',
-            icnGrp: 'user-graduate',
+            icnGrp: 'comment-alt',
             icnClass: 'icon icon__site-main__content--tab',
-            title: 'Chat Room',
+            title: 'Room',
         },
         helpme: {
             path: '/index/helpme',
@@ -177,6 +187,10 @@ class MainContent extends Component {
                     content={this.state.helpme}
                     removeActive={this.removeActiveHandler.bind(this, 'helpme')}
                     active={this.state.curTab !== 'helpme' ? this.props.shareCntActive : null}/>
+                <MainNavigations 
+                    content={this.state.advert}
+                    removeActive={this.removeActiveHandler.bind(this, 'advert')}
+                    active={null}/>
                 {/* <MainNavigations 
                     content={this.state.group}
                     removeActive={this.removeActiveHandler.bind(this, 'group')}
@@ -209,6 +223,8 @@ class MainContent extends Component {
                      <Route path="/index/user" exact component={AsyncUsers}/>
                     <Route path="/index/poet" exact component={AsyncPoets}/>
                     <Route path="/index/poet/:id" exact component={AsyncPoets}/>
+                    <Route path="/index/advert/:id" exact component={AsyncAdverts}/>
+                    <Route path="/index/advert"  component={AsyncAdverts}/>
                     <Route path="/"  component={AsyncPosts}/> 
                 </Switch>
                 { loaderCnt }

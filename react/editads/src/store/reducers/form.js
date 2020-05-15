@@ -23,26 +23,24 @@ const initialState = {
     submitError: null,
     removedSnap: [],
     submitForm: false,
+    id: null,
     content: null,
     title: null,
     videoFetched: false,
     showVideo:false,
     editImage: false,
     editVideo:false,
-    redirect: false,
-    imageCapture: null,
-    groupMode: null,
-    id: null
+    redirect: false
 };
 
 const fetchCnt = (state, action) => {
     if (action.cnt) {
         let desc = JSON.parse(action.cnt.desc)
-        let snapshot = [];
+        let snapshot = [...action.cnt.snapshot];
         let image = [...action.cnt.image];
-        let video = [];
+        let video = [...action.cnt.video];
         return updateObject(state, {
-            newCateg: action.cnt.category, title: action.cnt.title, content: desc, cntErr: null, snapshot, groupMode: action.cnt.groupMode, media: {image, video}})
+            newCateg: action.cnt.category, title: action.cnt.title, content: desc, cntErr: null, snapshot, media: {image, video}})
     }
     return updateObject(state, {redirect: true})
 };
@@ -119,10 +117,6 @@ const saveRemoveSnap = (state, action) => {
 
 const removeMedia = (state, action) => {
     return updateObject(state, {media: action.media})
-};
-
-const imageCapture = (state, action) => {
-    return updateObject(state, {imageCapture: action.imageCapture})
 };
 
 const submitMedia = (state, action) => {
@@ -226,8 +220,6 @@ const reducer = (state = initialState, action) => {
             return removeSnapshot(state, action);
         case actionTypes.SAVE_REMOVE_SNAP:
             return saveRemoveSnap(state, action);
-        case actionTypes.IMAGE_CAPTURE:
-            return imageCapture(state, action);
         case actionTypes.REMOVE_MEDIA:
             return removeMedia(state, action);
         case actionTypes.SUBMIT_MEDIA:

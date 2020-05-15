@@ -1,6 +1,7 @@
 require('./config/config');
 const {connectStatus} = require('./db/mongoose');
 const posts = require('./models/posts');
+const adverts = require('./models/adverts');
 const questions = require('./models/questions');
 const poets = require('./models/poets');
 const category = require('./models/category');
@@ -22,6 +23,7 @@ const authUser = require('./models/authuser');
 const tempFile = require('./models/tempfile');
 
 module.exports = {
+    adverts,
     posts,
     questions,
     poets,

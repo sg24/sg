@@ -20,6 +20,39 @@ export const fetchCategFail = (err) =>  {
     }; 
 }; 
 
+export const showGroup = () =>  {
+    return {
+        type: actionTypes.SHOW_GROUP
+    }; 
+}; 
+
+export const fetchGroupInit = () =>  {
+    return {
+        type: actionTypes.FETCH_GROUP_INIT
+    }; 
+}; 
+
+
+export const fetchGroupStart = () =>  {
+    return {
+        type: actionTypes.FETCH_GROUP_START
+    }; 
+}; 
+
+export const fetchGroupFail = (err) =>  {
+    return {
+        type: actionTypes.FETCH_GROUP_FAIL,
+        err
+    }; 
+}; 
+
+export const fetchGroup = (group) =>  {
+    return {
+        type: actionTypes.FETCH_GROUP,
+        group
+    }; 
+}; 
+
 export const fetchCategReset = () =>  {
     return {
         type: actionTypes.FETCH_CATEG_RESET
@@ -220,12 +253,4 @@ export const formSubmitted = (id) => {
         id
     };
 };
-
-export const groupImage = (imageCapture) => {
-    return {
-        type: actionTypes.IMAGE_CAPTURE,
-        imageCapture
-    };
-};
-
 

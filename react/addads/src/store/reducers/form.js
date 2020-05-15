@@ -5,6 +5,10 @@ const initialState = {
     categ: null,
     showCateg: false,
     categErr: null,
+    groupErr: null,
+    startGroup: false,
+    showGroup: false,
+    group: null,
     newCateg: null,
     hideMediaBox: false,
     hidAddItm: false,
@@ -21,7 +25,6 @@ const initialState = {
     uploadPercent: null,
     submitError: null,
     submitForm: false,
-    imageCapture: null,
     id: null
 };
 
@@ -34,11 +37,27 @@ const fetchCategFail = (state, action) => {
 };
 
 const fetchCategReset = (state, action) => {
-    return updateObject(state, {categErr: null, showCateg: false});
+    return updateObject(state, {categErr: null, showCateg: false, showGroup: false});
 };
 
 const fetchCateg = (state, action) => {
     return updateObject(state, {categ: action.categ, showCateg: action.categ !== null})
+};
+
+const showGroup = (state, action) => {
+    return updateObject(state, {showGroup: true, categErr: null, groupErr: null})
+};
+
+const fetchGroupStart = (state, action) => {
+    return updateObject(state, {startGroup: true, groupErr: null})
+};
+
+const fetchGroupFail = (state, action) => {
+    return updateObject(state, {startGroup: false, groupErr: action.err});
+};
+
+const fetchGroup = (state, action) => {
+    return updateObject(state, {startGroup: false, group: action.group})
 };
 
 const addCateg = (state, action) => {
@@ -65,20 +84,16 @@ const removeMedia = (state, action) => {
     return updateObject(state, {media: action.media})
 };
 
-const imageCapture = (state, action) => {
-    return updateObject(state, {imageCapture: action.imageCapture})
-};
-
 const submitMedia = (state, action) => {
     return updateObject(state, {media: action.media, hideMediaBox: true})
 };
 
 const hideMediaBox = (state, action) => {
-    return updateObject(state, {hideMediaBox: true})
+    return updateObject(state, {hideMediaBox: true, showGroup: false})
 };
 
 const showMediaBox = (state, action) => {
-    return updateObject(state, {hideMediaBox: false})
+    return updateObject(state, {hideMediaBox: false, showGroup: false})
 };
 
 const fetchUsers = (state, action) => {
@@ -154,8 +169,6 @@ const reducer = (state = initialState, action) => {
             return addSnapshot(state, action);
         case actionTypes.REMOVE_SNAPSHOT:
             return removeSnapshot(state, action);
-         case actionTypes.IMAGE_CAPTURE:
-            return imageCapture(state, action);
         case actionTypes.REMOVE_MEDIA:
             return removeMedia(state, action);
         case actionTypes.SUBMIT_MEDIA:
@@ -174,6 +187,14 @@ const reducer = (state = initialState, action) => {
             return userSelect(state, action);
         case actionTypes.SHOW_USER_SELECT:
             return showUserSelect(state, action);
+        case actionTypes.FETCH_GROUP_START:
+            return fetchGroupStart(state, action);
+        case actionTypes.FETCH_GROUP_FAIL:
+            return fetchGroupFail(state, action);
+        case actionTypes.FETCH_GROUP:
+            return fetchGroup(state, action);
+        case actionTypes.SHOW_GROUP:
+            return showGroup(state, action);
         case actionTypes.SUBMIT_FORM_START:
             return submitFormStart(state, action);
         case actionTypes.SUBMIT_FORM_SUCCESS:

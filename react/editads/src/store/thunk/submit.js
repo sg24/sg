@@ -30,8 +30,8 @@ export const submit = (formData) => {
                             formContent.append('uploadedimage', JSON.stringify(uploaded));
                         }
                     } else {
-                        let ext = image.imageCapture.type.split('/').pop();
-                        formContent.append(key, image.imageCapture, `${image.id}.${ext}`);
+                        let ext = image.file.type.split('/').pop();
+                        formContent.append(key, image.file, `${image.id}.${ext}`);
                         ++send;
                         if (send === formData[key].length) {
                             formContent.append('uploadedimage', JSON.stringify(uploaded));
@@ -52,12 +52,11 @@ export const submit = (formData) => {
             }
 
             if (key === 'removedSnap' && formData[key].length > 0) { 
-                console.log(formData[key])
                 formContent.append('removedmedia', JSON.stringify(formData[key]));
             }
         }
-        
-        axios.post('/edit/group', formContent, {
+
+        axios.post('/edit/advert', formContent, {
             onUploadProgress: function (progressEvent) {
                 if (progressEvent.lengthComputable) {
                     const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -68,6 +67,6 @@ export const submit = (formData) => {
             dispatch(actions.formSubmitted(res.data))
         }).catch((err) => {
             dispatch(actions.submitFormFail(err))
-        }); 
+        });
     }
 } 

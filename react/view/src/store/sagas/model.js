@@ -72,7 +72,7 @@ export function* changeFavSaga(action) {
     yield put(actions.changeFavPtStart(updateFav.favDet.id, updateFav.favDet.liked))
     try {
         let field = action.cntGrp === 'post' ? 'postID' : action.cntGrp === 'question' ?
-        'queID' : 'pwtID';
+        'queID' : action.cntGrp === 'advert' ? 'advertID' : 'pwtID';
         yield axios.patch('/header', {id: updateFav.favDet.id, model: action.cntGrp, field},{headers: {'data-categ': 'changefavorite'}});
         yield delay(500)
         yield put(actions.changeMainFavoriteReset());

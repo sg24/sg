@@ -7,11 +7,11 @@ export function* fetchCntInitSaga(action) {
     let fetchType = action.fetchType.split('-')[0];
     let model = fetchType === 'post' ? '/post' : fetchType === 'question' || fetchType === 'shared' ?
     '/question':'/'+fetchType;
-    let categ = fetchType === 'shared' ? `shared-${action.userID}` : action.fetchType.split('-')[1] ? action.fetchType.split('-')[1] : action.fetchType.split('-')[0];
+    let categ = fetchType === 'shared' ? `shared-${action.userID}` : action.fetchType.split('-')[1] ? action.fetchType.split('-').splice(1).join('-') : action.fetchType.split('-')[0];
     if (action.cntTotal > action.skipCnt) {
         yield put(actions.fetchCntStart());
     }
- 
+
     try {
         if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
             let response = yield axios.post(model, null,{
@@ -34,7 +34,7 @@ export function* changeFavSaga(action) {
     yield put(actions.changeFavPtStart(updateFav.favDet.id, updateFav.favDet.liked))
     try {
         let field = action.cntGrp === 'post' ? 'postID' : action.cntGrp === 'question' ?
-        'queID' : 'pwtID';
+        'queID' : action.cntGrp === 'advert' ? 'advertID' : 'pwtID';
         yield axios.patch('/header', {id: updateFav.favDet.id, model: action.cntGrp, field},{headers: {'data-categ': 'changefavorite'}});
         yield delay(500)
         yield put(actions.changeMainFavoriteReset());
@@ -59,7 +59,9 @@ export function* joinGrpInitSaga(action) {
 }
 
 export function* changeCntInitSaga(action) {
-    let field =   action.modelType === 'post' ? 'postID' : action.modelType === 'question' ? 'queID' : 'pwtID'
+    let field =   action.modelType === 'post' ? 'postID' : action.modelType === 'question' ? 'queID' : 
+    action.modelType === 'advert' ? 'advertID' : 'pwtID';
+    
     if (!action.confirm) {
         yield put(actions.changeCntStart(action.title, action.id, action.det, action.modelType))
         return;

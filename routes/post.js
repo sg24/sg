@@ -104,7 +104,7 @@ router.post('/', authenticate, (req, res, next) => {
 
     if (req.header !== null && req.header('data-categ') && req.header('data-categ').startsWith('filter')) { 
         filterCnt(JSON.parse(req.header('data-categ').split('==')[1])).then(filter => {
-            let category = filter.category && filter.category.length > 0 ? {category: filter.category} : {};
+            let category = filter.category && filter.category.length > 0 ? {category: {$in: filter.category}} : {};
             return fetchPost({$text: { $search: filter.searchCnt },mode: 'publish', ...filter.filterCnt,  ...category},{ score: { $meta: "textScore" } })
          });
          return
@@ -112,7 +112,7 @@ router.post('/', authenticate, (req, res, next) => {
 
     if(req.header !== null && req.header('data-categ') && req.header('data-categ').startsWith('postSearch')) {
         filterCnt(JSON.parse(req.header('data-categ').split('==')[1])).then(filter => {
-           let category = filter.category && filter.category.length > 0 ? {category: filter.category} : {};
+           let category = filter.category && filter.category.length > 0 ? {category: {$in: filter.category}} : {};
            posts.find({$text: { $search: filter.searchCnt }, ...filter.filterCnt,  ...category, mode: 'publish', _isCompleted: true}).then(result => {
                 let resultCount = new String(result.length);
                 res.send(resultCount).status(200);

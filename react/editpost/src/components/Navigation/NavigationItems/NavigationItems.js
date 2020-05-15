@@ -17,6 +17,7 @@ const navigationItems = props => {
             <NavigationItem path="/question">Answer</NavigationItem>
             <NavigationItem path="/add/poet">Write Up</NavigationItem>
             <NavigationItem path="/add/group">Chat Room</NavigationItem>
+            <NavigationItem path="/add/advert">Advert</NavigationItem>
         </ul>
     )
 };

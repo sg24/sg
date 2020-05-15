@@ -21,7 +21,7 @@ const NotificationsSchema = new Schema({
     grp: {
         type: Number,
         default: 0
-    },
+    }
 })
 
 const viewnotifies = mongoose.model('viewnotifies', NotificationsSchema);
