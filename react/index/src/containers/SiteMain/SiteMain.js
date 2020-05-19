@@ -11,6 +11,8 @@ import Modal from '../../components/UI/Modal/Modal';
 import MainFilter from '../../components/MainFilter/MainFilter';
 import Loader from '../../components/UI/Loader/Loader';
 import NoAcc from '../../components/Main/NoAcc/NoAcc';
+import AroundMe from '../AroundMe/AroundMe';
+import Form from '../AroundMe/Form/Form';
 
 const AsyncShare= asyncComponent(() => {
     return import ('./Share/Share');
@@ -101,8 +103,10 @@ class SiteMain extends Component {
                         component={ Modal }
                         close={this.closeModelBackdropHandler}
                         err={ this.props.cntErr } /> : null}
-                        <MainContent />
+                <MainContent />
                 <MainNav />
+                <AroundMe />
+                <Form />
             </div>
             { this.props.filterStart ? 
                 <div 
