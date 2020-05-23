@@ -1,0 +1,109 @@
+.reuse-grp-chat {
+    border-radius: 10px;
+    margin-bottom: 40px;
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+    -o-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+    -ms-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+    -webkit-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+    -moz-box-shadow: 0px 2px 9px 0px rgba(67, 125, 163, 0.9);
+}
+
+.reuse-grp-chat__img {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background-color: #e9ebf2;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+}
+
+.reuse-grp-chat__det {
+  list-style: none;
+  padding: 0 10px 0 80px;
+  margin:  0;
+  width: 100%;
+  font-size: .875rem;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+}
+
+.reuse-grp-chat__det li {
+  margin: 0;
+}
+
+.reuse-grp-chat__det--title {
+  padding: 6px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+  color: rgba(5,87,139, .8);
+  font-size: .9375rem;
+}
+
+.reuse-grp-chat__det--title > a {
+  text-decoration: none;
+  color: rgba(5,87,139, .8);
+}
+
+.reuse-grp-chat__det--last-msg {
+  padding: 2px 0;
+  color: rgba(0,0,0, .6);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reuse-grp-chat__det--last-msg > a {
+  text-decoration: none;
+  color: rgba(0,0,0, .6);
+}
+
+.reuse-grp-chat__det--status {
+  padding: 10px 0;
+}
+
+.reuse-grp-chat__det--status::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.reuse-grp-chat__det--status > div {
+  float: left;
+  font-size: .8125rem;
+}
+
+.reuse-grp-chat__det--status > div > div {
+  padding: 3px 8px;
+  color: #fff;
+  display: inline-block;
+  margin-left: 5px;
+  border-radius: 20px;
+  box-shadow: 0 2px 3px 0px rgba(0,0,0, .4);
+  -ms-box-shadow: 0 2px 3px 0px rgba(0,0,0, .4);
+  -moz-box-shadow: 0 2px 3px 0px rgba(0,0,0, .4);
+  -webkit-box-shadow: 0 2px 3px 0px rgba(0,0,0, .4);
+  -o-box-shadow: 0 2px 3px 0px rgba(0,0,0, .4);
+}
+
+.reuse-grp-chat__det--status__on {
+  padding-right: 10px;
+}
+
+.reuse-grp-chat__det--status__on > div {
+  background-color: #16cf27;
+}
+
+.reuse-grp-chat__det--status__off {
+  padding-left: 10px;
+}
+
+.reuse-grp-chat__det--status__off > div {
+  background-color: #ff1600;
+}
