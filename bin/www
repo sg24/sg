@@ -44,6 +44,7 @@ nextApp.prepare().then(() => {
   let chatRoute = require('../routes/chat');
   let convRoute = require('../routes/conv');
   let advertRoute = require('../routes/advert');
+  let aroundmeRoute = require('../routes/aroundme');
   let robotonlyRoute = require('../routes/robot');
 
   app.use('/', [appRoutes, formRoutes,profileRoute, viewRoute]);
@@ -59,6 +60,7 @@ nextApp.prepare().then(() => {
   app.use('/robotonly', robotonlyRoute);
   app.use('/chat', chatRoute);
   app.use('/conv', convRoute);
+  app.use('/aroundme', aroundmeRoute);
   app.use('/advert', advertRoute);
   app.use('/sitemap.xml', sitemapxmlRoute);
   app.use(function (req, res, next) {

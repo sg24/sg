@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs'); 
-const {posts, questions, group, poets, adverts, category, tempFile, postnotifies, quenotifies, viewnotifies, pwtnotifies, grpnotifies, connectStatus, user, authUser} = require('../serverDB/serverDB');
+const {posts, questions, group, poets, aroundme, adverts, category, tempFile, postnotifies, quenotifies, viewnotifies, pwtnotifies, grpnotifies, connectStatus, user, authUser} = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
 let notifications = require('./utility/notifications');
 let formInit = require('./utility/forminit');
@@ -13,6 +13,7 @@ let edit = require('./utility/edit');
 let uploadToBucket = require('./utility/upload');
 let savetemp = require('./utility/savetemp');
 let submitAdvert = require('./utility/submitadvert');
+let submitAround = require('./utility/submitaround');
 const router = express.Router();
 let formidable = require('formidable');
 
@@ -387,6 +388,43 @@ router.post('/edit/advert', authenticate,(req, res, next) => {
                         editAdvert(content, adverts, mediaCnt, userModel, req.user, category, tempFileID).then(id => {
                             res.status(201).send(id)
                         }).catch(err => {
+                            res.status(500).send(err)
+                        })
+                    }).catch(err => {
+                        res.status(500).send(err);
+                    })
+                }).catch(err => {
+                    res.status(500).send(err);
+                })
+            }).catch(err => {
+                res.status(500).send(err);
+            })
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+    }).catch(err => {
+        res.status(500).send(err);
+    })
+})
+
+router.post('/add/aroundme', authenticate, (req, res, next) => {
+    formInit(req, formidable).then(form => {
+        let video = form.files && form.files.video ? form.files.video : []; 
+        let image = form.files && form.files.image ? form.files.image : []; 
+        savetemp(video, image, req.user).then(tempFileID => {
+            uploadToBucket(video, tempFileID, 'video', 'media', 'media.files').then(media => {
+                uploadToBucket(image, tempFileID, 'image', 'image', 'image.files').then(image => {
+                    let mediaCnt = {
+                        video: media.videos,
+                        snapshot: media.images,
+                        image
+                    }
+                    let userModel = req.userType === 'authUser' ? authUser : user;
+                    const content = form.fields;
+                    connectStatus.then((result) => {
+                        submitAround(content, aroundme, mediaCnt, userModel, {authorID: req.user, username: req.username, userImage: req.userImage, userType: req.userType}, [], tempFileID).then(id =>
+                            res.status(201).send(id)
+                        ).catch(err => {
                             res.status(500).send(err)
                         })
                     }).catch(err => {

@@ -21,6 +21,7 @@ const chatnotifies = require('./models/chatnotifies');
 const tempUser = require('./models/tempUser');
 const authUser = require('./models/authuser');
 const tempFile = require('./models/tempfile');
+const aroundme = require('./models/aroundme');
 
 module.exports = {
     adverts,
@@ -44,6 +45,7 @@ module.exports = {
     pwtnotifies,
     viewnotifies,
     favorite,
+    aroundme,
     connectStatus
 };
 

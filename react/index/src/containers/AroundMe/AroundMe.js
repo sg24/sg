@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withRouter } from 'react-router-dom'
 
 import './AroundMe.css';
 
 class AboutMe extends Component {
+    showFormHandler = () => {
+        this.props.history.push('/index/add/aroundme')
+    }
+
     render() {
         return (
             <div 
-                className="aroundme">
-                {/* <div className="aroundme__exit">
-                    <FontAwesomeIcon 
-                        icon={['fas', 'times']} 
-                        className="icon icon__reuse-pt--options__dft" /> 
-                </div> */}
+                className="aroundme"
+                onClick={this.showFormHandler}>
                 <div className="aroundme__main">
                     <div    className="aroundme__main--loc">
                         <FontAwesomeIcon 
@@ -20,11 +21,10 @@ class AboutMe extends Component {
                             className="icon icon__aroundme--loc" /> 
                     </div>
                     <h4 className="aroundme__main--title">Fun - Around Me</h4>
-                    {/* <h4 className="aroundme__main--title">Start slodge24</h4> */}
                 </div>
             </div>
         )
     }
 }
 
-export default AboutMe
+export default withRouter(AboutMe)

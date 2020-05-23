@@ -78,6 +78,13 @@ export function* changeCntInitSaga(action) {
             return
         }
 
+        if (action.modelType === 'aroundme') {
+            yield axios.post('/aroundme', {id: action.id}, {
+                headers: {'data-categ': 'deletearoundme'}})
+            window.location.reload()
+            return
+        } 
+
         if (action.modelType === 'deletegroup') {
             yield axios.post('/group', {id: action.id}, {
                 headers: {'data-categ': 'deletegroup'}})

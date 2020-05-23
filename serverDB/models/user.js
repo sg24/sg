@@ -123,6 +123,10 @@ var UserSchema = new mongoose.Schema({
     advert: {
         type:Number,
         default: 0
+    },
+    aroundme: {
+        type:Number,
+        default: 0
     }
 }) ;
 

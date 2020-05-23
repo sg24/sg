@@ -12,9 +12,14 @@ import MainFilter from '../../components/MainFilter/MainFilter';
 import Loader from '../../components/UI/Loader/Loader';
 import NoAcc from '../../components/Main/NoAcc/NoAcc';
 import Editor from './MainContent/MainModel/ModelEditor/ModelEditor'
+import AroundMe from '../AroundMe/AroundMe';
 
 const AsyncShare = asyncComponent(() => {
     return import ('./Share/Share');
+});
+
+const AsyncForm = asyncComponent(() => {
+    return import ('../AroundMe/Form/Form');
 });
 
 class SiteMain extends Component {
@@ -85,8 +90,9 @@ class SiteMain extends Component {
                             component={ Modal }
                             close={this.closeBackdropHandler}
                             err={ this.props.cntErr } /> : null}
-                    <Route path="/view/:categ/:id" exact  component={MainContent} />
-                    <Route path="/view/:categ/:id" exact component={MainNav} />
+                    <Route path="/view/:categ/:id"   component={MainContent} />
+                    <Route path="/view/:categ/:id" component={MainNav} />
+                    <AroundMe />
             </div>
             { this.props.filterStart ? 
                 <div 
@@ -126,6 +132,7 @@ class SiteMain extends Component {
                         changeCnt={this.changeCntHandler}
                         closeChangeCnt={this.closeChangeCntHandler}/> : null}
                     <Route path="/view/:id/share" exact component={AsyncShare} />
+                    <Route path="/view/aroundme/add" exact component={AsyncForm} />
                 {this.props.commentID ? <Editor id={this.props.commentID.id} categ={this.props.commentID.categ}/> : null}
         </div>
         )

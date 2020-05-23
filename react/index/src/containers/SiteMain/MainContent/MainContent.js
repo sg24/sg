@@ -38,6 +38,10 @@ const AsyncAdverts = asyncComponent(() => {
     return import ('./Adverts/Adverts');
 });
 
+const AsyncAroundme = asyncComponent(() => {
+    return import ('./Aroundme/Aroundme');
+});
+
 class MainContent extends Component {
     state = {
         post: {
@@ -45,6 +49,12 @@ class MainContent extends Component {
             icnGrp: 'newspaper',
             icnClass: 'icon icon__site-main__content--tab',
             title: 'Feeds'
+        },
+        aroundme: {
+            path: '/index/aroundme',
+            icnGrp: 'map-marker-alt',
+            icnClass: 'icon icon__site-main__content--tab',
+            title: 'Around Me'
         },
         questions: {
             path: '/index/question',
@@ -148,6 +158,10 @@ class MainContent extends Component {
         }
     }
 
+    addAroundmeHandler = () => {
+        this.props.history.push('/index/add/aroundme')
+    }
+
     render() {
         let loaderCnt = null;
         let categ = (
@@ -158,6 +172,18 @@ class MainContent extends Component {
                     <a href={this.props.path}>
                         More Filter
                     </a>
+                </div>
+                </div>
+            </div>
+        )
+
+        let addAroundMe = (
+            <div className="reuse-filter">
+                <div className="reuse-filter__wrapper">
+                <div className="reuse-filter__add" onClick={this.addAroundmeHandler}>
+                    <div>
+                        ADD
+                    </div>
                 </div>
                 </div>
             </div>
@@ -179,6 +205,10 @@ class MainContent extends Component {
                     content={this.state.post}
                     removeActive={this.removeActiveHandler.bind(this, 'post')}
                     active={this.state.curTab !== 'post' ? this.props.ptActive : null}/>
+                    <MainNavigations 
+                    content={this.state.aroundme}
+                    removeActive={this.removeActiveHandler.bind(this, 'aroundme')}
+                    active={null}/>
                 <MainNavigations 
                     content={this.state.questions}
                     removeActive={this.removeActiveHandler.bind(this, 'question')}
@@ -210,10 +240,12 @@ class MainContent extends Component {
                 </ul>
                 {this.props.status && (this.props.path === '/users' || this.props.path === '/group')
                 ? categ: null }
-                {this.props.path !== '/users' && this.props.path !== '/group' && this.props.path !== '/helpme'  ? categ : null }
+                {this.props.path !== '/users' && this.props.path !== '/group' && this.props.path !== '/helpme' && this.props.path !== '/aroundme'  ? categ : null }
+                {this.props.path === '/aroundme'  ? addAroundMe : null }
                 <Switch>
                     <Route path="/index/post" exact component={AsyncPosts}/>
                     <Route path="/index/post/:id" exact component={AsyncPosts}/>
+                    <Route path="/index/aroundme"  component={AsyncAroundme}/>
                     <Route path="/index/question" exact component={AsyncQuestions}/>
                     <Route path="/index/question/:id" exact component={AsyncQuestions}/>
                     <Route path="/index/helpme" exact component={AsyncHelpme}/>

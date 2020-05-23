@@ -751,6 +751,7 @@ router.get('/add/question', authenticate,(req, res, next) => {
     if (!req.authType) {
         res.render('queform');
     } else {
+        res.cookie('redirect', '/add/question', {maxAge: 3600000});
         res.redirect('/login')
     }
     
@@ -768,6 +769,7 @@ router.get('/add/post', authenticate, (req, res, next) => {
     if (!req.authType) {
         res.render('postform');
     } else {
+        res.cookie('redirect', '/add/post', {maxAge: 3600000});
         res.redirect('/login')
     }
     
@@ -785,6 +787,7 @@ router.get('/add/advert', authenticate, (req, res, next) => {
     if (!req.authType) {
         res.render('adsform');
     } else {
+        res.cookie('redirect', '/add/advert', {maxAge: 3600000});
         res.redirect('/login')
     }
     
@@ -810,6 +813,7 @@ router.get('/add/group',  authenticate,(req, res, next) => {
     if (!req.authType) {
         res.render('groupform');
     } else {
+        res.cookie('redirect', '/add/group', {maxAge: 3600000});
         res.redirect('/login')
     }
 });
@@ -822,6 +826,7 @@ router.get('/add/poet', authenticate, (req, res, next) => {
     if (!req.authType) {
         res.render('poetwriterform');
     } else {
+        res.cookie('redirect', '/add/poet', {maxAge: 3600000});
         res.redirect('/login')
     }
 });

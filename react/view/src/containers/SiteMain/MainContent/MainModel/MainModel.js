@@ -245,7 +245,7 @@ class Model extends Component {
             cnt = null
         }
 
-        if (!this.props.match.params.categ || !this.props.match.params.id) {
+        if (!this.props.match.params.categ || !this.props.match.params.id || this.props.match.params.categ === 'aroundme') {
             cnt = <Redirect to="/index/post"/>
         }
 

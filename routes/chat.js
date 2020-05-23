@@ -60,7 +60,8 @@ router.get('/:categ/:id', authenticate, (req, res,next) => {
             })
         }
     } else {
-        res.redirect('/login')
+        res.cookie('redirect', `/chat/${req.params.id}/${req.params.categ}`, {maxAge: 3600000});
+        res.redirect('/login');
     }
 })
 

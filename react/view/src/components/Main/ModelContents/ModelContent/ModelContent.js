@@ -13,7 +13,7 @@ import './ModelContent.css';
 import { transformNumber, engStrings } from '../../../../shared/utility';
 import '../../../UI/ShareIcn/ShareIcn.css'; 
 import FavoriteActive from '../../../UI/FavoriteActive/FavoriteActive';
-import Aux from '../../../../hoc/Auxs/Aux';
+import Carousel from '../../../UI/Media/Media';
 
 const modelContent = props => {
     const formatter = buildFormatter(engStrings);
@@ -86,128 +86,22 @@ let meta = null;
     }
 
     if (mediaCnt.length > 0 && props.cntGrp !== 'poet') {
-        let isShowned = false;
-        for (let mediaItm of props.mediaItms) {
-            if (mediaItm.id === props.cnt._id) {
-                isShowned = true;
-                if (props.animateItm.id === props.cnt._id) {
-                    if (props.animateItm.direction === 'next' && !props.removePrevAnim) {
-                        mediaWrapperClass.push('reuse-pt__media--wrapper__anim');
-                    } 
-                    if (props.animateItm.direction === 'prev' && !props.removePrevAnim) {
-                        mediaWrapperClass.push('reuse-pt__media--wrapper__anim-rev');
-                    }
-                }
-
-                if (props.animateItm === null) {
-                    mediaWrapperClass.push('reuse-pt__media--wrapper__anim');
-                }
-
-                if (props.removePrevMedia && props.removePrevMedia.id === props.cnt._id) {
-                    showPrevAnim(props.removePrevMedia);
-                }
-
-                displayMedia(mediaItm.position);
-            }
-        }
-        if (!isShowned) {
-            if (props.removePrevMedia && props.removePrevMedia.id === props.cnt._id) {
-                showPrevAnim(props.removePrevMedia);
-            }
-            displayMedia(0)
-        }
-    }
-
-    function showPrevAnim(prevAnim) {
-        if (prevAnim.type === 'next') {
-            mediaWrapperClass.push('reuse-pt__media--wrapper__anim-exit');
-        } else {
-            mediaWrapperClass.push('reuse-pt__media--wrapper__anim-exit-rev')
-        }
-    }
-
-    function displayMedia(position) {
-        let curMedia = mediaCnt[position];
-        if (curMedia && curMedia.mediaType === 'snapshot') {
-            playVideo = (
-                props.video && props.video.id !== curMedia.id ? 
-                <div 
-                    className={props.playerIcnId && props.playerIcnId === props.cnt._id ? 
-                        'reuse-pt__media--wrapper__icn reuse-pt__media--wrapper__icn-move' : 'reuse-pt__media--wrapper__icn'}
-                    onClick={props.playVideo.bind(this, curMedia)}>
-                    <FontAwesomeIcon 
-                        icon={['fas', 'play-circle']} 
-                        className="icon icon__reuse-pt--media__play" /> 
-                </div>: null
-            );
-        }
-        
         media = (
             <div className="reuse-pt__media">
-                <div className={props.video && props.video.id === curMedia.id ? 
-                        'reuse-pt__media--main-wrapper reuse-pt__media--main-wrapper__load' : 'reuse-pt__media--main-wrapper'}>
-                    <div 
-                        onDragStart={() => false }
-                        touch-action="pan-y"
-                        className={props.disableAnim ? 'reuse-pt__media--wrapper' : mediaWrapperClass.join(' ')} onAnimationEnd={props.removeAnim}>
-                        { playVideo }
-                        { props.video && props.video.id === curMedia.id && props.video.url ? 
-                            <video 
-                                onPointerDown={(event) => props.slidePlay(props.cnt._id, mediaTotal, event)}
-                                onPointerMove={(event) => props.moveSlidePlay(props.cnt._id, mediaTotal, event)}
-                                onPointerUp={(event) => props.clearSlidePlay(event)}
-                                src={props.video.url} controls autoPlay id="video">
-                                <p>our browser doesn't support embedded videos</p>
-                            </video> :
-                        props.video && props.video.id === curMedia.id ? null : 
-                        <img 
-                            draggable="false"
-                            onDragStart={() => false }
-                            src={curMedia.url}  alt="post"
-                            onPointerDown={(event) => props.slidePlay(props.cnt._id, mediaTotal, event)}
-                            onPointerMove={(event) => props.moveSlidePlay(props.cnt._id, mediaTotal, event)}
-                            onPointerUp={(event) => props.clearSlidePlay(event)} />
-                        }
-                        { props.videoErr && props.videoErr.id === curMedia.id ? 
-                            <div 
-                                className="reuse-pt__video-err"
-                                onPointerDown={(event) => props.slidePlay(props.cnt._id, mediaTotal, event)}
-                                onPointerMove={(event) => props.moveSlidePlay(props.cnt._id, mediaTotal, event)}
-                                onPointerUp={(event) => props.clearSlidePlay(event)}>
-                                <div 
-                                    className="reuse-pt__video-err--icn"
-                                    onClick={props.playVideo.bind(this, curMedia.id, props.cnt.video)}>
-                                    <FontAwesomeIcon 
-                                        icon={['fas', 'redo']} 
-                                        className="icon icon__reuse-pt--video-err__icn"/>
-                                </div>
-                                <h3> {props.videoErr.err.message} </h3> 
-                            </div> : null}
-                    </div>
+			    <div className="reuse-pt__media--main-wrapper">
+                    <Carousel
+                        images={mediaCnt}
+                        wrapperClass="reuse-pt__media--wrapper"
+                        prevClass="reuse-pt__media--cnt reuse-pt__media--cnt__prev"
+                        prevIcnClass="icon icon__reuse-pt--media__prev"
+                        nextClass="reuse-pt__media--cnt reuse-pt__media--cnt__nxt"
+                        nextIcnClass="icon icon__reuse-pt--media__nxt"
+                        playClass="reuse-pt__media--wrapper__icn"
+                        playIcnClass="icon icon__reuse-pt--media__play"/>
                 </div>
-                
-                {
-                    mediaCnt && mediaCnt.length > 1 ? 
-                    <Aux>
-                        <div 
-                            className="reuse-pt__media--cnt reuse-pt__media--cnt__nxt"
-                            onClick={props.nextMedia}>
-                            <FontAwesomeIcon 
-                                icon={['fas', 'angle-right']} 
-                                className="icon icon__reuse-pt--media__nxt" />
-                        </div>
-                        <div 
-                            className="reuse-pt__media--cnt reuse-pt__media--cnt__prev"
-                            onClick={props.prevMedia}>
-                            <FontAwesomeIcon 
-                                icon={['fas', 'angle-left']} 
-                                className="icon icon__reuse-pt--media__prev" />
-                        </div>
-                    </Aux> : null
-                }
             </div>
-        );
-    } 
+        )
+    }
 
     if (props.cntGrp === 'post' || props.cntGrp === 'advert') {
         header = (

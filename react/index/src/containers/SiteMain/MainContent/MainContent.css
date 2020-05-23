@@ -55,7 +55,7 @@
     
 }
 
-.reuse-filter__add > a {
+.reuse-filter__add > a, .reuse-filter__add > div {
     display: block;
     padding: 8px 10px;
     border-radius: 3px;

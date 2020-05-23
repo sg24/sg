@@ -221,6 +221,22 @@ class NavigationList extends Component {
                             shared
                         </a>
                     </li>
+                    <li>
+                        <a href="/advert">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'bullhorn']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Advert
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/aroundme">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'map-marker-alt']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Around  Me
+                        </a>
+                    </li>
                 </ul>
             </Aux>
         )
@@ -282,6 +298,22 @@ class NavigationList extends Component {
                                 icon={['fas', 'location-arrow']} 
                                 className="icon icon__site-header--nav__itm" />
                             shared
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/advert">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'bullhorn']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Advert
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/aroundme">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'map-marker-alt']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Around  Me
                         </a>
                     </li>
                 </ul>

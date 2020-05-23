@@ -9,6 +9,7 @@ import { transformNumber, engStrings } from '../../../../shared/utility';
 import Aux from '../../../../hoc/Auxs/Aux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FavoriteActive from '../../../UI/FavoriteActive/FavoriteActive';
+import Carousel from '../../../UI/Media/Media';
 
 const advertContent = props => {
     const formatter = buildFormatter(engStrings);
@@ -61,136 +62,24 @@ const advertContent = props => {
 
     let media = null;
     let mediaCnt =  [...props.cnt.snapshot, ...props.cnt.image];
-    let playVideo = null;
-    let mediaWrapperClass = ['reuse-ads__media--wrapper'];
 
     if (mediaCnt.length > 0) {
-        let isShowned = false;
-        for (let mediaItm of props.mediaItms) {
-            if (mediaItm.id === props.cnt._id) {
-                isShowned = true;
-                if (props.animateItm.id === props.cnt._id) {
-                    if (props.animateItm.direction === 'next' && !props.removePrevAnim) {
-                        mediaWrapperClass.push('reuse-ads__media--wrapper__anim');
-                    } 
-                    if (props.animateItm.direction === 'prev' && !props.removePrevAnim) {
-                        mediaWrapperClass.push('reuse-ads__media--wrapper__anim-rev');
-                    }
-                }
-
-                // if (props.animateItm === null) {
-                //     mediaWrapperClass.push('reuse-ads__media--wrapper__anim');
-                // }
-
-                if (props.removePrevMedia && props.removePrevMedia.id === props.cnt._id) {
-                    showPrevAnim(props.removePrevMedia);
-                }
-
-                displayMedia(mediaItm.position);
-            }
-        }
-        if (!isShowned) {
-            if (props.removePrevMedia && props.removePrevMedia.id === props.cnt._id) {
-                showPrevAnim(props.removePrevMedia);
-            }
-            displayMedia(0)
-        }
-    }
-
-    function showPrevAnim(prevAnim) {
-        if (prevAnim.type === 'next') {
-            mediaWrapperClass.push('reuse-ads__media--wrapper__anim-exit');
-        } else {
-            mediaWrapperClass.push('reuse-ads__media--wrapper__anim-exit-rev')
-        }
-    }
-
-    function displayMedia(position) {
-        let updateMedia = mediaCnt[position];
-        let curMedia = updateMedia.videoCnt ? {url: `${window.location.protocol + '//' + window.location.host}/media/image/${updateMedia.id}`, ...updateMedia, mediaType: 'snapshot'} : 
-        {url: `${window.location.protocol + '//' + window.location.host}/media/image/${updateMedia.id}`, ...updateMedia, mediaType: 'image'};
-        if (curMedia && curMedia.mediaType === 'snapshot') {
-            playVideo = (
-                props.video && props.video.id !== curMedia.id ? 
-                <div 
-                    className={props.playerIcnId && props.playerIcnId === props.cnt._id ? 
-                        'reuse-ads__media--wrapper__icn reuse-ads__media--wrapper__icn-move' : 'reuse-ads__media--wrapper__icn'}
-                        onClick={props.playVideo.bind(this, curMedia)}>
-                    <FontAwesomeIcon 
-                        icon={['fas', 'play-circle']} 
-                        className="icon icon__reuse-ads--media__play" /> 
-                </div>: null
-            );
-        }
-
         media = (
             <div className="reuse-ads__media">
-                <div className={props.video && props.video.id === curMedia.id ? 
-                        'reuse-ads__media--main-wrapper reuse-ads__media--main-wrapper__load' : 'reuse-ads__media--main-wrapper'}>
-                    <div 
-                        onDragStart={() => false }
-                        touch-action="pan-y"
-                        className={props.disableAnim ? 'reuse-ads__media--wrapper' : mediaWrapperClass.join(' ')} onAnimationEnd={props.removeAnim}>
-                        { playVideo }
-                        { props.video && props.video.id === curMedia.id && props.video.url ? 
-                            <video 
-                                // onPointerDown={(event) => props.slidePlay(props.cnt._id, mediaTotal, event)}
-                                // onPointerMove={(event) => props.moveSlidePlay(props.cnt._id, mediaTotal, event)}
-                                // onPointerUp={(event) => props.clearSlidePlay(event)}
-                                src={props.video.url} controls autoPlay>
-                                <p>our browser doesn't support embedded videos</p>
-                            </video> :
-                        props.video && props.video.id === curMedia.id ? null : 
-                        <img 
-                            draggable="false"
-                            onDragStart={() => false }
-                            src={curMedia.url}  alt="advert"
-                            // onPointerDown={(event) => props.slidePlay(props.cnt._id, mediaTotal, event)}
-                            // onPointerMove={(event) => props.moveSlidePlay(props.cnt._id, mediaTotal, event)}
-                            // onPointerUp={(event) => props.clearSlidePlay(event)} 
-                            />
-                        }
-                        { props.videoErr && props.videoErr.id === curMedia.id ? 
-                            <div 
-                                className="reuse-ads__video-err"
-                                // onPointerDown={(event) => props.slidePlay(props.cnt._id, mediaTotal, event)}
-                                // onPointerMove={(event) => props.moveSlidePlay(props.cnt._id, mediaTotal, event)}
-                                // onPointerUp={(event) => props.clearSlidePlay(event)}
-                                >
-                                <div 
-                                    className="reuse-ads__video-err--icn"
-                                    onClick={props.playVideo.bind(this, curMedia.id, props.cnt.video)}>
-                                    <FontAwesomeIcon 
-                                        icon={['fas', 'redo']} 
-                                        className="icon icon__reuse-ads--video-err__icn"/>
-                                </div>
-                                <h3> {props.videoErr.err.message} </h3> 
-                            </div> : null}
-                    </div>
+			    <div className="reuse-ads__media--main-wrapper">
+                    <Carousel
+                        images={mediaCnt}
+                        wrapperClass="reuse-ads__media--wrapper"
+                        prevClass="reuse-ads__media--cnt reuse-ads__media--cnt__prev"
+                        prevIcnClass="icon icon__reuse-ads--media__prev"
+                        nextClass="reuse-ads__media--cnt reuse-ads__media--cnt__nxt"
+                        nextIcnClass="icon icon__reuse-ads--media__nxt"
+                        playClass="reuse-ads__media--wrapper__icn"
+                        playIcnClass="icon icon__reuse-ads--media__play"/>
                 </div>
-                
-                {
-                    mediaCnt && mediaCnt.length > 1 ? 
-                    <Aux>
-                        <div 
-                            className="reuse-ads__media--cnt reuse-ads__media--cnt__nxt"
-                            onClick={props.nextMedia}>
-                            <FontAwesomeIcon 
-                                icon={['fas', 'angle-right']} 
-                                className="icon icon__reuse-ads--media__nxt" />
-                        </div>
-                        <div 
-                            className="reuse-ads__media--cnt reuse-ads__media--cnt__prev"
-                            onClick={props.prevMedia}>
-                            <FontAwesomeIcon 
-                                icon={['fas', 'angle-left']} 
-                                className="icon icon__reuse-ads--media__prev" />
-                        </div>
-                    </Aux> : null
-                }
             </div>
-        );
-    } 
+        )
+    }
 
     if (props.showCnt && props.showCnt.visible && props.index === props.showCnt.id) {
         userOptDetClass.push('reuse-ads__footer--details__clk');

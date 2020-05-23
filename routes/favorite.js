@@ -8,6 +8,7 @@ router.get('/', authenticate, (req, res, next) => {
     if (!req.authType) {
         res.render('favorite');
     } else {
+        res.cookie('redirect', '/favorite', {maxAge: 3600000});
         res.redirect('/login')
     }
 })

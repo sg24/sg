@@ -68,7 +68,7 @@ class Adverts extends Component {
             this.props.onFetchCnt(
                     this.props.userID,  
                     this.state.filterTag !== 'advert' ? 
-                    this.state.filterTag === 'filter' ?  'filter=='+this.props.filterDet : `advert-${this.state.filterTag}` : 'post' ,
+                    this.state.filterTag === 'filter' ?  'filter=='+this.props.filterDet : `advert-${this.state.filterTag}` : 'advert' ,
                     this.state.fetchLimit, this.props.skipCnt + this.state.fetchLimit, this.props.cntTotal);
         }
     } 
