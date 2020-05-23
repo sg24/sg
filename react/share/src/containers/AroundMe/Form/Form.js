@@ -247,7 +247,7 @@ class Form extends Component {
                 }
             }  
         }).then((res) => {
-            window.location.assign('/aroundme/'+res.data)
+            window.location.assign('/aroundme/chat/'+res.data)
         }).catch((err) => {
             this.setState({err, disable: false})
         });

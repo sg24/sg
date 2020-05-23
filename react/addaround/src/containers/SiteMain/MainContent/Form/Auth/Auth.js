@@ -129,7 +129,7 @@ class Auth extends Component {
                  password: this.state.signup.password.value,
                  email: this.state.signup.email.value,
              }
-             axios.post('http://localhost:3002/signup', cnt).then((res) => {
+             axios.post('https://www.slodge24.com/signup', cnt).then((res) => {
                 this.props.userAuth()
             }).catch(err => {
                 let error = null
@@ -163,7 +163,7 @@ class Auth extends Component {
                 username: this.state.formElement.username.value,
                 password: this.state.formElement.password.value
              }
-             axios.post('http://localhost:3002/login', cnt).then((res) => {
+             axios.post('https://www.slodge24.com/login', cnt).then((res) => {
                 this.props.userAuth()
             }).catch(err => {
                 let error = err.response ? err.response.data : err.message;

@@ -6,7 +6,6 @@ import Avatar from 'react-avatar';
 import './AdvertContent.css';
 import '../../../UI/ShareIcn/ShareIcn.css'; 
 import { transformNumber, engStrings } from '../../../../shared/utility';
-import Aux from '../../../../hoc/Auxs/Aux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FavoriteActive from '../../../UI/FavoriteActive/FavoriteActive';
 import Carousel from '../../../UI/Media/Media';

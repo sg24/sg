@@ -239,7 +239,7 @@ class Form extends Component {
             }
         }
 
-        axios.post('http://localhost:3002/add/aroundme', formContent, {
+        axios.post('https://www.slodge24.com/add/aroundme', formContent, {
             onUploadProgress: function (progressEvent) {
                 if (progressEvent.lengthComputable) {
                     const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -247,7 +247,7 @@ class Form extends Component {
                 }
             }  
         }).then((res) => {
-            window.location.assign('/aroundme/'+res.data)
+            window.location.assign('/aroundme/chat/'+res.data)
         }).catch((err) => {
             this.setState({err, disable: false})
         });

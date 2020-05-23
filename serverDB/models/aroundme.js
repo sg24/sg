@@ -41,6 +41,10 @@ const AroundmeSchema = new Schema({
         type: Array,
         default: [String]
     },
+    share: {
+        type: Array,
+        default: [String]
+    },
     mode: {
         type: String,
         default: 'publish'

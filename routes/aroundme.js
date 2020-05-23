@@ -18,7 +18,7 @@ router.get('/', authenticate, (req, res,next) => {
     res.render('aroundme');
 })
 
-router.get('/:id', authenticate, (req, res,next) => {
+router.get('/chat/:id', authenticate, (req, res,next) => {
     res.render('aroundme');
 })
 
@@ -67,6 +67,14 @@ router.post('/', authenticate, (req, res, next) => {
 
     if (req.header !== null && req.header('data-categ') === 'aroundme') {
         return fetchAround({});
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'mylocation') {
+        return fetchAround({authorID: req.user});
+    }
+
+    if (req.header !== null && req.header('data-categ') && req.header('data-categ').startsWith('shared')) {
+        return fetchAround({mode: 'publish', shareMe: []});
     }
 
     if (req.header !== null && req.header('data-categ') === 'chat') {

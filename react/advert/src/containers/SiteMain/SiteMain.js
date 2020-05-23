@@ -11,6 +11,11 @@ import Modal from '../../components/UI/Modal/Modal';
 import MainFilter from '../../components/MainFilter/MainFilter';
 import Loader from '../../components/UI/Loader/Loader';
 import NoAcc from '../../components/Main/NoAcc/NoAcc';
+import AroundMe from '../AroundMe/AroundMe';
+
+const AsyncForm = asyncComponent(() => {
+    return import ('../AroundMe/Form/Form');
+});
 
 const AsyncShare= asyncComponent(() => {
     return import ('./Share/Share');
@@ -102,6 +107,7 @@ class SiteMain extends Component {
                     <Route path="/advert/:id" exact component={MainContent} />
                 </Switch>
                 <MainNav />
+                <AroundMe />
             </div>
             { this.props.filterStart ? 
                 <div 
@@ -131,6 +137,7 @@ class SiteMain extends Component {
                         changeCnt={this.changeCntHandler}
                         closeChangeCnt={this.closeChangeCntHandler}/> : null}
                 <Route path="/advert/share" exact component={AsyncShare} />
+                <Route path="/advert/aroundme" exact component={AsyncForm} />
         </div>
         )
     }

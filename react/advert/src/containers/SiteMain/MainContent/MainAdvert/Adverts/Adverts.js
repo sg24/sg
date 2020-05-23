@@ -86,7 +86,7 @@ class Adverts extends Component {
             this.setState({scrollEnable: true})
         }
 
-        if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id !== 'share' && this.props.match.params.id !== 'filter' && this.props.match.params.id !== 'startfilter') {
+        if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id !== 'share'  && this.props.match.params.id !== 'aroundme' && this.props.match.params.id !== 'filter' && this.props.match.params.id !== 'startfilter') {
             this.props.onFetchCntReset();
             this.props.onFetchCnt(this.props.userID, this.props.match.params.id === 'shared' ? `shared-${this.props.userID}` : this.props.match.params.id, this.state.fetchLimit, 0, 0);
             this.setState({

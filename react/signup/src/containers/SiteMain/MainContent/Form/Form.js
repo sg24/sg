@@ -6,12 +6,12 @@ import './Form.css';
 import * as actions from '../../../../store/actions/index';
 import Logo from '../../../../components/UI/Logo/Logo';
 import Loader from '../../../../components/UI/Loader/Loader';
-import Modal from '../../../../components/UI/Modal/Modal';
 import Aux from '../../../../hoc/Auxs/Aux';
 import { updateObject, checkValidity } from '../../../../shared/utility';
 
 class Form extends Component {
     state = {
+        redirect: document.cookie.replace(/(?:(?:^|.*;\s*)redirect\s*\=\s*([^;]*).*$)|^.*$/, "$1"),
         formElement: {
             username: {
                 value: '',
@@ -56,7 +56,10 @@ class Form extends Component {
 
     componentDidUpdate() {
         if (this.props.submitted) {
-           window.history && window.history.length && window.history.length > 1 ? window.history.back() : window.location.replace('/index/post');
+            if (this.state.redirect) {
+                return window.location.assign(this.state.redirect)
+            }
+            window.location.assign(`/index/post`)
         }
     }
     

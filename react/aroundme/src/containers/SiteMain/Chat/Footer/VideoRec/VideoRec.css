@@ -1,0 +1,116 @@
+.icon__site-main--chat__vidcam--mic {
+  font-size: 1.875rem;
+}
+
+.site-main__chat--vidcam {
+  position: absolute;
+  background-color: #fff;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  transition: all .3s ease-in;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+}
+
+.site-main__chat--vidcam__wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-positive: 1;
+      flex-grow: 1;
+  overflow: hidden;
+  background-color: rgba(0,0,0, .9);
+}
+
+ .site-main__chat--vidcam__wrapper > video { 
+   width: 100%;
+   display: flex;
+    -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-positive: 1;
+      flex-grow: 1;
+ }
+
+.site-main__chat--vidcam__opt { 
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+ .site-main__chat--vidcam__opt--control {
+   position: relative;
+    width: 60px;
+    height: 60px;
+    outline: none;
+    border: none;;
+    border-radius: 50%;
+    background: #ff1600;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.875rem;
+    box-shadow: 0 5px 5px 2px rgba(0,0,0, 1);
+    cursor: pointer;
+    margin-right: 5px;
+ }
+
+ .site-main__chat--vidcam__opt--control:not(:disabled) {
+  animation:  rec .3s cubic-bezier(0.1, -0.6, 0.2, 0) -2s infinite alternate backwards;
+ }
+
+.site-main__chat--vidcam__opt--control:not(:disabled):hover {
+  font-size: 2rem;
+  transition: all .3s ease-out;
+}
+
+.site-main__chat--vidcam__opt--control:disabled {
+  opacity: .5;
+}
+
+.site-main__chat--vidcam__opt--close {
+  color: #ff1600;
+  background-color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: .8125rem;
+  border: 1px solid rgba(0,0,0,1);
+  cursor: pointer;
+}
+
+@keyframes rec {
+  0% {
+      opacity: 0.2;
+  }
+  25% {
+      opacity: 0.4;
+  }
+  50% {
+      opacity: 0.6;
+  }
+  75% {
+      opacity: 0.8;
+  }
+  100% {
+      opacity: 10;
+  }
+}  

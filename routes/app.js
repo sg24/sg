@@ -17,7 +17,7 @@ let push = require('./utility/push');
 const global = require('../global/global');
 
 const {category,  posts, questions, poets, group, user,  adverts, tempUser, postnotifies, 
-     authUser, quenotifies, pwtnotifies, viewnotifies, usernotifies,
+     authUser, aroundme, quenotifies, pwtnotifies, viewnotifies, usernotifies,
      favorite, connectStatus, chatnotifies, grpchatnotifies} = require('../serverDB/serverDB');
 
 router.get('/',function (req, res, next) {
@@ -370,7 +370,7 @@ router.post('/header', authenticate, (req, res, next) => {
     if (req.header('data-categ') === 'myModel') {
         let model = req.body.model === 'post' ? posts :
         req.body.model === 'question' ? questions : req.body.model === 'group'  ? group : 
-        req.body.model === 'advert' ? adverts : poets;
+        req.body.model === 'advert' ? adverts : req.body.model === 'aroundme' ? aroundme : poets;
         model.find({authorID: req.user}).count().then(result => {
             res.status(200).send(String(result))
         })
@@ -791,6 +791,10 @@ router.get('/add/advert', authenticate, (req, res, next) => {
         res.redirect('/login')
     }
     
+});
+
+router.get('/add/aroundme', authenticate, (req, res, next) => {
+    res.render('addaround');
 });
 
 router.get('/edit/advert/:id', authenticate, (req, res, next) => {

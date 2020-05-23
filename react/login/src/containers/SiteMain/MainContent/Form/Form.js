@@ -11,6 +11,7 @@ import { updateObject, checkValidity } from '../../../../shared/utility';
 
 class Form extends Component {
     state = {
+        redirect: document.cookie.replace(/(?:(?:^|.*;\s*)redirect\s*\=\s*([^;]*).*$)|^.*$/, "$1"),
         formElement: {
             username: {
                 value: '',
@@ -40,6 +41,9 @@ class Form extends Component {
 
     componentDidUpdate() {
         if (this.props.submitted) {
+            if (this.state.redirect) {
+                return window.location.assign(this.state.redirect)
+            }
             window.location.assign(`/index/post`)
         }
     }
