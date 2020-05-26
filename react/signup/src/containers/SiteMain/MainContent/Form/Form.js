@@ -56,10 +56,13 @@ class Form extends Component {
 
     componentDidUpdate() {
         if (this.props.submitted) {
-            if (this.state.redirect) {
-                return window.location.assign(this.state.redirect)
+            let url = decodeURIComponent(this.state.redirect)
+            if (url !== 'undefined' && url !== "" && url) {
+                document.cookie = "redirect=;"
+                window.location.assign(url)
+            } else {
+                window.location.assign(`/index/post`)
             }
-            window.location.assign(`/index/post`)
         }
     }
     
