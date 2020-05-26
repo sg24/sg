@@ -10,7 +10,7 @@ router.get('/', authenticate, (req, res,next) => {
     if (!req.authType) {
         res.render('conv');
     } else {
-        res.cookie('redirect', '/conv', {maxAge: 3600000});
+        res.cookie('redirect', '/conv');
         res.redirect('/login')
     }
 })
@@ -19,7 +19,7 @@ router.get('/:id', authenticate, (req, res,next) => {
     if (!req.authType) {
         res.render('conv');
     } else {
-        res.cookie('redirect', '/conv', {maxAge: 3600000});
+        res.cookie('redirect', '/conv');
         res.redirect('/login')
     }
 })

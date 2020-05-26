@@ -11,7 +11,7 @@ router.get('/', authenticate, (req,res, next) => {
     if (!req.authType) {
         res.render('group')
     } else {
-        res.cookie('redirect', '/group', {maxAge: 3600000});
+        res.cookie('redirect', '/group');
         res.redirect('/login')
     }
 })
@@ -20,7 +20,7 @@ router.get('/:id', authenticate, (req, res,next) => {
     if (!req.authType) {
         res.render('group')
     } else {
-        res.cookie('redirect', '/group', {maxAge: 3600000});
+        res.cookie('redirect', '/group');
         res.redirect('/login')
     }
 })
@@ -117,7 +117,7 @@ router.post('/', authenticate, (req, res, next) => {
                 })
             })
         } else {
-            res.cookie('redirect', '/group', {maxAge: 3600000});
+            res.cookie('redirect', '/group');
             res.redirect('/login')
         }
         return

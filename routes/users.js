@@ -13,7 +13,7 @@ router.get('/', authenticate,(req, res, next) => {
     if (!req.authType) {
         res.render('users')
     } else {
-        res.cookie('redirect', '/users', {maxAge: 3600000});
+        res.cookie('redirect', '/users');
         res.redirect('/login')
     }
 })
@@ -22,7 +22,7 @@ router.get('/request', authenticate,(req, res, next) => {
     if (!req.authType) {
         res.render('users')
     } else {
-        res.cookie('redirect', '/users', {maxAge: 3600000});
+        res.cookie('redirect', '/users');
         res.redirect('/login')
     }
 })
@@ -301,7 +301,7 @@ router.patch('/', authenticate,(req, res, next) => {
         if (!req.authType) {
            update(req.body.id, authUser, user, 'request')
         } else {
-            res.cookie('redirect', '/users', {maxAge: 3600000});
+            res.cookie('redirect', '/users');
             res.redirect('/login')
         }
         return 
