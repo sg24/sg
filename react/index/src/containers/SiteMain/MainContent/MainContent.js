@@ -189,6 +189,16 @@ class MainContent extends Component {
             </div>
         )
 
+        let addAdvert = (
+            <div className="reuse-filter">
+                <div className="reuse-filter__wrapper">
+                <div className="reuse-filter__add" onClick={this.addAroundmeHandler}>
+                    <a href="/add/advert">Add</a>
+                </div>
+                </div>
+            </div>
+        );
+
         if (this.props.showLoader) {
             loaderCnt = (
                 <div className="site-main__content--loader">
@@ -242,6 +252,7 @@ class MainContent extends Component {
                 ? categ: null }
                 {this.props.path !== '/users' && this.props.path !== '/group' && this.props.path !== '/helpme' && this.props.path !== '/aroundme'  ? categ : null }
                 {this.props.path === '/aroundme'  ? addAroundMe : null }
+                {this.props.path === '/advert'  ? addAdvert : null }
                 <Switch>
                     <Route path="/index/post" exact component={AsyncPosts}/>
                     <Route path="/index/post/:id" exact component={AsyncPosts}/>

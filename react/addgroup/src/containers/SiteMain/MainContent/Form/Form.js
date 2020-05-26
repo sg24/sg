@@ -343,7 +343,7 @@ class Form extends  Component {
                                 <FontAwesomeIcon 
                                     icon={['fas', 'tags']} 
                                     className="icon icon__reuse-form--cnt__tag" />
-                                Tags
+                                Category (e.g Education, Entertainment, Business, Information, ...)
                             </label>
                             <div className="reuse-form__cnt--det">
                                 <div className="reuse-form__cnt--det__wrapper">

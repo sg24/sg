@@ -367,14 +367,14 @@ class Form extends  Component {
                                 <FontAwesomeIcon 
                                     icon={['fas', 'tags']} 
                                     className="icon icon__reuse-form--cnt__tag" />
-                                Tags
+                                Category (e.g Banner, Cosmetic, Electronics, Resturant, ...)
                             </label>
                             <div className="reuse-form__cnt--det">
                                 <div className="reuse-form__cnt--det__wrapper">
                                     <div 
                                         className={categListClass.join(' ')}
                                         onClick={this.showCategHandler}>
-                                        Category 
+                                        Category
                                         <FontAwesomeIcon 
                                             icon={['fas', 'angle-down']} 
                                             className="icon icon__reuse-form--angle" />
