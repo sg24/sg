@@ -192,9 +192,12 @@ class MainContent extends Component {
         let addAdvert = (
             <div className="reuse-filter">
                 <div className="reuse-filter__wrapper">
-                <div className="reuse-filter__add" onClick={this.addAroundmeHandler}>
-                    <a href="/add/advert">Add</a>
-                </div>
+                    <Category />
+                    <div className="reuse-filter__add">
+                        <a href="/add/advert">
+                            ADD
+                        </a>
+                    </div>
                 </div>
             </div>
         );
@@ -250,7 +253,7 @@ class MainContent extends Component {
                 </ul>
                 {this.props.status && (this.props.path === '/users' || this.props.path === '/group')
                 ? categ: null }
-                {this.props.path !== '/users' && this.props.path !== '/group' && this.props.path !== '/helpme' && this.props.path !== '/aroundme'  ? categ : null }
+                {this.props.path !== '/users' && this.props.path !== '/group' && this.props.path !== '/helpme' && this.props.path !== '/aroundme' && this.props.path !== '/advert'  ? categ : null }
                 {this.props.path === '/aroundme'  ? addAroundMe : null }
                 {this.props.path === '/advert'  ? addAdvert : null }
                 <Switch>
