@@ -21,7 +21,7 @@ const {category,  posts, questions, poets, group, contest, user,  adverts, tempU
      favorite, connectStatus, chatnotifies, grpchatnotifies} = require('../serverDB/serverDB');
 
 router.get('/',function (req, res, next) {
-    res.redirect(301,'/index/post');
+    res.redirect(301,'/index/user');
     // if ((req.useragent && req.useragent.isBot) ||
     // req.useragent.source === 'facebookexternalhit/1.1' ||
     // req.useragent.source === 'Facebot' ||

@@ -66,7 +66,7 @@ nextApp.prepare().then(() => {
   app.use('/contest', contestRoute);
   app.use('/sitemap.xml', sitemapxmlRoute);
   app.use(function (req, res, next) {
-      return res.redirect('/index/post');
+      return res.redirect('/index/user');
   });
   
   app.all('*', (req, res) => {
