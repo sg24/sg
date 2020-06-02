@@ -167,6 +167,15 @@ class UserOption extends Component {
                         Around Me
                     </a>
                 </li>
+                <li className="site-header__user--det__logout">
+                    <a href="/add/contest">
+                        <div>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'comments-dollar']}  /> 
+                        </div>
+                        Contest
+                    </a>
+                </li>
             </Aux>
             )    
         }

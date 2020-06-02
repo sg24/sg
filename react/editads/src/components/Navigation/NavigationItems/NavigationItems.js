@@ -19,6 +19,7 @@ const navigationItems = props => {
             <NavigationItem path="/add/group">Chat Room</NavigationItem>
             <NavigationItem path="/add/advert">Advert</NavigationItem>
             <NavigationItem path="/add/aroundme">Around Me</NavigationItem>
+            <NavigationItem path="/add/contest">Contest</NavigationItem>
         </ul>
     )
 };

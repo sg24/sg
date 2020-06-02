@@ -237,6 +237,14 @@ class NavigationList extends Component {
                             Around  Me
                         </a>
                     </li>
+                    <li>
+                        <a href="/contest">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'comments-dollar']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Contest
+                        </a>
+                    </li>
                 </ul>
             </Aux>
         )
@@ -314,6 +322,14 @@ class NavigationList extends Component {
                                 icon={['fas', 'map-marker-alt']} 
                                 className="icon icon__site-header--nav__itm" />
                             Around  Me
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/contest">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'comments-dollar']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Contest
                         </a>
                     </li>
                 </ul>
