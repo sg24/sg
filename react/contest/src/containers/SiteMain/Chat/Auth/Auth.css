@@ -1,0 +1,117 @@
+.aroundme__form--cnt {
+    padding: 20px 10px;
+}
+
+.aroundme__form--cnt__title {
+    color: #333;
+}
+
+.aroundme__form--cnt__det {
+    position: relative;
+    width: 100%;
+    margin-top: 10px;
+    background-color: #dcdbdc;
+    border-radius: 5px;
+    font-size: .875rem;
+    box-shadow: inset 0 0px 1px 0px rgba(0,0,0, .95);
+}
+
+.aroundme__form--cnt__det--input {
+    width: 100%;
+    border: none;
+    padding: 6px 10px;
+    margin: 0;
+    border-radius: 5px;
+    background-color: #dcdbdc;
+    outline: none;
+}
+
+.aroundme__form--cnt__det--loc {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: #ff1600;
+    padding: 0 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    font-size: .8125rem;
+    font-weight: 300;
+}
+
+.aroundme__form--cnt__det--loc__disable {
+    opacity: .75;
+    cursor: not-allowed;
+}
+
+.aroundme__form--auth {
+    position: relative;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.aroundme__form--auth__tab {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.aroundme__form--auth__tab > li {
+    float: left;
+    margin: 2px 5px;
+    padding: 3px 10px;
+    background-color: #f2f2f2;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: .8125rem;
+    /* border: 1px solid rgba(0,0,0, .55) */
+}
+
+.aroundme__form--auth__tab--active {
+    background-color: #05578b !important;
+    color: #fff;
+}
+
+.aroundme__form--auth__tab::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.aroundme__form--footer {
+    position: relative;
+    padding: 10px;
+    border-top: 1px solid #dcdbdc;
+    bottom: 0;
+}
+
+.aroundme__form--footer > button {
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    padding: 5px 8px;
+    cursor: pointer;
+    background-color: #05578b;
+    box-shadow: 0 1px 4px 1px rgba(0,0,0, .55);
+    color: #fff;
+    float: right;
+}
+
+.aroundme__form--footer > button:disabled {
+    opacity: .65;
+}
+
+.aroundme__form--footer::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.aroundme__form--err {
+    color: #ff1600;
+    padding: 5px 0;
+}

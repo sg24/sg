@@ -42,6 +42,10 @@ const AsyncAroundme = asyncComponent(() => {
     return import ('./Aroundme/Aroundme');
 });
 
+const AsyncContest = asyncComponent(() => {
+    return import ('./Contest/Contest');
+});
+
 class MainContent extends Component {
     state = {
         post: {
@@ -54,7 +58,7 @@ class MainContent extends Component {
             path: '/index/aroundme',
             icnGrp: 'map-marker-alt',
             icnClass: 'icon icon__site-main__content--tab',
-            title: 'Around Me'
+            title: 'Around'
         },
         questions: {
             path: '/index/question',
@@ -62,12 +66,6 @@ class MainContent extends Component {
             icnClass: 'icon icon__site-main__content--tab',
             title: 'Questions'
         },
-        // group: {
-        //     path: '/index/group',
-        //     icnGrp: 'users',
-        //     icnClass: 'icon icon__site-main__content--tab',
-        //     title: 'Groups'
-        // },
         user: {
             path: '/index/user',
             icnGrp: 'users',
@@ -85,6 +83,12 @@ class MainContent extends Component {
             icnGrp: 'comment-alt',
             icnClass: 'icon icon__site-main__content--tab',
             title: 'Room',
+        },
+        contest: {
+            path: '/index/contest',
+            icnGrp: 'comments-dollar',
+            icnClass: 'icon icon__site-main__content--tab',
+            title: 'Contest',
         },
         helpme: {
             path: '/index/helpme',
@@ -162,6 +166,10 @@ class MainContent extends Component {
         this.props.history.push('/index/add/aroundme')
     }
 
+    addContestHandler = () => {
+        this.props.history.push('/index/add/contest')
+    }
+
     render() {
         let loaderCnt = null;
         let categ = (
@@ -202,6 +210,18 @@ class MainContent extends Component {
             </div>
         );
 
+        let addContest =  (
+            <div className="reuse-filter">
+                <div className="reuse-filter__wrapper">
+                <div className="reuse-filter__add" onClick={this.addContestHandler}>
+                    <div>
+                        JOIN
+                    </div>
+                </div>
+                </div>
+            </div>
+        )
+
         if (this.props.showLoader) {
             loaderCnt = (
                 <div className="site-main__content--loader">
@@ -215,51 +235,57 @@ class MainContent extends Component {
                 <div className="site-main__content--wrapper">
                     <ul className="site-main__content--tab">
                     <MainNavigations 
-                    content={this.state.post}
-                    removeActive={this.removeActiveHandler.bind(this, 'post')}
-                    active={this.state.curTab !== 'post' ? this.props.ptActive : null}/>
+                        content={this.state.user}
+                        removeActive={this.removeActiveHandler.bind(this, 'user')}
+                        active={this.state.curTab !== 'user' ? this.props.reqActive: null}/>
                     <MainNavigations 
-                    content={this.state.aroundme}
-                    removeActive={this.removeActiveHandler.bind(this, 'aroundme')}
-                    active={null}/>
-                <MainNavigations 
-                    content={this.state.questions}
-                    removeActive={this.removeActiveHandler.bind(this, 'question')}
-                    active={this.state.curTab !== 'question' ? this.props.queActive : null}/>
-                <MainNavigations 
-                    content={this.state.helpme}
-                    removeActive={this.removeActiveHandler.bind(this, 'helpme')}
-                    active={this.state.curTab !== 'helpme' ? this.props.shareCntActive : null}/>
-                <MainNavigations 
-                    content={this.state.advert}
-                    removeActive={this.removeActiveHandler.bind(this, 'advert')}
-                    active={null}/>
+                        content={this.state.group}
+                        removeActive={this.removeActiveHandler.bind(this, 'group')}
+                        active={this.state.curTab !== 'group' ? this.props.joinActive: null}/>
+                    <MainNavigations 
+                        content={this.state.contest}
+                        removeActive={this.removeActiveHandler.bind(this, 'contest')}
+                        active={null}/>
+                    <MainNavigations 
+                        content={this.state.advert}
+                        removeActive={this.removeActiveHandler.bind(this, 'advert')}
+                        active={null}/>
+                    <MainNavigations 
+                        content={this.state.aroundme}
+                        removeActive={this.removeActiveHandler.bind(this, 'aroundme')}
+                        active={null}/>
+                    <MainNavigations 
+                        content={this.state.post}
+                        removeActive={this.removeActiveHandler.bind(this, 'post')}
+                        active={this.state.curTab !== 'post' ? this.props.ptActive : null}/>
+                    <MainNavigations 
+                        content={this.state.questions}
+                        removeActive={this.removeActiveHandler.bind(this, 'question')}
+                        active={this.state.curTab !== 'question' ? this.props.queActive : null}/>
+                    <MainNavigations 
+                        content={this.state.helpme}
+                        removeActive={this.removeActiveHandler.bind(this, 'helpme')}
+                        active={this.state.curTab !== 'helpme' ? this.props.shareCntActive : null}/>
                 {/* <MainNavigations 
                     content={this.state.group}
                     removeActive={this.removeActiveHandler.bind(this, 'group')}
                     active={this.state.curTab !== 'group' ? this.props.cntActive : null}/> */}
-                <MainNavigations 
-                    content={this.state.user}
-                    removeActive={this.removeActiveHandler.bind(this, 'user')}
-                    active={this.state.curTab !== 'user' ? this.props.reqActive: null}/>
                     <MainNavigations 
-                    content={this.state.group}
-                    removeActive={this.removeActiveHandler.bind(this, 'group')}
-                    active={this.state.curTab !== 'group' ? this.props.joinActive: null}/>
-                <MainNavigations 
-                    content={this.state.poet}
-                    removeActive={this.removeActiveHandler.bind(this, 'poet')}
-                    active={this.state.curTab !== 'poet' ? this.props.cntActive : null}/>
+                        content={this.state.poet}
+                        removeActive={this.removeActiveHandler.bind(this, 'poet')}
+                        active={this.state.curTab !== 'poet' ? this.props.cntActive : null}/>
                 </ul>
                 {this.props.status && (this.props.path === '/users' || this.props.path === '/group')
                 ? categ: null }
-                {this.props.path !== '/users' && this.props.path !== '/group' && this.props.path !== '/helpme' && this.props.path !== '/aroundme' && this.props.path !== '/advert'  ? categ : null }
+                {this.props.path !== '/users' && this.props.path !== '/group' && this.props.path !== '/helpme' && this.props.path !== '/aroundme' && this.props.path !== '/advert'  && this.props.path !== '/contest'  ? categ : null }
                 {this.props.path === '/aroundme'  ? addAroundMe : null }
                 {this.props.path === '/advert'  ? addAdvert : null }
+                {this.props.path === '/contest'  ? addContest : null }
                 <Switch>
                     <Route path="/index/post" exact component={AsyncPosts}/>
                     <Route path="/index/post/:id" exact component={AsyncPosts}/>
                     <Route path="/index/aroundme"  component={AsyncAroundme}/>
+                    <Route path="/index/contest"  component={AsyncContest}/>
                     <Route path="/index/question" exact component={AsyncQuestions}/>
                     <Route path="/index/question/:id" exact component={AsyncQuestions}/>
                     <Route path="/index/helpme" exact component={AsyncHelpme}/>

@@ -11,22 +11,26 @@ import Modal from '../../components/UI/Modal/Modal';
 import MainFilter from '../../components/MainFilter/MainFilter';
 import Loader from '../../components/UI/Loader/Loader';
 import NoAcc from '../../components/Main/NoAcc/NoAcc';
-import AroundMe from '../AroundMe/AroundMe';
+import Contest from '../Contest/Contest';
 
 const AsyncShare= asyncComponent(() => {
     return import ('./Share/Share');
 });
 
 const AsyncChat= asyncComponent(() => {
-    return import ('./Chat/Chat');
+    return import ('./Face/Chat');
 });
 
 const AsyncForm = asyncComponent(() => {
-    return import ('../AroundMe/Form/Form');
+    return import ('../Contest/Form/Form');
 });
 
 const AsyncGroupInfo = asyncComponent(() => {
     return import ('./GroupInfo/GroupInfo');
+});
+
+const AsyncPreview = asyncComponent(() => {
+    return import ('./Preview/Preview');
 });
 
 class SiteMain extends Component {
@@ -112,7 +116,7 @@ class SiteMain extends Component {
                         err={ this.props.cntErr } /> : null}
                 <MainContent />
                 <MainNav />
-                <AroundMe />
+                <Contest />
             </div>
             { this.props.filterStart ? 
                 <div 
@@ -171,8 +175,9 @@ class SiteMain extends Component {
                         closeChangeCnt={this.closeChangeGrpCntHandler}/> : null}
                 <Route path={'/index/:id/share'} exact component={AsyncShare} />
                 <Route path="/index/group/info/:id" exact component={AsyncGroupInfo} />
-                <Route path="/index/add/aroundme" exact component={AsyncForm} />
-                <Route path="/index/aroundme/:id" exact component={AsyncChat}/>
+                <Route path="/index/add/contest" exact component={AsyncForm} />
+                <Route path="/index/contest/:id" exact component={AsyncChat}/>
+                <Route path="/index/preview" exact component={AsyncPreview}/>
         </div>
         )
     }

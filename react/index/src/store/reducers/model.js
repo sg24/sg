@@ -17,7 +17,8 @@ const initialState = {
     modelType: null,
     changeCnt: false,
     changeCntErr: null,
-    changeCntStart: null
+    changeCntStart: null,
+    preview: []
 }
 
 const fetchCnt = (state, action) => {
@@ -168,6 +169,10 @@ const removeRequest = (state, action) => {
     return updateObject(state, {cnts: group, cntErr: null,changeCntStart: null, changeCntErr: null, changeCnt: false})
 };
 
+const showPreview = (state, action) => {
+    return updateObject(state, {preview: action.media})
+}
+
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.FETCH_CNT:
@@ -208,6 +213,8 @@ const reducer = (state = initialState, action) => {
             return removeRequest(state, action);
         case actionTypes.RESET_MODEL:
             return resetModel(state, action);
+        case actionTypes.SHOW_PREVIEW:
+            return showPreview(state, action);
         default: return state
     }
 };

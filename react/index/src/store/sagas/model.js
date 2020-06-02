@@ -85,6 +85,13 @@ export function* changeCntInitSaga(action) {
             return
         } 
 
+        if (action.modelType === 'contest') {
+            yield axios.post('/contest', {id: action.id}, {
+                headers: {'data-categ': 'deletecontest'}})
+            window.location.reload()
+            return
+        } 
+
         if (action.modelType === 'deletegroup') {
             yield axios.post('/group', {id: action.id}, {
                 headers: {'data-categ': 'deletegroup'}})

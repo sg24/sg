@@ -1,0 +1,58 @@
+.icon__aroundme--loc {
+    font-size: 1.875rem;
+    color: #fff;
+}
+
+.aroundme {
+    position: fixed;
+    z-index: 1;
+    bottom: 0;
+    right: 0;
+}
+
+.aroundme__main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    right: 0;
+    animation: glow .3s cubic-bezier(0.1, -0.6, 0.2, 0) -2s infinite alternate backwards;
+}
+
+.aroundme__main--loc {
+    background: #ff1600;
+    background: radial-gradient(circle closest-side, rgb(255,47,0) 30%, rgba(5,87,139, .55) 33%, rgb(29,120,179) 81%, rgb(53,152,219) 84%);
+    background: -ms-radial-gradient(circle closest-side, rgb(255,47,0) 30%, rgba(5,87,139, .55) 33%, rgb(29,120,179) 81%, rgb(53,152,219) 84%);
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.aroundme__main--title {
+    padding: 2px 10px;
+    border-radius: 5px;
+    background-color: #e9ebf2;
+    margin: 0 auto;
+    font-size: .8125rem;
+    display: block;
+    border: 1px solid rgba(0,0,0, .25);
+    font-weight: 400;
+    cursor: pointer;
+}
+
+@keyframes glow {
+    0% {
+        right: 6px
+    }
+    50% {
+        right: 2px;
+    }
+    100% {
+        right: 0;
+    }
+}

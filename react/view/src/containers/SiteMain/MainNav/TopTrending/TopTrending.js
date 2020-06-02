@@ -9,7 +9,9 @@ import Loader from '../../../../components/UI/Loader/Loader';
 class TopTrending extends Component {
 
     componentDidMount() {
-        this.props.onFetchTrends(this.props.match.params.categ,  this.props.match.params.id);
+        if (this.props.match.params.id !== 'add') {
+            this.props.onFetchTrends(this.props.match.params.categ,  this.props.match.params.id);
+        }
     }
 
     componentDidUpdate() {

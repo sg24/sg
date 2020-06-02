@@ -22,6 +22,7 @@ const tempUser = require('./models/tempUser');
 const authUser = require('./models/authuser');
 const tempFile = require('./models/tempfile');
 const aroundme = require('./models/aroundme');
+const contest = require('./models/contest');
 
 module.exports = {
     adverts,
@@ -46,6 +47,7 @@ module.exports = {
     viewnotifies,
     favorite,
     aroundme,
+    contest,
     connectStatus
 };
 

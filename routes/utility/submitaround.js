@@ -61,7 +61,7 @@ module.exports = submitForm = (content, model, mediaCnt, userModel, userID, shar
                                           webpush.sendNotification(pushConfig, JSON.stringify({
                                             title: userID.username,
                                             content: content.location,
-                                            openUrl: `/aroundme/${id}`
+                                            openUrl: `/aroundme/chat/${id}`
                                           }), pushOptions).then(() => {
                                               ++send;
                                               if (send === allSubscription.length) {

@@ -63,7 +63,8 @@ export {
     changeFavPtStart,
     changeFavPtFail,
     changeFav,
-    resetModel
+    resetModel,
+    showPreview,
 } from './model';
 
 export {

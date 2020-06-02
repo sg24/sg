@@ -124,6 +124,10 @@ var UserSchema = new mongoose.Schema({
         type:Number,
         default: 0
     },
+    contest: {
+        type:Number,
+        default: 0
+    },
     aroundme: {
         type:Number,
         default: 0

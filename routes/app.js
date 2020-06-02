@@ -16,7 +16,7 @@ let notification = require('./utility/notifications');
 let push = require('./utility/push');
 const global = require('../global/global');
 
-const {category,  posts, questions, poets, group, user,  adverts, tempUser, postnotifies, 
+const {category,  posts, questions, poets, group, contest, user,  adverts, tempUser, postnotifies, 
      authUser, aroundme, quenotifies, pwtnotifies, viewnotifies, usernotifies,
      favorite, connectStatus, chatnotifies, grpchatnotifies} = require('../serverDB/serverDB');
 
@@ -370,7 +370,8 @@ router.post('/header', authenticate, (req, res, next) => {
     if (req.header('data-categ') === 'myModel') {
         let model = req.body.model === 'post' ? posts :
         req.body.model === 'question' ? questions : req.body.model === 'group'  ? group : 
-        req.body.model === 'advert' ? adverts : req.body.model === 'aroundme' ? aroundme : poets;
+        req.body.model === 'advert' ? adverts : req.body.model === 'aroundme' ? aroundme : 
+        req.body.model === 'contest' ? contest : poets;
         model.find({authorID: req.user}).count().then(result => {
             res.status(200).send(String(result))
         })
@@ -820,6 +821,18 @@ router.get('/add/group',  authenticate,(req, res, next) => {
         res.cookie('redirect', '/add/group');
         res.redirect('/login')
     }
+});
+
+router.get('/edit/contest/:id', authenticate, (req, res, next) => {
+    if (req.params && !req.authType) { 
+        res.render('editcontest'); 
+    } else {
+        res.redirect('/')
+    }
+});
+
+router.get('/add/contest',  authenticate,(req, res, next) => {
+    res.render('contestform');
 });
 
 // router.get('/add/onlineexam', (req, res, next) => {

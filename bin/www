@@ -45,6 +45,7 @@ nextApp.prepare().then(() => {
   let convRoute = require('../routes/conv');
   let advertRoute = require('../routes/advert');
   let aroundmeRoute = require('../routes/aroundme');
+  let contestRoute = require('../routes/contest');
   let robotonlyRoute = require('../routes/robot');
 
   app.use('/', [appRoutes, formRoutes,profileRoute, viewRoute]);
@@ -62,6 +63,7 @@ nextApp.prepare().then(() => {
   app.use('/conv', convRoute);
   app.use('/aroundme', aroundmeRoute);
   app.use('/advert', advertRoute);
+  app.use('/contest', contestRoute);
   app.use('/sitemap.xml', sitemapxmlRoute);
   app.use(function (req, res, next) {
       return res.redirect('/index/post');

@@ -42,7 +42,11 @@ class Model extends Component {
     }
 
     componentDidMount() {
-        this.props.onFetchCnt( this.props.match.params.categ,  this.props.match.params.id);
+        if (this.props.match.params.id !== 'add') {
+            this.props.onFetchCnt( this.props.match.params.categ,  this.props.match.params.id);
+        } else {
+            window.location.assign('/index/user')
+        }
         let these = this;
         socket.on('newComment', function(msg) {
             these.props.onSubmitSuccess(these.state.id, these.state.categ, msg)
