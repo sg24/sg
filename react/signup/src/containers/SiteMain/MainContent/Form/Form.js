@@ -61,7 +61,7 @@ class Form extends Component {
                 document.cookie = "redirect=;"
                 window.location.assign(url)
             } else {
-                window.location.assign(`/index/post`)
+                window.location.assign(`/index/user`)
             }
         }
     }
