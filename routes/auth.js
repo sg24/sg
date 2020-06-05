@@ -17,7 +17,7 @@ passport.authenticate('google', { failureRedirect: '/login', failureFlash: false
         res.cookie('expiresIn', decoded.exp, {maxAge: 7257600000});
         res.cookie('pushMsg', req.user.pushMsg, {maxAge: 7257600000});
         res.cookie('id', req.user.id, {maxAge: 7257600000});
-        res.redirect('/');
+        res.redirect('/index/user');
     }
 });
 
@@ -33,7 +33,7 @@ passport.authenticate('facebook', { failureRedirect: '/login', failureFlash: fal
         res.cookie('expiresIn', decoded.exp, {maxAge: 7257600000});
         res.cookie('pushMsg', req.user.pushMsg, {maxAge: 7257600000});
         res.cookie('id', req.user.id, {maxAge: 7257600000});
-        res.redirect('/');
+        res.redirect('/index/user');
     }
 });
 

@@ -901,11 +901,11 @@ router.get('/login', (req, res, next) => {
                     res.render('loginform'); 
                     return
                    }
-                   res.redirect('/index/post')
+                   res.redirect('/index/user')
                 })
                 return
             }
-            res.redirect('/index/post')
+            res.redirect('/index/user')
         }).catch((e) => {
             res.render('loginform'); 
         });
@@ -924,11 +924,11 @@ router.get('/signup', (req, res, next) => {
                     res.render('signupform'); 
                     return
                    }
-                   res.redirect('/index/post')
+                   res.redirect('/index/user')
                 })
                 return
             }
-            res.redirect('/index/post')
+            res.redirect('/index/user')
         }).catch((e) => {
             res.render('signupform'); 
         });
@@ -1190,7 +1190,7 @@ router.get('/signup/confirmation/:id', (req, res, next) => {
                                     res.cookie('expiresIn', decoded.exp, {maxAge: 7257600000});
                                     res.cookie('pushMsg', result.pushMsg, {maxAge: 7257600000});
                                     res.cookie('id', result.id, {maxAge: 7257600000});
-                                    res.redirect('/index/post');
+                                    res.redirect('/index/user');
                                 }
                                 return
                             });

@@ -25,12 +25,20 @@ const AsyncForm = asyncComponent(() => {
     return import ('../Contest/Form/Form');
 });
 
+const AsyncAroundForm = asyncComponent(() => {
+    return import ('../Aroundme/Form/Form');
+});
+
 const AsyncGroupInfo = asyncComponent(() => {
     return import ('./GroupInfo/GroupInfo');
 });
 
 const AsyncPreview = asyncComponent(() => {
     return import ('./Preview/Preview');
+});
+
+const AsyncAround = asyncComponent(() => {
+    return import ('./Chat/Chat');
 });
 
 class SiteMain extends Component {
@@ -176,6 +184,8 @@ class SiteMain extends Component {
                 <Route path={'/index/:id/share'} exact component={AsyncShare} />
                 <Route path="/index/group/info/:id" exact component={AsyncGroupInfo} />
                 <Route path="/index/add/contest" exact component={AsyncForm} />
+                <Route path="/index/add/aroundme" exact component={AsyncAroundForm} />
+                <Route path="/index/aroundme/:id" exact component={AsyncAround}/>
                 <Route path="/index/contest/:id" exact component={AsyncChat}/>
                 <Route path="/index/preview" exact component={AsyncPreview}/>
         </div>

@@ -376,7 +376,7 @@ class Form extends Component {
                     <FontAwesomeIcon 
                         icon={['fas', 'mask']} />
                 </div> 
-                Face of slodge24 ( <span> #10,000 / $27 Contest </span>)
+                Face of slodge24 Contest (<span> Ten Thousand Naira / $27 </span>)
             </h3>
         )
 
@@ -545,10 +545,7 @@ class Form extends Component {
                     </div>
                 </div>
                 <div className="reuse-form--footer reuse-form--footer__term">
-                    <div><span>Terms/Conditions:</span> Highest number of comments and views with atleast 10000 views and comments win</div>
-                    <div><span>1st price:</span>: #10,0000 / $27</div>
-                    <div><span>2nd price:</span>: #5000 / $13</div>
-                    <div><span>3rd price:</span>: #2000 / $5</div>
+                <div><span>Terms/Conditions:</span> Highest number of comments and views with atleast 5000 each wins</div>
                     <button 
                         type="button" 
                         className="reuse-form--footer__btn"
