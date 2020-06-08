@@ -60,7 +60,7 @@ router.get('/:categ/:id', authenticate, (req, res,next) => {
             })
         }
     } else {
-        res.cookie('redirect', `/chat/${req.params.id}/${req.params.categ}`);
+        res.cookie('redirect', `/chat/${req.params.categ}/${req.params.id}`);
         res.redirect('/login');
     }
 })
