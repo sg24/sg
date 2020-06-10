@@ -16,7 +16,7 @@ import Loader from '../../../../components/UI/Loader/Loader';
 import Modal from '../../../../components/UI/Modal/Modal';
 import Aux from '../../../../hoc/Auxs/Aux';
 import asyncComponent from '../../../../hoc/asyncComponent/asyncComponent';
-import { updateObject, checkValidity } from '../../../../shared/utility';
+import { updateObject, checkValidity, readData } from '../../../../shared/utility';
 import axios from '../../../../axios';
 
 const AsyncImage = asyncComponent(() => {
@@ -111,7 +111,6 @@ class Form extends  Component {
     componentDidMount() {
         let numberOfAjaxCAllPending = 0;
         let these = this;
-
         if (this.props.qchat && this.props.qchat.length > 0 && this.props.qchat.filter(cnt => cnt.position === 0)[0]) {
             let qchat = this.props.qchat.filter(cnt => cnt.position === 0)[0];
             let oldEditor = this.state.formElement;
@@ -142,10 +141,22 @@ class Form extends  Component {
             oldSetTime.second = second;
             oldSetTime.second.valid = true;
             oldSetTime.second.touched = true;
-            this.props.onSetMedia({
-                video: qchat.video,
-                image: qchat.image,
-                user: typeof qchat.participant === 'object'?  qchat.participant : null
+            let image = []
+            let video = []
+            readData('media', 0).then(media => {
+                if (media) {
+                    for (let cnt of media.image) {
+                        image.push({file: cnt.file, id: cnt.id, url: window.URL.createObjectURL(cnt.file)})
+                    }
+                    for (let cnt of media.video) {
+                        video.push({file: cnt.file, id: cnt.id, url: window.URL.createObjectURL(cnt.file)})
+                    }
+                }
+                this.props.onSetMedia({
+                    video,
+                    image,
+                    user: typeof qchat.participant === 'object'?  qchat.participant : null
+                })
             })
             
             this.setState({

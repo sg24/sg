@@ -13,7 +13,7 @@ import Backdrop from '../../../../components/UI/Backdrop/Backdrop';
 import Modal from '../../../../components/UI/Modal/Modal';
 import Aux from '../../../../hoc/Auxs/Aux';
 import asyncComponent from '../../../../hoc/asyncComponent/asyncComponent';
-import { updateObject, checkValidity } from '../../../../shared/utility';
+import { updateObject, checkValidity, readData, writeData } from '../../../../shared/utility';
 import Loader from '../../../../components/UI/Loader/Loader';
 import axios from '../../../../axios';
 
@@ -86,6 +86,12 @@ class QueForm extends  Component {
                 valid: false,
                 touched: false
             }
+        },
+        check: {
+            q1: false,
+            q2: false,
+            q3: false,
+            q4: false
         },
         formIsValid: false,
         showForm: false,
@@ -166,6 +172,12 @@ class QueForm extends  Component {
                     q3: {value: '',validation: {required: true,minLength: 1},valid: false,touched: false},
                     q4: {value: '',validation: {required: true,minLength: 1},valid: false,touched: false}
                 },
+                check: {
+                    q1: false,
+                    q2: false,
+                    q3: false,
+                    q4: false
+                },
                 oldQueNum: this.state.queNum, 
                 queNum: this.state.queNum,
                 formIsValid: false,showForm: false, answer: [], default: null,update: false,reset: false
@@ -177,6 +189,7 @@ class QueForm extends  Component {
     updateForm = () => {
         if (this.props.qchat && this.props.qchat.length > 0 && this.props.qchat.filter(cnt => cnt.position === this.state.queNum)[0] && !this.state.update) {
             let cnt = this.props.qchat.filter(cnt => cnt.position === this.state.queNum)[0];
+            let answer = JSON.parse(cnt.answer);
             let qchat = JSON.parse(cnt.option)
             let oldEditor = this.state.formElement;
             let q1 = {...oldEditor.q1};
@@ -204,20 +217,38 @@ class QueForm extends  Component {
             oldEditor.q4 = q4;
             oldEditor.q4.valid = true;
             oldEditor.q4.touched = true;
-            
-            this.props.onSetMedia({
-                video: cnt.video,
-                image: cnt.image
+            let image = []
+            let video = []
+            readData('media', this.state.queNum).then(media => {
+                if (media) {
+                    for (let cnt of media.image) {
+                        image.push({file: cnt.file, id: cnt.id, url: window.URL.createObjectURL(cnt.file)})
+                    }
+                    for (let cnt of media.video) {
+                        video.push({file: cnt.file, id: cnt.id, url: window.URL.createObjectURL(cnt.file)})
+                    }
+                }
+                this.props.onSetMedia({
+                    video,
+                    image
+                })
             })
-            
+
+            let check = {...this.state.check};
+            if (answer && answer.length > 0) {
+                for (let opt of answer) {
+                    check[opt] = true;
+                }
+            }
             this.setState({
                 disable: true,showAddItm: false, showVidOpt: false,showImgOpt: false,showUserOpt: false, showAddItmOpt: true,editCnt: false,editInput: '',
                 reset: false,
                 default: {...this.state.default},
                 formElement: oldEditor,
-                answer: JSON.parse(cnt.answer),
+                answer,
                 oldQueNum: this.state.queNum, 
                 queNum: this.state.queNum,
+                check,
                 update: true,
                 formIsValid: true
             })
@@ -277,6 +308,9 @@ class QueForm extends  Component {
 
     submitHandler = (mode) => {
         this.setState({showForm: true,  showAddItm: false, mode});
+        if (this.props.media.image || this.props.media.video) {
+            writeData('media', {position: this.state.queNum, image: this.props.media.image, video: this.props.media.video})
+        }
         if (this.state.formIsValid && this.state.answer.length > 0) {
              let newCnt = {
                 position: this.state.queNum,
@@ -313,15 +347,24 @@ class QueForm extends  Component {
          this.setState({editInput: value > this.props.qchat.length - 1 ? this.props.qchat.length - 1 : value})
      }
  
+     goBackHandler = () => {
+         let back = this.state.queNum - 1;
+        if (back > -1) {
+            this.setState({queNum: Number.parseInt(back)})
+        }
+     }
     ansTickedHandler = (event, opt) => {
         let ans = [...this.state.answer];
         let filterAns = ans.filter(cnt => cnt === opt)[0];
+        let check = {...this.state.check}
         if (filterAns) {
             let updateAns = ans.filter(cnt => cnt !== opt);
-            return this.setState({answer: updateAns})
+            check[opt] = false;
+            return this.setState({answer: updateAns, check})
         }
         ans.push(opt);
-        this.setState({answer: ans});
+        check[opt] = true;
+        this.setState({answer: ans, check});
     }
 
      closeBackdropHandler = () => {
@@ -399,6 +442,15 @@ class QueForm extends  Component {
                                         className="icon icon__reuse-form--clock" />
                                 </span>
                             </label>
+                            <label 
+                                className="reuse-form__cnt--title reuse-form__cnt--title__back"
+                                onClick={this.goBackHandler}>
+                                <span>
+                                    <FontAwesomeIcon 
+                                        icon={['fas', 'arrow-left']} 
+                                        className="icon icon__reuse-form--back" />
+                                </span>
+                            </label>
                             { editCnt }
                             <div className="reuse-form__cnt--tm-total">
                                 Question 
@@ -436,7 +488,8 @@ class QueForm extends  Component {
                                          value={this.state.formElement.q1.value} />
                                     <input 
                                         type="checkbox"
-                                        onChange={(event) => this.ansTickedHandler(event, 'q1')}/>
+                                        onChange={(event) => this.ansTickedHandler(event, 'q1')}
+                                        checked={this.state.check.q1}/>
                                 </li>
                                 <li>
                                     <div>B</div>
@@ -447,7 +500,8 @@ class QueForm extends  Component {
                                         value={this.state.formElement.q2.value}/>
                                     <input 
                                         type="checkbox" 
-                                        onChange={(event) => this.ansTickedHandler(event, 'q2')}/>
+                                        onChange={(event) => this.ansTickedHandler(event, 'q2')}
+                                        checked={this.state.check.q2}/>
                                 </li>
                                 <li>
                                     <div>C</div>
@@ -458,7 +512,8 @@ class QueForm extends  Component {
                                         onChange={(event) => this.inputChangedHandler(event, 'q3')}/>
                                     <input 
                                         type="checkbox"
-                                        onChange={(event) => this.ansTickedHandler(event, 'q3')} />
+                                        onChange={(event) => this.ansTickedHandler(event, 'q3')}
+                                        checked={this.state.check.q3} />
                                 </li>
                                 <li>
                                     <div>D</div>
@@ -469,7 +524,8 @@ class QueForm extends  Component {
                                         onChange={(event) => this.inputChangedHandler(event, 'q4')}/>
                                     <input 
                                         type="checkbox" className="reuse-form__cnt--opt__ans"
-                                        onChange={(event) => this.ansTickedHandler(event, 'q4')}/>
+                                        onChange={(event) => this.ansTickedHandler(event, 'q4')}
+                                        checked={this.state.check.q4}/>
                                 </li>
                             </ul>
                             {/* {{!-- <div className="reuse-form__err">Pls, Select Correct Answer</div> --}} */}

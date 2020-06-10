@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import { updateObject } from '../../shared/utility';
+import { updateObject, writeData } from '../../shared/utility';
 
 const initialState = {
     categ: null,
@@ -122,6 +122,7 @@ const showUserSelect = (state, action) => {
 const addQchat = (state, action) => {
     let qchat = [...state.qchat].length < 1 ? localStorage.getItem('question') ? JSON.parse(localStorage.getItem('question')) : [...state.qchat] :  [...state.qchat];
     let filterQueChat = qchat.filter(que => que.position === action.cnt.position)[0];
+    writeData('media', {position: action.cnt.position, image: action.cnt.image, video: action.cnt.video})
     if (filterQueChat) {
         let qchatIndex = qchat.findIndex(que => que.position === action.cnt.position)
         qchat[qchatIndex] = {...action.cnt}
