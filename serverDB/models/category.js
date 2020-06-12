@@ -25,6 +25,10 @@ const CategorySchema = new Schema({
     advert: {
         type: Array,
         default: [String]
+    },
+    qchat: {
+        type: Array,
+        default: [String]
     }
 })
 

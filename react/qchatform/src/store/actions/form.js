@@ -241,3 +241,10 @@ export const formSubmitted = (id) => {
     };
 };
 
+
+export const setPosition = (position) => {
+    return {
+        type: actionTypes.SET_POSITION,
+        position
+    };
+};

@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs'); 
-const {posts, questions, group, poets, aroundme, adverts, contest, category, tempFile, postnotifies, quenotifies, viewnotifies, pwtnotifies, grpnotifies, connectStatus, user, authUser} = require('../serverDB/serverDB');
+const {posts, questions, group, poets, aroundme, adverts, contest, qchat, category, tempFile, postnotifies, quenotifies, viewnotifies, pwtnotifies, grpnotifies, connectStatus, user, authUser} = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
 let notifications = require('./utility/notifications');
 let formInit = require('./utility/forminit');
@@ -10,11 +10,12 @@ let editForm = require('./utility/editform');
 let editAdvert = require('./utility/editadvert');
 let create = require('./utility/create');
 let edit = require('./utility/edit');
-let uploadToBucket = require('./utility/upload');
+let uploadToBucket = require('./utility/qchatupload');
 let savetemp = require('./utility/savetemp');
 let submitAdvert = require('./utility/submitadvert');
 let submitAround = require('./utility/submitaround');
 let submitContest = require('./utility/submitcontest');
+let submitQchat = require('./utility/submitqchat');
 let editContest = require('./utility/editcontest');
 const router = express.Router();
 let formidable = require('formidable');
@@ -524,5 +525,84 @@ router.post('/edit/contest', authenticate, (req, res, next) => {
         res.status(500).send(err);
     })
 })
+
+router.post('/add/qchat', authenticate, (req, res, next) => {
+    formInit(req, formidable).then(form => {
+        let files = form.files ? form.files : {};
+        let video = [];
+        let image = [];
+        for (let cnt in files) {
+            if (files[cnt].length !== undefined) {
+                for (let itm of files[cnt]) {
+                    updateMedia(itm, cnt)
+                }
+            } else {
+                updateMedia(files[cnt], cnt)
+            }
+        }
+
+        function updateMedia(cnt, position) {
+            if (cnt.type.startsWith('video')) {
+                video.push({...cnt, position});
+            }
+            if (cnt.type.startsWith('image')) {
+                image.push({...cnt, position});
+            }
+        }
+        
+        savetemp(video, image, req.user).then(tempFileID => {
+            uploadToBucket(video, tempFileID, 'video', 'media', 'media.files').then(media => {
+                uploadToBucket(image, tempFileID, 'image', 'image', 'image.files').then(image => {
+                    updateAllMedia(media.videos, 'video', []).then(videoCnt => {
+                        updateAllMedia(media.images, 'snapshot', videoCnt).then(imageCnt => {
+                            updateAllMedia(image, 'image', imageCnt).then(mediaCnt => {
+                                let userModel = req.userType === 'authUser' ? authUser : user;
+                                const content = JSON.parse(form.fields.qchat);
+                                connectStatus.then((result) => {
+                                    submitQchat(content, qchat, mediaCnt, userModel, {authorID: req.user, username: req.username, userImage: req.userImage, userType: req.userType}, tempFileID).then(id =>
+                                        res.status(201).send(id)
+                                    ).catch(err => {
+                                        console.log(err)
+                                        res.status(500).send(err)
+                                    })
+                                }).catch(err => {
+                                    res.status(500).send(err);
+                                })
+                            })
+                        })
+                    })
+                    function updateAllMedia(items, key, media) {
+                        return new Promise((resolve, reject) => {
+                            for (let itm of items) {
+                                let filterMedia = media.filter(cnt => cnt.position === itm.position)[0];
+                                if (filterMedia) {
+                                    let cnt = {...filterMedia};
+                                    cnt[key].push(itm);
+                                    let index = media.findIndex(cnt => cnt.position === itm.position);
+                                    media[index] = cnt;
+                                } else {
+                                    let mediaItms  = {image: [], video: [], snapshot: []}
+                                    mediaItms[key].push(itm);
+                                    media.push({position: itm.position, ...mediaItms})
+                                }
+                            }
+                            resolve(media)
+                        })
+                    }
+                }).catch(err => {
+                    res.status(500).send(err);
+                })
+            }).catch(err => {
+                res.status(500).send(err);
+            })
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+    }).catch(err => {
+        console.log(err)
+        res.status(500).send(err);
+    })
+})
+
 
 module.exports = router

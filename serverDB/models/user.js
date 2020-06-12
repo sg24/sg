@@ -131,6 +131,10 @@ var UserSchema = new mongoose.Schema({
     aroundme: {
         type:Number,
         default: 0
+    },
+    qchat: {
+        type:Number,
+        default: 0
     }
 }) ;
 

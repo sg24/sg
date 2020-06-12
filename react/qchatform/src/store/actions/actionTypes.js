@@ -89,3 +89,4 @@ export const FETCH_NAV_ACTIVE = 'FETCH_NAV_ACTIVE';
 export const RESET_SELECT = 'RESET_SELECT';
 export const ADD_QCHAT = 'ADD_QCHAT';
 export const SET_MEDIA = 'SET_MEDIA';
+export const SET_POSITION = 'SET_POSITION';

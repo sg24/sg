@@ -215,7 +215,7 @@ export const clearAllData = (st) => {
       });
   }
   
-  export const deleteItemFromData = (st, id) => {
+  export const deleteItem = (st, id) => {
     dbPromise
       .then(function(db) {
         var tx = db.transaction(st, 'readwrite');
@@ -224,7 +224,6 @@ export const clearAllData = (st) => {
         return tx.complete;
       })
       .then(function() {
-        console.log('Item deleted!');
       });
   }
   

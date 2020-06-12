@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import uuid from 'uuid';
 
 import * as actions from '../../../../../store/actions/index';
-import { updateObject } from '../../../../../shared/utility';
+import { updateObject, readData, writeData } from '../../../../../shared/utility';
 import MediaItems from '../../../../../components/Main/MediaItems/MediaItems';
 
 class AddImage extends Component {
@@ -12,6 +12,7 @@ class AddImage extends Component {
         inputValue: '',
         media: this.props.media.image ? [...this.props.media.image] : [],
         removeMediaItemIndex: null,
+        position: this.props.position,
         snapshotErr: null
     };
 
@@ -72,7 +73,7 @@ class AddImage extends Component {
     removeMediaItemHandler = (id) => {
         let media = [...this.state.media];
         let updatedMedia = media.filter(link =>  link.id !== id);
-        this.setState({media:  updatedMedia});
+        this.setState({media:  updatedMedia, mediaRemoved: true});
         if (this.props.media.image && this.props.media.image.length > 0) {
             this.props.onRemoveMedia(updateObject(this.props.media, {image: updatedMedia}))
         }
@@ -93,12 +94,30 @@ class AddImage extends Component {
     submitMediaHandler = () => {
         let media = {...this.props.media};
         this.props.onSubmitMedia(updateObject(media, {image: [...this.state.media]}));
+        this.saveMedia();
     }
 
     closeMediaBoxHandler = () => {
+        if (this.state.mediaRemoved) {
+            this.saveMedia();
+        }
         this.props.onhideMediaBox();
     }
 
+    saveMedia = () => {
+        if ('indexedDB' in window) {
+            readData('media', this.state.position).then(media => {
+                let image = [...this.state.media];
+                let video = [];
+                if (media) {
+                    for (let cnt of media.video) {
+                        video.push({file: cnt.file, id: cnt.id, url: window.URL.createObjectURL(cnt.file)})
+                    }
+                }
+                writeData('media', {position: this.state.position, image, video})
+            })
+        }
+    };
 
     render() {
         let mediaPreview = null;
@@ -201,7 +220,8 @@ class AddImage extends Component {
 const mapStateToProps = state => {
     return {
         linkValid: state.form.linkValid,
-        media: state.form.media
+        media: state.form.media,
+        position: state.form.position
     };
 };
 

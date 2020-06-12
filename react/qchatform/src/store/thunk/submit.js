@@ -1,50 +1,44 @@
 import * as actions from '../actions/index';
 import { readAllData } from '../../shared/utility';
 import axios from '../../axios';
-import fileAxios from 'axios';
 
-export const submit = (formData) => {
+export const submit = () => {
     return dispatch => {
         dispatch(actions.submitFormStart());
-        let media = readAllData('media');
-        console.log(media)
         let formContent = new FormData();
-        // for (let cnt of formData) {
-        //     formContent.append(cnt.position, JSON.stringify(cnt));
-        //     for (let key in cnt) {
-        //         if (key === 'video' && cnt[key].length > 0) {
-        //             for (let video of cnt[key]) {
-        //                 fileAxios.get(video.url, {responseType: 'blob', timeout: 8000}).then(res => {
-        //                     let media = res.data
-        //                     let ext = media.type.split('/').pop();
-        //                     formContent.append(key, media, `${media.file.id}.${ext}`);
-        //                 });
-        //             }
-        //         }
+        let formData = localStorage.getItem('question') ? localStorage.getItem('question') : [];
+        if ('indexedDB' in window) {
+            readAllData('media').then(media => {
+                for (let cnt of media) {
+                    for (let video of cnt.video) {
+                        let ext = video.file.type.split('/').pop();
+                        formContent.append(cnt.position, video.file, `${video.id}.${ext}`);
+                    }  
+                    for (let image of cnt.image) {
+                        let ext = image.file.type.split('/').pop();
+                        formContent.append(cnt.position, image.file, `${image.id}.${ext}`);
+                    }
+                }
+                upload();
+            });
+        }  else {
+            upload();
+        }
         
-        //         if (key === 'image' && cnt[key].length > 0) {
-        //             for (let image of cnt[key]) {
-        //                 fileAxios.get(image.url, {responseType: 'blob', timeout: 8000}).then(res => {
-        //                     let media = res.data
-        //                     let ext = media.type.split('/').pop();
-        //                     formContent.append(key, media, `${image.file.id}.${ext}`);
-        //                 });
-        //             }
-        //         }
-        //     }
-        // }
-
-        // axios.post('/add/post', formContent, {
-        //     onUploadProgress: function (progressEvent) {
-        //         if (progressEvent.lengthComputable) {
-        //             const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-        //             dispatch(actions.submitFormSuccess(percentage))
-        //         }
-        //     }  
-        // }).then((res) => {
-        //     dispatch(actions.formSubmitted(res.data))
-        // }).catch((err) => {
-        //     dispatch(actions.submitFormFail(err))
-        // });
+        function upload() {
+            formContent.append('qchat', formData);
+            axios.post('/add/qchat', formContent, {
+                onUploadProgress: function (progressEvent) {
+                    if (progressEvent.lengthComputable) {
+                        const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        dispatch(actions.submitFormSuccess(percentage))
+                    }
+                }  
+            }).then((res) => {
+                dispatch(actions.formSubmitted(res.data))
+            }).catch((err) => {
+                dispatch(actions.submitFormFail(err))
+            });
+        }
     }
 } 

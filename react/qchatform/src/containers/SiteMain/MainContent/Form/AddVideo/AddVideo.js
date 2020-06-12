@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import uuid from 'uuid';
 
 import * as actions from '../../../../../store/actions/index';
-import { updateObject } from '../../../../../shared/utility';
+import { updateObject, readData, writeData } from '../../../../../shared/utility';
 import MediaItems from '../../../../../components/Main/MediaItems/MediaItems';
 
 class AddVideo extends Component {
@@ -13,8 +13,11 @@ class AddVideo extends Component {
         snapshot: this.props.media.video ? [...this.props.snapshot] : [],
         media: this.props.media.video ? [...this.props.media.video] : [],
         removeMediaItemIndex: null,
-        snapshotErr: null
+        mediaRemoved: false,
+        snapshotErr: null,
+        position: this.props.position
     };
+
 
     linkVerifyHandler = (event) => {
         let inputValue =  event.target.value;
@@ -74,7 +77,7 @@ class AddVideo extends Component {
         let snapshot = [...this.state.snapshot];
         let updatedMedia = media.filter(link=>  link.id !== id);
         let updatedSnapshots = snapshot.filter(snapshot => snapshot.id !== id);
-        this.setState({media:  updatedMedia, snapshot: updatedSnapshots});
+        this.setState({media:  updatedMedia, snapshot: updatedSnapshots, mediaRemoved: true});
         if (this.props.media.video && this.props.media.video.length > 0) {
             this.props.onRemoveMedia(updateObject(this.props.media, {video: updatedMedia}));
         }
@@ -96,12 +99,31 @@ class AddVideo extends Component {
 
     submitMediaHandler = () => {
         let media = {...this.props.media};
+        this.saveMedia();
         this.props.onSubmitMedia(updateObject(media, {video: [...this.state.media]}));
     }
 
     closeMediaBoxHandler = () => {
+        if (this.state.mediaRemoved) {
+            this.saveMedia();
+        }
         this.props.onhideMediaBox();
     }
+
+    saveMedia = () => {
+        if ('indexedDB' in window) {
+            readData('media', this.state.position).then(media => {
+                let image = [];
+                let video = [...this.state.media];
+                if (media) {
+                    for (let cnt of media.image) {
+                        image.push({file: cnt.file, id: cnt.id, url: window.URL.createObjectURL(cnt.file)})
+                    }
+                }
+                writeData('media', {position: this.state.position, image, video})
+            })
+        }
+    };
 
     render() {
         let mediaPreview = null;
@@ -207,7 +229,8 @@ const mapStateToProps = state => {
     return {
         linkValid: state.form.linkValid,
         snapshot: state.form.snapshot,
-        media: state.form.media
+        media: state.form.media,
+        position: state.form.position
     };
 };
 

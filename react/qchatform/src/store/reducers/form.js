@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import { updateObject, writeData } from '../../shared/utility';
+import { updateObject } from '../../shared/utility';
 
 const initialState = {
     categ: null,
@@ -15,6 +15,7 @@ const initialState = {
     curTab: 'online',
     startUser: true,
     users: null,
+    position: null,
     onlineUser: [],
     offlineUser: [],
     filteredUser: null,
@@ -120,9 +121,8 @@ const showUserSelect = (state, action) => {
 };
 
 const addQchat = (state, action) => {
-    let qchat = [...state.qchat].length < 1 ? localStorage.getItem('question') ? JSON.parse(localStorage.getItem('question')) : [...state.qchat] :  [...state.qchat];
+    let qchat = localStorage.getItem('question') ? JSON.parse(localStorage.getItem('question')) : [];
     let filterQueChat = qchat.filter(que => que.position === action.cnt.position)[0];
-    writeData('media', {position: action.cnt.position, image: action.cnt.image, video: action.cnt.video})
     if (filterQueChat) {
         let qchatIndex = qchat.findIndex(que => que.position === action.cnt.position)
         qchat[qchatIndex] = {...action.cnt}
@@ -138,6 +138,10 @@ const addQchat = (state, action) => {
 
 const setMedia = (state, action) => {
     return updateObject(state, {media: action.media})
+};
+
+const setPosition = (state, action) => {
+    return updateObject(state, {position: action.position})
 };
 
 const submitFormStart = (state, action) => {
@@ -204,6 +208,8 @@ const reducer = (state = initialState, action) => {
             return addQchat(state, action);
         case actionTypes.SET_MEDIA:
             return setMedia(state, action);
+        case actionTypes.SET_POSITION:
+            return setPosition(state, action);
         case actionTypes.SUBMIT_FORM_START:
             return submitFormStart(state, action);
         case actionTypes.SUBMIT_FORM_SUCCESS:

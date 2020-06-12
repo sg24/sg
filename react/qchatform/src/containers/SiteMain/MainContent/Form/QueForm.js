@@ -13,7 +13,7 @@ import Backdrop from '../../../../components/UI/Backdrop/Backdrop';
 import Modal from '../../../../components/UI/Modal/Modal';
 import Aux from '../../../../hoc/Auxs/Aux';
 import asyncComponent from '../../../../hoc/asyncComponent/asyncComponent';
-import { updateObject, checkValidity, readData, writeData } from '../../../../shared/utility';
+import { updateObject, checkValidity, readData, deleteItem, clearAllData } from '../../../../shared/utility';
 import Loader from '../../../../components/UI/Loader/Loader';
 import axios from '../../../../axios';
 
@@ -96,7 +96,7 @@ class QueForm extends  Component {
         formIsValid: false,
         showForm: false,
         answer: [],
-        qchat: null,
+        qchat: localStorage.getItem('question') ? JSON.parse(localStorage.getItem('question')) : [],
         queNum: Number.parseInt(this.props.location.search.split('=')[1]),
         oldQueNum: Number.parseInt(this.props.location.search.split('=')[1]),
         active: null,
@@ -106,10 +106,10 @@ class QueForm extends  Component {
     }
 
     componentDidMount() {
-        this.updateForm()
+        this.updateForm();
         let numberOfAjaxCAllPending = 0;
         let these = this;
-        if (!this.props.qchat.length > 0 || !this.props.qchat.filter(cnt => cnt.position === 0)[0]) {
+        if (!this.state.qchat.length > 0 || !this.state.qchat.filter(cnt => cnt.position === 0)[0]) {
             this.props.history.push(`/add/qchat/?id=0`)
         }
 
@@ -140,6 +140,7 @@ class QueForm extends  Component {
         if (this.state.active) {
             clearInterval(this.state.active)
         }
+        this.addCntHandler()
     }
 
     componentDidUpdate() {
@@ -160,6 +161,10 @@ class QueForm extends  Component {
                 }
             }
             this.setState({showForm: false});
+            if ('indexedDB' in window) {
+                clearAllData('media');
+            }
+            localStorage.removeItem('question')
         } 
         if ((this.state.oldQueNum !== this.state.queNum)) {
             this.props.history.push('/add/qchat/?id='+this.state.queNum)   
@@ -183,12 +188,19 @@ class QueForm extends  Component {
                 formIsValid: false,showForm: false, answer: [], default: null,update: false,reset: false
             })
         }
+        let qchat = localStorage.getItem('question');
+        if (qchat) {
+            if (JSON.stringify(this.state.qchat) !== qchat) {
+                this.setState({qchat: JSON.parse(qchat)})
+            }
+        }
         this.updateForm()
     }
 
     updateForm = () => {
-        if (this.props.qchat && this.props.qchat.length > 0 && this.props.qchat.filter(cnt => cnt.position === this.state.queNum)[0] && !this.state.update) {
-            let cnt = this.props.qchat.filter(cnt => cnt.position === this.state.queNum)[0];
+        if (this.state.qchat && this.state.qchat.length > 0 && this.state.qchat.filter(cnt => cnt.position === this.state.queNum)[0] && this.state.queNum !== 0 &&!this.state.update) {
+            this.props.onSetPosition(this.state.queNum);
+            let cnt = this.state.qchat.filter(cnt => cnt.position === this.state.queNum)[0];
             let answer = JSON.parse(cnt.answer);
             let qchat = JSON.parse(cnt.option)
             let oldEditor = this.state.formElement;
@@ -219,21 +231,22 @@ class QueForm extends  Component {
             oldEditor.q4.touched = true;
             let image = []
             let video = []
-            readData('media', this.state.queNum).then(media => {
-                if (media) {
-                    for (let cnt of media.image) {
-                        image.push({file: cnt.file, id: cnt.id, url: window.URL.createObjectURL(cnt.file)})
+            if ('indexedDB' in window) {
+                readData('media', this.state.queNum).then(media => {
+                    if (media) {
+                        for (let cnt of media.image) {
+                            image.push({file: cnt.file, id: cnt.id, url: window.URL.createObjectURL(cnt.file)})
+                        }
+                        for (let cnt of media.video) {
+                            video.push({file: cnt.file, id: cnt.id, url: window.URL.createObjectURL(cnt.file)})
+                        }
                     }
-                    for (let cnt of media.video) {
-                        video.push({file: cnt.file, id: cnt.id, url: window.URL.createObjectURL(cnt.file)})
-                    }
-                }
-                this.props.onSetMedia({
-                    video,
-                    image
+                    this.props.onSetMedia({
+                        video,
+                        image
+                    })
                 })
-            })
-
+            }
             let check = {...this.state.check};
             if (answer && answer.length > 0) {
                 for (let opt of answer) {
@@ -252,6 +265,18 @@ class QueForm extends  Component {
                 update: true,
                 formIsValid: true
             })
+        } else {
+            if (!this.state.update) {
+                this.props.onSetPosition(this.state.queNum);
+                if ('indexedDB' in window) {
+                    deleteItem('media', this.state.queNum);
+                }
+                this.setState({update: true, reset: false})
+                this.props.onSetMedia({
+                    video: [],
+                    image: []
+                })
+            }
         }
     }
 
@@ -304,15 +329,57 @@ class QueForm extends  Component {
     navHandler = () => {
         this.props.history.push(`/add/qchat/?id=${this.state.editInput}`);
         this.setState({reset: true, queNum: this.state.editInput, oldQueNum: this.state.editInput, update: false})
+        this.addCntHandler()
     };
 
     submitHandler = (mode) => {
         this.setState({showForm: true,  showAddItm: false, mode});
-        if (this.props.media.image || this.props.media.video) {
-            writeData('media', {position: this.state.queNum, image: this.props.media.image, video: this.props.media.video})
+    
+        let newCnt = {
+            position: this.state.queNum,
+            question: JSON.stringify(convertToRaw(this.state.formElement.question.value.getCurrentContent())),
+            option: JSON.stringify({
+                q1: this.state.formElement.q1.value,
+                q2: this.state.formElement.q2.value,
+                q3: this.state.formElement.q3.value,
+                q4: this.state.formElement.q4.value
+            }),
+            answer: JSON.stringify(this.state.answer),
+            video: this.props.media.video ? this.props.media.video : [],
+            image: this.props.media.image ? this.props.media.image: [],
+            mode
         }
-        if (this.state.formIsValid && this.state.answer.length > 0) {
-             let newCnt = {
+        this.addCntHandler()
+        if (mode === 'next') {
+            this.setState({queNum: Number.parseInt(this.state.queNum)+1, reset: true, update: false})
+        } else {
+            this.props.onSubmitForm(this.state.qchat ? this.state.qchat : newCnt)
+        }
+     }
+ 
+     resendCntHander = () => {
+         this.submitHandler(this.state.mode);
+     }
+
+     editChangeHandler = (event) => {
+         let value = Number.parseInt(event.target.value);
+         this.setState({editInput: value > this.state.qchat.length - 1 ? this.state.qchat.length - 1 : value})
+     }
+ 
+     goBackHandler = () => {
+        let back = Number.parseInt(this.state.queNum - 1);
+        if (back > -1) {
+            this.props.history.push(`/add/qchat/?id=${back}`);
+            this.setState({queNum: back, reset: true, oldQueNum: back, update: false})
+            this.addCntHandler()
+        }
+     }
+
+     addCntHandler = () => {
+         if (this.state.formIsValid || !this.state.answer.length < 1) {
+            let  qchat = localStorage.getItem('question') ? JSON.parse(localStorage.getItem('question')) : [];
+            let position = this.state.queNum
+            let newCnt = {
                 position: this.state.queNum,
                 question: JSON.stringify(convertToRaw(this.state.formElement.question.value.getCurrentContent())),
                 option: JSON.stringify({
@@ -323,36 +390,25 @@ class QueForm extends  Component {
                 }),
                 answer: JSON.stringify(this.state.answer),
                 video: this.props.media.video ? this.props.media.video : [],
-                image: this.props.media.image ? this.props.media.image: [],
-                mode
+                image: this.props.media.image ? this.props.media.image: []
             }
-             if (mode === 'next') {
-                this.props.onAddQchat(newCnt);
-                this.setState({queNum: Number.parseInt(this.state.queNum)+1, reset: true, update: true})
-             } else {
-                this.props.onSubmitForm(this.props.qchat ? this.props.qchat : newCnt)
-             }
-             
-         return
-        }
-        this.setState({noCateg: true});
-     }
- 
-     resendCntHander = () => {
-         this.submitHandler(this.state.mode);
+
+            let filterQueChat = qchat.filter(que => que.position === position)[0];
+            if (filterQueChat) {
+                let qchatIndex = qchat.findIndex(que => que.position === position)
+                qchat[qchatIndex] = {...newCnt}
+                localStorage.removeItem('question')
+                localStorage.setItem('question', JSON.stringify(qchat))
+               
+            } else {
+                qchat.push(newCnt)
+                localStorage.removeItem('question')
+                localStorage.setItem('question', JSON.stringify(qchat))
+            }
+           
+         }
      }
 
-     editChangeHandler = (event) => {
-         let value = Number.parseInt(event.target.value);
-         this.setState({editInput: value > this.props.qchat.length - 1 ? this.props.qchat.length - 1 : value})
-     }
- 
-     goBackHandler = () => {
-         let back = this.state.queNum - 1;
-        if (back > -1) {
-            this.setState({queNum: Number.parseInt(back)})
-        }
-     }
     ansTickedHandler = (event, opt) => {
         let ans = [...this.state.answer];
         let filterAns = ans.filter(cnt => cnt === opt)[0];
@@ -385,7 +441,7 @@ class QueForm extends  Component {
         let addItemOptClass = ['reuse-form__cnt--det__selec--opt'];
         let editCnt = null;
         let editClass = ['reuse-form__cnt--det__tm--edit'];
-
+        let isValid = !this.state.formIsValid || this.state.answer.length < 1
         if (this.state.showAddItm) {
             addItemClass.push('reuse-form__cnt--det__selec--add__visible icon--rotate');
             addItemOptClass.push('reuse-form__cnt--det__selec--opt__visible')
@@ -596,18 +652,17 @@ class QueForm extends  Component {
                         <button 
                             type="button" 
                             className="reuse-form__btn--dft"
-                            disabled={this.props.qchat.length < 1 && !this.props.qchat.filter(cnt => cnt.position === 0)[0]}
+                            disabled={this.state.qchat.length < 1 && !this.state.qchat.filter(cnt => cnt.position === 0)[0]}
                             onClick={this.submitHandler.bind(this, 'draft')}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'eye-slash']} 
                                 className="icon icon__reuse-form--btn" />
                             Draft
                         </button>
-                        {this.props.qchat.length > 1 && this.props.qchat.filter(cnt => cnt.position === 0)[0] ?
+                        {!isValid && this.state.qchat.length > 1 && this.state.qchat.filter(cnt => cnt.position === 0)[0] ?
                             <button 
                                 type="button" 
                                 className="reuse-form__btn--done reuse-form__btn--mid"
-                                disabled={this.props.qchat.length < 2 && !this.props.qchat.filter(cnt => cnt.position === 0)[0]}
                                 onClick={this.submitHandler.bind(this, 'publish')}>
                                 <FontAwesomeIcon 
                                     icon={['fas', 'check']} 
@@ -617,7 +672,7 @@ class QueForm extends  Component {
                         <button 
                             type="button" 
                             className="reuse-form__btn--nxt"
-                            disabled={!this.state.formIsValid || this.state.answer.length < 1}
+                            disabled={isValid}
                             onClick={this.submitHandler.bind(this, 'next')}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'angle-double-right']} 
@@ -648,7 +703,6 @@ const mapStateToProps = state => {
         snapshot: state.form.snapshot,
         media: state.form.media,
         uploadPercent: state.form.uploadPercent,
-        qchat: localStorage.getItem('question') ? JSON.parse(localStorage.getItem('question')) : state.form.qchat,
         submitForm: state.form.submitForm,
         submitError: state.form.submitError,
         id: state.form.id
@@ -665,6 +719,7 @@ const mapDispatchToProps = dispatch => {
         onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
         onAddQchat: (cnt) => dispatch(actions.addQchat(cnt)),
         onSetMedia: (media) => dispatch(actions.setMedia(media)),
+        onSetPosition: (position) => dispatch(actions.setPosition(position)),
         onFetchNavActive: () => dispatch(actions.fetchNavActiveInit())
     };
 };

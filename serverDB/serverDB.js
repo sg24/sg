@@ -23,6 +23,8 @@ const authUser = require('./models/authuser');
 const tempFile = require('./models/tempfile');
 const aroundme = require('./models/aroundme');
 const contest = require('./models/contest');
+const qchat = require('./models/qchat');
+const qcontent = require('./models/qcontent')
 
 module.exports = {
     adverts,
@@ -48,6 +50,8 @@ module.exports = {
     favorite,
     aroundme,
     contest,
+    qchat,
+    qcontent,
     connectStatus
 };
 
