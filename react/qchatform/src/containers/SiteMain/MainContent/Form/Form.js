@@ -93,6 +93,7 @@ class Form extends  Component {
         formIsValid: false,
         setTimeValid: false,
         showForm: false,
+        indexDBErr: null,
         mode: null,
         active: null
     }
@@ -100,7 +101,11 @@ class Form extends  Component {
     componentDidMount() {
         let numberOfAjaxCAllPending = 0;
         let these = this;
-        this.props.onSetPosition(0)
+        this.props.onSetPosition(0);
+        if ('indexedDB' in window) {
+        } else {
+            this.setState({indexDBErr: 'Please update your browser to add image/video'})
+        }
         if (this.state.qchat && this.state.qchat.length > 0 && this.state.qchat.filter(cnt => cnt.position === 0)[0]) {
             let qchat = this.state.qchat.filter(cnt => cnt.position === 0)[0];
             let oldEditor = this.state.formElement;
@@ -156,7 +161,7 @@ class Form extends  Component {
         } else {
             if ('indexedDB' in window) {
                 deleteItem('media', 0);
-            }
+            } 
         }
 
         axios.interceptors.request.use(function (config) {
@@ -705,6 +710,7 @@ class Form extends  Component {
                             Next
                         </button>
                     </div>
+                    { this.state.indexDBErr ? <div className="reuse-form__err"> { this.state.indexDBErr } </div> : null }
                 </div>
             </form>
         );
