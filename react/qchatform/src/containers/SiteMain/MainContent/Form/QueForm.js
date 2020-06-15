@@ -247,7 +247,12 @@ class QueForm extends  Component {
                     })
                 })
             }
-            let check = {...this.state.check};
+            let check =  {
+                q1: false,
+                q2: false,
+                q3: false,
+                q4: false
+            };
             if (answer && answer.length > 0) {
                 for (let opt of answer) {
                     check[opt] = true;
@@ -334,26 +339,11 @@ class QueForm extends  Component {
 
     submitHandler = (mode) => {
         this.setState({showForm: true,  showAddItm: false, mode});
-    
-        let newCnt = {
-            position: this.state.queNum,
-            question: JSON.stringify(convertToRaw(this.state.formElement.question.value.getCurrentContent())),
-            option: JSON.stringify({
-                q1: this.state.formElement.q1.value,
-                q2: this.state.formElement.q2.value,
-                q3: this.state.formElement.q3.value,
-                q4: this.state.formElement.q4.value
-            }),
-            answer: JSON.stringify(this.state.answer),
-            video: this.props.media.video ? this.props.media.video : [],
-            image: this.props.media.image ? this.props.media.image: [],
-            mode
-        }
         this.addCntHandler()
         if (mode === 'next') {
             this.setState({queNum: Number.parseInt(this.state.queNum)+1, reset: true, update: false})
         } else {
-            this.props.onSubmitForm(this.state.qchat ? this.state.qchat : newCnt)
+            this.props.onSubmitForm()
         }
      }
  

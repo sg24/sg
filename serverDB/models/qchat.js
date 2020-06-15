@@ -27,11 +27,11 @@ const QchatSchema = new Schema({
     },
     video: {
         type: Array,
-        default: [String]
+        default: []
     },
     image: {
         type: Array,
-        default: [String]
+        default: []
     },
     shareMe: {
         type: Array
@@ -61,8 +61,21 @@ const QchatSchema = new Schema({
         required: true,
         default: [String]
     },
+    duration: {
+        type: Number
+    },
+    hour: {
+        type: Number
+    },
+    minute: {
+        type: Number
+    },
+    second: {
+        type: Number
+    },
     snapshot: {
-        type: Array
+        type: Array,
+        default: []
     },
     edit: {
         type: Date

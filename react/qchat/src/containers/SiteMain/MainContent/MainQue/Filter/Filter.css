@@ -1,0 +1,25 @@
+.icon__reuse-filter--angle {
+    margin-left: 5px;
+    color: #182427;
+    font-size: .75rem;
+}
+
+.reuse-filter {
+    z-index: 2;
+}
+
+.reuse-filter__title {
+    float: left;
+    border: 1px solid rgba(5,87,139, .2);
+    border-top: 3px solid #05578b;
+    color: #182427;
+    padding: 8px 0;
+    margin-right: 20px;
+    width: 70px;
+    text-align: center;
+    border-radius: 3px;
+    font-size: .8125rem;
+    background-color: rgb(255, 255, 255);
+    cursor: pointer;
+    z-index: 1;
+}

@@ -21,6 +21,10 @@ module.exports = submitForm = (qchat, model, mediaCnt, userModel, userID, tempFi
         title: content.title,
         mode: content.mode,
         access: content.participant,
+        duration: content.duration,
+        hour: content.hour ? Number.parseInt(content.hour) : 0,
+        minute: content.minute ? Number.parseInt(content.minute) : 0,
+        second: content.second ? Number.parseInt(content.second) : 0,
         contentID: qchatID,
         snapshot: media ? media.snapshot: []
     }); 
@@ -28,6 +32,17 @@ module.exports = submitForm = (qchat, model, mediaCnt, userModel, userID, tempFi
     newDoc.save().then(result => {
         id = result._id;
         let question = qchat.filter(cnt => cnt.position !== 0);
+        
+        for (let queFnd of question) {
+            let mediaFnd = mediaCnt.filter(itm => itm.position === String(queFnd.position))[0];
+            if (mediaFnd) {
+                queFnd.image = mediaFnd.image;
+                queFnd.video = mediaFnd.video,
+                queFnd.snapshot = mediaFnd.snapshot
+                question = question.filter(que => que.position !== queFnd.position);
+                question.push(queFnd)
+            }
+        }
          let que = new qcontent({
             question,
             qchatID
@@ -94,8 +109,6 @@ module.exports = submitForm = (qchat, model, mediaCnt, userModel, userID, tempFi
                                         };
                                           webpush.sendNotification(pushConfig, JSON.stringify({
                                             title: String(content.title).length < 50 ? String(content.title) : String(content.title).substr(0, 50)+'...',
-                                            content: String(JSON.parse(content.desc).blocks[0].text).length < 50 ? String(JSON.parse(content.desc).blocks[0].text): 
-                                            String(JSON.parse(content.desc).blocks[0].text).substr(0, 50)+'...',
                                             openUrl: `/view/qchat/${id}`
                                           }), pushOptions).then(() => {
                                               ++send;

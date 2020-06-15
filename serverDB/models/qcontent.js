@@ -23,10 +23,16 @@ const QcontentSchema = new Schema({
             type: String
         },
         image: {
-            type: Array
+            type: Array,
+            default: []
         },
         video: {
-            type: Array
+            type: Array,
+            default: []
+        },
+        snapshot: {
+            type: Array,
+            default: []
         }
     }]
 })
