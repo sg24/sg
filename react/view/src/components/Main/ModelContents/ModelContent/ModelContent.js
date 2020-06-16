@@ -17,8 +17,13 @@ import Carousel from '../../../UI/Media/Media';
 
 const modelContent = props => {
     const formatter = buildFormatter(engStrings);
-    let desc =  JSON.parse(props.cnt.desc)
-    if (props.cntGrp !== 'post' && props.cntGrp !== 'advert') {
+    let desc =  null;
+    let tooltip = null;
+    if (props.cntGrp !== 'qchat') {
+        desc = JSON.parse(props.cnt.desc)
+    }
+    
+    if (props.cntGrp !== 'post' && props.cntGrp !== 'advert' && props.cntGrp !== 'qchat') {
         desc.blocks[0].text = props.cnt.title;
     }
     const htmlContent = draftToHtml(desc,{ trigger: '#',separator: ' '}, true);
@@ -53,10 +58,7 @@ const modelContent = props => {
 
 
     let media = null;
-    let mediaTotal = props.cnt.snapshot.length+props.cnt.image.length;
     let mediaCnt =  [...props.cnt.snapshot, ...props.cnt.image];
-    let playVideo = null;
-    let mediaWrapperClass = ['reuse-pt__media--wrapper'];
 
 let meta = null;
     let metaCateg = props.cnt.category && props.cnt.category.length > 0 ? props.cnt.category.filter(categ => categ === 'facebook game') : null; 
@@ -79,7 +81,8 @@ let meta = null;
                 <meta property="og:type" content="article" />
                 <meta property="og:url" content={`${props.url}`} />
                 {mediaCnt.length > 0 ?  <meta property="og:image" content={`${mediaCnt[0].url}`} /> : null}
-                <meta property="og:description" content={`${props.cntGrp === 'post' ? desc.blocks[0].text : props.cntGrp === 'advert' ? 'Advertise your product free on www.slodge24.com' : 'slodge24 | Knowledge sharing platform'}`}/>
+                <meta property="og:description" content={`${props.cntGrp === 'post' ? desc.blocks[0].text : props.cntGrp === 'advert' ? 'Advertise your product free on www.slodge24.com' : 
+                props.cntGrp === 'qchat' ? ' Computer based test' : 'slodge24 | Knowledge sharing platform'}`}/>
                 <meta property="og:site_name" content={`https://www.slodge24.com`}/>	
             </MetaTags>
         )
@@ -103,7 +106,7 @@ let meta = null;
         )
     }
 
-    if (props.cntGrp === 'post' || props.cntGrp === 'advert') {
+    if (props.cntGrp === 'post' || props.cntGrp === 'advert' || props.cntGrp === 'qchat') {
         header = (
             <div className="reuse-view__main--header">
             <p className="reuse-view__main--header__title">
@@ -114,16 +117,32 @@ let meta = null;
                     <FontAwesomeIcon 
                         icon={['far', 'clock']} 
                         className="icon icon__reuse-view--main__tm" />
-                    {<TimeAgo date={props.cntGrp === 'advert' ? props.cnt.created : props.cnt.postCreated} live={false} formatter={formatter}/>}
+                    {props.cntGrp !== 'qchat' ? <TimeAgo date={props.cntGrp === 'advert' ? props.cnt.created : props.cnt.postCreated} live={false} formatter={formatter}/>
+                    : `${props.cnt.hour}hr ${props.cnt.minute}min ${props.cnt.second}sec` }
                 </li>
-                <li className="reuse-view__main--header__det--ans">Comments <div>{ props.commentTotal }</div></li>
+                <li className="reuse-view__main--header__det--ans">
+                    {props.cntGrp !== 'qchat' ? (<>Comments <div>{props.commentTotal}</div></>) : (<>Questions <div> {props.cnt.qchatTotal} </div></>)}
+                </li>
                 <li>
-                    <div>
-                        <FontAwesomeIcon 
-                            icon={['far', 'eye']} 
-                            className="icon icon__reuse-view--main__eye" />
-                    </div> 
-                    { props.cnt.view }
+                    { props.cntGrp !=='qchat' ? (
+                        <>
+                            <div>
+                                <FontAwesomeIcon 
+                                    icon={['far', 'eye']} 
+                                    className="icon icon__reuse-view--main__eye" />
+                            </div> 
+                            { props.cnt.view }
+                        </>
+                    ) : (
+                        <>
+                            <div>
+                                <FontAwesomeIcon 
+                                    icon={['fas', 'pencil-alt']} 
+                                    className="icon icon__reuse-view--main__eye" />
+                            </div> 
+                            { props.cnt.write }
+                        </>
+                    )}
                 </li>
             </ul>
         </div>
@@ -191,12 +210,22 @@ let meta = null;
         )
       }
 
-      if (props.showCnt && props.showCnt.visible && props.showCnt.id === props.cnt._id)  {
-            userOptDetClass.push('reuse-view__main--footer__user-det--clk');
-            userOptClass.push('reuse-view__main--footer__user-det--opt__visible');
-        }
+    if (props.showCnt && props.showCnt.visible && props.showCnt.id === props.cnt._id)  {
+        userOptDetClass.push('reuse-view__main--footer__user-det--clk');
+        userOptClass.push('reuse-view__main--footer__user-det--opt__visible');
+    }
 
-      if (props.cnt.userOpt) {
+    if (props.showTooltip && props.showTooltip.visible && props.cnt._id === props.showTooltip.id) {
+        tooltip = (
+            <ul className="reuse-view__main--footer__tooltip">
+                <li> (1) Add author as friend. <a href={`/user/profile/${props.cnt.authorID}`}>{props.cnt.username}</a></li>
+                <li> (2) Chat to request access</li>
+            </ul>
+        )
+    }
+
+
+    if (props.cnt.userOpt) {
         userOpt = (
             <div 
                 className={userOptDetClass.join(' ')}
@@ -274,25 +303,49 @@ let meta = null;
                             </div> 
                         </div>
                     </div>
-                    <div>
-                        <span 
+                    { props.cntGrp !== 'qchat' ? (
+                        <div>
+                            <span 
                             className="reuse-view__main--footer__user-opt--fav"
                             onClick={props.fav}>{fav}</span>
-                        {transformNumber(favAdd !== null ? favAdd : props.cnt.favorite)} 
-                        {props.favChange && props.favChange.id === props.cnt._id ? <FavoriteActive 
-                            liked={props.favChange.isLiked}/> : null}
+                            {transformNumber(favAdd !== null ? favAdd : props.cnt.favorite)} 
+                            {props.favChange && props.favChange.id === props.cnt._id ? <FavoriteActive 
+                                liked={props.favChange.isLiked}/> : null}
+                        </div>
+                    ) : null}
+                </div>
+                { props.cntGrp !== 'qchat' ? (
+                    <div 
+                        className="reuse-view__main--footer__add"
+                        onClick={props.scroll}> 
+                        <FontAwesomeIcon 
+                            icon={['fas', 'pencil-alt']} 
+                            className="icon icon__reuse-view--main__add" />
+                        Comment
                     </div>
-                </div>
-                <div 
-                    className="reuse-view__main--footer__add"
-                    onClick={props.scroll}> 
-                    <FontAwesomeIcon 
-                        icon={['fas', 'pencil-alt']} 
-                        className="icon icon__reuse-view--main__add" />
-                    Comment
-                </div>
+                ) : props.cnt.access ? (
+                    <div className="reuse-view__main--footer__add reuse-view__main--footer__qchat">
+                        <div 
+                            className="reuse-view__main--footer__qchat--cnt reuse-view__main--footer__start"
+                            onClick={props.start}> 
+                            Start
+                        </div>
+                    </div>
+                ) : (
+                    <div className="reuse-view__main--footer__add reuse-view__main--footer__qchat">
+                        <div 
+                            className="reuse-view__main--footer__qchat--cnt reuse-view__main--footer__req"
+                            onClick={props.tooltip}> 
+                            <FontAwesomeIcon 
+                                icon={['fas', 'lock']} 
+                                className="icon icon__reuse-view--main__add" />
+                            Request
+                        </div>
+                    </div>
+                )}
                 { userOpt }
             </div>
+            { tooltip }
         </div>
 
         <div className="reuse-view__comments">

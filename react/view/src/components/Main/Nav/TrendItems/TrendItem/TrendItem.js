@@ -138,6 +138,42 @@ const trendItem = props => {
         );
     }
 
+    if (props.trd.cntGrp === 'qchat' && props.trd.access) {
+        trend = (
+            <div className="reuse-trd__cnt--wrapper reuse-trd__cnt--wrapper__nav">
+                <div className="reuse-trd__cnt--categ">
+                    <FontAwesomeIcon 
+                        icon={['fas', 'desktop']} 
+                        className="icon icon__reuse-trd--categ" />
+                    { props.trd.category }
+                </div>
+                <h4 className="reuse-trd__cnt--title">
+                    <a href={'/view/qchat/' + props.trd.id }>{ transformString(props.trd.title) }</a>    
+                </h4>
+                <ul className="reuse-trd__cnt--footer">  
+                    <li>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'pencil-alt']} 
+                            className="icon icon__reuse-trd--smile" />
+                        { transformNumber(props.trd.write) } 
+                    </li>
+                    <li>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'comment-dots']} 
+                            className="icon icon__reuse-trd--view" />
+                        { transformNumber(props.trd.comment) } 
+                    </li>
+                    <li>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'question']} 
+                            className="icon icon__reuse-trd--view" />
+                        { props.trd.qchatTotal } 
+                    </li>
+                </ul>
+            </div> 
+        );
+    }
+
     if (props.trd.cntGrp === 'group') {
         trend = (
             <div className="reuse-trd__cnt--wrapper reuse-trd__cnt--wrapper__nav">

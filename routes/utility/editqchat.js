@@ -11,6 +11,7 @@ module.exports = submitForm = (qchat, removedMedia, model, mediaCnt, userModel, 
     let id = null;
     let shareMe = [];
     let media = mediaCnt.filter(cnt => cnt.position === '0')[0];
+    let question = qchat.filter(cnt => cnt.position !== 0);
     let updates = {
         username: userID.username, 
         userImage: userID.userImage,
@@ -18,9 +19,10 @@ module.exports = submitForm = (qchat, removedMedia, model, mediaCnt, userModel, 
         video: media ? media.video: [],
         image: media ? media.image: [],
         title: content.title,
-        mode: content.mode,
+        mode: content.mode === 'next' || content.mode === 'publish' ? 'publish' : content.mode,
         access: content.participant,
         duration: content.duration,
+        qchatTotal: question.length,
         hour: content.hour ? Number.parseInt(content.hour) : 0,
         minute: content.minute ? Number.parseInt(content.minute) : 0,
         second: content.second ? Number.parseInt(content.second) : 0,
@@ -30,7 +32,6 @@ module.exports = submitForm = (qchat, removedMedia, model, mediaCnt, userModel, 
 
     model.findOneAndUpdate({_id: content.id, authorID: userID.authorID}, updates).then(result => {
         id = result._id;
-        let question = qchat.filter(cnt => cnt.position !== 0);
         
         for (let queFnd of question) {
             let mediaFnd = mediaCnt.filter(itm => itm.position === String(queFnd.position))[0];

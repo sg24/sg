@@ -26,7 +26,7 @@ const AsyncForm = asyncComponent(() => {
 });
 
 const AsyncAroundForm = asyncComponent(() => {
-    return import ('../Aroundme/Form/Form');
+    return import ('../AroundMe/Form/Form');
 });
 
 const AsyncGroupInfo = asyncComponent(() => {

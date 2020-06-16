@@ -18,9 +18,13 @@ const AsyncQuestions = asyncComponent(() => {
     return import ('./Questions/Questions');
 });
 
-const AsyncHelpme = asyncComponent(() => {
-    return import ('./HelpMe/HelpMe');
+const AsyncQchats = asyncComponent(() => {
+    return import ('./Qchats/Qchats');
 });
+
+// const AsyncHelpme = asyncComponent(() => {
+//     return import ('./HelpMe/HelpMe');
+// });
   
 const AsyncUsers = asyncComponent(() => {
     return import ('./Users/Users');
@@ -90,11 +94,11 @@ class MainContent extends Component {
             icnClass: 'icon icon__site-main__content--tab',
             title: 'Contest',
         },
-        helpme: {
-            path: '/index/helpme',
-            icnGrp: 'hand-paper',
+        qchat: {
+            path: '/index/qchat',
+            icnGrp: 'desktop',
             icnClass: 'icon icon__site-main__content--tab',
-            title: 'Q Chat'
+            title: 'CBT'
         },
         poet: {
             path: '/index/poet',
@@ -175,7 +179,7 @@ class MainContent extends Component {
         let categ = (
             <div className="reuse-filter">
                 <div className="reuse-filter__wrapper">
-                { this.props.path !== '/users' && this.props.path !== '/helpme' ? <Category /> : null}
+                { this.props.path !== '/users' && this.props.path !== '/qchat' ? <Category /> : null}
                 <div className="reuse-filter__add">
                     <a href={this.props.path}>
                         More Filter
@@ -243,6 +247,10 @@ class MainContent extends Component {
                         removeActive={this.removeActiveHandler.bind(this, 'group')}
                         active={this.state.curTab !== 'group' ? this.props.joinActive: null}/>
                     <MainNavigations 
+                        content={this.state.qchat}
+                        removeActive={this.removeActiveHandler.bind(this, 'qchat')}
+                        active={this.state.curTab !== 'qchat' ? this.props.qchatActive : null}/>
+                    <MainNavigations 
                         content={this.state.contest}
                         removeActive={this.removeActiveHandler.bind(this, 'contest')}
                         active={null}/>
@@ -263,21 +271,13 @@ class MainContent extends Component {
                         removeActive={this.removeActiveHandler.bind(this, 'question')}
                         active={this.state.curTab !== 'question' ? this.props.queActive : null}/>
                     <MainNavigations 
-                        content={this.state.helpme}
-                        removeActive={this.removeActiveHandler.bind(this, 'helpme')}
-                        active={this.state.curTab !== 'helpme' ? this.props.shareCntActive : null}/>
-                {/* <MainNavigations 
-                    content={this.state.group}
-                    removeActive={this.removeActiveHandler.bind(this, 'group')}
-                    active={this.state.curTab !== 'group' ? this.props.cntActive : null}/> */}
-                    <MainNavigations 
                         content={this.state.poet}
                         removeActive={this.removeActiveHandler.bind(this, 'poet')}
                         active={this.state.curTab !== 'poet' ? this.props.cntActive : null}/>
                 </ul>
                 {this.props.status && (this.props.path === '/users' || this.props.path === '/group')
                 ? categ: null }
-                {this.props.path !== '/users' && this.props.path !== '/group' && this.props.path !== '/helpme' && this.props.path !== '/aroundme' && this.props.path !== '/advert'  && this.props.path !== '/contest'  ? categ : null }
+                {this.props.path !== '/users' && this.props.path !== '/group' && this.props.path !== '/qchat' && this.props.path !== '/aroundme' && this.props.path !== '/advert'  && this.props.path !== '/contest'  ? categ : null }
                 {this.props.path === '/aroundme'  ? addAroundMe : null }
                 {this.props.path === '/advert'  ? addAdvert : null }
                 {this.props.path === '/contest'  ? addContest : null }
@@ -288,8 +288,8 @@ class MainContent extends Component {
                     <Route path="/index/contest"  component={AsyncContest}/>
                     <Route path="/index/question" exact component={AsyncQuestions}/>
                     <Route path="/index/question/:id" exact component={AsyncQuestions}/>
-                    <Route path="/index/helpme" exact component={AsyncHelpme}/>
-                    <Route path="/index/helpme/:id" exact component={AsyncHelpme}/>
+                    <Route path="/index/qchat" exact component={AsyncQchats}/>
+                    <Route path="/index/qchat/:id" exact component={AsyncQchats}/>
                     <Route path="/index/group/:id" exact component={AsyncGroups}/>
                     <Route path="/index/group"  component={AsyncGroups}/>
                      <Route path="/index/user" exact component={AsyncUsers}/>

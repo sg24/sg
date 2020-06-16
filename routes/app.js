@@ -16,7 +16,7 @@ let notification = require('./utility/notifications');
 let push = require('./utility/push');
 const global = require('../global/global');
 
-const {category,  posts, questions, poets, group, contest, user,  adverts, tempUser, postnotifies, 
+const {category,  posts, questions, poets, group, contest, qchat, user,  adverts, tempUser, postnotifies, 
      authUser, aroundme, quenotifies, pwtnotifies, viewnotifies, usernotifies,
      favorite, connectStatus, chatnotifies, grpchatnotifies} = require('../serverDB/serverDB');
 
@@ -371,7 +371,8 @@ router.post('/header', authenticate, (req, res, next) => {
         let model = req.body.model === 'post' ? posts :
         req.body.model === 'question' ? questions : req.body.model === 'group'  ? group : 
         req.body.model === 'advert' ? adverts : req.body.model === 'aroundme' ? aroundme : 
-        req.body.model === 'contest' ? contest : poets;
+        req.body.model === 'contest' ? contest : 
+        req.body.model === 'qchat' ? qchat : poets;
         model.find({authorID: req.user}).count().then(result => {
             res.status(200).send(String(result))
         })
@@ -572,16 +573,17 @@ router.patch('/header', authenticate, (req, res, next) => {
     if (req.header('data-categ') === 'draftmode') {
         let model = req.body.model === 'post' ? posts :
         req.body.model === 'question' ? questions : 
-        req.body.model === 'advert' ?  adverts : poets;
+        req.body.model === 'advert' ?  adverts : 
+        req.body.model === 'qchat' ? qchat : poets;
         let notify = req.body.model === 'post' ? postnotifies :
         req.body.model === 'question' ? quenotifies : pwtnotifies;
         model.findOneAndUpdate({_id: req.body.id, authorID: req.user}, {mode: 'draft', shareMe: []}).then(result => {
             let send = 0;
-            if ((result.shareMe && result.shareMe.length < 1) || req.body.model === 'advert') {
+            if ((result.shareMe && result.shareMe.length < 1) || req.body.model === 'advert' || req.body.model === 'qchat') {
                 res.sendStatus(200);
                 return
             }
-            if (req.body.model !== 'advert') {
+            if (req.body.model !== 'advert' && req.body.model !== 'qchat') {
                 for (let userID of result.shareMe){
                     notify.findOneAndUpdate({userID, [req.body.field]: {$in : req.body.id}}, {$pull: { [req.body.field]: req.body.id}
                     }).then(() => {
@@ -599,7 +601,8 @@ router.patch('/header', authenticate, (req, res, next) => {
     if (req.header('data-categ') === 'publishmode') {
         let model = req.body.model === 'post' ? posts :
         req.body.model === 'question' ? questions : 
-        req.body.model === 'advert' ? adverts : poets;
+        req.body.model === 'advert' ? adverts : 
+        req.body.model === 'qchat' ? qchat : poets;
         model.findOneAndUpdate({_id: req.body.id, authorID: req.user}, {mode: 'publish'}).then(result => {
             res.sendStatus(200);
         }).catch(err => {
@@ -637,13 +640,23 @@ router.patch('/header', authenticate, (req, res, next) => {
         req.body.model === 'question' ? quenotifies : pwtnotifies;
         let model = req.body.model === 'post' ? posts :
         req.body.model === 'question' ? questions : 
-        req.body.model === 'advert' ? adverts : poets;
+        req.body.model === 'advert' ? adverts : 
+        req.body.model === 'qchat' ? qchat : poets;
         let shareMe = JSON.parse(req.body.users);
         if (req.body.model === 'advert') {
             model.findByIdAndUpdate(req.body.id, {$addToSet: { shareMe: { $each: shareMe } }}).then((result) => {
                 push(shareMe, result, req.body.model, req.body.id).then(() => {
                     res.sendStatus(200);
                 })
+            }).catch(err => {
+                res.status(500).send(err);
+            })
+            return
+        }
+ 
+        if (req.body.model === 'qchat') {
+            model.findByIdAndUpdate(req.body.id, {$addToSet: { shareMe: { $each: shareMe } }}).then((result) => {
+                res.sendStatus(200);
             }).catch(err => {
                 res.status(500).send(err);
             })
@@ -705,11 +718,18 @@ router.delete('/header', authenticate,(req,res, next) =>  {
                 deleteMedia(result.video, 'media').then(() => {
                     removeShare(result, res, notify, payload)
                 })
-            }else if (result.image && result.image.length > 0){
+            }
+            if (result.image && result.image.length > 0){
                 deleteMedia(result.image, 'image').then(() => {
                     removeShare(result, res, notify, payload)
                 })
-            } else {
+            } 
+            if (result.snapshot && result.snapshot.length > 0){
+                deleteMedia(result.snapshot, 'image').then(() => {
+                    removeShare(result, res, notify, payload)
+                })
+            } 
+            if (result.video.length < 1 && result.image.length < 1 && result.snapshot.length < 1) {
                 removeShare(result, res, notify, payload)
             }
 

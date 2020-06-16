@@ -10,8 +10,6 @@ import { updateObject } from '../../../../../shared/utility';
 import * as actions from '../../../../../store/actions/index';
 import axios from '../../../../../axios';
 
-let IS_ANIMATED = true;
-
 class Qchats extends Component {
     constructor(props) {
         super(props);
@@ -29,13 +27,7 @@ class Qchats extends Component {
             cntOpt: null,
             fetchLimit: limit,
             filterTag: 'qchat',
-            mediaItms: [],
-            animateItm: null,
-            removeAnim: false,
-            removePrevMedia: null,
-            playerIcnId: null,
-            animationComplete: true,
-            scrollEnable: false,
+            showTooltip: null,
             active: null
         }
     }
@@ -141,99 +133,25 @@ class Qchats extends Component {
         this.setState({cntOpt: newCntOpt})
     }
 
-    changeFavoriteHandler = (id, isLiked, favAdd, cntGrp) => {
-        this.props.onChangeFav(id, isLiked, favAdd, this.props.changedFav, this.props.userID, cntGrp);
-    }
-
     showShareHandler = (shareID) => {
         this.props.onChangeShareID(shareID);
         this.props.history.push('/qchat/share')
     };
 
-    changeMediaHandler = (id, maxLength, type) => {
-        this.setState({removePrevMedia: {id, type}, removeAnim: false});
-        this.animateSlider(id, maxLength, type, 900);
-    }
-
-    removeAnimHandler = (event) => {
-        if (!this.state.removePrevMedia) {
-            this.setState({removeAnim: true})
-        }
-    }
-
-    playVideoHandler = (snapshot) => {
-        this.props.onFetchVideo(snapshot.id, `${window.location.protocol + '//' + window.location.host}/media/video/${snapshot.videoCnt}`)
-    }
-
-    slidePlayHandler = (id, maxLength, event) => {
-        let slide = event.target;
-        slide.setPointerCapture(event.pointerId);
-        this.setState({playerIcnId: id})
-    }
-
-    clearSlidePlayhandler = (event) => {
-        let slide = event.target;
-        slide.releasePointerCapture(event.pointerId);
-        slide.style.left = 0 +'px';
-        let videoPlayerIcn = document.querySelector('.reuse-que__media--wrapper__icn-move');
-        if (videoPlayerIcn) {
-            videoPlayerIcn.style.left = 42 + '%';
-        }
-    }
-
-    moveSlidePlayHandler = (id, maxLength, event) => {
-        let slide = event.target;
-        if (slide.hasPointerCapture && slide.hasPointerCapture(event.pointerId)) {
-            let newpos = event.clientX - slide.parentElement.offsetLeft - (slide.offsetWidth/2);
-            if (newpos < -(slide.offsetWidth/2 + slide.offsetWidth/4)) {
-                if (IS_ANIMATED) {
-                    IS_ANIMATED = false;
-                    this.animateSlider(id, maxLength, 'next', 0)
+    showTooltipHandler = (id) => {
+        if (this.state.showTooltip && this.state.showTooltip.id === id) {
+            this.setState((prevState, props) => {
+                return {
+                    showTooltip: updateObject(prevState.showTooltip, {visible: !prevState.showTooltip.visible})
                 }
-            } else if ( newpos > (slide.offsetWidth/2 + slide.offsetWidth/4)) {
-                if (IS_ANIMATED) {
-                    IS_ANIMATED = false;
-                    this.animateSlider(id, maxLength, 'prev', 0)
-                }
-            } 
-            let videoPlayerIcn = document.querySelector('.reuse-que__media--wrapper__icn-move');
-            if (videoPlayerIcn) {
-                let playerIcnHeight = (newpos / slide.offsetWidth) * 100
-                videoPlayerIcn.style.left =  playerIcnHeight + 42 + '%';
-            }
-            slide.style.left = newpos +'px';
+            });
+            return
         }
+
+        const newCntOpt = {visible: true, id}
+        this.setState({showTooltip: newCntOpt})
     }
 
-    animateSlider = (id, maxLength, type, timeFrame) => {
-        setTimeout(() => {
-            let mediaItms = [...this.state.mediaItms];
-            let filterMedia = mediaItms.filter(media => media.id === id);
-            let mediaDet = {id, position: type === 'next' ?  maxLength > 1 ? 1 : 0 : maxLength - 1};
-            if (filterMedia.length > 0) {
-                for (let mediaItm of filterMedia) {
-                    mediaDet = {id: mediaItm.id, position: type === 'next' ? mediaItm.position+=1 : mediaItm.position-=1};
-                    if (mediaDet.position > maxLength - 1) {
-                        mediaDet = updateObject(mediaDet, {position: 0});
-                    }
-    
-                    if (mediaDet.position < 0) {
-                        mediaDet = updateObject(mediaDet, {position: maxLength - 1});
-                    }
-                    let updateMedia = mediaItms.filter(media => media.id !== id);
-                    updateMedia.push(mediaDet);
-                    this.setState({mediaItms: updateMedia, removeAnim: false,  removePrevMedia: null, animateItm: {id, direction: type}})
-                }
-                return
-            }
-            mediaItms.push(mediaDet);
-            this.setState({mediaItms, removeAnim: false, removePrevMedia: null,  animateItm: {id, direction: type}})   
-        }, timeFrame)
-
-        setTimeout(() => {
-            IS_ANIMATED = true;
-        }, 500)
-    }
     changeCntHandler = (id, title, det) => {
         if ( this.props.match.params.id === 'myqchat') {
             det = det === 'draft' ?  'acc-draft' : det;
@@ -267,27 +185,11 @@ class Qchats extends Component {
         if (this.props.cnts && this.props.cnts.length > 0) {
             cnt = <Qchat 
                 content={this.props.cnts} 
-                media={this.props.media}
                 userOpt={this.showUserOptHandler}
                 showCntOpt={this.state.cntOpt}
-                fav={this.changeFavoriteHandler}
-                changedFav={this.props.changedFav}
-                favChange={this.props.favChange}
                 share={this.showShareHandler}
-                nextMedia={this.changeMediaHandler}
-                prevMedia={this.changeMediaHandler}
-                mediaItms={this.state.mediaItms}
-                removeAnim={this.removeAnimHandler}
-                disableAnim={this.state.removeAnim}
-                animateItm={this.state.animateItm}
-                removePrevMedia={this.state.removePrevMedia}
-                playVideo={this.playVideoHandler}
-                videoErr={this.props.videoErr}
-                video={this.props.postVideo}
-                playerIcnId={this.state.playerIcnId}
-                slidePlay={this.slidePlayHandler}
-                moveSlidePlay={this.moveSlidePlayHandler}
-                clearSlidePlay={this.clearSlidePlayhandler}
+                tooltip={this.showTooltipHandler}
+                showTooltip={this.state.showTooltip}
                 changeCnt={this.changeCntHandler}/>
         }
 

@@ -72,17 +72,19 @@ router.post('/', authenticate, (req, res, next) => {
             }
             
             if (result.video && result.video.length > 0){
-                deleteMedia(result.video, 'media').then(() => {
-                    return res.sendStatus(200);
-                })
-            } else if (result.image && result.image.length > 0){
-                deleteMedia(result.image, 'image').then(() => {
-                    return res.sendStatus(200);
-                })
-            } else {
+                deleteMedia(result.video, 'media')
+            } 
+            if (result.image && result.image.length > 0){
+                deleteMedia(result.image, 'image')
+            } 
+            if (result.snapshot && result.snapshot.length > 0){
+                deleteMedia(result.snapshot, 'image')
+            } 
+            if (result.video.length < 1 && result.image.length < 1 && result.snapshot.length < 1) {
                 return res.sendStatus(200);
             }
-        })   
+        }) 
+        return res.sendStatus(200) 
     }
 
     if (req.header !== null && req.header('data-categ') === 'contest') {

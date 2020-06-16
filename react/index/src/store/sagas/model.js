@@ -60,7 +60,7 @@ export function* joinGrpInitSaga(action) {
 
 export function* changeCntInitSaga(action) {
     let field =   action.modelType === 'post' ? 'postID' : action.modelType === 'question' ? 'queID' : 
-    action.modelType === 'advert' ? 'advertID' : 'pwtID';
+    action.modelType === 'advert' ? 'advertID' : action.modelType === 'qchat' ? 'qchatID' : 'pwtID';
     
     if (!action.confirm) {
         yield put(actions.changeCntStart(action.title, action.id, action.det, action.modelType))
@@ -81,6 +81,13 @@ export function* changeCntInitSaga(action) {
         if (action.modelType === 'aroundme') {
             yield axios.post('/aroundme', {id: action.id}, {
                 headers: {'data-categ': 'deletearoundme'}})
+            window.location.reload()
+            return
+        } 
+
+        if (action.modelType === 'deleteqchat') {
+            yield axios.post('/qchat', {id: action.id}, {
+                headers: {'data-categ': 'deleteqchat'}})
             window.location.reload()
             return
         } 

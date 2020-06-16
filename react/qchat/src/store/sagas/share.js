@@ -43,7 +43,7 @@ export function* shareUserInitSaga(action) {
     try {
         yield put(actions.shareUserStart())
         let field = 'queID';
-        yield axios.patch('/header', {users: JSON.stringify(shareUser), id: action.shareID, model: 'question', field},{headers: {'data-categ': 'shareuser'}});
+        yield axios.patch('/header', {users: JSON.stringify(shareUser), id: action.shareID, model: 'qchat', field},{headers: {'data-categ': 'shareuser'}});
         yield delay(1000);
         yield put(actions.shareUser());
     } catch(err){

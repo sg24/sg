@@ -40,6 +40,8 @@ const modelContents = props => {
             correct={props.correct}
             wrong={props.wrong}
             commentTotal={props.commentTotal}
+            tooltip={props.tooltip.bind(this, props.cnt._id)}
+            showTooltip={props.showTooltip}
             url={props.url}/>
     )
     return contents;

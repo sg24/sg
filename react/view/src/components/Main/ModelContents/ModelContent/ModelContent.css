@@ -580,6 +580,28 @@
     cursor: pointer;
 }
 
+.reuse-view__main--footer__qchat {
+    background-color: transparent;
+}
+
+.reuse-view__main--footer__qchat--cnt {
+    margin: 0;
+    padding: 4px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 2px rgba(0,0,0, 0.5);
+}
+
+.reuse-view__main--footer__req {
+    background-color: #e9ebf2;
+    color: #333
+}
+
+.reuse-view__main--footer__start{
+    background-color: #0284a8;
+    color: #fff;
+}
+
 .reuse-view__main--footer__user-det {
     position: absolute;
     right: 20px;
@@ -680,6 +702,30 @@
         font-size: 1.2rem;
     }
 }
+
+.reuse-view__main--footer__tooltip {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #182427;;
+    color: #fff;
+    font-size: .875rem;
+    z-index: 1;
+}
+
+.reuse-view__main--footer__tooltip > li {
+    padding: 5px 10px;
+    margin: 0;
+}
+
+.reuse-view__main--footer__tooltip > li > a{
+    text-decoration: underline;
+    color: #e9ebf2
+}
+
 
 .reuse-view__comments {
     width: 100%;

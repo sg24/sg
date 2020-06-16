@@ -14,9 +14,8 @@ const qchat = props => {
              share={props.share.bind(this, cnt._id)}
              tooltip={props.tooltip.bind(this, cnt._id)}
              showTooltip={props.showTooltip}
-             deleteCnt={props.changeCnt.bind(this, cnt._id, cnt.title, 'delete')}
-             changeCnt={props.changeCnt.bind(this, cnt._id, cnt.title, 'draft')}
-             changeCntPublish={props.changeCnt.bind(this, cnt._id, cnt.title, 'publish')}/>
+             deleteCnt={props.changeCnt.bind(this, cnt._id, cnt.title, 'delete', 'deleteqchat')}
+             changeCnt={props.changeCnt.bind(this, cnt._id, cnt.title, 'draft', 'qchat')}/>
     ));
 
     return allQchat;

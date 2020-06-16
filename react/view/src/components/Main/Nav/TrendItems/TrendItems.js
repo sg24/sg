@@ -3,6 +3,7 @@ import React from 'react';
 import TrendItem from './TrendItem/TrendItem';
 
 const trendItems = props => {
+    console.log(props.content)
     const allTrends = props.content.map((trd, index) => (
         <TrendItem 
             key={index}

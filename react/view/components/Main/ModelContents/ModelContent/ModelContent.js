@@ -84,7 +84,8 @@ let meta = null;
                 <meta property="og:image:width" content="1200" />
                 <meta property="og:image:height" content="600" />
                 {mediaCnt.length > 0 ?  <meta property="og:image" content={`${mediaCnt[0].url}`} /> : null}
-                <meta property="og:description" content={`${props.cntGrp === 'post' ? desc.blocks[0].text : props.cntGrp === 'advert' ? 'Advertise your product free on www.slodge24.com' : 'slodge24 | Knowledge sharing platform'}`}/>
+                <meta property="og:description" content={`${props.cntGrp === 'post' ? desc.blocks[0].text : props.cntGrp === 'advert' ? 'Advertise your product free on www.slodge24.com' : 
+                props.cntGrp === 'qchat' ? ' Computer based test' : 'slodge24 | Knowledge sharing platform'}`}/>
                 <meta property="og:site_name" content={`https://www.slodge24.com`}/>
             </Head>
         )

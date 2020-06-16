@@ -2,22 +2,22 @@
     margin-right: 5px;
 }
 
-.icon__reuse-que-filter--ans {
+.icon__reuse-onlineque-filter--ans {
     color: #ff1600;
     margin-right: 5px;
 }
 
-.icon__reuse-que-filter--rgt {
+.icon__reuse-onlineque-filter--rgt {
     color: #15a4fa;
     margin-right: 5px;
 }
 
-.icon__reuse-que-filter--fav {
+.icon__reuse-onlineque-filter--fav {
     color: #ff1600;
     margin-right: 5px;
 }
 
-.reuse-que-filter {
+.reuse-onlineque-filter {
     width: 100%;
     position: relative;
     padding: 10px 15px 10px 15px;  
@@ -25,17 +25,17 @@
     
 }
 
-.reuse-que-filter__wrapper {
+.reuse-onlineque-filter__wrapper {
     position: relative;
 }
 
-.reuse-que-filter__wrapper::after {
+.reuse-onlineque-filter__wrapper::after {
     content: "";
     clear: both;
     display: table;
 }
 
-.reuse-que-filter__que {
+.reuse-onlineque-filter__que {
     float: left;
     position: relative;
     border: 1px solid rgba(2,132,168, .2);
@@ -49,7 +49,7 @@
     cursor: pointer;
 }
 
-.reuse-que-filter__que > div {
+.reuse-onlineque-filter__que > div {
     position: absolute;
     right: 10px;
     width: 24px;
@@ -70,7 +70,7 @@
 
 }
 
-.reuse-que-filter__add {
+.reuse-onlineque-filter__add {
     float: right;
     border: 1px solid  #ff1600;
     border-top: 3px solid  #ff1600;
@@ -84,7 +84,7 @@
 
 }
 
-.reuse-que-filter__add > a {
+.reuse-onlineque-filter__add > a {
     display: block;
     padding: 8px 10px;
     border-radius: 3px;
@@ -97,7 +97,7 @@
 
 @media (min-width: 530px) {
 
-    .reuse-que-filter {
+    .reuse-onlineque-filter {
         padding: 20px;
     }
 }

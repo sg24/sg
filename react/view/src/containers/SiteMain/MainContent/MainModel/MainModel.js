@@ -27,6 +27,7 @@ class Model extends Component {
         }); 
         this.state = {
             cntOpt: null,
+            showTooltip: null,
             categ: this.props.match.params.categ,
             id: this.props.match.params.id,
             mediaItms: [],
@@ -236,6 +237,20 @@ class Model extends Component {
         this.props.onAnsWrong(commentID, type, replyID)
     }
 
+    showTooltipHandler = (id) => {
+        if (this.state.showTooltip && this.state.showTooltip.id === id) {
+            this.setState((prevState, props) => {
+                return {
+                    showTooltip: updateObject(prevState.showTooltip, {visible: !prevState.showTooltip.visible})
+                }
+            });
+            return
+        }
+
+        const newCntOpt = {visible: true, id}
+        this.setState({showTooltip: newCntOpt})
+    }
+
     submitCommentHandler = () => {
         let cnt = JSON.stringify(convertToRaw(this.state.inputValue.getCurrentContent()))
         this.props.onSubmitComment(this.state.id, this.state.categ, cnt)
@@ -288,6 +303,8 @@ class Model extends Component {
                     correct={this.correctHandler}
                     wrong={this.wrongHandler}
                     commentTotal={this.props.commentTotal}
+                    tooltip={this.showTooltipHandler}
+                    showTooltip={this.state.showTooltip}
                     url={`${window.location.protocol + '//' + window.location.host}/view/${this.state.categ}/${this.state.id}`}/>
         }
 

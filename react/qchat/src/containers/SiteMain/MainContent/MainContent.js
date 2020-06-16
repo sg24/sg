@@ -11,13 +11,13 @@ class MainContent extends Component {
     state = {
         cnt: {
             path: '/qchat',
-            icnGrp: 'coffee',
+            icnGrp: 'desktop',
             icnClass: 'icon icon__site-main--content__tab',
-            title: 'Q chat',
+            title: 'CBT',
         },
         share: {
             path: '/qchat/shared',
-            icnGrp: 'hand-paper',
+            icnGrp: 'location-arrow',
             icnClass: 'icon icon__site-main--content__tab',
             title: 'shared',
         },

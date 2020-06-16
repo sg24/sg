@@ -9,7 +9,7 @@ export function* fetchCntInitSaga(action) {
     }
     try {
         if (action.cntTotal === 0 || action.cntTotal > action.skipCnt) {
-            let response = yield axios.post('/question', null, {
+            let response = yield axios.post('/qchat', null, {
                 headers: {
                     'data-categ': action.fetchType, 
                     'limit': action.fetchLimit, 
@@ -28,8 +28,8 @@ export function* changeFavSaga(action) {
     yield put(actions.changeMainFavoriteStart(updateFav.favDet.liked));
     yield put(actions.changeFavPtStart(updateFav.favDet.id, updateFav.favDet.liked))
     try {
-        let field = action.cntGrp === 'post' ? 'postID' : action.cntGrp === 'question' ?
-        'queID' : 'pwtID';
+        let field = action.cntGrp === 'post' ? 'postID' : action.cntGrp === 'qchat' ?
+        'qchatID' : 'pwtID';
         yield axios.patch('/header', {id: updateFav.favDet.id, model: action.cntGrp, field},{headers: {'data-categ': 'changefavorite'}});
         yield delay(500)
         yield put(actions.changeMainFavoriteReset());
@@ -48,12 +48,11 @@ export function* changeCntInitSaga(action) {
     }
     try {
         if (action.det === 'delete') {
-            let payload = JSON.stringify({id: action.id, model: 'question', field: 'queID'})
-            yield axios.delete('/header', {headers: {'data-categ': `deletecnt-${payload}`}});
+            yield axios.post('/qchat', {id: action.id},{headers: {'data-categ': `deleteqchat`}});
         } else if (action.det === 'draft' || action.det === 'acc-draft'){
-            yield axios.patch('/header', {id: action.id, model: 'question', field: 'queID'} ,{headers: {'data-categ': 'draftmode'}});
+            yield axios.patch('/header', {id: action.id, model: 'qchat', field: 'qchatID'} ,{headers: {'data-categ': 'draftmode'}});
         } else {
-            yield axios.patch('/header', {id: action.id, model: 'question', field: 'queID'} ,{headers: {'data-categ': 'publishmode'}});
+            yield axios.patch('/header', {id: action.id, model: 'qchat', field: 'qchatID'} ,{headers: {'data-categ': 'publishmode'}});
         }
         yield put(actions.changeCnt())
         yield delay(1000);

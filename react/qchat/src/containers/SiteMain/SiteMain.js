@@ -17,7 +17,7 @@ const AsyncShare= asyncComponent(() => {
 });
 
 const AsyncFilterContent= asyncComponent(() => {
-    return import ('./MainContent/MainQue/Filter/FilterContent/FilterContent');
+    return import ('./MainContent/MainQchat/Filter/FilterContent/FilterContent');
 });
 
 class SiteMain extends Component {
@@ -98,8 +98,8 @@ class SiteMain extends Component {
                         close={this.closeModelBackdropHandler}
                         err={ this.props.cntErr } /> : null}
                 <Switch>
-                    <Route path="/question" exact component={MainContent} />
-                    <Route path="/question/:id" exact component={MainContent} />
+                    <Route path="/qchat" exact component={MainContent} />
+                    <Route path="/qchat/:id" exact component={MainContent} />
                 </Switch>
                 <MainNav />
             </div>
@@ -120,17 +120,17 @@ class SiteMain extends Component {
                         err={ this.props.changeCntErr }
                         warn={{
                             msg: this.props.changeCntStart.det=== 'delete' ?
-                            'Are you sure you want to delete this question' : 'Are you sure you want to change this question mode',
+                            'Are you sure you want to delete this CBT' : 'Are you sure you want to change this CBT mode',
                             cnt: this.props.changeCntStart.title,
                             det: this.props.changeCntStart.det
                         }}
                         exit={{
                             msg: this.props.changeCntStart.det=== 'delete' ?
-                            'Question Deleted Successfully' : 'Question mode change successfully', 
+                            'CBT Deleted Successfully' : 'CBT mode change successfully', 
                             close: this.props.changeCnt}}
                         changeCnt={this.changeCntHandler}
                         closeChangeCnt={this.closeChangeCntHandler}/> : null}
-                <Route path="/question/share" exact component={AsyncShare} />
+                <Route path="/qchat/share" exact component={AsyncShare} />
         </div>
         )
     }

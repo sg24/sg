@@ -11,17 +11,20 @@ module.exports = submitForm = (qchat, model, mediaCnt, userModel, userID, tempFi
     let qchatID = uuid()
     let shareMe = [];
     let media = mediaCnt.filter(cnt => cnt.position === '0')[0];
+    let question = qchat.filter(cnt => cnt.position !== 0);
     let newDoc = new model({
         authorID: userID.authorID,
         username: userID.username, 
         userImage: userID.userImage,
+        userType: userID.userType,
         category: categ,
         video: media ? media.video: [],
         image: media ? media.image: [],
         title: content.title,
-        mode: content.mode,
+        mode: content.mode === 'next' || content.mode === 'publish' ? 'publish' : content.mode,
         access: content.participant,
         duration: content.duration,
+        qchatTotal: question.length,
         hour: content.hour ? Number.parseInt(content.hour) : 0,
         minute: content.minute ? Number.parseInt(content.minute) : 0,
         second: content.second ? Number.parseInt(content.second) : 0,
@@ -31,7 +34,6 @@ module.exports = submitForm = (qchat, model, mediaCnt, userModel, userID, tempFi
 
     newDoc.save().then(result => {
         id = result._id;
-        let question = qchat.filter(cnt => cnt.position !== 0);
         
         for (let queFnd of question) {
             let mediaFnd = mediaCnt.filter(itm => itm.position === String(queFnd.position))[0];

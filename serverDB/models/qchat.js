@@ -13,6 +13,9 @@ const QchatSchema = new Schema({
         type: String,
         required: true
     },
+    userType: {
+        type: String
+    },
     userImage: {
         type: String
     },
@@ -89,6 +92,10 @@ const QchatSchema = new Schema({
         required: true
     },
     access: {
+    },
+    qchatTotal: {
+        type: Number,
+        required: true
     },
     _isCompleted: {
         type: Boolean,

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {posts, questions, poets, adverts, user, authUser, comment, connectStatus} = require('../serverDB/serverDB');
+const {posts, questions, poets, adverts, qchat, user, authUser, comment, connectStatus} = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
 let notifications = require('./utility/notifications');
 
@@ -29,7 +29,7 @@ router.post('/view/:categ/:id', authenticate, (req, res, next) => {
         if (req.header && req.header('data-categ') === 'viewcnt') {
             let categ = req.params.categ;
             let model =  categ === 'post' ? posts : categ === 'question' ? questions :
-            categ === 'advert' ? adverts : poets;
+            categ === 'advert' ? adverts : categ === 'qchat' ? qchat : poets;
             if (categ === 'post' || categ === 'advert') {
                 model.findByIdAndUpdate(req.params.id,{$inc: {'view': 1}}).then(() =>{
                     return fetchCnt(model, categ, updateCnt, req.params.id);
@@ -45,7 +45,7 @@ router.post('/view/:categ/:id', authenticate, (req, res, next) => {
             let cnts = req.body.cnt;
             let categ = req.body.cntGrp;
             let model =  categ === 'post' ? posts : categ === 'question' ? questions :
-            categ === 'advert' ? adverts : poets;
+            categ === 'advert' ? adverts : categ === 'qchat' ? qchat : poets;
             model.findByIdAndUpdate(id, {$inc: {'comment': 1}}).then(() => {
                 let newComment = new comment({
                     authorID: req.user,
@@ -95,7 +95,7 @@ router.post('/view/:categ/:id', authenticate, (req, res, next) => {
 
             comment.findOneAndUpdate({_id: id}, {$push: {reply: cnt}}).then(result => {
                 let model =  categ === 'post' ? posts : categ === 'question' ? questions : 
-                categ === 'advert' ? adverts : poets;
+                categ === 'advert' ? adverts : categ === 'qchat' ? qchat : poets;
                 model.findByIdAndUpdate(result.commentID, {$inc: {'comment': 1}}).then(() => {
                     comment.findById(id).then(commentRes => {
                         let replyFilter = commentRes.reply.filter(reply => reply.commentID === commentID);
@@ -131,14 +131,16 @@ router.post('/view/:categ/:id', authenticate, (req, res, next) => {
             let categ = req.params.categ;
             let id = req.params.id;
             let model =  categ === 'post' ? posts : categ === 'question' ? questions : 
-            categ === 'advert' ? adverts : poets;
+            categ === 'advert' ? adverts : categ === 'qchat' ? qchat : poets;
             model.findById(id).then(result => {
                 if(result && result.title) {
                     let title = result.title;
                     checkText(title, posts, [], 'post').then(ptArray => {
                         checkText(title, questions, ptArray, 'question').then(queArray => {
-                            checkText(title, poets, queArray, 'poet').then(filterArray => {
-                                res.send(filterArray).status(200);
+                            checkText(title, poets, queArray, 'poet').then(qchatArray => {
+                                checkText(title, qchat, qchatArray , 'qchat').then(filterArray => {
+                                    res.send(filterArray).status(200);
+                                })
                             });
                         });
                     }).catch(err => {
@@ -165,7 +167,34 @@ router.post('/view/:categ/:id', authenticate, (req, res, next) => {
                                         favorite: result.favorite,
                                     }
                                 }
-                                
+
+                                if (categ === 'qchat') {
+                                    let model = result.access === 'friends' ? 
+                                    result.userType === 'authUser' ? authUser : user : null;
+                                    let fndAccess = false;
+                                    let private =  false;
+                                    if (model) {
+                                        model.findById(result.authorID).then(fnd => {
+                                            let friends = [...fnd.teacher, ...fnd.student, result.authorID]
+                                            let checkFriend = friends.filter(id => id === req.user)[0];
+                                            fndAccess = checkFriend !== null || checkFriend !== '';
+                                        })
+                                    }
+
+                                    if (result.access && result.access.length) {
+                                        let checkPrivate = [result.access, result.authorID].filter(id => id === req.user)[0];
+                                        private =  checkPrivate !== null || checkPrivate !== ''
+                                    }  
+                                    
+                                    cnt = {
+                                        category: 'CBT',
+                                        write : result.write,
+                                        qchatTotal: result.qchatTotal,
+                                        comment: result.comment,
+                                        access: result.access === 'public' ? true : result.access === 'friends' ? fndAccess : private
+                                    }
+                                }
+
                                 if (categ === 'poet') {
                                     cnt = {
                                         category: 'Poet/Writer',
@@ -334,6 +363,31 @@ router.post('/view/:categ/:id', authenticate, (req, res, next) => {
                         update['pwtCreated'] = cnt.pwtCreated;
                         update['helpFull'] = cnt.helpFull;
                     }
+
+                    if (modelType === 'qchat') {
+                        update['write'] = cnt.write;
+                        update['hour'] = cnt.hour;
+                        update['minute'] = cnt.minute;
+                        update['second'] = cnt.second;
+                        update['qchatTotal'] = cnt.qchatTotal;
+                        let model = cnt.access === 'friends' ? 
+                        cnt.userType === 'authUser' ? authUser : user : null;
+                        let fndAccess = false;
+                        let private =  false;
+                        if (model) {
+                            model.findById(cnt.authorID).then(fnd => {
+                                let friends = [...fnd.teacher, ...fnd.student, cnt.authorID]
+                                let checkFriend = friends.filter(id => id === req.user)[0];
+                                fndAccess = checkFriend !== null || checkFriend !== '';
+                            })
+                        }
+
+                        if (cnt.access && cnt.access.length) {
+                            let checkPrivate = [cnt.access, cnt.authorID].filter(id => id === req.user)[0];
+                            private =  checkPrivate !== null || checkPrivate !== ''
+                        }  
+                        update['access'] = cnt.access === 'public' ? true : cnt.access === 'friends' ? fndAccess : private;
+                    }
                    
                     update['username'] = user.username;
                     update['userImage'] = user.image;
@@ -369,7 +423,7 @@ router.patch('/view', authenticate, (req, res, next) => {
         let categ = req.body.cntGrp;
         let cnt = req.body.cnt;
         let model =  categ === 'post' ? posts : categ === 'question' ? questions : 
-        categ === 'advert' ? adverts : poets;
+        categ === 'advert' ? adverts : categ === 'qchat' ? qchat : poets;;
         model.findByIdAndUpdate(id, {$inc: {'comment': 1}}).then(() => {
             let newComment = new comment({
                 authorID: req.user,
@@ -416,7 +470,7 @@ router.patch('/view', authenticate, (req, res, next) => {
         comment.findOneAndUpdate({_id: id}, {$push: {reply: cnt}}).then(result => {
             let categ = req.body.cntGrp;
             let model =  categ === 'post' ? posts : categ === 'question' ? questions : 
-            categ === 'advert' ? adverts : poets;
+            categ === 'advert' ? adverts : categ === 'qchat' ? qchat : poets;
             model.findByIdAndUpdate(result.commentID, {$inc: {'comment': 1}}).then(() => {
                 comment.findById(id).then(commentRes => {
                     let replyFilter = commentRes.reply.filter(reply => reply.commentID === req.body.commentID);
