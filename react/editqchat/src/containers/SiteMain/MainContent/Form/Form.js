@@ -7,8 +7,8 @@ import { withRouter, Redirect } from 'react-router-dom';
 import './react-draft-wysiwyg.css';
 import './Form.css';
 import * as actions from '../../../../store/actions/index';
-import PtCategs from '../../../../components/Main/PostCategs/PostCategs';
-import Categs from '../../../../components/Main/PostCategs/Categs/Categs';
+// import PtCategs from '../../../../components/Main/PostCategs/PostCategs';
+// import Categs from '../../../../components/Main/PostCategs/Categs/Categs';
 import Backdrop from '../../../../components/UI/Backdrop/Backdrop';
 import Loader from '../../../../components/UI/Loader/Loader';
 import Modal from '../../../../components/UI/Modal/Modal';
@@ -384,7 +384,7 @@ class Form extends  Component {
     submitHandler = (mode) => {
         this.setState({showForm: true,  showAddItm: false, mode});
     
-        if (this.state.categs.length > 0 && this.state.formIsValid && this.state.setTimeValid) {
+        if (this.state.formIsValid && this.state.setTimeValid) {
             let cnt = JSON.parse(localStorage.getItem('question'));
             let media = cnt.filter(mediaCnt => mediaCnt.position === 0)[0];
 
@@ -453,14 +453,14 @@ class Form extends  Component {
     }
 
     render() {
-        let addCateg = null;
-        let categListClass = ['reuse-form__cnt--det__selec reuse-form__cnt--det__selec--categ'];
-        let categItems = null;
+        // let addCateg = null;
+        // let categListClass = ['reuse-form__cnt--det__selec reuse-form__cnt--det__selec--categ'];
+        // let categItems = null;
         let addItemClass = ['reuse-form__cnt--det__selec reuse-form__cnt--det__selec--add'];
         let selectOptClass = ['reuse-form__cnt--det__selec--opt-user']
         let addItemOptClass = ['reuse-form__cnt--det__selec--opt'];
         let isValid  = !this.state.formIsValid || !this.state.setTimeValid || (!this.state.setTime.hour.value && !this.state.setTime.minute.value && !this.state.setTime.second.value)
-        || this.state.categs.length < 1 || (!this.state.selectItm && (!this.props.media.user || (this.props.media.user && !this.props.media.user.length > 0)));
+        || (!this.state.selectItm && (!this.props.media.user || (this.props.media.user && !this.props.media.user.length > 0)));
 
         if (this.state.showAddItm) {
             addItemClass.push('reuse-form__cnt--det__selec--add__visible icon--rotate');
@@ -472,48 +472,48 @@ class Form extends  Component {
             selectOptClass.push('reuse-form__cnt--det__selec--opt-user__visible')
         }
 
-        if (this.state.showCateg && !this.props.categ) {
-            categListClass.push('icon--rotate');
-            addCateg =  (
-                <ul className="reuse-form__cnt--det__selec--opt reuse-form__cnt--det__selec--opt__visible">
-                    <li className="reuse-form__cnt--det__selec--opt__loading">
-                        <Loader />
-                    </li>
-                </ul>
-            );
-        }
+        // if (this.state.showCateg && !this.props.categ) {
+        //     categListClass.push('icon--rotate');
+        //     addCateg =  (
+        //         <ul className="reuse-form__cnt--det__selec--opt reuse-form__cnt--det__selec--opt__visible">
+        //             <li className="reuse-form__cnt--det__selec--opt__loading">
+        //                 <Loader />
+        //             </li>
+        //         </ul>
+        //     );
+        // }
         
-        if (this.state.showCateg && this.props.categ) {
-            categListClass.push('icon--rotate');
-            addCateg =  (
-                <ul className="reuse-form__cnt--det__selec--opt reuse-form__cnt--det__selec--opt__visible">
-                    <PtCategs 
-                        categs={this.props.categ}
-                        selecCateg={this.selectCategHandler}/>
-                </ul>
-            );
-        }
+        // if (this.state.showCateg && this.props.categ) {
+        //     categListClass.push('icon--rotate');
+        //     addCateg =  (
+        //         <ul className="reuse-form__cnt--det__selec--opt reuse-form__cnt--det__selec--opt__visible">
+        //             <PtCategs 
+        //                 categs={this.props.categ}
+        //                 selecCateg={this.selectCategHandler}/>
+        //         </ul>
+        //     );
+        // }
 
-        if (this.state.categs.length > 0) {
-            categItems = (
-                <div className="reuse-form__cnt--tag">
-                    <h3>
-                        <FontAwesomeIcon 
-                            icon={['fas', 'bars']} 
-                            className="icon icon__reuse-form__cnt--categ" />
-                        Category 
-                    </h3>
-                    <ul className="reuse-form__cnt--tag__itm">
-                        <Categs 
-                            categs={this.state.categs}
-                            categActive={this.categActiveHandler}
-                            categActiveProps={this.state.categActiveProps}
-                            categDefault={this.categDefaultHandler}
-                            removeCategSelect={this.removeCategSelectHandler}/> 
-                    </ul>
-                </div>
-            )
-        }
+        // if (this.state.categs.length > 0) {
+        //     categItems = (
+        //         <div className="reuse-form__cnt--tag">
+        //             <h3>
+        //                 <FontAwesomeIcon 
+        //                     icon={['fas', 'bars']} 
+        //                     className="icon icon__reuse-form__cnt--categ" />
+        //                 Category 
+        //             </h3>
+        //             <ul className="reuse-form__cnt--tag__itm">
+        //                 <Categs 
+        //                     categs={this.state.categs}
+        //                     categActive={this.categActiveHandler}
+        //                     categActiveProps={this.state.categActiveProps}
+        //                     categDefault={this.categDefaultHandler}
+        //                     removeCategSelect={this.removeCategSelectHandler}/> 
+        //             </ul>
+        //         </div>
+        //     )
+        // }
 
         let cnt = (
             <div className="reuse-form__wrapper">
@@ -521,13 +521,13 @@ class Form extends  Component {
                     <div>
                         <div>
                         <FontAwesomeIcon 
-                            icon={['fas', 'coffee']} />
+                            icon={['fas', 'desktop']} />
                         </div> 
-                        Add QChat
+                        Edit CBT
                     </div>
                 </h3>
                 <div className="reuse-form__cnt">
-                    <div className="reuse-form__cnt--wrapper">
+                    {/* <div className="reuse-form__cnt--wrapper">
                         <label className="reuse-form__cnt--title">
                             <FontAwesomeIcon 
                                 icon={['fas', 'tags']} 
@@ -572,13 +572,13 @@ class Form extends  Component {
                             <div className="reuse-form__err">Select or Add New Category</div>
                             : null
                         }
-                    </div>
+                    </div> */}
                     <div className="reuse-form__cnt--wrapper">
                         <label className="reuse-form__cnt--title">
                             <FontAwesomeIcon 
                                 icon={['far', 'clock']}
                                 className="icon icon__reuse-form--clock" />
-                            Set Time
+                            Set Time (*)
                         </label>
                         <div className="reuse-form__cnt--det">
                             <div className="reuse-form__cnt--det__wrapper">
@@ -623,7 +623,7 @@ class Form extends  Component {
                         </div>
                     </div>
                     <div className="reuse-form__cnt--wrapper">
-                        <label className="reuse-form__cnt--title">QChat Title</label>
+                        <label className="reuse-form__cnt--title">Title (*)</label>
                         <div className="reuse-form__cnt--det">
                             <input 
                                 type="text" 
@@ -635,7 +635,7 @@ class Form extends  Component {
                                 onChange={(event) => this.inputChangedHandler(event, 'title')} />
                         </div>
                         { !this.state.formElement.title.valid && this.state.formElement.title.touched ?
-                            <div className="reuse-form__err">QChat title must not be empty </div>
+                            <div className="reuse-form__err">title must not be empty </div>
                             : null
                         }
                     </div>
@@ -681,7 +681,7 @@ class Form extends  Component {
                                         icon={['fas', 'caret-down']} 
                                         className="icon icon__reuse-form--cnt__user" />
                                         
-                                    {this.props.media.user && this.props.media.user.length > 0 ?  'Picked Friends' : this.state.selectItm ? this.state.selectItm : 'participant'}
+                                    {this.props.media.user && this.props.media.user.length > 0 ?  'Picked Friends' : this.state.selectItm ? this.state.selectItm : 'participant (*)'}
                                     <ul className={selectOptClass.join(' ')}>
                                         <li 
                                             onClick={this.selectItmHandler.bind(this, 'public')}>public</li>
@@ -722,8 +722,7 @@ class Form extends  Component {
                     <button 
                         type="button" 
                         className="reuse-form__btn--dft"
-                        disabled={!this.state.formIsValid || !this.state.setTimeValid || (!this.state.setTime.hour.value && !this.state.setTime.minute.value && !this.state.setTime.second.value)
-                            || this.state.categs.length < 1 || (!this.state.selectItm && (!this.props.media.user || (this.props.media.user && !this.props.media.user.length > 0)))}
+                        disabled={isValid || this.state.qchat.length < 2 || !this.state.qchat.filter(cnt => cnt.position === 0)[0]}
                         onClick={this.submitHandler.bind(this, 'draft')}>
                         <FontAwesomeIcon 
                             icon={['fas', 'eye-slash']} 
@@ -759,8 +758,12 @@ class Form extends  Component {
         if (this.state.qchat.length < 1) {
             cnt = <Loader />
         }
+
+        if (this.props.qchatErr)  {
+            cnt = <Backdrop><Modal uploadErr={this.props.qchatErr} type='categ' /></Backdrop>
+        }
         
-        if (this.props.redirect || this.props.qchatErr) {
+        if (this.props.redirect) {
             cnt = <Redirect to="/qchat" />
         }
 

@@ -642,7 +642,7 @@ class QueForm extends  Component {
                         <button 
                             type="button" 
                             className="reuse-form__btn--dft"
-                            disabled={this.state.qchat.length < 1 && !this.state.qchat.filter(cnt => cnt.position === 0)[0]}
+                            disabled={isValid || this.state.qchat.length < 2 || !this.state.qchat.filter(cnt => cnt.position === 0)[0]}
                             onClick={this.submitHandler.bind(this, 'draft')}>
                             <FontAwesomeIcon 
                                 icon={['fas', 'eye-slash']} 

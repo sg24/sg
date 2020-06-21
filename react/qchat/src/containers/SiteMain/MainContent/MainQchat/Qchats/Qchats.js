@@ -160,6 +160,10 @@ class Qchats extends Component {
         this.props.onChangeCnt(id, checkTitle, det, false);
     }
 
+    startExamHandler = () => {
+        // window.open()
+    }
+
     render() {
         let cnt = <Loader />;
         if (this.props.postErr) {
@@ -189,6 +193,7 @@ class Qchats extends Component {
                 showCntOpt={this.state.cntOpt}
                 share={this.showShareHandler}
                 tooltip={this.showTooltipHandler}
+                startExam={this.startExamHandler}
                 showTooltip={this.state.showTooltip}
                 changeCnt={this.changeCntHandler}/>
         }

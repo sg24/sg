@@ -1,0 +1,145 @@
+
+
+.icon__exam-cnt--facebook {
+    color: #05578b;
+}
+
+.icon__exam-cnt--twitter {
+    color: #15a4fa;
+}
+
+.exam-cnt__submit {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0,0,0, .75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.exam-cnt__submit--wrapper {
+    position: relative;
+    padding: 10px;
+    background-color: #fff;
+}
+
+.exam-cnt__submit--score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.exam-cnt__submit--score__wrapper {
+    font-size: 1.5625rem;
+    color: #fff;
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #437da3;
+}
+
+.exam-cnt__submit--score__wrapper--below {
+    background-color: #ff1600;
+}
+
+.exam-cnt__submit--title {
+    background-color: #dcdbdc;
+    color: #333;
+    margin: 20px 0 5px 0;
+    padding: 2px;
+    text-align: center;;
+    border-radius: 5px;
+    font-size: .875rem;
+}
+
+.exam-cnt__submit--share {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.exam-cnt__submit--share::after {
+    content: ""; 
+    clear: both; 
+    display: table;
+}
+
+.exam-cnt__submit--share > li { 
+    float: left;
+    padding: 0;
+    margin: 0 5px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.exam-cnt__submit--share__textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    line-height: 2;
+    padding: 5px 10px 5px 10px;
+    resize: vertical;
+    border-radius: 3px;
+    background-color: #fff;
+    border: 1px solid #dcdbdc;
+    height: 200px;
+    font-size: .875rem;;
+}
+
+.exam-cnt__submit--share__btn {
+    border: none;
+    text-align: center;
+    background-color: #437da3;
+    position: relative;
+    padding: 5px;
+    margin: 5px 0 0 0;
+    color: #fff;
+    font-size: .9375rem;
+    cursor: pointer;
+    border-radius: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: .875rem;
+}
+
+.exam-cnt__submit--err {
+    color: #ff1600;
+    font-size: .75rem;
+    padding: 5px 0 10px 0;
+}
+
+.exam-cnt__submit--msg {
+    color: #16cf27;
+    font-size: .75rem;
+    padding: 5px 0 10px 0;
+}
+
+.exam-cnt__submit--close {
+    background-color: #ff1600;
+    color: #fff;
+    font-size: .75rem;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+
+}
+
+.exam-cnt__submit--share__btn--disable {
+    cursor: not-allowed;
+    opacity: .75;
+}

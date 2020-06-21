@@ -257,6 +257,10 @@ class Model extends Component {
         this.setState({submitStart: true})
     }
 
+    startExamHandler = () => {
+        console.log(this)
+    }
+
     render() {
         let cnt = <Loader 
             view/>;
@@ -305,6 +309,7 @@ class Model extends Component {
                     commentTotal={this.props.commentTotal}
                     tooltip={this.showTooltipHandler}
                     showTooltip={this.state.showTooltip}
+                    startExam={this.startExamHandler}
                     url={`${window.location.protocol + '//' + window.location.host}/view/${this.state.categ}/${this.state.id}`}/>
         }
 

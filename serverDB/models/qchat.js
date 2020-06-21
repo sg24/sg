@@ -25,8 +25,7 @@ const QchatSchema = new Schema({
         index: true 
     },
     category: {
-        type: Array,
-        required: true
+        type: Array
     },
     video: {
         type: Array,

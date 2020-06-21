@@ -14,8 +14,13 @@ import Aux from '../../../../../../hoc/Auxs/Aux';
 const modelComment = props => {
     const formatter = buildFormatter(engStrings);
     const comment = props.comment;
-    let cnt =  JSON.parse(comment.comment)
-    const htmlContent = draftToHtml(cnt,{ trigger: '#',separator: ' '}, true);
+    let cnt =  comment.comment;
+    let htmlContent = cnt
+    if (cnt.split('"')[0] === '{' && cnt.split('"')[cnt.split('"').length -1] === ':{}}') {
+        cnt = JSON.parse(comment.comment)
+       htmlContent = draftToHtml(cnt,{ trigger: '#',separator: ' '}, true);
+    }
+
     let footerCnt = null;
 
     let reply = null;

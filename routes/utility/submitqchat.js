@@ -5,8 +5,8 @@ const { user, authUser, qcontent, category, tempFile} = require('../../serverDB/
 module.exports = submitForm = (qchat, model, mediaCnt, userModel, userID, tempFileID) => {
    return new Promise ((resolve, reject) => {
     let content = qchat.filter(cnt => cnt.position === 0)[0]
-    let categRaw = String(content.categ).split(',');
-    let categ = [...new Set(categRaw)];
+    // let categRaw = String(content.categ).split(',');
+    // let categ = [...new Set(categRaw)];
     let id = null;
     let qchatID = uuid()
     let shareMe = [];
@@ -17,7 +17,6 @@ module.exports = submitForm = (qchat, model, mediaCnt, userModel, userID, tempFi
         username: userID.username, 
         userImage: userID.userImage,
         userType: userID.userType,
-        category: categ,
         video: media ? media.video: [],
         image: media ? media.image: [],
         title: content.title,
@@ -50,24 +49,25 @@ module.exports = submitForm = (qchat, model, mediaCnt, userModel, userID, tempFi
             qchatID
          })
          que.save().then(() => {
-            category.countDocuments({}).then((result) => {
-               if ( result < 1) { 
-                   let newCateg = new category({
-                      'qchat': categ
-                   });
-                   newCateg.save().then(() => {
-                       notification();
-                   }).catch(err => {
-                       reject(err)
-                   });
-                   return 
-               }
-               category.findOneAndUpdate({}, {$addToSet: { 'qchat': { $each: categ } }}).then(() => {
-                   notification();
-               }).catch(err => {
-                   reject(err)
-               })
-           })
+            notification();
+        //     category.countDocuments({}).then((result) => {
+        //        if ( result < 1) { 
+        //            let newCateg = new category({
+        //               'qchat': categ
+        //            });
+        //            newCateg.save().then(() => {
+        //                notification();
+        //            }).catch(err => {
+        //                reject(err)
+        //            });
+        //            return 
+        //        }
+        //        category.findOneAndUpdate({}, {$addToSet: { 'qchat': { $each: categ } }}).then(() => {
+        //            notification();
+        //        }).catch(err => {
+        //            reject(err)
+        //        })
+        //    })
          })
 
         function notification() {

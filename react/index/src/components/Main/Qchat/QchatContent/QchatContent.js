@@ -141,7 +141,7 @@ const qchatContent = props => {
                 { transformNumber(props.cnt.comment)}
             </li>
             <li className="reuse-onlineque__footer--exam">
-                {props.cnt.access ? ( <span className="reuse-onlineque__footer--exam__start"> Start</span>) : ( 
+                {props.cnt.access ? ( <span className="reuse-onlineque__footer--exam__start" onClick={props.start}> Start</span>) : ( 
                 <span 
                     className="reuse-onlineque__footer--exam__req"
                     onClick={props.tooltip}> 

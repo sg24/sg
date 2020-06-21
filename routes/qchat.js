@@ -146,6 +146,7 @@ router.post('/', authenticate, (req, res, next) => {
                             update['second'] = cnt.second;
                             update['created'] = cnt.created;
                             update['qchatTotal'] = cnt.qchatTotal;
+                            update['contentID'] = cnt.contentID;
                             update['mode'] = cnt.mode;
                             update['title'] = cnt.title;
                             update['access'] = cnt.access === 'public' ? true : cnt.access === 'friends' ? fndAccess : private;
