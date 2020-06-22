@@ -123,6 +123,15 @@ class UserOption extends Component {
                     </a>
                 </li>
                 <li className="site-header__user--det__logout">
+                    <a href="/add/qchat">
+                        <div>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'desktop']}  /> 
+                        </div>
+                        CBT
+                    </a>
+                </li>
+                <li className="site-header__user--det__logout">
                     <a href="/question">
                         <div>
                             <FontAwesomeIcon 

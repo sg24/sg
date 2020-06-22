@@ -206,6 +206,14 @@ class NavigationList extends Component {
                         </a>
                     </li>
                     <li>
+                        <a href="/qchat">
+                        <FontAwesomeIcon 
+                                icon={['fas', 'desktop']} 
+                                className="icon icon__site-header--nav__itm" />
+                            CBT
+                        </a>
+                    </li>
+                    <li>
                         <a href="/conv">
                             <FontAwesomeIcon 
                                 icon={['fas', 'comment']} 
@@ -219,6 +227,30 @@ class NavigationList extends Component {
                                 icon={['fas', 'location-arrow']} 
                                 className="icon icon__site-header--nav__itm" />
                             shared
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/advert">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'bullhorn']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Advert
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/aroundme">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'map-marker-alt']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Around  Me
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/contest">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'comments-dollar']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Contest
                         </a>
                     </li>
                 </ul>
@@ -242,6 +274,14 @@ class NavigationList extends Component {
                                 icon={['fas', 'question']} 
                                 className="icon icon__site-header--nav__itm" />
                             Questions  
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/qchat">
+                        <FontAwesomeIcon 
+                                icon={['fas', 'desktop']} 
+                                className="icon icon__site-header--nav__itm" />
+                            CBT 
                         </a>
                     </li>
                     <li>
@@ -282,6 +322,30 @@ class NavigationList extends Component {
                                 icon={['fas', 'location-arrow']} 
                                 className="icon icon__site-header--nav__itm" />
                             shared
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/advert">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'bullhorn']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Advert
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/aroundme">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'map-marker-alt']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Around  Me
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/contest">
+                            <FontAwesomeIcon 
+                                icon={['fas', 'comments-dollar']} 
+                                className="icon icon__site-header--nav__itm" />
+                            Contest
                         </a>
                     </li>
                 </ul>

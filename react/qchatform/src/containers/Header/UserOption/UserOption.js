@@ -123,6 +123,15 @@ class UserOption extends Component {
                     </a>
                 </li>
                 <li className="site-header__user--det__logout">
+                    <a href="/add/qchat">
+                        <div>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'desktop']}  /> 
+                        </div>
+                        CBT
+                    </a>
+                </li>
+                <li className="site-header__user--det__logout">
                     <a href="/question">
                         <div>
                             <FontAwesomeIcon 
@@ -144,9 +153,36 @@ class UserOption extends Component {
                     <a href="/add/group">
                         <div>
                             <FontAwesomeIcon 
-                                icon={['fas', 'user-graduate']}  /> 
+                                icon={['fas', 'comment-alt']}  /> 
                         </div>
                         Chat Room
+                    </a>
+                </li>
+                <li className="site-header__user--det__logout">
+                    <a href="/add/advert">
+                        <div>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'bullhorn']}  /> 
+                        </div>
+                        Advert
+                    </a>
+                </li>
+                <li className="site-header__user--det__logout">
+                    <a href="/add/aroundme">
+                        <div>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'map-marker-alt']}  /> 
+                        </div>
+                        Around Me
+                    </a>
+                </li>
+                <li className="site-header__user--det__logout">
+                    <a href="/add/contest">
+                        <div>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'comments-dollar']}  /> 
+                        </div>
+                        Contest
                     </a>
                 </li>
             </Aux>

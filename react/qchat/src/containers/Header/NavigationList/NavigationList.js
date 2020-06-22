@@ -206,6 +206,14 @@ class NavigationList extends Component {
                         </a>
                     </li>
                     <li>
+                        <a href="/qchat">
+                        <FontAwesomeIcon 
+                                icon={['fas', 'desktop']} 
+                                className="icon icon__site-header--nav__itm" />
+                            CBT
+                        </a>
+                    </li>
+                    <li>
                         <a href="/conv">
                             <FontAwesomeIcon 
                                 icon={['fas', 'comment']} 
@@ -266,6 +274,14 @@ class NavigationList extends Component {
                                 icon={['fas', 'question']} 
                                 className="icon icon__site-header--nav__itm" />
                             Questions  
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/qchat">
+                        <FontAwesomeIcon 
+                                icon={['fas', 'desktop']} 
+                                className="icon icon__site-header--nav__itm" />
+                            CBT 
                         </a>
                     </li>
                     <li>
