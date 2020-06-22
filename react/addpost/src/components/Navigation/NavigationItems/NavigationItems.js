@@ -12,8 +12,7 @@ const navigationItems = props => {
         <ul className={addNewOptClass.join(' ')}>
             <NavigationItem  path="/add/post">Post</NavigationItem>
             <NavigationItem path="/add/question">Question</NavigationItem>
-            {/* <NavigationItem path="/add/group">Group</NavigationItem> */}
-            {/* <NavigationItem path="/add/onlineexam">Timed Question</NavigationItem> */}
+            <NavigationItem path="/add/qchat">CBT</NavigationItem>
             <NavigationItem path="/question">Answer</NavigationItem>
             <NavigationItem path="/add/poet">Write Up</NavigationItem>
             <NavigationItem path="/add/group">Chat Room</NavigationItem>
