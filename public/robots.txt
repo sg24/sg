@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://slodge24.com/sitemap.xml
+Sitemap: https://www.slodge24.com/sitemap.xml

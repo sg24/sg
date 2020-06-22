@@ -47,7 +47,7 @@ self.addEventListener('notificationclick', function(event) {
   });
   
   self.addEventListener('push', function(event) {
-    var data = {title: 'New Notification from Teachers/Student', content: 'Required your attension!', openUrl: '/'};
+    var data = {title: 'New Notification from Friend', content: 'Required your attension!', openUrl: '/'};
   
     if (event.data) {
       data = JSON.parse(event.data.text());

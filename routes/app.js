@@ -855,9 +855,22 @@ router.get('/add/contest',  authenticate,(req, res, next) => {
     res.render('contestform');
 });
 
-// router.get('/add/onlineexam', (req, res, next) => {
-//     res.render('onlineexamform'); 
-// });
+router.get('/add/qchat', authenticate, (req, res, next) => {
+    if (!req.authType) {
+        res.render('qchatform');
+    } else {
+        res.cookie('redirect', '/add/qchat');
+        res.redirect('/login')
+    }
+});
+
+router.get('/edit/qchat/:id', authenticate, (req, res, next) => {
+    if (req.params && !req.authType) { 
+        res.render('editqchat'); 
+    } else {
+        res.redirect('/')
+    }
+});
 
 router.get('/add/poet', authenticate, (req, res, next) => {
     if (!req.authType) {
