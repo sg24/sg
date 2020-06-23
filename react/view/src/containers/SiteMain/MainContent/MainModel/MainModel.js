@@ -257,8 +257,9 @@ class Model extends Component {
         this.setState({submitStart: true})
     }
 
-    startExamHandler = () => {
-        console.log(this)
+    startExamHandler = (id) => {
+        var win = window.open(`https://www.slodge24.com/examtab/${id}`, '_blank');
+        win.focus();
     }
 
     render() {

@@ -47,6 +47,7 @@ nextApp.prepare().then(() => {
   let aroundmeRoute = require('../routes/aroundme');
   let contestRoute = require('../routes/contest');
   let qchatRoute = require('../routes/qchat');
+  let examtabRoute = require('../routes/examtab');
   let robotonlyRoute = require('../routes/robot');
 
   app.use('/', [appRoutes, formRoutes,profileRoute, viewRoute]);
@@ -66,6 +67,7 @@ nextApp.prepare().then(() => {
   app.use('/advert', advertRoute);
   app.use('/contest', contestRoute);
   app.use('/qchat', qchatRoute);
+  app.use('/examtab', examtabRoute);
   app.use('/sitemap.xml', sitemapxmlRoute);
   app.use(function (req, res, next) {
       return res.redirect('/index/user');

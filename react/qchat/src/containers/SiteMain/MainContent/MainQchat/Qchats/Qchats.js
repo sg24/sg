@@ -160,8 +160,9 @@ class Qchats extends Component {
         this.props.onChangeCnt(id, checkTitle, det, false);
     }
 
-    startExamHandler = () => {
-        // window.open()
+    startExamHandler = (id) => {
+        var win = window.open(`https://www.slodge24.com/examtab/${id}`, '_blank');
+       win.focus();
     }
 
     render() {

@@ -105,7 +105,8 @@ class Qchats extends Component {
     }
 
     startExamHandler = (id) => {
-        console.log(id)
+       var win = window.open(`https://www.slodge24.com/examtab/${id}`, '_blank');
+       win.focus();
     }
 
     render() {
