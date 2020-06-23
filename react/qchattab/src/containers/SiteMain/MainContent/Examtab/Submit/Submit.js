@@ -63,7 +63,7 @@ class Submit extends Component {
             <>
             <div className="exam-cnt__submit--score">
                 <div className={scoreClass.join(' ')}>
-                    {this.props.totalScore}%
+                    {Math.round(this.props.totalScore)}%
                 </div>
             </div>
             <h4 className="exam-cnt__submit--title">Share score</h4>

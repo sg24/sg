@@ -472,9 +472,9 @@ class QueForm extends  Component {
                         <div>
                             <div>
                             <FontAwesomeIcon 
-                                icon={['fas', 'pencil-alt']} />
+                                icon={['fas', 'desktop']} />
                             </div> 
-                            Set QChat
+                            Add CBT
                         </div>
                     </h3>
                     <div className="reuse-form__cnt">

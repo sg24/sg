@@ -181,8 +181,8 @@ class MainContent extends Component {
                 <div className="reuse-filter__wrapper">
                 { this.props.path !== '/users' && this.props.path !== '/qchat' ? <Category /> : null}
                 <div className="reuse-filter__add">
-                    <a href={this.props.path}>
-                        More Filter
+                    <a href={`/add${this.props.path}`}>
+                        ADD
                     </a>
                 </div>
                 </div>
@@ -275,8 +275,7 @@ class MainContent extends Component {
                         removeActive={this.removeActiveHandler.bind(this, 'poet')}
                         active={this.state.curTab !== 'poet' ? this.props.cntActive : null}/>
                 </ul>
-                {this.props.status && (this.props.path === '/users' || this.props.path === '/group')
-                ? categ: null }
+                {this.props.path === '/group' || this.props.path === '/qchat' ? categ: null }
                 {this.props.path !== '/users' && this.props.path !== '/group' && this.props.path !== '/qchat' && this.props.path !== '/aroundme' && this.props.path !== '/advert'  && this.props.path !== '/contest'  ? categ : null }
                 {this.props.path === '/aroundme'  ? addAroundMe : null }
                 {this.props.path === '/advert'  ? addAdvert : null }

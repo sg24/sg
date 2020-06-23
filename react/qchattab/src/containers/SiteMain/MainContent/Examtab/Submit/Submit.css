@@ -18,13 +18,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1;
+    z-index: 2;
 }
 
 .exam-cnt__submit--wrapper {
     position: relative;
     padding: 10px;
     background-color: #fff;
+    min-width: 300px;
 }
 
 .exam-cnt__submit--score {
@@ -32,6 +33,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .exam-cnt__submit--score__wrapper {
@@ -44,6 +46,7 @@
     justify-content: center;
     align-items: center;
     background-color: #437da3;
+    overflow: hidden;
 }
 
 .exam-cnt__submit--score__wrapper--below {
@@ -51,7 +54,7 @@
 }
 
 .exam-cnt__submit--title {
-    background-color: #dcdbdc;
+    background-color: #f2f2f2;
     color: #333;
     margin: 20px 0 5px 0;
     padding: 2px;

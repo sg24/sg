@@ -214,51 +214,6 @@ class Exam extends Component {
             )
         }
 
-        let control = (
-            <>
-                <div 
-                    className="exam-cnt__footer--prev"
-                    onClick={this.prevMediaHandler}>
-                    <FontAwesomeIcon 
-                        icon={['fas', 'angle-double-left']} 
-                        className="icon icon__site-main--exam-cnt__footer--prev" />
-                    Prev
-                </div>
-                <div 
-                    className="exam-cnt__footer--nxt"
-                    onClick={this.nextMediaHandler}>
-                    Next 
-                    <FontAwesomeIcon 
-                        icon={['fas', 'angle-double-right']} 
-                        className="icon icon__site-main--exam-cnt__footer--nxt" />
-                </div>
-            </>
-        )
-
-
-        if ((index + 1) === this.state.items.length) {
-            control = (
-                <>
-                    <div 
-                        className="exam-cnt__footer--prev"
-                        onClick={this.prevMediaHandler}>
-                        <FontAwesomeIcon 
-                            icon={['fas', 'angle-double-left']} 
-                            className="icon icon__site-main--exam-cnt__footer--prev" />
-                        Prev
-                    </div>
-                    <div 
-                        className="exam-cnt__footer--submit"
-                        onClick={this.submitMediaHandler}>
-                        <FontAwesomeIcon 
-                            icon={['fas', 'check']} 
-                            className="icon icon__site-main--exam-cnt__footer--prev" />
-                        Submit 
-                    </div>
-                </>
-            )
-        }
-
         if (this.state.submitted) {
             submitted = (
                 <Submit 
@@ -315,7 +270,30 @@ class Exam extends Component {
                     </TransitionGroup>
                 </div> 
                 <div className="exam-cnt__footer">
-                    { control }
+                    <div 
+                        className="exam-cnt__footer--prev"
+                        onClick={this.prevMediaHandler}>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'angle-double-left']} 
+                            className="icon icon__site-main--exam-cnt__footer--prev" />
+                        Prev
+                    </div>
+                    <div 
+                        className="exam-cnt__footer--submit"
+                        onClick={this.submitMediaHandler}>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'check']} 
+                            className="icon icon__site-main--exam-cnt__footer--prev" />
+                        Submit 
+                    </div>
+                    <div 
+                        className="exam-cnt__footer--nxt"
+                        onClick={this.nextMediaHandler}>
+                        Next 
+                        <FontAwesomeIcon 
+                            icon={['fas', 'angle-double-right']} 
+                            className="icon icon__site-main--exam-cnt__footer--nxt" />
+                    </div>
                 </div>
                 { submitted }
             </>

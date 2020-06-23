@@ -213,6 +213,7 @@
 }
 
 .exam-cnt__footer { 
+    position: relative;
     background-color: #f4f4f4; 
     border-bottom-left-radius: 20px; 
     border-bottom-right-radius: 20px; 
@@ -227,7 +228,6 @@
 }
 
 .exam-cnt__footer > div { 
-    position: relative; 
     padding: 5px 10px; 
     border-radius: 5px; 
     box-shadow: 0 2px 2px 0 rgba(0,0,0, .85); 
@@ -236,6 +236,7 @@
 }
 
 .exam-cnt__footer--prev { 
+    position: relative;
     float: left; 
     background-color: #fff; 
     left: 5%;
@@ -246,6 +247,7 @@
 }
 
 .exam-cnt__footer--nxt { 
+    position: relative;
     float: right; 
     color: #fff; 
     background-color: #05578b;
@@ -253,10 +255,11 @@
 }
 
 .exam-cnt__footer--submit {
-    float: right; 
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     color: #fff; 
     background-color: #ff1600;
-    right: 5%;
 }
 
 .exam-cnt__footer--nxt:hover { 

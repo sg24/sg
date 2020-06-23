@@ -8,7 +8,12 @@ router.get('/:id', authenticate, (req, res, next) => {
         res.redirect('/qchat')
         return
     }
-    res.render('examtab');
+     if (!req.authType) {
+       res.render('examtab');
+    } else {
+        res.cookie('redirect', '/qchat');
+        res.redirect('/login')
+    }
 })
 
 router.post('/',authenticate, (req, res,next) => {

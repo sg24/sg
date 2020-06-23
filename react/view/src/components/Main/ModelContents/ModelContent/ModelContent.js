@@ -61,7 +61,7 @@ const modelContent = props => {
     let mediaCnt =  [...props.cnt.snapshot, ...props.cnt.image];
 
 let meta = null;
-    let metaCateg = props.cnt.category && props.cnt.category.length > 0 ? props.cnt.category.filter(categ => categ === 'facebook game') : null; 
+    let metaCateg = props.cnt.category && props.cnt.category.length > 0 ? props.cnt.category.filter(categ => categ === 'facebook game') : []; 
     if (metaCateg.length > 0) {
         let yrs = Math.floor(Math.random()*20);
         meta = (
