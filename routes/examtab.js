@@ -25,7 +25,26 @@ router.post('/',authenticate, (req, res,next) => {
                 if (!que) {
                     return res.sendStatus(404)
                 }
-                cnt['question'] = que.question;
+                let queArray =[];
+                // function shuffle(a) {
+                //     var j, x, i;
+                //     for (i = a.length - 1; i > 0; i--) {
+                //         j = Math.floor(Math.random() * (i + 1));
+                //         x = a[i];
+                //         a[i] = a[j];
+                //         a[j] = x;
+                //     }
+                //     return a;
+                // }
+                function shuffle(a) {
+                    for (let i = a.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [a[i], a[j]] = [a[j], a[i]];
+                    }
+                    return a;
+                }
+                queArray = shuffle(que.question)
+                cnt['question'] = queArray;
                 return res.send(cnt).status(200)
             })
         }).catch(err => {
