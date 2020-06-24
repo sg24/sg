@@ -38,15 +38,15 @@ router.get('/',function (req, res, next) {
 // });
 
 router.get('/index/:id', authenticate,function (req, res, next) {
-    if ((req.useragent && req.useragent.isBot) ||
-    req.useragent.source === 'facebookexternalhit/1.1' ||
-    req.useragent.source === 'Facebot' ||
-    req.useragent.source === 'Twitterbot') {
-        let id = req.params.id === 'post' ? 'index' : req.params.id
-        res.redirect(301, `/robotonly/rb${id}`)
-    } else {
+    // if ((req.useragent && req.useragent.isBot) ||
+    // req.useragent.source === 'facebookexternalhit/1.1' ||
+    // req.useragent.source === 'Facebot' ||
+    // req.useragent.source === 'Twitterbot') {
+    //     let id = req.params.id === 'post' ? 'index' : req.params.id
+    //     res.redirect(301, `/robotonly/rb${id}`)
+    // } else {
         res.render('index');
-    }
+    // }
 });
 
 router.post('/header', authenticate, (req, res, next) => {
