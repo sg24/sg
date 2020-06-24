@@ -370,6 +370,7 @@ router.post('/view/:categ/:id', authenticate, (req, res, next) => {
                         update['minute'] = cnt.minute;
                         update['second'] = cnt.second;
                         update['qchatTotal'] = cnt.qchatTotal;
+                        update['contentID'] = cnt.contentID;
                         let model = cnt.access === 'friends' ? 
                         cnt.userType === 'authUser' ? authUser : user : null;
                         let fndAccess = false;
