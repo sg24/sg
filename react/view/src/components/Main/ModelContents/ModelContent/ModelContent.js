@@ -351,7 +351,7 @@ let meta = null;
         <div className="reuse-view__comments">
             <div className="reuse-view__comments--header">
                 <div className="reuse-view__comments--header__ans">Comment Section 
-                    <a href={"/add/"+props.cntGrp} className="reuse-view__comments--header__ask">Add {props.cntGrp !== 'poet' ? props.cntGrp : 'Write Up'}</a>
+                    <a href={"/add/"+props.cntGrp} className="reuse-view__comments--header__ask">Add {props.cntGrp !== 'poet' ? props.cntGrp !== 'qchat' ? props.cntGrp : 'CBT' : 'Write Up'}</a>
                     <div className="reuse-view__comments--box__footer--user-like__total reuse-view__comments--header__total">
                         { props.commentTotal }
                     </div>

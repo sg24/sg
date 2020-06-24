@@ -271,6 +271,23 @@
     -ms-flex-align: center;
         align-items: center;
     left: -18px;
+    overflow: hidden;
+}
+
+.reuse-onlineque__content--posted__user--img > img {
+    display: block;
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    background-color: rgba(233,235,242, .7);
+    cursor: pointer;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -o-object-position: 50% 50%;
+    object-position: 50% 50%;
+    -o-object-fit: fill;
+    object-fit: fill;
+
 }
 
 .reuse-onlineque__footer {
