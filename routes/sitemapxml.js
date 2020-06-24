@@ -1,6 +1,6 @@
 let express = require('express');
 let router = express.Router();
-const {posts, questions, poets, user, authUser, comment, connectStatus} = require('../serverDB/serverDB');
+const {posts, questions, poets, adverts, qchat, user, authUser, comment, connectStatus} = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
 const { SitemapStream, streamToPromise } = require('sitemap')
 const { createGzip } = require('zlib')
@@ -22,19 +22,22 @@ function fetchCntID(model,modelType, allID) {
             if (modelType === 'poet') {
                 create = result.pwtCreated
             }
+            if (modelType !== 'post' || modelType !== 'question' || modelType !== 'poet') {
+                create = result.created
+            }
             if (result && (result.image.length > 0  || result.snapshot.length > 0)) {
                 let images = [];
                 let snaps = [];
                 for (let image of result.image) {
                     images.push({url: `https://www.slodge24.com/media/image/${image.id}`})            
-            }
-            for (let snap of result.snapshot) {
-                let video = result.video.filter(videoDet => videoDet.snapshotID === snap.videoID);
-                snaps.push({thumbnail_loc: `https://www.slodge24.com/media/image/${snap.id}`,'player_loc': `https://www.slodge24.com/media/video/${video.videoCnt}`})            
-            }
-            result.image = images;
-            result.snapshot = snaps;
-            result.video = [];
+                }
+                for (let snap of result.snapshot) {
+                    let video = result.video.filter(videoDet => videoDet.snapshotID === snap.videoID);
+                    snaps.push({thumbnail_loc: `https://www.slodge24.com/media/image/${snap.id}`,'player_loc': `https://www.slodge24.com/media/video/${video.videoCnt}`})            
+                }
+                result.image = images;
+                result.snapshot = snaps;
+                result.video = [];
         }
         if (modelType === 'post') {
             desc = JSON.parse(result.desc).blocks[0].text
@@ -65,31 +68,49 @@ router.get('/', (req, res) => {
     })
     const pipeline = smStream.pipe(createGzip())
     smStream.write({
-        url: '/index/post',
+        url: '/post',
         changefreq: 'daily',
         priority: 1,
     })
 
     smStream.write({
-        url: '/index/question',
+        url: '/question',
         changefreq: 'daily',
         priority: 1,
     })
 
     smStream.write({
-        url: '/index/helpme',
+        url: '/aroundme',
         changefreq: 'daily',
         priority: 1,
     })
 
     smStream.write({
-        url: '/index/user',
+        url: '/contest',
         changefreq: 'daily',
         priority: 1,
     })
 
     smStream.write({
-        url: '/index/group',
+        url: '/advert',
+        changefreq: 'daily',
+        priority: 1,
+    })
+
+    smStream.write({
+        url: '/qchat',
+        changefreq: 'daily',
+        priority: 1,
+    })
+
+    smStream.write({
+        url: '/user',
+        changefreq: 'daily',
+        priority: 1,
+    })
+
+    smStream.write({
+        url: '/group',
         changefreq: 'daily',
         priority: 1,
     })
@@ -102,20 +123,24 @@ router.get('/', (req, res) => {
  
  fetchCntID(posts, 'post', []).then(postID => {
     fetchCntID(questions, 'question', postID).then(queID => {
-      fetchCntID(poets, 'poet', queID).then(allUrl => {
-        for (let cnt of allUrl) {
-           smStream.write({
-            url: cnt.url,
-            changefreq: 'daily',
-            priority: 0.9,
-            img: cnt.image
-          })
-        }
-        smStream.end()
-           // cache the response
-        streamToPromise(pipeline).then(sm => sitemap = sm)
-        // stream the response
-        pipeline.pipe(res).on('error', (e) => {throw e})
+      fetchCntID(poets, 'poet', queID).then(poetID => {
+        fetchCntID(adverts, 'advert', poetID).then(advertID => {
+            fetchCntID(qchat, 'qchat', advertID).then(allUrl => {
+                for (let cnt of allUrl) {
+                    smStream.write({
+                        url: cnt.url,
+                        changefreq: 'daily',
+                        priority: 0.9,
+                        img: cnt.image
+                    })
+                }
+                smStream.end()
+                // cache the response
+                streamToPromise(pipeline).then(sm => sitemap = sm)
+                // stream the response
+                pipeline.pipe(res).on('error', (e) => {throw e})
+            })
+        })
       })
     })
   })
