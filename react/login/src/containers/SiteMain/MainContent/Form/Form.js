@@ -109,10 +109,11 @@ class Form extends Component {
                                 </a>
                             </li>
                             <li>
-                                <a href="/auth/facebook">
+                                {/* <a href="/auth/facebook">
                                     <FontAwesomeIcon 
                                         icon={['fab', 'facebook-f']}/>
-                                </a></li>
+                                </a> */}
+                            </li>
                         </ul>
                     </div>
                     <div className="reuse-form__cnt--alt">OR</div>
