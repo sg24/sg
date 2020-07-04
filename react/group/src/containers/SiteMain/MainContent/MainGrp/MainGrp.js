@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './MainGrp.css';
 import Search from './Search/Search';
-import Category from './Category/Category';
+// import Category from './Category/Category';
 import Filter from './Filter/Filter';  
 import Groups from './Groups/Groups';
 import Aux from '../../../../hoc/Auxs/Aux';
@@ -27,10 +27,9 @@ class MainGrp extends Component {
     render() {
         return (
             <Aux>
-                <Search />
                 <div className="reuse-grp-filter">
                     <div className="reuse-grp-filter__wrapper">
-                        <Category />
+                        {/* <Category /> */}
                         <Filter />
                         <div 
                             className="reuse-grp-filter__grp"
@@ -46,6 +45,7 @@ class MainGrp extends Component {
                                 className="icon icon__reuse-grp-filter--srch" />
                         </div>
                     </div>
+                    <Search />
                 </div>
                 <Groups />
             </Aux>

@@ -5,7 +5,7 @@ import {ReactComponent as Logo } from './Logo.svg'
 const logo = props => (
     <div className="site-header__logo">
         <div className="site-header__logo--graphics">
-        <a href="/index/post"><Logo /></a>
+        <a href="/index/user"><Logo /></a>
         </div>
     </div>
 );

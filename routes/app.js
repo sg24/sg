@@ -53,8 +53,16 @@ router.post('/header', authenticate, (req, res, next) => {
     if(req.header('data-categ') === 'headerfilter') {
         checkText(req.body.filterCnt, posts, [], 'post').then(ptArray => {
             checkText(req.body.filterCnt, questions, ptArray, 'question').then(queArray => {
-                checkText(req.body.filterCnt, poets, queArray, 'poet').then(filterArray => {
-                    res.send(filterArray).status(200);
+                checkText(req.body.filterCnt, poets, queArray, 'poet').then(poetArray => {
+                    checkText(req.body.filterCnt, group, poetArray, 'group').then(advertArray => {
+                        checkText(req.body.filterCnt, adverts, advertArray, 'advert').then(qchatArray => {
+                            checkText(req.body.filterCnt, qchat, qchatArray, 'qchat').then(userArray => {
+                                searchUser(req.body.filterCnt, userArray).then(filterArray => {
+                                    res.send(filterArray).status(200);
+                                })
+                            })
+                        })
+                    })
                 });
             });
         }).catch(err => {
@@ -63,11 +71,60 @@ router.post('/header', authenticate, (req, res, next) => {
         return ;
     }
 
+    function searchUser(searchCnt, filterRes) {
+      return new Promise((resolve, reject) => {
+        userSearch(
+            connectStatus,
+            {$text: { $search: searchCnt },
+            block: {$ne: req.user},
+            _id: {$ne: mongoose.mongo.ObjectId(req.user)}},
+            { },
+            0, 0, {}, user, filterRes
+        ).then(userCnt => {
+            userSearch(
+                connectStatus,
+                {$text: { $search: searchCnt },
+                block: {$ne: req.user},
+                _id: {$ne: mongoose.mongo.ObjectId(req.user)}},
+                { },
+                0, 0, {}, authUser, userCnt
+            ).then(result => {
+                resolve(result)
+            }).catch(err => {
+                reject(err)
+            })
+        }).catch(err => {
+            reject(err)
+        })
+      })
+    }
+
+    function userSearch(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt) {
+        return new Promise((resolve, reject) => {
+            fetchCnt(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt).then(result =>{
+                let model = req.userType === 'authUser' ? authUser : user;
+                model.findById(req.user).then(resultFilter => {
+                    for (let cnt of result.cnt) {
+                        let userBlock = resultFilter.block || [];
+                        let filterBlock = userBlock.filter(id => id === cnt._id.toHexString())
+                        if (filterBlock.length < 1) {
+                            modelCnt.push({url: `/user/profile/${cnt._id}`, grp: 'user', title: cnt.username});
+                        } 
+                    }
+                    resolve(modelCnt)
+                }).catch(err => {
+                    reject(err)
+                })
+            })  
+        })
+    }
+
     function checkText(searchCnt, collection, filterRes, grp) {
         return new Promise((resolve, reject) => {
             collection.find({$text: { $search: searchCnt },mode: 'publish',_isCompleted: true}).then(result => {
                 for (let filter of result) {
-                    filterRes.push({id: filter._id, grp, title: filter.title})
+                    filterRes.push({url: grp === 'group' ? `/group/${filter._id}` :  `/view/${grp}/${filter._id}`,
+                    grp, title: filter.title})
                 }
                 resolve(filterRes)
             }).catch(err => {
@@ -516,7 +573,7 @@ router.post('/header', authenticate, (req, res, next) => {
 
             return fetchUsers(
                 connectStatus,
-                {$text: { $search: `\"${filter.searchCnt}\"`},
+                {$text: { $search: filter.searchCnt },
                 block: {$ne: req.user},
                 _id: {$ne: mongoose.mongo.ObjectId(req.user)},
                 ...student,
@@ -527,7 +584,7 @@ router.post('/header', authenticate, (req, res, next) => {
             ).then(userCnt => {
                 fetchUsers(
                     connectStatus,
-                    {$text: { $search: `\"${filter.searchCnt}\"`},
+                    {$text: { $search: filter.searchCnt },
                     block: {$ne: req.user},
                     _id: {$ne: mongoose.mongo.ObjectId(req.user)},
                     ...student,

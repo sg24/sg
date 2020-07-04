@@ -71,3 +71,15 @@ export const filterPost = (filterDet) => {
         filterDet
     }
 };
+
+export const startSearch = () => {
+    return {
+        type: actionTypes.START_SEARCH
+    };
+};
+
+export const closeSearch = () => {
+    return {
+        type: actionTypes.CLOSE_SEARCH
+    };
+};

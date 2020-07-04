@@ -13,9 +13,8 @@ class Search extends Component {
 
     closeSearchHandler = () => {
         this.props.onCloseSearch();
-        if (this.state.searchCnt.length > 0) {
-            this.props.history.push('/users')
-        }
+        this.setState({searchCnt: ''})
+        this.props.history.push('/users')
     }
 
     filterInputHandler = (event) => {

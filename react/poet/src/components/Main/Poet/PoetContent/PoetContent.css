@@ -294,7 +294,7 @@
         align-items: center;
     text-align: center;
     line-height: 2;
-    border-top: 1px solid #dcdbdc;
+    /* border-top: 1px solid #dcdbdc; */
     padding: 10px 0 0 0;
     position: relative;
 }
@@ -374,6 +374,12 @@
     border-right: 1px solid #dcdbdc;
     text-align: center;
     padding: 8px 0;
+}
+
+.reuse-pwt__footer li > a{
+    color: #333;  
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .reuse-pwt__footer li:first-child {

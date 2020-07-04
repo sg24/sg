@@ -382,6 +382,12 @@
     padding: 8px 0;
 }
 
+.reuse-pwt__footer li > a{
+    color: #333;  
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .reuse-pwt__footer li:first-child {
     border-right: 1px solid #dcdbdc;
     width: 33.333%;

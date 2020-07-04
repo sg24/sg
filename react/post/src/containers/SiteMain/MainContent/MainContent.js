@@ -13,7 +13,7 @@ class MainContent extends Component {
             path: '/post',
             icnGrp: 'newspaper',
             icnClass: 'icon icon__site-main--content__tab--clone',
-            title: 'News feed',
+            title: 'Feed',
         },
         share: {
             path: '/post/shared',

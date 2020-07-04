@@ -126,7 +126,7 @@ class FilterContent extends Component {
     };
     
     render() {
-        let category = <Loader />;
+        // let category = <Loader />;
         let filterCategInfo = null
         let filterSrchClass = ['reuse-filter__opt--srch'];
         let totalFoundCnt = null;
@@ -157,9 +157,9 @@ class FilterContent extends Component {
         }
  
         if (this.props.categ) {
-            category = <FilterCategory
-                filterCategs={this.props.categ}
-                categSelect={this.categSelectHandler}/>
+            // category = <FilterCategory
+            //     filterCategs={this.props.categ}
+            //     categSelect={this.categSelectHandler}/>
         }
 
         if (this.state.filterCategory.length > 0 ) {
@@ -192,7 +192,7 @@ class FilterContent extends Component {
                 </div>
                 { totalFoundCnt }
                 <div className="reuse-filter__opt--cnt">
-                    <div className="reuse-filter__opt--cnt__wrapper reuse-filter__opt--cnt__wrapper--mid">
+                    {/* <div className="reuse-filter__opt--cnt__wrapper reuse-filter__opt--cnt__wrapper--mid">
                         <h3 className="reuse-filter__opt--cnt__title">
                             <FontAwesomeIcon 
                                 icon={['fas', 'bars']} 
@@ -205,14 +205,14 @@ class FilterContent extends Component {
                                 categSelect={this.categSelectGrpHandler}
                                 categSelectGrp={this.state.categSelectGrp}/>
                         </ul>
-                    </div>
+                    </div> */}
         
                     <div className="reuse-filter__opt--cnt__wrapper reuse-filter__opt--cnt__wrapper--mid">
                         <h3 className="reuse-filter__opt--cnt__title">
                             <FontAwesomeIcon 
                                 icon={['fas', 'users']} 
                                 className="icon icon__reuse-user-filter--sub"/>  
-                            Students
+                            Friends
                         </h3>
                         <ul className="reuse-filter__opt--cnt__det">
                             <FilterOptions
@@ -227,7 +227,7 @@ class FilterContent extends Component {
                             <FontAwesomeIcon 
                                 icon={['fas', 'pencil-alt']} 
                                 className="icon icon__reuse-user-filter--ans"/>  
-                            Comments/Answers
+                            Comment
                         </h3>
                         <ul className="reuse-filter__opt--cnt__det">
                             <FilterOptions
@@ -237,7 +237,7 @@ class FilterContent extends Component {
                         </ul>
                     </div>
         
-                    <div className="reuse-filter__opt--cnt__wrapper reuse-filter__opt--cnt__wrapper--mid">
+                    {/* <div className="reuse-filter__opt--cnt__wrapper reuse-filter__opt--cnt__wrapper--mid">
                         <h3 className="reuse-filter__opt--cnt__title">
                             <FontAwesomeIcon 
                                 icon={['fas', 'bars']} 
@@ -247,7 +247,7 @@ class FilterContent extends Component {
                         <ul className="reuse-filter__opt--cnt__det reuse-filter__opt--cnt__det--categ">
                             { category }
                         </ul>
-                    </div>
+                    </div> */}
                 </div>
         
                 { filterCategInfo }

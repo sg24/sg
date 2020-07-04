@@ -54,6 +54,23 @@ class Groups extends Component {
             });
         }
 
+        if (this.props.startSearch && this.props.filterDet && this.props.location.search && this.state.filterTag !== `filter==${this.props.filterDet}`) {
+            this.props.onFetchCntReset();
+            let cnt = `filter==${this.props.filterDet}`;
+            this.props.onFetchCnt(this.props.userID, 'group-'+cnt, this.state.fetchLimit, 0, 0);
+            this.setState({
+                filterTag: cnt
+            });
+        }
+
+        if (!this.props.startSearch && !this.props.match.params.id && this.state.filterTag !== 'group') {
+            this.props.onFetchCntReset();
+            this.props.onFetchCnt(this.props.userID, 'group', this.state.fetchLimit, 0, 0);
+            this.setState({
+                filterTag: 'group'
+            });
+        }
+
         if (this.state.clipboard && this.state.resetClipboard) {
             clearTimeout(this.state.clearClipboard)
             let clearClipboard = setTimeout(() => {
@@ -212,7 +229,8 @@ const mapStateToProps = state => {
         postErr: state.cnt.postErr,
         postVideo: state.cnt.postVideo,
         videoErr: state.cnt.videoErr,
-        filterDet: state.cnt.filterDet
+        filterDet: state.cnt.filterDet,
+        startSearch: state.filter.startSearch
     };
 };
 

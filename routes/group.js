@@ -183,7 +183,7 @@ router.post('/', authenticate, (req, res, next) => {
                         _id: userDet._id,
                         username: userDet.username, 
                         image: userDet.image,
-                        studenttotal: userDet.studenttotal,
+                        studenttotal: userDet.student.length + userDet.teacher.length,
                         status: userDet.status
                     })
                     resolve(request)
@@ -232,7 +232,7 @@ router.post('/', authenticate, (req, res, next) => {
                                             _id: authDet._id,
                                             username: authDet.username, 
                                             image: authDet.image,
-                                            studenttotal: authDet.studenttotal,
+                                            studenttotal: authDet.student.length + authDet.teacher.length,
                                             status: authDet.status
                                         })
                                     }
@@ -244,7 +244,7 @@ router.post('/', authenticate, (req, res, next) => {
                                         _id: det._id,
                                         username: det.username, 
                                         image: det.image,
-                                        studenttotal: det.studenttotal,
+                                        studenttotal: det.student.length + det.teacher.length,
                                         status: det.status
                                     })
                                 }
@@ -444,7 +444,8 @@ router.post('/', authenticate, (req, res, next) => {
                             if (!userFnd) {
                                 authUser.findById(cnt.authorID).then(authFnd => {
                                    if (authFnd) {
-                                    fetch(authFnd.username, authFnd.studenttotal, authFnd.image, authFnd.status, cnt, cntArray).then(cnt => {
+                                    let friend = authFnd.student.length+authFnd.teacher.length
+                                    fetch(authFnd.username, friend, authFnd.image, authFnd.status, cnt, cntArray).then(cnt => {
                                         cntArray = cnt;
                                         ++send;
                                         if (send === result.length) {
@@ -454,7 +455,8 @@ router.post('/', authenticate, (req, res, next) => {
                                    }
                                 })
                             } else {
-                                fetch(userFnd.username, userFnd.studenttotal, userFnd.image, userFnd.status, cnt, cntArray).then(cnt => {
+                                let userFriend = userFnd.student.length+userFnd.teacher.length
+                                fetch(userFnd.username, userFriend, userFnd.image, userFnd.status, cnt, cntArray).then(cnt => {
                                     cntArray = cnt;
                                     ++send 
                                     if (send === result.length) {

@@ -23,20 +23,35 @@ class Model extends Component {
         }
         this.state = {
             fetchLimit: limit,
-            filterTag: 'users',
+            filterTag: 'user',
             scrollEnable: false
         }
     }
 
     componentDidMount() {
-        this.props.onFetchCnt(this.props.userID, this.state.filterTag, this.state.fetchLimit, 0, 0);
-        this.props.onChangeTag('/users');
+        this.props.onFetchCnt(this.props.userID, 'users', this.state.fetchLimit, 0, 0);
+        this.props.onChangeTag('/user');
     }
 
     componentDidUpdate() {
         if (this.props.cnts && this.props.cnts.length > 0 && !this.state.scrollEnable) {
             window.addEventListener('scroll', this.onScroll, false);
             this.setState({scrollEnable: true})
+        }
+        if (this.props.startSearch && this.props.filterDet && this.props.location.search && this.state.filterTag !== `filter==${this.props.filterDet}`) {
+            this.props.onFetchCntReset();
+            let cnt = `filter==${this.props.filterDet}`;
+            this.props.onFetchCnt(this.props.userID, 'users-'+cnt, this.state.fetchLimit, 0, 0);
+            this.setState({
+                filterTag: cnt
+            });
+        }
+        if (!this.props.startSearch && this.state.filterTag !== 'user') {
+            this.props.onFetchCntReset();
+            this.props.onFetchCnt(this.props.userID, 'users', this.state.fetchLimit, 0, 0);
+            this.setState({
+                filterTag: 'user'
+            });
         }
     }
 
@@ -49,7 +64,7 @@ class Model extends Component {
         if ((window.innerHeight + Math.ceil(window.pageYOffset + 1)) >= document.body.offsetHeight) {
             this.props.onFetchCnt(
                     this.props.userID,  
-                    this.state.filterTag !== 'users' ? 
+                    this.state.filterTag !== 'user' ? 
                     this.state.filterTag === 'filter' ?  'filter=='+this.props.filterDet : `users-${this.state.filterTag}` : 'users' ,
                     this.state.fetchLimit, this.props.skipCnt + this.state.fetchLimit, this.props.cntTotal);
         }
@@ -104,7 +119,8 @@ const mapStateToProps = state => {
         pending: state.cnt.pending,
         request: state.cnt.request,
         blocked: state.cnt.blocked,
-        accept: state.cnt.accept
+        accept: state.cnt.accept,
+        startSearch: state.filter.startSearch
     };
 };
 

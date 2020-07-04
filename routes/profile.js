@@ -56,8 +56,8 @@ router.post('/user/profile/:id',authenticate, (req, res,next) => {
                     let filterMainReq = mainRequest.filter(id => id ===  req.user);
                     let userBlock = resultFilter.block || [];
                     let filterBlock = userBlock.filter(id => id === cnt._id.toHexString())
-                    let userTeacher = resultFilter.teacher || [];
-                    let userTeacherFilter = userTeacher.filter(id => id === cnt._id.toHexString());
+                    let userTeacher = cnt.student || [];
+                    let userTeacherFilter = userTeacher.filter(id => id === req.user);
                     let teacher = cnt.teacher || [];
                     let teacherFilter = teacher.filter(id => id === req.user);
                     let id = cnt._id.toHexString();
@@ -70,7 +70,7 @@ router.post('/user/profile/:id',authenticate, (req, res,next) => {
                         subjectque: cnt.subjectque,
                         subjectpoet: cnt.subjectpoet,
                         student: cnt.student,
-                        studenttotal: cnt.studenttotal + teacher.length,
+                        studenttotal: cnt.student.length + cnt.teacher.length,
                         status: cnt.status,
                         about: cnt.about,
                         offline: cnt.offline,

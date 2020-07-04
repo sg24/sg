@@ -71,6 +71,8 @@ export {
     fetchCntCategInit,
     fetchCntCategStart,
     fetchCntCateg,
+    startSearch,
+    closeSearch,
     filterContentInit,
     filterContentStart,
     filterContentFail,

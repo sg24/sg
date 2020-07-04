@@ -241,7 +241,7 @@ const prfUser = props => {
                         </div>
                         <ul className="reuse-prf__det--cnt">
                             <li className="reuse-prf__det--cnt__sntaccept"> 
-                                Students  <span>{ props.cnt.studenttotal }</span></li>
+                                Friends  <span>{ props.cnt.studenttotal }</span></li>
                             {/* <li className="reuse-prf__det--cnt__sntreject"> Student Rejected <span>0</span></li> */}
                         </ul>
                     </div>

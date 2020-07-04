@@ -20,6 +20,8 @@ export const FETCH_CNT_START = 'FETCH_CNT_START';
 export const FETCH_CNT_RESET = 'FETCH_CNT_RESET';
 export const FETCH_CNT_FAIL = 'FETCH_CNT_FAIL';
 export const FETCH_CNT = 'FETCH_CNT';
+export const START_SEARCH = 'START_SEARCH';
+export const CLOSE_SEARCH = 'CLOSE_SEARCH';
 
 export const CHANGE_CNT_INIT = 'CHANGE_CNT_INIT';
 export const CHANGE_CNT_FAIL = 'CHANGE_CNT_FAIL';

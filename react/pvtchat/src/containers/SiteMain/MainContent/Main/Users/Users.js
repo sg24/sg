@@ -14,7 +14,7 @@ class Users extends Component {
     state = {
         showInput: false,
         showNewTab: false,
-        curTab: 'teacher',
+        curTab: 'friend',
         id: this.props.match.params.id,
         categ: this.props.match.params.categ,
         inputValue: '',
@@ -60,7 +60,7 @@ class Users extends Component {
     changeTabHandler = (newtab) => { 
         let curTab = null;
         curTab =  newtab === 'teacher' ? newtab : curTab;
-        curTab =  newtab === 'student' ? newtab : curTab;
+        curTab =  newtab === 'friend' ? newtab : curTab;
         this.setState({curTab, showNewTab: true})
     }
 
@@ -133,17 +133,17 @@ class Users extends Component {
                     <div className="site-main__chat--srch-user__cnt">
                         <div className="site-main__chat--srch-user__cnt--tab">
                             <ul className="site-main__chat--srch-user__cnt--tab__opt">
-                                <li 
+                                {/* <li 
                                     className={this.state.curTab === 'teacher' ? "active-user-content-tab" : null}
                                     onClick={this.changeTabHandler.bind(this, 'teacher')}>
                                     {this.state.curTab === 'teacher' ? <div className="active-user-content-tab__active"></div> : null }
                                     Teacher
-                                </li>
+                                </li> */}
                                 <li
-                                    className={this.state.curTab === 'student' ? "active-user-content-tab" : null}
-                                    onClick={this.changeTabHandler.bind(this, 'student')}>
-                                    {this.state.curTab === 'student' ? <div className="active-user-content-tab__active"></div> : null }
-                                    Student 
+                                    className={this.state.curTab === 'friend' ? "active-user-content-tab" : null}
+                                    onClick={this.changeTabHandler.bind(this, 'friend')}>
+                                    {this.state.curTab === 'friend' ? <div className="active-user-content-tab__active"></div> : null }
+                                    Friend 
                                 </li>
                             </ul>
                             <div className="site-main__chat--srch-user__cnt--tab__srch">

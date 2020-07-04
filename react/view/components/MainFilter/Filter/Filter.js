@@ -14,7 +14,8 @@ const filter = props => {
                     paddingRight: props.filterLastPos
                 }}>
                 <span
-                    className={filterClass.join('')}>{props.filterRes.grp}</span>
+                    className={filterClass.join('')}>{props.filterRes.grp === 'post' ? 'Feed' : props.filterRes.grp === 'poet' ? 'Write Up' : 
+                    props.filterRes.grp === 'qchat' ? 'CBT' : props.filterRes.grp}</span>
                 {props.filterRes.title}
             </div>
         </li>

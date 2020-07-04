@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './MainContent.css';
 import * as actions from '../../../store/actions/index';
-import Category from './Category/Category';
+import Search from './Search/Search';
 import asyncComponent from '../../../hoc/asyncComponent/asyncComponent';
 import MainNavigations from '../../../components/MainNavigations/MainNavigations';
 import Loader from '../../../components/UI/Loader/Loader';
@@ -159,6 +160,11 @@ class MainContent extends Component {
             this.setState({cntFetch: true})
         }
     }
+
+    inputSearchHandler = () => {
+        this.props.onShowSearch();
+    }
+
     removeActiveHandler = (curTab) => {
         if (this.state.curTab !== curTab) {
             this.props.onResetActive(this.props.userID, curTab);
@@ -176,10 +182,16 @@ class MainContent extends Component {
 
     render() {
         let loaderCnt = null;
-        let categ = (
+        let search = (
             <div className="reuse-filter">
                 <div className="reuse-filter__wrapper">
-                { this.props.path !== '/users' && this.props.path !== '/qchat' ? <Category /> : null}
+                <div 
+                    className="reuse-filter__srch"
+                    onClick={this.inputSearchHandler}>
+                    <FontAwesomeIcon 
+                        icon={['fas', 'search']} 
+                        className="icon icon__reuse-filter--srch" />
+                </div>
                 <div className="reuse-filter__add">
                     <a href={`/add${this.props.path}`}>
                         ADD
@@ -200,19 +212,6 @@ class MainContent extends Component {
                 </div>
             </div>
         )
-
-        let addAdvert = (
-            <div className="reuse-filter">
-                <div className="reuse-filter__wrapper">
-                    <Category />
-                    <div className="reuse-filter__add">
-                        <a href="/add/advert">
-                            ADD
-                        </a>
-                    </div>
-                </div>
-            </div>
-        );
 
         let addContest =  (
             <div className="reuse-filter">
@@ -275,27 +274,32 @@ class MainContent extends Component {
                         removeActive={this.removeActiveHandler.bind(this, 'poet')}
                         active={this.state.curTab !== 'poet' ? this.props.cntActive : null}/>
                 </ul>
-                {this.props.path === '/group' || this.props.path === '/qchat' ? categ: null }
-                {this.props.path !== '/users' && this.props.path !== '/group' && this.props.path !== '/qchat' && this.props.path !== '/aroundme' && this.props.path !== '/advert'  && this.props.path !== '/contest'  ? categ : null }
+                {this.props.path !== '/aroundme'  && this.props.path !== '/contest'  ? <><Search /> {search} </>: null }
                 {this.props.path === '/aroundme'  ? addAroundMe : null }
-                {this.props.path === '/advert'  ? addAdvert : null }
                 {this.props.path === '/contest'  ? addContest : null }
                 <Switch>
                     <Route path="/index/post" exact component={AsyncPosts}/>
                     <Route path="/index/post/:id" exact component={AsyncPosts}/>
+                    <Route path="/index/post/?search=/:id" exact component={AsyncPosts} />
                     <Route path="/index/aroundme"  component={AsyncAroundme}/>
                     <Route path="/index/contest"  component={AsyncContest}/>
                     <Route path="/index/question" exact component={AsyncQuestions}/>
                     <Route path="/index/question/:id" exact component={AsyncQuestions}/>
+                    <Route path="/index/question/?search=/:id" exact component={AsyncQuestions} />
                     <Route path="/index/qchat" exact component={AsyncQchats}/>
                     <Route path="/index/qchat/:id" exact component={AsyncQchats}/>
+                    <Route path="/index/qchat/?search=/:id" exact component={AsyncQchats} />
                     <Route path="/index/group/:id" exact component={AsyncGroups}/>
                     <Route path="/index/group"  component={AsyncGroups}/>
-                     <Route path="/index/user" exact component={AsyncUsers}/>
+                    <Route path="/index/group/?search=/:id" exact component={AsyncGroups} />
+                    <Route path="/index/user" exact component={AsyncUsers}/>
+                    <Route path="/index/user/?search=/:id" exact component={AsyncUsers} />
                     <Route path="/index/poet" exact component={AsyncPoets}/>
                     <Route path="/index/poet/:id" exact component={AsyncPoets}/>
+                    <Route path="/index/poet/?search=/:id" exact component={AsyncPoets} />
                     <Route path="/index/advert/:id" exact component={AsyncAdverts}/>
                     <Route path="/index/advert"  component={AsyncAdverts}/>
+                    <Route path="/index/advert/?search=/:id" exact component={AsyncAdverts} />
                     <Route path="/"  component={AsyncUsers}/> 
                 </Switch>
                 { loaderCnt }
@@ -329,6 +333,7 @@ const mapDispatchToProps = dispatch => {
         onFetchShareCntActive: () => dispatch(actions.fetchShareCntactiveInit()),
         onFetchQueActive: () => dispatch(actions.fetchQueActiveInit()),
         onFetchPtActive: () => dispatch(actions.fetchPtActiveInit()),
+        onShowSearch: () => dispatch(actions.startSearch()),
         onFetchCntActive: () => dispatch(actions.fetchCntActiveInit()),
         onFetchNotifyActive: () => dispatch(actions.fetchNotifyactiveInit()),
         onFetchNavActive: () => dispatch(actions.fetchNavActiveInit()),

@@ -51,12 +51,12 @@ class SetQue extends Component {
                     <FontAwesomeIcon 
                         icon={['far', 'clock']} 
                         className="icon icon__reuse-set--tm" /> 
-                    <span>Set Timed Question</span>
+                    <span>Set CBT</span>
                     <span className="reuse-set__header--startQues">
-                        <a href={this.state.queCateg === 'Category' ? '/' : '/'+this.state.queCateg+'/add'}>start</a>
+                        <a href={`/add/qchat`}>start</a>
                     </span>
                 </div>
-                <div className={categClass.join(' ')} onClick={this.fetchCategoryHandler}>
+                {/* <div className={categClass.join(' ')} onClick={this.fetchCategoryHandler}>
                     { this.state.queCateg } 
                     <FontAwesomeIcon 
                         icon={['fas', 'angle-down']} 
@@ -64,7 +64,7 @@ class SetQue extends Component {
                     <ul className={categOptClass.join(' ')}>
                         { categ }
                     </ul>
-                </div>
+                </div> */}
             </div>
         );
     }

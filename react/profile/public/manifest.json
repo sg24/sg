@@ -1,36 +1,11 @@
 {
-  "name": "Knowledge sharing platform | Connecting scholars",
-  "short_name": "SG",
+  "name": "S lodge24",
+  "short_name": "S lodge24",
   "icons": [
-    {
-      "src": "/icons/sg-icon-48x48.png",
-      "type": "image/png",
-      "sizes": "48x48"
-    },
-    {
-      "src": "/icons/sg-icon-96x96.png",
-      "type": "image/png",
-      "sizes": "96x96"
-    },
-    {
-      "src": "/icons/sg-icon-144x144.png",
-      "type": "image/png",
-      "sizes": "144x144"
-    },
     {
       "src": "/icons/sg-icon-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
-    },
-    {
-      "src": "/icons/sg-icon-256x256.png",
-      "type": "image/png",
-      "sizes": "256x256"
-    },
-    {
-      "src": "/icons/sg-icon-384x384.png",
-      "type": "image/png",
-      "sizes": "384x384"
     },
     {
       "src": "/icons/sg-icon-512x512.png",
@@ -38,13 +13,13 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "/index",
+  "start_url": "/",
   "scope": ".",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#fff",
   "theme_color": "#05578b",
-  "description": "SG connects you with scholars all around the world",
+  "description": "Share knowledge, Acquire new Knowledge, Free Computer based exam, Avertise product, Join and create groups, Add friends and connects with people all over the world",
   "dir": "ltr",
   "lang": "en-US"
 }

@@ -56,6 +56,21 @@ class Posts extends Component {
                 filterTag: this.props.match.params.id
             });
         }
+        if (this.props.startSearch && this.props.filterDet && this.props.location.search && this.state.filterTag !== `filter==${this.props.filterDet}`) {
+            this.props.onFetchCntReset();
+            let cnt = `filter==${this.props.filterDet}`;
+            this.props.onFetchCnt(this.props.userID, 'post-'+cnt, this.state.fetchLimit, 0, 0);
+            this.setState({
+                filterTag: cnt
+            });
+        }
+        if (!this.props.startSearch && !this.props.match.params.id && this.state.filterTag !== 'post') {
+            this.props.onFetchCntReset();
+            this.props.onFetchCnt(this.props.userID, 'post', this.state.fetchLimit, 0, 0);
+            this.setState({
+                filterTag: 'post'
+            });
+        }
     }
 
     componentWillUnmount() {
@@ -250,7 +265,8 @@ const mapStateToProps = state => {
         cntErr: state.cnt.cntErr,
         postVideo: state.cnt.postVideo,
         videoErr: state.cnt.videoErr,
-        filterDet: state.cnt.filterDet
+        filterDet: state.cnt.filterDet,
+        startSearch: state.filter.startSearch
     };
 };
 

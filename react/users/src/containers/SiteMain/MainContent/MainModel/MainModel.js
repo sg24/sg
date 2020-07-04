@@ -8,6 +8,7 @@ import Filter from './Filter/Filter';
 import Model from './Model/Model';
 import Aux from '../../../../hoc/Auxs/Aux';
 import * as actions from '../../../../store/actions/index';
+import Loader from '../../../../components/UI/Loader/Loader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class MainModel extends Component {
@@ -16,7 +17,7 @@ class MainModel extends Component {
     }
 
     fetchCntHandler = () => {
-        this.props.history.push('/users/student')
+        this.props.history.push('/users/friend')
     }
 
     componentDidMount() {
@@ -25,15 +26,25 @@ class MainModel extends Component {
 
     render() {
         let teacher = null;
+        let loaderCnt = null;
+
         if (this.props.status) {
             teacher = (
                 <div 
                     className="reuse-user-filter__teach"
                     onClick={this.fetchCntHandler}>
-                        My Student
+                        Friends
                     <div>{this.props.total}</div>
                 </div>
             );
+        }
+
+        if (this.props.showLoader) {
+            loaderCnt = (
+                <div className="site-main__content--loader">
+                    <Loader />
+                </div>
+            )
         }
 
         return (
@@ -53,6 +64,7 @@ class MainModel extends Component {
                     </div>
                 </div>
                 <Model />
+                { loaderCnt }
             </Aux>
         )
     }
@@ -62,7 +74,8 @@ class MainModel extends Component {
 const mapStateToProps = state => {
     return {
      status: state.auth.status,
-     total: state.filter.student
+     total: state.filter.student,
+     showLoader: state.cnt.showLoader,
     };
  };
 

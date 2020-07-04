@@ -230,7 +230,7 @@ class Form extends  Component {
 
     submitHandler = (mode) => {
        this.setState({showForm: true,  showAddItm: false, mode});
-       if (this.state.categs.length > 0 && this.state.formIsValid) {
+       if (this.state.formIsValid) {
             let newCnt = {
                 categ: this.state.categs,
                 desc: JSON.stringify(convertToRaw(this.state.formElement.content.value.getCurrentContent())),
@@ -330,11 +330,11 @@ class Form extends  Component {
                             <FontAwesomeIcon 
                                 icon={['fas', 'newspaper']} />
                             </div> 
-                            Add Post
+                            Add Feed
                         </div>
                     </h3>
                     <div className="reuse-form__cnt">
-                        <div className="reuse-form__cnt--wrapper">
+                        {/* <div className="reuse-form__cnt--wrapper">
                             <label className="reuse-form__cnt--title">
                                 <FontAwesomeIcon 
                                     icon={['fas', 'tags']} 
@@ -379,90 +379,9 @@ class Form extends  Component {
                                 <div className="reuse-form__err">Select or Add New Category</div>
                                 : null
                             }
-                        </div>
-                        {/* <div className="reuse-form__cnt--wrapper">
-                            <label className="reuse-form__cnt--title">Set Game Question</label>
-                            <div className="reuse-form__cnt--det">
-                                <input 
-                                    type="text" 
-                                    name=""
-                                    required
-                                    minLength="1"
-                                    value={this.state.formElement.title.value}
-                                    className="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg"
-                                    onChange={(event) => this.inputChangedHandler(event, 'game')}
-                                    placeholder="When you are old ?" />
-                            </div>
-                            { !this.state.formElement.title.valid && this.state.formElement.title.touched ?
-                                <div className="reuse-form__err">Game question must not be empty </div>
-                                : null
-                            }
-                        </div> */}
-                        {/* <div className="reuse-form__cnt--wrapper">
-                            <label className="reuse-form__cnt--title">Set Game Answer</label>
-                            <div className="reuse-form__cnt--det">
-                                <input 
-                                    type="text" 
-                                    name=""
-                                    required
-                                    minLength="1"
-                                    value={this.state.formElement.gameans.value}
-                                    className="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg"
-                                    onChange={(event) => this.inputChangedHandler(event, 'gameans')}
-                                    placeholder="This how you will look" />
-                            </div>
-                            { !this.state.formElement.title.valid && this.state.formElement.title.touched ?
-                                <div className="reuse-form__err">Game answer must not be empty </div>
-                                : null
-                            }
-                        </div> */}
-                        {/* <div className="reuse-form__cnt--wrapper">
-                            <label className="reuse-form__cnt--title">
-                                <FontAwesomeIcon 
-                                    icon={['fas', 'tags']} 
-                                    className="icon icon__reuse-form--cnt__tag" />
-                                Tags
-                            </label>
-                            <div className="reuse-form__cnt--det">
-                                <div className="reuse-form__cnt--det__wrapper">
-                                    <div 
-                                        className={categListClass.join(' ')}
-                                        onClick={this.showCategHandler}>
-                                        Category 
-                                        <FontAwesomeIcon 
-                                            icon={['fas', 'angle-down']} 
-                                            className="icon icon__reuse-form--angle" />
-                                       { addCateg }
-                                    </div>
-                                    <div className="reuse-form__cnt--det__alt">
-                                        <div className="reuse-form__cnt--det__alt--title">
-                                            <div>OR</div>
-                                        </div>
-                                        <div className="reuse-form__cnt--det__alt--cnt">
-                                            <input 
-                                                type="text" name="" id="" 
-                                                className="reuse-form__cnt--det__input" 
-                                                placeholder="Write new category ..." 
-                                                value={this.state.addCategInput}
-                                                onChange={this.addCategHandler}/>
-                                            <button
-                                                type="button"
-                                                onClick={this.addNewCategHandler}
-                                                disabled={this.state.disable}>
-                                                <FontAwesomeIcon 
-                                                icon={['fas', 'plus']} />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            { this.state.gamefullans?
-                                <div className="reuse-form__err">Select or Add New Category</div>
-                                : null
-                            }
-                        </div> */}
+                        </div>*/}
                         <div className="reuse-form__cnt--wrapper">
-                            <label className="reuse-form__cnt--title">Post Title</label>
+                            <label className="reuse-form__cnt--title">Title</label>
                             <div className="reuse-form__cnt--det">
                                 <input 
                                     type="text" 

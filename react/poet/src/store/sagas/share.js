@@ -6,8 +6,8 @@ import axios from '../../axios';
 
 export function* fetchUsersInitSaga () {
     try {
-        let response = yield axios.post('/users', null,{headers: {'data-categ':`allteacher-notab`}});
-        yield put(actions.fetchUsers(response.data));
+        let response = yield axios.post('/users', null,{headers: {'data-categ':`friend`}});
+        yield put(actions.fetchUsers(response.data.cnt));
     } catch(err) {
         yield put(actions.fetchUsersFail(err))
     }

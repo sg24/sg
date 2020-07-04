@@ -180,7 +180,7 @@ class FilterContent extends Component {
                             <FontAwesomeIcon 
                             icon={['fas', 'users']} 
                             className="icon icon__reuse-grp-filter--user"/>
-                            Scholars
+                            Friends
                         </h3>
                         <ul className="reuse-filter__opt--cnt__det">
                             <FilterOptions
@@ -205,7 +205,7 @@ class FilterContent extends Component {
                         </ul>
                     </div>
         
-                    <div className="reuse-filter__opt--cnt__wrapper reuse-filter__opt--cnt__wrapper--mid">
+                    {/* <div className="reuse-filter__opt--cnt__wrapper reuse-filter__opt--cnt__wrapper--mid">
                         <h3 className="reuse-filter__opt--cnt__title">
                             <FontAwesomeIcon 
                                 icon={['fas', 'bars']} 
@@ -215,7 +215,7 @@ class FilterContent extends Component {
                         <ul className="reuse-filter__opt--cnt__det reuse-filter__opt--cnt__det--categ">
                             { category }
                         </ul>
-                    </div>
+                    </div> */}
                 </div>
         
                 { filterCategInfo }

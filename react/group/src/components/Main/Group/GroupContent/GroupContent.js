@@ -136,18 +136,18 @@ const groupContent = props => {
                         </div>
                     </li>
                     <li>
-                        <div className="reuse-group__header--categ reuse-group__header--categ__mode">
+                        <div className="reuse-group__header--categ">
                             <FontAwesomeIcon 
                                 icon={['fas', 'tag']} 
                                 className="icon icon__reuse-group--header__tag--mode" />
                             { String(props.cnt.groupMode).substr(0, 1).toUpperCase() +  String(props.cnt.groupMode).substr(1).toLowerCase()}
                         </div>
-                        <div className="reuse-group__header--categ">
+                        {/* <div className="reuse-group__header--categ">
                             <FontAwesomeIcon 
                                 icon={ props.cnt.category.length > 1 ? ['fas', 'tags'] : ['fas', 'tag']} 
                                 className="icon icon__reuse-group--header__tag" />
                             { props.cnt.category[0] }
-                        </div>
+                        </div> */}
                     </li>
                 </ul>
                 <div className="reuse-group__cnt">

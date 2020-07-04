@@ -13,15 +13,14 @@ class Search extends Component {
 
     closeSearchHandler = () => {
         this.props.onCloseSearch();
-        if (this.state.searchCnt.length > 0) {
-            this.props.history.push('/group')
-        }
+        this.setState({searchCnt: ''});
+        this.props.history.push('/group');
     }
 
     filterInputHandler = (event) => {
-        this.props.onFilter({searchCnt: event.target.value, filterSelect: [], category: [], apply: true})
         this.setState({searchCnt: event.target.value});
-        this.props.history.push('/group/filter/?search='+event.target.value);
+        this.props.history.push(`/group/filter?search=${event.target.value}`);
+        this.props.onFilter({searchCnt: event.target.value, filterSelect: [], category: [], apply: true})
     }
 
     render() {
@@ -40,19 +39,12 @@ class Search extends Component {
                         icon={['fas', 'times']} 
                         className="icon icon__reuse-srch--close" />
                 </div>
-                <div className="reuse-srch__wrapper">
-                    {/* <div>
-                        <FontAwesomeIcon 
-                            icon={['far', 'calendar-alt']} 
-                            className="icon icon__reuse-srch--calend" />
-                    </div> */}
-                    <input 
-                        type="text" 
-                        className="reuse-srch__input"
-                        placeholder="Enter group name ..."
-                        onChange={this.filterInputHandler}
-                        value={this.state.searchCnt}/>
-                </div>
+                <input 
+                    type="text" 
+                    className="reuse-srch__input"
+                    placeholder="Search ..."
+                    onChange={this.filterInputHandler}
+                    value={this.state.searchCnt}/>
             </div>
         );
     }
@@ -70,7 +62,6 @@ const mapStateToProps = state => {
     return {
         onCloseSearch: () => dispatch(actions.closeSearch()),
         onFilter: (content) => dispatch(actions.filterContentInit(content)),
-        onFetchCntReset: () => dispatch(actions.fetchCntReset()),
     };
  }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Search));

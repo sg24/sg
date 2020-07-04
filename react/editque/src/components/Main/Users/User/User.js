@@ -46,7 +46,7 @@ const user = props => {
                         <li className="reuse-user__det--user__info">  
                             <a href={'/users/profile/' + props.userDet.id}>{ props.userDet.username }</a>
                         </li>
-                        <li><div>{ props.userDet.student }</div> Student</li> 
+                        <li><div>{ props.userDet.studenttotal }</div> Friend</li> 
                     </ul>
                     <div className={userSelectClass.join(' ')}>
                         <FontAwesomeIcon

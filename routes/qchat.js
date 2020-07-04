@@ -89,6 +89,13 @@ router.post('/', authenticate, (req, res, next) => {
         return fetchQchat({authorID: req.user});
     }
 
+    if (req.header !== null && req.header('data-categ') && req.header('data-categ').startsWith('filter')) { 
+        filterCnt(JSON.parse(req.header('data-categ').split('==')[1])).then(filter => {
+            let category = filter.category && filter.category.length > 0 ? {category: {$in: filter.category}} : {};
+            return fetchQchat({$text: { $search: filter.searchCnt },mode: 'publish', ...filter.filterCnt,  ...category},{ score: { $meta: "textScore" } })
+         });
+         return
+    }
 
     function fetchQchat(conditions, meta) {
         let condition = { _isCompleted: true, ...conditions}

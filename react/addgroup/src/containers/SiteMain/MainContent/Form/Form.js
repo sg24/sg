@@ -232,7 +232,7 @@ class Form extends  Component {
 
     submitHandler = (mode) => {
        this.setState({showForm: true,  showAddItm: false, mode});
-       if (this.state.categs.length > 0 && this.state.formIsValid && this.state.groupMode) {
+       if (this.state.formIsValid && this.state.groupMode) {
             let newCnt = {
                 categ: this.state.categs,
                 desc: JSON.stringify(convertToRaw(this.state.formElement.content.value.getCurrentContent())),
@@ -338,7 +338,7 @@ class Form extends  Component {
                         </div>
                     </h3>
                     <div className="reuse-form__cnt">
-                        <div className="reuse-form__cnt--wrapper">
+                        {/* <div className="reuse-form__cnt--wrapper">
                             <label className="reuse-form__cnt--title">
                                 <FontAwesomeIcon 
                                     icon={['fas', 'tags']} 
@@ -383,7 +383,7 @@ class Form extends  Component {
                                 <div className="reuse-form__err">Select or Add New Category</div>
                                 : null
                             }
-                        </div>
+                        </div> */}
                         <div className="reuse-form__cnt--wrapper">
                             <label className="reuse-form__cnt--title">Room Name</label>
                             <div className="reuse-form__cnt--det">

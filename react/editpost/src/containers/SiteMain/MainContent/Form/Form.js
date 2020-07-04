@@ -240,9 +240,9 @@ class Form extends  Component {
 
     submitHandler = (mode) => {
        this.setState({showForm: true,  showAddItm: false, mode});
-       if (this.state.categs.length > 0 && this.state.formIsValid) {
+       if (this.state.formIsValid) {
             let newCnt = {
-                categ: this.state.categs,
+                categ: [],
                 desc: JSON.stringify(convertToRaw(this.state.formElement.content.value.getCurrentContent())),
                 title: this.state.formElement.title.value,
                 video: this.props.media.video ? this.props.media.video : [],
@@ -363,11 +363,11 @@ class Form extends  Component {
                         <FontAwesomeIcon 
                             icon={['far', 'newspaper']} />
                         </div> 
-                        Edit News Feed
+                        Edit Feed
                     </div>
                 </h3>
                 <div className="reuse-form__cnt">
-                    <div className="reuse-form__cnt--wrapper">
+                    {/* <div className="reuse-form__cnt--wrapper">
                         <label className="reuse-form__cnt--title">
                             <FontAwesomeIcon 
                                 icon={['fas', 'tags']} 
@@ -412,7 +412,7 @@ class Form extends  Component {
                             <div className="reuse-form__err">Select or Add New Category</div>
                             : null
                         }
-                    </div>
+                    </div> */}
                     <div className="reuse-form__cnt--wrapper">
                         <label className="reuse-form__cnt--title">Title</label>
                         <div className="reuse-form__cnt--det">

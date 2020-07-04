@@ -70,7 +70,7 @@ const questionContent = props => {
 
     let media = null;
     let mediaCnt =  [...props.que.snapshot, ...props.que.image];
-   
+
     if (mediaCnt.length > 0) {
         media = (
             <div className="reuse-que__media">
@@ -146,7 +146,7 @@ const questionContent = props => {
             icon={['fas', 'heart']} 
             className="icon icon__reuse-que--footer__heart" />
     }
-
+    
     return (
         <div className="reuse-que">
             <ul className="reuse-que__header">
@@ -163,11 +163,10 @@ const questionContent = props => {
                 </li>
                 <li>
                     <p className="reuse-que__header--share__category">
-                    <span className="reuse-que__header--share__category--cntgrp">Question</span>
                         <FontAwesomeIcon 
-                            icon={ props.que.category.length > 1 ? ['fas', 'tags'] : ['fas', 'tag']} 
+                            icon={['fas', 'tag']} 
                             className="icon icon__reuse-que--header__tag" />
-                        { props.que.category[0] }
+                        Question
                     </p>
                     <div className="reuse-share">
                         <div className="reuse-share__icn" onClick={props.share}>
@@ -190,16 +189,20 @@ const questionContent = props => {
             <div className="reuse-que__footer">
                 <ul className="reuse-que__footer--list">
                     <li>
-                        <FontAwesomeIcon 
-                            icon={['far', 'thumbs-up']} 
-                            className="icon icon__reuse-que--footer__thumbup" />
-                        {transformNumber(props.que.helpFull)}
+                        <a href={"/view/question/" + props.que._id}> 
+                            <FontAwesomeIcon 
+                                icon={['far', 'thumbs-up']} 
+                                className="icon icon__reuse-que--footer__thumbup" />
+                            {transformNumber(props.que.helpFull)}
+                        </a>
                     </li>
                     <li className="reuse-que__footer--list__item-middle">
-                        <FontAwesomeIcon 
-                            icon={['far', 'thumbs-down']} 
-                            className="icon icon__reuse-que--footer__thumbdown" />
-                        {transformNumber(props.que.notHelpFull)}
+                        <a href={"/view/question/" + props.que._id}> 
+                            <FontAwesomeIcon 
+                                icon={['far', 'thumbs-down']} 
+                                className="icon icon__reuse-que--footer__thumbdown" />
+                            {transformNumber(props.que.notHelpFull)}
+                        </a>
                     </li>
                     <li>
                     <span onClick={props.fav}>{fav}</span>

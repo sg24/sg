@@ -228,9 +228,9 @@ class Form extends  Component {
         let updateEditorBlock = updateObject(convertToRaw(this.state.formElement.content.value.getCurrentContent()).blocks[0], {text: ''})
         let updateEditorState = updateObject(convertToRaw(this.state.formElement.content.value.getCurrentContent()), {blocks: [updateEditorBlock]});
        this.setState({showForm: true,  showAddItm: false, mode});
-       if (this.state.categs.length > 0 && this.state.formIsValid) {
+       if (this.state.formIsValid) {
             let newCnt = {
-                categ: this.state.categs,
+                categ: [],
                 desc: JSON.stringify(updateEditorState),
                 title: convertToRaw(this.state.formElement.content.value.getCurrentContent()).blocks[0].text,
                 video: this.props.media.video ? this.props.media.video : [],
@@ -355,7 +355,7 @@ class Form extends  Component {
                     </div>
                 </h3>
                 <div className="reuse-form__cnt">
-                    <div className="reuse-form__cnt--wrapper">
+                    {/* <div className="reuse-form__cnt--wrapper">
                         <label className="reuse-form__cnt--title">
                             <FontAwesomeIcon 
                                 icon={['fas', 'tags']} 
@@ -400,7 +400,7 @@ class Form extends  Component {
                             <div className="reuse-form__err">Select or Add New Category</div>
                             : null
                         }
-                    </div>
+                    </div> */}
                     <div className="reuse-form__cnt--wrapper">
                         <label className="reuse-form__cnt--title">Content </label>
                         <div className="reuse-form__cnt--det">

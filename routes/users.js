@@ -5,7 +5,6 @@ let authenticate = require('../serverDB/middleware/authenticate');
 const bcrypt = require('bcryptjs');
 const fetchCnt = require('./utility/fetchcnt');
 let filterCnt = require('./utility/filtercnt');
-let userFilter = require('./utility/userfilter');
 const {category, user, 
      authUser,connectStatus} = require('../serverDB/serverDB');
 
@@ -51,63 +50,77 @@ router.post('/', authenticate,(req, res, next) => {
         }
     }
 
-    if (req.header && req.header('data-categ') && req.header('data-categ') === 'request-activeOnly') {
-        user.findById(req.user).then(userdet => {
-            if (!userdet) {
-                authUser.findById(req.user).then(authdet => {
-                    res.send(String(authdet.request)).status(200)
-                })
-            } else {
-                res.send(String(userdet.request)).status(200)
-            }
-        })
-        return 
-    }
-
     if (req.header && req.header('data-categ') && req.header('data-categ').startsWith('request')) {
         let isActive = req.header('data-categ').split('-')[1];
-        return fetchReq(connectStatus, {
-            block: {$ne: req.user},
-            _id: {$ne: mongoose.mongo.ObjectId(req.user)}
-        }, {student: -1}, 
-            parseInt(req.header('limit')), parseInt(req.header('skip')), {}, user, {
-                cnt: [],
-                cntTotal: 0
-            }).then(userCnt => {
-                fetchReq(connectStatus, {
-                    block: {$ne: req.user},
-                    _id: {$ne: mongoose.mongo.ObjectId(req.user)}
-                }, {student: -1}, 
-                    parseInt(req.header('limit')), parseInt(req.header('skip')), {}, authUser, userCnt).then(result => {
-                        let sendReq = isActive === 'activeOnly' ? String(result.cntTotal) : result;
-                        res.status(200).send(sendReq);
-                    })
-            })
-    }
-
-    if (req.header && req.header('data-categ') === 'student') {
-        return fetchTeacher(connectStatus, {
-            block: {$ne: req.user},
-            _id: {$ne: mongoose.mongo.ObjectId(req.user)}
-        }, {student: -1}, 
-            parseInt(req.header('limit')), parseInt(req.header('skip')), {}, user, {
-                cnt: [],
-                cntTotal: 0
-            }).then(userCnt => {
-                fetchTeacher(connectStatus, {
-                    block: {$ne: req.user},
-                    _id: {$ne: mongoose.mongo.ObjectId(req.user)}
-                }, {student: -1}, 
-                    parseInt(req.header('limit')), parseInt(req.header('skip')), {}, authUser, userCnt).then(result => {
-                        res.status(200).send(result);
-                    })
-            })
-    }
-
-    if (req.header && req.header('data-categ') === 'studenttotal') {
         let model = req.userType === 'authUser' ? authUser : user;
         model.findById(req.user).then(result => {
-            res.status(200).send(String(result.studenttotal))
+            fetchReq(user, result.request,  {cnt: [],cntTotal: 0}).then(userFnd => {
+                fetchReq(authUser, result.request, userFnd).then(totalFnd => {
+                    let sendReq = isActive === 'activeOnly' ? String(totalFnd.cntTotal) : totalFnd;
+                    res.status(200).send(sendReq);
+                })
+            })
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+
+        function fetchReq(model, friend, modelCnt) {
+            return new Promise((resolve,reject) => {
+                model.find({_id: { $in : friend }}).limit(parseInt(req.header('limit'))).skip(parseInt(req.header('skip'))).then(result => {
+                    for (let cnt of result) {
+                        let id = cnt._id.toHexString();
+                        let userDet = {id, username: cnt.username,studenttotal: cnt.student.length+cnt.teacher.length,status: cnt.status, image: cnt.image || ''}
+                        userDet['request'] = true;
+                        modelCnt.cnt.push(userDet)
+                        modelCnt.cntTotal = modelCnt.cntTotal + 1;
+                    }
+                    resolve(modelCnt);
+                }).catch(err => {
+                    reject(err);
+                })
+            })
+        }
+        return
+    }
+
+    if (req.header && req.header('data-categ') &&  req.header('data-categ').startsWith('friend')) {
+        let status = req.header('data-categ').split('-')[1] === 'online' ? {status: true} : 
+        req.header('data-categ').split('-')[1] === 'offline' ? {status: false} : {}
+        let model = req.userType === 'authUser' ? authUser : user;
+        model.findById(req.user).then(result => {
+            let fnd = [...result.student, ...result.teacher];
+            fetchFriend(user, fnd,  {cnt: [],cntTotal: 0}).then(userFnd => {
+                fetchFriend(authUser, fnd, userFnd).then(totalFnd => {
+                    res.status(200).send(totalFnd);
+                })
+            })
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+
+        function fetchFriend(model, friend, modelCnt) {
+            return new Promise((resolve,reject) => {
+                model.find({_id: { $in : friend }, ...status}).limit(parseInt(req.header('limit'))).skip(parseInt(req.header('skip'))).then(result => {
+                    for (let cnt of result) {
+                        let id = cnt._id.toHexString();
+                        let userDet = {id, username: cnt.username,studenttotal: cnt.student.length + cnt.teacher.length, status: cnt.status, image: cnt.image || ''}
+                        userDet['accept'] = true;
+                        modelCnt.cnt.push(userDet)
+                        modelCnt.cntTotal = modelCnt.cntTotal + 1;
+                    }
+                    resolve(modelCnt);
+                }).catch(err => {
+                    reject(err);
+                })
+            })
+        }
+        return
+    }
+
+    if (req.header && req.header('data-categ') === 'friendtotal') {
+        let model = req.userType === 'authUser' ? authUser : user;
+        model.findById(req.user).then(result => {
+            res.status(200).send(String(result.student.length + result.teacher.length))
         }).catch(err => {
             res.status(500).send(err);
         })
@@ -129,49 +142,16 @@ router.post('/', authenticate,(req, res, next) => {
         
         return;
     }
-    
-    if (req.header && req.header('data-categ') &&  req.header('data-categ').startsWith('allteacher')) {
-        let model = req.userType === 'authUser' ? authUser : user;
-        let status = req.header('data-categ').split('-')[1] === 'online' ? {status: true} : 
-        req.header('data-categ').split('-')[1] === 'offline' ? {status: false} : {}
-        model.findById(req.user).then(result => {
-            let student = [...result.student, ...result.teacher];
-            fetchAllTeacher(user, student, status, []).then(userTeacher => {
-                fetchAllTeacher(authUser, student, status, userTeacher).then(totalTeacher => {
-                    res.status(200).send(totalTeacher)
-                })
-            })
-        }).catch(err => {
-            res.status(500).send(err);
-        })
-
-        function fetchAllTeacher(model, allTeacher, status, fndTeacher) {
-            return new Promise((resolve,reject) =>{
-                model.find({_id: { $in : allTeacher }, ...status}).then(result => {
-                    let users = [];
-                    for (let cnt of result) {
-                        let userDet = {id: cnt.id, username: cnt.username,student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
-                        users.push(userDet)
-                    }
-                    let newFndTeacher = [...fndTeacher, ...users]
-                    resolve(newFndTeacher);
-                }).catch(err => {
-                    reject(err);
-                })
-            })
-        }
-        return 
-    }
 
     if (req.header && req.header('data-categ') && req.header('data-categ').startsWith('filter')) { 
-        return userFilter((JSON.parse(req.header('data-categ').split('==')[1]))).then(filter => {
-            let filterCnt = filter.filterCnt.length > 0 ? filter.filterCnt : [];
+        return filterCnt((JSON.parse(req.header('data-categ').split('==')[1]))).then(filter => {
+            let category = filter.category && filter.category.length > 0 ? {category: {$in: filter.category}} : {};
             return fetchUsers(
                 connectStatus,
-                {$text: { $search: `\"${filter.searchCnt}\"`},
+                {$text: { $search: filter.searchCnt },
                 block: {$ne: req.user},
                 _id: {$ne: mongoose.mongo.ObjectId(req.user)},
-                ...filterCnt},
+                ...category},
                 { score: { $meta: "textScore" } },
                 parseInt(req.header('limit')), parseInt(req.header('skip')), { score: { $meta: "textScore" }}, user, {
                     cnt: [],
@@ -180,10 +160,10 @@ router.post('/', authenticate,(req, res, next) => {
             ).then(userCnt => {
                 fetchUsers(
                     connectStatus,
-                    {$text: { $search: `\"${filter.searchCnt}\"`},
+                    {$text: { $search: filter.searchCnt },
                     block: {$ne: req.user},
                     _id: {$ne: mongoose.mongo.ObjectId(req.user)},
-                    ...filterCnt},
+                    ...category},
                     { score: { $meta: "textScore" } },
                     parseInt(req.header('limit')), parseInt(req.header('skip')), { score: { $meta: "textScore" }}, authUser, userCnt
                 ).then(result =>{
@@ -214,13 +194,13 @@ router.post('/', authenticate,(req, res, next) => {
                             let filterMainReq = mainRequest.filter(id => id ===  req.user);
                             let userBlock = resultFilter.block || [];
                             let filterBlock = userBlock.filter(id => id === cnt._id.toHexString())
-                            let userTeacher = resultFilter.teacher || [];
-                            let userTeacherFilter = userTeacher.filter(id => id === cnt._id.toHexString());
+                            let userTeacher = cnt.student || [];
+                            let userTeacherFilter = userTeacher.filter(id => id === req.user);
                             let teacher = cnt.teacher || [];
                             let teacherFilter = teacher.filter(id => id === req.user);
 
                             let id = cnt._id.toHexString();
-                            let userDet = {id, username: cnt.username,studenttotal: cnt.studenttotal, student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
+                            let userDet = {id, username: cnt.username,studenttotal: cnt.student.length+cnt.teacher.length, student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
                             
                             if (filterReq.length > 0) {
                                 userDet['request'] = true
@@ -228,6 +208,7 @@ router.post('/', authenticate,(req, res, next) => {
                             if (filterMainReq.length > 0) {
                                 userDet['pending'] = true
                             }
+                            
                             if (userTeacherFilter.length > 0 || teacherFilter.length > 0) {
                                 userDet['accept'] = true;
                             }
@@ -236,58 +217,6 @@ router.post('/', authenticate,(req, res, next) => {
                                 modelCnt.cnt.push(userDet)
                             } 
                         }
-                    }
-                    resolve(modelCnt)
-                })
-            })  
-        })
-    }
-
-    function fetchReq(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt) {
-        return new Promise((resolve, reject) => {
-            fetchCnt(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt).then(result => {
-                let model = req.userType === 'authUser' ? authUser : user;
-                model.findById(req.user).then(resultFilter =>{
-                    for (let cnt of result.cnt) {
-                        let userRequest = resultFilter.request || [];
-                        let filterReq = userRequest.filter(id => id === cnt._id.toHexString())
-                        let userBlock = resultFilter.block || [];
-                        let filterBlock = userBlock.filter(id => id === cnt._id.toHexString())
-
-                        let id = cnt._id.toHexString();
-                        let userDet = {id, username: cnt.username,student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
-                       
-                        if (filterReq.length > 0 && filterBlock.length < 1) {
-                            userDet['request'] = true;
-                            modelCnt.cnt.push(userDet)
-                            modelCnt.cntTotal = modelCnt.cntTotal + 1;
-                        } 
-                    }
-                    resolve(modelCnt)
-                })
-            })  
-        })
-    }
-
-    function fetchTeacher(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt) {
-        return new Promise((resolve, reject) => {
-            fetchCnt(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt).then(result => {
-                let model = req.userType === 'authUser' ? authUser : user;
-                model.findById(req.user).then(resultFilter =>{
-                    for (let cnt of result.cnt) {
-                        let student = resultFilter.student || [];
-                        let filterStudent = student.filter(id => id === cnt._id.toHexString())
-                        let userBlock = resultFilter.block || [];
-                        let filterBlock = userBlock.filter(id => id === cnt._id.toHexString())
-
-                        let id = cnt._id.toHexString();
-                        let userDet = {id, username: cnt.username,student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
-                       
-                        if (filterStudent.length > 0 && filterBlock.length < 1) {
-                            userDet['accept'] = true;
-                            modelCnt.cnt.push(userDet)
-                            modelCnt.cntTotal = modelCnt.cntTotal + 1;
-                        } 
                     }
                     resolve(modelCnt)
                 })

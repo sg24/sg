@@ -135,10 +135,12 @@ const qchatContent = props => {
         </div>
         <ul className="reuse-onlineque__footer">
             <li>
-                <FontAwesomeIcon 
-                    icon={['far', 'comment-dots']} 
-                    className="icon icon__reuse-onlineque--comment" />
-                { transformNumber(props.cnt.comment)}
+                <a href={`/view/qchat/${props.cnt._id}`}>
+                    <FontAwesomeIcon 
+                        icon={['far', 'comment-dots']} 
+                        className="icon icon__reuse-onlineque--comment" />
+                    { transformNumber(props.cnt.comment)}
+                </a>
             </li>
             <li className="reuse-onlineque__footer--exam">
                 {props.cnt.access ? ( <span className="reuse-onlineque__footer--exam__start" onClick={props.startExam}> Start</span>) : ( 
@@ -152,10 +154,12 @@ const qchatContent = props => {
                 )}
             </li>
             <li>
-                <FontAwesomeIcon 
-                    icon={['fas', 'pencil-alt']} 
-                    className="icon icon__reuse-onlineque--pen" /> 
+                <a href={`/view/qchat/${props.cnt._id}`}>
+                    <FontAwesomeIcon 
+                        icon={['fas', 'pencil-alt']} 
+                        className="icon icon__reuse-onlineque--pen" /> 
                     { transformNumber(props.cnt.write)}
+                </a>
             </li>
         </ul>
         { tooltip }

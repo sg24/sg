@@ -61,7 +61,7 @@ const postContent = props => {
 
     let media = null;
     let mediaCnt =  [...props.pt.snapshot, ...props.pt.image];
-    
+
     if (mediaCnt.length > 0) {
         media = (
             <div className="reuse-pt__media">
@@ -141,12 +141,12 @@ const postContent = props => {
                             </div>
                         </li>
                         <li>
-                            <p className="reuse-pt__header--share__category"> 
+                            {/* <p className="reuse-pt__header--share__category"> 
                                 <FontAwesomeIcon 
                                     icon={ props.pt.category.length > 1 ? ['fas', 'tags'] : ['fas', 'tag']} 
                                     className="icon icon__reuse-pt--header__tag" />
                                 { props.pt.category[0] }
-                            </p>
+                            </p> */}
                             <div className="reuse-share">
                                 <div className="reuse-share__icn" onClick={props.share}>
                                     <FontAwesomeIcon 
@@ -166,17 +166,21 @@ const postContent = props => {
                 
                     <div className="reuse-pt__footer">
                         <ul className="reuse-pt__footer--list">
-                            <li>
-                                <FontAwesomeIcon 
-                                    icon={['far', 'eye']} 
-                                    className="icon icon__reuse-pt--footer__eye" /> 
-                                {transformNumber(props.pt.view)} 
+                            <li> 
+                                <a href={"/view/post/" + props.pt._id}>
+                                    <FontAwesomeIcon 
+                                        icon={['far', 'eye']} 
+                                        className="icon icon__reuse-pt--footer__eye" /> 
+                                    {transformNumber(props.pt.view)} 
+                                </a>
                             </li>
                             <li className="reuse-pt__footer--list__item-middle">
-                                <FontAwesomeIcon 
+                                <a href={"/view/post/" + props.pt._id}>
+                                    <FontAwesomeIcon 
                                     icon={['far', 'comments']} 
                                     className="icon icon__reuse-pt--footer__chats" /> 
-                                {transformNumber(props.pt.comment)} 
+                                    {transformNumber(props.pt.comment)} 
+                                </a>
                             </li>
                             <li>
                                 <span onClick={props.fav}>{fav}</span>

@@ -33,14 +33,14 @@ class Footer extends Component {
     if (!this.state.isNotify) {
         checkNotify = (
          <div className="site-footer__notify">
-         <FontAwesomeIcon 
-            icon={['fas', 'bell']} 
-            className="icon icon__site-footer--notify" />
-            To receive or send Notifications to teachers/students, 
-            Please click the button 
             <div 
                 className="site-footer__notify--enable"
-                onClick={this.askPermissionHandler}>Enable Notification</div>
+                onClick={this.askPermissionHandler}>
+                     <FontAwesomeIcon 
+                icon={['fas', 'bell']} 
+                className="icon icon__site-footer--notify" />
+                Enable Notification
+            </div>
         </div>
         )
      }

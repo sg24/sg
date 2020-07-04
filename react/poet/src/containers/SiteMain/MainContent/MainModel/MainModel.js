@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './MainModel.css';
-import Category from './Category/Category';
+import Search from './Search/Search';
 import Filter from './Filter/Filter';  
 import Model from './Model/Model';
 import Aux from '../../../../hoc/Auxs/Aux';
@@ -12,6 +13,10 @@ import * as actions from '../../../../store/actions/index';
 class MainModel extends Component {
     componentDidMount() {
         this.props.onFetchTotal()
+    }
+
+    inputSearchHandler = () => {
+        this.props.onShowSearch();
     }
 
     fetchCntHandler = () => {
@@ -23,18 +28,25 @@ class MainModel extends Component {
             <Aux>
                 <div className="reuse-pwt-filter">
                     <div className="reuse-pwt-filter__wrapper">
-                        <Category />
+                        <div 
+                            className="reuse-pwt-filter__srch"
+                            onClick={this.inputSearchHandler}>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'search']} 
+                                className="icon icon__reuse-pwt-filter--srch" />
+                        </div>
                         <Filter />
                         <div 
                             className="reuse-pwt-filter__pwt"
                             onClick={this.fetchCntHandler}>
-                            My Works
+                                Published
                             <div>{this.props.total}</div>
                         </div>
                         <div className="reuse-pwt-filter__add">
                             <a href="/add/poet">Add</a>
                         </div>
                     </div>
+                    <Search />
                 </div>
                 <Model />
             </Aux>
@@ -51,7 +63,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
    return {
-    onFetchTotal: () => dispatch(actions.fetchTotalInit())
+        onFetchTotal: () => dispatch(actions.fetchTotalInit()),
+        onShowSearch: () => dispatch(actions.startSearch())
    };
 };
 

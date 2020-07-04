@@ -110,14 +110,14 @@ const poetContent = props => {
             </div>
         </div>
         <div className="reuse-pwt__content">
-            <div className="reuse-pwt__content--tag">
+            {/* <div className="reuse-pwt__content--tag">
                 <span>
                     <FontAwesomeIcon 
                         icon={ props.pwt.category.length > 1 ? ['fas', 'tags'] : ['fas', 'tag']} 
                         className="icon icon__reuse-pwt--header__tag" />
                     { props.pwt.category[0] }
                 </span>
-            </div>
+            </div> */}
             <div className="reuse-pwt__content--title">
                 <div className="reuse-pwt__content--title__wrapper">
                     <a href={"/view/poet/" + props.pwt._id}> 
@@ -140,10 +140,12 @@ const poetContent = props => {
         </div>
         <ul className="reuse-pwt__footer">
             <li>
-                <FontAwesomeIcon 
-                    icon={['far', 'smile']} 
-                    className="icon icon__reuse-pwt--footer__smile" />
-                { transformNumber(props.pwt.helpFull) } 
+                <a href={"/view/poet/" + props.pwt._id}>
+                    <FontAwesomeIcon 
+                        icon={['far', 'smile']} 
+                        className="icon icon__reuse-pwt--footer__smile" />
+                    { transformNumber(props.pwt.helpFull) } 
+                </a>
             </li>
             <li>
                 <span onClick={props.fav}>{fav}</span>
@@ -152,10 +154,12 @@ const poetContent = props => {
                     liked={props.favChange.isLiked}/> : null}
             </li>
             <li>
-                <FontAwesomeIcon 
-                    icon={['far', 'comment-dots']} 
-                    className="icon icon__reuse-pwt--footer__comments" />
-                { transformNumber(props.pwt.comment) } 
+                <a href={"/view/poet/" + props.pwt._id}>
+                    <FontAwesomeIcon 
+                        icon={['far', 'comment-dots']} 
+                        className="icon icon__reuse-pwt--footer__comments" />
+                    { transformNumber(props.pwt.comment) }
+                </a> 
             </li>
         </ul>
     </div>

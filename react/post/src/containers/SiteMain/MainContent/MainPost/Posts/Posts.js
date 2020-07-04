@@ -94,11 +94,12 @@ class Posts extends Component {
             });
         }
 
-        if (this.props.match.params.id && this.props.filterDet && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id === 'filter') {
+        if (this.props.match.params.id === 'filter' && this.props.filterDet && this.state.filterTag !== `filter==${this.props.filterDet}`) {
             this.props.onFetchPostReset();
-            this.props.onFetchPost(this.props.userID, 'filter=='+this.props.filterDet, this.state.fetchLimit, 0, 0);
+            let cnt = `filter==${this.props.filterDet}`;
+            this.props.onFetchPost(this.props.userID, cnt, this.state.fetchLimit, 0, 0);
             this.setState({
-                filterTag: this.props.match.params.id
+                filterTag: cnt
             });
         }
 

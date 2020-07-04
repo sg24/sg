@@ -34,8 +34,9 @@ class SiteMain extends Component {
     }
 
     viewCntHandler = (searchDet) => {
-        window.location.assign('/view/'+searchDet.grp+'/'+searchDet.id);
+        window.location.assign(searchDet);
     };
+
 
     changeCntHandler = () => {
         this.props.onChangeCnt(this.props.changeCntStart.id, null, this.props.changeCntStart.det, true, this.props.changeCntStart.modelType)

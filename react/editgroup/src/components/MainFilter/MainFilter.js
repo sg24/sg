@@ -9,7 +9,7 @@ const mainFilter = props => {
             filterRes={filterRes}
             filterPos={props.filterPos}
             filterLastPos={props.filterLastPos}
-            viewCnt={props.viewCnt.bind(this, filterRes)}/>
+            viewCnt={props.viewCnt.bind(this, filterRes.url)}/>
     ));
 
     return allFilterRes

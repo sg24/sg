@@ -61,7 +61,7 @@ const advertContent = props => {
 
     let media = null;
     let mediaCnt =  [...props.cnt.snapshot, ...props.cnt.image];
-    
+
     if (mediaCnt.length > 0) {
         media = (
             <div className="reuse-ads__media">
@@ -141,12 +141,12 @@ const advertContent = props => {
                             </div>
                         </li>
                         <li>
-                            <p className="reuse-ads__header--share__category"> 
+                            {/* <p className="reuse-ads__header--share__category"> 
                                 <FontAwesomeIcon 
                                     icon={ props.cnt.category.length > 1 ? ['fas', 'tags'] : ['fas', 'tag']} 
                                     className="icon icon__reuse-ads--header__tag" />
                                 { props.cnt.category[0] }
-                            </p>
+                            </p> */}
                             <div className="reuse-share">
                                 <div className="reuse-share__icn" onClick={props.share}>
                                     <FontAwesomeIcon 
@@ -167,16 +167,20 @@ const advertContent = props => {
                     <div className="reuse-ads__footer">
                         <ul className="reuse-ads__footer--list">
                             <li>
-                                <FontAwesomeIcon 
-                                    icon={['far', 'eye']} 
-                                    className="icon icon__reuse-ads--footer__eye" /> 
-                                {transformNumber(props.cnt.view)} 
+                                <a href={"/view/advert/" + props.cnt._id}>
+                                    <FontAwesomeIcon 
+                                        icon={['far', 'eye']} 
+                                        className="icon icon__reuse-ads--footer__eye" /> 
+                                    {transformNumber(props.cnt.view)} 
+                                </a>
                             </li>
                             <li className="reuse-ads__footer--list__item-middle">
-                                <FontAwesomeIcon 
-                                    icon={['far', 'comments']} 
-                                    className="icon icon__reuse-ads--footer__chats" /> 
-                                {transformNumber(props.cnt.comment)} 
+                                <a href={"/view/advert/" + props.cnt._id}>
+                                    <FontAwesomeIcon 
+                                        icon={['far', 'comments']} 
+                                        className="icon icon__reuse-ads--footer__chats" /> 
+                                    {transformNumber(props.cnt.comment)} 
+                                </a>
                             </li>
                             <li>
                                 <span onClick={props.fav}>{fav}</span>

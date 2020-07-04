@@ -56,7 +56,7 @@ class Nav extends Component {
     }
 
     render() {
-        let header = 'Teachers';
+        let header = 'Members';
         let users = <Loader 
             nav/>;
         let navClass = ["site-main__chat--nav"];

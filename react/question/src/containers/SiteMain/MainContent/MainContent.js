@@ -17,9 +17,9 @@ class MainContent extends Component {
         },
         share: {
             path: '/question/shared',
-            icnGrp: 'hand-paper',
+            icnGrp: 'location-arrow',
             icnClass: 'icon icon__site-main--content__tab',
-            title: 'Q Chat',
+            title: 'Shared',
         },
         showCntActive: true,
         showShareActive: true,

@@ -1013,7 +1013,6 @@ img {
   position: relative;
   width: 65px;
   height: 32px;
-  background: #fff;
   float: left;
   margin-right: 20px;
   display: -ms-flexbox;
@@ -1619,7 +1618,6 @@ img {
   position: absolute;
   width: 65px;
   height: 32px;
-  background: #fff;
   margin-right: 20px;
   top: 50%;
   transform: translateY(-50%);
@@ -1843,6 +1841,11 @@ img {
   position: relative;
 }
 
+.reuse-trd__cnt--footer > li > a {
+  text-decoration: none;
+  color: #333;
+}
+
 .reuse-trd__cnt--footer > li:last-child {
   border-right: none;
 }
@@ -1919,6 +1922,7 @@ img {
   width: 100%;
   position: relative;
   float: none;
+ 
 }
 
 .site-main__content--overlay__close {
@@ -2439,6 +2443,7 @@ img {
 
 .reuse-grp-chat__det--status__off {
   position: relative;
+  padding-left: 0 !important;
 }
 
 .reuse-grp-chat__det--status__off > span {
@@ -2809,13 +2814,13 @@ img {
 }
 
 .reuse-conv {
-    margin: 10px;           
+    margin: 10px;   
     display: -ms-flexbox; 
-    display: flex;
-    -ms-flex-direction: column;
-        flex-direction: column;
-    -ms-flex-positive: 1;
-        flex-grow: 1;       
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-positive: 1;
+      flex-grow: 1;              
 }
 
 .reuse-conv__title {

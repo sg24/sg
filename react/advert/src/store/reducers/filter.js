@@ -6,6 +6,7 @@ const initialState = {
     filterStart: false,
     totalFound: null,
     filterErr: null,
+    startSearch: false,
     cnt: 0
 }
 
@@ -15,6 +16,14 @@ const fetchCntCateg = (state, action) => {
 
 const fetchTotal = (state, action) => {
     return updateObject(state, {cnt: action.total})
+};
+
+const startSearch = (state, action) => {
+    return updateObject(state, {startSearch: true})
+};
+
+const closeSearch = (state, action) => {
+    return updateObject(state, {startSearch: false})
 };
 
 const filterContentStart = (state, action) => {
@@ -47,6 +56,10 @@ const reducer = (state = initialState, action) => {
             return filterContent(state, action);
         case actionTypes.RESET_FILTER:
             return resetFilter(state, action);
+        case actionTypes.START_SEARCH:
+            return startSearch(state, action);
+        case actionTypes.CLOSE_SEARCH:
+            return closeSearch(state, action);
         default: return state
     }
 };

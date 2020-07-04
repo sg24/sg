@@ -145,6 +145,7 @@
     border-radius: 5px;
     padding: 4px;
     cursor: pointer;
+    overflow: hidden;
     white-space: nowrap;
     word-wrap: none;
     text-overflow: ellipsis;
@@ -457,6 +458,11 @@
     cursor: default;
     width: 100px;
     text-align: center;
+}
+
+.reuse-que__footer--list li > a{
+    color: #333;  
+    text-decoration: none;
 }
 
 .reuse-que__footer--list__item-middle {

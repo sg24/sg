@@ -4,12 +4,21 @@ import { updateObject } from '../../shared/utility';
 const initialState = {
     cntCateg: null,
     filterStart: false,
+    startSearch: false,
     totalFound: null,
     filterErr: null
 }
 
 const fetchCntCateg = (state, action) => {
     return updateObject(state, {cntCateg: action.categ})
+};
+
+const startSearch = (state, action) => {
+    return updateObject(state, {startSearch: true})
+};
+
+const closeSearch = (state, action) => {
+    return updateObject(state, {startSearch: false})
 };
 
 const filterContentStart = (state, action) => {
@@ -38,6 +47,10 @@ const reducer = (state = initialState, action) => {
             return filterContentFail(state, action);
         case actionTypes.FILTER_CONTENT:
             return filterContent(state, action);
+        case actionTypes.START_SEARCH:
+            return startSearch(state, action);
+        case actionTypes.CLOSE_SEARCH:
+            return closeSearch(state, action);
         case actionTypes.RESET_FILTER:
             return resetFilter(state, action);
         default: return state

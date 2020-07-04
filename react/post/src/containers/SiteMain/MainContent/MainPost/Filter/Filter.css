@@ -6,7 +6,6 @@
 
 .reuse-filter {
     z-index: 2;
-    display: none;
 }
 
 .reuse-filter__title {
@@ -23,11 +22,4 @@
     background-color: rgb(255, 255, 255);
     cursor: pointer;
     z-index: 1;
-}
-
-@media (min-width: 530px) {
-
-    .reuse-filter {
-        display: block;
-    }
 }

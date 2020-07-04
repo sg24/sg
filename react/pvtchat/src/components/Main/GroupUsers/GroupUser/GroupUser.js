@@ -11,7 +11,7 @@ const groupUser = props => {
 
     let userImg = <img src={props.userDet.image} alt=""/>;
     let userOpt = (
-        <li><div>{ props.userDet.studenttotal }</div> Student</li> 
+        <li><div>{ props.userDet.studenttotal }</div> Friend</li> 
     );
 
     let userStatus = (

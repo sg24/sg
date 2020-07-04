@@ -315,6 +315,12 @@
     cursor: default;
 }
 
+.reuse-onlineque__footer li > a{
+    color: #333;  
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .reuse-onlineque__footer li:last-child {
     border-bottom-right-radius: 10px;
     border-right: none;

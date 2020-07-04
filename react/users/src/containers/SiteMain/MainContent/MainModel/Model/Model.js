@@ -82,17 +82,18 @@ class Model extends Component {
             });
         }
   
-        if (this.props.match.params.id && this.props.filterDet && this.state.filterTag !== this.props.history.location.search && this.props.match.params.id === 'filter') {
-            this.props.onFetchCntReset();
-            this.props.onFetchCnt('filter=='+this.props.filterDet, this.state.fetchLimit, 0, 0);
-            this.setState({
-                filterTag: this.props.history.location.search
-            });
-        }
-
         if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id === 'startfilter') {
             this.setState({
                 filterTag: this.props.match.params.id
+            });
+        }
+
+        if (this.props.match.params.id === 'filter' && this.props.filterDet && this.state.filterTag !== `filter==${this.props.filterDet}`) {
+            this.props.onFetchCntReset();
+            let cnt = `filter==${this.props.filterDet}`;
+            this.props.onFetchCnt(cnt, this.state.fetchLimit, 0, 0);
+            this.setState({
+                filterTag: cnt
             });
         }
 

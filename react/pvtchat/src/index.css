@@ -574,7 +574,7 @@ img {
 }
 
 .icon__reuse-set--angle {
-  margin-left: 5px;
+  margin-left: 10px;
 }
 
 .icon__reuse-notify--categ {
@@ -635,31 +635,31 @@ img {
 }
 
 .active__main {
-    position: absolute;
-    background-color: #f22613;
-    color: #fff;
-    font-size: .875rem;
+  position: absolute;
+  background-color: #f22613;
+  color: #fff;
+  font-size: .875rem;
 
 }
 
 .active__main--header {
-  z-index: 1;
-  top: -8px;
-  right: -8px;
-  border-radius: 9px;
-  width: 18px;
-  height: 18px;
-  border: 1px solid rgba(255,255,255, .25);
-  overflow: hidden;
+z-index: 1;
+top: -8px;
+right: -8px;
+border-radius: 9px;
+width: 18px;
+height: 18px;
+border: 1px solid rgba(255,255,255, .25);
+overflow: hidden;
 }
 
 .active__main--header > div {
-  position: absolute;
-  top: 50%;
-  transform:translateY(-50%);
-  width: 100%;
-  text-align: center;
-  font-size: .75rem;
+position: absolute;
+top: 50%;
+transform:translateY(-50%);
+width: 100%;
+text-align: center;
+font-size: .75rem;
 }
 
 @media (min-width: 800px) {
@@ -839,7 +839,6 @@ img {
   position: relative;
   width: 65px;
   height: 32px;
-  background: #fff;
   float: left;
   margin-right: 20px;
   display: -ms-flexbox;
@@ -1445,7 +1444,6 @@ img {
   position: absolute;
   width: 65px;
   height: 32px;
-  background: #fff;
   margin-right: 20px;
   top: 50%;
   transform: translateY(-50%);
@@ -1535,41 +1533,41 @@ img {
 }
 
 .site-footer {
-    position: relative;
-    background-color: #437da3;
-    font-size: .8125rem;
+  position: relative;
+  background-color: #437da3;
+  font-size: .8125rem;
 }
 
 .site-footer > ul {
-  padding: 8px 5px;
-  margin: 0;
-  list-style: none;
+padding: 8px 5px;
+margin: 0;
+list-style: none;
 }
 
 .site-footer > ul::after {
-  content: "";
-  clear: both;
-  display: table;
+content: "";
+clear: both;
+display: table;
 }
 
 .site-footer > ul > li {
-  float: left;
-  width: 33.333%;
-  text-align: center;
-  color: #fff;
+float: left;
+width: 33.333%;
+text-align: center;
+color: #fff;
 }
 
 .site-footer > ul > li > a {
-  color: #fff;
+color: #fff;
 }
 
 .site-main {
-    font-family: "Roboto",Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
-    position: relative;
+  font-family: "Roboto",Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
 }
 
 .site-main__content {
-  position: relative;
+position: relative;
 }
 
 .site-main__content--filter {
@@ -1694,7 +1692,7 @@ img {
 
 .reuse-notify__title {
   position: relative;
-  padding: 10px 5px;
+  padding: 5px;
 }
 
 .reuse-notify__title > div {
@@ -1721,4 +1719,4 @@ img {
 .reuse-notify__title > h4 > a {
   text-decoration: none;
   color: #05578b;
-} 
+}

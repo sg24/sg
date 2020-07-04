@@ -65,6 +65,8 @@ export {
     fetchPtCategInit,
     fetchPtCategStart,
     fetchPtCateg,
+    startSearch,
+    closeSearch,
     fetchTotalInit,
     fetchTotal,
     filterContentInit,

@@ -40,7 +40,7 @@ class SiteMain extends Component {
     }
 
     viewCntHandler = (searchDet) => {
-        window.location.assign('/view/'+searchDet.grp+'/'+searchDet.id);
+        window.location.assign(searchDet);
     };
 
     askPermissionHandler = ()  => {
@@ -84,18 +84,18 @@ class SiteMain extends Component {
         }
 
         if (!this.state.isNotify) {
-           checkNotify = (
+            checkNotify = (
             <div className="site-main__fm--notify">
-            <FontAwesomeIcon 
-               icon={['fas', 'bell']} 
-               className="icon icon__site-form__fm--notify" />
-               To receive or send Notifications to teachers/students, 
-               Please click the button 
-               <span 
-                   className="site-main__fm--notify--enable"
-                   onClick={this.askPermissionHandler}>Enable Notification</span>
-           </div>
-           )
+                <span 
+                    className="site-main__fm--notify--enable"
+                    onClick={this.askPermissionHandler}>
+                    <FontAwesomeIcon 
+                    icon={['fas', 'bell']} 
+                    className="icon icon__site-form__fm--notify" />
+                    Enable Notification
+                </span>
+            </div>
+            )
         }
         
         return (

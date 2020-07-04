@@ -6,11 +6,20 @@ const initialState = {
     filterStart: false,
     totalFound: null,
     filterErr: null,
+    startSearch: false,
     cnt: 0
 }
 
 const fetchPostCateg = (state, action) => {
     return updateObject(state, {ptCateg: action.categ})
+};
+
+const startSearch = (state, action) => {
+    return updateObject(state, {startSearch: true})
+};
+
+const closeSearch = (state, action) => {
+    return updateObject(state, {startSearch: false})
 };
 
 const fetchTotal = (state, action) => {
@@ -47,6 +56,10 @@ const reducer = (state = initialState, action) => {
             return filterContent(state, action);
         case actionTypes.RESET_FILTER:
             return resetFilter(state, action);
+        case actionTypes.START_SEARCH:
+            return startSearch(state, action);
+        case actionTypes.CLOSE_SEARCH:
+            return closeSearch(state, action);
         default: return state
     }
 };

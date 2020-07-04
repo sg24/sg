@@ -38,7 +38,7 @@ const trendItem = props => {
             <div className="reuse-trd__cnt--wrapper reuse-trd__cnt--wrapper__nav">
                 <div className="reuse-trd__cnt--categ">
                     <FontAwesomeIcon icon={['fas', 'clone']} className="icon icon__reuse-trd--categ" />
-                    { props.trd.category } 
+                    Feed 
                 </div>
                 <h4 className="reuse-trd__cnt--title">
                     <NavLink

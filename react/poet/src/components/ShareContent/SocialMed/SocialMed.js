@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './SocialMed.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const socialMed = props => {
     let socialIcnClass = ['reuse-share__social-icn'];
@@ -12,16 +12,16 @@ const socialMed = props => {
 
     return (
         <ul className={socialIcnClass.join(' ')}>
-            <li onClick={props.shareFacebook}>
+            {/* <li onClick={props.shareFacebook}>
                 <FontAwesomeIcon 
                     icon={['fab', 'facebook-square']} 
                     className="icon icon__reuse-share--facebook" />
-            </li>
-            <li onClick={props.shareTwitter}>
+            </li> */}
+            {/* <li onClick={props.shareTwitter}>
                 <FontAwesomeIcon 
                     icon={['fab', 'twitter']} 
                     className="icon icon__reuse-share--googleplus" />
-            </li>
+            </li> */}
         </ul>
     );
 };

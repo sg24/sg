@@ -37,7 +37,7 @@ class SiteMain extends Component {
     }
 
     viewCntHandler = (searchDet) => {
-        window.location.assign('/view/'+searchDet.grp+'/'+searchDet.id);
+        window.location.assign(searchDet);
     };
 
     changeCntHandler = () => {

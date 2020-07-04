@@ -37,23 +37,27 @@ const trendItem = props => {
             <div className="reuse-trd__cnt--wrapper reuse-trd__cnt--wrapper__nav">
                 <div className="reuse-trd__cnt--categ">
                     <FontAwesomeIcon icon={['fas', 'clone']} className="icon icon__reuse-trd--categ" />
-                    { props.trd.category } 
+                    Feed
                 </div>
                 <h4 className="reuse-trd__cnt--title">
                     <a href={'/view/post/' + props.trd.id }>{ transformString(props.trd.title) }</a>   
                 </h4>
                 <ul className="reuse-trd__cnt--footer">  
                     <li>
-                        <FontAwesomeIcon 
-                            icon={['far', 'eye']} 
-                            className="icon icon__reuse-trd--view" />
-                        { transformNumber(props.trd.view) } 
+                        <a href={'/view/post/' + props.trd.id }>
+                            <FontAwesomeIcon 
+                                icon={['far', 'eye']} 
+                                className="icon icon__reuse-trd--view" />
+                            { transformNumber(props.trd.view) } 
+                        </a>
                     </li>
                     <li>
-                        <FontAwesomeIcon 
-                            icon={['far', 'comments']} 
-                            className="icon icon__reuse-trd--comment" />
-                        { transformNumber(props.trd.comment) } 
+                        <a href={'/view/post/' + props.trd.id }>
+                            <FontAwesomeIcon 
+                                icon={['far', 'comments']} 
+                                className="icon icon__reuse-trd--comment" />
+                            { transformNumber(props.trd.comment) } 
+                        </a>
                     </li>
                     <li>
                         <span onClick={props.fav}>{fav}</span>
@@ -73,17 +77,19 @@ const trendItem = props => {
                     <FontAwesomeIcon 
                         icon={['fas', 'book']} 
                         className="icon icon__reuse-trd--categ" />
-                    { props.trd.category }
+                    Write Up
                 </div>
                 <h4 className="reuse-trd__cnt--title">
                     <a href={'/view/poet/' + props.trd.id }>{ transformString(props.trd.title) }</a>    
                 </h4>
                 <ul className="reuse-trd__cnt--footer">  
                     <li>
-                        <FontAwesomeIcon 
-                            icon={['far', 'smile']} 
-                            className="icon icon__reuse-trd--smile" />
-                        { transformNumber(props.trd.helpFull) } 
+                        <a href={'/view/poet/' + props.trd.id }>
+                            <FontAwesomeIcon 
+                                icon={['far', 'smile']} 
+                                className="icon icon__reuse-trd--smile" />
+                            { transformNumber(props.trd.helpFull) } 
+                        </a>
                     </li>
                     <li>
                         <span onClick={props.fav}>{fav}</span>
@@ -92,10 +98,12 @@ const trendItem = props => {
                             liked={props.favChange.isLiked}/> : null}
                     </li>
                     <li>
-                        <FontAwesomeIcon 
-                            icon={['far', 'comment-dots']} 
-                            className="icon icon__reuse-trd--pwt-comment" />
-                        { transformNumber(props.trd.comment) } 
+                        <a href={'/view/poet/' + props.trd.id }>
+                            <FontAwesomeIcon 
+                                icon={['far', 'comment-dots']} 
+                                className="icon icon__reuse-trd--pwt-comment" />
+                            { transformNumber(props.trd.comment) } 
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -116,16 +124,20 @@ const trendItem = props => {
                 </h4>
                 <ul className="reuse-trd__cnt--footer">  
                     <li>
-                        <FontAwesomeIcon 
-                            icon={['far', 'thumbs-up']} 
-                            className="icon icon__reuse-trd--smile" />
-                        { transformNumber(props.trd.helpFull) } 
+                        <a href={'/view/question/' + props.trd.id }>
+                            <FontAwesomeIcon 
+                                icon={['far', 'thumbs-up']} 
+                                className="icon icon__reuse-trd--smile" />
+                            { transformNumber(props.trd.helpFull) }
+                        </a> 
                     </li>
                     <li>
-                        <FontAwesomeIcon 
-                            icon={['far', 'thumbs-down']} 
-                            className="icon icon__reuse-trd--view" />
-                        { transformNumber(props.trd.notHelpFull) } 
+                        <a href={'/view/question/' + props.trd.id }>
+                            <FontAwesomeIcon 
+                                icon={['far', 'thumbs-down']} 
+                                className="icon icon__reuse-trd--view" />
+                            { transformNumber(props.trd.notHelpFull) } 
+                        </a>
                     </li>
                     <li>
                         <span onClick={props.fav}>{fav}</span>

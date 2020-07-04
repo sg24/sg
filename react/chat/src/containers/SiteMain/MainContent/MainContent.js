@@ -54,7 +54,10 @@ class MainContent extends Component {
     componentDidMount() {
         let these = this;
         let numberOfAjaxCAllPending = 0;
-
+        createChat(`/chat/${these.state.categ}/${these.state.id}`, 
+        'members', {}).then(members => {
+            these.props.onFetchMember(members)
+        })
         axios.interceptors.request.use(function (config) {
             numberOfAjaxCAllPending++;
             return config;

@@ -71,10 +71,29 @@
 
 }
 
+.reuse-pwt-filter__srch {
+    float: left;
+    color: #fff;
+    width: 34px;
+    height: 34px;
+    border-radius: 17px;
+    text-align: center;
+    font-size: .8125rem;
+    background-color: #15a4fa;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0, 0.53);
+    cursor: pointer;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+    margin-right: 15px;
+}
+
 .reuse-pwt-filter__add {
     float: right;
     border: 1px solid  #0284a8;
-    border-top: 3px solid  #0284a8;
     color: #fff;
     text-align: left;
     border-radius: 3px;

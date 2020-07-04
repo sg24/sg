@@ -332,7 +332,7 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                                 username: userDet.username,
                                 status: userDet.status,
                                 offline: userDet.offline,
-                                studenttotal: userDet.studenttotal,
+                                studenttotal: userDet.student.length + userDet.teacher.length,
                                 ...msg
                             })
                         } else {
@@ -345,7 +345,7 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                                         username: authDet.username,
                                         status: authDet.status,
                                         offline: authDet.offline,
-                                        studenttotal: authDet.studenttotal,
+                                        studenttotal: authDet.student.length + authDet.teacher.length,
                                         ...msg
                                     })
                                 } else {
@@ -363,7 +363,7 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
         let model = req.userType === 'authUser' ? authUser : user;
         model.findById(req.user).then(userDet => {
             if (userDet) {
-                let users = req.body.curTab === 'teacher' ? userDet.teacher : userDet.student;
+                let users = [...userDet.teacher , ...userDet.student];
                 if (users.length < 1) {
                     return res.status(200).send(users)
                 }
@@ -1373,7 +1373,7 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                                 image: userDet.image,
                                 username: userDet.username,
                                 status: userDet.status,
-                                studenttotal: userDet.studenttotal,
+                                studenttotal: userDet.student.length + userDet.teacher.length,
                                 ...msg
                             })
                             if (userDet.status) {
@@ -1392,7 +1392,7 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                                         image: authDet.image,
                                         username: authDet.username,
                                         status: authDet.status,
-                                        studenttotal: authDet.studenttotal,
+                                        studenttotal: authDet.student.length + authDet.teacher.length,
                                         ...msg
                                     })
                                     if (authDet.status) {
@@ -1643,7 +1643,7 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                     authUser.findById(userID).then(authFnd => {
                         resolve({
                             username: authFnd.username,
-                            studenttotal: authFnd.studenttotal, 
+                            studenttotal: authFnd.student.length + authFnd.teacher.length, 
                             image: authFnd.image,
                             status: authFnd.status
                          }) 
@@ -1651,7 +1651,7 @@ router.post('/:categ/:id', authenticate, (req, res, next) => {
                 } else {
                     resolve({
                         username: userFnd.username,
-                        studenttotal: userFnd.studenttotal, 
+                        studenttotal: userFnd.student.length + userFnd.teacher.length, 
                         image: userFnd.image,
                         status: userFnd.status
                     })

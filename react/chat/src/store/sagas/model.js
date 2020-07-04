@@ -47,7 +47,6 @@ export function* filterUserInitSaga(action) {
     try {
         let response = yield axios.post(`/chat/${action.categ}/${action.id}`, null ,{headers: {
                 'data-categ': 'allgroup'}});
-                console.log(response.data)
         yield put(actions.fetchGroup(response.data));
         
     } catch(err){

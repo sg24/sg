@@ -420,6 +420,12 @@
     text-align: center;
 }
 
+.reuse-ads__footer--list li > a{
+    color: #333;  
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .reuse-ads__footer--list__item-middle {
     display: none;
 }

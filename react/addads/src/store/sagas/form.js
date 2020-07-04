@@ -47,8 +47,8 @@ export function* checkLinkInitSaga(action) {
 
 export function* fetchUsersInitSaga(action) {
     try {
-        let response = yield axios.post('/users', null,{headers: {'data-categ':`allteacher-${action.userStatus}`}});
-        yield put(actions.fetchUsers(response.data, action.userStatus));
+        let response = yield axios.post('/users', null,{headers: {'data-categ':`friend-${action.userStatus}`}});
+        yield put(actions.fetchUsers(response.data.cnt, action.userStatus));
     } catch(err) {
         yield put(actions.fetchUsersFail(err))
     }
