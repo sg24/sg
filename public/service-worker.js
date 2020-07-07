@@ -70,11 +70,11 @@ self.addEventListener('notificationclick', function(event) {
 workbox.precaching.precacheAndRoute([
   {
     "url": "favicon.ico",
-    "revision": "ba8e03ced45b48fc4abef3ce84d5f963"
+    "revision": "0a9ed05ba14be304968a000238676273"
   },
   {
     "url": "manifest.json",
-    "revision": "b7fde4e2ad76bac8a4a1efd4f79ab151"
+    "revision": "a361e486056740c7c102617f1f16218e"
   }
 ]);
   
