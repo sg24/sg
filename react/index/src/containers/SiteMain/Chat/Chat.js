@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Avatar from 'react-avatar';
 import { withRouter} from 'react-router-dom'
 
 import './Chat.css';
@@ -12,7 +11,7 @@ import ChatBox from './ChatBox/ChatBox';
 import Footer from './Footer/Footer';
 import Snapshot from './Footer/Snapshot/Snapshot'
 import VideoRec from './Footer/VideoRec/VideoRec'
-import Auth from './Auth/Auth';
+// import Auth from './Auth/Auth';
 
 class Chat extends Component {
     constructor(props) {
@@ -48,12 +47,12 @@ class Chat extends Component {
 
     componentDidMount() {
         let these = this;
-        axios.post('/aroundme', {id: this.state.id}, {headers: {
-            'data-categ': 'userDet'}}).then(res => {
-                this.setState({userDet: res.data})
-        }).catch(err => {
-            this.setState({err})
-        })
+        // axios.post('/aroundme', {id: this.state.id}, {headers: {
+        //     'data-categ': 'userDet'}}).then(res => {
+        //         this.setState({userDet: res.data})
+        // }).catch(err => {
+        //     this.setState({err})
+        // })
         socket.on('connect', function(msg) {
             socket.emit('join',{room: these.state.id, host: these.state.userID, public: true}, function(err) {
                 these.setState({err})
@@ -175,102 +174,69 @@ class Chat extends Component {
             )
         }
 
-        if (this.state.userDet) {
-            let userImage = <Avatar  name={this.state.userDet.username} size='40' round />
+        let status = <div className="site-main__chat--header__status"></div>
 
-            let status = <div className="site-main__chat--header__status"></div>
-            if (this.state.userDet.image && this.state.userDet.image.length > 0) {
-                userImage = <img src={this.state.userDet.image} alt="group" />
-            }
-            let userStatusIcn = null;
-
-            if (this.state.userDet.status) {
-                userStatusIcn = (
-                    <div className="site-main__chat--header__img--status">
-                    </div>
-                )
-            }
-
-            if (this.state.connect) {
-                status = (
-                    <div className="site-main__chat--header__status site-main__chat--header__status-on"></div>
-                )
-            }
-
-            let header = (
-                <>
-                <div className="site-main__chat--header__img">
-                        { userImage }
-                        { userStatusIcn }
-                    </div>
-                    <h3 className="site-main__chat--header__title">
-                        { this.state.userDet.username }
-                    </h3>
-                    <div className="site-main__chat--header__det">
-                        <div>
-                            <FontAwesomeIcon  icon={['fas', 'map-marker-alt']} className="icon icon__site-main--chat__header--map"/>
-                        </div>
-                        {this.state.userDet.location}
-                    </div> 
-                </>
-            )
-
-            cnt = (
-                <div className="site-main__chat">
-                    { this.state.showBackdrop ? <div 
-                        className="site-main__chat--overlay"
-                        onClick={this.closeBackdropHandler}></div> : null}
-                    <div className="site-main__chat--main">
-                        <div className="site-main__chat--main__wrapper">
-                            {this.state.err ? <div className="site-main__chat--err">{this.state.err.message ? this.state.err.message : this.state.err.toString()}</div> : null }
-                            <div className="site-main__chat--header">
-                                <div className="site-main__chat--header__wrapper">
-                                    { header }  
-                                </div>
-                                { status }
-                            </div>
-                            { chatOpt }
-                             <ChatBox 
-                                createChat={this.state.createChat}
-                                addChat={this.state.addChat}
-                                uploadMedia={this.state.uploadMedia}
-                                defaultTemp={this.state.defaultTemp}
-                                holdChat={this.holdChatHandler}
-                                removeSelected={this.state.removeSelected}
-                                editChat={this.state.editChat}
-                                removeChat={this.state.removeChat}/>
-                            <Footer 
-                                showBackdrop={this.showBackdropHandler}
-                                closeContent={this.state.closeContent}
-                                createChatStart={this.createChatStartHandler}
-                                addNewChat={this.addNewChatHandler}
-                                connect={this.state.connect}
-                                uploadMediaStart={this.uploadMediaStartHandler}
-                                mediaUploaded={this.mediaUploadedHandler}
-                                snapshot={this.snapshotHandler}
-                                videoRec={this.videoRecHandler}
-                                editChat={this.state.editChat}/>
-                            { this.state.snapshot ? <Snapshot 
-                                closeMedia={this.closeMediaHandler}
-                                uploadMediaStart={this.uploadMediaStartHandler}
-                                mediaUploaded={this.mediaUploadedHandler}
-                                editChat={this.state.editChat}/> : null}
-                            { this.state.videoRec ? <VideoRec 
-                                closeMedia={this.closeMediaHandler}
-                                uploadMediaStart={this.uploadMediaStartHandler}
-                                mediaUploaded={this.mediaUploadedHandler}
-                                editChat={this.state.editChat}/> : null}
-                        </div>
-                    </div>
-                </div>
+        if (this.state.connect) {
+            status = (
+                <div className="site-main__chat--header__status site-main__chat--header__status-on"></div>
             )
         }
 
+        cnt = (
+            <div className="site-main__chat">
+                { this.state.showBackdrop ? <div 
+                    className="site-main__chat--overlay"
+                    onClick={this.closeBackdropHandler}></div> : null}
+                <div className="site-main__chat--main">
+                    <div className="site-main__chat--main__wrapper">
+                        {this.state.err ? <div className="site-main__chat--err">{this.state.err.message ? this.state.err.message : this.state.err.toString()}</div> : null }
+                        <div className="site-main__chat--header">
+                            {/* <div className="site-main__chat--header__wrapper">
+                                { header }  
+                            </div> */}
+                            { status }
+                        </div>
+                        { chatOpt }
+                            <ChatBox 
+                            createChat={this.state.createChat}
+                            addChat={this.state.addChat}
+                            uploadMedia={this.state.uploadMedia}
+                            defaultTemp={this.state.defaultTemp}
+                            holdChat={this.holdChatHandler}
+                            removeSelected={this.state.removeSelected}
+                            editChat={this.state.editChat}
+                            removeChat={this.state.removeChat}/>
+                        <Footer 
+                            showBackdrop={this.showBackdropHandler}
+                            closeContent={this.state.closeContent}
+                            createChatStart={this.createChatStartHandler}
+                            addNewChat={this.addNewChatHandler}
+                            connect={this.state.connect}
+                            uploadMediaStart={this.uploadMediaStartHandler}
+                            mediaUploaded={this.mediaUploadedHandler}
+                            snapshot={this.snapshotHandler}
+                            videoRec={this.videoRecHandler}
+                            editChat={this.state.editChat}/>
+                        { this.state.snapshot ? <Snapshot 
+                            closeMedia={this.closeMediaHandler}
+                            uploadMediaStart={this.uploadMediaStartHandler}
+                            mediaUploaded={this.mediaUploadedHandler}
+                            editChat={this.state.editChat}/> : null}
+                        { this.state.videoRec ? <VideoRec 
+                            closeMedia={this.closeMediaHandler}
+                            uploadMediaStart={this.uploadMediaStartHandler}
+                            mediaUploaded={this.mediaUploadedHandler}
+                            editChat={this.state.editChat}/> : null}
+                    </div>
+                </div>
+            </div>
+        )
+
         if (!this.state.auth) {
-            cnt = (
-                <Auth 
-                    userAuth={this.userAuthHandler}/>
-            )
+            // cnt = (
+            //     <Auth 
+            //         userAuth={this.userAuthHandler}/>
+            // )
         }
 
         return (

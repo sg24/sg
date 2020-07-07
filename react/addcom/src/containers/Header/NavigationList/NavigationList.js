@@ -165,12 +165,12 @@ class NavigationList extends Component {
                     </li>
                 </ul> */}
                 <ul className="site-header__menu--nav__opt--itm__sm-categ--cnt">
-                    <li className="site-header__menu--nav__opt--itm__sm-categ--cnt-sm">
-                        <a href="/post">
+                    <li>
+                        <a href="/aroundme">
                             <FontAwesomeIcon 
-                                icon={['fas', 'newspaper']} 
+                                icon={['fas', 'clone']} 
                                 className="icon icon__site-header--nav__itm" />
-                            News Feed
+                            Post
                         </a>
                     </li>
                     <li className="site-header__menu--nav__opt--itm__sm-categ--cnt-sm">
@@ -200,7 +200,7 @@ class NavigationList extends Component {
                     <li>
                         <a href="/group">
                             <FontAwesomeIcon 
-                                icon={['fas', 'user-graduate']} 
+                                icon={['fas', 'comment-alt']} 
                                 className="icon icon__site-header--nav__itm" />
                             Chat Room
                         </a>
@@ -237,12 +237,12 @@ class NavigationList extends Component {
                             Advert
                         </a>
                     </li>
-                    <li>
-                        <a href="/aroundme">
+                    <li className="site-header__menu--nav__opt--itm__sm-categ--cnt-sm">
+                        <a href="/post">
                             <FontAwesomeIcon 
-                                icon={['fas', 'map-marker-alt']} 
+                                icon={['fas', 'newspaper']} 
                                 className="icon icon__site-header--nav__itm" />
-                            Around  Me
+                            Feed
                         </a>
                     </li>
                     <li>
@@ -260,12 +260,12 @@ class NavigationList extends Component {
         if (this.state.showNavItm) {
             navItm = (
                 <ul className="site-header__menu--nav__opt--itm__sm-categ--cnt">
-                    <li>
-                        <a href="/post">
+                   <li>
+                        <a href="/aroundme">
                             <FontAwesomeIcon 
-                                icon={['fas', 'newspaper']} 
+                                icon={['fas', 'clone']} 
                                 className="icon icon__site-header--nav__itm" />
-                            News Feed
+                            Post
                         </a>
                     </li>
                     <li>
@@ -303,7 +303,7 @@ class NavigationList extends Component {
                     <li>
                         <a href="/group">
                             <FontAwesomeIcon 
-                                icon={['fas', 'user-graduate']} 
+                                icon={['fas', 'comment-alt']} 
                                 className="icon icon__site-header--nav__itm" />
                             Chat Room
                         </a>
@@ -333,11 +333,11 @@ class NavigationList extends Component {
                         </a>
                     </li>
                     <li>
-                        <a href="/aroundme">
+                        <a href="/post">
                             <FontAwesomeIcon 
-                                icon={['fas', 'map-marker-alt']} 
+                                icon={['fas', 'newspaper']} 
                                 className="icon icon__site-header--nav__itm" />
-                            Around  Me
+                            Feed
                         </a>
                     </li>
                     <li>

@@ -22,9 +22,8 @@ const AroundmeSchema = new Schema({
         default: Date.now,
         index: true 
     },
-    location: {
-        type: String,
-        required: true
+    post: {
+        type: String
     },
     video: {
         type: Array,
@@ -126,7 +125,7 @@ const AroundmeSchema = new Schema({
     }
 })
 
-AroundmeSchema.index({location: 'text'});
+AroundmeSchema.index({post: 'text'});
 const aroundme = mongoose.model('aroundmes', AroundmeSchema);
 
 module.exports = aroundme;

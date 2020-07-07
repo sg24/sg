@@ -24,23 +24,16 @@ router.get('/chat/:id', authenticate, (req, res,next) => {
 
 router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'userDet') {
-        aroundme.findById(req.body.id).then(userDet => {
-            if (userDet) {
-                let model = userDet.userType === 'authUser' ? authUser : user;
-                model.findById(userDet.authorID).then(userFnd => {
-                    if (userFnd) {
-                        let cnt = {
-                            username: userFnd.username,
-                            image: userFnd.image,
-                            offline: userFnd.offline,
-                            status: userFnd.status,
-                            location: userDet.location
-                        }
-                        res.status(200).send(cnt)
-                    }
-                })
-            } else {
-                res.sendStatus(404)
+        let model = req.userType === 'authUser' ? authUser : user;
+        model.findById(userDet.authorID).then(userFnd => {
+            if (userFnd) {
+                let cnt = {
+                    username: userFnd.username,
+                    image: userFnd.image,
+                    offline: userFnd.offline,
+                    status: userFnd.status
+                }
+                res.status(200).send(cnt)
             }
         })
     }
@@ -568,7 +561,7 @@ router.post('/', authenticate, (req, res, next) => {
                             update['userOpt'] = cnt.authorID === req.user;
                             update['authorID'] = cnt.authorID;
                             update['comment'] = cnt.comment.length;
-                            update['location'] = cnt.location;
+                            update['post'] = cnt.post;
                             update['image'] = cnt.image;
                             update['created'] = cnt.created;
                             update['snapshot'] = cnt.snapshot;

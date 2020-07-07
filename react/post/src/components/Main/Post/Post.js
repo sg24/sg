@@ -33,7 +33,8 @@ const post = props => {
             video={props.video}
             deletePt={props.changePt.bind(this, pt._id, pt.title, 'delete')}
             changePt={props.changePt.bind(this, pt._id, pt.title, 'draft')}
-            changePtPublish={props.changePt.bind(this, pt._id, pt.title, 'publish')}/>
+            changePtPublish={props.changePt.bind(this, pt._id, pt.title, 'publish')}
+            preview={props.preview}/>
     ));
 
     return allPost;

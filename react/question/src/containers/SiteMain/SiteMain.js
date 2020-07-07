@@ -20,6 +20,10 @@ const AsyncFilterContent= asyncComponent(() => {
     return import ('./MainContent/MainQue/Filter/FilterContent/FilterContent');
 });
 
+const AsyncPreview = asyncComponent(() => {
+    return import ('./Preview/Preview');
+});
+
 class SiteMain extends Component {
     checkHeaderDefault = () => {
         if (!this.props.default) {
@@ -132,6 +136,7 @@ class SiteMain extends Component {
                         changeCnt={this.changeCntHandler}
                         closeChangeCnt={this.closeChangeCntHandler}/> : null}
                 <Route path="/question/share" exact component={AsyncShare} />
+                <Route path="/question/preview" exact component={AsyncPreview}/>
         </div>
         )
     }

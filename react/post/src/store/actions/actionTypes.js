@@ -147,3 +147,5 @@ export const FETCH_CHATDET_FAIL = 'FETCH_CHATDET_FAIL';
 export const SHOW_CHATDET = 'SHOW_CHATDET';
 export const START_SEARCH = 'START_SEARCH';
 export const CLOSE_SEARCH = 'CLOSE_SEARCH';
+
+export const SHOW_PREVIEW = 'SHOW_PREVIEW';

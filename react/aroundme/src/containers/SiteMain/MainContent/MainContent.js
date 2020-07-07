@@ -11,9 +11,9 @@ class MainContent extends Component {
     state = {
         cnt: {
             path: '/aroundme',
-            icnGrp: 'map-marker-alt',
+            icnGrp: 'clone',
             icnClass: 'icon icon__site-main--content__tab',
-            title: 'Aroundme',
+            title: 'Post',
         },
         share: {
             path: '/aroundme/shared',

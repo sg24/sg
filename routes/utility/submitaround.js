@@ -11,7 +11,7 @@ module.exports = submitForm = (content, model, mediaCnt, userModel, userID, shar
         userType: userID.userType,
         video: mediaCnt.video,
         image: mediaCnt.image,
-        location: content.location,
+        post: content.post,
         snapshot: mediaCnt.snapshot
     }); 
 
@@ -60,7 +60,7 @@ module.exports = submitForm = (content, model, mediaCnt, userModel, userID, shar
                                         };
                                           webpush.sendNotification(pushConfig, JSON.stringify({
                                             title: userID.username,
-                                            content: content.location,
+                                            content: content.post,
                                             openUrl: `/aroundme/chat/${id}`
                                           }), pushOptions).then(() => {
                                               ++send;

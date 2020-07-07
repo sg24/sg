@@ -65,7 +65,9 @@ const postContent = props => {
     if (mediaCnt.length > 0) {
         media = (
             <div className="reuse-pt__media">
-			    <div className="reuse-pt__media--main-wrapper">
+                <div 
+                    className="reuse-pt__media--main-wrapper"
+                    onClick={props.preview.bind(this, mediaCnt)}>
                     <Carousel
                         images={mediaCnt}
                         wrapperClass="reuse-pt__media--wrapper"

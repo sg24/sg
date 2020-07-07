@@ -130,3 +130,10 @@ export const resetModel = () => {
         type: actionTypes.RESET_MODEL
     }
 };
+
+export const showPreview = (media) => {
+    return {
+        type: actionTypes.SHOW_PREVIEW,
+        media
+    }
+};

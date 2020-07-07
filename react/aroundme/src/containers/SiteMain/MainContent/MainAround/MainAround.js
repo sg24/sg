@@ -23,21 +23,11 @@ class MainAround extends Component {
     render() {
         return (
             <Aux>
-                <div className="reuse-around-filter">
+                 <div className="reuse-around-filter">
                     <div className="reuse-around-filter__wrapper">
-                        <div 
-                            className="reuse-around-filter__que"
-                            onClick={this.fetchCntHandler}>
-                            My Events
-                            <div>{this.props.total}</div>
-                        </div>
-                        <div 
-                            className="reuse-around-filter__add"
-                            onClick={this.addAroundmeHandler}>
-                            <div>
-                                ADD
-                            </div>
-                        </div>
+                    <div className="reuse-around-filter__form" onClick={this.addAroundmeHandler}>
+                        <textarea  className="reuse-around-filter__form--cnt" placeholder="Write something ..."></textarea>
+                    </div>
                     </div>
                 </div>
                 <Aroundme />

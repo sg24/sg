@@ -10,15 +10,13 @@ const navigationItems = props => {
 
     return (
         <ul className={addNewOptClass.join(' ')}>
-            <NavigationItem  path="/add/post">Post</NavigationItem>
+            <NavigationItem  path="/add/post">News Feed</NavigationItem>
             <NavigationItem path="/add/question">Question</NavigationItem>
-            <NavigationItem path="/add/qchat">CBT</NavigationItem>
+            {/* <NavigationItem path="/add/group">Group</NavigationItem> */}
+            {/* <NavigationItem path="/add/onlineexam">Timed Question</NavigationItem> */}
             <NavigationItem path="/question">Answer</NavigationItem>
-            <NavigationItem path="/add/poet">Write Up</NavigationItem>
+            <NavigationItem path="/add/poet">Writers</NavigationItem>
             <NavigationItem path="/add/group">Chat Room</NavigationItem>
-            <NavigationItem path="/add/advert">Advert</NavigationItem>
-            <NavigationItem path="/add/aroundme">Around Me</NavigationItem>
-            <NavigationItem path="/add/contest">Contest</NavigationItem>
         </ul>
     )
 };

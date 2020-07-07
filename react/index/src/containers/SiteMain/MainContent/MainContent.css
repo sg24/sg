@@ -89,6 +89,24 @@
         align-items: center;
 }
 
+.reuse-filter__form {
+    position: relative;
+    padding: 0;
+    background-color: #fff;
+}
+
+.reuse-filter__form--cnt {
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 10px;
+    margin: 0;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    border: 1px solid #dcdbdc;
+    resize: none;
+}
+
 @media (min-width: 530px) {
 
     .reuse-filter {
@@ -97,4 +115,3 @@
     }
     
 }
-  

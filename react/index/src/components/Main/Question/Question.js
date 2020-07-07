@@ -31,7 +31,8 @@ const question = props => {
              clearSlidePlay={props.clearSlidePlay}
              video={props.video}
              deleteCnt={props.changeCnt.bind(this, que._id, que.title, 'delete', 'question')}
-             changeCnt={props.changeCnt.bind(this, que._id, que.title, 'draft', 'question')}/>
+             changeCnt={props.changeCnt.bind(this, que._id, que.title, 'draft', 'question')}
+             preview={props.preview}/>
     ));
 
     return allQuestion;

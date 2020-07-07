@@ -17,7 +17,7 @@ class Form extends Component {
                 value: '',
                 validation: {
                     required: true,
-                    minLength: 6
+                    minLength: 1
                 },
                 valid: false,
                 touched: false
@@ -26,7 +26,7 @@ class Form extends Component {
                 value: '',
                 validation: {
                     required: true,
-                    minLength: 6
+                    minLength: 1
                 },
                 valid: false,
                 touched: false
@@ -96,10 +96,10 @@ class Form extends Component {
                  <Logo />
                 <div className="reuse-form__cnt">
                     <div className="reuse-form__cnt--header">
-                        <h4>Welcome to Slodge24</h4>
-                        <p>Knowledge sharing platform | Connecting scholars</p>
+                        <h4>Welcome to S lodge24</h4>
+                        {/* <p>Knowledge sharing platform | Connecting scholars</p> */}
                     </div>
-                    <div className="reuse-form__cnt--main-wrapper">
+                    {/* <div className="reuse-form__cnt--main-wrapper">
                         <h4>Login with</h4>
                         <ul>
                             <li>
@@ -109,14 +109,14 @@ class Form extends Component {
                                 </a>
                             </li>
                             <li>
-                                {/* <a href="/auth/facebook">
+                                <a href="/auth/facebook">
                                     <FontAwesomeIcon 
                                         icon={['fab', 'facebook-f']}/>
-                                </a> */}
+                                </a>
                             </li>
                         </ul>
                     </div>
-                    <div className="reuse-form__cnt--alt">OR</div>
+                    <div className="reuse-form__cnt--alt">OR</div> */}
                     { this.props.submitError ?
                         <div className="reuse-form__err">{this.props.submitError.message}</div>
                         : null
@@ -129,12 +129,12 @@ class Form extends Component {
                                     type="email" 
                                     className="reuse-form__cnt--det__input"
                                     required
-                                    minLength="6"
+                                    minLength="1"
                                     value={this.state.formElement.username.value}
                                     onChange={(event) => this.inputChangedHandler(event, 'username')}/>
                             </div>
                             { !this.state.formElement.username.valid && this.state.formElement.username.touched ?
-                                <div className="reuse-form__err">Email must be longer than 6 characters</div>
+                                <div className="reuse-form__err">Email must not be empty</div>
                                 : null
                             }
                         </div>
@@ -145,7 +145,7 @@ class Form extends Component {
                                     type={this.state.field.type}
                                     className="reuse-form__cnt--det__input reuse-form__cnt--det__input--pwd"
                                     required
-                                    minLength="6"
+                                    minLength="1"
                                     value={this.state.formElement.password.value}
                                     onChange={(event) => this.inputChangedHandler(event, 'password')}/>
                                 <div 
@@ -157,7 +157,7 @@ class Form extends Component {
                                 </div>
                             </div>
                             { !this.state.formElement.password.valid && this.state.formElement.password.touched ?
-                                <div className="reuse-form__err">Password must be longer than 5 characters</div>
+                                <div className="reuse-form__err">Password must not be empty</div>
                                 : null
                             }
                         </div>
@@ -175,7 +175,7 @@ class Form extends Component {
                 </div>
                 <ul className="reuse-form__footer">
                     <li><a href="/privacy">Privacy policy</a></li>
-                    <li className="reuse-form__footer--copy">&copy; Slodge24 , 2020</li>
+                    <li className="reuse-form__footer--copy">&copy; S lodge24 , 2020</li>
                     <li><a href="/term">Terms of service</a></li>
                 </ul>
             </Aux>

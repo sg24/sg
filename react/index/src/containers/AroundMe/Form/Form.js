@@ -4,17 +4,19 @@ import axios from 'axios';
 import uuid from 'uuid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import 'emoji-mart/css/emoji-mart.css'
+import { Picker } from 'emoji-mart'
 
 import './Form.css';
 import { updateObject, getImageURL } from '../utility/utility';
 import MediaItems from './MediaItems/MediaItems';
 import Loader from './Loader/Loader';
-import Auth from './Auth/Auth';
+// import Auth from './Auth/Auth';
 
 let videoRef = React.createRef(null);
 class Form extends Component {
     state = {
-        loc: {
+        post: {
             value: '',
             touched: false,
             valid: false
@@ -29,33 +31,20 @@ class Form extends Component {
         status: false,
         disable: false,
         upload: 0,
-        mediaRecorder: null
+        mediaRecorder: null,
+        showEmoji: false
     }
 
     inputChangedHandler = (event) => {
         let value = event.target.value;
-        let loc = updateObject(this.state.loc, {value, valid: value !== '', touched: true});
-        this.setState({loc, err: null})
+        let post = updateObject(this.state.post, {value, valid: value !== '', touched: true});
+        this.setState({post, err: null})
     }
 
-    locationHandler = () => {
-        let these = this
-        this.setState({disableInput: true, err: null})
-        if (('navigator' in window) && ('geolocation' in navigator)) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                let fetchedLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
-                axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${fetchedLocation.lat},${fetchedLocation.lng}&key=AIzaSyDIbF8oQh1APAzLLXoeLynN8vMsAKSav2g`).then(locFnd => {
-                    if (!locFnd.data.error_message) {
-                        let loc = updateObject(these.state.loc, {value: `In ${locFnd.data.results[0].formatted_address}`})
-                        these.setState({loc, disableInput: false})
-                    }
-                }).catch(err => {
-                    these.setState({err: 'Network Error', disableInput: false})
-                })
-              }, function(err) {
-                these.setState({err: 'Network Error', disableInput: false})
-              }, {timeout: 10000})
-        }
+    addEmojiHandler = (cnt) => {
+        let value = `${this.state.post.value} ${cnt.native}`;
+        let post = updateObject(this.state.post, {value, valid: value !== '', touched: true});
+        this.setState({post, err: null})
     }
 
     cameraHandler = () => {
@@ -191,6 +180,18 @@ class Form extends Component {
         document.querySelector('.aroundme__form--itm__file').click()
     }
 
+    uploadImageHandler = () => {
+        document.querySelector('.aroundme__form--itm__img').click()
+    }
+
+    uploadVideoHandler = () => {
+        document.querySelector('.aroundme__form--itm__vid').click()
+    }
+
+    showEmojiHandler = () => {
+        this.setState({showEmoji: !this.state.showEmoji})
+    }
+
     selectMediaHandler = (event) => {
         event.stopPropagation();
         event.preventDefault();
@@ -218,18 +219,27 @@ class Form extends Component {
 
     submitFormHandler = (event) => {
         event.preventDefault();
-        if (this.props.status || this.state.status) {
+        // if (this.props.status || this.state.status) {
             this.uploadCnt()
             this.setState({disable: true})
-        } else {
-            this.setState({auth: true})
+        // } else {
+        //     this.setState({auth: true})
+        // }
+    }
+
+    closeAroundmeHandler = () => {
+        this.props.history.goBack();
+        if (videoRef && videoRef.current && videoRef.current.srcObject) {
+            videoRef.current.srcObject.getVideoTracks().forEach(function(track) {
+                track.stop();
+            });
         }
     }
 
     uploadCnt = () => {
         let these = this;
         let formContent = new FormData();
-        formContent.append('location', this.state.loc.value);
+        formContent.append('post', this.state.post.value);
         for (let media of this.state.media) {
             let ext = media.file.type.split('/').pop();
             if (media.file.type.split('/')[0] === 'video') {
@@ -247,23 +257,14 @@ class Form extends Component {
                 }
             }  
         }).then((res) => {
-            window.location.assign('/aroundme/chat/'+res.data)
+            these.props.history.push('/index/aroundme')
         }).catch((err) => {
             this.setState({err, disable: false})
         });
     }
 
-    closeAroundmeHandler = () => {
-        this.props.history.goBack();
-        if (videoRef && videoRef.current && videoRef.current.srcObject) {
-            videoRef.current.srcObject.getVideoTracks().forEach(function(track) {
-                track.stop();
-            });
-        }
-    }
-
     render() {
-        let locClass = ['aroundme__form--cnt__det--loc'];
+        let emojiCnt = null;
         let mediaCnt = null;
         let mediaClass = ['aroundme__form--media'];
         let mediaVidClass = ['aroundme__form--media__vid-hide'];
@@ -273,9 +274,9 @@ class Form extends Component {
         if (this.state.upload > 0) {
             upload = (
                 <div style={{
-                    height: 2,
+                    height: 4,
                     width: `${this.state.upload}%`,
-                    backgroundColor: '#ff1600',
+                    backgroundColor: '#16cf27',
                     position: 'absolute',
                     top: 0
                 }}></div>
@@ -293,6 +294,19 @@ class Form extends Component {
                 <li 
                     className="aroundme__form--opt__rec"
                     onClick={this.videoRecHandler}>
+                    <div></div>
+                    <FontAwesomeIcon 
+                        icon={['fas', 'video']} />
+                </li>
+                <li 
+                    className="aroundme__form--opt__img"
+                    onClick={this.uploadImageHandler}>
+                    <FontAwesomeIcon 
+                        icon={['fas', 'images']} />
+                </li>
+                <li 
+                    className="aroundme__form--opt__video"
+                    onClick={this.uploadVideoHandler}>
                     <FontAwesomeIcon 
                         icon={['fas', 'video']} />
                 </li>
@@ -302,8 +316,26 @@ class Form extends Component {
                     <FontAwesomeIcon 
                         icon={['fas', 'upload']} />
                 </li>
+                <li 
+                    className="aroundme__form--opt__smile"
+                    onClick={this.showEmojiHandler}>
+                    <FontAwesomeIcon 
+                        icon={['fas', 'smile']} />
+                </li>
             </ul>
         )
+
+        if ( this.state.showEmoji) {
+            emojiCnt = (
+                <div 
+                    className="aroundme__form--emoji">
+                    <div onClick={this.showEmojiHandler}></div>
+                    <Picker 
+                        set="facebook"
+                        onSelect={this.addEmojiHandler}/>
+                </div>
+            )
+        }
 
         if (!this.state.loading && !this.state.start && this.state.media.length > 0) {
              mediaCnt = (
@@ -330,48 +362,36 @@ class Form extends Component {
             mediaOpt = null
         }
 
-        if (this.state.disableInput) {
-            locClass.push('aroundme__form--cnt__det--loc__disable')
-        }
-
         let cnt = (
             <>
                 <div className="aroundme__form--cnt">
                     <div className="aroundme__form--cnt--wrapper">
-                        <label className="aroundme__form--cnt__title">Location</label>
-                        <div className="aroundme__form--cnt__det">
-                            <input 
-                                type="text" 
-                                name=""
-                                required
-                                minLength="1"
-                                value={this.state.disableInput ? 'Please wait ....' : this.state.loc.value}
-                                className="aroundme__form--cnt__det--input"
-                                disabled={this.state.disableInput}
-                                onChange={this.inputChangedHandler} />
-                            <div 
-                                className={locClass.join(' ')}
-                                onClick={this.state.disableInput ? null: this.locationHandler}>Location Me</div>
-                        </div>
-                        { !this.state.loc.valid && this.state.loc.touched ?
-                            <div className="aroundme__form--err">Location must not be empty</div>
+                        <textarea 
+                            value={this.state.post.value}
+                            className="aroundme__form--cnt__det--input aroundme__form--cnt__det--text"
+                            disabled={this.state.disableInput}
+                            placeholder="Write something ...."
+                            onChange={this.inputChangedHandler}></textarea>
+                        {/* { !this.state.post.valid && this.state.post.touched ?
+                            <div className="aroundme__form--err">Content must not be empty</div>
                             : null
-                        }
+                        } */}
                         { this.state.err ?
                             <div className="aroundme__form--err">{this.state.err.toString()}</div>
                             : null
                         }
+                        { emojiCnt }
                     </div>
                 </div>
                 { mediaOpt }
                 <div className="aroundme__form--itm">
                     <div className="aroundme__form--itm__wrapper">
-                        <input 
-                            type="file" 
-                            multiple
-                            className="aroundme__form--itm__file"
-                            onChange={this.selectMediaHandler}
-                            accept="image/*,video/*"/>
+                        <input type="file" multiple className="aroundme__form--itm__file"
+                            onChange={this.selectMediaHandler} accept="*"/>
+                        <input type="file" multiple className="aroundme__form--itm__file aroundme__form--itm__vid"
+                            onChange={this.selectMediaHandler} accept="video/*"/>
+                        <input type="file" multiple className="aroundme__form--itm__file aroundme__form--itm__img"
+                            onChange={this.selectMediaHandler} accept="image/*"/>
                         { mediaCnt }
                     </div>
                 </div>
@@ -379,35 +399,28 @@ class Form extends Component {
                     <button 
                         type="submit" 
                         className="aroundme__form--footer__btn"
-                        disabled={!this.state.loc.value || this.state.media.length < 1 || this.state.disable}>
-                            Chat 
+                        disabled={(!this.state.post.value && this.state.media.length < 1) || this.state.disable}>
+                            Post
                     </button>
                 </div>
             </>
         )
 
         if (this.state.auth) {
-            cnt = (
-                <Auth 
-                    userAuth={this.userAuthHandler}/>
-            )
+            // cnt = (
+            //     <Auth 
+            //         userAuth={this.userAuthHandler}/>
+            // )
         }
 
         return (
             <form 
                 className="aroundme__form"
                 onSubmit={this.submitFormHandler}>
-                <div className="aroundme__form--main-wrapper">
+                <div className="aroundme__form--main-cnt">
                     <div className="aroundme__form--backdrop"  onClick={this.closeAroundmeHandler}>
                     </div>  
                     <div className="aroundme__form--wrapper">
-                        <h3 className="aroundme__form--title">
-                            <div>
-                                <FontAwesomeIcon 
-                                    icon={['fas', 'map-marker-alt']} />
-                            </div> 
-                            what's going on around you now!!!!!  -  Share Selfie/video 
-                        </h3>
                         { upload }
                         { cnt }
                         <div className={mediaClass.join(' ')}>

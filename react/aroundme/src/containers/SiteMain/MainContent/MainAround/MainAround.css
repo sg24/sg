@@ -30,64 +30,26 @@
 
 .reuse-around-filter__wrapper {
     position: relative;
+    
 }
 
 .reuse-around-filter__wrapper::after {
     content: "";
     clear: both;
     display: table;
-}
-
-.reuse-around-filter__que {
-    float: left;
-    position: relative;
-    border: 1px solid rgba(2,132,168, .2);
-    border-top: 3px solid #0284a8;
-    color: #182427;
-    padding: 8px 44px 8px 10px;
-    text-align: right;
-    border-radius: 3px;
-    font-size: .8125rem;
-    background-color: rgb(255, 255, 255);
-    cursor: pointer;
-}
-
-.reuse-around-filter__que > div {
-    position: absolute;
-    right: 10px;
-    width: 24px;
-    height: 24px;
-    border-radius: 12px;
-    background-color: #0284a8;
-    color: #fff;
-    font-size: .8125rem;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: center;
-        justify-content: center;
-    -ms-flex-align: center;
-        align-items: center;
-    overflow: hidden;
-    top: 50%;
-    transform: translateY(-50%);
-
+    
 }
 
 .reuse-around-filter__add {
     float: right;
-    border: 1px solid  #15a4fa;
-    border-top: 3px solid  #15a4fa;
-    color: #fff;
-    text-align: left;
-    border-radius: 3px;
     font-size: .8125rem;
     background-color: #15a4fa;
-    box-shadow: 0px 2px 5px 0px rgba(51, 51, 51, 0.53);
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0, 0.53);
     cursor: pointer;
-
+    
 }
 
-.reuse-around-filter__add > div {
+.reuse-around-filter__add > a, .reuse-around-filter__add > div {
     display: block;
     padding: 8px 10px;
     border-radius: 3px;
@@ -95,12 +57,51 @@
     border-top: 3px solid  #15a4fa;
     color: #fff;
     text-decoration: none;
+    
+}
+
+.reuse-around-filter__srch {
+    float: left;
+    color: #fff;
+    width: 34px;
+    height: 34px;
+    border-radius: 17px;
+    text-align: center;
+    font-size: .8125rem;
+    background-color: #15a4fa;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0, 0.53);
+    cursor: pointer;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+}
+
+.reuse-around-filter__form {
+    position: relative;
+    padding: 0;
+    background-color: #fff;
+}
+
+.reuse-around-filter__form--cnt {
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 10px;
+    margin: 0;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    border: 1px solid #dcdbdc;
+    resize: none;
 }
 
 @media (min-width: 530px) {
 
     .reuse-around-filter {
         padding: 20px;
+    
     }
+    
 }
-   

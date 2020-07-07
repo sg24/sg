@@ -7,10 +7,6 @@
     margin-right: 10px;
     color: #dcdbdc;
   }
-  
-  .icon__site-main--chat__header--map {
-    color: #fff
-  }
 
   .icon__site-main--chat__header--opt {
     color: #fff;
@@ -113,38 +109,6 @@
     padding: 0 25px 0 70px;
   }
   
-  .site-main__chat--header__img {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 10px;
-    width: 40px;
-    height: 40px;
-    border-radius: 20px;
-    background-color: #fff;
-  }
-  
-  .site-main__chat--header__img > img {
-    position: relative;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-    -o-object-position: 50% 50%;
-       object-position: 50% 50%;
-    -o-object-fit: contain;
-       object-fit: contain;
-    border-radius: 20px;
-    width: 40px;
-    height: 40px;
-    display: block;
-  }
-
-  @media (min-width: 530px) {
-  
-    .site-main__chat--header__img {
-      left: 20px;
-    }
-  }
-  
   .site-main__chat--header__title {
     color: #fff;
     text-align: left;
@@ -164,56 +128,6 @@
   
     .site-main__chat--header__title {
       font-size: .9375rem;
-    }
-  }
-  
-  .site-main__chat--header__det {
-    position: relative;
-    width: 100%;
-    font-size: .8125rem;
-    padding: 5px 0 5px 25px;
-    color: #fff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-   .site-main__chat--header__det > div { 
-       position: absolute;
-       left: 0;
-       width: 20px;
-       height: 20px;
-       border-radius: 10px;
-       background: #05578b;
-       top: 50%;
-       transform: translateY(-50%);
-       display: flex;
-       justify-content: center;
-       align-items: center;
-       color: #fff;
-   }
-  
-  .site-main__chat--header__det::after {
-    content: "";
-    clear: both;
-    display: table;
-  }
-  
-  .site-main__chat--header__img--status {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    border-radius: 4px;
-    border: 1px solid #dcdbdc;
-    bottom: 2px;
-    right: 8px;
-    background-color: #ff1600;
-  }
-
-  @media (min-width: 530px) {
-  
-    .site-main__chat--header__det {
-      font-size: .875rem;
     }
   }
   

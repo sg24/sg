@@ -5,7 +5,7 @@ import Avatar from 'react-avatar';
 
 import './UserOption.css';
 import * as actions from '../../../store/actions/index';
-import Aux from '../../../hoc/Auxs/Auxs';
+import Aux from '../../../hoc/Auxs/Aux';
 
 class UserOption extends Component {
     state ={
@@ -103,13 +103,14 @@ class UserOption extends Component {
         if (this.state.showAddOpt) {
             cnt = (
             <Aux>
+                <li className="site-header__user--det__add">select to Add New</li>
                 <li className="site-header__user--det__logout">
-                    <a href="/add/post">
+                    <a href="/add/aroundme">
                         <div>
                             <FontAwesomeIcon 
-                                icon={['fas', 'newspaper']} /> 
+                                icon={['fas', 'clone']}  /> 
                         </div>
-                        News Feed
+                        Post
                     </a>
                 </li>
                 <li className="site-header__user--det__logout">
@@ -119,6 +120,15 @@ class UserOption extends Component {
                                 icon={['fas', 'question']}  /> 
                         </div>
                         Question
+                    </a>
+                </li>
+                <li className="site-header__user--det__logout">
+                    <a href="/add/qchat">
+                        <div>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'desktop']}  /> 
+                        </div>
+                        CBT
                     </a>
                 </li>
                 <li className="site-header__user--det__logout">
@@ -136,7 +146,52 @@ class UserOption extends Component {
                             <FontAwesomeIcon 
                                 icon={['fas', 'book']}  /> 
                         </div>
-                        Writer
+                        Write Up
+                    </a>
+                </li>
+                <li className="site-header__user--det__logout">
+                    <a href="/add/group">
+                        <div>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'comment-alt']}  /> 
+                        </div>
+                        Chat Room
+                    </a>
+                </li>
+                <li className="site-header__user--det__logout">
+                    <a href="/add/advert">
+                        <div>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'bullhorn']}  /> 
+                        </div>
+                        Advert
+                    </a>
+                </li>
+                <li className="site-header__user--det__logout">
+                    <a href="/add/post">
+                        <div>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'newspaper']} /> 
+                        </div>
+                        Feed
+                    </a>
+                </li>
+                <li className="site-header__user--det__logout">
+                    <a href="/add/contest">
+                        <div>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'comments-dollar']}  /> 
+                        </div>
+                        Contest
+                    </a>
+                </li>
+                <li className="site-header__user--det__logout">
+                    <a href="/add/contact">
+                        <div>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'phone']} /> 
+                        </div>
+                        Contact us
                     </a>
                 </li>
             </Aux>

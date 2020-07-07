@@ -11,14 +11,9 @@ import Modal from '../../components/UI/Modal/Modal';
 import MainFilter from '../../components/MainFilter/MainFilter';
 import Loader from '../../components/UI/Loader/Loader';
 import NoAcc from '../../components/Main/NoAcc/NoAcc';
-import AroundMe from '../AroundMe/AroundMe';
 
 const AsyncFilterContent= asyncComponent(() => {
     return import ('./MainContent/MainModel/Filter/FilterContent/FilterContent');
-});
-
-const AsyncForm = asyncComponent(() => {
-    return import ('../AroundMe/Form/Form');
 });
 
 class SiteMain extends Component {
@@ -104,8 +99,6 @@ class SiteMain extends Component {
                         <Route path="/" component={MainContent} />
                     </Switch>
                 <MainNav />
-                <AroundMe />
-                <Route path="/aroundme" exact component={AsyncForm} />
             </div>
             { this.props.filterStart ? 
                 <div 

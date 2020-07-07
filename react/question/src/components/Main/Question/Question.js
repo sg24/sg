@@ -32,7 +32,8 @@ const question = props => {
              video={props.video}
              deleteCnt={props.changeCnt.bind(this, que._id, que.title, 'delete')}
              changeCnt={props.changeCnt.bind(this, que._id, que.title, 'draft')}
-             changeCntPublish={props.changeCnt.bind(this, que._id, que.title, 'publish')}/>
+             changeCntPublish={props.changeCnt.bind(this, que._id, que.title, 'publish')}
+             preview={props.preview}/>
     ));
 
     return allQuestion;

@@ -33,7 +33,8 @@ const advert = props => {
              video={props.video}
              deleteCnt={props.changeCnt.bind(this, cnt._id, cnt.title, 'delete')}
              changeCnt={props.changeCnt.bind(this, cnt._id, cnt.title, 'draft')}
-             changeCntPublish={props.changeCnt.bind(this, cnt._id, cnt.title, 'publish')}/>
+             changeCntPublish={props.changeCnt.bind(this, cnt._id, cnt.title, 'publish')}
+             preview={props.preview}/>
     ));
 
     return allAdvert;

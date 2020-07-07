@@ -7,7 +7,7 @@ import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
 import axios from 'axios';
 
-import { socket, webCameraApi, createChat } from '../../../../../shared/utility';
+import { socket, webCameraApi } from '../../../../../shared/utility';
 import * as actions from '../../../../../store/actions/index';
 import Backdrop from '../../../../../components/UI/Backdrop/Backdrop';
 import Modal from '../../../../../components/UI/Modal/Modal';

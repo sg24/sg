@@ -6,7 +6,6 @@ import Avatar from 'react-avatar';
 import './Around.css';
 import '../../../UI/ShareIcn/ShareIcn.css'; 
 import { transformNumber, engStrings } from '../../../../shared/utility';
-import Aux from '../../../../hoc/Auxs/Aux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Carousel from '../../../UI/Media/Media';
 
@@ -15,6 +14,7 @@ const aroundContent = props => {
     let userOpt = null;
     let userOptDetClass = ['reuse-around__footer--details'];
     let userOptClass = ['reuse-around__footer--details__options'];
+    let title = String(props.cnt.post).length > 149 ? String(props.cnt.post).substr(0, 150) + '...' : props.cnt.post;
 
     let userImage = <img src={props.cnt.userImage} alt="" />
     
@@ -28,7 +28,9 @@ const aroundContent = props => {
     if (mediaCnt.length > 0) {
         media = (
             <div className="reuse-around__media">
-			    <div className="reuse-around__media--main-wrapper">
+                <div 
+                    className="reuse-around__media--main-wrapper"
+                     onClick={props.preview.bind(this, mediaCnt)}>
                     <Carousel
                         images={mediaCnt}
                         wrapperClass="reuse-around__media--wrapper"
@@ -83,18 +85,22 @@ const aroundContent = props => {
                             </div>
                         </li>
                         <li>
-                            <p className="reuse-around__header--share__category"> 
+                            {/* <p className="reuse-around__header--share__category"> 
                                 <FontAwesomeIcon 
                                     icon={['fas', 'map-marker-alt']} 
                                     className="icon icon__reuse-around--header__tag" />
                                 { props.cnt.location }
-                            </p>
+                            </p> */}
                         </li>
                     </ul>
                     {media}
+                    <p 
+                        className="reuse-around__title"
+                        onClick={props.showChat}> {title}</p>
                     <div className="reuse-around__footer">
                         <ul className="reuse-around__footer--list">
-                            <li>
+                            <li
+                              onClick={props.showChat}>
                                 <FontAwesomeIcon 
                                     icon={['far', 'eye']} 
                                     className="icon icon__reuse-around--footer__eye" /> 

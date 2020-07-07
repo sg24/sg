@@ -40,10 +40,11 @@ class Submit extends Component {
     }
 
     showCommentHandler = () => {
-        this.setState((prevState, props) => {
-            return {
-                show: !prevState.show
-        }})
+        // this.setState((prevState, props) => {
+        //     return {
+        //         show: !prevState.show
+        // }})
+        window.location.assign(`/view/qchat/${this.props.id}`)
     }
 
     closeExamHandler = () => {

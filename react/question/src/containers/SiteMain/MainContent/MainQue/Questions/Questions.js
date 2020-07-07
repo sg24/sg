@@ -86,7 +86,7 @@ class Questions extends Component {
             this.setState({scrollEnable: true})
         }
 
-        if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id !== 'share' && this.props.match.params.id !== 'filter' && this.props.match.params.id !== 'startfilter') {
+        if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id !== 'share' && this.props.match.params.id !== 'preview' && this.props.match.params.id !== 'filter' && this.props.match.params.id !== 'startfilter') {
             this.props.onFetchCntReset();
             this.props.onFetchCnt(this.props.userID, this.props.match.params.id === 'shared' ? `shared-${this.props.userID}` : this.props.match.params.id, this.state.fetchLimit, 0, 0);
             this.setState({
@@ -243,6 +243,11 @@ class Questions extends Component {
         this.props.onChangeCnt(id, checkTitle, det, false);
     }
 
+    previewHandler = (media) => {
+        this.props.history.push(`/question/preview`);
+        this.props.onShowPreview(media)
+    }
+
     render() {
         let cnt = <Loader />;
         if (this.props.postErr) {
@@ -289,7 +294,8 @@ class Questions extends Component {
                 slidePlay={this.slidePlayHandler}
                 moveSlidePlay={this.moveSlidePlayHandler}
                 clearSlidePlay={this.clearSlidePlayhandler}
-                changeCnt={this.changeCntHandler}/>
+                changeCnt={this.changeCntHandler}
+                preview={this.previewHandler}/>
         }
 
         return cnt
@@ -325,7 +331,8 @@ const mapDispatchToProps = dispatch => {
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
         onFetchVideo: (id, url) => dispatch(actions.fetchVideo(id, url)),
         onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm)),
-        onFetchNavActive: () => dispatch(actions.fetchNavActiveInit())
+        onFetchNavActive: () => dispatch(actions.fetchNavActiveInit()),
+        onShowPreview: (media) => dispatch(actions.showPreview(media))
     };
 };
 

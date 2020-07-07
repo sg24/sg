@@ -74,7 +74,9 @@ const questionContent = props => {
     if (mediaCnt.length > 0) {
         media = (
             <div className="reuse-que__media">
-			    <div className="reuse-que__media--main-wrapper">
+                <div 
+                    className="reuse-que__media--main-wrapper"
+                    onClick={props.preview.bind(this, mediaCnt)}>
                     <Carousel
                         images={mediaCnt}
                         wrapperClass="reuse-que__media--wrapper"

@@ -28,7 +28,8 @@ const aroundme = props => {
              clearSlidePlay={props.clearSlidePlay}
              video={props.video}
              deleteCnt={props.changeCnt.bind(this, cnt._id, cnt.location, 'delete', 'aroundme')}
-             showChat={props.showChat.bind(this, cnt._id)}/>
+             showChat={props.showChat.bind(this, cnt._id)}
+             preview={props.preview}/>
     ));
 
     return allAround;

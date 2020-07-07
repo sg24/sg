@@ -23,7 +23,7 @@ export function* submitFormInitSaga (action) {
                     }
                 }
             } else {
-                error = typeof err.response.data !== 'object' ? err.response.data : 'Connection Error';
+                error = typeof err.response.data !== 'object' ? err.response.data.startsWith('<!doctype') ? 'Network Error' : err.response.data : 'Connection Error';
             }
             
           } else {

@@ -65,7 +65,9 @@ const advertContent = props => {
     if (mediaCnt.length > 0) {
         media = (
             <div className="reuse-ads__media">
-			    <div className="reuse-ads__media--main-wrapper">
+                <div 
+                    className="reuse-ads__media--main-wrapper"
+                    onClick={props.preview.bind(this, mediaCnt)}>
                     <Carousel
                         images={mediaCnt}
                         wrapperClass="reuse-ads__media--wrapper"

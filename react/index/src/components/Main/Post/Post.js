@@ -31,7 +31,8 @@ const post = props => {
             clearSlidePlay={props.clearSlidePlay}
             video={props.video}
             deletePt={props.changeCnt.bind(this, pt._id, pt.title, 'delete', 'post')}
-            changePt={props.changeCnt.bind(this, pt._id, pt.title, 'draft', 'post')}/>
+            changePt={props.changeCnt.bind(this, pt._id, pt.title, 'draft', 'post')}
+            preview={props.preview}/>
     ));
 
     return allPost;

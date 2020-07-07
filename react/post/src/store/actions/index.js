@@ -58,7 +58,8 @@ export {
     changeFavPtStart,
     changeFavPtFail,
     changeFav,
-    resetModel
+    resetModel,
+    showPreview
 } from './post';
 
 export {

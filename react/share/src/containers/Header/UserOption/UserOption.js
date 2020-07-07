@@ -105,10 +105,10 @@ class UserOption extends Component {
             <Aux>
                 <li className="site-header__user--det__add">select to Add New</li>
                 <li className="site-header__user--det__logout">
-                    <a href="/add/post">
+                    <a href="/add/aroundme">
                         <div>
                             <FontAwesomeIcon 
-                                icon={['fas', 'newspaper']} /> 
+                                icon={['fas', 'clone']}  /> 
                         </div>
                         Post
                     </a>
@@ -168,12 +168,12 @@ class UserOption extends Component {
                     </a>
                 </li>
                 <li className="site-header__user--det__logout">
-                    <a href="/add/aroundme">
+                    <a href="/add/post">
                         <div>
                             <FontAwesomeIcon 
-                                icon={['fas', 'map-marker-alt']}  /> 
+                                icon={['fas', 'newspaper']} /> 
                         </div>
-                        Around Me
+                        Feed
                     </a>
                 </li>
                 <li className="site-header__user--det__logout">
@@ -183,6 +183,15 @@ class UserOption extends Component {
                                 icon={['fas', 'comments-dollar']}  /> 
                         </div>
                         Contest
+                    </a>
+                </li>
+                <li className="site-header__user--det__logout">
+                    <a href="/add/contact">
+                        <div>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'phone']} /> 
+                        </div>
+                        Contact us
                     </a>
                 </li>
             </Aux>

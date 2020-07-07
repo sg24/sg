@@ -13,12 +13,16 @@ import Loader from '../../components/UI/Loader/Loader';
 import NoAcc from '../../components/Main/NoAcc/NoAcc';
 
 
-const AsyncAround = asyncComponent(() => {
+const AsyncAroundForm = asyncComponent(() => {
     return import ('../AroundMe/Form/Form');
 });
 
 const AsyncChat = asyncComponent(() => {
     return import ('./Chat/Chat');
+});
+
+const AsyncPreview = asyncComponent(() => {
+    return import ('./Preview/Preview');
 });
 
 class SiteMain extends Component {
@@ -50,6 +54,10 @@ class SiteMain extends Component {
 
     closeModelBackdropHandler = () => {
         this.props.onCloseModelBackdrop();
+    }
+
+    closeFormHandler  = () => {
+        this.props.history.push('/aroundme')
     }
 
     render() {
@@ -98,8 +106,19 @@ class SiteMain extends Component {
                     <Route path="/"  component={MainContent} />
                 </Switch>
                 <MainNav />
-                <Route path="/aroundme/add" exact component={AsyncAround} />
-                <Route path="/aroundme/chat/:id" exact component={AsyncChat} />
+                <Route path="/aroundme/add" exact render={() => (
+                   <div className="site-main__form--main-wrapper">
+                        <div className="site-main__form--main-wrapper__overlay" onClick={this.closeFormHandler}></div>
+                      <AsyncAroundForm/>
+                  </div>
+                  )}/>
+                <Route path="/aroundme/chat/:id" exact render={() => (
+                   <div className="site-main__form--main-wrapper">
+                         <div className="site-main__form--main-wrapper__overlay" onClick={this.closeFormHandler}></div>
+                      <AsyncChat/>
+                  </div>
+                  )}/>
+                <Route path="/aroundme/preview" exact component={AsyncPreview}/>
             </div>
             { this.props.filterStart ? 
                 <div 

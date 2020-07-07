@@ -32,7 +32,8 @@ const advert = props => {
              clearSlidePlay={props.clearSlidePlay}
              video={props.video}
              deleteCnt={props.changeCnt.bind(this, cnt._id, cnt.title, 'delete', 'advert')}
-             changeCnt={props.changeCnt.bind(this, cnt._id, cnt.title, 'draft', 'advert')}/>
+             changeCnt={props.changeCnt.bind(this, cnt._id, cnt.title, 'draft', 'advert')}
+             preview={props.preview}/>
     ));
 
     return allAdvert;

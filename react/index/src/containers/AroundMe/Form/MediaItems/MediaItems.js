@@ -7,18 +7,20 @@ class MediaItems extends Component {
             <div 
                 className="aroundme__form--itm__prev--wrapper"
                 key={index}>
-                <div 
-                    className="aroundme__form--itm__prev--close"
-                    onClick={this.props.removeMedia.bind(this, cnt.id)}>
-                    <FontAwesomeIcon 
-                        icon={['fas', 'times']} />
+                <div>
+                    <div 
+                        className="aroundme__form--itm__prev--close"
+                        onClick={this.props.removeMedia.bind(this, cnt.id)}>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'times']} />
+                    </div>
+                    {cnt.type === 'image' ? <img src={cnt.url} alt="" /> : 
+                    <video 
+                        src={cnt.url} 
+                        controls>
+                        <p>our browser doesn't support embedded videos</p>
+                    </video>}
                 </div>
-                {cnt.type === 'image' ? <img src={cnt.url} alt="" /> : 
-                <video 
-                    src={cnt.url} 
-                    controls>
-                    <p>our browser doesn't support embedded videos</p>
-                </video>}
             </div>
         ))
         return <div className="aroundme__form--itm__prev">{media}</div>;

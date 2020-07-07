@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { connect } from 'react-redux';
 import uuid from 'uuid';
 import { withRouter } from 'react-router-dom';
 import 'emoji-mart/css/emoji-mart.css'
@@ -24,8 +23,7 @@ class Footer extends Component {
         editChat: null,
         err: null,
         resend: [],
-        addItem: false,
-        showEmoji: false
+        addItem: false
     };
 
     chatCntHandler = (event) => {
@@ -287,7 +285,6 @@ class Footer extends Component {
 
     render() {
         let startRecClass = ['site-main__chat--footer__mic'];
-        let err = null
 
         let userOpt = (
             <div 

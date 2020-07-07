@@ -489,10 +489,6 @@ img {
   color: #777;
 }
 
-.icon__site-header--search:hover {
-  color: #134df2;
-}
-
 .icon__site-header--favorites {
   color: #ff1600;
 }
@@ -597,7 +593,7 @@ img {
     box-shadow: 0px 0px 4.15px 0.85px rgba(0,0,0, 0.65);
     padding: 5px 10px;
     color: #182427;
-    font-size: .8125rem;
+    font-size: .875rem;
     background-color: #fff;
     left: 50%;
     transform: translateX(-50%);
@@ -672,7 +668,7 @@ font-size: .75rem;
 @media (min-width: 800px) {
 
 .active__main--chat-cnt > div {
-  font-size: .8125rem;
+  font-size: .875rem;
 }
 }
 
@@ -708,7 +704,7 @@ font-size: .75rem;
 @media (min-width: 800px) {
 
   .active__main--header > div {
-    font-size: .8125rem;
+    font-size: .875rem;
   }
 }
 
@@ -735,7 +731,7 @@ font-size: .75rem;
 }
 
 .site-header__menu--nav__opt {
-    font-size: .8125rem;
+    font-size: .875rem;
     position: absolute;
     top: 40px;
     left: 50%;
@@ -881,7 +877,7 @@ font-size: .75rem;
 .site-header__logo {
   position: relative;
   width: 65px;
-  height: 32px;
+  height: 30px;
   float: left;
   margin-right: 20px;
   display: -ms-flexbox;
@@ -891,6 +887,7 @@ font-size: .75rem;
   -ms-flex-align: center;
       align-items: center;
   border-radius: 5px;
+  overflow: hidden;
 }
 
 .site-header__form {
@@ -898,6 +895,7 @@ font-size: .75rem;
   margin: 0 20px;
   padding: 0;
   width: 34%;
+  height: 30px;
   border: 1px solid #dcdbdc;
   position: relative;
   display: none;
@@ -907,7 +905,7 @@ font-size: .75rem;
   border: none;
   outline: none;
   margin: 0;
-  padding: 10px 35px 10px 5px;
+  padding: 0 35px 0 5px;
   width: 100%;
   background-color: #fff;
 }
@@ -961,6 +959,7 @@ font-size: .75rem;
   cursor: pointer;
   margin-right: 20px;
   padding: 10px 0;
+  height: 30px;
 }
 
 @media (min-width: 530px) {
@@ -980,7 +979,7 @@ font-size: .75rem;
 .site-header__add-new {
   float: left;
   position: relative;
-  font-size: .8125rem;
+  font-size: .875rem;
   margin-left: 20px;
   margin-right: 30px;
   display: none;
@@ -989,12 +988,13 @@ font-size: .75rem;
 .site-header__add-new--title {
   margin: 0;
   padding: 8px 10px;
-  width: 60px;
+  width: 65px;
   background-color: #0284a8;
   font-weight: 400;
   color: #fff;
   border-radius: 2px;
   cursor: pointer;
+  height: 30px;
 }
 
 .site-header__add-new--opt {
@@ -1325,7 +1325,7 @@ font-size: .75rem;
   padding: 1px 0;
   background-color: #fff;
   box-shadow: 0px 0px 4.15px 0.85px rgba(0,0,0, 0.65);
-  font-size: .8125rem;
+  font-size: .875rem;
   opacity: 0;
   visibility: hidden;
   transition: all .3s ease-in;
@@ -1424,6 +1424,7 @@ font-size: .75rem;
   list-style: none;
   margin: 5px 0;
   padding: 0;
+  height: 30px;
 }
 
 .site-header__no-acc::after {
@@ -1443,7 +1444,7 @@ font-size: .75rem;
 
 .site-header__no-acc > li > a {
   display: block;
-  font-size: .8125rem;
+  font-size: .875rem;
   padding: 8px 10px;
   text-decoration: none;
 }
@@ -1571,14 +1572,14 @@ font-size: .75rem;
 @media (min-width: 530px) {
 
   .site-header {
-    font-size: .8125rem;
+    font-size: .875rem;
   }
 }
 
 .site-footer {
   position: relative;
   background-color: #437da3;
-  font-size: .8125rem;
+  font-size: .875rem;
 }
 
 .site-footer > ul {
@@ -1737,7 +1738,7 @@ position: relative;
   color: #fff;
   text-align: center;
   margin-right: 5px;
-  font-size: .8125rem
+  font-size: .875rem
 }
 
 .site-main__content--filter__wrapper > ul > li:hover {
@@ -1756,7 +1757,7 @@ position: relative;
 .reuse-notify__categ {
   position: absolute;
   top: -10px;
-  font-size: .8125rem;
+  font-size: .875rem;
   padding: 3px 10px;
   white-space: nowrap;
   border-radius: 10px;
@@ -1893,7 +1894,7 @@ position: relative;
   padding: 5px 10px;
   margin-top: 20px;
   width: 100%;
-  font-size: .8125rem;
+  font-size: .875rem;
 }
 
 .reuse-modal__btn::after {

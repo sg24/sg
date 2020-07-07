@@ -13,7 +13,8 @@ const initialState = {
     filterDet: null,
     changeCnt: false,
     changeCntErr: null,
-    changeCntStart: null
+    changeCntStart: null,
+    preview: []
 }
 
 const fetchCnt = (state, action) => {
@@ -64,6 +65,10 @@ const changeCntFail = (state, action) => {
 const changeCnt = (state, action) => {
     return updateObject(state, {changeCnt: true})
 };
+
+const showPreview = (state, action) => {
+    return updateObject(state, {preview: action.media})
+}
 
 const fetchVideo = (state, action) => {
     return updateObject(state, {postVideo: {id: action.id, url: action.url}})
@@ -122,6 +127,8 @@ const reducer = (state = initialState, action) => {
             return filterPost(state, action);
         case actionTypes.RESET_MODEL:
             return resetModel(state, action);
+        case actionTypes.SHOW_PREVIEW:
+            return showPreview(state, action);
         default: return state
     }
 };

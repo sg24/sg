@@ -11,7 +11,7 @@ export function* submitFormInitSaga (action) {
         yield axios.post('/login', action.formData);
         yield put(actions.formSubmitted())
     } catch(err) {
-        let error = err.response ? err.response.data : err.message;
+        let error = err.response ? err.response.data.startsWith('<!doctype') ? 'Network Error' : err.response.data : err.message;
        yield put(actions.submitFormFail(error))
     }
 } 

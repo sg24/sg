@@ -81,6 +81,10 @@ class SiteMain extends Component {
         this.props.onCloseChangeGrpCnt()
     }
 
+    closeFormHandler  = () => {
+        this.props.history.push('/index/aroundme')
+    }
+
     render() {
         let filterCnt = <Loader />;
 
@@ -184,9 +188,24 @@ class SiteMain extends Component {
                 <Route path={'/index/:id/share'} exact component={AsyncShare} />
                 <Route path="/index/group/info/:id" exact component={AsyncGroupInfo} />
                 <Route path="/index/add/contest" exact component={AsyncForm} />
-                <Route path="/index/add/aroundme" exact component={AsyncAroundForm} />
-                <Route path="/index/aroundme/:id" exact component={AsyncAround}/>
-                <Route path="/index/contest/:id" exact component={AsyncChat}/>
+                <Route path="/index/add/aroundme" exact render={() => (
+                   <div className="site-main__form--main-wrapper">
+                        <div className="site-main__form--main-wrapper__overlay" onClick={this.closeFormHandler}></div>
+                      <AsyncAroundForm/>
+                  </div>
+                  )}/>
+                <Route path="/index/aroundme/:id" exact render={() => (
+                   <div className="site-main__form--main-wrapper">
+                         <div className="site-main__form--main-wrapper__overlay" onClick={this.closeFormHandler}></div>
+                      <AsyncAround/>
+                  </div>
+                  )}/>
+                <Route path="/index/contest/:id" exact  render={() => (
+                  <div className="site-main__form--main-wrapper">
+                       <div className="site-main__form--main-wrapper__overlay" onClick={this.closeFormHandler}></div>
+                      <AsyncChat/>
+                  </div>
+                  )}/>
                 <Route path="/index/preview" exact component={AsyncPreview}/>
         </div>
         )

@@ -12,16 +12,16 @@ import MainFilter from '../../components/MainFilter/MainFilter';
 import Loader from '../../components/UI/Loader/Loader';
 import NoAcc from '../../components/Main/NoAcc/NoAcc';
 
-const AsyncForm = asyncComponent(() => {
-    return import ('../AroundMe/Form/Form');
-});
-
 const AsyncShare= asyncComponent(() => {
     return import ('./Share/Share');
 });
 
 const AsyncFilterContent= asyncComponent(() => {
     return import ('./MainContent/MainAdvert/Filter/FilterContent/FilterContent');
+});
+
+const AsyncPreview = asyncComponent(() => {
+    return import ('./Preview/Preview');
 });
 
 class SiteMain extends Component {
@@ -135,7 +135,7 @@ class SiteMain extends Component {
                         changeCnt={this.changeCntHandler}
                         closeChangeCnt={this.closeChangeCntHandler}/> : null}
                 <Route path="/advert/share" exact component={AsyncShare} />
-                <Route path="/advert/aroundme" exact component={AsyncForm} />
+                <Route path="/advert/preview" exact component={AsyncPreview}/>
         </div>
         )
     }

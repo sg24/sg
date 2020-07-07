@@ -181,6 +181,11 @@ class Aroundme extends Component {
         this.props.history.push(`/index/aroundme/${id}`)
     }
 
+    previewHandler = (media) => {
+        this.props.history.push(`/index/preview`);
+        this.props.onShowPreview(media)
+    }
+
     render() {
 
         let cnt = <Loader />;
@@ -204,7 +209,7 @@ class Aroundme extends Component {
                     filter />
         }
 
-        if (this.props.cnts && this.props.cnts.length > 0) {
+        if (this.props.cnts && this.props.cnts.length > 0 && this.props.status) {
             cnt = <Around 
                 content={this.props.cnts} 
                 media={this.props.media}
@@ -225,7 +230,17 @@ class Aroundme extends Component {
                 moveSlidePlay={this.moveSlidePlayHandler}
                 clearSlidePlay={this.clearSlidePlayhandler}
                 changeCnt={this.changeCntHandler}
-                showChat={this.showChatHandler}/>
+                showChat={this.showChatHandler}
+                preview={this.previewHandler}/>
+        }
+
+        
+        if (!this.props.status) {
+            cnt = <NoAcc 
+            isAuth={this.props.status}
+            det='No content found!'
+            icn='clone'
+            filter />
         }
 
         return cnt
@@ -235,6 +250,7 @@ class Aroundme extends Component {
 const mapStateToProps = state => {
     return {
         userID: state.auth.userID,
+        status: state.auth.status,
         cnts: state.cnt.cnts,
         skipCnt: state.cnt.skipCnt,
         cntTotal: state.cnt.cntTotal,
@@ -253,7 +269,8 @@ const mapDispatchToProps = dispatch => {
         onFetchCntReset: () => dispatch(actions.fetchCntReset()),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
         onFetchVideo: (id, url) => dispatch(actions.fetchVideo(id, url)),
-        onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm,  modelType))
+        onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm,  modelType)),
+        onShowPreview: (media) => dispatch(actions.showPreview(media))
     };
 };
 
