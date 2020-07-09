@@ -29,6 +29,10 @@ const AsyncAroundForm = asyncComponent(() => {
     return import ('../AroundMe/Form/Form');
 });
 
+const AsyncEditAround = asyncComponent(() => {
+    return import ('../AroundMe/EditForm/Form');
+});
+
 const AsyncGroupInfo = asyncComponent(() => {
     return import ('./GroupInfo/GroupInfo');
 });
@@ -192,6 +196,12 @@ class SiteMain extends Component {
                    <div className="site-main__form--main-wrapper">
                         <div className="site-main__form--main-wrapper__overlay" onClick={this.closeFormHandler}></div>
                       <AsyncAroundForm/>
+                  </div>
+                  )}/>
+                  <Route path="/index/edit/:id" exact render={() => (
+                   <div className="site-main__form--main-wrapper">
+                        <div className="site-main__form--main-wrapper__overlay" onClick={this.closeFormHandler}></div>
+                      <AsyncEditAround/>
                   </div>
                   )}/>
                 <Route path="/index/aroundme/:id" exact render={() => (

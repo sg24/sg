@@ -103,10 +103,19 @@ class SiteMain extends Component {
                         close={this.closeModelBackdropHandler}
                         err={ this.props.cntErr } /> : null}
                 <Switch>
-                    <Route path="/question" exact component={MainContent} />
-                    <Route path="/question/:id" exact component={MainContent} />
+                    <Route path="/question" exact render={() => (
+                        <>
+                            <MainContent/>
+                            <MainNav/>
+                        </>    
+                    )}/>
+                    <Route path="/question/:id" exact render={() => (
+                        <>
+                            <MainContent/>
+                            <MainNav/>
+                        </>    
+                    )} />
                 </Switch>
-                <MainNav />
             </div>
             { this.props.filterStart ? 
                 <div 

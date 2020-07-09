@@ -633,3 +633,10 @@
 .icon__reuse-around--options__dft {
     margin-right: 5px;
 }  
+
+.icon__reuse-around--footer__heart {
+    color: #ff1600;
+    cursor: pointer;
+    margin-right: 8px;
+    font-size: .9375rem;
+}

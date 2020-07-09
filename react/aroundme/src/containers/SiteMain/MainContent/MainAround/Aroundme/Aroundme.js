@@ -234,12 +234,16 @@ class Around extends Component {
         }, 500)
     }
 
-    changeCntHandler = (id, title, det) => {
+    changeCntHandler = (id, title, det, modelType) => {
         if ( this.props.match.params.id === 'myaroundme') {
             det = det === 'draft' ?  'acc-draft' : det;
         }
-        let checkTitle = String(title).length > 50 ? String(title).substr(0, 50) + '...' : title
+        let checkTitle = String(title).length > 50 ? String(title).substr(0, 50) + '...' : String(title).length < 1 ? 'Post' : title
         this.props.onChangeCnt(id, checkTitle, det, false);
+    }
+
+    editCntHandler = (id) => {
+        this.props.history.push(`/aroundme/edit/${id}`)
     }
 
     showChatHandler = (id) => {
@@ -249,6 +253,10 @@ class Around extends Component {
     previewHandler = (media) => {
         this.props.history.push(`/aroundme/preview`);
         this.props.onShowPreview(media)
+    }
+
+    changeFavoriteHandler = (id, isLiked, favAdd, cntGrp) => {
+        this.props.onChangeFav(id, isLiked, favAdd, this.props.changedFav, this.props.userID, cntGrp);
     }
 
     render() {
@@ -279,6 +287,9 @@ class Around extends Component {
             media={this.props.media}
             userOpt={this.showUserOptHandler}
             showCntOpt={this.state.cntOpt}
+            fav={this.changeFavoriteHandler}
+            changedFav={this.props.changedFav}
+            favChange={this.props.favChange}
             nextMedia={this.changeMediaHandler}
             prevMedia={this.changeMediaHandler}
             mediaItms={this.state.mediaItms}
@@ -295,6 +306,7 @@ class Around extends Component {
             clearSlidePlay={this.clearSlidePlayhandler}
             changeCnt={this.changeCntHandler}
             showChat={this.showChatHandler}
+            editCnt={this.editCntHandler}
             preview={this.previewHandler}/>
         }
 

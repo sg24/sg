@@ -91,8 +91,12 @@ class SiteMain extends Component {
                             component={ Modal }
                             close={this.closeBackdropHandler}
                             err={ this.props.cntErr } /> : null}
-                    <Route path="/view/:categ/:id"   component={MainContent} />
-                    <Route path="/view/:categ/:id" component={MainNav} />
+                    <Route path="/view/:categ/:id" render={() => (
+                        <>
+                            <MainContent/>
+                            <MainNav/>
+                        </>    
+                    )} />
                     <Contest />
             </div>
             { this.props.filterStart ? 

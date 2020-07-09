@@ -16,7 +16,10 @@ const FavoriteSchema = new Schema({
     }],
     advertID: [{
         type: String
-    }]
+    }],
+    aroundID: [{
+        type: String
+    }],
 })
 
 const favorite = mongoose.model('favorite', FavoriteSchema);

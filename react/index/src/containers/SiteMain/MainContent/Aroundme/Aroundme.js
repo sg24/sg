@@ -173,8 +173,12 @@ class Aroundme extends Component {
     }
     
     changeCntHandler = (id, title, det, modelType) => {
-        let checkTitle = String(title).length > 50 ? String(title).substr(0, 50) + '...' : title
+        let checkTitle = String(title).length > 50 ? String(title).substr(0, 50) + '...' : String(title).length < 1 ? 'Post' : title
         this.props.onChangeCnt(id, checkTitle, det, false, modelType);
+    }
+
+    editCntHandler = (id) => {
+        this.props.history.push(`/index/edit/${id}`)
     }
 
     showChatHandler = (id) => {
@@ -184,6 +188,10 @@ class Aroundme extends Component {
     previewHandler = (media) => {
         this.props.history.push(`/index/preview`);
         this.props.onShowPreview(media)
+    }
+
+    changeFavoriteHandler = (id, isLiked, favAdd, cntGrp) => {
+        this.props.onChangeFav(id, isLiked, favAdd, this.props.changedFav, this.props.userID, cntGrp);
     }
 
     render() {
@@ -215,6 +223,9 @@ class Aroundme extends Component {
                 media={this.props.media}
                 userOpt={this.showUserOptHandler}
                 showCntOpt={this.state.cntOpt}
+                fav={this.changeFavoriteHandler}
+                changedFav={this.props.changedFav}
+                favChange={this.props.favChange}
                 nextMedia={this.changeMediaHandler}
                 prevMedia={this.changeMediaHandler}
                 mediaItms={this.state.mediaItms}
@@ -231,6 +242,7 @@ class Aroundme extends Component {
                 clearSlidePlay={this.clearSlidePlayhandler}
                 changeCnt={this.changeCntHandler}
                 showChat={this.showChatHandler}
+                editCnt={this.editCntHandler}
                 preview={this.previewHandler}/>
         }
 
@@ -269,6 +281,7 @@ const mapDispatchToProps = dispatch => {
         onFetchCntReset: () => dispatch(actions.fetchCntReset()),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
         onFetchVideo: (id, url) => dispatch(actions.fetchVideo(id, url)),
+        onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),
         onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm,  modelType)),
         onShowPreview: (media) => dispatch(actions.showPreview(media))
     };

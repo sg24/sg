@@ -13,6 +13,9 @@ const aroundme = props => {
              media={props.media}
              userOpt={props.userOpt.bind(this, cnt._id)} 
              showCnt={props.showCntOpt}
+             fav={props.fav.bind(this, cnt._id, cnt.liked, cnt.favorite, 'aroundme')}
+             changedFav={props.changedFav}
+             favChange={props.favChange}
              nextMedia={props.nextMedia.bind(this, cnt._id, cnt.snapshot.length+cnt.image.length , 'next')}
              prevMedia={props.prevMedia.bind(this, cnt._id, cnt.snapshot.length+cnt.image.length, 'prev')}
              mediaItms={props.mediaItms}
@@ -27,7 +30,8 @@ const aroundme = props => {
              moveSlidePlay={props.moveSlidePlay}
              clearSlidePlay={props.clearSlidePlay}
              video={props.video}
-             deleteCnt={props.changeCnt.bind(this, cnt._id, cnt.location, 'delete', 'aroundme')}
+             deleteCnt={props.changeCnt.bind(this, cnt._id, cnt.post, 'delete', 'aroundme')}
+             editCnt={props.editCnt.bind(this, cnt._id)}
              showChat={props.showChat.bind(this, cnt._id)}
              preview={props.preview}/>
     ));

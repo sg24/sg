@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Route } from 'react-router-dom';
+import { withRouter, Route, Switch } from 'react-router-dom';
 
 import * as actions from '../../store/actions/index';
 import MainContent from './MainContent/MainContent';
@@ -79,8 +79,14 @@ class SiteMain extends Component {
                     <Backdrop 
                         component={ Modal }
                         err={ this.props.cntErr } /> : null}
-                <Route path="/user/profile/:id" component={MainContent}/>
-                <MainNav />
+                <Switch>
+                    <Route path="/user/profile/:id" exact render={() => (
+                        <>
+                            <MainContent/>
+                            <MainNav/>
+                        </>    
+                    )}/>
+                </Switch>
             </div>
             { this.props.filterStart ? 
                 <div 

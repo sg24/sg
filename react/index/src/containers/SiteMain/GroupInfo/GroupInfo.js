@@ -161,7 +161,7 @@ class GroupInfo extends Component {
                                             </div>
                                             <ul>
                                                 <li><a href={`/user/profile/${this.props.grpInfo.authorID}`}>{ this.props.grpInfo.username } </a></li>
-                                                <li><span>{ this.props.grpInfo.studenttotal }</span> Student</li>
+                                                <li><span>{ this.props.grpInfo.studenttotal }</span> Friend</li>
                                             </ul>
                                         </div>
                                     </div>

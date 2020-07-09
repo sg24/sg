@@ -7,6 +7,7 @@ import './Around.css';
 import '../../../UI/ShareIcn/ShareIcn.css'; 
 import { transformNumber, engStrings } from '../../../../shared/utility';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import FavoriteActive from '../../../UI/FavoriteActive/FavoriteActive';
 import Carousel from '../../../UI/Media/Media';
 
 const aroundContent = props => {
@@ -15,13 +16,37 @@ const aroundContent = props => {
     let userOptDetClass = ['reuse-around__footer--details'];
     let userOptClass = ['reuse-around__footer--details__options'];
     let title = String(props.cnt.post).length > 149 ? String(props.cnt.post).substr(0, 150) + '...' : props.cnt.post;
-
+    let isLiked = null;
+    let favAdd = null;
     let userImage = <img src={props.cnt.userImage} alt="" />
     
     if (props.cnt.username && !props.cnt.userImage) {
         userImage = <Avatar  name={props.cnt.username} size='36' round />;
     }
     
+    let fav = <FontAwesomeIcon 
+        icon={['far', 'heart']} 
+        className="icon icon__reuse-around--footer__heart" />
+    
+    for (let changedFav of props.changedFav) {
+        if (props.cnt._id === changedFav.id) {
+            favAdd = changedFav.favAdd;
+            isLiked= changedFav.liked;
+        }
+    }
+
+    if (props.cnt.liked && isLiked === null) {
+        fav = <FontAwesomeIcon 
+            icon={['fas', 'heart']} 
+            className="icon icon__reuse-around--footer__heart" />
+    }
+
+    if (isLiked) {
+        fav = <FontAwesomeIcon 
+            icon={['fas', 'heart']} 
+            className="icon icon__reuse-around--footer__heart" />
+    }
+
     let media = null;
     let mediaCnt =  [...props.cnt.snapshot, ...props.cnt.image];
 
@@ -61,6 +86,13 @@ const aroundContent = props => {
                         icon={['far', 'trash-alt']} 
                         className="icon icon__reuse-around--options" /> 
                     Delete 
+                </li>
+                <li
+                    onClick={props.editCnt}>
+                    <FontAwesomeIcon 
+                        icon={['far', 'edit']} 
+                        className="icon icon__reuse-around--options" /> 
+                    Edit
                 </li>
             </ul>
         </div>
@@ -113,6 +145,12 @@ const aroundContent = props => {
                                     icon={['far', 'comments']} 
                                     className="icon icon__reuse-around--footer__chats" /> 
                                 {transformNumber(props.cnt.comment)} 
+                            </li>
+                            <li onClick={props.fav}>
+                                {fav}
+                                {transformNumber(favAdd !== null ? favAdd : props.cnt.favorite)} 
+                                {props.favChange && props.favChange.id === props.cnt._id ? <FavoriteActive 
+                                    liked={props.favChange.isLiked}/> : null}
                             </li>
                         </ul>
                         {userOpt}

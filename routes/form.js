@@ -18,6 +18,7 @@ let submitContest = require('./utility/submitcontest');
 let submitQchat = require('./utility/submitqchat');
 let editQchat = require('./utility/editqchat');
 let editContest = require('./utility/editcontest');
+let editAround = require('./utility/editaround');
 const router = express.Router();
 let formidable = require('formidable');
 
@@ -448,6 +449,46 @@ router.post('/add/aroundme', authenticate, (req, res, next) => {
     })
 })
 
+
+router.post('/edit/aroundme', authenticate, (req, res, next) => {
+    formInit(req, formidable).then(form => {
+        let video = form.files && form.files.video ? form.files.video : []; 
+        let image = form.files && form.files.image ? form.files.image : []; 
+        savetemp(video, image, req.user).then(tempFileID => {
+            uploadToBucket(video, tempFileID, 'video', 'media', 'media.files').then(media => {
+                uploadToBucket(image, tempFileID, 'image', 'image', 'image.files').then(image => {
+                    let allVideo = form.fields && form.fields.uploadedvideo ?  [...JSON.parse(form.fields.uploadedvideo), ...media.videos] : media.videos;
+                    let allSnap = form.fields && form.fields.uploadedsnap ?  [...JSON.parse(form.fields.uploadedsnap), ...media.images] : media.images;
+                    let allImage = form.fields && form.fields.uploadedimage ?  [...JSON.parse(form.fields.uploadedimage), ...image] : image;
+                    let mediaCnt = {
+                        video: allVideo,
+                        snapshot: allSnap,
+                        image: allImage
+                    }
+                    let userModel = req.userType === 'authUser' ? authUser : user;
+                    const content = form.fields;
+                    connectStatus.then((result) => {
+                        editAround(content, aroundme, mediaCnt, userModel, {authorID: req.user, username: req.username, userImage: req.userImage, userType: req.userType}, [], tempFileID).then(id =>
+                            res.status(201).send(id)
+                        ).catch(err => {
+                            res.status(500).send(err)
+                        })
+                    }).catch(err => {
+                        res.status(500).send(err);
+                    })
+                }).catch(err => {
+                    res.status(500).send(err);
+                })
+            }).catch(err => {
+                res.status(500).send(err);
+            })
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+    }).catch(err => {
+        res.status(500).send(err);
+    })
+})
 
 router.post('/add/contest', authenticate, (req, res, next) => {
     formInit(req, formidable).then(form => {

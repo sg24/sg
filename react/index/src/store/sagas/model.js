@@ -34,7 +34,7 @@ export function* changeFavSaga(action) {
     yield put(actions.changeFavPtStart(updateFav.favDet.id, updateFav.favDet.liked))
     try {
         let field = action.cntGrp === 'post' ? 'postID' : action.cntGrp === 'question' ?
-        'queID' : action.cntGrp === 'advert' ? 'advertID' : 'pwtID';
+        'queID' : action.cntGrp === 'advert' ? 'advertID' : action.cntGrp === 'aroundme' ? 'aroundID' : 'pwtID';
         yield axios.patch('/header', {id: updateFav.favDet.id, model: action.cntGrp, field},{headers: {'data-categ': 'changefavorite'}});
         yield delay(500)
         yield put(actions.changeMainFavoriteReset());
@@ -60,8 +60,8 @@ export function* joinGrpInitSaga(action) {
 
 export function* changeCntInitSaga(action) {
     let field =   action.modelType === 'post' ? 'postID' : action.modelType === 'question' ? 'queID' : 
-    action.modelType === 'advert' ? 'advertID' : action.modelType === 'qchat' ? 'qchatID' : 'pwtID';
-    
+    action.modelType === 'advert' ? 'advertID' : action.modelType === 'qchat' ? 'qchatID' : 
+    action.modelType === 'aroundme' ? 'aroundID' : 'pwtID';
     if (!action.confirm) {
         yield put(actions.changeCntStart(action.title, action.id, action.det, action.modelType))
         return;

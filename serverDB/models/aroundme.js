@@ -52,6 +52,14 @@ const AroundmeSchema = new Schema({
         type: Number,
         default: 0
     },
+    favorite: {
+        type: Number,
+        default: 0
+    },
+    liked: {
+        type: Array,
+        default: [String]
+    },
     position: {
         type: Number,
         default: 0

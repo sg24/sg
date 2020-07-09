@@ -21,6 +21,10 @@ const AsyncChat = asyncComponent(() => {
     return import ('./Chat/Chat');
 });
 
+const AsyncEditAround = asyncComponent(() => {
+    return import ('../AroundMe/EditForm/Form');
+});
+
 const AsyncPreview = asyncComponent(() => {
     return import ('./Preview/Preview');
 });
@@ -112,6 +116,12 @@ class SiteMain extends Component {
                       <AsyncAroundForm/>
                   </div>
                   )}/>
+                   <Route path="/aroundme/edit/:id" exact render={() => (
+                   <div className="site-main__form--main-wrapper">
+                        <div className="site-main__form--main-wrapper__overlay" onClick={this.closeFormHandler}></div>
+                      <AsyncEditAround/>
+                  </div>
+                  )}/>
                 <Route path="/aroundme/chat/:id" exact render={() => (
                    <div className="site-main__form--main-wrapper">
                          <div className="site-main__form--main-wrapper__overlay" onClick={this.closeFormHandler}></div>
@@ -137,13 +147,13 @@ class SiteMain extends Component {
                         err={ this.props.changeCntErr }
                         warn={{
                             msg: this.props.changeCntStart.det=== 'delete' ?
-                            'Are you sure you want to delete this event' : 'Are you sure you want to change this aroundme mode',
+                            'Are you sure you want to delete this' : 'Are you sure you want to change this Post mode',
                             cnt: this.props.changeCntStart.title,
                             det: this.props.changeCntStart.det
                         }}
                         exit={{
                             msg: this.props.changeCntStart.det=== 'delete' ?
-                            'aroundme Deleted Successfully' : 'aroundme mode change successfully', 
+                            'Post Deleted Successfully' : 'Post mode change successfully', 
                             close: this.props.changeCnt}}
                         changeCnt={this.changeCntHandler}
                         closeChangeCnt={this.closeChangeCntHandler}/> : null}

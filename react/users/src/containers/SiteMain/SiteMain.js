@@ -94,11 +94,19 @@ class SiteMain extends Component {
                             close={this.closeModelBackdropHandler}
                             err={ this.props.cntErr } /> : null}
                     <Switch>
-                        <Route path="/users/:id" exact component={MainContent} />
-                        <Route path={"/users/:id/?search=/:id"} exact component={MainContent} />
-                        <Route path="/" component={MainContent} />
+                        <Route path="/users/:id" exact render={() => (
+                            <>
+                                <MainContent/>
+                                <MainNav/>
+                            </>    
+                        )}/>
+                        <Route path={"/users/:id/?search=/:id"} exact render={() => (
+                            <>
+                                <MainContent/>
+                                <MainNav/>
+                            </>    
+                        )} />
                     </Switch>
-                <MainNav />
             </div>
             { this.props.filterStart ? 
                 <div 

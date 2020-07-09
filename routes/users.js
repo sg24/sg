@@ -83,6 +83,16 @@ router.post('/', authenticate,(req, res, next) => {
         return
     }
 
+    if (req.header && req.header('data-categ') === 'friendtotal') {
+        let model = req.userType === 'authUser' ? authUser : user;
+        model.findById(req.user).then(result => {
+            res.status(200).send(String(result.student.length + result.teacher.length))
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+        return;
+    }
+
     if (req.header && req.header('data-categ') &&  req.header('data-categ').startsWith('friend')) {
         let status = req.header('data-categ').split('-')[1] === 'online' ? {status: true} : 
         req.header('data-categ').split('-')[1] === 'offline' ? {status: false} : {}
@@ -115,16 +125,6 @@ router.post('/', authenticate,(req, res, next) => {
             })
         }
         return
-    }
-
-    if (req.header && req.header('data-categ') === 'friendtotal') {
-        let model = req.userType === 'authUser' ? authUser : user;
-        model.findById(req.user).then(result => {
-            res.status(200).send(String(result.student.length + result.teacher.length))
-        }).catch(err => {
-            res.status(500).send(err);
-        })
-        return;
     }
 
     if (req.header && req.header('data-categ') &&  req.header('data-categ').startsWith('subscribe')) {

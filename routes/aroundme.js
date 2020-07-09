@@ -68,6 +68,10 @@ router.post('/', authenticate, (req, res, next) => {
         return fetchAround({authorID: req.user});
     }
 
+    if (req.header !== null && req.header('data-categ') === 'fetcharoundme') {
+        return fetchAround({_id: req.body.id, authorID: req.user});
+    }
+
     if (req.header !== null && req.header('data-categ') && req.header('data-categ').startsWith('shared')) {
         return fetchAround({mode: 'publish', shareMe: []});
     }
@@ -556,6 +560,12 @@ router.post('/', authenticate, (req, res, next) => {
                     function fetch(username, image, cnt, cntArray) {
                         return new Promise((resolve, reject) => {
                            let update ={};
+                           let isLiked = req.user ? cnt.liked.filter(userID => userID === req.user) : [];
+                            if (isLiked.length > 0) {
+                                update['liked'] = true
+                            } else {
+                                update['liked'] = false
+                            }
                             update['username'] = username;
                             update['userImage'] = image;
                             update['userOpt'] = cnt.authorID === req.user;
@@ -565,6 +575,7 @@ router.post('/', authenticate, (req, res, next) => {
                             update['image'] = cnt.image;
                             update['created'] = cnt.created;
                             update['snapshot'] = cnt.snapshot;
+                            update['favorite'] = cnt.favorite;
                             update['video'] = cnt.video;
                             update['view'] = cnt.view;
                             update['_id'] = cnt._id;

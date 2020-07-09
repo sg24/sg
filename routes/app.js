@@ -737,7 +737,8 @@ router.patch('/header', authenticate, (req, res, next) => {
     if (req.header('data-categ') === 'changefavorite') {
         let model = req.body.model === 'post' ? posts :
         req.body.model === 'question' ? questions :
-        req.body.model === 'advert' ? adverts :  poets;
+        req.body.model === 'advert' ? adverts :  
+        req.body.model === 'aroundme' ? aroundme : poets;
         favorite.find({userID: req.user, [req.body.field]: {$in : req.body.id}}).then(result => {
             if (result && result.length > 0) {
                 favorite.findOneAndUpdate({userID: req.user}, {$pull: { [req.body.field]: req.body.id}}).then(() => {
