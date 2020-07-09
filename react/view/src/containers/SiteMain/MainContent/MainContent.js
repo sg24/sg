@@ -3,15 +3,19 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import MainModel from './MainModel/MainModel'; 
+import MainNav from '../MainNav/MainNav'
 
 class MainContent extends Component {
     render() {
         return (
-            <div className="site-main__content">
-                <div className="site-main__content--no-tab-wrapper">
-                    <MainModel />
+            <>
+                <div className="site-main__content">
+                    <div className="site-main__content--no-tab-wrapper">
+                        <MainModel />
+                    </div>
                 </div>
-            </div>
+                <MainNav/>
+            </>
         );
     }
 }

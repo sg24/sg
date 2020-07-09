@@ -4,7 +4,6 @@ import { withRouter, Route, Switch } from 'react-router-dom';
 
 import * as actions from '../../store/actions/index';
 import MainContent from './MainContent/MainContent';
-import MainNav from './MainNav/MainNav'
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
 import Modal from '../../components/UI/Modal/Modal';
 import MainFilter from '../../components/MainFilter/MainFilter';
@@ -79,14 +78,7 @@ class SiteMain extends Component {
                     <Backdrop 
                         component={ Modal }
                         err={ this.props.cntErr } /> : null}
-                <Switch>
-                    <Route path="/user/profile/:id" exact render={() => (
-                        <>
-                            <MainContent/>
-                            <MainNav/>
-                        </>    
-                    )}/>
-                </Switch>
+                <Route path="/user/profile/:id" exact component={MainContent}/>
             </div>
             { this.props.filterStart ? 
                 <div 

@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as actions from '../../../store/actions/index';
+import MainNav from '../MainNav/MainNav'
 import MainNavigations from '../../../components/MainNavigations/MainNavigations';
 import Loader from '../../../components/UI/Loader/Loader';
 import MainModel from './MainModel/MainModel'; 
@@ -66,6 +67,7 @@ class MainContent extends Component {
             )
         }
         return (
+            <>
             <div className="site-main__content">
                 <div className="site-main__content--wrapper">
                     <ul className="site-main__content--tab">
@@ -82,6 +84,8 @@ class MainContent extends Component {
                     { loaderCnt }
                 </div>
             </div>
+            <MainNav/>
+            </>
         );
     }
 }

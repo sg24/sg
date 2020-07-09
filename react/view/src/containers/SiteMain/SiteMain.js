@@ -4,7 +4,6 @@ import { withRouter, Route } from 'react-router-dom';
 
 import * as actions from '../../store/actions/index';
 import MainContent from './MainContent/MainContent';
-import MainNav from './MainNav/MainNav'
 import asyncComponent from '../../hoc/asyncComponent/asyncComponent';
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
 import Modal from '../../components/UI/Modal/Modal';
@@ -91,12 +90,7 @@ class SiteMain extends Component {
                             component={ Modal }
                             close={this.closeBackdropHandler}
                             err={ this.props.cntErr } /> : null}
-                    <Route path="/view/:categ/:id" render={() => (
-                        <>
-                            <MainContent/>
-                            <MainNav/>
-                        </>    
-                    )} />
+                    <Route path="/view/:categ/:id" component={MainContent}/>
                     <Contest />
             </div>
             { this.props.filterStart ? 

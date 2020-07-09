@@ -4,7 +4,6 @@ import { withRouter, Switch,Route } from 'react-router-dom';
 
 import * as actions from '../../store/actions/index';
 import MainContent from './MainContent/MainContent';
-import MainNav from './MainNav/MainNav'
 import asyncComponent from '../../hoc/asyncComponent/asyncComponent';
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
 import Modal from '../../components/UI/Modal/Modal';
@@ -94,18 +93,8 @@ class SiteMain extends Component {
                             close={this.closeModelBackdropHandler}
                             err={ this.props.cntErr } /> : null}
                     <Switch>
-                        <Route path="/users/:id" exact render={() => (
-                            <>
-                                <MainContent/>
-                                <MainNav/>
-                            </>    
-                        )}/>
-                        <Route path={"/users/:id/?search=/:id"} exact render={() => (
-                            <>
-                                <MainContent/>
-                                <MainNav/>
-                            </>    
-                        )} />
+                        <Route path="/users/:id" exact component={MainContent}/>
+                        <Route path={"/users/:id/?search=/:id"} exact component={MainContent}/>
                     </Switch>
             </div>
             { this.props.filterStart ? 
