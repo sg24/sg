@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Route, Switch } from 'react-router-dom';
+import { withRouter, Route } from 'react-router-dom';
 
 import * as actions from '../../store/actions/index';
 import MainContent from './MainContent/MainContent';

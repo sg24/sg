@@ -95,7 +95,7 @@ class SiteMain extends Component {
                     <Switch>
                         <Route path="/users/:id" exact component={MainContent}/>
                         <Route path={"/users/:id/?search=/:id"} exact component={MainContent}/>
-                        <Route path="/" exact component={MainContent}/>
+                        <Route path="/users" exact component={MainContent}/>
                     </Switch>
             </div>
             { this.props.filterStart ? 
