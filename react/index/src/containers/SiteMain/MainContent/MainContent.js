@@ -208,7 +208,7 @@ class MainContent extends Component {
             <div className="reuse-filter">
                 <div className="reuse-filter__wrapper">
                 <div className="reuse-filter__form" onClick={this.addAroundmeHandler}>
-                    <textarea  className="reuse-filter__form--cnt" placeholder="Write something ..." ></textarea>
+                    <textarea  className="reuse-filter__form--cnt" placeholder="Write something ..." disabled></textarea>
                 </div>
                 </div>
             </div>
