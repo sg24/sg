@@ -21,7 +21,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 400px;
+    width: 90%;
     min-height: 300px;
     max-height: 90%;
     background-color: #fff;
@@ -59,4 +59,10 @@
     color: #fff;
     font-size: 1rem;
     cursor: pointer;
+}
+
+@media (min-width: 530px) {
+    .site-main__full-post {
+        width: 400px;
+    }
 }

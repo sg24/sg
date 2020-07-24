@@ -10,6 +10,8 @@
         "googleAccessToken": "ya29.Il-xByYsBZ0QFU2W-9jsrfVK56i9yH0oW9jG2f9k9PU6A_CsxYUEpaxti5fhDAjjThBX-AGjcKnUwwihjU8uFS1hYZ2c-lJSxDKbJK90W6B8bwZ8wby_gQaVWUv8d-J_tw",
         "user": "scholarslodge24@gmail.com",
         "pass": "philipmayowa03",
-        "SENDGRID_API_KEY": "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"
+        "SENDGRID_API_KEY": "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",
+        "STRIPE_SECRET": "sk_test_51H4TuXJeH4RhE9GLJnZqssdOAH8zyipE0Ka3YESaqaAQweLBBngZWUYhcyJJsqMTSroVbiU6pXhmyVQRMUVjFO6Q00RdGYCH6c",
+        "PaypalAccessToken": "access_token$sandbox$pr4grrgyz5rmwhty$efada404fd067d33d859c630cd872a4c"
     }
 }
