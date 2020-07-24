@@ -39,6 +39,10 @@ const GroupSchema = new Schema({
         type: Array,
         default: [String]
     },
+    allowComment: {
+        type: Boolean,
+        default: true
+    },
     online: {
         type: Array,
         default: [String]

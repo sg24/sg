@@ -59,4 +59,6 @@ export const FETCH_CNT = 'FETCH_CNT';
 export const FETCH_CNT_START = 'FETCH_CNT_START';
 export const FETCH_CNT_FAIL = 'FETCH_CNT_FAIL';
 
+export const SUBMIT = 'SUBMIT';
+
 

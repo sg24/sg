@@ -92,6 +92,14 @@ const QchatSchema = new Schema({
     },
     access: {
     },
+    paid: {
+        type: Array,
+        default: []
+    },
+    amount: {
+        type: Number,
+        default: 0
+    },
     qchatTotal: {
         type: Number,
         required: true

@@ -126,42 +126,54 @@ router.post('/', authenticate, (req, res, next) => {
                            let update = {};
                            let fndAccess = false;
                            let private = false;
+                           let paid = false;
                            let model = cnt.access === 'friends' ? 
                            cnt.userType === 'authUser' ? authUser : user : null;
                             if (model) {
                                 model.findById(cnt.authorID).then(fnd => {
                                     let friends = [...fnd.teacher, ...fnd.student, cnt.authorID]
                                     let checkFriend = friends.filter(id => id === req.user)[0];
-                                    fndAccess = checkFriend !== null || checkFriend !== '';
+                                    fndAccess = checkFriend ? checkFriend : false;
+                                    props();
                                 })
+                                return;
                             }
 
-                            if (cnt.access && cnt.access.length) {
-                                let checkPrivate = [cnt.access, cnt.authorID].filter(id => id === req.user)[0];
-                                private =  checkPrivate !== null || checkPrivate !== ''
+                            if (cnt.access && Array.isArray(cnt.access)) {
+                                let checkPrivate = [...cnt.access, cnt.authorID].filter(id => id === req.user)[0];
+                                private =  checkPrivate ? checkPrivate : false
                             }   
+                            props();
 
-                            update['username'] = username;
-                            update['userImage'] = image;
-                            update['userOpt'] = cnt.authorID === req.user;
-                            update['authorID'] = cnt.authorID;
-                            update['write'] = cnt.write;
-                            update['comment'] = cnt.comment;
-                            update['image'] = cnt.image;
-                            update['hour'] = cnt.hour;
-                            update['minute'] = cnt.minute;
-                            update['second'] = cnt.second;
-                            update['created'] = cnt.created;
-                            update['qchatTotal'] = cnt.qchatTotal;
-                            update['contentID'] = cnt.contentID;
-                            update['mode'] = cnt.mode;
-                            update['title'] = cnt.title;
-                            update['access'] = cnt.access === 'public' ? true : cnt.access === 'friends' ? fndAccess : private;
-                            update['snapshot'] = cnt.snapshot;
-                            update['video'] = cnt.video;
-                            update['_id'] = cnt._id;
-                            cntArray.push({...update});
-                            resolve(cntArray)
+                            function props() {
+                                if (cnt.paid && cnt.paid.length > 0) {
+                                    let checkPaid = cnt.paid.filter(id => id === req.user)[0];
+                                    paid = checkPaid ? checkPaid : false
+                                }
+
+                                update['username'] = username;
+                                update['userImage'] = image;
+                                update['userOpt'] = cnt.authorID === req.user;
+                                update['authorID'] = cnt.authorID;
+                                update['write'] = cnt.write;
+                                update['comment'] = cnt.comment;
+                                update['image'] = cnt.image;
+                                update['hour'] = cnt.hour;
+                                update['minute'] = cnt.minute;
+                                update['second'] = cnt.second;
+                                update['created'] = cnt.created;
+                                update['qchatTotal'] = cnt.qchatTotal;
+                                update['contentID'] = cnt.contentID;
+                                update['mode'] = cnt.mode;
+                                update['title'] = cnt.title;
+                                update['access'] = cnt.access === 'public' ? true : cnt.access === 'friends' ? fndAccess ? fndAccess : paid : private ? private : paid;
+                                update['snapshot'] = cnt.snapshot;
+                                update['video'] = cnt.video;
+                                update['amount'] = cnt.amount;
+                                update['_id'] = cnt._id;
+                                cntArray.push({...update});
+                                resolve(cntArray)
+                            }
                         })
                     }
                 }).catch(err => {

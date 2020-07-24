@@ -101,6 +101,7 @@ class Form extends  Component {
         video: [],
         snapshot: [],
         mode: null,
+        amount: 0,
         active: null
     }
 
@@ -262,6 +263,7 @@ class Form extends  Component {
                 categs: qchat.categ,
                 formElement: oldEditor,
                 selectItm: typeof qchat.participant === 'object' ? null : qchat.participant,
+                amount: qchat.amount,
                 setTime: oldSetTime,
                 formIsValid: true,
                 updateCnt: true,
@@ -351,6 +353,11 @@ class Form extends  Component {
         this.setState({formElement: updateFormElement, formIsValid})
     }
 
+    amountChangedHandler = (event) => {
+        let value = event.target.value;
+        this.setState({amount: !value || value < 0 ? 0 : value})
+    }
+
     setTimeHandler = (event, inputType) => {
         let value = event.target.value;
         let updateFormType = updateObject(this.state.setTime[inputType], {
@@ -404,6 +411,7 @@ class Form extends  Component {
                 video: media.video ? media.video : [],
                 image: media.image ? media.image: [],
                 snapshot: media.snapshot ? media.snapshot : [],
+                amount: this.state.amount,
                 mode
             }
              this.addCntHandler(newCnt);
@@ -461,6 +469,8 @@ class Form extends  Component {
         let addItemOptClass = ['reuse-form__cnt--det__selec--opt'];
         let isValid  = !this.state.formIsValid || !this.state.setTimeValid || (!this.state.setTime.hour.value && !this.state.setTime.minute.value && !this.state.setTime.second.value)
         || (!this.state.selectItm && (!this.props.media.user || (this.props.media.user && !this.props.media.user.length > 0)));
+        
+        let amountInput = null;
 
         if (this.state.showAddItm) {
             addItemClass.push('reuse-form__cnt--det__selec--add__visible icon--rotate');
@@ -514,6 +524,25 @@ class Form extends  Component {
         //         </div>
         //     )
         // }
+
+        if ((this.props.media && this.props.media.user && this.props.media.user.length > 0) || this.state.selectItm === 'friends') {
+            amountInput = (
+                <div className="reuse-form__cnt--wrapper">
+                    <label className="reuse-form__cnt--title">Enter Amount</label>
+                    <div className="reuse-form__cnt--det">
+                        <input 
+                            type="Number" 
+                            name=""
+                            required
+                            minLength="1"
+                            value={this.state.amount}
+                            placeholder="Enter Amount in Naira"
+                            className="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg"
+                            onChange={ this.amountChangedHandler} />
+                    </div>
+                </div>
+            )
+        }
 
         let cnt = (
             <div className="reuse-form__wrapper">
@@ -694,6 +723,7 @@ class Form extends  Component {
                             </div>
                         </div>
                     </div>
+                    { amountInput }
                 </div>
                 
                 { this.state.showAddItm ? 

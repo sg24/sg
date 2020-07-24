@@ -336,6 +336,7 @@
     cursor: pointer;
     box-shadow: 0 2px 2px rgba(0,0,0, 0.5);
 }
+
 .reuse-onlineque__footer--exam__start{
     background-color: #0284a8;
     color: #fff;
@@ -344,6 +345,17 @@
 .reuse-onlineque__footer--exam__req {
     background-color: #e9ebf2;
     color: #333;
+}
+
+.reuse-onlineque__footer--exam__pay {
+    background-color: #e9ebf2;
+    color: #333;
+    padding: 4px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 2px rgba(0,0,0, 0.5);
+    width: 90px;
+    margin: 0 auto;
 }
 
 .reuse-onlineque__footer--tooltip {

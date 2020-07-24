@@ -10,7 +10,6 @@ import * as actions from '../../../../store/actions/index';
 // import PtCategs from '../../../../components/Main/PostCategs/PostCategs';
 // import Categs from '../../../../components/Main/PostCategs/Categs/Categs';
 import Backdrop from '../../../../components/UI/Backdrop/Backdrop';
-import Loader from '../../../../components/UI/Loader/Loader';
 import Modal from '../../../../components/UI/Modal/Modal';
 import Aux from '../../../../hoc/Auxs/Aux';
 import asyncComponent from '../../../../hoc/asyncComponent/asyncComponent';
@@ -95,6 +94,7 @@ class Form extends  Component {
         showForm: false,
         indexDBErr: null,
         mode: null,
+        amount: 0,
         active: null
     }
 
@@ -154,6 +154,7 @@ class Form extends  Component {
                 categs: qchat.categ,
                 formElement: oldEditor,
                 selectItm: typeof qchat.participant === 'object' ? null : qchat.participant,
+                amount: qchat.amount,
                 setTime: oldSetTime,
                 formIsValid: true,
                 setTimeValid: true
@@ -316,6 +317,11 @@ class Form extends  Component {
         this.setState({formElement: updateFormElement, formIsValid})
     }
 
+    amountChangedHandler = (event) => {
+        let value = event.target.value;
+        this.setState({amount: !value || value < 0 ? 0 : value})
+    }
+
     setTimeHandler = (event, inputType) => {
         let value = event.target.value;
         let updateFormType = updateObject(this.state.setTime[inputType], {
@@ -362,6 +368,7 @@ class Form extends  Component {
                 hour: this.state.setTime.hour.value,
                 minute: this.state.setTime.minute.value,
                 second: this.state.setTime.second.value,
+                amount: this.state.amount,
                 mode
             }
              this.addCntHandler(newCnt);
@@ -414,6 +421,7 @@ class Form extends  Component {
         let addItemClass = ['reuse-form__cnt--det__selec reuse-form__cnt--det__selec--add'];
         let selectOptClass = ['reuse-form__cnt--det__selec--opt-user']
         let addItemOptClass = ['reuse-form__cnt--det__selec--opt'];
+        let amountInput = null;
         // let isValid  = !this.state.formIsValid || !this.state.setTimeValid || (!this.state.setTime.hour.value && !this.state.setTime.minute.value && !this.state.setTime.second.value)
         // || this.state.categs.length < 1 || (!this.state.selectItm && (!this.props.media.user || (this.props.media.user && !this.props.media.user.length > 0)));
         let isValid  = !this.state.formIsValid || !this.state.setTimeValid || (!this.state.setTime.hour.value && !this.state.setTime.minute.value && !this.state.setTime.second.value)
@@ -428,6 +436,25 @@ class Form extends  Component {
             selectOptClass.push('reuse-form__cnt--det__selec--opt-user__visible icon--rotate');
             selectOptClass.push('reuse-form__cnt--det__selec--opt-user__visible')
         } 
+
+        if ((this.props.media.user && this.props.media.user.length > 0) || this.state.selectItm === 'friends') {
+            amountInput = (
+                <div className="reuse-form__cnt--wrapper">
+                    <label className="reuse-form__cnt--title">Enter Amount</label>
+                    <div className="reuse-form__cnt--det">
+                        <input 
+                            type="number" 
+                            name=""
+                            required
+                            minLength="1"
+                            value={this.state.amount}
+                            placeholder="Enter Amount in Naira"
+                            className="reuse-form__cnt--det__input reuse-form__cnt--det__input--lg"
+                            onChange={ this.amountChangedHandler} />
+                    </div>
+                </div>
+            )
+        }
 
         return (
             <form className="reuse-form">
@@ -609,6 +636,7 @@ class Form extends  Component {
                                 </div>
                             </div>
                         </div>
+                        { amountInput }
                     </div>
                     
                     { this.state.showAddItm ? 

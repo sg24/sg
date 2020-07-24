@@ -49,8 +49,9 @@ export {
 } from './main';
 
 export {
-    fetchCntInit,
+   fetchCntInit,
    fetchCntStart,
    fetchCntFail,
-   fetchCnt
+   fetchCnt,
+   submit
 } from './examtab';

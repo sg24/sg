@@ -14,7 +14,8 @@ const initialState = {
     changeCnt: false,
     changeCntErr: null,
     changeCntStart: null,
-    preview: []
+    preview: [],
+    showPost: null
 }
 
 const fetchCnt = (state, action) => {
@@ -94,6 +95,13 @@ const resetModel = (state, action) => {
     return updateObject(state, {cntErr: null,changeCntStart: null, changeCntErr: null, changeCnt: false})
 };
 
+const showFullPost = (state, action) => {
+    return updateObject(state, {showPost: action.post})
+}
+
+const hideFullPost = (state, action) => {
+    return updateObject(state, {showPost: null})
+}
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
@@ -129,6 +137,10 @@ const reducer = (state = initialState, action) => {
             return resetModel(state, action);
         case actionTypes.SHOW_PREVIEW:
             return showPreview(state, action);
+        case actionTypes.SHOW_FULLPOST:
+            return showFullPost(state, action);
+        case actionTypes.HIDE_FULLPOST:
+            return hideFullPost(state, action);
         default: return state
     }
 };

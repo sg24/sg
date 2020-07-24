@@ -1,49 +1,16 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import draftToHtml from 'draftjs-to-html'
 
-import axios from '../../../../../axios';
+import Carousel from '../../../../../components/UI/Media/Media';
 import './Submit.css';
 
 class Submit extends Component {
     state = {
-        show: false,
-        comment: '',
-        err: null,
-        msg: null,
-    }
-
-    facebookShareHandler = () => {
-        var facebookWindow = window.open(`https://www.facebook.com/sharer/sharer.php?u=${document.location.origin}/view/${this.props.cntType}/${this.props.shareID}`, 'facebook-popup', 'height=350,width=600');
-        if(facebookWindow.focus) { facebookWindow.focus(); }
-          return false;
-    }
-
-    twitterShareHandler = () => {
-        var twitterWindow = window.open(`https://twitter.com/share?url=${document.location.origin}/view/${this.props.cntType}/${this.props.shareID}`, 'twitter-popup', 'height=350,width=600');
-          if(twitterWindow.focus) { twitterWindow.focus(); }
-            return false;
-    }    
-
-    inputChangeHandler  = (event) => {
-        this.setState({comment: event.target.value, err: null, msg: null})
-    }
-
-    submitCommentHandler = () => {
-        if (this.state.comment) {
-            this.setState({disable: true, err: null, msg: null})
-            axios.post( `/view/qchat/${this.props.id}`,{ id: this.props.id, cntGrp: 'qchat', cnt: this.state.comment},{headers: {'data-categ': 'createComment'}}).then(res => {
-                this.setState({comment: '', msg: 'Comment Added successfully', disable: false})
-            }).catch(err => {
-               this.setState({err: 'Network Error', disable: false})
-            })
-        }
+        show: false
     }
 
     showCommentHandler = () => {
-        // this.setState((prevState, props) => {
-        //     return {
-        //         show: !prevState.show
-        // }})
         window.location.assign(`/view/qchat/${this.props.id}`)
     }
 
@@ -51,70 +18,127 @@ class Submit extends Component {
         window.location.assign(`/view/qchat/${this.props.id}`)
     }
 
+    showCorrectHandler = () => {
+        this.setState({show: !this.state.show})
+    }
+
     render() {
-        let btnClass = ['exam-cnt__submit--share__btn'];
-        let scoreClass = ['exam-cnt__submit--score__wrapper']
-        if (this.state.disable || !this.state.comment) {
-            btnClass.push('exam-cnt__submit--share__btn--disable')
-        }
+        let scoreClass = ['exam-cnt__submit--score__wrapper'];
+        let correction = null;
         if (this.props.totalScore < 50) {
             scoreClass.push('exam-cnt__submit--score__wrapper--below')
         }
         let cnt = (
-            <>
-            <div className="exam-cnt__submit--score">
-                <div className={scoreClass.join(' ')}>
-                    {Math.round(this.props.totalScore)}%
+            <div className="exam-cnt__submit--wrapper" >
+                <div className="exam-cnt__submit--score">
+                    <div className={scoreClass.join(' ')}>
+                        {Math.round(this.props.totalScore)}%
+                    </div>
+                </div>
+                {/* <h4 className="exam-cnt__submit--title">Share score</h4> */}
+                <ul className="exam-cnt__submit--share">
+                    <li
+                        onClick={this.showCorrectHandler}>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'check']} 
+                            className="icon icon__exam-cnt--cor" />
+                        Correction
+                    </li>
+                    <li
+                        onClick={this.showCommentHandler}>
+                        <FontAwesomeIcon 
+                            icon={['fas', 'comment-dots']} 
+                            className="icon icon__exam-cnt--comment" />
+                    </li>
+                </ul>
+                <div 
+                    className="exam-cnt__submit--close"
+                    onClick={this.closeExamHandler}>
+                    <FontAwesomeIcon 
+                        icon={['fas', 'times']} 
+                        className="icon icon__exam-cnt--close" />
                 </div>
             </div>
-            <h4 className="exam-cnt__submit--title">Share score</h4>
-            <ul className="exam-cnt__submit--share">
-                {/* <li onClick={this.facebookShareHandler}>
-                    <FontAwesomeIcon 
-                        icon={['fab', 'facebook-square']} 
-                        className="icon icon__exam-cnt--facebook" />
-                </li>
-                <li onClick={this.twitterShareHandler}>
-                    <FontAwesomeIcon 
-                        icon={['fab', 'twitter']} 
-                        className="icon icon__exam-cnt--twitter" />
-                </li> */}
-                <li
-                    onClick={this.showCommentHandler}>
-                    <FontAwesomeIcon 
-                        icon={['fas', 'comment-dots']} 
-                        className="icon icon__exam-cnt--twitter" />
-                </li>
-            </ul>
-            <div 
-                className="exam-cnt__submit--close"
-                onClick={this.closeExamHandler}>
-                <FontAwesomeIcon 
-                    icon={['fas', 'times']} 
-                    className="icon icon__exam-cnt--close" />
-            </div>
-        </>
         )
 
         if (this.state.show) {
-            cnt = (
+            cnt = null;
+            correction = (
                 <>
-                    { this.state.err ? <div className="exam-cnt__submit--err">{this.state.err}</div> : null}
-                    { this.state.msg ? <div className="exam-cnt__submit--msg">{this.state.msg}</div> : null}
-                    <textarea 
-                        className="exam-cnt__submit--share__textarea"
-                        onChange={this.inputChangeHandler}
-                        value={this.state.comment}></textarea>
-                    <button 
-                        className={btnClass.join(' ')}                        
-                        onClick={this.submitCommentHandler}
-                        disabled={this.state.disable || !this.state.comment }>Comment</button>
-                    <div 
-                        className="exam-cnt__submit--close"
-                        onClick={this.showCommentHandler}>
-                        <FontAwesomeIcon 
-                            icon={['fas', 'times']} 
-                            className="icon icon__exam-cnt--close" />
+                    <div className="exam-cnt__submit--share__correct">
+                        <div 
+                            className="exam-cnt__submit--close exam-cnt__submit--share__correct-close"
+                            onClick={this.showCorrectHandler}>
+                            <FontAwesomeIcon 
+                                icon={['fas', 'times']} 
+                                className="icon icon__exam-cnt--close" />
+                        </div>
+                        <div className="exam-cnt__submit--share__correct--wrapper">
+                            { this.props.correction.map((que, index) => {
+                                const htmlContent = draftToHtml(JSON.parse(que.question),{ trigger: '#',separator: ' '}, true);
+                                let media = null;
+                                let correctionDet = (
+                                    <li>
+                                        <FontAwesomeIcon 
+                                            icon={['fas', 'check']} 
+                                            className="icon icon__exam-cnt--cor" />
+                                        { que.correctAns.join(' or ')}
+                                    </li>
+                                );
+
+                                if (!que.correct) {
+                                    correctionDet = (
+                                        <>
+                                            <li>
+                                                <FontAwesomeIcon 
+                                                    icon={['fas', 'times']} 
+                                                    className="icon icon__exam-cnt--err" />
+                                                { que.wrongAns.join(' or ')}
+                                            </li>
+                                            <li>
+                                                <FontAwesomeIcon 
+                                                    icon={['fas', 'check']} 
+                                                    className="icon icon__exam-cnt--cor" />
+                                                { que.correctAns.join(' or ')}
+                                            </li>
+                                        </>
+                                    )
+                                }
+
+                                if (que.media.length > 0) {
+                                    media = (
+                                        <div className="exam-cnt__media">
+                                            <div className="exam-cnt__media--main-wrapper">
+                                                <Carousel
+                                                    images={que.media}
+                                                    wrapperClass="exam-cnt__media--wrapper"
+                                                    prevClass="exam-cnt__media--cnt exam-cnt__media--cnt__prev"
+                                                    prevIcnClass="icon icon__exam-cnt--media__prev"
+                                                    nextClass="exam-cnt__media--cnt exam-cnt__media--cnt__nxt"
+                                                    nextIcnClass="icon icon__exam-cnt--media__nxt"
+                                                    playClass="exam-cnt__media--wrapper__icn"
+                                                    playIcnClass="icon icon__exam-cnt--media__play"/>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                                return (
+                                    <div 
+                                        className="exam-cnt__submit--share__correct--que"
+                                        key={index}>
+                                        { media }
+                                        <div 
+                                            className="exam-cnt__content--que__wrapper exam-cnt__submit--que__wrapper"
+                                            dangerouslySetInnerHTML={{
+                                                __html: htmlContent
+                                            }}></div>
+                                        <ul className="exam-cnt__submit--share__correct--que__opt">
+                                            { correctionDet }
+                                        </ul>
+                                    </div>
+                                )
+                            })}
+                        </div>
                     </div>
                 </>
             )
@@ -122,9 +146,8 @@ class Submit extends Component {
 
         return (
             <div className="exam-cnt__submit">
-                <div className="exam-cnt__submit--wrapper" >
-                    { cnt }
-                </div>
+                { cnt }
+                { correction }
             </div>
         )
     }

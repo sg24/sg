@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import * as actions from '../../store/actions/index';
 import MainContent from './MainContent/MainContent';
@@ -87,6 +88,15 @@ class SiteMain extends Component {
 
     closeFormHandler  = () => {
         this.props.history.push('/index/aroundme')
+    }
+
+    hideFullPostHandler = () => {
+        this.props.onHideFullPost();
+    }
+
+    showChatHandler = (id) => {
+        this.props.history.push(`/index/aroundme/${id}`)
+        this.props.onHideFullPost();
     }
 
     render() {
@@ -217,6 +227,20 @@ class SiteMain extends Component {
                   </div>
                   )}/>
                 <Route path="/index/preview" exact component={AsyncPreview}/>
+                { this.props.showPost ? (
+                    <div className="site-main__form--main-wrapper">
+                        <div className="site-main__form--main-wrapper__overlay" onClick={this.hideFullPostHandler}></div>
+                        <div className="site-main__full-post">
+                        <p>{this.props.showPost.post}</p>
+                        <div className="site-main__full-post__comment">
+                            <div onClick={this.showChatHandler.bind(this, this.props.showPost.id)}>
+                                <FontAwesomeIcon 
+                                    icon={['far', 'comments']}/> 
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                ) : null}
         </div>
         )
     }
@@ -236,6 +260,7 @@ const mapStateToProps = state => {
         changeCntStart: state.cnt.changeCntStart,
         changeCntErr: state.cnt.changeCntErr,
         changeCnt: state.cnt.changeCnt,
+        showPost: state.cnt.showPost,
         cntType: state.share.cntType,
         changeGrpCntStart: state.grp.changeGrpCntStart,
         changeGrpCntErr: state.grp.changeGrpCntErr,
@@ -251,7 +276,8 @@ const mapDispatchToProps = dispatch => {
         onChangeGrpCnt: (id, userID, categ, username, curTab, confirm) => dispatch(actions.changeGrpCntInit(id, userID, categ, username, curTab, confirm)),
         onCloseChangeCnt: () => dispatch(actions.changeCntCancel()),
         onCloseChangeGrpCnt: () => dispatch(actions.changeGrpCntCancel()),
-        onCloseModelBackdrop: () => dispatch(actions.resetModel())
+        onCloseModelBackdrop: () => dispatch(actions.resetModel()),
+        onHideFullPost: () => dispatch(actions.hideFullPost())
     };
 };
 

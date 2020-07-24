@@ -3,7 +3,10 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
     cnt: null,
-    err: null
+    err: null,
+    submit: false,
+    totalScore: 0,
+    correction: []
 };
 
 const fetchCntFail = (state, action) => {
@@ -18,6 +21,10 @@ const fetchCnt = (state, action) => {
     return updateObject(state, {cnt: action.cnt})
 };
 
+const submit = (state, action) => {
+    return updateObject(state, {submit: true, totalScore: action.totalScore, correction: action.correction})
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
        case actionTypes.FETCH_CNT_START:
@@ -26,6 +33,8 @@ const reducer = (state = initialState, action) => {
             return fetchCntFail(state, action);
         case actionTypes.FETCH_CNT:
             return fetchCnt(state, action);
+        case actionTypes.SUBMIT:
+            return submit(state, action);
         default: return state
     };
 };

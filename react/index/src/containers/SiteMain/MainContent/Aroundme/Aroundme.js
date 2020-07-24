@@ -185,6 +185,10 @@ class Aroundme extends Component {
         this.props.history.push(`/index/aroundme/${id}`)
     }
 
+    showPostHandler = (post) => {
+        this.props.onSetPost(post)
+    }
+
     previewHandler = (media) => {
         this.props.history.push(`/index/preview`);
         this.props.onShowPreview(media)
@@ -241,6 +245,7 @@ class Aroundme extends Component {
                 moveSlidePlay={this.moveSlidePlayHandler}
                 clearSlidePlay={this.clearSlidePlayhandler}
                 changeCnt={this.changeCntHandler}
+                showPost={this.showPostHandler}
                 showChat={this.showChatHandler}
                 editCnt={this.editCntHandler}
                 preview={this.previewHandler}/>
@@ -283,7 +288,8 @@ const mapDispatchToProps = dispatch => {
         onFetchVideo: (id, url) => dispatch(actions.fetchVideo(id, url)),
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),
         onChangeCnt: (id, title, det, confirm, modelType) => dispatch(actions.changeCntInit(id, title, det, confirm,  modelType)),
-        onShowPreview: (media) => dispatch(actions.showPreview(media))
+        onShowPreview: (media) => dispatch(actions.showPreview(media)),
+        onSetPost: (post) => dispatch(actions.showFullPost(post))
     };
 };
 

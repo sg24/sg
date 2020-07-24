@@ -1,21 +1,21 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\g\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add jquery -D
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add braintree-web
 
 PATH: 
-  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\g\bin;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\PC Connectivity Solution;C:\Program Files (x86)\Silverfrost\FTN95;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn;C:\Program Files\Microsoft SQL Server\100\Tools\Binn;C:\Program Files\Microsoft SQL Server\100\DTS\Binn;C:\Program Files (x86)\Dev-Cpp\MinGW64\bin;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files\Java\jdk1.8.0_111\bin;C:\Python27;C:\ C;C:\Program Files\Git\Python27\Scripts;C:\Program Files\PuTTY;C:\Program Files\apache-maven-3.5.0;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Microsoft SQL Server\130\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio;C:\xampp\php;C:\Program Files (x86)\Brackets\command;C:\Program Files\nodejs;C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin;C:\Program Files\Microsoft VS Code\bin;C:\Users\g\Anaconda3;C:\Users\g\Anaconda3\Library\mingw-w64\bin;C:\Users\g\Anaconda3\Library\usr\bin;C:\Users\g\Anaconda3\Library\bin;C:\Users\g\Anaconda3\Scripts;C:\Program Files\Java\jdk1.8.0_111\bin; C;C:\Program Files\Git\Python27\Scripts;C:\Program Files\apache-maven-3.5.0\bin;C:\Users\g\AppData\Roaming\Composer\vendor\bin;C:\Program Files\heroku\bin;C:\Users\g\AppData\Roaming\npm;C:\Program Files\google-cloud-sdk\path.bash.inc;C:\Program Files\google-cloud-sdk\completion.bash.inc;C:\Program Files\google-cloud-sdk\path.zsh.inc;C:\Program Files\google-cloud-sdk\completion.zsh.inc;C:\Program Files\google-cloud-sdk\path.fish.inc;C:\Program Files\ffmpeg\bin;C:\Users\g\AppData\Local\Programs\Microsoft VS Code\bin
+  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\g\bin;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\PC Connectivity Solution;C:\Program Files (x86)\Silverfrost\FTN95;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn;C:\Program Files\Microsoft SQL Server\100\Tools\Binn;C:\Program Files\Microsoft SQL Server\100\DTS\Binn;C:\Program Files (x86)\Dev-Cpp\MinGW64\bin;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files\Java\jdk1.8.0_111\bin;C:\Python27;C:\ C;C:\Program Files\Git\Python27\Scripts;C:\Program Files\PuTTY;C:\Program Files\apache-maven-3.5.0;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Microsoft SQL Server\130\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio;C:\xampp\php;C:\Program Files (x86)\Brackets\command;C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin;C:\Program Files\Microsoft VS Code\bin;C:\Program Files (x86)\Yarn\bin;C:\Program Files\nodejs;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\PC Connectivity Solution;C:\Program Files (x86)\Silverfrost\FTN95;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn;C:\Program Files\Microsoft SQL Server\100\Tools\Binn;C:\Program Files\Microsoft SQL Server\100\DTS\Binn;C:\Program Files (x86)\Dev-Cpp\MinGW64\bin;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files\Java\jdk1.8.0_111\bin;C:\Python27;C:\ C;C:\Program Files\Git\Python27\Scripts;C:\Program Files\PuTTY;C:\Program Files\apache-maven-3.5.0;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Microsoft SQL Server\130\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio;C:\xampp\php;C:\Program Files (x86)\Brackets\command;C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin;C:\Program Files\Microsoft VS Code\bin;C:\Program Files (x86)\Yarn\bin;C:\Program Files\nodejs;C:\Users\g\.yarn\bin;C:\Users\g\AppData\Local\Yarn\bin;C:\Program Files\ffmpeg\bin;C:\Users\g\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\g\AppData\Local\Android\sdk\platform-tools;C:\Users\g\AppData\Roaming\npm
 
 Yarn version: 
-  1.17.3
+  1.22.4
 
 Node version: 
-  12.10.0
+  12.18.2
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: getaddrinfo ENOTFOUND registry.yarnpkg.com
-      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:60:26)
+  Error: read ECONNRESET
+      at TLSWrap.onStreamRead (internal/stream_base_commons.js:205:27)
 
 npm manifest: 
   {
@@ -29,19 +29,20 @@ npm manifest:
       "generate-sw": "workbox injectManifest"
     },
     "dependencies": {
-      "@ffmpeg-installer/ffmpeg": "^1.0.20",
       "@fortawesome/fontawesome-svg-core": "^1.2.22",
       "@fortawesome/free-brands-svg-icons": "^5.10.2",
       "@fortawesome/free-regular-svg-icons": "^5.10.2",
       "@fortawesome/free-solid-svg-icons": "^5.10.2",
       "@fortawesome/react-fontawesome": "^0.1.4",
       "@sendgrid/mail": "^6.4.0",
+      "@stripe/stripe-js": "^1.8.0",
       "@zeit/next-css": "^1.0.1",
       "array-sort": "^1.0.0",
       "axios": "^0.19.0",
       "bcryptjs": "^2.4.3",
       "body-parser": "^1.19.0",
       "cookie-parser": "^1.4.4",
+      "dotenv": "8.2.0",
       "draft-js": "0.10.5",
       "draft-js-export-html": "^1.4.1",
       "events-polyfill": "^2.1.2",
@@ -73,11 +74,13 @@ npm manifest:
       "react-redux": "^7.1.0",
       "react-router-dom": "^5.1.2",
       "react-timeago": "^4.4.0",
+      "react-transition-group": "^4.4.1",
       "redux-saga": "^1.0.5",
       "redux-thunk": "^2.3.0",
       "serve-favicon": "^2.5.0",
       "sitemap": "^5.1.0",
       "socket.io": "^2.3.0",
+      "stripe": "^8.70.0",
       "uuid": "^3.4.0",
       "validator": "^12.0.0",
       "web-push": "^3.4.3"
@@ -85,8 +88,11 @@ npm manifest:
     "devDependencies": {
       "@svgr/webpack": "^5.1.0",
       "autoprefixer": "^6.3.6",
+      "babel-polyfill": "^6.26.0",
       "browser-sync": "^2.26.7",
       "draftjs-to-html": "^0.9.1",
+      "emoji-mart": "^3.0.0",
+      "file-saver": "^2.0.2",
       "gulp": "^4.0.2",
       "gulp-postcss": "^8.0.0",
       "gulp-watch": "^4.3.5",
@@ -101,7 +107,9 @@ npm manifest:
       "react-app-polyfill": "^1.0.5",
       "react-autofill": "^1.1.4",
       "react-cropper": "^1.3.0",
+      "react-file-icon": "^0.2.0",
       "react-moment": "^0.9.7",
+      "react-stripe-checkout": "^2.6.3",
       "socket.io-client": "^2.3.0",
       "url-loader": "^3.0.0",
       "window-location-origin": "^0.1.0",
@@ -1113,6 +1121,13 @@ Lockfile:
     dependencies:
       regenerator-runtime "^0.13.2"
   
+  "@babel/runtime@^7.8.7":
+    version "7.9.6"
+    resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.9.6.tgz#a9102eb5cadedf3f31d08a9ecf294af7827ea29f"
+    integrity sha512-64AF1xY3OAkFHqOb9s4jpgk1Mm5vDZ4L3acHvAml+53nO1XbXLuDodsVpO4OIUsmemlUHMxNdYMNJmsvOwLrvQ==
+    dependencies:
+      regenerator-runtime "^0.13.4"
+  
   "@babel/template@^7.7.0", "@babel/template@^7.8.3":
     version "7.8.3"
     resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.8.3.tgz#e02ad04fe262a657809327f578056ca15fd4d1b8"
@@ -1150,54 +1165,6 @@ Lockfile:
     version "1.4.0"
     resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
     integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
-  
-  "@ffmpeg-installer/darwin-x64@4.1.0":
-    version "4.1.0"
-    resolved "https://registry.yarnpkg.com/@ffmpeg-installer/darwin-x64/-/darwin-x64-4.1.0.tgz#48e1706c690e628148482bfb64acb67472089aaa"
-    integrity sha512-Z4EyG3cIFjdhlY8wI9aLUXuH8nVt7E9SlMVZtWvSPnm2sm37/yC2CwjUzyCQbJbySnef1tQwGG2Sx+uWhd9IAw==
-  
-  "@ffmpeg-installer/ffmpeg@^1.0.20":
-    version "1.0.20"
-    resolved "https://registry.yarnpkg.com/@ffmpeg-installer/ffmpeg/-/ffmpeg-1.0.20.tgz#d3c9c2bbcd76149468fb0886c2b3fe9e4795490b"
-    integrity sha512-wbgd//6OdwbFXYgV68ZyKrIcozEQpUKlvV66XHaqO2h3sFbX0jYLzx62Q0v8UcFWN21LoxT98NU2P+K0OWsKNA==
-    optionalDependencies:
-      "@ffmpeg-installer/darwin-x64" "4.1.0"
-      "@ffmpeg-installer/linux-arm" "4.1.3"
-      "@ffmpeg-installer/linux-arm64" "4.1.4"
-      "@ffmpeg-installer/linux-ia32" "4.1.0"
-      "@ffmpeg-installer/linux-x64" "4.1.0"
-      "@ffmpeg-installer/win32-ia32" "4.1.0"
-      "@ffmpeg-installer/win32-x64" "4.1.0"
-  
-  "@ffmpeg-installer/linux-arm64@4.1.4":
-    version "4.1.4"
-    resolved "https://registry.yarnpkg.com/@ffmpeg-installer/linux-arm64/-/linux-arm64-4.1.4.tgz#7219f3f901bb67f7926cb060b56b6974a6cad29f"
-    integrity sha512-dljEqAOD0oIM6O6DxBW9US/FkvqvQwgJ2lGHOwHDDwu/pX8+V0YsDL1xqHbj1DMX/+nP9rxw7G7gcUvGspSoKg==
-  
-  "@ffmpeg-installer/linux-arm@4.1.3":
-    version "4.1.3"
-    resolved "https://registry.yarnpkg.com/@ffmpeg-installer/linux-arm/-/linux-arm-4.1.3.tgz#c554f105ed5f10475ec25d7bec94926ce18db4c1"
-    integrity sha512-NDf5V6l8AfzZ8WzUGZ5mV8O/xMzRag2ETR6+TlGIsMHp81agx51cqpPItXPib/nAZYmo55Bl2L6/WOMI3A5YRg==
-  
-  "@ffmpeg-installer/linux-ia32@4.1.0":
-    version "4.1.0"
-    resolved "https://registry.yarnpkg.com/@ffmpeg-installer/linux-ia32/-/linux-ia32-4.1.0.tgz#adad70b0d0d9d8d813983d6e683c5a338a75e442"
-    integrity sha512-0LWyFQnPf+Ij9GQGD034hS6A90URNu9HCtQ5cTqo5MxOEc7Rd8gLXrJvn++UmxhU0J5RyRE9KRYstdCVUjkNOQ==
-  
-  "@ffmpeg-installer/linux-x64@4.1.0":
-    version "4.1.0"
-    resolved "https://registry.yarnpkg.com/@ffmpeg-installer/linux-x64/-/linux-x64-4.1.0.tgz#b4a5d89c4e12e6d9306dbcdc573df716ec1c4323"
-    integrity sha512-Y5BWhGLU/WpQjOArNIgXD3z5mxxdV8c41C+U15nsE5yF8tVcdCGet5zPs5Zy3Ta6bU7haGpIzryutqCGQA/W8A==
-  
-  "@ffmpeg-installer/win32-ia32@4.1.0":
-    version "4.1.0"
-    resolved "https://registry.yarnpkg.com/@ffmpeg-installer/win32-ia32/-/win32-ia32-4.1.0.tgz#6eac4fb691b64c02e7a116c1e2d167f3e9b40638"
-    integrity sha512-FV2D7RlaZv/lrtdhaQ4oETwoFUsUjlUiasiZLDxhEUPdNDWcH1OU9K1xTvqz+OXLdsmYelUDuBS/zkMOTtlUAw==
-  
-  "@ffmpeg-installer/win32-x64@4.1.0":
-    version "4.1.0"
-    resolved "https://registry.yarnpkg.com/@ffmpeg-installer/win32-x64/-/win32-x64-4.1.0.tgz#17e8699b5798d4c60e36e2d6326a8ebe5e95a2c5"
-    integrity sha512-Drt5u2vzDnIONf4ZEkKtFlbvwj6rI3kxw1Ck9fpudmtgaZIHD4ucsWB2lCZBXRxJgXR+2IMSti+4rtM4C4rXgg==
   
   "@fortawesome/fontawesome-common-types@^0.2.27":
     version "0.2.27"
@@ -1340,6 +1307,11 @@ Lockfile:
       "@sendgrid/client" "^6.4.0"
       "@sendgrid/helpers" "^6.4.0"
   
+  "@stripe/stripe-js@^1.8.0":
+    version "1.8.0"
+    resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.8.0.tgz#100f102d757cd024f94635dba231993554c8cfba"
+    integrity sha512-VsIohJw70LIdB4b621RN6pTyw49ZMy+QjB81fl+Psu5X5ppiq/c+rG0F+XKHSVpp4JZRNDkQnsOGeuHow0aluA==
+  
   "@svgr/babel-plugin-add-jsx-attribute@^5.0.1":
     version "5.0.1"
     resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-5.0.1.tgz#744853b6533e83ce712d41d1873200b3e0a0b6fc"
@@ -1457,6 +1429,11 @@ Lockfile:
     version "12.7.2"
     resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.2.tgz#c4e63af5e8823ce9cc3f0b34f7b998c2171f0c44"
     integrity sha512-dyYO+f6ihZEtNPDcWNR1fkoTDf3zAK3lAABDze3mz6POyIercH0lEUawUFXlG8xaQZmm1yEBON/4TsYv/laDYg==
+  
+  "@types/node@>=8.1.0":
+    version "14.0.23"
+    resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.23.tgz#676fa0883450ed9da0bb24156213636290892806"
+    integrity sha512-Z4U8yDAl5TFkmYsZdFPdjeMa57NOvnaf1tljHzhouaPEp7LCj2JKkejpI1ODviIAQuW4CcQmxkQ77rnLsOOoKw==
   
   "@types/node@^12.12.3":
     version "12.12.14"
@@ -2382,6 +2359,15 @@ Lockfile:
     version "0.0.1"
     resolved "https://registry.yarnpkg.com/babel-plugin-transform-system-register/-/babel-plugin-transform-system-register-0.0.1.tgz#9dff40390c2763ac518f0b2ad7c5ea4f65a5be25"
     integrity sha1-nf9AOQwnY6xRjwsq18XqT2WlviU=
+  
+  babel-polyfill@^6.26.0:
+    version "6.26.0"
+    resolved "https://registry.yarnpkg.com/babel-polyfill/-/babel-polyfill-6.26.0.tgz#379937abc67d7895970adc621f284cd966cf2153"
+    integrity sha1-N5k3q8Z9eJWXCtxiHyhM2WbPIVM=
+    dependencies:
+      babel-runtime "^6.26.0"
+      core-js "^2.5.0"
+      regenerator-runtime "^0.10.5"
   
   babel-register@^6.26.0:
     version "6.26.0"
@@ -3851,6 +3837,11 @@ Lockfile:
     dependencies:
       css-tree "1.0.0-alpha.37"
   
+  csstype@^2.6.7:
+    version "2.6.10"
+    resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.10.tgz#e63af50e66d7c266edb6b32909cfd0aabe03928b"
+    integrity sha512-D34BqZU4cIlMCY93rZHbrq9pjTAQJ3U8S8rfBqjwHxkGPThWFjzZDQpgMJY0QViLxth6ZKYiwFBo14RdN44U/w==
+  
   currently-unhandled@^0.4.1:
     version "0.4.1"
     resolved "https://registry.yarnpkg.com/currently-unhandled/-/currently-unhandled-0.4.1.tgz#988df33feab191ef799a61369dd76c17adf957ea"
@@ -4073,6 +4064,14 @@ Lockfile:
       miller-rabin "^4.0.0"
       randombytes "^2.0.0"
   
+  dom-helpers@^5.0.1:
+    version "5.1.4"
+    resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-5.1.4.tgz#4609680ab5c79a45f2531441f1949b79d6587f4b"
+    integrity sha512-TjMyeVUvNEnOnhzs6uAn9Ya47GmMo3qq7m+Lr/3ON0Rs5kHvb8I+SQYjLUSYn7qhEm0QjW0yrBkvz9yOrwwz1A==
+    dependencies:
+      "@babel/runtime" "^7.8.7"
+      csstype "^2.6.7"
+  
   dom-serializer@0:
     version "0.2.2"
     resolved "https://registry.yarnpkg.com/dom-serializer/-/dom-serializer-0.2.2.tgz#1afb81f533717175d478655debc5e332d9f9bb51"
@@ -4117,6 +4116,11 @@ Lockfile:
     integrity sha512-uEUyaDKoSQ1M4Oq8l45hSE26SnTxL6snNnqvK/VWx5wJhmff5z0FUVJDKDanor/6w3kzE3i7XZOk+7wC0EXr1A==
     dependencies:
       is-obj "^2.0.0"
+  
+  dotenv@8.2.0:
+    version "8.2.0"
+    resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
+    integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
   
   draft-js-export-html@^1.4.1:
     version "1.4.1"
@@ -4245,6 +4249,14 @@ Lockfile:
       inherits "^2.0.1"
       minimalistic-assert "^1.0.0"
       minimalistic-crypto-utils "^1.0.0"
+  
+  emoji-mart@^3.0.0:
+    version "3.0.0"
+    resolved "https://registry.yarnpkg.com/emoji-mart/-/emoji-mart-3.0.0.tgz#eca24a04881e27752a6921e09f65a86ce8539a50"
+    integrity sha512-r5DXyzOLJttdwRYfJmPq/XL3W5tiAE/VsRnS0Hqyn27SqPA/GOYwVUSx50px/dXdJyDSnvmoPbuJ/zzhwSaU4A==
+    dependencies:
+      "@babel/runtime" "^7.0.0"
+      prop-types "^15.6.0"
   
   emojis-list@^2.0.0:
     version "2.1.0"
@@ -4822,6 +4834,11 @@ Lockfile:
     dependencies:
       loader-utils "^1.2.3"
       schema-utils "^2.0.0"
+  
+  file-saver@^2.0.2:
+    version "2.0.2"
+    resolved "https://registry.yarnpkg.com/file-saver/-/file-saver-2.0.2.tgz#06d6e728a9ea2df2cce2f8d9e84dfcdc338ec17a"
+    integrity sha512-Wz3c3XQ5xroCxd1G8b7yL0Ehkf0TC9oYC6buPFkNnU9EnaPlifeAFCyCh+iewXTyFRcg0a6j3J7FmJsIhlhBdw==
   
   filename-regex@^2.0.0:
     version "2.0.1"
@@ -7067,6 +7084,11 @@ Lockfile:
     integrity sha512-stgLz+i3Aa9mZgnjr/O+v9ruKZsPsndy7qPZOchbqk2cnTU1ZaldKK+v7m54WoKIyxiuMZTKT2H81F8BeAc3ZQ==
     dependencies:
       lodash._reinterpolate "^3.0.0"
+  
+  lodash.uniqueid@^4.0.1:
+    version "4.0.1"
+    resolved "https://registry.yarnpkg.com/lodash.uniqueid/-/lodash.uniqueid-4.0.1.tgz#3268f26a7c88e4f4b1758d679271814e31fa5b26"
+    integrity sha1-MmjyanyI5PSxdY1nknGBTjH6WyY=
   
   lodash@^4.0.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.4:
     version "4.17.15"
@@ -9345,6 +9367,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
     integrity sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==
   
+  qs@^6.6.0:
+    version "6.9.4"
+    resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.4.tgz#9090b290d1f91728d3c22e54843ca44aea5ab687"
+    integrity sha512-A1kFqHekCTM7cz0udomYUoYNWjBebHm/5wzU/XqrBRBNWectVH0QIiN+NEcZ0Dte5hvzHwbr8+XQmguPhJ6WdQ==
+  
   qs@~6.5.2:
     version "6.5.2"
     resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
@@ -9484,15 +9511,15 @@ Lockfile:
       cropperjs "^1.5.5"
       prop-types "^15.5.8"
   
-  react-dom@^16.12.0:
-    version "16.12.0"
-    resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.12.0.tgz#0da4b714b8d13c2038c9396b54a92baea633fe11"
-    integrity sha512-LMxFfAGrcS3kETtQaCkTKjMiifahaMySFDn71fZUNpPHZQEzmk/GiAeIT8JSOrHB23fnuCOMruL2a8NYlw+8Gw==
+  react-dom@^16.12.0, react-dom@^16.2.0:
+    version "16.13.1"
+    resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"
+    integrity sha512-81PIMmVLnCNLO/fFOQxdQkvEq/+Hfpv24XNJfpyZhTRfO0QcmQIF/PgCa1zCOj2w1hrn12MFLyaJ/G0+Mxtfag==
     dependencies:
       loose-envify "^1.1.0"
       object-assign "^4.1.1"
       prop-types "^15.6.2"
-      scheduler "^0.18.0"
+      scheduler "^0.19.1"
   
   react-draft-wysiwyg@^1.13.2:
     version "1.14.4"
@@ -9509,6 +9536,17 @@ Lockfile:
     version "5.1.6"
     resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-5.1.6.tgz#0cd73407c5d141f9638ae1e0c63e7b2bf7e9929d"
     integrity sha512-X1Y+0jR47ImDVr54Ab6V9eGk0Hnu7fVWGeHQSOXHf/C2pF9c6uy3gef8QUeuUiWlNb0i08InPSE5a/KJzNzw1Q==
+  
+  react-file-icon@^0.2.0:
+    version "0.2.0"
+    resolved "https://registry.yarnpkg.com/react-file-icon/-/react-file-icon-0.2.0.tgz#93677943e8c91031a62ae9748c0fdbcb6cb4adc5"
+    integrity sha512-ochzrFgT23ULM2cht57LLQNgP0S4zHhJBZXgnPczCLkmdao9oL5IvRqUSwUMdNOiRmVaK6/ETkE/qhg5Ao7Ilw==
+    dependencies:
+      lodash.uniqueid "^4.0.1"
+      prop-types "^15.6.0"
+      react "^16.2.0"
+      react-dom "^16.2.0"
+      tinycolor2 "^1.4.1"
   
   react-is@16.8.6:
     version "16.8.6"
@@ -9573,15 +9611,30 @@ Lockfile:
       tiny-invariant "^1.0.2"
       tiny-warning "^1.0.0"
   
+  react-stripe-checkout@^2.6.3:
+    version "2.6.3"
+    resolved "https://registry.yarnpkg.com/react-stripe-checkout/-/react-stripe-checkout-2.6.3.tgz#3173a870b04e5a3c321a06d24cd53c6030111c45"
+    integrity sha1-MXOocLBOWjwyGgbSTNU8YDARHEU=
+  
   react-timeago@^4.4.0:
     version "4.4.0"
     resolved "https://registry.yarnpkg.com/react-timeago/-/react-timeago-4.4.0.tgz#4520dd9ba63551afc4d709819f52b14b9343ba2b"
     integrity sha512-Zj8RchTqZEH27LAANemzMR2RpotbP2aMd+UIajfYMZ9KW4dMcViUVKzC7YmqfiqlFfz8B0bjDw2xUBjmcxDngA==
   
-  react@^16.12.0:
-    version "16.12.0"
-    resolved "https://registry.yarnpkg.com/react/-/react-16.12.0.tgz#0c0a9c6a142429e3614834d5a778e18aa78a0b83"
-    integrity sha512-fglqy3k5E+81pA8s+7K0/T3DBCF0ZDOher1elBFzF7O6arXJgzyu/FW+COxFvAWXJoJN9KIZbT2LXlukwphYTA==
+  react-transition-group@^4.4.1:
+    version "4.4.1"
+    resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.1.tgz#63868f9325a38ea5ee9535d828327f85773345c9"
+    integrity sha512-Djqr7OQ2aPUiYurhPalTrVy9ddmFCCzwhqQmtN+J3+3DzLO209Fdr70QrN8Z3DsglWql6iY1lDWAfpFiBtuKGw==
+    dependencies:
+      "@babel/runtime" "^7.5.5"
+      dom-helpers "^5.0.1"
+      loose-envify "^1.4.0"
+      prop-types "^15.6.2"
+  
+  react@^16.12.0, react@^16.2.0:
+    version "16.13.1"
+    resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
+    integrity sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
     dependencies:
       loose-envify "^1.1.0"
       object-assign "^4.1.1"
@@ -9751,6 +9804,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/regenerate/-/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
     integrity sha512-1G6jJVDWrt0rK99kBjvEtziZNCICAuvIPkSiUFIQxVP06RCVpq3dmDo2oi6ABpYaDYaTRr67BEhL8r1wgEZZKg==
   
+  regenerator-runtime@^0.10.5:
+    version "0.10.5"
+    resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.10.5.tgz#336c3efc1220adcedda2c9fab67b5a7955a33658"
+    integrity sha1-M2w+/BIgrc7dosn6tntaeVWjNlg=
+  
   regenerator-runtime@^0.11.0:
     version "0.11.1"
     resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
@@ -9760,6 +9818,11 @@ Lockfile:
     version "0.13.3"
     resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.3.tgz#7cf6a77d8f5c6f60eb73c5fc1955b2ceb01e6bf5"
     integrity sha512-naKIZz2GQ8JWh///G7L3X6LaQUAMp2lvb1rvwwsURe/VXwD6VMfr+/1NuNw3ag8v2kY1aQ/go5SNn79O9JU7yw==
+  
+  regenerator-runtime@^0.13.4:
+    version "0.13.5"
+    resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.5.tgz#d878a1d094b4306d10b9096484b33ebd55e26697"
+    integrity sha512-ZS5w8CpKFinUzOwW3c83oPeVXoNsrLsaCoLtJvAClH135j/R77RuymhiSErhm2lKcwSCIpmvIWSbDkIfAqKQlA==
   
   regenerator-transform@^0.14.0:
     version "0.14.1"
@@ -10205,10 +10268,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
     integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
   
-  scheduler@^0.18.0:
-    version "0.18.0"
-    resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.18.0.tgz#5901ad6659bc1d8f3fdaf36eb7a67b0d6746b1c4"
-    integrity sha512-agTSHR1Nbfi6ulI0kYNK0203joW2Y5W4po4l+v03tOoiJKpTBbxpNhWDvqc/4IcOw+KLmSiQLTasZ4cab2/UWQ==
+  scheduler@^0.19.1:
+    version "0.19.1"
+    resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.19.1.tgz#4f3e2ed2c1a7d65681f4c854fa8c5a1ccb40f196"
+    integrity sha512-n/zwRWRYSUj0/3g/otKDRPMh6qv2SYMWNq85IEa8iZyAv8od9zDYpGSnpBEjNgcMNq6Scbu5KfIPxNF72R/2EA==
     dependencies:
       loose-envify "^1.1.0"
       object-assign "^4.1.1"
@@ -10973,6 +11036,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
     integrity sha1-PFMZQukIwml8DsNEhYwobHygpgo=
   
+  stripe@^8.70.0:
+    version "8.70.0"
+    resolved "https://registry.yarnpkg.com/stripe/-/stripe-8.70.0.tgz#0efbebad10ce29ccf3b520da0b3fbc568ea1706e"
+    integrity sha512-R+ZoUTjtUSc6ufVKG3btZMdVU6KKU5yX+QHjy76CLIIo8zuIq2JUOewNOPMxfSTt8cv+NEaBtsM2DmPxoZPlQA==
+    dependencies:
+      "@types/node" ">=8.1.0"
+      qs "^6.6.0"
+  
   style-loader@1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-1.0.0.tgz#1d5296f9165e8e2c85d24eee0b7caf9ec8ca1f82"
@@ -11265,6 +11336,11 @@ Lockfile:
     version "1.0.3"
     resolved "https://registry.yarnpkg.com/tiny-warning/-/tiny-warning-1.0.3.tgz#94a30db453df4c643d0fd566060d60a875d84754"
     integrity sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==
+  
+  tinycolor2@^1.4.1:
+    version "1.4.1"
+    resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.1.tgz#f4fad333447bc0b07d4dc8e9209d8f39a8ac77e8"
+    integrity sha1-9PrTM0R7wLB9TcjpIJ2POaisd+g=
   
   tmp@^0.0.33:
     version "0.0.33"

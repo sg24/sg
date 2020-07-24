@@ -12,6 +12,7 @@ const qchat = props => {
              userOpt={props.userOpt.bind(this, cnt._id)} 
              showCnt={props.showCntOpt}
              share={props.share.bind(this, cnt._id)}
+             pay={props.payment.bind(this, cnt._id, cnt.amount, cnt.qchatTotal)}
              tooltip={props.tooltip.bind(this, cnt._id)}
              showTooltip={props.showTooltip}
              startExam={props.startExam.bind(this, cnt.contentID)}

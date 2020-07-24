@@ -26,3 +26,11 @@ export const fetchCnt = (cnt) =>  {
         cnt
     }; 
 }; 
+
+export const submit = (totalScore, correction) =>  {
+    return {
+        type: actionTypes.SUBMIT,
+        totalScore,
+        correction
+    }; 
+}; 

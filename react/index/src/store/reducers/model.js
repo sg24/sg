@@ -18,7 +18,8 @@ const initialState = {
     changeCnt: false,
     changeCntErr: null,
     changeCntStart: null,
-    preview: []
+    preview: [],
+    showPost: null
 }
 
 const fetchCnt = (state, action) => {
@@ -173,6 +174,14 @@ const showPreview = (state, action) => {
     return updateObject(state, {preview: action.media})
 }
 
+const showFullPost = (state, action) => {
+    return updateObject(state, {showPost: action.post})
+}
+
+const hideFullPost = (state, action) => {
+    return updateObject(state, {showPost: null})
+}
+
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.FETCH_CNT:
@@ -215,6 +224,10 @@ const reducer = (state = initialState, action) => {
             return resetModel(state, action);
         case actionTypes.SHOW_PREVIEW:
             return showPreview(state, action);
+        case actionTypes.SHOW_FULLPOST:
+            return showFullPost(state, action);
+        case actionTypes.HIDE_FULLPOST:
+            return hideFullPost(state, action);
         default: return state
     }
 };

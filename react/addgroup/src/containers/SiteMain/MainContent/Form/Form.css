@@ -22,7 +22,7 @@
 .icon__reuse-form--cnt__tag {
     margin-right: 5px;
     color: #0284a8;
-    font-size: .8125rem;
+    font-size: .9375rem;
 }
 
 .icon__reuse-form--itm--title {
@@ -135,7 +135,7 @@
 
 .reuse-user__det--user {
     list-style: none;
-    font-size: .875rem;
+    font-size: .9375rem;
     margin: 0;
     padding: 10px 20px 10px 100px;
 }
@@ -219,7 +219,7 @@
     width: 100%;
     margin: 0 auto;
     padding: 20px 15px;
-    font-size: .875rem;
+    font-size: .9375rem;
 }
 
 .reuse-form__wrapper {
@@ -300,13 +300,13 @@
     margin-top: 10px;
     background-color: #fff;
     border-radius: 3px;
-    font-size: .875rem;
+    font-size: .9375rem;
     border: 1px solid #dcdbdc;
 }
 
 .reuse-form__cnt--det__wrapper {
     padding: 8px 10px;
-    font-size: .8125rem;
+    font-size: .9375rem;
 }
 
 .reuse-form__cnt--det__selec, .reuse-form__cnt--det__mode {
@@ -630,7 +630,7 @@
 
 .reuse-form__cnt--tag {
     background-color: #f9f9f9;
-    font-size: .8125rem;
+    font-size: .9375rem;
     margin-top: 10px;
 }
 
@@ -638,7 +638,7 @@
     text-align: center;
     padding: 5px 0;
     background-color: #dcdbdc;
-    font-size: .875rem;
+    font-size: .9375rem;
     font-weight: 400;
     margin: 0;
 }
@@ -661,7 +661,7 @@
 
 .reuse-form__cnt--tag__itm > li {
     float: left;
-    font-size: .8125rem;
+    font-size: .9375rem;
     color: #182427;
     background-color: #fff;
     padding: 5px 8px;
@@ -696,9 +696,31 @@
     display: block;
 }
 
+.reuse-form__cnt--det__check {
+    display: inline-block;
+    background-color: #f2f2f2;
+    cursor: pointer;
+    color: #333;
+    padding: 8px 5px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0, .45);
+}
+
+.reuse-form__cnt--det__check--active {
+    color: #05578B;
+}
+
+.reuse-form__cnt--det__check--cnt {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 0;
+    position: relative;
+    top: 2px;
+}
+
 .reuse-form__itm {
     position: absolute;
-    font-size: .875rem;
+    font-size: .9375rem;
     top: 5%;
     left: 50%;
     transform: translateX(-50%);
@@ -726,7 +748,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    font-size: .8125rem;
+    font-size: .9375rem;
     position: relative;
     background-color: #437da3;
     overflow: hidden;
@@ -798,7 +820,7 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-size: .8125rem;
+    font-size: .9375rem;
     width: 24px;
     height: 24px;
     border-radius: 12px;
@@ -821,7 +843,7 @@
 @media (min-width: 530px) {
 
     .reuse-form__itm--tab__cnt {
-        font-size: .875rem;
+        font-size: .9375rem;
     }
 }
 
@@ -896,7 +918,7 @@
     background-color: #e9ebf2;
     border: 1px solid rgba(0,0,0, .3);
     z-index: 1;
-    font-size: .875rem;
+    font-size: .9375rem;
     border-radius: 5px;
     width: 94%;
     box-shadow: 0 2px 1px 0 rgba(0,0,0, .3);
@@ -1062,7 +1084,7 @@
     position: relative;
     padding: 5px 20px;
     margin-top: 10px;
-    font-size: .875rem;
+    font-size: .9375rem;
     background-color: #f9f9f9;
     color: #ff1600;
 }
@@ -1143,7 +1165,7 @@
 
 .reuse-form__modal {
     position: absolute;
-    font-size: .875rem;
+    font-size: .9375rem;
     top: 5%;
     left: 50%;
     transform: translateX(-50%);
@@ -1156,7 +1178,7 @@
 
 .reuse-form__modal > h3 {
     font-weight: 400;
-    font-size: .875rem;
+    font-size: .9375rem;
     margin: 20px 0;
     padding: 5px;
     text-align: center;

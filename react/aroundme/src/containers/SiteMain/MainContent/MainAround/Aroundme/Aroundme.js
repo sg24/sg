@@ -259,6 +259,10 @@ class Around extends Component {
         this.props.onChangeFav(id, isLiked, favAdd, this.props.changedFav, this.props.userID, cntGrp);
     }
 
+    showPostHandler = (post) => {
+        this.props.onSetPost(post)
+    }
+
     render() {
         let cnt = <Loader />;
         if (this.props.postErr) {
@@ -306,6 +310,7 @@ class Around extends Component {
             clearSlidePlay={this.clearSlidePlayhandler}
             changeCnt={this.changeCntHandler}
             showChat={this.showChatHandler}
+            showPost={this.showPostHandler}
             editCnt={this.editCntHandler}
             preview={this.previewHandler}/>
         }
@@ -344,7 +349,8 @@ const mapDispatchToProps = dispatch => {
         onFetchVideo: (id, url) => dispatch(actions.fetchVideo(id, url)),
         onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm)),
         onFetchNavActive: () => dispatch(actions.fetchNavActiveInit()),
-        onShowPreview: (media) => dispatch(actions.showPreview(media))
+        onShowPreview: (media) => dispatch(actions.showPreview(media)),
+        onSetPost: (post) => dispatch(actions.showFullPost(post))
     };
 };
 

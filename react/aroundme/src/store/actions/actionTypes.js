@@ -149,3 +149,5 @@ export const SHOW_CHATDET = 'SHOW_CHATDET';
 
 
 export const SHOW_PREVIEW = 'SHOW_PREVIEW';
+export const SHOW_FULLPOST = 'SHOW_FULLPOST';
+export const HIDE_FULLPOST = 'HIDE_FULLPOST';

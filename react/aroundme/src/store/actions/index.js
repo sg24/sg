@@ -59,7 +59,9 @@ export {
     changeFavPtFail,
     changeFav,
     showPreview,
-    resetModel
+    resetModel,
+    showFullPost,
+    hideFullPost
 } from './model';
 
 export {

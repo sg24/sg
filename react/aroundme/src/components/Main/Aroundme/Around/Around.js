@@ -128,7 +128,7 @@ const aroundContent = props => {
                     {media}
                     <p 
                         className="reuse-around__title"
-                        onClick={props.showChat}> {title}</p>
+                        onClick={props.showPost}> {title}</p>
                     <div className="reuse-around__footer">
                         <ul className="reuse-around__footer--list">
                             <li

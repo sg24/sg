@@ -10,6 +10,7 @@ import Backdrop from '../../../../components/UI/Backdrop/Backdrop';
 import Loader from '../../../../components/UI/Loader/Loader';
 import Modal from '../../../../components/UI/Modal/Modal';
 import Aux from '../../../../hoc/Auxs/Aux';
+import Submit from './Submit/Submit';
 
 class Examtab extends Component {
     state = {
@@ -28,6 +29,8 @@ class Examtab extends Component {
         let cnt =  (
             <Loader />
         )
+        let submit = null;
+
         if (this.props.err) {
             cnt = (
                 <Aux>
@@ -44,19 +47,30 @@ class Examtab extends Component {
                 <>
                     <Exam 
                         question={this.props.cnt.question}
-                        duration={this.props.cnt.duration}
-                        id={this.props.cnt.id}
-                        title={this.props.cnt.title}
-                        examID={this.state.id}/>
+                        duration={this.props.cnt.duration}/>
                 </>
             );
         }
+
+        if (this.props.submit) {
+            submit = (
+                <Submit 
+                    id={this.props.cnt.id}
+                    title={this.props.cnt.title}
+                    examID={this.state.id}
+                    totalScore={this.props.totalScore}
+                    correction={this.props.correction}/>
+            )
+        }
         return (
-            <div className="exam-cnt">
-                <div className="exam-cnt__wrapper">
-                    { cnt }
+            <>
+                <div className="exam-cnt">
+                    <div className="exam-cnt__wrapper">
+                        { cnt }
+                    </div>
                 </div>
-            </div>
+                { submit }
+            </>
         )
     }
 };
@@ -64,7 +78,10 @@ class Examtab extends Component {
 const mapStateToProps = state => {
     return {
         cnt: state.examtab.cnt,
-        err: state.examtab.err
+        err: state.examtab.err,
+        submit: state.examtab.submit,
+        totalScore: state.examtab.totalScore,
+        correction: state.examtab.correction
     };
 };
 

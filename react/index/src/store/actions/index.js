@@ -65,6 +65,8 @@ export {
     changeFav,
     resetModel,
     showPreview,
+    showFullPost,
+    hideFullPost
 } from './model';
 
 export {

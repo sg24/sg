@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Switch,Route } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import * as actions from '../../store/actions/index';
 import MainContent from './MainContent/MainContent';
@@ -62,6 +63,15 @@ class SiteMain extends Component {
 
     closeFormHandler  = () => {
         this.props.history.push('/aroundme')
+    }
+
+    hideFullPostHandler = () => {
+        this.props.onHideFullPost();
+    }
+
+    showChatHandler = (id) => {
+        this.props.history.push(`/aroundme/chat/${id}`)
+        this.props.onHideFullPost();
     }
 
     render() {
@@ -129,6 +139,20 @@ class SiteMain extends Component {
                   </div>
                   )}/>
                 <Route path="/aroundme/preview" exact component={AsyncPreview}/>
+                { this.props.showPost ? (
+                    <div className="site-main__form--main-wrapper">
+                        <div className="site-main__form--main-wrapper__overlay" onClick={this.hideFullPostHandler}></div>
+                        <div className="site-main__full-post">
+                        <p>{this.props.showPost.post}</p>
+                        <div className="site-main__full-post__comment">
+                            <div onClick={this.showChatHandler.bind(this, this.props.showPost.id)}>
+                                <FontAwesomeIcon 
+                                    icon={['far', 'comments']}/> 
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                ) : null}
             </div>
             { this.props.filterStart ? 
                 <div 
@@ -168,6 +192,7 @@ const mapStateToProps = state => {
         default: state.header.default,
         showBackdrop: state.main.showBackdrop,
         cntErr: state.cnt.cntErr,
+        showPost: state.cnt.showPost,
         filterStart:state.header.filterStart,
         searchCnt: state.header.searchCnt,
         searchCntErr: state.header.searchCntErr,
@@ -186,7 +211,8 @@ const mapDispatchToProps = dispatch => {
         onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm)),
         onCloseChangeCnt: () => dispatch(actions.changeCntCancel()),
         onCloseBackdrop: () => dispatch(actions.hideMainBackdrop()),
-        onCloseModelBackdrop: () => dispatch(actions.resetModel())
+        onCloseModelBackdrop: () => dispatch(actions.resetModel()),
+        onHideFullPost: () => dispatch(actions.hideFullPost())
     };
 };
 

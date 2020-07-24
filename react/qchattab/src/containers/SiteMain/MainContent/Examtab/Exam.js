@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CSSTransition,TransitionGroup  } from 'react-transition-group';
 import draftToHtml from 'draftjs-to-html'
-import Carousel from '../../../../components/UI/Media/Media';
+import { connect } from 'react-redux';
 
-import Submit from './Submit/Submit';
+import Carousel from '../../../../components/UI/Media/Media';
+import * as actions from '../../../../store/actions/index';
 
 class Exam extends Component {
     constructor(props) {
@@ -21,11 +22,11 @@ class Exam extends Component {
             minute: cnt.minute,
             second: cnt.second,
             answer: [],
-            mark: [],
             totalScore: 0, 
             submitted: false,
             video: null,
-            isNext: true
+            isNext: true,
+            correction: []
         }
     }
 
@@ -98,7 +99,6 @@ class Exam extends Component {
         let cnt = this.state.items.filter(cnt => cnt.position === index)[0];
         let correctAns = JSON.parse(cnt.answer);
         let selectAns = [];
-        let mark = [...this.state.mark]
         let fndAns = answer.filter(cnt => cnt.index === index)[0];
         if (fndAns) {
             let checkAns = fndAns.ans.filter(ansSelc => ansSelc === validAns)[0];
@@ -124,26 +124,49 @@ class Exam extends Component {
             return correctAns.indexOf(val) >= 0;
           });
         }
-        let isMarked = mark.filter(cnt => cnt.index === index)[0];
+        let isMarked = answer.filter(cnt => cnt.index === index)[0];
         if (isMarked) {
-            mark=  mark.filter(cnt => cnt.index !== index);
-            mark.push({index, correct: isCorrect})
-        } else {
-            mark.push({index, correct: isCorrect})
-        }
-        this.setState({answer, mark})
+            let curAns = answer.filter(cnt => cnt.index === index)[0];
+            let updateAnswer = {...curAns, correct: isCorrect}
+            let removeAns = answer.filter(cnt => cnt.index !== index);
+            removeAns.push(updateAnswer);
+            answer = removeAns
+        } 
+        this.setState({answer})
     }
 
     submitMediaHandler = () => {
-        clearInterval(this.state.checkDuration)
+        let correction = [];
         let perScore = 100 / (this.state.items.length);
         let totalScore = 0;
-        for (let cnt of this.state.mark) {
-            if (cnt.correct) {
+        for(let cnt of this.state.items) {
+            let answer = this.state.answer.filter(ansCnt => ansCnt.index === cnt.position)[0];
+            let correctAns = JSON.parse(cnt.answer);
+            let option = JSON.parse(cnt.option);
+            let correct = [];
+            let wrong = []
+            for (let opt in option) {
+                for (let cor of correctAns) {
+                    if (cor === opt) {
+                        correct.push(option[opt])
+                    }
+                }
+                if (answer && !answer.correct) {
+                    for (let ans of answer.ans) {
+                        if (ans === opt) {
+                            wrong.push(option[opt])
+                        }
+                    }
+                } 
+            }
+            if (answer && answer.correct){
                 totalScore += perScore
             }
+            correction.push({index: cnt.position, question: cnt.question, correct: answer && answer.correct? true : false, correctAns: correct,
+                media: [...cnt.snapshot, ...cnt.image], wrongAns: wrong.length < 1 ? ['No Answer Selected'] : wrong})
         }
-        this.setState({totalScore, submitted: true})
+        clearInterval(this.state.checkDuration)
+        this.props.onSubmit(totalScore, correction)
     }
 
     render() {
@@ -157,7 +180,6 @@ class Exam extends Component {
         let optionItm = JSON.parse(cnt.option);
         let optionArray = [];
         let durationClass = [];
-        let submitted = null;
 
         if (this.state.duration < 60000) {
             durationClass.push('exam-cnt__det--tm__duration');
@@ -213,16 +235,6 @@ class Exam extends Component {
                 </div>
             )
         }
-
-        if (this.state.submitted) {
-            submitted = (
-                <Submit 
-                    id={this.props.id}
-                    title={this.props.title}
-                    examID={this.props.examID}
-                    totalScore={this.state.totalScore}/>
-            )
-        }
         
         return (
             <>
@@ -264,7 +276,7 @@ class Exam extends Component {
                                 </div>
                                 <ul className="exam-cnt__content--opt">
                                     { option }
-                                 </ul>
+                                    </ul>
                             </div>
                         </CSSTransition>
                     </TransitionGroup>
@@ -295,10 +307,14 @@ class Exam extends Component {
                             className="icon icon__site-main--exam-cnt__footer--nxt" />
                     </div>
                 </div>
-                { submitted }
             </>
         )
     }
 }
 
-export default Exam
+const mapDispatchToProps = dispatch => {
+    return {
+        onSubmit: (totalScore, correction) => dispatch(actions.submit(totalScore, correction))
+    };
+};
+export default connect(null, mapDispatchToProps)(Exam);

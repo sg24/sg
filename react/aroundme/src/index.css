@@ -16,3 +16,47 @@
     right: 0;
     bottom: 0;
 }
+
+.site-main__full-post {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    min-height: 300px;
+    max-height: 90%;
+    background-color: #fff;
+    border-radius: 5px;
+    margin: 20px auto 0 auto;
+    overflow: hidden;
+}
+
+.site-main__full-post > p {
+    display: flex;
+    flex-grow: 1;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+    line-height: 1.8;
+    overflow: hidden;
+    overflow-y: auto;
+}
+.site-main__full-post__comment {
+    padding: 5px;
+    background-color: #f4f4f4;
+}
+
+.site-main__full-post__comment > div {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #3a6c8c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+}

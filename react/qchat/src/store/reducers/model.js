@@ -13,7 +13,8 @@ const initialState = {
     filterDet: null,
     changeCnt: false,
     changeCntErr: null,
-    changeCntStart: null
+    changeCntStart: null,
+    paymentDet: null
 }
 
 const fetchCnt = (state, action) => {
@@ -85,6 +86,10 @@ const filterPost = (state, action) => {
     return updateObject(state, {filterDet: action.filterDet})
 };
 
+const paymentDet = (state, action) => {
+    return updateObject(state, {paymentDet: action.payment})
+};
+
 const resetModel = (state, action) => {
     return updateObject(state, {cntErr: null,changeCntStart: null, changeCntErr: null, changeCnt: false})
 };
@@ -120,6 +125,8 @@ const reducer = (state = initialState, action) => {
             return changeFavPtFail(state, action);
         case actionTypes.FILTER_POST:
             return filterPost(state, action);
+        case actionTypes.PAYMENT_DET:
+            return paymentDet(state, action);
         case actionTypes.RESET_MODEL:
             return resetModel(state, action);
         default: return state

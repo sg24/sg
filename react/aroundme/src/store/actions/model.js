@@ -137,3 +137,16 @@ export const showPreview = (media) => {
         media
     }
 };
+
+export const showFullPost = (post) => {
+    return {
+        type: actionTypes.SHOW_FULLPOST,
+        post
+    }
+};
+
+export const hideFullPost = () => {
+    return {
+        type: actionTypes.HIDE_FULLPOST
+    }
+};

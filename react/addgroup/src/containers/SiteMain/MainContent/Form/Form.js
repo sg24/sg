@@ -66,6 +66,7 @@ class Form extends  Component {
             }
         },
         formIsValid: false,
+        allowComment: true,
         showForm: false,
         mode: null,
         groupMode: null,
@@ -240,12 +241,17 @@ class Form extends  Component {
                 image: this.props.media.image ? this.props.media.image: [],
                 shareMe: this.props.media.user ? this.props.media.user : [],
                 groupmode: String(this.state.groupMode).toLowerCase(),
+                allowComment: this.state.allowComment,
                 mode
             }
             this.props.onSubmitForm(newCnt)
         return
        }
        this.setState({noCateg: true});
+    }
+
+    allowCommentHandler = () => {
+        this.setState({allowComment: !this.state.allowComment})
     }
 
     resendCntHander = () => {
@@ -273,7 +279,11 @@ class Form extends  Component {
         let setGroupClass = ['reuse-form__cnt--det__mode reuse-form__cnt--det__mode--add']
         let addItemOptClass = ['reuse-form__cnt--det__selec--opt'];
         let setGroupOptClass = ['reuse-form__cnt--det__mode--opt']
+        let checkClass = ['reuse-form__cnt--det__check'];
 
+        if (this.state.allowComment) {
+            checkClass.push('reuse-form__cnt--det__check--active')
+        }
         if (this.state.showAddItm) {
             addItemClass.push('reuse-form__cnt--det__selec--add__visible icon--rotate');
             addItemOptClass.push('reuse-form__cnt--det__selec--opt__visible')
@@ -438,6 +448,20 @@ class Form extends  Component {
                                                 className="reuse-form__cnt--det__selec--opt__img"
                                                 onClick={this.setGroupModeHandler.bind(this, 'Private')}>Private</li>
                                         </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="reuse-form__cnt--wrapper">
+                            <div className="reuse-form__cnt--det">
+                                <div className="reuse-form__cnt--det__wrapper">
+                                   <div 
+                                    className={checkClass.join(' ')}
+                                    onClick={this.allowCommentHandler}>
+                                       Enable Comment
+                                        <input 
+                                            type="checkbox" checked={this.state.allowComment}
+                                            className="reuse-form__cnt--det__check--cnt" onChange={this.allowCommentHandler}/>
                                     </div>
                                 </div>
                             </div>

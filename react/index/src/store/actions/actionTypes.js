@@ -182,5 +182,8 @@ export const START_SEARCH = 'START_SEARCH';
 export const CLOSE_SEARCH = 'CLOSE_SEARCH';
 
 export const SHOW_PREVIEW = 'SHOW_PREVIEW';
+export const SHOW_FULLPOST = 'SHOW_FULLPOST';
+export const HIDE_FULLPOST = 'HIDE_FULLPOST';
+
 
 

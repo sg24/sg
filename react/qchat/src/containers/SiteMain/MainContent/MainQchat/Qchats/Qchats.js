@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import 'pepjs';
 
 import Qchat from '../../../../../components/Main/Qchat/Qchat';
 import Loader from '../../../../../components/UI/Loader/Loader';
@@ -78,7 +77,7 @@ class Qchats extends Component {
             this.setState({scrollEnable: true})
         }
 
-        if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id !== 'share' && this.props.match.params.id !== 'filter' && this.props.match.params.id !== 'startfilter') {
+        if (this.props.match.params.id && this.state.filterTag !== this.props.match.params.id && this.props.match.params.id !== 'share' && this.props.match.params.id !== 'pay' && this.props.match.params.id !== 'filter' && this.props.match.params.id !== 'startfilter') {
             this.props.onFetchCntReset();
             this.props.onFetchCnt(this.props.userID, this.props.match.params.id === 'shared' ? `shared-${this.props.userID}` : this.props.match.params.id, this.state.fetchLimit, 0, 0);
             this.setState({
@@ -153,6 +152,11 @@ class Qchats extends Component {
         this.setState({showTooltip: newCntOpt})
     }
 
+    showPaymentHandler = (id, amount, qchattotal) => {
+        this.props.history.push('/qchat/pay')
+        this.props.onPayout({id, amount, qchattotal})
+    }
+
     changeCntHandler = (id, title, det) => {
         if ( this.props.match.params.id === 'myqchat') {
             det = det === 'draft' ?  'acc-draft' : det;
@@ -163,7 +167,7 @@ class Qchats extends Component {
 
     startExamHandler = (id) => {
         var win = window.open(`https://www.slodge24.com/examtab/${id}`, '_blank');
-       win.focus();
+        win.focus();
     }
 
     render() {
@@ -194,6 +198,7 @@ class Qchats extends Component {
                 userOpt={this.showUserOptHandler}
                 showCntOpt={this.state.cntOpt}
                 share={this.showShareHandler}
+                payment={this.showPaymentHandler}
                 tooltip={this.showTooltipHandler}
                 startExam={this.startExamHandler}
                 showTooltip={this.state.showTooltip}
@@ -230,6 +235,7 @@ const mapDispatchToProps = dispatch => {
         onFetchCntReset: () => dispatch(actions.fetchCntReset()),
         onChangeFav: (id, liked, favAdd, changedFav, userID, cntGrp) => dispatch(actions.changeFavInit(id, liked, favAdd, changedFav, userID, cntGrp)),
         onChangeShareID: (shareID) => dispatch(actions.shareID(shareID)),
+        onPayout: (payment) => dispatch(actions.paymentDet(payment)),
         onChangeTag: (path) => dispatch(actions.changeTagsPath(path)),
         onFetchVideo: (id, url) => dispatch(actions.fetchVideo(id, url)),
         onChangeCnt: (id, title, det, confirm) => dispatch(actions.changeCntInit(id, title, det, confirm)),

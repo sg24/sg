@@ -130,3 +130,10 @@ export const resetModel = () => {
         type: actionTypes.RESET_MODEL
     }
 };
+
+export const paymentDet = (payment) => {
+    return {
+        type: actionTypes.PAYMENT_DET,
+        payment
+    }
+};

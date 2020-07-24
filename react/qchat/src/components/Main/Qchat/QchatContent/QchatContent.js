@@ -143,14 +143,24 @@ const qchatContent = props => {
                 </a>
             </li>
             <li className="reuse-onlineque__footer--exam">
-                {props.cnt.access ? ( <span className="reuse-onlineque__footer--exam__start" onClick={props.startExam}> Start</span>) : ( 
-                <span 
-                    className="reuse-onlineque__footer--exam__req"
-                    onClick={props.tooltip}> 
-                    <FontAwesomeIcon 
-                        icon={['fas', 'lock']} 
-                        className="icon icon__reuse-onlineque--comment" /> Request 
-                </span>
+                {props.cnt.access ? ( <span className="reuse-onlineque__footer--exam__start" onClick={props.startExam}> Start</span>) : 
+                props.cnt.amount === 0 || !props.cnt.amount ? ( 
+                    <span 
+                        className="reuse-onlineque__footer--exam__req"
+                        onClick={props.tooltip}> 
+                        <FontAwesomeIcon 
+                            icon={['fas', 'lock']} 
+                            className="icon icon__reuse-onlineque--comment" /> Request 
+                    </span>
+                    ) : ( 
+                    <div 
+                        className="reuse-onlineque__footer--exam__pay"
+                        onClick={props.pay}> 
+                        {/* <FontAwesomeIcon 
+                            icon={['fas', 'dollar']} 
+                            className="icon icon__reuse-onlineque--comment" />  */}
+                        $ {props.cnt.amount}
+                    </div>
                 )}
             </li>
             <li>

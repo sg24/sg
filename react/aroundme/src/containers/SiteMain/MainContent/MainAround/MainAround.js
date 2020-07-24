@@ -26,7 +26,7 @@ class MainAround extends Component {
                  <div className="reuse-around-filter">
                     <div className="reuse-around-filter__wrapper">
                     <div className="reuse-around-filter__form" onClick={this.addAroundmeHandler}>
-                        <textarea  className="reuse-around-filter__form--cnt" placeholder="Write something ..."></textarea>
+                        <textarea  className="reuse-around-filter__form--cnt" placeholder="Write something ..." disabled></textarea>
                     </div>
                     </div>
                 </div>

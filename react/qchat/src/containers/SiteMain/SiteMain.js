@@ -12,8 +12,12 @@ import MainFilter from '../../components/MainFilter/MainFilter';
 import Loader from '../../components/UI/Loader/Loader';
 import NoAcc from '../../components/Main/NoAcc/NoAcc';
 
-const AsyncShare= asyncComponent(() => {
+const AsyncShare = asyncComponent(() => {
     return import ('./Share/Share');
+});
+
+const AsyncPayment = asyncComponent(() => {
+    return import ('./Payment/Payment');
 });
 
 const AsyncFilterContent= asyncComponent(() => {
@@ -49,6 +53,10 @@ class SiteMain extends Component {
 
     closeModelBackdropHandler = () => {
         this.props.onCloseModelBackdrop();
+    }
+
+    closeWrapHandler  = () => {
+        // this.props.history.push('/qchat')
     }
 
     render() {
@@ -98,19 +106,11 @@ class SiteMain extends Component {
                         close={this.closeModelBackdropHandler}
                         err={ this.props.cntErr } /> : null}
                 <Switch>
-                    <Route path="/qchat" exact render={() => (
-                        <>
-                            <MainContent/>
-                            <MainNav/>
-                        </>    
-                    )}/>
-                    <Route path="/qchat/:id" exact render={() => (
-                        <>
-                            <MainContent/>
-                            <MainNav/>
-                        </>    
-                    )}/>
+                    <Route path="/qchat" exact component={MainContent}/>
+                    <Route path="/qchat/:id" exact component={MainContent}/>
+                    <Route path="/" component={MainContent}/>
                 </Switch>
+                <MainNav/>
             </div>
             { this.props.filterStart ? 
                 <div 
@@ -140,6 +140,12 @@ class SiteMain extends Component {
                         changeCnt={this.changeCntHandler}
                         closeChangeCnt={this.closeChangeCntHandler}/> : null}
                 <Route path="/qchat/share" exact component={AsyncShare} />
+                <Route path="/qchat/pay" exact render={() => (
+                    <div className="site-main__form--main-wrapper">
+                        <div className="site-main__form--main-wrapper__overlay" onClick={this.closeWrapHandler}></div>
+                        <AsyncPayment />
+                    </div>
+                )} />
         </div>
         )
     }

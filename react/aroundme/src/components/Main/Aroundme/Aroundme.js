@@ -32,6 +32,7 @@ const aroundme = props => {
              video={props.video}
              deleteCnt={props.changeCnt.bind(this, cnt._id, cnt.post, 'delete', 'aroundme')}
              editCnt={props.editCnt.bind(this, cnt._id)}
+             showPost={props.showPost.bind(this, {post: cnt.post, id: cnt._id})}
              showChat={props.showChat.bind(this, cnt._id)}
              preview={props.preview}/>
     ));
