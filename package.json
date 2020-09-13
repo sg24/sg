@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next",
-     "start": "NODE_ENV=production node ./bin/www",
-    "start:production": "NODE_ENV=production node ./bin/www",
+     "start": "node ./bin/www",
+    "start:production": "node ./bin/www",
     "generate-sw": "workbox injectManifest"
   },
   "devDependencies": {
