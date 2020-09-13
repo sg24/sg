@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "node ./bin/www",
+     "start": "NODE_ENV=production node ./bin/www",
+    "start:production": "NODE_ENV=production node ./bin/www",
     "generate-sw": "workbox injectManifest"
   },
   "devDependencies": {
