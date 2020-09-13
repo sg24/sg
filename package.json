@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "next build",
     "start": "node ./bin/www",
     "generate-sw": "workbox injectManifest"
   },
