@@ -55,6 +55,11 @@ app.use(function(req, res, next) {
       if (!host.match(/^www\..*/i)) {
         return res.redirect(301, "https://www." + host + req.url);
       } 
+     var source = req.headers['user-agent'],
+    ua = useragent.parse(source);
+    if (ua.browser === 'Opera' && isMobile) {
+      return res.send('Please, update this browser');
+    }
       // else if (req.headers['x-forwarded-proto'] !== 'https') {
       //   return res.redirect('https://' + req.hostname + req.url);
       // }
