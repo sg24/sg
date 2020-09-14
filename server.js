@@ -58,7 +58,7 @@ app.use(function(req, res, next) {
      var source = req.headers['user-agent'],
     ua = useragent.parse(source);
     if (ua.isOpera && ua.isMobile) {
-      return res.send('Please, update this browser');
+      return res.send('Please, switch to another browser').status(200);
     }
       // else if (req.headers['x-forwarded-proto'] !== 'https') {
       //   return res.redirect('https://' + req.hostname + req.url);
