@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 const hbs = require('hbs');
 const passport = require('passport');
 const useragent = require('express-useragent');
-
 // let appRoutes = require('./routes/app');
 // let usersRoutes = require('./routes/users');
 // let formRoutes = require('./routes/form');
@@ -55,6 +54,9 @@ app.use(function(req, res, next) {
       if (!host.match(/^www\..*/i)) {
         return res.redirect(301, "https://www." + host + req.url);
       } 
+       var source = req.headers['user-agent'],
+       ua = useragent.parse(source);
+       return res.send(ua).status(200)
       // else if (req.headers['x-forwarded-proto'] !== 'https') {
       //   return res.redirect('https://' + req.hostname + req.url);
       // }
@@ -86,7 +88,7 @@ const extendTimeoutMiddleware = (req, res, next) => {
   });
 
   const waitAndSend = () => {
-    setTimeout(() => {
+    let cnt = setTimeout(() => {
       // If the response hasn't finished and hasn't sent any data back....
       if (!isFinished && !isDataSent) {
         // Need to write the status code/headers if they haven't been sent yet.
@@ -99,6 +101,9 @@ const extendTimeoutMiddleware = (req, res, next) => {
         // Wait another 15 seconds
         waitAndSend();
       }
+     if (isFinished && isDataSent){
+      clearTimeout(cnt);
+     }
     }, 20000);
      };
 
