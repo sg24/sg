@@ -56,7 +56,7 @@ app.use(function(req, res, next) {
         return res.redirect(301, "https://www." + host + req.url);
       } 
       else if (req.headers['x-forwarded-proto'] !== 'https') {
-        return res.redirect(301, 'https://www.' + host + req.url);
+        return res.redirect(301, 'https://' + host + req.url);
       }
   next();
 });
