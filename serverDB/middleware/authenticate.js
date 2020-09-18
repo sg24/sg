@@ -1,7 +1,6 @@
 const { authUser , user} = require('../serverDB');
 const checkStatus = require('../utility/status');
 const global = require('../../global/global');
-let uuid = require('uuid');
 
 let authenticate = (req, res, next) => {
     if (req.signedCookies.token) {
@@ -9,22 +8,8 @@ let authenticate = (req, res, next) => {
             if (!result) {
                 authUser.findByToken(req.signedCookies.token).then(result => {
                     if (!result) {
-                        let newUser = new authUser ({
-                            username: uuid(),
-                            email: `temp@${uuid()}.com`,
-                            temp: true
-                        })
-                        newUser.generateAuthToken().then(result => {
-                            res.cookie('token', result.token, { signed: true, httpOnly: true , maxAge: 7257600000});
-                            res.cookie('expiresIn', 'null');
-                            res.cookie('pushMsg', null);
-                            res.cookie('id', uuid());
-                            req.user = result.id;
-                            req.userType = 'authUser';
-                            req.authType = true;
-                            next();
-                            global.userDet = {id: result.id, type: 'authUser'}
-                        });
+                        res.redirect('/login');
+                        res.end();
                         return 
                    }
                    req.user = result._id.toHexString();
@@ -56,23 +41,11 @@ let authenticate = (req, res, next) => {
         });
         return
     } else {
-        let newUser = new authUser ({
-            username: uuid(),
-            email: `temp@${uuid()}.com`,
-            temp: true
-        })
-        newUser.generateAuthToken().then(result => {
-            res.cookie('token', result.token, { signed: true, httpOnly: true , maxAge: 7257600000});
-            res.cookie('expiresIn', 'null');
-            res.cookie('pushMsg', null);
-            res.cookie('id', uuid());
-            req.user = result.id;
-            req.userType = 'authUser';
-            req.authType = true;
-            next();
-            global.userDet = {id: result.id, type: 'authUser'}
-        });
+        res.redirect('/login');
+        res.end();
+        return;
     }
+       
 }
 
 

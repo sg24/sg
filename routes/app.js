@@ -8,6 +8,7 @@ const nodemailer = require('nodemailer');
 let passport = require('passport');
 const bcrypt = require('bcryptjs');
 const sgMail = require('@sendgrid/mail');
+const mailgun = require('mailgun-js');
 const fetchCnt = require('./utility/fetchcnt');
 let filterCnt = require('./utility/filtercnt');
 let deleteMedia = require('./utility/deletemedia');
@@ -58,6 +59,12 @@ router.post('/header', authenticate, (req, res, next) => {
                         checkText(req.body.filterCnt, adverts, advertArray, 'advert').then(qchatArray => {
                             checkText(req.body.filterCnt, qchat, qchatArray, 'qchat').then(userArray => {
                                 searchUser(req.body.filterCnt, userArray).then(filterArray => {
+                                    if (req.body.post) {
+                                        checkText(req.body.filterCnt, aroundme, filterArray, 'aroundme').then(cntArray => {
+                                            res.send(cntArray).status(200);
+                                        })
+                                        return
+                                    }
                                     res.send(filterArray).status(200);
                                 })
                             })
@@ -124,7 +131,9 @@ router.post('/header', authenticate, (req, res, next) => {
             collection.find({$text: { $search: searchCnt },mode: 'publish',_isCompleted: true}).then(result => {
                 for (let filter of result) {
                     filterRes.push({url: grp === 'group' ? `/group/${filter._id}` :  `/view/${grp}/${filter._id}`,
-                    grp, title: filter.title})
+                    grp, title: filter.title || filter.post, created: grp === 'group' ? filter.groupCreated :
+                    grp === 'poet' ? filter.pwtCreated : grp === 'question'  ? filter.queCreated : 
+                    grp === 'post' ? filter.postCreated : filter.created})
                 }
                 resolve(filterRes)
             }).catch(err => {
@@ -229,7 +238,7 @@ router.post('/header', authenticate, (req, res, next) => {
                     if (grp && grp.length > 0) {
                         for (let grpdet of grp) {
                             if (grpdet.request.length > 0 && grpdet._isCompleted) {
-                                notify.coll.push({id: grpdet._id, title: grpdet.title, category: modelType, notifications: grpdet.request.length})
+                                notify.coll.push({id: grpdet._id, title: grpdet.title, category: modelType, notifications: grpdet.request.length, image: grpdet.image})
                                 notify.collTotal = notify.collTotal + 1;
                                 ++totalNotify
                                 if (totalNotify === grp.length) {
@@ -282,7 +291,7 @@ router.post('/header', authenticate, (req, res, next) => {
                                     user.findById(cnt.ID).then(userDet => {
                                         if (!userDet) {
                                             authUser.findById(cnt.ID).then(authDet => {
-                                                notify.coll.push({id: cnt.ID, username: authDet.username, category: modelType, notifications: cnt.notifications})
+                                                notify.coll.push({id: cnt.ID, username: authDet.username, category: modelType, notifications: cnt.notifications, image: authDet.image})
                                                 notify.collTotal = notify.collTotal + 1;
                                                 ++totalNotify;
                                                 if (totalNotify === notifyCnt.member.length) {
@@ -290,7 +299,7 @@ router.post('/header', authenticate, (req, res, next) => {
                                                 }
                                             })
                                         } else {
-                                            notify.coll.push({id: cnt.ID, username: userDet.username,category: modelType, notifications: cnt.notifications})
+                                            notify.coll.push({id: cnt.ID, username: userDet.username,category: modelType, notifications: cnt.notifications, image: userDet.image})
                                             ++totalNotify
                                             notify.collTotal = notify.collTotal + 1;
                                             if (totalNotify === notifyCnt.member.length) {
@@ -317,7 +326,7 @@ router.post('/header', authenticate, (req, res, next) => {
                                 if (cnt.notifications > 0) {
                                     group.findById(cnt.ID).then(grpdet => {
                                         if (grpdet) {
-                                            notify.coll.push({id: cnt.ID, title: grpdet.title,category: modelType, notifications: cnt.notifications})
+                                            notify.coll.push({id: cnt.ID, title: grpdet.title,category: modelType, notifications: cnt.notifications, image: grpdet.image})
                                             notify.collTotal = notify.collTotal + 1;
                                             ++totalNotify
                                             if (totalNotify === notifyCnt.grp.length) {
@@ -1041,11 +1050,13 @@ router.post('/forget/password', (req, res, next) => {
     user.findOne({email: req.body.email}).then(result => {
         if (result) {
             let token = jwt.sign({ id: result.id }, process.env.JWT_SECRET, {  expiresIn: 60*60 });
-            sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+            // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+            let domain = 'sandbox8b8ba810918e410caafd2f80e9bf44d1.mailgun.org';
+            let apiKey = process.env.MAILGUN_API_KEY;
             const msg = {
               to: req.body.email, 
               from: 'Reset password <noreply@slodge24.com>',
-              subject: 'Slodge24 | Knowledge sharing platform',
+              subject: 'S lodge24',
               html: `
               <div class="" style="background-color: #f6f6f6; color: #333;font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
               <table border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background-color: #f6f6f6;">
@@ -1053,7 +1064,7 @@ router.post('/forget/password', (req, res, next) => {
                   <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
                   <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
                     <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
-                      <img src="https://slodge24.com/static/media/logo.png" alt="Slodge24" title="slodge24" style="display:block;margin: 30px auto;max-width:100%;border-style:none;height:48px;width:48px" width="48" height="48">
+                      <img src="https://www.slodge24.com/static/media/logo.png" alt="Slodge24" title="slodge24" style="display:block;margin: 30px auto;max-width:100%;border-style:none;height:48px;width:48px" width="48" height="48">
                       <table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;">
                         <tr>
                           <td class="wrapper" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px; background-color: #fff;height: auto; width:100%">
@@ -1069,7 +1080,7 @@ router.post('/forget/password', (req, res, next) => {
                                           <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
                                             <tbody>
                                               <tr>
-                                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="https://slodge24.com/forget/reset/${token}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 20px; text-transform: capitalize; border-color: #3498db;">Reset Password</a> </td>
+                                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="https://www.slodge24.com/forget/reset/${token}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 20px; text-transform: capitalize; border-color: #3498db;">Reset Password</a> </td>
                                               </tr>
                                             </tbody>
                                           </table>
@@ -1077,7 +1088,7 @@ router.post('/forget/password', (req, res, next) => {
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Or copy and paste this link. https://slodge24.com/forget/reset/${token}</p>
+                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Or copy and paste this link. https://www.slodge24.com/forget/reset/${token}</p>
                                 </td>
                               </tr>
                             </table>
@@ -1092,17 +1103,27 @@ router.post('/forget/password', (req, res, next) => {
             </div>
                 `
             };
-            sgMail.send(msg).then(() => {
+            mailgun({apiKey, domain}).messages().send(msg,  function (error, body) {
+                if (error) {
+                    tempUser.findByIdAndRemove(result.id).then(() =>{
+                        res.status(401).send(error)
+                    })
+                    return
+                }
                 res.sendStatus(201);
-            }).catch(err =>{
-                tempUser.findByIdAndRemove(result.id).then(() =>{
-                    res.status(401).send(err)
-                })
             })
+            // sgMail.send(msg).then(() => {
+            //     res.sendStatus(201);
+            // }).catch(err =>{
+            //     tempUser.findByIdAndRemove(result.id).then(() =>{
+            //         res.status(401).send(err)
+            //     })
+            // })
         } else {
             res.sendStatus(200)
         }
     }).catch(err => {
+        console.log(err)
     res.status(500).send(err)
     })
 });
@@ -1186,7 +1207,7 @@ router.post('/signup', (req, res) => {
                     res.cookie('expiresIn', decoded.exp, {maxAge: 7257600000});
                     res.cookie('pushMsg', result.pushMsg, {maxAge: 7257600000});
                     res.cookie('id', result.id, {maxAge: 7257600000});
-                    res.sendStatus(200)
+                    res.status(200).send({token: result.token, expiresIn: decoded.exp, userID: result.id})
                 }
                 return
             })
@@ -1299,7 +1320,7 @@ router.get('/signup/confirmation/:id', (req, res, next) => {
 })
 
 router.post('/login', (req, res,next) => {
-    user.findByCredentials(req.body.username, req.body.password).then(result => {
+    user.findByCredentials(req.body.email, req.body.password).then(result => {
         let decoded = null;
         decoded = jwt.verify(result.token, process.env.JWT_SECRET);
         if (decoded) {
@@ -1307,7 +1328,7 @@ router.post('/login', (req, res,next) => {
             res.cookie('expiresIn', decoded.exp, {maxAge: 7257600000});
             res.cookie('pushMsg', result.pushMsg, {maxAge: 7257600000});
             res.cookie('id', result.id, {maxAge: 7257600000});
-            res.sendStatus(200);
+            res.status(200).send({token: result.token, expiresIn: decoded.exp, username: result.username, userID: result.id});
         }
     }).catch((e) => {
         res.status(401).send(e)

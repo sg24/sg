@@ -12,6 +12,7 @@
         "pass": "philipmayowa03",
         "SENDGRID_API_KEY": "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",
         "STRIPE_SECRET": "sk_test_51H4TuXJeH4RhE9GLJnZqssdOAH8zyipE0Ka3YESaqaAQweLBBngZWUYhcyJJsqMTSroVbiU6pXhmyVQRMUVjFO6Q00RdGYCH6c",
-        "PaypalAccessToken": "access_token$sandbox$pr4grrgyz5rmwhty$efada404fd067d33d859c630cd872a4c"
+        "PaypalAccessToken": "access_token$sandbox$pr4grrgyz5rmwhty$efada404fd067d33d859c630cd872a4c",
+        "MAILGUN_API_KEY": "6e651d3e4cf6094160618fbd0b469c57-4d640632-b0f80630"
     }
 }

@@ -81,7 +81,7 @@ class Form extends Component {
         event.preventDefault()
         if (this.state.formIsValid) {
              let newCnt = {
-                 username: this.state.formElement.username.value,
+                 email: this.state.formElement.username.value,
                  password: this.state.formElement.password.value
              }
              this.props.onSubmitForm(newCnt)

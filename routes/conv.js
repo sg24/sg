@@ -35,7 +35,7 @@ router.post('/', authenticate, (req, res, next) => {
         })
     }
 
-    if (req.header('data-categ') &&  req.header('data-categ') === 'allconv') { 
+    if (req.header('data-categ') &&  req.header('data-categ') === 'allconv') {
         fetchCnt({$or:  [ { host: { $in: req.user } }, { reply: { $in: req.user} } ]}, null, 'private').then(private => {
             fetchCnt({_isCompleted: true, $or: [ { member: { $in: req.user } }, { authorID:  req.user } ]}, null, 'group').then(grp => {
                 let cnt = [...private.cnt, ...grp.cnt]
@@ -154,12 +154,15 @@ router.post('/', authenticate, (req, res, next) => {
                     update['offline'] = (cnt.member.length + 1) - cnt.online.length;
                     let chats = arraySort(cnt.chat, 'groupCreated', {reverse: true});
                     let lastMsg = null;
+                    let created = null
                     for (let chat of chats) {
                         if (chat.cntType === 'typedPlain') {
-                            lastMsg = chat.msg
+                            lastMsg = chat.msg;
+                            created = chat.created;
                         }
                     }
                     update['lastChat'] = lastMsg;
+                    update['created'] = created;
                     update['_id'] = cnt._id;
                     grpchatnotifies.findOne({userID: req.user}).then(notifyCnt => {
                         ++cntTotal;

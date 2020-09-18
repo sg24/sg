@@ -192,7 +192,7 @@ UserSchema.statics.findByCredentials = function findByCredentials(email, passwor
                     let newToken = jwt.sign({_id: user._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600 * 24* 7 * 4 * 3}).toString();
                     let tokens = [{access, token: newToken}];
                   User.findByIdAndUpdate(user._id, { tokens, offline: Date.now()}).then((res) =>{
-                    resolve({token: newToken, pushMsg: res.pushMsg[0].publickey, id: res._id.toHexString()});
+                    resolve({token: newToken, pushMsg: res.pushMsg[0].publickey, id: res._id.toHexString(), username: res.username});
                   }).catch(err =>{
                     reject('Error');
                   })
