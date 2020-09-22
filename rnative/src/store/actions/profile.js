@@ -26,3 +26,46 @@ export const fetchProfile = (profile) =>  {
         profile
     };
 }; 
+
+
+export const changeProfileInit = (id, title, det, confirm, info) => {
+    return {
+        type: actionTypes.CHANGE_PROFILE_INIT,
+        id, 
+        title,
+        det,
+        confirm,
+        info
+    }
+};
+
+export const changeProfileStart = (title, id, det, confirm, info) => {
+    return {
+        type: actionTypes.CHANGE_PROFILE_START,
+        title,
+        id,
+        det,
+        confirm,
+        info,
+    }
+};
+
+export const changeProfileCancel = () => {
+    return {
+        type: actionTypes.CHANGE_PROFILE_CANCEL
+    }
+};
+
+export const changeProfile = (changed) => {
+    return {
+        type: actionTypes.CHANGE_PROFILE,
+        changed
+    }
+};
+
+export const changeProfileFail = (err) => {
+    return {
+        type: actionTypes.CHANGE_PROFILE_FAIL,
+        err
+    }
+};

@@ -38,5 +38,10 @@ export {
     fetchProfileInit,
     fetchProfileStart,
     fetchProfileFail,
-    fetchProfile
+    fetchProfile,
+    changeProfileInit,
+    changeProfileStart,
+    changeProfileFail,
+    changeProfileCancel,
+    changeProfile
 } from './profile'

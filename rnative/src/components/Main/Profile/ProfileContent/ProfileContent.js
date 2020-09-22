@@ -109,7 +109,9 @@ const profileContent = props => {
                     </ShadowView>
                 </View>
                 <BoxShadow style={styles.userOpt}>
-                    { userOpt }
+                    <View style={[styles.disabledCnt, props.start ? styles.disabled : null]}>
+                        { userOpt }
+                    </View>
                 </BoxShadow>
             </View>
         </View>
@@ -220,6 +222,12 @@ const styles = StyleSheet.create({
     userOptText: {
         fontSize: 16,
         marginLeft: 5
+    },
+    disabledCnt: {
+        flexDirection: 'row',
+    },
+    disabled: {
+        opacity: .6
     }
 });
 

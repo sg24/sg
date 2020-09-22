@@ -5,7 +5,7 @@ import { checkAuthInitSaga } from './auth';
 import { submitAuthFormSigninInitSaga, 
     submitAuthFormSignupInitSaga, submitAuthFormForgetPassInitSaga } from './authForm';
 import { headerFilterInitSaga, fetchConvInitSaga, fetchNotifyInitSaga } from './header';
-import { fetchProfileInitSaga } from './profile';
+import { fetchProfileInitSaga, changeProfileInitSaga } from './profile';
 
 export function* watchAuth() {
     yield all([
@@ -31,6 +31,7 @@ export function* watchHeader() {
 
 export function* watchProfile() {
     yield all([
-       takeEvery(actionTypes.FETCH_PROFILE_INIT, fetchProfileInitSaga)
+       takeEvery(actionTypes.FETCH_PROFILE_INIT, fetchProfileInitSaga),
+       takeEvery(actionTypes.CHANGE_PROFILE_INIT, changeProfileInitSaga)
     ])
 }

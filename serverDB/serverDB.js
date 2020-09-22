@@ -24,7 +24,8 @@ const tempFile = require('./models/tempfile');
 const aroundme = require('./models/aroundme');
 const contest = require('./models/contest');
 const qchat = require('./models/qchat');
-const qcontent = require('./models/qcontent')
+const qcontent = require('./models/qcontent');
+const notifications = require('./models/notifications')
 
 module.exports = {
     adverts,
@@ -52,6 +53,7 @@ module.exports = {
     contest,
     qchat,
     qcontent,
+    notifications,
     connectStatus
 };
 

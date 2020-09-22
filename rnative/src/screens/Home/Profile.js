@@ -8,6 +8,7 @@ import * as actions from '../../store/actions/index';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import Profiles from '../../components/Main/Profile/Profile.js';
 import ScrollView from '../../components/UI/ScrollView/ScrollView';
+import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
 
 class Profile extends Component {
     constructor(props) {
@@ -53,9 +54,8 @@ class Profile extends Component {
         this.props.onFetchProfile(this.state.userID);
     }
 
-    changeCntHandler = (id, title, det, confirm, modelType) => {
-        alert()
-        // this.props.onChangeCnt(id, title, det, confirm, modelType);
+    changeProfileHandler = (id, title, det, confirm, info) => {
+        this.props.onChangeProfile(id, title, det, confirm, info);
     };
 
     render() {
@@ -68,6 +68,7 @@ class Profile extends Component {
 
        
         if (!this.props.profileErr && this.props.profile){
+            let profile = this.props.changeProfileStart;
             cnt = (
                 <ScrollView>
                      <View style={[styles.wrapper, this.state.viewMode === 'landscape' ? styles.landscapeWrapper : null]}>
@@ -75,7 +76,21 @@ class Profile extends Component {
                             profile={this.props.profile}
                             navigate={this.navigationHandler}
                             userID={this.state.userID}
-                            changeCnt={this.changeCntHandler}/>
+                            changeProfile={this.changeProfileHandler}
+                            changeProfileStart={this.props.changeProfileStart}/>
+                        { this.props.changeProfileErr ? 
+                        <NotificationModal
+                            info="Network Error !"
+                            infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
+                            closeModal={this.props.onCloseModal}
+                            botton={[{title: 'Ok', onPress: this.props.onCloseModal, style: styles.botton}]}/> : null}
+                        { profile && !profile.confirm ? 
+                        <NotificationModal
+                            info={profile.info}
+                            closeModal={this.props.onCloseModal}
+                            botton={[{title: 'Ok', onPress: () => this.changeProfileHandler(profile.id, profile.title, profile.det, true), 
+                                style: styles.bottonCancel},
+                            {title: 'Exit', onPress: this.props.onCloseModal, style: styles.botton}]}/> : null}
                      </View>
                 </ScrollView>
             )
@@ -99,7 +114,6 @@ class Profile extends Component {
                 </>
             )
         }
-
 
       return (
         <NoBackground>
@@ -134,20 +148,31 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         fontSize: 15,
         color: '#777'
+    },
+    botton: {
+        backgroundColor: '#437da3',
+        color: '#fff'
+    },
+    bottonCancel: {
+        color: '#ff1600'
     }
 })
 
 const mapStateToProps = state => {
     return {
         profile: state.profile.profile,
-        profileErr: state.profile.profileErr
+        profileErr: state.profile.profileErr,
+        changeProfileErr: state.profile.changeProfileErr,
+        changeProfileStart: state.profile.changeProfileStart
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onFetchProfile: (userID) => dispatch(actions.fetchProfileInit(userID)),
-        onCloseHeaderPage: () => dispatch(actions.fetchProfileStart())
+        onCloseHeaderPage: () => dispatch(actions.fetchProfileStart()),
+        onCloseModal: () => dispatch(actions.changeProfileCancel()),
+        onChangeProfile: (id, title, det, confirm, info) => dispatch(actions.changeProfileInit(id, title, det, confirm, info))
     };
 };
 

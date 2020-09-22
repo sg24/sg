@@ -15,3 +15,18 @@ export function* fetchProfileInitSaga(action) {
     }
     
 }
+
+export function* changeProfileInitSaga(action) {
+    if (!action.confirm) {
+        yield put(actions.changeProfileStart(action.title, action.id, action.det, false, action.info ))
+        return;
+    }
+    yield put(actions.changeProfileStart(action.title, action.id, action.det, true, action.info))
+
+    try {
+        yield axios.patch('/users', {id: action.id}, {headers: {'data-categ': action.det}});
+        yield put(actions.changeProfile(true))
+    } catch(err){
+        yield put(actions.changeProfileFail(err));
+    }
+}

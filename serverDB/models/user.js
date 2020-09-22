@@ -135,7 +135,13 @@ var UserSchema = new mongoose.Schema({
     qchat: {
         type:Number,
         default: 0
-    }
+    },
+    pendingRequest: [{
+        type: String
+    }],
+    friend: [{
+        type: String
+    }]
 }) ;
 
 UserSchema.methods.toJSON = function() {

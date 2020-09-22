@@ -5,8 +5,8 @@ let authenticate = require('../serverDB/middleware/authenticate');
 const bcrypt = require('bcryptjs');
 const fetchCnt = require('./utility/fetchcnt');
 let filterCnt = require('./utility/filtercnt');
-const {category, user, 
-     authUser,connectStatus} = require('../serverDB/serverDB');
+let notifications = require('./utility/notifications');
+const {user, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', authenticate,(req, res, next) => {
     if (!req.authType) {
@@ -36,14 +36,8 @@ router.post('/', authenticate,(req, res, next) => {
                 parseInt(req.header('limit')), parseInt(req.header('skip')), {}, user, {
                     cnt: [],
                     cntTotal: 0
-                },'user').then(userCnt => {
-                    fetchUsers(connectStatus, {
-                        block: {$ne: req.user},
-                        _id: {$ne: mongoose.mongo.ObjectId(req.user)}
-                    }, {student: -1}, 
-                        parseInt(req.header('limit')), parseInt(req.header('skip')), {}, authUser, userCnt).then(result => {
-                            res.status(200).send(result);
-                        })
+                }).then(userCnt => {
+                    res.status(200).send(userCnt);
                 })
         } else {
             res.send({cnt:[], cntTotal: 0}).status(200);
@@ -180,55 +174,64 @@ router.post('/', authenticate,(req, res, next) => {
         return
     }
 
-    function fetchUsers(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt, modelType='authUser') {
+    function fetchUsers(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt) {
         return new Promise((resolve, reject) => {
             fetchCnt(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt).then(result => {
-                let model = req.userType === 'authUser' ? authUser : user;
-                model.findById(req.user).then(resultFilter =>{
-                    modelCnt.cntTotal =  modelType === 'user' ? result.cntTotal - resultFilter.block.length : result.cntTotal;
-                    for (let cnt of result.cnt) {
-                        if (!cnt.temp) {
-                            let userRequest = resultFilter.request || [];
-                            let filterReq = userRequest.filter(id => id === cnt._id.toHexString())
-                            let mainRequest = cnt.request || [];
-                            let filterMainReq = mainRequest.filter(id => id ===  req.user);
-                            let userBlock = resultFilter.block || [];
-                            let filterBlock = userBlock.filter(id => id === cnt._id.toHexString())
-                            let userTeacher = cnt.student || [];
-                            let userTeacherFilter = userTeacher.filter(id => id === req.user);
-                            let teacher = cnt.teacher || [];
-                            let teacherFilter = teacher.filter(id => id === req.user);
+                for (let cnt of result.cnt) {
+                    let userRequest = cnt.pendingRequest || [];
+                    let filterReq = userRequest.filter(id => id === req.user)
+                    let pendingRequest = cnt.request || [];
+                    let filterPendingReq = pendingRequest.filter(id => id ===  req.user);
+                    let userBlock = cnt.block || [];
+                    let filterBlock = userBlock.filter(id => id === req.user)
+                    let userTeacher = cnt.student || [];
+                    let userTeacherFilter = userTeacher.filter(id => id === req.user);
+                    let teacher = cnt.teacher || [];
+                    let teacherFilter = teacher.filter(id => id === req.user);
 
-                            let id = cnt._id.toHexString();
-                            let userDet = {id, username: cnt.username,studenttotal: cnt.student.length+cnt.teacher.length, student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
-                            
-                            if (filterReq.length > 0) {
-                                userDet['request'] = true
-                            }
-                            if (filterMainReq.length > 0) {
-                                userDet['pending'] = true
-                            }
-                            
-                            if (userTeacherFilter.length > 0 || teacherFilter.length > 0) {
-                                userDet['accept'] = true;
-                            }
-                        
-                            if (filterBlock.length < 1) {
-                                modelCnt.cnt.push(userDet)
-                            } 
-                        }
+                    let id = req.user;
+                    let userDet = {id, username: cnt.username,studenttotal: cnt.student.length+cnt.teacher.length, student: cnt.student.length,status: cnt.status, image: cnt.image || ''}
+                    
+                    if (filterReq.length > 0) {
+                        userDet['request'] = true
                     }
-                    resolve(modelCnt)
-                })
+                    if (filterPendingReq.length > 0) {
+                        userDet['pending'] = true
+                    }
+                    
+                    if (userTeacherFilter.length > 0 || teacherFilter.length > 0) {
+                        userDet['accept'] = true;
+                    }
+                
+                    if (filterBlock.length < 1) {
+                        modelCnt.cnt.push(userDet)
+                    } 
+                }
+                console.log(result.cntTotal);
+                modelCnt.cntTotal =  result.cntTotal;
+                resolve(modelCnt)
             })  
         })
     }
 });
 
 router.patch('/', authenticate,(req, res, next) => {
+    let id = req.body.id;
     if (req.header && req.header('data-categ') === 'addUser') {
         if (!req.authType) {
-           update(req.body.id, authUser, user, 'request')
+            let condition = {
+                $addToSet: { 'request': req.user }
+            }
+            Promise.all([
+                user.findByIdAndUpdate(id, condition), 
+                notifications('userRequest', id, {userID: req.user}, false),
+                notifications('userReject', id, {userID: req.user}, true),
+                notifications('userUnfriend', id, {userID: req.user}, true),
+                user.findByIdAndUpdate(req.user, {$addToSet: {'pendingRequest': [id]}})]).then(() => {
+                res.sendStatus(200);
+            }).catch(err => {
+                res.status(500).send(err);
+            });
         } else {
             res.cookie('redirect', '/users');
             res.redirect('/login')
@@ -266,16 +269,12 @@ router.patch('/', authenticate,(req, res, next) => {
     }
 
     if (req.header && req.header('data-categ') === 'acceptUser') {
-        let model = req.userType === 'authUser' ? authUser : user;
-        let id = req.body.id;
-        model.findOneAndUpdate({_id: req.user, student: { $ne : id }}, {
-            $addToSet: { student: id },
-            $inc: {studenttotal: 1},
-            $pull: {request: id}
-        }).then((result) => {
-            if (result) {
-                return update(id, authUser, user, 'teacher')
-            }
+        Promise.all([
+            user.findOneAndUpdate({_id: req.user, friend: { $ne : id }}, {$addToSet: { friend: id }, $pull: {request: id}}),
+            notifications('userRequest', req.user, {userID: id}, true),
+            notifications('userAccept', id, {userID: req.user}, false),
+            user.findByIdAndUpdate(id, {$pull: {'pendingRequest': req.user}})
+        ]).then(() => {
             res.sendStatus(200)
         }).catch(err =>{
             res.status(500).send(err);
@@ -284,11 +283,10 @@ router.patch('/', authenticate,(req, res, next) => {
     }
 
     if (req.header && req.header('data-categ') === 'rejUser') {
-        let model = req.userType === 'authUser' ? authUser : user;
-        let id = req.body.id;
-        model.findByIdAndUpdate(req.user, {
-            $pull: {request: id}
-        }).then(() => {
+        Promise.all([user.findByIdAndUpdate(req.user, {$pull: {request: id}}),
+            notifications('userRequest', req.user, {userID: id}, false),
+            notifications('userReject', id, {userID: req.user}, true),
+            user.findByIdAndUpdate(id, {$pull: {'pendingRequest': req.user}})]).then(() => {
             res.sendStatus(200);
         }).catch(err =>{
             res.status(500).send(err);
@@ -300,83 +298,25 @@ router.patch('/', authenticate,(req, res, next) => {
         let condition = {
             $pull: { request: req.user }
         }
-        let id = req.body.id;
-        authUser.findByIdAndUpdate(id, condition).then(result => {
-            if (!result) {
-                user.findByIdAndUpdate(id, condition).then(() => {
-                    res.sendStatus(200);
-                })
-            } else {
-                res.sendStatus(200);
-            }
+        Promise.all([user.findByIdAndUpdate(id, condition),
+            notifications('userRequest', id, {userID: req.user}, true),
+            notifications('userReject', id, {userID: req.user}, false),
+            user.findByIdAndUpdate(req.user, {$pull: {'pendingRequest': id}})]).then(() => {
+            res.sendStatus(200);
         }).catch(err => {
-            res.status(400).send(err)
+            res.status(500).send(err)
         })
         return
     }
 
     if (req.header && req.header('data-categ') === 'unfriend') {
-        let model = req.userType === 'authUser' ? authUser : user;
-        let id = req.body.id;
-        model.findOne({_id: req.user, $or: [{student: { $in : id }}, {teacher: { $in : id }}]}).then((result) => {
-            if (result) {
-                let filterStudent = result.student ? result.student.filter(studentID => studentID === id) : [];
-                if (filterStudent.length < 1) {
-                    remove(false, true, model, id);
-                } else {
-                    remove(true, false, model, id);
-                }
-            } else {
-                res.sendStatus(200)
-            }
-        })
-       
-    }
-
-    function remove(isStudent, isTeacher,model, id) {
-        let studenttotal = isStudent ? {$inc: {studenttotal: -1}} : {};
-        let teacher = isTeacher ? {$inc: {studenttotal: -1}} : {};
-        model.findByIdAndUpdate(req.user, {
-            $pull: {student: id, teacher: id},
-            ...studenttotal,
-            multi: true
-        }).then(() => {
-            let condition = {
-                $pull: {student: req.user, teacher: req.user},
-                ...teacher,
-                multi: true
-            }
-            authUser.findByIdAndUpdate(id, condition).then(result => {
-                if (!result) {
-                    user.findByIdAndUpdate(id, condition).then(() => {
-                        res.sendStatus(200);
-                    })
-                } else {
-                    res.sendStatus(200);
-                }
-            }).catch(err => {
-                res.status(400).send(err)
-            })
-        }).catch(err =>{
-            res.status(500).send(err);
-        });
-        return
-    }
-
-    function update(id, authModel, userModel, field) {
-        let condition = {
-            $addToSet: { [field]: req.user }
-        }
-        authModel.findByIdAndUpdate(id, condition).then(result => {
-            if (!result) {
-                userModel.findByIdAndUpdate(id, condition).then(() => {
-                    res.sendStatus(200);
-                })
-            } else {
-                res.sendStatus(200);
-            }
+        Promise.all([
+            user.findOneAndUpdate({_id: req.user, friend: { $in : [id] }}, {$pull: { friend: id }}),
+            notifications('userUnfriend', id, {userID: req.user}, false),
+            notifications('userAccept', id, {userID: req.user}, false)]).then(() => {
+            res.sendStatus(200);
         }).catch(err => {
-            res.status(400).send(err)
+            res.status(500).send(err)
         })
     }
     
