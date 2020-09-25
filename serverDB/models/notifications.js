@@ -63,6 +63,12 @@ const NotificationsSchema = new Schema({
     }],
     userUnfriend: [{
         userID: String
+    }],
+    pageInvite: [{
+        ...defaultContentSchema
+    }],
+    pageGroupAdded: [{
+        ...defaultContentSchema
     }]
 })
 

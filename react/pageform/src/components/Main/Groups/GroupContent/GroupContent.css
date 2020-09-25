@@ -1,0 +1,102 @@
+.icon__reuse-group--desc__tag {
+    margin-right: 10px;
+}
+
+.reuse-group {
+    position: relative;
+    color: #182427; 
+    margin-top: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0px 2px 9px 0px rgba(0,0,0, .3); 
+    border-radius: 10px 0 10px 10px;
+}
+
+.reuse-group__wrapper {
+    width: 100%;
+    border-radius: 10px 0 10px 10px;
+    background-color: #fff;
+}
+
+.reuse-group__cnt {
+    position: relative;
+    padding: 8px 0; 
+}
+
+.reuse-group__cnt--chat {
+    padding: 30px 0; 
+}
+
+.reuse-group__cnt--img {
+    position: absolute;
+    width: 60px;
+    background-color: #fff;
+    height: 60px;
+    border-radius: 30px;
+    border: 1px solid #f2f2f2;
+    overflow: hidden;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 20px;
+    box-shadow: 0px 0px 20px 0px rgba(220,219,220, 0.57);
+    -o-box-shadow: 0px 0px 20px 0px rgba(220,219,220, 0.57);
+    -ms-box-shadow: 0px 0px 20px 0px rgba(220,219,220, 0.57);
+    -webkit-box-shadow: 0px 0px 20px 0px rgba(220,219,220, 0.57);
+    -moz-box-shadow: 0px 0px 20px 0px rgba(220,219,220, 0.57); 
+}
+
+.reuse-group__cnt--img > img{ 
+    position: relative;
+    border-radius: 30px;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -o-object-position: 50% 50%;
+       object-position: 50% 50%;
+    -o-object-fit: contain;
+       object-fit: contain;
+    width: 60px;
+    height: 60px;
+    display: block;
+}
+
+.reuse-group__cnt--desc {
+    margin: 0;
+    padding: 10px 10px 10px 100px;
+    position: relative; 
+}
+
+.reuse-group__cnt--desc__title {
+    font-size: .9375rem;
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+}
+
+.reuse-group__cnt--desc__title > a {
+    text-decoration: none;
+    color: #182427; 
+}
+
+@media (min-width: 530px) {
+
+    .reuse-group__cnt--desc__title {
+        font-size: 1rem; 
+    } 
+}
+
+.reuse-group__cnt--desc__categ {
+    position: relative;
+    font-size: .8125rem;
+    margin-top: 10px;
+    border-radius: 3px;
+    background-color: #05578b;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    padding: 5px 10px;
+    flex-basis: content;
+    color: #fff
+}             

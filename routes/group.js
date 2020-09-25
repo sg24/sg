@@ -5,7 +5,7 @@ const webpush = require('web-push');
 let authenticate = require('../serverDB/middleware/authenticate');
 let filterCnt = require('./utility/filtercnt');
 let deleteMedia = require('./utility/deletemedia');
-const {category, grpnotifies, group, user, authUser, connectStatus} = require('../serverDB/serverDB');
+const {category, grpnotifies, group, user,  connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', authenticate, (req,res, next) => {
     if (!req.authType) {
@@ -442,20 +442,9 @@ router.post('/', authenticate, (req, res, next) => {
                     for (let cnt of result) {
                         user.findById(cnt.authorID).then(userFnd => {
                             if (!userFnd) {
-                                authUser.findById(cnt.authorID).then(authFnd => {
-                                   if (authFnd) {
-                                    let friend = authFnd.student.length+authFnd.teacher.length
-                                    fetch(authFnd.username, friend, authFnd.image, authFnd.status, cnt, cntArray).then(cnt => {
-                                        cntArray = cnt;
-                                        ++send;
-                                        if (send === result.length) {
-                                            res.send({cnt: cntArray, cntTotal}).status(200)
-                                        }
-                                    })
-                                   }
-                                })
+                                res.sendStatus(200)
                             } else {
-                                let userFriend = userFnd.student.length+userFnd.teacher.length
+                                let userFriend = userFnd.friend.length
                                 fetch(userFnd.username, userFriend, userFnd.image, userFnd.status, cnt, cntArray).then(cnt => {
                                     cntArray = cnt;
                                     ++send 
@@ -467,7 +456,7 @@ router.post('/', authenticate, (req, res, next) => {
                         })   
                     }
                     
-                    function fetch(username, studenttotal, image, status , cnt, cntArray) {
+                    function fetch(username, friendtotal, image, status , cnt, cntArray) {
                         return new Promise((resolve, reject) => {
                             let update = {};
                             let isMember = req.user ? cnt.member.filter(userID => userID === req.user) : [];
@@ -483,7 +472,7 @@ router.post('/', authenticate, (req, res, next) => {
                                 update['request'] = false
                             }
                             update['username'] = username;
-                            update['studenttotal'] = studenttotal;
+                            update['friendtotal'] = friendtotal;
                             update['userImage'] = image;
                             update['status'] = status;
                             update['userOpt'] = cnt.authorID === req.user;
@@ -498,6 +487,7 @@ router.post('/', authenticate, (req, res, next) => {
                             update['online'] = cnt.online.length,
                             update['groupMode'] = cnt.groupMode ? cnt.groupMode : 'private'
                             update['_id'] = cnt._id;
+                            update['id'] = cnt._id;
                             cntArray.push({...update});
                             resolve(cntArray)
                         })

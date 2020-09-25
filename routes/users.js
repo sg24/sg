@@ -90,13 +90,10 @@ router.post('/', authenticate,(req, res, next) => {
     if (req.header && req.header('data-categ') &&  req.header('data-categ').startsWith('friend')) {
         let status = req.header('data-categ').split('-')[1] === 'online' ? {status: true} : 
         req.header('data-categ').split('-')[1] === 'offline' ? {status: false} : {}
-        let model = req.userType === 'authUser' ? authUser : user;
-        model.findById(req.user).then(result => {
-            let fnd = [...result.student, ...result.teacher];
+        user.findById(req.user).then(result => {
+            let fnd = result.friend;
             fetchFriend(user, fnd,  {cnt: [],cntTotal: 0}).then(userFnd => {
-                fetchFriend(authUser, fnd, userFnd).then(totalFnd => {
-                    res.status(200).send(totalFnd);
-                })
+                res.status(200).send(userFnd);
             })
         }).catch(err => {
             res.status(500).send(err);
@@ -107,7 +104,7 @@ router.post('/', authenticate,(req, res, next) => {
                 model.find({_id: { $in : friend }, ...status}).limit(parseInt(req.header('limit'))).skip(parseInt(req.header('skip'))).then(result => {
                     for (let cnt of result) {
                         let id = cnt._id.toHexString();
-                        let userDet = {id, username: cnt.username,studenttotal: cnt.student.length + cnt.teacher.length, status: cnt.status, image: cnt.image || ''}
+                        let userDet = {id, username: cnt.username,friendtotal: cnt.friend.length , status: cnt.status, image: cnt.image || ''}
                         userDet['accept'] = true;
                         modelCnt.cnt.push(userDet)
                         modelCnt.cntTotal = modelCnt.cntTotal + 1;
@@ -124,8 +121,7 @@ router.post('/', authenticate,(req, res, next) => {
     if (req.header && req.header('data-categ') &&  req.header('data-categ').startsWith('subscribe')) {
         if (req.header('data-categ').split('==')[1]) {
             let subscription = JSON.parse(req.header('data-categ').split('==')[1]);
-            let model = req.userType === 'authUser' ? authUser : user;
-            model.findByIdAndUpdate(req.user, { $push: {subscription: {$each: [subscription],$slice: -1 }}, enableNotification: true}).then(() => {
+            user.findByIdAndUpdate(req.user, { $push: {subscription: {$each: [subscription],$slice: -1 }}, enableNotification: true}).then(() => {
                 res.sendStatus(200)
             }).catch(err => {
                 res.status(500).send(err)
@@ -207,7 +203,6 @@ router.post('/', authenticate,(req, res, next) => {
                         modelCnt.cnt.push(userDet)
                     } 
                 }
-                console.log(result.cntTotal);
                 modelCnt.cntTotal =  result.cntTotal;
                 resolve(modelCnt)
             })  

@@ -1,0 +1,25 @@
+{
+  "name": "S lodge24",
+  "short_name": "S lodge24",
+  "icons": [
+    {
+      "src": "/icons/sg-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icons/sg-icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fff",
+  "theme_color": "#05578b",
+  "description": "Share knowledge, Acquire new Knowledge, Free Computer based exam, Avertise product, Join and create groups, Add friends and connects with people all over the world",
+  "dir": "ltr",
+  "lang": "en-US"
+}

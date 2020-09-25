@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs'); 
-const {posts, questions, group, poets, aroundme, adverts, contest, qchat, category, tempFile, postnotifies, quenotifies, viewnotifies, pwtnotifies, grpnotifies, connectStatus, user, authUser} = require('../serverDB/serverDB');
+const {posts, page, questions, group, poets, aroundme, adverts, contest, qchat, category, tempFile, connectStatus, user} = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
 let notifications = require('./utility/notifications');
 let formInit = require('./utility/forminit');
@@ -741,5 +741,41 @@ router.post('/edit/qchat', authenticate, (req, res, next) => {
         res.status(500).send(err);
     })
 })
+
+router.post('/add/page', authenticate, (req, res, next) => {
+    formInit(req, formidable).then(form => {
+        let video = form.files && form.files.video ? form.files.video : []; 
+        let image = form.files && form.files.image ? form.files.image : []; 
+        savetemp(video, image, req.user).then(tempFileID => {
+            uploadToBucket(video, tempFileID, 'video', 'media', 'media.files').then(media => {
+                uploadToBucket(image, tempFileID, 'image', 'image', 'image.files').then(image => {
+                    let mediaCnt = {
+                        snapshot: media.images,
+                        image
+                    }
+                    const content = form.fields;
+                    connectStatus.then((result) => {
+                        create(content, page, mediaCnt, req.user, 'page', '/page', 'pageInvite', tempFileID).then(id =>
+                            res.status(201).send(id)
+                        ).catch(err => {
+                            res.status(500).send(err)
+                        })
+                    }).catch(err => {
+                        res.status(500).send(err);
+                    })
+                }).catch(err => {
+                    res.status(500).send(err);
+                })
+            }).catch(err => {
+                res.status(500).send(err);
+            })
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+    }).catch(err => {
+        res.status(500).send(err);
+    })
+})
+
 
 module.exports = router

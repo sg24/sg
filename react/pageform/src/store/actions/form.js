@@ -1,0 +1,264 @@
+import * as actionTypes from './actionTypes';
+
+export const fetchCategInit = () =>  {
+    return {
+        type: actionTypes.FETCH_CATEG_INIT
+    }; 
+}; 
+
+
+export const fetchStart = () =>  {
+    return {
+        type: actionTypes.FETCH_START
+    }; 
+}; 
+
+export const fetchCategFail = (err) =>  {
+    return {
+        type: actionTypes.FETCH_CATEG_FAIL,
+        err
+    }; 
+}; 
+
+export const fetchCategReset = () =>  {
+    return {
+        type: actionTypes.FETCH_CNT_RESET
+    }; 
+}; 
+
+export const fetchCateg = (categ) =>  {
+    return {
+        type: actionTypes.FETCH_CATEG,
+        categ
+    }; 
+}; 
+
+export const addCategInit = (categ) =>  {
+    return {
+        type: actionTypes.ADD_CATEG_INIT,
+        categ
+    }; 
+}; 
+
+export const addCateg = (categ) =>  {
+    return {
+        type: actionTypes.ADD_CATEG,
+        categ
+    }; 
+}; 
+
+export const checkLinkInit = (link, mediaType) =>  {
+    return {
+        type: actionTypes.CHECK_LINK_INIT,
+        link,
+        mediaType
+    }; 
+}; 
+
+export const checkLink = (err, media) =>  {
+    return {
+        type: actionTypes.CHECK_LINK,
+        err,
+        media
+    }; 
+}; 
+
+export const resetLink = () =>  {
+    return {
+        type: actionTypes.RESET_LINK
+    }; 
+}; 
+
+export const addSnapshot = (snapshot) => {
+    return {
+        type: actionTypes.ADD_SNAPSHOT,
+        snapshot
+    };
+};
+
+export const removeSnapshot = (snapshot) => {
+    return {
+        type: actionTypes.REMOVE_SNAPSHOT,
+        snapshot
+    };
+};
+
+export const removeMedia = (media) => {
+    return {
+        type: actionTypes.REMOVE_MEDIA,
+        media
+    };
+};
+
+export const submitMedia = (media) =>  {
+    return {
+        type: actionTypes.SUBMIT_MEDIA,
+        media
+    }; 
+}; 
+
+export const hideMediaBox = () =>  {
+    return {
+        type: actionTypes.HIDE_MEDIA_BOX,
+    }; 
+}; 
+
+export const showMediaBox = () =>  {
+    return {
+        type: actionTypes.SHOW_MEDIA_BOX,
+    }; 
+}; 
+
+export const fetchUsersInit = (userStatus) =>  {
+    return {
+        type: actionTypes.FETCH_USERS_INIT,
+        userStatus
+    }; 
+}; 
+
+export const fetchUsers = (users, status) =>  {
+    return {
+        type: actionTypes.FETCH_USERS,
+        users,
+        status
+    }; 
+}; 
+
+export const fetchUsersFail = (err) =>  {
+    return {
+        type: actionTypes.FETCH_USERS_FAIL,
+        err
+    }; 
+}; 
+
+export const fetchGroupInit = () =>  {
+    return {
+        type: actionTypes.FETCH_GROUP_INIT
+    }; 
+}; 
+
+export const fetchGroup = (groups) =>  {
+    return {
+        type: actionTypes.FETCH_GROUP,
+        groups
+    }; 
+}; 
+
+export const fetchGroupFail = (err) =>  {
+    return {
+        type: actionTypes.FETCH_GROUP_FAIL,
+        err
+    }; 
+}; 
+
+export const resetTab = () =>  {
+    return {
+        type: actionTypes.RESET_TAB
+    }; 
+};
+
+
+export const inputDefaultValue = () => {
+    return {
+        type: actionTypes.INPUT_DEFAULT_VALUE
+    };
+};
+
+export const filterUserInit = (users, filterContent) => {
+    return {
+        type: actionTypes.FILTER_USER_INIT,
+        users,
+        filterContent
+    };
+};
+
+export const filterUser = (users) => {
+    return {
+        type: actionTypes.FILTER_USER,
+        users
+    };
+};
+
+export const userSelect = (users) => {
+    return {
+        type: actionTypes.USER_SELECT,
+        users
+    };
+};
+
+export const groupSelect = (groups) => {
+    return {
+        type: actionTypes.GROUP_SELECT,
+        groups
+    };
+};
+
+export const showUserSelectInit = (users, userID) => {
+    return {
+        type: actionTypes.SHOW_USER_SELECT_INIT,
+        users,
+        userID
+    };
+};
+
+export const showUserSelect = (users) => {
+    return {
+        type: actionTypes.SHOW_USER_SELECT,
+        users
+    };
+};
+
+export const submitFormInit = (formData) => {
+    return {
+        type: actionTypes.SUBMIT_FORM_INIT,
+        formData
+    };
+};
+
+export const submitFormFail = (err) => {
+    return {
+        type: actionTypes.SUBMIT_FORM_FAIL,
+        err
+    };
+};
+
+export const submitFormSuccess = (uploadPercent) => {
+    return {
+        type: actionTypes.SUBMIT_FORM_SUCCESS,
+        uploadPercent
+    };
+};
+
+export const submitFormStart = () => {
+    return {
+        type: actionTypes.SUBMIT_FORM_START
+    };
+};
+
+export const submitForm = () => {
+    return {
+        type: actionTypes.SUBMIT_FORM
+    };
+};
+
+export const submitFormReset = () => {
+    return {
+        type: actionTypes.SUBMIT_FORM_RESET
+    };
+};
+
+export const formSubmitted = (id) => {
+    return {
+        type: actionTypes.FORM_SUBMITTED,
+        id
+    };
+};
+
+export const groupImage = (imageCapture) => {
+    return {
+        type: actionTypes.IMAGE_CAPTURE,
+        imageCapture
+    };
+};
+
+

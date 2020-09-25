@@ -38,28 +38,6 @@ var UserSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    subjectpost: {
-        type: Array,
-        default: [String]
-    },
-    subjectque: {
-        type: Array,
-        default: [String]
-    },
-    subjectpoet: {
-        type: Array,
-        default: [String]
-    },
-    student: [{
-        type: String
-    }],
-    studenttotal: {
-        type: Number,
-        default: 0
-    },
-    teacher: [{
-        type: String
-    }],
     request: [{
         type: String
     }],
@@ -104,42 +82,13 @@ var UserSchema = new mongoose.Schema({
     about: {
         type: String
     },
-    postpub: {
-        type:Number,
-        default: 0
-    },
-    quepub: {
-        type:Number,
-        default: 0
-    },
-    pwtpub: {
-        type:Number,
-        default: 0
-    },
-    groups: {
-        type:Number,
-        default: 0
-    },
-    advert: {
-        type:Number,
-        default: 0
-    },
-    contest: {
-        type:Number,
-        default: 0
-    },
-    aroundme: {
-        type:Number,
-        default: 0
-    },
-    qchat: {
-        type:Number,
-        default: 0
-    },
     pendingRequest: [{
         type: String
     }],
     friend: [{
+        type: String
+    }],
+    page: [{
         type: String
     }]
 }) ;

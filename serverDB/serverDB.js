@@ -25,7 +25,8 @@ const aroundme = require('./models/aroundme');
 const contest = require('./models/contest');
 const qchat = require('./models/qchat');
 const qcontent = require('./models/qcontent');
-const notifications = require('./models/notifications')
+const notifications = require('./models/notifications');
+const page = require('./models/page');
 
 module.exports = {
     adverts,
@@ -54,6 +55,7 @@ module.exports = {
     qchat,
     qcontent,
     notifications,
+    page,
     connectStatus
 };
 
