@@ -1,0 +1,83 @@
+importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
+
+
+const matchUrl = ({url, event}) => {
+    return (url.href  === 'https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700');
+}
+
+workbox.routing.registerRoute(
+    matchUrl,
+    new workbox.strategies.StaleWhileRevalidate({
+        cacheName: 'google-fonts',
+        plugins: [
+            new workbox.expiration.Plugin({
+              maxAgeSeconds: 24 * 60 * 60 * 7 * 30,
+              maxEntries: 3
+            }),
+        ]     
+    }
+));
+
+
+
+self.addEventListener('notificationclick', function(event) {
+    var notification = event.notification;
+    var action = event.action;
+  
+    if (action === 'confirm'  || action === 'cancel') {
+      notification.close();
+    } else {
+      event.waitUntil(
+        clients.matchAll()
+          .then(function(clis) {
+            var client = clis.find(function(c) {
+              return c.visibilityState === 'visible';
+            });
+  
+            if (client !== undefined) {
+              client.navigate(notification.data.url);
+              client.focus();
+            } else {
+              clients.openWindow(notification.data.url);
+            }
+            notification.close();
+          })
+      );
+    }
+  });
+  
+  self.addEventListener('push', function(event) {
+    var data = {title: 'New Notification from Friend', content: 'Required your attension!', openUrl: '/'};
+  
+    if (event.data) {
+      data = JSON.parse(event.data.text());
+    }
+    
+    var options = {
+      body: data.content,
+      icon: '/icons/sg-icon-96x96.png',
+      badge: '/icons/sg-icon-96x96.png',
+      data: {
+        url: data.openUrl
+      },
+      image: data.image
+    };
+  
+    event.waitUntil(
+      self.registration.showNotification(data.title, options)
+    );
+  });
+  
+workbox.precaching.precacheAndRoute([
+  {
+    "url": "favicon.ico",
+    "revision": "0a9ed05ba14be304968a000238676273"
+  },
+  {
+    "url": "manifest.json",
+    "revision": "a361e486056740c7c102617f1f16218e"
+  }
+]);
+  
+
+

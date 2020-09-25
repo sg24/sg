@@ -1,4 +1,4 @@
-import * as actions from '../../store/actions/index';
+import * as actions from '../actions/index';
 import axios from '../../axios';
 
 export const submit = (formData) => {
