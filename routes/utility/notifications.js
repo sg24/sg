@@ -17,12 +17,12 @@ const userNotifications = (field , recieverID, cnt, isRemove) => {
                         }
                         cntField[checkUserIndex] = checkUser;
                     } 
-                    cntField = !checkUser.cntID ? cntField.filter(cntFnd =>  cntFnd.userID !== cnt.userID) : cntField;
+                    cntField = !checkUser.cntID && isRemove ? cntField.filter(cntFnd =>  cntFnd.userID !== cnt.userID) : cntField;
                 } else if (!isRemove) {
                     cntField.push({userID: cnt.userID, ...cntID})
                 }
                 doc[field] = cntField;
-                doc.save().then(() => {
+                doc.updateOne(doc).then(() => {
                     resolve();
                 })
                 return

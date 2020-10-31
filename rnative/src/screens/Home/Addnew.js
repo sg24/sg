@@ -21,7 +21,7 @@ class Addnew extends Component {
     }
 
     navigationHandler = (page) => {
-        alert(page)
+        this.props.navigation.push(page)
     }
 
     render() {
@@ -30,7 +30,7 @@ class Addnew extends Component {
             <ScrollView>
                 <View style={styles.wrapper}>
                     <View style={[ this.state.viewMode === 'landscape' ? styles.landscapeWrapper : null]}>
-                        <TouchableOpacity style={styles.navItem} onPress={() => this.navigationHandler("")}>
+                        <TouchableOpacity style={styles.navItem} onPress={() => this.navigationHandler("AddPost")}>
                             <Icon name="chatbox" size={20} color="#437da3"/>
                             <Text style={styles.textStyle}>Post</Text>
                         </TouchableOpacity>

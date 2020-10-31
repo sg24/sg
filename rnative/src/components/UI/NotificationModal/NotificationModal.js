@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Modal, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import Botton from '../Botton/Botton';
+import Button from '../Button/Button';
 import BoxShadow from '../BoxShadow/BoxShadow';
 
 const notificationModal = props => {
@@ -18,13 +18,13 @@ const notificationModal = props => {
                             {props.infoIcon ? <Icon name={props.infoIcon.name} size={ props.infoIcon.size || 40} color={ props.infoIcon.color || '#000'}/> : null }
                             <Text style={[styles.textStyle, props.style]}>{props.info}</Text>
                         </View>
-                        {props.botton ? <View style={styles.botton}>
-                            {props.botton.map((cnt, index) => (
-                                <Botton key={index} onPress={cnt.onPress}>
+                        {props.button ? <View style={styles.button}>
+                            {props.button.map((cnt, index) => (
+                                <Button key={index} onPress={cnt.onPress}>
                                     <BoxShadow style={styles.boxShadow}>
-                                        <Text style={[styles.bottonText, cnt.style]}>{cnt.title}</Text>
+                                        <Text style={[styles.buttonText, cnt.style]}>{cnt.title}</Text>
                                     </BoxShadow>
-                                </Botton>
+                                </Button>
                             ))}
                         </View>: null}
                     </View>
@@ -55,14 +55,14 @@ const styles = StyleSheet.create({
         marginTop: 5,
         textAlign: 'center'
     },
-    botton: {
+    button: {
         backgroundColor: '#e9ebf2',
         paddingHorizontal: 5,
         marginTop: 10,
         flexDirection: 'row-reverse',
         justifyContent: 'space-between'
     },
-    bottonText: {
+    buttonText: {
         color: '#333',
         backgroundColor: '#fff',
         paddingVertical: 2,

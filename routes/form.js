@@ -13,7 +13,7 @@ let edit = require('./utility/edit');
 let uploadToBucket = require('./utility/qchatupload');
 let savetemp = require('./utility/savetemp');
 let submitAdvert = require('./utility/submitadvert');
-let submitAround = require('./utility/submitaround');
+let submitPost = require('./utility/submitaround');
 let submitContest = require('./utility/submitcontest');
 let submitQchat = require('./utility/submitqchat');
 let editQchat = require('./utility/editqchat');
@@ -427,7 +427,7 @@ router.post('/add/aroundme', authenticate, (req, res, next) => {
                     let userModel = req.userType === 'authUser' ? authUser : user;
                     const content = form.fields;
                     connectStatus.then((result) => {
-                        submitAround(content, aroundme, mediaCnt, userModel, {authorID: req.user, username: req.username, userImage: req.userImage, userType: req.userType}, [], tempFileID).then(id =>
+                        submitPost(content, aroundme, mediaCnt, userModel, {authorID: req.user, username: req.username, userImage: req.userImage, userType: req.userType}, [], tempFileID).then(id =>
                             res.status(201).send(id)
                         ).catch(err => {
                             res.status(500).send(err)

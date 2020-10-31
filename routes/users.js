@@ -220,8 +220,6 @@ router.patch('/', authenticate,(req, res, next) => {
             Promise.all([
                 user.findByIdAndUpdate(id, condition), 
                 notifications('userRequest', id, {userID: req.user}, false),
-                notifications('userReject', id, {userID: req.user}, true),
-                notifications('userUnfriend', id, {userID: req.user}, true),
                 user.findByIdAndUpdate(req.user, {$addToSet: {'pendingRequest': [id]}})]).then(() => {
                 res.sendStatus(200);
             }).catch(err => {
@@ -246,14 +244,8 @@ router.patch('/', authenticate,(req, res, next) => {
                 $addToSet: { block: req.user },
                 multi: true
             }
-            authUser.findByIdAndUpdate(id, condition).then(result => {
-                if (!result) {
-                    user.findByIdAndUpdate(id, condition).then(() => {
-                        res.sendStatus(200);
-                    })
-                } else {
-                    res.sendStatus(200);
-                }
+            user.findByIdAndUpdate(id, condition).then(() => {
+                res.sendStatus(200);
             }).catch(err => {
                 res.status(400).send(err)
             })
@@ -279,8 +271,8 @@ router.patch('/', authenticate,(req, res, next) => {
 
     if (req.header && req.header('data-categ') === 'rejUser') {
         Promise.all([user.findByIdAndUpdate(req.user, {$pull: {request: id}}),
-            notifications('userRequest', req.user, {userID: id}, false),
-            notifications('userReject', id, {userID: req.user}, true),
+            notifications('userRequest', req.user, {userID: id}, true),
+            notifications('userReject', id, {userID: req.user}, false),
             user.findByIdAndUpdate(id, {$pull: {'pendingRequest': req.user}})]).then(() => {
             res.sendStatus(200);
         }).catch(err =>{
@@ -295,7 +287,6 @@ router.patch('/', authenticate,(req, res, next) => {
         }
         Promise.all([user.findByIdAndUpdate(id, condition),
             notifications('userRequest', id, {userID: req.user}, true),
-            notifications('userReject', id, {userID: req.user}, false),
             user.findByIdAndUpdate(req.user, {$pull: {'pendingRequest': id}})]).then(() => {
             res.sendStatus(200);
         }).catch(err => {
@@ -307,8 +298,7 @@ router.patch('/', authenticate,(req, res, next) => {
     if (req.header && req.header('data-categ') === 'unfriend') {
         Promise.all([
             user.findOneAndUpdate({_id: req.user, friend: { $in : [id] }}, {$pull: { friend: id }}),
-            notifications('userUnfriend', id, {userID: req.user}, false),
-            notifications('userAccept', id, {userID: req.user}, false)]).then(() => {
+            notifications('userUnfriend', id, {userID: req.user}, false)]).then(() => {
             res.sendStatus(200);
         }).catch(err => {
             res.status(500).send(err)

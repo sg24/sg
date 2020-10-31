@@ -4,16 +4,16 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const formElement = props => {
     return (
-        <View style={styles.wrapper}>
-            <Text style={styles.labelTitle}>{props.labelTitle}</Text>
-            <View style={styles.InputWrapper}>
+        <View style={[styles.wrapper, props.formWrapperStyle]}>
+            {props.labelTitle ? <Text style={[styles.labelTitle, props.labelStyle]}>{props.labelTitle}</Text> : null}
+            <View style={[styles.InputWrapper, props.inputWrapperStyle]}>
                 <TextInput 
                     autoCapitalize="none"
                     underlineColorAndroid="transparent"
                     {...props}
                     style={[styles.input, props.style]} />
                 {props.inputIcon ? (
-                    <View style={styles.inputIcon}>
+                    <View style={[styles.inputIcon, props.inputIconStyle]}>
                         <TouchableOpacity onPress={props.onPress}>
                             <Icon name={props.inputIcon} size={14}/>
                         </TouchableOpacity>
@@ -30,8 +30,8 @@ const formElement = props => {
 const styles = StyleSheet.create({
     wrapper: {
         paddingTop: 0,
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingLeft: 10,
+        paddingRight: 10,
         paddingBottom: 20,
         width: '100%'
     },
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     error: {
         position: 'relative',
         paddingVertical: 5,
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         marginTop: 10,
         fontSize: 15,
         backgroundColor: '#f9f9f9',

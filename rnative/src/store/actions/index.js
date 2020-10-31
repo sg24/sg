@@ -43,5 +43,28 @@ export {
     changeProfileStart,
     changeProfileFail,
     changeProfileCancel,
-    changeProfile
-} from './profile'
+    changeProfile,
+    submitAboutInit,
+    submitAboutStart,
+    submitAboutFail,
+    submitAboutReset,
+    submitAbout,
+    submitProfileImageStart,
+    submitProfileImageFail,
+    submitProfileImageReset,
+    submitProfileImage,
+    submitUsernameInit,
+    submitUsernameStart,
+    submitUsernameFail,
+    submitUsernameReset,
+    submitUsername
+} from './profile';
+
+export {
+    submitProfileImageInit
+} from '../thunk/profile'
+
+export {
+    submitAddFormInit,
+    addFormReset
+} from './addForm'

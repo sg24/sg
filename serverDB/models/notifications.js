@@ -69,6 +69,12 @@ const NotificationsSchema = new Schema({
     }],
     pageGroupAdded: [{
         ...defaultContentSchema
+    }],
+    profileImage: [{
+        userID: String
+    }],
+    profileName: [{
+        userID: String
     }]
 })
 

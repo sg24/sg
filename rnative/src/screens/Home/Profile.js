@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Share,ActivityIndicator, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
+import ImagePicker from 'react-native-image-crop-picker';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import * as actions from '../../store/actions/index';
+import { updateObject, checkValidity } from '../../shared/utility';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import Profiles from '../../components/Main/Profile/Profile.js';
 import ScrollView from '../../components/UI/ScrollView/ScrollView';
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
+import Dialog from '../../components/UI/Dialog/Dialog';
 
 class Profile extends Component {
     constructor(props) {
@@ -16,7 +19,44 @@ class Profile extends Component {
         Dimensions.addEventListener('change', this.updateStyle)
         this.state = {
             viewMode: Dimensions.get('window').width >= 530 ? 'landscape' : 'portrait',
-            userID: this.props.route.params.userID
+            userID: this.props.route.params.userID,
+            edit: false,
+            formElement: {
+                about: {
+                    value: '',
+                    validation: {
+                        required: true,
+                        minLength: 6
+                    },
+                    valid: false,
+                    touched: false
+                },
+                username: {
+                    value: '',
+                    validation: {
+                        required: true,
+                        minLength: 6
+                    },
+                    valid: false,
+                    touched: false
+                },
+                newUsername: {
+                    value: '',
+                    validation: {
+                        required: true,
+                        minLength: 6
+                    },
+                    valid: false,
+                    touched: false
+                }
+            },
+            formIsValid: false,
+            showUserOpt: false,
+            profileTab: ['Post','Friend','Room','Page','Feed','Question', 'CBT','Write Up'],
+            currentProfileTab: 'Post',
+            uploadImage: null,
+            showNameAccodion: false,
+            showImageAccodion: true
         }
     }
 
@@ -30,6 +70,23 @@ class Profile extends Component {
             });
         } else {
             this.props.navigation.navigate('Home')
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.props.submitAbout && this.state.edit) {
+            this.setState({edit: false});
+            this.props.onSubmitAboutReset()
+        }
+        if (this.props.submitProfileImage && this.state.uploadImage) {
+            this.setState({uploadImage: null})
+        }
+        if (this.props.submitUsername && this.state.formElement.newUsername.value) {
+            let formElement = this.state.formElement
+            formElement.username.value = '';formElement.username.valid = false,
+            formElement.username.touched = false;formElement.newUsername.value = '';
+            formElement.newUsername.valid = false;formElement.newUsername.touched = false;
+            this.setState({formElement})
         }
     }
 
@@ -58,6 +115,79 @@ class Profile extends Component {
         this.props.onChangeProfile(id, title, det, confirm, info);
     };
 
+    inputChangedHandler = (value, inputType) => {
+        let updateFormType = updateObject(this.state.formElement[inputType], {
+            value,
+            valid: checkValidity(value, this.state.formElement[inputType].validation),
+            touched: true
+        });
+        
+        let formIsValid = true;
+        let updateFormElement = updateObject(this.state.formElement, {[inputType]: updateFormType})
+
+        for (let inputType in updateFormElement) {
+            formIsValid = updateFormElement[inputType].valid && formIsValid;
+        }
+        
+        this.setState({formElement: updateFormElement, formIsValid});
+        if (this.props.submitAboutErr) {
+            this.props.onSubmitAboutReset()
+        }
+    }
+
+    enableEditHandler = () => {
+        this.setState({edit: !this.state.edit})
+        if (this.state.edit) {
+            this.props.onSubmitAboutReset();
+        }
+    }
+
+    submitAboutHandler = (cnt) => {
+        this.props.onSubmitAbout(cnt, this.state.userID)
+    }
+
+    enableUserOptHandler = () => {
+        this.setState({showUserOpt: !this.state.showUserOpt})
+    }
+
+    selectProfileTabHandler = (tab) => {
+        this.setState({currentProfileTab: tab})
+    }
+
+    enableChangeImageHandler = () => {
+        const options = {
+        }
+        // Share.share({message: 'share'})
+        // ImagePicker.show()
+        // ImagePicker.openPicker(options).then(response => {
+        //     if (response.path) {
+        //         this.setState({uploadImage: {uri: response.path, type: response.mime, 
+        //             name: response.path.split('/').pop()}})
+        //     }
+        // }).catch(err => err)
+    }
+
+    cancelUploadImageHandler = () => {
+        this.setState({uploadImage: null});
+        this.props.onProfileImageReset()
+    }
+
+    submitProfileImageHandler = () => {
+        this.props.onSubmitProfileImage(this.state.uploadImage, this.state.userID);
+    }
+
+    submitUsernameHandler = () => {
+        this.props.onSubmitUsername(this.state.formElement.newUsername.value, this.state.userID)
+    }
+
+    enableNameAccodion = () => {
+        this.setState({showNameAccodion: !this.state.showNameAccodion});
+    }
+
+    enableImageAccodion = () => {
+        this.setState({showImageAccodion: !this.state.showImageAccodion});
+    }
+
     render() {
         let cnt = (
             <ActivityIndicator 
@@ -77,20 +207,49 @@ class Profile extends Component {
                             navigate={this.navigationHandler}
                             userID={this.state.userID}
                             changeProfile={this.changeProfileHandler}
-                            changeProfileStart={this.props.changeProfileStart}/>
+                            changeProfileStart={this.props.changeProfileStart}
+                            inputChanged={this.inputChangedHandler}
+                            formElement={this.state.formElement}
+                            enableEdit={this.enableEditHandler}
+                            edit={this.state.edit}
+                            cancelEdit={this.enableEditHandler}
+                            submitAbout={this.submitAboutHandler}
+                            submittingAbout={this.props.submitAboutStart}
+                            submitAboutErr={this.props.submitAboutErr}
+                            enableUserOpt={this.enableUserOptHandler}
+                            showUserOpt={this.state.showUserOpt}
+                            profileTab={this.state.profileTab}
+                            selectProfileTab={this.selectProfileTabHandler}
+                            currentProfileTab={this.state.currentProfileTab}
+                            enableChangeImage={this.enableChangeImageHandler}
+                            uploadImage={this.state.uploadImage}
+                            cancelUploadImage={this.cancelUploadImageHandler}
+                            submitProfileImage={this.submitProfileImageHandler}
+                            submittingProfileImage={this.props.submitProfileImageStart}
+                            submitProfileImageErr={this.props.submitProfileImageErr}
+                            submittedProfileImage={this.props.submitProfileImage}
+                            submitUsername={this.submitUsernameHandler}
+                            submittingUsername={this.props.submitUsernameStart}
+                            submittedUsername={this.props.submitUsername}
+                            submitUsernameErr={this.props.submitUsernameErr}
+                            showImageAccodion={this.state.showImageAccodion}
+                            enableImageAccodion={this.enableImageAccodion}
+                            showNameAccodion={this.state.showNameAccodion}
+                            enableNameAccodion={this.enableNameAccodion}/>
+                            {/* <Dialog ref={(ref) => this.dialog = ref}/> */}
                         { this.props.changeProfileErr ? 
                         <NotificationModal
                             info="Network Error !"
                             infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                             closeModal={this.props.onCloseModal}
-                            botton={[{title: 'Ok', onPress: this.props.onCloseModal, style: styles.botton}]}/> : null}
+                            button={[{title: 'Ok', onPress: this.props.onCloseModal, style: styles.button}]}/> : null}
                         { profile && !profile.confirm ? 
                         <NotificationModal
                             info={profile.info}
                             closeModal={this.props.onCloseModal}
-                            botton={[{title: 'Ok', onPress: () => this.changeProfileHandler(profile.id, profile.title, profile.det, true), 
-                                style: styles.bottonCancel},
-                            {title: 'Exit', onPress: this.props.onCloseModal, style: styles.botton}]}/> : null}
+                            button={[{title: 'Ok', onPress: () => this.changeProfileHandler(profile.id, profile.title, profile.det, true), 
+                                style: styles.buttonCancel},
+                            {title: 'Exit', onPress: this.props.onCloseModal, style: styles.button}]}/> : null}
                      </View>
                 </ScrollView>
             )
@@ -149,11 +308,11 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: '#777'
     },
-    botton: {
+    button: {
         backgroundColor: '#437da3',
         color: '#fff'
     },
-    bottonCancel: {
+    buttonCancel: {
         color: '#ff1600'
     }
 })
@@ -163,7 +322,16 @@ const mapStateToProps = state => {
         profile: state.profile.profile,
         profileErr: state.profile.profileErr,
         changeProfileErr: state.profile.changeProfileErr,
-        changeProfileStart: state.profile.changeProfileStart
+        changeProfileStart: state.profile.changeProfileStart,
+        submitAboutStart: state.profile.submitAboutStart,
+        submitAboutErr: state.profile.submitAboutErr,
+        submitAbout: state.profile.submitAbout,
+        submitProfileImageErr: state.profile.submitProfileImageErr,
+        submitProfileImageStart: state.profile.submitProfileImageStart,
+        submitProfileImage: state.profile.submitProfileImage,
+        submitUsernameErr: state.profile.submitUsernameErr,
+        submitUsernameStart: state.profile.submitUsernameStart,
+        submitUsername: state.profile.submitUsername
     };
 };
 
@@ -172,7 +340,12 @@ const mapDispatchToProps = dispatch => {
         onFetchProfile: (userID) => dispatch(actions.fetchProfileInit(userID)),
         onCloseHeaderPage: () => dispatch(actions.fetchProfileStart()),
         onCloseModal: () => dispatch(actions.changeProfileCancel()),
-        onChangeProfile: (id, title, det, confirm, info) => dispatch(actions.changeProfileInit(id, title, det, confirm, info))
+        onChangeProfile: (id, title, det, confirm, info) => dispatch(actions.changeProfileInit(id, title, det, confirm, info)),
+        onSubmitAbout: (cnt, userID) => dispatch(actions.submitAboutInit(cnt, userID)),
+        onSubmitAboutReset: () => dispatch(actions.submitAboutReset()),
+        onSubmitProfileImage: (image, userID) => dispatch(actions.submitProfileImageInit(image, userID)),
+        onProfileImageReset: () => dispatch(actions.submitProfileImageReset()),
+        onSubmitUsername: (username, userID) => dispatch(actions.submitUsernameInit(username, userID))
     };
 };
 

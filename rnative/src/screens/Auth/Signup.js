@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import LinearBackground from '../../components/UI/LinearBackground/LinearBackground';
 import logo from '../../assets/logo.png';
 import FormElement from '../../components/UI/FormElement/FormElement';
-import Botton from '../../components/UI/Botton/Botton';
+import Button from '../../components/UI/Button/Button';
 import Href from '../../components/UI/Href/Href';
 import { updateObject, checkValidity } from '../../shared/utility';
 import ScrollView from '../../components/UI/ScrollView/ScrollView';
@@ -181,10 +181,10 @@ class Signup extends Component {
                             valid={!this.state.confirmPassword.valid && this.state.confirmPassword.touched && this.state.confirmPassword.err}
                             onChangeText={this.confirmPasswordHandler}
                             error={this.state.confirmPassword.err}/>
-                        <View style={styles.formElementBotton}>
-                            <Botton 
+                        <View style={styles.formElementButton}>
+                            <Button 
                                 title="Sign Up"
-                                style={styles.botton}
+                                style={styles.button}
                                 onPress={this.submitHandler}
                                 disabled={!this.state.formIsValid || !this.state.confirmPassword.valid}
                                 textStyle={styles.textStyle}
@@ -277,17 +277,17 @@ const styles = StyleSheet.create({
         color: '#333',
         fontSize: 15
     },
-    formElementBotton: {
+    formElementButton: {
         width: '100%',
         paddingVertical: 5,
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         marginTop: 5,
         backgroundColor: '#f9f9f9',
         alignItems: 'flex-end',
         borderBottomRightRadius: 3,
         borderBottomLeftRadius: 3
     },
-    botton: {
+    button: {
         width: 70,
         backgroundColor: '#437da3',
         justifyContent: 'center',
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     error: {
         position: 'relative',
         paddingVertical: 5,
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         marginBottom: 10,
         fontSize: 15,
         backgroundColor: '#f9f9f9',

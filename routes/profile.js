@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { connectStatus, user, authUser, tempFile} = require('../serverDB/serverDB');
+const { connectStatus, user, tempFile} = require('../serverDB/serverDB');
 let formidable = require('formidable');
 
 let formInit = require('./utility/forminit');
 let uploadToBucket = require('./utility/upload');
 let savetemp = require('./utility/savetemp');
+let notifications = require('./utility/notifications');
+let deleteMedia = require('./utility/deletemedia');
 const authenticate = require('../serverDB/middleware/authenticate');
 
 router.get('/user/profile/:id', authenticate, (req, res, next) => {
@@ -99,30 +101,48 @@ router.post('/user/profile/:id',authenticate, (req, res,next) => {
         return;
     }
 
+    if (req.header && req.header('data-categ') === 'username') { 
+        user.findByIdAndUpdate(req.user, {username: req.body.username}).then(userInfo => {
+            res.sendStatus(200);
+            if (userInfo && userInfo.friend && userInfo.friend.length > 0) {
+                for (let recieverID of userInfo.friend) {
+                    notifications('profileName', recieverID, {userID: req.user}, false);
+                }
+            }
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return;
+    }
+
     if (req.header && req.header('data-categ') === 'profileImage') { 
         formInit(req, formidable).then(form => {
-            let imageFile = form.files && form.files.image ? form.files.image : null; 
+            let imageFile = form.files && form.files.image ? form.files.image : null;
             if (imageFile) {
                 savetemp([], imageFile, req.user).then(tempFileID => {
                     uploadToBucket(imageFile, tempFileID, 'image', 'image', 'image.files').then(image => {
                         if (image && image.length > 0) {
-                            let model = req.userType === 'authUser' ? authUser : user;
-                            model.findByIdAndUpdate(req.user, {image: `https://wwww.slodge24.com/media/image/${image[0].id}`}).then(() => {
-                                tempFile.findByIdAndRemove(tempFileID).then(() => {
+                            user.findById(req.user).then(userInfo => {
+                                Promise.all([userInfo && userInfo.image ? deleteMedia([{id: userInfo.image.split('/').pop()}], 'image') : Promise.resolve(),
+                                    user.findByIdAndUpdate(req.user, {image: `https://wwww.slodge24.com/media/image/${image[0].id}`}),
+                                    tempFile.findByIdAndRemove(tempFileID)]).then(() => {
                                     res.sendStatus(200);
+                                    if (userInfo && userInfo.friend && userInfo.friend.length > 0) {
+                                        for (let recieverID of userInfo.friend) {
+                                            notifications('profileImage', recieverID, {userID: req.user}, false);
+                                        }
+                                    }
+                                }).catch(err => {
+                                    res.status(500).send(err)
                                 })
-                            }).catch(err => {
-                                res.status(500).send(err)
                             })
                         } else {
                             res.sendStatus(500)
                         }
                     })
-                }).catch(err => {
-                    res.status(500).send(err)
                 })
             } else {
-                res.sendStatus(442);
+                res.sendStatus(404)
             }
         })
         return;

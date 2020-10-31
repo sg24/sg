@@ -19,6 +19,7 @@ import DefaultSearchHeader  from './src/components/UI/Header/DefaultSearchHeader
 import ConvScreen from './src/screens/Home/Conv';
 import NotificatonScreen from './src/screens/Home/Notification';
 import ProfileScreen from './src/screens/Home/Profile';
+import AddPostScreen from './src/screens/AddForm/Post';
 
 
 const Stack = createStackNavigator();
@@ -35,7 +36,8 @@ const userScreens = {
   Addnew: AddnewScreen,
   Conversation: ConvScreen,
   Notification: NotificatonScreen,
-  Profile: ProfileScreen
+  Profile: ProfileScreen,
+  AddPost: AddPostScreen
 };
 
 class App extends Component {
@@ -96,7 +98,15 @@ class App extends Component {
                   />
                 }
               }
-
+              
+              if (name === 'AddPost') {
+                header = {
+                  header: ({scene, previous, navigation }) => <DefaultHeader 
+                    onPress={() => navigation.goBack()}
+                    title={name.startsWith('Add') ? name.split('Add').join("Add ") : name}
+                  />
+                }
+              }
               return (
                 <Stack.Screen name={name} component={component} key={name} options={{headerShown: this.props.isLoggedIn, ...header}}/>
               )

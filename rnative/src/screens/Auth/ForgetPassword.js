@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import LinearBackground from '../../components/UI/LinearBackground/LinearBackground';
 import logo from '../../assets/logo.png';
 import FormElement from '../../components/UI/FormElement/FormElement';
-import Botton from '../../components/UI/Botton/Botton';
+import Button from '../../components/UI/Button/Button';
 import Href from '../../components/UI/Href/Href';
 import { updateObject, checkValidity } from '../../shared/utility';
 import ScrollView from '../../components/UI/ScrollView/ScrollView';
@@ -98,10 +98,10 @@ class ForgetPassword extends Component {
                     value={this.state.formElement.email.value}
                     valid={!this.state.formElement.email.valid && this.state.formElement.email.touched}
                     error={this.state.formElement.email.value.length > 0 ? "Enter valid Email" : "Email must not be empty"}/>
-                <View style={styles.formElementBotton}>
-                    <Botton 
+                <View style={styles.formElementButton}>
+                    <Button 
                         title="Next"
-                        style={styles.botton}
+                        style={styles.button}
                         onPress={this.submitHandler}
                         disabled={!this.state.formIsValid}
                         textStyle={styles.textStyle}
@@ -218,17 +218,17 @@ const styles = StyleSheet.create({
         color: '#333',
         fontSize: 15
     },
-    formElementBotton: {
+    formElementButton: {
         width: '100%',
         paddingVertical: 5,
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         marginTop: 5,
         backgroundColor: '#f9f9f9',
         alignItems: 'flex-end',
         borderBottomRightRadius: 3,
         borderBottomLeftRadius: 3
     },
-    botton: {
+    button: {
         width: 70,
         backgroundColor: '#ff1600',
         justifyContent: 'center',
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     error: {
         position: 'relative',
         paddingVertical: 5,
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         marginBottom: 10,
         fontSize: 15,
         backgroundColor: '#f9f9f9',

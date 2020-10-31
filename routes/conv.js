@@ -3,7 +3,7 @@ let router = express.Router();
 let mongoose = require('mongoose');
 let authenticate = require('../serverDB/middleware/authenticate');
 let filterCnt = require('./utility/filtercnt');
-const {chat, chatnotifies, group, grpchatnotifies, user, authUser, connectStatus} = require('../serverDB/serverDB');
+const {chat, chatnotifies, group, grpchatnotifies, user,  connectStatus} = require('../serverDB/serverDB');
 let arraySort = require('array-sort');
 
 router.get('/', authenticate, (req, res,next) => {
@@ -47,10 +47,9 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header('data-categ') &&  req.header('data-categ') === 'friends') { 
-        let model =  req.userType === 'authUser' ? authUser : user;
-        model.findById(req.user).then(userDet => {
+        user.findById(req.user).then(userDet => {
             if (userDet) {
-                let users = [...userDet.teacher , ...userDet.student];
+                let users = userDet.friend;
                 if (users.length < 1) {
                     return res.status(200).send(users)
                 }

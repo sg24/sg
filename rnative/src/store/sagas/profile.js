@@ -1,4 +1,4 @@
-import { put } from 'redux-saga/effects';
+import { put, delay } from 'redux-saga/effects';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
 
@@ -28,5 +28,31 @@ export function* changeProfileInitSaga(action) {
         yield put(actions.changeProfile(true))
     } catch(err){
         yield put(actions.changeProfileFail(err));
+    }
+}
+
+export function* submitAboutInitSaga(action) {
+    try {
+        yield put(actions.submitAboutStart())
+        yield axios.post(`/user/profile/${action.userID}`, {det: action.cnt}, {
+            headers: {
+                'data-categ': 'about'}});
+        yield put(actions.submitAbout(action.cnt));
+    } catch(err){
+        yield put(actions.submitAboutFail(err))
+    }
+}
+
+export function* submitUsernameInitSaga(action) {
+    try {
+        yield put(actions.submitUsernameStart())
+        yield axios.post(`/user/profile/${action.userID}`, {username: action.username}, {
+            headers: {
+                'data-categ': 'username'}});
+        yield put(actions.submitUsername(action.username));
+        yield delay(1000)
+        yield put(actions.submitUsernameReset());
+    } catch(err){
+        yield put(actions.submitUsernameFail(err))
     }
 }

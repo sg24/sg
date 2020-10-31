@@ -6,6 +6,8 @@ import auth from './reducers/auth';
 import authForm from './reducers/authForm';
 import header from './reducers/header';
 import profile from './reducers/profile';
+import addForm from './reducers/addForm';
+
 import { 
     watchAuth,
     watchAuthForm,
@@ -18,7 +20,8 @@ const rootReducer = combineReducers({
     auth,
     authForm,
     header,
-    profile
+    profile,
+    addForm
 });
 
 let composeEnhancers = compose;

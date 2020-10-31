@@ -2,8 +2,12 @@ const { tempFile } = require('../../serverDB/serverDB');
 const uuid = require('uuid');
 let uploadMedia = require('./uploadmedia');
 let uploadImage = require('./uploadimage');
-let checkFile = require('./checkfile');
+// let checkFile = require('./checkfile');
 const fs = require('fs');
+const imagemin = require('imagemin');
+const imageminJpegtran = require('imagemin-jpegtran');
+const imageminPngquant = require('imagemin-pngquant');
+const path = require('path');
 
 
 let upload = (files, tempFileID, type, bucketName, coll) => {
@@ -23,45 +27,38 @@ let upload = (files, tempFileID, type, bucketName, coll) => {
       files = [files]
     }
 
-    for (let file of files) {
-      checkFile(file.name, bucketName, coll).then(docs =>{
-        let docInfo = docs && docs.length > 0 ? docs[0] : null;
-        if (type === 'video') {
-          let imageName = `${file.name.split('.')[0]}.png`
-          snap(file, imageName, docInfo).then((media) => {
-            ++snapshot
-            videos.push(media.video)
-            images.push(media.image);
-            if(snapshot === files.length) {
-              resolve({videos,images})
-            }
-          }).catch(err => {
-            return reject(err)
-          })
-        } else {
-          if (docInfo) {
-            imgDet.push({id: docInfo._id, filename: docInfo.filename, type: `image/${docInfo.filename.split('.')[1]}`})
-            fs.unlink(`./${file.path}`, function(err) {
-              if (err) {
-                return reject(err)
+    (async () => {
+        for (let file of files) {
+          if (type === 'video') {
+            let imageName = `${file.name.split('.')[0]}.png`
+            snap(file, imageName, docInfo).then((media) => {
+              ++snapshot
+              videos.push(media.video)
+              images.push(media.image);
+              if(snapshot === files.length) {
+                resolve({videos,images})
               }
-              ++imageUploaded;
-              if (imageUploaded === files.length) {
-                resolve(imgDet)
-              }
+            }).catch(err => {
+              return reject(err)
             })
           } else {
-            uploadImage({path: `./${file.path}`, filename: file.name}).then(imgInfo => {
-              imgDet.push({id: imgInfo._id, filename: imgInfo.filename, type: `image/${imgInfo.filename.split('.')[1]}`})
-              ++imageUploaded;
-              if (imageUploaded === files.length) {
-                resolve(imgDet)
-              }
+            await imagemin([`tmp/${file.path.split("\\")[1]}`], {destination: 'tmp/',plugins: [imageminJpegtran(),
+                imageminPngquant({
+                  quality: [0.6, 0.8]
+                })
+              ]
+            }).then(files => {
+              uploadImage({path: `./${file.path}`, filename: file.name}).then(imgInfo => {
+                imgDet.push({id: imgInfo._id, filename: imgInfo.filename, type: `image/${imgInfo.filename.split('.')[1]}`})
+                ++imageUploaded;
+                if (imageUploaded === files.length) {
+                  resolve(imgDet)
+                }
+              })
             })
           }
-        }
-      })
-    }
+      }
+    })();
   })
 }
 

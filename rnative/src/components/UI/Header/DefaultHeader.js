@@ -3,13 +3,14 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import BoxShadow from '../BoxShadow/BoxShadow';
+import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 
 const defaultHeader = props => (
     <BoxShadow>
         <View style={styles.wrapper}>
-            <TouchableOpacity onPress={props.onPress}>
+            <TouchableNativeFeedback onPress={props.onPress}>
                 <Icon name="arrow-back-outline" size={26}/>
-            </TouchableOpacity>
+            </TouchableNativeFeedback>
             <Text style={styles.textStyle}>
                 { props.title === 'Addnew' ? 'Add New' : props.title }
             </Text>

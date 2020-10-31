@@ -69,3 +69,97 @@ export const changeProfileFail = (err) => {
         err
     }
 };
+
+export const submitAboutInit = (cnt, userID) => {
+    return {
+        type: actionTypes.SUBMIT_ABOUT_INIT,
+        cnt,
+        userID
+    }
+};
+
+export const submitAboutReset = () => {
+    return {
+        type: actionTypes.SUBMIT_ABOUT_RESET
+    }
+};
+
+export const submitAboutFail = (err) => {
+    return {
+        type: actionTypes.SUBMIT_ABOUT_FAIL,
+        err
+    }
+};
+
+export const submitAboutStart = () => {
+    return {
+        type: actionTypes.SUBMIT_ABOUT_START
+    }
+};
+
+export const submitAbout = (cnt) => {
+    return {
+        type: actionTypes.SUBMIT_ABOUT,
+        cnt
+    }
+};
+
+export const submitProfileImageReset = () => {
+    return {
+        type: actionTypes.SUBMIT_PROFILE_IMAGE_RESET
+    }
+};
+
+export const submitProfileImageFail = (err) => {
+    return {
+        type: actionTypes.SUBMIT_PROFILE_IMAGE_FAIL,
+        err
+    }
+};
+
+export const submitProfileImageStart = () => {
+    return {
+        type: actionTypes.SUBMIT_PROFILE_IMAGE_START
+    }
+};
+
+export const submitProfileImage = (image) => {
+    return {
+        type: actionTypes.SUBMIT_PROFILE_IMAGE,
+        image
+    }
+};
+
+export const submitUsernameInit = (username, userID) => {
+    return {
+        type: actionTypes.SUBMIT_USERNAME_INIT,
+        username,
+        userID
+    }
+};
+
+export const submitUsernameReset = () => {
+    return {
+        type: actionTypes.SUBMIT_USERNAME_RESET
+    }
+};
+
+export const submitUsernameFail = (err) => {
+    return {
+        type: actionTypes.SUBMIT_USERNAME_FAIL,
+        err
+    }
+};
+
+export const submitUsernameStart = () => {
+    return {
+        type: actionTypes.SUBMIT_USERNAME_START
+    }
+};
+
+export const submitUsername = (username) => {
+    return {
+        type: actionTypes.SUBMIT_USERNAME,
+        username
+    }
+};
