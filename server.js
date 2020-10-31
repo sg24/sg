@@ -55,12 +55,64 @@ app.use(function(req, res, next) {
       if (!host.match(/^www\..*/i)) {
         return res.redirect(301, "https://www." + host + req.url);
       } 
+    //  var source = req.headers['user-agent'],
+    //   ua = useragent.parse(source);
+    //   if (ua && ua.isOpera && ua.isMobile && parseInt(ua.source.split('/').pop().split('.')[0]) < 28) {
+    //     res.writeHead(200, {'Content-Type': 'text/html'});
+    //     return res.end('<h1 style="width:100%">Please update your browser to atleast operamini version 28  <br> or switch to another browser </h1></body>');
+    //   }
       // else if (req.headers['x-forwarded-proto'] !== 'https') {
       //   return res.redirect('https://' + req.hostname + req.url);
       // }
   next();
 });
+// const extendTimeoutMiddleware = (req, res, next) => {
+//   const space = ' ';
+//   let isFinished = false;
+//   let isDataSent = false;
 
+//   res.once('finish', () => {
+//     isFinished = true;
+//   });
+
+//   res.once('end', () => {
+//     isFinished = true;
+//   });
+
+//   res.once('close', () => {
+//     isFinished = true;
+//   });
+
+//   res.on('data', (data) => {
+//     // Look for something other than our blank space to indicate that real
+//     // data is now being sent back to the client.
+//     if (data !== space) {
+//       isDataSent = true;
+//     }
+//   });
+
+//   const waitAndSend = () => {
+//     setTimeout(() => {
+//       // If the response hasn't finished and hasn't sent any data back....
+//       if (!isFinished && !isDataSent) {
+//         // Need to write the status code/headers if they haven't been sent yet.
+//         if (!res.headersSent) {
+//           res.writeHead(202);
+//         }
+
+//         res.write(space);
+
+//         // Wait another 15 seconds
+//         waitAndSend();
+//       }
+//     }, 15000);
+//   };
+
+//   waitAndSend();
+//   next();
+// };
+
+// app.use(extendTimeoutMiddleware);
 app.set('trust proxy', true);
   
 require('./serverDB/config/passport').auth(passport);
