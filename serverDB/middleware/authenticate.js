@@ -1,4 +1,4 @@
-const { authUser , user} = require('../serverDB');
+const { user} = require('../serverDB');
 const checkStatus = require('../utility/status');
 const global = require('../../global/global');
 
@@ -6,21 +6,8 @@ let authenticate = (req, res, next) => {
     if (req.signedCookies.token) {
         user.findByToken(req.signedCookies.token).then((result) => {
             if (!result) {
-                authUser.findByToken(req.signedCookies.token).then(result => {
-                    if (!result) {
-                        res.redirect('/login');
-                        res.end();
-                        return 
-                   }
-                   req.user = result._id.toHexString();
-                   req.userType = 'authUser'
-                   req.authType = result.temp;
-                   req.username = result.username;
-                   req.userImage = result.image
-                   next();
-                   checkStatus(req.signedCookies.token, 'authUser', res)
-                   global.userDet = {id: result._id.toHexString(), type: 'authUser'}
-                })
+                res.redirect('/login');
+                res.end();
                 return
             }
             req.user = result._id.toHexString();
@@ -37,7 +24,6 @@ let authenticate = (req, res, next) => {
                 res.end();
                 return;
             }
-   
         });
         return
     } else {
