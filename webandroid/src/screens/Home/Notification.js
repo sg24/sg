@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'ionicons';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import * as actions from '../../store/actions/index';
@@ -12,24 +12,34 @@ import ScrollView from '../../components/UI/ScrollView/ScrollView';
 class Notification extends Component {
     constructor(props) {
         super(props);
-        Dimensions.addEventListener('change', this.updateStyle)
         this.state = {
             viewMode: Dimensions.get('window').width >= 530 ? 'landscape' : 'portrait',
         }
     }
 
     componentDidMount() {
-        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+        if (this.props.navigation) {
+            this._unsubscribe = this.props.navigation.addListener('focus', () => {
+                this.props.onFetchNotify();
+            });
+            this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
+                this.props.onCloseHeaderPage();
+            });
+            Dimensions.addEventListener('change', this.updateStyle)
+        } else {
             this.props.onFetchNotify();
-        });
-        this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            this.props.onCloseHeaderPage();
-        });
+        }
     }
 
     componentWillUnmount() {
-        this._unsubscribe();
-        this._unsubscribeBlur();
+        if (this.props.navigation) {
+            this._unsubscribe();
+            this._unsubscribeBlur();
+            Dimensions.removeEventListener('change', this.updateStyle);
+        } else {
+            this.props.onCloseHeaderPage();
+        }
+        
     }
 
     updateStyle = (dims) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'ionicons';
 import Moment from 'react-moment';
 
 import TabBarge from '../../../UI/TabBarge/TabBarge';

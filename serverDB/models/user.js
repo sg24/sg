@@ -3,6 +3,7 @@ const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const webpush = require('web-push');
+const uuid  = require('uuid/v4');
 
 var UserSchema = new mongoose.Schema({
     username: {
@@ -52,8 +53,16 @@ var UserSchema = new mongoose.Schema({
         access: {
             type: String,
             required: true
-        },
+            },
         token: {
+            type: String,
+            required: true
+        },
+        expiresIn: {
+            type: String,
+            required: true
+        },
+        deviceID: {
             type: String,
             required: true
         }
@@ -69,6 +78,8 @@ var UserSchema = new mongoose.Schema({
     subscription: {
         type: Array
     },
+    deviceInfo: [
+    ],
     enableNotification: {
         type: Boolean,
         default: false
@@ -76,7 +87,7 @@ var UserSchema = new mongoose.Schema({
     statustoken: {
         type: String
     },
-    offline: {
+    visited: {
         type: Date
     },
     about: {
@@ -100,14 +111,25 @@ UserSchema.methods.toJSON = function() {
     return {id: userObject._id, email:  userObject.email}
 }
 
-UserSchema.methods.generateAuthToken = function generateAuthToken() {
+UserSchema.methods.generateAuthToken = function generateAuthToken(userAgent, deviceID) {
     return new Promise((resolve, reject) => {
         let User = this;
         const vapidKeys = webpush.generateVAPIDKeys();
         let access = 'authentication';
-        let token = jwt.sign({_id: User._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600*24*7*4*3}).toString();
-        User.tokens.push({access, token});
-        User.offline = Date.now()
+        let token = jwt.sign({_id: User._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600*24*7*4}).toString();
+        User.tokens.push({access, token, expiresIn: Date.now() + (1000 * 3600 * 24 * 7 * 4), deviceID});
+        User.visited = Date.now()
+        let deviceInfo = {} 
+        for (let ua in userAgent) {
+            if (userAgent[ua]) {
+                if (ua === 'geoIp' && Object.entries(userAgent[ua]).length === 0) {}
+                else {
+                   deviceInfo[ua] = userAgent[ua]
+                }
+                
+            }
+        }
+        User.deviceInfo.push(deviceInfo)
         User.pushMsg.push({publickey: vapidKeys.publicKey, privatekey: vapidKeys.privateKey})
         User.save().then(res => {
             resolve({token, pushMsg: res.pushMsg[0].publickey, id: res._id.toHexString()});
@@ -125,14 +147,14 @@ UserSchema.statics.findByToken = function findByToken (token) {
         return Promise.reject(e)
     }
 
-   return User.findOne({
+  return User.findOneAndUpdate({
        '_id': decoded._id,
        'tokens.token': token,
        'tokens.access': 'authentication'
-   })
+   }, {visited: Date.now()})
 };
 
-UserSchema.statics.findByCredentials = function findByCredentials(email, password) {
+UserSchema.statics.findByCredentials = function findByCredentials(email, password, userAgent, deviceID) {
     var User = this;
 
     return User.findOne({email}).then((user) => {
@@ -144,10 +166,34 @@ UserSchema.statics.findByCredentials = function findByCredentials(email, passwor
             bcrypt.compare(password, user.password, (err, res ) => {
                 if (res) {
                     let access = 'authentication';
-                    let newToken = jwt.sign({_id: user._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600 * 24* 7 * 4 * 3}).toString();
-                    let tokens = [{access, token: newToken}];
-                  User.findByIdAndUpdate(user._id, { tokens, offline: Date.now()}).then((res) =>{
-                    resolve({token: newToken, pushMsg: res.pushMsg[0].publickey, id: res._id.toHexString(), username: res.username});
+                    let deviceInfo = {};
+                    let uniqueID = uuid();
+                    let newToken = null;
+                    for (let ua in userAgent) {
+                        if (userAgent[ua]) {
+                            if (ua === 'geoIp' && Object.entries(userAgent[ua]).length === 0) {}
+                            else {
+                               deviceInfo[ua] = userAgent[ua]
+                            }
+                            
+                        }
+                    }
+                    user.deviceInfo.push(deviceInfo);
+                    deviceInfo = user.deviceInfo;
+                    let deviceFndIndex = user.tokens.findIndex(alltoken => alltoken.deviceID === deviceID);
+                    if (deviceFndIndex !== -1) {
+                        newToken = jwt.sign({_id: user._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600 * 24* 7 * 4}).toString();
+                        user.tokens[deviceFndIndex].token = newToken;
+                        user.tokens[deviceFndIndex].expiresIn = Date.now() + (1000 * 3600 * 24 * 7 * 4);
+                        uniqueID = deviceID;
+                    } else {
+                        newToken = jwt.sign({_id: user._id.toHexString(), access}, process.env.JWT_SECRET, { expiresIn: 3600 * 24* 7 * 4}).toString();
+                        let tokens = {access, token: newToken, expiresIn: Date.now() + (1000 * 3600 * 24 * 7 * 4), deviceID: uniqueID};
+                        user.tokens.push(tokens)
+                    }
+                    let updateTokens = user.tokens.filter(allToken => allToken.expiresIn > Date.now())
+                  User.findByIdAndUpdate(user._id, { tokens: updateTokens, visited: Date.now(), deviceInfo}).then((res) =>{
+                    resolve({token: newToken, uniqueID, pushMsg: res.pushMsg[0].publickey, id: res._id.toHexString(), username: res.username});
                   }).catch(err =>{
                     reject('Error');
                   })

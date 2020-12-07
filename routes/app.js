@@ -17,8 +17,8 @@ let notification = require('./utility/notifications');
 let push = require('./utility/push');
 const global = require('../global/global');
 
-const {category,  posts, questions, poets, group, contest, qchat, user,  adverts, tempUser, postnotifies, 
-     authUser, aroundme, quenotifies, pwtnotifies, viewnotifies, usernotifies,
+const {category,  post, question, poet, group, contest, qchat, user,  adverts, tempUser, postnotifies, 
+     feed, quenotifies, pwtnotifies, viewnotifies, usernotifies,
      favorite, connectStatus, chatnotifies, grpchatnotifies} = require('../serverDB/serverDB');
 
 router.get('/',function (req, res, next) {
@@ -52,20 +52,17 @@ router.get('/index/:id', authenticate,function (req, res, next) {
 
 router.post('/header', authenticate, (req, res, next) => {
     if(req.header('data-categ') === 'headerfilter') {
-        checkText(req.body.filterCnt, posts, [], 'post').then(ptArray => {
-            checkText(req.body.filterCnt, questions, ptArray, 'question').then(queArray => {
-                checkText(req.body.filterCnt, poets, queArray, 'poet').then(poetArray => {
+        checkText(req.body.filterCnt, feed, [], 'feed').then(feedArray => {
+            checkText(req.body.filterCnt, question, feedArray, 'question').then(queArray => {
+                checkText(req.body.filterCnt, poet, queArray, 'poet').then(poetArray => {
                     checkText(req.body.filterCnt, group, poetArray, 'group').then(advertArray => {
                         checkText(req.body.filterCnt, adverts, advertArray, 'advert').then(qchatArray => {
                             checkText(req.body.filterCnt, qchat, qchatArray, 'qchat').then(userArray => {
-                                searchUser(req.body.filterCnt, userArray).then(filterArray => {
-                                    if (req.body.post) {
-                                        checkText(req.body.filterCnt, aroundme, filterArray, 'aroundme').then(cntArray => {
-                                            res.send(cntArray).status(200);
-                                        })
-                                        return
-                                    }
-                                    res.send(filterArray).status(200);
+                                searchUser(req.body.filterCnt, userArray).then(ptArray => {
+                                    checkText(req.body.filterCnt, post, ptArray, 'post').then(cntArray => {
+                                        res.send(cntArray).status(200);
+                                    })
+                                    return
                                 })
                             })
                         })
@@ -80,50 +77,22 @@ router.post('/header', authenticate, (req, res, next) => {
 
     function searchUser(searchCnt, filterRes) {
       return new Promise((resolve, reject) => {
-        userSearch(
-            connectStatus,
-            {$text: { $search: searchCnt },
-            block: {$ne: req.user},
-            _id: {$ne: mongoose.mongo.ObjectId(req.user)}},
-            { },
-            0, 0, {}, user, filterRes
-        ).then(userCnt => {
-            userSearch(
-                connectStatus,
-                {$text: { $search: searchCnt },
-                block: {$ne: req.user},
-                _id: {$ne: mongoose.mongo.ObjectId(req.user)}},
-                { },
-                0, 0, {}, authUser, userCnt
-            ).then(result => {
-                resolve(result)
+        let conditions = {$text: { $search: searchCnt }, block: {$ne: req.user}, _id: {$ne: mongoose.mongo.ObjectId(req.user)}};
+        user.find(conditions).then(result => {
+            user.findById(req.user).then(resultFilter => {
+                for (let cnt of result) {
+                    let userBlock = resultFilter.block || [];
+                    let filterBlock = userBlock.filter(id => id === cnt._id.toHexString())
+                    if (filterBlock.length < 1) {
+                        filterRes.push({url: `/user/profile/${cnt._id}`, grp: 'user', title: cnt.username, image: cnt.image});
+                    } 
+                }
+                resolve(filterRes)
             }).catch(err => {
                 reject(err)
             })
-        }).catch(err => {
-            reject(err)
-        })
+        })  
       })
-    }
-
-    function userSearch(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt) {
-        return new Promise((resolve, reject) => {
-            fetchCnt(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt).then(result =>{
-                let model = req.userType === 'authUser' ? authUser : user;
-                model.findById(req.user).then(resultFilter => {
-                    for (let cnt of result.cnt) {
-                        let userBlock = resultFilter.block || [];
-                        let filterBlock = userBlock.filter(id => id === cnt._id.toHexString())
-                        if (filterBlock.length < 1) {
-                            modelCnt.push({url: `/user/profile/${cnt._id}`, grp: 'user', title: cnt.username});
-                        } 
-                    }
-                    resolve(modelCnt)
-                }).catch(err => {
-                    reject(err)
-                })
-            })  
-        })
     }
 
     function checkText(searchCnt, collection, filterRes, grp) {
@@ -131,9 +100,7 @@ router.post('/header', authenticate, (req, res, next) => {
             collection.find({$text: { $search: searchCnt },mode: 'publish',_isCompleted: true}).then(result => {
                 for (let filter of result) {
                     filterRes.push({url: grp === 'group' ? `/group/${filter._id}` :  `/view/${grp}/${filter._id}`,
-                    grp, title: filter.title || filter.post, created: grp === 'group' ? filter.groupCreated :
-                    grp === 'poet' ? filter.pwtCreated : grp === 'question'  ? filter.queCreated : 
-                    grp === 'post' ? filter.postCreated : filter.created})
+                    grp, title: filter.title , created: filter.created})
                 }
                 resolve(filterRes)
             }).catch(err => {
@@ -143,16 +110,16 @@ router.post('/header', authenticate, (req, res, next) => {
     }
 
     if(req.header('data-categ') === 'notification') {
-        checkActive(req.user, postnotifies, 0).then(ptActive => {
-            checkActive(req.user, quenotifies, ptActive).then(queActive => {
-                checkActive(req.user, pwtnotifies, queActive).then(active => {
-                    res.send(new String(active)).status(200);
-                })
-            })
-        }).catch(err =>{
-            res.status(500).send(err)
-        })
-        return ;
+        // checkActive(req.user, postnotifies, 0).then(ptActive => {
+        //     checkActive(req.user, quenotifies, ptActive).then(queActive => {
+        //         checkActive(req.user, pwtnotifies, queActive).then(active => {
+        //             res.send(new String(active)).status(200);
+        //         })
+        //     })
+        // }).catch(err =>{
+        //     res.status(500).send(err)
+        // })
+        // return ;
     }
 
     if(req.header('data-categ') === 'allnotification') {
@@ -202,32 +169,32 @@ router.post('/header', authenticate, (req, res, next) => {
     }
 
     if(req.header('data-categ') === 'resetnotification') {
-        modelTotal(posts, 'post', {}).then(ptTotal => {
-            modelTotal(questions, 'question', ptTotal).then(queTotal => {
-                modelTotal(poets, 'poet', queTotal).then(allTotal => {
-                    viewnotifies.findOneAndUpdate({userID: req.user}, {
-                        post: allTotal.post,
-                        question: allTotal.question,
-                        poet: allTotal.poet
-                    }).then(result => {
-                        res.sendStatus(200);
-                    })
-                })
-            })
-        }).catch(err => {
-            res.status(401).send(err)
-        })
-        function modelTotal(model, field, modelTotal) {
-            return new Promise((resolve, reject) => {
-                model.countDocuments({}).then(total => {
-                    modelTotal[field] = total ? total : 0;
-                    resolve(modelTotal);
-                }).catch(err => {
-                    reject(err);
-                })
-            })
-        }
-        return
+        // modelTotal(posts, 'post', {}).then(ptTotal => {
+        //     modelTotal(questions, 'question', ptTotal).then(queTotal => {
+        //         modelTotal(poets, 'poet', queTotal).then(allTotal => {
+        //             viewnotifies.findOneAndUpdate({userID: req.user}, {
+        //                 post: allTotal.post,
+        //                 question: allTotal.question,
+        //                 poet: allTotal.poet
+        //             }).then(result => {
+        //                 res.sendStatus(200);
+        //             })
+        //         })
+        //     })
+        // }).catch(err => {
+        //     res.status(401).send(err)
+        // })
+        // function modelTotal(model, field, modelTotal) {
+        //     return new Promise((resolve, reject) => {
+        //         model.countDocuments({}).then(total => {
+        //             modelTotal[field] = total ? total : 0;
+        //             resolve(modelTotal);
+        //         }).catch(err => {
+        //             reject(err);
+        //         })
+        //     })
+        // }
+        // return
     }
 
     function checkAllNotifies(model, modelType, sort, viewTotal, notify) {
@@ -393,224 +360,219 @@ router.post('/header', authenticate, (req, res, next) => {
     }
 
     if (req.header('data-categ') === 'category') {
-        category.findOne({}).then(result => {
-            let categ = req.body.categ;
-            let allCateg = result ? result[categ] : [];
-            res.send(allCateg).status(200);
-        }).catch(err => {
-            res.status(500).send(err);
-        });
-        return;
+        // category.findOne({}).then(result => {
+        //     let categ = req.body.categ;
+        //     let allCateg = result ? result[categ] : [];
+        //     res.send(allCateg).status(200);
+        // }).catch(err => {
+        //     res.status(500).send(err);
+        // });
+        // return;
     }
 
     if(req.header('data-categ') === 'share') {
-        let model = req.body.model === 'post' ? postnotifies :
-        req.body.model === 'question' ? quenotifies : pwtnotifies;
-        model.findOne({userID: req.user}).then(active => {
-            let isActive = active ? active.notifications :0;
-            res.send(new String(isActive)).status(200);
-        }).catch(err => {
-            res.status(500).send(err);
-        })
-        return ;
+        // let model = req.body.model === 'post' ? postnotifies :
+        // req.body.model === 'question' ? quenotifies : pwtnotifies;
+        // model.findOne({userID: req.user}).then(active => {
+        //     let isActive = active ? active.notifications :0;
+        //     res.send(new String(isActive)).status(200);
+        // }).catch(err => {
+        //     res.status(500).send(err);
+        // })
+        // return ;
     }
 
     if (req.header('data-categ') === 'modelNotify') {
-        let model = req.body.model === 'post' ? posts :
-        req.body.model === 'question' ? questions : poets;
-        viewnotifies.findOne({userID: req.user}).then(notify => {
-            if (notify) {
-                model.countDocuments({mode: 'publish', _isCompleted: true}).then(total => {
-                    let modelTotal = total - notify[req.body.model];
-                    res.send(new String(modelTotal )).status(200);
-                }).catch(err => {
-                    reject(err);
-                })
-            }
-        }).catch(err => {
-            res.status(500).send(err);
-        })
-        return ;
+        // let model = req.body.model === 'post' ? posts :
+        // req.body.model === 'question' ? questions : poets;
+        // viewnotifies.findOne({userID: req.user}).then(notify => {
+        //     if (notify) {
+        //         model.countDocuments({mode: 'publish', _isCompleted: true}).then(total => {
+        //             let modelTotal = total - notify[req.body.model];
+        //             res.send(new String(modelTotal )).status(200);
+        //         }).catch(err => {
+        //             reject(err);
+        //         })
+        //     }
+        // }).catch(err => {
+        //     res.status(500).send(err);
+        // })
+        // return ;
     }
 
     if (req.header('data-categ') === 'myModel') {
-        let model = req.body.model === 'post' ? posts :
-        req.body.model === 'question' ? questions : req.body.model === 'group'  ? group : 
-        req.body.model === 'advert' ? adverts : req.body.model === 'aroundme' ? aroundme : 
-        req.body.model === 'contest' ? contest : 
-        req.body.model === 'qchat' ? qchat : poets;
-        model.find({authorID: req.user}).count().then(result => {
-            res.status(200).send(String(result))
-        })
-        return
+        // let model = req.body.model === 'post' ? posts :
+        // req.body.model === 'question' ? questions : req.body.model === 'group'  ? group : 
+        // req.body.model === 'advert' ? adverts : req.body.model === 'aroundme' ? aroundme : 
+        // req.body.model === 'contest' ? contest : 
+        // req.body.model === 'qchat' ? qchat : poets;
+        // model.find({authorID: req.user}).count().then(result => {
+        //     res.status(200).send(String(result))
+        // })
+        // return
     }
 
     if (req.header('data-categ') === 'editform') {
-        let model = req.body.model === 'post' ? posts :
-        req.body.model === 'question' ? questions : req.body.model === 'group'  ? group :
-        req.body.model === 'advert' ? adverts : poets;
-        model.findOne({_id: req.body.id, authorID: req.user}).then(result => {
-            res.send(result).status(200)
-        })
-        return
+        // let model = req.body.model === 'post' ? posts :
+        // req.body.model === 'question' ? questions : req.body.model === 'group'  ? group :
+        // req.body.model === 'advert' ? adverts : poets;
+        // model.findOne({_id: req.body.id, authorID: req.user}).then(result => {
+        //     res.send(result).status(200)
+        // })
+        // return
     }
 
 
     if (req.header('data-categ') === 'trend') {
-        trends(posts, 'post', []).then(ptArray => {
-            trends(questions, 'question', ptArray).then(queArray => {
-                trends(poets, 'poet', queArray).then(trend =>{
-                    res.send(trend).status(200)
-                });
-            });
-        }).catch(err => {
-            res.status(500).send(err);
-        })
+        // trends(posts, 'post', []).then(ptArray => {
+        //     trends(questions, 'question', ptArray).then(queArray => {
+        //         trends(poets, 'poet', queArray).then(trend =>{
+        //             res.send(trend).status(200)
+        //         });
+        //     });
+        // }).catch(err => {
+        //     res.status(500).send(err);
+        // })
     }
 
     if (req.header('data-categ') === 'userimg') {
-        authUser.findById(req.user).then(result => {
-            if (!result) {
-                user.findById(req.user).then(result => {
-                    if (result) {
-                        res.status(200).send({url: result.image, name: result.username})
-                        return
-                    }
-                    res.sendStatus(200);
-                })
+        user.findById(req.user).then(result => {
+            if (result) {
+                res.status(200).send({url: result.image, name: result.username})
                 return
             }
-            res.status(200).send({url: result.image, name: result.username})
+            res.sendStatus(200);
         })
+        return
     }
 
     function trends(model, categ, trend) {
-        return new Promise((resolve, reject) => {
-            let sort = categ === 'post' ? {comment: -1} : 
-            categ == 'question' ? {view: -1}: {comment: -1};
-            model.find({mode: 'publish', _isCompleted: true}).sort(sort).limit(3).then(results => {
-                for(let result of results) {
-                    let cnt = {
-                        category: 'Question',
-                        helpFull: result.helpFull,
-                        notHelpFull: result.notHelpFull,
-                        favorite: result.favorite,
-                    }
-                    if (categ === 'post') {
-                        cnt = {
-                            category: 'Post',
-                            view:  result.view,
-                            comment: result.comment,
-                            favorite: result.favorite,
-                        }
-                    }
+        // return new Promise((resolve, reject) => {
+        //     let sort = categ === 'post' ? {comment: -1} : 
+        //     categ == 'question' ? {view: -1}: {comment: -1};
+        //     model.find({mode: 'publish', _isCompleted: true}).sort(sort).limit(3).then(results => {
+        //         for(let result of results) {
+        //             let cnt = {
+        //                 category: 'Question',
+        //                 helpFull: result.helpFull,
+        //                 notHelpFull: result.notHelpFull,
+        //                 favorite: result.favorite,
+        //             }
+        //             if (categ === 'post') {
+        //                 cnt = {
+        //                     category: 'Post',
+        //                     view:  result.view,
+        //                     comment: result.comment,
+        //                     favorite: result.favorite,
+        //                 }
+        //             }
                     
-                    if (categ === 'poet') {
-                        cnt = {
-                            category: 'Poet/Writer',
-                            helpFull: result.helpFull,
-                            comment: result.comment,
-                            favorite: result.favorite,
-                        }
-                    }
+        //             if (categ === 'poet') {
+        //                 cnt = {
+        //                     category: 'Poet/Writer',
+        //                     helpFull: result.helpFull,
+        //                     comment: result.comment,
+        //                     favorite: result.favorite,
+        //                 }
+        //             }
 
-                    let isLiked = req.user ? result.liked.filter(userID => userID === req.user) : [];
-                    if (isLiked.length > 0) {
-                        cnt['liked'] = true
-                    } else {
-                        cnt['liked'] = false
-                    }
+        //             let isLiked = req.user ? result.liked.filter(userID => userID === req.user) : [];
+        //             if (isLiked.length > 0) {
+        //                 cnt['liked'] = true
+        //             } else {
+        //                 cnt['liked'] = false
+        //             }
 
-                    let updateResult = {
-                        id: result._id,
-                        cntGrp: categ,
-                        title: String(result.title).substr(0, 100),
-                        ...cnt
-                    }
-                    trend.push(updateResult);
-                }
-                resolve(trend)
-            }).catch(err => {
-                reject(err)
-            })
-        })
+        //             let updateResult = {
+        //                 id: result._id,
+        //                 cntGrp: categ,
+        //                 title: String(result.title).substr(0, 100),
+        //                 ...cnt
+        //             }
+        //             trend.push(updateResult);
+        //         }
+        //         resolve(trend)
+        //     }).catch(err => {
+        //         reject(err)
+        //     })
+        // })
     }
     
     if (req.header('data-categ') === 'cntSearch') {
-        let model = req.body.model === 'post' ? posts :
-        req.body.model === 'question' ? questions : req.body.model === 'group' ? group :
-        req.body.model === 'advert' ? adverts : poets;
-        filterCnt(JSON.parse(req.body.filterCnt)).then(filter => {
-            let category = filter.category && filter.category.length > 0 ? {category: {$in: filter.category}} : {};
-            model.find({$text: { $search: filter.searchCnt }, ...filter.filterCnt,  ...category, mode: 'publish', _isCompleted: true}).then(result => {
-                 let resultCount = new String(result.length);
-                 res.send(resultCount).status(200);
-             }).catch(err => {
-                 res.status(500).send(err);
-             })
-         });
-        return ;
+        // let model = req.body.model === 'post' ? posts :
+        // req.body.model === 'question' ? questions : req.body.model === 'group' ? group :
+        // req.body.model === 'advert' ? adverts : poets;
+        // filterCnt(JSON.parse(req.body.filterCnt)).then(filter => {
+        //     let category = filter.category && filter.category.length > 0 ? {category: {$in: filter.category}} : {};
+        //     model.find({$text: { $search: filter.searchCnt }, ...filter.filterCnt,  ...category, mode: 'publish', _isCompleted: true}).then(result => {
+        //          let resultCount = new String(result.length);
+        //          res.send(resultCount).status(200);
+        //      }).catch(err => {
+        //          res.status(500).send(err);
+        //      })
+        //  });
+        // return ;
     }
 
     if (req.header('data-categ') === 'groupSearch') {
-        filterCnt(JSON.parse(req.body.filterCnt)).then(filter => {
-            let category = filter.category && filter.category.length > 0 ? {category: filter.category} : {};
-            group.find({$text: { $search: filter.searchCnt }, ...filter.filterCnt,  ...category, _isCompleted: true}).then(result => {
-                 let resultCount = new String(result.length);
-                 res.send(resultCount).status(200);
-             }).catch(err => {
-                 res.status(500).send(err);
-             })
-         });
-        return ;
+        // filterCnt(JSON.parse(req.body.filterCnt)).then(filter => {
+        //     let category = filter.category && filter.category.length > 0 ? {category: filter.category} : {};
+        //     group.find({$text: { $search: filter.searchCnt }, ...filter.filterCnt,  ...category, _isCompleted: true}).then(result => {
+        //          let resultCount = new String(result.length);
+        //          res.send(resultCount).status(200);
+        //      }).catch(err => {
+        //          res.status(500).send(err);
+        //      })
+        //  });
+        // return ;
     }
 
     if (req.header('data-categ') === 'usersearch') {
-        userFilter(JSON.parse(req.body.filterCnt)).then(filter => {
-            let subject = filter.categoryGrp === 'post' ? 'subjectpost' :
-            filter.categoryGrp === 'question' ? 'subjectque' : 'subjectpoet';
-            let filterCateg = filter.category.length > 0 ? {[subject]: { $all: filter.category }} : {};
-            let student = {};
-            let comment = {};
-            for (let key in filter.filterCnt) {
-                if (key === 'student') {
-                    student['studenttotal']= filter.filterCnt[key]
-                } else {
-                    comment[key]= filter.filterCnt[key]
-                }
-            }
+        // userFilter(JSON.parse(req.body.filterCnt)).then(filter => {
+        //     let subject = filter.categoryGrp === 'post' ? 'subjectpost' :
+        //     filter.categoryGrp === 'question' ? 'subjectque' : 'subjectpoet';
+        //     let filterCateg = filter.category.length > 0 ? {[subject]: { $all: filter.category }} : {};
+        //     let student = {};
+        //     let comment = {};
+        //     for (let key in filter.filterCnt) {
+        //         if (key === 'student') {
+        //             student['studenttotal']= filter.filterCnt[key]
+        //         } else {
+        //             comment[key]= filter.filterCnt[key]
+        //         }
+        //     }
 
-            return fetchUsers(
-                connectStatus,
-                {$text: { $search: filter.searchCnt },
-                block: {$ne: req.user},
-                _id: {$ne: mongoose.mongo.ObjectId(req.user)},
-                ...student,
-                ...comment,
-                ...filterCateg},
-                { },
-                0, 0, {}, user, 0
-            ).then(userCnt => {
-                fetchUsers(
-                    connectStatus,
-                    {$text: { $search: filter.searchCnt },
-                    block: {$ne: req.user},
-                    _id: {$ne: mongoose.mongo.ObjectId(req.user)},
-                    ...student,
-                    ...comment,
-                    ...filterCateg},
-                    { },
-                    0, 0, {}, authUser, userCnt
-                ).then(result =>{
-                    res.status(200).send(String(result))
-                }).catch(err => {
-                    res.status(500).send(err)
-                })
-            }).catch(err => {
-                res.status(500).send(err)
-            })
-        })
-        return ;
+        //     return fetchUsers(
+        //         connectStatus,
+        //         {$text: { $search: filter.searchCnt },
+        //         block: {$ne: req.user},
+        //         _id: {$ne: mongoose.mongo.ObjectId(req.user)},
+        //         ...student,
+        //         ...comment,
+        //         ...filterCateg},
+        //         { },
+        //         0, 0, {}, user, 0
+        //     ).then(userCnt => {
+        //         fetchUsers(
+        //             connectStatus,
+        //             {$text: { $search: filter.searchCnt },
+        //             block: {$ne: req.user},
+        //             _id: {$ne: mongoose.mongo.ObjectId(req.user)},
+        //             ...student,
+        //             ...comment,
+        //             ...filterCateg},
+        //             { },
+        //             0, 0, {}, authUser, userCnt
+        //         ).then(result =>{
+        //             res.status(200).send(String(result))
+        //         }).catch(err => {
+        //             res.status(500).send(err)
+        //         })
+        //     }).catch(err => {
+        //         res.status(500).send(err)
+        //     })
+        // })
+        // return ;
     }
 
     function fetchUsers(connectStatus, conditions, sort, curLimit, skip, meta, model, modelCnt) {
@@ -1186,27 +1148,21 @@ router.post('/signup', (req, res) => {
     //     email: req.body.email
     // });
     let newUser = new user({
-        username: req.body.username,
-        password: req.body.password,
-        email: req.body.email
+        username: req.body.formData.username,
+        password: req.body.formData.password,
+        email: req.body.formData.email
     });
 
-    user.findOne({email: req.body.email}).then(result => {
+    user.findOne({email: req.body.formData.email}).then(result => {
         if (result) {res.status(422).send('Email Already taken'); return}
-        authUser.findOne({email: req.body.email}).then(result => {
-            if (result) {res.status(422).send('Email Already taken'); return}
-            newUser.generateAuthToken().then(result => {
+            newUser.generateAuthToken(req.useragent, req.body.browserID).then(result => {
                 let decoded = null;
                 decoded = jwt.verify(result.token, process.env.JWT_SECRET);
                 if (decoded) {
-                    res.cookie('token', null);
-                    res.cookie('expiresIn', null);
-                    res.cookie('pushMsg', null);
-                    res.cookie('id', null);
-                    res.cookie('token', result.token, { signed: true, httpOnly: true , maxAge: 7257600000});
-                    res.cookie('expiresIn', decoded.exp, {maxAge: 7257600000});
-                    res.cookie('pushMsg', result.pushMsg, {maxAge: 7257600000});
-                    res.cookie('id', result.id, {maxAge: 7257600000});
+                    res.cookie('token', result.token, { signed: true, httpOnly: true , maxAge: 7257600000})
+                        .cookie('expiresIn', decoded.exp, {maxAge: 7257600000})
+                        .cookie('pushMsg', result.pushMsg, {maxAge: 7257600000})
+                        .cookie('id', result.id, {maxAge: 7257600000});
                     res.status(200).send({token: result.token, expiresIn: decoded.exp, userID: result.id})
                 }
                 return
@@ -1278,7 +1234,6 @@ router.post('/signup', (req, res) => {
     //         }).catch(err =>{
     //             res.status(422).send(err)
     //         })
-        })
     })
 })
 
@@ -1320,15 +1275,17 @@ router.get('/signup/confirmation/:id', (req, res, next) => {
 })
 
 router.post('/login', (req, res,next) => {
-    user.findByCredentials(req.body.email, req.body.password).then(result => {
+    user.findByCredentials(req.body.formData.email, req.body.formData.password, req.useragent, req.body.deviceID).then(result => {
         let decoded = null;
         decoded = jwt.verify(result.token, process.env.JWT_SECRET);
         if (decoded) {
-            res.cookie('token', result.token, { signed: true, httpOnly: true , maxAge: 7257600000});
-            res.cookie('expiresIn', decoded.exp, {maxAge: 7257600000});
-            res.cookie('pushMsg', result.pushMsg, {maxAge: 7257600000});
-            res.cookie('id', result.id, {maxAge: 7257600000});
-            res.status(200).send({token: result.token, expiresIn: decoded.exp, username: result.username, userID: result.id});
+            res.cookie('token', result.token, { signed: true, httpOnly: true , maxAge: 7257600000})
+                .cookie('expiresIn', decoded.exp, {maxAge: 7257600000})
+                .cookie('pushMsg', result.pushMsg, {maxAge: 7257600000})
+                .cookie('id', result.id, {maxAge: 7257600000})
+                .cookie('SG24_ID', result.uniqueID, { signed: true, httpOnly: true , maxAge: 7257600000});
+            res.status(200).send({token: result.token, expiresIn: decoded.exp, username: result.username, 
+                userID: result.id, SG24_ID: result.uniqueID});
         }
     }).catch((e) => {
         res.status(401).send(e)

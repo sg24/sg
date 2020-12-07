@@ -1,33 +1,32 @@
 const { user} = require('../serverDB');
 const checkStatus = require('../utility/status');
-const global = require('../../global/global');
+// const global = require('../../global/global');
 
-let authenticate = (req, res, next) => {
-    if (req.signedCookies.token) {
-        user.findByToken(req.signedCookies.token).then((result) => {
+let authenticate = async (req, res, next) => {
+    // req.signedCookies.token
+    let token = req.header('authorization');
+    if (token && token !== 'null') {
+        user.findByToken(token).then((result) => {
             if (!result) {
-                res.redirect('/login');
+                res.sendStatus(401);
                 res.end();
                 return
             }
             req.user = result._id.toHexString();
-            req.userType = 'user';
-            req.authType = false;
             req.username = result.username;
             req.userImage = result.image
             next();
-            checkStatus(req.signedCookies.token, 'user', res)
-            global.userDet = {id: result._id.toHexString(), type: 'user'}
+            // global.userDet = {id: result._id.toHexString(), type: 'user'}
         }).catch((e) => {
-            if (e.name === 'TokenExpiredError') {
-                res.redirect('/login');
+            if (e.name === 'TokenExpiredError' || e.name === 'JsonWebTokenError') {
+                res.sendStatus(401);
                 res.end();
                 return;
             }
         });
         return
     } else {
-        res.redirect('/login');
+        res.sendStatus(401);
         res.end();
         return;
     }

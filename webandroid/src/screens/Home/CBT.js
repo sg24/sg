@@ -10,7 +10,6 @@ import * as actions from '../../store/actions/index';
 class Post extends Component {
     constructor(props) {
         super(props);
-        Dimensions.addEventListener('change', this.updateStyle)
         this.state = {
             viewMode: Dimensions.get('window').width >= 530 ? 'landscape' : 'portrait',
         }
@@ -20,10 +19,12 @@ class Post extends Component {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             
         });
+        Dimensions.addEventListener('change', this.updateStyle)
     }
 
     componentWillUnmount() {
         this._unsubscribe();
+        Dimensions.removeEventListener('change', this.updateStyle);
     }
 
     updateStyle = (dims) => {

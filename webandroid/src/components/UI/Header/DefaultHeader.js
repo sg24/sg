@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'ionicons';
 
 import BoxShadow from '../BoxShadow/BoxShadow';
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 
 const defaultHeader = props => (
-    <BoxShadow>
+    <BoxShadow style={styles.topLevel}>
         <View style={styles.wrapper}>
             <TouchableNativeFeedback onPress={props.onPress}>
                 <Icon name="arrow-back-outline" size={26}/>
@@ -29,7 +29,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingHorizontal: 10,
         alignItems: 'center',
-        height: 50
+        height: 40,
+    },
+    topLevel: {
+        zIndex: 999
     }
 });
 

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema  = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
-const PostSchema = new Schema({
+const FeedSchema = new Schema({
     id: ObjectId,
     authorID: {
         type: String,
@@ -83,7 +83,7 @@ const PostSchema = new Schema({
     }
 })
 
-PostSchema.index({title: 'text'});
-const posts = mongoose.model('posts', PostSchema);
+FeedSchema.index({title: 'text'});
+const feed = mongoose.model('posts', FeedSchema);
 
-module.exports = posts;
+module.exports = feed;

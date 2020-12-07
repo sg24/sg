@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'ionicons';
 
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 
@@ -23,7 +23,7 @@ const accodion = props => {
 
 const styles = StyleSheet.create({
     wrapper: {
-        backgroundColor: '#e9ebf2',
+        backgroundColor: '#f9f9f9',
         marginTop: 10
     },
     titleWrapper: {

@@ -4,7 +4,7 @@ import ShadowView from 'react-native-simple-shadow-view';
 
 const boxShadow = props => {
     return (
-        <ShadowView style={[styles.wrapper, props.style]}>
+        <ShadowView style={[styles.wrapper, props.style, props.disabled ? styles.disabled: null]}>
             { props.children }
         </ShadowView>
     )
@@ -19,7 +19,10 @@ const styles = StyleSheet.create({
             height: 3,
         },
         shadowOpacity: .2,
-        shadowRadius: 4,
+        shadowRadius: 4
+    },
+    disabled: {
+        opacity: .6
     }
 });
 

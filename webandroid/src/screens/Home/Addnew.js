@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions,TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'ionicons';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import ScrollView from '../../components/UI/ScrollView/ScrollView';
@@ -8,10 +8,17 @@ import ScrollView from '../../components/UI/ScrollView/ScrollView';
 class Addnew extends Component {
     constructor(props) {
         super(props);
-        Dimensions.addEventListener('change', this.updateStyle)
         this.state = {
             viewMode: Dimensions.get('window').width >= 530 ? 'landscape' : 'portrait',
         }
+    }
+
+    componentDidMount() {
+        Dimensions.addEventListener('change', this.updateStyle)
+    }
+
+    componentWillUnmount() {
+        Dimensions.removeEventListener('change', this.updateStyle);
     }
 
     updateStyle = (dims) => {

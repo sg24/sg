@@ -8,7 +8,9 @@ module.exports = {
   purge: [],
   theme: {
     extend: {
-      
+      margin: {
+        'auto':  'auto'
+      }
     },
   },
   variants: {},

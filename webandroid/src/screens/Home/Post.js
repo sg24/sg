@@ -1,24 +1,29 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
+import { makeUseStyles } from "react-native-stylex";
+import { withStyles } from "react-native-stylex/withStyles";
+import { tailwind } from 'tailwind';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Href from '../../components/UI/Href/Href';
 // import { updateObject  } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
+import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
+import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
+import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
 
 class Post extends Component {
     constructor(props) {
         super(props);
-        Dimensions.addEventListener('change', this.updateStyle)
         this.state = {
-            viewMode: Dimensions.get('window').width >= 530 ? 'landscape' : 'portrait',
+            backgroundColor: '#fff',
+            color: '#333'
         }
     }
 
     componentDidMount() {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            
         });
     }
 
@@ -26,48 +31,36 @@ class Post extends Component {
         this._unsubscribe();
     }
 
-    updateStyle = (dims) => {
-        this.setState({
-            viewMode: dims.window.width >= 530 ? 'landscape' : 'portriat'
-        })
-    }
-
     navigationHandler = (page) => {
-
+        console.log(page)
     }
 
     render() {
-
+        let { styles } = this.props;
       return (
-        <NoBackground>
+        <NoBackground
+            sideBar={(
+                <>
+                <Navigation 
+                        color={this.state.color}
+                        backgroundColor={this.state.backgroundColor}
+                        navigate={this.navigationHandler}/>
+                <CreateNavigation 
+                    color={this.state.color}
+                    backgroundColor={this.state.backgroundColor}
+                    navigate={this.navigationHandler}/>
+                </>
+            )}>
         </NoBackground>
       )
     }
 }
 
-const styles = StyleSheet.create({
+const useStyles = makeUseStyles(({ palette, utils }) => ({
     textStyle: {
         fontSize: 15
-    },
-    href: {
-        textDecorationLine: 'underline',
-        textDecorationColor: '#0284a8',
-        color: '#0284a8',
-        textDecorationStyle: 'solid',
-        marginLeft: 5
-    },
-    wrapper: {
-        backgroundColor: '#fff',
-        width: '90%',
-        padding: 20,
-        marginBottom: 20,
-        marginTop: 38,
-        position: 'relative',
-        borderRadius: 3,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-})
+    }
+}))
 
 const mapStateToProps = state => {
     return {
@@ -79,4 +72,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post);
+export default withStyles(useStyles)(connect(mapStateToProps, mapDispatchToProps)(Post));

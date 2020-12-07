@@ -1,8 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
-import Ionicons from 'Ionicons';
+import { View, Text, TextInput, TouchableOpacity, Platform } from 'react-native';
+import Ionicons from 'ionicons';
+import { makeUseStyles } from "react-native-stylex";
+import {withStyles} from "react-native-stylex/withStyles";
 
 const formElement = props => {
+    const {styles} = props
     return (
         <View style={[styles.wrapper, props.formWrapperStyle]}>
             {props.labelTitle ? <Text style={[styles.labelTitle, props.labelStyle]}>{props.labelTitle}</Text> : null}
@@ -15,7 +18,7 @@ const formElement = props => {
                 {props.inputIcon ? (
                     <View style={[styles.inputIcon, props.inputIconStyle]}>
                         <TouchableOpacity onPress={props.onPress}>
-                            <Ionicons name={props.inputIcon} size={14}/>
+                            <Ionicons name={props.inputIcon} size={props.inputIconSize ? props.inputIconSize : 14}/>
                         </TouchableOpacity>
                     </View>
                 ): null}
@@ -27,7 +30,7 @@ const formElement = props => {
     )
 }
 
-const styles = StyleSheet.create({
+const useStyles = makeUseStyles(({ palette, utils }) => ({
     wrapper: {
         paddingTop: 0,
         paddingLeft: 10,
@@ -48,25 +51,35 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 5,
         borderWidth: 1,
-        borderColor: '#dcdbdc'
+        borderColor: '#dcdbdc',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     input: {
         width: '100%',
         borderWidth: 0,
-        paddingVertical: 4,
+        paddingVertical: Platform.OS !== 'web' ? 4 : 7,
         paddingHorizontal: 10,
         marginTop: 0,
         marginRight: 0,
         marginLeft: 0,
         marginBottom: 0,
         borderRadius: 5,
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        ...Platform.select({
+            web: {
+                outlineWidth: 0
+            }
+        })
     },
     inputIcon: {
         position: 'absolute',
-        right: 5,
-        top: 10,
-        width: 20
+        right: 10,
+        top: 0,
+        bottom: 0,
+        width: 20,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     error: {
         position: 'relative',
@@ -77,6 +90,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#f9f9f9',
         color: '#ff1600'
     }
-})
+}))
 
-export default formElement;
+export default withStyles(useStyles)(formElement);

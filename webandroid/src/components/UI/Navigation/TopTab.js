@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'ionicons';
 
 import HomeScreen from '../../../screens/Home/Post';
 import UserScreen from '../../../screens/Home/Users';

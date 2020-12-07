@@ -1,4 +1,5 @@
 import { put } from 'redux-saga/effects';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import axios from '../../axios';
 import * as actions from '../../store/actions/index';
@@ -6,8 +7,9 @@ import * as actions from '../../store/actions/index';
 
 export function* headerFilterInitSaga(action) {
     try {
-        yield put(actions.headerFilterStart(action.filterCnt));
-        let response = yield axios.post('/header', {filterCnt: action.filterCnt, post: true}, {headers: {'data-categ':'headerfilter'}});
+        let filterCnt = String(action.filterCnt);
+        yield put(actions.headerFilterStart(filterCnt));
+        let response = yield axios.post('/header', {filterCnt}, {headers: {'data-categ':'headerfilter'}});
         yield put(actions.headerFilter(response.data));
     } catch(err) {
         yield put(actions.headerFilterFail(err))

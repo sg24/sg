@@ -123,10 +123,11 @@ router.post('/user/profile/:id',authenticate, (req, res,next) => {
                     uploadToBucket(imageFile, tempFileID, 'image', 'image', 'image.files').then(image => {
                         if (image && image.length > 0) {
                             user.findById(req.user).then(userInfo => {
-                                Promise.all([userInfo && userInfo.image ? deleteMedia([{id: userInfo.image.split('/').pop()}], 'image') : Promise.resolve(),
-                                    user.findByIdAndUpdate(req.user, {image: `https://wwww.slodge24.com/media/image/${image[0].id}`}),
+                                Promise.all([userInfo && userInfo.image ? deleteMedia([{id: userInfo.image}], 'image') : Promise.resolve(),
+                                    user.findByIdAndUpdate(req.user, {image: image[0].id}),
                                     tempFile.findByIdAndRemove(tempFileID)]).then(() => {
-                                    res.sendStatus(200);
+                                    
+                                    res.status(200).send(image[0].id);
                                     if (userInfo && userInfo.friend && userInfo.friend.length > 0) {
                                         for (let recieverID of userInfo.friend) {
                                             notifications('profileImage', recieverID, {userID: req.user}, false);

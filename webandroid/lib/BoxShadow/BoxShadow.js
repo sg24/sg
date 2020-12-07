@@ -46,12 +46,12 @@ class ShadowView extends Component {
       return (
         <View
           {...this.props}
-          style={[flattenedStyle]}
+          style={[flattenedStyle, {elevation: 5}]}
           borderWidth={borderWidth}
-          borderColor={borderColor !== undefined ? borderColor : 'black'}
+          borderColor={borderColor !== undefined ? borderColor : '#fff'}
           backgroundColor={backgroundColor}
           borderRadius={borderRadius}
-          shadowColor={shadowColor !== undefined ? shadowColor : 'black'}
+          shadowColor={shadowColor !== undefined ? shadowColor : '#fff'}
           shadowOffsetX={shadowOffsetX}
           shadowOffsetY={shadowOffsetY}
           shadowOpacity={(shadowOpacity !== undefined ? shadowOpacity : 0)}

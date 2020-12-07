@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, Image, ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'ionicons';
 import Moment from 'react-moment';
 import ShadowView from 'react-native-simple-shadow-view';
+import Constants from 'expo-constants';
 
 import Button from '../../../UI/Button/Button';
 import BoxShadow from '../../../UI/BoxShadow/BoxShadow';
@@ -14,13 +15,13 @@ const profileContent = props => {
     let userImg = <Icon name="person" size={60} color="#777"/>
     let myAccount = props.cnt.id === props.userID
     if (props.cnt.image) {
-        userImg = <Image source={{uri: props.cnt.image}} style={styles.userImageWrapper}/>;
+        userImg = <Image source={{uri: Constants.manifest.extra.BASE_IMAGE_URL + props.cnt.image}} style={styles.userImageWrapper}/>;
     }
     let status = (
         <>
             <View style={[styles.statusIcon]}></View>
             <Text numberOfLines={1} style={styles.statusDet}>
-                <Moment element={Text} date={props.cnt.offline} fromNow />
+                <Moment element={Text} date={props.cnt.visited} fromNow />
             </Text>
         </>
     )
@@ -93,7 +94,7 @@ const profileContent = props => {
     if (myAccount) {
         status = null
         edit = (
-            <TouchableNativeFeedback onPress={props.enableUserOpt}>
+            <TouchableNativeFeedback onPress={props.enableUserOpt} style={styles.edit}>
                 <View style={styles.edit}><Icon name="create-outline" size={20} color="#437da3"/></View>
             </TouchableNativeFeedback>
         )
@@ -104,6 +105,7 @@ const profileContent = props => {
         updateProfile = (
             <ChangeProfile
                 cnt={props.cnt}
+                viewMode={props.viewMode}
                 enableUserOpt={props.enableUserOpt}
                 enableChangeImage={props.enableChangeImage}
                 formElement={props.formElement}
@@ -125,84 +127,88 @@ const profileContent = props => {
                 />
         )
     }
-    
+
     return (
         <View style={styles.wrapper}>
-            <View style={styles.userDet}>
-                <View style={styles.userDetWrapper}>
-                    <BoxShadow style={styles.userImageWrapper}>
-                        { userImg }
-                        { edit }
-                    </BoxShadow>
-                    <View style={[styles.status]}>{status}</View>
-                    <ShadowView style={styles.usernameWrapper}>
-                        <Text style={styles.usernameText} numberOfLines={1}>
-                            { props.cnt.username }
-                        </Text>
-                    </ShadowView>
-                </View>
-                <BoxShadow style={styles.userOpt}>
-                    <View style={[styles.disabledCnt, props.start ? styles.disabled : null]}>
-                        { userOpt }
-                    </View>
-                </BoxShadow>
-            </View>
-            <View style={styles.about}>
-                <FormElement
-                    labelTitle="About"
-                    onChangeText={(val) => props.inputChanged(val, 'about')}
-                    autoCorrect
-                    multiline
-                    numberOfLines={props.edit ? 4 : 1}
-                    placeholder={!props.cnt.about && props.edit ? "Short description ...." : null}
-                    editable={props.edit && !props.submittingAbout}
-                    value={props.edit && props.formElement.about.touched  ? props.formElement.about.value : props.cnt.about}
-                    style={props.aboutField}
-                    labelStyle={styles.aboutTitle}
-                    valid={(!props.formElement.about.valid && props.formElement.about.touched) || props.submitAboutErr}
-                    error={props.submitAboutErr ? "Network Error" : "About must be longer than 5 characters"}
-                    inputWrapperStyle={styles.formInputWrapper}
-                    formWrapperStyle={styles.formWrapper}
-                    style={props.edit ? {...styles.inputEdit, ...styles.input} : styles.input }
-                    inputIcon={!props.edit && myAccount ? "create-outline" : null}
-                    inputIconStyle={[styles.edit, styles.inputEdit]}
-                    onPress={props.enableEdit}
-                    />
-                {props.edit ? <View style={styles.aboutButtonWrapper}>
-                    <Button onPress={props.cancelEdit} >
-                        <BoxShadow style={styles.aboutButton}>
-                            <Icon name="close" size={14} color="#ff1600"/>
-                            <Text numberOfLines={1} style={styles.cancel}>Cancel</Text>
+            <ScrollView>
+                <View style={styles.userDet}>
+                    <View style={styles.userDetWrapper}>
+                        <BoxShadow style={styles.userImageWrapper}>
+                            { userImg }
+                            { edit }
                         </BoxShadow>
-                    </Button>
-                    <Button 
-                        onPress={props.formElement.about.valid && !props.submittingAbout ? props.submitAbout.bind(this, props.formElement.about.value) : null}
-                        disabled={!props.formElement.about.valid}>
-                        <BoxShadow style={styles.aboutButton}>
-                        {!props.submittingAbout ? (
-                            <>
-                                <Icon name="checkmark-outline" size={14} color="#437da3"/>
-                                <Text numberOfLines={1} style={styles.save}>Save</Text>
-                            </>
-                        ) : <ActivityIndicator size="small" color="#437da3" animating/>}
-                        </BoxShadow> 
-                    </Button>
-                </View> : null }
-            </View>
-            <View style={styles.info}>
-                <ScrollView 
-                    contentContainerStyle={styles.infoTab}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}>
-                    {props.profileTab.map((tab, index) => (
-                        <TouchableNativeFeedback key={index} onPress={props.selectProfileTab.bind(this, tab)}>
-                            <View style={[styles.infoTabCnt, props.currentProfileTab === tab ? styles.infoTabCurrent : null]}>
-                                <Text style={[styles.textStyle, props.currentProfileTab === tab ? styles.infoTabText : null]}>{tab}</Text>
-                            </View>
-                        </TouchableNativeFeedback>
-                    ))}
-                </ScrollView>
-            </View>
+                        <View style={[styles.status]}>{status}</View>
+                        <ShadowView style={styles.usernameWrapper}>
+                            <Text style={styles.usernameText} numberOfLines={1}>
+                                { props.cnt.username }
+                            </Text>
+                        </ShadowView>
+                    </View>
+                    <BoxShadow style={styles.userOpt}>
+                        <View style={[styles.disabledCnt, props.start ? styles.disabled : null]}>
+                            { userOpt }
+                        </View>
+                    </BoxShadow>
+                </View>
+                <View style={styles.about}>
+                    <FormElement
+                        labelTitle="About"
+                        onChangeText={(val) => props.inputChanged(val, 'about')}
+                        autoCorrect
+                        multiline
+                        numberOfLines={props.edit ? 4 : 1}
+                        placeholder={!props.cnt.about && props.edit ? "Short description ...." : null}
+                        editable={props.edit && !props.submittingAbout}
+                        value={props.edit && props.formElement.about.touched  ? props.formElement.about.value : props.cnt.about}
+                        style={props.aboutField}
+                        labelStyle={styles.aboutTitle}
+                        valid={(!props.formElement.about.valid && props.formElement.about.touched) || props.submitAboutErr}
+                        error={props.submitAboutErr ? "Network Error" : "About must be longer than 5 characters"}
+                        inputWrapperStyle={styles.formInputWrapper}
+                        formWrapperStyle={styles.formWrapper}
+                        style={props.edit ? {...styles.inputEdit, ...styles.input} : styles.input }
+                        inputIcon={!props.edit && myAccount ? "create-outline" : null}
+                        inputIconStyle={[styles.edit, styles.inputEdit]}
+                        onPress={props.enableEdit}
+                        />
+                    {props.edit ? <View style={styles.aboutButtonWrapper}>
+                        <Button onPress={props.cancelEdit} >
+                            <BoxShadow style={styles.aboutButton}>
+                                <Icon name="close" size={14} color="#ff1600"/>
+                                <Text numberOfLines={1} style={styles.cancel}>Cancel</Text>
+                            </BoxShadow>
+                        </Button>
+                        <Button 
+                            onPress={props.formElement.about.valid && !props.submittingAbout ? props.submitAbout.bind(this, props.formElement.about.value) : null}
+                            disabled={!props.formElement.about.valid}>
+                            <BoxShadow 
+                                style={styles.aboutButton}
+                                disabled={!props.formElement.about.valid}>
+                            {!props.submittingAbout ? (
+                                <>
+                                    <Icon name="checkmark-outline" size={14} color="#437da3"/>
+                                    <Text numberOfLines={1} style={styles.save}>Save</Text>
+                                </>
+                            ) : <ActivityIndicator size="small" color="#437da3" animating/>}
+                            </BoxShadow> 
+                        </Button>
+                    </View> : null }
+                </View>
+                <View style={styles.info}>
+                    <ScrollView 
+                        contentContainerStyle={styles.infoTab}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}>
+                        {props.profileTab.map((tab, index) => (
+                            <TouchableNativeFeedback key={index} onPress={props.selectProfileTab.bind(this, tab)}>
+                                <View style={[styles.infoTabCnt, props.currentProfileTab === tab ? styles.infoTabCurrent : null]}>
+                                    <Text style={[styles.textStyle, props.currentProfileTab === tab ? styles.infoTabText : null]}>{tab}</Text>
+                                </View>
+                            </TouchableNativeFeedback>
+                        ))}
+                    </ScrollView>
+                </View>
+            </ScrollView>
             { updateProfile }
         </View>
     )
@@ -211,7 +217,8 @@ const profileContent = props => {
 const styles = StyleSheet.create({
     wrapper: {
         width: '100%',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        flex: 1,
     },
     userDet: {
         backgroundColor: '#437da3',
@@ -242,6 +249,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
+        resizeMode: 'stretch',
         shadowOffset: {
             width: 0,
             height: 3,

@@ -6,18 +6,35 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
+// import { enableScreens } from 'react-native-screens';
 
-import App from './Base';
+import Root from './Root';
 import configureStore from './src/store/configureStore';
+import { ThemeProvider } from "react-native-stylex";
 
+// enableScreens();
+
+const theme = {
+  palette: {
+    color: "#333",
+    backgroundColor: "#fff"
+  },
+  utils: {
+    fade(color, value) {
+      /*...*/
+    }
+  }
+}
 const store = configureStore();
 SplashScreen.preventAutoHideAsync()
-const Root = () => (
+const app = () => (
     <Provider store={store}>
         <SafeAreaProvider>
-            <App />
+              <ThemeProvider value={theme}>
+                <Root />
+            </ThemeProvider>
         </SafeAreaProvider>
     </Provider>
 )
 
-export default Root;
+export default app;

@@ -1,4 +1,5 @@
 import { put } from 'redux-saga/effects';
+import { v4 as uuid } from 'uuid';
 
 import * as actions from '../actions/index';
 import axios from '../../axios';
@@ -8,14 +9,17 @@ export function* submitAuthFormSigninInitSaga (action) {
     yield put(actions.submitAuthFormStart('signin'));
 
     try {
-        let response = yield axios.post('/login', action.formData);
+        let deviceID = yield AsyncStorage.getItem('SG24_ID');
+        let response = yield axios.post('/login', {formData: action.formData, deviceID});
         let username = ['username', response.data.username];
         let token = ['token', response.data.token];
         let userID = ['userID', response.data.userID];
         let expiresIn = ['expiresIn', String(response.data.expiresIn)]
-        yield AsyncStorage.multiSet([username, userID, token, expiresIn])
+        let SG24_ID = ['SG24_ID', response.data.SG24_ID];
+        yield AsyncStorage.multiSet([username, userID, token, expiresIn, SG24_ID])
         yield put(actions.authFormSubmitted('signin'))
         yield put(actions.loggedIn(response.data.userID));
+        yield put(actions.checkUserName(response.data.username));
     } catch(err) {
         let error = null
         if (err.response) {
@@ -35,7 +39,9 @@ export function* submitAuthFormSignupInitSaga (action) {
     yield put(actions.submitAuthFormStart('signup'));
 
     try {
-        let response = yield axios.post('/signup', action.formData);
+        let SG24_ID = uuid();
+        yield AsyncStorage.setItem('SG24_ID', SG24_ID) 
+        let response = yield axios.post('/signup', {formData:  action.formData, browserID: SG24_ID});
         let username = ['username', action.formData.username];
         let token = ['token', response.data.token];
         let userID = ['userID', response.data.userID];
@@ -43,6 +49,7 @@ export function* submitAuthFormSignupInitSaga (action) {
         yield AsyncStorage.multiSet([username, token, userID, expiresIn])
         yield put(actions.authFormSubmitted('signup'))
         yield put(actions.loggedIn(response.data.userID));
+        yield put(actions.checkUserName(response.data.username));
     } catch(err) {
         let error = null
         if (err.response) {

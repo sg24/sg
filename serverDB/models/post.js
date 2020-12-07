@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema  = mongoose.Schema;
 
-const AroundmeSchema = new Schema({
+const PostSchema = new Schema({
     authorID: {
         type: String,
         required: true
@@ -133,7 +133,7 @@ const AroundmeSchema = new Schema({
     }
 })
 
-AroundmeSchema.index({post: 'text'});
-const aroundme = mongoose.model('aroundmes', AroundmeSchema);
+PostSchema.index({post: 'text'});
+const post = mongoose.model('Posts', PostSchema);
 
-module.exports = aroundme;
+module.exports = post;

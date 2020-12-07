@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'ionicons';
 
 import BoxShadow from '../BoxShadow/BoxShadow';
 
@@ -13,9 +13,11 @@ const conv = props => (
             <Text style={styles.textStyle}>
                 { props.title }
             </Text>
-            <TouchableOpacity style={styles.icon} onPress={props.onNavigate}>
-            <Icon name="search" size={24} />
-            </TouchableOpacity>
+            <View style={styles.icon}>
+                <TouchableOpacity onPress={props.onNavigate}>
+                    <Icon name="search" size={24} />
+                </TouchableOpacity>
+            </View>
         </View>
     </BoxShadow>
 )
@@ -31,7 +33,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingHorizontal: 10,
         alignItems: 'center',
-        height: 50
+        height: 40
     },
     icon: {
         flex: 1,

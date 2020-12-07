@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Image, StyleSheet, Dimensions, Platform } from 'react-native';
 import { connect } from 'react-redux';
+import { tailwind, size } from 'tailwind';
+import * as WebBrowser from 'expo-web-browser';
+import { Html5Entities } from 'html-entities';
 
 import LinearBackground from '../../components/UI/LinearBackground/LinearBackground';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logocircle.png';
 import FormElement from '../../components/UI/FormElement/FormElement';
 import Button from '../../components/UI/Button/Button';
 import Href from '../../components/UI/Href/Href';
 import { updateObject, checkValidity } from '../../shared/utility';
 import ScrollView from '../../components/UI/ScrollView/ScrollView';
+import WebView from '../../components/UI/WebView/WebView';
 import * as actions from '../../store/actions/index';
 
 class Signup extends Component {
     constructor(props) {
         super(props);
-        Dimensions.addEventListener('change', this.updateStyle)
         this.state = {
             viewMode: Dimensions.get('window').width >= 530 ? 'landscape' : 'portrait',
             formElement: {
@@ -54,7 +57,8 @@ class Signup extends Component {
                 err: null
             },
             showPassword: false,
-            formIsValid: false
+            formIsValid: false,
+            uri: null
         }
     }
 
@@ -63,10 +67,12 @@ class Signup extends Component {
             this.props.onAuthReset();
             this.setState({allowUpdate: true})
         });
+        Dimensions.addEventListener('change', this.updateStyle)
     }
 
     componentWillUnmount() {
         this._unsubscribe();
+        Dimensions.removeEventListener('change', this.updateStyle);
     }
 
     updateStyle = (dims) => {
@@ -119,6 +125,18 @@ class Signup extends Component {
     }
 
   
+    openBrowserHandler = (uri) => {
+        if (Platform.OS === 'web') {
+            return WebBrowser.openBrowserAsync(uri)
+        }
+        this.setState({uri})
+    }
+
+    closeWebViewHandler = () => {
+        this.setState({uri: null})
+    }
+
+
     submitHandler = () => {
         if (this.state.formIsValid && this.state.confirmPassword.valid) {
             let newCnt = {
@@ -132,11 +150,24 @@ class Signup extends Component {
      }
 
     render() {
+        const entities = new Html5Entities();
+        if (this.state.uri) {
+            return (
+                <WebView
+                    uri={this.state.uri}
+                    onPress={this.closeWebViewHandler}
+                />
+            )
+        }
+
       return (
         <LinearBackground>
             <ScrollView>
                 <View style={[styles.formWrapper, this.state.viewMode === 'landscape' ? styles.formWrapperLandscape : null]}>
-                    <Image source={logo} style={styles.imageWrapper}/>
+                    <View
+                        style={styles.imageWrapper}>
+                        <Image source={logo} style={styles.image}/>
+                    </View>
                     <View style={styles.formElementTitle}>
                         <Text style={styles.formElementTitleContent}>Welcome to S lodge24</Text>
                     </View>
@@ -185,7 +216,7 @@ class Signup extends Component {
                             <Button 
                                 title="Sign Up"
                                 style={styles.button}
-                                onPress={this.submitHandler}
+                                onPress={!this.props.start ? this.submitHandler : null}
                                 disabled={!this.state.formIsValid || !this.state.confirmPassword.valid}
                                 textStyle={styles.textStyle}
                                 submitting={this.props.start}
@@ -208,11 +239,14 @@ class Signup extends Component {
                     </View>
                     <View style={[styles.options, styles.term]}>
                         <Href 
-                        title="Privacy policy"
-                        style={[styles.href, styles.term]} />
+                            title="Privacy policy"
+                            style={[styles.href, styles.term]}
+                            onPress={() => this.openBrowserHandler('https://www.slodge24.com/privacy')} />
+                        {Platform.OS === 'web' ? <Text style={styles.copywrite}>{entities.decode('&copy;')} 2020, S LODGE24</Text> : null}
                         <Href 
                         title="Terms of service"
-                        style={[styles.href, styles.term]} />
+                        style={[styles.href, styles.term]} 
+                        onPress={() => this.openBrowserHandler('https://www.slodge24.com/term')}/>
                     </View>
                 </View>
            </ScrollView>
@@ -240,15 +274,15 @@ const styles = StyleSheet.create({
         width: 500
     },
     imageWrapper: {
-        position: 'absolute',
-        width: 72,
-        height: 56,
-        backgroundColor: '#fff',
-        top: -28,
-        zIndex: 1,
+        ...tailwind('rounded-full bg-white absolute w-16 h-16 justify-center items-center'), 
+        top: -32
+    },
+    image: {
+        ...tailwind('rounded-full'),
         resizeMode: 'cover',
-        borderRadius: 5,
-        alignSelf: 'center'
+        backgroundColor: '#fff',
+        width: 58,
+        height: 58
     },
     formElementWrapper: {
         paddingTop: 20,
@@ -265,11 +299,11 @@ const styles = StyleSheet.create({
         position: 'relative',
         marginLeft: 10,
         paddingVertical: 5,
-        backgroundColor: '#dcdbdc',
         borderRadius: 10,
         width: 170,
         marginTop: 20,
-        marginBottom: 30
+        marginBottom: 20,
+        ...tailwind('bg-gray-200')
     },
     formElementTitleContent: {
         textAlign: 'center',
@@ -307,9 +341,15 @@ const styles = StyleSheet.create({
         textDecorationStyle: 'solid',
         marginLeft: 5
     },
+    copywrite: {
+        fontWeight: 'bold',
+        fontSize: 12
+    },
     term: {
         justifyContent: 'space-between',
-        color: '#333'
+        textDecorationColor: '#333',
+        color: '#333',
+        alignItems: 'center'
     },
     error: {
         position: 'relative',

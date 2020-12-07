@@ -1,45 +1,51 @@
 import React from 'react';
-import { View, Text, Modal, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { View, Text, StyleSheet } from 'react-native';
+import Icon from 'ionicons';
 
+import InnerScreen from '../InnerScreen/InnerScreen';
 import Button from '../Button/Button';
 import BoxShadow from '../BoxShadow/BoxShadow';
+import AbsoluteFill from '../AbsoluteFill/AbsoluteFill';
 
 const notificationModal = props => {
     return (
-        <Modal 
-            transparent
+        <InnerScreen
+            transparent 
             onRequestClose={props.closeModal}
-            animationType="slide">
-            <TouchableWithoutFeedback>
-                <View style={styles.modalWrapper}>
-                    <View style={styles.wrapper}>
-                        <View style={styles.infoWrapper}>
-                            {props.infoIcon ? <Icon name={props.infoIcon.name} size={ props.infoIcon.size || 40} color={ props.infoIcon.color || '#000'}/> : null }
-                            <Text style={[styles.textStyle, props.style]}>{props.info}</Text>
-                        </View>
-                        {props.button ? <View style={styles.button}>
-                            {props.button.map((cnt, index) => (
-                                <Button key={index} onPress={cnt.onPress}>
-                                    <BoxShadow style={styles.boxShadow}>
-                                        <Text style={[styles.buttonText, cnt.style]}>{cnt.title}</Text>
-                                    </BoxShadow>
-                                </Button>
-                            ))}
-                        </View>: null}
+            animationType="slide"
+            onBackdropPress={props.closeModal}
+            outterStyle={styles.webModal}
+            overlay>
+            <View style={styles.modal}>
+                <AbsoluteFill  onPress={props.closeModal}/>
+                <View style={styles.wrapper}>
+                    <View style={styles.infoWrapper}>
+                        {props.infoIcon ? <Icon name={props.infoIcon.name} size={ props.infoIcon.size || 40} color={ props.infoIcon.color || '#000'}/> : null }
+                        <Text style={[styles.textStyle, props.style]}>{props.info}</Text>
                     </View>
+                    {props.button ? <View style={styles.button}>
+                        {props.button.map((cnt, index) => (
+                            <Button key={index} onPress={cnt.onPress}>
+                                <BoxShadow style={styles.boxShadow}>
+                                    <Text style={[styles.buttonText, cnt.style]}>{cnt.title}</Text>
+                                </BoxShadow>
+                            </Button>
+                        ))}
+                    </View>: null}
                 </View>
-            </TouchableWithoutFeedback>
-        </Modal>
+            </View>
+        </InnerScreen>
     )
 }
 
 const styles = StyleSheet.create({
-    modalWrapper: {
+    modal: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0, .65)',
+    },
+    webModal: {
+        backgroundColor: 'transparent'
     },
     wrapper: {
         backgroundColor: '#fff',

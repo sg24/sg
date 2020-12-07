@@ -1,9 +1,9 @@
 require('./config/config');
 const {connectStatus} = require('./db/mongoose');
-const posts = require('./models/posts');
+const feed = require('./models/feed');
 const adverts = require('./models/adverts');
-const questions = require('./models/questions');
-const poets = require('./models/poets');
+const question = require('./models/questions');
+const poet = require('./models/poets');
 const category = require('./models/category');
 const postnotifies = require('./models/postnotifies');
 const quenotifies = require('./models/quenotifies');
@@ -21,7 +21,7 @@ const chatnotifies = require('./models/chatnotifies');
 const tempUser = require('./models/tempUser');
 const authUser = require('./models/authuser');
 const tempFile = require('./models/tempfile');
-const aroundme = require('./models/aroundme');
+const post = require('./models/post');
 const contest = require('./models/contest');
 const qchat = require('./models/qchat');
 const qcontent = require('./models/qcontent');
@@ -29,10 +29,10 @@ const notifications = require('./models/notifications');
 const page = require('./models/page');
 
 module.exports = {
-    adverts,
-    posts,
-    questions,
-    poets,
+    feed,
+    post,
+    question,
+    poet,
     category,
     user,
     group,
@@ -50,7 +50,7 @@ module.exports = {
     pwtnotifies,
     viewnotifies,
     favorite,
-    aroundme,
+    adverts,
     contest,
     qchat,
     qcontent,

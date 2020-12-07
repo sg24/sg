@@ -7,9 +7,12 @@ module.exports = function(api) {
          'module-resolver',
          {
            alias: {
-             "Ionicons": "./lib/icons/icons",
+             "ionicons": "./lib/icons/ionicons",
+             "materialIcons": "./lib/icons/materialIcons",
              "react-native-simple-shadow-view" : "./lib/BoxShadow/BoxShadow",
-             "tailwind": "./lib/tailwind/tailwind"
+             "tailwind": "./lib/tailwind/tailwind",
+             "permission": "./lib/permission/permission",
+             "picker": "./lib/picker/picker"
            }
         }
        ]

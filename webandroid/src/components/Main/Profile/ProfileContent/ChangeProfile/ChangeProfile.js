@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, Modal, ActivityIndicator, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { View, Text, Image, ScrollView, ActivityIndicator, StyleSheet, Platform} from 'react-native';
+import Icon from 'ionicons';
 
+import InnerScreen from '../../../../UI/InnerScreen/InnerScreen';
 import TouchableNativeFeedback from '../../../../UI/TouchableNativeFeedback/TouchableNativeFeedback'
 import DefaultHeader from '../../../../UI/Header/DefaultHeader';
 import FormElement from '../../../../UI/FormElement/FormElement'
@@ -22,13 +23,13 @@ const changeProfile = props => {
     if (props.uploadImage) {
        uploadOpt = (
         <View style={styles.modalUpload}>
-            <Image source={{...props.uploadImage}} style={styles.modalImageWrapper}/>
+            <Image source={{...props.uploadImage}} style={styles.modalImageWrapper} />
             {props.submitProfileImageErr ? <View><Text style={styles.error}> Network Error </Text></View> : null }
             <View style={styles.uploadButtonWrapper}>
                 <Button 
                     onPress={!props.submittingProfileImage ? props.cancelUploadImage : null}
                     disabled={props.submittingProfileImage}>
-                    <BoxShadow style={styles.uploadButton}>
+                    <BoxShadow style={styles.uploadButton} disabled={props.submittingProfileImage}>
                         <Icon name="close" size={14} color="#ff1600"/>
                         <Text numberOfLines={1} style={styles.cancel}>Cancel</Text>
                     </BoxShadow>
@@ -57,14 +58,16 @@ const changeProfile = props => {
         )
     }
 
+
     return (
-        <Modal
+        <InnerScreen
             onRequestClose={props.enableUserOpt}
-            animationType="slide">
+            animationType="slide"
+            backdropOpacity={0}>
+                <DefaultHeader 
+                    title="Change Profile"
+                    onPress={props.enableUserOpt}/>
                 <ScrollView>
-                    <DefaultHeader 
-                        title="Change Profile"
-                        onPress={props.enableUserOpt}/>
                     <View style={styles.modal}>
                         <Accodion
                             title="Change Image"
@@ -123,7 +126,7 @@ const changeProfile = props => {
                         </Accodion>
                     </View>
                 </ScrollView>
-        </Modal>
+        </InnerScreen>
     );
 };
 
@@ -155,8 +158,7 @@ const styles = StyleSheet.create({
     modalImageWrapper: {
         width: 100,
         height: 100,
-        backgroundColor: '#fff',
-        resizeMode: 'cover',
+        resizeMode: 'stretch',
         borderRadius: 5,
         alignSelf: 'center'
     },

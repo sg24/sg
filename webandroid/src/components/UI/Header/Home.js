@@ -1,8 +1,9 @@
 import React , { Component } from 'react';
-import { View, Text, Image, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { View, Text, Image, StyleSheet, TouchableWithoutFeedback, Platform } from 'react-native';
+import Icon from 'ionicons';
+import WebModal from 'modal-enhanced-react-native-web';
 
-import Logo from '../../../assets/logo.png';
+import Logo from '../../../assets/logocircle.png';
 import TabBarge from '../TabBarge/TabBarge';
 import Modal from '../Modal/Modal';
 import BoxShadow from '../BoxShadow/BoxShadow';
@@ -20,8 +21,9 @@ class Home extends Component  {
     render() {
         let modal = null;
         if (this.state.showModal) {
+            let ModalComponent = Platform.OS === 'web' ? WebModal : Modal;
             modal = (
-                <Modal 
+                <ModalComponent 
                     visible={this.state.showModal}
                     transparent 
                     onRequestClose={this.modalHandler}
@@ -41,13 +43,13 @@ class Home extends Component  {
                                         <Text style={styles.textStyle}>Feed</Text>
                                     </View>
                                 </TouchableNativeFeedback>
-                                <TouchableNativeFeedback style={styles.navItem} onPress={this.props.onPress.bind(this, 'Write Up')}>
+                                <TouchableNativeFeedback onPress={this.props.onPress.bind(this, 'Write Up')}>
                                     <View style={styles.navItem}>
                                         <Icon name="reader-outline" size={20} />
                                         <Text style={styles.textStyle}>Write Up</Text>
                                     </View>
                                 </TouchableNativeFeedback>
-                                <TouchableNativeFeedback style={styles.navItem} onPress={this.props.onPress.bind(this, 'Shared')}>
+                                <TouchableNativeFeedback onPress={this.props.onPress.bind(this, 'Shared')}>
                                     <View style={styles.navItem}>
                                         <Icon name="paper-plane-outline" size={20} />
                                         <Text style={styles.textStyle}>Shared</Text>
@@ -74,7 +76,7 @@ class Home extends Component  {
                             </BoxShadow>
                         </View>
                     </TouchableWithoutFeedback>
-                </Modal>
+                </ModalComponent>
             )
         }
         return (
@@ -141,7 +143,7 @@ const styles = StyleSheet.create({
     logo: {
         width: 40,
         height: '100%',
-        resizeMode: 'cover'
+        resizeMode: 'contain'
     },
     navIcon: {
         backgroundColor: '#e9ebf2',

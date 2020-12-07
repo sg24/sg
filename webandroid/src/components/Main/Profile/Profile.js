@@ -4,6 +4,7 @@ import ProfileContent from './ProfileContent/ProfileContent';
 const profile = props => (
     <ProfileContent 
         cnt={props.profile}
+        viewMode={props.viewMode}
         userID={props.userID}
         addUser={props.changeProfileStart ? null : props.changeProfile.bind(this, props.profile.id, null, 'addUser', true)}
         acceptUser={props.changeProfileStart ? null : props.changeProfile.bind(this, props.profile.id, props.profile.username, 'acceptUser', true)}

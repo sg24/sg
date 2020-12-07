@@ -3,12 +3,16 @@
     "name": "webandroid",
     "slug": "webandroid",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
+    },
+    "extra": {
+      "BASE_URL": "http://192.168.173.1:3000/",
+      "BASE_IMAGE_URL": "http://192.168.173.1:3000/media/image/"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,7 +27,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "useNextNotificationsApi": true
     },
     "web": {
       "favicon": "./assets/favicon.png"

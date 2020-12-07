@@ -1527,7 +1527,7 @@
 	"content-evenly": {
 		"alignContent": "space-evenly"
 	},
-	"self-auto": {
+	"autoself-": {
 		"alignSelf": "auto"
 	},
 	"self-start": {
@@ -1988,6 +1988,10 @@
 	"my-0": {
 		"marginTop": 0,
 		"marginBottom": 0
+	},
+	"mx-auto": {
+		"marginLeft": "auto",
+		"marginRight": "auto"
 	},
 	"mx-0": {
 		"marginLeft": 0,

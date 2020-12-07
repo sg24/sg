@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, ScrollView, Dimension } from 'react-native';
 const scrollView = props => {
     return (
-        <ScrollView style={styles.scrollWrapper} contentContainerStyle={styles.wrapper}>
+        <ScrollView style={styles.scrollWrapper} contentContainerStyle={[styles.wrapper, props.style]}>
             { props.children }
         </ScrollView>
     )

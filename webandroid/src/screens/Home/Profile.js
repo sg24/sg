@@ -1,23 +1,27 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Dimensions , Platform} from 'react-native';
 import { connect } from 'react-redux';
-import Ionicons from 'Ionicons';
-import * as ImagePicker from 'expo-image-picker';
+import Ionicons from 'ionicons';
+import { size } from 'tailwind';
+import { takePicture } from 'picker';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import * as actions from '../../store/actions/index';
 import { updateObject, checkValidity } from '../../shared/utility';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import Profiles from '../../components/Main/Profile/Profile.js';
-import ScrollView from '../../components/UI/ScrollView/ScrollView';
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
+import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
+import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
+import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
+import CameraComponent from '../../components/UI/Camera/Camera';
 
 class Profile extends Component {
     constructor(props) {
         super(props);
-        Dimensions.addEventListener('change', this.updateStyle)
         this.state = {
-            viewMode: Dimensions.get('window').width >= 530 ? 'landscape' : 'portrait',
+            viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
+            backgroundColor: '#fff',
             userID: this.props.route.params.userID,
             edit: false,
             formElement: {
@@ -55,11 +59,14 @@ class Profile extends Component {
             currentProfileTab: 'Post',
             uploadImage: null,
             showNameAccodion: false,
-            showImageAccodion: true
+            showImageAccodion: true,
+            showActionSheet: false,
+            showCamera: false
         }
     }
 
     componentDidMount() {
+        Dimensions.addEventListener('change', this.updateStyle);
         if (this.state.userID) {
             this._unsubscribe = this.props.navigation.addListener('focus', () => {
                 this.props.onFetchProfile(this.state.userID);
@@ -94,16 +101,18 @@ class Profile extends Component {
             this._unsubscribe();
             this._unsubscribeBlur();
         }
-    }
-
-    updateStyle = (dims) => {
-        this.setState({
-            viewMode: dims.window.width >= 530 ? 'landscape' : 'portriat'
-        })
+        Dimensions.removeEventListener('change', this.updateStyle);
     }
 
     navigationHandler = (page, id) => {
       
+    }
+
+    
+    updateStyle = (dims) => {
+        this.setState({
+            viewMode: dims.window.width >= size.md ? 'landscape' : 'portriat'
+        })
     }
 
     reloadFetchHandler = () => {
@@ -153,22 +162,44 @@ class Profile extends Component {
         this.setState({currentProfileTab: tab})
     }
 
-    enableChangeImageHandler = () => {
-        const options = {
+    enableChangeImageHandler =  () => {
+       this.setState({showActionSheet: true})
+    }
+    
+    actionSheetHandler = async (index) => {
+        if (index === -1) {
+            this.setState({showActionSheet: false})
+        } else if (index === 0) {
+            picker.camera({type: "Images"}).then(image => {
+                this.setState({uploadImage: image[0], showActionSheet: false})
+            }).catch(e => {
+                if (e === 'useCamera') {this.setState({showCamera: true, showActionSheet: false})}
+                this.setState({showActionSheet: false})
+            })
+        } else {
+            picker.gallery({type: "Images", allowsMultipleSelection: false}, 'image').then(image => {
+                this.setState({uploadImage: image[0], showActionSheet: false})
+            }).catch(e => {
+                this.setState({showActionSheet: false})
+            })
         }
-        // Share.share({message: 'share'})
-        // ImagePicker.show()
-        // ImagePicker.openPicker(options).then(response => {
-        //     if (response.path) {
-        //         this.setState({uploadImage: {uri: response.path, type: response.mime, 
-        //             name: response.path.split('/').pop()}})
-        //     }
-        // }).catch(err => err)
+    };
+
+    closeCameraHandler = () => {
+        this.setState({showCamera: false})
     }
 
     cancelUploadImageHandler = () => {
         this.setState({uploadImage: null});
         this.props.onProfileImageReset()
+    }
+
+    takePictureHandler = async () => {
+        if (this.camera) {
+            takePicture(this.camera).then(image => {
+                this.setState({uploadImage: image[0], showCamera: false})
+            }).catch(e => { this.setState({showCamera: false})})
+        }
     }
 
     submitProfileImageHandler = () => {
@@ -199,57 +230,71 @@ class Profile extends Component {
         if (!this.props.profileErr && this.props.profile){
             let profile = this.props.changeProfileStart;
             cnt = (
-                <ScrollView>
-                     <View style={[styles.wrapper, this.state.viewMode === 'landscape' ? styles.landscapeWrapper : null]}>
-                        <Profiles
-                            profile={this.props.profile}
-                            navigate={this.navigationHandler}
-                            userID={this.state.userID}
-                            changeProfile={this.changeProfileHandler}
-                            changeProfileStart={this.props.changeProfileStart}
-                            inputChanged={this.inputChangedHandler}
-                            formElement={this.state.formElement}
-                            enableEdit={this.enableEditHandler}
-                            edit={this.state.edit}
-                            cancelEdit={this.enableEditHandler}
-                            submitAbout={this.submitAboutHandler}
-                            submittingAbout={this.props.submitAboutStart}
-                            submitAboutErr={this.props.submitAboutErr}
-                            enableUserOpt={this.enableUserOptHandler}
-                            showUserOpt={this.state.showUserOpt}
-                            profileTab={this.state.profileTab}
-                            selectProfileTab={this.selectProfileTabHandler}
-                            currentProfileTab={this.state.currentProfileTab}
-                            enableChangeImage={this.enableChangeImageHandler}
-                            uploadImage={this.state.uploadImage}
-                            cancelUploadImage={this.cancelUploadImageHandler}
-                            submitProfileImage={this.submitProfileImageHandler}
-                            submittingProfileImage={this.props.submitProfileImageStart}
-                            submitProfileImageErr={this.props.submitProfileImageErr}
-                            submittedProfileImage={this.props.submitProfileImage}
-                            submitUsername={this.submitUsernameHandler}
-                            submittingUsername={this.props.submitUsernameStart}
-                            submittedUsername={this.props.submitUsername}
-                            submitUsernameErr={this.props.submitUsernameErr}
-                            showImageAccodion={this.state.showImageAccodion}
-                            enableImageAccodion={this.enableImageAccodion}
-                            showNameAccodion={this.state.showNameAccodion}
-                            enableNameAccodion={this.enableNameAccodion}/>
-                        { this.props.changeProfileErr ? 
-                        <NotificationModal
-                            info="Network Error !"
-                            infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
-                            closeModal={this.props.onCloseModal}
-                            button={[{title: 'Ok', onPress: this.props.onCloseModal, style: styles.button}]}/> : null}
-                        { profile && !profile.confirm ? 
-                        <NotificationModal
-                            info={profile.info}
-                            closeModal={this.props.onCloseModal}
-                            button={[{title: 'Ok', onPress: () => this.changeProfileHandler(profile.id, profile.title, profile.det, true), 
-                                style: styles.buttonCancel},
-                            {title: 'Exit', onPress: this.props.onCloseModal, style: styles.button}]}/> : null}
-                     </View>
-                </ScrollView>
+                <View style={[styles.wrapper]}>
+                    <Profiles
+                        profile={this.props.profile}
+                        navigate={this.navigationHandler}
+                        userID={this.state.userID}
+                        changeProfile={this.changeProfileHandler}
+                        changeProfileStart={this.props.changeProfileStart}
+                        inputChanged={this.inputChangedHandler}
+                        formElement={this.state.formElement}
+                        enableEdit={this.enableEditHandler}
+                        edit={this.state.edit}
+                        cancelEdit={this.enableEditHandler}
+                        submitAbout={this.submitAboutHandler}
+                        submittingAbout={this.props.submitAboutStart}
+                        submitAboutErr={this.props.submitAboutErr}
+                        enableUserOpt={this.enableUserOptHandler}
+                        showUserOpt={this.state.showUserOpt}
+                        profileTab={this.state.profileTab}
+                        selectProfileTab={this.selectProfileTabHandler}
+                        currentProfileTab={this.state.currentProfileTab}
+                        enableChangeImage={this.enableChangeImageHandler}
+                        uploadImage={this.state.uploadImage}
+                        cancelUploadImage={this.cancelUploadImageHandler}
+                        submitProfileImage={this.submitProfileImageHandler}
+                        submittingProfileImage={this.props.submitProfileImageStart}
+                        submitProfileImageErr={this.props.submitProfileImageErr}
+                        submittedProfileImage={this.props.submitProfileImage}
+                        submitUsername={this.submitUsernameHandler}
+                        submittingUsername={this.props.submitUsernameStart}
+                        submittedUsername={this.props.submitUsername}
+                        submitUsernameErr={this.props.submitUsernameErr}
+                        showImageAccodion={this.state.showImageAccodion}
+                        enableImageAccodion={this.enableImageAccodion}
+                        showNameAccodion={this.state.showNameAccodion}
+                        enableNameAccodion={this.enableNameAccodion}
+                        viewMode={this.state.viewMode}/>
+                    { this.props.changeProfileErr ? 
+                    <NotificationModal
+                        info="Network Error !"
+                        infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
+                        closeModal={this.props.onCloseModal}
+                        button={[{title: 'Ok', onPress: this.props.onCloseModal, style: styles.button}]}/> : null}
+                    { profile && !profile.confirm ? 
+                    <NotificationModal
+                        info={profile.info}
+                        closeModal={this.props.onCloseModal}
+                        button={[{title: 'Ok', onPress: () => this.changeProfileHandler(profile.id, profile.title, profile.det, true), 
+                            style: styles.buttonCancel},
+                        {title: 'Exit', onPress: this.props.onCloseModal, style: styles.button}]}/> : null}
+                    { this.state.showActionSheet ? 
+                        <ActionSheet
+                            options ={['Camera', 'Gallery']}
+                            icons={['camera-outline', 'image-outline']}
+                            bottonIndex={this.actionSheetHandler}
+                            title={"Choose"}
+                            showSeparator/>
+                        : null}
+                    { this.state.showCamera ? 
+                        <CameraComponent 
+                            closeCamera={this.closeCameraHandler}
+                            onPress={this.takePictureHandler}
+                            camera={ref => this.camera = ref}
+                            title="Camera"
+                            icon={{name: 'camera-outline', color: '#fff'}}/>: null}
+                </View>
             )
         }
 
@@ -273,8 +318,19 @@ class Profile extends Component {
         }
 
       return (
-        <NoBackground>
-            { cnt }
+        <NoBackground
+            sideBar={(
+                <>
+                <Navigation 
+                        color={this.state.color}
+                        backgroundColor={this.state.backgroundColor}/>
+                <CreateNavigation 
+                    color={this.state.color}
+                    backgroundColor={this.state.backgroundColor}/>
+                </>
+            )}
+            content={ cnt }
+            contentFetched={this.props.profile}>
         </NoBackground>
       )
     }
@@ -286,8 +342,7 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
+        flex: 1,
     },
     landscapeWrapper: {
         width: '100%'
@@ -346,5 +401,4 @@ const mapDispatchToProps = dispatch => {
         onSubmitUsername: (username, userID) => dispatch(actions.submitUsernameInit(username, userID))
     };
 };
-
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

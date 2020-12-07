@@ -1,22 +1,30 @@
 import React, { Component } from 'react';
 import { View, Text, Keyboard, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
-import Ionicons from 'Ionicons';
-import * as ImagePicker from 'expo-image-picker';
+import Ionicons from 'ionicons';
+import { size } from 'tailwind';
+import { camera, explorer, takePicture} from 'picker';
 
-import LinearBackground from '../../components/UI/NoBackground/NoBackground';
-import logo from '../../assets/logo.png';
+
+import NoBackground from '../../components/UI/NoBackground/NoBackground';
+import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
+import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
 import FormElement from '../../components/UI/FormElement/FormElement';
+import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import Button from '../../components/UI/Button/Button';
 import { updateObject, checkValidity } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
+import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
+import CameraComponent from '../../components/UI/Camera/Camera';
+import VideoCamera from '../../components/UI/VideoCamera/VideoCamera';
+// import AudioRecorder from '../../components/UI/AudioRecorder/AudioRecorder';
 
 class Post extends Component {
     constructor(props) {
         super(props);
-        Dimensions.addEventListener('change', this.updateStyle)
         this.state = {
-            viewMode: Dimensions.get('window').width >= 530 ? 'landscape' : 'portrait',
+            viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
+            backgroundColor: '#fff',
             formElement: {
                 content: {
                     value: '',
@@ -28,14 +36,18 @@ class Post extends Component {
                     touched: false
                 }
             },
-            formIsValid: false
+            formIsValid: false,
+            showActionSheet: false,
+            showCamera: false,
+            showVideoCamera: false,
+            showAudioRecorder: false
         }
     }
 
 
     updateStyle = (dims) => {
         this.setState({
-            viewMode: dims.window.width >= 530 ? 'landscape' : 'portriat'
+            viewMode: dims.window.width >= size.md ? 'landscape' : 'portriat'
         })
     }
 
@@ -43,17 +55,18 @@ class Post extends Component {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             this.props.onAddFormReset();
         });
+        Dimensions.addEventListener('change', this.updateStyle)
     }
 
     componentDidUpdate() {
         if (this.props.submitted && this.props.cntID) {
-            alert();
             this._unsubscribe();
         }
     }
 
     componentWillUnmount() {
         this._unsubscribe();
+        Dimensions.removeEventListener('change', this.updateStyle);
     }
 
     inputChangedHandler = (value, inputType) => {
@@ -82,24 +95,44 @@ class Post extends Component {
 
     pickImageHandler = () => {
         Keyboard.dismiss();
-        const options = {
-            title: 'Select',
-            allowsEditing: true,
-            noData: true,
-            quality: 0,
-            videoQuality: "low",
-            mediaType: 'mixed',
-            takePhotoButtonTitle: 'Use Camera',
-            customButtons: [{name: 'Video', title: ""}],
+        this.setState({showActionSheet: true})
+    }
 
-            multiple: true,
-            includeExif: true,
-            cropperToolbarTitle: 'Select',
-            compressImageQuality: .5
+    actionSheetHandler = async (index) => {
+        console.log(index)
+        if (index === -1) {
+            this.setState({showActionSheet: false})
+        } else if (index === 0) {
+            camera({type: "Images"}).then(file => {
+                this.setState({uploadFile: file, showActionSheet: false})
+            }).catch(e => {
+                if (e === 'useCamera') {this.setState({showCamera: true, showActionSheet: false})}
+                this.setState({showActionSheet: false})
+            })
+        } else if (index === 1){
+            this.setState({showActionSheet: false, showVideoCamera: true})
+        } else if (index === 2) {
+            this.setState({showActionSheet: false, showAudioRecorder: true})
+        }else if (index === 3){
+            explorer({multiple: true}).then(file => {
+                this.setState({uploadFile: file, showActionSheet: false})
+            }).catch(e => {
+                this.setState({showActionSheet: false})
+            })
         }
-        // ImagePicker.openPicker(options,(response) => {
-        //    console.log(response)
-        // });
+    };
+
+
+    closePickerHandler = () => {
+        this.setState({showCamera: false, showAudioRecorder: false, showVideoCamera: false})
+    }
+
+    takePictureHandler = async () => {
+        if (this.camera) {
+            takePicture(this.camera).then(image => {
+                this.setState({uploadFile: image, showCamera: false})
+            }).catch(e => { this.setState({showCamera: false})})
+        }
     }
 
     submitHandler = () => {
@@ -114,9 +147,14 @@ class Post extends Component {
     }
 
     render() {
-      return (
-        <LinearBackground>
-            <View style={[styles.formWrapper, this.state.viewMode === 'landscape' ? styles.formWrapperLandscape : null]}>
+        let cnt = (
+            <View style={styles.formWrapper}>
+                { this.state.viewMode === 'landscape' ? (
+                    <DefaultHeader 
+                        onPress={() => this.props.navigation.goBack()}
+                        title="Add Post"
+                    />
+                ): null}
                 { this.props.submitError ?
                     <Text style={styles.error}>{this.props.submitError.message}</Text> : null
                 }
@@ -156,8 +194,50 @@ class Post extends Component {
                             loaderStyle="#fff"/>
                     </View>
                 </View>
+                { this.state.showActionSheet ? 
+                    <ActionSheet
+                        options ={['Take Picture', 'Video Record', 'Audio Record', 'File Explorer']}
+                        icons={['camera-outline', 'videocam-outline', 'mic-outline', 'documents-outline']}
+                        bottonIndex={this.actionSheetHandler}
+                        title={"Choose"}
+                        showSeparator/>
+                    : null}
+                 { this.state.showCamera ? 
+                        <CameraComponent 
+                            closeCamera={this.closePickerHandler}
+                            onPress={this.takePictureHandler}
+                            camera={ref => this.camera = ref}
+                            title="Camera"
+                            icon={{name: 'camera-outline', color: '#fff'}}/>: null}
+                { this.state.showVideoCamera ? 
+                        <VideoCamera 
+                            closeCamera={this.closePickerHandler}
+                            onPress={this.videoRecorderHandler}
+                            camera={this.camera}
+                            title="Video Recorder"
+                            icon={{name: 'videocam-outline', color: '#fff'}}/>: null}
+                { this.state.showAudioRecorder ? 
+                        <AudioRecorder
+                            closeCamera={this.closePickerHandler}
+                            title="Audio Recorder"
+                            icon={{name: 'mic-outline', color: '#fff'}}/>: null}
             </View>
-        </LinearBackground>
+        )
+      return (
+        <NoBackground
+            sideBar={(
+                <>
+                <Navigation 
+                        color={this.state.color}
+                        backgroundColor={this.state.backgroundColor}/>
+                <CreateNavigation 
+                    color={this.state.color}
+                    backgroundColor={this.state.backgroundColor}/>
+                </>
+            )}
+            content={ cnt }
+            contentFetched>
+        </NoBackground>
       )
     }
 }
@@ -168,17 +248,9 @@ const styles = StyleSheet.create({
     },
     formWrapper: {
         width:'100%',
-        padding: 10,
-        marginBottom: 0,
-        marginTop: 0,
         position: 'relative',
-        borderRadius: 3,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1
-    },
-    formWrapperLandscape: {
-        width: 500
+        flex: 1,
+        paddingBottom: 5
     },
     imageWrapper: {
         position: 'absolute',
@@ -193,7 +265,7 @@ const styles = StyleSheet.create({
     },
     formElementWrapper: {
         position: 'relative',
-        borderRadius: 5,
+        // borderRadius: 5,
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         width: '100%',
@@ -207,7 +279,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'flex-end',
         borderTopWidth: 1,
-        borderTopColor: '#f9f9f9',
+        borderTopColor: '#dcdbdc',
         borderBottomRightRadius: 3,
         borderBottomLeftRadius: 3,
         flexDirection: 'row',
