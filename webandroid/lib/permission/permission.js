@@ -9,6 +9,7 @@ const permission = {
                 let { status } = await Permissions.askAsync(Permissions.CAMERA)
                 if (status !== 'granted') {
                     alert('Permission to access camera is required!');
+                    throw new Error('Permission to access camera is required!')
                     return false
                 }
             }
@@ -17,6 +18,7 @@ const permission = {
                 let {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
                 if (status !== 'granted') {
                     alert('Permission to access gallery is required!');
+                    throw new Error('Permission to access gallery is required!')
                     return false
                 }
             }
@@ -25,6 +27,7 @@ const permission = {
                 let {status} = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
                 if (status !== 'granted') {
                     alert('Permission to access audio is required!');
+                    throw new Error('Permission to access audio is required!')
                     return false
                 }
             }

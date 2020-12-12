@@ -12,7 +12,8 @@ module.exports = function(api) {
              "react-native-simple-shadow-view" : "./lib/BoxShadow/BoxShadow",
              "tailwind": "./lib/tailwind/tailwind",
              "permission": "./lib/permission/permission",
-             "picker": "./lib/picker/picker"
+             "picker": "./lib/picker/picker",
+             "react-native-emoji-selector": "./lib/emoji/emoji" 
            }
         }
        ]

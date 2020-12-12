@@ -144,22 +144,18 @@ export const takePicture = (cameraprops) => {
     })
 }
 
-export const stopRecorder = (cameraprops) => {
+export const stopAudioRecorder = (recording) => {
     return new Promise((resolve, reject) => {
         (async () => { 
             try {
-                let response = await cameraprops.stopRecording()
-                // let type = response.uri.split(';')[0].split(':')[1];
-                // let checkType = (/\/(gif|jpe?g|tiff?|png|webp|bmp)$/i).test(type)
-                // if (!checkType) {
-                //     alert('Image file not supported')
-                //     reject('exit')
-                // }
-                // let imageData = await axios.get(response.uri, { responseType: 'blob' });
-                // resolve([{ uri: response.uri, file: imageData.data}])
-                console.log(response)
+                await recording.stopAndUnloadAsync();
+                let uri = await recording.getURI();
+                let name = uri.split('/').pop();
+                let type = 'audio'+'/'+name.split('.').pop();
+                let audio = [{uri, type, name}]
+                return resolve(audio)
             } catch(e) {
-                alert('Cannot capture')
+                alert(e.message)
                 reject('exit')
             }
         })()
@@ -171,7 +167,6 @@ export const explorer = (options) => {
         DocumentPicker.getDocumentAsync(options).then((res) => {
             let files  = [];
             let fileNum = 0;
-            // alert(JSON.stringify(res))
             if (Platform.OS === 'web') {
                 if ('FileReaders' in window) {
                     for (let cnt of res.output) {
@@ -200,6 +195,8 @@ export const explorer = (options) => {
                     alert('Please, update your browser or use another');
                     return reject('exit')
                 } 
+            } else {
+                return resolve([{uri: res.uri, name: res.name, type: res.name.split('.').pop()}])
             }
         }).catch(e => {
             alert('Cannot open file explorer')

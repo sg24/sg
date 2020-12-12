@@ -3,7 +3,7 @@ import { View, Text, Keyboard, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
-import { camera, explorer, takePicture} from 'picker';
+import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
 
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
@@ -17,7 +17,8 @@ import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
 import CameraComponent from '../../components/UI/Camera/Camera';
 import VideoCamera from '../../components/UI/VideoCamera/VideoCamera';
-// import AudioRecorder from '../../components/UI/AudioRecorder/AudioRecorder';
+import AudioRecorder from '../../components/UI/AudioRecorder/AudioRecorder';
+import EmojiPicker from '../../components/UI/EmojiPicker/EmojiPicker';
 
 class Post extends Component {
     constructor(props) {
@@ -40,7 +41,10 @@ class Post extends Component {
             showActionSheet: false,
             showCamera: false,
             showVideoCamera: false,
-            showAudioRecorder: false
+            showAudioRecorder: false,
+            showEmoji: false,
+            selection: {start: 0, end: 0},
+            uploadFile: []
         }
     }
 
@@ -70,6 +74,7 @@ class Post extends Component {
     }
 
     inputChangedHandler = (value, inputType) => {
+        let LINK_DETECTION_REGEX = /(([a-z]+:\/\/)?(([a-z0-9\-]+\.)+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel|local|internal))(:[0-9]{1,5})?(\/[a-z0-9_\-\.~]+)*(\/([a-z0-9_\-\.]*)(\?[a-z0-9+_\-\.%=&amp;]*)?)?(#[a-zA-Z0-9!$&'()*+.=-_~:@/?]*)?)(\s+|$)/gi
         let updateFormType = updateObject(this.state.formElement[inputType], {
             value,
             valid: checkValidity(value, this.state.formElement[inputType].validation),
@@ -86,12 +91,28 @@ class Post extends Component {
         this.setState({formElement: updateFormElement, formIsValid})
     }
 
+    inputChangePositionHandler  = ({ nativeEvent: { selection } }) => {
+        this.setState({selection})
+    }
+
     navigationHandler = (page) => {
     }
 
     showEmojiHandler = () => {
         Keyboard.dismiss();
+        this.setState({showEmoji: true})
     }
+
+    emojiSelectHandler = (emoji) => {
+        let inputValue = String(this.state.formElement.content.value);
+        let selection = this.state.selection;
+        let diff = selection.end - selection.start
+        let content = inputValue.slice(0, selection.start) + emoji.join('') + 
+            inputValue.slice(selection.start + diff, inputValue.length)
+        this.inputChangedHandler(content, 'content');
+        this.setState({showEmoji: false})
+    }
+
 
     pickImageHandler = () => {
         Keyboard.dismiss();
@@ -99,7 +120,6 @@ class Post extends Component {
     }
 
     actionSheetHandler = async (index) => {
-        console.log(index)
         if (index === -1) {
             this.setState({showActionSheet: false})
         } else if (index === 0) {
@@ -110,13 +130,24 @@ class Post extends Component {
                 this.setState({showActionSheet: false})
             })
         } else if (index === 1){
-            this.setState({showActionSheet: false, showVideoCamera: true})
+            if (Platfom.oS === 'web') {
+                this.setState({showActionSheet: false, showVideoCameara: true})
+            } else {
+                camera({type: "Videos"}).then(file => {
+                    this.setState({uploadFile: file, showActionSheet: false})
+                }).catch(e => {
+                    this.setState({showActionSheet: false})
+                })
+            }
         } else if (index === 2) {
             this.setState({showActionSheet: false, showAudioRecorder: true})
         }else if (index === 3){
             explorer({multiple: true}).then(file => {
-                this.setState({uploadFile: file, showActionSheet: false})
+                let uploadFile = [...this.state.uploadFile];
+                uploadFile.push(...file)
+                this.setState({uploadFile, showActionSheet: false})
             }).catch(e => {
+                alert(e)
                 this.setState({showActionSheet: false})
             })
         }
@@ -124,24 +155,34 @@ class Post extends Component {
 
 
     closePickerHandler = () => {
-        this.setState({showCamera: false, showAudioRecorder: false, showVideoCamera: false})
+        this.setState({showCamera: false, showAudioRecorder: false, showVideoCamera: false, showEmoji: false})
     }
 
     takePictureHandler = async () => {
         if (this.camera) {
             takePicture(this.camera).then(image => {
-                this.setState({uploadFile: image, showCamera: false})
+                let uploadFile = [...this.state.uploadFile];
+                uploadFile.push(...image);
+                this.setState({uploadFile, showCamera: false})
             }).catch(e => { this.setState({showCamera: false})})
         }
     }
 
+    stopAudioRecorderHandler = (recording) => {
+        stopAudioRecorder(recording).then(audio => {
+            let uploadFile = [...this.state.uploadFile];
+            uploadFile.push(...audio);
+            this.setState({uploadFile, showAudioRecorder: false})
+        }).catch(e => { this.setState({showAudioRecorder: false})})
+    }
+
     submitHandler = () => {
         if (this.state.formIsValid) {
-             let newCnt = {
-                 email: this.state.formElement.email.value,
-                 password: this.state.formElement.password.value
-             }
-             this.props.onSubmitForm(newCnt)
+            //  let newCnt = {
+            //      email: this.state.formElement.email.value,
+            //      password: this.state.formElement.password.value
+            //  }
+            //  this.props.onSubmitForm(newCnt)
          return
         }
     }
@@ -170,7 +211,8 @@ class Post extends Component {
                         value={this.state.formElement.content.value}
                         formWrapperStyle={styles.formWrapperStyle}
                         inputWrapperStyle={styles.formWrapperStyle}
-                        style={styles.formElementInput}/>
+                        style={styles.formElementInput}
+                        onSelectionChange={this.inputChangePositionHandler}/>
                     <View style={styles.formElementButton}>
                         <View style={styles.formButtonWrapper}>
                             <Button 
@@ -204,23 +246,27 @@ class Post extends Component {
                     : null}
                  { this.state.showCamera ? 
                         <CameraComponent 
-                            closeCamera={this.closePickerHandler}
+                            closePicker={this.closePickerHandler}
                             onPress={this.takePictureHandler}
                             camera={ref => this.camera = ref}
                             title="Camera"
                             icon={{name: 'camera-outline', color: '#fff'}}/>: null}
                 { this.state.showVideoCamera ? 
                         <VideoCamera 
-                            closeCamera={this.closePickerHandler}
-                            onPress={this.videoRecorderHandler}
-                            camera={this.camera}
+                            closePicker={this.closePickerHandler}
                             title="Video Recorder"
                             icon={{name: 'videocam-outline', color: '#fff'}}/>: null}
                 { this.state.showAudioRecorder ? 
                         <AudioRecorder
-                            closeCamera={this.closePickerHandler}
+                            closePicker={this.closePickerHandler}
                             title="Audio Recorder"
-                            icon={{name: 'mic-outline', color: '#fff'}}/>: null}
+                            icon={{name: 'mic-outline', color: '#fff'}}
+                            stopRecorder={this.stopAudioRecorderHandler}/>: null}
+                { this.state.showEmoji ? 
+                        <EmojiPicker
+                            closePicker={this.closePickerHandler}
+                            title="Emoji Selector"
+                            emoji={this.emojiSelectHandler}/>: null}
             </View>
         )
       return (

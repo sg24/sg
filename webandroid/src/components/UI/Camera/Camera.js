@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import Icon from 'ionicons';
 import { Camera } from 'expo-camera';
+import permission from 'permission';
 
 import InnerScreen from '../InnerScreen/InnerScreen';
 import Button from '../Button/Button';
@@ -11,7 +12,16 @@ import DefaultHeader from '../Header/DefaultHeader';
 class CameraComponent extends Component {
     state = {
         start: false,
-        error: false
+        error: false,
+        errorMsg: 'Camera preview could not been started'
+    }
+
+    async componentDidMount() {
+        try {
+            await permission.camera();
+        } catch(e) {
+            this.setState({errorMsg: e.message, error: true, start: true})
+        }
     }
 
     cameraReadyHandler = () => {
@@ -25,11 +35,11 @@ class CameraComponent extends Component {
     render() {
         return (
             <InnerScreen
-                onRequestClose={this.props.closeCamera}
+                onRequestClose={this.props.closePicker}
                 animationType="slide"
-                onBackdropPress={this.props.closeCamera}>
+                onBackdropPress={this.props.closePicker}>
                 <DefaultHeader
-                    onPress={this.props.closeCamera}
+                    onPress={this.props.closePicker}
                     title={this.props.title}/>
                 <Camera 
                     style={styles.wrapper}
@@ -39,7 +49,7 @@ class CameraComponent extends Component {
                     <View style={!this.state.start || this.state.error ? styles.cameraLoading : styles.buttonWrapper}>
                         { !this.state.start  ?
                             <ActivityIndicator size="large" animating color="#437da3"/> : 
-                            this.state.error ? <Text style={styles.error}> Camera preview could not been started</Text> :
+                        this.state.error ? <Text style={styles.error}> { this.state.errorMsg } </Text> :
                             <Button
                                 onPress={this.props.onPress}>
                                 <BoxShadow style={[styles.button, this.props.buttonStyle]}>
@@ -82,7 +92,8 @@ const styles = StyleSheet.create({
     },
     error: {
         fontSize: 18,
-        color: '#ff1600'
+        color: '#ff1600',
+        textAlign: 'center'
     }
 })
 
