@@ -13,7 +13,8 @@ module.exports = function(api) {
              "tailwind": "./lib/tailwind/tailwind",
              "permission": "./lib/permission/permission",
              "picker": "./lib/picker/picker",
-             "react-native-emoji-selector": "./lib/emoji/emoji" 
+             "react-native-emoji-selector": "./lib/emoji/emoji",
+             "file-icons": "./lib/icons/fileicons/fileicons"
            }
         }
        ]

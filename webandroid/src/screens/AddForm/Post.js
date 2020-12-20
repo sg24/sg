@@ -12,13 +12,14 @@ import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/Creat
 import FormElement from '../../components/UI/FormElement/FormElement';
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import Button from '../../components/UI/Button/Button';
-import { updateObject, checkValidity } from '../../shared/utility';
+import { updateObject, checkValidity, checkUri } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
 import CameraComponent from '../../components/UI/Camera/Camera';
 import VideoCamera from '../../components/UI/VideoCamera/VideoCamera';
 import AudioRecorder from '../../components/UI/AudioRecorder/AudioRecorder';
 import EmojiPicker from '../../components/UI/EmojiPicker/EmojiPicker';
+import LinkPreview from '../../components/UI/LinkPreview/LinkPreview';
 
 class Post extends Component {
     constructor(props) {
@@ -44,7 +45,8 @@ class Post extends Component {
             showAudioRecorder: false,
             showEmoji: false,
             selection: {start: 0, end: 0},
-            uploadFile: []
+            uploadFile: [],
+            inputUri: []
         }
     }
 
@@ -74,7 +76,7 @@ class Post extends Component {
     }
 
     inputChangedHandler = (value, inputType) => {
-        let LINK_DETECTION_REGEX = /(([a-z]+:\/\/)?(([a-z0-9\-]+\.)+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel|local|internal))(:[0-9]{1,5})?(\/[a-z0-9_\-\.~]+)*(\/([a-z0-9_\-\.]*)(\?[a-z0-9+_\-\.%=&amp;]*)?)?(#[a-zA-Z0-9!$&'()*+.=-_~:@/?]*)?)(\s+|$)/gi
+        let uri = checkUri(value);
         let updateFormType = updateObject(this.state.formElement[inputType], {
             value,
             valid: checkValidity(value, this.state.formElement[inputType].validation),
@@ -87,8 +89,7 @@ class Post extends Component {
         for (let inputType in updateFormElement) {
             formIsValid = updateFormElement[inputType].valid && formIsValid;
         }
-        
-        this.setState({formElement: updateFormElement, formIsValid})
+        this.setState({formElement: updateFormElement, formIsValid, inputUri: uri ? uri : []})
     }
 
     inputChangePositionHandler  = ({ nativeEvent: { selection } }) => {
@@ -130,7 +131,7 @@ class Post extends Component {
                 this.setState({showActionSheet: false})
             })
         } else if (index === 1){
-            if (Platfom.oS === 'web') {
+            if (Platform.OS === 'web') {
                 this.setState({showActionSheet: false, showVideoCameara: true})
             } else {
                 camera({type: "Videos"}).then(file => {
@@ -213,6 +214,9 @@ class Post extends Component {
                         inputWrapperStyle={styles.formWrapperStyle}
                         style={styles.formElementInput}
                         onSelectionChange={this.inputChangePositionHandler}/>
+                        {this.state.inputUri.length > 0 ? 
+                            <LinkPreview 
+                                links={this.state.inputUri}/>: null}
                     <View style={styles.formElementButton}>
                         <View style={styles.formButtonWrapper}>
                             <Button 
@@ -364,7 +368,7 @@ const styles = StyleSheet.create({
     formElementInput: {
         flex: 1,
         textAlignVertical: 'top',
-        fontSize: 16
+        fontSize: 18
     }
 })
 
