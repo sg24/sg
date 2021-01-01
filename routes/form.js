@@ -28,26 +28,21 @@ fs.mkdir('./tmp', err => {
 
 router.post('/add/post', authenticate, (req, res, next) => {
     formInit(req, formidable).then(form => {
-        let video = form.files && form.files.video ? form.files.video : []; 
-        let image = form.files && form.files.image ? form.files.image : []; 
-        savetemp(video, image, req.user).then(tempFileID => {
-            uploadToBucket(video, tempFileID, 'video', 'media', 'media.files').then(media => {
-                uploadToBucket(image, tempFileID, 'image', 'image', 'image.files').then(image => {
-                    let mediaCnt = {
-                        video: media.videos,
-                        snapshot: media.images,
-                        image
-                    }
-                    let userModel = req.userType === 'authUser' ? authUser : user;
-                    const content = form.fields;
-                    connectStatus.then((result) => {
-                        submit(content, posts, mediaCnt, postnotifies, viewnotifies, userModel, {authorID: req.user, username: req.username, userImage: req.userImage}, 'postID', 'subjectpost', 'post', 'postpub', res, category, tempFileID).then(id =>
-                            res.status(201).send(id)
-                        ).catch(err => {
-                            res.status(500).send(err)
-                        })
-                    }).catch(err => {
-                        res.status(500).send(err);
+        let media = form.files && form.files.media ? form.files.media : []; 
+        savetemp(media, req.user).then(tempFileID => {
+            uploadToBucket(media).then(media => {
+                let mediaCnt = {
+                    video: media.videos,
+                    snapshot: media.images,
+                    image
+                }
+                let userModel = req.userType === 'authUser' ? authUser : user;
+                const content = form.fields;
+                connectStatus.then((result) => {
+                    submit(content, posts, mediaCnt, postnotifies, viewnotifies, userModel, {authorID: req.user, username: req.username, userImage: req.userImage}, 'postID', 'subjectpost', 'post', 'postpub', res, category, tempFileID).then(id =>
+                        res.status(201).send(id)
+                    ).catch(err => {
+                        res.status(500).send(err)
                     })
                 }).catch(err => {
                     res.status(500).send(err);

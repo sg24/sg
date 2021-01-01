@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Text , StyleSheet, ScrollView, Dimensions, Platform } from 'react-native';
-import RNUrlPreview from 'react-native-url-preview';
 import Carousel from 'react-native-snap-carousel';
 
 import LinkItem from './LinkItem/LinkItem';

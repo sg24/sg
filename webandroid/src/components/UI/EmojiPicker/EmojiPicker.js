@@ -51,21 +51,19 @@ class EmojiPicker extends Component {
                                     </BoxShadow>
                                 </Button>
                                 <Button onPress={this.props.emoji.bind(this, this.state.emoji)}>
-                                    <BoxShadow style={{...styles.doneButton, ...styles.button}}>
+                                    <BoxShadow style={styles.doneButton}>
                                         <Text style={styles.doneButtonText}>Done</Text>
                                     </BoxShadow>
                                 </Button>
                             </View>
                         </View> : null }
                    <View style={styles.emojiSelectorWrapper}>
-                     {/* <ScrollView style={styles.emojiSelector}> */}
                         <EmojiSelector
                             category={Categories.emotion}
                             theme="#437da3"
                             onEmojiSelected={this.emojiSelectHandler}
-                            showHistory
+                            showHistory={false}
                             columns={10} />
-                     {/* </ScrollView> */}
                    </View>
                 </View>
             </InnerScreen>
@@ -113,7 +111,10 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     doneButton: {
-        backgroundColor: '#437da3'
+        backgroundColor: '#437da3',
+        paddingHorizontal: 10,
+        paddingVertical: 5 ,
+        borderRadius: 5
     },
     doneButtonText: {
         color: '#fff'

@@ -20,7 +20,7 @@ class AudioComponent extends Component {
         duration: '00:00',
         animation: 'pulse',
         wrapperAnim: 'fadeIn',
-        errorMsg: 'Audio could not been started, Please use the slodg24 android app version',
+        errorMsg: 'Audio could not be started, Please use the slodg24 android app version',
         audio: []
     }
 
@@ -73,7 +73,7 @@ class AudioComponent extends Component {
             } catch(e) {
                 alert('Pausing an audio recording is unsupported on your android device ')
             }
-        } else if (!this.state.recording._isDoneRecording){
+        } else if (!this.state.play && !this.state.recording._isDoneRecording){
             this.setState({play: true, pause: false})
         }
     }

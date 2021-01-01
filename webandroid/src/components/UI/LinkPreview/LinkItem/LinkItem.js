@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, Linking } from 'react-native';
 import { getLinkPreview } from 'link-preview-js';
 import ContentLoader, { Rect, Circle, Path } from "react-content-loader/native"
 import * as VideoThumbnails from 'expo-video-thumbnails';
-import fileIcon from 'file-icons';
+import FileIcon from 'file-icons';
 
 import TouchableNativeFeedback from  '../../TouchableNativeFeedback/TouchableNativeFeedback'
 
@@ -24,9 +24,9 @@ class LinkItem extends Component {
 
     componentDidMount() {
         getLinkPreview(this.props.uri).then(data => {
-            console.log(data)
             this.setState({
                 isLoaded: true,
+                url: data.url,
                 linkTitle: data.title ? data.title : null,
                 linkDesc: data.description ? data.description : null,
                 linkImg:
@@ -98,21 +98,24 @@ class LinkItem extends Component {
             preview = (
                 <TouchableNativeFeedback 
                     onPress={this.openLinkHandler}
-                    style={styles.preview}>
-                    <View  style={styles.previewWrapper}>
-                        {this.state.mediaType === 'audio' || this.state.mediaType === '' ?  
-                            <FileIcon ext={this.state.ext} style={styles.image}/> : null}
-                        {this.state.linkImg || this.state.linkFavicon || this.state.linkVideo ? 
-                            <Image source={{uri: this.state.linkImg || this.state.linkFavicon || generateThumbnail() }} 
-                                style={this.state.mediaType === 'image' || this.state.mediaType === 'video' ? styles.image : styles.favIcon} /> : null}
-                        {!this.state.linkImg ? <View style={styles.info}>
-                            {this.state.linkTitle ? 
-                                <Text numberOfLines={1} >{this.state.linkTitle}</Text> : null}
-                            {this.state.linkDesc ? 
-                                <Text numberOfLines={2} style={styles.desc}>{this.state.linkDesc}</Text> : null}
-                        </View> : null}
+                    style={styles.previewContainer}>
+                    <View style={styles.preview}>
+                        <View style={styles.previewWrapper}>
+                            {this.state.mediaType === 'audio' || this.state.mediaType === 'application' ? 
+                                <FileIcon ext={this.state.ext} wrapper={styles.image}/> : null}
+                            {(this.state.linkImg || this.state.linkFavicon || this.state.linkVideo || this.state.mediaType === 'image') 
+                            && (this.state.mediaType !== 'audio' && this.state.mediaType !== 'application') ? 
+                                <Image source={{uri: this.state.linkImg || this.state.linkFavicon || this.state.mediaType === 'image' ? this.state.url : null || this.generateThumbnail() }} 
+                                    style={this.state.mediaType === 'image' || this.state.mediaType === 'video' ? styles.image : styles.favIcon} /> : null}
+                            {!this.state.linkImg  && !this.state.linkVideo  && this.state.mediaType !== 'audio' && this.state.mediaType !== 'image' && this.state.mediaType !== 'application' ? <View style={styles.info}>
+                                {this.state.linkTitle ? 
+                                    <Text numberOfLines={1} >{this.state.linkTitle}</Text> : null}
+                                {this.state.linkDesc ? 
+                                    <Text numberOfLines={2} style={styles.desc}>{this.state.linkDesc}</Text> : null}
+                            </View> : null}
+                        </View>
+                        <Text style={styles.uri} numberOfLines={1}>{this.props.uri}</Text>
                     </View>
-                    <Text style={styles.uri} numberOfLines={1}>{this.props.uri}</Text>
                 </TouchableNativeFeedback>
             )
         }
@@ -136,6 +139,9 @@ const styles = StyleSheet.create({
         padding: 5,
         justifyContent: 'space-between'
     },
+    previewContainer: {
+        flex: 1,
+    },
     previewWrapper: {
         flex: 1,
         flexDirection: 'row'
@@ -147,11 +153,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#dcdbdc',
         resizeMode: 'cover'
     },
-    image:  {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'cover',
-        backgroundColor: '#dcdbdc'
+    image: {
+        padding: 5,
+        backgroundColor: '#e9ebf2',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1
     },
     info: {
         flexShrink: 1,

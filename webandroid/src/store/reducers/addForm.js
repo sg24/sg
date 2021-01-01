@@ -3,17 +3,14 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
     postSubmitError: null,
-    resetSubmitError: null,
     postSubmitted: false,
     postStart: false,
-    resetStart: false,
     cntID: null
 };
 
 const addFormReset = (state, action) => {
-    return updateObject(state, {resetSubmitted: false, signupSubmitted: false,postSubmitted: false,
-        postSubmitError: null, signupSubmitError: null, resetSubmitError: null, 
-        postStart: false, signupStart: false, cntID: null})
+    return updateObject(state, { postSubmitError: null, postSubmitted: false,  postStart: false,
+        cntID: null})
 };
 
 const submitAddFormStart = (state, action) => {

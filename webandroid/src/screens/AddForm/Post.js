@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Keyboard, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Keyboard, StyleSheet, Dimensions, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
@@ -10,6 +10,7 @@ import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
 import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
 import FormElement from '../../components/UI/FormElement/FormElement';
+import BoxShadow from '../../components/UI/BoxShadow/BoxShadow';
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import Button from '../../components/UI/Button/Button';
 import { updateObject, checkValidity, checkUri } from '../../shared/utility';
@@ -20,6 +21,7 @@ import VideoCamera from '../../components/UI/VideoCamera/VideoCamera';
 import AudioRecorder from '../../components/UI/AudioRecorder/AudioRecorder';
 import EmojiPicker from '../../components/UI/EmojiPicker/EmojiPicker';
 import LinkPreview from '../../components/UI/LinkPreview/LinkPreview';
+import UploadPreview from '../../components/UI/UploadPreview/UploadPreview'
 
 class Post extends Component {
     constructor(props) {
@@ -46,7 +48,8 @@ class Post extends Component {
             showEmoji: false,
             selection: {start: 0, end: 0},
             uploadFile: [],
-            inputUri: []
+            inputUri: [],
+            showUpload: false
         }
     }
 
@@ -108,7 +111,7 @@ class Post extends Component {
         let inputValue = String(this.state.formElement.content.value);
         let selection = this.state.selection;
         let diff = selection.end - selection.start
-        let content = inputValue.slice(0, selection.start) + emoji.join('') + 
+        let content = inputValue.slice(0, selection.start) + emoji.join(' ') + 
             inputValue.slice(selection.start + diff, inputValue.length)
         this.inputChangedHandler(content, 'content');
         this.setState({showEmoji: false})
@@ -132,7 +135,7 @@ class Post extends Component {
             })
         } else if (index === 1){
             if (Platform.OS === 'web') {
-                this.setState({showActionSheet: false, showVideoCameara: true})
+                this.setState({showActionSheet: false, showVideoCamera: true})
             } else {
                 camera({type: "Videos"}).then(file => {
                     this.setState({uploadFile: file, showActionSheet: false})
@@ -156,7 +159,11 @@ class Post extends Component {
 
 
     closePickerHandler = () => {
-        this.setState({showCamera: false, showAudioRecorder: false, showVideoCamera: false, showEmoji: false})
+        this.setState({showCamera: false, showAudioRecorder: false, showVideoCamera: false, showEmoji: false, showUpload: false})
+    }
+
+    closePreviewHandler = (files) => {
+        this.setState({showCamera: false, showAudioRecorder: false, showVideoCamera: false, showEmoji: false, showUpload: false, uploadFile: [...files]})
     }
 
     takePictureHandler = async () => {
@@ -177,15 +184,16 @@ class Post extends Component {
         }).catch(e => { this.setState({showAudioRecorder: false})})
     }
 
+    showUploadHandler = () => {
+        this.setState({showUpload: true })
+    }
+
     submitHandler = () => {
-        if (this.state.formIsValid) {
-            //  let newCnt = {
-            //      email: this.state.formElement.email.value,
-            //      password: this.state.formElement.password.value
-            //  }
-            //  this.props.onSubmitForm(newCnt)
-         return
+        let cnt = {
+            content: this.state.formElement.content.value,
+            uploadFile: this.state.uploadFile
         }
+        this.props.onSubmitForm(cnt)
     }
 
     render() {
@@ -198,7 +206,7 @@ class Post extends Component {
                     />
                 ): null}
                 { this.props.submitError ?
-                    <Text style={styles.error}>{this.props.submitError.message}</Text> : null
+                    <Text style={styles.error}>{this.props.submitError.Error.message}</Text> : null
                 }
                 
                 <View style={styles.formElementWrapper}>
@@ -214,9 +222,9 @@ class Post extends Component {
                         inputWrapperStyle={styles.formWrapperStyle}
                         style={styles.formElementInput}
                         onSelectionChange={this.inputChangePositionHandler}/>
-                        {this.state.inputUri.length > 0 ? 
-                            <LinkPreview 
-                                links={this.state.inputUri}/>: null}
+                    {this.state.inputUri.length > 0 ? 
+                        <LinkPreview 
+                            links={this.state.inputUri}/>: null}
                     <View style={styles.formElementButton}>
                         <View style={styles.formButtonWrapper}>
                             <Button 
@@ -229,12 +237,20 @@ class Post extends Component {
                                 onPress={this.showEmojiHandler}>
                                 <Ionicons name="happy-outline" size={22}/>
                             </Button>
+                            <Button 
+                                style={styles.icon}
+                                onPress={this.showUploadHandler}>
+                                <BoxShadow style={styles.explorer}>
+                                    <Text>{this.state.uploadFile.length}</Text>
+                                </BoxShadow>
+                                <Ionicons name="cloud-upload-outline" size={22}/>
+                            </Button>
                         </View>
                         <Button 
                             title="Add"
                             style={styles.button}
                             onPress={this.submitHandler}
-                            disabled={!this.state.formIsValid}
+                            disabled={(!this.state.formIsValid && this.state.uploadFile.length < 1) || this.props.start}
                             textStyle={styles.textStyle}
                             submitting={this.props.start}
                             loaderStyle="#fff"/>
@@ -271,6 +287,10 @@ class Post extends Component {
                             closePicker={this.closePickerHandler}
                             title="Emoji Selector"
                             emoji={this.emojiSelectHandler}/>: null}
+                { this.state.showUpload ?  
+                        <UploadPreview
+                            uploadFile={this.state.uploadFile}
+                            closePreview={this.closePreviewHandler}/>: null}
             </View>
         )
       return (
@@ -369,6 +389,17 @@ const styles = StyleSheet.create({
         flex: 1,
         textAlignVertical: 'top',
         fontSize: 18
+    },
+    explorer: {
+        position: 'absolute',
+        width: 24,
+        height: 24,
+        borderRadius: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#dcdbdc',
+        top: -3,
+        right: -3
     }
 })
 
@@ -383,7 +414,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSubmitForm: (formData) => dispatch(actions.submitAddFormInit(formData)),
+        onSubmitForm: (formData) => dispatch(actions.submitAddFormInit(formData, 'post')),
         onAddFormReset: () => dispatch(actions.addFormReset())
     };
 };

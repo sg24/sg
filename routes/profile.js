@@ -119,8 +119,8 @@ router.post('/user/profile/:id',authenticate, (req, res,next) => {
         formInit(req, formidable).then(form => {
             let imageFile = form.files && form.files.image ? form.files.image : null;
             if (imageFile) {
-                savetemp([], imageFile, req.user).then(tempFileID => {
-                    uploadToBucket(imageFile, tempFileID, 'image', 'image', 'image.files').then(image => {
+                savetemp(imageFile, req.user).then(tempFileID => {
+                    uploadToBucket(imageFile).then(image => {
                         if (image && image.length > 0) {
                             user.findById(req.user).then(userInfo => {
                                 Promise.all([userInfo && userInfo.image ? deleteMedia([{id: userInfo.image}], 'image') : Promise.resolve(),

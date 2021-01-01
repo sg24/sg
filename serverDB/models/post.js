@@ -25,16 +25,9 @@ const PostSchema = new Schema({
     post: {
         type: String
     },
-    video: {
+    media: {
         type: Array,
         default: [String]
-    },
-    image: {
-        type: Array,
-        default: [String]
-    },
-    snapshot: {
-        type: Array
     },
     comment: {
         type: Array,

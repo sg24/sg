@@ -23,7 +23,8 @@ class CameraComponent extends Component {
     async componentDidMount() {
         if (Platform.OS === 'web') {
             alert('Video recording in not supported on web browser, Please use the slodge24 APK');
-            this.setState({error: true, start: true})
+            this.setState({error: true, start: true,
+                errorMsg: 'Video recording in not supported on web browser, Please use the slodge24 APK'})
         } else {
             try {
                 await permission.camera();
@@ -90,10 +91,10 @@ class CameraComponent extends Component {
 
     render() {
         let buttonCnt = (
-            <View style={styles.camera}>
-                { !this.state.start || this.state.error ?
+            <View style={this.state.error ? styles.errorWrapper : styles.camera}>
+                { !this.state.start ?
                     <ActivityIndicator size="large" animating color="#437da3"/> : 
-                    this.state.error ? <Text style={styles.error}> {this.state.errorMsg}</Text> :
+                    this.state.error ? <View style={styles.errorWrapper}><Text style={styles.error}> {this.state.errorMsg}</Text></View> :
                     <>
                         <View style={styles.durationWrapper}>
                             <Text style={styles.duration}>{this.state.duration}</Text>
@@ -131,15 +132,14 @@ class CameraComponent extends Component {
                 <DefaultHeader
                     onPress={this.props.closePicker}
                     title={this.props.title}/>
-                    <>
-                        <Camera 
-                            style={styles.wrapper}
-                            type={this.state.type}
-                            ref={(ref) => this.camera = ref}
-                            onCameraReady={this.cameraReadyHandler}
-                            onMountError={this.errorHandler}/>
-                        { buttonCnt }
-                    </>
+                {!this.state.error ? 
+                <Camera 
+                    style={styles.wrapper}
+                    type={this.state.type}
+                    ref={(ref) => this.camera = ref}
+                    onCameraReady={this.cameraReadyHandler}
+                    onMountError={this.errorHandler}/> : null }
+                { buttonCnt }
             </InnerScreen>
         )
     }
@@ -188,6 +188,11 @@ const styles = StyleSheet.create({
     },
     stopRecorder: {
         backgroundColor: '#ff1600'
+    },
+    errorWrapper: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     error: {
         fontSize: 18,

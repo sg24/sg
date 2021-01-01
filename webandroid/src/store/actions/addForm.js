@@ -1,17 +1,21 @@
 import * as actionTypes from './actionTypes';
+import { Platform } from 'react-native';
+import axios from '../../axios'
 
-export const submitAddFormInit = (formData) => {
+export const submitAddFormInit = (formData, type) => {
     return dispatch => {
-        dispatch(submitAddFormStart(formData.form))
+        dispatch(submitAddFormStart(type))
         let formContent = new FormData();
-        formContent.append('image', image);
-        axios.post(`/add/${formData.form}`, formContent, {
+        for (let media of formData.uploadFile) {
+            let mediaData = Platform.OS !== 'web' ? media : media.file
+            formContent.append('media', mediaData);
+        }
+        axios.post(`/add/${type}`, formContent, {
             headers: {
-                'data-categ': 'profileImage',
                 "Content-Type": "multipart/form-data"}}).then((res) => {
             dispatch(submitAddForm(form, res.data));
         }).catch((err) => {
-            dispatch(submitAddFormFail(formData.form, err))
+            dispatch(submitAddFormFail(type, err))
         });
     } 
 };

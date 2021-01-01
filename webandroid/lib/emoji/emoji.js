@@ -10,7 +10,7 @@ import {
   FlatList
 } from "react-native";
 import emoji from "emoji-datasource";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 
 export const Categories = {
   all: {
@@ -26,11 +26,11 @@ export const Categories = {
     name: "Smileys & Emotion"
   },
   people: {
-    symbol: "🧑",
+    symbol: "👋",
     name: "People & Body"
   },
   nature: {
-    symbol: "🦄",
+    symbol: "🐞",
     name: "Animals & Nature"
   },
   food: {
@@ -53,10 +53,10 @@ export const Categories = {
     symbol: "🔣",
     name: "Symbols"
   },
-  flags: {
-    symbol: "🏳️‍🌈",
-    name: "Flags"
-  }
+  // flags: {
+  //   symbol: "🏳️‍🌈",
+  //   name: "Flags"
+  // }
 };
 
 const charFromUtf16 = utf16 =>
@@ -67,7 +67,6 @@ const emojiByCategory = category =>
   filteredEmojis.filter(e => e.category === category);
 const sortEmoji = list => list.sort((a, b) => a.sort_order - b.sort_order);
 const categoryKeys = Object.keys(Categories);
-
 const TabBar = ({ theme, activeCategory, onPress, width }) => {
   const tabSize = width / categoryKeys.length;
 
@@ -91,7 +90,7 @@ const TabBar = ({ theme, activeCategory, onPress, width }) => {
             style={{
               textAlign: "center",
               paddingBottom: 8,
-              fontSize: tabSize - 24
+              fontSize: 16
             }}
           >
             {category.symbol}
@@ -295,7 +294,7 @@ export default class EmojiSelector extends Component {
           clearButtonMode="always"
           returnKeyType="done"
           autoCorrect={false}
-          underlineColorAndroid={theme}
+          underlineColorAndroid="transparent"
           value={searchQuery}
           onChangeText={this.handleSearch}
         />
@@ -318,13 +317,14 @@ export default class EmojiSelector extends Component {
         </View>
         <View style={{ flex: 1 }}>
           {showSearchBar && Searchbar}
+          {showSectionTitles && (
+              <Text style={styles.sectionHeader}>{title}</Text>
+            )}
           {isReady ? (
             <View style={{ flex: 1 }}>
               <View style={styles.container}>
-                {showSectionTitles && (
-                  <Text style={styles.sectionHeader}>{title}</Text>
-                )}
-                <FlatList
+                <View style={{position: 'absolute', top: 0, right: 0, bottom: 0, left: 0}}>
+                  <FlatList
                   style={styles.scrollview}
                   contentContainerStyle={{ paddingBottom: colSize }}
                   data={this.returnSectionData()}
@@ -335,6 +335,7 @@ export default class EmojiSelector extends Component {
                   ref={scrollview => (this.scrollview = scrollview)}
                   removeClippedSubviews
                 />
+                </View>
               </View>
             </View>
           ) : (
@@ -376,12 +377,7 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   scrollview: {
-    flex: 1,
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
+    flex: 1
   },
   searchbar_container: {
     width: "100%",
@@ -397,11 +393,14 @@ const styles = StyleSheet.create({
         backgroundColor: "#E5E8E9"
       },
       web: {
-        outlineWidth: 0,
-        paddingVertical: 7
+        outlineWidth: 0
       }
     }),
-    margin: 8
+    margin: 8,
+    height: 36,
+    paddingLeft: 8,
+    borderRadius: 10,
+    backgroundColor: "#E5E8E9"
   },
   container: {
     flex: 1,
@@ -413,7 +412,6 @@ const styles = StyleSheet.create({
     margin: 8,
     fontSize: 17,
     width: "100%",
-    color: "#8F8F8F",
-    paddingBottom: 10
+    color: "#8F8F8F"
   }
 });

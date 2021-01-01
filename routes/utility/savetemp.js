@@ -1,10 +1,10 @@
 const {connectStatus, tempFile} = require('../../serverDB/serverDB');
 const fs = require('fs');
 
-let saveTemp = (allFiles, image, userID) => {
+let saveTemp = (allFiles, userID) => {
     return new Promise((resolve, reject) => {
         let files = []
-        if ((!allFiles && !image) || (allFiles.length < 1 && image.length < 1)) {
+        if ((!allFiles) || (allFiles.length < 1)) {
             resolve();
             return;
         }
@@ -12,10 +12,8 @@ let saveTemp = (allFiles, image, userID) => {
         if (allFiles.length === undefined) {
             allFiles = [allFiles]
         }
-        if (image.length === undefined) {
-            image = [image]
-        }
-        for (let file of [...allFiles, ...image]){
+
+        for (let file of [...allFiles]){
             files.push(file.path);
         }
 

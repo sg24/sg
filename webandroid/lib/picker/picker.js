@@ -4,6 +4,7 @@ import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import * as DocumentPicker from 'expo-document-picker';
+import { v4 as uuid } from 'uuid';
 
 const checkExt = {
     image(type) {
@@ -34,9 +35,9 @@ export const camera = (options) => {
                     let name = null;
                     let type = null;
                     let image = null
+                    name = response.uri.split('/').pop();
+                    type = response.type+'/'+name.split('.').pop();
                     if (Platform.OS !== 'web') {
-                        name = response.uri.split('/').pop();
-                        type = response.type+'/'+name.split('.').pop();
                         image = [{uri: response.uri, type, name}]
                     } else {
                         let type = response.uri.split(';')[0].split(':')[1];
@@ -46,7 +47,7 @@ export const camera = (options) => {
                             return reject('exit');
                         }
                         let fileData = await axios.get(response.uri, { responseType: 'blob' });
-                        image = [{ uri: response.uri, file: fileData.data}]
+                        image = [{ uri: response.uri, file: fileData.data, type, name}]
                     }
                     return resolve(image)
                 }
@@ -97,7 +98,9 @@ export const  gallery = (options, fileType) => {
                                     alert(fileType+' file not supported')
                                 } else {
                                     let imageData = await axios.get(cnt.uri, { responseType: 'blob' });
-                                    image.push({ uri: cnt.uri, imageData: imageData.data})
+                                    let data = imageData.data ? imageData.data : {}
+                                    let ext = data.type ?`.${data.type.split('/')[1]}` : ''
+                                    image.push({ uri: cnt.uri, file: data, type: data.type, name: uuid()+ext})
                                 }
                             }
                         } else {
@@ -107,7 +110,9 @@ export const  gallery = (options, fileType) => {
                                 alert(fileType+' file not supported')
                             } else {
                                 let fileData = await axios.get(response.uri, { responseType: 'blob' });
-                                image.push({ uri: response.uri, file: fileData.data})
+                                let data = fileData.data ? fileData.data : {}
+                                let ext = data.type ?`.${data.type.split('/')[1]}` : ''
+                                image.push({ uri: response.uri, file: data, type: data.type, name: uuid()+ext})
                             }
                         }
                     }
@@ -135,7 +140,9 @@ export const takePicture = (cameraprops) => {
                     reject('exit')
                 }
                 let imageData = await axios.get(response.uri, { responseType: 'blob' });
-                resolve([{ uri: response.uri, file: imageData.data}])
+                let data = imageData.data ? imageData.data : {};
+                let ext = data.type ?`.${data.type.split('/')[1]}` : ''
+                resolve([{ uri: response.uri, file: data,type: data.type, name: uuid()+ext}])
             } catch(e) {
                 alert('Cannot capture')
                 reject('exit')
@@ -178,7 +185,7 @@ export const explorer = (options) => {
                         reader.onload = ({ target }) => {
                           const uri = target.result;
                           fileNum++;
-                          files.push({uri, file: cnt})
+                          files.push({uri, file: cnt, type: cnt.type, name: cnt.name})
                           if (fileNum === res.output.length) {
                             return resolve(files); 
                           }
@@ -188,7 +195,7 @@ export const explorer = (options) => {
                 } else if ('URL' in window) {
                     for (let cnt of res.output) {
                         const uri = URL.createObjectURL(cnt)
-                        files.push({uri, file: cnt})
+                        files.push({uri, file: cnt, type: cnt.type, name: cnt.name})
                     }
                     return resolve(files); 
                 } else {
