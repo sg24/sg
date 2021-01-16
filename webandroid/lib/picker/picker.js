@@ -70,7 +70,7 @@ export const  gallery = (options, fileType) => {
                 let response = await ImagePicker.launchImageLibraryAsync({
                     mediaTypes: ImagePicker.MediaTypeOptions[options.type],
                     allowsEditing: true,
-                    quality: 0,
+                    quality: 1,
                     ...options
                 });
                 if (!response.cancelled) {
@@ -203,7 +203,16 @@ export const explorer = (options) => {
                     return reject('exit')
                 } 
             } else {
-                return resolve([{uri: res.uri, name: res.name, type: res.name.split('.').pop()}])
+                (async () => {
+                    axios.get(res.uri, { responseType: 'blob' }).then(res => {
+                        alert(JSON.stringify(res))
+                    });
+                    const fetchedAudio = await fetch(res.uri);
+                    let data = await fetchedAudio.blob();
+                    data = data ? data : {}
+                    let ext = data.type ? data.type : 'application/octet-stream';
+                    return resolve([{uri: res.uri, name: res.name, type: ext}])
+                })()
             }
         }).catch(e => {
             alert('Cannot open file explorer')

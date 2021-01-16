@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs'); 
-const {posts, page, questions, group, poets, aroundme, adverts, contest, qchat, category, tempFile, connectStatus, user} = require('../serverDB/serverDB');
+const {post, page, questions, group, poets, aroundme, adverts, contest, qchat, category, tempFile, connectStatus, user} = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
 let notifications = require('./utility/notifications');
 let formInit = require('./utility/forminit');
@@ -10,7 +10,7 @@ let editForm = require('./utility/editform');
 let editAdvert = require('./utility/editadvert');
 let create = require('./utility/create');
 let edit = require('./utility/edit');
-let uploadToBucket = require('./utility/qchatupload');
+let uploadToBucket = require('./utility/upload');
 let savetemp = require('./utility/savetemp');
 let submitAdvert = require('./utility/submitadvert');
 let submitPost = require('./utility/submitaround');
@@ -28,30 +28,18 @@ fs.mkdir('./tmp', err => {
 
 router.post('/add/post', authenticate, (req, res, next) => {
     formInit(req, formidable).then(form => {
-        let media = form.files && form.files.media ? form.files.media : []; 
-        savetemp(media, req.user).then(tempFileID => {
-            uploadToBucket(media).then(media => {
-                let mediaCnt = {
-                    video: media.videos,
-                    snapshot: media.images,
-                    image
+        let mediaList = form.files && form.files.media ? form.files.media : [];
+        let fields = form.fields
+        savetemp(mediaList, 'post', req.user).then(tempFileID => {
+            uploadToBucket(mediaList, fields.description).then(media => {
+                let cnt = {
+                    authorID: req.user, username: req.username, userImage: req.userImage,
+                    content: fields.content, media, tempFileID
                 }
-                let userModel = req.userType === 'authUser' ? authUser : user;
-                const content = form.fields;
-                connectStatus.then((result) => {
-                    submit(content, posts, mediaCnt, postnotifies, viewnotifies, userModel, {authorID: req.user, username: req.username, userImage: req.userImage}, 'postID', 'subjectpost', 'post', 'postpub', res, category, tempFileID).then(id =>
-                        res.status(201).send(id)
-                    ).catch(err => {
-                        res.status(500).send(err)
-                    })
-                }).catch(err => {
-                    res.status(500).send(err);
+                submit(post, cnt, tempFileID, 'post').then(id => {
+                    return res.status(201).send(id);
                 })
-            }).catch(err => {
-                res.status(500).send(err);
             })
-        }).catch(err => {
-            res.status(500).send(err);
         })
     }).catch(err => {
         res.status(500).send(err);

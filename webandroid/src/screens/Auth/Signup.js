@@ -242,7 +242,7 @@ class Signup extends Component {
                             title="Privacy policy"
                             style={[styles.href, styles.term]}
                             onPress={() => this.openBrowserHandler('https://www.slodge24.com/privacy')} />
-                        {Platform.OS === 'web' ? <Text style={styles.copywrite}>{entities.decode('&copy;')} 2020, S LODGE24</Text> : null}
+                        {Platform.OS === 'web' ? <Text style={styles.copywrite}>{entities.decode('&copy;')} 2021, S LODGE24</Text> : null}
                         <Href 
                         title="Terms of service"
                         style={[styles.href, styles.term]} 

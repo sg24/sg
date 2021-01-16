@@ -436,13 +436,7 @@ router.post('/header', authenticate, (req, res, next) => {
     }
 
     if (req.header('data-categ') === 'userimg') {
-        user.findById(req.user).then(result => {
-            if (result) {
-                res.status(200).send({url: result.image, name: result.username})
-                return
-            }
-            res.sendStatus(200);
-        })
+        res.status(200).send({url: req.userImage, name: req.username})
         return
     }
 

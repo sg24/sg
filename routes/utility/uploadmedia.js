@@ -6,15 +6,13 @@ const fs = require('fs');
 
 let uploadMedia = (file) => {
     return new Promise((resolve, reject) => {
-        let uploaded = 0;
-        
         connectStatus.then(() => {
             let bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
-                bucketName: file.type ? file.type : 'unknown'
+                bucketName: file.type ? file.type.split('/')[0] : 'unknown'
             });
-            var FILES_COLL = `${file.type ? file.type : 'unknown'}.files`;
+            var FILES_COLL = `${file.type ? file.type.split('/')[0]: 'unknown'}.files`;
             let readStream = fs.createReadStream(file.path);
-            let uploadStream = bucket.openUploadStream(file.filename);
+            let uploadStream = bucket.openUploadStream(file.name);
             let id = uploadStream.id;
             uploadStream.once('finish', function() {
                 var filesQuery = mongoose.connection.db.collection(FILES_COLL).find({ _id: id });

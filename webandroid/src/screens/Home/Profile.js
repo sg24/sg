@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Dimensions
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
-import { takePicture } from 'picker';
+import { takePicture, camera, gallery } from 'picker';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import * as actions from '../../store/actions/index';
@@ -170,14 +170,14 @@ class Profile extends Component {
         if (index === -1) {
             this.setState({showActionSheet: false})
         } else if (index === 0) {
-            picker.camera({type: "Images"}).then(image => {
+            camera({type: "Images"}).then(image=> {
                 this.setState({uploadImage: image[0], showActionSheet: false})
             }).catch(e => {
                 if (e === 'useCamera') {this.setState({showCamera: true, showActionSheet: false})}
                 this.setState({showActionSheet: false})
             })
         } else {
-            picker.gallery({type: "Images", allowsMultipleSelection: false}, 'image').then(image => {
+            gallery({type: "Images", allowsMultipleSelection: false}, 'image').then(image => {
                 this.setState({uploadImage: image[0], showActionSheet: false})
             }).catch(e => {
                 this.setState({showActionSheet: false})
@@ -207,7 +207,7 @@ class Profile extends Component {
     }
 
     submitUsernameHandler = () => {
-        this.props.onSubmitUsername(this.state.formElement.newUsername.value, this.state.userID)
+        this.props.onSubmitUsername(String(this.state.formElement.newUsername.value).trim(), this.state.userID)
     }
 
     enableNameAccodion = () => {

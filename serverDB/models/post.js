@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const Schema  = mongoose.Schema;
+const ObjectId = Schema.ObjectId;
 
 const PostSchema = new Schema({
     authorID: {
@@ -22,13 +23,16 @@ const PostSchema = new Schema({
         default: Date.now,
         index: true 
     },
-    post: {
+    content: {
         type: String
     },
-    media: {
-        type: Array,
-        default: [String]
-    },
+    media: [{
+        id: ObjectId, 
+        filename: String, 
+        bucket: String,
+        ext: String, 
+        description: String
+    }],
     comment: {
         type: Array,
         default: [String]
@@ -123,7 +127,8 @@ const PostSchema = new Schema({
     _isCompleted: {
         type: Boolean,
         default: false
-    }
+    },
+    tempFileID: String
 })
 
 PostSchema.index({post: 'text'});

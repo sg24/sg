@@ -119,15 +119,14 @@ router.post('/user/profile/:id',authenticate, (req, res,next) => {
         formInit(req, formidable).then(form => {
             let imageFile = form.files && form.files.image ? form.files.image : null;
             if (imageFile) {
-                savetemp(imageFile, req.user).then(tempFileID => {
+                savetemp(imageFile, 'profileImage', req.user).then(tempFileID => {
                     uploadToBucket(imageFile).then(image => {
                         if (image && image.length > 0) {
                             user.findById(req.user).then(userInfo => {
                                 Promise.all([userInfo && userInfo.image ? deleteMedia([{id: userInfo.image}], 'image') : Promise.resolve(),
                                     user.findByIdAndUpdate(req.user, {image: image[0].id}),
-                                    tempFile.findByIdAndRemove(tempFileID)]).then(() => {
-                                    
-                                    res.status(200).send(image[0].id);
+                                    tempFile.findOneAndUpdate({userID: req.user, "tempFiles.id": tempFileID}, {$pull: {tempFiles: {id: tempFileID}}})]).then(() => {
+                                        res.status(200).send(image[0].id);
                                     if (userInfo && userInfo.friend && userInfo.friend.length > 0) {
                                         for (let recieverID of userInfo.friend) {
                                             notifications('profileImage', recieverID, {userID: req.user}, false);

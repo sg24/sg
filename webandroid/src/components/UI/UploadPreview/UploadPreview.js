@@ -87,7 +87,7 @@ class FileExplorer extends Component {
                         { this.state.uploadFiles.length < 1 ? <Text style={styles.error}>Upload  file to  preview</Text> : null}
                         { this.state.uploadFiles.map((file, index) => (
                             <View key={index} style={styles.preview}>
-                                <View style={styles.removeWrapper}>
+                                <View style={[styles.removeWrapper, styles.remove]}>
                                     <TouchableNativeFeedback style={styles.remove} onPress={this.removeFileHandler.bind(this, file.id)}>
                                         <Ionicons name="trash-bin-outline" size={20} color="#ff1600"/>
                                     </TouchableNativeFeedback>
@@ -112,7 +112,7 @@ class FileExplorer extends Component {
                                             <Text style={styles.fileName}>{file.name}</Text>
                                         </> : 
                                         <View style={styles.containerWrapper}>
-                                            <FileIcon ext={file.name.split('.').pop()} wrapper={styles.fileIconWrapper}/>
+                                            <FileIcon ext={file.name ? file.name.split('.').pop()  : ''} wrapper={styles.fileIconWrapper}/>
                                             <Text style={styles.fileName}>{file.name}</Text>
                                         </View>
                                         }

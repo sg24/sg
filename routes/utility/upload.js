@@ -10,11 +10,12 @@ const imageminPngquant = require('imagemin-pngquant');
 const path = require('path');
 
 
-let upload = (files, type) => {
+let upload = (files, descriptions) => {
   return new Promise((resolve, reject) => {
     let snapshot = 0;
     let uploaded = 0;
     let media = [];
+    descriptions = descriptions ? JSON.parse(descriptions) : null;
     
     if (!files || files.length < 1) {
       return resolve([])
@@ -26,31 +27,31 @@ let upload = (files, type) => {
 
     (async () => {
         for (let file of files) {
-          console.log(file)
-          // if (file.type === 'image') {
-          //   await imagemin([`tmp/${file.path.split("\\")[1]}`], {destination: 'tmp/',plugins: [imageminJpegtran(),
-          //       imageminPngquant({
-          //         quality: [0.6, 0.8]
-          //       })
-          //     ]
-          //   }).then(files => {
-          //     await uploadMedia(file).then(imgInfo => {
-          //       media.push({id: imgInfo._id, filename: imgInfo.filename, type: imgInfo.type, ext: `${imgInfo.type}/${imgInfo.filename.split('.')[1]}`})
-          //       ++uploaded;
-          //       if (uploaded === files.length) {
-          //         resolve(media)
-          //       }
-          //     })
-          //   })
-          // } else {
-          //   await uploadMedia(file).then(info => {
-          //     media.push({id: imgInfo._id, filename: info.filename, type: info.type, ext: `${info.type}/${info.filename.split('.')[1]}`})
-          //     ++uploaded;
-          //     if (uploaded === files.length) {
-          //       resolve(media)
-          //     }
-          //   })
-          // }
+          let type = file.type.split('/')[0];
+          if ( type === 'image') {
+            await imagemin([`tmp/${file.path.split("\\")[1]}`], {destination: 'tmp/',plugins: [imageminJpegtran(),
+                imageminPngquant({
+                  quality: [0.6, 0.8]
+                })
+              ]
+            }).then(filesRes => {
+             uploadMedia(file).then(info => {
+                media = getDescription(file, info, descriptions, media);
+                ++uploaded;
+                if (uploaded === files.length) {
+                  resolve(media)
+                }
+              })
+            })
+          } else {
+            await uploadMedia(file).then(info => {
+              media = getDescription(file, info, descriptions, media);
+              ++uploaded;
+              if (uploaded === files.length) {
+                resolve(media)
+              }
+            })
+          }
           // if (type === 'video') {
           //   let imageName = `${file.name.split('.')[0]}.png`
           //   snap(file, imageName, docInfo).then((media) => {
@@ -82,6 +83,25 @@ let upload = (files, type) => {
       }
     })();
   })
+}
+
+
+function getDescription(file, info, descriptions, media) {
+  let isUpdated = false;
+  if (descriptions ) {
+    for (let desc of descriptions) {
+      if (info.filename === desc.id) {
+        isUpdated = true;
+        media.push({id: info._id, filename: info.filename, bucket: file.type.split('/')[0], ext: `${file.type.split('/')[0]}/${info.filename.split('.')[1]}`, description: desc.content})
+      }
+    }
+    if (!isUpdated) {
+      media.push({id: info._id, filename: info.filename, bucket: file.type.split('/')[0], ext: `${file.type.split('/')[0]}/${info.filename.split('.')[1]}`, description: ''})
+    }
+  } else {
+    media.push({id: info._id, filename: info.filename, bucket: file.type.split('/')[0], ext: `${file.type.split('/')[0]}/${info.filename.split('.')[1]}`, description: ''})
+  }
+  return media
 }
 
 function snap(file, imageName, isUploaded) {

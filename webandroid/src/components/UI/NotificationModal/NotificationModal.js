@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     wrapper: {
         backgroundColor: '#fff',
         minWidth: 200,
-        maxWidth: 300
+        width: 300
     },
     infoWrapper: {
         alignItems: 'center',

@@ -22,6 +22,7 @@ import AudioRecorder from '../../components/UI/AudioRecorder/AudioRecorder';
 import EmojiPicker from '../../components/UI/EmojiPicker/EmojiPicker';
 import LinkPreview from '../../components/UI/LinkPreview/LinkPreview';
 import UploadPreview from '../../components/UI/UploadPreview/UploadPreview'
+import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
 
 class Post extends Component {
     constructor(props) {
@@ -100,6 +101,7 @@ class Post extends Component {
     }
 
     navigationHandler = (page) => {
+        this.props.navigation.navigate(page);
     }
 
     showEmojiHandler = () => {
@@ -128,7 +130,9 @@ class Post extends Component {
             this.setState({showActionSheet: false})
         } else if (index === 0) {
             camera({type: "Images"}).then(file => {
-                this.setState({uploadFile: file, showActionSheet: false})
+                let uploadFile = [...this.state.uploadFile];
+                uploadFile.push(...file);
+                this.setState({uploadFile, showActionSheet: false})
             }).catch(e => {
                 if (e === 'useCamera') {this.setState({showCamera: true, showActionSheet: false})}
                 this.setState({showActionSheet: false})
@@ -138,7 +142,9 @@ class Post extends Component {
                 this.setState({showActionSheet: false, showVideoCamera: true})
             } else {
                 camera({type: "Videos"}).then(file => {
-                    this.setState({uploadFile: file, showActionSheet: false})
+                    let uploadFile = [...this.state.uploadFile];
+                    uploadFile.push(...file);
+                    this.setState({uploadFile, showActionSheet: false})
                 }).catch(e => {
                     this.setState({showActionSheet: false})
                 })
@@ -196,6 +202,33 @@ class Post extends Component {
         this.props.onSubmitForm(cnt)
     }
 
+    resetFormHandler = () => {
+        this.props.onAddFormReset();
+        this.setState({
+            formElement: {
+                content: {
+                    value: '',
+                    validation: {
+                        required: true,
+                        minLength: 1
+                    },
+                    valid: false,
+                    touched: false
+                }
+            },
+            formIsValid: false,
+            showActionSheet: false,
+            showCamera: false,
+            showVideoCamera: false,
+            showAudioRecorder: false,
+            showEmoji: false,
+            selection: {start: 0, end: 0},
+            uploadFile: [],
+            inputUri: [],
+            showUpload: false
+        })
+    }
+
     render() {
         let cnt = (
             <View style={styles.formWrapper}>
@@ -205,10 +238,6 @@ class Post extends Component {
                         title="Add Post"
                     />
                 ): null}
-                { this.props.submitError ?
-                    <Text style={styles.error}>{this.props.submitError.Error.message}</Text> : null
-                }
-                
                 <View style={styles.formElementWrapper}>
                     <FormElement
                         onChangeText={(val) => this.inputChangedHandler(val, 'content')}
@@ -249,7 +278,7 @@ class Post extends Component {
                         <Button 
                             title="Add"
                             style={styles.button}
-                            onPress={this.submitHandler}
+                            onPress={this.props.start ? null : this.submitHandler}
                             disabled={(!this.state.formIsValid && this.state.uploadFile.length < 1) || this.props.start}
                             textStyle={styles.textStyle}
                             submitting={this.props.start}
@@ -291,6 +320,19 @@ class Post extends Component {
                         <UploadPreview
                             uploadFile={this.state.uploadFile}
                             closePreview={this.closePreviewHandler}/>: null}
+                 { this.props.submitError ? 
+                    <NotificationModal
+                        info="Network Error !"
+                        infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
+                        closeModal={this.props.onAddFormReset}
+                        button={[{title: 'Ok', onPress: this.props.onAddFormReset, style: styles.modalButton}]}/> : null}
+                { this.props.submitted ? 
+                    <NotificationModal
+                        info="Post submitted successfully !"
+                        infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
+                        closeModal={this.resetFormHandler}
+                        button={[{title: 'View', onPress: () => this.navigationHandler('Home')},
+                        {title: 'Add', onPress: this.resetFormHandler, style: styles.modalButton}]}/> : null}
             </View>
         )
       return (
@@ -363,6 +405,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#437da3',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    modalButton: {
+        backgroundColor: '#437da3',
+        color: '#fff'
     },
     icon: {
         width: 40,

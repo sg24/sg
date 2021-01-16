@@ -5,12 +5,26 @@ var tempFileSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    created: {
-        type: Date,
-        default: Date.now
-    },
-    files: [{
-        type: String
+    tempFiles: [{
+        id: {
+            type: String,
+            required: true
+        },
+        page: {
+            type: String,
+            required: true
+        },
+        check: {
+            type: Boolean,
+            default: false
+        },
+        files: [{
+            type: String
+        }],
+        uploadDate: {
+            type: Date,
+            default: Date.now
+        }
     }]
 }) ;
 
