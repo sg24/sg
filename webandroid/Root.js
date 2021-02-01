@@ -29,6 +29,8 @@ import PostScreen from './src/screens/Home/Post';
 import AddPostScreen from './src/screens/AddForm/Post';
 import AddQuestionScreen from './src/screens/AddForm/Question';
 import AddAdvertScreen from './src/screens/AddForm/Advert';
+import AddFeedScreen from './src/screens/AddForm/Feed';
+import AddWriteUpScreen from './src/screens/AddForm/WriteUp';
 
 const Stack = createStackNavigator();
 
@@ -47,7 +49,9 @@ const userScreens = {
   Profile: ProfileScreen,
   AddPost: AddPostScreen,
   AddQuestion: AddQuestionScreen,
-  AddAdvert: AddAdvertScreen
+  AddAdvert: AddAdvertScreen,
+  AddFeed: AddFeedScreen,
+  AddWriteUp: AddWriteUpScreen
 };
 
 class Base extends Component {
@@ -176,7 +180,8 @@ class Base extends Component {
                 }
               }
               
-              if (name === 'AddPost' || name === 'AddQuestion' || name === "AddAdvert") {
+              if (name === 'AddPost' || name === 'AddQuestion' || name === "AddAdvert" || name === "AddFeed"
+              || name === "AddWriteUp") {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
                 header = {
                   header: ({scene, previous, navigation }) => <HeaderBar

@@ -13,6 +13,7 @@ class LinkPreview extends Component {
         this.state = {
             viewMode: Dimensions.get('window').width >= size.sm ? 'landscape' : 
             Platform.OS === 'web' ? 'landscape' : 'portrait',
+            sizeMode: Dimensions.get('window').width >= size.sm ? 'landscape' : 'portrait',
             viewportWidth,
             viewportHeight
         }
@@ -22,6 +23,7 @@ class LinkPreview extends Component {
         this.setState({
             viewMode: dims.window.width >= size.sm ? 'landscape' :  
             Platform.OS === 'web' ? 'landscape' : 'portrait',
+            sizeMode: dims.window.width >= size.sm ? 'landscape' : 'portrait',
             viewportWidth: dims.window.width,
             viewportHeight: dims.window.height
         })
@@ -67,14 +69,14 @@ class LinkPreview extends Component {
                     />
             ): (
                 <ScrollView 
-                contentContainerStyle={{width: '100%'}}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}>
+                    showsHorizontalScrollIndicator={Platform.OS === 'web' && this.state.sizeMode === 'landscape'} 
+                    contentContainerStyle={{width: '100%'}}
+                    horizontal>
                     {this.props.links.map((link, index) => (
                         <View style={styles.scrollView} key={index}>
                             <LinkItem 
                                 uri={verifyUri(link)}
-                            style={this.state.viewMode !== 'portriat' ? styles.scrollView : null}/>
+                                style={this.state.viewMode !== 'portriat' ? styles.scrollView : null}/>
                         </View>
                     ))}
                 </ScrollView>

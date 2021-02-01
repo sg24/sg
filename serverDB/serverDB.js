@@ -3,7 +3,7 @@ const {connectStatus} = require('./db/mongoose');
 const feed = require('./models/feed');
 const advert = require('./models/adverts');
 const question = require('./models/questions');
-const poet = require('./models/poets');
+const writeup = require('./models/writeup');
 const category = require('./models/category');
 const postnotifies = require('./models/postnotifies');
 const quenotifies = require('./models/quenotifies');
@@ -19,7 +19,6 @@ const user = require('./models/user');
 const chat = require('./models/chat');
 const chatnotifies = require('./models/chatnotifies');
 const tempUser = require('./models/tempUser');
-const authUser = require('./models/authuser');
 const tempFile = require('./models/tempfile');
 const post = require('./models/post');
 const contest = require('./models/contest');
@@ -32,12 +31,11 @@ module.exports = {
     feed,
     post,
     question,
-    poet,
+    writeup,
     category,
     user,
     group,
     tempUser,
-    authUser,
     comment,
     tempFile,
     postnotifies,

@@ -19,10 +19,10 @@ const NotificationsSchema = new Schema({
     question: [{
         ...defaultContentSchema
     }],
-    poet: [{
+    writeup: [{
         ...defaultContentSchema
     }],
-    aroundme: [{
+    feed: [{
         ...defaultContentSchema
     }],
     cbt: [{

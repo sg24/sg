@@ -291,7 +291,8 @@ class Advert extends Component {
                                 valid={!this.state.formElement.title.valid && this.state.formElement.title.touched}
                                 onSelectionChange={(e) => this.inputChangePositionHandler(e, 'title')} 
                                 range={`${this.state.formElement.title.range.start}/${this.state.formElement.title.range.end}`}
-                                onFocus={() => this.inputFocusHandler('title')}/>
+                                onFocus={() => this.inputFocusHandler('title')}
+                                style={styles.formElementInput}/>
                             <FormElement
                                 labelTitle="Description"
                                 onChangeText={(val) => this.inputChangedHandler(val, 'description')}
@@ -301,7 +302,8 @@ class Advert extends Component {
                                 valid={!this.state.formElement.description.valid && this.state.formElement.description.touched}
                                 onSelectionChange={(e) => this.inputChangePositionHandler(e, 'description')}
                                 range={`${this.state.formElement.description.range.start}/${this.state.formElement.description.range.end}`}
-                                onFocus={() => this.inputFocusHandler('description')}/>
+                                onFocus={() => this.inputFocusHandler('description')}
+                                style={styles.formElementInput}/>
                             <CheckBox 
                                 title="Enable Comment"
                                 checked={this.state.formElement.comment.value}

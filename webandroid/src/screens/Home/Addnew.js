@@ -61,11 +61,11 @@ class Addnew extends Component {
                             <Icon name="timer-outline" size={20} />
                             <Text style={styles.textStyle}>CBT</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.navItem} onPress={() => this.navigationHandler("")}>
+                        <TouchableOpacity style={styles.navItem} onPress={() => this.navigationHandler("AddFeed")}>
                             <Icon name="newspaper-outline" size={20} />
                             <Text style={styles.textStyle}>Feed</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.navItem} onPress={() => this.navigationHandler("wrie")}>
+                        <TouchableOpacity style={styles.navItem} onPress={() => this.navigationHandler("AddWriteUp")}>
                             <Icon name="reader-outline" size={20} />
                             <Text style={styles.textStyle}>Write Up</Text>
                         </TouchableOpacity>

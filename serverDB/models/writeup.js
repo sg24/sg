@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 const Schema  = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
-const PoetSchema = new Schema({
-    id: ObjectId,
+const WriteUpSchema = new Schema({
     authorID: {
         type: String,
         required: true
@@ -16,37 +15,36 @@ const PoetSchema = new Schema({
     userImage: {
         type: String
     },
-    pwtCreated: { 
+    created: { 
         type: Date, 
-        default: Date.now,
-        index: true 
-    },
-    category: {
-        type: Array,
-        required: true
-    },
-    video: {
-        type: Array,
-        default: [String]
-    },
-    image: {
-        type: Array,
-        default: [String]
-    },
-    shareMe: {
-        type: Array
+        default: Date.now
     },
     title: {
         type: String,
         required: true,
         trim: true
     },
-    desc: {
+    content: {
         type: String,
         required: true,
         trim: true
     },
-    helpFull: {
+    hashTag: {
+        type: Array,
+        default: [String]
+    },
+    media: [{
+        id: ObjectId, 
+        filename: String, 
+        bucket: String,
+        ext: String, 
+        description: String
+    }],
+    enableComment: {
+        type: Boolean,
+        default: true
+    },
+    view: {
         type: Number,
         required: true,
         default: 0
@@ -74,16 +72,16 @@ const PoetSchema = new Schema({
     },
     mode: {
         type: String,
-        required: true
+        default: 'publish'
     },
     _isCompleted: {
         type: Boolean,
-        required: true,
         default: false
-    }
+    },
+    tempFileID: String
 })
 
-PoetSchema.index({title: 'text'});
-const poets = mongoose.model('poets', PoetSchema);
+WriteUpSchema.index({title: 'text'});
+const WriteUps = mongoose.model('WriteUps', WriteUpSchema);
 
-module.exports = poets;
+module.exports = WriteUps;

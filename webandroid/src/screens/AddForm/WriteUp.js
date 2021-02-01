@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Keyboard, StyleSheet, Dimensions, Platform } from 'react-native';
+import { View, Text, Keyboard, StyleSheet, Dimensions, Platform, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
@@ -23,14 +23,26 @@ import EmojiPicker from '../../components/UI/EmojiPicker/EmojiPicker';
 import LinkPreview from '../../components/UI/LinkPreview/LinkPreview';
 import UploadPreview from '../../components/UI/UploadPreview/UploadPreview'
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
+import CheckBox from '../../components/UI/CheckBox/CheckBox';
 
-class Post extends Component {
+class WriteUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
             viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
             backgroundColor: '#fff',
             formElement: {
+                title: {
+                    value: '',
+                    validation: {
+                        required: true,
+                        minLength: 1
+                    },
+                    valid: false,
+                    touched: false,
+                    focus: true,
+                    inputHashTag: []
+                },
                 content: {
                     value: '',
                     validation: {
@@ -38,7 +50,15 @@ class Post extends Component {
                         minLength: 1
                     },
                     valid: false,
-                    touched: false
+                    touched: false,
+                    focus: false,
+                    inputHashTag: []
+                },
+                comment: {
+                    value: true,
+                    validation: {
+                    },
+                    valid: true,
                 }
             },
             formIsValid: false,
@@ -47,10 +67,9 @@ class Post extends Component {
             showVideoCamera: false,
             showAudioRecorder: false,
             showEmoji: false,
-            selection: {start: 0, end: 0},
+            selection: {title: {start: 0, end: 0}, content: {start: 0, end: 0}},
             uploadFile: [],
             inputUri: [],
-            inputHashTag: [],
             showUpload: false
         }
     }
@@ -83,10 +102,12 @@ class Post extends Component {
     inputChangedHandler = (value, inputType) => {
         let uri = checkUri(value);
         let hashTag = checkHashtag(value);
+        let allowHashTag = inputType !== 'comment' ? {inputHashTag: hashTag ? hashTag: []} : {};
         let updateFormType = updateObject(this.state.formElement[inputType], {
             value,
             valid: checkValidity(value, this.state.formElement[inputType].validation),
-            touched: true
+            touched: true,
+            ...allowHashTag
         });
         
         let formIsValid = true;
@@ -95,12 +116,22 @@ class Post extends Component {
         for (let inputType in updateFormElement) {
             formIsValid = updateFormElement[inputType].valid && formIsValid;
         }
-        this.setState({formElement: updateFormElement, formIsValid, inputUri: uri ? uri : [],
-        inputHashTag: hashTag ? hashTag: []})
+        this.setState({formElement: updateFormElement, formIsValid, inputUri: uri ? uri : []})
     }
 
-    inputChangePositionHandler  = ({ nativeEvent: { selection } }) => {
-        this.setState({selection})
+    inputChangePositionHandler  = ({ nativeEvent: { selection } }, inputType) => {
+        let updateSelection = updateObject(this.state.selection, {[inputType]: selection});
+        this.setState({selection: updateSelection})
+    }
+
+    inputFocusHandler = (inputType) => {
+        let formElement  = this.state.formElement;
+        for (let input in this.state.formElement) {
+            formElement[input].focus = false;
+        }
+        let updateFormType = updateObject(this.state.formElement[inputType], {focus: true});
+        let updateFormElement = updateObject(this.state.formElement, {[inputType]: updateFormType})
+        this.setState({formElement: updateFormElement})
     }
 
     navigationHandler = (page) => {
@@ -113,12 +144,18 @@ class Post extends Component {
     }
 
     emojiSelectHandler = (emoji) => {
-        let inputValue = String(this.state.formElement.content.value);
+        let inputType;
+        for (let input in this.state.formElement) {
+            if (this.state.formElement[input].focus) {
+                inputType = input
+            }
+        }
+        let inputValue = String(this.state.formElement[inputType].value);
         let selection = this.state.selection;
-        let diff = selection.end - selection.start
-        let content = inputValue.slice(0, selection.start) + emoji.join(' ') + 
-            inputValue.slice(selection.start + diff, inputValue.length)
-        this.inputChangedHandler(content, 'content');
+        let diff = selection[inputType].end - selection[inputType].start
+        let content = inputValue.slice(0, selection[inputType].start) + emoji.join(' ') + 
+            inputValue.slice(selection[inputType].start + diff, inputValue.length)
+        this.inputChangedHandler(content, inputType);
         this.setState({showEmoji: false})
     }
 
@@ -193,15 +230,18 @@ class Post extends Component {
         }).catch(e => { this.setState({showAudioRecorder: false})})
     }
 
+
     showUploadHandler = () => {
         this.setState({showUpload: true })
     }
 
     submitHandler = () => {
         let cnt = {
+            title: this.state.formElement.title.value,
             content: this.state.formElement.content.value,
             uploadFile: this.state.uploadFile,
-            hashTag: this.state.inputHashTag
+            hashTag: [...this.state.formElement.title.inputHashTag, ...this.state.formElement.content.inputHashTag],
+            comment: this.state.formElement.comment.value
         }
         this.props.onSubmitForm(cnt)
     }
@@ -209,9 +249,11 @@ class Post extends Component {
     resetFormHandler = () => {
         this.props.onAddFormReset();
         this.setState({
-            formElement: {content: { value: '',validation: {required: true,minLength: 1 }, valid: false,touched: false } },
-            formIsValid: false,showActionSheet: false, showCamera: false,showVideoCamera: false,showAudioRecorder: false,
-            showEmoji: false,selection: {start: 0, end: 0},uploadFile: [],inputUri: [],inputHashTag: [], showUpload: false
+            formElement: { title: { value: '',validation: {required: true, minLength: 1},valid: false,touched: false, focus: true, inputHashTag: []},
+            content: { value: '',validation: {required: true, minLength: 1 },  valid: false, touched: false,focus: false, inputHashTag: []},
+            comment: {value: true, validation: {}, valid: true } },formIsValid: false,showActionSheet: false,showCamera: false,
+            showVideoCamera: false,showAudioRecorder: false, showEmoji: false,selection: {title: {start: 0, end: 0}, content: {start: 0, end: 0}},
+            uploadFile: [],inputUri: [], showUpload: false
         })
     }
 
@@ -221,24 +263,44 @@ class Post extends Component {
                 { this.state.viewMode === 'landscape' ? (
                     <DefaultHeader 
                         onPress={() => this.props.navigation.goBack()}
-                        title="Add Post"
+                        title="Add Write Up"
                     />
                 ): null}
                 <View style={styles.formElementWrapper}>
-                    <FormElement
-                        onChangeText={(val) => this.inputChangedHandler(val, 'content')}
-                        autoCorrect
-                        multiline
-                        autoFocus
-                        placeholder={"Write ...."}
-                        value={this.state.formElement.content.value}
-                        formWrapperStyle={styles.formWrapperStyle}
-                        inputWrapperStyle={styles.formWrapperStyle}
-                        style={styles.formElementInput}
-                        onSelectionChange={this.inputChangePositionHandler}/>
+                    <ScrollView style={styles.scroll}>
+                        <View style={styles.formWrapperStyle}>
+                            <FormElement
+                                labelTitle="Title"
+                                onChangeText={(val) => this.inputChangedHandler(val, 'title')}
+                                error="Title must not be empty"
+                                autoCorrect
+                                autoFocus
+                                value={this.state.formElement.title.value}
+                                valid={!this.state.formElement.title.valid && this.state.formElement.title.touched}
+                                onSelectionChange={(e) => this.inputChangePositionHandler(e, 'title')}
+                                onFocus={() => this.inputFocusHandler('title')}
+                                style={styles.formElementInput}/>
+                            <FormElement
+                                labelTitle="Content"
+                                onChangeText={(val) => this.inputChangedHandler(val, 'content')}
+                                error="Content must not be empty"
+                                autoCorrect
+                                multiline
+                                numberOfLines={4}
+                                value={this.state.formElement.content.value}
+                                valid={!this.state.formElement.content.valid && this.state.formElement.content.touched}
+                                onSelectionChange={(e) => this.inputChangePositionHandler(e, 'content')}
+                                onFocus={() => this.inputFocusHandler('content')}
+                                style={styles.formElementInput}/>
+                            <CheckBox 
+                                title="Enable Comment"
+                                checked={this.state.formElement.comment.value}
+                                onCheck={(val) => this.inputChangedHandler(val, 'comment')}/>
+                        </View>
+                    </ScrollView>
                     {this.state.inputUri.length > 0 ? 
-                        <LinkPreview 
-                            links={this.state.inputUri}/>: null}
+                            <LinkPreview 
+                                links={this.state.inputUri}/>: null}
                     <View style={styles.formElementButton}>
                         <View style={styles.formButtonWrapper}>
                             <Button 
@@ -261,10 +323,10 @@ class Post extends Component {
                             </Button>
                         </View>
                         <Button 
-                            title="Add"
+                            title="Publish"
                             style={styles.button}
                             onPress={this.props.start ? null : this.submitHandler}
-                            disabled={(!this.state.formIsValid && this.state.uploadFile.length < 1) || this.props.start}
+                            disabled={!this.state.formIsValid || this.props.start}
                             textStyle={styles.textStyle}
                             submitting={this.props.start}
                             loaderStyle="#fff"/>
@@ -313,10 +375,10 @@ class Post extends Component {
                         button={[{title: 'Ok', onPress: this.props.onAddFormReset, style: styles.modalButton}]}/> : null}
                 { this.props.submitted ? 
                     <NotificationModal
-                        info="Post submitted successfully !"
+                        info="Write Up submitted successfully !"
                         infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                         closeModal={this.resetFormHandler}
-                        button={[{title: 'View', onPress: () => this.navigationHandler('Home')},
+                        button={[{title: 'View', onPress: () => this.navigationHandler('WriteUp')},
                         {title: 'Add', onPress: this.resetFormHandler, style: styles.modalButton}]}/> : null}
             </View>
         )
@@ -349,9 +411,11 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingBottom: 5
     },
+    scroll: {
+        width: '100%'
+    },
     formElementWrapper: {
         position: 'relative',
-        // borderRadius: 5,
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         width: '100%',
@@ -400,10 +464,9 @@ const styles = StyleSheet.create({
     },
     formWrapperStyle: {
         flex: 1,
-        borderWidth: 0,
-        paddingLeft: 0,
-        paddingRight: 0,
-        paddingBottom: 0
+        paddingVertical: 10,
+        width:'100%',
+        alignItems: 'flex-start'
     },
     formElementInput: {
         flex: 1,
@@ -425,18 +488,18 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        submitError: state.addForm.postSubmitError,
-        submitted: state.addForm.postSubmitted,
-        start: state.addForm.postStart,
+        submitError: state.addForm.writeupSubmitError,
+        submitted: state.addForm.writeupSubmitted,
+        start: state.addForm.writeupStart,
         cntID: state.addForm.cntID
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSubmitForm: (formData) => dispatch(actions.submitAddFormInit(formData, 'post')),
+        onSubmitForm: (formData) => dispatch(actions.submitAddFormInit(formData, 'writeup')),
         onAddFormReset: () => dispatch(actions.addFormReset())
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post);
+export default connect(mapStateToProps, mapDispatchToProps)(WriteUp);

@@ -48,13 +48,13 @@ const create = props => {
                     <Text style={[styles.textStyle, styles.navItemText, {color: props.color}]}>CBT</Text>
                 </View>
             </TouchableNativeFeedback>
-            <TouchableNativeFeedback  onPress={() => navigation.navigate('AddPost')}>
+            <TouchableNativeFeedback  onPress={() => navigation.navigate('AddWriteUp')}>
                 <View style={styles.navItem}>
                     <Ionicons name="reader" size={20} color={props.color}/>
                     <Text style={[styles.textStyle, styles.navItemText, {color: props.color}]}>Write Up</Text>
                 </View>
             </TouchableNativeFeedback>
-            <TouchableNativeFeedback  onPress={() => navigation.navigate('AddPost')}>
+            <TouchableNativeFeedback  onPress={() => navigation.navigate('AddFeed')}>
                 <View style={styles.navItem}>
                     <Ionicons name="newspaper" size={20} color={props.color}/>
                     <Text style={[styles.textStyle, styles.navItemText, {color: props.color}]}>Feed</Text>
