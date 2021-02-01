@@ -24,7 +24,7 @@ const create = props => {
                     <Text style={[styles.textStyle, styles.navItemText, {color: props.color}]}>Post</Text>
                 </View>
             </TouchableNativeFeedback>
-            <TouchableNativeFeedback  onPress={() => navigation.navigate('AddADS')}>
+            <TouchableNativeFeedback  onPress={() => navigation.navigate('AddAdvert')}>
                 <View style={styles.navItem}>
                     <Ionicons name="megaphone" size={20} color={props.color}/>
                     <Text style={[styles.textStyle, styles.navItemText, {color: props.color}]}>Advert</Text>

@@ -75,6 +75,9 @@ const NotificationsSchema = new Schema({
     }],
     profileName: [{
         userID: String
+    }],
+    advert: [{
+        ...defaultContentSchema
     }]
 })
 

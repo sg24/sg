@@ -18,6 +18,13 @@ export const submitAddFormInit = (formData, type) => {
         }
         formContent.append('description', JSON.stringify(description))
         formContent.append('content', formData.content);
+        if (type === 'advert') {
+            formContent.append('title', formData.title);
+            formContent.append('button', JSON.stringify(formData.button));
+            formContent.append('comment', JSON.stringify(formData.comment));
+        } else {
+            formContent.append('hashTag', JSON.stringify(formData.hashTag));
+        }
         axios.post(`/add/${type}`, formContent, {
             headers: {
                 "Content-Type": "multipart/form-data"}}).then((res) => {

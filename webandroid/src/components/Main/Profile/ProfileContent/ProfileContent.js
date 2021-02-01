@@ -219,6 +219,7 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#fff',
         flex: 1,
+        paddingVertical: 10
     },
     userDet: {
         backgroundColor: '#437da3',

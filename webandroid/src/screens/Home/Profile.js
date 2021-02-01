@@ -6,6 +6,7 @@ import { size } from 'tailwind';
 import { takePicture, camera, gallery } from 'picker';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
+import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import * as actions from '../../store/actions/index';
 import { updateObject, checkValidity } from '../../shared/utility';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
@@ -231,6 +232,12 @@ class Profile extends Component {
             let profile = this.props.changeProfileStart;
             cnt = (
                 <View style={[styles.wrapper]}>
+                    { this.state.viewMode === 'landscape' ? (
+                        <DefaultHeader 
+                            onPress={() => this.props.navigation.goBack()}
+                            title="Profile"
+                        />
+                    ): null}
                     <Profiles
                         profile={this.props.profile}
                         navigate={this.navigationHandler}

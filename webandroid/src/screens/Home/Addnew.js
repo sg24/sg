@@ -41,7 +41,7 @@ class Addnew extends Component {
                             <Icon name="chatbox" size={20} color="#437da3"/>
                             <Text style={styles.textStyle}>Post</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.navItem} onPress={() => this.navigationHandler("")}>
+                        <TouchableOpacity style={styles.navItem} onPress={() => this.navigationHandler("AddAdvert")}>
                             <Icon name="megaphone-outline" size={20} />
                             <Text style={styles.textStyle}>Advert</Text>
                         </TouchableOpacity>
@@ -53,7 +53,7 @@ class Addnew extends Component {
                             <Icon name="create-outline" size={20} />
                             <Text style={styles.textStyle}>Answer</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.navItem} onPress={() => this.navigationHandler("")}>
+                        <TouchableOpacity style={styles.navItem} onPress={() => this.navigationHandler("AddQuestion")}>
                             <Icon name="bulb-outline" size={20} />
                             <Text style={styles.textStyle}>Question</Text>
                         </TouchableOpacity>

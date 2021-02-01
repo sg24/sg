@@ -14,7 +14,8 @@ module.exports = function(api) {
              "permission": "./lib/permission/permission",
              "picker": "./lib/picker/picker",
              "react-native-emoji-selector": "./lib/emoji/emoji",
-             "file-icons": "./lib/icons/fileicons/fileicons"
+             "file-icons": "./lib/icons/fileicons/fileicons",
+             "urischeme": "./lib/urischeme/urischeme"
            }
         }
        ]

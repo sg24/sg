@@ -24,7 +24,7 @@ import LinkPreview from '../../components/UI/LinkPreview/LinkPreview';
 import UploadPreview from '../../components/UI/UploadPreview/UploadPreview'
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
 
-class Post extends Component {
+class Question extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -221,7 +221,7 @@ class Post extends Component {
                 { this.state.viewMode === 'landscape' ? (
                     <DefaultHeader 
                         onPress={() => this.props.navigation.goBack()}
-                        title="Add Post"
+                        title="Add Question"
                     />
                 ): null}
                 <View style={styles.formElementWrapper}>
@@ -230,7 +230,7 @@ class Post extends Component {
                         autoCorrect
                         multiline
                         autoFocus
-                        placeholder={"Write ...."}
+                        placeholder={"Ask Question ...."}
                         editable={this.state.editable}
                         value={this.state.formElement.content.value}
                         formWrapperStyle={styles.formWrapperStyle}
@@ -262,10 +262,10 @@ class Post extends Component {
                             </Button>
                         </View>
                         <Button 
-                            title="Add"
+                            title="Ask"
                             style={styles.button}
                             onPress={this.props.start ? null : this.submitHandler}
-                            disabled={(!this.state.formIsValid && this.state.uploadFile.length < 1) || this.props.start}
+                            disabled={!this.state.formIsValid || this.props.start}
                             textStyle={styles.textStyle}
                             submitting={this.props.start}
                             loaderStyle="#fff"/>
@@ -314,10 +314,10 @@ class Post extends Component {
                         button={[{title: 'Ok', onPress: this.props.onAddFormReset, style: styles.modalButton}]}/> : null}
                 { this.props.submitted ? 
                     <NotificationModal
-                        info="Post submitted successfully !"
+                        info="Question submitted successfully !"
                         infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                         closeModal={this.resetFormHandler}
-                        button={[{title: 'View', onPress: () => this.navigationHandler('Home')},
+                        button={[{title: 'View', onPress: () => this.navigationHandler('Question')},
                         {title: 'Add', onPress: this.resetFormHandler, style: styles.modalButton}]}/> : null}
             </View>
         )
@@ -352,7 +352,6 @@ const styles = StyleSheet.create({
     },
     formElementWrapper: {
         position: 'relative',
-        // borderRadius: 5,
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         width: '100%',
@@ -426,18 +425,18 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        submitError: state.addForm.postSubmitError,
-        submitted: state.addForm.postSubmitted,
-        start: state.addForm.postStart,
+        submitError: state.addForm.questionSubmitError,
+        submitted: state.addForm.questionSubmitted,
+        start: state.addForm.questionStart,
         cntID: state.addForm.cntID
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSubmitForm: (formData) => dispatch(actions.submitAddFormInit(formData, 'post')),
+        onSubmitForm: (formData) => dispatch(actions.submitAddFormInit(formData, 'question')),
         onAddFormReset: () => dispatch(actions.addFormReset())
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post);
+export default connect(mapStateToProps, mapDispatchToProps)(Question);

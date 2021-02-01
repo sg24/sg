@@ -52,6 +52,13 @@ export const verifyUri = (value) => {
     return detectUrl;
 }
 
+export const checkHashtag = (value) => {
+    let HASH_DETECTION_REGEX = /(^|\s)(#[a-z\d-]+)/i
+    let text = String(value);
+    let detectHash = text.replace(/\n/g, ` `).split(` `).filter((token) => HASH_DETECTION_REGEX.test(token));
+    return detectHash;
+}
+
 export const transformNumber = (favNumber) => {
     const favNumArray = String(favNumber).split("");
     

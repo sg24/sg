@@ -17,31 +17,34 @@ const AdvertsSchema = new Schema({
     },
     created: { 
         type: Date, 
-        default: Date.now,
-        index: true 
-    },
-    category: {
-        type: Array,
-        required: true
-    },
-    video: {
-        type: Array,
-        default: [String]
-    },
-    image: {
-        type: Array,
-        default: [String]
+        default: Date.now
     },
     title: {
         type: String,
         required: true,
         trim: true
     },
-    desc: {
+    content: {
         type: String,
         required: true,
         trim: true
     },
+    media: [{
+        id: ObjectId, 
+        filename: String, 
+        bucket: String,
+        ext: String, 
+        description: String
+    }],
+    enableComment: {
+        type: Boolean,
+        default: true
+    },
+    button: [{
+        buttonType: String,
+        content: String,
+        title: String
+    }],
     view: {
         type: Number,
         required: true,
@@ -70,16 +73,13 @@ const AdvertsSchema = new Schema({
     },
     mode: {
         type: String,
-        required: true
-    },
-    shareMe: {
-        type: Array
+        default: 'publish'
     },
     _isCompleted: {
         type: Boolean,
-        required: true,
         default: false
-    }
+    },
+    tempFileID: String
 })
 
 AdvertsSchema.index({title: 'text'});

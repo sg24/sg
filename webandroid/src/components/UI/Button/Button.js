@@ -9,13 +9,13 @@ const button = props => {
     )
     if (Platform.OS === 'android') {
         return (
-            <TouchableNativeFeedback onPress={props.onPress} >
+            <TouchableNativeFeedback onPress={props.disabled ? null : props.onPress} >
                 { cnt }
             </TouchableNativeFeedback>
         )
     }
     return (
-        <TouchableOpacity onPress={props.onPress}>
+        <TouchableOpacity onPress={props.disabled ? null : props.onPress}>
            { cnt }
         </TouchableOpacity>
     )

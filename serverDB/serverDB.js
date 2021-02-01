@@ -1,7 +1,7 @@
 require('./config/config');
 const {connectStatus} = require('./db/mongoose');
 const feed = require('./models/feed');
-const adverts = require('./models/adverts');
+const advert = require('./models/adverts');
 const question = require('./models/questions');
 const poet = require('./models/poets');
 const category = require('./models/category');
@@ -50,7 +50,7 @@ module.exports = {
     pwtnotifies,
     viewnotifies,
     favorite,
-    adverts,
+    advert,
     contest,
     qchat,
     qcontent,

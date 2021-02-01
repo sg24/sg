@@ -1,9 +1,8 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs'); 
-const {post, page, questions, group, poets, aroundme, adverts, contest, qchat, category, tempFile, connectStatus, user} = require('../serverDB/serverDB');
+const {post, page, question, group, poets, aroundme, advert, contest, qchat, category, tempFile, connectStatus, user} = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
-let notifications = require('./utility/notifications');
 let formInit = require('./utility/forminit');
 let submit = require('./utility/submit');
 let editForm = require('./utility/editform');
@@ -34,7 +33,7 @@ router.post('/add/post', authenticate, (req, res, next) => {
             uploadToBucket(mediaList, fields.description).then(media => {
                 let cnt = {
                     authorID: req.user, username: req.username, userImage: req.userImage,
-                    content: fields.content, media, tempFileID
+                    content: fields.content, hashTag: JSON.parse(fields.hashTag), media, tempFileID
                 }
                 submit(post, cnt, tempFileID, 'post').then(id => {
                     return res.status(201).send(id);
@@ -88,35 +87,18 @@ router.post('/edit/post', authenticate, (req, res, next) => {
 
 router.post('/add/question', authenticate, (req, res, next) => {
     formInit(req, formidable).then(form => {
-        let video = form.files && form.files.video ? form.files.video : []; 
-        let image = form.files && form.files.image ? form.files.image : []; 
-        savetemp(video, image, req.user).then(tempFileID => {
-            uploadToBucket(video, tempFileID, 'video', 'media', 'media.files').then(media => {
-                uploadToBucket(image, tempFileID, 'image', 'image', 'image.files').then(image => {
-                    let mediaCnt = {
-                        video: media.videos,
-                        snapshot: media.images,
-                        image
-                    }
-                    let userModel = req.userType === 'authUser' ? authUser : user;
-                    const content = form.fields;
-                    connectStatus.then((result) => {
-                        submit(content, questions, mediaCnt, quenotifies, viewnotifies, userModel, {authorID: req.user, username: req.username, userImage: req.userImage}, 'queID', 'subjectque', 'question', 'quepub', res, category, tempFileID).then(id =>
-                            res.status(201).send(id)
-                        ).catch(err => {
-                            res.status(500).send(err)
-                        })
-                    }).catch(err => {
-                        res.status(500).send(err);
-                    })
-                }).catch(err => {
-                    res.status(500).send(err);
+        let mediaList = form.files && form.files.media ? form.files.media : [];
+        let fields = form.fields
+        savetemp(mediaList, 'question', req.user).then(tempFileID => {
+            uploadToBucket(mediaList, fields.description).then(media => {
+                let cnt = {
+                    authorID: req.user, username: req.username, userImage: req.userImage,
+                    content: fields.content, hashTag: JSON.parse(fields.hashTag), media, tempFileID
+                }
+                submit(question, cnt, tempFileID, 'question').then(id => {
+                    return res.status(201).send(id);
                 })
-            }).catch(err => {
-                res.status(500).send(err);
             })
-        }).catch(err => {
-            res.status(500).send(err);
         })
     }).catch(err => {
         res.status(500).send(err);
@@ -320,35 +302,19 @@ router.post('/edit/group', authenticate, (req, res, next) => {
 
 router.post('/add/advert', authenticate, (req, res, next) => {
     formInit(req, formidable).then(form => {
-        let video = form.files && form.files.video ? form.files.video : []; 
-        let image = form.files && form.files.image ? form.files.image : []; 
-        savetemp(video, image, req.user).then(tempFileID => {
-            uploadToBucket(video, tempFileID, 'video', 'media', 'media.files').then(media => {
-                uploadToBucket(image, tempFileID, 'image', 'image', 'image.files').then(image => {
-                    let mediaCnt = {
-                        video: media.videos,
-                        snapshot: media.images,
-                        image
-                    }
-                    let userModel = req.userType === 'authUser' ? authUser : user;
-                    const content = form.fields;
-                    connectStatus.then((result) => {
-                        submitAdvert(content, adverts, mediaCnt, userModel, {authorID: req.user, username: req.username, userImage: req.userImage}, category, tempFileID).then(id =>
-                            res.status(201).send(id)
-                        ).catch(err => {
-                            res.status(500).send(err)
-                        })
-                    }).catch(err => {
-                        res.status(500).send(err);
-                    })
-                }).catch(err => {
-                    res.status(500).send(err);
+        let mediaList = form.files && form.files.media ? form.files.media : [];
+        let fields = form.fields
+        savetemp(mediaList, 'advert', req.user).then(tempFileID => {
+            uploadToBucket(mediaList, fields.description).then(media => {
+                let cnt = {
+                    authorID: req.user, username: req.username, userImage: req.userImage,
+                    content: fields.content, title: fields.title, button: JSON.parse(fields.button),
+                    enableComment: JSON.parse(fields.comment), media, tempFileID
+                }
+                submit(advert, cnt, tempFileID, 'advert').then(id => {
+                    return res.status(201).send(id);
                 })
-            }).catch(err => {
-                res.status(500).send(err);
             })
-        }).catch(err => {
-            res.status(500).send(err);
         })
     }).catch(err => {
         res.status(500).send(err);

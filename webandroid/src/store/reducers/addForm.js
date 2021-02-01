@@ -5,19 +5,29 @@ const initialState = {
     postSubmitError: null,
     postSubmitted: false,
     postStart: false,
+    questionSubmitError: null,
+    questionSubmitted: false,
+    questionStart: false,
+    advertSubmitError: null,
+    advertSubmitted: false,
+    advertStart: false,
     cntID: null
 };
 
 const addFormReset = (state, action) => {
     return updateObject(state, { postSubmitError: null, postSubmitted: false,  postStart: false,
+        questionSubmitError: null, questionSubmitted: false,questionStart: false,
+        advertSubmitError: null, advertSubmitted: false, advertStart: false,
         cntID: null})
 };
 
 const submitAddFormStart = (state, action) => {
     if (action.form === 'post') {
         return updateObject(state, {postSubmitError: null, postStart: true})
-    }else if (action.form === 'signup') {
-        return updateObject(state, {signupSubmitError: null, signupStart: true})
+    } else if (action.form === 'question') {
+        return updateObject(state, {questionSubmitError: null, questionStart: true})
+    } else if (action.form === 'advert') {
+        return updateObject(state, {advertSubmitError: null, advertStart: true})
     } else {
         return updateObject(state, {resetSubmitError: null, resetStart: true})
     }
@@ -26,8 +36,10 @@ const submitAddFormStart = (state, action) => {
 const submitAddFormFail = (state, action) => {
     if (action.form === 'post') {
         return updateObject(state, {postSubmitError: {message: action.err}, postStart: false})
-    }else if (action.form === 'signup') {
-        return updateObject(state, {signupSubmitError: {message: action.err}, signupStart: false})
+    } else if (action.form === 'question') {
+        return updateObject(state, {questionSubmitError: {message: action.err}, questionStart: false})
+    } else if (action.form === 'advert') {
+        return updateObject(state, {advertSubmitError: {message: action.err}, advertStart: false})
     } else {
         return updateObject(state, {resetSubmitError: {message: action.err}, resetStart: false})
     }
@@ -37,8 +49,10 @@ const submitAddFormFail = (state, action) => {
 const addformSubmitted = (state, action) => {
     if (action.form === 'post') {
         return updateObject(state, {postSubmitted: true, postStart: false, cntID: action.cntID})
-    }else if (action.form === 'signup') {
-        return updateObject(state, {signupSubmitted: true, signupStart: false})
+    } else if (action.form === 'question') {
+        return updateObject(state, {questionSubmitted: true, questionStart: false, cntID: action.cntID})
+    } else if (action.form === 'advert') {
+        return updateObject(state, {advertSubmitted: true,advertStart: false, cntID: action.cntID})
     } else {
         return updateObject(state, {resetSubmitted: true, resetStart: false})
     }

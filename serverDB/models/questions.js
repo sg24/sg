@@ -4,7 +4,6 @@ const Schema  = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const QuestionSchema = new Schema({
-    id: ObjectId,
     authorID: {
         type: String,
         required: true
@@ -16,36 +15,26 @@ const QuestionSchema = new Schema({
     userImage: {
         type: String
     },
-    queCreated: { 
+    created: { 
         type: Date, 
         default: Date.now,
         index: true 
     },
-    category: {
-        type: Array,
-        required: true
+    content: {
+        type: String,
+        trim: true
     },
-    video: {
+    hashTag: {
         type: Array,
         default: [String]
     },
-    image: {
-        type: Array,
-        default: [String]
-    },
-    shareMe: {
-        type: Array
-    },
-    title: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    desc: {
-        type: String,
-        required: true,
-        trim: true
-    },
+    media: [{
+        id: ObjectId, 
+        filename: String, 
+        bucket: String,
+        ext: String, 
+        description: String
+    }],
     helpFull: {
         type: Number,
         required: true,
@@ -79,7 +68,7 @@ const QuestionSchema = new Schema({
     },
     mode: {
         type: String,
-        required: true
+        default: 'publish'
     },
     _isCompleted: {
         type: Boolean,
@@ -88,7 +77,7 @@ const QuestionSchema = new Schema({
     }
 })
 
-QuestionSchema.index({title: 'text'});
+QuestionSchema.index({content: 'text'});
 const questions = mongoose.model('questions', QuestionSchema);
 
 module.exports = questions;

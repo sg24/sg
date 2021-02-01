@@ -21,7 +21,7 @@ let saveTemp = (allFiles, page, userID) => {
 
         connectStatus.then(() => {
             tempFile.findOne({userID}).then(res => {
-                if (res && res.tempFiles && res.tempFiles.length > 0) {
+                if (res) {
                     let allErrFiles = []
                     for (let file of res.tempFiles) {
                         if (!file.check && ((new Date(file.uploadDate).getTime() + 1000 * 60 * 60 * 6) <= new Date().getTime())) {

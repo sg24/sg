@@ -15,16 +15,18 @@ const PostSchema = new Schema({
     userImage: {
         type: String
     },
-    userType: {
-        type: String
-    },
     created: { 
         type: Date, 
         default: Date.now,
         index: true 
     },
     content: {
-        type: String
+        type: String,
+        trim: true
+    },
+    hashTag: {
+        type: Array,
+        default: [String]
     },
     media: [{
         id: ObjectId, 
@@ -131,7 +133,7 @@ const PostSchema = new Schema({
     tempFileID: String
 })
 
-PostSchema.index({post: 'text'});
+PostSchema.index({content: 'text'});
 const post = mongoose.model('Posts', PostSchema);
 
 module.exports = post;

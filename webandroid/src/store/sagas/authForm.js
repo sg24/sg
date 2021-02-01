@@ -1,5 +1,6 @@
 import { put } from 'redux-saga/effects';
 import { v4 as uuid } from 'uuid';
+import Constants from 'expo-constants';
 
 import * as actions from '../actions/index';
 import axios from '../../axios';
@@ -20,6 +21,10 @@ export function* submitAuthFormSigninInitSaga (action) {
         yield put(actions.authFormSubmitted('signin'))
         yield put(actions.loggedIn(response.data.userID));
         yield put(actions.checkUserName(response.data.username));
+        if (response.data.url) {
+            yield AsyncStorage.setItem('userImage', Constants.manifest.extra.BASE_IMAGE_URL + response.data.url);
+            yield put(actions.checkUserImg({uri: Constants.manifest.extra.BASE_IMAGE_URL + response.data.url}));
+        }
     } catch(err) {
         let error = null
         if (err.response) {
