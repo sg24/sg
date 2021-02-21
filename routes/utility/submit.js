@@ -13,7 +13,7 @@ module.exports = submitForm = (model, cnt, tempFileID, field) => {
             Promise.all([tempFile.findOneAndUpdate({userID: cnt.authorID, "tempFiles.id": tempFileID}, {$pull: {tempFiles: {id: tempFileID}}}),
             doc.updateOne({_isCompleted: true})]).then(() =>  {
                 user.findById(cnt.authorID).then(userInfo => {
-                    if (userInfo && userInfo.friend && userInfo.friend.length > 0) {
+                    if (userInfo && userInfo.friend && userInfo.friend.length > 0 && field) {
                         for (let recieverID of userInfo.friend) {
                             notifications(field, recieverID, {userID: cnt.authorID, ID: id}, false);
                         }

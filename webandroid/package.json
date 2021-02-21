@@ -44,7 +44,7 @@
     "react-native-emoji-selector": "^0.1.9",
     "react-native-gesture-handler": "~1.7.0",
     "react-native-get-random-values": "^1.5.0",
-    "react-native-reanimated": "^1.13.0",
+    "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
     "react-native-scroll-indicator": "^0.1.0",

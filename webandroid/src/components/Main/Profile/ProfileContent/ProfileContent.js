@@ -129,88 +129,90 @@ const profileContent = props => {
     }
 
     return (
-        <View style={styles.wrapper}>
-            <ScrollView>
-                <View style={styles.userDet}>
-                    <View style={styles.userDetWrapper}>
-                        <BoxShadow style={styles.userImageWrapper}>
-                            { userImg }
-                            { edit }
-                        </BoxShadow>
-                        <View style={[styles.status]}>{status}</View>
-                        <ShadowView style={styles.usernameWrapper}>
-                            <Text style={styles.usernameText} numberOfLines={1}>
-                                { props.cnt.username }
-                            </Text>
-                        </ShadowView>
-                    </View>
-                    <BoxShadow style={styles.userOpt}>
-                        <View style={[styles.disabledCnt, props.start ? styles.disabled : null]}>
-                            { userOpt }
-                        </View>
-                    </BoxShadow>
-                </View>
-                <View style={styles.about}>
-                    <FormElement
-                        labelTitle="About"
-                        onChangeText={(val) => props.inputChanged(val, 'about')}
-                        autoCorrect
-                        multiline
-                        numberOfLines={props.edit ? 4 : 1}
-                        placeholder={!props.cnt.about && props.edit ? "Short description ...." : null}
-                        editable={props.edit && !props.submittingAbout}
-                        value={props.edit && props.formElement.about.touched  ? props.formElement.about.value : props.cnt.about}
-                        style={props.aboutField}
-                        labelStyle={styles.aboutTitle}
-                        valid={(!props.formElement.about.valid && props.formElement.about.touched) || props.submitAboutErr}
-                        error={props.submitAboutErr ? "Network Error" : "About must be longer than 5 characters"}
-                        inputWrapperStyle={styles.formInputWrapper}
-                        formWrapperStyle={styles.formWrapper}
-                        style={props.edit ? {...styles.inputEdit, ...styles.input} : styles.input }
-                        inputIcon={!props.edit && myAccount ? "create-outline" : null}
-                        inputIconStyle={[styles.edit, styles.inputEdit]}
-                        onPress={props.enableEdit}
-                        />
-                    {props.edit ? <View style={styles.aboutButtonWrapper}>
-                        <Button onPress={props.cancelEdit} >
-                            <BoxShadow style={styles.aboutButton}>
-                                <Icon name="close" size={14} color="#ff1600"/>
-                                <Text numberOfLines={1} style={styles.cancel}>Cancel</Text>
+        <>
+            <View style={styles.wrapper}>
+                <ScrollView>
+                    <View style={styles.userDet}>
+                        <View style={styles.userDetWrapper}>
+                            <BoxShadow style={styles.userImageWrapper}>
+                                { userImg }
+                                { edit }
                             </BoxShadow>
-                        </Button>
-                        <Button 
-                            onPress={props.formElement.about.valid && !props.submittingAbout ? props.submitAbout.bind(this, props.formElement.about.value) : null}
-                            disabled={!props.formElement.about.valid}>
-                            <BoxShadow 
-                                style={styles.aboutButton}
+                            <View style={[styles.status]}>{status}</View>
+                            <ShadowView style={styles.usernameWrapper}>
+                                <Text style={styles.usernameText} numberOfLines={1}>
+                                    { props.cnt.username }
+                                </Text>
+                            </ShadowView>
+                        </View>
+                        <BoxShadow style={styles.userOpt}>
+                            <View style={[styles.disabledCnt, props.start ? styles.disabled : null]}>
+                                { userOpt }
+                            </View>
+                        </BoxShadow>
+                    </View>
+                    <View style={styles.about}>
+                        <FormElement
+                            labelTitle="About"
+                            onChangeText={(val) => props.inputChanged(val, 'about')}
+                            autoCorrect
+                            multiline
+                            numberOfLines={props.edit ? 4 : 1}
+                            placeholder={!props.cnt.about && props.edit ? "Short description ...." : null}
+                            editable={props.edit && !props.submittingAbout}
+                            value={props.edit && props.formElement.about.touched  ? props.formElement.about.value : props.cnt.about}
+                            style={props.aboutField}
+                            labelStyle={styles.aboutTitle}
+                            valid={(!props.formElement.about.valid && props.formElement.about.touched) || props.submitAboutErr}
+                            error={props.submitAboutErr ? "Network Error" : "About must be longer than 5 characters"}
+                            inputWrapperStyle={styles.formInputWrapper}
+                            formWrapperStyle={styles.formWrapper}
+                            style={props.edit ? {...styles.inputEdit, ...styles.input} : styles.input }
+                            inputIcon={!props.edit && myAccount ? "create-outline" : null}
+                            inputIconStyle={[styles.edit, styles.inputEdit]}
+                            onPress={props.enableEdit}
+                            />
+                        {props.edit ? <View style={styles.aboutButtonWrapper}>
+                            <Button onPress={props.cancelEdit} >
+                                <BoxShadow style={styles.aboutButton}>
+                                    <Icon name="close" size={14} color="#ff1600"/>
+                                    <Text numberOfLines={1} style={styles.cancel}>Cancel</Text>
+                                </BoxShadow>
+                            </Button>
+                            <Button 
+                                onPress={props.formElement.about.valid && !props.submittingAbout ? props.submitAbout.bind(this, props.formElement.about.value) : null}
                                 disabled={!props.formElement.about.valid}>
-                            {!props.submittingAbout ? (
-                                <>
-                                    <Icon name="checkmark-outline" size={14} color="#437da3"/>
-                                    <Text numberOfLines={1} style={styles.save}>Save</Text>
-                                </>
-                            ) : <ActivityIndicator size="small" color="#437da3" animating/>}
-                            </BoxShadow> 
-                        </Button>
-                    </View> : null }
-                </View>
-                <View style={styles.info}>
-                    <ScrollView 
-                        contentContainerStyle={styles.infoTab}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}>
-                        {props.profileTab.map((tab, index) => (
-                            <TouchableNativeFeedback key={index} onPress={props.selectProfileTab.bind(this, tab)}>
-                                <View style={[styles.infoTabCnt, props.currentProfileTab === tab ? styles.infoTabCurrent : null]}>
-                                    <Text style={[styles.textStyle, props.currentProfileTab === tab ? styles.infoTabText : null]}>{tab}</Text>
-                                </View>
-                            </TouchableNativeFeedback>
-                        ))}
-                    </ScrollView>
-                </View>
-            </ScrollView>
+                                <BoxShadow 
+                                    style={styles.aboutButton}
+                                    disabled={!props.formElement.about.valid}>
+                                {!props.submittingAbout ? (
+                                    <>
+                                        <Icon name="checkmark-outline" size={14} color="#437da3"/>
+                                        <Text numberOfLines={1} style={styles.save}>Save</Text>
+                                    </>
+                                ) : <ActivityIndicator size="small" color="#437da3" animating/>}
+                                </BoxShadow> 
+                            </Button>
+                        </View> : null }
+                    </View>
+                    <View style={styles.info}>
+                        <ScrollView 
+                            contentContainerStyle={styles.infoTab}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}>
+                            {props.profileTab.map((tab, index) => (
+                                <TouchableNativeFeedback key={index} onPress={props.selectProfileTab.bind(this, tab)}>
+                                    <View style={[styles.infoTabCnt, props.currentProfileTab === tab ? styles.infoTabCurrent : null]}>
+                                        <Text style={[styles.textStyle, props.currentProfileTab === tab ? styles.infoTabText : null]}>{tab}</Text>
+                                    </View>
+                                </TouchableNativeFeedback>
+                            ))}
+                        </ScrollView>
+                    </View>
+                </ScrollView>
+            </View>
             { updateProfile }
-        </View>
+        </>
     )
 }
 

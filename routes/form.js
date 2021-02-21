@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs'); 
-const {post, page, question, group, writeup, feed, advert, connectStatus, user} = require('../serverDB/serverDB');
+const {post, page, question, group, writeup, feed, advert, qchat, qcontent, connectStatus, user} = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
 let formInit = require('./utility/forminit');
 let submit = require('./utility/submit');
@@ -11,11 +11,7 @@ let create = require('./utility/create');
 let edit = require('./utility/edit');
 let uploadToBucket = require('./utility/upload');
 let savetemp = require('./utility/savetemp');
-let submitAdvert = require('./utility/submitadvert');
-let submitPost = require('./utility/submitaround');
 let submitContest = require('./utility/submitcontest');
-let submitQchat = require('./utility/submitqchat');
-let editQchat = require('./utility/editqchat');
 let editContest = require('./utility/editcontest');
 let editAround = require('./utility/editaround');
 const router = express.Router();
@@ -485,76 +481,46 @@ router.post('/edit/contest', authenticate, (req, res, next) => {
     })
 })
 
-router.post('/add/qchat', authenticate, (req, res, next) => {
+router.post('/add/cbt', authenticate, (req, res, next) => {
     formInit(req, formidable).then(form => {
-        let files = form.files ? form.files : {};
-        let video = [];
-        let image = [];
-        for (let cnt in files) {
-            if (files[cnt].length !== undefined) {
-                for (let itm of files[cnt]) {
-                    updateMedia(itm, cnt)
-                }
-            } else {
-                updateMedia(files[cnt], cnt)
-            }
-        }
-
-        function updateMedia(cnt, position) {
-            if (cnt.type.startsWith('video')) {
-                video.push({...cnt, position});
-            }
-            if (cnt.type.startsWith('image')) {
-                image.push({...cnt, position});
-            }
-        }
-        
-        savetemp(video, image, req.user).then(tempFileID => {
-            uploadToBucket(video, tempFileID, 'video', 'media', 'media.files').then(media => {
-                uploadToBucket(image, tempFileID, 'image', 'image', 'image.files').then(image => {
-                    updateAllMedia(media.videos, 'video', []).then(videoCnt => {
-                        updateAllMedia(media.images, 'snapshot', videoCnt).then(imageCnt => {
-                            updateAllMedia(image, 'image', imageCnt).then(mediaCnt => {
-                                let userModel = req.userType === 'authUser' ? authUser : user;
-                                const content = JSON.parse(form.fields.qchat);
-                                connectStatus.then((result) => {
-                                    submitQchat(content, qchat, mediaCnt, userModel, {authorID: req.user, username: req.username, userImage: req.userImage, userType: req.userType}, tempFileID).then(id =>
-                                        res.status(201).send(id)
-                                    ).catch(err => {
-                                        res.status(500).send(err)
-                                    })
-                                }).catch(err => {
-                                    res.status(500).send(err);
-                                })
-                            })
-                        })
-                    })
-                    function updateAllMedia(items, key, media) {
-                        return new Promise((resolve, reject) => {
-                            for (let itm of items) {
-                                let filterMedia = media.filter(cnt => cnt.position === itm.position)[0];
-                                if (filterMedia) {
-                                    let cnt = {...filterMedia};
-                                    cnt[key].push(itm);
-                                    let index = media.findIndex(cnt => cnt.position === itm.position);
-                                    media[index] = cnt;
-                                } else {
-                                    let mediaItms  = {image: [], video: [], snapshot: []}
-                                    mediaItms[key].push(itm);
-                                    media.push({position: itm.position, ...mediaItms})
-                                }
-                            }
-                            resolve(media)
-                        })
+        let mediaList = form.files && form.files.media ? form.files.media : [];
+        let fields = form.fields
+        savetemp(mediaList, 'qcontent', req.user).then(tempFileID => {
+            uploadToBucket(mediaList, fields.description).then(media => {
+                let cbtMedia = []
+                for (let cnt of media){
+                    if (cnt.filename && (cnt.filename.split('--')[0] === fields.id)) {
+                        cbtMedia.push(cnt);
                     }
-                }).catch(err => {
-                    res.status(500).send(err);
+                }
+                let questionMedia = [];
+                let updateQuestion = [];
+                for (let question of JSON.parse(fields.question)) {
+                    questionMedia = []
+                    for (let cnt of media){
+                        if (cnt.filename && (cnt.filename.split('--')[0] === question.id)) {
+                            questionMedia.push(cnt);
+                        }
+                    }
+                    delete question.id;
+                    question.media = questionMedia;
+                    updateQuestion.push(question);
+                }
+                submit(qcontent, {question: updateQuestion, tempFileID}, tempFileID, null).then(id => {
+                    let cnt = {
+                        authorID: req.user, username: req.username, userImage: req.userImage,
+                        content: fields.content, title: fields.title, hashTag: JSON.parse(fields.hashTag),
+                        enableComment: JSON.parse(fields.comment), enableDelete: JSON.parse(fields.delete),
+                        showResult: JSON.parse(fields.result), participant: fields.participant,
+                        hour: fields.hour, minute: fields.minute, second: fields.second, 
+                        duration: fields.duration, qchatTotal: fields.questionTotal, media: cbtMedia, 
+                        question: id, tempFileID
+                    }
+                    submit(qchat, cnt, tempFileID, 'qchat').then(id => {
+                        return res.status(201).send(id);
+                    })
                 })
-            }).catch(err => {
-                res.status(500).send(err);
             })
-        }).catch(err => {
-            res.status(500).send(err);
         })
     }).catch(err => {
         res.status(500).send(err);
@@ -562,7 +528,7 @@ router.post('/add/qchat', authenticate, (req, res, next) => {
 })
 
 
-router.post('/edit/qchat', authenticate, (req, res, next) => {
+router.post('/edit/cbt', authenticate, (req, res, next) => {
     formInit(req, formidable).then(form => {
         let files = form.files ? form.files : {};
         let video = [];
@@ -593,7 +559,7 @@ router.post('/edit/qchat', authenticate, (req, res, next) => {
                         updateAllMedia(media.images, 'snapshot', videoCnt).then(imageCnt => {
                             updateAllMedia(image, 'image', imageCnt).then(mediaCnt => {
                                 let userModel = req.userType === 'authUser' ? authUser : user;
-                                const content = JSON.parse(form.fields.qchat);
+                                const content = JSON.parse(form.fields.cbt);
                                 const removedMedia = form.fields.removedmedia ? JSON.parse(form.fields.removedmedia) : []
                                 connectStatus.then((result) => {
                                     let uploadedvideo = [];
@@ -613,7 +579,7 @@ router.post('/edit/qchat', authenticate, (req, res, next) => {
                                     updateAllMedia(uploadedsnap, 'snapshot', mediaCnt).then(mediaSnap => {
                                         updateAllMedia(uploadedimage, 'image', mediaSnap).then(mediaimage => {
                                             updateAllMedia(uploadedvideo, 'video', mediaimage).then(allMedia => {
-                                                editQchat(content, removedMedia, qchat, allMedia, userModel, {authorID: req.user, username: req.username, userImage: req.userImage, userType: req.userType}, tempFileID).then(id =>
+                                                editcbt(content, removedMedia, cbt, allMedia, userModel, {authorID: req.user, username: req.username, userImage: req.userImage, userType: req.userType}, tempFileID).then(id =>
                                                     res.status(201).send(id)
                                                 ).catch(err => {
                                                     res.status(500).send(err)

@@ -1,36 +1,71 @@
 import React, { Component } from 'react';
 import { View, Text, Keyboard, StyleSheet, Dimensions, Platform, ScrollView } from 'react-native';
-import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
 import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
+import { v4 as uuid } from 'uuid';
 
+import NoBackground from '../../../components/UI/NoBackground/NoBackground';
+import Navigation from '../../../components/UI/SideBar/Navigation/Navigation';
+import CreateNavigation from '../../../components/UI/SideBar/CreateNavigation/CreateNavigation';
+import FormElement from '../../../components/UI/FormElement/FormElement';
+import BoxShadow from '../../../components/UI/BoxShadow/BoxShadow';
+import Button from '../../../components/UI/Button/Button';
+import DefaultHeader from '../../../components/UI/Header/DefaultHeader';
+import { updateObject, checkValidity, checkUri, checkHashtag } from '../../../shared/utility';
+import ActionSheet from '../../../components/UI/ActionSheet/ActionSheet';
+import CameraComponent from '../../../components/UI/Camera/Camera';
+import VideoCamera from '../../../components/UI/VideoCamera/VideoCamera';
+import AudioRecorder from '../../../components/UI/AudioRecorder/AudioRecorder';
+import EmojiPicker from '../../../components/UI/EmojiPicker/EmojiPicker';
+import LinkPreview from '../../../components/UI/LinkPreview/LinkPreview';
+import UploadPreview from '../../../components/UI/UploadPreview/UploadPreview';
+import CheckBox from '../../../components/UI/CheckBox/CheckBox';
+import Select from '../../../components/UI/Select/Select';
+import ExamContent from './ExamContent/ExamContent';
 
-import NoBackground from '../../components/UI/NoBackground/NoBackground';
-import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
-import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
-import FormElement from '../../components/UI/FormElement/FormElement';
-import BoxShadow from '../../components/UI/BoxShadow/BoxShadow';
-import DefaultHeader from '../../components/UI/Header/DefaultHeader';
-import Button from '../../components/UI/Button/Button';
-import { updateObject, checkValidity, checkUri, checkHashtag } from '../../shared/utility';
-import * as actions from '../../store/actions/index';
-import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
-import CameraComponent from '../../components/UI/Camera/Camera';
-import VideoCamera from '../../components/UI/VideoCamera/VideoCamera';
-import AudioRecorder from '../../components/UI/AudioRecorder/AudioRecorder';
-import EmojiPicker from '../../components/UI/EmojiPicker/EmojiPicker';
-import LinkPreview from '../../components/UI/LinkPreview/LinkPreview';
-import UploadPreview from '../../components/UI/UploadPreview/UploadPreview'
-import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
-import CheckBox from '../../components/UI/CheckBox/CheckBox';
-
-class WriteUp extends Component {
+class CBT extends Component {
     constructor(props) {
         super(props);
         this.state = {
             viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
             backgroundColor: '#fff',
+            id: uuid(),
+            duration: {
+                hour: {
+                    value: '',
+                    validation: {
+                        required: true,
+                        minLength: 1,
+                        maxNumber: 24,
+                        numbersOnly: true
+                    },
+                    valid: false,
+                    touched: false
+                },
+                minute: {
+                    value: '',
+                    validation: {
+                        required: true,
+                        minLength: 1,
+                        maxNumber: 59,
+                        numbersOnly: true
+                    },
+                    valid: false,
+                    touched: false
+                },
+                second: {
+                    value: '',
+                    validation: {
+                        required: true,
+                        minLength: 1,
+                        maxNumber: 59,
+                        numbersOnly: true
+                    },
+                    valid: false,
+                    touched: false
+                },
+            },
             formElement: {
                 title: {
                     value: '',
@@ -59,9 +94,32 @@ class WriteUp extends Component {
                     validation: {
                     },
                     valid: true,
+                },
+                result: {
+                    value: false,
+                    validation: {
+                    },
+                    valid: true,
+                },
+                delete: {
+                    value: false,
+                    validation: {
+                    },
+                    valid: true,
+                },
+                participant: {
+                    value: '',
+                    validation: {
+                    },
+                    option:  [{title: 'Public', icon: {name: 'lock-open-outline', size: 18}},
+                    {title: 'Private', icon: {name: 'lock-closed-outline', size: 18}}],
+                    valid: false,
                 }
             },
             formIsValid: false,
+            durationIsValid: false,
+            durationError: null,
+            totalDuration: 0,
             showActionSheet: false,
             showCamera: false,
             showVideoCamera: false,
@@ -70,7 +128,9 @@ class WriteUp extends Component {
             selection: {title: {start: 0, end: 0}, content: {start: 0, end: 0}},
             uploadFile: [],
             inputUri: [],
-            showUpload: false
+            addExam: false,
+            showUpload: false,
+            examDetail: null
         }
     }
 
@@ -82,20 +142,10 @@ class WriteUp extends Component {
     }
 
     componentDidMount() {
-        this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.props.onAddFormReset();
-        });
         Dimensions.addEventListener('change', this.updateStyle)
     }
 
-    componentDidUpdate() {
-        if (this.props.submitted && this.props.cntID) {
-            this._unsubscribe();
-        }
-    }
-
     componentWillUnmount() {
-        this._unsubscribe();
         Dimensions.removeEventListener('change', this.updateStyle);
     }
 
@@ -132,6 +182,53 @@ class WriteUp extends Component {
         let updateFormType = updateObject(this.state.formElement[inputType], {focus: true});
         let updateFormElement = updateObject(this.state.formElement, {[inputType]: updateFormType})
         this.setState({formElement: updateFormElement})
+    }
+
+    durationInputHandler = (value, inputType) => {
+        let check = checkValidity(value, this.state.duration[inputType].validation)
+        let updateFormType = updateObject(this.state.duration[inputType], {
+            value : check ? value : 
+            !value ? '' : this.state.duration[inputType].value,
+            valid: check,
+            touched: true
+        });
+        
+        let totalDuration = 0
+        let durationError = null;
+        let maxNumber = updateFormType.validation.maxNumber;
+        let updateDuration = updateObject(this.state.duration, {[inputType]: updateFormType});
+        for (let inputType in updateDuration) {
+            let inputValue = updateDuration[inputType].value ? 
+            inputType === 'hour' ? Number.parseInt(updateDuration[inputType].value)*60*60*1000
+            : inputType === 'minute' ? Number.parseInt(updateDuration[inputType].value)*60*1000 
+            : Number.parseInt(updateDuration[inputType].value)*1000 : 0;
+            totalDuration += inputValue
+        }
+
+        if (totalDuration === 0) {
+            durationError =  'Duration must not be zero';
+        }
+
+        if (value > maxNumber) {
+            durationError =  `Number must not be greater than ${maxNumber}`;
+        }
+
+        this.setState({duration: updateDuration, durationError, totalDuration,  durationIsValid : totalDuration !== 0});
+    }
+
+    durationFormatHandler = (durationMillis, hrSeparator, minSeparator, secSeparator) => {
+        let secDur = (durationMillis/1000);
+        let minDur = secDur/60
+        let sec = Math.floor(secDur%60) < 10 ? `0${Math.floor(secDur%60)} ${secSeparator}` : `${Math.floor(secDur%60)} ${secSeparator}`;
+        let min =  minDur < 10 ? `0${Math.floor(minDur)} ${minSeparator} ${sec}` : `${Math.floor(minDur)} ${minSeparator} ${sec}`;
+        let hr = '00';
+        if ( minDur > 59) {
+            min =  Math.floor(minDur%60) < 10 ? `0${Math.floor(minDur%60)} ${minSeparator} ${sec}` : `${Math.floor(minDur%60)} ${minSeparator} ${sec}`;
+            let hrDur = minDur/60;
+            hr =  hrDur < 10 ? `0${Math.floor(hrDur)} ${hrSeparator} ${min}` : `${Math.floor(hrDur)} ${hrSeparator} ${min}`
+        }
+        let duration = secDur < 60 || minDur < 60 ? min : hr;
+        return duration;
     }
 
     navigationHandler = (page) => {
@@ -203,7 +300,6 @@ class WriteUp extends Component {
         }
     };
 
-
     closePickerHandler = () => {
         this.setState({showCamera: false, showAudioRecorder: false, showVideoCamera: false, showEmoji: false, showUpload: false})
     }
@@ -235,35 +331,49 @@ class WriteUp extends Component {
         this.setState({showUpload: true })
     }
 
-    submitHandler = () => {
+    showExamContentHandler = () => {
         let cnt = {
+            id: this.state.id,
             title: this.state.formElement.title.value,
             content: this.state.formElement.content.value,
+            participant: this.state.formElement.participant.value,
+            result: this.state.formElement.result.value,
+            delete: this.state.formElement.delete.value,
+            hour: this.state.duration.hour.value || 0,
+            minute: this.state.duration.minute.value || 0,
+            second: this.state.duration.second.value || 0,
+            duration: this.state.totalDuration,
+            comment: this.state.formElement.comment.value,
             uploadFile: this.state.uploadFile,
-            hashTag: [...this.state.formElement.title.inputHashTag, ...this.state.formElement.content.inputHashTag],
-            comment: this.state.formElement.comment.value
+            hashTag: [...this.state.formElement.title.inputHashTag, ...this.state.formElement.content.inputHashTag]
         }
-        this.props.onSubmitForm(cnt)
+        this.setState((prevState, props) => ({
+            addExam: !prevState.addExam,
+            examDetail: cnt
+        }))
     }
 
     resetFormHandler = () => {
-        this.props.onAddFormReset();
         this.setState({
-            formElement: { title: { value: '',validation: {required: true, minLength: 1},valid: false,touched: false, focus: true, inputHashTag: []},
-            content: { value: '',validation: {required: true, minLength: 1 },  valid: false, touched: false,focus: false, inputHashTag: []},
-            comment: {value: true, validation: {}, valid: true } },formIsValid: false,showActionSheet: false,showCamera: false,
-            showVideoCamera: false,showAudioRecorder: false, showEmoji: false,selection: {title: {start: 0, end: 0}, content: {start: 0, end: 0}},
-            uploadFile: [],inputUri: [], showUpload: false
+            id: uuid(),duration: {hour: { value: '',validation: {required: true,minLength: 1,maxNumber: 24,numbersOnly: true },valid: false,touched: false},
+            minute: {value: '',validation: {required: true,minLength: 1,maxNumber: 59,numbersOnly: true},valid: false,touched: false},
+            second: {value: '',validation: {required: true,minLength: 1,maxNumber: 59,numbersOnly: true},valid: false,touched: false},},
+            formElement: {title: {value: '',validation: {required: true,minLength: 1},valid: false,touched: false,focus: true,inputHashTag: []},
+            content: {value: '',validation: {required: true,minLength: 1},valid: false,touched: false,focus: false,inputHashTag: []},
+            comment: {value: true,validation: {},valid: true,},result: {value: false,validation: {},valid: true,},delete: {value: false,validation: {},valid: true,},
+            participant: {value: '',validation: {},option:  [{title: 'Public', icon: {name: 'lock-open-outline', size: 18}},{title: 'Private', icon: {name: 'lock-closed-outline', size: 18}}],valid: false,}},
+            formIsValid: false,durationIsValid: false,durationError: null,totalDuration: 0,showActionSheet: false,showCamera: false,showVideoCamera: false,
+            showAudioRecorder: false,showEmoji: false,selection: {title: {start: 0, end: 0}, content: {start: 0, end: 0}},uploadFile: [],inputUri: [],addExam: false,showUpload: false,examDetail: null
         })
     }
 
     render() {
         let cnt = (
             <View style={styles.formWrapper}>
-                 { this.state.viewMode === 'landscape' ? (
+                { this.state.viewMode === 'landscape' ? (
                     <DefaultHeader 
                         onPress={() => this.props.navigation.goBack()}
-                        title="Add Write Up"
+                        title="Add CBT"
                     />
                 ): null}
                 <View style={styles.formElementWrapper}>
@@ -281,21 +391,72 @@ class WriteUp extends Component {
                                 onFocus={() => this.inputFocusHandler('title')}
                                 style={styles.formElementInput}/>
                             <FormElement
-                                labelTitle="Content"
+                                labelTitle="Exam Summary / Instruction"
                                 onChangeText={(val) => this.inputChangedHandler(val, 'content')}
-                                error="Content must not be empty"
+                                error="Exam Summary / Instruction must not be empty"
                                 autoCorrect
                                 multiline
                                 numberOfLines={4}
                                 value={this.state.formElement.content.value}
                                 valid={!this.state.formElement.content.valid && this.state.formElement.content.touched}
-                                onSelectionChange={(e) => this.inputChangePositionHandler(e, 'content')}
                                 onFocus={() => this.inputFocusHandler('content')}
+                                onSelectionChange={(e) => this.inputChangePositionHandler(e, 'content')}
                                 style={styles.formElementInput}/>
-                            <CheckBox
+                             <View style={styles.duration}>
+                                <Text style={[styles.textStyle, styles.durationTitle]}>Exam Duration</Text>
+                                <View style={styles.durationForm}>
+                                    <FormElement
+                                        placeholder="Hour"
+                                        onChangeText={(val) => this.durationInputHandler(val, 'hour')}
+                                        value={this.state.duration.hour.value}
+                                        style={styles.formElementInput}
+                                        formWrapperStyle={styles.formElementDuration}
+                                        inputWrapperStyle={styles.formElementDuration}
+                                        />
+                                    <FormElement
+                                        placeholder="Minute"
+                                        onChangeText={(val) => this.durationInputHandler(val, 'minute')}
+                                        value={this.state.duration.minute.value}
+                                        style={styles.formElementInput}
+                                        formWrapperStyle={styles.formElementDuration}
+                                        inputWrapperStyle={styles.formElementDuration}/>
+                                    <FormElement
+                                        placeholder="Second"
+                                        onChangeText={(val) => this.durationInputHandler(val, 'second')}
+                                        value={this.state.duration.second.value}
+                                        style={styles.formElementInput}
+                                        formWrapperStyle={styles.formElementDuration}
+                                        inputWrapperStyle={styles.formElementDuration}/>
+                                    <View style={styles.durationPreview}> 
+                                        <Text> {this.durationFormatHandler(this.state.totalDuration, 'Hrs :', 'Min :', 'Sec')} </Text>
+                                    </View>
+                                </View>
+                                {this.state.durationError ? <Text style={styles.error}> { this.state.durationError } </Text> : null}
+                             </View>
+                             <Select 
+                                title="Select Participant"
+                                onSelect={(val) => this.inputChangedHandler(val, 'participant')}
+                                error="select paticipant"
+                                valid={!this.state.formElement.participant.valid && this.state.formElement.participant.touched}
+                                value={this.state.formElement.participant.value}
+                                option={this.state.formElement.participant.option}
+                                formWrapperStyle={styles.select}
+                                />
+                            <CheckBox 
+                                ref={(ref) => this.checkBox = ref}
                                 title="Enable Comment"
                                 checked={this.state.formElement.comment.value}
                                 onCheck={(val) => this.inputChangedHandler(val, 'comment')}/>
+                            <CheckBox 
+                                ref={(ref) => this.checkBox = ref}
+                                title="Enable Chat Deletion"
+                                checked={this.state.formElement.delete.value}
+                                onCheck={(val) => this.inputChangedHandler(val, 'delete')}/>
+                            <CheckBox 
+                                ref={(ref) => this.checkBox = ref}
+                                title="Add Participant Result To Chat"
+                                checked={this.state.formElement.result.value}
+                                onCheck={(val) => this.inputChangedHandler(val, 'result')}/>
                         </View>
                     </ScrollView>
                     {this.state.inputUri.length > 0 ? 
@@ -323,13 +484,11 @@ class WriteUp extends Component {
                             </Button>
                         </View>
                         <Button 
-                            title="Publish"
+                            title="Next"
                             style={styles.button}
-                            onPress={this.props.start ? null : this.submitHandler}
-                            disabled={!this.state.formIsValid || this.props.start}
-                            textStyle={styles.textStyle}
-                            submitting={this.props.start}
-                            loaderStyle="#fff"/>
+                            onPress={this.showExamContentHandler}
+                            disabled={!this.state.formIsValid || this.state.totalDuration === 0}
+                            textStyle={styles.textStyle}/>
                     </View>
                 </View>
                 { this.state.showActionSheet ? 
@@ -366,20 +525,13 @@ class WriteUp extends Component {
                 { this.state.showUpload ?  
                         <UploadPreview
                             uploadFile={this.state.uploadFile}
-                            closePreview={this.closePreviewHandler}/>: null}
-                 { this.props.submitError ? 
-                    <NotificationModal
-                        info="Network Error !"
-                        infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
-                        closeModal={this.props.onAddFormReset}
-                        button={[{title: 'Ok', onPress: this.props.onAddFormReset, style: styles.modalButton}]}/> : null}
-                { this.props.submitted ? 
-                    <NotificationModal
-                        info="Write Up submitted successfully !"
-                        infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
-                        closeModal={this.resetFormHandler}
-                        button={[{title: 'View', onPress: () => this.navigationHandler('WriteUp')},
-                        {title: 'Add', onPress: this.resetFormHandler, style: styles.modalButton}]}/> : null}
+                            closePreview={this.closePreviewHandler}
+                            disableDescription/>: null}
+                { this.state.addExam ? 
+                    <ExamContent 
+                        closeExamContent={this.showExamContentHandler}
+                        examDetail={this.state.examDetail}
+                        resetFormHandler={this.resetFormHandler}/> : null}
             </View>
         )
       return (
@@ -483,23 +635,38 @@ const styles = StyleSheet.create({
         backgroundColor: '#dcdbdc',
         top: -3,
         right: -3
+    },
+    select: {
+        paddingHorizontal: 10,
+        marginBottom: 20,
+        width: 180
+    },
+    duration: {
+        width: '100%'
+    },
+    durationTitle: {
+        paddingHorizontal: 10
+    },
+    durationForm: {
+        flexDirection: 'row',
+        marginBottom: 20,
+        flex: 1
+    },
+    durationPreview: {
+        backgroundColor: '#e9ebf2',
+        color: '#333',
+        paddingHorizontal:  10,
+        marginRight: 10,
+        marginTop: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    formElementDuration: {
+        width: 'auto',
+        flex: 1,
+        paddingBottom: 0,
+        marginBottom: 0
     }
 })
 
-const mapStateToProps = state => {
-    return {
-        submitError: state.addForm.writeupSubmitError,
-        submitted: state.addForm.writeupSubmitted,
-        start: state.addForm.writeupStart,
-        cntID: state.addForm.cntID
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        onSubmitForm: (formData) => dispatch(actions.submitAddFormInit(formData, 'writeup')),
-        onAddFormReset: () => dispatch(actions.addFormReset())
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(WriteUp);
+export default CBT;

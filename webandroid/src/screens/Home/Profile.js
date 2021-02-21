@@ -220,11 +220,25 @@ class Profile extends Component {
     }
 
     render() {
+        let header = (
+            this.state.viewMode === 'landscape' ? (
+                <DefaultHeader 
+                    onPress={() => this.props.navigation.goBack()}
+                    title="Profile"
+                />
+            ) : null
+        );
+
         let cnt = (
-            <ActivityIndicator 
-                size="large"
-                animating
-                color="#437da3"/>
+           <View style={styles.wrapper}>
+                { header }
+                <View style={styles.loaderCnt}>
+                    <ActivityIndicator 
+                        size="large"
+                        animating
+                        color="#437da3"/>
+                </View>
+           </View>
         )
 
        
@@ -232,12 +246,7 @@ class Profile extends Component {
             let profile = this.props.changeProfileStart;
             cnt = (
                 <View style={[styles.wrapper]}>
-                    { this.state.viewMode === 'landscape' ? (
-                        <DefaultHeader 
-                            onPress={() => this.props.navigation.goBack()}
-                            title="Profile"
-                        />
-                    ): null}
+                    { header }
                     <Profiles
                         profile={this.props.profile}
                         navigate={this.navigationHandler}
@@ -307,20 +316,23 @@ class Profile extends Component {
 
         if (this.props.profileErr) {
             cnt = (
-                <>
-                    <InfoBox
-                        det='Network Error!'
-                        name="cloud-offline-outline"
-                        size={40}
-                        color="#ff1600"
-                        style={styles.info}/>
-                    <View style={styles.icon}>
-                        <TouchableOpacity onPress={this.reloadFetchHandler} style={styles.reload}>
-                            <Ionicons name="reload-outline" size={18} color="#777"/>
-                            <Text style={styles.reloadText}>Reload</Text>
-                        </TouchableOpacity>
+                <View style={styles.wrapper}>
+                    { header }
+                    <View style={styles.loaderCnt}>
+                        <InfoBox
+                            det='Network Error!'
+                            name="cloud-offline-outline"
+                            size={40}
+                            color="#ff1600"
+                            style={styles.info}/>
+                        <View style={styles.icon}>
+                            <TouchableOpacity onPress={this.reloadFetchHandler} style={styles.reload}>
+                                <Ionicons name="reload-outline" size={18} color="#777"/>
+                                <Text style={styles.reloadText}>Reload</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </>
+                </View>
             )
         }
 
@@ -374,6 +386,12 @@ const styles = StyleSheet.create({
     },
     buttonCancel: {
         color: '#ff1600'
+    },
+    loaderCnt: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff'
     }
 })
 

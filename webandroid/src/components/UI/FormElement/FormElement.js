@@ -17,10 +17,11 @@ const formElement = props => {
                     style={[styles.input, props.style]} />
                 {props.inputIcon || props.range ? (
                     <View style={[styles.inputIcon, props.inputIconStyle]}>
-                        <TouchableOpacity onPress={props.onPress}>
-                            { props.inputIcon ? <Ionicons name={props.inputIcon} size={props.inputIconSize ? props.inputIconSize : 14}/>: 
+                        { props.inputIcon ? 
+                            <TouchableOpacity onPress={props.onPress}>
+                                <Ionicons name={props.inputIcon} size={props.inputIconSize ? props.inputIconSize : 14}/>
+                            </TouchableOpacity> : 
                             <Text>{ props.range }</Text>}
-                        </TouchableOpacity>
                     </View>
                 ): null}
             </View>

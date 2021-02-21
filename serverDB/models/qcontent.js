@@ -4,39 +4,38 @@ const Schema  = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const QcontentSchema = new Schema({
-    id: ObjectId,
-    qchatID: {
-        type: String,
-        required: true
-    },
     question: [{
-        position: {
-            type: Number
-        },
-        question: {
-            type: String
-        },
-        option: {
-            type: String
+        content: {
+            type: String,
+            required: true,
+            trim: true
         },
         answer: {
-            type: String
+            type: String,
+            trim: true
         },
-        image: {
-            type: Array,
-            default: []
+        examType: {
+            type: String,
+            required: true,
+            trim: true
         },
-        video: {
+        media: [{
+            id: ObjectId, 
+            filename: String, 
+            bucket: String,
+            ext: String, 
+            description: String
+        }],
+        hashTag: {
             type: Array,
-            default: []
+            default: [String]
         },
-        snapshot: {
-            type: Array,
-            default: []
+        answerOption: {
+            type: Object
         }
-    }]
+    }],
+    tempFileID: String
 })
-QcontentSchema.index({title: 'text'});
-const qcontent = mongoose.model('qcontents', QcontentSchema);
 
+const qcontent = mongoose.model('qcontents', QcontentSchema);
 module.exports = qcontent;

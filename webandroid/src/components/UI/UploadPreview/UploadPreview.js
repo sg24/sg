@@ -117,15 +117,17 @@ class FileExplorer extends Component {
                                         </View>
                                         }
                                 </View>
-                              <FormElement
-                                  onChangeText={(val) => this.inputChangedHandler(val, file.id)}
-                                  autoCorrect
-                                  labelTitle="Description"
-                                  multiline
-                                  value={this.state.formElement[file.id].value}
-                                  formWrapperStyle={styles.formWrapperStyle}
-                                  style={styles.formElementInput}
-                                  labelStyle={styles.labelStyle}/>
+                              {this.props.disableDescription ? null :
+                                <FormElement
+                                    onChangeText={(val) => this.inputChangedHandler(val, file.id)}
+                                    autoCorrect
+                                    labelTitle="Description"
+                                    multiline
+                                    value={this.state.formElement[file.id].value}
+                                    formWrapperStyle={styles.formWrapperStyle}
+                                    style={styles.formElementInput}
+                                    labelStyle={styles.labelStyle}/>
+                            }
                           </View>
                         ))}
                    </ScrollView>

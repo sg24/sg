@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform, TouchableWithoutFeedback } from 'react-native';
 import Ionicons from 'ionicons';
 
 import TouchableNativeFeedback from '../../TouchableNativeFeedback/TouchableNativeFeedback';
@@ -81,45 +81,51 @@ class ButtonItem extends Component {
 
     render() {
         return (
-            <View style={styles.wrapper}>
-                <View style={[styles.removeWrapper, styles.remove]}>
-                    <TouchableNativeFeedback onPress={this.props.remove}>
-                        <Ionicons name="trash-bin-outline" size={20} color="#ff1600"/>
-                    </TouchableNativeFeedback>
-                </View>
-                <View style={styles.option}>
-                    <Select 
-                        title="Button Type"
-                        icon={{name: 'chevron-down-outline', size: 15}}
-                        onSelect={(val) => this.inputChangedHandler(val, 'buttonType')}
-                        error="Type must not be empty"
-                        valid={!this.state.formElement.buttonType.valid && this.state.formElement.buttonType.touched}
-                        value={this.state.formElement.buttonType.value}
-                        option={this.state.buttonType}
-                        />
-                    <FormElement
-                        placeholder={`Enter ${this.state.formElement.buttonType.value !== '' ? 
-                        this.state.formElement.buttonType.value === 'URL' || this.state.formElement.buttonType.value === 'E-mail' ? 
-                        this.state.formElement.buttonType.value : 'Phone  Number' : 'URL / Phone Number'}`}
-                        onChangeText={(val) => this.inputChangedHandler(val, 'content')}
-                        error={`Enter ${this.state.formElement.buttonType.value !== '' ? 
-                        this.state.formElement.buttonType.value === 'URL' || this.state.formElement.buttonType.value === 'E-mail' ? 
-                        this.state.formElement.buttonType.value : 'Phone  Number' : 'URL / Phone Number'}`}
-                        formWrapperStyle={styles.formWrapper}
-                        value={this.state.formElement.content.value}
-                        valid={!this.state.formElement.content.valid && this.state.formElement.content.touched}/>
-                    <FormElement
-                        placeholder="Buy Now"
-                        onChangeText={(val) => this.inputChangedHandler(val, 'title')}
-                        error="Title must not be empty"
-                        autoCorrect
-                        formWrapperStyle={styles.formWrapper}
-                        value={this.state.formElement.title.value}
-                        valid={!this.state.formElement.title.valid && this.state.formElement.title.touched}
-                        range={`${this.state.formElement.title.range.start}/${this.state.formElement.title.range.end}`}/>
-                    
-                </View>
-            </View>           
+            <TouchableWithoutFeedback onPress={() => this.select.closeSelectHandler()}>
+                <View style={styles.wrapper}>
+                    <View style={[styles.removeWrapper, styles.remove]}>
+                        <TouchableNativeFeedback onPress={this.props.remove}>
+                            <Ionicons name="trash-bin-outline" size={20} color="#ff1600"/>
+                        </TouchableNativeFeedback>
+                    </View>
+                    <View style={styles.option}>
+                        <Select 
+                            ref={(ref) => this.select = ref}
+                            title="Type"
+                            icon={{name: 'chevron-down-outline', size: 15}}
+                            onSelect={(val) => this.inputChangedHandler(val, 'buttonType')}
+                            error="Type must not be empty"
+                            value={this.state.formElement.buttonType.value}
+                            option={this.state.buttonType}
+                            optionWrapperStyle={Platform.OS !== 'web' ? styles.selectOption : null}
+                            optionStyle={Platform.OS !== 'web' ? styles.optionStyle : null}
+                            />
+                        <FormElement
+                            placeholder={`${this.state.formElement.buttonType.value !== '' ? 
+                            this.state.formElement.buttonType.value === 'URL' || this.state.formElement.buttonType.value === 'E-mail' ? 
+                            this.state.formElement.buttonType.value : 'Phone  Number' : 'URL / Phone Number'}`}
+                            onChangeText={(val) => this.inputChangedHandler(val, 'content')}
+                            error={`${this.state.formElement.buttonType.value !== '' ? 
+                            this.state.formElement.buttonType.value === 'URL' || this.state.formElement.buttonType.value === 'E-mail' ? 
+                            this.state.formElement.buttonType.value : 'Phone  Number' : 'URL / Phone Number'}`}
+                            formWrapperStyle={styles.formWrapper}
+                            value={this.state.formElement.content.value}/>
+                        <FormElement
+                            placeholder="Buy Now"
+                            onChangeText={(val) => this.inputChangedHandler(val, 'title')}
+                            error="Title must not be empty"
+                            autoCorrect
+                            formWrapperStyle={styles.formWrapper}
+                            value={this.state.formElement.title.value}
+                            range={`${this.state.formElement.title.range.start}/${this.state.formElement.title.range.end}`}
+                            inputIconStyle={styles.inputIcon}/>
+                    </View>
+                    { this.state.formElement.buttonType.value === 'URL' && this.state.formElement.content.touched &&
+                        !String(this.state.formElement.content.value).startsWith('http') ? 
+                    <Text style={styles.error}>URL must start with http or https</Text> : null}
+                </View> 
+            </TouchableWithoutFeedback>
+                     
         )
     }
 }
@@ -140,7 +146,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         paddingHorizontal: 10,
-        paddingVertical: 20,
+        paddingVertical: Platform.OS !== 'web' ? 30 : 20,
         borderRadius: 3
     },
     removeWrapper: {
@@ -164,6 +170,27 @@ const styles = StyleSheet.create({
         paddingRight: 0,
         paddingBottom: 0,
         flexShrink: 1
+    },
+    inputIcon: {
+        width: 'auto'
+    },
+    selectOption: {
+        bottom: 'auto',
+        top: -50,
+        left: -10
+    },
+    optionStyle: {
+        paddingVertical: 4,
+        paddingHorizontal: 5,
+        flex: 1,
+        flexDirection: 'row'
+    },
+    error: {
+        position: 'relative',
+        paddingVertical: 5,
+        fontSize: 15,
+        color: '#ff1600',
+        marginBottom: 5
     }
 })
 

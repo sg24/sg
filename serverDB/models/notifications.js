@@ -78,6 +78,9 @@ const NotificationsSchema = new Schema({
     }],
     advert: [{
         ...defaultContentSchema
+    }],
+    qchat: [{
+        ...defaultContentSchema
     }]
 })
 

@@ -17,27 +17,32 @@ class Select extends Component {
         }))
     }
 
+    closeSelectHandler = () => {
+        this.setState({open: false})
+    }
+
     render() {
         return (
             <View style={[styles.wrapper, this.props.formWrapperStyle]}>
-                <Button onPress={this.openSelectHandler} style={styles.selectTitleWrapper}>
+                <Button onPress={this.openSelectHandler} style={this.props.titleStyle ? this.props.titleStyle : styles.selectTitleWrapper}>
                     <Text style={styles.selectTitle} numberOfLines={1}>
                         {this.props.value || this.props.title }
                     </Text>
-                    <Icon name={this.props.icon.name} size={this.props.icon.size} style={this.state.open ? styles.open : null}/>
+                    <Icon name={this.props.icon ? this.props.icon.name :  'chevron-down-outline'} 
+                    size={this.props.icon ? this.props.icon.size : 15} style={this.state.open ? styles.open : null}/>
                 </Button>
                 { this.state.open ? 
-                    <View style={styles.selectOptionWrapper}>
+                    <View style={[styles.selectOptionWrapper, this.props.optionWrapperStyle]}>
                         {this.props.option.map((option, index) => (
                                 <Button  
-                                    key={index} 
+                                    key={index}
                                     onPress={() => {
                                         this.props.onSelect(option.title);
                                         this.openSelectHandler();
                                     }} 
-                                    style={styles.selectOption}>
-                                    <Icon name={option.icon.name} size={option.icon.size ? option.icon.size : 14} />
-                                    <Text style={styles.selectOptionTitle} numberOfLines={1}>
+                                    style={this.props.optionStyle ? this.props.optionStyle :  styles.selectOption}>
+                                    {option.icon ? <Icon name={option.icon.name} size={option.icon.size ? option.icon.size : 14} /> : null}
+                                    <Text style={option.icon ? styles.selectOptionTitle : null} numberOfLines={1}>
                                         { option.title }
                                     </Text>
                                 </Button>
@@ -71,7 +76,7 @@ const styles = StyleSheet.create({
         borderColor: '#dcdbdc',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: Platform.OS !== 'web' ? 4 : 7,
+        paddingVertical: Platform.OS !== 'web' ? 7 : 7,
         paddingHorizontal: 10,
     }, 
     selectTitle: {

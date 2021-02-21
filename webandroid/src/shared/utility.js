@@ -28,6 +28,18 @@ export const checkValidity = (value, rules) => {
         isValid =  value.length >= rules.minLength  && isValid
     }
 
+    if (rules.numbersOnly) {
+        isValid =  /^\d+$/.test(value.toString()) && isValid;
+    }
+    
+    if (rules.notZero) {
+        isValid =  /0/.test(parseInt(value)) ? false : true && isValid;
+    }
+
+    if (rules.maxNumber) {
+        isValid = parseInt(value) <= rules.maxNumber  && isValid;
+    }
+
     if (rules.isEqual) {
         isValid =  value === rules.isEqual;
     }

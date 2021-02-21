@@ -72,9 +72,9 @@ const QuestionSchema = new Schema({
     },
     _isCompleted: {
         type: Boolean,
-        required: true,
         default: false
-    }
+    },
+    tempFileID: String
 })
 
 QuestionSchema.index({content: 'text'});

@@ -5,15 +5,8 @@ import Icon from 'ionicons';
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 
 class CheckBox extends Component {
-    state = {
-        checked: this.props.checked
-    };
-
     checkBoxHandler = () => {
-        this.setState((prevState, props) => ({
-            checked: !prevState.checked
-        }))
-        this.props.onCheck(!this.state.checked);
+        this.props.onCheck(!this.props.checked);
     }
 
     render() {
@@ -21,9 +14,9 @@ class CheckBox extends Component {
             <View style={[styles.wrapper, this.props.formWrapperStyle]}>
                 <TouchableNativeFeedback onPress={this.checkBoxHandler} >
                     <View style={styles.container}>
-                        <View style={[styles.checkWrapper, this.props.circle ? styles.circle : null]}>
+                        <View style={[styles.checkWrapper, this.props.circle ? styles.circle : null, this.props.outterStyle]}>
                             <View style={[styles.check, this.props.circle ? styles.checkCircle : null, 
-                                this.state.checked ? styles.checked: null]}></View>
+                                this.props.checked ? styles.checked: null, this.props.innerStyle]}></View>
                         </View>
                         <Text style={[styles.title, this.props.textStyle]}>
                             { this.props.title }

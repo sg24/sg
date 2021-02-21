@@ -42,7 +42,7 @@ const create = props => {
                     <Text style={[styles.textStyle, styles.navItemText, {color: props.color}]}>Room</Text>
                 </View>
             </TouchableNativeFeedback>
-            <TouchableNativeFeedback  onPress={() => navigation.navigate('AddPost')}>
+            <TouchableNativeFeedback  onPress={() => navigation.navigate('AddCBT')}>
                 <View style={styles.navItem}>
                     <Ionicons name="timer" size={20} color={props.color}/>
                     <Text style={[styles.textStyle, styles.navItemText, {color: props.color}]}>CBT</Text>

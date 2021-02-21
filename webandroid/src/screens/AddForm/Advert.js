@@ -105,15 +105,15 @@ class Advert extends Component {
     inputChangedHandler = (value, inputType) => {
         if (!this.state.formElement[inputType].range || String(value).length <= this.state.formElement[inputType].range.end) {
             let uri = checkUri(value);
+            let range = inputType !== 'comment' ?  {range: updateObject(this.state.formElement[inputType].range , {
+                start: String(value).length
+            })} : {};
             let updateFormType = updateObject(this.state.formElement[inputType], {
                 value,
                 valid: checkValidity(value, this.state.formElement[inputType].validation),
                 touched: true,
-                range: updateObject(this.state.formElement[inputType].range , {
-                    start: String(value).length
-                })
+                ...range
             });
-            
             let formIsValid = true;
             let updateFormElement = updateObject(this.state.formElement, {[inputType]: updateFormType})
 
@@ -292,7 +292,8 @@ class Advert extends Component {
                                 onSelectionChange={(e) => this.inputChangePositionHandler(e, 'title')} 
                                 range={`${this.state.formElement.title.range.start}/${this.state.formElement.title.range.end}`}
                                 onFocus={() => this.inputFocusHandler('title')}
-                                style={styles.formElementInput}/>
+                                style={styles.formElementInput}
+                                inputIconStyle={styles.inputIcon}/>
                             <FormElement
                                 labelTitle="Description"
                                 onChangeText={(val) => this.inputChangedHandler(val, 'description')}
@@ -303,8 +304,9 @@ class Advert extends Component {
                                 onSelectionChange={(e) => this.inputChangePositionHandler(e, 'description')}
                                 range={`${this.state.formElement.description.range.start}/${this.state.formElement.description.range.end}`}
                                 onFocus={() => this.inputFocusHandler('description')}
-                                style={styles.formElementInput}/>
-                            <CheckBox 
+                                style={styles.formElementInput}
+                                inputIconStyle={styles.inputIcon}/>
+                            <CheckBox
                                 title="Enable Comment"
                                 checked={this.state.formElement.comment.value}
                                 onCheck={(val) => this.inputChangedHandler(val, 'comment')}/>
@@ -500,6 +502,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#dcdbdc',
         top: -3,
         right: -3
+    },
+    inputIcon: {
+        width: 'auto'
     }
 })
 

@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
         height: 40,
     },
     topLevel: {
-        zIndex: 999
+        zIndex: 999,
+        width: '100%'
     }
 });
 

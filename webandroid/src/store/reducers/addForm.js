@@ -17,6 +17,9 @@ const initialState = {
     writeupSubmitError: null,
     writeupSubmitted: false,
     writeupStart: false,
+    cbtSubmitError: null,
+    cbtSubmitted: false,
+    cbtStart: false,
     cntID: null
 };
 
@@ -26,6 +29,7 @@ const addFormReset = (state, action) => {
         advertSubmitError: null, advertSubmitted: false, advertStart: false,
         feedSubmitError: null, feedSubmitted: false,feedStart: false,
         writeupSubmitError: null, writeupSubmitted: false, writeupStart: false,
+        cbtSubmitError: null, cbtSubmitted: false, cbtStart: false,
         cntID: null})
 };
 
@@ -40,6 +44,8 @@ const submitAddFormStart = (state, action) => {
         return updateObject(state, {feedSubmitError: null, feedStart: true})
     } else if (action.form === 'writeup') {
         return updateObject(state, {writeupSubmitError: null, writeupStart: true})
+    } else if (action.form === 'cbt') {
+        return updateObject(state, {cbtSubmitError: null, cbtStart: true})
     } else {
         return updateObject(state, {resetSubmitError: null, resetStart: true})
     }
@@ -56,6 +62,8 @@ const submitAddFormFail = (state, action) => {
         return updateObject(state, {feedSubmitError: {message: action.err}, feedStart: false})
     } else if (action.form === 'writeup') {
         return updateObject(state, {writeupSubmitError: {message: action.err}, writeupStart: false})
+    } else if (action.form === 'cbt') {
+        return updateObject(state, {cbtSubmitError: {message: action.err}, cbtStart: false})
     } else {
         return updateObject(state, {resetSubmitError: {message: action.err}, resetStart: false})
     }
@@ -68,11 +76,13 @@ const addformSubmitted = (state, action) => {
     } else if (action.form === 'question') {
         return updateObject(state, {questionSubmitted: true, questionStart: false, cntID: action.cntID})
     } else if (action.form === 'advert') {
-        return updateObject(state, {advertSubmitted: true,advertStart: false, cntID: action.cntID})
+        return updateObject(state, {advertSubmitted: true, advertStart: false, cntID: action.cntID})
     } else if (action.form === 'feed') {
-        return updateObject(state, {feedSubmitted: true,feedStart: false, cntID: action.cntID})
+        return updateObject(state, {feedSubmitted: true, feedStart: false, cntID: action.cntID})
     } else if (action.form === 'writeup') {
-        return updateObject(state, {writeupSubmitted: true,writeupStart: false, cntID: action.cntID})
+        return updateObject(state, {writeupSubmitted: true, writeupStart: false, cntID: action.cntID})
+    } else if (action.form === 'cbt') {
+        return updateObject(state, {cbtSubmitted: true, cbtStart: false, cntID: action.cntID})
     } else {
         return updateObject(state, {resetSubmitted: true, resetStart: false})
     }

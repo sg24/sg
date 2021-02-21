@@ -4,7 +4,6 @@ const Schema  = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const QchatSchema = new Schema({
-    id: ObjectId,
     authorID: {
         type: String,
         required: true
@@ -12,9 +11,6 @@ const QchatSchema = new Schema({
     username: {
         type: String,
         required: true
-    },
-    userType: {
-        type: String
     },
     userImage: {
         type: String
@@ -24,33 +20,69 @@ const QchatSchema = new Schema({
         default: Date.now,
         index: true 
     },
-    category: {
-        type: Array
-    },
-    video: {
-        type: Array,
-        default: []
-    },
-    image: {
-        type: Array,
-        default: []
-    },
-    shareMe: {
-        type: Array
-    },
     title: {
         type: String,
         required: true,
         trim: true
     },
+    content: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    hashTag: {
+        type: Array,
+        default: [String]
+    },
+    duration: {
+        type: Number,
+        required: true
+    },
+    hour: {
+        type: Number,
+        default: 0
+    },
+    minute: {
+        type: Number,
+        default: 0
+    },
+    second: {
+        type: Number,
+        default: 0
+    },
+    participant: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    showResult: {
+        type: Boolean,
+        default: true
+    },
+    enableDelete: {
+        type: Boolean,
+        default: false,
+    },
+    enableComment: {
+        type: Boolean,
+        default: true
+    },
+    media: [{
+        id: ObjectId, 
+        filename: String, 
+        bucket: String,
+        ext: String, 
+        description: String
+    }],
+    shareMe: {
+        type: Array
+    },
     write: {
         type: Number,
-        required: true,
         default: 0
     },
     comment: {
         type: Number,
-        required: true,
         default: 0
     },
     favorite: {
@@ -63,38 +95,15 @@ const QchatSchema = new Schema({
         required: true,
         default: [String]
     },
-    duration: {
-        type: Number
-    },
-    hour: {
-        type: Number
-    },
-    minute: {
-        type: Number
-    },
-    second: {
-        type: Number
-    },
-    snapshot: {
-        type: Array,
-        default: []
-    },
     edit: {
         type: Date
     },
-    mode: {
-        type: String,
-        required: true
-    },
-    contentID: {
-        type: String,
-        required: true
-    },
-    access: {
+    question: {
+        type: ObjectId
     },
     paid: {
-        type: Array,
-        default: []
+        type: Boolean,
+        default: false
     },
     amount: {
         type: Number,
@@ -104,11 +113,15 @@ const QchatSchema = new Schema({
         type: Number,
         required: true
     },
+    mode: {
+        type: String,
+        default: 'publish'
+    },
     _isCompleted: {
         type: Boolean,
-        required: true,
         default: false
-    }
+    },
+    tempFileID: String
 })
 QchatSchema.index({title: 'text'});
 const qchat = mongoose.model('qchats', QchatSchema);
