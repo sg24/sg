@@ -202,43 +202,53 @@ router.post('/edit/poet', authenticate,(req, res, next) => {
     })
 })
 
-router.post('/add/group', authenticate, (req, res, next) => {
+router.post('/add/chatRoom', authenticate, (req, res, next) => {
     formInit(req, formidable).then(form => {
-        let video = form.files && form.files.video ? form.files.video : []; 
-        let image = form.files && form.files.image ? form.files.image : []; 
-        savetemp(video, image, req.user).then(tempFileID => {
-            uploadToBucket(video, tempFileID, 'video', 'media', 'media.files').then(media => {
-                uploadToBucket(image, tempFileID, 'image', 'image', 'image.files').then(image => {
-                    let mediaCnt = {
-                        video: media.videos,
-                        snapshot: media.images,
-                        image
+        let mediaList = form.files && form.files.media ? form.files.media : [];
+        let fields = form.fields
+        let askQuestion = JSON.parse(fields.cbt);
+        savetemp(mediaList, askQuestion ? 'qcontent' : 'group', req.user).then(tempFileID => {
+            uploadToBucket(mediaList, fields.description).then(media => {
+                let groupMedia = []
+                for (let cnt of media){
+                    if (cnt.filename && (cnt.filename.split('--')[0] === fields.id)) {
+                        groupMedia.push(cnt);
                     }
-                    let userModel = req.userType === 'authUser' ? authUser : user;
-                    const content = form.fields;
-                    connectStatus.then((result) => {
-                        create(content, group, mediaCnt, grpnotifies, userModel, req.user, 'group', 'groups', res, category, tempFileID).then(id =>
-                            res.status(201).send(id)
-                        ).catch(err => {
-                            res.status(500).send(err)
-                        })
-                    }).catch(err => {
-                        res.status(500).send(err);
+                }
+                let questionMedia = [];
+                let updateQuestion = [];
+                for (let question of JSON.parse(fields.question)) {
+                    questionMedia = []
+                    for (let cnt of media){
+                        if (cnt.filename && (cnt.filename.split('--')[0] === question.id)) {
+                            questionMedia.push(cnt);
+                        }
+                    }
+                    delete question.id;
+                    question.media = questionMedia;
+                    updateQuestion.push(question);
+                }
+                Promise.all([askQuestion ? submit(qcontent, {question: updateQuestion, tempFileID}, tempFileID, null) : 
+                    Promise.resolve(null)]).then(id => {
+                    let cnt = {
+                        authorID: req.user, username: req.username, userImage: req.userImage,
+                        content: fields.content, title: fields.title, hashTag: JSON.parse(fields.hashTag),
+                        autoJoin: JSON.parse(fields.autoJoin), enableCbt: JSON.parse(fields.cbt),
+                        enableRule: JSON.parse(fields.rule), roomType: fields.roomType,passMark: fields.passMark,
+                        hour: fields.hour, minute: fields.minute, second: fields.second, 
+                        duration: fields.duration, qchatTotal: fields.questionTotal, media: groupMedia, 
+                        question: id[0], tempFileID
+                    }
+                    submit(group, cnt, tempFileID, 'createGroup').then(id => {
+                        return res.status(201).send(id);
                     })
-                }).catch(err => {
-                    res.status(500).send(err);
                 })
-            }).catch(err => {
-                res.status(500).send(err);
             })
-        }).catch(err => {
-            res.status(500).send(err);
         })
     }).catch(err => {
         res.status(500).send(err);
     })
 })
-
 
 router.post('/edit/group', authenticate, (req, res, next) => {
     formInit(req, formidable).then(form => {

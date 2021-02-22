@@ -36,10 +36,10 @@ const create = props => {
                     <Text style={[styles.textStyle, styles.navItemText, {color: props.color}]}>Question</Text>
                 </View>
             </TouchableNativeFeedback>
-            <TouchableNativeFeedback  onPress={() => navigation.navigate('AddPost')}>
+            <TouchableNativeFeedback  onPress={() => navigation.navigate('AddChatRoom')}>
                 <View style={styles.navItem}>
                     <Ionicons name="chatbubble-ellipses" size={20} color={props.color}/>
-                    <Text style={[styles.textStyle, styles.navItemText, {color: props.color}]}>Room</Text>
+                    <Text style={[styles.textStyle, styles.navItemText, {color: props.color}]}>Chat Room</Text>
                 </View>
             </TouchableNativeFeedback>
             <TouchableNativeFeedback  onPress={() => navigation.navigate('AddCBT')}>

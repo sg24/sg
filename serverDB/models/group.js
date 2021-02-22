@@ -4,66 +4,95 @@ const Schema  = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const GroupSchema = new Schema({
-    id: ObjectId,
     authorID: {
         type: String,
         required: true
     },
-    groupCreated: { 
+    username: {
+        type: String,
+        required: true
+    },
+    userImage: {
+        type: String
+    },
+    created: { 
         type: Date, 
         default: Date.now,
         index: true 
-    },
-    category: {
-        type: Array,
-        required: true
-    },
-    image: {
-        type: Object
     },
     title: {
         type: String,
         required: true,
         trim: true
     },
-    desc: {
+    content: {
         type: String,
-        required: true,
         trim: true
+    },
+    hashTag: {
+        type: Array,
+        default: [String]
+    },
+    duration: {
+        type: Number
+    },
+    hour: {
+        type: Number,
+        default: 0
+    },
+    minute: {
+        type: Number,
+        default: 0
+    },
+    second: {
+        type: Number,
+        default: 0
+    },
+    roomType: {
+        type: String,
+        trim: true
+    },
+    passMark: {
+        type: Number,
+        trim: true,
+        default: 0
+    },
+    autoJoin: {
+        type: Boolean,
+        default: false
+    },
+    enableCbt: {
+        type: Boolean,
+        default: false,
+    },
+    enableRule: {
+        type: Boolean,
+        default: false
+    },
+    media: [{
+        id: ObjectId, 
+        filename: String, 
+        bucket: String,
+        ext: String, 
+        description: String
+    }],
+    liked: {
+        type: Array,
+        default: [String]
+    },
+    edit: {
+        type: Date
+    },
+    question: {
+    },
+    qchatTotal: {
+        type: Number
     },
     request: {
         type: Array,
         default: [String]
     },
     member: {
-        type: Array,
-        default: [String]
-    },
-    allowComment: {
-        type: Boolean,
-        default: true
-    },
-    online: {
-        type: Array,
-        default: [String]
-    },
-    memberTotal: {
-        type: Number,
-        default: 0
-    },
-    onlineTotal: {
-        type: Number,
-        default: 0
-    },
-    mode: {
-        type: String,
-        default: 'publish'
-    },
-    groupMode: {
-        type: String,
-        required: true
-    },
-    active: {
         type: Array,
         default: [String]
     },
@@ -77,10 +106,6 @@ const GroupSchema = new Schema({
             }
         }
     }],
-    position: {
-        type: Number,
-        default: 0
-    },
     chat: [{
         ID: String,
         userType: String,
@@ -137,13 +162,15 @@ const GroupSchema = new Schema({
                 default: Date.now
             }}]
     }],
-    lastID: {
-        type: String
+    mode: {
+        type: String,
+        default: 'publish'
     },
     _isCompleted: {
         type: Boolean,
         default: false
-    }
+    },
+    tempFileID: String
 })
 
 GroupSchema.index({title: 'text'});

@@ -20,6 +20,9 @@ const initialState = {
     cbtSubmitError: null,
     cbtSubmitted: false,
     cbtStart: false,
+    chatRoomSubmitError: null,
+    chatRoomSubmitted: false,
+    chatRoomStart: false,
     cntID: null
 };
 
@@ -30,6 +33,7 @@ const addFormReset = (state, action) => {
         feedSubmitError: null, feedSubmitted: false,feedStart: false,
         writeupSubmitError: null, writeupSubmitted: false, writeupStart: false,
         cbtSubmitError: null, cbtSubmitted: false, cbtStart: false,
+        chatRoomSubmitError: null, chatRoomSubmitted: false, chatRoomStart: false,
         cntID: null})
 };
 
@@ -46,6 +50,8 @@ const submitAddFormStart = (state, action) => {
         return updateObject(state, {writeupSubmitError: null, writeupStart: true})
     } else if (action.form === 'cbt') {
         return updateObject(state, {cbtSubmitError: null, cbtStart: true})
+    } else if (action.form === 'chatRoom') {
+        return updateObject(state, {chatRoomSubmitError: null, chatRoomStart: true})
     } else {
         return updateObject(state, {resetSubmitError: null, resetStart: true})
     }
@@ -64,6 +70,8 @@ const submitAddFormFail = (state, action) => {
         return updateObject(state, {writeupSubmitError: {message: action.err}, writeupStart: false})
     } else if (action.form === 'cbt') {
         return updateObject(state, {cbtSubmitError: {message: action.err}, cbtStart: false})
+    } else if (action.form === 'chatRoom') {
+        return updateObject(state, {chatRoomSubmitError: {message: action.err}, chatRoomStart: false})
     } else {
         return updateObject(state, {resetSubmitError: {message: action.err}, resetStart: false})
     }
@@ -83,6 +91,8 @@ const addformSubmitted = (state, action) => {
         return updateObject(state, {writeupSubmitted: true, writeupStart: false, cntID: action.cntID})
     } else if (action.form === 'cbt') {
         return updateObject(state, {cbtSubmitted: true, cbtStart: false, cntID: action.cntID})
+    } else if (action.form === 'chatRoom') {
+        return updateObject(state, {chatRoomSubmitted: true, chatRoomStart: false, cntID: action.cntID})
     } else {
         return updateObject(state, {resetSubmitted: true, resetStart: false})
     }

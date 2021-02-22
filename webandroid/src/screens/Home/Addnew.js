@@ -45,7 +45,7 @@ class Addnew extends Component {
                             <Icon name="megaphone-outline" size={20} />
                             <Text style={styles.textStyle}>Advert</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.navItem} onPress={() => this.navigationHandler("")}>
+                        <TouchableOpacity style={styles.navItem} onPress={() => this.navigationHandler("AddChatRoom")}>
                             <Icon name="chatbubble-ellipses-outline" size={20} />
                             <Text style={styles.textStyle}>Chat Room</Text>
                         </TouchableOpacity>

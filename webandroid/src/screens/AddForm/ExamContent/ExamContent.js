@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Text,  StyleSheet,  ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
-import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size, tailwind } from 'tailwind';
 import { v4 as uuid } from 'uuid';
@@ -9,20 +8,19 @@ import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
 import Carousel from 'react-native-snap-carousel';
 
 import Exam from './Exam/Exam';
-import FormElement from '../../../../components/UI/FormElement/FormElement';
-import Button from '../../../../components/UI/Button/Button';
-import * as actions from '../../../../store/actions/index';
-import { updateObject, checkValidity } from '../../../../shared/utility';
-import NotificationModal from '../../../../components/UI/NotificationModal/NotificationModal';
-import Select from '../../../../components/UI/Select/Select';
-import InnerScreen from '../../../../components/UI/InnerScreen/InnerScreen';
-import DefaultHeader from '../../../../components/UI/Header/DefaultHeader';
-import ActionSheet from '../../../../components/UI/ActionSheet/ActionSheet';
-import CameraComponent from '../../../../components/UI/Camera/Camera';
-import VideoCamera from '../../../../components/UI/VideoCamera/VideoCamera';
-import AudioRecorder from '../../../../components/UI/AudioRecorder/AudioRecorder';
-import EmojiPicker from '../../../../components/UI/EmojiPicker/EmojiPicker';
-import UploadPreview from '../../../../components/UI/UploadPreview/UploadPreview';
+import FormElement from '../../../components/UI/FormElement/FormElement';
+import Button from '../../../components/UI/Button/Button';
+import { updateObject, checkValidity } from '../../../shared/utility';
+import NotificationModal from '../../../components/UI/NotificationModal/NotificationModal';
+import Select from '../../../components/UI/Select/Select';
+import InnerScreen from '../../../components/UI/InnerScreen/InnerScreen';
+import DefaultHeader from '../../../components/UI/Header/DefaultHeader';
+import ActionSheet from '../../../components/UI/ActionSheet/ActionSheet';
+import CameraComponent from '../../../components/UI/Camera/Camera';
+import VideoCamera from '../../../components/UI/VideoCamera/VideoCamera';
+import AudioRecorder from '../../../components/UI/AudioRecorder/AudioRecorder';
+import EmojiPicker from '../../../components/UI/EmojiPicker/EmojiPicker';
+import UploadPreview from '../../../components/UI/UploadPreview/UploadPreview';
 
 class  ExamContent extends Component {
     constructor(props) {
@@ -386,13 +384,12 @@ class  ExamContent extends Component {
         for (let cnt of this.state.question) {
             question.push({...cnt.value, id: cnt.id});
         }
-        this.props.onSubmitForm({...this.props.examDetail, question})
+        this.props.submitForm({...this.props.examDetail, question})
     }
 
     resetFormHandler = async () => {
-        this.props.onAddFormReset();
-        this.props.resetFormHandler();
         await AsyncStorage.removeItem('CBT');
+        this.props.resetFormHandler();
     }
 
     render() {
@@ -504,7 +501,7 @@ class  ExamContent extends Component {
                             title="Submit"
                             style={styles.button}
                             onPress={this.submitHandler}
-                            disabled={!this.state.formIsValid || !this.props.examDetail || this.props.start}
+                            disabled={!this.state.formIsValid || !this.props.examDetail || this.props.submitStart}
                             textStyle={styles.textStyle}/>
                         <View style={styles.seek}>
                             <Button
@@ -576,13 +573,6 @@ class  ExamContent extends Component {
                         button={[{title: 'ok', onPress: () => this.clearHistoryHandler(true), 
                             style: styles.buttonCancel},
                         {title: 'Exit', onPress: this.closeModalHandler, style: styles.modalButton}]}/> : null}
-                { this.props.submitted ? 
-                    <NotificationModal
-                        info="CBT submitted successfully !"
-                        infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
-                        closeModal={this.resetFormHandler}
-                        button={[{title: 'View', onPress: () => this.navigationHandler('CBT')},
-                        {title: 'Add', onPress: this.resetFormHandler, style: styles.modalButton}]}/> : null}
             </InnerScreen>
         )
     }
@@ -741,20 +731,4 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = state => {
-    return {
-        submitError: state.addForm.cbtSubmitError,
-        submitted: state.addForm.cbtSubmitted,
-        start: state.addForm.cbtStart,
-        cntID: state.addForm.cntID
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        onSubmitForm: (formData) => dispatch(actions.submitAddFormInit(formData, 'cbt')),
-        onAddFormReset: () => dispatch(actions.addFormReset())
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ExamContent);
+export default ExamContent;

@@ -3,13 +3,13 @@ import { View, Text, Keyboard, StyleSheet, Dimensions, Platform } from 'react-na
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
 
-import FormElement from '../../../../../components/UI/FormElement/FormElement';
-import TouchableNativeFeedback from '../../../../../components/UI/TouchableNativeFeedback/TouchableNativeFeedback';
-import BoxShadow from '../../../../../components/UI/BoxShadow/BoxShadow';
-import Button from '../../../../../components/UI/Button/Button';
-import { updateObject, checkValidity,  checkHashtag } from '../../../../../shared/utility';
-import CheckBox from '../../../../../components/UI/CheckBox/CheckBox';
-import Select from '../../../../../components/UI/Select/Select';
+import FormElement from '../../../../components/UI/FormElement/FormElement';
+import TouchableNativeFeedback from '../../../../components/UI/TouchableNativeFeedback/TouchableNativeFeedback';
+import BoxShadow from '../../../../components/UI/BoxShadow/BoxShadow';
+import Button from '../../../../components/UI/Button/Button';
+import { updateObject, checkValidity,  checkHashtag } from '../../../../shared/utility';
+import CheckBox from '../../../../components/UI/CheckBox/CheckBox';
+import Select from '../../../../components/UI/Select/Select';
 
 class  Exam extends Component {
     constructor(props) {
@@ -308,7 +308,8 @@ class  Exam extends Component {
                                             optionCnt = (
                                                 <View key={index} style={styles.answer}>
                                                     <TouchableNativeFeedback 
-                                                            onPress={() => this.answerOptionHandler(!cnt.correct, option, true)}>
+                                                            onPress={() => this.answerOptionHandler(!cnt.correct, option, true)}
+                                                            style={styles.answerOptWrapper}>
                                                         <View style={[styles.answerOpt, cnt.correct ? styles.answerCorrect : null]}>
                                                             <Text style={[styles.textStyle, cnt.correct ? styles.answerTextCorrect : null]}>{option}</Text>
                                                         </View>
@@ -477,6 +478,9 @@ const styles = StyleSheet.create({
     },
     answerTitle:{
         marginBottom: 10,
+    },
+    answerOptWrapper: {
+        height: Platform.OS !== 'web' ? 'auto' : '100%'
     },
     answerOpt: {
         height: '100%',

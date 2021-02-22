@@ -25,29 +25,8 @@ const NotificationsSchema = new Schema({
     feed: [{
         ...defaultContentSchema
     }],
-    cbt: [{
+    createGroup: [{
         ...defaultContentSchema
-    }],
-    group: [{
-        ID: {
-            type: String
-        },
-        edit:{
-            type: Boolean,
-            default: false
-        },
-        view: {
-            type: Boolean,
-            default: false
-        },
-        request: {
-            type: Number,
-            default: 0
-        },
-        isMember: {
-            type: Boolean,
-            default: false
-        }
     }],
     chat: [{
         ...defaultContentSchema

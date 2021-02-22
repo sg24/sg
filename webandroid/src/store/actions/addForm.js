@@ -18,9 +18,9 @@ export const submitAddFormInit = (formData, type) => {
     return dispatch => {
         dispatch(submitAddFormStart(type))
         let formContent = new FormData();
-        if (type !== 'cbt') {
+        if (type !== 'cbt' && type !== 'chatRoom') {
             let description = uploadFile([], formContent, formData.uploadFile);
-            formContent.append('description', JSON.stringify(description))
+            formContent.append('description', JSON.stringify(description));
         }
 
         if (type === 'advert') {
@@ -34,10 +34,12 @@ export const submitAddFormInit = (formData, type) => {
             formContent.append('comment', JSON.stringify(formData.comment));
             formContent.append('hashTag', JSON.stringify(formData.hashTag));
         } else if (type === 'cbt') {
+            let description = [];
             for(let media of formData.uploadFile) {
                 let fileID =  media.name.split('.').length > 1 ? `${formData.id}--${media.name}` : `${formData.id}--${media.name}.octet-stream`;
                 let mediaData = Platform.OS !== 'web' ? {...media, name: fileID} : media.file
                 formContent.append('media', mediaData, fileID);
+                description.push({id: fileID,  content: media.description})
             }
             let updateQuestion = [];
             for(let question of formData.question) {
@@ -49,7 +51,7 @@ export const submitAddFormInit = (formData, type) => {
                 delete question.uploadFile;
                 updateQuestion.push(question)
             }
-            formContent.append('description', JSON.stringify([]));
+            formContent.append('description', JSON.stringify(description));
             formContent.append('question', JSON.stringify(updateQuestion));
             formContent.append('id', formData.id);
             formContent.append('comment', JSON.stringify(formData.comment));
@@ -58,6 +60,41 @@ export const submitAddFormInit = (formData, type) => {
             formContent.append('participant', formData.participant);
             formContent.append('result', JSON.stringify(formData.result));
             formContent.append('delete', JSON.stringify(formData.delete));
+            formContent.append('questionTotal', updateQuestion.length)
+            formContent.append('hour', formData.hour);
+            formContent.append('minute', formData.minute);
+            formContent.append('second', formData.second);
+            formContent.append('duration', formData.duration);
+            formContent.append('content', formData.content);
+            formContent.append('hashTag', JSON.stringify(formData.hashTag));
+        } else if (type === 'chatRoom') {
+            let description = [];
+            for(let media of formData.uploadFile) {
+                let fileID =  media.name.split('.').length > 1 ? `${formData.id}--${media.name}` : `${formData.id}--${media.name}.octet-stream`;
+                let mediaData = Platform.OS !== 'web' ? {...media, name: fileID} : media.file
+                formContent.append('media', mediaData, fileID);
+                description.push({id: fileID,  content: media.description})
+            }
+            let updateQuestion = [];
+            for(let question of formData.question || []) {
+                for (let media of question.uploadFile) {
+                    let fileID =  media.name.split('.').length > 1 ? `${question.id}--${media.name}` : `${question.id}--${media.name}.octet-stream`;
+                    let mediaData = Platform.OS !== 'web' ? {...media, name: fileID} : media.file
+                    formContent.append('media', mediaData, fileID);
+                }
+                delete question.uploadFile;
+                updateQuestion.push(question)
+            }
+            formContent.append('description', JSON.stringify(description));
+            formContent.append('question', JSON.stringify(updateQuestion));
+            formContent.append('id', formData.id);
+            formContent.append('title', formData.title);
+            formContent.append('content', formData.content);
+            formContent.append('roomType', formData.roomType);
+            formContent.append('rule', JSON.stringify(formData.rule));
+            formContent.append('cbt', JSON.stringify(formData.cbt));
+            formContent.append('autoJoin', JSON.stringify(formData.autoJoin));
+            formContent.append('passMark', formData.passMark);
             formContent.append('questionTotal', updateQuestion.length)
             formContent.append('hour', formData.hour);
             formContent.append('minute', formData.minute);
