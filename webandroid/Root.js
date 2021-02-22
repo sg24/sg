@@ -186,10 +186,11 @@ class Base extends Component {
               
               if (name === 'AddPost' || name === 'AddQuestion' || name === "AddAdvert" || name === "AddFeed"
               || name === "AddWriteUp" || name === "AddCBT" || name === "AddChatRoom") {
-                let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
+                let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader;
+                let title = name.startsWith('Add') ? name === "AddChatRoom" ? "Add Chat Room" : name.split('Add').join("Add ") : name;
                 header = {
                   header: ({scene, previous, navigation }) => <HeaderBar
-                    title={name.startsWith('Add') ? name === "AddChatRoom" ? "Add Chat Room" : name.split('Add').join("Add ") : name}
+                    title={title}
                     userImage={this.props.userImage}
                     username={this.props.username}
                     onPress={(url) => this.state.viewMode === 'landscape' ? navigation.navigate(url, {userID: this.props.userID}) : navigation.goBack()}
@@ -198,7 +199,8 @@ class Base extends Component {
                     modalNotify={NotificatonScreen}
                     filterCnt={this.props.onHeaderFilter}
                     inputValue={this.props.filterCnt}
-                  />
+                  />,
+                  title
                 }
               }
               return (

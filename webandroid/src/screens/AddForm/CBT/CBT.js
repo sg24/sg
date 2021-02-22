@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Keyboard, StyleSheet, Dimensions, Platform, ScrollView } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
