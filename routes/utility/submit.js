@@ -11,7 +11,7 @@ module.exports = submitForm = (model, cnt, tempFileID, field) => {
             let id = doc._id;
             resolve(id);
             Promise.all([tempFile.findOneAndUpdate({userID: cnt.authorID, "tempFiles.id": tempFileID}, {$pull: {tempFiles: {id: tempFileID}}}),
-            doc.updateOne({_isCompleted: true})]).then(() =>  {
+            doc.updateOne({_isCompleted: true, tempFileID: null})]).then(() =>  {
                 user.findById(cnt.authorID).then(userInfo => {
                     if (userInfo && userInfo.friend && userInfo.friend.length > 0 && field) {
                         for (let recieverID of userInfo.friend) {

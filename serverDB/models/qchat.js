@@ -20,6 +20,9 @@ const QchatSchema = new Schema({
         default: Date.now,
         index: true 
     },
+    edited: { 
+        type: Date
+    },
     title: {
         type: String,
         required: true,
@@ -94,9 +97,6 @@ const QchatSchema = new Schema({
         type: Array,
         required: true,
         default: [String]
-    },
-    edit: {
-        type: Date
     },
     question: {
         type: ObjectId

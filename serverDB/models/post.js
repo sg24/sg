@@ -20,6 +20,9 @@ const PostSchema = new Schema({
         default: Date.now,
         index: true 
     },
+    edited: { 
+        type: Date
+    },
     content: {
         type: String,
         trim: true

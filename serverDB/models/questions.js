@@ -20,6 +20,9 @@ const QuestionSchema = new Schema({
         default: Date.now,
         index: true 
     },
+    edited: { 
+        type: Date
+    },
     content: {
         type: String,
         trim: true
@@ -62,9 +65,6 @@ const QuestionSchema = new Schema({
     },
     snapshot: {
         type: Array
-    },
-    edit: {
-        type: Date
     },
     mode: {
         type: String,

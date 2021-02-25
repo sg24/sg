@@ -7,12 +7,14 @@ import authForm from './reducers/authForm';
 import header from './reducers/header';
 import profile from './reducers/profile';
 import addForm from './reducers/addForm';
+import editForm from './reducers/EditForm';
 
 import { 
     watchAuth,
     watchAuthForm,
     watchHeader,
-    watchProfile
+    watchProfile,
+    watchEditForm
 } from './sagas/index';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -21,7 +23,8 @@ const rootReducer = combineReducers({
     authForm,
     header,
     profile,
-    addForm
+    addForm,
+    editForm
 });
 
 let composeEnhancers = compose;
@@ -33,6 +36,7 @@ sagaMiddleware.run(watchAuth);
 sagaMiddleware.run(watchAuthForm);
 sagaMiddleware.run(watchHeader);
 sagaMiddleware.run(watchProfile);
+sagaMiddleware.run(watchEditForm);
 
 const configureStore = () => {
     return store;

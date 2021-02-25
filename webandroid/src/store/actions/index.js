@@ -68,3 +68,11 @@ export {
     submitAddFormInit,
     addFormReset
 } from './addForm'
+
+export {
+    fetchEditFormInit,
+    fetchEditFormFail,
+    fetchEditForm,
+    submitEditFormInit,
+    editFormReset
+} from './editForm'

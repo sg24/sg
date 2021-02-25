@@ -19,6 +19,9 @@ const WriteUpSchema = new Schema({
         type: Date, 
         default: Date.now
     },
+    edited: { 
+        type: Date
+    },
     title: {
         type: String,
         required: true,
@@ -66,9 +69,6 @@ const WriteUpSchema = new Schema({
     },
     snapshot: {
         type: Array
-    },
-    edit: {
-        type: Date
     },
     mode: {
         type: String,

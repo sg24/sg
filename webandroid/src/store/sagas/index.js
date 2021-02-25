@@ -6,6 +6,7 @@ import { submitAuthFormSigninInitSaga,
     submitAuthFormSignupInitSaga, submitAuthFormForgetPassInitSaga } from './authForm';
 import { headerFilterInitSaga, fetchConvInitSaga, fetchNotifyInitSaga } from './header';
 import { fetchProfileInitSaga, changeProfileInitSaga, submitAboutInitSaga, submitUsernameInitSaga } from './profile';
+import { fetchEditFormInitSaga } from './editForm';
 
 export function* watchAuth() {
     yield all([
@@ -35,5 +36,11 @@ export function* watchProfile() {
        takeEvery(actionTypes.CHANGE_PROFILE_INIT, changeProfileInitSaga),
        takeEvery(actionTypes.SUBMIT_ABOUT_INIT, submitAboutInitSaga),
        takeEvery(actionTypes.SUBMIT_USERNAME_INIT, submitUsernameInitSaga)
+    ])
+}
+
+export function* watchEditForm() {
+    yield all([
+       takeEvery(actionTypes.FETCH_EDITFORM_INIT, fetchEditFormInitSaga)
     ])
 }

@@ -88,17 +88,15 @@ class Advert extends Component {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             this.props.onAddFormReset();
         });
+        this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
+            this.resetFormHandler();
+        });
         Dimensions.addEventListener('change', this.updateStyle)
-    }
-
-    componentDidUpdate() {
-        if (this.props.submitted && this.props.cntID) {
-            this._unsubscribe();
-        }
     }
 
     componentWillUnmount() {
         this._unsubscribe();
+        this._unsubscribeBlur();
         Dimensions.removeEventListener('change', this.updateStyle);
     }
 
@@ -346,7 +344,7 @@ class Advert extends Component {
                             title="Add"
                             style={styles.button}
                             onPress={this.props.start ? null : this.submitHandler}
-                            disabled={!this.state.formIsValid || this.props.start || !this.state.createButtonValid}
+                            disabled={!this.state.formIsValid || this.props.start || !this.state.createButtonValid || this.props.submitted}
                             textStyle={styles.textStyle}
                             submitting={this.props.start}
                             loaderStyle="#fff"/>

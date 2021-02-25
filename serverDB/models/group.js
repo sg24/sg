@@ -20,6 +20,9 @@ const GroupSchema = new Schema({
         default: Date.now,
         index: true 
     },
+    edited: { 
+        type: Date
+    },
     title: {
         type: String,
         required: true,
@@ -79,9 +82,6 @@ const GroupSchema = new Schema({
     liked: {
         type: Array,
         default: [String]
-    },
-    edit: {
-        type: Date
     },
     question: {
     },

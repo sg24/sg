@@ -11,35 +11,35 @@ class ButtonItem extends Component {
     state = {
         formElement: {
             buttonType: {
-                value: '',
+                value: this.props.cnt.buttonType || '',
                 validation: {
                     required: true,
                     minLength: 1
                 },
-                valid: false,
+                valid: this.props.cnt.buttonType ? true : false,
                 touched: false
             },
             content: {
-                value: '',
+                value: this.props.cnt.content || '',
                 validation: {
                     required: true,
                     minLength: 1
                 },
-                valid: false,
+                valid: this.props.cnt.content ? true : false,
                 touched: false
             },
             title: {
-                value: '',
+                value: this.props.cnt.title || '',
                 validation: {
                     required: true,
                     minLength: 1
                 },
-                valid: false,
+                valid: this.props.cnt.title ? true : false,
                 touched: false,
-                range: {start: 0, end: 10}
+                range: {start: this.props.cnt.title ?  String(this.props.cnt.title) .length : 0, end: 10}
             }
         },
-        formIsValid: false,
+        formIsValid: this.props.cnt.formIsValid || false,
         buttonType: [{title: 'URL', icon: {name: 'link-outline', size: 18}},
         {title: 'Call', icon: {name: 'call-outline', size: 18}},
         {title: 'Message', icon: {name: 'mail-outline', size: 18}},

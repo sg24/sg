@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text,  StyleSheet,  ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
+import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 import { size, tailwind } from 'tailwind';
 import { v4 as uuid } from 'uuid';
-import AsyncStorage from '@react-native-community/async-storage';
 import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
 import Carousel from 'react-native-snap-carousel';
 
@@ -48,7 +48,7 @@ class  ExamContent extends Component {
                     valid: false,
                 }
             },
-            formIsValid: false,
+            formIsValid: true,
             question: [{id: uuid(), value: {examType: 'Objective'}, formIsValid: false}],
             contentFetched: false,
             totalOption: '5',
@@ -80,34 +80,51 @@ class  ExamContent extends Component {
         })
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         Dimensions.addEventListener('change', this.updateStyle);
-        await AsyncStorage.getItem('CBT').then(storedQue => {
-            if (storedQue) {
-                let cnt = JSON.parse(storedQue);
-                let formElement = this.state.formElement;
-                let updateFormType = updateObject(formElement.totalOption, {value: cnt.totalOption});
-                let updateFormElement = updateObject(formElement, {totalOption: updateFormType});
-                return this.setState({question: cnt.question, formIsValid: cnt.formIsValid, contentFetched: true,
-                    formElement: updateFormElement});
+        let question = [];
+        if (this.props.fetchedQuestion) {
+            for (let cnt of this.props.fetchedQuestion) {
+                let allOption = {};
+                let totalOption = 0;
+                for (let option in cnt.answerOption) {
+                    ++totalOption;
+                    if (totalOption <= this.props.totalOption) {
+                        allOption[option] = updateObject(cnt.answerOption[option], {show: true, valid: cnt.answerOption[option].value ? true : false, validation: { required: true, minLength: 1}})
+                    } else {
+                        allOption[option] = updateObject(cnt.answerOption[option], {show: false, valid: cnt.answerOption[option].value ? true : false, validation: { required: true, minLength: 1}})
+                    }
+                }
+                let cntAnswerIsValid = true;
+                for (let option in allOption) {
+                    if (allOption[option].show) {
+                        cntAnswerIsValid = allOption[option].valid && cntAnswerIsValid;
+                    }
+                }
+                let uploadFile = [];
+                for (let media of cnt.media) {
+                    media = updateObject(media, {uri: `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}`,
+                        type: media.ext, name: media.filename, description: media.description});
+                    uploadFile.push(media);
+                }
+                cnt.uploadFile = uploadFile;
+                cnt.fetchedUploadFile = cnt.media;
+                delete cnt._id;
+                question.push({id: uuid(), allOption, formIsValid: true, cntFormIsValid: true, cntAnswerIsValid, value: cnt})
             }
-        })
-        this.setState({contentFetched: true})
+            let totalOptionInput = updateObject(this.state.formElement.totalOption, {
+                value: this.props.totalOption ? this.props.totalOption : '',
+                valid: this.props.totalOption ? true: false
+            });
+
+            let formElement = updateObject(this.state.formElement, {totalOption: totalOptionInput})
+            this.setState({contentFetched: true, question, formElement});
+        }
+        this.setState({contentFetched: true});
     }
 
     componentWillUnmount() {
         Dimensions.removeEventListener('change', this.updateStyle);
-        if (this.state.cacheQuestion && this.props.examDetail) {
-            let updateQuestion = [];
-            for (let question of this.state.question) {
-                if (question.value) {
-                    question.value.uploadFile = [];
-                }
-                updateQuestion.push(question);
-            }
-            AsyncStorage.setItem('CBT', JSON.stringify({question: updateQuestion, formIsValid: this.state.formIsValid,
-                totalOption: this.state.formElement.totalOption.value || '5'}))
-        }
     }
 
     inputChangedHandler = (value, inputType) => {
@@ -170,7 +187,7 @@ class  ExamContent extends Component {
                 question.formIsValid =  question.value.examType === 'Objective' ? (question.cntFormIsValid ? true : false) && answerIsValid
                     : question.formIsValid, 
                 question.allOption = options,
-                question.cntAnswerIsValid = answerIsValid
+                question.cntAnswerIsValid = answerIsValid;
                 updateQuestion.push(question);
             }
             let index = -1
@@ -240,7 +257,6 @@ class  ExamContent extends Component {
 
     clearHistoryHandler  = async (isChecked) => {
         if (isChecked) {
-            await AsyncStorage.removeItem('CBT');
             this.setState({showClearHistory: false, question: [{id: uuid(), value: {examType: 'Objective'}, formIsValid: false}], formIsValid: false});
         } else {
             this.setState({showClearHistory: true});
@@ -368,7 +384,8 @@ class  ExamContent extends Component {
                 optionItms={this.state.optionItms}
                 totalQuestion={this.state.question.length}
                 removeQuestion={this.removeQuestionHandler}
-                clearHistory={this.clearHistoryHandler}/>
+                clearHistory={this.clearHistoryHandler}
+                fetchedUploadFile={question.value.fetchedUploadFile}/>
         )
     }
 
@@ -380,14 +397,21 @@ class  ExamContent extends Component {
 
     submitHandler = () => {
         let question = [];
+        let removeMedia = this.props.examDetail.removeMedia;
         for (let cnt of this.state.question) {
-            question.push({...cnt.value, id: cnt.id});
+            let removeQuestionMedia = cnt.value.fetchedUploadFile ? cnt.value.fetchedUploadFile.filter(media => 
+                !cnt.value.uploadFile.filter(file => file.id === media.id).length > 0) : [];
+            let uploadedMedia = cnt.value.uploadFile.filter(file => file.bucket ? true : false);
+            let uploadFile = cnt.value.uploadFile.filter(file => file.bucket ? false : true);
+            removeMedia.push(...removeQuestionMedia);
+            delete cnt.value.fetchedUploadFile;
+            question.push({...cnt.value, id: cnt.id, uploadFile, uploadedMedia});
         }
-        this.props.submitForm({...this.props.examDetail, question, totalOption: this.state.formElement.totalOption.value || 5})
+        this.props.submitForm({...this.props.examDetail, question, 
+            totalOption: this.state.formElement.totalOption.value || 5, removeMedia});
     }
 
     resetFormHandler = async () => {
-        await AsyncStorage.removeItem('CBT');
         this.props.resetFormHandler();
     }
 

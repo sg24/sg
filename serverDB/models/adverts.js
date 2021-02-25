@@ -29,6 +29,9 @@ const AdvertsSchema = new Schema({
         required: true,
         trim: true
     },
+    edited: { 
+        type: Date
+    },
     media: [{
         id: ObjectId, 
         filename: String, 
@@ -67,9 +70,6 @@ const AdvertsSchema = new Schema({
     },
     snapshot: {
         type: Array
-    },
-    edit: {
-        type: Date
     },
     mode: {
         type: String,

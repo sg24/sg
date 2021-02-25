@@ -147,6 +147,12 @@ class CBT extends Component {
     }
 
     componentDidMount() {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            this.props.onAddFormReset();
+        });
+        this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
+            this.resetFormHandler();
+        });
         Dimensions.addEventListener('change', this.updateStyle)
     }
 
@@ -168,6 +174,8 @@ class CBT extends Component {
     }
 
     componentWillUnmount() {
+        this._unsubscribe();
+        this._unsubscribeBlur();
         Dimensions.removeEventListener('change', this.updateStyle);
     }
 
@@ -505,7 +513,8 @@ class CBT extends Component {
                             style={styles.button}
                             onPress={this.showExamContentHandler}
                             disabled={!this.state.formIsValid || this.state.totalDuration === 0}
-                            textStyle={styles.textStyle}/>
+                            textStyle={styles.textStyle}
+                            loaderStyle="#fff"/>
                     </View>
                 </View>
                 { this.state.showActionSheet ? 
@@ -550,7 +559,8 @@ class CBT extends Component {
                         examDetail={this.state.examDetail}
                         resetFormHandler={this.resetFormHandler}
                         submitForm={this.props.onSubmitForm}
-                        submitStart={this.props.start}/> : null}
+                        submitStart={this.props.start}
+                        submitted={this.props.submitted}/> : null}
                 { this.props.submitError ? 
                     <NotificationModal
                         info="Network Error !"

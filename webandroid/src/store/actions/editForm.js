@@ -3,7 +3,31 @@ import { Platform } from 'react-native';
 import axios from '../../axios';
 import { v4 as uuid } from 'uuid';
 
-export const submitAddFormInit = (formData, type) => {
+export const fetchEditFormInit = (cntID, form) => {
+    return {
+        type: actionTypes.FETCH_EDITFORM_INIT,
+        cntID,
+        form
+    };
+};
+
+export const fetchEditFormFail = (err, form) => {
+    return {
+        type: actionTypes.FETCH_EDITFORM_FAIL,
+        err,
+        form
+    };
+};
+
+export const fetchEditForm = (cnt, form) => {
+    return {
+        type: actionTypes.FETCH_EDITFORM,
+        cnt,
+        form
+    };
+};
+
+export const submitEditFormInit = (formData, type) => {
     function uploadFile (description, formContent, uploadFile) {
         for (let media of uploadFile) {
             let fileID = media.id ? `${ media.id}.${media.type.split('/')[1] ? media.type.split('/')[1] : 'octet-stream'}` :  
@@ -17,12 +41,15 @@ export const submitAddFormInit = (formData, type) => {
         return description;
     }
     return dispatch => {
-        dispatch(submitAddFormStart(type))
+        dispatch(submitEditFormStart(type))
         let formContent = new FormData();
         if (type !== 'cbt' && type !== 'chatRoom') {
             let description = uploadFile([], formContent, formData.uploadFile);
             formContent.append('description', JSON.stringify(description));
         }
+        formContent.append('removeMedia', JSON.stringify(formData.removeMedia));
+        formContent.append('uploadedMedia', JSON.stringify(formData.uploadedMedia));
+        formContent.append('cntID', formData.cntID);
 
         if (type === 'advert') {
             formContent.append('content', formData.content);
@@ -56,7 +83,6 @@ export const submitAddFormInit = (formData, type) => {
             }
             formContent.append('description', JSON.stringify(description));
             formContent.append('question', JSON.stringify(updateQuestion));
-            formContent.append('totalOption', formData.totalOption);
             formContent.append('id', formData.id);
             formContent.append('comment', JSON.stringify(formData.comment));
             formContent.append('title', formData.title);
@@ -64,7 +90,8 @@ export const submitAddFormInit = (formData, type) => {
             formContent.append('participant', formData.participant);
             formContent.append('result', JSON.stringify(formData.result));
             formContent.append('delete', JSON.stringify(formData.delete));
-            formContent.append('questionTotal', updateQuestion.length)
+            formContent.append('questionTotal', updateQuestion.length);
+            formContent.append('totalOption', formData.totalOption);
             formContent.append('hour', formData.hour);
             formContent.append('minute', formData.minute);
             formContent.append('second', formData.second);
@@ -93,7 +120,6 @@ export const submitAddFormInit = (formData, type) => {
             }
             formContent.append('description', JSON.stringify(description));
             formContent.append('question', JSON.stringify(updateQuestion));
-            formContent.append('totalOption', formData.totalOption);
             formContent.append('id', formData.id);
             formContent.append('title', formData.title);
             formContent.append('content', formData.content);
@@ -102,7 +128,8 @@ export const submitAddFormInit = (formData, type) => {
             formContent.append('cbt', JSON.stringify(formData.cbt));
             formContent.append('autoJoin', JSON.stringify(formData.autoJoin));
             formContent.append('passMark', formData.passMark);
-            formContent.append('questionTotal', updateQuestion.length)
+            formContent.append('questionTotal', updateQuestion.length);
+            formContent.append('totalOption', formData.totalOption);
             formContent.append('hour', formData.hour);
             formContent.append('minute', formData.minute);
             formContent.append('second', formData.second);
@@ -113,42 +140,42 @@ export const submitAddFormInit = (formData, type) => {
             formContent.append('content', formData.content);
             formContent.append('hashTag', JSON.stringify(formData.hashTag));
         }
-        axios.post(`/add/${type}`, formContent, {
+        axios.post(`/edit/${type}`, formContent, {
             headers: {
                 "Content-Type": "multipart/form-data"}}).then((res) => {
-            dispatch(addFormSubmitted(type, res.data));
+            dispatch(editFormSubmitted(type, res.data));
         }).catch((err) => {
-            dispatch(submitAddFormFail(type, err))
+            dispatch(submitEditFormFail(type, err))
         });
     } 
 };
 
-export const submitAddFormFail = (form,  err) => {
+export const submitEditFormFail = (form,  err) => {
     return {
-        type: actionTypes.SUBMIT_ADDFORM_FAIL,
+        type: actionTypes.SUBMIT_EDITFORM_FAIL,
         form,
         err
     };
 };
 
-export const submitAddFormStart = (form) => {
+export const submitEditFormStart = (form) => {
     return {
-        type: actionTypes.SUBMIT_ADDFORM_START,
+        type: actionTypes.SUBMIT_EDITFORM_START,
         form
     };
 };
 
-export const addFormSubmitted = (form, cntID) => {
+export const editFormSubmitted = (form, cntID) => {
     return {
-        type: actionTypes.ADDFORM_SUBMITTED,
+        type: actionTypes.EDITFORM_SUBMITTED,
         form,
         cntID
     };
 };
 
-export const addFormReset = () => {
+export const editFormReset = () => {
     return {
-        type: actionTypes.ADDFORM_RESET
+        type: actionTypes.EDITFORM_RESET
     };
 };
 

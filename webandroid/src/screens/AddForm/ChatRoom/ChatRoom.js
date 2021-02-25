@@ -156,6 +156,12 @@ class ChatRoom extends Component {
     }
 
     componentDidMount() {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            this.props.onAddFormReset();
+        });
+        this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
+            this.resetFormHandler();
+        });
         Dimensions.addEventListener('change', this.updateStyle)
     }
 
@@ -178,6 +184,8 @@ class ChatRoom extends Component {
     }
 
     componentWillUnmount() {
+        this._unsubscribe();
+        this._unsubscribeBlur();
         Dimensions.removeEventListener('change', this.updateStyle);
     }
 
@@ -590,8 +598,10 @@ class ChatRoom extends Component {
                             title={this.state.formElement.cbt.value ? 'Next' : 'Create'}
                             style={styles.button}
                             onPress={this.state.formElement.cbt.value ? this.showExamContentHandler : this.submitHandler}
-                            disabled={!this.state.formIsValid || this.props.start}
-                            textStyle={styles.textStyle}/>
+                            disabled={!this.state.formIsValid || this.props.start || this.props.submitted}
+                            textStyle={styles.textStyle}
+                            submitting={this.props.start}
+                            loaderStyle="#fff"/>
                     </View>
                 </View>
                 { this.state.showActionSheet ? 
@@ -636,7 +646,8 @@ class ChatRoom extends Component {
                         examDetail={this.state.examDetail}
                         resetFormHandler={this.resetFormHandler}
                         submitForm={this.props.onSubmitForm}
-                        submitStart={this.props.start}/> : null}
+                        submitStart={this.props.start}
+                        submitted={this.props.submitted}/> : null}
                 { this.props.submitError ? 
                     <NotificationModal
                         info="Network Error !"

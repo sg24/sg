@@ -10,10 +10,29 @@ import BoxShadow from '../BoxShadow/BoxShadow';
 import uriScheme from 'urischeme'; 
 
 class CreateButton extends Component {
-    state = {
-        form: [],
-        formIsValid: true,
-        advertButtonCnt: []
+    constructor(props) {
+        super(props);
+        this.state = {
+            form: [],
+            formIsValid: true,
+            advertButtonCnt: [],
+            updateButton: false
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.props.updateButton && !this.state.updateButton) {
+            let form = [];
+            let advertButtonCnt = [];
+            if (this.props.button && this.props.button.length > 0) {
+                for (let button of this.props.button) {
+                    let value = {buttonType: button.buttonType, content: button.content, title: button.title};
+                    form.push({id: button._id, formIsValid: true, value});
+                    advertButtonCnt.push({id: button._id, ...value})
+                }
+            }
+            this.setState({form, formIsValid: true,advertButtonCnt,updateButton: true});
+        }
     }
 
     resetButton = () => {
@@ -45,7 +64,7 @@ class CreateButton extends Component {
         if (this.state.form.length <= this.props.max) {
             let form = [...this.state.form];
             form.push({id: uuid(), formIsValid: false, value: {}});
-            this.props.advertButton(false)
+            this.props.advertButton(false, this.state.advertButtonCnt)
             this.setState({form, formIsValid: false})
         }
     }
@@ -58,7 +77,7 @@ class CreateButton extends Component {
         for (let formItem of updateForm) {
             formIsValid = formIsValid && formItem.formIsValid;
         }
-        this.props.advertButton(formIsValid)
+        this.props.advertButton(formIsValid, updateButtonCnt)
         this.setState({form: updateForm, formIsValid, advertButtonCnt: updateButtonCnt})
     }
 
@@ -84,6 +103,7 @@ class CreateButton extends Component {
                             <ButtonItem 
                                 key={index}
                                 id={cnt.id}
+                                cnt={cnt.value}
                                 remove={() => this.removeButtonHandler(cnt.id)}
                                 inputUri={this.props.advertButtonUri}
                                 checkForm={this.checkFormHandler}/>

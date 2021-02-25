@@ -34,6 +34,10 @@ const QcontentSchema = new Schema({
             type: Object
         }
     }],
+    totalOption: {
+        type: Number,
+        required: true
+    },
     tempFileID: String
 })
 

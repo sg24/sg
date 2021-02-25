@@ -33,6 +33,13 @@ import AddFeedScreen from './src/screens/AddForm/Feed';
 import AddWriteUpScreen from './src/screens/AddForm/WriteUp';
 import AddCBTScreen from './src/screens/AddForm/CBT/CBT';
 import AddChatRoomScreen from './src/screens/AddForm/ChatRoom/ChatRoom';
+import EditPostScreen from './src/screens/EditForm/Post';
+import EditQuestionScreen from './src/screens/EditForm/Question';
+import EditFeedScreen from './src/screens/EditForm/Feed';
+import EditWriteUpScreen from './src/screens/EditForm/WriteUp';
+import EditChatRoomScreen from './src/screens/EditForm/ChatRoom';
+import EditCBTScreen from './src/screens/EditForm/CBT';
+import EditAdvertScreen from './src/screens/EditForm/Advert';
 
 const Stack = createStackNavigator();
 
@@ -55,7 +62,14 @@ const userScreens = {
   AddFeed: AddFeedScreen,
   AddWriteUp: AddWriteUpScreen,
   AddCBT: AddCBTScreen,
-  AddChatRoom: AddChatRoomScreen 
+  AddChatRoom: AddChatRoomScreen,
+  EditPost: EditPostScreen,
+  EditQuestion: EditQuestionScreen,
+  EditFeed :  EditFeedScreen,
+  EditWriteUp: EditWriteUpScreen,
+  EditChatRoom: EditChatRoomScreen,
+  EditCBT: EditCBTScreen,
+  EditAdvert: EditAdvertScreen
 };
 
 class Base extends Component {
@@ -188,6 +202,26 @@ class Base extends Component {
               || name === "AddWriteUp" || name === "AddCBT" || name === "AddChatRoom") {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader;
                 let title = name.startsWith('Add') ? name === "AddChatRoom" ? "Add Chat Room" : name.split('Add').join("Add ") : name;
+                header = {
+                  header: ({scene, previous, navigation }) => <HeaderBar
+                    title={title}
+                    userImage={this.props.userImage}
+                    username={this.props.username}
+                    onPress={(url) => this.state.viewMode === 'landscape' ? navigation.navigate(url, {userID: this.props.userID}) : navigation.goBack()}
+                    modalSearch={SearchScreen}
+                    modalConv={ConvScreen}
+                    modalNotify={NotificatonScreen}
+                    filterCnt={this.props.onHeaderFilter}
+                    inputValue={this.props.filterCnt}
+                  />,
+                  title
+                }
+              }
+
+              if (name === 'EditPost' || name === 'EditQuestion' || name === "EditAdvert" || name === "EditFeed"
+              || name === "EditWriteUp" || name === "EditCBT" || name === "EditChatRoom") {
+                let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader;
+                let title = name.startsWith('Edit') ? name === "EditChatRoom" ? "Edit Chat Room" : name.split('Edit').join("Edit ") : name;
                 header = {
                   header: ({scene, previous, navigation }) => <HeaderBar
                     title={title}
