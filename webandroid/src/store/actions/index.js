@@ -75,4 +75,37 @@ export {
     fetchEditForm,
     submitEditFormInit,
     editFormReset
-} from './editForm'
+} from './editForm';
+
+export {
+    fetchPageInit,
+    fetchPageFail,
+    fetchPage,
+    fetchPageReset,
+    updatePageMedia,
+    deletePageInit,
+    deletePageFail,
+    deletePageReset,
+    deletePage
+} from './page';
+
+export {
+   setMediaInfo,
+   fetchMediaInfoInit,
+   fetchMediaInfoFail,
+   fetchMediaInfo,
+   fetchMediaInfoReset,
+   mediaLikeInit,
+   mediaLikeStart,
+   mediaLikeFail,
+   mediaLike,
+   mediaLikeReset,
+} from './media';
+
+export {
+    fetchChatInit,
+    fetchChatFail,
+    fetchChat,
+    fetchChatReset,
+    sendChatInit
+ } from './chatBox';

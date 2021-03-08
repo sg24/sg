@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, ActivityIndicator, TouchableOpacity, Keyboard, StyleSheet, Dimensions, Platform, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
-import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
@@ -261,7 +260,8 @@ class ChatRoom extends Component {
         for (let inputType in updateFormElement) {
             let contentIsValid = updateFormElement.rule.value ? updateFormElement[inputType].valid : true;
             let cbtIsValid = updateFormElement.cbt.value ? this.state.durationIsValid : true;
-            let passMarkIsValid = updateFormElement.autoJoin.value ? updateFormElement[inputType].valid : true;
+            let passMarkIsValid = updateFormElement.autoJoin.value ? updateFormElement[inputType].valid  ? true : 
+                updateFormElement[inputType].value ? true : false : true;
             let roomTypeIsValid = updateFormElement.cbt.value ? true : updateFormElement[inputType].valid;
             let formElementIsValid = inputType === 'content' ?  contentIsValid : 
                 inputType === 'cbt' ? cbtIsValid : 

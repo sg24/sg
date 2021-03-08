@@ -31,6 +31,11 @@ class InnerScreen extends Component {
                  this.props.viewStyle] : [styles.modalDefault, this.props.outterStyle]}
                 isVisible
                 {...this.props}>
+                    {this.props.closeModal && this.state.viewMode === 'landscape' ? (
+                        <TouchableWithoutFeedback style={styles.modalOverlay} onPress={this.props.closeModal}>
+                            <View style={styles.modalOverlay}></View>
+                        </TouchableWithoutFeedback>
+                    ): null}
                 { this.props.children }
             </ModalComponent>
         ) 
@@ -50,6 +55,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         zIndex: 999999,
         flex: 1
+    },
+    modalOverlay: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        right: 0,
+        left: 0,
+        opacity: 0,
     }
 })
 

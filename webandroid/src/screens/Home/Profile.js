@@ -9,13 +9,13 @@ import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import * as actions from '../../store/actions/index';
 import { updateObject, checkValidity } from '../../shared/utility';
-import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import Profiles from '../../components/Main/Profile/Profile.js';
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
 import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
 import CameraComponent from '../../components/UI/Camera/Camera';
+import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 
 class Profile extends Component {
     constructor(props) {
@@ -316,23 +316,11 @@ class Profile extends Component {
 
         if (this.props.profileErr) {
             cnt = (
-                <View style={styles.wrapper}>
-                    { header }
-                    <View style={styles.loaderCnt}>
-                        <InfoBox
-                            det='Network Error!'
-                            name="cloud-offline-outline"
-                            size={40}
-                            color="#ff1600"
-                            style={styles.info}/>
-                        <View style={styles.icon}>
-                            <TouchableOpacity onPress={this.reloadFetchHandler} style={styles.reload}>
-                                <Ionicons name="reload-outline" size={18} color="#777"/>
-                                <Text style={styles.reloadText}>Reload</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
+                <ErrorInfo 
+                    header={header}
+                    viewMode={this.state.viewMode}
+                    backgroundColor={this.state.backgroundColor}
+                    reload={this.reloadFetchHandler}/>
             )
         }
 
@@ -365,20 +353,6 @@ const styles = StyleSheet.create({
     },
     landscapeWrapper: {
         width: '100%'
-    },
-    info: {
-        fontSize: 18
-    },
-    icon: {
-        marginBottom: 5
-    },
-    reload: {
-        flexDirection: 'row'
-    },
-    reloadText: {
-        marginLeft: 5,
-        fontSize: 15,
-        color: '#777'
     },
     button: {
         backgroundColor: '#437da3',

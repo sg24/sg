@@ -7,13 +7,18 @@ import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeF
 
 const defaultHeader = props => (
     <BoxShadow style={styles.topLevel}>
-        <View style={styles.wrapper}>
-            <TouchableNativeFeedback onPress={props.onPress}>
-                <Icon name="arrow-back-outline" size={26}/>
-            </TouchableNativeFeedback>
-            <Text style={styles.textStyle}>
-                { props.title === 'Addnew' ? 'Add New' : props.title }
-            </Text>
+        <View style={[styles.wrapper, props.rightSideContent ? styles.split : null]}>
+            <View style={styles.title}>
+                { props.disableBackButton ? null : ( 
+                    <TouchableNativeFeedback onPress={props.onPress}>
+                        <Icon name="arrow-back-outline" size={26}/>
+                    </TouchableNativeFeedback>
+                )}
+                <Text style={styles.textStyle}>
+                    { props.title === 'Addnew' ? 'Add New' : props.title }
+                </Text>
+            </View>
+            { props.rightSideContent ? props.rightSideContent : null }
         </View>
     </BoxShadow>
 )
@@ -30,6 +35,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         alignItems: 'center',
         height: 40,
+    },
+    split: {
+        justifyContent: 'space-between'
+    },
+    title: {
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     topLevel: {
         zIndex: 999,

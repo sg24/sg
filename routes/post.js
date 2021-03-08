@@ -24,6 +24,16 @@ router.post('/', authenticate, (req, res, next) => {
         return
     }
 
+    if (req.header !== null && req.header('data-categ') === 'getByAuthor') {
+        post.find({authorID: { $in: [req.user, ...req.friend] }, _isCompleted: true })
+            .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
+            res.status(200).send(result);
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
     // if (req.header !== null && req.header('data-categ') === 'userDet') {
     //     let model = req.userType === 'authUser' ? authUser : user;
     //     model.findById(userDet.authorID).then(userFnd => {

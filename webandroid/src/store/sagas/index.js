@@ -7,6 +7,9 @@ import { submitAuthFormSigninInitSaga,
 import { headerFilterInitSaga, fetchConvInitSaga, fetchNotifyInitSaga } from './header';
 import { fetchProfileInitSaga, changeProfileInitSaga, submitAboutInitSaga, submitUsernameInitSaga } from './profile';
 import { fetchEditFormInitSaga } from './editForm';
+import { fetchPageInitSaga, deletePageInitSaga } from './page';
+import { fetchMediaInfoInitSaga, mediaLikeInitSaga } from './media';
+import { fetchChatInitSaga } from './chatBox';
 
 export function* watchAuth() {
     yield all([
@@ -42,5 +45,25 @@ export function* watchProfile() {
 export function* watchEditForm() {
     yield all([
        takeEvery(actionTypes.FETCH_EDITFORM_INIT, fetchEditFormInitSaga)
+    ])
+}
+
+export function* watchPage() {
+    yield all([
+       takeEvery(actionTypes.FETCH_PAGE_INIT, fetchPageInitSaga),
+       takeEvery(actionTypes.DELETE_PAGE_INIT, deletePageInitSaga)
+    ])
+}
+
+export function* watchMedia() {
+    yield all([
+       takeEvery(actionTypes.FETCH_MEDIAINFO_INIT, fetchMediaInfoInitSaga),
+       takeEvery(actionTypes.MEDIA_LIKE_INIT, mediaLikeInitSaga),
+    ])
+}
+
+export function* watchChatBox() {
+    yield all([
+       takeEvery(actionTypes.FETCH_CHAT_INIT, fetchChatInitSaga)
     ])
 }

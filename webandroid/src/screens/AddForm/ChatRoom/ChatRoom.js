@@ -219,7 +219,8 @@ class ChatRoom extends Component {
         for (let inputType in updateFormElement) {
             let contentIsValid = updateFormElement.rule.value ? updateFormElement[inputType].valid : true;
             let cbtIsValid = updateFormElement.cbt.value ? this.state.durationIsValid : true;
-            let passMarkIsValid = updateFormElement.autoJoin.value ? updateFormElement[inputType].valid : true;
+            let passMarkIsValid = updateFormElement.autoJoin.value ? updateFormElement[inputType].valid  ? true : 
+                updateFormElement[inputType].value ? true : false : true;
             let roomTypeIsValid = updateFormElement.cbt.value ? true : updateFormElement[inputType].valid;
             let formElementIsValid = inputType === 'content' ?  contentIsValid : 
                 inputType === 'cbt' ? cbtIsValid : 

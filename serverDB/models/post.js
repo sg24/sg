@@ -36,7 +36,8 @@ const PostSchema = new Schema({
         filename: String, 
         bucket: String,
         ext: String, 
-        description: String
+        description: String,
+        chat: String
     }],
     comment: {
         type: Array,

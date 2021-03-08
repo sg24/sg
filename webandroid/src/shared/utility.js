@@ -72,47 +72,15 @@ export const checkHashtag = (value) => {
 }
 
 export const transformNumber = (favNumber) => {
-    const favNumArray = String(favNumber).split("");
-    
-    if (favNumArray.length === 4 ) {
-        return `${favNumArray[0]}K`
+    if (favNumber / 1000 >= 1 && favNumber / 1000 < 1000) {
+        return `${ Math.floor(favNumber / 1000) } K`;
     }
-
-    if (favNumArray.length === 5 ) {
-        const favNum = favNumArray[0] + favNumArray[1]
-        return `${favNum}K`
+    if (favNumber / 1000000 >= 1 && favNumber / 1000000 < 1000) {
+        return `${ Math.floor(favNumber / 1000000) } M`;
     }
-
-    if (favNumArray.length === 6 ) {
-        const favNum = favNumArray[0] + favNumArray[1] + favNumArray[2];
-        return `${favNum}K`
+    if (favNumber / 1000000000 >= 1 && favNumber / 1000000000 < 1000) {
+        return `${ Math.floor(favNumber / 1000000000) } B`;
     }
-
-    if (favNumArray.length === 7 ) {
-        const favNum = favNumArray[0];
-        return `${favNum}M`
-    }
-
-    if (favNumArray.length === 8 ) {
-        const favNum = favNumArray[0] + favNumArray[1];
-        return `${favNum}M`
-    }
-
-    if (favNumArray.length === 9 ) {
-        const favNum = favNumArray[0] + favNumArray[1] + favNumArray[2];
-        return `${favNum}M`
-    }
-
-    if (favNumArray.length === 10 ) {
-        const favNum = favNumArray[0];
-        return `${favNum}B`
-    }
-
-    if (favNumArray.length === 11 ) {
-        const favNum = favNumArray[0] + favNumArray[1];
-        return `${favNum}B`
-    }
-
     return favNumber
 };
 
