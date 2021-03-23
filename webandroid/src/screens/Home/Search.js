@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
-import MaterialIcons from 'materialIcons';
+// import MaterialIcons from 'materialIcons';
 import AsyncStorage from '@react-native-community/async-storage';
 import Moment from 'react-moment';
 import { tailwind } from 'tailwind';

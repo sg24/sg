@@ -6,7 +6,7 @@ import Constants from 'expo-constants';
 
 export function* fetchChatInitSaga(action) {
     try {
-        yield put(actions.fetchChatReset());
+        yield put(actions.fetchChatStart());
         let response = yield axios.post(`/${action.chatType}`, {
                 start: action.start, limit: action.limit, cntID: action.cntID, page: action.page, pageID: action.pageID},{
             headers: {
@@ -14,16 +14,54 @@ export function* fetchChatInitSaga(action) {
         let cnt = response.data  ? response.data : null;
         if (cnt && cnt.mediaInfo) {
             yield put(actions.updatePageMedia(cnt.mediaInfo, action.page));
+            yield put(actions.updateMediaInfo(cnt.mediaInfo.media))
         }
 
         if (cnt && cnt.username && cnt.userImage) {
             yield AsyncStorage.setItem('username', cnt.username);
             yield AsyncStorage.setItem('userImage', Constants.manifest.extra.BASE_IMAGE_URL + cnt.userImage);
         }
-
         yield put(actions.fetchChat(cnt ? cnt : {chat: []}));
     } catch(err) {
         yield put(actions.fetchChatFail(err));
     }
     
+};
+
+export function* fetchReplyInitSaga(action) {
+    try {
+        yield put(actions.fetchReplyStart());
+        let response = yield axios.post(`/${action.chatType}`, {
+                start: action.start, limit: action.limit, chatID: action.chatID,cntID: action.cntID},{
+            headers: {
+                'data-categ': 'getReply'}});
+        let cnt = response.data  ? response.data : null;
+        if (cnt && cnt.username && cnt.userImage) {
+            yield AsyncStorage.setItem('username', cnt.username);
+            yield AsyncStorage.setItem('userImage', Constants.manifest.extra.BASE_IMAGE_URL + cnt.userImage);
+        }
+        yield put(actions.fetchReply(cnt ? cnt : {chat: []}));
+    } catch(err) {
+        yield put(actions.fetchReplyFail(err));
+    }
+};
+
+export function* deleteChatInitSaga(action) {
+    try {
+        yield put(actions.deleteChatStart(action.cnt._id, action.cnt.sendChatID, action.cntType, action.start));
+        if (action.start) {
+            if (action.cnt._id) {
+                let response = yield axios.post(`/${action.chatType}`, {
+                    cntID: action.cnt._id, chatID: action.chatID, media: JSON.stringify(action.cnt.media)},{
+                headers: {
+                    'data-categ': action.cntType}});
+                let cnt = response.data  ? response.data : {};
+                yield put(actions.updateMediaInfo(cnt));
+            }
+            yield put(actions.deleteChat(action.cntType === "deleteReply" ? action.cnt.replyChatID : action.cnt._id, action.cnt.sendChatID, action.cntType,
+                action.cnt._id));
+        }
+    } catch(err) {
+        yield put(actions.deleteChatFail(err));
+    }
 };

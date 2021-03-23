@@ -72,7 +72,7 @@ const postContent = props => {
                         <Image key={index} source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${props.cnt.userImage}`}}  
                             style={[styles.userCommentImage, {left: index !== 0 ? -(index*8) : 'auto'}]}/>
                         ))}
-                        <Text style={[styles.userCommentText, {marginLeft: -((4*8)-15)}]}>SG Tech and other's comment on this</Text>
+                        <Text  numberOfLines={1} style={[styles.userCommentText, {marginLeft: -((4*8)-15)}]}>SG Tech and other's comment on this</Text>
                     </View>
                 </TouchableNativeFeedback>
                 <View style={styles.det}>
@@ -156,7 +156,8 @@ const styles = StyleSheet.create({
     },
     userComment: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        width: '100%'
     },
     userCommentImage: {
         width: 30,
@@ -167,7 +168,8 @@ const styles = StyleSheet.create({
     },
     userCommentText: {
         marginLeft: -20,
-        color: '#777'
+        color: '#777',
+        flex: 1
     },
     det: {
         flexDirection: 'row',
@@ -179,12 +181,10 @@ const styles = StyleSheet.create({
     },
     detContent: {
         flexDirection: 'row',
-        // backgroundColor: '#e9ebf2',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 8,
-        paddingVertical: 5,
-        // paddingHorizontal: 10
+        paddingVertical: 5
     },
     detText: {
         marginLeft: 10

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import Ionicons from 'ionicons';
+// import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
 
 import MediaContainer from '../../MediaContainer/MediaContainer';
 import Button from '../../Button/Button';
@@ -9,33 +10,43 @@ import {  transformNumber } from '../../../../shared/utility';
 const mediaItem = props => {
     return (
     <View style={styles.wrapper}>
-        <MediaContainer
-            media={props.media}
-            disablePreview
-            fileIconStyle={styles.fileIcon}
-            videoStyle={styles.videoWrapper} />
-        <Text style={styles.content}>{ props.media.description }</Text>
-        <View style={styles.det}>
-            <Button 
-                onPress={props.like} 
-                style={styles.detContent}
-                disabled={props.media.start ? true : false}>
-                <Ionicons name="thumbs-up-outline" size={24} color={props.media.isLiked ? '#437da3' : '#333'}/>
-                <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.media.like) }</Text>
-            </Button>
-            <Button 
-                onPress={props.chat} 
-                style={styles.detContent}>
-                <Ionicons name="chatbox-ellipses-outline" size={24}/>
-                <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.media.chatTotal) }</Text>
-            </Button>
-            <Button 
-                onPress={props.dislike} 
-                style={styles.detContent}>
-                <Ionicons name="thumbs-down-outline" size={24}/>
-                <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.media.dislike) }</Text>
-            </Button>
+        <View
+            maxZoom={1.5}
+            minZoom={0.5}
+            zoomStep={0.5}
+            initialZoom={1}
+            bindToBorders={true}
+            style={styles.wrapper}>
+            <MediaContainer
+                media={props.media}
+                disablePreview
+                fileIconStyle={styles.fileIcon}
+                videoStyle={styles.videoWrapper} />
+            <Text style={styles.content}>{ props.media.description }</Text>
         </View>
+        { props.showOption ?
+            <View style={styles.det}>
+                <Button 
+                    onPress={props.like} 
+                    style={styles.detContent}
+                    disabled={props.media.start ? true : false}>
+                    <Ionicons name="thumbs-up-outline" size={24} color={props.media.isLiked ? '#437da3' : '#333'}/>
+                    <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.media.like) }</Text>
+                </Button>
+                <Button 
+                    onPress={props.chat} 
+                    style={styles.detContent}>
+                    <Ionicons name="chatbox-ellipses-outline" size={24}/>
+                    <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.media.chatTotal) }</Text>
+                </Button>
+                <Button 
+                    onPress={props.dislike} 
+                    style={styles.detContent}>
+                    <Ionicons name="thumbs-down-outline" size={24}/>
+                    <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.media.dislike) }</Text>
+                </Button>
+            </View>
+        : null}
     </View>
 )
 }

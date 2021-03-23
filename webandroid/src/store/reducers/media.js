@@ -14,9 +14,26 @@ const setMediaInfo = (state, action) => {
     })
 };
 
+const updateMediaInfo = (state, action) => {
+    let fetchInfo = [...state.fetchInfo];
+    let mediaItem = fetchInfo.filter(cnt => cnt.chat === action.mediaInfo.chat)[0];
+    if (mediaItem) {
+        let updateMediaItem  = updateObject(mediaItem, action.mediaInfo);
+        let mediaItemIndex = fetchInfo.findIndex(cnt => cnt.chat === action.mediaInfo.chat);
+        fetchInfo[mediaItemIndex] = updateMediaItem;
+    }
+    return updateObject(state, {fetchInfo})
+};
+
+const resetMediaInfo = (state, action) => {
+    return updateObject(state, { 
+        fetchInfoStart: false, fetchInfoError: null, fetchInfo: null, mediaLikeError: null
+    })
+};
+
 const fetchInfoReset = (state, action) => {
     return updateObject(state, { 
-        fetchInfoStart: false, fetchInfoErr: null, fetchInfo: null,
+        fetchInfoStart: false, fetchInfoError: null, fetchInfo: null,
         mediaLikeStart: [], mediaLikeError: null
     })
 };
@@ -29,7 +46,7 @@ const fetchInfoFail = (state, action) => {
 
 const fetchInfo = (state, action) => {
     return updateObject(state, { 
-        fetchInfoStart: false, fetchInfoErr: null, fetchInfo: action.cnt
+        fetchInfoStart: false, fetchInfoError: null, fetchInfo: action.cnt
     })
 };
 
@@ -76,14 +93,18 @@ const mediaLike = (state, action) => {
         fetchInfo[mediaItemIndex] = mediaItem;
     }
     return updateObject(state, { 
-        mediaLikeErr: null, fetchInfo
+        mediaLikeError: null, fetchInfo
     })
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.RESET_MEDIA_INFO:
+            return resetMediaInfo(state, action);
         case actionTypes.SET_MEDIA_INFO:
             return setMediaInfo(state, action);
+        case actionTypes.UPDATE_MEDIA_INFO:
+            return updateMediaInfo(state, action);
         case actionTypes.FETCH_MEDIAINFO_FAIL:
             return fetchInfoFail(state, action);
         case actionTypes.FETCH_MEDIAINFO:

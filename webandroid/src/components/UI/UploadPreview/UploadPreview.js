@@ -80,8 +80,9 @@ class FileExplorer extends Component {
                 animationType="slide"
                 onBackdropPress={this.props.closePreview.bind(this, this.state.uploadFiles)}>
                 <DefaultHeader
-                    onPress={this.props.closePreview.bind(this, this.state.uploadFiles)}
-                    title="Upload Preview"/>
+                    onPress={(this.props.closePreview.bind(this, this.state.uploadFiles))}
+                    title="Upload Preview"
+                    rightSideContent={this.props.rightSideContent} />
                 <View style={styles.wrapper}>
                     <ScrollView showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape'} contentContainerStyle={this.state.uploadFiles.length > 0 ? null: styles.errorWrapper}>
                         { this.state.uploadFiles.length < 1 ? <Text style={styles.error}>Upload  file to  preview</Text> : null}

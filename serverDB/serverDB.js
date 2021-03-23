@@ -10,7 +10,7 @@ const favorite = require('./models/favorites');
 const comment = require('./models/comment');
 const group = require('./models/group');
 const user = require('./models/user');
-const chat = require('./models/chat');
+const userchat = require('./models/userchat');
 const tempUser = require('./models/tempUser');
 const tempFile = require('./models/tempfile');
 const post = require('./models/post');
@@ -32,7 +32,7 @@ module.exports = {
     tempUser,
     comment,
     tempFile,
-    chat,
+    userchat,
     favorite,
     advert,
     contest,

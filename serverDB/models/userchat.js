@@ -3,17 +3,11 @@ const mongoose = require('mongoose');
 const Schema  = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
-const MediaChatSchema = new Schema({
+const UserChatSchema = new Schema({
     _id: {
         type: ObjectId,
         required: true
     },
-    like: [{
-        type: ObjectId
-    }],
-    dislike:  [{
-        type: ObjectId
-    }],
     chat: [{
         authorID: {
             type: ObjectId,
@@ -52,9 +46,12 @@ const MediaChatSchema = new Schema({
         replyChatID: {
             type: String
         },
+        shared: {
+            type: String
+        },
         tempFileID: String
     }],
 })
 
-const  mediaChat = mongoose.model('mediachats',  MediaChatSchema);
-module.exports = mediaChat;
+const  userChat = mongoose.model('userchats',  UserChatSchema);
+module.exports = userChat;

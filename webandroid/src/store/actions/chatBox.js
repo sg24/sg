@@ -2,6 +2,12 @@ import * as actionTypes from './actionTypes';
 import { Platform } from 'react-native';
 import axios from '../../axios';
 
+export const chatBoxReset = () => {
+    return {
+        type: actionTypes.CHATBOX_RESET
+    };
+};
+
 export const fetchChatInit = (start, limit, chatType, cntID, page, pageID) => {
     return {
         type: actionTypes.FETCH_CHAT_INIT,
@@ -25,6 +31,12 @@ export const fetchChat = (cnt) => {
     return {
         type: actionTypes.FETCH_CHAT,
         cnt
+    };
+};
+
+export const fetchChatStart = () => {
+    return {
+        type: actionTypes.FETCH_CHAT_START
     };
 };
 
@@ -55,14 +67,22 @@ export const sendChatInit = (chatType, cntID, formData) => {
             formContent.append('description', JSON.stringify(description));
         }
         formContent.append('content', formData.content);
+        formContent.append('cntID', cntID);
 
-        // axios.post(`/${chatType}`, formContent, {
-        //     headers: {
-        //         "Content-Type": "multipart/form-data"}}).then((res) => {
-        //     dispatch(sendChat(formData, res));
-        // }).catch((err) => {
-        //     dispatch(sendChatFail(formData, err))
-        // });
+        axios.post(`/${chatType}`, formContent, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "data-categ": "sendChat"},
+            onUploadProgress: function (progressEvent) {
+                if (progressEvent.lengthComputable) {
+                    const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                    dispatch(sendChatStart({...formData, uploadedPercent: percentage}))
+                }
+            }}).then((res) => {
+            dispatch(sendChat(formData, res.data));
+        }).catch((err) => {
+            dispatch(sendChatFail(formData, err))
+        });
     } 
 };
 
@@ -86,5 +106,151 @@ export const sendChatStart = (cnt) => {
     return {
         type: actionTypes.SEND_CHAT_START,
         cnt
+    };
+};
+
+export const deleteChatInit = (chatType, chatID, cntType, cnt, start) => {
+    return {
+        type: actionTypes.DELETE_CHAT_INIT,
+        chatType,
+        chatID,
+        cntType,
+        cnt,
+        start
+    }; 
+};
+
+export const deleteChatFail = (err) => {
+    return {
+        type: actionTypes.DELETE_CHAT_FAIL,
+        err
+    };
+};
+
+export const deleteChat = (cntID, sendChatID, cntType, replyChatID) => {
+    return {
+        type: actionTypes.DELETE_CHAT,
+        cntID,
+        sendChatID,
+        cntType,
+        replyChatID
+    };
+};
+
+export const deleteChatStart = (cntID, sendChatID, cntType, start) => {
+    return {
+        type: actionTypes.DELETE_CHAT_START,
+        cntID,
+        sendChatID,
+        cntType,
+        start
+    };
+};
+
+export const deleteChatReset = () => {
+    return {
+        type: actionTypes.DELETE_CHAT_RESET
+    };
+};
+
+export const fetchReplyInit = (start, limit, chatType, cntID, chatID) => {
+    return {
+        type: actionTypes.FETCH_REPLY_INIT,
+        start, 
+        limit,
+        chatType,
+        cntID,
+        chatID
+    };
+};
+
+export const fetchReplyFail = (err) => {
+    return {
+        type: actionTypes.FETCH_REPLY_FAIL,
+        err
+    };
+};
+
+export const fetchReply = (cnt) => {
+    return {
+        type: actionTypes.FETCH_REPLY,
+        cnt
+    };
+};
+
+export const fetchReplyStart = () => {
+    return {
+        type: actionTypes.FETCH_REPLY_START
+    };
+};
+
+export const fetchReplyReset = () => {
+    return {
+        type: actionTypes.FETCH_REPLY_RESET
+    };
+};
+
+export const replyChatInit = (chatType, cntID, chatID, formData) => {
+    function uploadFile (description, formContent, uploadFile) {
+        for (let media of uploadFile) {
+            let fileID = media.id ? `${ media.id}.${media.type.split('/')[1] ? media.type.split('/')[1] : 'octet-stream'}` :  
+            media.name.split('.').length > 1 ? media.name : `${media.name}.octet-stream`;
+            let mediaData = Platform.OS !== 'web' ? {...media, name: fileID} : media.file
+            formContent.append('media', mediaData, fileID);
+            if (media.id) {
+                description.push({id: fileID,  content: media.description})
+            }
+        }
+        return description;
+    }
+    return dispatch => {
+        dispatch(replyChatStart(formData, chatID))
+        let formContent = new FormData();
+        if (formData.uploadFile) {
+            let description = uploadFile([], formContent, formData.uploadFile);
+            formContent.append('description', JSON.stringify(description));
+        }
+        formContent.append('content', formData.content);
+        formContent.append('chatID', chatID);
+        formContent.append('cntID', cntID);
+
+        axios.post(`/${chatType}`, formContent, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "data-categ": "replyChat"},
+            onUploadProgress: function (progressEvent) {
+                if (progressEvent.lengthComputable) {
+                    const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                    dispatch(replyChatStart({...formData, uploadedPercent: percentage}))
+                }
+            }}).then((res) => {
+            dispatch(replyChat(formData, res.data));
+        }).catch((err) => {
+            dispatch(replyChatFail(formData, err))
+        });
+    } 
+};
+
+export const replyChatFail = (cnt, err) => {
+    return {
+        type: actionTypes.REPLY_CHAT_FAIL,
+        cnt,
+        err
+    };
+};
+
+export const replyChat = (cnt, cntID) => {
+    return {
+        type: actionTypes.REPLY_CHAT,
+        cnt,
+        cntID
+    };
+};
+
+export const replyChatStart = (cnt, chatID) => {
+    return {
+        type: actionTypes.REPLY_CHAT_START,
+        cnt,
+        chatID
     };
 };

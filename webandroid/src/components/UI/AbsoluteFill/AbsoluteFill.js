@@ -4,8 +4,10 @@ import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 
 const AbsoluteFill = props => {
     return (
-        <TouchableWithoutFeedback onPress={props.onPress} style={styles.overlay}>
-            <View style={styles.overlay}></View>
+        <TouchableWithoutFeedback onPress={props.onPress} style={[styles.overlay, props.style]}>
+            <View style={[styles.overlay, props.style]}>
+                { props.children }
+            </View>
         </TouchableWithoutFeedback>
     )
 }

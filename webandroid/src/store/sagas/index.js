@@ -9,7 +9,8 @@ import { fetchProfileInitSaga, changeProfileInitSaga, submitAboutInitSaga, submi
 import { fetchEditFormInitSaga } from './editForm';
 import { fetchPageInitSaga, deletePageInitSaga } from './page';
 import { fetchMediaInfoInitSaga, mediaLikeInitSaga } from './media';
-import { fetchChatInitSaga } from './chatBox';
+import { fetchChatInitSaga, fetchReplyInitSaga, deleteChatInitSaga } from './chatBox';
+import { fetchSharecntInitSaga } from './share';
 
 export function* watchAuth() {
     yield all([
@@ -64,6 +65,14 @@ export function* watchMedia() {
 
 export function* watchChatBox() {
     yield all([
-       takeEvery(actionTypes.FETCH_CHAT_INIT, fetchChatInitSaga)
+       takeEvery(actionTypes.FETCH_CHAT_INIT, fetchChatInitSaga),
+       takeEvery(actionTypes.FETCH_REPLY_INIT, fetchReplyInitSaga),
+       takeEvery(actionTypes.DELETE_CHAT_INIT, deleteChatInitSaga)
+    ])
+}
+
+export function* watchShare() {
+    yield all([
+       takeEvery(actionTypes.FETCH_SHARECNT_INIT, fetchSharecntInitSaga)
     ])
 }

@@ -3,16 +3,14 @@ let router = express.Router();
 let arraySort = require('array-sort');
 let objectID = require('mongoose').mongo.ObjectId;
 let fs = require('fs');
-const webpush = require('web-push');
 
 let formidable = require('formidable');
-let uploadStream = require('./utility/uploadStream')
 let savetemp = require('./utility/savetemp');
 let authenticate = require('../serverDB/middleware/authenticate');
-let filterCnt = require('./utility/filtercnt');
 let formInit = require('./utility/forminit');
 let deleteMedia = require('./utility/deletemedia');
-const {mediachat, post,  connectStatus} = require('../serverDB/serverDB');
+let uploadToBucket = require('./utility/upload');
+const {mediachat, post,  tempFile, connectStatus} = require('../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
     let model = req.body.page === 'post' ? post : post;
@@ -83,14 +81,20 @@ router.post('/', authenticate, (req, res, next) => {
                 let mediaIndex = doc.media.findIndex(media => JSON.parse(JSON.stringify(media.id)) === req.body.cntID);
                 if (media) {
                     if (media.chat) {
-                        mediachat.aggregate([{
-                            $match: {_id: objectID(media.chat)}}, 
-                            {$unwind: "$chat"}, 
-                            {$sort: {"chat.created": -1}},
-                            {$skip: req.body.start},
-                            {$limit: req.body.limit},
-                            {"$group": {"_id": "$_id", "chat": {"$push": "$chat"}}}]).then(chat => {
-                                return res.status(200).send({chat, username: req.username, userImage: req.userImage, userID: req.user})
+                        mediachat.findById(media.chat).then(doc => {
+                            if (doc) {
+                                mediachat.aggregate([{
+                                    $match: {_id: objectID(media.chat)}}, 
+                                    {$unwind: "$chat"},
+                                    {$match: {"chat.replyChat": false}}, 
+                                    {$sort: {"chat.created": -1}},
+                                    {$skip: req.body.start},
+                                    {$limit: req.body.limit},
+                                    {"$group": {"_id": "$_id", "chat": {"$push": "$chat"}}}]).then(chat => {
+                                        return res.status(200).send({chat: chat[0] ? chat[0].chat.reverse() : [], username: req.username, userImage: req.userImage, userID: req.user,
+                                            chatID: media.chat, loadPrevious: (doc.chat.length - (req.body.start + req.body.limit)) > 0 })
+                                })
+                            }
                         })
                     } else {
                         let newDoc = new mediachat({
@@ -102,7 +106,8 @@ router.post('/', authenticate, (req, res, next) => {
                             updateMedia[mediaIndex] = media;
                             doc.updateOne({media: updateMedia}).then(() => {
                                 return res.status(200).send({chat: [], mediaInfo: {_id : req.body.pageID, media: updateMedia},
-                                    username: req.username, userImage: req.userImage, userID: req.user});
+                                    username: req.username, userImage: req.userImage, userID: req.user, chatID: result._id,
+                                    loadPrevious: false});
                             })
                         }).catch(err => {
                             res.status(500).send(err)
@@ -116,8 +121,176 @@ router.post('/', authenticate, (req, res, next) => {
             res.status(500).send(err)
         })
         return
+    };
+
+    if (req.header !== null && req.header('data-categ') === 'getReply') {
+        mediachat.findById(req.body.cntID).then(doc => {
+            if (doc) {
+                let chatItem = doc.chat.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === req.body.chatID)[0];
+                mediachat.aggregate([{
+                    $match: {_id: objectID(req.body.cntID)}}, 
+                    {$unwind: "$chat"}, 
+                    {$match: {'chat.replyChatID': req.body.chatID, 'chat.replyChat': true}},
+                    {$sort: {"chat.created": -1}},
+                    {$skip: req.body.start},
+                    {$limit: req.body.limit},
+                    {"$group": {"_id": "$_id", "chat": {"$push": "$chat"}}}]).then(chat => {
+                        return res.status(200).send({chat: chat[0] ? chat[0].chat.reverse() : [], username: req.username, userImage: req.userImage, userID: req.user,
+                            chatID:req.body.chatID, loadPrevious: ((chatItem ? chatItem.reply.length : 0) - (req.body.start + req.body.limit)) > 0  })
+                    })
+            }
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+    };
+
+    if (req.header !== null && req.header('data-categ') === 'sendChat') {
+        formInit(req, formidable).then(form => {
+            let mediaList = form.files && form.files.media ? form.files.media : [];
+            let fields = form.fields
+            savetemp(mediaList, 'mediachat', req.user).then(tempFileID => {
+                uploadToBucket(mediaList, fields.description).then(media => {
+                    let _id = objectID();
+                    let created = Date.now();
+                    let cnt = {
+                        authorID: req.user, username: req.username, userImage: req.userImage,
+                        content: fields.content, media, tempFileID, _id, created
+                    }
+                    Promise.all([ mediachat.findByIdAndUpdate(fields.cntID, {$push: {chat: cnt}}),
+                        tempFile.findOneAndUpdate({userID: cnt.authorID, "tempFiles.id": tempFileID}, {$pull: {tempFiles: {id: tempFileID}}})]).then(cnt => {
+                        res.status(200).send({_id, created, media, mediaInfo: {
+                            chat: cnt[0]._id, like: cnt[0].like.length, chatTotal: cnt[0].chat.length + 1, dislike: cnt[0].dislike.length
+                        }})
+                        mediachat.findById(fields.cntID).then(doc => {
+                            if (doc) {
+                                let chat = doc.chat
+                                let chatItem = chat.filter(chat => chat._id === _id)[0];
+                                if (chatItem && chatItem.tempFile) {
+                                    chatItem.tempFile = null;
+                                    let chatIndex = chat.findIndex(chat => chat._id === _id);
+                                    chat[chatIndex] = chatItem;
+                                    doc.updateOne({chat});
+                                }
+                            }
+                        })
+                    })
+                })
+            })
+        }).catch(err => {
+            res.status(500).send(err);
+        })
     }
 
+    if (req.header !== null && req.header('data-categ') === 'replyChat') {
+        formInit(req, formidable).then(form => {
+            let mediaList = form.files && form.files.media ? form.files.media : [];
+            let fields = form.fields
+            savetemp(mediaList, 'mediachat', req.user).then(tempFileID => {
+                uploadToBucket(mediaList, fields.description).then(media => {
+                    let _id = objectID();
+                    let created = Date.now();
+                    let cnt = {
+                        authorID: req.user, username: req.username, userImage: req.userImage,
+                        content: fields.content, media, tempFileID, _id, created, replyChat: true,
+                        replyChatID: fields.chatID
+                    }
+                    mediachat.findById(fields.cntID).then(doc => {
+                        if (doc ){
+                            let chat = doc.chat;
+                            chat.push(cnt);
+                            let chatItem = chat.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === fields.chatID)[0];
+                            if (chatItem) {
+                                chatItem.reply.push(cnt._id);
+                                let chatItemIndex = chat.findIndex(cnt => JSON.parse(JSON.stringify(cnt._id)) === fields.chatID);
+                                chat[chatItemIndex] = chatItem;
+                                Promise.all([doc.updateOne({chat}),
+                                    tempFile.findOneAndUpdate({userID: cnt.authorID, "tempFiles.id": tempFileID}, {$pull: {tempFiles: {id: tempFileID}}})]).then(cnt => {
+                                    res.status(200).send({_id, created, media,  mediaInfo: {
+                                        chat: doc._id, like: doc.like.length, chatTotal: doc.chat.length + 1, dislike: doc.dislike.length
+                                    }})
+                                    mediachat.findById(fields.cntID).then(doc => {
+                                        if (doc) {
+                                            let chat = doc.chat
+                                            let replyChat = chat.filter(chat => chat._id === _id)[0];
+                                            if (replyChat && replyChat.tempFile) {
+                                                replyChat.tempFile = null;
+                                                let replyChatIndex = chat.findIndex(chat => chat._id === _id);
+                                                chat[replyChatIndex] = replyChat;
+                                                doc.updateOne({chat});
+                                            }
+                                        }
+                                    })
+                                })
+                            }
+                        }
+                    })
+                })
+            })
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'deleteChat') {
+        Promise.all([deleteMedia(JSON.parse(req.body.media)),
+            mediachat.findByIdAndUpdate(req.body.chatID, {$pull: {chat: {'_id': req.body.cntID}}})]).then(cnt => {
+            return res.status(200).send({
+                chat: cnt[1]._id, like: cnt[1].like.length, chatTotal: cnt[1].chat.length - 1, dislike: cnt[1].dislike.length});
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'deleteReply') {
+        deleteMedia(JSON.parse(req.body.media)).then(() => {
+            mediachat.findOne({_id: req.body.chatID}).then(doc => {
+                if (doc) {
+                    let chat = doc.chat;
+                    let removeChatItem = chat.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === req.body.cntID)[0];
+                    let removeChat = chat.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) !== req.body.cntID);
+                    if (removeChatItem) {
+                        let chatItem = chat.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === removeChatItem.replyChatID)[0];
+                        if (chatItem) {
+                            let reply = chatItem.reply.filter(id => JSON.parse(JSON.stringify(id)) !== req.body.cntID);
+                            chatItem.reply = reply;
+                            let chatItemIndex = chat.findIndex(cnt => JSON.parse(JSON.stringify(cnt._id)) === removeChatItem.replyChatID);
+                            removeChat[chatItemIndex] = chatItem;
+                            doc.updateOne({chat: removeChat}).then(() => {
+                                return res.status(200).send({
+                                    chat: doc._id, like: doc.like.length, chatTotal: doc.chat.length - 1, dislike: doc.dislike.length});
+                            })
+                        }
+                    }
+                }
+            })
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'editChat') {
+        formInit(req, formidable).then(form => {
+            let mediaList = form.files && form.files.media ? form.files.media : [];
+            let fields = form.fields
+            savetemp(mediaList, 'mediachat', req.user).then(tempFileID => {
+                uploadToBucket(mediaList, fields.description).then(media => {
+                    let _id = objectID();
+                    let created = Date.now();
+                    let cnt = {
+                        authorID: req.user, username: req.username, userImage: req.userImage,
+                        content: fields.content, media, tempFileID
+                    }
+                    mediachat.findOneAndUpdate({_id: fields.cntID, 'chat._id' : fields.chatID}, {$set: {chat: cnt}}).then(result => {
+                        res.status(200).send({_id, created})
+                    })
+                })
+            })
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+    }
 });
 
 module.exports = router

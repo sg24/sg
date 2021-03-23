@@ -23,7 +23,7 @@ class MediaPreview extends Component {
             viewMode: Dimensions.get('window').width >= size.sm ? 'landscape' : 'portrait',
             containerWidth: null,
             showOption: false,
-            option: [{title: 'Save', icon: {name: 'save-outline'}, action: 'Save'}],
+            option: [{title: 'Save', icon: {name: 'save-outline'}, action: 'save'}],
             media: this.props.media,
             loaded: false,
             fetchInfoCnt: null,
@@ -42,7 +42,7 @@ class MediaPreview extends Component {
         let updateMedia = [];
         let fetchInfoCnt = [];
         for (let media of this.state.media) {
-            if (media.chat) {
+            if (media.chat && this.props.pageID && this.props.page) {
                 fetchInfoCnt.push(media.chat)
             } else {
                 updateMedia.push(updateObject(media, {like: 0, chatTotal: 0, dislike: 0, isLiked: false, isDisliked: false}));
@@ -58,6 +58,7 @@ class MediaPreview extends Component {
 
     componentWillUnmount() {
         Dimensions.removeEventListener('change', this.updateStyle);
+        this.props.onResetMediaInfo();
     }
 
     reloadFetchHandler = () => {
@@ -87,6 +88,7 @@ class MediaPreview extends Component {
                 media={media}
                 like={() => this.props.onLikeMedia(media.id, this.props.page, this.props.pageID)}
                 chat={() => this.showChatBoxHandler(media.id)}
+                showOption={this.props.showOption}
                 />
         )
     }
@@ -103,7 +105,8 @@ class MediaPreview extends Component {
     }
 
     optionHandler = (action) => {
-        if (action === 'Save') {
+        if (action === 'save') {
+            
         }
     }
 
@@ -120,7 +123,7 @@ class MediaPreview extends Component {
             </View>
         )
         let seekRight = (
-            <View style={styles.seekWrapper}>
+            <View style={[styles.seekWrapper, styles.seekWrapperRight]}>
                 <Button style={styles.seek} onPress={() => this.seekHandler('right')}>
                     <Ionicons name="chevron-forward-outline" size={15}/>
                 </Button>
@@ -141,7 +144,7 @@ class MediaPreview extends Component {
         if (this.props.fetchInfo) {
             cnt = (
                 <>
-                    { seekLeft }
+                    { this.props.fetchInfo.length > 1 ? seekLeft : null}
                     <View 
                         style={styles.container}  
                         onLayout={this.containerWidthHandler}>
@@ -156,7 +159,7 @@ class MediaPreview extends Component {
                             />
                         </View> : loader }
                     </View>
-                    { seekRight }
+                    { this.props.fetchInfo.length > 1 ? seekRight : null}
                 </>
             );
         }
@@ -187,7 +190,7 @@ class MediaPreview extends Component {
                         { cnt }
                     </View>
                 </View>
-                { this.state.showOption ? (
+                { this.state.showOption && !this.props.mediaLikeErr ? (
                     <Option
                         option={this.state.option}
                         closeOption={this.closeModalHandler}
@@ -206,7 +209,8 @@ class MediaPreview extends Component {
                         pageID={this.props.pageID}
                         page={this.props.page}
                         cntID={this.state.showChatBox.mediaID}
-                        closeChat={this.closeModalHandler}/> : null}
+                        closeChat={this.closeModalHandler}
+                        showReply/> : null}
             </InnerScreen>
         )
     }
@@ -219,8 +223,9 @@ const styles = StyleSheet.create({
     },
     contentWrapper: {
         flexDirection: 'row',
-        height: Platform.OS !== 'web' ? 'auto' : '100%',
-        paddingVertical: 10
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        flex: 1
     },
     container: {
         flex: 1,
@@ -228,13 +233,17 @@ const styles = StyleSheet.create({
     seekWrapper: {
         justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: 10
+        marginRight: 5
+    },
+    seekWrapperRight: {
+        marginRight: 0,
+        marginLeft: 5
     },
     seek: {
         backgroundColor: '#dcdbdc',
-        width: 40,
+        width: 20,
         height: 40,
-        borderRadius: 20,
+        borderRadius: 0,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -266,6 +275,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        onResetMediaInfo: () => dispatch(actions.resetMediaInfo()),
         onfetchMediaInfo: (chat, media) => dispatch(actions.fetchMediaInfoInit(chat, media)),
         onSetMediaInfo: (media) => dispatch(actions.setMediaInfo(media)),
         onLikeMedia: (mediaID, page, pageID) => dispatch(actions.mediaLikeInit(mediaID, page, pageID)),

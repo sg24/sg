@@ -28,8 +28,12 @@ const NotificationsSchema = new Schema({
     createGroup: [{
         ...defaultContentSchema
     }],
-    chat: [{
-        ...defaultContentSchema
+    userChat: [{
+        ...defaultContentSchema,
+        counter: {
+            type: Number,
+            required: true
+        }
     }],
     userRequest: [{
         userID: String

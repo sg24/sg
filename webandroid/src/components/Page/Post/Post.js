@@ -15,7 +15,8 @@ const post = props => {
             report={props.report.bind(this, cnt._id)}
             showUserOpt={props.showUserOpt.bind(this, cnt._id)}
             mediaPreview={props.mediaPreview}
-            saveMedia={props.saveMedia}/>
+            saveMedia={props.saveMedia}
+            closeModal={props.closeModal}/>
     ));
 }
 

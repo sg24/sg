@@ -26,6 +26,7 @@ import ConvScreen from './src/screens/Home/Conv';
 import NotificatonScreen from './src/screens/Home/Notification';
 import ProfileScreen from './src/screens/Home/Profile';
 import PostScreen from './src/screens/Home/Post';
+import HashSearchScreen from './src/screens/Home/HashSearch';
 import AddPostScreen from './src/screens/AddForm/Post';
 import AddQuestionScreen from './src/screens/AddForm/Question';
 import AddAdvertScreen from './src/screens/AddForm/Advert';
@@ -69,7 +70,8 @@ const userScreens = {
   EditWriteUp: EditWriteUpScreen,
   EditChatRoom: EditChatRoomScreen,
   EditCBT: EditCBTScreen,
-  EditAdvert: EditAdvertScreen
+  EditAdvert: EditAdvertScreen,
+  HashSearch: HashSearchScreen
 };
 
 class Base extends Component {
@@ -160,6 +162,16 @@ class Base extends Component {
                     onPress={() => navigation.goBack()}
                     onNavigate={(url) => navigation.navigate(url)}
                     filterCnt={this.props.onHeaderFilter}
+                  />
+                }
+              }
+
+              if (name === 'HashSearch') {
+                header = {
+                  header: ({scene, previous, navigation }) => <SearchHeader 
+                    onPress={() => navigation.goBack()}
+                    title={scene.route  && scene.route.params ? scene.route.params.hashTag : '#'}
+                    editable={false}
                   />
                 }
               }

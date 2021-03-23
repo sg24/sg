@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ActivityIndicator, TouchableOpacity, Keyboard, StyleSheet, Dimensions, Platform, ScrollView } from 'react-native';
+import { View, Text, ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
@@ -35,7 +35,6 @@ class Post extends Component {
             backgroundColor: '#fff',
             color: '#333',
             viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
-            viewHeight: Dimensions.get('window').height,
             pageCntID: null,
             showPreview: null
         }
@@ -43,8 +42,7 @@ class Post extends Component {
 
     updateStyle = (dims) => {
         this.setState({
-            viewMode: dims.window.width >= size.md ? 'landscape' : 'portriat',
-            viewHeight: dims.window.height
+            viewMode: dims.window.width >= size.md ? 'landscape' : 'portriat'
         })
     }
 
@@ -71,6 +69,10 @@ class Post extends Component {
 
     navigationHandler = (page) => {
         console.log(page)
+    }
+
+    closeModalHandler = () => {
+        this.setState({pageCntID: null})
     }
 
     editHandler = (id) => {
@@ -180,7 +182,8 @@ class Post extends Component {
                                 report={this.reportHandler}
                                 showUserOpt={this.showUserOptHandler}
                                 mediaPreview={this.mediaPreviewHandler}
-                                saveMedia={this.saveMediaHandler}/>
+                                saveMedia={this.saveMediaHandler}
+                                closeModal={this.closeModalHandler}/>
                         </ScrollView>
                     </View>
                     { this.props.deletePageErr ? 
@@ -191,6 +194,7 @@ class Post extends Component {
                         button={[{title: 'Ok', onPress: this.props.onDeletePageReset, style: styles.button}]}/> : null}
                    { this.state.showPreview ? 
                         <MediaPreview
+                            showOption
                             pageID={this.state.showPreview.cntID}
                             media={this.state.showPreview.media}
                             page="post"

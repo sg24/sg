@@ -91,6 +91,8 @@ export {
 
 export {
    setMediaInfo,
+   updateMediaInfo,
+   resetMediaInfo,
    fetchMediaInfoInit,
    fetchMediaInfoFail,
    fetchMediaInfo,
@@ -103,9 +105,39 @@ export {
 } from './media';
 
 export {
+    chatBoxReset,
     fetchChatInit,
     fetchChatFail,
     fetchChat,
+    fetchChatStart,
     fetchChatReset,
-    sendChatInit
+    sendChatInit,
+    deleteChatInit,
+    deleteChatStart,
+    deleteChatFail,
+    deleteChatReset,
+    deleteChat,
+    fetchReplyInit,
+    fetchReplyFail,
+    fetchReplyStart,
+    fetchReply,
+    fetchReplyReset,
+    replyChatInit,
+    replyChatStart,
+    replyChatFail,
+    replyChat
  } from './chatBox';
+
+ export {
+    fetchSharecntInit,
+    fetchSharecntStart,
+    fetchSharecntFail,
+    fetchSharecntReset,
+    fetchSharecnt,
+    sharecntReset,
+    shareInit,
+    shareStart,
+    shareFail,
+    share,
+    shareReset
+ } from './share';

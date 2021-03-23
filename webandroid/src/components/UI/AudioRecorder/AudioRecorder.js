@@ -15,7 +15,7 @@ class AudioComponent extends Component {
         start: false,
         error: false,
         pause: false,
-        play: false,
+        play: true,
         recording: null,
         duration: '00:00',
         animation: 'pulse',
@@ -74,7 +74,8 @@ class AudioComponent extends Component {
                 alert('Pausing an audio recording is unsupported on your android device ')
             }
         } else if (!this.state.play && !this.state.recording._isDoneRecording){
-            this.setState({play: true, pause: false})
+            await this.state.recording.startAsync();
+            this.setState({play: true, pause: false, animation: 'pulse', wrapperAnim: 'fadeIn'})
         }
     }
 

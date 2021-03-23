@@ -15,7 +15,7 @@ const search = props => (
                 <Icon name="arrow-back-outline" size={26}/>
             </TouchableNativeFeedback>
             <FormElement
-                placeholder="Search ... "
+                placeholder={props.title ? props.title : "Search ... "}
                 autoCapitalize="none"
                 formWrapperStyle={styles.formWrapper}
                 inputWrapperStyle={styles.inputWrapper}
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         alignItems: 'center',
         height: 40,
+        zIndex: 999
     },
     formWrapper: {
         paddingBottom: 0,

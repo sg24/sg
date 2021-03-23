@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const webpush = require('web-push');
 const uuid  = require('uuid/v4');
+const Schema  = mongoose.Schema;
+const ObjectId = Schema.ObjectId;
 
 var UserSchema = new mongoose.Schema({
     username: {
@@ -33,11 +35,8 @@ var UserSchema = new mongoose.Schema({
     },
     created: {
         type: Date,
-        default: Date.now
-    },
-    comment:{
-        type: Number,
-        default: 0
+        default: Date.now,
+        index: true 
     },
     request: [{
         type: String
@@ -45,10 +44,10 @@ var UserSchema = new mongoose.Schema({
     block: [{
         type: String
     }],
-    status: {
-        type: Boolean,
-        default: false
-    },
+    // status: {
+    //     type: Boolean,
+    //     default: false
+    // },
     tokens: [{
         access: {
             type: String,
@@ -84,9 +83,9 @@ var UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    statustoken: {
-        type: String
-    },
+    // statustoken: {
+    //     type: String
+    // },
     visited: {
         type: Date
     },
@@ -99,8 +98,41 @@ var UserSchema = new mongoose.Schema({
     friend: [{
         type: String
     }],
-    page: [{
-        type: String
+    chat: [{
+        _id: {
+            type: ObjectId,
+            required: true
+        },
+        authorID: {
+            type: ObjectId,
+            required: true
+        },
+        username: {
+            type: String,
+            required: true
+        },
+        userImage: {
+            type: String
+        },
+        content: {
+            type: String,
+            trim: true
+        },
+        media: [{
+            id: ObjectId, 
+            filename: String, 
+            bucket: String,
+            ext: String, 
+            description: String
+        }],
+        created: { 
+            type: Date, 
+            default: Date.now,
+            index: true 
+        },
+        shared: {
+            type: String
+        }
     }]
 }) ;
 

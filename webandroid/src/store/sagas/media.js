@@ -30,7 +30,6 @@ export function* fetchMediaInfoInitSaga(action) {
     
 };
 
-
 export function* mediaLikeInitSaga(action) {
     try {
         yield put(actions.mediaLikeStart(action.mediaID));

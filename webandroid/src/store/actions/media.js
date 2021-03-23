@@ -7,6 +7,19 @@ export const setMediaInfo = (media) => {
     };
 };
 
+export const updateMediaInfo = (mediaInfo) => {
+    return {
+        type: actionTypes.UPDATE_MEDIA_INFO,
+        mediaInfo
+    };
+};
+
+export const resetMediaInfo = () => {
+    return {
+        type: actionTypes.RESET_MEDIA_INFO,
+    };
+};
+
 export const fetchMediaInfoInit = (chat, media) => {
     return {
         type: actionTypes.FETCH_MEDIAINFO_INIT,

@@ -5,7 +5,7 @@ import Icon from 'ionicons';
 import BoxShadow from '../BoxShadow/BoxShadow';
 
 const conv = props => (
-    <BoxShadow>
+    <BoxShadow style={styles.topLevel}>
         <View style={styles.wrapper}>
             <TouchableOpacity onPress={props.onPress}>
                 <Icon name="arrow-back-outline" size={26}/>
@@ -38,6 +38,10 @@ const styles = StyleSheet.create({
     icon: {
         flex: 1,
         alignItems: 'flex-end'
+    },
+    topLevel: {
+        zIndex: 999,
+        width: '100%'
     }
 });
 

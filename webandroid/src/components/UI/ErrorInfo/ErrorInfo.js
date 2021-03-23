@@ -16,12 +16,12 @@ const errorInfo = props => (
                 size={40}
                 color="#ff1600"
                 style={styles.info}/>
-            <View style={styles.icon}>
-                <TouchableNativeFeedback onPress={props.reload} style={styles.reload}>
+            <TouchableNativeFeedback onPress={props.reload}>
+                <View style={styles.reload}>
                     <Ionicons name="reload-outline" size={18} color="#777"/>
                     <Text style={styles.reloadText}>Reload</Text>
-                </TouchableNativeFeedback>
-            </View>
+                </View>
+            </TouchableNativeFeedback>
         </View>
     </View>
 );
@@ -40,13 +40,13 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     info: {
-        fontSize: 18
-    },
-    icon: {
+        fontSize: 18,
         marginBottom: 5
     },
     reload: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     reloadText: {
         marginLeft: 5,

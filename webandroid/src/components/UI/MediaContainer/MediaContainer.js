@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableWithoutFeedback , Image, StyleSheet , Platform} from 'react-native';
+import { View, Text, TouchableWithoutFeedback , Pressable, Image, StyleSheet , Platform} from 'react-native';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 import { Video } from 'expo-av'
@@ -10,64 +10,68 @@ import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeF
 const checkMediaType = props => {
     let media = props.media;
     let Wrapper = props.disablePreview  ?  TouchableWithoutFeedback : TouchableNativeFeedback;
-    if (media.bucket === 'image') {
+    if (props.enablePressable) {
+        Wrapper = Pressable;
+    }
+
+    if (media.bucket === 'image' || (media.type && media.type.split('/')[0] === 'image')) {
         return  (
-            <View style={[styles.wrapper, props.style]}>
-                <Wrapper style={styles.wrapper} onPress={props.disablePreview ? null : props.onPress}>
-                    <>
-                        <Image source={{uri: `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}`}}  
+            <Wrapper  style={[styles.wrapper]} onPress={props.disablePreview ? null : props.onPress} onLongPress={props.onLongPress}>
+                <View style={[styles.wrapper]}>
+                    <View style={[styles.wrapper, props.style]}>
+                        <Image source={{uri: media.uri ? media.uri : `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}`}}  
                             resizeMode="center" style={styles.mediaWrapper}/>
-                        { props.disablePreview ? null : (
-                            <View style={[styles.optionWrapper, styles.option]}>
-                                <Ionicons name="chatbox-ellipses-outline" size={20} />
-                            </View>
-                        )}
-                    </>
-                </Wrapper>
-           </View>
+                    </View>
+                    { props.children }
+                </View>
+            </Wrapper>  
         )
     }
-    if (media.bucket === 'video' || media.bucket === 'audio') {
+    if ((media.bucket === 'video' || media.bucket === 'audio') || (media.type && (media.type.split('/')[0] === 'video' || media.type.split('/')[0] === 'audio' ))) {
        return (
             <View style={[styles.wrapper, props.videoStyle]}>
-                <Video
-                    source={{ uri: `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}`}}
-                    rate={1.0}
-                    volume={1.0}
-                    isMuted={false}
-                    resizeMode="cover"
-                    useNativeControls
-                    style={styles.mediaWrapper}
-                />
-                { props.disablePreview ? null : (
-                    <View style={[styles.optionWrapper, styles.option]}>
-                        <TouchableNativeFeedback onPress={props.onPress}>
-                            <Ionicons name="chatbox-ellipses-outline" size={20} />
-                        </TouchableNativeFeedback>
-                    </View>
-                )}
+                <>
+                    <Video
+                        source={{ uri: media.uri ? media.uri :  `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}`}}
+                        rate={1.0}
+                        volume={1.0}
+                        isMuted={false}
+                        resizeMode="contain"
+                        useNativeControls
+                        style={styles.mediaWrapper}
+                    />
+                    { props.disablePreview ? null : (
+                        <View style={[styles.optionWrapper, styles.option]}>
+                            <TouchableNativeFeedback onPress={props.onPress}>
+                                <Ionicons name="chatbox-ellipses-outline" size={20} />
+                            </TouchableNativeFeedback>
+                        </View>
+                    )}
+                    { props.children }
+                </>
             </View>
         )
     }  
 
     return (
-        <View style={[styles.wrapper, props.style]}>
-            <Wrapper
-                style={Platform.OS === 'web' ? styles.wrapper: null}
-                onPress={props.disablePreview ? null : props.onPress}>
-                <>
-                    <FileIcon ext={media.ext} wrapper={props.fileIconStyle ? props.fileIconStyle : styles.fileIcon}/>
+        <Wrapper
+            style={Platform.OS === 'web' ? [styles.wrapper]: null}
+            onPress={props.disablePreview ? null : props.onPress} onLongPress={props.onLongPress}>
+            <>
+                <View style={[styles.wrapper, props.style, styles.fileIconWrapper]}>
+                    <FileIcon ext={media.ext ? media.ext.split('/').pop() : (media.name ? String(media.name).split('.').pop()  : '')} wrapper={props.fileIconStyle ? props.fileIconStyle : styles.fileIcon}/>
                     <Text style={styles.fileName}>{media.filename}</Text>
-                </>
-            </Wrapper>
-            { props.disablePreview ? null : (
-                <View style={[styles.optionWrapper, styles.option]}>
-                    <TouchableNativeFeedback onPress={props.save}>
-                        <Ionicons name="download-outline" size={20}/>
-                    </TouchableNativeFeedback>
+                    { props.disablePreview ? null : (
+                        <View style={[styles.optionWrapper, styles.option]}>
+                            <TouchableNativeFeedback onPress={props.save}>
+                                <Ionicons name="download-outline" size={20}/>
+                            </TouchableNativeFeedback>
+                        </View>
+                    )}
                 </View>
-            )}
-        </View>
+                { props.children }
+            </>
+        </Wrapper>
     )
 }
 
@@ -76,8 +80,10 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#e9ebf2'
+        alignItems: 'center'
+    },
+    fileIconWrapper: {
+        padding: 10
     },
     fileIcon: {
         width: '100%',

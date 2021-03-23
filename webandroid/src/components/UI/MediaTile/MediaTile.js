@@ -65,16 +65,19 @@ class MediaTile extends Component {
                                     key={index}>
                                     <MediaContainer 
                                         media={cnt}
-                                        onPress={() => this.props.preview(this.props.cntID, this.props.media, index+1)}
-                                        onSave={() => this.props.save(this.props.media[index])}/>
+                                        onPress={() => this.props.preview(this.props.cntID, this.props.media, index)}
+                                        onSave={() => this.props.save(this.props.media[index])}
+                                        style={styles.mediaContainer}
+                                        videoStyle={styles.mediaContainer}/>
                                     { index === 1 && this.props.media.length > 2 ? (
                                         <TouchableNativeFeedback
                                             style={{ flex: 0.5}} 
-                                            onPress={() => this.props.preview(this.props.cntID, this.props.media, 2)}>
+                                            onPress={() => this.props.preview(this.props.cntID, this.props.media, 1)}>
                                             <View style={styles.otherMediaWrapper}>
                                                 <MediaContainer 
                                                     media={this.props.media[2]}
-                                                    onPress={() => this.props.preview(this.props.cntID, this.props.media, 3)}/>
+                                                    onPress={() => this.props.preview(this.props.cntID, this.props.media, 2)}
+                                                    videoStyle={styles.mediaContainer}/>
                                                 <View style={styles.otherMedia}>
                                                     <Text style={styles.otherMediaText}>+ {this.props.media.length - 2} Other's</Text>
                                                 </View>
@@ -99,6 +102,9 @@ const styles = StyleSheet.create({
         marginTop: 10,
         height: 200,
         borderRadius: 3
+    },
+    mediaContainer: {
+        backgroundColor: '#e9ebf2'
     },
     otherMediaWrapper: {
         flex: Platform.OS !== 'web' ? .5 : 1,

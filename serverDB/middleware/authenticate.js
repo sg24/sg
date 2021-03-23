@@ -16,6 +16,7 @@ let authenticate = async (req, res, next) => {
             req.username = result.username;
             req.userImage = result.image
             req.friend = result.friend;
+            req.chat = result.chat;
             next();
             // global.userDet = {id: result._id.toHexString(), type: 'user'}
         }).catch((e) => {
