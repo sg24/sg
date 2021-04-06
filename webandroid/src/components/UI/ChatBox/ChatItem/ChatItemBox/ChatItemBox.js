@@ -13,6 +13,7 @@ import TouchableNativeFeedback from '../../../TouchableNativeFeedback/TouchableN
 import MediaContainer from '../../../MediaContainer/MediaContainer';
 import AbsoluteFill from '../../../AbsoluteFill/AbsoluteFill';
 import LinkPreview from '../../../LinkPreview/LinkPreview';
+import LoadMore from '../../../LoadMore/LoadMore';
 
 const chatItemBox = props => {
     let created = (
@@ -32,17 +33,12 @@ const chatItemBox = props => {
     return (
         <>
         { props.firstItem && !props.enableReply && props.enableLoadPrevious ? (
-            <Button onPress={props.loadPrevious} disabled={props.fetchChatStart}>
-                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginVertical: 10}}>
-                    { !props.fetchChatStart ? (
-                        <View style={{paddingVertical: 5, paddingHorizontal: 10,backgroundColor: '#dcdbdc', borderRadius: 5, 
-                            flexDirection: 'row', alignSelf: 'center'}}>
-                            <Ionicons name="reload-outline" size={18} />
-                            <Text style={{marginLeft: 10}}>Load Previous</Text>
-                        </View>
-                    ):  loader}
-                </View>
-            </Button>
+            <LoadMore
+                title="Load Previous"
+                icon={{name: 'reload-outline'}}
+                onPress={props.loadPrevious}
+                start={props.fetchChatStart}
+                wrapperStyle={styles.loadMore} />
         ) : null}
         { props.showDuration && !props.disableUserOpt && !props.enableReply ? (
                 <View style={{width: '100%', justifyContent: 'center', alignItems: 'center', paddingVertical: 5}}>
@@ -78,7 +74,12 @@ const chatItemBox = props => {
                                     enablePressable
                                     onLongPress={props.cnt._id && !deleteChatBox && !editChatBox ? props.showOption : null}>
                                     { media.description ?
-                                        <Uridetect onPress={props.openURI} style={[styles.content, styles.mediaDescription]} content={media.description}/> : null}
+                                        <Uridetect 
+                                            onPress={props.openURI} 
+                                            style={[styles.content, styles.mediaDescription]} 
+                                            content={media.description} 
+                                            searchText={props.searchText}
+                                            highlighted={props.highlighted}/> : null}
                                 </MediaContainer>
                                 { !props.cnt.sent && props.cnt.sendChatID? 
                                     <AbsoluteFill 
@@ -104,7 +105,12 @@ const chatItemBox = props => {
                                     borderRadius: 10
                                 };
                             }}>
-                            <Uridetect onPress={props.openURI} style={styles.content} content={props.cnt.content}/>
+                            <Uridetect 
+                                onPress={props.openURI} 
+                                style={styles.content} 
+                                content={props.cnt.content} 
+                                searchText={props.searchText}
+                                highlighted={props.highlighted}/>
                         </Pressable>
                     )}
                 { uri.length > 0 ? 
@@ -276,8 +282,13 @@ const styles = StyleSheet.create({
         borderRadius: 20
     },
     linkPreview: {
-        width: 320,
+        width: '100%',
         padding: 10
+    },
+    loadMore: {
+        width: '100%',
+        marginVertical: 0,
+        paddingHorizontal: 10
     }
 });
 

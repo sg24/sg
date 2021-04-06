@@ -15,8 +15,9 @@ import * as actions from '../../../store/actions/index';
 import ErrorInfo from '../ErrorInfo/ErrorInfo';
 import Button from '../Button/Button';
 import NotificationModal from '../NotificationModal/NotificationModal';
-import PrivateConv from '../../Main/Conv/PrivateConv/PrivateConv';
+import PrivateConv from './PrivateConv/PrivateConv';
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
+import InfoBox from '../InfoBox/InfoBox';
 
 class SharePicker extends Component {
     constructor(props) {
@@ -26,7 +27,8 @@ class SharePicker extends Component {
             color: '#333',
             viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
             showSearch: false,
-            picked: []
+            picked: [],
+            search: ''
         }
     }
 
@@ -39,22 +41,29 @@ class SharePicker extends Component {
     componentDidMount() {
         Dimensions.addEventListener('change', this.updateStyle);
         if (this.props.shareType === 'Friends') {
-            this.props.onFetchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, 1, 'users', 'getFriend');
+            this.props.onFetchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, 20, 'users', 'getFriend');
         }
     }
 
     componentWillUnmount() {
         Dimensions.removeEventListener('change', this.updateStyle);
-        this.props.onShareCntReset();
+        this.props.onShareCntReset(); 
     }
 
     reloadFetchHandler = () => {
+        if (this.state.search.trim().length > 0) {
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, 20, 'users', 'searchFriend', this.state.search);
+        }
         this.props.onFetchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, 20, 'users', 'getFriend');
     }
 
     navigationHandler = (page, userID) => {
         if (page === 'Profile') {
             this.props.navigation.navigate(page, {userID})
+        }
+
+        if (page === 'User') {
+            this.props.navigation.navigate(page);
         }
     }
 
@@ -63,10 +72,15 @@ class SharePicker extends Component {
     }
 
     closeSearchHandler = () => {
-        this.setState({showSearch: false})
+        this.setState({showSearch: false, search: ''});
+        this.props.onShareCntReset();
+        this.props.onFetchCnt(0, 20, 'users', 'getFriend');
     }
 
     loadMoreHandler = () => {
+        if (this.state.search.trim().length > 0) {
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, 20, 'users', 'searchFriend', cnt);
+        }
         this.props.onFetchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, 20, 'users', 'getFriend');
     }
 
@@ -83,7 +97,19 @@ class SharePicker extends Component {
 
     shareHandler = () => {
         if (this.props.shareType === 'Friends' && this.props.cnt) {
-            this.props.onShareCnt('users', 'sendChat', this.props.cnt, this.state.picked);
+            this.props.onShareCnt('users', 'sendChat', this.props.cnt, this.state.picked, this.props.shareUpdates);
+        }
+    }
+
+    shareResetHandler = () => {
+        this.setState({picked: []});
+        this.props.onShareReset();
+    }
+
+    searchUserHandler = (cnt) => {
+        if (cnt && cnt.length > 0) {
+            this.props.onSearchCnt(0, 20, 'users', 'searchFriend', cnt);
+            this.setState({search: cnt});
         }
     }
 
@@ -91,7 +117,7 @@ class SharePicker extends Component {
         let { styles } = this.props;
         let header = (
             <DefaultHeader 
-                onPress={() => this.props.navigation.goBack()}
+                onPress={this.props.closeSharePicker}
                 title={`Select ${this.state.picked.length > 0 ? this.state.picked.length : ''}`}
                 rightSideContent={(
                     <View style={styles.headerRightContent}>
@@ -99,7 +125,7 @@ class SharePicker extends Component {
                             title="Share"
                             style={styles.shareButton}
                             onPress={this.shareHandler}
-                            disabled={this.state.picked.length < 1}
+                            disabled={this.state.picked.length < 1 || this.props.shareStart}
                             submitting={this.props.shareStart}
                             loaderStyle="#fff" />
                         <TouchableNativeFeedback onPress={this.showSearchHandler}>
@@ -114,9 +140,24 @@ class SharePicker extends Component {
             header =  (
                 <SearchHeader 
                     onPress={this.closeSearchHandler}
-                    title="Search ...."
-                    filterCnt
+                    title="Enter Name ...."
+                    filterCnt={this.searchUserHandler}
                     editable
+                    rightSideContent={(
+                        <View style={styles.headerRightContent}>
+                           { this.state.picked.length > 0 ?
+                            <View style={styles.picked}>
+                                <Text style={styles.pickedText} numberOfLines={1}> { this.state.picked.length } </Text>
+                            </View> : null}
+                            <Button
+                                title="Share"
+                                style={styles.shareSearchButton}
+                                onPress={this.shareHandler}
+                                disabled={this.state.picked.length < 1 || this.props.shareStart}
+                                submitting={this.props.shareStart}
+                                loaderStyle="#fff" />
+                        </View>
+                    )}
                 />
             );
         }
@@ -130,7 +171,7 @@ class SharePicker extends Component {
             </View>
          )
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length > 0) {
+        if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
             let items = null;
             if (this.props.shareType === 'Friends') {
                 items = this.props.fetchCnt.map((cnt, index) => (
@@ -142,7 +183,7 @@ class SharePicker extends Component {
                         lastItem={index === (this.props.fetchCnt.length - 1)}
                         loadMore={this.loadMoreHandler}
                         enableLoadMore={this.props.loadMore}
-                        shareType
+                        allowPressable
                         start={this.props.fetchSharecntStart}
                         pick={() => this.pickHandler(cnt._id)}
                         picked ={this.state.picked}
@@ -152,11 +193,42 @@ class SharePicker extends Component {
 
             cnt =  (
                 <View style={styles.wrapper}>
-                    <Text style={styles.note}>Note: Press and hold to select</Text>
+                    <Text style={styles.note}>Press and hold to select</Text>
                     <ScrollView style={styles.scroll}>
                         { items }
                     </ScrollView>
                 </View>
+            )
+        }
+
+        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length < 1) {
+            cnt = (
+                <InfoBox
+                    det='You currently have no friend!'
+                    name="person"
+                    size={40}
+                    color="#333"
+                    style={styles.info}
+                    wrapperStyle={styles.infoWrapper}>
+                    <View style={styles.infoButtonWrapper}>
+                        <Button 
+                            title="Add Friend" 
+                            onPress={() => this.navigationHandler('User')} 
+                            style={styles.infoButton}/>
+                    </View>
+                </InfoBox>
+            )
+        }
+
+        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
+            cnt = (
+                <InfoBox
+                    det='Name entered does not match any friends name'
+                    name="search"
+                    size={40}
+                    color="#333"
+                    style={styles.info}
+                    wrapperStyle={styles.infoWrapper}/>
             )
         }
 
@@ -192,6 +264,12 @@ class SharePicker extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onShareReset}
                         button={[{title: 'Ok', onPress: this.props.onShareReset, style: styles.button}]}/> : null}
+                { this.props.share ? 
+                    <NotificationModal
+                        info="Message shared successfully !"
+                        infoIcon={{name: 'paper-plane-outline', color: '#16cf27', size: 40}}
+                        closeModal={this.shareResetHandler}
+                        button={[{title: 'Ok', onPress: this.shareResetHandler, style: styles.button}]}/> : null}
             </InnerScreen>
           )
     }
@@ -214,24 +292,62 @@ const useStyles = makeUseStyles(({ palette, utils }) => ({
     note: {
         paddingHorizontal: 10,
         paddingTop: 10,
-        fontSize: 16
+        fontSize: 16,
+        color: '#777'
     },
     scroll: {
-        width: '100%',
-        padding: 10
+        width: '100%'
     },
     headerRightContent: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     shareButton: {
         backgroundColor: '#437da3',
         paddingHorizontal: 10,
         paddingVertical: 5,
-        marginRight: 5
+        marginRight: 10,
+        borderRadius: 5
+    },
+    shareSearchButton: {
+        backgroundColor: '#437da3',
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        marginLeft: 10,
+        borderRadius: 5
     },
     button: {
         backgroundColor: '#437da3',
         color: '#fff'
+    },
+    infoWrapper: {
+        flex: 1
+    },
+    info: {
+        fontSize: 18,
+        marginBottom: 5
+    },
+    infoButtonWrapper: {
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    infoButton: {
+        paddingVertical: 8,
+        paddingHorizontal: 10,
+        backgroundColor: '#437da3'
+    },
+    picked: {
+        width: 30, 
+        height: 30,
+        borderRadius: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 10,
+        backgroundColor: '#dcdbdc'
+    },
+    pickedText: {
+        fontSize: 16
     }
 }))
 
@@ -242,7 +358,7 @@ const mapStateToProps = state => {
         fetchCnt: state.share.fetchSharecnt,
         loadMore: state.share.loadMore,
         share: state.share.share,
-        shareStart: state.share.start,
+        shareStart: state.share.shareStart,
         shareErr: state.share.shareError
     };
 };
@@ -250,9 +366,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchCnt: (start, limit, shareType, cntID) => dispatch(actions.fetchSharecntInit(start, limit, shareType, cntID)),
+        onSearchCnt: (start, limit, shareType, cntID, searchCnt) => dispatch(actions.fetchSharecntInit(start, limit, shareType, cntID, searchCnt)),
         onShareCntReset: () => dispatch(actions.sharecntReset()),
         onFetchCntReset: () => dispatch(actions.fetchSharecntReset()),
-        onShareCnt: (shareType, cntID, cnt, reciepient) => dispatch(actions.shareInit(shareType, cntID, cnt, reciepient)),
+        onShareCnt: (shareType, cntID, cnt, reciepient, shareUpdates) => dispatch(actions.shareInit(shareType, cntID, cnt, reciepient, shareUpdates)),
         onShareReset: () => dispatch(actions.shareReset())
     };
 };

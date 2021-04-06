@@ -175,7 +175,7 @@ export const explorer = (options) => {
             let files  = [];
             let fileNum = 0;
             if (Platform.OS === 'web') {
-                if ('FileReaders' in window) {
+                if ('FileReader' in window) {
                     for (let cnt of res.output) {
                         const reader = new FileReader();
                         reader.onerror = () => {
@@ -204,9 +204,9 @@ export const explorer = (options) => {
                 } 
             } else {
                 (async () => {
-                    axios.get(res.uri, { responseType: 'blob' }).then(res => {
-                        alert(JSON.stringify(res))
-                    });
+                    // axios.get(res.uri, { responseType: 'blob' }).then(res => {
+                    //     alert(JSON.stringify(res))
+                    // });
                     const fetchedAudio = await fetch(res.uri);
                     let data = await fetchedAudio.blob();
                     data = data ? data : {}

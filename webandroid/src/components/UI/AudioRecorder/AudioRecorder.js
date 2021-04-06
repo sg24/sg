@@ -20,7 +20,7 @@ class AudioComponent extends Component {
         duration: '00:00',
         animation: 'pulse',
         wrapperAnim: 'fadeIn',
-        errorMsg: 'Audio could not be started, Please use the slodg24 android app version',
+        errorMsg: 'Audio could not be started, Please use the s lodg24 android app version',
         audio: []
     }
 

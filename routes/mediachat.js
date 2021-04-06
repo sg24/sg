@@ -1,6 +1,5 @@
 let express = require('express');
 let router = express.Router();
-let arraySort = require('array-sort');
 let objectID = require('mongoose').mongo.ObjectId;
 let fs = require('fs');
 
@@ -22,8 +21,7 @@ router.post('/', authenticate, (req, res, next) => {
                 media = [];
                 for (let cnt of result) {
                     media.push({_id: cnt._id, like: cnt.like.length, chatTotal: cnt.chat.length, dislike: cnt.dislike.length,
-                        isLiked: cnt.like.filter(userID => JSON.parse(JSON.stringify(userID))  === req.user)[0] ? true : false,
-                        isDisliked: cnt.dislike.filter(userID => JSON.parse(JSON.stringify(userID))  === req.user)[0] ? true : false })
+                        isLiked: cnt.like.filter(userID => JSON.parse(JSON.stringify(userID))  === req.user)[0] ? true : false})
                 }
             }
             res.status(200).send(media);
@@ -42,11 +40,11 @@ router.post('/', authenticate, (req, res, next) => {
                 if (media.chat) {
                     mediachat.findOneAndUpdate({_id: media.chat, like: {$in: [req.user]}}, {$pull: {like: req.user}}).then(result => {
                         if (result) {
-                            return res.status(200).send({isLiked: false, like: result.like.length - 1})
+                            return res.status(200).send({isLiked: false, like: result.like.length - 1, dislike: result.dislike.length})
                         } else {
-                            mediachat.findOneAndUpdate({_id: media.chat, like: {$nin: [req.user]}}, {$push: {like: req.user}}).then(cnt => {
+                            mediachat.findOneAndUpdate({_id: media.chat, like: {$nin: [req.user]}}, {$push: {like: req.user}, $pull: {dislike: req.user}}).then(cnt => {
                                 if (cnt) {
-                                    return res.status(200).send({isLiked: true, like: cnt.like.length + 1})
+                                    return res.status(200).send({isLiked: true, like: cnt.like.length + 1, dislike: cnt.dislike.length})
                                 }
                             })
                         }
@@ -60,7 +58,48 @@ router.post('/', authenticate, (req, res, next) => {
                         let updateMedia = doc.media;
                         updateMedia[mediaIndex] = media;
                         doc.updateOne({media: updateMedia}).then(() => {
-                            return res.status(200).send({isLiked: true, like: 1, mediaInfo: {_id : req.body.pageID, media: updateMedia}});
+                            return res.status(200).send({isLiked: true, like: 1, pageInfo: {_id : req.body.pageID, media: updateMedia}});
+                        })
+                    }).catch(err => {
+                        res.status(500).send(err)
+                    })
+                }
+            }
+          }
+        }).catch(e => {
+            res.status(404).send(e)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'mediaDislike') {
+        model.findById(req.body.pageID).then(doc => {
+          if (doc) {
+            let media = doc.media.filter(media => JSON.parse(JSON.stringify(media.id)) === req.body.mediaID)[0];
+            let mediaIndex = doc.media.findIndex(media => JSON.parse(JSON.stringify(media.id)) === req.body.mediaID);
+            if (media) {
+                if (media.chat) {
+                    mediachat.findOneAndUpdate({_id: media.chat, dislike: {$in: [req.user]}}, {$pull: {dislike: req.user}}).then(result => {
+                        if (result) {
+                            return res.status(200).send({isDislike: false, dislike: result.dislike.length - 1, like: result.like.length})
+                        } else {
+                            mediachat.findOneAndUpdate({_id: media.chat, dislike: {$nin: [req.user]}}, {$push: {dislike: req.user}, $pull: {like: req.user}}).then(cnt => {
+                                if (cnt) {
+                                    return res.status(200).send({isDisliked: true, dislike: cnt.dislike.length + 1, like: cnt.like.length, isLiked: false})
+                                }
+                            })
+                        }
+                    })
+                } else {
+                    let newDoc = new mediachat({
+                        dislike: [req.user]
+                    });
+                    newDoc.save().then(result => {
+                        media.chat = result._id;
+                        let updateMedia = doc.media;
+                        updateMedia[mediaIndex] = media;
+                        doc.updateOne({media: updateMedia}).then(() => {
+                            return res.status(200).send({isDisliked: true, dislike: 1,pageInfo: {_id : req.body.pageID, media: updateMedia}});
                         })
                     }).catch(err => {
                         res.status(500).send(err)
@@ -105,7 +144,7 @@ router.post('/', authenticate, (req, res, next) => {
                             let updateMedia = doc.media;
                             updateMedia[mediaIndex] = media;
                             doc.updateOne({media: updateMedia}).then(() => {
-                                return res.status(200).send({chat: [], mediaInfo: {_id : req.body.pageID, media: updateMedia},
+                                return res.status(200).send({chat: [], pageInfo: {_id : req.body.pageID, media: updateMedia},
                                     username: req.username, userImage: req.userImage, userID: req.user, chatID: result._id,
                                     loadPrevious: false});
                             })
@@ -206,7 +245,7 @@ router.post('/', authenticate, (req, res, next) => {
                                 Promise.all([doc.updateOne({chat}),
                                     tempFile.findOneAndUpdate({userID: cnt.authorID, "tempFiles.id": tempFileID}, {$pull: {tempFiles: {id: tempFileID}}})]).then(cnt => {
                                     res.status(200).send({_id, created, media,  mediaInfo: {
-                                        chat: doc._id, like: doc.like.length, chatTotal: doc.chat.length + 1, dislike: doc.dislike.length
+                                        chat: doc._id, like: doc.like.length, chatTotal: chat.length, dislike: doc.dislike.length
                                     }})
                                     mediachat.findById(fields.cntID).then(doc => {
                                         if (doc) {
@@ -258,7 +297,7 @@ router.post('/', authenticate, (req, res, next) => {
                             removeChat[chatItemIndex] = chatItem;
                             doc.updateOne({chat: removeChat}).then(() => {
                                 return res.status(200).send({
-                                    chat: doc._id, like: doc.like.length, chatTotal: doc.chat.length - 1, dislike: doc.dislike.length});
+                                    chat: doc._id, like: doc.like.length, chatTotal: removeChat.length, dislike: doc.dislike.length});
                             })
                         }
                     }

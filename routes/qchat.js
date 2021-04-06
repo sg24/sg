@@ -1,6 +1,5 @@
 let express = require('express');
 let router = express.Router();
-let arraySort = require('array-sort');
 let mongoose = require('mongoose');
 let fs = require('fs');
 const webpush = require('web-push');

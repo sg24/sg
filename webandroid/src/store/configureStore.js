@@ -12,6 +12,7 @@ import page from './reducers/page';
 import media from './reducers/media';
 import chatBox from './reducers/chatBox';
 import share from './reducers/share';
+import settings from './reducers/settings';
 
 import { 
     watchAuth,
@@ -36,7 +37,8 @@ const rootReducer = combineReducers({
     page,
     media,
     chatBox,
-    share
+    share,
+    settings
 });
 
 let composeEnhancers = compose;

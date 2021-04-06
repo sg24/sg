@@ -11,19 +11,22 @@ import FormElement from '../FormElement/FormElement';
 const search = props => (
     <>
         <BoxShadow style={styles.wrapper}>
-            <TouchableNativeFeedback onPress={props.modal ? props.hideModal : props.onPress}>
-                <Icon name="arrow-back-outline" size={26}/>
-            </TouchableNativeFeedback>
-            <FormElement
-                placeholder={props.title ? props.title : "Search ... "}
-                autoCapitalize="none"
-                formWrapperStyle={styles.formWrapper}
-                inputWrapperStyle={styles.inputWrapper}
-                style={styles.input}
-                onChangeText={props.filterCnt}
-                value={props.value}
-                editable={props.editable}
-                autoFocus/>
+            <View style={styles.title}>
+                <TouchableNativeFeedback onPress={props.modal ? props.hideModal : props.onPress}>
+                    <Icon name="arrow-back-outline" size={26}/>
+                </TouchableNativeFeedback>
+                <FormElement
+                    placeholder={props.title ? props.title : "Search ... "}
+                    autoCapitalize="none"
+                    formWrapperStyle={styles.formWrapper}
+                    inputWrapperStyle={styles.inputWrapper}
+                    style={styles.input}
+                    onChangeText={props.filterCnt}
+                    value={props.value}
+                    editable={props.editable}
+                    autoFocus/>
+            </View>
+            { props.rightSideContent ? props.rightSideContent : null }
         </BoxShadow>
     </>
 )
@@ -64,7 +67,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#e9ebf2',
         paddingVertical: 3,
         ...tailwind('rounded-full')
-    }
+    },
+    title: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 1
+    },
 });
 
 

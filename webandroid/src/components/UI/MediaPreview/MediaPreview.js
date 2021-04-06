@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator, StyleSheet, TouchableOpacity,  Dimensions, Platform } from 'react-native';
+import { View, ActivityIndicator, StyleSheet, Dimensions, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import Carousel from 'react-native-snap-carousel';
 import Ionicons from 'ionicons';
+import Constants from 'expo-constants';
+import * as FileSystem from 'expo-file-system';
 
 import MediaItem from './MediaItem/MediaItem';
 import { size } from 'tailwind';
@@ -86,10 +88,10 @@ class MediaPreview extends Component {
         return (
             <MediaItem 
                 media={media}
-                like={() => this.props.onLikeMedia(media.id, this.props.page, this.props.pageID)}
+                like={() => this.props.onMediaReaction(media.id, this.props.page, this.props.pageID, 'mediaLike')}
+                dislike={() => this.props.onMediaReaction(media.id, this.props.page, this.props.pageID, 'mediaDislike')}
                 chat={() => this.showChatBoxHandler(media.id)}
-                showOption={this.props.showOption}
-                />
+                showOption={this.props.showOption} />
         )
     }
 
@@ -106,8 +108,27 @@ class MediaPreview extends Component {
 
     optionHandler = (action) => {
         if (action === 'save') {
-            
+            if (Platform.OS === 'web') {
+                alert('feature not supported on web browser, Please use the s lodge24 APK')
+            }
+            let media = this.props.fetchInfo[this._carousel.currentIndex];
+            let ext = media.ext.split('/')[1];
+            const fileDir = FileSystem.documentDirectory + 's lodge24/' + `${media.bucket}/`;
+            const fileUri = `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}.${ext}`;
+            FileSystem.getInfoAsync(fileDir).then(dirInfo => {
+                if (!dirInfo.exists) {
+                    (async () => await FileSystem.makeDirectoryAsync(fileDir, { intermediates: true }))();
+                }
+                FileSystem.downloadAsync(fileUri, fileDir + `${media.id}.${ext}`).then(({ uri }) => {
+                    alert('Finished downloading to ', uri);
+                }).catch(error => {
+                    alert('download Error, check your internet connection !!!')
+                });
+            }).catch((err) => {
+                alert('Could not get directory information !!!')
+            });
         }
+        this.setState({showOption: false});
     }
 
     showChatBoxHandler = (mediaID) => {
@@ -156,7 +177,8 @@ class MediaPreview extends Component {
                                 renderItem={this._renderItem}
                                 sliderWidth={this.state.containerWidth}
                                 itemWidth={this.state.containerWidth}
-                            />
+                                enableSnap
+                                enableMomentum />
                         </View> : loader }
                     </View>
                     { this.props.fetchInfo.length > 1 ? seekRight : null}
@@ -190,13 +212,13 @@ class MediaPreview extends Component {
                         { cnt }
                     </View>
                 </View>
-                { this.state.showOption && !this.props.mediaLikeErr ? (
+                { this.state.showOption && !this.props.mediaReactionErr ? (
                     <Option
                         option={this.state.option}
                         closeOption={this.closeModalHandler}
                         onPress={this.optionHandler}/>
                 ) : null}
-                 { this.props.mediaLikeErr ? 
+                 { this.props.mediaReactionErr ? 
                     <NotificationModal
                         info="Network Error !"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
@@ -269,7 +291,7 @@ const mapStateToProps = state => {
         fetchInfoStart: state.media.fetchInfoStart,
         fetchInfoErr: state.media.fetchInfoError,
         fetchInfo: state.media.fetchInfo,
-        mediaLikeErr: state.media.mediaLikeError
+        mediaReactionErr: state.media.mediaReactionError
     };
 };
 
@@ -278,8 +300,8 @@ const mapDispatchToProps = dispatch => {
         onResetMediaInfo: () => dispatch(actions.resetMediaInfo()),
         onfetchMediaInfo: (chat, media) => dispatch(actions.fetchMediaInfoInit(chat, media)),
         onSetMediaInfo: (media) => dispatch(actions.setMediaInfo(media)),
-        onLikeMedia: (mediaID, page, pageID) => dispatch(actions.mediaLikeInit(mediaID, page, pageID)),
-        onMediaLikeReset: () => dispatch(actions.mediaLikeReset()),
+        onMediaReaction: (mediaID, page, pageID, reactionType) => dispatch(actions.mediaReactionInit(mediaID, page, pageID, reactionType)),
+        onMediaLikeReset: () => dispatch(actions.mediaReactionReset()),
     };
 };
 

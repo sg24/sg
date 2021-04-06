@@ -4,7 +4,6 @@ var favicon = require('serve-favicon');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const hbs = require('hbs');
-const passport = require('passport');
 const useragent = require('express-useragent');
 
 // let appRoutes = require('./routes/app');
@@ -114,9 +113,6 @@ app.use(function(req, res, next) {
 
 // app.use(extendTimeoutMiddleware);
 app.set('trust proxy', true);
-  
-require('./serverDB/config/passport').auth(passport);
-require('./serverDB/config/passport').authFacebook(passport);
 
 app.set('views', path.join(__dirname, 'views'));
 hbs.registerPartials(__dirname + '/views/partials');

@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
-let mongoose = require('mongoose');
+let objectID = require('mongoose').mongo.ObjectId;
+let sequence = require('./utility/sequence');
 let authenticate = require('../serverDB/middleware/authenticate');
 const bcrypt = require('bcryptjs');
 let notifications = require('./utility/notifications');
@@ -47,7 +48,7 @@ router.post('/', authenticate,(req, res, next) => {
 
     if (req.header && req.header('data-categ') === 'getFriend') {
         let chat = req.chat;
-        Promise.all([user.find({_id: {$in: [...req.friend]}}).skip(req.body.start).limit(req.body.limit).sort({created: 1, _id: 1}),
+        sequence([user.find({_id: {$in: [...req.friend]}}).skip(req.body.start).limit(req.body.limit).sort({created: 1, _id: 1}),
             notificationsModel.findOne({userID: req.user})]).then(result => {
             let updateFriend= [];
             for (let cnt of result[0]) {
@@ -67,55 +68,115 @@ router.post('/', authenticate,(req, res, next) => {
         })
     }
 
-    if (req.header && req.header('data-categ') === 'shareChat') {
+    if (req.header && req.header('data-categ') === 'searchFriend') {
+        let chat = req.chat;
+        sequence([user.find({_id: {$in: [...req.friend]}, $text: {$search: req.body.searchCnt}}).skip(req.body.start).limit(req.body.limit),
+            notificationsModel.findOne({userID: req.user})]).then(result => {
+            let updateFriend= [];
+            for (let cnt of result[0]) {
+                let isOnline =  (new Date().getTime() - new Date(cnt.visited).getTime()) < 60000;
+                let chatInfo = chat.filter(info => info.authorID === cnt.authorID)[0];
+                let message = chatInfo ? chatInfo.media && chatInfo.media.length > 0 ? chatInfo.media.pop().filename + '.' + chatInfo.media.pop().ext.split('/')[1]: 
+                    chatInfo.content : null;
+                let chatNotification = result[1] ? resut[1].userChat : [];
+                let notification = chatNotification.filter(userChat => userChat.userID === JSON.parse(JSON.stringify(cnt.authorID)))[0];
+                let updateNotification = notification ? notification.counter : 0;
+                updateFriend.push({_id: cnt._id, chatID: chatInfo ? chatInfo._id : null, username: cnt.username,
+                    userImage: cnt.image, authorID: cnt.authorID, status: isOnline, message, notification: updateNotification})
+            }
+            res.status(200).send({friend: updateFriend, loadMore: (req.friend.length - (req.body.start + req.body.limit)) > 0});
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+    }
+
+    if (req.header && req.header('data-categ') === 'sendChat') {
         let cnt = JSON.parse(req.body.cnt);
         let reciepent = JSON.parse(req.body.reciepent);
-        for (let reciever of reciepent) {
-            let info = req.chat.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === reciever)[0];
-            if (info) {
-                send(cnt, reciever, info).then(() => {
-                    res.sendStatus(200);
-                }).catch(err => {
-                    res.status(500).send(err);
-                })
-            } else {
-                user.findById(reciever).then(result => {
-                    let info = result.chat.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user)[0];
-                    if (info) {
-                        send(cnt, reciever, {...info, authorID: result._id, username: result.username, userImage: result.image}).then(() => {
-                            res.sendStatus(200);
-                        }).catch(err => {
-                            res.status(500).send(err);
-                        })
-                    } else {
-                        let chat  = {
-                            authorID: req.user, username: req.username, userImage: req.userImage,
-                            content: cnt.content, media: cnt.media, tempFileID: cnt.tempFileID,
-                            shared: cnt.authorID
-                        }
-                        let newDoc = new userchat(chat);
-                        newDoc.save().then(result => {
-                            user.findByIdAndUpdate(reciever, {$pull: {chat: {'authorID': req.user}}, $push: {chat: {...chat, _id: result._id}}}).then((info) => {
-                                Promise.all([user.findByIdAndUpdate(req.user, {$pull: {chat: {'authorID': reciever}}, $push: {chat: { ...chat, 
-                                    _id: result._id, authorID: reciever, username: info.username, userImage: info.image}}}),
-                                notifications('userChat', reciever, {userID: req.user, cntID: result._id, enableCounter: true})])
-                            });
-                        })
-                    }
-                })
-            }
-        }
         const send = (cnt, reciever, info) => {
+            let _id = objectID();
             let chat = {
                 authorID: req.user, username: req.username, userImage: req.userImage,
                 content: cnt.content, media: cnt.media, tempFileID: cnt.tempFileID,
                 shared: cnt.authorID
             }
-            return Promise.all([userchat.findByIdAndUpdate(info._id, {$push: {chat}}), 
-                user.findByIdAndUpdate(reciever, {$pull: {chat: {'authorID': req.user}}, $push: {chat: {...chat, _id: info._id}}}),
-                user.findByIdAndUpdate(req.user, {$pull: {chat: {'authorID': reciever}}, $push: {chat: { ...chat, 
-                    _id: info._id, authorID: reciever, username: info.username, userImage: info.userImage}}}),
-                notifications('userChat', reciever, {userID: req.user, cntID: info._id, enableCounter: true})])
+            return sequence([userchat.findByIdAndUpdate(info._id, {$push: {chat: {...chat,  _id}}}),
+                user.findByIdAndUpdate(reciever, {$pull: {chat: {'authorID': req.user}}}), user.findByIdAndUpdate(reciever, {$push: {chat: {...chat, _id: info._id}}}),
+                user.findByIdAndUpdate(req.user, {$pull: {chat: {'authorID': reciever}}}), user.findByIdAndUpdate(req.user, {$push: {chat: { ...chat, 
+                    _id: info._id, authorID: reciever, username: info.username, userImage: info.userImage}}})]).then(result => {
+                if (result[2]) {
+                    let isOnline = (new Date().getTime() - new Date(result[2].visited).getTime()) < 60000;
+                    if (!isOnline) {
+                        notifications('userChat', reciever, {userID: req.user, ID: info._id, enableCounter: true})
+                    }
+                }
+                return Promise.resolve({...chat,  _id});
+            })
+        }
+        let sent = 0;
+        for (let reciever of reciepent) {
+            let info = req.chat.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === reciever)[0];
+            if (info) {
+                send(cnt, reciever, info).then((chat) => {
+                    ++sent;
+                    if (sent === reciepent.length) {
+                        res.status(200).send(chat);
+                    }
+                }).catch(err => {
+                    ++sent;
+                    if (sent === reciepent.length) {
+                        res.status(500).send(err)
+                    }
+                })
+            } else {
+                user.findById(reciever).then(result => {
+                    let info = result.chat.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user)[0];
+                    if (info) {
+                        send(cnt, reciever, {_id: info._id, authorID: result._id, username: result.username, userImage: result.image}).then(chat => {
+                            ++sent;
+                            if (sent === reciepent.length) {
+                                res.status(200).send(chat);
+                            }
+                        }).catch(err => {
+                            ++sent;
+                            if (sent === reciepent.length) {
+                                res.status(500).send(err)
+                            }
+                        })
+                    } else {
+                        let _id = objectID();
+                        let chat  = {
+                            authorID: req.user, username: req.username, userImage: req.userImage,
+                            content: cnt.content, media: cnt.media, tempFileID: cnt.tempFileID,
+                            shared: cnt.authorID
+                        }
+                        let newDoc = new userchat({chat: {...chat, _id}});
+                        newDoc.save().then(result => {
+                            sequence([user.findByIdAndUpdate(reciever, {$push: {chat: {...chat, _id: result._id}}})]).then((info) => {
+                                sequence([user.findByIdAndUpdate(req.user, { $push: {chat: { ...chat, _id: result._id, authorID: reciever, username: info[0].username, userImage: info[0].image}}})]).then(() => {
+                                    if (info[0]) {
+                                        let isOnline = (new Date().getTime() - new Date(info[0].visited).getTime()) < 60000;
+                                        if (!isOnline) {
+                                            notifications('userChat', reciever, {userID: req.user, ID: result._id, enableCounter: true})
+                                        } 
+                                        ++sent;
+                                        if (sent === reciepent.length) {
+                                            res.status(200).send({...chat, _id});
+                                        }
+                                    }
+                                })
+                            }).catch(err => {
+                                ++sent;
+                                if (sent === reciepent.length) {
+                                    res.status(500).send(err)
+                                }
+                            })
+                        })
+                    }
+                }).catch(err => {
+                    res.status(500).send(err);
+                })
+            }
         }
     }
 
@@ -292,7 +353,7 @@ router.patch('/', authenticate,(req, res, next) => {
             let condition = {
                 $addToSet: { 'request': req.user }
             }
-            Promise.all([
+            sequence([
                 user.findByIdAndUpdate(id, condition), 
                 notifications('userRequest', id, {userID: req.user}, false),
                 user.findByIdAndUpdate(req.user, {$addToSet: {'pendingRequest': [id]}})]).then(() => {
@@ -331,7 +392,7 @@ router.patch('/', authenticate,(req, res, next) => {
     }
 
     if (req.header && req.header('data-categ') === 'acceptUser') {
-        Promise.all([
+        sequence([
             user.findOneAndUpdate({_id: req.user, friend: { $ne : id }}, {$addToSet: { friend: id }, $pull: {request: id}}),
             notifications('userRequest', req.user, {userID: id}, true),
             notifications('userAccept', id, {userID: req.user}, false),
@@ -345,7 +406,7 @@ router.patch('/', authenticate,(req, res, next) => {
     }
 
     if (req.header && req.header('data-categ') === 'rejUser') {
-        Promise.all([user.findByIdAndUpdate(req.user, {$pull: {request: id}}),
+        sequence([user.findByIdAndUpdate(req.user, {$pull: {request: id}}),
             notifications('userRequest', req.user, {userID: id}, true),
             notifications('userReject', id, {userID: req.user}, false),
             user.findByIdAndUpdate(id, {$pull: {'pendingRequest': req.user}})]).then(() => {
@@ -360,7 +421,7 @@ router.patch('/', authenticate,(req, res, next) => {
         let condition = {
             $pull: { request: req.user }
         }
-        Promise.all([user.findByIdAndUpdate(id, condition),
+        sequence([user.findByIdAndUpdate(id, condition),
             notifications('userRequest', id, {userID: req.user}, true),
             user.findByIdAndUpdate(req.user, {$pull: {'pendingRequest': id}})]).then(() => {
             res.sendStatus(200);
@@ -371,7 +432,7 @@ router.patch('/', authenticate,(req, res, next) => {
     }
 
     if (req.header && req.header('data-categ') === 'unfriend') {
-        Promise.all([
+        sequence([
             user.findOneAndUpdate({_id: req.user, friend: { $in : [id] }}, {$pull: { friend: id }}),
             notifications('userUnfriend', id, {userID: req.user}, false)]).then(() => {
             res.sendStatus(200);

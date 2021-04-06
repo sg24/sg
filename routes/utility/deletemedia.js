@@ -6,7 +6,7 @@ const {connectStatus, mediachat } = require('../../serverDB/serverDB');
 let deleteMedia = (medias) => {
     return new Promise((resolve, reject) => {
         let deleted = 0;
-        
+        let mediaChat = [];
         connectStatus.then(() => {
             if (medias.length < 1) {
                 resolve()
@@ -17,14 +17,17 @@ let deleteMedia = (medias) => {
                 let bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
                     bucketName: media.bucket
                 });
-                Promise.all([bucket.delete(mongoose.mongo.ObjectId(media.id)),
-                    media.chat ? mediachat.findByIdAndDelete(media.chat) : Promise.resolve()]).then(() => {
+                Promise.all([
+                    media.chat ? Promise.resolve(media) : bucket.delete(mongoose.mongo.ObjectId(media.id))]).then(result => {
                     ++deleted;
+                    if (result[0]) {
+                        mediaChat.push(result[0]);
+                    }
                     if (deleted === medias.length) {
-                        resolve()
+                        resolve(mediaChat);
                     }
                 }).catch(err=> {
-                    resolve()
+                    resolve(mediaChat);
                 });
             }
                 

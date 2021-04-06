@@ -46,6 +46,9 @@ router.post('/edit/post', authenticate, (req, res, next) => {
             uploadToBucket(mediaList, fields.description).then(media => {
                 let uploadedMedia = JSON.parse(fields.uploadedMedia);
                 uploadedMedia.push(...media);
+                if (tempFileID[1] && tempFileID[1].length > 0) {
+                    uploadedMedia.push(...tempFileID[1]);
+                }
                 let cnt = {
                     authorID: req.user, username: req.username, userImage: req.userImage, edited: Date.now(),
                     content: fields.content, hashTag: JSON.parse(fields.hashTag), media: uploadedMedia, tempFileID: tempFileID[2]
@@ -92,6 +95,9 @@ router.post('/edit/question', authenticate, (req, res, next) => {
             uploadToBucket(mediaList, fields.description).then(media => {
                 let uploadedMedia = JSON.parse(fields.uploadedMedia);
                 uploadedMedia.push(...media);
+                if (tempFileID[1] && tempFileID[1].length > 0) {
+                    uploadedMedia.push(...tempFileID[1]);
+                }
                 let cnt = {
                     authorID: req.user, username: req.username, userImage: req.userImage, edited: Date.now(),
                     content: fields.content, hashTag: JSON.parse(fields.hashTag), media: uploadedMedia, tempFileID: tempFileID[2]
@@ -139,6 +145,9 @@ router.post('/edit/writeup', authenticate,(req, res, next) => {
             uploadToBucket(mediaList, fields.description).then(media => {
                 let uploadedMedia = JSON.parse(fields.uploadedMedia);
                 uploadedMedia.push(...media);
+                if (tempFileID[1] && tempFileID[1].length > 0) {
+                    uploadedMedia.push(...tempFileID[1]);
+                }
                 let cnt = {
                     authorID: req.user, username: req.username, userImage: req.userImage,edited: Date.now(),
                     content: fields.content, title: fields.title, hashTag: JSON.parse(fields.hashTag),
@@ -222,6 +231,9 @@ router.post('/edit/chatRoom', authenticate, (req, res, next) => {
                     }
                 }
                 groupMedia.unshift(...uploadedMedia);
+                if (tempFileID[1] && tempFileID[1].length > 0) {
+                    groupMedia.push(...tempFileID[1]);
+                }
                 let questionMedia = [];
                 let updateQuestion = [];
                 for (let question of JSON.parse(fields.question)) {
@@ -292,6 +304,9 @@ router.post('/edit/advert', authenticate,(req, res, next) => {
             uploadToBucket(mediaList, fields.description).then(media => {
                 let uploadedMedia = JSON.parse(fields.uploadedMedia);
                 uploadedMedia.push(...media);
+                if (tempFileID[1] && tempFileID[1].length > 0) {
+                    uploadedMedia.push(...tempFileID[1]);
+                }
                 let cnt = {
                     authorID: req.user, username: req.username, userImage: req.userImage,edited: Date.now(),
                     content: fields.content, title: fields.title, button: JSON.parse(fields.button),
@@ -341,6 +356,9 @@ router.post('/edit/feed', authenticate, (req, res, next) => {
             uploadToBucket(mediaList, fields.description).then(media => {
                 let uploadedMedia = JSON.parse(fields.uploadedMedia);
                 uploadedMedia.push(...media);
+                if (tempFileID[1] && tempFileID[1].length > 0) {
+                    uploadedMedia.push(...tempFileID[1]);
+                }
                 let cnt = {
                     authorID: req.user, username: req.username, userImage: req.userImage,edited: Date.now(),
                     content: fields.content, title: fields.title, hashTag: JSON.parse(fields.hashTag),
@@ -500,6 +518,9 @@ router.post('/edit/cbt', authenticate, (req, res, next) => {
                     }
                 }
                 cbtMedia.unshift(...uploadedMedia);
+                if (tempFileID[1] && tempFileID[1].length > 0) {
+                    cbtMedia.push(...tempFileID[1]);
+                }
                 let questionMedia = [];
                 let updateQuestion = [];
                 for (let question of JSON.parse(fields.question)) {

@@ -12,9 +12,11 @@ export function* fetchChatInitSaga(action) {
             headers: {
                 'data-categ': 'getChat'}});
         let cnt = response.data  ? response.data : null;
-        if (cnt && cnt.mediaInfo) {
-            yield put(actions.updatePageMedia(cnt.mediaInfo, action.page));
-            yield put(actions.updateMediaInfo(cnt.mediaInfo.media))
+        if (cnt && cnt.pageInfo) {
+            yield put(actions.updatePage(cnt.pageInfo, action.page));
+            if (cnt.pageInfo.media) {
+                yield put(actions.updateMediaInfo(cnt.pageInfo.media))
+            }
         }
 
         if (cnt && cnt.username && cnt.userImage) {
@@ -52,11 +54,16 @@ export function* deleteChatInitSaga(action) {
         if (action.start) {
             if (action.cnt._id) {
                 let response = yield axios.post(`/${action.chatType}`, {
-                    cntID: action.cnt._id, chatID: action.chatID, media: JSON.stringify(action.cnt.media)},{
+                    cntID: action.cnt._id, chatID: action.chatID, media: JSON.stringify(action.cnt.media), page: action.page, pageID: action.pageID},{
                 headers: {
                     'data-categ': action.cntType}});
                 let cnt = response.data  ? response.data : {};
-                yield put(actions.updateMediaInfo(cnt));
+                if (cnt.pageInfo) {
+                    yield put(actions.updatePage(cnt.pageInfo, action.page))
+                } else {
+                    yield put(actions.updateMediaInfo(cnt));
+                }
+                
             }
             yield put(actions.deleteChat(action.cntType === "deleteReply" ? action.cnt.replyChatID : action.cnt._id, action.cnt.sendChatID, action.cntType,
                 action.cnt._id));

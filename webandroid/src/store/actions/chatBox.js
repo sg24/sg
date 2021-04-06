@@ -2,6 +2,9 @@ import * as actionTypes from './actionTypes';
 import { Platform } from 'react-native';
 import axios from '../../axios';
 
+import  { updatePage } from './page';
+import  { updateMediaInfo } from './media';
+
 export const chatBoxReset = () => {
     return {
         type: actionTypes.CHATBOX_RESET
@@ -46,7 +49,7 @@ export const fetchChatReset = () => {
     };
 };
 
-export const sendChatInit = (chatType, cntID, formData) => {
+export const sendChatInit = (chatType, cntID, page, pageID, formData) => {
     function uploadFile (description, formContent, uploadFile) {
         for (let media of uploadFile) {
             let fileID = media.id ? `${ media.id}.${media.type.split('/')[1] ? media.type.split('/')[1] : 'octet-stream'}` :  
@@ -68,6 +71,8 @@ export const sendChatInit = (chatType, cntID, formData) => {
         }
         formContent.append('content', formData.content);
         formContent.append('cntID', cntID);
+        formContent.append('page', page);
+        formContent.append('pageID', pageID);
 
         axios.post(`/${chatType}`, formContent, {
             headers: {
@@ -79,6 +84,12 @@ export const sendChatInit = (chatType, cntID, formData) => {
                     dispatch(sendChatStart({...formData, uploadedPercent: percentage}))
                 }
             }}).then((res) => {
+            if (res.data && res.data.pageInfo) {
+                dispatch(updatePage(res.data.pageInfo, page))
+            }
+            if (res.data && res.data.mediaInfo) {
+                dispatch(updateMediaInfo(res.data.mediaInfo))
+            }
             dispatch(sendChat(formData, res.data));
         }).catch((err) => {
             dispatch(sendChatFail(formData, err))
@@ -109,11 +120,13 @@ export const sendChatStart = (cnt) => {
     };
 };
 
-export const deleteChatInit = (chatType, chatID, cntType, cnt, start) => {
+export const deleteChatInit = (chatType, chatID, page, pageID, cntType, cnt, start) => {
     return {
         type: actionTypes.DELETE_CHAT_INIT,
         chatType,
         chatID,
+        page,
+        pageID,
         cntType,
         cnt,
         start
@@ -190,7 +203,7 @@ export const fetchReplyReset = () => {
     };
 };
 
-export const replyChatInit = (chatType, cntID, chatID, formData) => {
+export const replyChatInit = (chatType, cntID, chatID, page, pageID, formData) => {
     function uploadFile (description, formContent, uploadFile) {
         for (let media of uploadFile) {
             let fileID = media.id ? `${ media.id}.${media.type.split('/')[1] ? media.type.split('/')[1] : 'octet-stream'}` :  
@@ -213,6 +226,8 @@ export const replyChatInit = (chatType, cntID, chatID, formData) => {
         formContent.append('content', formData.content);
         formContent.append('chatID', chatID);
         formContent.append('cntID', cntID);
+        formContent.append('page', page);
+        formContent.append('pageID', pageID);
 
         axios.post(`/${chatType}`, formContent, {
             headers: {
@@ -224,6 +239,12 @@ export const replyChatInit = (chatType, cntID, chatID, formData) => {
                     dispatch(replyChatStart({...formData, uploadedPercent: percentage}))
                 }
             }}).then((res) => {
+            if (res.data && res.data.pageInfo) {
+                dispatch(updatePage(res.data.pageInfo, page))
+            }
+            if (res.data && res.data.mediaInfo) {
+                dispatch(updateMediaInfo(res.data.mediaInfo))
+            }
             dispatch(replyChat(formData, res.data));
         }).catch((err) => {
             dispatch(replyChatFail(formData, err))

@@ -48,6 +48,8 @@ const chatItem = props => {
             firstItem={index === 0}
             loadPrevious={props.loadPrevious}
             enableLoadPrevious={props.enableLoadPrevious}
+            searchText={props.searchText}
+            highlighted={props.highlighted}
             />
     ));
 }

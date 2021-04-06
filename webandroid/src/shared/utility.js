@@ -1,5 +1,5 @@
-// import io from 'socket.io-client';
-import axios from '../axios'
+import io from 'socket.io-client';
+import Constants from 'expo-constants';
 
 export const updateObject = (oldObject, updatedProperties) => {
     return {
@@ -157,4 +157,4 @@ export function changeMode (oldCnts,changeCntStart,field, isUpdate) {
 
 export const trim = (val) =>String(val).trim()
 
-// export const socket = io('https://www.slodge24.com');
+export const socket = io(Constants.manifest.extra.BASE_URL);

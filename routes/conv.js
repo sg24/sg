@@ -4,7 +4,6 @@ let mongoose = require('mongoose');
 let authenticate = require('../serverDB/middleware/authenticate');
 let filterCnt = require('./utility/filtercnt');
 const {chat, chatnotifies, group, grpchatnotifies, user,  connectStatus} = require('../serverDB/serverDB');
-let arraySort = require('array-sort');
 
 router.get('/', authenticate, (req, res,next) => {
     if (!req.authType) {

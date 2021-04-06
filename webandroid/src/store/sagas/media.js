@@ -30,19 +30,19 @@ export function* fetchMediaInfoInitSaga(action) {
     
 };
 
-export function* mediaLikeInitSaga(action) {
+export function* mediaReactionInitSaga(action) {
     try {
-        yield put(actions.mediaLikeStart(action.mediaID));
+        yield put(actions.mediaReactionStart(action.mediaID));
         let response = yield axios.post(`/mediachat`, { mediaID: action.mediaID, pageID: action.pageID, page: action.page },{
             headers: {
-                'data-categ': 'mediaLike'}})
+                'data-categ': action.reactionType}})
         let cnt = response.data  ? response.data : null;
-        if (cnt && cnt.mediaInfo) {
-            yield put(actions.updatePageMedia(cnt.mediaInfo, action.page));
+        if (cnt && cnt.pageInfo) {
+            yield put(actions.updatePage(cnt.pageInfo, action.page));
         }
-        yield put(actions.mediaLike(action.mediaID, cnt));
+        yield put(actions.mediaReaction(action.mediaID, cnt));
     } catch(err){
-        yield put(actions.mediaLikeFail(err, action.mediaID));
+        yield put(actions.mediaReactionFail(err, action.mediaID));
     }
     
 };

@@ -5,6 +5,7 @@ const advert = require('./models/adverts');
 const question = require('./models/questions');
 const writeup = require('./models/writeup');
 const mediachat = require('./models/mediachat');
+const postchat = require('./models/postchat');
 const category = require('./models/category');
 const favorite = require('./models/favorites');
 const comment = require('./models/comment');
@@ -26,6 +27,7 @@ module.exports = {
     question,
     writeup,
     mediachat,
+    postchat,
     category,
     user,
     group,

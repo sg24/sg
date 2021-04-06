@@ -1,0 +1,229 @@
+import React, { Component} from 'react';
+import { View, Text, Image, ScrollView, StyleSheet, Platform } from 'react-native';
+import { connect } from 'react-redux';
+import Ionicons from 'ionicons';
+import { explorer } from 'picker';
+import AsyncStorage from '@react-native-community/async-storage';
+import * as FileSystem from 'expo-file-system';
+
+import InnerScreen from '../InnerScreen/InnerScreen';
+import DefaultHeader from '../Header/DefaultHeader';
+import Accodion from '../Accodion/Accodion';
+import * as actions from '../../../store/actions/index';
+import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
+import Button from '../Button/Button';
+import CheckBox from '../CheckBox/CheckBox';
+
+class ChatBoxSettings extends Component {
+    state = {
+        changeBackground: true,
+        changeBackgroundImage: false,
+        highlighted: false,
+        highlightedBackground: true,
+        highlightedText: false
+    };
+
+    accordionHandler = (page) => {
+        this.setState((prevState, props) => ({
+            [page]: !prevState[page]
+        }))
+    }
+
+    settingsChangedHandler = async (value, type, nestedType) => {
+        let updateSettings = this.props.settings;
+        if (nestedType) {
+            updateSettings[this.props.page][type][nestedType] = value;
+        } else {
+            updateSettings[this.props.page][type] = value;
+        }
+        AsyncStorage.setItem('settings', JSON.stringify(updateSettings));
+        this.props.onSaveSettings(updateSettings);
+    }
+
+    changeImageHandler = async () => {
+        explorer({multiple: false}).then(file => {
+            let updateSettings = this.props.settings;
+            if (Platform.OS === 'web') {
+                updateSettings[this.props.page]['backgroundImage'] = file[0].uri;
+                AsyncStorage.setItem('settings', JSON.stringify(updateSettings));
+                this.props.onSaveSettings(updateSettings);
+            } else {
+                const fileDir = FileSystem.documentDirectory + 's lodge24/commentBox/';
+                const fileUri = fileDir + file[0].uri.split('/').pop();
+                const filePath = file[0].uri;
+                FileSystem.getInfoAsync(fileDir).then(dirInfo => {
+                    if (!dirInfo.exists) {
+                      (async () => await FileSystem.makeDirectoryAsync(fileDir, { intermediates: true }))();
+                    }
+                    FileSystem.copyAsync({from: filePath, to: fileUri}).then(() => {
+                        updateSettings[this.props.page]['backgroundImage'] = fileUri;
+                        AsyncStorage.setItem('settings', JSON.stringify(updateSettings));
+                        this.props.onSaveSettings(updateSettings);
+                    });
+                })
+            }
+            
+        }).catch(e => {
+            alert(e)
+        })
+    }
+    
+
+    render () {
+        const settings = this.props.settings;
+        let uploadOpt = (
+            <View style={styles.upload}>
+                { settings && (settings[this.props.page]['backgroundImage']) ? (
+                    <Image source={{uri: settings[this.props.page]['backgroundImage']}} 
+                    resizeMode="center"
+                    style={styles.uploadImage}/>
+                ) : null}
+                <View style={styles.wrapper}>
+                    <Button style={styles.uploadButtonWrapper} onPress={this.changeImageHandler}>
+                        <View style={styles.uploadButton}>
+                            <Ionicons name="cloud-upload-outline" size={30} color="#fff"/>
+                            <Text style={styles.uploadButtonText}>Upload Image </Text>
+                        </View>
+                    </Button>
+                </View>
+            </View>
+        );
+
+        return (
+            <InnerScreen
+                onRequestClose={this.props.closeSettings}
+                animationType="slide"
+                onBackdropPress={this.props.closeSetting}>
+                <DefaultHeader
+                    onPress={this.props.closeSettings}
+                    title="Settings"/>
+                <ScrollView style={styles.wrapper}>
+                    <Accodion 
+                        title="Background"
+                        icon={{name: 'chevron-down-outline',size: 15}}
+                        visible={this.state.changeBackground}
+                        onPress={() => this.accordionHandler('changeBackground')}
+                        style={styles.accodion}>
+                        <CheckBox
+                            title="Enable Background Image"
+                            checked={settings[this.props.page].enableBackgroundImage}
+                            onCheck={(val) => this.settingsChangedHandler(val, 'enableBackgroundImage')}
+                            formWrapperStyle={{paddingBottom: 10, paddingHorizontal: 10}}/>
+                        {settings[this.props.page].enableBackgroundImage ? 
+                            <Accodion
+                                title="Change Background Image"
+                                icon={{name: 'chevron-down-outline',size: 15}}
+                                titleStyle={styles.modalText}
+                                visible={this.state.changeBackgroundImage}
+                                onPress={() => this.accordionHandler('changeBackgroundImage')}
+                                style={styles.accodion}>
+                                { uploadOpt }
+                            </Accodion>: null}
+                    </Accodion>
+                    <Accodion
+                        title="Highlighted"
+                        icon={{name: 'chevron-down-outline',size: 15}}
+                        visible={this.state.highlighted}
+                        onPress={() => this.accordionHandler('highlighted')}
+                        style={styles.accodion}>
+                        <Accodion
+                            title="Background Color"
+                            icon={{name: 'chevron-down-outline',size: 15}}
+                            titleStyle={styles.modalText}
+                            visible={this.state.highlightedBackground}
+                            onPress={() => this.accordionHandler('highlightedBackground')}
+                            style={styles.accodion}>
+                                { settings.highlightBackgroundColor.map((highlighted, index) => (
+                                    <CheckBox
+                                        key={index}
+                                        title={highlighted.title}
+                                        checked={highlighted.color === settings[this.props.page].highlighted.backgroundColor}
+                                        onCheck={(val) => this.settingsChangedHandler((val ? highlighted.color : '#437da3'), 'highlighted', 'backgroundColor')}
+                                        formWrapperStyle={{paddingBottom: 10, paddingHorizontal: 10}}
+                                        outterStyle={{borderColor: highlighted.color}}
+                                        innerStyle={highlighted.color === settings[this.props.page].highlighted.backgroundColor ? 
+                                            {backgroundColor: highlighted.color} : null}/>
+                                ))}
+                        </Accodion>
+                        <Accodion
+                            title="Text Color"
+                            icon={{name: 'chevron-down-outline',size: 15}}
+                            titleStyle={styles.modalText}
+                            visible={this.state.highlightedText}
+                            onPress={() => this.accordionHandler('highlightedText')}
+                            style={styles.accodion}>
+                            { settings.highlightColor.map((highlighted, index) => (
+                                    <CheckBox
+                                        key={index}
+                                        title={highlighted.title}
+                                        checked={highlighted.color === settings[this.props.page].highlighted.color}
+                                        onCheck={(val) => this.settingsChangedHandler((val ? highlighted.color : '#fff'), 'highlighted', 'color')}
+                                        formWrapperStyle={{paddingBottom: 10, paddingHorizontal: 10}}
+                                        outterStyle={{borderColor: highlighted.color === '#fff' ? '#dcdbdc': highlighted.color}}
+                                        innerStyle={highlighted.color === settings[this.props.page].highlighted.color ? 
+                                            {backgroundColor: highlighted.color} : null}/>
+                                ))}
+                        </Accodion>
+                    </Accodion>
+                </ScrollView>
+            </InnerScreen>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    wrapper: {
+        width: '100%'
+    },
+    upload: {
+        backgroundColor: '#e9ebf2',
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%'
+    },
+    uploadButtonWrapper: {
+        backgroundColor: '#437da3',
+        color: '#fff',
+        paddingHorizontal: 8,
+        paddingVertical: 5,
+        width: '100%',
+        borderRadius: 5,
+        marginTop: 10
+    },
+    uploadButton: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    uploadButtonText: {
+        marginLeft: 10,
+        fontSize: 15,
+        color: '#fff'
+    },
+    uploadImage: {
+        width: 100, 
+        height: 100
+    },
+    accodion: {
+        backgroundColor: 'transparent',
+        paddingHorizontal: 10
+    }
+});
+
+
+const mapStateToProps = state => {
+    return {
+        settings: state.settings
+    };
+  };
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+        onSaveSettings: (settings) => dispatch(actions.saveSettings(settings))
+    };
+  };
+
+  export default connect(mapStateToProps, mapDispatchToProps)(ChatBoxSettings);
+  

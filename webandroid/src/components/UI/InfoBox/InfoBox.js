@@ -4,11 +4,12 @@ import Icon from 'ionicons';
 
 const infoBox = props => {
     return (
-        <View style={styles.wrapper}>
+        <View style={[styles.wrapper, props.wrapperStyle]}>
             <View style={[styles.icon,props.iconStyle]}>
                 <Icon name={props.name} size={props.size} color={props.color}/>
             </View>
             <Text style={[styles.det, props.style]}>{ props.det }</Text>
+            { props.children }
         </View>
     )
 }

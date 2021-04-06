@@ -10,6 +10,7 @@ export function* checkAuthInitSaga(action) {
        let expiresIn = yield AsyncStorage.getItem('expiresIn');
        let userID = yield AsyncStorage.getItem('userID');
        let token =  yield AsyncStorage.getItem('token');
+       let settings = yield AsyncStorage.getItem('settings');
        if (expiresIn && (new Date(expiresIn*1000).getTime() >= new Date().getTime()) && token) {
             try {
                 let response = yield axios.post('/header', {}, {headers: {'data-categ':'userimg'}, timeout: 8000});
@@ -31,6 +32,10 @@ export function* checkAuthInitSaga(action) {
         
         } else {
             yield put(actions.checkAuth());
+        }
+
+        if (settings) {
+            yield put(actions.saveSettings(JSON.parse(settings)));
         }
     } catch(err) {
         yield put(actions.checkAuthFail(err))

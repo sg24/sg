@@ -1,12 +1,13 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchSharecntInit = (start, limit, shareType, cntID) => {
+export const fetchSharecntInit = (start, limit, shareType, cntID, searchCnt) => {
     return {
         type: actionTypes.FETCH_SHARECNT_INIT,
         start, 
         limit,
         shareType,
-        cntID
+        cntID,
+        searchCnt
     };
 };
 
@@ -24,9 +25,10 @@ export const fetchSharecnt = (cnt) => {
     };
 };
 
-export const fetchSharecntStart = () => {
+export const fetchSharecntStart = (start) => {
     return {
-        type: actionTypes.FETCH_SHARECNT_START
+        type: actionTypes.FETCH_SHARECNT_START,
+        start
     };
 };
 
@@ -42,13 +44,14 @@ export const sharecntReset = () => {
     };
 };
 
-export const shareInit = (shareType, cntID, cnt, reciepent) => {
+export const shareInit = (shareType, cntID, cnt, reciepent,  shareUpdates) => {
     return {
         type: actionTypes.SHARE_INIT,
         shareType,
         cntID,
         cnt,
-        reciepent
+        reciepent,
+        shareUpdates
     };
 };
 

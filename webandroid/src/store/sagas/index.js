@@ -7,10 +7,10 @@ import { submitAuthFormSigninInitSaga,
 import { headerFilterInitSaga, fetchConvInitSaga, fetchNotifyInitSaga } from './header';
 import { fetchProfileInitSaga, changeProfileInitSaga, submitAboutInitSaga, submitUsernameInitSaga } from './profile';
 import { fetchEditFormInitSaga } from './editForm';
-import { fetchPageInitSaga, deletePageInitSaga } from './page';
-import { fetchMediaInfoInitSaga, mediaLikeInitSaga } from './media';
+import { fetchPageInitSaga, deletePageInitSaga, pageReactionInitSaga } from './page';
+import { fetchMediaInfoInitSaga, mediaReactionInitSaga } from './media';
 import { fetchChatInitSaga, fetchReplyInitSaga, deleteChatInitSaga } from './chatBox';
-import { fetchSharecntInitSaga } from './share';
+import { fetchSharecntInitSaga, shareInitSaga } from './share';
 
 export function* watchAuth() {
     yield all([
@@ -51,15 +51,16 @@ export function* watchEditForm() {
 
 export function* watchPage() {
     yield all([
-       takeEvery(actionTypes.FETCH_PAGE_INIT, fetchPageInitSaga),
-       takeEvery(actionTypes.DELETE_PAGE_INIT, deletePageInitSaga)
+       takeLatest(actionTypes.FETCH_PAGE_INIT, fetchPageInitSaga),
+       takeEvery(actionTypes.DELETE_PAGE_INIT, deletePageInitSaga),
+       takeEvery(actionTypes.PAGE_REACTION_INIT, pageReactionInitSaga)
     ])
 }
 
 export function* watchMedia() {
     yield all([
        takeEvery(actionTypes.FETCH_MEDIAINFO_INIT, fetchMediaInfoInitSaga),
-       takeEvery(actionTypes.MEDIA_LIKE_INIT, mediaLikeInitSaga),
+       takeEvery(actionTypes.MEDIA_REACTION_INIT, mediaReactionInitSaga),
     ])
 }
 
@@ -73,6 +74,7 @@ export function* watchChatBox() {
 
 export function* watchShare() {
     yield all([
-       takeEvery(actionTypes.FETCH_SHARECNT_INIT, fetchSharecntInitSaga)
+       takeEvery(actionTypes.FETCH_SHARECNT_INIT, fetchSharecntInitSaga),
+       takeEvery(actionTypes.SHARE_INIT, shareInitSaga)
     ])
 }

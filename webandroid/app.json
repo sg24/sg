@@ -12,8 +12,8 @@
     },
     "scheme": "slodge24",
     "extra": {
-      "BASE_URL": "http://192.168.173.1:3000/",
-      "BASE_IMAGE_URL": "http://192.168.173.1:3000/media/image/"
+      "BASE_URL": "http://192.168.137.1:3000/",
+      "BASE_IMAGE_URL": "http://192.168.137.1:3000/media/image/"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

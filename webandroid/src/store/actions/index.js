@@ -81,12 +81,20 @@ export {
     fetchPageInit,
     fetchPageFail,
     fetchPage,
+    fetchPageStart,
     fetchPageReset,
-    updatePageMedia,
+    pageReset,
+    updatePage,
     deletePageInit,
     deletePageFail,
     deletePageReset,
-    deletePage
+    deletePageStart,
+    deletePage,
+    pageReactionInit,
+    pageReactionStart,
+    pageReactionFail,
+    pageReaction,
+    pageReactionReset
 } from './page';
 
 export {
@@ -97,11 +105,11 @@ export {
    fetchMediaInfoFail,
    fetchMediaInfo,
    fetchMediaInfoReset,
-   mediaLikeInit,
-   mediaLikeStart,
-   mediaLikeFail,
-   mediaLike,
-   mediaLikeReset,
+   mediaReactionInit,
+   mediaReactionStart,
+   mediaReactionFail,
+   mediaReaction,
+   mediaReactionReset,
 } from './media';
 
 export {
@@ -141,3 +149,7 @@ export {
     share,
     shareReset
  } from './share';
+
+ export {
+    saveSettings
+ } from './settings';

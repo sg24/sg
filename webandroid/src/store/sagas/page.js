@@ -4,10 +4,11 @@ import axios from '../../axios';
 
 export function* fetchPageInitSaga(action) {
     try {
-        yield put(actions.fetchPageReset());
-        let response = yield axios.post(`/${action.page}`, { start: action.start, limit: action.limit },{
+        yield put(actions.fetchPageStart(action.start, action.page));
+        let response = yield axios.post(`/${action.page}`, { 
+            start: action.start, limit: action.limit, searchCnt: action.searchCnt },{
             headers: {
-                'data-categ': 'getByAuthor'}});
+                'data-categ': action.cntID}});
         let cnt = response.data  ? response.data : null;
         yield put(actions.fetchPage(action.page, cnt));
     } catch(err){
@@ -18,13 +19,32 @@ export function* fetchPageInitSaga(action) {
 
 export function* deletePageInitSaga(action) {
     try {
-        yield put(actions.deletePageReset());
-        let response = yield axios.delete(`/${action.page}`, { id: action.id },{
-            headers: {
-                'data-categ': 'getOneAndDelete'}});
-        yield put(actions.deletePage(action.page));
+        yield put(actions.deletePageStart(action.pageID, action.page, action.start));
+        if (action.start) {
+            yield axios.post(`/${action.page}`, { pageID: action.pageID },{
+                headers: {
+                    'data-categ': action.cntType}});
+            yield put(actions.deletePage(action.pageID, action.page));
+        }
     } catch(err){
         yield put(actions.deletePageFail(action.page, err));
+    }
+    
+};
+
+export function* pageReactionInitSaga(action) {
+    try {
+        yield put(actions.pageReactionStart(action.pageID));
+        let response = yield axios.post(`/${action.page}`, { pageID: action.pageID },{
+            headers: {
+                'data-categ': action.reactionType}});
+        let cnt = response.data ? response.data : {};
+        if (cnt.pageInfo) {
+            yield put(actions.updatePage(cnt.pageInfo, action.page))
+        }
+        yield put(actions.pageReaction(action.pageID));
+    } catch(err){
+        yield put(actions.pageReactionFail(err, action.pageID));
     }
     
 };

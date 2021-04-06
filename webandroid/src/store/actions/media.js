@@ -48,40 +48,41 @@ export const fetchMediaInfoReset = () => {
     };
 };
 
-export const mediaLikeInit = (mediaID, page, pageID) => {
+export const mediaReactionInit = (mediaID, page, pageID, reactionType) => {
     return {
-        type: actionTypes.MEDIA_LIKE_INIT,
+        type: actionTypes.MEDIA_REACTION_INIT,
         mediaID,
         page,
-        pageID
+        pageID,
+        reactionType
     };
 };
 
-export const mediaLikeStart = (mediaID) => {
+export const mediaReactionStart = (mediaID) => {
     return {
-        type: actionTypes.MEDIA_LIKE_START,
+        type: actionTypes.MEDIA_REACTION_START,
         mediaID
     };
 };
 
-export const mediaLikeFail = (err, mediaID) => {
+export const mediaReactionFail = (err, mediaID) => {
     return {
-        type: actionTypes.MEDIA_LIKE_FAIL,
+        type: actionTypes.MEDIA_REACTION_FAIL,
         err,
         mediaID
     };
 };
 
-export const mediaLike = (mediaID, cnt) => {
+export const mediaReaction = (mediaID, cnt) => {
     return {
-        type: actionTypes.MEDIA_LIKE,
+        type: actionTypes.MEDIA_REACTION,
         mediaID,
         cnt
     };
 };
 
-export const mediaLikeReset = () => {
+export const mediaReactionReset = () => {
     return {
-        type: actionTypes.MEDIA_LIKE_RESET
+        type: actionTypes.MEDIA_REACTION_RESET
     };
 };

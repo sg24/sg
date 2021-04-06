@@ -1,18 +1,16 @@
 let express = require('express');
 let router = express.Router();
-let arraySort = require('array-sort');
-let mongoose = require('mongoose');
+let objectID = require('mongoose').mongo.ObjectId;
 let fs = require('fs');
-const webpush = require('web-push');
 
 let formidable = require('formidable');
-let uploadStream = require('./utility/uploadStream')
 let savetemp = require('./utility/savetemp');
-let authenticate = require('../serverDB/middleware/authenticate');
-let filterCnt = require('./utility/filtercnt');
-let formInit = require('./utility/forminit');
+let sequence = require('./utility/sequence');
 let deleteMedia = require('./utility/deletemedia');
-const {post, aroundme,  connectStatus} = require('../serverDB/serverDB');
+let authenticate = require('../serverDB/middleware/authenticate');
+let formInit = require('./utility/forminit');
+let uploadToBucket = require('./utility/upload');
+const {post, postchat,  connectStatus} = require('../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'getonepost') {
@@ -25,14 +23,92 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'getByAuthor') {
-        post.find({authorID: { $in: [req.user, ...req.friend] }, _isCompleted: true })
+        post.find({authorID: { $in: [req.user, ...req.friend] }, _isCompleted: true, block: {$nin: [req.user]} })
             .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
-            res.status(200).send(result);
+            let updateResult = [];
+            if (result) {
+                for (let cnt of result) {
+                    let updateCnt = JSON.parse(JSON.stringify(cnt));
+                    delete updateCnt.block;
+                    updateResult.push({...updateCnt,
+                    share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
+                }
+            }
+            res.status(200).send({page: updateResult, loadMore: result.length > 0});
         }).catch(err => {
             res.status(500).send(err)
         })
         return
     }
+
+    if (req.header !== null && req.header('data-categ') === 'setFavorite') {
+        post.findOneAndUpdate({_id: req.body.pageID, favorite: {$nin: [req.user]}}, {$push: {'favorite': req.user}}).then(doc => {
+            if (doc) {
+                return res.status(200).send({pageInfo: {_id: req.body.pageID, isFavored: true, favorite: doc.favorite.length + 1}});
+            }
+            post.findOneAndUpdate({_id: req.body.pageID, favorite: {$in: [req.user]}}, {$pull: {'favorite': req.user}}).then(result => {
+                return res.status(200).send({pageInfo: {_id: req.body.pageID, isFavored: false, favorite: result.favorite.length - 1}});
+            })
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'setShare') {
+        post.findOneAndUpdate({_id: req.body.pageID, share: {$nin: [req.user]}}, {$push: {'share': req.user}}).then(doc => {
+            if (doc) {
+                return res.status(200).send({pageInfo: {_id: req.body.pageID, share: doc.share.length + 1}});
+            }
+            return res.sendStatus(200);
+        }).catch(err => {
+            console.log(err)
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header && req.header('data-categ') === 'searchPost') {
+        post.find({authorID: { $in: [req.user, ...req.friend] }, _isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt} })
+            .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
+            let updateResult = [];
+            if (result) {
+                for (let cnt of result) {
+                    let updateCnt = JSON.parse(JSON.stringify(cnt));
+                    delete updateCnt.block;
+                    updateResult.push({...updateCnt,
+                    share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
+                }
+            }
+            res.status(200).send({page: updateResult, loadMore: result.length > 0});
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'getOneAndDelete') {
+        post.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
+            if (doc && !doc.chat._id && doc.favorite.length < 1 && doc.share.length < 1) {
+                return sequence([deleteMedia(doc.media), doc.deleteOne()]).then(() => {
+                    return res.sendStatus(200);
+                })
+            }
+            if (!doc) {
+                post.findByIdAndUpdate({_id: req.body.pageID}, {$push: {'block': req.user}, $pull: {'favorite': req.user}}).then(() => {
+                    return res.sendStatus(200);
+                })
+                return;
+            }
+            return Promise.reject('This post could not be deleted');
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+    
 
     // if (req.header !== null && req.header('data-categ') === 'userDet') {
     //     let model = req.userType === 'authUser' ? authUser : user;

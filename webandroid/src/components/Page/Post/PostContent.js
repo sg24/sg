@@ -1,30 +1,36 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Image } from 'react-native';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 import Moment from 'react-moment';
+import * as Animatable from 'react-native-animatable';
+import Uridetect from 'uridetect';
 
 import BoxShadow from '../../UI/BoxShadow/BoxShadow';
 import TouchableNativeFeedback from '../../UI/TouchableNativeFeedback/TouchableNativeFeedback';
 import Href from '../../UI/Href/Href';
 import Button from '../../UI/Button/Button';
 import MediaTile from '../../UI/MediaTile/MediaTile';
-import { transformNumber } from '../../../shared/utility';
+import LinkPreview from '../../UI/LinkPreview/LinkPreview';
+import LoadMore from '../../UI/LoadMore/LoadMore';
+import { transformNumber, checkUri } from '../../../shared/utility';
 
 const postContent = props => {
+    let AnimatedIcon = Animatable.createAnimatableComponent(Ionicons);
     let userOpt = null;
     if (props.cnt._id === props.pageCntID) {
         userOpt = (
             <BoxShadow style={styles.userOpt}>
+                { props.userID === props.cnt.authorID ? 
                 <Button style={styles.userOptItem} onPress={props.edit}>
                     <Ionicons name="create-outline" size={20}/>
                     <Text style={[styles.textStyle, styles.detText]}>Edit</Text>
-                </Button>
-                <Button style={styles.userOptItem}>
-                    <Ionicons name="trash-bin-outline" size={20} onPress={props.delete}/>
+                </Button> : null }
+                <Button style={styles.userOptItem} onPress={props.delete}>
+                    <Ionicons name="trash-bin-outline" size={20} />
                     <Text style={[styles.textStyle, styles.detText]}>Delete</Text>
                 </Button>
-                <Button style={styles.userOptItem}>
+                <Button style={styles.userOptItem} onPress={props.shareFriends}>
                     <Ionicons name="paper-plane-outline" size={20} onPress={props.share}/>
                     <Text style={[styles.textStyle, styles.detText]}>Share with friends</Text>
                 </Button>
@@ -36,68 +42,94 @@ const postContent = props => {
         )
     }
 
+    let startPageReaction = props.pageReaction ? 
+        props.pageReaction.filter(id => id === props.cnt._id).length > 0 ? true : false : false;
+
+    let previewUri = checkUri(props.cnt.content);
+
     return (
-        <View style={styles.container}>
-            <BoxShadow style={styles.wrapper}>
-                <View style={styles.userDet}>
-                    <View style={styles.userInfo}>
-                        <TouchableNativeFeedback onPress={props.userProfile}>
-                            <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${props.cnt.userImage}`}}  style={styles.userImage}/>
+        <>
+            <View style={styles.container}>
+                <BoxShadow style={styles.wrapper}>
+                    <View style={styles.userDet}>
+                        <View style={styles.userInfo}>
+                            <TouchableNativeFeedback onPress={props.userProfile}>
+                                <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${props.cnt.userImage}`}}  style={styles.userImage}/>
+                            </TouchableNativeFeedback>
+                            <View style={styles.userInfoCnt}>
+                                <Href title={props.cnt.username} numberOfLines={1} onPress={props.userProfile} style={styles.textStyle}/>
+                                {props.cnt.edited ? (
+                                    <View style={styles.userInfoCreate}>
+                                        <Ionicons name="pencil-outline" color="#777" />
+                                        <Text style={{color: '#777', marginRight: 5}} >
+                                            Edit
+                                        </Text> 
+                                        <Moment element={Text} date={props.cnt.edited} fromNow /></View>) : 
+                                        <Moment element={Text} date={props.cnt.created} fromNow  />}
+                            </View>
+                        </View>
+                        <TouchableNativeFeedback onPress={props.showUserOpt}>
+                            <Ionicons name="ellipsis-horizontal-outline" size={20}/>
                         </TouchableNativeFeedback>
-                        <View style={styles.userInfoCnt}>
-                            <Href title={props.cnt.username} numberOfLines={1} onPress={props.userProfile} style={styles.textStyle}/>
-                            {props.cnt.edited ? (
-                                <View style={styles.userInfoCreate}>
-                                    <Ionicons name="pencil-outline" color="#777" />
-                                    <Text style={{color: '#777', marginRight: 5}} >
-                                        Edit
-                                    </Text> 
-                                    <Moment element={Text} date={props.cnt.edited} fromNow /></View>) : 
-                                    <Moment element={Text} date={props.cnt.created} fromNow  />}
-                        </View>
                     </View>
-                    <TouchableNativeFeedback onPress={props.showUserOpt}>
-                        <Ionicons name="ellipsis-horizontal-outline" size={20}/>
-                    </TouchableNativeFeedback>
-                </View>
-                <MediaTile 
-                    media={props.cnt.media}
-                    preview={props.mediaPreview}
-                    save={props.saveMedia}
-                    cntID={props.cnt._id} />
-                <Href numberOfLines={2} title={props.cnt.content} style={styles.content}/>
-                <TouchableNativeFeedback>
-                    <View style={styles.userComment}>
-                        { [...Array(4)].map((_, index) => (
-                        <Image key={index} source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${props.cnt.userImage}`}}  
-                            style={[styles.userCommentImage, {left: index !== 0 ? -(index*8) : 'auto'}]}/>
-                        ))}
-                        <Text  numberOfLines={1} style={[styles.userCommentText, {marginLeft: -((4*8)-15)}]}>SG Tech and other's comment on this</Text>
+                    <MediaTile 
+                        media={props.cnt.media}
+                        preview={props.mediaPreview}
+                        save={props.saveMedia}
+                        cntID={props.cnt._id} />
+                    <Pressable >
+                        <Uridetect
+                            numberOfLines={2}
+                            onPress={props.openURI} 
+                            style={styles.content} 
+                            content={props.cnt.content}/>
+                    </Pressable>
+                    { previewUri.length > 0 ? 
+                        <View style={styles.linkPreview}>
+                            <LinkPreview 
+                                links={previewUri}/>
+                        </View>: null}
+                    { props.cnt.chat.user.length > 0 ? 
+                    <TouchableNativeFeedback  onPress={props.chat}>
+                        <View style={styles.userComment}>
+                            { props.cnt.chat.user.map((user, index) => (
+                            <Image key={index} source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${user.userImage}`}}  
+                                style={[styles.userCommentImage, {left: index !== 0 ? -(index*8) : 'auto'}]}/> ))}
+                            <Text  numberOfLines={1} style={[styles.userCommentText, {marginLeft: props.cnt.chat.user.length > 1 ? -((props.cnt.chat.user.length*8)-15) : 10}]}>{props.cnt.chat.user[0].username} {props.cnt.chat.user.length > 1 ? "and other's" : ''} comment on this</Text>
+                        </View>
+                    </TouchableNativeFeedback> : null}
+                    <View style={styles.det}>
+                        <TouchableNativeFeedback onPress={props.chat}>
+                            <View style={styles.detContent}>
+                                <Ionicons name="chatbox-ellipses-outline" size={24}/>
+                                <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.cnt.chat.total) }</Text>
+                            </View>
+                        </TouchableNativeFeedback>
+                        <TouchableNativeFeedback onPress={startPageReaction ? null : props.favorite}>
+                            <View style={styles.detContent}>
+                                <AnimatedIcon animation={startPageReaction ? "pulse" : ''}  duration={500} iterationCount="infinite" 
+                                    name={props.cnt.isFavored ? 'heart' : 'heart-outline'} size={24} color={props.cnt.isFavored ? '#ff1600' : '#333'}/>
+                                <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.cnt.favorite) }</Text>
+                            </View>
+                        </TouchableNativeFeedback>
+                        <TouchableNativeFeedback onPress={props.share}>
+                            <View style={styles.detContent}>
+                                <Ionicons name="paper-plane-outline" size={24}/>
+                                <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.cnt.share) }</Text>
+                            </View>
+                        </TouchableNativeFeedback>
                     </View>
-                </TouchableNativeFeedback>
-                <View style={styles.det}>
-                    <TouchableNativeFeedback>
-                        <View style={styles.detContent}>
-                            <Ionicons name="chatbox-ellipses-outline" size={24}/>
-                            <Text style={[styles.textStyle, styles.detText]}>234 K</Text>
-                        </View>
-                    </TouchableNativeFeedback>
-                    <TouchableNativeFeedback>
-                        <View style={styles.detContent}>
-                            <Ionicons name="heart-outline" size={24}/>
-                            <Text style={[styles.textStyle, styles.detText]}>234 K</Text>
-                        </View>
-                    </TouchableNativeFeedback>
-                    <TouchableNativeFeedback>
-                        <View style={styles.detContent}>
-                            <Ionicons name="paper-plane-outline" size={24}/>
-                            <Text style={[styles.textStyle, styles.detText]}>234 K</Text>
-                        </View>
-                    </TouchableNativeFeedback>
-                </View>
-                { userOpt }
-            </BoxShadow>
-        </View>
+                    { userOpt }
+                </BoxShadow>
+            </View>
+            { props.lastItem && props.enableLoadMore ? (
+                <LoadMore
+                    title="Load More"
+                    icon={{name: 'reload-outline'}}
+                    onPress={props.loadMore}
+                    start={props.start}/>
+            ) : null}
+        </>
     )
 }
 
@@ -202,6 +234,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingHorizontal: 10,
         paddingVertical: 5
+    },
+    linkPreview: {
+        width: '100%'
     }
 });
 

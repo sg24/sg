@@ -6,38 +6,19 @@ let room = new Comments();
 let io = global.io;
 
 io.on('connection', (socket) => {
-    socket.on('join', (id, callback) => {
-      if (id) {
-        if (!id.private && !id.public) {
-          let roomID = id.trim()
-          socket.join(roomID);
-          room.removeUser(socket.id);
-          room.addUser(socket.id, roomID, 1, null);
-        }        
+    //   socket.on('join', (id, callback) => {
+    //     if (id) {
+    //       socket.join(id);
+    //       room.removeUser(socket.id);
+    //       room.addUser(socket.id, id);
+    //     } else {
+    //       return callback('Invalid RoomID')
+    //     }
+    // });
 
-        if (id.public) {
-          let roomID = id.room.trim()
-          socket.join(roomID);
-          room.removeUser(socket.id);
-          room.addUser(socket.id, roomID, 2, id.host);
-        }
-        
-        if (id.private) {
-          room.removeUser(socket.id);
-          room.addUser(socket.id, id.reply, 3, id.host);
-          room.removePvtUser(socket.id)
-          room.addPvtUser(id.host, id.reply, socket.id)
-        }
-
-      } else {
-        return callback('Invalid RoomID')
-      }
-  });
-
-    socket.on('createComment', (cnt, callback) => {
-        let user = room.getUser(socket.id);
-        if (user && user.room) {
-          io.to(user.room).emit('newComment', cnt);
+    socket.on('sendChat', (cnt, reciepent, callback) => {
+        for (let userID of reciepent) {
+          socket.to(userID).emit('recieveChat', cnt)
         }
     });
   

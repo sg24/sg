@@ -16,7 +16,8 @@ module.exports = function(api) {
              "file-icons": "./lib/icons/fileicons/fileicons",
              "urischeme": "./lib/urischeme/urischeme",
              "uridetect": "./lib/uridetect/uridetect",
-             "withcomponent": "./lib/withcomponent/withcomponent"
+             "withcomponent": "./lib/withcomponent/withcomponent",
+             "withclass": "./lib/withclass/withclass"
            }
         }
        ]

@@ -26,7 +26,7 @@ const fetchSharecntReset = (state, action) => {
 
 const fetchSharecntStart = (state, action) => {
     return updateObject(state, {
-        fetchSharecntError: null, fetchSharecntStart: true
+        fetchSharecntError: null, fetchSharecntStart: true, fetchSharecnt: action.start === 0 ? null : state.fetchSharecnt
     });
 };
 
@@ -38,7 +38,7 @@ const fetchSharecntFail = (state, action) => {
 
 const fetchSharecnt = (state, action) => {
     let fetchSharecnt  = state.fetchSharecnt ? [...state.fetchSharecnt] : [];
-    fetchSharecnt.push(...action.cnt.friend)
+    fetchSharecnt.push(...action.cnt.friend);
     return updateObject(state, {
         fetchSharecntError: null, fetchSharecnt, loadMore: action.cnt.loadMore, fetchSharecntStart: false
     });

@@ -18,7 +18,7 @@ const privateConv = props => {
     let picked = props.picked && props.picked.length > 0 ? 
         props.picked.filter(id => id === props.userDet._id)[0] ? true : false : false;
     let msg = (
-        <Href onPress={props.showChat} numberOfLines={1} style={styles.msg} wrapperStyle={styles.msg} title={props.userDet.message} />
+        <Href onPress={!props.allowPressable ? props.showChat : null} numberOfLines={1} style={styles.msg} wrapperStyle={styles.msg} title={props.userDet.message} />
     )
 
     let userStatus = (
@@ -37,10 +37,20 @@ const privateConv = props => {
 
     if (!props.userDet.message) {
         msg = (
-            <Button onPress={props.startChat} style={styles.msgButton}>
-                <Ionicons name="chatbubble" color="#fff"/>
-                <Text style={styles.bottonText}>Chat</Text>
-            </Button>
+            <>
+                <Button onPress={props.showChat} disabled={props.allowPressable} >
+                    <BoxShadow style={styles.msgButton}>
+                        <Ionicons name="chatbubble-ellipses" size={16} color="#fff"/>
+                        <Text style={styles.bottonText}>Chat</Text>
+                    </BoxShadow>
+                </Button>
+                <Button onPress={props.unfriend} disabled={props.allowPressable} style={styles.useroptButtonWrapper}>
+                    <BoxShadow style={styles.useroptButton}>
+                        <Ionicons name="person-remove" size={16} />
+                        <Text numberOfLines={1} style={styles.unfriend}>Unfriend</Text>
+                    </BoxShadow>
+                </Button>
+            </>
         )
     }
 
@@ -67,11 +77,12 @@ const privateConv = props => {
                 style={styles.wrapper}>
                 <Pressable
                     android_ripple={{radius: 10}}
-                    onLongPress={props.pick}
-                    onPress={props.picked && props.picked.length > 0 ? props.pick : props.showProfile}
+                    onLongPress={props.allowPressable ? props.pick : null}
+                    onPress={props.picked && props.picked.length > 0 ? props.pick : 
+                        props.allowPressable ? props.showProfile : null}
                     style={({ pressed }) => {
                         let style = {}
-                        if (pressed) {
+                        if (pressed && props.allowPressable) {
                             style.backgroundColor = '#e9ebf2';
                         }
                         return {
@@ -83,7 +94,7 @@ const privateConv = props => {
                         };
                     }}>
                     { notification }
-                    <TouchableNativeFeedback onPress={props.showProfile}>
+                    <TouchableNativeFeedback onPress={!props.allowPressable ? props.showProfile : null}>
                         <View>
                             <View style={styles.userImageWrapper}>
                                 {userImg}
@@ -91,13 +102,14 @@ const privateConv = props => {
                             </View>
                             {picked ? (
                                 <View style={styles.pick}>
-                                    <Ionicons name="cloud-offline-outline" color="#437da3" size={30} />
+                                    <Ionicons name="checkmark-outline" color="#16cf27" size={40} />
                                 </View>
                             ): null}
                         </View>
                     </TouchableNativeFeedback>
                     <View style={styles.det}>
-                        <Href numberOfLines={1} style={styles.userDet} title={props.userDet.username}/>
+                        <Href numberOfLines={1} style={styles.userDet} title={props.userDet.username} 
+                            onPress={!props.allowPressable ? props.showProfile: null}/>
                         <View style={styles.msgWrapper}>
                             {msg}{msgCreated}
                         </View>
@@ -105,8 +117,8 @@ const privateConv = props => {
                 </Pressable>
             </BoxShadow>
             { props.lastItem && props.enableLoadMore ? (
-            <Button onPress={props.loadMore} disabled={props.start} style={{width: '100%'}}>
-                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginVertical: 10}}>
+            <Button onPress={props.loadMore} disabled={props.start} style={{width: '100%', marginVertical: 10, paddingVertical: 0}}>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     { !props.start ? (
                         <View style={{width: '100%', paddingVertical: 5, paddingHorizontal: 10,backgroundColor: '#dcdbdc', borderRadius: 5, 
                             flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
@@ -197,6 +209,25 @@ const styles = StyleSheet.create({
     bottonText: {
         marginLeft: 5,
         color: '#fff'
+    },
+    useroptButtonWrapper: {
+        marginLeft: 10
+    },
+    useroptButton: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 3,
+        borderRadius: 5,
+        backgroundColor: '#dcdbdc',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        }
+    },
+    unfriend: {
+        marginLeft: 5
     },
     tabBarge: {
         top: 'auto',

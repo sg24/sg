@@ -39,97 +39,41 @@ const PostSchema = new Schema({
         description: String,
         chat: String
     }],
-    comment: {
-        type: Array,
-        default: [String]
-    },
-    share: {
-        type: Array,
-        default: [String]
-    },
+    share: [{
+        type: ObjectId
+    }],
+    favorite: [{
+        type: ObjectId
+    }],
     mode: {
         type: String,
         default: 'publish'
     },
-    view: {
-        type: Number,
-        default: 0
-    },
-    favorite: {
-        type: Number,
-        default: 0
-    },
-    liked: {
-        type: Array,
-        default: [String]
-    },
-    position: {
-        type: Number,
-        default: 0
-    },
-    chat: [{
-        ID: String,
-        userType: String,
-        msg: String,
-        cntType: String,
-        image: String,
-        username: String,
-        chatID: String,
-        format: String,
-        position: {
+    chat: {
+        _id: {
+            type: String
+        },
+        total: {
             type: Number,
             default: 0
         },
-        created: {
-            type: Date,
-            default: Date.now
-        },
-        block: {
-            type: Array,
-            default: []
-        },
-        delete: {
-            type: Boolean,
-            default: false
-        },
-        edit: {
-            type: Boolean,
-            default: false
-        },
-        reply: [{
-            ID: String,
-            userType: String,
-            image: String,
-            username: String,
-            msg: String,
-            cntType: String,
-            chatID: String,
-            format: String,
-            mainID: String,
-            position: {
-                type: Number,
-                default: 0
+        user: [{
+            authorID: {
+                type: String,
+                required: true
             },
-            block: {
-                type: Array,
-                default: []
+            username: {
+                type: String,
+                required: true
             },
-            delete: {
-                type: Boolean,
-                default: false
-            },
-            edit: {
-                type: Boolean,
-                default: false
-            },
-            created: {
-                type: Date,
-                default: Date.now
-            }}]
-    }],
-    lastID: {
-        type: String
+            userImage: {
+                type: String
+            }
+        }]
     },
+    block: [{
+        type: ObjectId
+    }],
     _isCompleted: {
         type: Boolean,
         default: false

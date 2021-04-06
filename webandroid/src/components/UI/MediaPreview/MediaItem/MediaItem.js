@@ -36,13 +36,14 @@ const mediaItem = props => {
                 <Button 
                     onPress={props.chat} 
                     style={styles.detContent}>
-                    <Ionicons name="chatbox-ellipses-outline" size={24}/>
+                    <Ionicons name="chatbox-ellipses-outline" size={24} />
                     <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.media.chatTotal) }</Text>
                 </Button>
                 <Button 
                     onPress={props.dislike} 
-                    style={styles.detContent}>
-                    <Ionicons name="thumbs-down-outline" size={24}/>
+                    style={styles.detContent}
+                    disabled={props.media.start ? true : false}>
+                    <Ionicons name="thumbs-down-outline" size={24} />
                     <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.media.dislike) }</Text>
                 </Button>
             </View>

@@ -5,7 +5,7 @@ const initialState = {
     fetchInfoStart: false,
     fetchInfoError: null,
     fetchInfo: null,
-    mediaLikeError: null
+    mediaReactionError: null
 };
 
 const setMediaInfo = (state, action) => {
@@ -27,14 +27,14 @@ const updateMediaInfo = (state, action) => {
 
 const resetMediaInfo = (state, action) => {
     return updateObject(state, { 
-        fetchInfoStart: false, fetchInfoError: null, fetchInfo: null, mediaLikeError: null
+        fetchInfoStart: false, fetchInfoError: null, fetchInfo: null, mediaReactionError: null
     })
 };
 
 const fetchInfoReset = (state, action) => {
     return updateObject(state, { 
         fetchInfoStart: false, fetchInfoError: null, fetchInfo: null,
-        mediaLikeStart: [], mediaLikeError: null
+        mediaReactionStart: [], mediaReactionError: null
     })
 };
 
@@ -50,13 +50,13 @@ const fetchInfo = (state, action) => {
     })
 };
 
-const mediaLikeReset = (state, action) => {
+const mediaReactionReset = (state, action) => {
     return updateObject(state, {
-       mediaLikeError: null
+       mediaReactionError: null
     })
 };
 
-const mediaLikeStart = (state, action) => {
+const mediaReactionStart = (state, action) => {
     let fetchInfo = [...state.fetchInfo];
     let mediaItem = fetchInfo.filter(media => media.id ===  action.mediaID)[0];
     if (mediaItem) {
@@ -65,11 +65,11 @@ const mediaLikeStart = (state, action) => {
         fetchInfo[mediaItemIndex] = mediaItem;
     }
     return updateObject(state, { 
-        fetchInfo, mediaLikeError: null,
-    })
+        fetchInfo, mediaReactionError: null,
+    });
 };
 
-const mediaLikeFail = (state, action) => {
+const mediaReactionFail = (state, action) => {
     let fetchInfo = [...state.fetchInfo];
     let mediaItem = fetchInfo.filter(media => media.id ===  action.mediaID)[0];
     if (mediaItem) {
@@ -78,22 +78,23 @@ const mediaLikeFail = (state, action) => {
         fetchInfo[mediaItemIndex] = mediaItem;
     }
     return updateObject(state, { 
-        fetchInfo, mediaLikeError: action.err,
+        fetchInfo, mediaReactionError: action.err,
     })
 };
 
-const mediaLike = (state, action) => {
+const mediaReaction = (state, action) => {
     let fetchInfo = [...state.fetchInfo];
     let mediaItem = fetchInfo.filter(media => media.id ===  action.mediaID)[0];
     if (mediaItem && action.cnt) {
-        mediaItem.isLiked = action.cnt.isLiked;
-        mediaItem.like = action.cnt.like;
+        for (let cntItem in action.cnt) {
+            mediaItem[cntItem] = action.cnt[cntItem];
+        }
         delete mediaItem.start;
         let mediaItemIndex =  fetchInfo.findIndex(media => media.id ===  action.mediaID);
         fetchInfo[mediaItemIndex] = mediaItem;
     }
     return updateObject(state, { 
-        mediaLikeError: null, fetchInfo
+        mediaReactionError: null, fetchInfo
     })
 };
 
@@ -111,14 +112,14 @@ const reducer = (state = initialState, action) => {
             return fetchInfo(state, action);
         case actionTypes.FETCH_MEDIAINFO_RESET:
             return fetchInfoReset(state, action);
-        case actionTypes.MEDIA_LIKE_START:
-            return mediaLikeStart(state, action);
-        case actionTypes.MEDIA_LIKE_FAIL:
-            return mediaLikeFail(state, action);
-        case actionTypes.MEDIA_LIKE:
-            return mediaLike(state, action);
-        case actionTypes.MEDIA_LIKE_RESET:
-            return mediaLikeReset(state, action);
+        case actionTypes.MEDIA_REACTION_START:
+            return mediaReactionStart(state, action);
+        case actionTypes.MEDIA_REACTION_FAIL:
+            return mediaReactionFail(state, action);
+        case actionTypes.MEDIA_REACTION:
+            return mediaReaction(state, action);
+        case actionTypes.MEDIA_REACTION_RESET:
+            return mediaReactionReset(state, action);
         default: return state
     };
 };

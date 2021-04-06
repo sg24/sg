@@ -3,7 +3,8 @@ const { notifications } = require('../../serverDB/serverDB')
 const userNotifications = (field , recieverID, cnt, isRemove) => {
     return new Promise((resolve, reject) =>{
         notifications.findOne({userID: recieverID}).then(doc => {
-            let cntID = cnt.ID ? {cntID: [cnt.ID]} : {}
+            let cntID = cnt.ID ? {cntID: [cnt.ID]} : {};
+            let counter = cnt.enableCounter ? {counter: 1} : {};
             if (doc) {
                 let cntField = doc[field];
                 let checkUser = cntField.filter(cntFnd =>  cntFnd.userID === cnt.userID)[0];
@@ -25,7 +26,6 @@ const userNotifications = (field , recieverID, cnt, isRemove) => {
                     } 
                     cntField = !checkUser.cntID && isRemove ? cntField.filter(cntFnd =>  cntFnd.userID !== cnt.userID) : cntField;
                 } else if (!isRemove) {
-                    let counter = cnt.enableCounter ? {counter: 1} : {};
                     cntField.push({userID: cnt.userID, ...cntID, ...counter})
                 }
                 doc[field] = cntField;
@@ -36,7 +36,7 @@ const userNotifications = (field , recieverID, cnt, isRemove) => {
             } else if (!isRemove){
                 let notification = new notifications({
                     userID: recieverID,
-                    [field]: [{userID: cnt.userID, ...cntID}]
+                    [field]: [{userID: cnt.userID, ...cntID, ...counter}]
                 })
                 notification.save().then(() => {
                     resolve()

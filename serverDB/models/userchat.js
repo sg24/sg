@@ -4,10 +4,6 @@ const Schema  = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const UserChatSchema = new Schema({
-    _id: {
-        type: ObjectId,
-        required: true
-    },
     chat: [{
         authorID: {
             type: ObjectId,
