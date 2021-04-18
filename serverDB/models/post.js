@@ -74,6 +74,13 @@ const PostSchema = new Schema({
     block: [{
         type: ObjectId
     }],
+    report: [{
+        type: String
+    }],
+    blacklisted: {
+        type: String,
+        default: false
+    },
     _isCompleted: {
         type: Boolean,
         default: false

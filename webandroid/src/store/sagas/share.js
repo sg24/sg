@@ -12,7 +12,7 @@ export function* fetchSharecntInitSaga(action) {
             headers: {
                 'data-categ': action.cntID}});
         let cnt = response.data  ? response.data : null;
-        yield put(actions.fetchSharecnt(cnt ? cnt : {friend: []}));
+        yield put(actions.fetchSharecnt(action.start, cnt ? cnt : {friend: []}));
     } catch(err) {
         yield put(actions.fetchSharecntFail(err));
     }

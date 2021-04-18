@@ -5,13 +5,15 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
     commentBox: {
+        fetchLimit: 10,
         highlighted: {
             color: '#fff',
             backgroundColor: '#437da3'
         },
         backgroundImage: null,
         enableBackgroundOverlay: true,
-        enableBackgroundImage: true
+        enableBackgroundImage: true,
+        enableHighlighted: true
     },
     page: {
         fetchLimit: 5,
@@ -21,19 +23,23 @@ const initialState = {
         },
         backgroundImage: null,
         enableBackgroundOverlay: true,
-        enableBackgroundImage: true
+        enableBackgroundImage: true,
+        enableHighlighted: false
+    },
+    userPage: {
+        fetchLimit: 20
     },
     highlightBackgroundColor: [{title: 'Red',  color: '#ff1600'},{title: 'Blue', color: '#437da3'},{title: 'Black', color: '#000'}],
     highlightColor: [{title: 'White',  color: '#fff'},{title: 'Black', color: '#000'}],
-    backgroundColor: '#437da3',
+    backgroundColor: '#fff',
     color: '#333',
-    version: 1
+    version: 4
 };
 
 const saveSetting = (state, action) => {
     let settings = action.settings;
     if (action.settings.version !== state.version) {
-        let updateSettings = updateObject(state, {...action.settings, version: state.version});
+        let updateSettings = state;
         AsyncStorage.setItem('settings', JSON.stringify(updateSettings));
         settings = updateSettings;
     }

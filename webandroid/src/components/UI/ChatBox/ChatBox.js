@@ -86,7 +86,7 @@ class ChatBox extends Component {
 
     componentDidMount() {
         Dimensions.addEventListener('change', this.updateStyle);
-        this.props.onFetchChat(this.props.fetchChat ? this.props.fetchChat.length : 0, 10, this.props.chatType, this.props.cntID, this.props.page, this.props.pageID);
+        this.props.onFetchChat(this.props.fetchChat ? this.props.fetchChat.length : 0, this.props.settings.commentBox.fetchLimit, this.props.chatType, this.props.cntID, this.props.page, this.props.pageID);
     }
 
     componentWillUnmount() {
@@ -96,10 +96,10 @@ class ChatBox extends Component {
 
     reloadFetchHandler = () => {
         if (this.props.fetchReplyErr) {
-            this.props.onFetchReply(this.props.fetchReply ? this.props.fetchReply.length : 0, 10, this.props.chatType, this.props.chatID, this.state.showReply._id);
+            this.props.onFetchReply(this.props.fetchReply ? this.props.fetchReply.length : 0, this.props.settings.commentBox.fetchLimit, this.props.chatType, this.props.chatID, this.state.showReply._id);
             return
         }
-        this.props.onFetchChat(this.props.fetchChat ? this.props.fetchChat.length : 0, 10, this.props.chatType, this.props.cntID, this.props.page, this.props.pageID);
+        this.props.onFetchChat(this.props.fetchChat ? this.props.fetchChat.length : 0, this.props.settings.commentBox.fetchLimit, this.props.chatType, this.props.cntID, this.props.page, this.props.pageID);
     }
 
     inputChangedHandler = (value, inputType) => {
@@ -271,7 +271,7 @@ class ChatBox extends Component {
     }
 
     showReplyHandler = (cnt) => {
-        this.props.onFetchReply(this.props.fetchReply ? this.props.fetchReply.length : 0, 10, this.props.chatType, this.props.chatID, cnt._id);
+        this.props.onFetchReply(this.props.fetchReply ? this.props.fetchReply.length : 0, this.props.settings.commentBox.fetchLimit, this.props.chatType, this.props.chatID, cnt._id);
         this.setState({showReply: cnt, showSearch: false, searchText: ''});
     }
 
@@ -383,10 +383,10 @@ class ChatBox extends Component {
 
     loadPreviousHandler = () => {
         if (this.props.fetchReply) {
-            this.props.onFetchReply(this.props.fetchReply ? this.props.fetchReply.length : 0, 10, this.props.chatType, this.props.chatID, this.state.showReply._id);
+            this.props.onFetchReply(this.props.fetchReply ? this.props.fetchReply.length : 0, this.props.settings.commentBox.fetchLimit, this.props.chatType, this.props.chatID, this.state.showReply._id);
             return
         }
-        this.props.onFetchChat(this.props.fetchChat ? this.props.fetchChat.length : 0, 10, this.props.chatType, this.props.cntID, this.props.page, this.props.pageID);
+        this.props.onFetchChat(this.props.fetchChat ? this.props.fetchChat.length : 0, this.props.settings.commentBox.fetchLimit, this.props.chatType, this.props.cntID, this.props.page, this.props.pageID);
     }
 
     submitUploadHandler = () => {

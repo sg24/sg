@@ -376,6 +376,28 @@ router.post('/edit/feed', authenticate, (req, res, next) => {
     })
 })
 
+router.post('/add/pageReport', authenticate, (req, res, next) => {
+    formInit(req, formidable).then(form => {
+        let mediaList = form.files && form.files.media ? form.files.media : [];
+        let fields = form.fields
+        let model = fields.page === 'post' ? post : post;
+        model.findById(fields.pageID).then(doc => {
+            if (doc && doc.report.length < 20) {
+                doc.updateOne({$push: {'report': fields.content}}).then(() => {
+                    return res.status(200).send(fields.pageID);
+                })
+            }
+            if (doc && doc.report.length > 20) {
+                doc.updateOne({'blacklisted': true}).then(() => {
+                    return res.status(200).send(fields.pageID);
+                });
+            }
+        })
+    }).catch(err => {
+        res.status(500).send(err);
+    })
+})
+
 router.post('/add/contest', authenticate, (req, res, next) => {
     formInit(req, formidable).then(form => {
         let video = form.files && form.files.video ? form.files.video : []; 

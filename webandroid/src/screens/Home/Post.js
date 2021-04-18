@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text,StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
+import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
@@ -15,6 +15,7 @@ import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
 import Button from '../../components/UI/Button/Button';
+import Settings from '../../components/UI/Settings/Settings';
 import { updateObject, checkValidity, checkUri } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
@@ -26,6 +27,7 @@ import LinkPreview from '../../components/UI/LinkPreview/LinkPreview';
 import UploadPreview from '../../components/UI/UploadPreview/UploadPreview'
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
 import PostItem from '../../components/Page/Post/Post';
+import PagePreview from '../../components/Page/Preview/Preview';
 import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
@@ -48,7 +50,9 @@ class Post extends Component {
             showSearch: false,
             search: '',
             showOption: false,
-            showSettings: false
+            showSettings: false,
+            showPagePreview: null,
+            showAdvertChat: false
         }
     }
 
@@ -65,7 +69,7 @@ class Post extends Component {
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
             this.props.onPageReset();
             this.setState({pageCntID: null,showPreview: null,pageID: null,showChatBox: false,showActionSheet: null,
-                showSearch: false,search: '',showOption: false,showSettings: false})
+                showSearch: false,search: '',showOption: false,showSettings: false, showPagePreview: null, showAdvertChat: false})
         });
         Dimensions.addEventListener('change', this.updateStyle)
     }
@@ -78,7 +82,7 @@ class Post extends Component {
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'searchPost', cnt);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'searchPost', this.state.search);
         }
         this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor');
     }
@@ -87,23 +91,30 @@ class Post extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null});
+        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null, showPagePreview: null, showAdvertChat: false});
     }
 
     openURIHandler = (type, uri) => {
-        if (type === 'URL') {
-            urischeme(type, uri)
-        }
         if (type === 'hashTag') {
-            this.props.navigation.navigate('HashSearch', {hashTag: uri})
+            return this.props.navigation.navigate('HashSearch', {hashTag: uri})
+        }
+        urischeme(type, uri);
+    }
+
+    optionHandler = (action) => {
+        if (action === 'search') {
+            this.setState({showSearch: true, showOption: false});
+        }
+
+        if (action === 'settings') {
+            this.setState({showSettings: true, showOption: false});
         }
     }
 
-
     searchPageHandler = (cnt) => {
+        this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, 5, 'post', 'searchPost', cnt);
-            this.setState({search: cnt});
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'post', 'searchPost', cnt);
         }
     }
 
@@ -120,16 +131,6 @@ class Post extends Component {
 
     closeOptionHandler = () => {
         this.setState({showOption: false})
-    }
-
-    optionHandler = (action) => {
-        if (action === 'search') {
-            this.setState({showSearch: true, showOption: false});
-        }
-
-        if (action === 'settings') {
-            this.setState({showSettings: true, showOption: false});
-        }
     }
 
     closeSettingsHandler = () => {
@@ -160,8 +161,8 @@ class Post extends Component {
         this.props.onDeletePageReset();
     }
 
-    reportHandler = () => {
-
+    reportHandler = (pageID) => {
+        this.props.navigation.navigate('AddReport', {navigationURI: 'Home', cntType: 'pageReport', page: 'post', pageID});
     }
 
     shareHandler = (cnt, shareType) => {
@@ -186,8 +187,16 @@ class Post extends Component {
 
     }
 
+    pagePreviewHandler = (cnt) => {
+        this.setState({showPagePreview: cnt})
+    }
+
     chatHandler = (pageID) => {
         this.setState({showChatBox: true, pageID})
+    }
+
+    advertChatboxHandler = (pageID) => {
+        this.setState({showAdvertChat: true, pageID})
     }
 
     favoriteHandler = (pageID) => {
@@ -210,14 +219,18 @@ class Post extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'post', 'searchPost', cnt);
+                 'post', 'searchPost', this.state.search);
         }
         this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor');
     }
 
     render() {
+        let pageBackground = this.props.settings.page.backgroundImage  && this.props.settings.page.enableBackgroundImage;
+        let Wrapper = pageBackground ? ImageBackground : View;
+        let wrapperProps = pageBackground ? {source: {uri: this.props.settings.page.backgroundImage}, resizeMode: 'cover'} :{}
+
         let header = (
-            this.state.viewMode !== 'landscape' ? (
+            this.state.viewMode === 'landscape' ? (
                 <DefaultHeader 
                     onPress={() => this.props.navigation.goBack()}
                     disableBackButton
@@ -235,12 +248,28 @@ class Post extends Component {
             header =  (
                 <SearchHeader 
                     onPress={this.closeSearchHandler}
-                    title="Search  ...."
+                    title="Search ...."
                     filterCnt={this.searchPageHandler}
+                    value={this.state.search}
                     editable
                 />
             );
         }
+
+        let options = (
+            <>
+                { this.state.showOption ? (
+                    <Option
+                        option={this.state.option}
+                        closeOption={this.closeOptionHandler}
+                        onPress={this.optionHandler}/>
+                ) : null}
+                { this.state.showSettings ?
+                    <Settings 
+                        page="page"
+                        closeSettings={this.closeSettingsHandler}/> : null}
+            </>
+        );
 
         let cnt = (
            <View style={styles.wrapper}>
@@ -252,6 +281,7 @@ class Post extends Component {
                         animating
                         color="#437da3"/>
                 </View>
+                { options }
            </View>
         )
 
@@ -288,7 +318,9 @@ class Post extends Component {
                                 loaderStyle="#fff"/>
                         </BoxShadow>
                     </View> */}
-                    <View style={[styles.container, this.state.viewMode === 'landscape' ? 
+                    <Wrapper
+                        {...wrapperProps}
+                        style={[styles.container, this.state.viewMode === 'landscape' ? 
                         {backgroundColor: this.props.settings.backgroundColor} : null]}>
                         <ScrollView 
                             style={styles.scroll}
@@ -299,6 +331,7 @@ class Post extends Component {
                                 openURI={this.openURIHandler}
                                 pageCntID={this.state.pageCntID}
                                 userProfile={this.userProfileHandler}
+                                pagePreview={this.pagePreviewHandler}
                                 edit={this.editHandler}
                                 delete={this.deletePageHandler}
                                 share={this.shareHandler}
@@ -313,19 +346,11 @@ class Post extends Component {
                                 closeModal={this.closeModalHandler}
                                 enableLoadMore={this.props.loadMore}
                                 start={this.props.fetchCntStart}
-                                loadMore={this.loadMoreHandler} />
+                                loadMore={this.loadMoreHandler}
+                                advertChatbox={this.advertChatboxHandler} />
                         </ScrollView>
-                    </View>
-                    { this.state.showOption ? (
-                        <Option
-                            option={this.state.option}
-                            closeOption={this.closeOptionHandler}
-                            onPress={this.optionHandler}/>
-                    ) : null}
-                    { this.state.showSettings ?
-                    <Settings 
-                        page="page"
-                        closeSettings={this.closeSettingsHandler}/> : null}
+                    </Wrapper>
+                    { options }
                     { this.props.deletePageErr ? 
                     <NotificationModal
                         info="Network Error !"
@@ -338,9 +363,20 @@ class Post extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
+                    { this.state.showPagePreview ? 
+                        <PagePreview
+                            cnt={this.state.showPagePreview}
+                            userID={this.props.userID}
+                            openURI={this.openURIHandler}
+                            userProfile={this.userProfileHandler}
+                            edit={this.editHandler}
+                            share={this.shareHandler}
+                            report={this.reportHandler}
+                            openURI={this.openURIHandler}
+                            closePagePreview={this.closeModalHandler} /> : null}
                    { this.state.showPreview ? 
                         <MediaPreview
-                            showOption
+                            showOption={this.state.showPreview.cntID ? true : false}
                             pageID={this.state.showPreview.cntID}
                             media={this.state.showPreview.media}
                             page="post"
@@ -352,6 +388,14 @@ class Post extends Component {
                             title="Comment"
                             chatType="postchat"
                             page="post"
+                            pageID={this.state.pageID}
+                            closeChat={this.closeModalHandler}
+                            showReply/> : null}
+                    { this.state.showAdvertChat ? 
+                        <ChatBox
+                            title="Comment"
+                            chatType="advertchat"
+                            page="advert"
                             pageID={this.state.pageID}
                             closeChat={this.closeModalHandler}
                             showReply/> : null}
@@ -389,23 +433,29 @@ class Post extends Component {
 
         if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
             cnt = (
-                <InfoBox
-                    det='searched content does not match any post'
-                    name="search"
-                    size={40}
-                    color="#333"
-                    style={styles.info}
-                    wrapperStyle={styles.infoWrapper}/>
+                <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
+                    { header }
+                    <InfoBox
+                        det={`Searched text '${this.state.search}' does not match any post`}
+                        name="search"
+                        size={40}
+                        color="#333"
+                        style={styles.info}
+                        wrapperStyle={styles.infoWrapper}/>
+                </View>
             )
         }
 
         if (this.props.fetchCntErr && !this.props.fetchCnt) {
             cnt = (
-                <ErrorInfo 
-                    header={header}
-                    viewMode={this.state.viewMode}
-                    backgroundColor={this.props.settings.backgroundColor}
-                    reload={this.reloadFetchHandler}/>
+                <View style={styles.wrapper}>
+                    <ErrorInfo 
+                        header={header}
+                        viewMode={this.state.viewMode}
+                        backgroundColor={this.props.settings.backgroundColor}
+                        reload={this.reloadFetchHandler}/>
+                    { options }
+                </View>
             )
         }
 

@@ -84,7 +84,7 @@ const fetchPageReset = (state, action) => {
 
 const fetchPage = (state, action) => {
     function updatePage(page, action) {
-        let updatePageCnt = page ? [...page] : [];
+        let updatePageCnt = page && action.start !== 0 ? [...page] : [];
         updatePageCnt.push(...action.cnt.page);
         return updatePageCnt;
     }

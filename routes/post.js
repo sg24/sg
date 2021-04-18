@@ -10,7 +10,7 @@ let deleteMedia = require('./utility/deletemedia');
 let authenticate = require('../serverDB/middleware/authenticate');
 let formInit = require('./utility/forminit');
 let uploadToBucket = require('./utility/upload');
-const {post, postchat,  connectStatus} = require('../serverDB/serverDB');
+const {post, advert, user, connectStatus} = require('../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'getonepost') {
@@ -23,7 +23,7 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'getByAuthor') {
-        post.find({authorID: { $in: [req.user, ...req.friend] }, _isCompleted: true, block: {$nin: [req.user]} })
+        post.find({authorID: { $in: [req.user, ...req.friend] }, _isCompleted: true, block: {$nin: [req.user]}})
             .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
             let updateResult = [];
             if (result) {
@@ -35,7 +35,33 @@ router.post('/', authenticate, (req, res, next) => {
                     isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
                 }
             }
-            res.status(200).send({page: updateResult, loadMore: result.length > 0});
+            let showAdvert = Math.round(Math.random());
+            if (showAdvert === 0) {
+                advert.find().skip(req.body.start).limit(req.body.limit).then(doc => {
+                    let lastItem = updateResult[updateResult.length - 1];
+                    if (lastItem) {
+                        lastItem.advert = doc
+                        updateResult[updateResult.length - 1] = lastItem
+                    }
+                    res.status(200).send({page: updateResult, loadMore: result.length > 0});
+                })
+            } else if (showAdvert === 1) {
+                user.find({_id: {$in: req.request}}).skip(req.body.start).limit(req.body.limit).then(doc => {
+                    let updateFriend = [];
+                    for (let cnt of doc) {
+                        let isOnline =  (new Date().getTime() - new Date(cnt.visited).getTime()) < 60000;
+                        updateFriend.push({_id: cnt._id, username: cnt.username, userImage: cnt.image, status: isOnline})
+                    }
+                    let lastItem = updateResult[updateResult.length - 1];
+                    if (lastItem) {
+                        lastItem.friendRequest = updateFriend;
+                        updateResult[updateResult.length - 1] = lastItem
+                    }
+                    res.status(200).send({page: updateResult, loadMore: result.length > 0});
+                });
+            } else {
+                res.status(200).send({page: updateResult, loadMore: result.length > 0});
+            }
         }).catch(err => {
             res.status(500).send(err)
         })
@@ -71,7 +97,7 @@ router.post('/', authenticate, (req, res, next) => {
 
     if (req.header && req.header('data-categ') === 'searchPost') {
         post.find({authorID: { $in: [req.user, ...req.friend] }, _isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt} })
-            .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
+        .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
             let updateResult = [];
             if (result) {
                 for (let cnt of result) {

@@ -18,7 +18,7 @@ class UriDetect extends Component {
         if (Platform.OS === 'web') {
             Touchable = TouchableOpacity
         }
-        let content = String(this.props.content || '');
+        let content = this.props.content ? this.props.content : '';
         let words = content.split(/\s/);
         content = words.map((word, index) => {
             let seperator = index < (words.length - 1) ? ' ' : '';

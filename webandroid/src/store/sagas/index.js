@@ -11,6 +11,7 @@ import { fetchPageInitSaga, deletePageInitSaga, pageReactionInitSaga } from './p
 import { fetchMediaInfoInitSaga, mediaReactionInitSaga } from './media';
 import { fetchChatInitSaga, fetchReplyInitSaga, deleteChatInitSaga } from './chatBox';
 import { fetchSharecntInitSaga, shareInitSaga } from './share';
+import { externalPageInitSaga } from './externalPage';
 
 export function* watchAuth() {
     yield all([
@@ -36,7 +37,7 @@ export function* watchHeader() {
 
 export function* watchProfile() {
     yield all([
-       takeEvery(actionTypes.FETCH_PROFILE_INIT, fetchProfileInitSaga),
+       takeLatest(actionTypes.FETCH_PROFILE_INIT, fetchProfileInitSaga),
        takeEvery(actionTypes.CHANGE_PROFILE_INIT, changeProfileInitSaga),
        takeEvery(actionTypes.SUBMIT_ABOUT_INIT, submitAboutInitSaga),
        takeEvery(actionTypes.SUBMIT_USERNAME_INIT, submitUsernameInitSaga)
@@ -45,7 +46,7 @@ export function* watchProfile() {
 
 export function* watchEditForm() {
     yield all([
-       takeEvery(actionTypes.FETCH_EDITFORM_INIT, fetchEditFormInitSaga)
+       takeLatest(actionTypes.FETCH_EDITFORM_INIT, fetchEditFormInitSaga)
     ])
 }
 
@@ -59,22 +60,28 @@ export function* watchPage() {
 
 export function* watchMedia() {
     yield all([
-       takeEvery(actionTypes.FETCH_MEDIAINFO_INIT, fetchMediaInfoInitSaga),
+       takeLatest(actionTypes.FETCH_MEDIAINFO_INIT, fetchMediaInfoInitSaga),
        takeEvery(actionTypes.MEDIA_REACTION_INIT, mediaReactionInitSaga),
     ])
 }
 
 export function* watchChatBox() {
     yield all([
-       takeEvery(actionTypes.FETCH_CHAT_INIT, fetchChatInitSaga),
-       takeEvery(actionTypes.FETCH_REPLY_INIT, fetchReplyInitSaga),
+       takeLatest(actionTypes.FETCH_CHAT_INIT, fetchChatInitSaga),
+       takeLatest(actionTypes.FETCH_REPLY_INIT, fetchReplyInitSaga),
        takeEvery(actionTypes.DELETE_CHAT_INIT, deleteChatInitSaga)
     ])
 }
 
 export function* watchShare() {
     yield all([
-       takeEvery(actionTypes.FETCH_SHARECNT_INIT, fetchSharecntInitSaga),
+       takeLatest(actionTypes.FETCH_SHARECNT_INIT, fetchSharecntInitSaga),
        takeEvery(actionTypes.SHARE_INIT, shareInitSaga)
+    ])
+}
+
+export function* watchExternalPage() {
+    yield all([
+       takeLatest(actionTypes.EXTERNAL_PAGE_INIT, externalPageInitSaga)
     ])
 }

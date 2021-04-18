@@ -23,6 +23,9 @@ const initialState = {
     chatRoomSubmitError: null,
     chatRoomSubmitted: false,
     chatRoomStart: false,
+    pageReportSubmitError: null,
+    pageReportSubmitted: false,
+    pageReportStart: false,
     cntID: null
 };
 
@@ -34,6 +37,7 @@ const addFormReset = (state, action) => {
         writeupSubmitError: null, writeupSubmitted: false, writeupStart: false,
         cbtSubmitError: null, cbtSubmitted: false, cbtStart: false,
         chatRoomSubmitError: null, chatRoomSubmitted: false, chatRoomStart: false,
+        pageReportSubmitError: null, pageReportSubmitted: false, pageReportStart: false,
         cntID: null})
 };
 
@@ -52,6 +56,8 @@ const submitAddFormStart = (state, action) => {
         return updateObject(state, {cbtSubmitError: null, cbtStart: true})
     } else if (action.form === 'chatRoom') {
         return updateObject(state, {chatRoomSubmitError: null, chatRoomStart: true})
+    } else if (action.form === 'pageReport') {
+        return updateObject(state, {pageReportSubmitError: null, pageReportStart: true})
     } else {
         return updateObject(state, {resetSubmitError: null, resetStart: true})
     }
@@ -72,6 +78,8 @@ const submitAddFormFail = (state, action) => {
         return updateObject(state, {cbtSubmitError: {message: action.err}, cbtStart: false})
     } else if (action.form === 'chatRoom') {
         return updateObject(state, {chatRoomSubmitError: {message: action.err}, chatRoomStart: false})
+    } else if (action.form === 'pageReport') {
+        return updateObject(state, {pageReportSubmitError: {message: action.err}, pageReportStart: false})
     } else {
         return updateObject(state, {resetSubmitError: {message: action.err}, resetStart: false})
     }
@@ -93,6 +101,8 @@ const addformSubmitted = (state, action) => {
         return updateObject(state, {cbtSubmitted: true, cbtStart: false, cntID: action.cntID})
     } else if (action.form === 'chatRoom') {
         return updateObject(state, {chatRoomSubmitted: true, chatRoomStart: false, cntID: action.cntID})
+    } else if (action.form === 'pageReport') {
+        return updateObject(state, {pageReportSubmitted: true, pageReportStart: false, cntID: action.cntID})
     } else {
         return updateObject(state, {resetSubmitted: true, resetStart: false})
     }

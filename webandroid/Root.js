@@ -34,6 +34,7 @@ import AddFeedScreen from './src/screens/AddForm/Feed';
 import AddWriteUpScreen from './src/screens/AddForm/WriteUp';
 import AddCBTScreen from './src/screens/AddForm/CBT/CBT';
 import AddChatRoomScreen from './src/screens/AddForm/ChatRoom/ChatRoom';
+import AddPageReportScreen from './src/screens/AddForm/PageReport';
 import EditPostScreen from './src/screens/EditForm/Post';
 import EditQuestionScreen from './src/screens/EditForm/Question';
 import EditFeedScreen from './src/screens/EditForm/Feed';
@@ -64,6 +65,7 @@ const userScreens = {
   AddWriteUp: AddWriteUpScreen,
   AddCBT: AddCBTScreen,
   AddChatRoom: AddChatRoomScreen,
+  AddReport: AddPageReportScreen,
   EditPost: EditPostScreen,
   EditQuestion: EditQuestionScreen,
   EditFeed :  EditFeedScreen,
@@ -158,7 +160,7 @@ class Base extends Component {
               }
               if (name === 'Search') {
                 header = {
-                  header: ({scene, previous, navigation }) => <SearchHeader 
+                  header: ({scene, previous, navigation }) => <SearchHeader
                     onPress={() => navigation.goBack()}
                     onNavigate={(url) => navigation.navigate(url)}
                     filterCnt={this.props.onHeaderFilter}
@@ -168,7 +170,7 @@ class Base extends Component {
 
               if (name === 'HashSearch') {
                 header = {
-                  header: ({scene, previous, navigation }) => <SearchHeader 
+                  header: ({scene, previous, navigation }) => <SearchHeader
                     onPress={() => navigation.goBack()}
                     title={scene.route  && scene.route.params ? scene.route.params.hashTag : '#'}
                     editable={false}
@@ -211,7 +213,7 @@ class Base extends Component {
               }
               
               if (name === 'AddPost' || name === 'AddQuestion' || name === "AddAdvert" || name === "AddFeed"
-              || name === "AddWriteUp" || name === "AddCBT" || name === "AddChatRoom") {
+              || name === "AddWriteUp" || name === "AddCBT" || name === "AddChatRoom" || name === "AddReport") {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader;
                 let title = name.startsWith('Add') ? name === "AddChatRoom" ? "Add Chat Room" : name.split('Add').join("Add ") : name;
                 header = {

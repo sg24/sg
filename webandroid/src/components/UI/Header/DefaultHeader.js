@@ -14,6 +14,7 @@ const defaultHeader = props => (
                         <Icon name="arrow-back-outline" size={26}/>
                     </TouchableNativeFeedback>
                 )}
+                { props.leftSideContent ? props.leftSideContent : null }
                 <Text style={styles.textStyle}>
                     { props.title === 'Addnew' ? 'Add New' : props.title }
                 </Text>

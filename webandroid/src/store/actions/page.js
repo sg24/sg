@@ -27,10 +27,11 @@ export const fetchPageFail = (page, err) => {
     };
 };
 
-export const fetchPage = (page, cnt) =>  {
+export const fetchPage = (page, start, cnt) =>  {
     return {
         type: actionTypes.FETCH_PAGE,
         page,
+        start,
         cnt
     };
 };

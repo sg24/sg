@@ -9,7 +9,6 @@
     "postinstall": "./fix.sh"
   },
   "dependencies": {
-    "@dudigital/react-native-zoomable-view": "^1.0.16",
     "@expo/react-native-action-sheet": "^3.8.0",
     "@react-native-clipboard/clipboard": "^1.7.0",
     "@react-native-community/async-storage": "^1.12.1",
@@ -48,7 +47,6 @@
     "react-native-emoji-selector": "^0.1.9",
     "react-native-gesture-handler": "~1.7.0",
     "react-native-get-random-values": "^1.5.0",
-    "react-native-pinch-zoom-view": "^0.2.0",
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",

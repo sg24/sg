@@ -56,7 +56,7 @@ router.post('/', authenticate,(req, res, next) => {
                 let chatInfo = chat.filter(info => info.authorID === cnt.authorID)[0];
                 let message = chatInfo ? chatInfo.media && chatInfo.media.length > 0 ? chatInfo.media.pop().filename + '.' + chatInfo.media.pop().ext.split('/')[1]: 
                     chatInfo.content : null;
-                let chatNotification = result[1] ? resut[1].userChat : [];
+                let chatNotification = result[1] ? result[1].userChat : [];
                 let notification = chatNotification.filter(userChat => userChat.userID === JSON.parse(JSON.stringify(cnt.authorID)))[0];
                 let updateNotification = notification ? notification.counter : 0;
                 updateFriend.push({_id: cnt._id, chatID: chatInfo ? chatInfo._id : null, username: cnt.username,
@@ -78,7 +78,7 @@ router.post('/', authenticate,(req, res, next) => {
                 let chatInfo = chat.filter(info => info.authorID === cnt.authorID)[0];
                 let message = chatInfo ? chatInfo.media && chatInfo.media.length > 0 ? chatInfo.media.pop().filename + '.' + chatInfo.media.pop().ext.split('/')[1]: 
                     chatInfo.content : null;
-                let chatNotification = result[1] ? resut[1].userChat : [];
+                let chatNotification = result[1] ? result[1].userChat : [];
                 let notification = chatNotification.filter(userChat => userChat.userID === JSON.parse(JSON.stringify(cnt.authorID)))[0];
                 let updateNotification = notification ? notification.counter : 0;
                 updateFriend.push({_id: cnt._id, chatID: chatInfo ? chatInfo._id : null, username: cnt.username,

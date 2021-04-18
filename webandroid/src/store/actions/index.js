@@ -153,3 +153,11 @@ export {
  export {
     saveSettings
  } from './settings';
+
+ export {
+    externalPageInit,
+    externalPageStart,
+    externalPageFail,
+    externalPage,
+    externalPageReset
+ } from './externalPage';

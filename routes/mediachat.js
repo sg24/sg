@@ -274,7 +274,7 @@ router.post('/', authenticate, (req, res, next) => {
         Promise.all([deleteMedia(JSON.parse(req.body.media)),
             mediachat.findByIdAndUpdate(req.body.chatID, {$pull: {chat: {'_id': req.body.cntID}}})]).then(cnt => {
             return res.status(200).send({
-                chat: cnt[1]._id, like: cnt[1].like.length, chatTotal: cnt[1].chat.length - 1, dislike: cnt[1].dislike.length});
+                mediaInfo: {chat: cnt[1]._id, like: cnt[1].like.length, chatTotal: cnt[1].chat.length - 1, dislike: cnt[1].dislike.length}});
         }).catch(err => {
             res.status(500).send(err);
         })
@@ -297,7 +297,7 @@ router.post('/', authenticate, (req, res, next) => {
                             removeChat[chatItemIndex] = chatItem;
                             doc.updateOne({chat: removeChat}).then(() => {
                                 return res.status(200).send({
-                                    chat: doc._id, like: doc.like.length, chatTotal: removeChat.length, dislike: doc.dislike.length});
+                                    mediaInfo: {chat: doc._id, like: doc.like.length, chatTotal: removeChat.length, dislike: doc.dislike.length}});
                             })
                         }
                     }

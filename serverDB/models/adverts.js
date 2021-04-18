@@ -48,6 +48,28 @@ const AdvertsSchema = new Schema({
         content: String,
         title: String
     }],
+    chat: {
+        _id: {
+            type: String
+        },
+        total: {
+            type: Number,
+            default: 0
+        },
+        user: [{
+            authorID: {
+                type: String,
+                required: true
+            },
+            username: {
+                type: String,
+                required: true
+            },
+            userImage: {
+                type: String
+            }
+        }]
+    },
     view: {
         type: Number,
         required: true,

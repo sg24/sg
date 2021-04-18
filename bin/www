@@ -44,6 +44,7 @@ nextApp.prepare().then(() => {
   let chatRoute = require('../routes/chat');
   let convRoute = require('../routes/conv');
   let advertRoute = require('../routes/advert');
+  let advertchatRoute = require('../routes/advertchat');
   let postRoute = require('../routes/post');
   let postchatRoute = require('../routes/postchat');
   let contestRoute = require('../routes/contest');
@@ -67,6 +68,7 @@ nextApp.prepare().then(() => {
   app.use('/post', postRoute);
   app.use('/postchat', postchatRoute);
   app.use('/advert', advertRoute);
+  app.use('/advertchat', advertchatRoute);
   app.use('/contest', contestRoute);
   app.use('/cbt', qchatRoute);
   app.use('/examtab', examtabRoute);

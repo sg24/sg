@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet, Image } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Image, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 import Moment from 'react-moment';
@@ -13,11 +13,22 @@ import Button from '../../UI/Button/Button';
 import MediaTile from '../../UI/MediaTile/MediaTile';
 import LinkPreview from '../../UI/LinkPreview/LinkPreview';
 import LoadMore from '../../UI/LoadMore/LoadMore';
+import Advert from '../Advert/Advert';
 import { transformNumber, checkUri } from '../../../shared/utility';
+import FriendRequest from '../FriendRequest/FriendRequest';
 
 const postContent = props => {
     let AnimatedIcon = Animatable.createAnimatableComponent(Ionicons);
+    let showAdvert = null;
     let userOpt = null;
+    let userImage = (
+        <View style={styles.userImage}>
+            <Ionicons name="person" size={20} color="#777"/>
+        </View>
+    );
+    if (props.cnt.userImage) {
+        userImage = <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${props.cnt.userImage}`}} style={styles.userImage} />
+    }
     if (props.cnt._id === props.pageCntID) {
         userOpt = (
             <BoxShadow style={styles.userOpt}>
@@ -47,6 +58,22 @@ const postContent = props => {
 
     let previewUri = checkUri(props.cnt.content);
 
+    if (props.cnt.advert && props.cnt.advert.length > 0) {
+        showAdvert = (
+            <Advert 
+                cnt={props.cnt.advert}
+                openURI={props.openURI}
+                preview={props.mediaPreview}
+                advertChatbox={props.advertChatbox}/>
+        )
+    }
+
+    if (props.cnt.friendRequest && props.cnt.friendRequest.length > 0) {
+        showAdvert = (
+            <FriendRequest 
+                cnt={props.cnt.friendRequest}/>
+        )
+    }
     return (
         <>
             <View style={styles.container}>
@@ -54,7 +81,7 @@ const postContent = props => {
                     <View style={styles.userDet}>
                         <View style={styles.userInfo}>
                             <TouchableNativeFeedback onPress={props.userProfile}>
-                                <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${props.cnt.userImage}`}}  style={styles.userImage}/>
+                                { userImage }
                             </TouchableNativeFeedback>
                             <View style={styles.userInfoCnt}>
                                 <Href title={props.cnt.username} numberOfLines={1} onPress={props.userProfile} style={styles.textStyle}/>
@@ -72,12 +99,13 @@ const postContent = props => {
                             <Ionicons name="ellipsis-horizontal-outline" size={20}/>
                         </TouchableNativeFeedback>
                     </View>
-                    <MediaTile 
+                    <MediaTile
                         media={props.cnt.media}
                         preview={props.mediaPreview}
                         save={props.saveMedia}
                         cntID={props.cnt._id} />
-                    <Pressable >
+                    <Pressable 
+                        onPress={props.pagePreview}>
                         <Uridetect
                             numberOfLines={2}
                             onPress={props.openURI} 
@@ -85,11 +113,11 @@ const postContent = props => {
                             content={props.cnt.content}/>
                     </Pressable>
                     { previewUri.length > 0 ? 
-                        <View style={styles.linkPreview}>
+                        <ScrollView style={styles.linkPreview} horizontal>
                             <LinkPreview 
                                 links={previewUri}/>
-                        </View>: null}
-                    { props.cnt.chat.user.length > 0 ? 
+                        </ScrollView>: null}
+                    { props.cnt.chat && props.cnt.chat.user.length > 0 ? 
                     <TouchableNativeFeedback  onPress={props.chat}>
                         <View style={styles.userComment}>
                             { props.cnt.chat.user.map((user, index) => (
@@ -102,7 +130,7 @@ const postContent = props => {
                         <TouchableNativeFeedback onPress={props.chat}>
                             <View style={styles.detContent}>
                                 <Ionicons name="chatbox-ellipses-outline" size={24}/>
-                                <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.cnt.chat.total) }</Text>
+                                <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.cnt.chat ? props.cnt.chat.total : 0) }</Text>
                             </View>
                         </TouchableNativeFeedback>
                         <TouchableNativeFeedback onPress={startPageReaction ? null : props.favorite}>
@@ -122,6 +150,7 @@ const postContent = props => {
                     { userOpt }
                 </BoxShadow>
             </View>
+            { showAdvert }
             { props.lastItem && props.enableLoadMore ? (
                 <LoadMore
                     title="Load More"
@@ -168,7 +197,9 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
         borderRadius: 20,
         borderColor: '#437da3',
-        borderWidth: 2
+        borderWidth: 2,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     userInfo: {
         flexDirection: 'row'

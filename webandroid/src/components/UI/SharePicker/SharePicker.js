@@ -41,7 +41,7 @@ class SharePicker extends Component {
     componentDidMount() {
         Dimensions.addEventListener('change', this.updateStyle);
         if (this.props.shareType === 'Friends') {
-            this.props.onFetchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, 20, 'users', 'getFriend');
+            this.props.onFetchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.userPage.fetchLimit, 'users', 'getFriend');
         }
     }
 
@@ -52,9 +52,9 @@ class SharePicker extends Component {
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, 20, 'users', 'searchFriend', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.userPage.fetchLimit, 'users', 'searchFriend', this.state.search);
         }
-        this.props.onFetchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, 20, 'users', 'getFriend');
+        this.props.onFetchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.userPage.fetchLimit, 'users', 'getFriend');
     }
 
     navigationHandler = (page, userID) => {
@@ -74,14 +74,14 @@ class SharePicker extends Component {
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
         this.props.onShareCntReset();
-        this.props.onFetchCnt(0, 20, 'users', 'getFriend');
+        this.props.onFetchCnt(0, this.props.settings.userPage.fetchLimit, 'users', 'getFriend');
     }
 
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, 20, 'users', 'searchFriend', cnt);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.userPage.fetchLimit, 'users', 'searchFriend', this.state.search);
         }
-        this.props.onFetchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, 20, 'users', 'getFriend');
+        this.props.onFetchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.userPage.fetchLimit, 'users', 'getFriend');
     }
 
     pickHandler = (id) => {
@@ -108,7 +108,7 @@ class SharePicker extends Component {
 
     searchUserHandler = (cnt) => {
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, 20, 'users', 'searchFriend', cnt);
+            this.props.onSearchCnt(0, this.props.settings.userPage.fetchLimit, 'users', 'searchFriend', cnt);
             this.setState({search: cnt});
         }
     }
@@ -353,6 +353,7 @@ const useStyles = makeUseStyles(({ palette, utils }) => ({
 
 const mapStateToProps = state => {
     return {
+        settings: state.settings,
         fetchSharecntStart: state.share.fetchSharecntStart,
         fetchCntErr: state.share.fetchSharecntError,
         fetchCnt: state.share.fetchSharecnt,

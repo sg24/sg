@@ -20,6 +20,7 @@ const post = props => {
             saveMedia={props.saveMedia}
             closeModal={props.closeModal}
             userProfile={props.userProfile.bind(this, cnt.authorID)}
+            pagePreview={props.pagePreview.bind(this, cnt)}
             chat={props.chat.bind(this, cnt._id)}
             favorite={props.favorite.bind(this, cnt._id)}
             pageReaction={props.pageReaction}
@@ -28,7 +29,8 @@ const post = props => {
             lastItem={(props.cnt.length - 1) === index}
             enableLoadMore={props.enableLoadMore}
             start={props.start}
-            loadMore={props.loadMore} />
+            loadMore={props.loadMore}
+            advertChatbox={props.advertChatbox}/>
     ));
 }
 

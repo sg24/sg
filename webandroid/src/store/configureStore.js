@@ -13,6 +13,7 @@ import media from './reducers/media';
 import chatBox from './reducers/chatBox';
 import share from './reducers/share';
 import settings from './reducers/settings';
+import externalPage from './reducers/externalPage';
 
 import { 
     watchAuth,
@@ -23,7 +24,8 @@ import {
     watchPage,
     watchMedia,
     watchChatBox,
-    watchShare
+    watchShare,
+    watchExternalPage
 } from './sagas/index';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -38,7 +40,8 @@ const rootReducer = combineReducers({
     media,
     chatBox,
     share,
-    settings
+    settings,
+    externalPage
 });
 
 let composeEnhancers = compose;
@@ -55,6 +58,7 @@ sagaMiddleware.run(watchPage);
 sagaMiddleware.run(watchMedia);
 sagaMiddleware.run(watchChatBox);
 sagaMiddleware.run(watchShare);
+sagaMiddleware.run(watchExternalPage);
 
 const configureStore = () => {
     return store;

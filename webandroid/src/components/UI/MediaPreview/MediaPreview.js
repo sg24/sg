@@ -165,14 +165,15 @@ class MediaPreview extends Component {
         if (this.props.fetchInfo) {
             cnt = (
                 <>
-                    { this.props.fetchInfo.length > 1 ? seekLeft : null}
+                    { this.props.fetchInfo.length > 1 && !this.props.hideSeeker ? seekLeft : null}
                     <View 
                         style={styles.container}  
                         onLayout={this.containerWidthHandler}>
                         { this.state.containerWidth ? 
-                            <View style={styles.scroll}>
+                            <View style={[styles.scroll, this.props.carouselStyle]}>
                             <Carousel
                                 ref={(c) => { this._carousel = c; }}
+                                layout={this.props.layout ? this.props.layout : 'default'}
                                 data={this.props.fetchInfo}
                                 renderItem={this._renderItem}
                                 sliderWidth={this.state.containerWidth}
@@ -181,7 +182,7 @@ class MediaPreview extends Component {
                                 enableMomentum />
                         </View> : loader }
                     </View>
-                    { this.props.fetchInfo.length > 1 ? seekRight : null}
+                    { this.props.fetchInfo.length > 1  && !this.props.hideSeeker ? seekRight : null}
                 </>
             );
         }
@@ -194,20 +195,9 @@ class MediaPreview extends Component {
             )
         }
 
-        return (
-            <InnerScreen
-                onRequestClose={this.props.closePreview}
-                animationType="slide"
-                onBackdropPress={this.props.closePreview}>
-                <DefaultHeader
-                    onPress={this.props.closePreview}
-                    title="Preview"
-                    rightSideContent={(
-                        <Button style={styles.optionIcon} onPress={this.checkOptionHandler}>
-                            <Ionicons name="ellipsis-vertical-outline" size={20} />
-                        </Button>
-                    )}/>
-                <View style={styles.wrapper}>
+        let modalCnt = (
+            <>
+              <View style={this.props.style ? this.props.style : styles.wrapper}>
                     <View style={styles.contentWrapper}>
                         { cnt }
                     </View>
@@ -233,6 +223,29 @@ class MediaPreview extends Component {
                         cntID={this.state.showChatBox.mediaID}
                         closeChat={this.closeModalHandler}
                         showReply/> : null}
+            </>
+        )
+        if (this.props.hideHeader) {
+            return (
+                <>
+                    { modalCnt }
+                </>
+            );
+        }
+        return (
+            <InnerScreen
+                onRequestClose={this.props.closePreview}
+                animationType="slide"
+                onBackdropPress={this.props.closePreview}>
+                <DefaultHeader
+                    onPress={this.props.closePreview}
+                    title="Preview"
+                    rightSideContent={(
+                        <Button style={styles.optionIcon} onPress={this.checkOptionHandler}>
+                            <Ionicons name="ellipsis-vertical-outline" size={20} />
+                        </Button>
+                    )}/>
+                { modalCnt }
             </InnerScreen>
         )
     }

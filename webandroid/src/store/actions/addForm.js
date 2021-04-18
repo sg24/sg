@@ -109,6 +109,10 @@ export const submitAddFormInit = (formData, type) => {
             formContent.append('duration', formData.duration);
             formContent.append('content', formData.content);
             formContent.append('hashTag', JSON.stringify(formData.hashTag));
+        } else if (type === 'pageReport' || type === 'appError') {
+            formContent.append('content', formData.content);
+            formContent.append('page', formData.page);
+            formContent.append('pageID', formData.pageID);
         } else {
             formContent.append('content', formData.content);
             formContent.append('hashTag', JSON.stringify(formData.hashTag));

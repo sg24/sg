@@ -45,6 +45,7 @@ const topTab = props => (
                 }
             }
         }}
+        swipeEnabled={false}
         tabBarOptions={{
             activeTintColor: '#05578b',
             inactiveTintColor: '#777',

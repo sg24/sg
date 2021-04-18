@@ -59,11 +59,11 @@ export function* deleteChatInitSaga(action) {
                     'data-categ': action.cntType}});
                 let cnt = response.data  ? response.data : {};
                 if (cnt.pageInfo) {
-                    yield put(actions.updatePage(cnt.pageInfo, action.page))
-                } else {
-                    yield put(actions.updateMediaInfo(cnt));
+                    yield put(actions.updatePage(cnt.pageInfo, action.page));
                 }
-                
+                if (cnt.mediaInfo) {
+                    yield put(actions.updateMediaInfo(cnt.mediaInfo));
+                }
             }
             yield put(actions.deleteChat(action.cntType === "deleteReply" ? action.cnt.replyChatID : action.cnt._id, action.cnt.sendChatID, action.cntType,
                 action.cnt._id));

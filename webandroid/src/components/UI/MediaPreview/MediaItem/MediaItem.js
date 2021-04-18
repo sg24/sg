@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'ionicons';
 // import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
 
@@ -22,7 +22,9 @@ const mediaItem = props => {
                 disablePreview
                 fileIconStyle={styles.fileIcon}
                 videoStyle={styles.videoWrapper} />
+            <ScrollView style={styles.scroll}>
             <Text style={styles.content}>{ props.media.description }</Text>
+            </ScrollView>
         </View>
         { props.showOption ?
             <View style={styles.det}>
@@ -91,6 +93,9 @@ const styles = StyleSheet.create({
     },
     button: {
         paddingVertical: 0
+    },
+    scroll: {
+        maxHeight: 80
     }
 });
 

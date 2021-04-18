@@ -18,9 +18,10 @@ export const fetchSharecntFail = (err) => {
     };
 };
 
-export const fetchSharecnt = (cnt) => {
+export const fetchSharecnt = (start, cnt) => {
     return {
         type: actionTypes.FETCH_SHARECNT,
+        start,
         cnt
     };
 };

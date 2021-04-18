@@ -120,51 +120,52 @@ class ChatBoxSettings extends Component {
                                 { uploadOpt }
                             </Accodion>: null}
                     </Accodion>
-                    <Accodion
-                        title="Highlighted"
-                        icon={{name: 'chevron-down-outline',size: 15}}
-                        visible={this.state.highlighted}
-                        onPress={() => this.accordionHandler('highlighted')}
-                        style={styles.accodion}>
+                    { settings[this.props.page].enableHighlighted ? 
                         <Accodion
-                            title="Background Color"
+                            title="Highlighted"
                             icon={{name: 'chevron-down-outline',size: 15}}
-                            titleStyle={styles.modalText}
-                            visible={this.state.highlightedBackground}
-                            onPress={() => this.accordionHandler('highlightedBackground')}
+                            visible={this.state.highlighted}
+                            onPress={() => this.accordionHandler('highlighted')}
                             style={styles.accodion}>
-                                { settings.highlightBackgroundColor.map((highlighted, index) => (
-                                    <CheckBox
-                                        key={index}
-                                        title={highlighted.title}
-                                        checked={highlighted.color === settings[this.props.page].highlighted.backgroundColor}
-                                        onCheck={(val) => this.settingsChangedHandler((val ? highlighted.color : '#437da3'), 'highlighted', 'backgroundColor')}
-                                        formWrapperStyle={{paddingBottom: 10, paddingHorizontal: 10}}
-                                        outterStyle={{borderColor: highlighted.color}}
-                                        innerStyle={highlighted.color === settings[this.props.page].highlighted.backgroundColor ? 
-                                            {backgroundColor: highlighted.color} : null}/>
-                                ))}
-                        </Accodion>
-                        <Accodion
-                            title="Text Color"
-                            icon={{name: 'chevron-down-outline',size: 15}}
-                            titleStyle={styles.modalText}
-                            visible={this.state.highlightedText}
-                            onPress={() => this.accordionHandler('highlightedText')}
-                            style={styles.accodion}>
-                            { settings.highlightColor.map((highlighted, index) => (
-                                    <CheckBox
-                                        key={index}
-                                        title={highlighted.title}
-                                        checked={highlighted.color === settings[this.props.page].highlighted.color}
-                                        onCheck={(val) => this.settingsChangedHandler((val ? highlighted.color : '#fff'), 'highlighted', 'color')}
-                                        formWrapperStyle={{paddingBottom: 10, paddingHorizontal: 10}}
-                                        outterStyle={{borderColor: highlighted.color === '#fff' ? '#dcdbdc': highlighted.color}}
-                                        innerStyle={highlighted.color === settings[this.props.page].highlighted.color ? 
-                                            {backgroundColor: highlighted.color} : null}/>
-                                ))}
-                        </Accodion>
-                    </Accodion>
+                            <Accodion
+                                title="Background Color"
+                                icon={{name: 'chevron-down-outline',size: 15}}
+                                titleStyle={styles.modalText}
+                                visible={this.state.highlightedBackground}
+                                onPress={() => this.accordionHandler('highlightedBackground')}
+                                style={styles.accodion}>
+                                    { settings.highlightBackgroundColor.map((highlighted, index) => (
+                                        <CheckBox
+                                            key={index}
+                                            title={highlighted.title}
+                                            checked={highlighted.color === settings[this.props.page].highlighted.backgroundColor}
+                                            onCheck={(val) => this.settingsChangedHandler((val ? highlighted.color : '#437da3'), 'highlighted', 'backgroundColor')}
+                                            formWrapperStyle={{paddingBottom: 10, paddingHorizontal: 10}}
+                                            outterStyle={{borderColor: highlighted.color}}
+                                            innerStyle={highlighted.color === settings[this.props.page].highlighted.backgroundColor ? 
+                                                {backgroundColor: highlighted.color} : null}/>
+                                    ))}
+                            </Accodion>
+                            <Accodion
+                                title="Text Color"
+                                icon={{name: 'chevron-down-outline',size: 15}}
+                                titleStyle={styles.modalText}
+                                visible={this.state.highlightedText}
+                                onPress={() => this.accordionHandler('highlightedText')}
+                                style={styles.accodion}>
+                                { settings.highlightColor.map((highlighted, index) => (
+                                        <CheckBox
+                                            key={index}
+                                            title={highlighted.title}
+                                            checked={highlighted.color === settings[this.props.page].highlighted.color}
+                                            onCheck={(val) => this.settingsChangedHandler((val ? highlighted.color : '#fff'), 'highlighted', 'color')}
+                                            formWrapperStyle={{paddingBottom: 10, paddingHorizontal: 10}}
+                                            outterStyle={{borderColor: highlighted.color === '#fff' ? '#dcdbdc': highlighted.color}}
+                                            innerStyle={highlighted.color === settings[this.props.page].highlighted.color ? 
+                                                {backgroundColor: highlighted.color} : null}/>
+                                    ))}
+                            </Accodion>
+                        </Accodion> : null }
                 </ScrollView>
             </InnerScreen>
         );

@@ -10,7 +10,7 @@ export function* fetchPageInitSaga(action) {
             headers: {
                 'data-categ': action.cntID}});
         let cnt = response.data  ? response.data : null;
-        yield put(actions.fetchPage(action.page, cnt));
+        yield put(actions.fetchPage(action.page, action.start, cnt));
     } catch(err){
         yield put(actions.fetchPageFail(action.page, err));
     }

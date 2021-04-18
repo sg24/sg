@@ -2,6 +2,7 @@ require('./config/config');
 const {connectStatus} = require('./db/mongoose');
 const feed = require('./models/feed');
 const advert = require('./models/adverts');
+const advertchat = require('./models/advertchat');
 const question = require('./models/questions');
 const writeup = require('./models/writeup');
 const mediachat = require('./models/mediachat');
@@ -37,6 +38,7 @@ module.exports = {
     userchat,
     favorite,
     advert,
+    advertchat,
     contest,
     qchat,
     qcontent,

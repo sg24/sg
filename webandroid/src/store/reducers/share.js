@@ -37,7 +37,7 @@ const fetchSharecntFail = (state, action) => {
 };
 
 const fetchSharecnt = (state, action) => {
-    let fetchSharecnt  = state.fetchSharecnt ? [...state.fetchSharecnt] : [];
+    let fetchSharecnt  = state.fetchSharecnt && action.start !== 0 ? [...state.fetchSharecnt] : [];
     fetchSharecnt.push(...action.cnt.friend);
     return updateObject(state, {
         fetchSharecntError: null, fetchSharecnt, loadMore: action.cnt.loadMore, fetchSharecntStart: false
