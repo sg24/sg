@@ -29,6 +29,7 @@ nextApp.prepare().then(() => {
 
   let appRoutes = require('../routes/app');
   let usersRoutes = require('../routes/users');
+  let userchatRoutes = require('../routes/userchat');
   let formRoutes = require('../routes/form');
   let sitemapxmlRoute = require('../routes/sitemapxml');
   let feedRoute = require('../routes/feed');
@@ -54,6 +55,7 @@ nextApp.prepare().then(() => {
 
   app.use('/', [appRoutes, formRoutes,profileRoute, viewRoute]);
   app.use('/users', usersRoutes);
+  app.use('/userchat', userchatRoutes);
   app.use('/feed', feedRoute);
   app.use('/question', questionRoute);
   app.use('/writeup', writeupRoute);

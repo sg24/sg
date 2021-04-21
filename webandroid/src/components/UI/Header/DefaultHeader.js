@@ -15,7 +15,7 @@ const defaultHeader = props => (
                     </TouchableNativeFeedback>
                 )}
                 { props.leftSideContent ? props.leftSideContent : null }
-                <Text style={styles.textStyle}>
+                <Text style={props.disableBackButton ? styles.disableBackButton : styles.textStyle}>
                     { props.title === 'Addnew' ? 'Add New' : props.title }
                 </Text>
             </View>
@@ -28,6 +28,9 @@ const styles = StyleSheet.create({
     textStyle: {
         fontSize: 18,
         marginLeft: 10
+    },
+    disableBackButton: {
+        fontSize: 18
     },
     wrapper: {
         width: '100%',

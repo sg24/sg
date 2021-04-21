@@ -35,14 +35,17 @@ export function* deletePageInitSaga(action) {
 export function* pageReactionInitSaga(action) {
     try {
         yield put(actions.pageReactionStart(action.pageID));
-        let response = yield axios.post(`/${action.page}`, { pageID: action.pageID },{
-            headers: {
-                'data-categ': action.reactionType}});
-        let cnt = response.data ? response.data : {};
-        if (cnt.pageInfo) {
-            yield put(actions.updatePage(cnt.pageInfo, action.page))
+        if (action.confirm) {
+            let response = yield axios[action.uriMethod](`/${action.page}`, action.cnt ? action.cnt : { pageID: action.pageID },{
+                headers: {
+                    'data-categ': action.reactionType}});
+            let cnt = response.data ? response.data : {};
+            if (cnt.pageInfo) {
+                yield put(actions.updatePage(cnt.pageInfo, action.page))
+            }
+            yield put(actions.pageReaction(action.pageID));
+            yield put(actions.updatePage({cntType: action.reactionType, _id: action.pageID}, action.page));
         }
-        yield put(actions.pageReaction(action.pageID));
     } catch(err){
         yield put(actions.pageReactionFail(err, action.pageID));
     }

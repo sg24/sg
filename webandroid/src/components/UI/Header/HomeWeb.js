@@ -7,6 +7,8 @@ import { minWidth } from 'react-native-stylex/media-query';
 import { tailwind, size } from 'tailwind';
 import WebModal from 'modal-enhanced-react-native-web';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useNavigationState } from '@react-navigation/native';
+import withComponent from 'withcomponent';
 
 import Logo from '../../../assets/logocircle.png';
 import TabBarge from '../TabBarge/TabBarge';
@@ -43,6 +45,9 @@ class Home extends Component  {
     render() {
         const { styles } = this.props;
         let modal = null;
+        let state = this.props.navigationState;
+        const activeUri = state.routes[state.index] ? state.routes[state.index].name : '';
+
         if (this.state.showModal) {
             let ModalComponent = Platform.OS === 'web' ? WebModal : Modal;
             let cnt = (
@@ -123,29 +128,29 @@ class Home extends Component  {
                         <View style={styles.contentNavWrapper}>
                                 <TouchableNativeFeedback  onPress={this.props.onPress.bind(this, 'Home')} style={styles.navIcon}>
                                     <View style={styles.navIcon}>
-                                        <Icon name="home-outline" size={22} color={this.state.color}/>
+                                        <Icon name="home-outline" size={22} style={activeUri === 'Home' ? styles.activeUri : styles.color}/>
                                     </View>
                                 </TouchableNativeFeedback>
-                                <TouchableNativeFeedback  onPress={this.props.onPress.bind(this, 'User')} style={styles.navIcon}>
+                                <TouchableNativeFeedback  onPress={this.props.onPress.bind(this, 'Users')} style={styles.navIcon}>
                                     <View style={styles.navIcon}>
-                                        <Icon name="people-outline" size={22} color={this.state.color}/>
-                                    </View>
-                                </TouchableNativeFeedback>
-                                <TouchableNativeFeedback  onPress={this.props.onPress.bind(this, 'Room')} style={styles.navIcon}>
-                                    <View style={styles.navIcon}>
-                                        <Icon name="chatbubble-ellipses-outline" size={22} color={this.state.color}/>
+                                        <Icon name="people-outline" size={22} style={activeUri === 'Users' ? styles.activeUri : styles.color}/>
                                     </View>
                                 </TouchableNativeFeedback>
                                 <TouchableNativeFeedback  onPress={this.props.onPress.bind(this, 'Room')} style={styles.navIcon}>
                                     <View style={styles.navIcon}>
-                                        <Icon name="timer-outline" size={22} color={this.state.color}/>
+                                        <Icon name="chatbubble-ellipses-outline" size={22} color={styles.color}/>
+                                    </View>
+                                </TouchableNativeFeedback>
+                                <TouchableNativeFeedback  onPress={this.props.onPress.bind(this, 'Room')} style={styles.navIcon}>
+                                    <View style={styles.navIcon}>
+                                        <Icon name="timer-outline" size={22} color={styles.color}/>
                                     </View>
                                 </TouchableNativeFeedback>
                         </View>
                         <View style={styles.profileNavWrapper}>
                             <TouchableNativeFeedback  onPress={() => this.openModalHandler('conversation')} style={styles.navIcon}>
                                 <View style={styles.navIcon}>
-                                    <Icon name="chatbubbles-outline" size={22} color={this.state.color}/>
+                                    <Icon name="chatbubbles-outline" size={22} color={styles.color}/>
                                     <TabBarge 
                                         style={styles.tabBarge}
                                         notification={3}/>
@@ -153,7 +158,7 @@ class Home extends Component  {
                             </TouchableNativeFeedback>
                             <TouchableNativeFeedback onPress={() => this.openModalHandler('notification')} style={styles.navIcon}>
                                 <View style={styles.navIcon}>
-                                    <Icon name="notifications-outline" size={22} color={this.state.color}/>
+                                    <Icon name="notifications-outline" size={22} color={styles.color}/>
                                     <TabBarge
                                         style={styles.tabBarge}
                                         notification={3}/>
@@ -162,7 +167,7 @@ class Home extends Component  {
                             <TouchableNativeFeedback onPress={this.props.onPress.bind(this, 'Profile')} style={styles.navIcon}>
                                 <View style={[styles.navIcon]}>
                                     {this.props.userImage ? <Image style={styles.profileImage} resizeMode="cover" source={this.props.userImage}/> 
-                                    : <Icon name="person-outline" size={22} color={this.state.color}/>}
+                                    : <Icon name="person-outline" size={22} color={styles.color}/>}
                                 </View>
                             </TouchableNativeFeedback>
                         </View>
@@ -174,7 +179,9 @@ class Home extends Component  {
     }
 }
 
-const useStyles = makeUseStyles(({ palette, utils }) => ({
+const useStyles = makeUseStyles(({ palette, utils }) => {
+    console.log(palette)
+    return ({
     wrapper: {
         width: '100%',
     },
@@ -283,8 +290,13 @@ const useStyles = makeUseStyles(({ palette, utils }) => ({
     notifyWrapper: {
         alignSelf: 'flex-end',
         right: '10%'
+    },
+    activeUri: {
+        color: palette.activeUri.color
+    },
+    color: {
+        color: palette.color
     }
+})});
 
-}));
-
-export default withStyles(useStyles)(Home);
+export default withComponent([{name: 'navigationState',defaultParams: state => ({routes: state.routes, index: state.index}), component: useNavigationState}])(withStyles(useStyles)(Home));

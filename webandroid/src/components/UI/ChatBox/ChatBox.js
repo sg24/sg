@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View,  ImageBackground, ActivityIndicator, StyleSheet, Keyboard, Dimensions, Platform, ScrollView } from 'react-native';
+import { View,  Image, ImageBackground, ActivityIndicator, StyleSheet, Keyboard, Dimensions, Platform, ScrollView } from 'react-native';
 import Clipboard from 'expo-clipboard';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
+import Constants from 'expo-constants';
 import { v4 as uuid } from 'uuid';
 import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
 import urischeme from 'urischeme';
@@ -480,10 +481,33 @@ class ChatBox extends Component {
         let Wrapper = commentBackground ? ImageBackground : View;
         let wrapperProps = commentBackground ? {source: {uri: this.props.settings.commentBox.backgroundImage}, resizeMode: 'cover'} : {}
 
+        let headerImg = (
+            <View style={styles.userImageWrapper}>
+                <Ionicons name="person" size={20} color="#777"/>
+            </View>
+        );
+        let userStatus = (
+            <View style={[styles.userStatus]}></View>
+        );
+        if (this.props.info && this.props.info.status) {
+            userStatus = (
+                <View style={[styles.userStatus, styles.userStatusOn]}></View>
+            );
+        }
+        if (this.props.info && this.props.info.image) {
+            headerImg = <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${this.props.info.image}`}} style={styles.userImageWrapper}/>;
+        }
+
         let header = (
             <DefaultHeader
                 onPress={this.props.closeChat}
                 title={this.props.title}
+                leftSideContent={this.props.showHeaderImage ? (
+                    <View style={styles.leftSideContent}>
+                        { headerImg }
+                        { this.props.info && this.props.info.showStatus ? userStatus : null}
+                    </View>
+                ) : null}
                 rightSideContent={(
                     <Button style={styles.optionIcon} onPress={this.checkOptionHandler}>
                         <Ionicons name="ellipsis-vertical-outline" size={20} />
@@ -509,10 +533,6 @@ class ChatBox extends Component {
                     title="Search  ...."
                     filterCnt={this.searchCommentHandler}
                     editable
-                    rightSideContent={(
-                        <View style={styles.headerRightContent}>
-                        </View>
-                    )}
                 />
             );
         }
@@ -918,7 +938,33 @@ const styles = StyleSheet.create({
     replyCntWrapper: {
         backgroundColor: '#dcdbdc',
         marginBottom: 10
-    }
+    },
+    leftSideContent: {
+        marginLeft: 10
+    },
+    userImageWrapper: {
+        position: 'relative',
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        backgroundColor: '#e9ebf2',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    userStatus: {
+        position: 'absolute',
+        width: 12,
+        height: 12,
+        borderRadius: 6,
+        bottom: -1,
+        right: -1,
+        borderColor: '#fff',
+        borderWidth: 2,
+        backgroundColor: '#ff1600'
+    },
+    userStatusOn: {
+        backgroundColor: '#16cf27'
+    },
 });
 const mapStateToProps = state => {
     return {

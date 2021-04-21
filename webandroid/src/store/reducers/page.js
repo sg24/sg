@@ -21,13 +21,16 @@ const initialState = {
     fetchCbt: null,
     fetchChatRoomError: null,
     fetchChatRoom: null,
-    pageReaction: null,
+    fetchUserError: null,
+    fetchUserStart: false,
+    fetchUser: null,
+    pageReaction: [],
     pageReactionError: false
 };
 
 const pageReset = (state, action) => {
     return updateObject(state, {
-        page: null,   pageReaction: null, pageReactionError: false,
+        page: null,
         fetchPostError: null,fetchPost: null, fetchPostStart: false, deletePostError: null, deletePost: null,
         fetchQuestionError: null,fetchQuestion: null,
         fetchAdvertError: null,fetchAdvert: null,
@@ -35,6 +38,8 @@ const pageReset = (state, action) => {
         fetchWriteupError: null,fetchWriteup: null,
         fetchCbtError: null,fetchCbt: null,
         fetchChatRoomError: null,fetchChatRoom: null, 
+        fetchUserError: null,fetchUserStart: false,fetchUser: null,
+        pageReaction: [],pageReactionError: false
     })
 };
 
@@ -53,6 +58,8 @@ const fetchPageFail = (state, action) => {
         return updateObject(state, {fetchCbtError: {message: action.err}});
     } else if (action.page === 'chatRoom') {
         return updateObject(state, {fetchChatRoomError: {message: action.err}});
+    } else if (action.page === 'users') {
+        return updateObject(state, {fetchUserError: {message: action.err}});
     } else {
         return updateObject(state, {resetSubmitError: {message: action.err}, resetStart: false})
     }
@@ -73,13 +80,15 @@ const fetchPageStart = (state, action) => {
         return updateObject(state, {fetchCbtError: {message: action.err}});
     } else if (action.page === 'chatRoom') {
         return updateObject(state, {fetchChatRoomError: {message: action.err}});
+    } else if (action.page === 'users') {
+        return updateObject(state, {fetchUserError: null, fetchUser: action.start === 0 ? null : state.fetchUser, fetchUserStart: true });
     } else {
         return updateObject(state, {resetSubmitError: {message: action.err}, resetStart: false})
     }
 };
 
 const fetchPageReset = (state, action) => {
-    return updateObject(state, {fetchPostError: null, fetchPostStart: false, loadMore: false });
+    return updateObject(state, {fetchPostError: null, fetchPostStart: false, fetchUserError: null, fetchUserStart: false });
 };
 
 const fetchPage = (state, action) => {
@@ -102,6 +111,8 @@ const fetchPage = (state, action) => {
         return updateObject(state, {fetchCbt: action.cnt, page: action.page});
     } else if (action.page === 'chatRoom') {
         return updateObject(state, {fetchChatRoom: action.cnt, page: action.page});
+    } else if (action.page === 'users') {
+        return updateObject(state, {fetchUser: updatePage(state.fetchUser, action), page: action.page, loadMore: action.cnt.loadMore, fetchUserStart: false});
     } else {
         return updateObject(state, {resetSubmitted: true, resetStart: false})
     }
@@ -133,6 +144,59 @@ const updatePage = (state, action) => {
         return updateObject(state, {fetchCbt: updatePageCnt(state.fetchCbt, action)});
     } else if (action.page === 'chatRoom') {
         return updateObject(state, {fetchChatRoom: action.cnt, page: action.page});
+    } else if (action.page === 'users') {
+        function changeMode (oldCnts, pageID, field, isUpdate) {
+            let cnts = oldCnts ? [...oldCnts] : [];
+            let user = cnts.filter(userFnd =>userFnd._id === pageID)[0];
+            if (user) {
+                let cntIndex = cnts.findIndex(userFnd => userFnd._id === pageID);
+                user.pending = false;
+                user.request = false;
+                user.accept = false;
+                user.chat = false;
+                user[field] = isUpdate;
+                if (field === 'accept') {
+                    user.chat = true;
+                }
+                delete user.unfriend;
+                cnts[cntIndex] = user;
+                return cnts;
+            }
+            return oldCnts
+        }
+    
+        if (action.pageInfo) {
+            if (action.pageInfo.cntType === 'addUser') {
+                let updateProfile = changeMode(state.fetchUser, action.pageInfo._id, 'pending', true);
+                return updateObject(state, {fetchUser: updateProfile})
+            }
+        
+            if (action.pageInfo.cntType === 'acceptUser') {
+                let updateProfile = changeMode(state.fetchUser,  action.pageInfo._id, 'accept', true);
+                return updateObject(state, {fetchUser: updateProfile})
+            }
+        
+            if (action.pageInfo.cntType === 'rejUser') {
+                let updateProfile = changeMode(state.fetchUser,  action.pageInfo._id, 'request', false);
+                return updateObject(state, {fetchUser: updateProfile})
+            }
+            
+            if (action.pageInfo.cntType === 'cancelReq') {
+                let updateProfile = changeMode(state.fetchUser,  action.pageInfo._id, 'pending', false);
+                return updateObject(state, {fetchUser: updateProfile})
+            }
+        
+            if (action.pageInfo.cntType === 'unfriend') {
+                let updateProfile = changeMode(state.fetchUser,  action.pageInfo._id, 'unfriend', false);
+                return updateObject(state, {fetchUser: updateProfile})
+            }
+
+            if (action.pageInfo.cntType === 'blockUser') {
+                let updateProfile = state.fetchUser.filter(cnt => cnt._id !==  action.pageInfo._id);
+                return updateObject(state, {fetchUser: updateProfile});
+            }
+        }
+        return updateObject(state, {fetchUser: state.fetchUser});
     } else {
         return updateObject(state, {resetSubmitted: true, resetStart: false})
     }
@@ -209,11 +273,15 @@ const deletePage = (state, action) => {
 };
 
 const pageReactionReset = (state, action) => {
-    return updateObject(state, {pageReactionError: null})
+    let pageReaction  =  [...state.pageReaction];
+    let updatePageReaction = pageReaction.filter(id => id !== action.pageID);
+    return updateObject(state, { 
+        pageReaction: updatePageReaction, pageReactionError: null
+    })
 };
 
 const pageReactionStart = (state, action) => {
-    let pageReaction = state.pageReaction ? [...state.pageReaction] : [];
+    let pageReaction = [...state.pageReaction];
     let pageReactionCnt = pageReaction.filter(id => id === action.pageID)[0];
     if (!pageReactionCnt) {
         pageReaction.push(action.pageID)

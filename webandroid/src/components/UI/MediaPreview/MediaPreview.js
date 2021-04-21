@@ -162,7 +162,7 @@ class MediaPreview extends Component {
 
         let cnt = loader;
 
-        if (this.props.fetchInfo) {
+        if (this.props.fetchInfo && this.props.fetchInfo.length > 0) {
             cnt = (
                 <>
                     { this.props.fetchInfo.length > 1 && !this.props.hideSeeker ? seekLeft : null}

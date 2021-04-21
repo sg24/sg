@@ -17,7 +17,7 @@ const checkMediaType = props => {
     if (media.bucket === 'image' || (media.type && media.type.split('/')[0] === 'image')) {
         return  (
             <Wrapper  style={[styles.wrapper]} onPress={props.disablePreview ? null : props.onPress} onLongPress={props.onLongPress}>
-                <View style={[styles.wrapper]}>
+                <View style={[styles.wrapper, props.wrapperStyle]}>
                     <View style={[styles.wrapper, props.style]}>
                         <Image source={{uri: media.uri ? media.uri : `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}`}}  
                             resizeMode="center" style={styles.mediaWrapper}/>
@@ -29,9 +29,10 @@ const checkMediaType = props => {
     }
     if ((media.bucket === 'video' || media.bucket === 'audio') || (media.type && (media.type.split('/')[0] === 'video' || media.type.split('/')[0] === 'audio' ))) {
        return (
-            <View style={[styles.wrapper, props.videoStyle]}>
-                <>
-                    <Video
+            <View style={[styles.wrapper, props.videoWrapperStyle]}>
+                <View style={[styles.wrapper, props.wrapperStyle]}>
+                    <View style={[styles.wrapper, props.videoStyle]}>
+                    {/* <Video
                         source={{ uri: media.uri ? media.uri :  `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}`}}
                         rate={1.0}
                         volume={1.0}
@@ -39,16 +40,17 @@ const checkMediaType = props => {
                         resizeMode="contain"
                         useNativeControls
                         style={styles.mediaWrapper}
-                    />
-                    { props.disablePreview ? null : (
-                        <View style={[styles.optionWrapper, styles.option]}>
-                            <TouchableNativeFeedback onPress={props.onPress}>
-                                <Ionicons name="chatbox-ellipses-outline" size={20} />
-                            </TouchableNativeFeedback>
-                        </View>
-                    )}
+                        /> */}
+                        { props.disablePreview ? null : (
+                            <View style={[styles.optionWrapper, styles.option]}>
+                                <TouchableNativeFeedback onPress={props.onPress}>
+                                    <Ionicons name="chatbox-ellipses-outline" size={20} />
+                                </TouchableNativeFeedback>
+                            </View>
+                        )}
+                    </View>
                     { props.children }
-                </>
+                </View>
             </View>
         )
     }  
@@ -57,8 +59,8 @@ const checkMediaType = props => {
         <Wrapper
             style={Platform.OS === 'web' ? [styles.wrapper]: null}
             onPress={props.disablePreview ? null : props.onPress} onLongPress={props.onLongPress}>
-            <>
-                <View style={[styles.wrapper, props.style, styles.fileIconWrapper]}>
+            <View style={[styles.wrapper, props.wrapperStyle]}>
+                <View style={[styles.wrapper, props.fileIconWrapper, styles.fileIconWrapper]}>
                     <FileIcon ext={media.ext ? media.ext.split('/').pop() : (media.name ? String(media.name).split('.').pop()  : '')} wrapper={props.fileIconStyle ? props.fileIconStyle : styles.fileIcon}/>
                     <Text style={styles.fileName}>{media.filename}</Text>
                     { props.disablePreview ? null : (
@@ -70,7 +72,7 @@ const checkMediaType = props => {
                     )}
                 </View>
                 { props.children }
-            </>
+            </View>
         </Wrapper>
     )
 }

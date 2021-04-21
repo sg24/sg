@@ -4,7 +4,7 @@ export default function withComponent( componentList) {
     const WithComponents = (props, ref) => {
         let cmpList = {}
         for (let cmp of componentList) {
-            cmpList[cmp.name] = cmp.component();
+            cmpList[cmp.name] = cmp.defaultParams ?  cmp.component(cmp.defaultParams) : cmp.component();
         }
       return React.createElement(
         Component,

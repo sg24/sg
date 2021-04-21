@@ -64,7 +64,7 @@ class Post extends Component {
 
     componentDidMount() {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor')
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor')
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
             this.props.onPageReset();
@@ -285,7 +285,7 @@ class Post extends Component {
            </View>
         )
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length > 0) {
+        if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
             cnt = (
                 <View style={styles.container}>
                     { header }
@@ -339,7 +339,6 @@ class Post extends Component {
                                 showUserOpt={this.showUserOptHandler}
                                 mediaPreview={this.mediaPreviewHandler}
                                 saveMedia={this.saveMediaHandler}
-                                closeModal={this.closeModalHandler}
                                 chat={this.chatHandler}
                                 favorite={this.favoriteHandler}
                                 pageReaction={this.props.pageReaction}

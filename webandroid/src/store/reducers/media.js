@@ -4,7 +4,7 @@ import { updateObject } from '../../shared/utility';
 const initialState = {
     fetchInfoStart: false,
     fetchInfoError: null,
-    fetchInfo: null,
+    fetchInfo: [],
     mediaReactionError: null
 };
 
@@ -27,7 +27,7 @@ const updateMediaInfo = (state, action) => {
 
 const resetMediaInfo = (state, action) => {
     return updateObject(state, { 
-        fetchInfoStart: false, fetchInfoError: null, fetchInfo: null, mediaReactionError: null
+        fetchInfoStart: false, fetchInfoError: null, fetchInfo: [], mediaReactionError: null
     })
 };
 

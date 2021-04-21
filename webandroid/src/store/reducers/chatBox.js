@@ -56,7 +56,7 @@ const fetchChat = (state, action) => {
 };
 
 const sendChatStart = (state, action) => {
-    let chat = [...state.fetchChat];
+    let chat = state.fetchChat ? [...state.fetchChat] : [];
     let chatAdded = chat.filter(cnt => cnt.sendChatID === action.cnt.sendChatID)[0];
     if (action.cnt.editChatBox) {
         chatAdded = chat.filter(cnt => cnt._id === action.cnt.editChatBox._id)[0];
@@ -83,7 +83,7 @@ const sendChatStart = (state, action) => {
 };
 
 const sendChatFail = (state, action) => {
-    let chat = [...state.fetchChat];
+    let chat = state.fetchChat ? [...state.fetchChat] : [];
     let chatAdded = chat.filter(cnt => cnt.sendChatID === action.cnt.sendChatID)[0];
     if (action.cnt.editChatBox) {
         chatAdded = chat.filter(cnt => cnt._id === action.cnt.editChatBox._id)[0];
@@ -102,7 +102,7 @@ const sendChatFail = (state, action) => {
 };
 
 const sendChat = (state, action) => {
-    let chat = [...state.fetchChat];
+    let chat = state.fetchChat ? [...state.fetchChat] : [];
     let chatAdded = chat.filter(cnt => cnt.sendChatID === action.cnt.sendChatID)[0];
     if (action.cnt.editChatBox) {
         chatAdded = chat.filter(cnt => cnt._id === action.cnt.editChatBox._id)[0];
@@ -120,7 +120,7 @@ const sendChat = (state, action) => {
         chat[chatAddedIndex] = chatAdded;
     }
     return updateObject(state, {
-        fetchChat: chat
+        fetchChat: chat, chatID: action.cntID.chatID ? action.cntID.chatID : state.chatID
     })
 };
 
@@ -137,7 +137,7 @@ const deleteChatFail = (state, action) => {
 };
 
 const deleteChat = (state, action) => {
-    let chat = action.cntType === 'deleteReply' ? [...state.fetchReply] : [...state.fetchChat];
+    let chat = action.cntType === 'deleteReply' ? state.fetchReply ? [...state.fetchReply] : [] : state.fetchChat ? [...state.fetchChat] : [];
     let removeChat = chat.filter(cnt => cnt._id !== action.cntID);
     if (action.sendChatID) {
         removeChat = chat.filter(cnt => cnt.sendChatID !== action.sendChatID);
@@ -146,7 +146,7 @@ const deleteChat = (state, action) => {
         if (!action.sendChatID) {
             removeChat = chat.filter(cnt => cnt._id !== action.replyChatID);
         }
-        chat = [...state.fetchChat];
+        chat = state.fetchChat ? [...state.fetchChat] : [];
         let chatItem = chat.filter(cnt => cnt._id === action.cntID)[0];
         if (chatItem) {
             chatItem.reply.pop();
@@ -211,7 +211,7 @@ const replyChatStart = (state, action) => {
     } else {
         chat.push(action.cnt);
     }
-    let chatCnt = [...state.fetchChat];
+    let chatCnt = state.fetchChat ? [...state.fetchChat] : [];
     let chatItem = chatCnt.filter(cnt => cnt._id === action.chatID)[0];
     if (chatItem) {
         chatItem.reply.push(action.chatID);
@@ -237,7 +237,7 @@ const replyChatFail = (state, action) => {
 };
 
 const replyChat = (state, action) => {
-    let chat = [...state.fetchReply];
+    let chat = state.fetchReply ? [...state.fetchReply] : []
     let chatAdded = chat.filter(cnt => cnt.sendChatID === action.cnt.sendChatID)[0];
     if (chatAdded) {
         chatAdded.sent = true;

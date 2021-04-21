@@ -14,9 +14,13 @@ const conv = props => (
                         return (
                             <PrivateConv
                                 key={index}
-                                userDet={cnt}
-                                showChat={props.navigate.bind(this, 'chat', cnt.id)}
-                                showProfile={props.navigate.bind(this, 'profile', cnt.id)}/>
+                                cnt={cnt}
+                                chat={props.navigate.bind(this, 'chat', cnt.id)}
+                                userProfile={props.navigate.bind(this, 'profile', cnt.id)}
+                                lastItem={(resizeBy.length - 1) === index}
+                                enableLoadMore={props.enableLoadMore}
+                                start={props.start}
+                                loadMore={props.loadMore}/>
                         )
                     }
                     return (

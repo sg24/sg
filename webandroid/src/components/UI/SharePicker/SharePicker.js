@@ -97,7 +97,7 @@ class SharePicker extends Component {
 
     shareHandler = () => {
         if (this.props.shareType === 'Friends' && this.props.cnt) {
-            this.props.onShareCnt('users', 'sendChat', this.props.cnt, this.state.picked, this.props.shareUpdates);
+            this.props.onShareCnt('userchat', 'shareChat', this.props.cnt, this.state.picked, this.props.shareUpdates);
         }
     }
 

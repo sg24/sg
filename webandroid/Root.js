@@ -26,6 +26,7 @@ import ConvScreen from './src/screens/Home/Conv';
 import NotificatonScreen from './src/screens/Home/Notification';
 import ProfileScreen from './src/screens/Home/Profile';
 import PostScreen from './src/screens/Home/Post';
+import UsersScreen from './src/screens/Home/Users';
 import HashSearchScreen from './src/screens/Home/HashSearch';
 import AddPostScreen from './src/screens/AddForm/Post';
 import AddQuestionScreen from './src/screens/AddForm/Question';
@@ -53,6 +54,7 @@ const authScreens = {
 
 const userScreens = {
   Home: TopTab,
+  Users: UsersScreen, 
   Search: SearchScreen,
   Addnew: AddnewScreen,
   Conversation: ConvScreen,
@@ -143,7 +145,7 @@ class Base extends Component {
               ...(this.props.isLoggedIn ? userScreens : authScreens),
             }).map(([name, component]) => {
               let header = {}
-              if (name == 'Home') {
+              if (name === 'Home' || name === 'Users') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : HomeHeader
                 header = {
                   header: ({scene, previous, navigation }) => <HeaderBar
@@ -156,7 +158,10 @@ class Base extends Component {
                     filterCnt={this.props.onHeaderFilter}
                     inputValue={this.props.filterCnt} />
                 }
-                component = this.state.viewMode === 'landscape'  ? PostScreen : component;
+                component = this.state.viewMode === 'landscape'  ?
+                  name === 'Home' ? PostScreen :
+                  name === 'Users' ? UsersScreen : 
+                  PostScreen: component;
               }
               if (name === 'Search') {
                 header = {

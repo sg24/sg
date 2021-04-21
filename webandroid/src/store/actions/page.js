@@ -97,12 +97,15 @@ export const deletePage = (pageID, page) =>  {
     };
 };
 
-export const pageReactionInit = (page, pageID, reactionType) => {
+export const pageReactionInit = (page, pageID, reactionType, cnt, uriMethod = 'post', confirm = true) => {
     return {
         type: actionTypes.PAGE_REACTION_INIT,
         page,
         pageID,
-        reactionType
+        reactionType,
+        cnt,
+        uriMethod,
+        confirm
     };
 };
 
@@ -129,8 +132,9 @@ export const pageReaction = (pageID, cnt) => {
     };
 };
 
-export const pageReactionReset = () => {
+export const pageReactionReset = (pageID) => {
     return {
-        type: actionTypes.PAGE_REACTION_RESET
+        type: actionTypes.PAGE_REACTION_RESET,
+        pageID
     };
 };

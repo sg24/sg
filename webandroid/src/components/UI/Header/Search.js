@@ -12,19 +12,21 @@ const search = props => (
     <>
         <BoxShadow style={styles.wrapper}>
             <View style={styles.title}>
-                <TouchableNativeFeedback onPress={props.modal ? props.hideModal : props.onPress}>
-                    <Icon name="arrow-back-outline" size={26}/>
-                </TouchableNativeFeedback>
+                { props.disableBackButton ? null : ( 
+                    <TouchableNativeFeedback onPress={props.modal ? props.hideModal : props.onPress}>
+                        <Icon name="arrow-back-outline" size={26}/>
+                    </TouchableNativeFeedback>
+                )}
                 <FormElement
                     placeholder={props.title ? props.title : "Search ... "}
                     autoCapitalize="none"
-                    formWrapperStyle={styles.formWrapper}
+                    formWrapperStyle={props.disableBackButton ? styles.disableBackButton : styles.formWrapper}
                     inputWrapperStyle={styles.inputWrapper}
                     style={styles.input}
                     onChangeText={props.filterCnt}
                     value={props.value}
                     editable={props.editable}
-                    autoFocus/>
+                    autoFocus={true}/>
             </View>
             { props.rightSideContent ? props.rightSideContent : null }
         </BoxShadow>
@@ -41,6 +43,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: 40,
         zIndex: 999
+    },
+    disableBackButton: {
+        paddingBottom: 0,
+        paddingLeft: 0,
+        paddingRight: 0,
+        marginTop: 0,
+        marginLeft: 0,
+        width: 'auto',
+        flex: 1,
+        ...tailwind('rounded-full')
     },
     formWrapper: {
         paddingBottom: 0,

@@ -68,7 +68,8 @@ class MediaTile extends Component {
                                         onPress={() => this.props.preview(this.props.cntID, this.props.media, index)}
                                         onSave={() => this.props.save(this.props.media[index])}
                                         style={styles.mediaContainer}
-                                        videoStyle={styles.mediaContainer}/>
+                                        videoStyle={styles.mediaContainer}
+                                        fileIconWrapper={styles.mediaContainer}/>
                                     { index === 1 && this.props.media.length > 2 ? (
                                         <TouchableNativeFeedback
                                             style={{ flex: 0.5}} 
@@ -77,7 +78,8 @@ class MediaTile extends Component {
                                                 <MediaContainer 
                                                     media={this.props.media[2]}
                                                     onPress={() => this.props.preview(this.props.cntID, this.props.media, 2)}
-                                                    videoStyle={styles.mediaContainer}/>
+                                                    videoStyle={styles.mediaContainer}
+                                                    fileIconWrapper={styles.mediaContainer}/>
                                                 <View style={styles.otherMedia}>
                                                     <Text style={styles.otherMediaText}>+ {this.props.media.length - 2} Other's</Text>
                                                 </View>

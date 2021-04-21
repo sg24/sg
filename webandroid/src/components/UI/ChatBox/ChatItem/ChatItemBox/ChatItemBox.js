@@ -47,7 +47,7 @@ const chatItemBox = props => {
                 </View>
             ): null}
         <View style={[styles.wrapper, props.direction === 'right' ? styles.wrapperDirectionRight : null,
-        props.showUserImage ? styles.removeUserImage : null, props.style]}>
+            props.showUserImage ? styles.removeUserImage : null, props.style]}>
             {/* { props.showUserImage ? ( */}
                 {/* {!props.disableUserOpt  ?  */}
                     <TouchableNativeFeedback onPress={props.userProfile}>
@@ -67,8 +67,10 @@ const chatItemBox = props => {
                                     key={index}
                                     media={media}
                                     fileIconStyle={styles.fileIcon}
-                                    videoStyle={styles.videoWrapper}
-                                    style={{backgroundColor: '#e9ebf2'}}
+                                    fileIconWrapper={styles.mediaContainer}
+                                    videoStyle={styles.mediaContainer}
+                                    style={styles.mediaContainer}
+                                    wrapperStyle={{width: 200}}
                                     onPress={props.preview.bind(this, null, [media], 0)} 
                                     android_ripple={{radius: 10}}
                                     enablePressable
@@ -240,8 +242,7 @@ const styles = StyleSheet.create({
         padding: 10
     },
     media: {
-        width: 200,
-        height: 150
+        flex: 1
     },
     mediaDescription: {
         marginTop: 10
@@ -263,11 +264,13 @@ const styles = StyleSheet.create({
         marginRight: 0
     },
     fileIcon: {
-        height: 200,
-        width: 200
+        width: '100%',
+        height: 100
     },
-    videoWrapper: {
-        backgroundColor: '#fff'
+    mediaContainer: {
+        backgroundColor: '#e9ebf2',
+        width: '100%',
+        height: 150
     },
     uploadWrapper: {
         justifyContent: 'center', 

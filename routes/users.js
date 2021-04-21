@@ -5,7 +5,7 @@ let sequence = require('./utility/sequence');
 let authenticate = require('../serverDB/middleware/authenticate');
 const bcrypt = require('bcryptjs');
 let notifications = require('./utility/notifications');
-const {user, userchat, notifications: notificationsModel, connectStatus} = require('../serverDB/serverDB');
+const {user, notifications: notificationsModel, connectStatus} = require('../serverDB/serverDB');
 
 router.get('/', authenticate,(req, res, next) => {
     if (!req.authType) {
@@ -53,14 +53,14 @@ router.post('/', authenticate,(req, res, next) => {
             let updateFriend= [];
             for (let cnt of result[0]) {
                 let isOnline =  (new Date().getTime() - new Date(cnt.visited).getTime()) < 60000;
-                let chatInfo = chat.filter(info => info.authorID === cnt.authorID)[0];
-                let message = chatInfo ? chatInfo.media && chatInfo.media.length > 0 ? chatInfo.media.pop().filename + '.' + chatInfo.media.pop().ext.split('/')[1]: 
-                    chatInfo.content : null;
+                let chatInfo = chat.filter(info => JSON.parse(JSON.stringify(info.authorID)) === JSON.parse(JSON.stringify(cnt._id)))[0];
+                let message = chatInfo ? chatInfo.content ? chatInfo.content : 
+                    chatInfo.media && chatInfo.media.length > 0 ? chatInfo.media[chatInfo.media.length -1].filename.split('.')[0] + '.' + chatInfo.media[chatInfo.media.length -1].ext.split('/')[1] : null : null;
                 let chatNotification = result[1] ? result[1].userChat : [];
-                let notification = chatNotification.filter(userChat => userChat.userID === JSON.parse(JSON.stringify(cnt.authorID)))[0];
+                let notification = chatNotification.filter(userChat => userChat.userID === JSON.parse(JSON.stringify(cnt._id)))[0];
                 let updateNotification = notification ? notification.counter : 0;
                 updateFriend.push({_id: cnt._id, chatID: chatInfo ? chatInfo._id : null, username: cnt.username,
-                    userImage: cnt.image, authorID: cnt.authorID, status: isOnline, message, notification: updateNotification})
+                    userImage: cnt.image, status: isOnline, message, notification: updateNotification})
             }
             res.status(200).send({friend: updateFriend, loadMore: (req.friend.length - (req.body.start + req.body.limit)) > 0});
         }).catch(err => {
@@ -75,14 +75,14 @@ router.post('/', authenticate,(req, res, next) => {
             let updateFriend= [];
             for (let cnt of result[0]) {
                 let isOnline =  (new Date().getTime() - new Date(cnt.visited).getTime()) < 60000;
-                let chatInfo = chat.filter(info => info.authorID === cnt.authorID)[0];
-                let message = chatInfo ? chatInfo.media && chatInfo.media.length > 0 ? chatInfo.media.pop().filename + '.' + chatInfo.media.pop().ext.split('/')[1]: 
-                    chatInfo.content : null;
+                let chatInfo = chat.filter(info => JSON.parse(JSON.stringify(info.authorID)) === JSON.parse(JSON.stringify(cnt._id)))[0];
+                let message = chatInfo ? chatInfo.content ? chatInfo.content : 
+                    chatInfo.media && chatInfo.media.length > 0 ? chatInfo.media[chatInfo.media.length -1].filename.split('.')[0] + '.' + chatInfo.media[chatInfo.media.length -1].ext.split('/')[1] : null : null;
                 let chatNotification = result[1] ? result[1].userChat : [];
-                let notification = chatNotification.filter(userChat => userChat.userID === JSON.parse(JSON.stringify(cnt.authorID)))[0];
+                let notification = chatNotification.filter(userChat => userChat.userID === JSON.parse(JSON.stringify(cnt._id)))[0];
                 let updateNotification = notification ? notification.counter : 0;
                 updateFriend.push({_id: cnt._id, chatID: chatInfo ? chatInfo._id : null, username: cnt.username,
-                    userImage: cnt.image, authorID: cnt.authorID, status: isOnline, message, notification: updateNotification})
+                    userImage: cnt.image, status: isOnline, message, notification: updateNotification})
             }
             res.status(200).send({friend: updateFriend, loadMore: (req.friend.length - (req.body.start + req.body.limit)) > 0});
         }).catch(err => {
@@ -90,94 +90,58 @@ router.post('/', authenticate,(req, res, next) => {
         })
     }
 
-    if (req.header && req.header('data-categ') === 'sendChat') {
-        let cnt = JSON.parse(req.body.cnt);
-        let reciepent = JSON.parse(req.body.reciepent);
-        const send = (cnt, reciever, info) => {
-            let _id = objectID();
-            let chat = {
-                authorID: req.user, username: req.username, userImage: req.userImage,
-                content: cnt.content, media: cnt.media, tempFileID: cnt.tempFileID,
-                shared: cnt.authorID
+    if (req.header && req.header('data-categ') === 'getUser') {
+        let chat = req.chat;
+        sequence([user.find({_id: {$ne: req.user}}).skip(req.body.start).limit(req.body.limit).sort({created: 1, _id: 1}),
+            notificationsModel.findOne({userID: req.user})]).then(result => {
+            let updateFriend= [];
+            for (let cnt of result[0]) {
+                let isOnline =  (new Date().getTime() - new Date(cnt.visited).getTime()) < 60000;
+                let chatInfo = chat.filter(info => JSON.parse(JSON.stringify(info.authorID)) === JSON.parse(JSON.stringify(cnt._id)))[0];
+                let message = chatInfo ? chatInfo.content ? chatInfo.content : 
+                chatInfo.media && chatInfo.media.length > 0 ? chatInfo.media[chatInfo.media.length -1].filename.split('.')[0] + '.' + chatInfo.media[chatInfo.media.length -1].ext.split('/')[1] : null : null;
+                let isFriend = req.friend.filter(id => id === JSON.parse(JSON.stringify(cnt._id)))[0] ? true : false;
+                let created = chatInfo ? chatInfo.created : null;
+                let chatNotification = result[1] ? result[1].userChat : [];
+                let notification = chatNotification.filter(userChat => userChat.userID === JSON.parse(JSON.stringify(cnt._id)))[0];
+                let updateNotification = notification ? notification.counter : 0;
+                let pending = req.pendingRequest.filter(id => id === JSON.parse(JSON.stringify(cnt._id)))[0] ? true : false;
+                let request = req.request.filter(id => id === JSON.parse(JSON.stringify(cnt._id)))[0] ? true : false
+                updateFriend.push({_id: cnt._id, chatID: chatInfo ? chatInfo._id : null, username: cnt.username,
+                    userImage: cnt.image, status: isOnline, message, notification: updateNotification, created,chat: isFriend, pending, request
+                });
             }
-            return sequence([userchat.findByIdAndUpdate(info._id, {$push: {chat: {...chat,  _id}}}),
-                user.findByIdAndUpdate(reciever, {$pull: {chat: {'authorID': req.user}}}), user.findByIdAndUpdate(reciever, {$push: {chat: {...chat, _id: info._id}}}),
-                user.findByIdAndUpdate(req.user, {$pull: {chat: {'authorID': reciever}}}), user.findByIdAndUpdate(req.user, {$push: {chat: { ...chat, 
-                    _id: info._id, authorID: reciever, username: info.username, userImage: info.userImage}}})]).then(result => {
-                if (result[2]) {
-                    let isOnline = (new Date().getTime() - new Date(result[2].visited).getTime()) < 60000;
-                    if (!isOnline) {
-                        notifications('userChat', reciever, {userID: req.user, ID: info._id, enableCounter: true})
-                    }
-                }
-                return Promise.resolve({...chat,  _id});
-            })
-        }
-        let sent = 0;
-        for (let reciever of reciepent) {
-            let info = req.chat.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === reciever)[0];
-            if (info) {
-                send(cnt, reciever, info).then((chat) => {
-                    ++sent;
-                    if (sent === reciepent.length) {
-                        res.status(200).send(chat);
-                    }
-                }).catch(err => {
-                    ++sent;
-                    if (sent === reciepent.length) {
-                        res.status(500).send(err)
-                    }
-                })
-            } else {
-                user.findById(reciever).then(result => {
-                    let info = result.chat.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user)[0];
-                    if (info) {
-                        send(cnt, reciever, {_id: info._id, authorID: result._id, username: result.username, userImage: result.image}).then(chat => {
-                            ++sent;
-                            if (sent === reciepent.length) {
-                                res.status(200).send(chat);
-                            }
-                        }).catch(err => {
-                            ++sent;
-                            if (sent === reciepent.length) {
-                                res.status(500).send(err)
-                            }
-                        })
-                    } else {
-                        let _id = objectID();
-                        let chat  = {
-                            authorID: req.user, username: req.username, userImage: req.userImage,
-                            content: cnt.content, media: cnt.media, tempFileID: cnt.tempFileID,
-                            shared: cnt.authorID
-                        }
-                        let newDoc = new userchat({chat: {...chat, _id}});
-                        newDoc.save().then(result => {
-                            sequence([user.findByIdAndUpdate(reciever, {$push: {chat: {...chat, _id: result._id}}})]).then((info) => {
-                                sequence([user.findByIdAndUpdate(req.user, { $push: {chat: { ...chat, _id: result._id, authorID: reciever, username: info[0].username, userImage: info[0].image}}})]).then(() => {
-                                    if (info[0]) {
-                                        let isOnline = (new Date().getTime() - new Date(info[0].visited).getTime()) < 60000;
-                                        if (!isOnline) {
-                                            notifications('userChat', reciever, {userID: req.user, ID: result._id, enableCounter: true})
-                                        } 
-                                        ++sent;
-                                        if (sent === reciepent.length) {
-                                            res.status(200).send({...chat, _id});
-                                        }
-                                    }
-                                })
-                            }).catch(err => {
-                                ++sent;
-                                if (sent === reciepent.length) {
-                                    res.status(500).send(err)
-                                }
-                            })
-                        })
-                    }
-                }).catch(err => {
-                    res.status(500).send(err);
-                })
+            res.status(200).send({page: updateFriend, loadMore: result[0].length > 0});
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+    }
+
+    if (req.header && req.header('data-categ') === 'searchUser') {
+        let chat = req.chat;
+        sequence([user.find({_id: {$ne: req.user}, $text: {$search: req.body.searchCnt}}).skip(req.body.start).limit(req.body.limit).sort({created: 1, _id: 1}),
+            notificationsModel.findOne({userID: req.user})]).then(result => {
+            let updateFriend= [];
+            for (let cnt of result[0]) {
+                let isOnline =  (new Date().getTime() - new Date(cnt.visited).getTime()) < 60000;
+                let chatInfo = chat.filter(info => JSON.parse(JSON.stringify(info.authorID)) === JSON.parse(JSON.stringify(cnt._id)))[0];
+                let message = chatInfo ? chatInfo.content ? chatInfo.content : 
+                chatInfo.media && chatInfo.media.length > 0 ? chatInfo.media[chatInfo.media.length -1].filename.split('.')[0] + '.' + chatInfo.media[chatInfo.media.length -1].ext.split('/')[1] : null : null;
+                let isFriend = req.friend.filter(id => id === JSON.parse(JSON.stringify(cnt._id)))[0] ? true : false;
+                let created = chatInfo ? chatInfo.created : null;
+                let chatNotification = result[1] ? result[1].userChat : [];
+                let notification = chatNotification.filter(userChat => userChat.userID === JSON.parse(JSON.stringify(cnt._id)))[0];
+                let updateNotification = notification ? notification.counter : 0;
+                let pending = req.pendingRequest.filter(id => id === JSON.parse(JSON.stringify(cnt._id)))[0] ? true : false;
+                let request = req.request.filter(id => id === JSON.parse(JSON.stringify(cnt._id)))[0] ? true : false
+                updateFriend.push({_id: cnt._id, chatID: chatInfo ? chatInfo._id : null, username: cnt.username,
+                    userImage: cnt.image, status: isOnline, message, notification: updateNotification, created,chat: isFriend, pending, request
+                });
             }
-        }
+            res.status(200).send({page: updateFriend, loadMore: result[0].length > 0});
+        }).catch(err => {
+            res.status(500).send(err);
+        })
     }
 
     // if (req.header && req.header('data-categ') && req.header('data-categ').startsWith('request')) {

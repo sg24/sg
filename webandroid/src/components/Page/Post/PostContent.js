@@ -53,7 +53,7 @@ const postContent = props => {
         )
     }
 
-    let startPageReaction = props.pageReaction ? 
+    let startPageReaction = props.pageReaction.length > 0 ? 
         props.pageReaction.filter(id => id === props.cnt._id).length > 0 ? true : false : false;
 
     let previewUri = checkUri(props.cnt.content);

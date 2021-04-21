@@ -27,7 +27,7 @@ const externalPageStart = (state, action) => {
 };
 
 const externalPageFail = (state, action) => {
-    let pending  = [...state.pending];
+    let pending  = state.pending ? [...state.pending] : [];
     let updatePending = pending.filter(cnt => cnt.id !== action.pageID && cnt.type !== action.pageType);
     return updateObject(state, {
         pending: updatePending, error: action.err

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, Pressable, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 import Moment from 'react-moment';
@@ -9,43 +9,52 @@ import TouchableNativeFeedback from '../../../UI/TouchableNativeFeedback/Touchab
 import Href from '../../../UI/Href/Href';
 import { trim } from '../../../../shared/utility';
 import Button from '../../../UI/Button/Button';
+import LoadMore from '../../../UI/LoadMore/LoadMore';
 import BoxShadow from '../../../UI/BoxShadow/BoxShadow';
 
 const privateConv = props => {
     let notification = null;
     let msgCreated = null;
     let userImg = <Ionicons name="person" size={40} color="#777"/>
-    let picked = props.picked && props.picked.length > 0 ? 
-        props.picked.filter(id => id === props.userDet._id)[0] ? true : false : false;
-    let msg = (
-        <Href onPress={!props.allowPressable ? props.showChat : null} numberOfLines={1} style={styles.msg} wrapperStyle={styles.msg} title={props.userDet.message} />
-    )
+    let msg = null;
+    let startPageReaction = props.pageReaction.length > 0 ? 
+        props.pageReaction.filter(id => id === props.cnt._id).length > 0 ? true : false : false;
 
     let userStatus = (
         <View style={[styles.userStatus]}></View>
     );
 
-    if (props.userDet.status) {
+    if (props.cnt.status) {
         userStatus = (
             <View style={[styles.userStatus, styles.userStatusOn]}></View>
         );
     }
 
-    if (props.userDet.userImage) {
-        userImg = <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${props.userDet.userImage}`}} style={styles.userImageWrapper}/>;
+    if (props.cnt.userImage) {
+        userImg = <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${props.cnt.userImage}`}} style={styles.userImageWrapper}/>;
     }
 
-    if (!props.userDet.message) {
+    if (props.cnt.notification && props.cnt.notification > 0) {
+        notification = (
+            <TabBarge 
+                notification={props.cnt.notification}
+                style={styles.tabBarge}
+                onPress={props.chat}/>
+        )
+    }
+
+    if ((!props.cnt.message && props.cnt.chat) || props.hideMessage) {
         msg = (
             <>
-                <Button onPress={props.showChat} disabled={props.allowPressable} >
+                <Button onPress={props.chat} style={styles.defaultButton}>
                     <BoxShadow style={styles.msgButton}>
                         <Ionicons name="chatbubble-ellipses" size={16} color="#fff"/>
                         <Text style={styles.bottonText}>Chat</Text>
+                        { notification }
                     </BoxShadow>
                 </Button>
-                <Button onPress={props.unfriend} disabled={props.allowPressable} style={styles.useroptButtonWrapper}>
-                    <BoxShadow style={styles.useroptButton}>
+                <Button onPress={props.unfriend} style={styles.useroptButtonWrapper}>
+                    <BoxShadow style={styles.useroptButton} disabled={startPageReaction}>
                         <Ionicons name="person-remove" size={16} />
                         <Text numberOfLines={1} style={styles.unfriend}>Unfriend</Text>
                     </BoxShadow>
@@ -54,99 +63,105 @@ const privateConv = props => {
         )
     }
 
-    if (props.userDet.created) { 
+    if (props.cnt.chat && props.cnt.created && !props.hideMessage) { 
         msgCreated = (
-            <Text numberOfLines={1} style={styles.msgCreated}>
-                @ <Moment element={Text} date={props.userDet.created} fromNow />
-            </Text>
+            <View>
+                <Text numberOfLines={1} style={styles.msgCreated} >@ <Moment element={Text} date={props.cnt.created} fromNow /></Text>
+                { notification && !props.hideMessage ? notification : null }
+            </View>
         )
     }
 
-    if (props.userDet.notification && props.userDet.notification > 0) {
-        notification = (
-            <TabBarge 
-                notification={props.userDet.notifications}
-                style={styles.tabBarge}/>
+    if (props.cnt.chat && props.cnt.message && !props.hideMessage) {
+        msg = (
+            <Href onPress={props.chat} numberOfLines={1} style={styles.msg} wrapperStyle={styles.msg} title={props.cnt.message} />
         )
     }
 
+    if (!props.cnt.chat) {
+        msg = (
+            <Button onPress={props.addUser} style={styles.defaultButton} disabled={startPageReaction}>
+                <BoxShadow style={styles.msgButton} disabled={startPageReaction}>
+                    {/* <Ionicons name="person" size={16} color="#fff"/> */}
+                    <Text numberOfLines={1} style={styles.buttonAdd}>Add</Text>
+                </BoxShadow>
+            </Button>
+        )
+    }
+
+    if (!props.cnt.chat && props.cnt.request) {
+        msg = (
+            <>
+                <Button onPress={props.acceptUser} style={styles.defaultButton} disabled={startPageReaction}>
+                    <BoxShadow style={styles.msgButton} disabled={startPageReaction}>
+                        <Ionicons name="person-add" size={16} color="#fff"/>
+                        <Text style={styles.bottonText}>Accept</Text>
+                    </BoxShadow>
+                </Button>
+                <Button onPress={props.rejUser} style={styles.useroptButtonWrapper} disabled={startPageReaction}>
+                    <BoxShadow style={styles.useroptButton} disabled={startPageReaction}>
+                        <Ionicons  name="close" size={16} />
+                        <Text numberOfLines={1} style={styles.unfriend}>Reject</Text>
+                    </BoxShadow>
+                </Button>
+            </>
+        )
+    }
+
+    if (!props.cnt.chat && props.cnt.pending) {
+        msg = (
+            <Button onPress={props.cancelReq} style={styles.defaultButton} disabled={startPageReaction}>
+               <BoxShadow style={styles.useroptButton} disabled={startPageReaction}>
+                   <Ionicons name="close" size={16}/>
+                   <Text numberOfLines={1} style={styles.unfriend}>Cancel</Text>
+               </BoxShadow>
+           </Button>
+        )
+    }
 
     return (
-        <>
+        <View style={styles.wrapper}>
             <BoxShadow
-                style={styles.wrapper}>
-                <Pressable
-                    android_ripple={{radius: 10}}
-                    onLongPress={props.allowPressable ? props.pick : null}
-                    onPress={props.picked && props.picked.length > 0 ? props.pick : 
-                        props.allowPressable ? props.showProfile : null}
-                    style={({ pressed }) => {
-                        let style = {}
-                        if (pressed && props.allowPressable) {
-                            style.backgroundColor = '#e9ebf2';
-                        }
-                        return {
-                            ...style,
-                            padding: 10,
-                            borderRadius: 10,
-                            flexDirection: 'row',
-                            width: '100%'
-                        };
-                    }}>
-                    { notification }
-                    <TouchableNativeFeedback onPress={!props.allowPressable ? props.showProfile : null}>
-                        <View>
-                            <View style={styles.userImageWrapper}>
-                                {userImg}
-                                {userStatus}
-                            </View>
-                            {picked ? (
-                                <View style={styles.pick}>
-                                    <Ionicons name="checkmark-outline" color="#16cf27" size={40} />
-                                </View>
-                            ): null}
-                        </View>
-                    </TouchableNativeFeedback>
-                    <View style={styles.det}>
-                        <Href numberOfLines={1} style={styles.userDet} title={props.userDet.username} 
-                            onPress={!props.allowPressable ? props.showProfile: null}/>
-                        <View style={styles.msgWrapper}>
-                            {msg}{msgCreated}
-                        </View>
+                style={styles.container}>
+                <TouchableNativeFeedback onPress={!props.allowPressable ? props.userProfile : null}>
+                    <View style={styles.userImageWrapper}>
+                        {userImg}
+                        {userStatus}
                     </View>
-                </Pressable>
+                </TouchableNativeFeedback>
+                <View style={styles.det}>
+                    <Href numberOfLines={1} style={styles.userDet} title={props.cnt.username} 
+                        onPress={!props.allowPressable ? props.userProfile: null}/>
+                    <View style={styles.msgWrapper}>
+                        {msg}{msgCreated}
+            
+                    </View>
+                </View>
             </BoxShadow>
             { props.lastItem && props.enableLoadMore ? (
-            <Button onPress={props.loadMore} disabled={props.start} style={{width: '100%', marginVertical: 10, paddingVertical: 0}}>
-                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                    { !props.start ? (
-                        <View style={{width: '100%', paddingVertical: 5, paddingHorizontal: 10,backgroundColor: '#dcdbdc', borderRadius: 5, 
-                            flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                            <Ionicons name="reload-outline" size={18} />
-                            <Text style={{marginLeft: 10}}>Load More</Text>
-                        </View>
-                    ):  (
-                        <ActivityIndicator
-                            size="small"
-                            animating
-                            color="#437da3"/>
-                    )}
-                </View>
-            </Button>
-        ) : null}
-        </>
+                <LoadMore
+                    title="Load More"
+                    icon={{name: 'reload-outline'}}
+                    onPress={props.loadMore}
+                    start={props.start}/>
+            ) : null}
+        </View>
     )
 }
 
 
 const styles = StyleSheet.create({
     wrapper: {
+        width: '100%'
+    },
+    container: {
         width: '100%',
         backgroundColor: '#fff',
         flexDirection: 'row',
-        alignItems: 'center',
         borderRadius: 10,
-        marginVertical: 10,
+        padding: 10,
+        marginBottom: 20,
+        marginTop: 5,
         shadowOffset: {
             width: 0,
             height: 1,
@@ -190,7 +205,8 @@ const styles = StyleSheet.create({
     msg: {
         marginRight: 5,
         flexShrink:  1,
-        fontSize: 16
+        fontSize: 16,
+        color: '#777'
     },
     msgCreated: {
         color: 'rgba(0,0,0, .45)',
@@ -200,25 +216,32 @@ const styles = StyleSheet.create({
         backgroundColor: '#437da3',
         color: '#fff',
         borderRadius: 5,
-        paddingVertical: 3,
+        paddingVertical: 4,
         paddingHorizontal: 10,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
     },
+    buttonAdd: {
+        color: '#fff'
+    },
     bottonText: {
         marginLeft: 5,
         color: '#fff'
     },
+    defaultButton: {
+        paddingVertical: 0
+    },
     useroptButtonWrapper: {
-        marginLeft: 10
+        marginLeft: 10,
+        paddingVertical: 0
     },
     useroptButton: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 10,
-        paddingVertical: 3,
+        paddingVertical: 4,
         borderRadius: 5,
         backgroundColor: '#dcdbdc',
         shadowOffset: {
@@ -230,19 +253,9 @@ const styles = StyleSheet.create({
         marginLeft: 5
     },
     tabBarge: {
-        top: 'auto',
-        right: 10
+        top: -5,
+        right: 0
     },
-    pick: {
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0, .65)',
-        borderRadius: 30
-    }
 });
 
 export default privateConv;

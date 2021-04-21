@@ -18,7 +18,10 @@ import { ThemeProvider } from "react-native-stylex";
 const theme = {
   palette: {
     color: "#333",
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    activeUri: {
+      color: '#437da3'
+    }
   },
   utils: {
     fade(color, value) {

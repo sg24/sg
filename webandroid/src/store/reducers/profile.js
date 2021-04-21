@@ -39,7 +39,7 @@ const changeProfileCancel = (state, action) => {
 };
 
 const changeProfile = (state, action) => {
-    let profile = {...state.profile};
+    let profile = state.profile ? {...state.profile} : {};
     function changeMode (oldCnts,changeCntStart,field, isUpdate) {
         let cnts = [{...oldCnts}];
         let curIndex;
@@ -102,7 +102,7 @@ const changeProfileFail = (state, action) => {
 };
 
 const submitAbout = (state, action) => {
-    let profile = {...state.profile};
+    let profile = state.profile ? {...state.profile} : {};
     let updateProfile = updateObject(profile, {about: action.cnt})
     return updateObject(state, {profile: updateProfile, submitAboutStart: false, submitAbout: true})
 };
@@ -120,7 +120,7 @@ const submitAboutReset = (state, action) => {
 };
 
 const submitProfileImage = (state, action) => {
-    let profile = {...state.profile};
+    let profile = state.profile ? {...state.profile} : {};
     let updateProfile = updateObject(profile, {image: action.image})
     return updateObject(state, {profile: updateProfile, submitProfileImageStart: false, submitProfileImage: true})
 };
@@ -138,7 +138,7 @@ const submitProfileImageReset = (state, action) => {
 };
 
 const submitUsername = (state, action) => {
-    let profile = {...state.profile};
+    let profile = state.profile ? {...state.profile} : {};
     let updateProfile = updateObject(profile, {username: action.username})
     return updateObject(state, {profile: updateProfile, submitUsernameStart: false, submitUsername: true})
 };
