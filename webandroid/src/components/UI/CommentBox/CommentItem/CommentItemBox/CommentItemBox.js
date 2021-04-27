@@ -30,6 +30,16 @@ const commentItemBox = props => {
             animating
             color="#437da3"/>
     );
+    let userImage = (
+        <View style={[styles.userImage, props.direction === 'right' ? styles.userImageDirection : null]}>
+            <Ionicons name="person" size={25} color="#777"/>
+        </View>
+    );
+
+    if (props.cnt.userImage) {
+        userImage = <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${props.cnt.userImage}`}}  
+        style={[styles.userImage, props.direction === 'right' ? styles.userImageDirection : null]}/>
+    }
     return (
         <>
         { props.firstItem && !props.enableReply && props.enableLoadPrevious ? (
@@ -51,8 +61,7 @@ const commentItemBox = props => {
             {/* { props.showUserImage ? ( */}
                 {/* {!props.disableUserOpt  ?  */}
                     <TouchableNativeFeedback onPress={props.userProfile}>
-                        <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${props.cnt.userImage}`}}  
-                            style={[styles.userImage, props.direction === 'right' ? styles.userImageDirection : null]}/>
+                        { userImage }
                     </TouchableNativeFeedback>  
             {/* ) : null} */}
             <BoxShadow style={deleteChatBox ? styles.deleteContainer : styles.container }>
@@ -204,7 +213,9 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderColor: '#437da3',
         borderWidth: 2,
-        marginRight: 10
+        marginRight: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     userImageDirection: {
         marginRight: 0,

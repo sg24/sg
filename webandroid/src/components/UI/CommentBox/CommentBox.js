@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View,  Image, ImageBackground, ActivityIndicator, StyleSheet, Keyboard, Dimensions, Platform, ScrollView } from 'react-native';
+import { View, Text, Image, ImageBackground, ActivityIndicator, StyleSheet, Keyboard, Dimensions, Platform, ScrollView } from 'react-native';
 import Clipboard from 'expo-clipboard';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
@@ -16,6 +16,7 @@ import InnerScreen from '../InnerScreen/InnerScreen';
 import DefaultHeader from '../Header/DefaultHeader';
 import SearchHeader from '../Header/Search';
 import Button from '../Button/Button';
+import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 import Option from '../Option/Option';
 import * as actions from '../../../store/actions/index';
 import  { updateObject, checkValidity } from '../../../shared/utility';
@@ -481,11 +482,6 @@ class CommentBox extends Component {
         let Wrapper = commentBackground ? ImageBackground : View;
         let wrapperProps = commentBackground ? {source: {uri: this.props.settings.commentBox.backgroundImage}, resizeMode: 'cover'} : {}
 
-        let headerImg = (
-            <View style={styles.userImageWrapper}>
-                <Ionicons name="person" size={20} color="#777"/>
-            </View>
-        );
         let userStatus = (
             <View style={[styles.userStatus]}></View>
         );
@@ -494,8 +490,19 @@ class CommentBox extends Component {
                 <View style={[styles.userStatus, styles.userStatusOn]}></View>
             );
         }
+        let headerImg = (
+            <View style={styles.userImageWrapper}>
+                <Ionicons name="person" size={20} color="#777"/>
+                { userStatus }
+            </View>
+        );
         if (this.props.info && this.props.info.image) {
-            headerImg = <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${this.props.info.image}`}} style={styles.userImageWrapper}/>;
+            headerImg = (
+                <View>
+                    <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${this.props.info.image}`}} style={styles.userImageWrapper}/>
+                    { userStatus }
+                </View>
+            )
         }
 
         let header = (
@@ -503,10 +510,13 @@ class CommentBox extends Component {
                 onPress={this.props.closeChat}
                 title={this.props.title}
                 leftSideContent={this.props.showHeaderImage ? (
-                    <View style={styles.leftSideContent}>
-                        { headerImg }
-                        { this.props.info && this.props.info.showStatus ? userStatus : null}
-                    </View>
+                    <TouchableNativeFeedback onPress={this.props.showProfile}>
+                        <View style={styles.leftSideContent}>
+                            { headerImg }
+                            {this.props.info && this.props.info.title ? 
+                            <Text style={styles.leftSideContentText} numberOfLines={1}>{ this.props.info.title }</Text> : null}
+                        </View>
+                    </TouchableNativeFeedback>
                 ) : null}
                 rightSideContent={(
                     <Button style={styles.optionIcon} onPress={this.checkOptionHandler}>
@@ -940,6 +950,12 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     leftSideContent: {
+        marginLeft: 10,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    leftSideContentText: {
+        fontSize: 18,
         marginLeft: 10
     },
     userImageWrapper: {
