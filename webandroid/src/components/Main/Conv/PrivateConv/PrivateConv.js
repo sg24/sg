@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 import Moment from 'react-moment';
@@ -132,10 +132,12 @@ const privateConv = props => {
                 <View style={styles.det}>
                     <Href numberOfLines={1} style={styles.userDet} title={props.cnt.username} 
                         onPress={!props.allowPressable ? props.userProfile: null}/>
-                    <View style={styles.msgWrapper}>
-                        {msg}{msgCreated}
-            
-                    </View>
+                    <TouchableNativeFeedback onPress={props.chat} style={Platform.OS === 'web' ? styles.msgWrapper : null}>
+                        <View style={styles.msgWrapper}>
+                            {msg}{msgCreated}
+                        </View>
+                    </TouchableNativeFeedback>
+                  
                 </View>
             </BoxShadow>
             { props.lastItem && props.enableLoadMore ? (

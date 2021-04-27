@@ -36,8 +36,8 @@ export function* shareInitSaga(action) {
             }
         }
         let cnt = response.data  ? response.data : null;
-        if (action.cntID === 'sendChat') {
-            socket.emit('sendChat', cnt, action.reciepent)
+        if (action.cntID === 'shareChat') {
+            socket.emit('shareChat', action.reciepent, cnt);
         }
         yield put(actions.share());
     } catch(err) {

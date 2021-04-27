@@ -18,6 +18,12 @@ const initialState = {
 };
 
 
+const updateChat = (state, action) => {
+    let fetchChat = state.fetchChat ? [...state.fetchChat] : [];
+    fetchChat.push(action.cnt);
+    return updateObject(state, {fetchChat})
+};
+
 const chatBoxReset = (state, action) => {
     return updateObject(state, { 
         fetchChatStart: false, fetchChatError: null, fetchChat: null, chatID: null,
@@ -76,6 +82,14 @@ const sendChatStart = (state, action) => {
         chat[chatAddedIndex] = chatAdded;
     } else {
         chat.push(action.cnt);
+        if (action.cnt.replyChat) {
+            let chatItem = chat.filter(cnt => cnt._id === action.cnt.replyChatInfo[0]._id)[0];
+            if (chatItem) {
+                chatItem.reply.push(action.cnt.sendChatID);
+                let chatItemIndex = chat.findIndex(cnt => cnt._id === action.cnt.replyChatInfo[0]._id);
+                chat[chatItemIndex] = chatItem;
+            }
+        }
     }
     return updateObject(state, {
         fetchChat: chat
@@ -118,6 +132,7 @@ const sendChat = (state, action) => {
         }
         delete chatAdded.sendChatID;
         chat[chatAddedIndex] = chatAdded;
+        
     }
     return updateObject(state, {
         fetchChat: chat, chatID: action.cntID.chatID ? action.cntID.chatID : state.chatID
@@ -255,6 +270,8 @@ const replyChat = (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.UPDATE_CHAT:
+            return updateChat(state, action);
         case actionTypes.CHATBOX_RESET:
             return chatBoxReset(state, action);
         case actionTypes.FETCH_CHAT_FAIL:

@@ -195,6 +195,7 @@ const updatePage = (state, action) => {
                 let updateProfile = state.fetchUser.filter(cnt => cnt._id !==  action.pageInfo._id);
                 return updateObject(state, {fetchUser: updateProfile});
             }
+            return updateObject(state, {fetchUser: updatePageCnt(state.fetchUser, action)});
         }
         return updateObject(state, {fetchUser: state.fetchUser});
     } else {

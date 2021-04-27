@@ -125,7 +125,7 @@ class Users extends Component {
     }
 
     chatHandler = (cnt) => {
-        this.setState({showChatBox: {title: cnt.username, info: {image: cnt.userImage, status: cnt.status, showStatus: true}}, pageID: cnt._id});
+        this.setState({showChatBox: {info: {title: cnt.username, image: cnt.userImage, status: cnt.status, showStatus: true}}, pageID: cnt._id});
     }
 
     changeProfileHandler = (pageID, title, cntType, confirm, info) => {
@@ -154,7 +154,7 @@ class Users extends Component {
                 <DefaultHeader 
                     onPress={() => this.props.navigation.goBack()}
                     disableBackButton
-                    title="User"
+                    title="Users"
                     rightSideContent={(
                         <Button style={styles.optionIcon} onPress={this.checkOptionHandler}>
                             <Ionicons name="ellipsis-vertical-outline" size={20} />
@@ -256,14 +256,15 @@ class Users extends Component {
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
                     { this.state.showChatBox ? 
                         <ChatBox
-                            title={this.state.showChatBox.title}
+                            title=""
                             showHeaderImage={true}
                             chatType="userchat"
                             page="users"
                             pageID={this.state.pageID}
                             closeChat={this.closeModalHandler}
                             showReply={false}
-                            info={this.state.showChatBox.info}/> : null}
+                            info={this.state.showChatBox.info}
+                            showProfile={() => this.userProfileHandler(this.state.pageID)}/> : null}
                     { profile && !profile.confirm ? 
                         <NotificationModal
                             info={this.state.changeProfile.info}

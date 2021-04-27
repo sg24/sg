@@ -20,7 +20,7 @@ const checkMediaType = props => {
                 <View style={[styles.wrapper, props.wrapperStyle]}>
                     <View style={[styles.wrapper, props.style]}>
                         <Image source={{uri: media.uri ? media.uri : `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}`}}  
-                            resizeMode="center" style={styles.mediaWrapper}/>
+                            resizeMode={props.resizeMode ? props.resizeMode: "center"} style={styles.mediaWrapper}/>
                     </View>
                     { props.children }
                 </View>

@@ -16,7 +16,7 @@ import * as actions from '../../../store/actions/index';
 import  { updateObject } from '../../../shared/utility';
 import ErrorInfo from '../ErrorInfo/ErrorInfo';
 import NotificationModal from '../NotificationModal/NotificationModal';
-import ChatBox from '../ChatBox/ChatBox';
+import CommentBox from '../CommentBox/CommentBox';
 
 class MediaPreview extends Component {
     constructor(props) {
@@ -215,7 +215,7 @@ class MediaPreview extends Component {
                         closeModal={this.props.onMediaLikeReset}
                         button={[{title: 'Ok', onPress: this.props.onMediaLikeReset, style: styles.button}]}/> : null}
                 { this.state.showChatBox ? 
-                    <ChatBox
+                    <CommentBox
                         title="Comment"
                         chatType="mediachat"
                         pageID={this.props.pageID}

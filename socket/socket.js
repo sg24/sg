@@ -1,27 +1,42 @@
 let global = require('../global/global');
 let { Comments } = require('./comment');
+let { Users } = require('./users');
 let room = new Comments();
+let user = new Users();
 // const {comment, replyComment } = require('../routes/comment');
 
 let io = global.io;
-
 io.on('connection', (socket) => {
-    //   socket.on('join', (id, callback) => {
-    //     if (id) {
-    //       socket.join(id);
-    //       room.removeUser(socket.id);
-    //       room.addUser(socket.id, id);
-    //     } else {
-    //       return callback('Invalid RoomID')
-    //     }
-    // });
+      socket.on('join', (type, id, callback) => {
+        if (id && type) {
+          if (type === 'private') {
+            user.removeUser(id);
+            user.addUser(id, socket.id);
+            return callback('joined');
+          }
+          socket.join(id);
+          return callback('joined')
+        } else {
+          return callback('Invalid Room')
+        }
+    });
 
-    socket.on('sendChat', (cnt, reciepent, callback) => {
+    socket.on('shareChat', (reciepent, cnt, callback) => {
         for (let userID of reciepent) {
-          socket.to(userID).emit('recieveChat', cnt)
+          let userInfo = user.getUser(userID);
+          if (userInfo && userInfo.room) {
+            socket.to(userInfo.room).emit('recieveChat', cnt)
+          }
         }
     });
   
+    socket.on('sendChat', (reciepent, cnt, callback) => {
+      let userInfo = user.getUser(reciepent);
+      if (userInfo && userInfo.room) {
+        socket.to(userInfo.room).emit('recieveChat', cnt);
+      }
+    });
+
     socket.on('createReplyComment', (cnt, callback) => {
       let user = room.getUser(socket.id);
       if (user && user.room) {

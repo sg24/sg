@@ -11,7 +11,7 @@ let uploadToBucket = require('./utility/upload');
 let deleteMedia = require('./utility/deletemedia');
 let notifications = require('./utility/notifications');
 let sequence = require('./utility/sequence');
-const {user, userchat, tempFile, connectStatus} = require('../serverDB/serverDB');
+const {user, userchat, notifications : userNotification, tempFile, connectStatus} = require('../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'getChat') {
@@ -24,18 +24,21 @@ router.post('/', authenticate, (req, res, next) => {
                 }
                 let chatInfo = sentchat || recieveChat;
                 if (chatInfo) {
-                    userchat.findById(chatInfo._id).then(result => {
-                        userchat.aggregate([{
-                            $match: {_id: chatInfo._id}}, 
-                            {$unwind: "$chat"}, 
-                            {$sort: {"chat.created": -1}},
-                            {$skip: req.body.start},
-                            {$limit: req.body.limit},
-                            {"$group": {"_id": "$_id", "chat": {"$push": "$chat"}}}]).then(chat => {
-                                return res.status(200).send({chat: chat[0] ? chat[0].chat.reverse() : [], username: req.username, userImage: req.userImage, userID: req.user,
-                                    chatID: chatInfo._id, loadPrevious: (result.chat.length - (req.body.start + req.body.limit)) > 0 })
-                        })
-                    });
+                    userNotification.findOneAndUpdate({userID: req.user}, {$pull: {'userChat': {userID: req.body.pageID}}}).then(() => {
+                        userchat.findById(chatInfo._id).then(result => {
+                            userchat.aggregate([{
+                                $match: {_id: chatInfo._id}}, 
+                                {$unwind: "$chat"}, 
+                                {$sort: {"chat.created": -1}},
+                                {$skip: req.body.start},
+                                {$limit: req.body.limit},
+                                {"$group": {"_id": "$_id", "chat": {"$push": "$chat"}}}]).then(chat => {
+                                    return res.status(200).send({chat: chat[0] ? chat[0].chat.reverse() : [], username: req.username, userImage: req.userImage, userID: req.user,
+                                        chatID: chatInfo._id, loadPrevious: (result.chat.length - (req.body.start + req.body.limit)) > 0,
+                                        pageInfo: {_id: req.body.pageID, notification: 0}})
+                            })
+                        });
+                    })
                 }  else {
                     return res.status(200).send({chat: [],
                         username: req.username, userImage: req.userImage, userID: req.user, chatID: req.body.pageID, loadPrevious: false});
@@ -73,14 +76,16 @@ router.post('/', authenticate, (req, res, next) => {
     if (req.header && req.header('data-categ') === 'sendChat') {
         formInit(req, formidable).then(form => {
             let mediaList = form.files && form.files.media ? form.files.media : [];
-            let fields = form.fields
+            let fields = form.fields;
+            let replyChatInfo = JSON.parse(fields.replyChatInfo);
             savetemp(mediaList, 'userchat', req.user).then(tempFileID => {
                 uploadToBucket(mediaList, fields.description).then(media => {
                     let _id = objectID();
                     let created = Date.now();
+                    let isReplyChat = replyChatInfo.length > 0 ? { replyChatID: replyChatInfo[0]._id, replyChat: true} : {};
                     let cnt = {
                         authorID: req.user, username: req.username, userImage: req.userImage,
-                        content: fields.content, media, tempFileID, created, _id
+                        content: fields.content, media, tempFileID, created, _id, replyChatInfo, ...isReplyChat
                     }
                     user.findById(fields.cntID).then(doc => {
                         if (doc) {
@@ -107,13 +112,9 @@ router.post('/', authenticate, (req, res, next) => {
                                         }
                                         res.status(200).send({_id, created, media, chatID: userChatDoc._id, pageInfo: {_id: fields.pageID, chat: [{...cnt, _id: result._id}]}});
                                         if (userChatDoc) {
-                                            let chat = [cnt];
-                                            let replyChat = chat.filter(chat => chat._id === _id)[0];
-                                            if (replyChat && replyChat.tempFile) {
-                                                replyChat.tempFile = null;
-                                                let replyChatIndex = chat.findIndex(chat => chat._id === _id);
-                                                chat[replyChatIndex] = replyChat;
-                                                userChatDoc.updateOne({chat});
+                                            if (cnt && cnt.tempFileID) {
+                                                cnt.tempFileID = null;
+                                                userChatDoc.updateOne({chat: [cnt]}).catch();
                                             }
                                         }
                                         return;
@@ -121,30 +122,46 @@ router.post('/', authenticate, (req, res, next) => {
                                 })
                             }
                         } else {
-                            return sequence([userchat.findByIdAndUpdate(fields.cntID, {$push: {chat: cnt}}),
-                                User.findByIdAndUpdate(fields.pageID, {$pull: {chat: {'authorID': req.user}}}), user.findByIdAndUpdate(fields.pageID, {$push: {chat: {...cnt, _id: fields.cntID}}})]).then(friendChatDoc=> {
+                            return sequence([cnt.replyChatID ? 
+                                userchat.findById(fields.cntID).then(userChatDoc => {
+                                    if (userChatDoc) {
+                                        let chat = userChatDoc.chat;
+                                        let chatItem = chat.filter(chat => JSON.parse(JSON.stringify(chat._id)) === cnt.replyChatID)[0];
+                                        if (chatItem) {
+                                            chatItem.reply.push(cnt._id);
+                                            let chatItemIndex = chat.findIndex(chat => JSON.parse(JSON.stringify(chat._id)) === cnt.replyChatID);
+                                            chat[chatItemIndex] = chatItem;
+                                        }
+                                        return userChatDoc.updateOne({chat});
+                                    }
+                                    return Promise.reject()
+                                }) : Promise.resolve(), userchat.findByIdAndUpdate(fields.cntID, {$push: {chat: cnt}}),
+                                user.findByIdAndUpdate(fields.pageID, {$pull: {chat: {'authorID': req.user}}}), user.findByIdAndUpdate(fields.pageID, {$push: {chat: {...cnt, _id: fields.cntID}}})]).then(friendChatDoc=> {
                                 return sequence([
                                     tempFile.findOneAndUpdate({userID: cnt.authorID, "tempFiles.id": tempFileID}, {$pull: {tempFiles: {id: tempFileID}}}),
                                     user.findByIdAndUpdate(req.user, {$pull: {chat: {'authorID': fields.pageID}}}), user.findByIdAndUpdate(req.user, {$push: {chat: { ...cnt, 
-                                        _id: fields.cntID, authorID: fields.pageID, username: friendChatDoc[2].username, userImage: friendChatDoc[2].userImage}}})]).then(() => {
-                                    if (friendChatDoc[2]) {
-                                        let isOnline = (new Date().getTime() - new Date(friendChatDoc[2].visited).getTime()) < 60000;
+                                        _id: fields.cntID, authorID: fields.pageID, username: friendChatDoc[3].username, userImage: friendChatDoc[2].userImage}}})]).then(() => {
+                                    if (friendChatDoc[3]) {
+                                        let isOnline = (new Date().getTime() - new Date(friendChatDoc[3].visited).getTime()) < 60000;
                                         if (!isOnline) {
                                             notifications('userChat', fields.pageID, {userID: req.user, ID: fields.cntID, enableCounter: true})
                                         }
                                     }
-                                    res.status(200).send({_id, created, media, pageInfo: {_id: fields.pageID, chat: [{...cnt, _id: fields.cntID}]}});
-                                    let userChatDoc = friendChatDoc[0];
-                                    if (userChatDoc) {
-                                        let chat = [cnt];
-                                        let replyChat = chat.filter(chat => chat._id === _id)[0];
-                                        if (replyChat && replyChat.tempFile) {
-                                            replyChat.tempFile = null;
-                                            let replyChatIndex = chat.findIndex(chat => chat._id === _id);
-                                            chat[replyChatIndex] = replyChat;
-                                            userChatDoc.updateOne({chat});
+                                    let message = cnt.content ? cnt.content : 
+                                        cnt.media && cnt.media.length > 0 ? cnt.media[cnt.media.length -1].filename.split('.')[0] + '.' + cnt.media[cnt.media.length -1].ext.split('/')[1] : null;
+                                    res.status(200).send({_id, created, media, pageInfo: {_id: fields.pageID, notification: 0, chat: [{...cnt, _id: fields.cntID, message}]}});
+                                    userchat.findById(fields.cntID).then(userChatDoc => {
+                                        if (userChatDoc) {
+                                            let chat = userChatDoc.chat;
+                                            let replyChat = chat.filter(chat => JSON.parse(JSON.stringify(chat._id)) === JSON.parse(JSON.stringify(_id)))[0];
+                                            if (replyChat && replyChat.tempFileID) {
+                                                replyChat.tempFileID = null;
+                                                let replyChatIndex = chat.findIndex(chat => JSON.parse(JSON.stringify(chat._id)) === JSON.parse(JSON.stringify(_id)));
+                                                chat[replyChatIndex] = replyChat;
+                                                userChatDoc.updateOne({chat}).catch();
+                                            }
                                         }
-                                    }
+                                    });
                                     return;
                                 })
                             })
@@ -155,7 +172,7 @@ router.post('/', authenticate, (req, res, next) => {
         });
     }
 
-    if (req.header && req.header('data-categ') === 'sendChat') {
+    if (req.header && req.header('data-categ') === 'shareChat') {
         let cnt = JSON.parse(req.body.cnt);
         let reciepent = JSON.parse(req.body.reciepent);
         const send = (cnt, reciever, info) => {
@@ -245,93 +262,36 @@ router.post('/', authenticate, (req, res, next) => {
         }
     }
 
-    if (req.header !== null && req.header('data-categ') === 'replyChat') {
-        formInit(req, formidable).then(form => {
-            let mediaList = form.files && form.files.media ? form.files.media : [];
-            let fields = form.fields
-            savetemp(mediaList, 'userchat', req.user).then(tempFileID => {
-                uploadToBucket(mediaList, fields.description).then(media => {
-                    let _id = objectID();
-                    let created = Date.now();
-                    let cnt = {
-                        authorID: req.user, username: req.username, userImage: req.userImage,
-                        content: fields.content, media, tempFileID, _id, created, replyChat: true,
-                        replyChatID: fields.chatID
-                    }
-                    userchat.findById(fields.cntID).then(doc => {
-                        if (doc ){
-                            let chat = doc.chat;
-                            chat.push(cnt);
-                            let chatItem = chat.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === fields.chatID)[0];
-                            if (chatItem) {
-                                chatItem.reply.push(cnt._id);
-                                let chatItemIndex = chat.findIndex(cnt => JSON.parse(JSON.stringify(cnt._id)) === fields.chatID);
-                                chat[chatItemIndex] = chatItem;
-                                Promise.all([doc.updateOne({chat}),
-                                    tempFile.findOneAndUpdate({userID: cnt.authorID, "tempFiles.id": tempFileID}, {$pull: {tempFiles: {id: tempFileID}}}),
-                                    post.findOneAndUpdate({_id: fields.pageID, 'chat.user.authorID': {$ne: req.user}}, {$push: {'chat.user': {authorID: req.user, username: req.username, userImage: req.userImage}}})]).then(cnt => {
-                                    let total = chat.length;
-                                    post.findByIdAndUpdate(fields.pageID, {'chat.total': total}).then(result => {
-                                        res.status(200).send({_id, created, media, pageInfo: {_id: fields.pageID, chat: {total, user: result.chat.user, _id: result.chat._id}}})
-                                    })
-                                    userchat.findById(fields.cntID).then(doc => {
-                                        if (doc) {
-                                            let chat = doc.chat
-                                            let replyChat = chat.filter(chat => chat._id === _id)[0];
-                                            if (replyChat && replyChat.tempFile) {
-                                                replyChat.tempFile = null;
-                                                let replyChatIndex = chat.findIndex(chat => chat._id === _id);
-                                                chat[replyChatIndex] = replyChat;
-                                                doc.updateOne({chat});
-                                            }
-                                        }
-                                    })
-                                })
-                            }
-                        }
-                    })
-                })
-            })
-        }).catch(err => {
-            res.status(500).send(err);
-        })
-    }
 
     if (req.header !== null && req.header('data-categ') === 'deleteChat') {
         Promise.all([deleteMedia(JSON.parse(req.body.media)),
-            userchat.findByIdAndUpdate(req.body.chatID, {$pull: {chat: {'_id': req.body.cntID}}})]).then(cnt => {
-            post.findByIdAndUpdate({_id: req.body.pageID}, {'chat.total': cnt[1].chat.length - 1}).then(result => {
-                return res.status(200).send({pageInfo: {_id: req.body.pageID, chat: {total: cnt[1].chat.length - 1, user: result.chat.user, _id: result.chat._id}}});  
-            })
-        }).catch(err => {
-            res.status(500).send(err);
-        })
-        return
-    }
-
-    if (req.header !== null && req.header('data-categ') === 'deleteReply') {
-        deleteMedia(JSON.parse(req.body.media)).then(() => {
-            userchat.findOne({_id: req.body.chatID}).then(doc => {
-                if (doc) {
-                    let chat = doc.chat;
-                    let removeChatItem = chat.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === req.body.cntID)[0];
-                    let removeChat = chat.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) !== req.body.cntID);
-                    if (removeChatItem) {
-                        let chatItem = chat.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === removeChatItem.replyChatID)[0];
-                        if (chatItem) {
-                            let reply = chatItem.reply.filter(id => JSON.parse(JSON.stringify(id)) !== req.body.cntID);
-                            chatItem.reply = reply;
-                            let chatItemIndex = chat.findIndex(cnt => JSON.parse(JSON.stringify(cnt._id)) === removeChatItem.replyChatID);
-                            removeChat[chatItemIndex] = chatItem;
-                            doc.updateOne({chat: removeChat}).then(() => {
-                                post.findByIdAndUpdate({_id: req.body.pageID}, {'chat.total': removeChat.length}).then(result => {
-                                    return res.status(200).send({pageInfo: {_id: req.body.pageID, chat: {total: removeChat.length, user: result.chat.user, _id: result.chat._id}}});  
-                                })
-                            })
-                        }
-                    }
+            userchat.findById(req.body.chatID)]).then(doc => {
+            let chat = doc[1].chat.length > 1 ? doc[1].chat[doc[1].chat.length -2] : null;
+            let removeChatItem = doc[1].chat.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === req.body.cntID)[0];
+            let removeChat = doc[1].chat.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) !== req.body.cntID);
+            if (removeChatItem && removeChatItem.replyChat) {
+                let chatItem = removeChat.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === removeChatItem.replyChatID)[0];
+                if (chatItem) {
+                    let chatItemIndex = removeChat.findIndex(cnt => JSON.parse(JSON.stringify(cnt._id)) === removeChatItem.replyChatID);
+                    let chatItemReply = chatItem.reply.filter(chatID => JSON.parse(JSON.stringify(chatID)) !== req.body.cntID);
+                    chatItem.reply = chatItemReply
+                    removeChat[chatItemIndex] = chatItem;
                 }
-            })
+            }
+            doc[1].updateOne({chat: removeChat}).then(() => {
+                if (chat) {
+                    chat = JSON.parse(JSON.stringify(chat));
+                   sequence([user.findByIdAndUpdate(req.body.pageID, {$pull: {chat: {'authorID': req.user}}}), user.findByIdAndUpdate(req.body.pageID, {$push: {chat: {...chat, 
+                        authorID: req.user, username: req.username, userImage: req.userImage, _id: req.body.chatID}}})]).then(doc => {
+                        sequence([user.findByIdAndUpdate(req.user, {$pull: {chat: {'authorID': req.body.pageID}}}), user.findByIdAndUpdate(req.user, {$push: {chat: { ...chat, 
+                            authorID: doc[1]._id, username: doc[1].username, userImage: doc[1].userImage,  _id: req.body.chatID}}})]).then(() => {
+                                return res.sendStatus(200);
+                        })
+                    });     
+                } else {
+                    return res.sendStatus(200);
+                }
+            });
         }).catch(err => {
             res.status(500).send(err);
         })

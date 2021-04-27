@@ -31,7 +31,7 @@ import PagePreview from '../../components/Page/Preview/Preview';
 import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
-import ChatBox from '../../components/UI/ChatBox/ChatBox';
+import CommentBox from '../../components/UI/CommentBox/CommentBox';
 import SharePicker from '../../components/UI/SharePicker/SharePicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 
@@ -383,7 +383,7 @@ class Post extends Component {
                             closePreview={this.closePreviewHandler}
                             backgroundColor={this.props.settings.backgroundColor}/> : null}
                     { this.state.showChatBox ? 
-                        <ChatBox
+                        <CommentBox
                             title="Comment"
                             chatType="postchat"
                             page="post"
@@ -391,7 +391,7 @@ class Post extends Component {
                             closeChat={this.closeModalHandler}
                             showReply/> : null}
                     { this.state.showAdvertChat ? 
-                        <ChatBox
+                        <CommentBox
                             title="Comment"
                             chatType="advertchat"
                             page="advert"

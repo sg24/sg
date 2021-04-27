@@ -4,6 +4,14 @@ import axios from '../../axios';
 
 import  { updatePage } from './page';
 import  { updateMediaInfo } from './media';
+import { socket } from '../../shared/utility';
+
+export const updateChat = (cnt) => {
+    return {
+        type: actionTypes.UPDATE_CHAT,
+        cnt
+    };
+};
 
 export const chatBoxReset = () => {
     return {
@@ -69,7 +77,10 @@ export const sendChatInit = (chatType, cntID, page, pageID, formData) => {
             let description = uploadFile([], formContent, formData.uploadFile);
             formContent.append('description', JSON.stringify(description));
         }
-        formContent.append('content', formData.content);
+        if (formData.replyChatInfo) {
+            formContent.append('replyChatInfo', JSON.stringify(formData.replyChatInfo));
+        }
+        formContent.append('content', formData.content || '');
         formContent.append('cntID', cntID);
         formContent.append('page', page);
         formContent.append('pageID', pageID);
@@ -84,6 +95,15 @@ export const sendChatInit = (chatType, cntID, page, pageID, formData) => {
                     dispatch(sendChatStart({...formData, uploadedPercent: percentage}))
                 }
             }}).then((res) => {
+            if (res.data && page === 'users') {
+                let cnt = {...res.data};
+                let chat = {...formData};
+                delete cnt.pageInfo;
+                delete cnt.mediaInfo;
+                delete chat.sendChatID;
+                delete chat.sent;
+                socket.emit('sendChat', pageID, {...chat, ...cnt});
+            }
             if (res.data && res.data.pageInfo) {
                 dispatch(updatePage(res.data.pageInfo, page))
             }
@@ -223,7 +243,7 @@ export const replyChatInit = (chatType, cntID, chatID, page, pageID, formData) =
             let description = uploadFile([], formContent, formData.uploadFile);
             formContent.append('description', JSON.stringify(description));
         }
-        formContent.append('content', formData.content);
+        formContent.append('content', formData.content || '');
         formContent.append('chatID', chatID);
         formContent.append('cntID', cntID);
         formContent.append('page', page);

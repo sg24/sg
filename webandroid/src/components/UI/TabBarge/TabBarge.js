@@ -6,7 +6,7 @@ import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeF
 const tabBarge = props => (
     <View style={[styles.tabBarge, props.style]}>
         <TouchableNativeFeedback onPress={props.onPress}>
-            <Text style={styles.notification}>{props.notification}</Text>
+            <Text style={styles.notification} numberOfLines={1}>{props.notification}</Text>
         </TouchableNativeFeedback>
     </View>
 )
@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
         padding: 0
     },
     notification: {
-        color: '#fff'
+        color: '#fff',
+        overflow: 'hidden'
     }
 })
 

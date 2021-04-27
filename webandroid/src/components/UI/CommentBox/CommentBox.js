@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, ImageBackground, ActivityIndicator, StyleSheet, Keyboard, Dimensions, Platform, ScrollView } from 'react-native';
+import { View,  Image, ImageBackground, ActivityIndicator, StyleSheet, Keyboard, Dimensions, Platform, ScrollView } from 'react-native';
 import Clipboard from 'expo-clipboard';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
@@ -10,16 +10,15 @@ import urischeme from 'urischeme';
 import { useNavigation } from '@react-navigation/native';
 import withComponent from 'withcomponent';
 
-import ChatItem from './ChatItem/ChatItem';
+import ChatItem from './CommentItem/CommentItem';
 import { size } from 'tailwind';
 import InnerScreen from '../InnerScreen/InnerScreen';
 import DefaultHeader from '../Header/DefaultHeader';
 import SearchHeader from '../Header/Search';
 import Button from '../Button/Button';
-import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 import Option from '../Option/Option';
 import * as actions from '../../../store/actions/index';
-import  { updateObject, checkValidity, socket } from '../../../shared/utility';
+import  { updateObject, checkValidity } from '../../../shared/utility';
 import ErrorInfo from '../ErrorInfo/ErrorInfo';
 import NotificationModal from '../NotificationModal/NotificationModal';
 import FormElement from '../FormElement/FormElement';
@@ -35,7 +34,7 @@ import MediaPreview from '../MediaPreview/MediaPreview';
 import SharePicker from '../SharePicker/SharePicker';
 import Settings from '../Settings/Settings';
 
-class ChatBox extends Component {
+class CommentBox extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -76,9 +75,7 @@ class ChatBox extends Component {
             showPreview: null,
             showReply: null,
             searchHashTag: false,
-            editUploadFile: null,
-            chatBoxLayout: [],
-            width: 0
+            editUploadFile: null
         }
     }
 
@@ -91,32 +88,11 @@ class ChatBox extends Component {
     componentDidMount() {
         Dimensions.addEventListener('change', this.updateStyle);
         this.props.onFetchChat(this.props.fetchChat ? this.props.fetchChat.length : 0, this.props.settings.commentBox.fetchLimit, this.props.chatType, this.props.cntID, this.props.page, this.props.pageID);
-        socket.emit('join', 'private', this.props.userID, (status) => {
-        });
-        let these = this;
-        socket.on('recieveChat', (cnt) => {
-            let allowUpdate = these.props.fetchChat.filter(chat => chat._id === cnt._id).length < 1 ? true : false;
-            if (allowUpdate) {
-                these.props.onUpdateChat(cnt);
-                if (these.scroll) {
-                   setTimeout(() => {
-                    these.scroll.scrollToEnd({animated: true});
-                   }, 1000)
-                }
-            }
-        });
     }
 
-    componentDidUpdate() {
-        if (this.props.fetchChat && (this.props.fetchChat.length !== this.state.width)) {
-            this.setState({width: this.props.fetchChat.length})
-        }
-    }
-    
     componentWillUnmount() {
         Dimensions.removeEventListener('change', this.updateStyle);
         this.props.onChatReset();
-        socket.off('recieveChat');
     }
 
     reloadFetchHandler = () => {
@@ -191,18 +167,16 @@ class ChatBox extends Component {
         this.setState({showSettings: false});
     }
 
-    showChatOptionHandler = (cnt, direction, e, isText) => {
-        let updateCnt = {...cnt};
-        delete updateCnt.replyChatID
-        let copyOpt = cnt.media.length < 1 || isText === true ? [
+    showChatOptionHandler = (cnt, direction, e) => {
+        let copyOpt = cnt.media.length < 1 ? [
             {title: 'Share', icon: {name: 'paper-plane-outline'}, action: 'share'},
             {title: 'Copy Text', icon: {name: 'clipboard-outline'}, action: 'copy'}
         ] : [{title: 'Share', icon: {name: 'paper-plane-outline'}, action: 'share'}]
-        let deleteOpt = cnt.reply && cnt.reply.length < 1 && this.props.userID === cnt.authorID ? [
+        let deleteOpt = cnt.reply.length < 1 && this.props.userID === cnt.authorID ? [
             ...copyOpt,
             {title: 'Delete', icon: {name: 'trash-bin-outline'}, action: 'delete'}] : 
             copyOpt;
-        let enableReply = this.state.showReply || this.state.replyChatBox  || (cnt.reply && cnt.reply.length > 0 && this.props.showReply ) ? [] : [
+        let enableReply = this.state.showReply || this.state.replyChatBox  || cnt.reply.length > 0 ? [] : [
             {title: 'Reply', icon: {name: 'arrow-redo-outline'}, action: 'reply'}
         ];
         this.setState({showChatOption: { option: [
@@ -213,7 +187,7 @@ class ChatBox extends Component {
             this .state.viewMode === 'landscape' ? e.nativeEvent.pageY - 255 : e.nativeEvent.pageY - 185 :
             this.state.viewMode === 'landscape' ?  e.nativeEvent.pageY - 65: e.nativeEvent.pageY :
         '50%', direction,
-        locationX:  e.nativeEvent.locationX, cnt: updateCnt}, showOption: false, showChatInfo: null,  editChatBox: null});
+        locationX:  e.nativeEvent.locationX, cnt}, showOption: false, showChatInfo: null,  editChatBox: null});
     }
 
     closeChatOptionHandler = () => {
@@ -297,42 +271,6 @@ class ChatBox extends Component {
         this.closeModalHandler();
     }
 
-    scrollToChatHandler = (replyChatBox) => {
-        let chatBoxLayout = this.state.chatBoxLayout;
-        let chatBoxPosition = chatBoxLayout.filter(cnt => cnt.chatBoxID === replyChatBox._id)[0];
-        if (chatBoxPosition && this.scroll) {
-            this.scroll.scrollTo({y: chatBoxPosition.layout.y});
-            return;
-        }
-        let chatPosition = this.props.fetchChat.filter(cnt => (cnt._id === replyChatBox._id) && cnt.scrollID)[0];
-        if (chatPosition && this.scroll) {
-            chatBoxPosition = chatBoxLayout.filter(cnt => cnt.chatBoxID === chatPosition.scrollID)[0];
-            if (chatBoxPosition && this.scroll) {
-                this.scroll.scrollTo({y: chatBoxPosition.layout.y});
-                return;
-            }
-        }
-        this.scroll.scrollTo({y:0});
-        alert('Load more to scroll to chat')
-    }
-
-    chatBoxPositionHandler = (layout, chatBoxID, scrollID) => {
-        chatBoxID = chatBoxID ? chatBoxID : scrollID 
-        if (chatBoxID && !this.state.replyChatBox) {
-            let chatBoxLayout = [...this.state.chatBoxLayout];
-            let chatBoxItem = chatBoxLayout.filter(cnt => cnt.chatBoxID === chatBoxID)[0];
-            if (chatBoxItem) {
-                chatBoxItem.layout = layout;
-                let chatBoxItemIndex = chatBoxLayout.findIndex(cnt => cnt.chatBoxID === chatBoxID)
-                chatBoxLayout[chatBoxItemIndex] = chatBoxItem;
-                this.setState({chatBoxLayout});
-            } else {
-                chatBoxLayout.push({layout, chatBoxID});
-                this.setState({chatBoxLayout});
-            }
-        }
-    }
-
     showReplyHandler = (cnt) => {
         this.props.onFetchReply(this.props.fetchReply ? this.props.fetchReply.length : 0, this.props.settings.commentBox.fetchLimit, this.props.chatType, this.props.chatID, cnt._id);
         this.setState({showReply: cnt, showSearch: false, searchText: ''});
@@ -373,7 +311,7 @@ class ChatBox extends Component {
         if (index === -1) {
             this.setState({showActionSheet: false})
         } else if (index === 0) {
-            if ( this.state.showActionSheet.option[0] === 'Friends' ) {
+            if (this.state.showActionSheet.option[0] === 'Friends') {
                 this.setState({showSharePicker: {type: this.state.showActionSheet.option[index],
                     cnt: this.state.showActionSheet.cnt}, showActionSheet: false})
                 return
@@ -479,15 +417,10 @@ class ChatBox extends Component {
 
     sendChatHandler = (content) => {
         Keyboard.dismiss();
-        if (!this.state.editChatBox && !this.state.showReply) {
-            let replyChatInfo = this.state.replyChatBox ? [{
-                _id: this.state.replyChatBox._id, authorID: this.state.replyChatBox.authorID, content: this.state.replyChatBox.content, media: this.state.replyChatBox.media,
-                tempFileID: this.state.replyChatBox.tempFileID
-            }] : [];
+        if (!this.state.editChatBox && !this.state.replyChatBox && !this.state.showReply) {
             this.props.onSendChat(this.props.chatType, this.props.chatID, this.props.page, this.props.pageID, updateObject(content, {
                 sendChatID: uuid(), sent: false, fail: false, username: this.props.username, userImage: this.props.userImage,
-                authorID: this.props.userID, reply: [], replyChatInfo, replyChatID: this.state.replyChatBox ? this.state.replyChatBox._id : null, 
-                replyChat: this.state.replyChatBox ? true : false, scrollID: uuid()}));
+                authorID: this.props.userID, reply: []}));
             if (this.scroll) {
                 this.scroll.scrollToEnd({animated: true});
             }
@@ -499,8 +432,8 @@ class ChatBox extends Component {
             this.closeModalHandler();
             return;
         }
-        if (this.state.showReply) {
-            let cnt = this.state.showReply;
+        if (this.state.replyChatBox || this.state.showReply) {
+            let cnt = this.state.replyChatBox || this.state.showReply;
             this.props.onReplyChat(this.props.chatType, this.props.chatID, cnt._id, this.props.page, this.props.pageID, updateObject(content, {
                 sendChatID: uuid(), sent: false, fail: false, username: this.props.username, userImage: this.props.userImage,
                 authorID: this.props.userID, reply: [], replyChatID: cnt._id}));
@@ -548,6 +481,11 @@ class ChatBox extends Component {
         let Wrapper = commentBackground ? ImageBackground : View;
         let wrapperProps = commentBackground ? {source: {uri: this.props.settings.commentBox.backgroundImage}, resizeMode: 'cover'} : {}
 
+        let headerImg = (
+            <View style={styles.userImageWrapper}>
+                <Ionicons name="person" size={20} color="#777"/>
+            </View>
+        );
         let userStatus = (
             <View style={[styles.userStatus]}></View>
         );
@@ -556,19 +494,8 @@ class ChatBox extends Component {
                 <View style={[styles.userStatus, styles.userStatusOn]}></View>
             );
         }
-        let headerImg = (
-            <View style={styles.userImageWrapper}>
-                <Ionicons name="person" size={20} color="#777"/>
-                { userStatus }
-            </View>
-        );
         if (this.props.info && this.props.info.image) {
-            headerImg = (
-                <View>
-                    <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${this.props.info.image}`}} style={styles.userImageWrapper}/>
-                    { userStatus }
-                </View>
-            )
+            headerImg = <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${this.props.info.image}`}} style={styles.userImageWrapper}/>;
         }
 
         let header = (
@@ -576,13 +503,10 @@ class ChatBox extends Component {
                 onPress={this.props.closeChat}
                 title={this.props.title}
                 leftSideContent={this.props.showHeaderImage ? (
-                    <TouchableNativeFeedback onPress={this.props.showProfile}>
-                        <View style={styles.leftSideContent}>
-                            { headerImg }
-                            {this.props.info && this.props.info.title ? 
-                            <Text style={styles.leftSideContentText} numberOfLines={1}>{ this.props.info.title }</Text> : null}
-                        </View>
-                    </TouchableNativeFeedback>
+                    <View style={styles.leftSideContent}>
+                        { headerImg }
+                        { this.props.info && this.props.info.showStatus ? userStatus : null}
+                    </View>
                 ) : null}
                 rightSideContent={(
                     <Button style={styles.optionIcon} onPress={this.checkOptionHandler}>
@@ -647,7 +571,6 @@ class ChatBox extends Component {
                                 disableUserOpt={true}
                                 openURI={this.openURIHandler}
                                 enableReply
-                                chatBoxPosition={this.chatBoxPositionHandler}
                                 />
                         </ScrollView>
                     </AbsoluteFill>
@@ -712,8 +635,7 @@ class ChatBox extends Component {
                         editChatBox={this.state.editChatBox}
                         preview={this.mediaPreviewHandler}
                         enableReply
-                        openURI={this.openURIHandler}
-                        chatBoxPosition={this.chatBoxPositionHandler}/>
+                        openURI={this.openURIHandler}/>
                 </View>
             )
         }
@@ -745,10 +667,7 @@ class ChatBox extends Component {
                                 enableLoadPrevious={this.props.loadPreviousChat}
                                 fetchChatStart={this.props.fetchChatStart}
                                 searchText={this.state.searchText}
-                                highlighted={this.props.settings.commentBox.highlighted}
-                                scrollToChat={this.scrollToChatHandler}
-                                chatBoxPosition={this.chatBoxPositionHandler}
-                                width={this.state.width}/>
+                                highlighted={this.props.settings.commentBox.highlighted}/>
                         </ScrollView>
                         { option }
                     </View>
@@ -820,9 +739,7 @@ class ChatBox extends Component {
                                                 enableLoadPrevious={this.props.loadPreviousReply}
                                                 fetchChatStart={this.props.fetchReplyStart}
                                                 searchText={this.state.searchText}
-                                                highlighted={this.props.settings.commentBox.highlighted}
-                                                scrollToChat={this.scrollToChatHandler}
-                                                chatBoxPosition={this.chatBoxPositionHandler}/>
+                                                highlighted={this.props.settings.commentBox.highlighted}/>
                                         </ScrollView>
                                         { option }
                                     </View>
@@ -912,7 +829,7 @@ class ChatBox extends Component {
                         closeModal={this.props.onFetchReplyReset} /> : null}
                  { this.props.deleteChat && !this.props.deleteChat.start ?  
                     <NotificationModal
-                        info="Are you sure you want to delete this chat"
+                        info="Are you sure you want to delete this comment"
                         closeModal={this.deleteChatResetHandler}
                         button={[{title: 'Ok', onPress: this.deleteChatHandler, style: styles.buttonCancel},
                         {title: 'Exit', onPress: this.deleteChatResetHandler, style: styles.button}]}/> : null}
@@ -1023,12 +940,6 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     leftSideContent: {
-        marginLeft: 10,
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    leftSideContentText: {
-        fontSize: 18,
         marginLeft: 10
     },
     userImageWrapper: {
@@ -1069,7 +980,7 @@ const mapStateToProps = state => {
         chatID: state.chatBox.chatID,
         username: state.chatBox.username,
         userImage: state.chatBox.userImage,
-        userID: state.auth.userID,
+        userID: state.chatBox.userID,
         deleteChat: state.chatBox.deleteChat,
         deleteChatError: state.chatBox.deleteChatError
     };
@@ -1085,9 +996,8 @@ const mapDispatchToProps = dispatch => {
         onDeleteChatReset: () => dispatch(actions.deleteChatReset()),
         onReplyChat: (chatType, cntID, chatID, page, pageID, formData) =>  dispatch(actions.replyChatInit(chatType, cntID, chatID, page, pageID,formData)),
         onFetchReply: (start, limit, chatType, cntID, chatID) => dispatch(actions.fetchReplyInit(start, limit, chatType, cntID, chatID)),
-        onFetchReplyReset: () => dispatch(actions.fetchReplyReset()),
-        onUpdateChat: (cnt) => dispatch(actions.updateChat(cnt))
+        onFetchReplyReset: () => dispatch(actions.fetchReplyReset())
     };
 };
 
-export default withComponent([{name: 'navigation', component: useNavigation}])(connect(mapStateToProps, mapDispatchToProps)(ChatBox));
+export default withComponent([{name: 'navigation', component: useNavigation}])(connect(mapStateToProps, mapDispatchToProps)(CommentBox));

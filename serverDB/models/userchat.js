@@ -42,6 +42,19 @@ const UserChatSchema = new Schema({
         replyChatID: {
             type: String
         },
+        replyChatInfo: [{
+            _id: ObjectId,
+            authorID: ObjectId,
+            content: String,
+            media: [{
+                id: ObjectId, 
+                filename: String, 
+                bucket: String,
+                ext: String, 
+                description: String
+            }],
+            tempFileID: String
+        }],
         shared: {
             type: String
         },

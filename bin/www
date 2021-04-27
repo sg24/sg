@@ -84,7 +84,11 @@ nextApp.prepare().then(() => {
   })
 
   var server = http.createServer(app);
-  global.io = socketIO(server);
+  global.io = socketIO(server, {
+    cors: {
+      origin: "http://localhost:19006",
+    }
+  });
 
   server.listen(port, () => {
     console.log('started', port)

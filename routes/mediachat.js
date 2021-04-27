@@ -202,13 +202,13 @@ router.post('/', authenticate, (req, res, next) => {
                         }})
                         mediachat.findById(fields.cntID).then(doc => {
                             if (doc) {
-                                let chat = doc.chat
-                                let chatItem = chat.filter(chat => chat._id === _id)[0];
-                                if (chatItem && chatItem.tempFile) {
-                                    chatItem.tempFile = null;
-                                    let chatIndex = chat.findIndex(chat => chat._id === _id);
+                                let chat = doc.chat;
+                                let chatItem = chat.filter(chat => JSON.parse(JSON.stringify(chat._id)) === JSON.parse(JSON.stringify(_id)))[0];
+                                if (chatItem && chatItem.tempFileID) {
+                                    chatItem.tempFileID = null;
+                                    let chatIndex = chat.findIndex(chat => JSON.parse(JSON.stringify(chat._id)) === JSON.parse(JSON.stringify(_id)));
                                     chat[chatIndex] = chatItem;
-                                    doc.updateOne({chat});
+                                    doc.updateOne({chat}).catch();
                                 }
                             }
                         })
@@ -250,12 +250,12 @@ router.post('/', authenticate, (req, res, next) => {
                                     mediachat.findById(fields.cntID).then(doc => {
                                         if (doc) {
                                             let chat = doc.chat
-                                            let replyChat = chat.filter(chat => chat._id === _id)[0];
-                                            if (replyChat && replyChat.tempFile) {
-                                                replyChat.tempFile = null;
-                                                let replyChatIndex = chat.findIndex(chat => chat._id === _id);
+                                            let replyChat = chat.filter(chat => JSON.parse(JSON.stringify(chat._id)) === JSON.parse(JSON.stringify(_id)))[0];
+                                            if (replyChat && replyChat.tempFileID) {
+                                                replyChat.tempFileID = null;
+                                                let replyChatIndex = chat.findIndex(chat => JSON.parse(JSON.stringify(chat._id)) === JSON.parse(JSON.stringify(_id)));
                                                 chat[replyChatIndex] = replyChat;
-                                                doc.updateOne({chat});
+                                                doc.updateOne({chat}).catch();
                                             }
                                         }
                                     })

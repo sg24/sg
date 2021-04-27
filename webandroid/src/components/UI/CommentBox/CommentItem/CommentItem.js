@@ -1,9 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 
-import ChatItemBox from './ChatItemBox/ChatItemBox';
+import ChatItemBox from './CommentItemBox/CommentItemBox';
 
-const chatItem = props => {
+const commentItem = props => {
     let direction = 'right';
     let startDate = moment().startOf('date');
     let endDate;
@@ -25,19 +25,18 @@ const chatItem = props => {
     return props.cnt.map((cnt, index) => (
         <ChatItemBox
             key={index}
-            width={props.width}
             cnt={cnt}
             userProfile={props.userProfile.bind(this, cnt.authorID)}
             userID={props.userID}
             showReply={props.showReply}
             fetchChatStart={props.fetchChatStart}
             replyChat={props.replyChat.bind(this, cnt)}
-            showUserImage={props.userID !== cnt.authorID}
-            direction={props.userID === cnt.authorID ? 'right' : 'left' }
+            showUserImage={ cnt.authorID !== (props.cnt[index+1] ? props.cnt[index+1].authorID : null)}
+            direction={
+                (cnt.authorID !== (props.cnt[index-1] ? props.cnt[index-1].authorID : null)) ? 
+                direction === 'right' ? direction = 'left' : direction = 'right' :
+                direction }
             showOption={props.showOption.bind(this, cnt, direction)}
-            showReplyOption={props.showOption}
-            chatBoxPosition={props.chatBoxPosition}
-            scrollToChat={props.scrollToChat}
             sendChatInfo={props.sendChatInfo.bind(this, cnt)}
             deleteChatBox={props.deleteChatBox}
             editChatBox={props.editChatBox}
@@ -56,4 +55,4 @@ const chatItem = props => {
 }
 
 
-export default chatItem;
+export default commentItem;

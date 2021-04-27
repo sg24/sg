@@ -1,4 +1,4 @@
-import io from 'socket.io-client';
+import io from 'socket.io-client/dist/socket.io';
 import Constants from 'expo-constants';
 
 export const updateObject = (oldObject, updatedProperties) => {

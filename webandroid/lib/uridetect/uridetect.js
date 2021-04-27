@@ -26,11 +26,11 @@ class UriDetect extends Component {
                 {backgroundColor: this.props.highlighted ? this.props.highlighted.backgroundColor : '#437da3', 
                 color: this.props.highlighted ? this.props.highlighted.color : '#fff'} : {color: '#333'};
             if (word.match(LINK_DETECTION_REGEX)) {
-                return <Touchable key={index} onPress={() => this.verifyURIHandler(word)}><Text style={[styles.href, searchStyle]}>{ word + seperator }</Text></Touchable>;
+                return <Touchable key={index} onPress={() => this.verifyURIHandler(word)}><Text style={[styles.href, searchStyle, this.props.textStyle]}>{ word + seperator }</Text></Touchable>;
             } else if (word.match(HASH_DETECTION_REGEX)) {
-            return <Touchable key={index} onPress={() => this.props.onPress('hashTag', word)}><Text style={[styles.hashTag, searchStyle]}>{ word + seperator}</Text></Touchable>;
+            return <Touchable key={index} onPress={() => this.props.onPress('hashTag', word)}><Text style={[styles.hashTag, searchStyle, this.props.textStyle]}>{ word + seperator}</Text></Touchable>;
             } else if (this.props.searchText && this.props.searchText.length > 0 && word.match(this.props.searchText)) {
-                return <Text key={index} style={searchStyle}>{ word + seperator}</Text>
+                return <Text key={index} style={[searchStyle, this.props.textStyle]}>{ word + seperator}</Text>
             } else {
                 return word + seperator;
             }

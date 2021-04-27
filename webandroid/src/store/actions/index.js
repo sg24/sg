@@ -133,7 +133,8 @@ export {
     replyChatInit,
     replyChatStart,
     replyChatFail,
-    replyChat
+    replyChat,
+    updateChat
  } from './chatBox';
 
  export {
