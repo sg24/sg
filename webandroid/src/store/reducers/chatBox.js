@@ -53,7 +53,12 @@ const fetchChatFail = (state, action) => {
 
 const fetchChat = (state, action) => {
     let fetchChat = state.fetchChat ? [...state.fetchChat] : [];
-    fetchChat.unshift(...action.cnt.chat);
+    let allowUpdate = (action.start !== 0 && fetchChat.length > 0) || (action.start === 0 && fetchChat.length < 1);
+    if (allowUpdate) {
+        fetchChat.unshift(...action.cnt.chat);
+    } else {
+        fetchChat = null;
+    }
     return updateObject(state, { 
         fetchChatStart: false, fetchChatError: null, fetchChat, chatID: action.cnt.chatID,
         username: action.cnt.username, userImage: action.cnt.userImage, userID: action.cnt.userID,
@@ -204,7 +209,12 @@ const fetchReplyFail = (state, action) => {
 
 const fetchReply = (state, action) => {
     let fetchReply = state.fetchReply ? [...state.fetchReply] : [];
-    fetchReply.unshift(...action.cnt.chat);
+    let allowUpdate = (action.start !== 0 && fetchReply.length > 0) || (action.start === 0 && fetchReply.length < 1);
+    if (allowUpdate) {
+        fetchReply.unshift(...action.cnt.chat);
+    } else {
+        fetchReply = null;
+    }
     return updateObject(state, {
         fetchReplyError: null, fetchReply, fetchReplyStart: false,
         username: action.cnt.username, userImage: action.cnt.userImage, userID: action.cnt.userID,

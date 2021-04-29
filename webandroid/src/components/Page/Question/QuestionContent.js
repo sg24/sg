@@ -16,6 +16,10 @@ import LoadMore from '../../UI/LoadMore/LoadMore';
 import Advert from '../Advert/Advert';
 import { transformNumber, checkUri } from '../../../shared/utility';
 import FriendRequest from '../FriendRequest/FriendRequest';
+import Carousel from '../../UI/Carousel/Carousel';
+import MediaContainer from '../../UI/MediaContainer/MediaContainer';
+import TabBarge from '../../UI/TabBarge/TabBarge';
+import CBTPreview from '../CBTPreview/CBTPreview';
 
 const postContent = props => {
     let AnimatedIcon = Animatable.createAnimatableComponent(Ionicons);
@@ -74,6 +78,16 @@ const postContent = props => {
                 cnt={props.cnt.friendRequest}/>
         )
     }
+
+    if (props.cnt.cbt && props.cnt.cbt.length > 0) {
+        showAdvert = (
+            <CBTPreview 
+                cnt={props.cnt.cbt}
+                openURI={props.openURI}
+                preview={props.mediaPreview}/>
+        )
+    }
+
     return (
         <>
             <View style={styles.container}>
@@ -99,38 +113,53 @@ const postContent = props => {
                             <Ionicons name="ellipsis-horizontal-outline" size={20}/>
                         </TouchableNativeFeedback>
                     </View>
-                    <MediaTile
-                        media={props.cnt.media}
-                        preview={props.mediaPreview}
-                        save={props.saveMedia}
-                        cntID={props.cnt._id} />
-                    <Pressable 
-                        onPress={props.pagePreview}>
-                        <Uridetect
-                            numberOfLines={2}
-                            onPress={props.openURI} 
-                            style={styles.content} 
-                            content={props.cnt.content}/>
-                    </Pressable>
+                    <View style={styles.contentContainer}>
+                        <View style={[{width: props.cnt.media.length > 0 ? '60%' : '100%'}, styles.contentWrapper]}>
+                            <Pressable 
+                                onPress={props.pagePreview}>
+                                <Uridetect
+                                    numberOfLines={8}
+                                    onPress={props.openURI} 
+                                    style={styles.content} 
+                                    content={props.cnt.content}/>
+                            </Pressable>
+                        </View>
+                        { props.cnt.media.length > 0  ?
+                        <View style={styles.mediaWrapper}>
+                                <Carousel 
+                                    renderData={props.cnt.media}
+                                    hideSeeker
+                                    _renderItem={({item:media, index}) => (
+                                        <View
+                                            style={{flex: 1, backgroundColor: '#e9ebf2'}}>
+                                            <MediaContainer
+                                                media={media}
+                                                onPress={props.mediaPreview.bind(this, null, props.cnt.media, index)} >
+                                                {media.description ? <Text numberOfLines={1} style={styles.description}>{ media.description }</Text> : null}
+                                            </MediaContainer>
+                                        </View>
+                                    )}/>
+                        </View> : null}
+                    </View>
                     { previewUri.length > 0 ? 
                         <ScrollView style={styles.linkPreview} horizontal>
                             <LinkPreview 
                                 links={previewUri}/>
                         </ScrollView>: null}
-                    { props.cnt.chat && props.cnt.chat.user.length > 0 ? 
                     <TouchableNativeFeedback  onPress={props.chat}>
                         <View style={styles.userComment}>
-                            { props.cnt.chat.user.map((user, index) => (
-                            <Image key={index} source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${user.userImage}`}}  
-                                style={[styles.userCommentImage, {left: index !== 0 ? -(index*8) : 'auto'}]}/> ))}
-                            <Text  numberOfLines={1} style={[styles.userCommentText, {marginLeft: props.cnt.chat.user.length > 1 ? -((props.cnt.chat.user.length*8)-15) : 10}]}>{props.cnt.chat.user[0].username} {props.cnt.chat.user.length > 1 ? "and other's" : ''} comment on this</Text>
+                           <TabBarge
+                            notification={props.cnt.chat ? props.cnt.chat.total : 0} 
+                            style={styles.tabBarge}
+                            textStyle={styles.userCommentText}/>
+                            <Text  numberOfLines={1} style={[styles.userCommentText]}>Answer's Added</Text>
                         </View>
-                    </TouchableNativeFeedback> : null}
+                    </TouchableNativeFeedback>
                     <View style={styles.det}>
                         <TouchableNativeFeedback onPress={props.chat}>
                             <View style={styles.detContent}>
-                                <Ionicons name="chatbox-ellipses-outline" size={24}/>
-                                <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.cnt.chat ? props.cnt.chat.total : 0) }</Text>
+                                <Ionicons name="checkmark-outline" color="#16cf27" size={24}/>
+                                <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.cnt.correct) }</Text>
                             </View>
                         </TouchableNativeFeedback>
                         <TouchableNativeFeedback onPress={startPageReaction ? null : props.favorite}>
@@ -214,26 +243,44 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginLeft: 10
     },
+    contentContainer: {
+        marginTop: 10,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    contentWrapper: {
+        paddingRight: 10,
+        justifyContent: 'center', 
+    },
     content: {
-        fontSize: 16,
-        marginVertical: 10
+        fontSize: 16
+    },
+    mediaWrapper: {
+        width: '40%',
+        paddingLeft: 10,
+        height: 150,
+        borderLeftColor: '#dcdbdc',
+        borderLeftWidth: 1
+    },
+    tabBarge: {
+        position: 'relative',
+        top: 0,
+        right: 0,
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        marginRight: 10,
+        backgroundColor: '#dcdbdc'
     },
     userComment: {
         flexDirection: 'row',
         alignItems: 'center',
-        width: '100%'
-    },
-    userCommentImage: {
-        width: 30,
-        height: 30,
-        borderRadius: 15, 
-        borderColor: '#dcdbdc',
-        borderWidth: 2
+        width: '100%',
+        marginTop: 10
     },
     userCommentText: {
-        marginLeft: -20,
-        color: '#777',
-        flex: 1
+        color: '#333'
     },
     det: {
         flexDirection: 'row',
@@ -270,7 +317,7 @@ const styles = StyleSheet.create({
     linkPreview: {
         width: '100%',
         backgroundColor: '#dcdbdc',
-        marginBottom: 10
+        marginTop: 10
     }
 });
 

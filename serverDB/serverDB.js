@@ -4,6 +4,7 @@ const feed = require('./models/feed');
 const advert = require('./models/adverts');
 const advertchat = require('./models/advertchat');
 const question = require('./models/questions');
+const questionchat = require('./models/questionchat');
 const writeup = require('./models/writeup');
 const mediachat = require('./models/mediachat');
 const postchat = require('./models/postchat');
@@ -26,6 +27,7 @@ module.exports = {
     feed,
     post,
     question,
+    questionchat,
     writeup,
     mediachat,
     postchat,

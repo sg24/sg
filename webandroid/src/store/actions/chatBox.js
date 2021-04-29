@@ -38,9 +38,10 @@ export const fetchChatFail = (err) => {
     };
 };
 
-export const fetchChat = (cnt) => {
+export const fetchChat = (start, cnt) => {
     return {
         type: actionTypes.FETCH_CHAT,
+        start,
         cnt
     };
 };
@@ -204,9 +205,10 @@ export const fetchReplyFail = (err) => {
     };
 };
 
-export const fetchReply = (cnt) => {
+export const fetchReply = (start, cnt) => {
     return {
         type: actionTypes.FETCH_REPLY,
+        start,
         cnt
     };
 };

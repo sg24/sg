@@ -9,20 +9,20 @@ let authenticate = require('../serverDB/middleware/authenticate');
 let formInit = require('./utility/forminit');
 let uploadToBucket = require('./utility/upload');
 let deleteMedia = require('./utility/deletemedia');
-const {post, postchat, tempFile, connectStatus} = require('../serverDB/serverDB');
+const {question, questionchat, tempFile, connectStatus} = require('../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'getChat') {
-        post.findById(req.body.pageID).then(doc => {
+        question.findById(req.body.pageID).then(doc => {
             if (doc) {
                 if (doc && doc.chat && doc.chat._id) {
-                    postchat.findOne({_id: objectID(doc.chat._id)}).then(result => {
+                    questionchat.findOne({_id: objectID(doc.chat._id)}).then(result => {
                         let total = 0;
                         if (result) {
                             let chat = result.chat.filter(cnt => cnt.replyChat === false);
                             total = chat.length;
                         }
-                        postchat.aggregate([{
+                        questionchat.aggregate([{
                             $match: {_id: objectID(doc.chat._id)}}, 
                             {$unwind: "$chat"},
                             {$match: {"chat.replyChat": false}}, 
@@ -35,7 +35,7 @@ router.post('/', authenticate, (req, res, next) => {
                         })
                     })
                 } else {
-                    let newDoc = new postchat({
+                    let newDoc = new questionchat({
                         chat: []
                     });
                     newDoc.save().then(result => {
@@ -56,10 +56,10 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'getReply') {
-        postchat.findById(req.body.cntID).then(doc => {
+        questionchat.findById(req.body.cntID).then(doc => {
             if (doc) {
                 let chatItem = doc.chat.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === req.body.chatID)[0];
-                postchat.aggregate([{
+                questionchat.aggregate([{
                     $match: {_id: objectID(req.body.cntID)}}, 
                     {$unwind: "$chat"}, 
                     {$match: {'chat.replyChatID': req.body.chatID, 'chat.replyChat': true}},
@@ -80,7 +80,7 @@ router.post('/', authenticate, (req, res, next) => {
         formInit(req, formidable).then(form => {
             let mediaList = form.files && form.files.media ? form.files.media : [];
             let fields = form.fields
-            savetemp(mediaList, 'postchat', req.user).then(tempFileID => {
+            savetemp(mediaList, 'questionchat', req.user).then(tempFileID => {
                 uploadToBucket(mediaList, fields.description).then(media => {
                     let _id = objectID();
                     let created = Date.now();
@@ -88,15 +88,15 @@ router.post('/', authenticate, (req, res, next) => {
                         authorID: req.user, username: req.username, userImage: req.userImage,
                         content: fields.content, media, tempFileID, _id, created
                     }
-                    Promise.all([postchat.findByIdAndUpdate(fields.cntID, {$push: {chat: cnt}}),
+                    Promise.all([questionchat.findByIdAndUpdate(fields.cntID, {$push: {chat: cnt}}),
                         tempFile.findOneAndUpdate({userID: cnt.authorID, "tempFiles.id": tempFileID}, {$pull: {tempFiles: {id: tempFileID}}}),
-                        post.findOneAndUpdate({_id: fields.pageID, 'chat.user.authorID': {$ne: req.user}}, {$push: {'chat.user': {authorID: req.user, username: req.username, userImage: req.userImage}}})]).then(cnt => {
+                        question.findOneAndUpdate({_id: fields.pageID, 'chat.user.authorID': {$ne: req.user}}, {$push: {'chat.user': {authorID: req.user, username: req.username, userImage: req.userImage}}})]).then(cnt => {
                         let total = cnt[0].chat.length + 1;
-                        post.findByIdAndUpdate(fields.pageID, {'chat.total': total}).then(result => {
+                        question.findByIdAndUpdate(fields.pageID, {'chat.total': total}).then(result => {
                             res.status(200).send({_id, created, media, pageInfo: {_id: fields.pageID, chat: {total, user: result.chat.user, _id: result.chat._id}}})
                         })
                         
-                        postchat.findById(fields.cntID).then(doc => {
+                        questionchat.findById(fields.cntID).then(doc => {
                             if (doc) {
                                 let chat = doc.chat
                                 let chatItem = chat.filter(chat => JSON.parse(JSON.stringify(chat._id)) === JSON.parse(JSON.stringify(_id)))[0];
@@ -121,7 +121,7 @@ router.post('/', authenticate, (req, res, next) => {
         formInit(req, formidable).then(form => {
             let mediaList = form.files && form.files.media ? form.files.media : [];
             let fields = form.fields
-            savetemp(mediaList, 'postchat', req.user).then(tempFileID => {
+            savetemp(mediaList, 'questionchat', req.user).then(tempFileID => {
                 uploadToBucket(mediaList, fields.description).then(media => {
                     let _id = objectID();
                     let created = Date.now();
@@ -130,7 +130,7 @@ router.post('/', authenticate, (req, res, next) => {
                         content: fields.content, media, tempFileID, _id, created, replyChat: true,
                         replyChatID: fields.chatID
                     }
-                    postchat.findById(fields.cntID).then(doc => {
+                    questionchat.findById(fields.cntID).then(doc => {
                         if (doc ){
                             let chat = doc.chat;
                             chat.push(cnt);
@@ -141,12 +141,12 @@ router.post('/', authenticate, (req, res, next) => {
                                 chat[chatItemIndex] = chatItem;
                                 Promise.all([doc.updateOne({chat}),
                                     tempFile.findOneAndUpdate({userID: cnt.authorID, "tempFiles.id": tempFileID}, {$pull: {tempFiles: {id: tempFileID}}}),
-                                    post.findOneAndUpdate({_id: fields.pageID, 'chat.user.authorID': {$ne: req.user}}, {$push: {'chat.user': {authorID: req.user, username: req.username, userImage: req.userImage}}})]).then(cnt => {
+                                    question.findOneAndUpdate({_id: fields.pageID, 'chat.user.authorID': {$ne: req.user}}, {$push: {'chat.user': {authorID: req.user, username: req.username, userImage: req.userImage}}})]).then(cnt => {
                                     let total = chat.length;
-                                    post.findByIdAndUpdate(fields.pageID, {'chat.total': total}).then(result => {
+                                    question.findByIdAndUpdate(fields.pageID, {'chat.total': total}).then(result => {
                                         res.status(200).send({_id, created, media, pageInfo: {_id: fields.pageID, chat: {total, user: result.chat.user, _id: result.chat._id}}})
                                     })
-                                    postchat.findById(fields.cntID).then(doc => {
+                                    questionchat.findById(fields.cntID).then(doc => {
                                         if (doc) {
                                             let chat = doc.chat
                                             let chatItem = chat.filter(chat => JSON.parse(JSON.stringify(chat._id)) === JSON.parse(JSON.stringify(_id)))[0];
@@ -171,8 +171,8 @@ router.post('/', authenticate, (req, res, next) => {
 
     if (req.header !== null && req.header('data-categ') === 'deleteChat') {
         Promise.all([deleteMedia(JSON.parse(req.body.media)),
-            postchat.findByIdAndUpdate(req.body.chatID, {$pull: {chat: {'_id': req.body.cntID}}})]).then(cnt => {
-            post.findByIdAndUpdate({_id: req.body.pageID}, {'chat.total': cnt[1].chat.length - 1}).then(result => {
+            questionchat.findByIdAndUpdate(req.body.chatID, {$pull: {chat: {'_id': req.body.cntID}}})]).then(cnt => {
+            question.findByIdAndUpdate({_id: req.body.pageID}, {'chat.total': cnt[1].chat.length - 1}).then(result => {
                 return res.status(200).send({pageInfo: {_id: req.body.pageID, chat: {total: cnt[1].chat.length - 1, user: result.chat.user, _id: result.chat._id}}});  
             })
         }).catch(err => {
@@ -183,7 +183,7 @@ router.post('/', authenticate, (req, res, next) => {
 
     if (req.header !== null && req.header('data-categ') === 'deleteReply') {
         deleteMedia(JSON.parse(req.body.media)).then(() => {
-            postchat.findOne({_id: req.body.chatID}).then(doc => {
+            questionchat.findOne({_id: req.body.chatID}).then(doc => {
                 if (doc) {
                     let chat = doc.chat;
                     let removeChatItem = chat.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === req.body.cntID)[0];
@@ -196,7 +196,7 @@ router.post('/', authenticate, (req, res, next) => {
                             let chatItemIndex = chat.findIndex(cnt => JSON.parse(JSON.stringify(cnt._id)) === removeChatItem.replyChatID);
                             removeChat[chatItemIndex] = chatItem;
                             doc.updateOne({chat: removeChat}).then(() => {
-                                post.findByIdAndUpdate({_id: req.body.pageID}, {'chat.total': removeChat.length}).then(result => {
+                                question.findByIdAndUpdate({_id: req.body.pageID}, {'chat.total': removeChat.length}).then(result => {
                                     return res.status(200).send({pageInfo: {_id: req.body.pageID, chat: {total: removeChat.length, user: result.chat.user, _id: result.chat._id}}});  
                                 })
                             })

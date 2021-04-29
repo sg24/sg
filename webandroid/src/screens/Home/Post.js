@@ -15,6 +15,7 @@ import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
 import Button from '../../components/UI/Button/Button';
+import Href from '../../components/UI/Href/Href';
 import Settings from '../../components/UI/Settings/Settings';
 import { updateObject, checkValidity, checkUri } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
@@ -88,6 +89,7 @@ class Post extends Component {
     }
 
     navigationHandler = (page, cntID) => {
+        this.props.navigation.navigate(page);
     }
 
     closeModalHandler = () => {
@@ -445,6 +447,32 @@ class Post extends Component {
             )
         }
 
+        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
+            cnt = (
+                <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
+                    { header }
+                    <InfoBox
+                        name="chatbox"
+                        size={40}
+                        color="#437da3"
+                        style={styles.info}
+                        wrapperStyle={styles.infoWrapper}>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.infoTitle}> No post found !!! </Text>
+                            <View>
+                                <Text style={{justifyContent: 'center', alignItems: 'center'}}>
+                                    <Href title="Add Friends to see thier posts" onPress={() => this.navigationHandler('User')} style={styles.href}/>
+                                    <Href title=","  style={{paddingHorizontal: 5}}/>
+                                    <Href title="create Post" onPress={() => this.navigationHandler('AddPost')} style={styles.href}/>
+                                    <Href title="OR" style={{paddingHorizontal: 5}}/>
+                                    <Href title="check feed page for public post" onPress={() => this.navigationHandler('Feed')} style={styles.href}/></Text>
+                            </View>
+                        </View>
+                    </InfoBox>
+                </View>
+            )
+        }
+
         if (this.props.fetchCntErr && !this.props.fetchCnt) {
             cnt = (
                 <View style={styles.wrapper}>
@@ -546,7 +574,6 @@ const styles = StyleSheet.create({
     },
     scroll: {
         width: '100%',
-        paddingHorizontal: 10,
         paddingTop: 10
     },
     optionIcon: {
@@ -558,6 +585,20 @@ const styles = StyleSheet.create({
     info: {
         fontSize: 18,
         marginBottom: 5
+    },
+    infoContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 10
+    },
+    href: {
+        textDecorationLine: 'underline',
+        fontSize: 16
+    },
+    infoTitle: {
+        fontSize: 18,
+        textAlign: 'center',
+        marginBottom: 10
     }
 });
 

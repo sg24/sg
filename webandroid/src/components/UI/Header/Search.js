@@ -26,7 +26,7 @@ const search = props => (
                     onChangeText={props.filterCnt}
                     value={props.value}
                     editable={props.editable}
-                    autoFocus={true}/>
+                    autoFocus={props.autoFocus === false ? false : true}/>
             </View>
             { props.rightSideContent ? props.rightSideContent : null }
         </BoxShadow>

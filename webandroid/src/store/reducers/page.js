@@ -11,6 +11,9 @@ const initialState = {
     deletePost: null,
     fetchQuestionError: null,
     fetchQuestion: null,
+    fetchQuestionStart: false,
+    deleteQuestionError: null,
+    deleteQuestion: null,
     fetchAdvertError: null,
     fetchAdvert: null,
     fetchFeedError: null,
@@ -32,7 +35,7 @@ const pageReset = (state, action) => {
     return updateObject(state, {
         page: null,
         fetchPostError: null,fetchPost: null, fetchPostStart: false, deletePostError: null, deletePost: null,
-        fetchQuestionError: null,fetchQuestion: null,
+        fetchQuestionError: null,fetchQuestion: null, fetchQuestionStart: false, deleteQuestionError: null, deleteQuestion: null,
         fetchAdvertError: null,fetchAdvert: null,
         fetchFeedError: null,fetchFeed: null,
         fetchWriteupError: null,fetchWriteup: null,
@@ -47,7 +50,7 @@ const fetchPageFail = (state, action) => {
     if (action.page === 'post') {
         return updateObject(state, {fetchPostError: {message: action.err}, fetchPostStart: false});
     } else if (action.page === 'question') {
-        return updateObject(state, {fetchQuestionError: {message: action.err}});
+        return updateObject(state, {fetchQuestionError: {message: action.err}, fetchQuestionStart: false});
     } else if (action.page === 'advert') {
         return updateObject(state, {fetchAdvertError: {message: action.err}});
     } else if (action.page === 'feed') {
@@ -59,7 +62,7 @@ const fetchPageFail = (state, action) => {
     } else if (action.page === 'chatRoom') {
         return updateObject(state, {fetchChatRoomError: {message: action.err}});
     } else if (action.page === 'users') {
-        return updateObject(state, {fetchUserError: {message: action.err}});
+        return updateObject(state, {fetchUserError: {message: action.err}, fetchUserStart: false});
     } else {
         return updateObject(state, {resetSubmitError: {message: action.err}, resetStart: false})
     }
@@ -69,7 +72,7 @@ const fetchPageStart = (state, action) => {
     if (action.page === 'post') {
         return updateObject(state, {fetchPostError: null, fetchPost: action.start === 0 ? null : state.fetchPost, fetchPostStart: true });
     } else if (action.page === 'question') {
-        return updateObject(state, {fetchQuestionError: {message: action.err}});
+        return updateObject(state, {fetchQuestionError: null, fetchQuestion: action.start === 0 ? null : state.fetchQuestion, fetchQuestionStart: true });
     } else if (action.page === 'advert') {
         return updateObject(state, {fetchAdvertError: {message: action.err}});
     } else if (action.page === 'feed') {
@@ -88,7 +91,8 @@ const fetchPageStart = (state, action) => {
 };
 
 const fetchPageReset = (state, action) => {
-    return updateObject(state, {fetchPostError: null, fetchPostStart: false, fetchUserError: null, fetchUserStart: false });
+    return updateObject(state, {fetchPostError: null, fetchPostStart: false, fetchUserError: null, fetchUserStart: false,
+        fetchQuestionError: null, fetchQuestionStart: false, });
 };
 
 const fetchPage = (state, action) => {
@@ -100,7 +104,7 @@ const fetchPage = (state, action) => {
     if (action.page === 'post') {
         return updateObject(state, {fetchPost: updatePage(state.fetchPost, action), page: action.page, loadMore: action.cnt.loadMore, fetchPostStart: false});
     } else if (action.page === 'question') {
-        return updateObject(state, {fetchQuestion: action.cnt, page: action.page});
+        return updateObject(state, {fetchQuestion: updatePage(state.fetchQuestion, action), page: action.page, loadMore: action.cnt.loadMore, fetchQuestionStart: false});
     } else if (action.page === 'advert') {
         return updateObject(state, {fetchAdvert: action.cnt, page: action.page});
     } else if (action.page === 'feed') {
@@ -205,7 +209,7 @@ const updatePage = (state, action) => {
 
 const deletePageReset = (state, action) => {
     return updateObject(state, { 
-        deletePostError: null, deletePost: null
+        deletePostError: null, deletePost: null, deleteQuestionError: null, deleteQuestion: null
     })
 };
 
@@ -213,7 +217,7 @@ const deletePageStart = (state, action) => {
     if (action.page === 'post') {
         return updateObject(state, {deletePostError: null,  deletePost: {pageID: action.pageID, page: action.page, start: action.start}});
     } else if (action.page === 'question') {
-        return updateObject(state, {fetchQuestionError: {message: action.err}});
+        return updateObject(state, {deleteQuestionError: null,  deleteQuestion: {pageID: action.pageID, page: action.page, start: action.start}});
     } else if (action.page === 'advert') {
         return updateObject(state, {fetchAdvertError: {message: action.err}});
     } else if (action.page === 'feed') {
@@ -233,7 +237,7 @@ const deletePageFail = (state, action) => {
     if (action.page === 'post') {
         return updateObject(state, {deletePostError: {message: action.err}, deletePost: null});
     } else if (action.page === 'question') {
-        return updateObject(state, {fetchQuestionError: {message: action.err}});
+        return updateObject(state, {deleteQuestionError: {message: action.err}, deleteQuestion: null});
     } else if (action.page === 'advert') {
         return updateObject(state, {fetchAdvertError: {message: action.err}});
     } else if (action.page === 'feed') {
@@ -257,7 +261,7 @@ const deletePage = (state, action) => {
     if (action.page === 'post') {
         return updateObject(state, {deletePost: null, fetchPost: updatePage(action.pageID, state.fetchPost)});
     } else if (action.page === 'question') {
-        return updateObject(state, {fetchQuestion: action.cnt});
+        return updateObject(state, {deleteQuestion: null, fetchQuestion: updatePage(action.pageID, state.fetchQuestion)});
     } else if (action.page === 'advert') {
         return updateObject(state, {fetchAdvert: action.cnt});
     } else if (action.page === 'feed') {

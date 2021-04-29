@@ -27,6 +27,7 @@ import NotificatonScreen from './src/screens/Home/Notification';
 import ProfileScreen from './src/screens/Home/Profile';
 import PostScreen from './src/screens/Home/Post';
 import UsersScreen from './src/screens/Home/Users';
+import QuestionScreen from './src/screens/Home/Question';
 import HashSearchScreen from './src/screens/Home/HashSearch';
 import AddPostScreen from './src/screens/AddForm/Post';
 import AddQuestionScreen from './src/screens/AddForm/Question';
@@ -55,6 +56,7 @@ const authScreens = {
 const userScreens = {
   Home: TopTab,
   Users: UsersScreen, 
+  Question: QuestionScreen,
   Search: SearchScreen,
   Addnew: AddnewScreen,
   Conversation: ConvScreen,
@@ -205,6 +207,20 @@ class Base extends Component {
                     filterCnt={this.props.onHeaderFilter}
                     title={name}
                     inputValue={this.props.filterCnt} />
+                }
+              }
+
+              if (name === 'Question') {
+                let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
+                header = {
+                  header: ({scene, previous, navigation }) => this.state.viewMode === 'landscape' ?  <HeaderBar
+                    onPress={navigation.goBack}
+                    modalSearch={SearchScreen}
+                    modalConv={ConvScreen}
+                    modalNotify={NotificatonScreen}
+                    filterCnt={this.props.onHeaderFilter}
+                    title={name}
+                    inputValue={this.props.filterCnt} /> : null
                 }
               }
 

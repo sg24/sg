@@ -380,7 +380,8 @@ router.post('/add/pageReport', authenticate, (req, res, next) => {
     formInit(req, formidable).then(form => {
         let mediaList = form.files && form.files.media ? form.files.media : [];
         let fields = form.fields
-        let model = fields.page === 'post' ? post : post;
+        let model = fields.page === 'post' ? post : 
+            fields.page === 'question' ? question : post;
         model.findById(fields.pageID).then(doc => {
             if (doc && doc.report.length < 20) {
                 doc.updateOne({$push: {'report': fields.content}}).then(() => {

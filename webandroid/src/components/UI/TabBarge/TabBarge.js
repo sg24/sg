@@ -6,7 +6,7 @@ import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeF
 const tabBarge = props => (
     <View style={[styles.tabBarge, props.style]}>
         <TouchableNativeFeedback onPress={props.onPress}>
-            <Text style={styles.notification} numberOfLines={1}>{props.notification}</Text>
+            <Text style={[styles.notification, props.textStyle]} numberOfLines={1}>{props.notification}</Text>
         </TouchableNativeFeedback>
     </View>
 )

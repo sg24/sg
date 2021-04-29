@@ -1,15 +1,154 @@
 let express = require('express');
 let router = express.Router();
-let mongoose = require('mongoose');
+let objectID = require('mongoose').mongo.ObjectId;
+let fs = require('fs');
+
+let formidable = require('formidable');
+let savetemp = require('./utility/savetemp');
+let sequence = require('./utility/sequence');
+let deleteMedia = require('./utility/deletemedia');
 let authenticate = require('../serverDB/middleware/authenticate');
-let filterCnt = require('./utility/filtercnt');
-const {question, connectStatus} = require('../serverDB/serverDB');
+let formInit = require('./utility/forminit');
+let uploadToBucket = require('./utility/upload');
+const {question, qchat, connectStatus} = require('../serverDB/serverDB');
 
 
 router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'getonequestion') {
         question.findOne({_id: req.body.cntID, authorID: req.user}).then(result => {
             res.status(200).send(result);
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'getQuestion') {
+        question.find({_isCompleted: true})
+            .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
+            let updateResult = [];
+            if (result) {
+                for (let cnt of result) {
+                    let updateCnt = JSON.parse(JSON.stringify(cnt));
+                    delete updateCnt.block;
+                    updateResult.push({...updateCnt,
+                    share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                    correct: cnt.correct.length})
+                }
+            }
+            let cbt = Math.round(Math.random());
+            if (cbt === 0) {
+                qchat.find().skip(req.body.start).limit(req.body.limit).then(doc => {
+                    let lastItem = updateResult[updateResult.length - 1];
+                    if (lastItem) {
+                        lastItem.cbt= doc
+                        updateResult[updateResult.length - 1] = lastItem
+                    }
+                    res.status(200).send({page: updateResult, loadMore: result.length > 0});
+                })
+            } else {
+                res.status(200).send({page: updateResult, loadMore: result.length > 0});
+            }
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'getByAuthor') {
+        question.find({authorID: { $in: [req.user, ...req.friend] }, _isCompleted: true, block: {$nin: [req.user]}})
+            .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
+            let updateResult = [];
+            if (result) {
+                for (let cnt of result) {
+                    let updateCnt = JSON.parse(JSON.stringify(cnt));
+                    delete updateCnt.block;
+                    updateResult.push({...updateCnt,
+                    share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
+                }
+            }
+            let showAdvert = Math.round(Math.random());
+            if (showAdvert === 0) {
+                qchat.find().skip(req.body.start).limit(req.body.limit).then(doc => {
+                    let lastItem = updateResult[updateResult.length - 1];
+                    if (lastItem) {
+                        lastItem.cbt= doc
+                        updateResult[updateResult.length - 1] = lastItem
+                    }
+                    res.status(200).send({page: updateResult, loadMore: result.length > 0});
+                })
+            } else {
+                res.status(200).send({page: updateResult, loadMore: result.length > 0});
+            }
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'setFavorite') {
+        question.findOneAndUpdate({_id: req.body.pageID, favorite: {$nin: [req.user]}}, {$push: {'favorite': req.user}}).then(doc => {
+            if (doc) {
+                return res.status(200).send({pageInfo: {_id: req.body.pageID, isFavored: true, favorite: doc.favorite.length + 1}});
+            }
+            question.findOneAndUpdate({_id: req.body.pageID, favorite: {$in: [req.user]}}, {$pull: {'favorite': req.user}}).then(result => {
+                return res.status(200).send({pageInfo: {_id: req.body.pageID, isFavored: false, favorite: result.favorite.length - 1}});
+            })
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'setShare') {
+        question.findOneAndUpdate({_id: req.body.pageID, share: {$nin: [req.user]}}, {$push: {'share': req.user}}).then(doc => {
+            if (doc) {
+                return res.status(200).send({pageInfo: {_id: req.body.pageID, share: doc.share.length + 1}});
+            }
+            return res.sendStatus(200);
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header && req.header('data-categ') === 'searchQuestion') {
+        question.find({_isCompleted: true, $text: {$search: req.body.searchCnt}})
+        .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
+            let updateResult = [];
+            if (result) {
+                for (let cnt of result) {
+                    let updateCnt = JSON.parse(JSON.stringify(cnt));
+                    delete updateCnt.block;
+                    updateResult.push({...updateCnt,
+                    share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                    correct: cnt.correct.length });
+                }
+            }
+            res.status(200).send({page: updateResult, loadMore: result.length > 0});
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'getOneAndDelete') {
+        question.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
+            if (doc && !doc.chat._id && doc.favorite.length < 1 && doc.share.length < 1) {
+                return sequence([deleteMedia(doc.media), doc.deleteOne()]).then(() => {
+                    return res.sendStatus(200);
+                })
+            }
+            if (!doc) {
+                question.findByIdAndUpdate({_id: req.body.pageID}, {$push: {'block': req.user}, $pull: {'favorite': req.user}}).then(() => {
+                    return res.sendStatus(200);
+                })
+                return;
+            }
+            return Promise.reject('This question could not be deleted');
         }).catch(err => {
             res.status(500).send(err)
         })

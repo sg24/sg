@@ -23,7 +23,7 @@ export function* fetchChatInitSaga(action) {
             yield AsyncStorage.setItem('username', cnt.username);
             yield AsyncStorage.setItem('userImage', Constants.manifest.extra.BASE_IMAGE_URL + cnt.userImage);
         }
-        yield put(actions.fetchChat(cnt ? cnt : {chat: []}));
+        yield put(actions.fetchChat(action.start, cnt ? cnt : {chat: []}));
     } catch(err) {
         yield put(actions.fetchChatFail(err));
     }
@@ -42,7 +42,7 @@ export function* fetchReplyInitSaga(action) {
             yield AsyncStorage.setItem('username', cnt.username);
             yield AsyncStorage.setItem('userImage', Constants.manifest.extra.BASE_IMAGE_URL + cnt.userImage);
         }
-        yield put(actions.fetchReply(cnt ? cnt : {chat: []}));
+        yield put(actions.fetchReply(action.start, cnt ? cnt : {chat: []}));
     } catch(err) {
         yield put(actions.fetchReplyFail(err));
     }

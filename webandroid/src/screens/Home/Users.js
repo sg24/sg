@@ -1,30 +1,22 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
+import { View, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
-import urischeme from 'urischeme';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
 import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
-import BoxShadow from '../../components/UI/BoxShadow/BoxShadow';
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
 import Button from '../../components/UI/Button/Button';
 import Settings from '../../components/UI/Settings/Settings';
-import { updateObject, checkValidity, checkUri } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
-import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
-import PagePreview from '../../components/Page/Preview/Preview';
-import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import ChatBox from '../../components/UI/ChatBox/ChatBox';
-import SharePicker from '../../components/UI/SharePicker/SharePicker';
-import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 import User from '../../components/Page/User/User';
 
 class Users extends Component {
@@ -168,6 +160,7 @@ class Users extends Component {
                     editable
                     value={this.state.search}
                     disableBackButton
+                    autoFocus={this.state.search.length > 0}
                 />
             )
         );

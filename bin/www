@@ -34,6 +34,7 @@ nextApp.prepare().then(() => {
   let sitemapxmlRoute = require('../routes/sitemapxml');
   let feedRoute = require('../routes/feed');
   let questionRoute = require('../routes/question');
+  let questionchatRoute = require('../routes/questionchat');
   let writeupRoute = require('../routes/writeup');
   let favoriteRoute = require('../routes/favorite');
   let profileRoute = require('../routes/profile');
@@ -58,6 +59,7 @@ nextApp.prepare().then(() => {
   app.use('/userchat', userchatRoutes);
   app.use('/feed', feedRoute);
   app.use('/question', questionRoute);
+  app.use('/questionchat', questionchatRoute);
   app.use('/writeup', writeupRoute);
   app.use('/favorite', favoriteRoute);
   app.use('/share', shareRoute);

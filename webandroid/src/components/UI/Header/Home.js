@@ -18,6 +18,11 @@ class Home extends Component  {
         this.setState({showModal: !this.state.showModal})
     }
 
+    navigationHandler = (page) => {
+        this.props.onPress(page)
+        this.setState({showModal: false});
+    }
+
     render() {
         let modal = null;
         if (this.state.showModal) {
@@ -31,43 +36,43 @@ class Home extends Component  {
                     <TouchableWithoutFeedback  onPress={this.modalHandler}>
                         <View style={styles.modal}>
                             <BoxShadow style={styles.navItemWrapper}>
-                                <TouchableNativeFeedback  onPress={this.props.onPress.bind(this, 'Question')}>
+                                <TouchableNativeFeedback  onPress={() => this.navigationHandler('Question')}>
                                     <View style={styles.navItem}>
                                         <Icon name="bulb-outline" size={20} />
                                         <Text style={styles.textStyle}>Question</Text>
                                     </View>
                                 </TouchableNativeFeedback>
-                                <TouchableNativeFeedback onPress={this.props.onPress.bind(this, 'Feed')}>
+                                <TouchableNativeFeedback onPress={() => this.navigationHandler('Feed')}>
                                     <View style={styles.navItem}>
                                         <Icon name="newspaper-outline" size={20} />
                                         <Text style={styles.textStyle}>Feed</Text>
                                     </View>
                                 </TouchableNativeFeedback>
-                                <TouchableNativeFeedback onPress={this.props.onPress.bind(this, 'Write Up')}>
+                                <TouchableNativeFeedback onPress={() => this.navigationHandler('Write Up')}>
                                     <View style={styles.navItem}>
                                         <Icon name="reader-outline" size={20} />
                                         <Text style={styles.textStyle}>Write Up</Text>
                                     </View>
                                 </TouchableNativeFeedback>
-                                <TouchableNativeFeedback onPress={this.props.onPress.bind(this, 'Shared')}>
+                                <TouchableNativeFeedback onPress={() => this.navigationHandler('Shared')}>
                                     <View style={styles.navItem}>
                                         <Icon name="paper-plane-outline" size={20} />
                                         <Text style={styles.textStyle}>Shared</Text>
                                     </View>
                                 </TouchableNativeFeedback>
-                                <TouchableNativeFeedback onPress={this.props.onPress.bind(this, 'Contest')}>
+                                <TouchableNativeFeedback onPress={() => this.navigationHandler('Contest')}>
                                     <View style={styles.navItem}>
                                         <Icon name="cash-outline" size={20} />
                                         <Text style={styles.textStyle}>Contest</Text>
                                     </View>
                                 </TouchableNativeFeedback>
-                                <TouchableNativeFeedback onPress={this.props.onPress.bind(this, 'Settings')}>
+                                <TouchableNativeFeedback onPress={() => this.navigationHandler('Settings')}>
                                     <View style={styles.navItem}>
                                         <Icon name="settings-outline" size={20} />
                                         <Text style={styles.textStyle}>Settings</Text>
                                     </View>
                                 </TouchableNativeFeedback>
-                                <TouchableNativeFeedback onPress={this.props.onPress.bind(this, 'Logout')}>
+                                <TouchableNativeFeedback onPress={() => this.navigationHandler('Logout')}>
                                     <View style={styles.navItem}>
                                         <Icon name="log-out-outline" size={20} />
                                         <Text style={styles.textStyle}>Logout</Text>
@@ -80,52 +85,54 @@ class Home extends Component  {
             )
         }
         return (
-            <View style={styles.wrapper}>
-                <Image source={Logo} style={styles.logo}/>
-                <TouchableNativeFeedback  onPress={this.props.onPress.bind(this, 'Search')}>
-                    <View style={styles.navIcon}>
-                        <Icon name="search" size={22} color="#05578b"/>
-                    </View>
-                </TouchableNativeFeedback>
-                <TouchableNativeFeedback  onPress={this.props.onPress.bind(this, 'Addnew')}>
-                    <View style={[styles.navIcon, styles.addNew]}>
-                        <Icon name="add-outline" size={22} color="#fff"/>
-                    </View>
-                </TouchableNativeFeedback>
-                <TouchableNativeFeedback>
-                    <View style={styles.navIcon}>
-                        <Icon name="heart" size={22} color="#ff1600"/>
-                    </View>
-                </TouchableNativeFeedback>
-                <TouchableNativeFeedback  onPress={this.props.onPress.bind(this, 'Conversation')}>
-                    <View style={styles.navIcon}>
-                        <Icon name="chatbubbles-outline" size={22}/>
-                        <TabBarge 
-                            style={styles.tabBarge}
-                            notification={3}/>
-                    </View>
-                </TouchableNativeFeedback>
-                <TouchableNativeFeedback onPress={this.props.onPress.bind(this, 'Notification')}>
-                    <View style={styles.navIcon}>
-                        <Icon name="notifications-outline" size={22}/>
-                        <TabBarge 
-                            style={styles.tabBarge}
-                            notification={3}/>
-                    </View>
-                </TouchableNativeFeedback>
-                <TouchableNativeFeedback onPress={this.modalHandler}>
-                    <View style={styles.navIcon}>
-                        <Icon name="reorder-three-outline" size={24}/>
-                    </View>
-                </TouchableNativeFeedback>
-                <TouchableNativeFeedback onPress={this.props.onPress.bind(this, 'Profile')}>
-                    <View style={styles.navIcon}>
-                        {this.props.userImage ? <Image style={styles.profileImage} resizeMode="cover" source={this.props.userImage}/> 
-                        : <Icon name="person-outline" size={22}/>}
-                    </View>
-                </TouchableNativeFeedback>
+            <>
+                <View style={styles.wrapper}>
+                    <Image source={Logo} style={styles.logo}/>
+                    <TouchableNativeFeedback  onPress={() => this.navigationHandler('Search')}>
+                        <View style={styles.navIcon}>
+                            <Icon name="search" size={22} color="#05578b"/>
+                        </View>
+                    </TouchableNativeFeedback>
+                    <TouchableNativeFeedback  onPress={() => this.navigationHandler('Addnew')}>
+                        <View style={[styles.navIcon, styles.addNew]}>
+                            <Icon name="add-outline" size={22} color="#fff"/>
+                        </View>
+                    </TouchableNativeFeedback>
+                    <TouchableNativeFeedback>
+                        <View style={styles.navIcon}>
+                            <Icon name="heart" size={22} color="#ff1600"/>
+                        </View>
+                    </TouchableNativeFeedback>
+                    <TouchableNativeFeedback  onPress={() => this.navigationHandler('Conversation')}>
+                        <View style={styles.navIcon}>
+                            <Icon name="chatbubbles-outline" size={22}/>
+                            <TabBarge 
+                                style={styles.tabBarge}
+                                notification={3}/>
+                        </View>
+                    </TouchableNativeFeedback>
+                    <TouchableNativeFeedback onPress={() => this.navigationHandler('Notification')}>
+                        <View style={styles.navIcon}>
+                            <Icon name="notifications-outline" size={22}/>
+                            <TabBarge 
+                                style={styles.tabBarge}
+                                notification={3}/>
+                        </View>
+                    </TouchableNativeFeedback>
+                    <TouchableNativeFeedback onPress={this.modalHandler}>
+                        <View style={styles.navIcon}>
+                            <Icon name="reorder-three-outline" size={24}/>
+                        </View>
+                    </TouchableNativeFeedback>
+                    <TouchableNativeFeedback onPress={() => this.navigationHandler('Profile')}>
+                        <View style={styles.navIcon}>
+                            {this.props.userImage ? <Image style={styles.profileImage} resizeMode="cover" source={this.props.userImage}/> 
+                            : <Icon name="person-outline" size={22}/>}
+                        </View>
+                    </TouchableNativeFeedback>
+                </View>
                 { modal }
-            </View>
+            </>
         )
     }
 }

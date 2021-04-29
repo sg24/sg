@@ -69,7 +69,7 @@ class Preview extends Component {
                     {...wrapperProps}>
                     <DefaultHeader
                         onPress={this.props.closePagePreview}
-                        title="post's"
+                        title={this.props.title + "'s" || "post's"}
                         leftSideContent={(
                             <TouchableNativeFeedback onPress={() => this.props.userProfile(this.props.cnt.authorID)}>
                                 <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${this.props.cnt.userImage}`}}  style={styles.userImage}/>
@@ -82,7 +82,7 @@ class Preview extends Component {
                         )}/>
                     { this.props.cnt.media.length > 0 ? 
                          <MediaPreview
-                            showOption
+                            showOption={this.props.showOption === false ? false : true}
                             pageID={this.props.cnt._id}
                             media={this.props.cnt.media}
                             page="post"

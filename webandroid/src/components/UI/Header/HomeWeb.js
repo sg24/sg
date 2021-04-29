@@ -179,9 +179,7 @@ class Home extends Component  {
     }
 }
 
-const useStyles = makeUseStyles(({ palette, utils }) => {
-    console.log(palette)
-    return ({
+const useStyles = makeUseStyles(({ palette, utils }) => ({
     wrapper: {
         width: '100%',
     },
@@ -297,6 +295,6 @@ const useStyles = makeUseStyles(({ palette, utils }) => {
     color: {
         color: palette.color
     }
-})});
+}));
 
 export default withComponent([{name: 'navigationState',defaultParams: state => ({routes: state.routes, index: state.index}), component: useNavigationState}])(withStyles(useStyles)(Home));
