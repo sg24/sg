@@ -34,8 +34,9 @@ const cbtPreviewItem = props => (
             <View style={styles.actionButtonWrapper}>
                 <Button
                     onPress={props.openURI}
-                    title="Take Exam"
-                    style={styles.actionButton }/>
+                    title={props.cnt.takeExam ? 'Take Exam' : 'Request'}
+                    style={props.cnt.takeExam ? styles.actionButton : styles.actionButtonAlt}
+                    textStyle={props.cnt.takeExam ? styles.textStyle : styles.actionButtonText}/>
             </View>
         </BoxShadow>
     </View>
@@ -83,6 +84,16 @@ const styles = StyleSheet.create({
         paddingVertical: 6,
         paddingHorizontal: 10,
         marginTop: 10
+    },
+    actionButtonAlt: {
+        backgroundColor: '#dcdbdc',
+        paddingVertical: 6,
+        paddingHorizontal: 10,
+        marginTop: 10
+    },
+    actionButtonText: {
+        color: '#333',
+        fontSize: 15
     }
 });
 

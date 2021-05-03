@@ -4,56 +4,34 @@ import { makeUseStyles } from "react-native-stylex";
 import { withStyles } from "react-native-stylex/withStyles";
 import Ionicons from 'ionicons';
 import { tailwind } from 'tailwind';
+import { useNavigation, useNavigationState } from '@react-navigation/native';
 
 import BoxShadow from '../../BoxShadow/BoxShadow';
 import TouchableNativeFeedback from '../../TouchableNativeFeedback/TouchableNativeFeedback';
 
 const navigation = props => {
     let { styles } = props
+    const navigation = useNavigation();
+    const state = useNavigationState(state => ({routes: state.routes, index: state.index}));
+    const activeUri = state.routes[state.index] ? state.routes[state.index].name : '';
+    let navLink = [
+        {iconName: 'newspaper-outline', uri: 'Feed', title: 'Feed'},
+        {iconName: 'bulb-outline', uri: 'Question', title: 'Question'},
+        {iconName: 'reader-outline', uri: 'WriteUp', title: 'WriteUp'},
+        {iconName: 'cash-outline', uri: 'Contest', title: 'Contest'},
+        {iconName: 'bug-outline', uri: 'ErrorReport', title: 'App Error'},
+        {iconName: 'settings-outline', uri: 'Settings', title: 'Settings'},
+        {iconName: 'log-out-outline', uri: 'Logout', title: 'Logout'}]
     return (
         <BoxShadow style={[styles.sideBarNav, {backgroundColor: props.backgroundColor}]}>
-            <TouchableNativeFeedback  onPress={() => props.navigate('Feed')}>
-                <View style={styles.navItem}>
-                    <Ionicons name="newspaper-outline" size={20} color={props.color}/>
-                    <Text style={[styles.textStyle, styles.navItemText, {color: props.color}]}>Feed</Text>
+             { navLink.map((nav, index) => (
+                <TouchableNativeFeedback  onPress={() => navigation.navigate(nav.uri)} key={index}>
+                <View style={[styles.navItem, activeUri === nav.uri ? styles.navActiveItem : null]}>
+                    <Ionicons name={nav.iconName} size={20} color={activeUri === nav.uri ? '#437da3' : props.color}/>
+                    <Text style={[styles.textStyle, styles.navItemText, {color: activeUri === nav.uri ? '#437da3' : props.color}]}>{ nav.title }</Text>
                 </View>
             </TouchableNativeFeedback>
-            <TouchableNativeFeedback  onPress={() => props.navigate('Question')}>
-                <View style={styles.navItem}>
-                    <Ionicons name="bulb-outline" size={20} color={props.color}/>
-                    <Text style={[styles.textStyle, styles.navItemText, {color: props.color}]}>Question</Text>
-                </View>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback  onPress={()  => props.navigate('WriteUp')}>
-                <View style={styles.navItem}>
-                    <Ionicons name="reader-outline" size={20} color={props.color}/>
-                    <Text style={[styles.textStyle, styles.navItemText, {color: props.color}]}>Write Up</Text>
-                </View>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback onPress={()  => props.navigate('Content')}>
-                <View style={styles.navItem}>
-                    <Ionicons name="cash-outline" size={20} color={props.color}/>
-                    <Text style={[styles.textStyle, styles.navItemText, {color: props.color}]}>Contest</Text>
-                </View>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback onPress={()  => props.navigate('Content')}>
-                <View style={styles.navItem}>
-                    <Ionicons name="bug-outline" size={20} color={props.color}/>
-                    <Text style={[styles.textStyle, styles.navItemText, {color: props.color}]}>Report</Text>
-                </View>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback onPress={()  => props.navigate('Settings')}>
-                <View style={styles.navItem}>
-                    <Ionicons name="settings-outline" size={20} color={props.color}/>
-                    <Text style={[styles.textStyle, styles.navItemText, {color: props.color}]}>Settings</Text>
-                </View>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback onPress={()  => props.navigate('Logout')}>
-                <View style={styles.navItem}>
-                    <Ionicons name="log-out-outline" size={20} color={props.color}/>
-                    <Text style={[styles.textStyle, styles.navItemText, {color: props.color}]}>Logout</Text>
-                </View>
-            </TouchableNativeFeedback>
+            ))}
         </BoxShadow>
     );
 }
@@ -66,6 +44,9 @@ const useStyles = makeUseStyles(({ palette, utils }) => ({
         flexDirection: 'row',
         paddingHorizontal: 20,
         paddingVertical: 10
+    },
+    navActiveItem: {
+        ...tailwind('rounded-full')
     },
     navItemText: {
         marginLeft: 20

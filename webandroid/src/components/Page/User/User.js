@@ -12,10 +12,10 @@ const user = props => {
             userProfile={props.userProfile.bind(this, cnt._id)}
             chat={props.chat.bind(this, cnt)}
             addUser={props.changeProfile.bind(this, cnt._id, null, 'addUser', true)}
-            acceptUser={props.changeProfile.bind(this, cnt._id, props.cnt.username, 'acceptUser', true)}
-            rejUser={props.changeProfile.bind(this, cnt._id, props.cnt.username, 'rejUser', false, 'Are you sure you want to reject this user !')}
-            cancelReq={props.changeProfile.bind(this, cnt._id, props.cnt.username, 'cancelReq', false, 'Are you sure you want to cancel this request !')}
-            unfriend={props.changeProfile.bind(this, cnt._id, props.cnt.username, 'unfriend', false, 'Are you sure you want to remove this user !')}
+            acceptUser={props.changeProfile.bind(this, cnt._id, cnt.username, 'acceptUser', true)}
+            rejUser={props.changeProfile.bind(this, cnt._id, cnt.username, 'rejUser', false, 'Are you sure you want to reject this user !')}
+            cancelReq={props.changeProfile.bind(this, cnt._id, cnt.username, 'cancelReq', false, 'Are you sure you want to cancel this request !')}
+            unfriend={props.changeProfile.bind(this, cnt._id, cnt.username, 'unfriend', false, 'Are you sure you want to remove this user !')}
             pageReaction={props.pageReaction}
             closeModal={props.closeModal}
             lastItem={(props.cnt.length - 1) === index}

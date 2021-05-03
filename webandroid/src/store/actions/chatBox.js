@@ -297,3 +297,49 @@ export const replyChatStart = (cnt, chatID) => {
         chatID
     };
 };
+
+
+export const chatBoxReactionInit = (chatType, cntID, page, reactionType, cnt,  cntType = 'chatReaction', uriMethod = 'post', confirm = true) => {
+    return {
+        type: actionTypes.CHATBOX_REACTION_INIT,
+        chatType,
+        cntID,
+        page,
+        reactionType,
+        cnt,
+        cntType,
+        uriMethod,
+        confirm
+    };
+};
+
+export const chatBoxReactionStart = (cntID) => {
+    return {
+        type: actionTypes.CHATBOX_REACTION_START,
+        cntID
+    };
+};
+
+export const chatBoxReactionFail = (err, cntID) => {
+    return {
+        type: actionTypes.CHATBOX_REACTION_FAIL,
+        err,
+        cntID
+    };
+};
+
+export const chatBoxReaction = (cntID, cnt, cntType) => {
+    return {
+        type: actionTypes.CHATBOX_REACTION,
+        cntID,
+        cnt,
+        cntType
+    };
+};
+
+export const chatBoxReactionReset = (cntID) => {
+    return {
+        type: actionTypes.CHATBOX_REACTION_RESET,
+        cntID
+    };
+};

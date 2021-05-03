@@ -35,6 +35,12 @@ const QuestionChatSchema = new Schema({
         reply: [{
             type: ObjectId
         }],
+        correct: [{
+            type: ObjectId
+        }],
+        wrong: [{
+            type: ObjectId
+        }],
         replyChat: {
             type: Boolean,
             default: false

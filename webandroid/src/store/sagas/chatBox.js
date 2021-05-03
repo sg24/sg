@@ -72,3 +72,23 @@ export function* deleteChatInitSaga(action) {
         yield put(actions.deleteChatFail(err));
     }
 };
+
+export function* chatBoxReactionInitSaga(action) {
+    try {
+        yield put(actions.chatBoxReactionStart(action.cntID));
+        if (action.confirm) {
+            let response = yield axios[action.uriMethod](`/${action.chatType}`, action.cnt ? action.cnt : { cntID: action.cntID },{
+                headers: {
+                    'data-categ': action.reactionType}});
+            let cnt = response.data ? response.data : {};
+            if (cnt.pageInfo) {
+                yield put(actions.updatePage(cnt.pageInfo, action.page));
+            }
+            yield put(actions.chatBoxReaction(action.cntID, cnt.chatInfo, action.cntType));
+            // yield put(actions.updatePage({cntType: action.reactionType, _id: action.cntID}, action.chatType));
+        }
+    } catch(err){
+        yield put(actions.chatBoxReactionFail(err, action.cntID));
+    }
+    
+};

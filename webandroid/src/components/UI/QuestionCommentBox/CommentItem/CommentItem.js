@@ -28,14 +28,13 @@ const commentItem = props => {
             cnt={cnt}
             userProfile={props.userProfile.bind(this, cnt.authorID)}
             userID={props.userID}
+            correct={props.changeReaction.bind(this, cnt._id, cnt.content, 'setCorrect', false, 'Are you sure this answer is correct !!')}
+            wrong={props.changeReaction.bind(this, cnt._id, cnt.content, 'setWrong', false, 'Are you sure this answer is wrong !!')}
+            chatBoxReaction={props.chatBoxReaction}
             showReply={props.showReply}
+            hideSolutionInfo={props.hideSolutionInfo}
             fetchChatStart={props.fetchChatStart}
             replyChat={props.replyChat.bind(this, cnt)}
-            showUserImage={ cnt.authorID !== (props.cnt[index+1] ? props.cnt[index+1].authorID : null)}
-            direction={
-                (cnt.authorID !== (props.cnt[index-1] ? props.cnt[index-1].authorID : null)) ? 
-                direction === 'right' ? direction = 'left' : direction = 'right' :
-                direction }
             showOption={props.showOption.bind(this, cnt, direction)}
             sendChatInfo={props.sendChatInfo.bind(this, cnt)}
             deleteChatBox={props.deleteChatBox}

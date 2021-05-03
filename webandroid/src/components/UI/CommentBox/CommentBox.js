@@ -168,12 +168,12 @@ class CommentBox extends Component {
         this.setState({showSettings: false});
     }
 
-    showChatOptionHandler = (cnt, direction, e) => {
+    showChatOptionHandler = (cnt, direction, e, allowDelete = true) => {
         let copyOpt = cnt.media.length < 1 ? [
             {title: 'Share', icon: {name: 'paper-plane-outline'}, action: 'share'},
             {title: 'Copy Text', icon: {name: 'clipboard-outline'}, action: 'copy'}
         ] : [{title: 'Share', icon: {name: 'paper-plane-outline'}, action: 'share'}]
-        let deleteOpt = cnt.reply.length < 1 && this.props.userID === cnt.authorID ? [
+        let deleteOpt = cnt.reply.length < 1 && this.props.userID === cnt.authorID && allowDelete ? [
             ...copyOpt,
             {title: 'Delete', icon: {name: 'trash-bin-outline'}, action: 'delete'}] : 
             copyOpt;
@@ -639,7 +639,7 @@ class CommentBox extends Component {
                         replyChat={this.showReplyHandler}
                         userID={this.props.userID}
                         userProfile={this.userProfileHandler}
-                        showOption={this.showChatOptionHandler}
+                        showOption={(cnt, direction, e) => this.showChatOptionHandler(cnt, direction, e, false)}
                         sendChatInfo={this.sendChatInfoHandler}
                         deleteChatBox={this.props.deleteChat}
                         editChatBox={this.state.editChatBox}

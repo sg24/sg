@@ -77,6 +77,9 @@ const QchatSchema = new Schema({
         ext: String, 
         description: String
     }],
+    allowedUser: [{
+        type: ObjectId
+    }],
     shareMe: {
         type: Array
     },

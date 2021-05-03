@@ -134,7 +134,12 @@ export {
     replyChatStart,
     replyChatFail,
     replyChat,
-    updateChat
+    updateChat,
+    chatBoxReactionInit,
+    chatBoxReactionStart,
+    chatBoxReactionFail,
+    chatBoxReaction,
+    chatBoxReactionReset
  } from './chatBox';
 
  export {

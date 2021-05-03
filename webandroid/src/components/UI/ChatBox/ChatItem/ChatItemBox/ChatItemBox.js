@@ -82,86 +82,94 @@ const chatItemBox = props => {
                             { userImage }
                         </TouchableNativeFeedback>  
                 : null ) : null}
-                <View>
+                
+                <BoxShadow style={StyleSheet.flatten([deleteChatBox ? styles.deleteContainer : styles.container,
+                    !props.showUserImage ? {backgroundColor: '#437da3'} : null])}>
                     { replyChatItem }
-                    <BoxShadow style={deleteChatBox ? styles.deleteContainer : styles.container }>
-                        { props.cnt.media && props.cnt.media.length > 0 ? 
-                            props.cnt.media.map((media, index) => (
+                    { props.cnt.media && props.cnt.media.length > 0 ? 
+                        props.cnt.media.map((media, index) => (
+                            <View
+                                style={!props.showUserImage ? [styles.mediaWrapper, {backgroundColor: '#437da3'}] : styles.mediaWrapper}
+                                key={index}>
                                 <View
-                                    style={!props.showUserImage ? [styles.mediaWrapper, {backgroundColor: '#437da3'}] : styles.mediaWrapper}
-                                    key={index}>
-                                    <View
-                                        style={styles.media}>
-                                        <MediaContainer
-                                            key={index}
-                                            media={media}
-                                            fileIconStyle={styles.fileIcon}
-                                            fileIconWrapper={styles.mediaContainer}
-                                            videoStyle={styles.mediaContainer}
-                                            style={styles.mediaContainer}
-                                            wrapperStyle={{width: 200}}
-                                            onPress={props.preview.bind(this, null, [media], 0)}
-                                            android_ripple={{radius: 10}}
-                                            enablePressable
-                                            onLongPress={props.cnt._id && !deleteChatBox && !editChatBox ? props.showOption : null}>
-                                            { media.description ?
-                                                <Uridetect
-                                                    onPress={props.openURI} 
-                                                    style={!props.showUserImage ?  [styles.content, styles.mediaDescription, styles.hideUserImage] : [styles.content, styles.mediaDescription]} 
-                                                    textStyle={!props.showUserImage ? styles.hideUserImage : null}
-                                                    content={media.description} 
-                                                    searchText={props.searchText}
-                                                    highlighted={props.highlighted}/> : null}
-                                        </MediaContainer>
-                                        { !props.cnt.sent && props.cnt.sendChatID? 
-                                            <AbsoluteFill
-                                                style={styles.uploadWrapper}>
-                                                <View style={styles.upload}>
-                                                    <Text>{props.cnt.uploadedPercent}%</Text>
-                                                </View>
-                                            </AbsoluteFill> : null}
-                                    </View>
+                                    style={styles.media}>
+                                    <MediaContainer
+                                        key={index}
+                                        media={media}
+                                        fileIconStyle={styles.fileIcon}
+                                        fileIconWrapper={styles.mediaContainer}
+                                        videoStyle={styles.mediaContainer}
+                                        style={styles.mediaContainer}
+                                        wrapperStyle={{width: 200}}
+                                        onPress={props.preview.bind(this, null, [media], 0)}
+                                        android_ripple={{radius: 10}}
+                                        enablePressable
+                                        onLongPress={props.cnt._id && !deleteChatBox && !editChatBox ? props.showOption : null}>
+                                        { media.description ?
+                                            <Uridetect
+                                                onPress={props.openURI} 
+                                                style={!props.showUserImage ?  [styles.content, styles.mediaDescription, styles.hideUserImage] : [styles.content, styles.mediaDescription]} 
+                                                textStyle={!props.showUserImage ? styles.hideUserImage : null}
+                                                content={media.description} 
+                                                searchText={props.searchText}
+                                                highlighted={props.highlighted}/> : null}
+                                    </MediaContainer>
+                                    { !props.cnt.sent && props.cnt.sendChatID? 
+                                        <AbsoluteFill
+                                            style={styles.uploadWrapper}>
+                                            <View style={styles.upload}>
+                                                <Text>{props.cnt.uploadedPercent}%</Text>
+                                            </View>
+                                        </AbsoluteFill> : null}
                                 </View>
-                            )) : null}
-                        { props.cnt.content ? 
-                            <Pressable
-                                android_ripple={{radius: 10}}
-                                onLongPress={props.cnt._id && !deleteChatBox && !editChatBox ? (e) => props.showOption(e, true) : null}
-                                style={({ pressed }) => {
-                                    let style = {}
-                                    if (pressed) {
-                                        style.backgroundColor = '#e9ebf2';
-                                    }
-                                    return {
-                                        ...style,
-                                        padding: 10,
-                                        borderRadius: 10,
-                                        backgroundColor: props.showUserImage ? '#fff' : '#437da3'
-                                    };
-                                }}>
-                                <Uridetect 
-                                    onPress={props.openURI} 
-                                    style={!props.showUserImage ?  [styles.content, styles.hideUserImage] : styles.content} 
-                                    textStyle={!props.showUserImage ? styles.hideUserImage : null}
-                                    content={props.cnt.content} 
-                                    searchText={props.searchText}
-                                    highlighted={props.highlighted}/>
-                            </Pressable> : null}
-                        { uri.length > 0 ? 
-                            <View style={styles.linkPreview}>
-                                <LinkPreview 
-                                    links={uri}/>
-                            </View>: null}
-                    </BoxShadow>
-                </View>
+                            </View>
+                        )) : null}
+                    { props.cnt.content ? 
+                        <Pressable
+                            android_ripple={{radius: 10}}
+                            onLongPress={props.cnt._id && !deleteChatBox && !editChatBox ? (e) => props.showOption(e, true) : null}
+                            style={({ pressed }) => {
+                                let style = {}
+                                if (pressed) {
+                                    style.backgroundColor = '#e9ebf2';
+                                }
+                                return {
+                                    ...style,
+                                    padding: 10,
+                                    borderRadius: 10,
+                                    backgroundColor: props.showUserImage ? '#fff' : '#437da3'
+                                };
+                            }}>
+                            <Uridetect 
+                                onPress={props.openURI} 
+                                style={!props.showUserImage ?  [styles.content, styles.hideUserImage] : styles.content} 
+                                textStyle={!props.showUserImage ? styles.hideUserImage : null}
+                                content={props.cnt.content} 
+                                searchText={props.searchText}
+                                highlighted={props.highlighted}/>
+                        </Pressable> : null}
+                    { uri.length > 0 ? 
+                        <View style={styles.linkPreview}>
+                            <LinkPreview 
+                                links={uri}/>
+                        </View>: null}
+                </BoxShadow>
                 { !props.disableUserOpt ?
                     <View style={[styles.userInfo, props.direction === 'right' ? styles.userInfoDirection : null, !props.showUserImage ?  styles.userInfoDisableImg : null]}>
                     {/* { !props.showUserImage ? ( */}
-                        <View style={[styles.userInfoCnt,
+                        {/* <View style={[styles.userInfoCnt,
                                 props.direction === 'right' ? styles.userInfoCntDirection : null]}>
                             <Href title={props.cnt.username} numberOfLines={1}  onPress={props.userProfile} style={styles.textStyle}/>
-                        </View>
+                        </View> */}
                         {/* ) : null} */}
+                        <View style={props.direction === 'right' ? styles.detDirection : styles.det}>
+                            { props.cnt.sendChatID && !props.cnt.sent && !props.cnt.fail ?
+                                loader : !props.cnt.fail ? created : null}
+                            { props.cnt.sendChatID && props.cnt.fail ?
+                                <Button onPress={props.sendChatInfo} disabled={deleteChatBox && editChatBox} style={styles.button}>
+                                    <Ionicons name="alert-circle-outline" color="#ff1600" size={20}/>
+                                </Button> : null}
+                        </View>
                         { props.showReply && props.cnt.reply.length > 0 ?
                             <Button onPress={props.replyChat} disabled={deleteChatBox && editChatBox}
                             style={props.direction === 'right' ? styles.buttonReplyDirection : styles.buttonReply}>
@@ -178,14 +186,6 @@ const chatItemBox = props => {
                                     <Text style={styles.textStyle}>shared</Text>
                                 </View>
                             </Button> : null}
-                        <View style={styles.det}>
-                            { props.cnt.sendChatID && !props.cnt.sent && !props.cnt.fail ?
-                                loader : !props.cnt.fail ? created : null}
-                            { props.cnt.sendChatID && props.cnt.fail ?
-                                <Button onPress={props.sendChatInfo} disabled={deleteChatBox && editChatBox} style={styles.button}>
-                                    <Ionicons name="alert-circle-outline" color="#ff1600" size={20}/>
-                                </Button> : null}
-                        </View>
                     </View> : null}
             </View>
         </>
@@ -256,6 +256,8 @@ const styles = StyleSheet.create({
     userInfo: {
         position: 'absolute',
         flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
         width: '100%',
         bottom: -22,
         paddingLeft: 50,
@@ -263,6 +265,8 @@ const styles = StyleSheet.create({
     },
     userInfoDirection: {
         flexDirection: 'row-reverse',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
         width: '100%',
         paddingRight: 50,
         paddingLeft: 0
@@ -345,7 +349,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10
     },
     det: {
-        marginHorizontal: 10
+        marginRight: 0,
+        marginLeft: Platform.OS !== 'web' ? 10 : 10
+    },
+    detDirection: {
+        marginLeft: 0,
+        marginRight: Platform.OS !== 'web' ? 10 : 10
     },
     hideUserImage: {
         color: '#fff'

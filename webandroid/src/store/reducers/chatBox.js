@@ -14,7 +14,9 @@ const initialState = {
     fetchReplyStart: false,
     fetchReplyError: null,
     loadPreviousChat: false,
-    loadPreviousReply: false
+    loadPreviousReply: false,
+    chatBoxReaction: [],
+    chatBoxReactionError: null
 };
 
 
@@ -29,7 +31,7 @@ const chatBoxReset = (state, action) => {
         fetchChatStart: false, fetchChatError: null, fetchChat: null, chatID: null,
         username: null, userImage: null, userID: null,  deleteChat: null, deleteChatError: null,
         fetchReply: null, fetchReplyStart: false, fetchReplyError: null, loadPreviousChat: false,
-        loadPreviousReply: false
+        loadPreviousReply: false, chatBoxReaction: [], chatBoxReactionError: null
     })
 };
 
@@ -278,6 +280,49 @@ const replyChat = (state, action) => {
     })
 };
 
+const chatBoxReactionReset = (state, action) => {
+    let chatBoxReaction  =  [...state.chatBoxReaction];
+    let updateChatBoxReaction = chatBoxReaction.filter(id => id !== action.cntID);
+    return updateObject(state, { 
+        chatBoxReaction: updateChatBoxReaction, chatBoxReactionError: null
+    })
+};
+
+const chatBoxReactionStart = (state, action) => {
+    let chatBoxReaction = [...state.chatBoxReaction];
+    let chatBoxReactionCnt = chatBoxReaction.filter(id => id === action.cntID)[0];
+    if (!chatBoxReactionCnt) {
+        chatBoxReaction.push(action.cntID)
+    }
+    return updateObject(state, {chatBoxReaction, chatBoxReactionError: null})
+};
+
+const chatBoxReactionFail = (state, action) => {
+    let chatBoxReaction  = [...state.chatBoxReaction];
+    let updateChatBoxReaction = chatBoxReaction.filter(id => id !== action.cntID);
+    return updateObject(state, { 
+        chatBoxReaction: updateChatBoxReaction, chatBoxReactionError: action.err
+    })
+};
+
+const chatBoxReaction = (state, action) => {
+    let chatBoxReaction  = [...state.chatBoxReaction];
+    let updatePageReaction = chatBoxReaction.filter(id => id !== action.cntID);
+    let chat = action.cntType === 'replyReaction' ? state.fetchReply ? [...state.fetchReply] : [] : state.fetchChat ? [...state.fetchChat] : [];
+    let chatItem = chat.filter(cnt => cnt._id === action.cntID)[0];
+    if (chatItem && action.cnt) {
+        for (let cnt in action.cnt) {
+            chatItem[cnt] = action.cnt[cnt];
+        }
+        let chatItemIndex = chat.findIndex(cnt => cnt._id === action.cntID);
+        chat[chatItemIndex] = chatItem;
+        if (action.cntType === 'replyReaction') {
+            return updateObject(state, { chatBoxReaction: updatePageReaction, fetchReply: chat })
+        }
+    }
+    return updateObject(state, { chatBoxReaction: updatePageReaction, fetchChat: chat });
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.UPDATE_CHAT:
@@ -320,6 +365,14 @@ const reducer = (state = initialState, action) => {
             return replyChatFail(state, action);
         case actionTypes.REPLY_CHAT:
             return replyChat(state, action);
+        case actionTypes.CHATBOX_REACTION_START:
+            return chatBoxReactionStart(state, action);
+        case actionTypes.CHATBOX_REACTION_FAIL:
+            return chatBoxReactionFail(state, action);
+        case actionTypes.CHATBOX_REACTION:
+            return chatBoxReaction(state, action);
+        case actionTypes.CHATBOX_REACTION_RESET:
+            return chatBoxReactionReset(state, action);
         default: return state
     };
 };

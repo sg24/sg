@@ -33,8 +33,7 @@ router.post('/', authenticate, (req, res, next) => {
                     delete updateCnt.block;
                     updateResult.push({...updateCnt,
                     share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
-                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
-                    correct: cnt.correct.length})
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
                 }
             }
             let cbt = Math.round(Math.random());
@@ -42,7 +41,14 @@ router.post('/', authenticate, (req, res, next) => {
                 qchat.find().skip(req.body.start).limit(req.body.limit).then(doc => {
                     let lastItem = updateResult[updateResult.length - 1];
                     if (lastItem) {
-                        lastItem.cbt= doc
+                        let updateDoc =  []
+                        for (let cnt of doc) {
+                            let updateCnt = JSON.parse(JSON.stringify(cnt));
+                            updateDoc.push({...updateCnt,
+                                takeExam: cnt.participant === 'Public' ? true :
+                                cnt.allowedUser.filter(userID => JSON.parse(JSON.stringify(userID) === req.user))[0] ? true : false})
+                        }
+                        lastItem.cbt= updateDoc
                         updateResult[updateResult.length - 1] = lastItem
                     }
                     res.status(200).send({page: updateResult, loadMore: result.length > 0});
@@ -124,8 +130,7 @@ router.post('/', authenticate, (req, res, next) => {
                     delete updateCnt.block;
                     updateResult.push({...updateCnt,
                     share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
-                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
-                    correct: cnt.correct.length });
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0});
                 }
             }
             res.status(200).send({page: updateResult, loadMore: result.length > 0});

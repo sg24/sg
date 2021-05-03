@@ -13,6 +13,7 @@ import Button from '../../UI/Button/Button';
 import MediaTile from '../../UI/MediaTile/MediaTile';
 import LinkPreview from '../../UI/LinkPreview/LinkPreview';
 import LoadMore from '../../UI/LoadMore/LoadMore';
+import Avatar from '../../UI/Avatar/Avatar';
 import Advert from '../Advert/Advert';
 import { transformNumber, checkUri } from '../../../shared/utility';
 import FriendRequest from '../FriendRequest/FriendRequest';
@@ -21,14 +22,7 @@ const postContent = props => {
     let AnimatedIcon = Animatable.createAnimatableComponent(Ionicons);
     let showAdvert = null;
     let userOpt = null;
-    let userImage = (
-        <View style={styles.userImage}>
-            <Ionicons name="person" size={20} color="#777"/>
-        </View>
-    );
-    if (props.cnt.userImage) {
-        userImage = <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${props.cnt.userImage}`}} style={styles.userImage} />
-    }
+
     if (props.cnt._id === props.pageCntID) {
         userOpt = (
             <BoxShadow style={styles.userOpt}>
@@ -81,7 +75,7 @@ const postContent = props => {
                     <View style={styles.userDet}>
                         <View style={styles.userInfo}>
                             <TouchableNativeFeedback onPress={props.userProfile}>
-                                { userImage }
+                                <Avatar userImage={props.cnt.userImage} iconSize={20} imageSize={40}/>
                             </TouchableNativeFeedback>
                             <View style={styles.userInfoCnt}>
                                 <Href title={props.cnt.username} numberOfLines={1} onPress={props.userProfile} style={styles.textStyle}/>
@@ -121,8 +115,7 @@ const postContent = props => {
                     <TouchableNativeFeedback  onPress={props.chat}>
                         <View style={styles.userComment}>
                             { props.cnt.chat.user.map((user, index) => (
-                            <Image key={index} source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${user.userImage}`}}  
-                                style={[styles.userCommentImage, {left: index !== 0 ? -(index*8) : 'auto'}]}/> ))}
+                            <Avatar key={index} userImage={user.userImage} iconSize={20} style={[styles.userCommentImage, {left: index !== 0 ? -(index*8) : 'auto'}]}/> ))}
                             <Text  numberOfLines={1} style={[styles.userCommentText, {marginLeft: props.cnt.chat.user.length > 1 ? -((props.cnt.chat.user.length*8)-15) : 10}]}>{props.cnt.chat.user[0].username} {props.cnt.chat.user.length > 1 ? "and other's" : ''} comment on this</Text>
                         </View>
                     </TouchableNativeFeedback> : null}
@@ -190,17 +183,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         // borderBottomColor: '#dcdbdc',
         // borderBottomWidth: 1
-    },
-    userImage: {
-        backgroundColor: '#e9ebf2',
-        width: 40,
-        height: 40,
-        resizeMode: 'cover',
-        borderRadius: 20,
-        borderColor: '#437da3',
-        borderWidth: 2,
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     userInfo: {
         flexDirection: 'row'

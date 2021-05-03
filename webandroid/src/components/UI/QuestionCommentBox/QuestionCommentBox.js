@@ -76,7 +76,8 @@ class CommentBox extends Component {
             showPreview: null,
             showReply: null,
             searchHashTag: false,
-            editUploadFile: null
+            editUploadFile: null,
+            changeReaction: null
         }
     }
 
@@ -88,7 +89,7 @@ class CommentBox extends Component {
 
     componentDidMount() {
         Dimensions.addEventListener('change', this.updateStyle);
-        this.props.onFetchChat(this.props.fetchChat ? this.props.fetchChat.length : 0, this.props.settings.commentBox.fetchLimit, this.props.chatType, this.props.cntID, this.props.page, this.props.pageID);
+        this.props.onFetchChat( 0, this.props.settings.commentBox.fetchLimit, this.props.chatType, this.props.cntID, this.props.page, this.props.pageID);
     }
 
     componentWillUnmount() {
@@ -132,8 +133,12 @@ class CommentBox extends Component {
     }
 
     closeModalHandler = () => {
+        let reaction = this.state.changeReaction;
+        if (reaction) {
+            this.props.onChatBoxReactionReset(reaction.cntID);
+        }
         this.setState({showOption: false, showChatOption: null, showChatInfo: null,  editChatBox: null, showPreview: null,
-            replyChatBox: null});
+            replyChatBox: null, changeReaction: null});
     }
 
     checkOptionHandler = () => {
@@ -168,12 +173,12 @@ class CommentBox extends Component {
         this.setState({showSettings: false});
     }
 
-    showChatOptionHandler = (cnt, direction, e) => {
+    showChatOptionHandler = (cnt, direction, e, allowDelete = true) => {
         let copyOpt = cnt.media.length < 1 ? [
             {title: 'Share', icon: {name: 'paper-plane-outline'}, action: 'share'},
             {title: 'Copy Text', icon: {name: 'clipboard-outline'}, action: 'copy'}
         ] : [{title: 'Share', icon: {name: 'paper-plane-outline'}, action: 'share'}]
-        let deleteOpt = cnt.reply.length < 1 && this.props.userID === cnt.authorID ? [
+        let deleteOpt = cnt.reply.length < 1 && this.props.userID === cnt.authorID && allowDelete ? [
             ...copyOpt,
             {title: 'Delete', icon: {name: 'trash-bin-outline'}, action: 'delete'}] : 
             copyOpt;
@@ -416,12 +421,21 @@ class CommentBox extends Component {
         }
     }
 
+    chatBoxReactionHandler = (cntID, title, reactionType, confirm, info) => {
+        this.props.onChatBoxReaction(this.props.chatType, cntID, this.props.page, reactionType, 
+            {cntID, chatID: this.props.chatID, pageID: this.props.pageID}, 'chatReaction', 'post', confirm);
+        if (confirm) {
+            return this.setState({changeReaction: null});
+        }
+        this.setState({changeReaction: {cntID, title, reactionType, info, confirm}});
+    }
+
     sendChatHandler = (content) => {
         Keyboard.dismiss();
         if (!this.state.editChatBox && !this.state.replyChatBox && !this.state.showReply) {
             this.props.onSendChat(this.props.chatType, this.props.chatID, this.props.page, this.props.pageID, updateObject(content, {
                 sendChatID: uuid(), sent: false, fail: false, username: this.props.username, userImage: this.props.userImage,
-                authorID: this.props.userID, reply: []}));
+                authorID: this.props.userID, reply: [], correct: 0, wrong: 0}));
             if (this.scroll) {
                 this.scroll.scrollToEnd({animated: true});
             }
@@ -437,7 +451,7 @@ class CommentBox extends Component {
             let cnt = this.state.replyChatBox || this.state.showReply;
             this.props.onReplyChat(this.props.chatType, this.props.chatID, cnt._id, this.props.page, this.props.pageID, updateObject(content, {
                 sendChatID: uuid(), sent: false, fail: false, username: this.props.username, userImage: this.props.userImage,
-                authorID: this.props.userID, reply: [], replyChatID: cnt._id}));
+                authorID: this.props.userID, reply: [], replyChatID: cnt._id, correct: 0, wrong: 0}));
             this.setState({showReply: cnt, replyChatBox: null,
                 formElement: {content: {value: '',validation: {required: true,minLength: 1},valid: false,touched: false}},
                 formIsValid: false});
@@ -467,7 +481,8 @@ class CommentBox extends Component {
 
     render() {
         let checkFetchError = (this.props.fetchChat && this.props.fetchChat.length > 0 && this.props.fetchChatErr) || 
-        (this.props.fetchReply && this.props.fetchReply.length > 0 && this.props.fetchReplyErr)
+        (this.props.fetchReply && this.props.fetchReply.length > 0 && this.props.fetchReplyErr);
+        let chatBoxReaction = this.props.chatBoxReaction.length > 0 && this.state.changeReaction ? this.props.chatBoxReaction.filter(id => id === this.state.changeReaction.cntID)[0] : null;
         let loader = (
             <View style={styles.loaderCnt}>
                 <ActivityIndicator 
@@ -581,6 +596,9 @@ class CommentBox extends Component {
                                 disableUserOpt={true}
                                 openURI={this.openURIHandler}
                                 enableReply
+                                chatBoxReaction={this.props.chatBoxReaction}
+                                changeReaction={this.chatBoxReactionHandler}
+                                hideSolutionInfo
                                 />
                         </ScrollView>
                     </AbsoluteFill>
@@ -639,13 +657,15 @@ class CommentBox extends Component {
                         replyChat={this.showReplyHandler}
                         userID={this.props.userID}
                         userProfile={this.userProfileHandler}
-                        showOption={this.showChatOptionHandler}
+                        showOption={(cnt, direction, e) => this.showChatOptionHandler(cnt, direction, e, false)}
                         sendChatInfo={this.sendChatInfoHandler}
                         deleteChatBox={this.props.deleteChat}
                         editChatBox={this.state.editChatBox}
                         preview={this.mediaPreviewHandler}
                         enableReply
-                        openURI={this.openURIHandler}/>
+                        openURI={this.openURIHandler}
+                        chatBoxReaction={this.props.chatBoxReaction}
+                        changeReaction={this.chatBoxReactionHandler}/>
                 </View>
             )
         }
@@ -677,7 +697,9 @@ class CommentBox extends Component {
                                 enableLoadPrevious={this.props.loadPreviousChat}
                                 fetchChatStart={this.props.fetchChatStart}
                                 searchText={this.state.searchText}
-                                highlighted={this.props.settings.commentBox.highlighted}/>
+                                highlighted={this.props.settings.commentBox.highlighted}
+                                chatBoxReaction={this.props.chatBoxReaction}
+                                changeReaction={this.chatBoxReactionHandler}/>
                         </ScrollView>
                         { option }
                     </View>
@@ -736,6 +758,7 @@ class CommentBox extends Component {
                                             <ChatItem
                                                 cnt={this.props.fetchReply}
                                                 showReply={false}
+                                                hideSolutionInfo={this.state.showReply}
                                                 replyChat={this.showReplyHandler}
                                                 userID={this.props.userID}
                                                 userProfile={this.userProfileHandler}
@@ -749,7 +772,10 @@ class CommentBox extends Component {
                                                 enableLoadPrevious={this.props.loadPreviousReply}
                                                 fetchChatStart={this.props.fetchReplyStart}
                                                 searchText={this.state.searchText}
-                                                highlighted={this.props.settings.commentBox.highlighted}/>
+                                                highlighted={this.props.settings.commentBox.highlighted}
+                                                chatBoxReaction={this.props.chatBoxReaction}
+                                                changeReaction={this.chatBoxReactionHandler}
+                                                />
                                         </ScrollView>
                                         { option }
                                     </View>
@@ -839,12 +865,19 @@ class CommentBox extends Component {
                         closeModal={this.props.onFetchReplyReset} /> : null}
                  { this.props.deleteChat && !this.props.deleteChat.start ?  
                     <NotificationModal
-                        info="Are you sure you want to delete this comment"
+                        info="Are you sure you want to delete this solution"
                         closeModal={this.deleteChatResetHandler}
                         button={[{title: 'Ok', onPress: this.deleteChatHandler, style: styles.buttonCancel},
                         {title: 'Exit', onPress: this.deleteChatResetHandler, style: styles.button}]}/> : null}
                 { this.props.deleteChat && this.props.deleteChat.start ? 
                     <AbsoluteFill style={{zIndex: 9999999}}/> : null}
+                { chatBoxReaction && !chatBoxReaction.confirm ? 
+                    <NotificationModal
+                        info={this.state.changeReaction.info}
+                        closeModal={this.closeModalHandler}
+                        button={[{title: 'Ok', onPress: () => this.chatBoxReactionHandler(this.state.changeReaction.cntID, this.state.changeReaction.title, this.state.changeReaction.reactionType, true), 
+                            style: styles.buttonCancel},
+                        {title: 'Exit', onPress: this.closeModalHandler, style: styles.button}]}/> : null}
             </InnerScreen>
         )
     }
@@ -998,7 +1031,8 @@ const mapStateToProps = state => {
         userImage: state.chatBox.userImage,
         userID: state.chatBox.userID,
         deleteChat: state.chatBox.deleteChat,
-        deleteChatError: state.chatBox.deleteChatError
+        deleteChatError: state.chatBox.deleteChatError,
+        chatBoxReaction: state.chatBox.chatBoxReaction
     };
 };
 
@@ -1012,7 +1046,9 @@ const mapDispatchToProps = dispatch => {
         onDeleteChatReset: () => dispatch(actions.deleteChatReset()),
         onReplyChat: (chatType, cntID, chatID, page, pageID, formData) =>  dispatch(actions.replyChatInit(chatType, cntID, chatID, page, pageID,formData)),
         onFetchReply: (start, limit, chatType, cntID, chatID) => dispatch(actions.fetchReplyInit(start, limit, chatType, cntID, chatID)),
-        onFetchReplyReset: () => dispatch(actions.fetchReplyReset())
+        onFetchReplyReset: () => dispatch(actions.fetchReplyReset()),
+        onChatBoxReaction: (chatType, cntID, page, reactionType, cnt, cntType, uriMethod, confirm) => dispatch(actions.chatBoxReactionInit(chatType, cntID, page, reactionType, cnt, cntType, uriMethod, confirm)),
+        onChatBoxReactionReset: (cntID) => dispatch(actions.chatBoxReactionReset(cntID)),
     };
 };
 

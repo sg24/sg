@@ -30,7 +30,16 @@ router.post('/', authenticate, (req, res, next) => {
                             {$skip: req.body.start},
                             {$limit: req.body.limit},
                             {"$group": {"_id": "$_id", "chat": {"$push": "$chat"}}}]).then(chat => {
-                                return res.status(200).send({chat: chat[0] ? chat[0].chat.reverse() : [], username: req.username, userImage: req.userImage, userID: req.user,
+                                let updateChat = [];
+                                if (chat[0]) {
+                                    for (let cnt of chat[0].chat) {
+                                        let updateCnt = JSON.parse(JSON.stringify(cnt));
+                                        updateChat.push({...updateCnt, correct:  cnt.correct.length , wrong: cnt.wrong.length,
+                                            isCorrect: cnt.correct.filter(id => JSON.parse(JSON.stringify(id)) === req.user)[0] ? true : false,
+                                            isWrong: cnt.wrong.filter(id => JSON.parse(JSON.stringify(id)) === req.user)[0] ? true : false})
+                                    }
+                                }
+                                return res.status(200).send({chat: chat[0] ? updateChat.reverse() : [], username: req.username, userImage: req.userImage, userID: req.user,
                                     chatID: doc.chat._id, loadPrevious: (total - (req.body.start + req.body.limit)) > 0 })
                         })
                     })
@@ -42,7 +51,8 @@ router.post('/', authenticate, (req, res, next) => {
                         let chat = {total: 0, _id: result._id, user: []};
                         doc.updateOne({chat}).then(() => {
                             return res.status(200).send({chat: [], pageInfo: {_id: req.body.pageID, chat},
-                                username: req.username, userImage: req.userImage, userID: req.user, chatID: result._id, loadPrevious: false});
+                                username: req.username, userImage: req.userImage, userID: req.user, chatID: result._id, loadPrevious: false,
+                                correct: 0, wrong: 0});
                         });
                     })
                 }
@@ -67,7 +77,16 @@ router.post('/', authenticate, (req, res, next) => {
                     {$skip: req.body.start},
                     {$limit: req.body.limit},
                     {"$group": {"_id": "$_id", "chat": {"$push": "$chat"}}}]).then(chat => {
-                        return res.status(200).send({chat: chat[0] ? chat[0].chat.reverse() : [], username: req.username, userImage: req.userImage, userID: req.user,
+                        let updateChat = [];
+                        if (chat[0]) {
+                            for (let cnt of chat[0].chat) {
+                                let updateCnt = JSON.parse(JSON.stringify(cnt));
+                                updateChat.push({...updateCnt, correct:  cnt.correct.length , wrong: cnt.wrong.length,
+                                    isCorrect: cnt.correct.filter(id => JSON.parse(JSON.stringify(id)) === req.user)[0] ? true : false,
+                                    isWrong: cnt.wrong.filter(id => JSON.parse(JSON.stringify(id)) === req.user)[0] ? true : false})
+                            }
+                        }
+                        return res.status(200).send({chat: chat[0] ? updateChat.reverse() : [], username: req.username, userImage: req.userImage, userID: req.user,
                             chatID:req.body.chatID, loadPrevious: ((chatItem ? chatItem.reply.length : 0) - (req.body.start + req.body.limit)) > 0  })
                     })
             }
@@ -93,7 +112,7 @@ router.post('/', authenticate, (req, res, next) => {
                         question.findOneAndUpdate({_id: fields.pageID, 'chat.user.authorID': {$ne: req.user}}, {$push: {'chat.user': {authorID: req.user, username: req.username, userImage: req.userImage}}})]).then(cnt => {
                         let total = cnt[0].chat.length + 1;
                         question.findByIdAndUpdate(fields.pageID, {'chat.total': total}).then(result => {
-                            res.status(200).send({_id, created, media, pageInfo: {_id: fields.pageID, chat: {total, user: result.chat.user, _id: result.chat._id}}})
+                            res.status(200).send({_id, created, media, pageInfo: {_id: fields.pageID, chat: {...result.chat, total, user: result.chat.user, _id: result.chat._id}}})
                         })
                         
                         questionchat.findById(fields.cntID).then(doc => {
@@ -141,11 +160,8 @@ router.post('/', authenticate, (req, res, next) => {
                                 chat[chatItemIndex] = chatItem;
                                 Promise.all([doc.updateOne({chat}),
                                     tempFile.findOneAndUpdate({userID: cnt.authorID, "tempFiles.id": tempFileID}, {$pull: {tempFiles: {id: tempFileID}}}),
-                                    question.findOneAndUpdate({_id: fields.pageID, 'chat.user.authorID': {$ne: req.user}}, {$push: {'chat.user': {authorID: req.user, username: req.username, userImage: req.userImage}}})]).then(cnt => {
-                                    let total = chat.length;
-                                    question.findByIdAndUpdate(fields.pageID, {'chat.total': total}).then(result => {
-                                        res.status(200).send({_id, created, media, pageInfo: {_id: fields.pageID, chat: {total, user: result.chat.user, _id: result.chat._id}}})
-                                    })
+                                    question.findOneAndUpdate({_id: fields.pageID, 'chat.user.authorID': {$ne: req.user}}, {$push: {'chat.user': {authorID: req.user, username: req.username, userImage: req.userImage}}})]).then(() => {
+                                    res.status(200).send({_id, created, media});
                                     questionchat.findById(fields.cntID).then(doc => {
                                         if (doc) {
                                             let chat = doc.chat
@@ -171,9 +187,22 @@ router.post('/', authenticate, (req, res, next) => {
 
     if (req.header !== null && req.header('data-categ') === 'deleteChat') {
         Promise.all([deleteMedia(JSON.parse(req.body.media)),
-            questionchat.findByIdAndUpdate(req.body.chatID, {$pull: {chat: {'_id': req.body.cntID}}})]).then(cnt => {
-            question.findByIdAndUpdate({_id: req.body.pageID}, {'chat.total': cnt[1].chat.length - 1}).then(result => {
-                return res.status(200).send({pageInfo: {_id: req.body.pageID, chat: {total: cnt[1].chat.length - 1, user: result.chat.user, _id: result.chat._id}}});  
+            questionchat.findByIdAndUpdate(req.body.chatID, {$pull: {chat: {'_id': req.body.cntID}}})]).then(result => {
+            question.findById(req.body.pageID).then(doc => {
+                if (doc && doc.chat.total > 0 && result[1]) {
+                    let chat = doc.chat;
+                    chat.total = chat.total - 1;
+                    let chatItem = result[1].chat.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === req.body.cntID)[0];
+                    if (chatItem && (chat.correctTotal >= chatItem.correct.length)) {
+                        chat.correctTotal = chat.correctTotal - chatItem.correct.length;
+                    }
+                    if (chatItem && (chat.wrongTotal >= chatItem.wrong.length)) {
+                        chat.wrongTotal = chat.wrongTotal - chatItem.wrong.length;
+                    }
+                    doc.updateOne({chat}).then(() => {
+                        return res.status(200).send({pageInfo: {_id: req.body.pageID, chat}});  
+                    });
+                }
             })
         }).catch(err => {
             res.status(500).send(err);
@@ -196,9 +225,7 @@ router.post('/', authenticate, (req, res, next) => {
                             let chatItemIndex = chat.findIndex(cnt => JSON.parse(JSON.stringify(cnt._id)) === removeChatItem.replyChatID);
                             removeChat[chatItemIndex] = chatItem;
                             doc.updateOne({chat: removeChat}).then(() => {
-                                question.findByIdAndUpdate({_id: req.body.pageID}, {'chat.total': removeChat.length}).then(result => {
-                                    return res.status(200).send({pageInfo: {_id: req.body.pageID, chat: {total: removeChat.length, user: result.chat.user, _id: result.chat._id}}});  
-                                })
+                                res.sendStatus(200);
                             })
                         }
                     }
@@ -206,6 +233,114 @@ router.post('/', authenticate, (req, res, next) => {
             })
         }).catch(err => {
             res.status(500).send(err);
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'setCorrect') {
+        questionchat.findOne({_id: req.body.chatID}).then(doc => {
+            if (doc && doc.chat) {
+                let chat = doc.chat;
+                let chatItem = chat.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === req.body.cntID)[0];
+                let isCorrect = false;
+                let updateIsWrong = false;
+                let correct = 0;
+                let wrong = 0;
+                if (chatItem) {
+                    let checkCorrect = chatItem.correct.filter(id => JSON.parse(JSON.stringify(id)) === req.user)[0];
+                    if (checkCorrect) {
+                        chatItem.correct = chatItem.correct.filter(id => JSON.parse(JSON.stringify(id)) !== req.user);
+                    } else {
+                        chatItem.correct.push(req.user);
+                        isCorrect = true;
+                    }
+                    let checkWrong = chatItem.wrong.filter(id => JSON.parse(JSON.stringify(id)) === req.user)[0];
+                    if (checkWrong) {
+                        chatItem.wrong = chatItem.wrong.filter(id => JSON.parse(JSON.stringify(id)) !== req.user);
+                        updateIsWrong = true;
+                    }
+                    correct = chatItem.correct.length;
+                    wrong = chatItem.wrong.length;
+                    let chatItemIndex = chat.findIndex(cnt => JSON.parse(JSON.stringify(cnt._id)) === req.body.cntID);
+                    chat[chatItemIndex] = chatItem;
+                }
+                let total = isCorrect ? 1 : -1;
+                doc.updateOne({chat}).then(() => {
+                    question.findById(req.body.pageID).then(questionDoc => {
+                        if (questionDoc && (questionDoc.chat.correctTotal >= (isCorrect ? 0 : 1))) {
+                            let updateChat = questionDoc.chat;
+                            if (updateIsWrong && (questionDoc.chat.wrongTotal >= 1)) {
+                                updateChat.wrongTotal = questionDoc.chat.wrongTotal -1;
+                            }
+                            updateChat.correctTotal = questionDoc.chat.correctTotal + total;
+                            questionDoc.updateOne({chat: updateChat}).then(result => {
+                                if (result) {
+                                    let updateWrong = updateIsWrong ? {wrong, isWrong: false} : {};
+                                    return res.status(200).send({pageInfo: {_id: req.body.pageID, isCorrect, 
+                                        chat: updateChat},
+                                        chatInfo: {correct, isCorrect, ...updateWrong}});
+                                }
+                            })
+                        }
+                    });
+                });
+            }
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'setWrong') {
+        questionchat.findOne({_id: req.body.chatID}).then(doc => {
+            if (doc && doc.chat) {
+                let chat = doc.chat;
+                let chatItem = chat.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === req.body.cntID)[0];
+                let isWrong = false;
+                let updateIsCorrect = false;
+                let correct = 0;
+                let wrong = 0;
+                if (chatItem) {
+                    let checkWrong = chatItem.wrong.filter(id => JSON.parse(JSON.stringify(id)) === req.user)[0];
+                    if (checkWrong) {
+                        chatItem.wrong = chatItem.wrong.filter(id => JSON.parse(JSON.stringify(id)) !== req.user);
+                    } else {
+                        chatItem.wrong.push(req.user);
+                        isWrong = true;
+                    }
+                    let checkCorrect = chatItem.correct.filter(id => JSON.parse(JSON.stringify(id)) === req.user)[0];
+                    if (checkCorrect) {
+                        chatItem.correct = chatItem.correct.filter(id => JSON.parse(JSON.stringify(id)) !== req.user);
+                        updateIsCorrect = true;
+                    }
+                    correct = chatItem.correct.length;
+                    wrong = chatItem.wrong.length;
+                    let chatItemIndex = chat.findIndex(cnt => JSON.parse(JSON.stringify(cnt._id)) === req.body.cntID);
+                    chat[chatItemIndex] = chatItem;
+                }
+                let total = isWrong ? 1 : -1;
+                doc.updateOne({chat}).then(() => {
+                    question.findById(req.body.pageID).then(questionDoc => {
+                        if (questionDoc && (questionDoc.chat.wrongTotal >= (isWrong ? 0 : 1))) {
+                            let updateChat = questionDoc.chat;
+                            if (updateIsCorrect && (questionDoc.chat.correctTotal >= 1)) {
+                                updateChat.correctTotal = questionDoc.chat.correctTotal -1;
+                            }
+                            updateChat.wrongTotal = questionDoc.chat.wrongTotal + total;
+                            questionDoc.updateOne({chat: updateChat}).then(result => {
+                                if (result) {
+                                    let updateCorrect = updateIsCorrect ? {correct, isCorrect: false} : {};
+                                    return res.status(200).send({pageInfo: {_id: req.body.pageID, isWrong, 
+                                        chat: updateChat},
+                                        chatInfo: {wrong, isWrong, ...updateCorrect}});
+                                }
+                            })
+                        }
+                    });
+                });
+            }
+        }).catch(err => {
+            res.status(500).send(err)
         })
         return
     }

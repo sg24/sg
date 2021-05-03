@@ -159,7 +159,7 @@ const postContent = props => {
                         <TouchableNativeFeedback onPress={props.chat}>
                             <View style={styles.detContent}>
                                 <Ionicons name="checkmark-outline" color="#16cf27" size={24}/>
-                                <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.cnt.correct) }</Text>
+                                <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.cnt.chat ? props.cnt.chat.correctTotal : 0) }</Text>
                             </View>
                         </TouchableNativeFeedback>
                         <TouchableNativeFeedback onPress={startPageReaction ? null : props.favorite}>

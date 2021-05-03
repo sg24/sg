@@ -56,6 +56,14 @@ const QuestionSchema = new Schema({
             type: Number,
             default: 0
         },
+        correctTotal: {
+            type: Number,
+            default: 0
+        },
+        wrongTotal: {
+            type: Number,
+            default: 0
+        },
         user: [{
             authorID: {
                 type: String,
@@ -75,9 +83,6 @@ const QuestionSchema = new Schema({
     }],
     report: [{
         type: String
-    }],
-    correct: [{
-        type: ObjectId
     }],
     blacklisted: {
         type: String,

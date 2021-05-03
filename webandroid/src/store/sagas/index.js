@@ -9,7 +9,7 @@ import { fetchProfileInitSaga, changeProfileInitSaga, submitAboutInitSaga, submi
 import { fetchEditFormInitSaga } from './editForm';
 import { fetchPageInitSaga, deletePageInitSaga, pageReactionInitSaga } from './page';
 import { fetchMediaInfoInitSaga, mediaReactionInitSaga } from './media';
-import { fetchChatInitSaga, fetchReplyInitSaga, deleteChatInitSaga } from './chatBox';
+import { fetchChatInitSaga, fetchReplyInitSaga, deleteChatInitSaga, chatBoxReactionInitSaga } from './chatBox';
 import { fetchSharecntInitSaga, shareInitSaga } from './share';
 import { externalPageInitSaga } from './externalPage';
 
@@ -69,7 +69,8 @@ export function* watchChatBox() {
     yield all([
        takeLatest(actionTypes.FETCH_CHAT_INIT, fetchChatInitSaga),
        takeLatest(actionTypes.FETCH_REPLY_INIT, fetchReplyInitSaga),
-       takeEvery(actionTypes.DELETE_CHAT_INIT, deleteChatInitSaga)
+       takeEvery(actionTypes.DELETE_CHAT_INIT, deleteChatInitSaga),
+       takeEvery(actionTypes.CHATBOX_REACTION_INIT, chatBoxReactionInitSaga)
     ])
 }
 

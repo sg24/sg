@@ -32,7 +32,7 @@ import PagePreview from '../../components/Page/Preview/Preview';
 import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
-import CommentBox from '../../components/UI/CommentBox/CommentBox';
+import CommentBox from '../../components/UI/QuestionCommentBox/QuestionCommentBox';
 import SharePicker from '../../components/UI/SharePicker/SharePicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 
