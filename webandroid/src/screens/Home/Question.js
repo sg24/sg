@@ -359,7 +359,9 @@ class Questions extends Component {
                             shareType={this.state.showSharePicker.shareType}
                             closeSharePicker={this.closeModalHandler}
                             cnt={this.state.showSharePicker.cnt}
-                            shareUpdates={[{shareType: 'question', cntID: 'setShare', page: 'question', pageID: this.state.showSharePicker.cnt._id}]}/> : null}
+                            shareUpdates={[{shareType: 'question', cntID: 'setShare', page: 'question', pageID: this.state.showSharePicker.cnt._id}]}
+                            shareChat={false}
+                            info="Question shared successfully !"/> : null}
                     { this.state.showActionSheet ? 
                         <ActionSheet
                             options={this.state.showActionSheet.option}

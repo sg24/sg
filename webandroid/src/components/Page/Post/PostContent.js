@@ -79,14 +79,17 @@ const postContent = props => {
                             </TouchableNativeFeedback>
                             <View style={styles.userInfoCnt}>
                                 <Href title={props.cnt.username} numberOfLines={1} onPress={props.userProfile} style={styles.textStyle}/>
-                                {props.cnt.edited ? (
-                                    <View style={styles.userInfoCreate}>
-                                        <Ionicons name="pencil-outline" color="#777" />
-                                        <Text style={{color: '#777', marginRight: 5}} >
-                                            Edit
-                                        </Text> 
-                                        <Moment element={Text} date={props.cnt.edited} fromNow /></View>) : 
-                                        <Moment element={Text} date={props.cnt.created} fromNow  />}
+                                <View style={styles.info}>
+                                    {props.cnt.edited ? (
+                                        <View style={styles.userInfoCreate}>
+                                            <Ionicons name="pencil-outline" color="#777" />
+                                            <Text style={{color: '#777', marginRight: 5}} >
+                                                Edit
+                                            </Text> 
+                                            <Moment element={Text} date={props.cnt.edited} fromNow /></View>) : 
+                                            <Moment element={Text} date={props.cnt.created} fromNow  />}
+                                    {!props.cnt.isFriend ? <Text style={styles.infoText}>Shared</Text> : null}
+                                </View>
                             </View>
                         </View>
                         <TouchableNativeFeedback onPress={props.showUserOpt}>
@@ -195,6 +198,13 @@ const styles = StyleSheet.create({
     userInfoCnt: {
         justifyContent: 'space-between',
         marginLeft: 10
+    },
+    info: {
+        flexDirection: 'row'
+    },
+    infoText: {
+        marginLeft: 5,
+        color: '#777'
     },
     content: {
         fontSize: 16,

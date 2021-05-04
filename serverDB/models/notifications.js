@@ -16,7 +16,13 @@ const NotificationsSchema = new Schema({
     post: [{
         ...defaultContentSchema
     }],
+    postShare: [{
+        ...defaultContentSchema
+    }],
     question: [{
+        ...defaultContentSchema
+    }],
+    questionShare: [{
         ...defaultContentSchema
     }],
     writeup: [{

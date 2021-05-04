@@ -10,6 +10,7 @@ let deleteMedia = require('./utility/deletemedia');
 let authenticate = require('../serverDB/middleware/authenticate');
 let formInit = require('./utility/forminit');
 let uploadToBucket = require('./utility/upload');
+let notifications = require('./utility/notifications');
 const {post, advert, user, connectStatus} = require('../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
@@ -32,7 +33,8 @@ router.post('/', authenticate, (req, res, next) => {
                     delete updateCnt.block;
                     updateResult.push({...updateCnt,
                     share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
-                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                    isFriend: [req.user, ...req.friend].filter(id => id === JSON.parse(JSON.stringify(cnt.authorID))).length > 0})
                 }
             }
             let showAdvert = Math.round(Math.random());
@@ -83,11 +85,18 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'setShare') {
-        post.findOneAndUpdate({_id: req.body.pageID}, {$addToSet: {'share': JSON.parse(req.body.reciepent)}}).then(doc => {
-            if (doc) {
-                return res.status(200).send({pageInfo: {_id: req.body.pageID, share: doc.share.length + 1}});
-            }
-            return res.sendStatus(200);
+        let reciepent = JSON.parse(req.body.reciepent);
+        post.findOneAndUpdate({_id: req.body.pageID}, {$addToSet: {'share': reciepent}}).then(() => {
+            post.findById(req.body.pageID).then(doc => {
+                if (doc) {
+                    res.status(200).send({pageInfo: {_id: req.body.pageID, share: doc.share.length}});
+                    for (let userID of reciepent) {
+                        notifications('postShare', userID, {userID: req.user, ID: req.body.pageID}, false);
+                    }
+                    return
+                }
+                return res.sendStatus(200);
+            });
         }).catch(err => {
             console.log(err)
             res.status(500).send(err)
@@ -105,7 +114,8 @@ router.post('/', authenticate, (req, res, next) => {
                     delete updateCnt.block;
                     updateResult.push({...updateCnt,
                     share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
-                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                    isFriend: [req.user, ...req.friend].filter(id => id === JSON.parse(JSON.stringify(cnt.authorID))).length > 0})
                 }
             }
             res.status(200).send({page: updateResult, loadMore: result.length > 0});

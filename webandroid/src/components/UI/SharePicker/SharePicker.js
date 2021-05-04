@@ -97,7 +97,7 @@ class SharePicker extends Component {
 
     shareHandler = () => {
         if (this.props.shareType === 'Friends' && this.props.cnt) {
-            this.props.onShareCnt('userchat', 'shareChat', this.props.cnt, this.state.picked, this.props.userID, this.props.shareUpdates);
+            this.props.onShareCnt('userchat', this.props.shareChat === false ? null : 'shareChat', this.props.cnt, this.state.picked, this.props.userID, this.props.shareUpdates);
         }
     }
 
@@ -266,7 +266,7 @@ class SharePicker extends Component {
                         button={[{title: 'Ok', onPress: this.props.onShareReset, style: styles.button}]}/> : null}
                 { this.props.share ? 
                     <NotificationModal
-                        info="Message shared successfully !"
+                        info={this.props.info || "Message shared successfully !"}
                         infoIcon={{name: 'paper-plane-outline', color: '#16cf27', size: 40}}
                         closeModal={this.shareResetHandler}
                         button={[{title: 'Ok', onPress: this.shareResetHandler, style: styles.button}]}/> : null}

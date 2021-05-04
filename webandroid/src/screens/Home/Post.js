@@ -405,7 +405,9 @@ class Post extends Component {
                             shareType={this.state.showSharePicker.shareType}
                             closeSharePicker={this.closeModalHandler}
                             cnt={this.state.showSharePicker.cnt}
-                            shareUpdates={[{shareType: 'post', cntID: 'setShare', page: 'post', pageID: this.state.showSharePicker.cnt._id}]}/> : null}
+                            shareUpdates={[{shareType: 'post', cntID: 'setShare', page: 'post', pageID: this.state.showSharePicker.cnt._id}]}
+                            shareChat={false}
+                            info="Post shared successfully !"/> : null}
                     { this.state.showActionSheet ? 
                         <ActionSheet
                             options={this.state.showActionSheet.option}
