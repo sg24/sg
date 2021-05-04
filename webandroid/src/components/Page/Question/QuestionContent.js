@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet, Image, ScrollView } from 'react-native';
-import Constants from 'expo-constants';
+import { View, Text, Pressable, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'ionicons';
 import Moment from 'react-moment';
 import * as Animatable from 'react-native-animatable';
@@ -10,7 +9,6 @@ import BoxShadow from '../../UI/BoxShadow/BoxShadow';
 import TouchableNativeFeedback from '../../UI/TouchableNativeFeedback/TouchableNativeFeedback';
 import Href from '../../UI/Href/Href';
 import Button from '../../UI/Button/Button';
-import MediaTile from '../../UI/MediaTile/MediaTile';
 import LinkPreview from '../../UI/LinkPreview/LinkPreview';
 import LoadMore from '../../UI/LoadMore/LoadMore';
 import Advert from '../Advert/Advert';
@@ -20,19 +18,13 @@ import Carousel from '../../UI/Carousel/Carousel';
 import MediaContainer from '../../UI/MediaContainer/MediaContainer';
 import TabBarge from '../../UI/TabBarge/TabBarge';
 import CBTPreview from '../CBTPreview/CBTPreview';
+import Avatar from '../../UI/Avatar/Avatar';
 
 const postContent = props => {
     let AnimatedIcon = Animatable.createAnimatableComponent(Ionicons);
     let showAdvert = null;
     let userOpt = null;
-    let userImage = (
-        <View style={styles.userImage}>
-            <Ionicons name="person" size={20} color="#777"/>
-        </View>
-    );
-    if (props.cnt.userImage) {
-        userImage = <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${props.cnt.userImage}`}} style={styles.userImage} />
-    }
+
     if (props.cnt._id === props.pageCntID) {
         userOpt = (
             <BoxShadow style={styles.userOpt}>
@@ -94,9 +86,7 @@ const postContent = props => {
                 <BoxShadow style={styles.wrapper}>
                     <View style={styles.userDet}>
                         <View style={styles.userInfo}>
-                            <TouchableNativeFeedback onPress={props.userProfile}>
-                                { userImage }
-                            </TouchableNativeFeedback>
+                            <Avatar userImage={props.cnt.userImage} iconSize={20} imageSize={40} onPress={props.userProfile}/>
                             <View style={styles.userInfoCnt}>
                                 <Href title={props.cnt.username} numberOfLines={1} onPress={props.userProfile} style={styles.textStyle}/>
                                 {props.cnt.edited ? (
@@ -219,17 +209,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         // borderBottomColor: '#dcdbdc',
         // borderBottomWidth: 1
-    },
-    userImage: {
-        backgroundColor: '#e9ebf2',
-        width: 40,
-        height: 40,
-        resizeMode: 'cover',
-        borderRadius: 20,
-        borderColor: '#437da3',
-        borderWidth: 2,
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     userInfo: {
         flexDirection: 'row'

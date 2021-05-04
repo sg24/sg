@@ -28,6 +28,8 @@ import ProfileScreen from './src/screens/Home/Profile';
 import PostScreen from './src/screens/Home/Post';
 import UsersScreen from './src/screens/Home/Users';
 import QuestionScreen from './src/screens/Home/Question';
+import FeedScreen from './src/screens/Home/Feed';
+import WriteUpScreen from './src/screens/Home/WriteUp';
 import HashSearchScreen from './src/screens/Home/HashSearch';
 import AddPostScreen from './src/screens/AddForm/Post';
 import AddQuestionScreen from './src/screens/AddForm/Question';
@@ -57,6 +59,8 @@ const userScreens = {
   Home: TopTab,
   Users: UsersScreen, 
   Question: QuestionScreen,
+  Feed: FeedScreen,
+  WriteUp: WriteUpScreen,
   Search: SearchScreen,
   Addnew: AddnewScreen,
   Conversation: ConvScreen,
@@ -210,7 +214,7 @@ class Base extends Component {
                 }
               }
 
-              if (name === 'Question') {
+              if (name === 'Question' || name === 'Feed' || name === 'WriteUp') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
                 header = {
                   header: ({scene, previous, navigation }) => this.state.viewMode === 'landscape' ?  <HeaderBar
@@ -219,7 +223,7 @@ class Base extends Component {
                     modalConv={ConvScreen}
                     modalNotify={NotificatonScreen}
                     filterCnt={this.props.onHeaderFilter}
-                    title={name}
+                    title={name === 'WriteUp' ? 'Write Up' : name}
                     inputValue={this.props.filterCnt} /> : null
                 }
               }

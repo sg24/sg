@@ -1,11 +1,13 @@
 require('./config/config');
 const {connectStatus} = require('./db/mongoose');
 const feed = require('./models/feed');
+const feedchat = require('./models/feedchat');
 const advert = require('./models/adverts');
 const advertchat = require('./models/advertchat');
 const question = require('./models/questions');
 const questionchat = require('./models/questionchat');
 const writeup = require('./models/writeup');
+const writeupchat = require('./models/writeupchat');
 const mediachat = require('./models/mediachat');
 const postchat = require('./models/postchat');
 const category = require('./models/category');
@@ -25,10 +27,12 @@ const page = require('./models/page');
 
 module.exports = {
     feed,
+    feedchat,
     post,
     question,
     questionchat,
     writeup,
+    writeupchat,
     mediachat,
     postchat,
     category,

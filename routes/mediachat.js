@@ -9,10 +9,12 @@ let authenticate = require('../serverDB/middleware/authenticate');
 let formInit = require('./utility/forminit');
 let deleteMedia = require('./utility/deletemedia');
 let uploadToBucket = require('./utility/upload');
-const {mediachat, post,  tempFile, connectStatus} = require('../serverDB/serverDB');
+const {mediachat, post, question, feed, tempFile, connectStatus} = require('../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
-    let model = req.body.page === 'post' ? post : post;
+    let model = req.body.page === 'post' ? post : 
+        req.body.page === 'question' ? question :
+        req.body.page === 'feed' ? feed : post;
     if (req.header !== null && req.header('data-categ') === 'mediaInfo') {
         let chat = JSON.parse(req.body.chat);
         mediachat.find({_id: {$in: chat}}).then(result => {

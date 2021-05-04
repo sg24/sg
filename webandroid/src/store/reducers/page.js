@@ -17,9 +17,15 @@ const initialState = {
     fetchAdvertError: null,
     fetchAdvert: null,
     fetchFeedError: null,
+    fetchFeedStart: false,
     fetchFeed: null,
-    fetchWriteupError: null,
-    fetchWriteup: null,
+    deleteFeedError: null,
+    deleteFeed: null,
+    fetchWriteUpError: null,
+    fetchWriteUpStart: false,
+    fetchWriteUp: null,
+    deleteWriteUpError: null,
+    deleteWriteUp: null,
     fetchCbtError: null,
     fetchCbt: null,
     fetchChatRoomError: null,
@@ -37,8 +43,8 @@ const pageReset = (state, action) => {
         fetchPostError: null,fetchPost: null, fetchPostStart: false, deletePostError: null, deletePost: null,
         fetchQuestionError: null,fetchQuestion: null, fetchQuestionStart: false, deleteQuestionError: null, deleteQuestion: null,
         fetchAdvertError: null,fetchAdvert: null,
-        fetchFeedError: null,fetchFeed: null,
-        fetchWriteupError: null,fetchWriteup: null,
+        fetchFeedError: null,fetchFeedStart: false,fetchFeed: null,deleteFeedError: null,deleteFeed: null,
+        fetchWriteUpError: null,fetchWriteUpStart: false,fetchWriteUp: null,deleteWriteUpError: null,deleteWriteUp: null,
         fetchCbtError: null,fetchCbt: null,
         fetchChatRoomError: null,fetchChatRoom: null, 
         fetchUserError: null,fetchUserStart: false,fetchUser: null,
@@ -54,9 +60,9 @@ const fetchPageFail = (state, action) => {
     } else if (action.page === 'advert') {
         return updateObject(state, {fetchAdvertError: {message: action.err}});
     } else if (action.page === 'feed') {
-        return updateObject(state, {fetchFeedError: {message: action.err}});
+        return updateObject(state, {fetchFeedError: {message: action.err}, fetchFeedStart: false});
     } else if (action.page === 'writeup') {
-        return updateObject(state, {fetchWriteupError: {message: action.err}});
+        return updateObject(state, {fetchWriteUpError: {message: action.err}, fetchWriteUpStart: false});
     } else if (action.page === 'cbt') {
         return updateObject(state, {fetchCbtError: {message: action.err}});
     } else if (action.page === 'chatRoom') {
@@ -76,9 +82,9 @@ const fetchPageStart = (state, action) => {
     } else if (action.page === 'advert') {
         return updateObject(state, {fetchAdvertError: {message: action.err}});
     } else if (action.page === 'feed') {
-        return updateObject(state, {fetchFeedError: {message: action.err}});
+        return updateObject(state, {fetchFeedError: null, fetchFeed: action.start === 0 ? null : state.fetchFeed, fetchFeedStart: true });
     } else if (action.page === 'writeup') {
-        return updateObject(state, {fetchWriteupError: {message: action.err}});
+        return updateObject(state, {fetchWriteUpError: null, fetchFeed: action.start === 0 ? null : state.fetchWriteUp, fetchWriteUpStart: true });
     } else if (action.page === 'cbt') {
         return updateObject(state, {fetchCbtError: {message: action.err}});
     } else if (action.page === 'chatRoom') {
@@ -92,7 +98,8 @@ const fetchPageStart = (state, action) => {
 
 const fetchPageReset = (state, action) => {
     return updateObject(state, {fetchPostError: null, fetchPostStart: false, fetchUserError: null, fetchUserStart: false,
-        fetchQuestionError: null, fetchQuestionStart: false, });
+        fetchQuestionError: null, fetchQuestionStart: false, fetchFeedError: null, fetchFeedStart: false,
+        fetchWriteUpError: null, fetchWriteUpStart: false});
 };
 
 const fetchPage = (state, action) => {
@@ -108,9 +115,9 @@ const fetchPage = (state, action) => {
     } else if (action.page === 'advert') {
         return updateObject(state, {fetchAdvert: action.cnt, page: action.page});
     } else if (action.page === 'feed') {
-        return updateObject(state, {fetchFeed: action.cnt, page: action.page});
+        return updateObject(state, {fetchFeed: updatePage(state.fetchFeed, action), page: action.page, loadMore: action.cnt.loadMore, fetchFeedStart: false});
     } else if (action.page === 'writeup') {
-        return updateObject(state, {fetchWriteup: action.cnt, page: action.page});
+        return updateObject(state, {fetchWriteUp: updatePage(state.fetchWriteUp, action), page: action.page, loadMore: action.cnt.loadMore, fetchWriteUpStart: false});
     } else if (action.page === 'cbt') {
         return updateObject(state, {fetchCbt: action.cnt, page: action.page});
     } else if (action.page === 'chatRoom') {
@@ -143,7 +150,7 @@ const updatePage = (state, action) => {
     } else if (action.page === 'feed') {
         return updateObject(state, {fetchFeed: updatePageCnt(state.fetchFeed, action)});
     } else if (action.page === 'writeup') {
-        return updateObject(state, {fetchWriteup: updatePageCnt(state.fetchWriteup, action)});
+        return updateObject(state, {fetchWriteUp: updatePageCnt(state.fetchWriteUp, action)});
     } else if (action.page === 'cbt') {
         return updateObject(state, {fetchCbt: updatePageCnt(state.fetchCbt, action)});
     } else if (action.page === 'chatRoom') {
@@ -209,7 +216,8 @@ const updatePage = (state, action) => {
 
 const deletePageReset = (state, action) => {
     return updateObject(state, { 
-        deletePostError: null, deletePost: null, deleteQuestionError: null, deleteQuestion: null
+        deletePostError: null, deletePost: null, deleteQuestionError: null, deleteQuestion: null,
+        deleteFeedError: null, deleteFeed: null, deleteWriteUpError: null, deleteWriteUp: null
     })
 };
 
@@ -221,9 +229,9 @@ const deletePageStart = (state, action) => {
     } else if (action.page === 'advert') {
         return updateObject(state, {fetchAdvertError: {message: action.err}});
     } else if (action.page === 'feed') {
-        return updateObject(state, {fetchFeedError: {message: action.err}});
+        return updateObject(state, {deleteFeedError: null,  deleteFeed: {pageID: action.pageID, page: action.page, start: action.start}});
     } else if (action.page === 'writeup') {
-        return updateObject(state, {fetchWriteupError: {message: action.err}});
+        return updateObject(state, {deleteWriteUpError: null,  deleteWriteUp: {pageID: action.pageID, page: action.page, start: action.start}});
     } else if (action.page === 'cbt') {
         return updateObject(state, {fetchCbtError: {message: action.err}});
     } else if (action.page === 'chatRoom') {
@@ -241,9 +249,9 @@ const deletePageFail = (state, action) => {
     } else if (action.page === 'advert') {
         return updateObject(state, {fetchAdvertError: {message: action.err}});
     } else if (action.page === 'feed') {
-        return updateObject(state, {fetchFeedError: {message: action.err}});
+        return updateObject(state, {deleteFeedError: {message: action.err}, deleteFeed: null});
     } else if (action.page === 'writeup') {
-        return updateObject(state, {fetchWriteupError: {message: action.err}});
+        return updateObject(state, {deleteWriteUpError: {message: action.err}, deleteWriteUp: null});
     } else if (action.page === 'cbt') {
         return updateObject(state, {fetchCbtError: {message: action.err}});
     } else if (action.page === 'chatRoom') {
@@ -265,9 +273,9 @@ const deletePage = (state, action) => {
     } else if (action.page === 'advert') {
         return updateObject(state, {fetchAdvert: action.cnt});
     } else if (action.page === 'feed') {
-        return updateObject(state, {fetchFeed: action.cnt});
+        return updateObject(state, {deleteFeed: null, fetchFeed: updatePage(action.pageID, state.fetchFeed)});
     } else if (action.page === 'writeup') {
-        return updateObject(state, {fetchWriteup: action.cnt});
+        return updateObject(state, {deleteWriteUp: null, fetchWriteUp: updatePage(action.pageID, state.fetchWriteUp)});
     } else if (action.page === 'cbt') {
         return updateObject(state, {fetchCbt: action.cnt});
     } else if (action.page === 'chatRoom') {

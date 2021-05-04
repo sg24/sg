@@ -17,7 +17,14 @@ const {question, qchat, connectStatus} = require('../serverDB/serverDB');
 router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'getonequestion') {
         question.findOne({_id: req.body.cntID, authorID: req.user}).then(result => {
-            res.status(200).send(result);
+            if (result) {
+                let cnt = JSON.parse(JSON.stringify(result));
+                delete cnt.block;
+                let updateResult = {...cnt,
+                share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
+                isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0}
+                res.status(200).send(updateResult);
+            }
         }).catch(err => {
             res.status(500).send(err)
         })
@@ -25,7 +32,7 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'getQuestion') {
-        question.find({_isCompleted: true})
+        question.find({_isCompleted: true, block: {$nin: [req.user]}})
             .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
             let updateResult = [];
             if (result) {
@@ -123,7 +130,6 @@ router.post('/', authenticate, (req, res, next) => {
                 return res.sendStatus(200);
             });
         }).catch(err => {
-            console.log(err)
             res.status(500).send(err)
         })
         return

@@ -4,28 +4,18 @@ import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
 import urischeme from 'urischeme';
-import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
 import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
-import FormElement from '../../components/UI/FormElement/FormElement';
-import BoxShadow from '../../components/UI/BoxShadow/BoxShadow';
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
 import Button from '../../components/UI/Button/Button';
 import Href from '../../components/UI/Href/Href';
 import Settings from '../../components/UI/Settings/Settings';
-import { updateObject, checkValidity, checkUri } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
-import CameraComponent from '../../components/UI/Camera/Camera';
-import VideoCamera from '../../components/UI/VideoCamera/VideoCamera';
-import AudioRecorder from '../../components/UI/AudioRecorder/AudioRecorder';
-import EmojiPicker from '../../components/UI/EmojiPicker/EmojiPicker';
-import LinkPreview from '../../components/UI/LinkPreview/LinkPreview';
-import UploadPreview from '../../components/UI/UploadPreview/UploadPreview'
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
 import Question from '../../components/Page/Question/Question';
 import PagePreview from '../../components/Page/Preview/Preview';
@@ -49,6 +39,7 @@ class Questions extends Component {
             search: '',
             showOption: false,
             showSettings: false,
+            showPagePreview: null
         }
     }
 
@@ -64,7 +55,7 @@ class Questions extends Component {
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
             this.props.onPageReset();
-            this.setState({ pageID: null,showChatBox: null,showSearch: false,search: '',showOption: false,showSettings: false})
+            this.setState({ pageID: null,showChatBox: null,showSearch: false,search: '',showOption: false,showSettings: false,  showPagePreview: null})
         });
         Dimensions.addEventListener('change', this.updateStyle)
     }
@@ -79,7 +70,7 @@ class Questions extends Component {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'searchQuestion', this.state.search);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'getByAuthor');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'getQuestion');
     }
 
     navigationHandler = (page, cntID) => {
@@ -346,7 +337,7 @@ class Questions extends Component {
                             startPage={this.state.showPreview.startPage}
                             closePreview={this.closePreviewHandler}
                             backgroundColor={this.props.settings.backgroundColor}/> : null}
-                    { this.state.showChatBox ? 
+                    { this.state.showChatBox ?
                         <CommentBox
                             title="Solution"
                             chatType="questionchat"

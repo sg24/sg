@@ -4,30 +4,20 @@ import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
 import urischeme from 'urischeme';
-import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
 import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
-import FormElement from '../../components/UI/FormElement/FormElement';
-import BoxShadow from '../../components/UI/BoxShadow/BoxShadow';
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
 import Button from '../../components/UI/Button/Button';
 import Href from '../../components/UI/Href/Href';
 import Settings from '../../components/UI/Settings/Settings';
-import { updateObject, checkValidity, checkUri } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
-import CameraComponent from '../../components/UI/Camera/Camera';
-import VideoCamera from '../../components/UI/VideoCamera/VideoCamera';
-import AudioRecorder from '../../components/UI/AudioRecorder/AudioRecorder';
-import EmojiPicker from '../../components/UI/EmojiPicker/EmojiPicker';
-import LinkPreview from '../../components/UI/LinkPreview/LinkPreview';
-import UploadPreview from '../../components/UI/UploadPreview/UploadPreview'
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
-import PostItem from '../../components/Page/Post/Post';
+import FeedItem from '../../components/Page/Feed/Feed';
 import PagePreview from '../../components/Page/Preview/Preview';
 import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
@@ -36,7 +26,7 @@ import CommentBox from '../../components/UI/CommentBox/CommentBox';
 import SharePicker from '../../components/UI/SharePicker/SharePicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 
-class Post extends Component {
+class Feed extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -65,7 +55,7 @@ class Post extends Component {
 
     componentDidMount() {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor')
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'feed', 'getFeed')
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
             this.props.onPageReset();
@@ -83,9 +73,9 @@ class Post extends Component {
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'searchPost', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'feed', 'searchFeed', this.state.search);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'feed', 'getFeed');
     }
 
     navigationHandler = (page, cntID) => {
@@ -116,13 +106,13 @@ class Post extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'post', 'searchPost', cnt);
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'feed', 'searchFeed', cnt);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor');
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'feed', 'getFeed');
     }
 
     checkOptionHandler = () => {
@@ -144,7 +134,7 @@ class Post extends Component {
     }
 
     editHandler = (id) => {
-        this.props.navigation.navigate('EditPost', {cntID: id});
+        this.props.navigation.navigate('EditFeed', {cntID: id});
     }
 
     showUserOptHandler = (id) => {
@@ -155,7 +145,7 @@ class Post extends Component {
     }
 
     deletePageHandler = (id, start) => {
-        this.props.onDeletePage(id, 'post', start, 'getOneAndDelete');
+        this.props.onDeletePage(id, 'feed', start, 'getOneAndDelete');
         this.setState({pageCntID: null});
     }
 
@@ -164,7 +154,7 @@ class Post extends Component {
     }
 
     reportHandler = (pageID) => {
-        this.props.navigation.navigate('AddReport', {navigationURI: 'Home', cntType: 'pageReport', page: 'post', pageID});
+        this.props.navigation.navigate('AddReport', {navigationURI: 'Feed', cntType: 'pageReport', page: 'feed', pageID});
     }
 
     shareHandler = (cnt, shareType) => {
@@ -202,7 +192,7 @@ class Post extends Component {
     }
 
     favoriteHandler = (pageID) => {
-        this.props.onPageReaction('post', pageID, 'setFavorite');
+        this.props.onPageReaction('feed', pageID, 'setFavorite');
     }
 
     actionSheetHandler = async (index) => {
@@ -221,9 +211,9 @@ class Post extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'post', 'searchPost', this.state.search);
+                 'feed', 'searchFeed', this.state.search);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'feed', 'getFeed');
     }
 
     render() {
@@ -232,18 +222,15 @@ class Post extends Component {
         let wrapperProps = pageBackground ? {source: {uri: this.props.settings.page.backgroundImage}, resizeMode: 'cover'} :{}
 
         let header = (
-            this.state.viewMode === 'landscape' ? (
                 <DefaultHeader 
                     onPress={() => this.props.navigation.goBack()}
-                    disableBackButton
-                    title="Home"
+                    title="Feed"
                     rightSideContent={(
                         <Button style={styles.optionIcon} onPress={this.checkOptionHandler}>
                             <Ionicons name="ellipsis-vertical-outline" size={20} />
                         </Button>
                     )}
                 />
-            ) : null
         );
 
         if (this.state.showSearch) {
@@ -327,7 +314,7 @@ class Post extends Component {
                         <ScrollView 
                             style={styles.scroll}
                             showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }>
-                            <PostItem 
+                            <FeedItem 
                                 cnt={this.props.fetchCnt}
                                 userID={this.props.userID}
                                 openURI={this.openURIHandler}
@@ -367,7 +354,8 @@ class Post extends Component {
                     { this.state.showPagePreview ? 
                         <PagePreview
                             cnt={this.state.showPagePreview}
-                            page="post"
+                            title="Feed"
+                            page="feed"
                             userID={this.props.userID}
                             openURI={this.openURIHandler}
                             userProfile={this.userProfileHandler}
@@ -381,15 +369,15 @@ class Post extends Component {
                             showOption={this.state.showPreview.cntID ? true : false}
                             pageID={this.state.showPreview.cntID}
                             media={this.state.showPreview.media}
-                            page="post"
+                            page="feed"
                             startPage={this.state.showPreview.startPage}
                             closePreview={this.closePreviewHandler}
                             backgroundColor={this.props.settings.backgroundColor}/> : null}
                     { this.state.showChatBox ? 
                         <CommentBox
                             title="Comment"
-                            chatType="postchat"
-                            page="post"
+                            chatType="feedchat"
+                            page="feed"
                             pageID={this.state.pageID}
                             closeChat={this.closeModalHandler}
                             showReply/> : null}
@@ -406,9 +394,9 @@ class Post extends Component {
                             shareType={this.state.showSharePicker.shareType}
                             closeSharePicker={this.closeModalHandler}
                             cnt={this.state.showSharePicker.cnt}
-                            shareUpdates={[{shareType: 'post', cntID: 'setShare', page: 'post', pageID: this.state.showSharePicker.cnt._id}]}
+                            shareUpdates={[{shareType: 'feed', cntID: 'setShare', page: 'feed', pageID: this.state.showSharePicker.cnt._id}]}
                             shareChat={false}
-                            info="Post shared successfully !"/> : null}
+                            info="Feed shared successfully !"/> : null}
                     { this.state.showActionSheet ? 
                         <ActionSheet
                             options={this.state.showActionSheet.option}
@@ -419,7 +407,7 @@ class Post extends Component {
                         : null}
                     { this.props.deletePage && !this.props.deletePage.start ?  
                         <NotificationModal
-                            info="Are you sure you want to delete this post"
+                            info="Are you sure you want to delete this feed"
                             closeModal={this.deletePageResetHandler}
                             button={[{title: 'Ok', onPress: () => this.deletePageHandler(this.props.deletePage.pageID, true), style: styles.buttonCancel},
                             {title: 'Exit', onPress: this.deletePageResetHandler, style: styles.button}]}/> : null}
@@ -440,7 +428,7 @@ class Post extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        det={`Searched text '${this.state.search}' does not match any post`}
+                        det={`Searched text '${this.state.search}' does not match any feed`}
                         name="search"
                         size={40}
                         color="#333"
@@ -455,20 +443,17 @@ class Post extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        name="chatbox"
+                        name="newspaper-outline"
                         size={40}
                         color="#437da3"
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No post found !!! </Text>
+                            <Text style={styles.infoTitle}> No feed found !!! </Text>
                             <View>
                                 <Text style={{justifyContent: 'center', alignItems: 'center'}}>
-                                    <Href title="Add Friends to see thier posts" onPress={() => this.navigationHandler('User')} style={styles.href}/>
-                                    <Href title=","  style={{paddingHorizontal: 5}}/>
-                                    <Href title="create Post" onPress={() => this.navigationHandler('AddPost')} style={styles.href}/>
-                                    <Href title="OR" style={{paddingHorizontal: 5}}/>
-                                    <Href title="check feed page for public post" onPress={() => this.navigationHandler('Feed')} style={styles.href}/></Text>
+                                    <Href title="create Feed" onPress={() => this.navigationHandler('AddFeed')} style={styles.href}/>
+                                </Text>
                             </View>
                         </View>
                     </InfoBox>
@@ -609,12 +594,12 @@ const mapStateToProps = state => {
     return {
         settings: state.settings,
         userID: state.auth.userID,
-        fetchCntErr: state.page.fetchPostError,
-        fetchCntStart: state.page.fetchPostStart,
-        fetchCnt: state.page.fetchPost,
+        fetchCntErr: state.page.fetchFeedError,
+        fetchCntStart: state.page.fetchFeedStart,
+        fetchCnt: state.page.fetchFeed,
         loadMore: state.page.loadMore,
-        deletePageErr: state.page.deletePostError,
-        deletePage: state.page.deletePost,
+        deletePageErr: state.page.deleteFeedError,
+        deletePage: state.page.deleteFeed,
         pageReaction: state.page.pageReaction,
         pageReactionErr: state.page.pageReactionError
     };
@@ -633,4 +618,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post);
+export default connect(mapStateToProps, mapDispatchToProps)(Feed);

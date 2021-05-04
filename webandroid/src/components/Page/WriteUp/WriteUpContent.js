@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet, Image, ScrollView } from 'react-native';
-import Constants from 'expo-constants';
+import { View, Text, Pressable, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'ionicons';
 import Moment from 'react-moment';
 import * as Animatable from 'react-native-animatable';
@@ -17,8 +16,11 @@ import Avatar from '../../UI/Avatar/Avatar';
 import Advert from '../Advert/Advert';
 import { transformNumber, checkUri } from '../../../shared/utility';
 import FriendRequest from '../FriendRequest/FriendRequest';
+import Carousel from '../../UI/Carousel/Carousel';
+import CBTPreview from '../CBTPreview/CBTPreview';
+import MediaContainer from '../../UI/MediaContainer/MediaContainer';
 
-const postContent = props => {
+const writeupContent = props => {
     let AnimatedIcon = Animatable.createAnimatableComponent(Ionicons);
     let showAdvert = null;
     let userOpt = null;
@@ -68,6 +70,16 @@ const postContent = props => {
                 cnt={props.cnt.friendRequest}/>
         )
     }
+
+    if (props.cnt.cbt && props.cnt.cbt.length > 0) {
+        showAdvert = (
+            <CBTPreview 
+                cnt={props.cnt.cbt}
+                openURI={props.openURI}
+                preview={props.mediaPreview}/>
+        )
+    }
+
     return (
         <>
             <View style={styles.container}>
@@ -77,28 +89,45 @@ const postContent = props => {
                             <Avatar userImage={props.cnt.userImage} iconSize={20} imageSize={40} onPress={props.userProfile}/>
                             <View style={styles.userInfoCnt}>
                                 <Href title={props.cnt.username} numberOfLines={1} onPress={props.userProfile} style={styles.textStyle}/>
-                                <View style={styles.info}>
-                                    {props.cnt.edited ? (
-                                        <View style={styles.userInfoCreate}>
-                                            <Ionicons name="pencil-outline" color="#777" />
-                                            <Text style={{color: '#777', marginRight: 5}} >
-                                                Edit
-                                            </Text> 
-                                            <Moment element={Text} date={props.cnt.edited} fromNow /></View>) : 
-                                            <Moment element={Text} date={props.cnt.created} fromNow  />}
-                                    {!props.cnt.isFriend ? <Text style={styles.infoText}>Shared</Text> : null}
-                                </View>
+                                {props.cnt.edited ? (
+                                <View style={styles.userInfoCreate}>
+                                    <Ionicons name="pencil-outline" color="#777" />
+                                    <Text style={{color: '#777', marginRight: 5}} >
+                                        Edit
+                                    </Text> 
+                                    <Moment element={Text} date={props.cnt.edited} fromNow /></View>) : 
+                                    <Moment element={Text} date={props.cnt.created} fromNow  />}
                             </View>
                         </View>
                         <TouchableNativeFeedback onPress={props.showUserOpt}>
                             <Ionicons name="ellipsis-horizontal-outline" size={20}/>
                         </TouchableNativeFeedback>
                     </View>
-                    <MediaTile
-                        media={props.cnt.media}
-                        preview={props.mediaPreview}
-                        save={props.saveMedia}
-                        cntID={props.cnt._id} />
+                    { props.cnt.media.length > 0  ?
+                    <View style={styles.mediaWrapper}>
+                            <Carousel 
+                                renderData={props.cnt.media}
+                                // hideSeeker
+                                layout="tinder"
+                                _renderItem={({item:media, index}) => (
+                                    <View
+                                        style={{flex: 1, backgroundColor: '#e9ebf2'}}>
+                                        <MediaContainer
+                                            media={media}
+                                            onPress={props.mediaPreview.bind(this, null, props.cnt.media, index)} >
+                                            {media.description ? <Text numberOfLines={1} style={styles.description}>{ media.description }</Text> : null}
+                                        </MediaContainer>
+                                    </View>
+                                )}/>
+                    </View> : null}
+                    <Pressable 
+                        onPress={props.pagePreview}>
+                        <Uridetect
+                            numberOfLines={1}
+                            onPress={props.openURI} 
+                            style={styles.title}
+                            content={props.cnt.title}/>
+                    </Pressable>
                     <Pressable 
                         onPress={props.pagePreview}>
                         <Uridetect
@@ -121,12 +150,15 @@ const postContent = props => {
                         </View>
                     </TouchableNativeFeedback> : null}
                     <View style={styles.det}>
-                        <TouchableNativeFeedback onPress={props.chat}>
+                        <Button 
+                            onPress={props.chat}
+                            disabled={!props.cnt.enableComment}
+                            style={{paddingVertical: 0}}>
                             <View style={styles.detContent}>
                                 <Ionicons name="chatbox-ellipses-outline" size={24}/>
                                 <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.cnt.chat ? props.cnt.chat.total : 0) }</Text>
                             </View>
-                        </TouchableNativeFeedback>
+                        </Button>
                         <TouchableNativeFeedback onPress={startPageReaction ? null : props.favorite}>
                             <View style={styles.detContent}>
                                 <AnimatedIcon animation={startPageReaction ? "pulse" : ''}  duration={500} iterationCount="infinite" 
@@ -197,16 +229,19 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginLeft: 10
     },
-    info: {
-        flexDirection: 'row'
-    },
-    infoText: {
-        marginLeft: 5,
-        color: '#777'
+    title: {
+        fontSize: 15,
+        marginTop: 10,
+        fontWeight: 'bold'
     },
     content: {
         fontSize: 16,
         marginVertical: 10
+    },
+    mediaWrapper: {
+        height: 200,
+        width: '100%',
+        marginTop: 10
     },
     userComment: {
         flexDirection: 'row',
@@ -264,4 +299,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default postContent;
+export default writeupContent;

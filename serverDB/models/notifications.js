@@ -28,7 +28,13 @@ const NotificationsSchema = new Schema({
     writeup: [{
         ...defaultContentSchema
     }],
+    writeupShare: [{
+        ...defaultContentSchema
+    }],
     feed: [{
+        ...defaultContentSchema
+    }],
+    feedShare: [{
         ...defaultContentSchema
     }],
     createGroup: [{

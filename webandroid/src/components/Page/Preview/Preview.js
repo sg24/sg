@@ -69,7 +69,7 @@ class Preview extends Component {
                     {...wrapperProps}>
                     <DefaultHeader
                         onPress={this.props.closePagePreview}
-                        title={this.props.title + "'s" || "post's"}
+                        title={this.props.title ? this.props.title + "'s" : "post's"}
                         leftSideContent={(
                             <TouchableNativeFeedback onPress={() => this.props.userProfile(this.props.cnt.authorID)}>
                                 <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${this.props.cnt.userImage}`}}  style={styles.userImage}/>
@@ -85,10 +85,15 @@ class Preview extends Component {
                             showOption={this.props.showOption === false ? false : true}
                             pageID={this.props.cnt._id}
                             media={this.props.cnt.media}
-                            page="post"
+                            page={this.props.page}
                             hideSeeker
                             hideHeader
                             style={styles.mediaPreview}/> : null}
+                    {this.props.cnt.title ?
+                        <Uridetect
+                        onPress={this.props.openURI} 
+                        style={styles.title} 
+                        content={this.props.cnt.title}/>: null}
                     <Uridetect
                         onPress={this.props.openURI} 
                         style={styles.content} 
@@ -123,6 +128,13 @@ const styles = StyleSheet.create({
         borderColor: '#437da3',
         borderWidth: 2,
         marginHorizontal: 10
+    },
+    title: {
+        fontSize: 15,
+        marginTop: 10,
+        fontWeight: 'bold',
+        paddingHorizontal: 10,
+        lineHeight: 24
     },
     content: {
         fontSize: 16,

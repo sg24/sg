@@ -41,38 +41,54 @@ const FeedSchema = new Schema({
         filename: String, 
         bucket: String,
         ext: String, 
-        description: String
+        description: String,
+        chat: String
     }],
     enableComment: {
         type: Boolean,
         default: true
     },
-    view: {
-        type: Number,
-        required: true,
-        default: 0
-    },
-    comment: {
-        type: Number,
-        required: true,
-        default: 0
-    },
-    favorite: {
-        type: Number,
-        required: true,
-        default: 0
-    },
-    liked: {
-        type: Array,
-        required: true,
-        default: [String]
-    },
-    snapshot: {
-        type: Array
-    },
+    share: [{
+        type: ObjectId
+    }],
+    favorite: [{
+        type: ObjectId
+    }],
     mode: {
         type: String,
         default: 'publish'
+    },
+    chat: {
+        _id: {
+            type: String
+        },
+        total: {
+            type: Number,
+            default: 0
+        },
+        user: [{
+            authorID: {
+                type: String,
+                required: true
+            },
+            username: {
+                type: String,
+                required: true
+            },
+            userImage: {
+                type: String
+            }
+        }]
+    },
+    block: [{
+        type: ObjectId
+    }],
+    report: [{
+        type: String
+    }],
+    blacklisted: {
+        type: String,
+        default: false
     },
     _isCompleted: {
         type: Boolean,

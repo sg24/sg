@@ -381,7 +381,9 @@ router.post('/add/pageReport', authenticate, (req, res, next) => {
         let mediaList = form.files && form.files.media ? form.files.media : [];
         let fields = form.fields
         let model = fields.page === 'post' ? post : 
-            fields.page === 'question' ? question : post;
+            fields.page === 'question' ? question : 
+            fields.page === 'feed' ? feed : 
+            fields.page === 'writeup' ? writeup : post;
         model.findById(fields.pageID).then(doc => {
             if (doc && doc.report.length < 20) {
                 doc.updateOne({$push: {'report': fields.content}}).then(() => {
