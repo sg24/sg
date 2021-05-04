@@ -27,7 +27,7 @@ export function* shareInitSaga(action) {
                 'data-categ': action.cntID}});
         let shareUpdates = action.shareUpdates ? action.shareUpdates : [];
         for (let cnt of shareUpdates) {
-            let updateResponse = yield axios.post(`/${cnt.shareType}`, {pageID: cnt.pageID},{
+            let updateResponse = yield axios.post(`/${cnt.shareType}`, {pageID: cnt.pageID, reciepent:  JSON.stringify(action.reciepent)},{
                 headers: {
                     'data-categ': cnt.cntID}});
             let cntInfo = updateResponse && updateResponse.data ? updateResponse.data : {};
@@ -37,7 +37,7 @@ export function* shareInitSaga(action) {
         }
         let cnt = response.data  ? response.data : null;
         if (action.cntID === 'shareChat') {
-            socket.emit('shareChat', action.reciepent, cnt);
+            socket.emit('shareChat', action.reciepent, action.sender, cnt);
         }
         yield put(actions.share());
     } catch(err) {

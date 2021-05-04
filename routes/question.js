@@ -109,7 +109,7 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'setShare') {
-        question.findOneAndUpdate({_id: req.body.pageID, share: {$nin: [req.user]}}, {$push: {'share': req.user}}).then(doc => {
+        question.findOneAndUpdate({_id: req.body.pageID}, {$addToSet: {'share': JSON.parse(req.body.reciepent)}}).then(doc => {
             if (doc) {
                 return res.status(200).send({pageInfo: {_id: req.body.pageID, share: doc.share.length + 1}});
             }

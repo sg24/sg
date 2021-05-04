@@ -103,7 +103,7 @@ export const sendChatInit = (chatType, cntID, page, pageID, formData) => {
                 delete cnt.mediaInfo;
                 delete chat.sendChatID;
                 delete chat.sent;
-                socket.emit('sendChat', pageID, {...chat, ...cnt});
+                socket.emit('sendChat', pageID, chat.authorID, {...chat, ...cnt});
             }
             if (res.data && res.data.pageInfo) {
                 dispatch(updatePage(res.data.pageInfo, page))

@@ -97,7 +97,7 @@ class SharePicker extends Component {
 
     shareHandler = () => {
         if (this.props.shareType === 'Friends' && this.props.cnt) {
-            this.props.onShareCnt('userchat', 'shareChat', this.props.cnt, this.state.picked, this.props.shareUpdates);
+            this.props.onShareCnt('userchat', 'shareChat', this.props.cnt, this.state.picked, this.props.userID, this.props.shareUpdates);
         }
     }
 
@@ -354,6 +354,7 @@ const useStyles = makeUseStyles(({ palette, utils }) => ({
 const mapStateToProps = state => {
     return {
         settings: state.settings,
+        userID: state.auth.userID,
         fetchSharecntStart: state.share.fetchSharecntStart,
         fetchCntErr: state.share.fetchSharecntError,
         fetchCnt: state.share.fetchSharecnt,
@@ -370,7 +371,7 @@ const mapDispatchToProps = dispatch => {
         onSearchCnt: (start, limit, shareType, cntID, searchCnt) => dispatch(actions.fetchSharecntInit(start, limit, shareType, cntID, searchCnt)),
         onShareCntReset: () => dispatch(actions.sharecntReset()),
         onFetchCntReset: () => dispatch(actions.fetchSharecntReset()),
-        onShareCnt: (shareType, cntID, cnt, reciepient, shareUpdates) => dispatch(actions.shareInit(shareType, cntID, cnt, reciepient, shareUpdates)),
+        onShareCnt: (shareType, cntID, cnt, reciepient, sender, shareUpdates) => dispatch(actions.shareInit(shareType, cntID, cnt, reciepient, sender, shareUpdates)),
         onShareReset: () => dispatch(actions.shareReset())
     };
 };

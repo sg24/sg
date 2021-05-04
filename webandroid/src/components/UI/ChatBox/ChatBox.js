@@ -43,6 +43,7 @@ class ChatBox extends Component {
             containerHeight: null,
             backgroundColor: '#fff',
             color: '#333',
+            room: uuid(),
             showOption: false,
             option: [{title: 'Search', icon: {name: 'search-outline'}, action: 'search'},
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
@@ -91,12 +92,12 @@ class ChatBox extends Component {
     componentDidMount() {
         Dimensions.addEventListener('change', this.updateStyle);
         this.props.onFetchChat(this.props.fetchChat ? this.props.fetchChat.length : 0, this.props.settings.commentBox.fetchLimit, this.props.chatType, this.props.cntID, this.props.page, this.props.pageID);
-        socket.emit('join', 'private', this.props.userID, (status) => {
+        socket.emit('join', 'private', this.props.userID, this.props.pageID, this.state.room, (status) => {
         });
         let these = this;
-        socket.on('recieveChat', (cnt) => {
+        socket.on('recieveChat', (cnt, room) => {
             let allowUpdate = these.props.fetchChat.filter(chat => chat._id === cnt._id).length < 1 ? true : false;
-            if (allowUpdate) {
+            if (allowUpdate && (this.state.room === room)) {
                 these.props.onUpdateChat(cnt);
                 if (these.scroll) {
                    setTimeout(() => {

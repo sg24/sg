@@ -45,13 +45,14 @@ export const sharecntReset = () => {
     };
 };
 
-export const shareInit = (shareType, cntID, cnt, reciepent,  shareUpdates) => {
+export const shareInit = (shareType, cntID, cnt, reciepent, sender, shareUpdates) => {
     return {
         type: actionTypes.SHARE_INIT,
         shareType,
         cntID,
         cnt,
         reciepent,
+        sender,
         shareUpdates
     };
 };

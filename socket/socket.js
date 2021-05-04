@@ -7,33 +7,34 @@ let user = new Users();
 
 let io = global.io;
 io.on('connection', (socket) => {
-      socket.on('join', (type, id, callback) => {
-        if (id && type) {
-          if (type === 'private') {
-            user.removeUser(id);
-            user.addUser(id, socket.id);
+      socket.on('join', (type, sender, reciepent, room, callback) => {
+        if (type) {
+          if (type === 'private' && room) {
+            user.removeUser(sender, reciepent);
+            user.addUser(sender, reciepent, room);
+            socket.join(room);
             return callback('joined');
           }
-          socket.join(id);
+          socket.join(reciepent);
           return callback('joined')
         } else {
           return callback('Invalid Room')
         }
     });
 
-    socket.on('shareChat', (reciepent, cnt, callback) => {
+    socket.on('shareChat', (reciepent, sender, cnt, callback) => {
         for (let userID of reciepent) {
-          let userInfo = user.getUser(userID);
+          let userInfo = user.getReciepentInfo(userID, sender);
           if (userInfo && userInfo.room) {
-            socket.to(userInfo.room).emit('recieveChat', cnt)
+            socket.to(userInfo.room).emit('recieveChat', cnt, userInfo.room);
           }
         }
     });
   
-    socket.on('sendChat', (reciepent, cnt, callback) => {
-      let userInfo = user.getUser(reciepent);
+    socket.on('sendChat', (reciepent, sender, cnt, callback) => {
+      let userInfo = user.getReciepentInfo(reciepent, sender);
       if (userInfo && userInfo.room) {
-        socket.to(userInfo.room).emit('recieveChat', cnt);
+        socket.to(userInfo.room).emit('recieveChat', cnt, userInfo.room);
       }
     });
 

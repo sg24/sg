@@ -23,7 +23,7 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'getByAuthor') {
-        post.find({authorID: { $in: [req.user, ...req.friend] }, _isCompleted: true, block: {$nin: [req.user]}})
+        post.find({$or: [{authorID: { $in: [req.user, ...req.friend] }, _isCompleted: true, block: {$nin: [req.user]}}, {share: { $in: [req.user]}, _isCompleted: true, block: {$nin: [req.user]}}]})
             .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
             let updateResult = [];
             if (result) {
@@ -83,7 +83,7 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'setShare') {
-        post.findOneAndUpdate({_id: req.body.pageID, share: {$nin: [req.user]}}, {$push: {'share': req.user}}).then(doc => {
+        post.findOneAndUpdate({_id: req.body.pageID}, {$addToSet: {'share': JSON.parse(req.body.reciepent)}}).then(doc => {
             if (doc) {
                 return res.status(200).send({pageInfo: {_id: req.body.pageID, share: doc.share.length + 1}});
             }
