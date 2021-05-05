@@ -4,7 +4,8 @@ export {
     checkAuthFail,
     checkUserImg,
     checkUserName,
-    loggedIn
+    loggedIn,
+    loggedOut
 } from './auth'
 
 

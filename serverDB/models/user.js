@@ -225,7 +225,7 @@ UserSchema.statics.findByCredentials = function findByCredentials(email, passwor
                     }
                     let updateTokens = user.tokens.filter(allToken => allToken.expiresIn > Date.now())
                   User.findByIdAndUpdate(user._id, { tokens: updateTokens, visited: Date.now(), deviceInfo}).then((res) =>{
-                    resolve({token: newToken, uniqueID, pushMsg: res.pushMsg[0].publickey, id: res._id.toHexString(), username: res.username});
+                    resolve({token: newToken, uniqueID, pushMsg: res.pushMsg[0].publickey, id: res._id.toHexString(), username: res.username, image: res.image});
                   }).catch(err =>{
                     reject('Error');
                   })

@@ -29,11 +29,37 @@ const initialState = {
     userPage: {
         fetchLimit: 20
     },
+    notification: {
+        page: {
+            post: true,
+            feed: false,
+            question: false,
+            cbt: false,
+            writeup: false
+        },
+        group: {
+            post: true,
+            feed: false,
+            question: false,
+            cbt: false,
+            writeup: false,
+            chatroom: true
+        },
+        share: {
+            post: true,
+            feed: false,
+            question: false,
+            cbt: false,
+            writeup: false
+        }
+    },
+    friendProfile: true,
+    autoLoading: false,
     highlightBackgroundColor: [{title: 'Red',  color: '#ff1600'},{title: 'Blue', color: '#437da3'},{title: 'Black', color: '#000'}],
     highlightColor: [{title: 'White',  color: '#fff'},{title: 'Black', color: '#000'}],
     backgroundColor: '#fff',
     color: '#333',
-    version: 4
+    version: 2
 };
 
 const saveSetting = (state, action) => {

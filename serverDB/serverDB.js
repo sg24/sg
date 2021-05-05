@@ -1,5 +1,6 @@
 require('./config/config');
 const {connectStatus} = require('./db/mongoose');
+const appError = require('./models/appError');
 const feed = require('./models/feed');
 const feedchat = require('./models/feedchat');
 const advert = require('./models/adverts');
@@ -26,6 +27,7 @@ const notifications = require('./models/notifications');
 const page = require('./models/page');
 
 module.exports = {
+    appError,
     feed,
     feedchat,
     post,

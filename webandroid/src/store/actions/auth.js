@@ -40,3 +40,9 @@ export const loggedIn = (userID) => {
         userID
     };
 };
+
+export const loggedOut = () => {
+    return {
+        type: actionTypes.LOGGED_OUT
+    };
+};

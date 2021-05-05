@@ -29,6 +29,9 @@ const checkUserName = (state, action) => {
 const loggedIn = (state, action) => {
     return updateObject(state, {isAuthChecked: true, isLoggedIn: true, userID: action.userID})
 };
+const loggedOut = (state, action) => {
+    return updateObject(state, {isAuthChecked: true, isLoggedIn: false,img: null,username: null,userID: null})
+};
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
@@ -42,6 +45,8 @@ const reducer = (state = initialState, action) => {
             return checkUserName(state, action);
         case actionTypes.LOGGED_IN:
             return loggedIn(state, action);
+        case actionTypes.LOGGED_OUT:
+            return loggedOut(state, action);
         default: return state
     }
 };

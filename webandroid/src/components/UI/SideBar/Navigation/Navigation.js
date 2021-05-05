@@ -17,17 +17,18 @@ const navigation = props => {
     let navLink = [
         {iconName: 'newspaper-outline', uri: 'Feed', title: 'Feed'},
         {iconName: 'bulb-outline', uri: 'Question', title: 'Question'},
-        {iconName: 'reader-outline', uri: 'WriteUp', title: 'WriteUp'},
-        {iconName: 'cash-outline', uri: 'Contest', title: 'Contest'},
-        {iconName: 'bug-outline', uri: 'ErrorReport', title: 'App Error'},
-        {iconName: 'settings-outline', uri: 'Settings', title: 'Settings'},
-        {iconName: 'log-out-outline', uri: 'Logout', title: 'Logout'}]
+        {iconName: 'reader-outline', uri: 'WriteUp', title: 'Write Up'},
+        // {iconName: 'cash-outline', uri: 'Contest', title: 'Contest'},
+        {iconName: 'heart', uri: 'Favorite', title: 'Favorite'},
+        {iconName: 'bug-outline', uri: 'AddAppError', title: 'App Error'},
+        {iconName: 'settings-outline', uri: 'GeneralSettings', title: 'Settings'},
+        {iconName: 'log-out-outline', uri: 'Logout', title: 'Logout'}];
     return (
         <BoxShadow style={[styles.sideBarNav, {backgroundColor: props.backgroundColor}]}>
              { navLink.map((nav, index) => (
                 <TouchableNativeFeedback  onPress={() => navigation.navigate(nav.uri)} key={index}>
                 <View style={[styles.navItem, activeUri === nav.uri ? styles.navActiveItem : null]}>
-                    <Ionicons name={nav.iconName} size={20} color={activeUri === nav.uri ? '#437da3' : props.color}/>
+                    <Ionicons name={nav.iconName} size={20} color={activeUri === nav.uri ? nav.title === 'Favorite' ? '#ff1600' : '#437da3' : props.color}/>
                     <Text style={[styles.textStyle, styles.navItemText, {color: activeUri === nav.uri ? '#437da3' : props.color}]}>{ nav.title }</Text>
                 </View>
             </TouchableNativeFeedback>

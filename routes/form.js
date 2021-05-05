@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs'); 
-const {post, page, question, group, writeup, feed, advert, qchat, qcontent, connectStatus, user} = require('../serverDB/serverDB');
+const {appError, post, page, question, group, writeup, feed, advert, qchat, qcontent, connectStatus, user} = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
 let formInit = require('./utility/forminit');
 let submit = require('./utility/submit');
@@ -14,6 +14,26 @@ let formidable = require('formidable');
 
 fs.mkdir('./tmp', err => { 
     if (err && err.code != 'EEXIST') throw err
+})
+
+router.post('/add/appError', authenticate, (req, res, next) => {
+    formInit(req, formidable).then(form => {
+        let mediaList = form.files && form.files.media ? form.files.media : [];
+        let fields = form.fields;
+        savetemp(mediaList, 'appError', req.user).then(tempFileID => {
+            uploadToBucket(mediaList, fields.description).then(media => {
+                let cnt = {
+                    authorID: req.user, username: req.username, userImage: req.userImage,
+                    content: fields.content, hashTag: JSON.parse(fields.hashTag), media, tempFileID
+                }
+                submit(appError, cnt, tempFileID).then(id => {
+                    return res.status(201).send(id);
+                })
+            })
+        })
+    }).catch(err => {
+        res.status(500).send(err);
+    })
 })
 
 router.post('/add/post', authenticate, (req, res, next) => {

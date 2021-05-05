@@ -24,7 +24,7 @@ import LinkPreview from '../../components/UI/LinkPreview/LinkPreview';
 import UploadPreview from '../../components/UI/UploadPreview/UploadPreview'
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
 
-class Report extends Component {
+class AppErrorReport extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -219,7 +219,7 @@ class Report extends Component {
                 { this.state.viewMode === 'landscape' ? (
                     <DefaultHeader 
                         onPress={() => this.props.navigation.goBack()}
-                        title="Report"
+                        title="App Error Report"
                     />
                 ): null}
                 <View style={styles.formElementWrapper}>
@@ -259,7 +259,7 @@ class Report extends Component {
                             </Button>
                         </View>
                         <Button 
-                            title="Add"
+                            title="Report"
                             style={styles.button}
                             onPress={this.props.start ? null : this.submitHandler}
                             disabled={(!this.state.formIsValid && this.state.uploadFile.length < 1) || this.props.start || this.props.submitted}
@@ -311,7 +311,7 @@ class Report extends Component {
                         button={[{title: 'Ok', onPress: this.props.onAddFormReset, style: styles.modalButton}]}/> : null}
                 { this.props.submitted ? 
                     <NotificationModal
-                        info="Report submitted successfully !"
+                        info="App Error Report submitted successfully !"
                         infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                         closeModal={this.resetFormHandler}
                         button={[{title: 'View', onPress: () => this.navigationHandler('Home')},
@@ -423,18 +423,18 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        submitError: state.addForm.postSubmitError,
-        submitted: state.addForm.postSubmitted,
-        start: state.addForm.postStart,
+        submitError: state.addForm.appErrorSubmitError,
+        submitted: state.addForm.appErrorSubmitted,
+        start: state.addForm.appErrorStart,
         cntID: state.addForm.cntID
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSubmitForm: (formData) => dispatch(actions.submitAddFormInit(formData, 'report')),
+        onSubmitForm: (formData) => dispatch(actions.submitAddFormInit(formData, 'appError')),
         onAddFormReset: () => dispatch(actions.addFormReset())
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Report);
+export default connect(mapStateToProps, mapDispatchToProps)(AppErrorReport);

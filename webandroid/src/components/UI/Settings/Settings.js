@@ -103,7 +103,8 @@ class ChatBoxSettings extends Component {
                         icon={{name: 'chevron-down-outline',size: 15}}
                         visible={this.state.changeBackground}
                         onPress={() => this.accordionHandler('changeBackground')}
-                        style={styles.accodion}>
+                        style={styles.accodion}
+                        titleStyle={styles.textStyle}>
                         <CheckBox
                             title="Enable Background Image"
                             checked={settings[this.props.page].enableBackgroundImage}
@@ -116,7 +117,8 @@ class ChatBoxSettings extends Component {
                                 titleStyle={styles.modalText}
                                 visible={this.state.changeBackgroundImage}
                                 onPress={() => this.accordionHandler('changeBackgroundImage')}
-                                style={styles.accodion}>
+                                style={styles.accodion}
+                                titleStyle={styles.textStyle}>
                                 { uploadOpt }
                             </Accodion>: null}
                     </Accodion>
@@ -126,14 +128,16 @@ class ChatBoxSettings extends Component {
                             icon={{name: 'chevron-down-outline',size: 15}}
                             visible={this.state.highlighted}
                             onPress={() => this.accordionHandler('highlighted')}
-                            style={styles.accodion}>
+                            style={styles.accodion}
+                            titleStyle={styles.textStyle}>
                             <Accodion
                                 title="Background Color"
                                 icon={{name: 'chevron-down-outline',size: 15}}
                                 titleStyle={styles.modalText}
                                 visible={this.state.highlightedBackground}
                                 onPress={() => this.accordionHandler('highlightedBackground')}
-                                style={styles.accodion}>
+                                style={styles.accodion}
+                                titleStyle={styles.textStyle}>
                                     { settings.highlightBackgroundColor.map((highlighted, index) => (
                                         <CheckBox
                                             key={index}
@@ -152,7 +156,8 @@ class ChatBoxSettings extends Component {
                                 titleStyle={styles.modalText}
                                 visible={this.state.highlightedText}
                                 onPress={() => this.accordionHandler('highlightedText')}
-                                style={styles.accodion}>
+                                style={styles.accodion}
+                                titleStyle={styles.textStyle}>
                                 { settings.highlightColor.map((highlighted, index) => (
                                         <CheckBox
                                             key={index}
@@ -175,6 +180,9 @@ class ChatBoxSettings extends Component {
 const styles = StyleSheet.create({
     wrapper: {
         width: '100%'
+    },
+    textStyle: {
+        fontSize: 15
     },
     upload: {
         backgroundColor: '#e9ebf2',

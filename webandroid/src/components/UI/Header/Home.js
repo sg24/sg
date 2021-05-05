@@ -36,37 +36,37 @@ class Home extends Component  {
                     <TouchableWithoutFeedback  onPress={this.modalHandler}>
                         <View style={styles.modal}>
                             <BoxShadow style={styles.navItemWrapper}>
-                                <TouchableNativeFeedback  onPress={() => this.navigationHandler('Question')}>
-                                    <View style={styles.navItem}>
-                                        <Icon name="bulb-outline" size={20} />
-                                        <Text style={styles.textStyle}>Question</Text>
-                                    </View>
-                                </TouchableNativeFeedback>
                                 <TouchableNativeFeedback onPress={() => this.navigationHandler('Feed')}>
                                     <View style={styles.navItem}>
                                         <Icon name="newspaper-outline" size={20} />
                                         <Text style={styles.textStyle}>Feed</Text>
                                     </View>
                                 </TouchableNativeFeedback>
-                                <TouchableNativeFeedback onPress={() => this.navigationHandler('Write Up')}>
+                                <TouchableNativeFeedback  onPress={() => this.navigationHandler('Question')}>
+                                    <View style={styles.navItem}>
+                                        <Icon name="bulb-outline" size={20} />
+                                        <Text style={styles.textStyle}>Question</Text>
+                                    </View>
+                                </TouchableNativeFeedback>
+                                <TouchableNativeFeedback onPress={() => this.navigationHandler('WriteUp')}>
                                     <View style={styles.navItem}>
                                         <Icon name="reader-outline" size={20} />
                                         <Text style={styles.textStyle}>Write Up</Text>
                                     </View>
                                 </TouchableNativeFeedback>
-                                <TouchableNativeFeedback onPress={() => this.navigationHandler('Shared')}>
-                                    <View style={styles.navItem}>
-                                        <Icon name="paper-plane-outline" size={20} />
-                                        <Text style={styles.textStyle}>Shared</Text>
-                                    </View>
-                                </TouchableNativeFeedback>
-                                <TouchableNativeFeedback onPress={() => this.navigationHandler('Contest')}>
+                                {/* <TouchableNativeFeedback onPress={() => this.navigationHandler('Contest')}>
                                     <View style={styles.navItem}>
                                         <Icon name="cash-outline" size={20} />
                                         <Text style={styles.textStyle}>Contest</Text>
                                     </View>
+                                </TouchableNativeFeedback> */}
+                                <TouchableNativeFeedback onPress={() => this.navigationHandler('AddAppError')}>
+                                    <View style={styles.navItem}>
+                                        <Icon name="bug-outline" size={20} />
+                                        <Text style={styles.textStyle}>App Error</Text>
+                                    </View>
                                 </TouchableNativeFeedback>
-                                <TouchableNativeFeedback onPress={() => this.navigationHandler('Settings')}>
+                                <TouchableNativeFeedback onPress={() => this.navigationHandler('GeneralSettings')}>
                                     <View style={styles.navItem}>
                                         <Icon name="settings-outline" size={20} />
                                         <Text style={styles.textStyle}>Settings</Text>

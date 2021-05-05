@@ -1277,7 +1277,7 @@ router.post('/login', (req, res,next) => {
                 .cookie('id', result.id, {maxAge: 7257600000})
                 .cookie('SG24_ID', result.uniqueID, { signed: true, httpOnly: true , maxAge: 7257600000});
             res.status(200).send({token: result.token, expiresIn: decoded.exp, username: result.username, 
-                userID: result.id, SG24_ID: result.uniqueID, url: result.userImage});
+                userID: result.id, SG24_ID: result.uniqueID, url: result.image});
         }
     }).catch((e) => {
         res.status(401).send(e)

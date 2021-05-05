@@ -30,6 +30,8 @@ import UsersScreen from './src/screens/Home/Users';
 import QuestionScreen from './src/screens/Home/Question';
 import FeedScreen from './src/screens/Home/Feed';
 import WriteUpScreen from './src/screens/Home/WriteUp';
+import GeneralSettingsScreen from './src/screens/Home/GeneralSettings';
+import LogoutScreen from './src/screens/Home/Logout';
 import HashSearchScreen from './src/screens/Home/HashSearch';
 import AddPostScreen from './src/screens/AddForm/Post';
 import AddQuestionScreen from './src/screens/AddForm/Question';
@@ -39,6 +41,7 @@ import AddWriteUpScreen from './src/screens/AddForm/WriteUp';
 import AddCBTScreen from './src/screens/AddForm/CBT/CBT';
 import AddChatRoomScreen from './src/screens/AddForm/ChatRoom/ChatRoom';
 import AddPageReportScreen from './src/screens/AddForm/PageReport';
+import AddAppErrorScreen from './src/screens/AddForm/AppErrorReport';
 import EditPostScreen from './src/screens/EditForm/Post';
 import EditQuestionScreen from './src/screens/EditForm/Question';
 import EditFeedScreen from './src/screens/EditForm/Feed';
@@ -61,6 +64,8 @@ const userScreens = {
   Question: QuestionScreen,
   Feed: FeedScreen,
   WriteUp: WriteUpScreen,
+  GeneralSettings: GeneralSettingsScreen,
+  Logout: LogoutScreen,
   Search: SearchScreen,
   Addnew: AddnewScreen,
   Conversation: ConvScreen,
@@ -74,6 +79,7 @@ const userScreens = {
   AddCBT: AddCBTScreen,
   AddChatRoom: AddChatRoomScreen,
   AddReport: AddPageReportScreen,
+  AddAppError: AddAppErrorScreen,
   EditPost: EditPostScreen,
   EditQuestion: EditQuestionScreen,
   EditFeed :  EditFeedScreen,
@@ -214,10 +220,26 @@ class Base extends Component {
                 }
               }
 
+              if (name === 'GeneralSettings') {
+                let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
+                header = {
+                  header: ({scene, previous, navigation }) => <HeaderBar
+                  userImage={this.props.userImage}
+                  onPress={navigation.goBack}
+                  modalSearch={SearchScreen}
+                  modalConv={ConvScreen}
+                  modalNotify={NotificatonScreen}
+                  filterCnt={this.props.onHeaderFilter}
+                  title={name === 'GeneralSettings' ? 'General Settings' : name} 
+                  inputValue={this.props.filterCnt}/>
+                }
+              }
+              
               if (name === 'Question' || name === 'Feed' || name === 'WriteUp') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
                 header = {
                   header: ({scene, previous, navigation }) => this.state.viewMode === 'landscape' ?  <HeaderBar
+                    userImage={this.props.userImage}
                     onPress={navigation.goBack}
                     modalSearch={SearchScreen}
                     modalConv={ConvScreen}
@@ -238,9 +260,10 @@ class Base extends Component {
               }
               
               if (name === 'AddPost' || name === 'AddQuestion' || name === "AddAdvert" || name === "AddFeed"
-              || name === "AddWriteUp" || name === "AddCBT" || name === "AddChatRoom" || name === "AddReport") {
+              || name === "AddWriteUp" || name === "AddCBT" || name === "AddChatRoom" || name === "AddReport" || name === "AddAppError") {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader;
-                let title = name.startsWith('Add') ? name === "AddChatRoom" ? "Add Chat Room" : name.split('Add').join("Add ") : name;
+                let title = name.startsWith('Add') ? name === "AddChatRoom" ? "Add Chat Room" :
+                  name === "AddAppError" ? "App Error Report" : name.split('Add').join("Add ") : name;
                 header = {
                   header: ({scene, previous, navigation }) => <HeaderBar
                     title={title}
@@ -276,6 +299,12 @@ class Base extends Component {
                   title
                 }
               }
+              if (name === 'Logout') {
+                header = {
+                  header: ({scene, previous, navigation }) => null
+                }
+              }
+
               return (
                 <Stack.Screen name={name} component={component} key={name} options={{headerShown: this.props.isLoggedIn, ...header}}/>
               )
