@@ -34,6 +34,7 @@ class Questions extends Component {
             option: [{title: 'Search', icon: {name: 'search-outline'}, action: 'search'},
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
             pageID: null,
+            pageCntID: null,
             showChatBox: null,
             showSearch: false,
             search: '',
@@ -55,7 +56,7 @@ class Questions extends Component {
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
             this.props.onPageReset();
-            this.setState({ pageID: null,showChatBox: null,showSearch: false,search: '',showOption: false,showSettings: false,  showPagePreview: null})
+            this.setState({ pageID: null, pageCntID: null, showChatBox: null,showSearch: false,search: '',showOption: false,showSettings: false,  showPagePreview: null})
         });
         Dimensions.addEventListener('change', this.updateStyle)
     }

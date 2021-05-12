@@ -11,6 +11,7 @@ import { fetchPageInitSaga, deletePageInitSaga, pageReactionInitSaga } from './p
 import { fetchMediaInfoInitSaga, mediaReactionInitSaga } from './media';
 import { fetchChatInitSaga, fetchReplyInitSaga, deleteChatInitSaga, chatBoxReactionInitSaga } from './chatBox';
 import { fetchSharecntInitSaga, shareInitSaga } from './share';
+import { fetchSelectcntInitSaga, selectInitSaga, selectReactionInitSaga } from './select';
 import { externalPageInitSaga } from './externalPage';
 
 export function* watchAuth() {
@@ -84,5 +85,13 @@ export function* watchShare() {
 export function* watchExternalPage() {
     yield all([
        takeLatest(actionTypes.EXTERNAL_PAGE_INIT, externalPageInitSaga)
+    ])
+}
+
+export function* watchSelect() {
+    yield all([
+       takeLatest(actionTypes.FETCH_SELECTCNT_INIT, fetchSelectcntInitSaga),
+       takeEvery(actionTypes.SELECT_INIT, selectInitSaga),
+       takeEvery(actionTypes.SELECT_REACTION_INIT, selectReactionInitSaga)
     ])
 }

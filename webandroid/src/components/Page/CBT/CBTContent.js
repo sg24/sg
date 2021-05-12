@@ -9,7 +9,6 @@ import BoxShadow from '../../UI/BoxShadow/BoxShadow';
 import TouchableNativeFeedback from '../../UI/TouchableNativeFeedback/TouchableNativeFeedback';
 import Href from '../../UI/Href/Href';
 import Button from '../../UI/Button/Button';
-import MediaTile from '../../UI/MediaTile/MediaTile';
 import LinkPreview from '../../UI/LinkPreview/LinkPreview';
 import LoadMore from '../../UI/LoadMore/LoadMore';
 import Avatar from '../../UI/Avatar/Avatar';
@@ -17,10 +16,10 @@ import Advert from '../Advert/Advert';
 import { transformNumber, checkUri } from '../../../shared/utility';
 import FriendRequest from '../FriendRequest/FriendRequest';
 import Carousel from '../../UI/Carousel/Carousel';
-import CBTPreview from '../CBTPreview/CBTPreview';
 import MediaContainer from '../../UI/MediaContainer/MediaContainer';
+import TabBarge from '../../UI/TabBarge/TabBarge';
 
-const writeupContent = props => {
+const cbtContent = props => {
     let AnimatedIcon = Animatable.createAnimatableComponent(Ionicons);
     let showAdvert = null;
     let userOpt = null;
@@ -33,6 +32,33 @@ const writeupContent = props => {
                     <Ionicons name="create-outline" size={20}/>
                     <Text style={[styles.textStyle, styles.detText]}>Edit</Text>
                 </Button> : null }
+                { (props.cnt.request > 0) && props.userID === props.cnt.authorID ?
+                <Button style={styles.userOptNotificaion} onPress={props.showRequest}>
+                    <View style={styles.userOptNotificaionItem}>
+                        <Ionicons name="timer-outline" size={20}/>
+                        <Text style={[styles.textStyle, styles.detText]}>Request</Text>
+                    </View>
+                    <TabBarge
+                        onPress={props.showRequest}
+                        notification={props.cnt.request} 
+                        style={styles.tabBarge}
+                        textStyle={styles.tabBargeText}/>
+                </Button> : null}
+                {(props.cnt.allowedUser > 0) &&  props.userID === props.cnt.authorID ?
+                <Button style={styles.userOptItem} onPress={props.allowedUser}>
+                    <Ionicons name="person-outline" size={20}/>
+                    <Text style={[styles.textStyle, styles.detText]}>Allowed User</Text>
+                </Button>: null}
+                {(props.cnt.mark > 0) &&  props.userID === props.cnt.authorID ?
+                <Button style={styles.userOptItem} onPress={props.edit}>
+                    <Ionicons name="create-outline" size={20}/>
+                    <Text style={[styles.textStyle, styles.detText]}>Mark Question</Text>
+                </Button>: null}
+                { props.cnt.showResult ?
+                <Button style={styles.userOptItem} onPress={props.delete}>
+                    <Ionicons name="pencil-outline" size={20} />
+                    <Text style={[styles.textStyle, styles.detText]}>Result</Text>
+                </Button> : null}
                 <Button style={styles.userOptItem} onPress={props.delete}>
                     <Ionicons name="trash-bin-outline" size={20} />
                     <Text style={[styles.textStyle, styles.detText]}>Delete</Text>
@@ -70,16 +96,6 @@ const writeupContent = props => {
                 cnt={props.cnt.friendRequest}/>
         )
     }
-
-    if (props.cnt.cbt && props.cnt.cbt.length > 0) {
-        showAdvert = (
-            <CBTPreview 
-                cnt={props.cnt.cbt}
-                openURI={props.openURI}
-                preview={props.mediaPreview}/>
-        )
-    }
-
     return (
         <>
             <View style={styles.container}>
@@ -102,25 +118,45 @@ const writeupContent = props => {
                         <TouchableNativeFeedback onPress={props.showUserOpt}>
                             <Ionicons name="ellipsis-horizontal-outline" size={20}/>
                         </TouchableNativeFeedback>
+                        {props.cnt.request > 0 ?
+                        <TabBarge
+                            onPress={props.showUserOpt}
+                            notification={props.cnt.request} 
+                            style={{top: -4, right: 0}}
+                            textStyle={styles.tabBargeText}/> : null}
                     </View>
-                    { props.cnt.media.length > 0  ?
-                    <View style={styles.mediaWrapper}>
-                            <Carousel 
-                                renderData={props.cnt.media}
-                                // hideSeeker
-                                layout="tinder"
-                                _renderItem={({item:media, index}) => (
-                                    <View
-                                        style={{flex: 1, backgroundColor: '#e9ebf2'}}>
-                                        <MediaContainer
-                                            media={media}
-                                            onPress={props.mediaPreview.bind(this, null, props.cnt.media, index)} >
-                                            {media.description ? <Text numberOfLines={1} style={styles.description}>{ media.description }</Text> : null}
-                                        </MediaContainer>
-                                    </View>
-                                )}/>
-                    </View> : null}
-                    <Pressable 
+                    <View style={styles.contentContainer}>
+                        <View style={[{width: props.cnt.media.length > 0 ? '60%' : '100%'}, styles.contentWrapper]}>
+                            <Pressable 
+                                onPress={props.pagePreview}>
+                                <Uridetect
+                                    numberOfLines={2}
+                                    onPress={props.openURI} 
+                                    style={styles.title} 
+                                    content={props.cnt.title}/>
+                            </Pressable>
+                            <Text style={[styles.textStyle, styles.contentText]}>Total: 
+                            <Text style={{fontWeight: 'bold', marginLeft: 10}}>{ props.cnt.qchatTotal } Questions</Text></Text>
+                            <Text style={[styles.textStyle]}>Duration: <Text style={{fontWeight: 'bold', marginLeft: 10}}>{`${props.cnt.hour} hour ${props.cnt.minute} minute ${props.cnt.second} second`}</Text></Text>
+                        </View>
+                        { props.cnt.media.length > 0  ?
+                        <View style={styles.mediaWrapper}>
+                                <Carousel 
+                                    renderData={props.cnt.media}
+                                    hideSeeker
+                                    _renderItem={({item:media, index}) => (
+                                        <View
+                                            style={{flex: 1, backgroundColor: '#e9ebf2'}}>
+                                            <MediaContainer
+                                                media={media}
+                                                onPress={props.mediaPreview.bind(this, null, props.cnt.media, index)} >
+                                                {media.description ? <Text numberOfLines={1} style={styles.description}>{ media.description }</Text> : null}
+                                            </MediaContainer>
+                                        </View>
+                                    )}/>
+                        </View> : null}
+                    </View>
+                    {/* <Pressable 
                         onPress={props.pagePreview}>
                         <Uridetect
                             numberOfLines={1}
@@ -135,7 +171,7 @@ const writeupContent = props => {
                             onPress={props.openURI} 
                             style={styles.content} 
                             content={props.cnt.content}/>
-                    </Pressable>
+                    </Pressable> */}
                     { previewUri.length > 0 ? 
                         <ScrollView style={styles.linkPreview} horizontal>
                             <LinkPreview 
@@ -150,6 +186,7 @@ const writeupContent = props => {
                         </View>
                     </TouchableNativeFeedback> : null}
                     <View style={styles.det}>
+                    {props.userID === props.cnt.authorID ? 
                         <Button 
                             onPress={props.chat}
                             disabled={!props.cnt.enableComment}
@@ -158,14 +195,23 @@ const writeupContent = props => {
                                 <Ionicons name="chatbox-ellipses-outline" size={24}/>
                                 <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.cnt.chat ? props.cnt.chat.total : 0) }</Text>
                             </View>
-                        </Button>
+                        </Button> : null}
                         <TouchableNativeFeedback onPress={startPageReaction ? null : props.favorite}>
                             <View style={styles.detContent}>
-                                <AnimatedIcon animation={startPageReaction ? "pulse" : ''}  duration={500} iterationCount="infinite" 
+                                <AnimatedIcon animation={startPageReaction && (props.cnt.cntType !== 'setRequest' && props.cnt.cntType !== 'cancelRequest') ? "pulse" : ''}  duration={500} iterationCount="infinite" 
                                     name={props.cnt.isFavored ? 'heart' : 'heart-outline'} size={24} color={props.cnt.isFavored ? '#ff1600' : '#333'}/>
                                 <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.cnt.favorite) }</Text>
                             </View>
                         </TouchableNativeFeedback>
+                        {props.userID !== props.cnt.authorID ?
+                        <Button
+                            onPress={props.cnt.takeExam ? props.takeExam : 
+                                props.cnt.isPending ? props.cancelRequest : props.request}
+                            title={props.cnt.takeExam ? 'Take Exam' : 
+                                props.cnt.isPending ? 'Cancel Request' : 'Request'}
+                            style={props.cnt.takeExam ? styles.actionButton : styles.actionButtonAlt}
+                            textStyle={props.cnt.takeExam ? styles.textStyle : styles.actionButtonText}
+                            disabled={startPageReaction && (props.cnt.isPending || !props.cnt.takeExam )}/> : null}
                         <TouchableNativeFeedback onPress={props.share}>
                             <View style={styles.detContent}>
                                 <Ionicons name="paper-plane-outline" size={24}/>
@@ -230,18 +276,27 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
     title: {
-        fontSize: 15,
-        marginTop: 10,
-        fontWeight: 'bold'
+        fontSize: 16
     },
-    content: {
-        fontSize: 16,
+    
+    contentContainer: {
+        marginTop: 10,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    contentWrapper: {
+        paddingRight: 10
+    },
+    contentText: {
         marginVertical: 10
     },
     mediaWrapper: {
-        height: 200,
-        width: '100%',
-        marginTop: 10
+        width: '40%',
+        paddingLeft: 10,
+        height: 150,
+        borderLeftColor: '#dcdbdc',
+        borderLeftWidth: 1
     },
     userComment: {
         flexDirection: 'row',
@@ -278,6 +333,22 @@ const styles = StyleSheet.create({
     detText: {
         marginLeft: 10
     },
+    actionButton: {
+        backgroundColor: '#437da3',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 5
+    },
+    actionButtonAlt: {
+        backgroundColor: '#dcdbdc',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 5
+    },
+    actionButtonText: {
+        color: '#333',
+        fontSize: 15
+    },
     userOpt: {
         position: 'absolute',
         top: 20,
@@ -289,14 +360,38 @@ const styles = StyleSheet.create({
     },
     userOptItem: {
         flexDirection: 'row',
+        alignItems: 'center',
         paddingHorizontal: 10,
         paddingVertical: 5
+    },
+    userOptNotificaion: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 5
+    },
+    userOptNotificaionItem: {
+        flexDirection: 'row',
+        marginRight: 10
     },
     linkPreview: {
         width: '100%',
         backgroundColor: '#dcdbdc',
         marginBottom: 10
+    },
+    tabBarge: {
+        position: 'relative',
+        top: 0,
+        right: 0,
+        width: 24,
+        height: 24,
+        borderRadius: 12,
+        marginRight: 0
+    },
+    tabBargeText: {
+        fontSize: 15
     }
 });
 
-export default writeupContent;
+export default cbtContent;

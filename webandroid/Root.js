@@ -30,6 +30,7 @@ import UsersScreen from './src/screens/Home/Users';
 import QuestionScreen from './src/screens/Home/Question';
 import FeedScreen from './src/screens/Home/Feed';
 import WriteUpScreen from './src/screens/Home/WriteUp';
+import CBTScreen from './src/screens/Home/CBT';
 import GeneralSettingsScreen from './src/screens/Home/GeneralSettings';
 import LogoutScreen from './src/screens/Home/Logout';
 import HashSearchScreen from './src/screens/Home/HashSearch';
@@ -64,6 +65,7 @@ const userScreens = {
   Question: QuestionScreen,
   Feed: FeedScreen,
   WriteUp: WriteUpScreen,
+  CBT: CBTScreen,
   GeneralSettings: GeneralSettingsScreen,
   Logout: LogoutScreen,
   Search: SearchScreen,
@@ -157,13 +159,13 @@ class Base extends Component {
               ...(this.props.isLoggedIn ? userScreens : authScreens),
             }).map(([name, component]) => {
               let header = {}
-              if (name === 'Home' || name === 'Users') {
+              if (name === 'Home' || name === 'Users' || name === 'CBT') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : HomeHeader
                 header = {
                   header: ({scene, previous, navigation }) => <HeaderBar
                     userImage={this.props.userImage}
                     username={this.props.username}
-                    onPress={(url) => navigation.navigate(url, {userID: this.props.userID})}
+                    onNavigate={(url) => navigation.navigate(url, {userID: this.props.userID})}
                     modalSearch={SearchScreen}
                     modalConv={ConvScreen}
                     modalNotify={NotificatonScreen}
@@ -173,6 +175,7 @@ class Base extends Component {
                 component = this.state.viewMode === 'landscape'  ?
                   name === 'Home' ? PostScreen :
                   name === 'Users' ? UsersScreen : 
+                  name === 'CBT' ? CBTScreen:
                   PostScreen: component;
               }
               if (name === 'Search') {
@@ -210,7 +213,8 @@ class Base extends Component {
                 header = {
                   header: ({scene, previous, navigation }) => <HeaderBar
                     userImage={this.props.userImage}
-                    onPress={(url) => this.state.viewMode === 'landscape' ? navigation.navigate(url, {userID: this.props.userID}) : navigation.goBack()}
+                    onNavigate={(url) => navigation.navigate(url, {userID: this.props.userID})}
+                    onPress={navigation.goBack}
                     modalSearch={SearchScreen}
                     modalConv={ConvScreen}
                     modalNotify={NotificatonScreen}
@@ -225,6 +229,7 @@ class Base extends Component {
                 header = {
                   header: ({scene, previous, navigation }) => <HeaderBar
                   userImage={this.props.userImage}
+                  onNavigate={(url) => navigation.navigate(url, {userID: this.props.userID})}
                   onPress={navigation.goBack}
                   modalSearch={SearchScreen}
                   modalConv={ConvScreen}
@@ -240,6 +245,7 @@ class Base extends Component {
                 header = {
                   header: ({scene, previous, navigation }) => this.state.viewMode === 'landscape' ?  <HeaderBar
                     userImage={this.props.userImage}
+                    onNavigate={(url) => navigation.navigate(url, {userID: this.props.userID})}
                     onPress={navigation.goBack}
                     modalSearch={SearchScreen}
                     modalConv={ConvScreen}
@@ -269,7 +275,8 @@ class Base extends Component {
                     title={title}
                     userImage={this.props.userImage}
                     username={this.props.username}
-                    onPress={(url) => this.state.viewMode === 'landscape' ? navigation.navigate(url, {userID: this.props.userID}) : navigation.goBack()}
+                    onNavigate={(url) => navigation.navigate(url, {userID: this.props.userID})}
+                    onPress={navigation.goBack}
                     modalSearch={SearchScreen}
                     modalConv={ConvScreen}
                     modalNotify={NotificatonScreen}
@@ -289,7 +296,8 @@ class Base extends Component {
                     title={title}
                     userImage={this.props.userImage}
                     username={this.props.username}
-                    onPress={(url) => this.state.viewMode === 'landscape' ? navigation.navigate(url, {userID: this.props.userID}) : navigation.goBack()}
+                    onNavigate={(url) => navigation.navigate(url, {userID: this.props.userID})}
+                    onPress={navigation.goBack}
                     modalSearch={SearchScreen}
                     modalConv={ConvScreen}
                     modalNotify={NotificatonScreen}

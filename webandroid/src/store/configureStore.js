@@ -12,6 +12,7 @@ import page from './reducers/page';
 import media from './reducers/media';
 import chatBox from './reducers/chatBox';
 import share from './reducers/share';
+import select from './reducers/select';
 import settings from './reducers/settings';
 import externalPage from './reducers/externalPage';
 
@@ -25,6 +26,7 @@ import {
     watchMedia,
     watchChatBox,
     watchShare,
+    watchSelect,
     watchExternalPage
 } from './sagas/index';
 
@@ -40,6 +42,7 @@ const rootReducer = combineReducers({
     media,
     chatBox,
     share,
+    select,
     settings,
     externalPage
 });
@@ -58,6 +61,7 @@ sagaMiddleware.run(watchPage);
 sagaMiddleware.run(watchMedia);
 sagaMiddleware.run(watchChatBox);
 sagaMiddleware.run(watchShare);
+sagaMiddleware.run(watchSelect);
 sagaMiddleware.run(watchExternalPage);
 
 const configureStore = () => {

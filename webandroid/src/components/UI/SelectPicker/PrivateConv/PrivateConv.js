@@ -4,6 +4,7 @@ import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 
 import Button from '../../../UI/Button/Button';
+import Href from '../../../UI/Href/Href';
 import BoxShadow from '../../../UI/BoxShadow/BoxShadow';
 import LoadMore from '../../../UI/LoadMore/LoadMore';
 
@@ -15,6 +16,9 @@ const privateConv = props => {
     let userStatus = (
         <View style={[styles.userStatus]}></View>
     );
+    
+    let startSelectReaction = props.selectReaction.length > 0 ? 
+    props.selectReaction.filter(id => id === props.userDet._id).length > 0 ? true : false : false;
 
     if (props.userDet.status) {
         userStatus = (
@@ -51,7 +55,7 @@ const privateConv = props => {
                     <View>
                         <View style={styles.userImageWrapper}>
                             {userImg}
-                            {userStatus}
+                            {/* {userStatus} */}
                         </View>
                         {picked ? (
                             <View style={styles.pick}>
@@ -60,12 +64,18 @@ const privateConv = props => {
                         ): null}
                     </View>
                     <View style={styles.det}>
-                        <Text numberOfLines={1} style={styles.userDet}>
-                            { props.userDet.username }
-                        </Text>
+                        <View style={{justifyContent: 'flex-start', alignItems: 'flex-start'}}>
+                            <Href
+                                numberOfLines={1}  title={props.userDet.username} style={styles.userDet} onPress={props.showProfile}/>
+                        </View>
                         <View style={styles.buttonWrapper}>
-                            <Button onPress={props.showProfile} style={styles.useroptButton}>
-                                <Text numberOfLines={1} style={styles.profile}>Profile</Text>
+                            {!props.disabledRightButton ?
+                            <Button onPress={props.allowUser} style={styles.useroptButton} disabled={startSelectReaction}>
+                                <Text numberOfLines={1} style={styles.allow}>Allow</Text>
+                            </Button> : null}
+                            <Button onPress={props.rejectUser} style={styles.useroptAltButton} disabled={startSelectReaction}>
+                                <Ionicons name="close" size={16}/>
+                                <Text numberOfLines={1} style={styles.remove}>Remove</Text>
                             </Button>
                         </View>
                     </View>
@@ -131,10 +141,25 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     buttonWrapper: {
+        flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'flex-start'
     },
     useroptButton: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        borderRadius: 5,
+        backgroundColor: '#437da3',
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        marginRight: 10
+    },
+    useroptAltButton: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -146,6 +171,12 @@ const styles = StyleSheet.create({
             width: 0,
             height: 0,
         }
+    },
+    allow: {
+        color: '#fff'
+    },
+    remove: {
+        marginLeft: 5
     },
     pick: {
         position: 'absolute',

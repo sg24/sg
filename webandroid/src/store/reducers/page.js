@@ -26,8 +26,11 @@ const initialState = {
     fetchWriteUp: null,
     deleteWriteUpError: null,
     deleteWriteUp: null,
-    fetchCbtError: null,
-    fetchCbt: null,
+    fetchCBTError: null,
+    fetchCBTStart: false,
+    fetchCBT: null,
+    deleteCBTError: null,
+    deleteCBT: null,
     fetchChatRoomError: null,
     fetchChatRoom: null,
     fetchUserError: null,
@@ -45,7 +48,7 @@ const pageReset = (state, action) => {
         fetchAdvertError: null,fetchAdvert: null,
         fetchFeedError: null,fetchFeedStart: false,fetchFeed: null,deleteFeedError: null,deleteFeed: null,
         fetchWriteUpError: null,fetchWriteUpStart: false,fetchWriteUp: null,deleteWriteUpError: null,deleteWriteUp: null,
-        fetchCbtError: null,fetchCbt: null,
+        fetchCBTError: null,fetchCBTStart: false,fetchCBT: null,deleteCBTError: null,deleteCBT: null,
         fetchChatRoomError: null,fetchChatRoom: null, 
         fetchUserError: null,fetchUserStart: false,fetchUser: null,
         pageReaction: [],pageReactionError: false
@@ -64,7 +67,7 @@ const fetchPageFail = (state, action) => {
     } else if (action.page === 'writeup') {
         return updateObject(state, {fetchWriteUpError: {message: action.err}, fetchWriteUpStart: false});
     } else if (action.page === 'cbt') {
-        return updateObject(state, {fetchCbtError: {message: action.err}});
+        return updateObject(state, {fetchCBTError: {message: action.err}, fetchCBTStart: false});
     } else if (action.page === 'chatRoom') {
         return updateObject(state, {fetchChatRoomError: {message: action.err}});
     } else if (action.page === 'users') {
@@ -84,9 +87,9 @@ const fetchPageStart = (state, action) => {
     } else if (action.page === 'feed') {
         return updateObject(state, {fetchFeedError: null, fetchFeed: action.start === 0 ? null : state.fetchFeed, fetchFeedStart: true });
     } else if (action.page === 'writeup') {
-        return updateObject(state, {fetchWriteUpError: null, fetchFeed: action.start === 0 ? null : state.fetchWriteUp, fetchWriteUpStart: true });
+        return updateObject(state, {fetchWriteUpError: null, fetchWriteUp: action.start === 0 ? null : state.fetchWriteUp, fetchWriteUpStart: true });
     } else if (action.page === 'cbt') {
-        return updateObject(state, {fetchCbtError: {message: action.err}});
+        return updateObject(state, {fetchCBTError: null, fetchCBT: action.start === 0 ? null : state.fetchCBT, fetchCBTStart: true });
     } else if (action.page === 'chatRoom') {
         return updateObject(state, {fetchChatRoomError: {message: action.err}});
     } else if (action.page === 'users') {
@@ -99,7 +102,7 @@ const fetchPageStart = (state, action) => {
 const fetchPageReset = (state, action) => {
     return updateObject(state, {fetchPostError: null, fetchPostStart: false, fetchUserError: null, fetchUserStart: false,
         fetchQuestionError: null, fetchQuestionStart: false, fetchFeedError: null, fetchFeedStart: false,
-        fetchWriteUpError: null, fetchWriteUpStart: false});
+        fetchWriteUpError: null, fetchWriteUpStart: false, fetchCBTError: null, fetchCBTStart: false});
 };
 
 const fetchPage = (state, action) => {
@@ -119,7 +122,7 @@ const fetchPage = (state, action) => {
     } else if (action.page === 'writeup') {
         return updateObject(state, {fetchWriteUp: updatePage(state.fetchWriteUp, action), page: action.page, loadMore: action.cnt.loadMore, fetchWriteUpStart: false});
     } else if (action.page === 'cbt') {
-        return updateObject(state, {fetchCbt: action.cnt, page: action.page});
+        return updateObject(state, {fetchCBT: updatePage(state.fetchCBT, action), page: action.page, loadMore: action.cnt.loadMore, fetchCBTStart: false});
     } else if (action.page === 'chatRoom') {
         return updateObject(state, {fetchChatRoom: action.cnt, page: action.page});
     } else if (action.page === 'users') {
@@ -152,7 +155,7 @@ const updatePage = (state, action) => {
     } else if (action.page === 'writeup') {
         return updateObject(state, {fetchWriteUp: updatePageCnt(state.fetchWriteUp, action)});
     } else if (action.page === 'cbt') {
-        return updateObject(state, {fetchCbt: updatePageCnt(state.fetchCbt, action)});
+        return updateObject(state, {fetchCBT: updatePageCnt(state.fetchCBT, action)});
     } else if (action.page === 'chatRoom') {
         return updateObject(state, {fetchChatRoom: action.cnt, page: action.page});
     } else if (action.page === 'users') {
@@ -217,7 +220,8 @@ const updatePage = (state, action) => {
 const deletePageReset = (state, action) => {
     return updateObject(state, { 
         deletePostError: null, deletePost: null, deleteQuestionError: null, deleteQuestion: null,
-        deleteFeedError: null, deleteFeed: null, deleteWriteUpError: null, deleteWriteUp: null
+        deleteFeedError: null, deleteFeed: null, deleteWriteUpError: null, deleteWriteUp: null,
+        deleteCBTError: null, deleteCBT: null
     })
 };
 
@@ -233,7 +237,7 @@ const deletePageStart = (state, action) => {
     } else if (action.page === 'writeup') {
         return updateObject(state, {deleteWriteUpError: null,  deleteWriteUp: {pageID: action.pageID, page: action.page, start: action.start}});
     } else if (action.page === 'cbt') {
-        return updateObject(state, {fetchCbtError: {message: action.err}});
+        return updateObject(state, {deleteCBTError: null,  deleteCBT: {pageID: action.pageID, page: action.page, start: action.start}});
     } else if (action.page === 'chatRoom') {
         return updateObject(state, {fetchChatRoomError: {message: action.err}});
     } else {
@@ -253,7 +257,7 @@ const deletePageFail = (state, action) => {
     } else if (action.page === 'writeup') {
         return updateObject(state, {deleteWriteUpError: {message: action.err}, deleteWriteUp: null});
     } else if (action.page === 'cbt') {
-        return updateObject(state, {fetchCbtError: {message: action.err}});
+        return updateObject(state, {deleteCBTError: {message: action.err}, deleteCBT: null});
     } else if (action.page === 'chatRoom') {
         return updateObject(state, {fetchChatRoomError: {message: action.err}});
     } else {
@@ -277,7 +281,7 @@ const deletePage = (state, action) => {
     } else if (action.page === 'writeup') {
         return updateObject(state, {deleteWriteUp: null, fetchWriteUp: updatePage(action.pageID, state.fetchWriteUp)});
     } else if (action.page === 'cbt') {
-        return updateObject(state, {fetchCbt: action.cnt});
+        return updateObject(state, {deleteCBT: null, fetchCBT: updatePage(action.pageID, state.fetchCBT)});
     } else if (action.page === 'chatRoom') {
         return updateObject(state, {fetchChatRoom: action.cnt});
     } else {

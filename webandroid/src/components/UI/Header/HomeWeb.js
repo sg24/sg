@@ -110,7 +110,7 @@ class Home extends Component  {
                 <View style={[styles.wrapper, {backgroundColor: this.state.backgroundColor}]}>
                     <Container style={styles.container}>
                         <View style={styles.searchNavWrapper}>
-                            <TouchableNativeFeedback onPress={this.props.onPress.bind(this, 'Home')} style={styles.logo}>
+                            <TouchableNativeFeedback onPress={this.props.onNavigate.bind(this, 'Home')} style={styles.logo}>
                                 <ImageBackground source={Logo} style={styles.logo} resizeMode="contain"/>
                             </TouchableNativeFeedback>
                             <TouchableNativeFeedback  onPress={() => this.openModalHandler('search')} style={styles.formWrapper}>
@@ -126,24 +126,24 @@ class Home extends Component  {
                             </TouchableNativeFeedback>
                         </View>
                         <View style={styles.contentNavWrapper}>
-                                <TouchableNativeFeedback  onPress={this.props.onPress.bind(this, 'Home')} style={styles.navIcon}>
+                                <TouchableNativeFeedback  onPress={this.props.onNavigate.bind(this, 'Home')} style={styles.navIcon}>
                                     <View style={styles.navIcon}>
                                         <Icon name="home-outline" size={22} style={activeUri === 'Home' ? styles.activeUri : styles.color}/>
                                     </View>
                                 </TouchableNativeFeedback>
-                                <TouchableNativeFeedback  onPress={this.props.onPress.bind(this, 'Users')} style={styles.navIcon}>
+                                <TouchableNativeFeedback  onPress={this.props.onNavigate.bind(this, 'Users')} style={styles.navIcon}>
                                     <View style={styles.navIcon}>
                                         <Icon name="people-outline" size={22} style={activeUri === 'Users' ? styles.activeUri : styles.color}/>
                                     </View>
                                 </TouchableNativeFeedback>
-                                <TouchableNativeFeedback  onPress={this.props.onPress.bind(this, 'Room')} style={styles.navIcon}>
+                                <TouchableNativeFeedback  onPress={this.props.onNavigate.bind(this, 'Room')} style={styles.navIcon}>
                                     <View style={styles.navIcon}>
                                         <Icon name="chatbubble-ellipses-outline" size={22} color={styles.color}/>
                                     </View>
                                 </TouchableNativeFeedback>
-                                <TouchableNativeFeedback  onPress={this.props.onPress.bind(this, 'Room')} style={styles.navIcon}>
+                                <TouchableNativeFeedback  onPress={this.props.onNavigate.bind(this, 'CBT')} style={styles.navIcon}>
                                     <View style={styles.navIcon}>
-                                        <Icon name="timer-outline" size={22} color={styles.color}/>
+                                        <Icon name="timer-outline" size={22} style={activeUri === 'CBT' ? styles.activeUri : styles.color}/>
                                     </View>
                                 </TouchableNativeFeedback>
                         </View>
@@ -164,7 +164,7 @@ class Home extends Component  {
                                         notification={3}/>
                                 </View>
                             </TouchableNativeFeedback>
-                            <TouchableNativeFeedback onPress={this.props.onPress.bind(this, 'Profile')} style={styles.navIcon}>
+                            <TouchableNativeFeedback onPress={this.props.onNavigate.bind(this, 'Profile')} style={styles.navIcon}>
                                 <View style={[styles.navIcon]}>
                                     {this.props.userImage ? <Image style={styles.profileImage} resizeMode="cover" source={this.props.userImage}/> 
                                     : <Icon name="person-outline" size={22} color={styles.color}/>}

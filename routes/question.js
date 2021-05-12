@@ -85,10 +85,22 @@ router.post('/', authenticate, (req, res, next) => {
             }
             let showAdvert = Math.round(Math.random());
             if (showAdvert === 0) {
-                qchat.find().skip(req.body.start).limit(req.body.limit).then(doc => {
+                qchat.find({_isCompleted: true, block: {$nin: [req.user]}}).skip(req.body.start).limit(req.body.limit).then(doc => {
                     let lastItem = updateResult[updateResult.length - 1];
-                    if (lastItem) {
-                        lastItem.cbt= doc
+                    if (lastItem && doc) {
+                        let updateDoc = [];
+                        for (let cnt of doc) {
+                            let updateCnt = JSON.parse(JSON.stringify(cnt));
+                            delete updateCnt.block;
+                            updateDoc.push({...updateCnt,
+                            share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
+                            isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                            takeExam: cnt.participant === 'Public' ? true :
+                            cnt.allowedUser.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user)[0] ? true : false,
+                            isPending: cnt.request.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                            request: cnt.request.length, mark: cnt.mark.length, allowedUser: cnt.allowedUser.length})
+                        }
+                        lastItem.cbt= updateDoc
                         updateResult[updateResult.length - 1] = lastItem
                     }
                     res.status(200).send({page: updateResult, loadMore: result.length > 0});
@@ -133,11 +145,10 @@ router.post('/', authenticate, (req, res, next) => {
             res.status(500).send(err)
         })
         return
-        return
     }
 
     if (req.header && req.header('data-categ') === 'searchQuestion') {
-        question.find({_isCompleted: true, $text: {$search: req.body.searchCnt}})
+        question.find({_isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt}})
         .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
             let updateResult = [];
             if (result) {

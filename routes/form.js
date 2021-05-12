@@ -403,7 +403,8 @@ router.post('/add/pageReport', authenticate, (req, res, next) => {
         let model = fields.page === 'post' ? post : 
             fields.page === 'question' ? question : 
             fields.page === 'feed' ? feed : 
-            fields.page === 'writeup' ? writeup : post;
+            fields.page === 'writeup' ? writeup :
+            fields.page === 'cbt' ? qchat : post;
         model.findById(fields.pageID).then(doc => {
             if (doc && doc.report.length < 20) {
                 doc.updateOne({$push: {'report': fields.content}}).then(() => {

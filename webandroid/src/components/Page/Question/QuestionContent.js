@@ -41,10 +41,10 @@ const postContent = props => {
                     <Ionicons name="paper-plane-outline" size={20} onPress={props.share}/>
                     <Text style={[styles.textStyle, styles.detText]}>Share with friends</Text>
                 </Button>
-                <Button style={styles.userOptItem} onPress={props.report}>
+                {props.userID !== props.cnt.authorID ? <Button style={styles.userOptItem} onPress={props.report}>
                     <Ionicons name="warning-outline" size={20}/>
                     <Text style={[styles.textStyle, styles.detText]}>Report</Text>
-                </Button>
+                </Button>: null}
             </BoxShadow>
         )
     }

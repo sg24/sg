@@ -17,19 +17,19 @@ const userNotifications = (field , recieverID, cnt, isRemove) => {
                             ++checkUser.counter;
                         }
                         if (isRemove) {
-                            checkUser = checkUser.cntID.filter(id =>  id !== cnt.ID);
+                            let updateCntID = checkUser.cntID.filter(id => id !== cnt.ID);
+                            checkUser.cntID = updateCntID;
                             if (cnt.enableCounter) {
                                 --checkUser.counter;
                             }
                         }
                         cntField[checkUserIndex] = checkUser;
                     } 
-                    cntField = !checkUser.cntID && isRemove ? cntField.filter(cntFnd =>  cntFnd.userID !== cnt.userID) : cntField;
+                    cntField = (!checkUser.cntID || (checkUser.cntID.length < 1)) && isRemove ? cntField.filter(cntFnd =>  cntFnd.userID !== cnt.userID) : cntField;
                 } else if (!isRemove) {
                     cntField.push({userID: cnt.userID, ...cntID, ...counter})
                 }
-                doc[field] = cntField;
-                doc.updateOne(doc).then(() => {
+                doc.updateOne({[field]: cntField}).then(() => {
                     resolve();
                 })
                 return

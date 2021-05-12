@@ -58,6 +58,19 @@ const QchatSchema = new Schema({
         required: true,
         trim: true
     },
+    participate: [{
+        authorID: {
+            type: String,
+            required: true
+        },
+        username: {
+            type: String,
+            required: true
+        },
+        userImage: {
+            type: String
+        }
+    }],
     showResult: {
         type: Boolean,
         default: true
@@ -78,29 +91,59 @@ const QchatSchema = new Schema({
         description: String
     }],
     allowedUser: [{
-        type: ObjectId
+        authorID: {
+            type: String,
+            required: true
+        },
+        username: {
+            type: String,
+            required: true
+        },
+        userImage: {
+            type: String
+        }
     }],
-    shareMe: {
-        type: Array
-    },
-    write: {
-        type: Number,
-        default: 0
-    },
-    comment: {
-        type: Number,
-        default: 0
-    },
-    favorite: {
-        type: Number,
-        required: true,
-        default: 0
-    },
-    liked: {
-        type: Array,
-        required: true,
-        default: [String]
-    },
+    request: [{
+        authorID: {
+            type: String,
+            required: true
+        },
+        username: {
+            type: String,
+            required: true
+        },
+        userImage: {
+            type: String
+        }
+    }],
+    mark: [{
+        theoryTotal: {
+            type: Number,
+            default: 0
+        },
+        score: {
+            type: Number,
+            default: 0
+        },
+        user: {
+            authorID: {
+                type: String,
+                required: true
+            },
+            username: {
+                type: String,
+                required: true
+            },
+            userImage: {
+                type: String
+            }
+        },
+        created: { 
+            type: Date, 
+            default: Date.now,
+            index: true 
+        }
+    }],
     question: {
         type: ObjectId
     },
@@ -116,9 +159,47 @@ const QchatSchema = new Schema({
         type: Number,
         required: true
     },
+    share: [{
+        type: ObjectId
+    }],
+    favorite: [{
+        type: ObjectId
+    }],
     mode: {
         type: String,
         default: 'publish'
+    },
+    chat: {
+        _id: {
+            type: String
+        },
+        total: {
+            type: Number,
+            default: 0
+        },
+        user: [{
+            authorID: {
+                type: String,
+                required: true
+            },
+            username: {
+                type: String,
+                required: true
+            },
+            userImage: {
+                type: String
+            }
+        }]
+    },
+    block: [{
+        type: ObjectId
+    }],
+    report: [{
+        type: String
+    }],
+    blacklisted: {
+        type: String,
+        default: false
     },
     _isCompleted: {
         type: Boolean,

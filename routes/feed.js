@@ -156,7 +156,7 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header && req.header('data-categ') === 'searchFeed') {
-        feed.find({authorID: { $in: [req.user, ...req.friend] }, _isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt} })
+        feed.find({_isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt} })
         .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
             let updateResult = [];
             if (result) {

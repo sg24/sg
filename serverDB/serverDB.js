@@ -22,6 +22,7 @@ const tempFile = require('./models/tempfile');
 const post = require('./models/post');
 const contest = require('./models/contest');
 const qchat = require('./models/qchat');
+const cbtchat = require('./models/cbtchat');
 const qcontent = require('./models/qcontent');
 const notifications = require('./models/notifications');
 const page = require('./models/page');
@@ -50,6 +51,7 @@ module.exports = {
     contest,
     qchat,
     qcontent,
+    cbtchat,
     notifications,
     page,
     connectStatus
