@@ -75,6 +75,7 @@ const postContent = props => {
         showAdvert = (
             <CBTPreview 
                 cnt={props.cnt.cbt}
+                userID={props.userID}
                 openURI={props.openURI}
                 preview={props.mediaPreview}/>
         )

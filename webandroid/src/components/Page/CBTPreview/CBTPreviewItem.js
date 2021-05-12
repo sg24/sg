@@ -8,39 +8,47 @@ import Button from '../../UI/Button/Button';
 import Carousel from '../../UI/Carousel/Carousel';
 import MediaContainer from '../../UI/MediaContainer/MediaContainer';
 
-const cbtPreviewItem = props => (
-    <View style={styles.container}>
-        <BoxShadow style={styles.wrapper}>
-            <Carousel 
-                renderData={props.cnt.media}
-                _renderItem={({item:media, index}) => (
-                    <View
-                        style={styles.carousel}>
-                        <MediaContainer
-                            media={media}
-                            onPress={props.preview.bind(this, null, props.cnt.media, index)} >
-                            {media.description ? <Text numberOfLines={1} style={styles.description}>{ media.description }</Text> : null}
-                        </MediaContainer>
-                    </View>
-                )}
-                layout="stack"/>
-             <Uridetect
-                numberOfLines={1}
-                onPress={props.openURI} 
-                style={styles.content} 
-                content={props.cnt.title}/>
-            <Text style={styles.textStyle}>Total: { props.cnt.qchatTotal } Questions</Text>
-            <Text style={styles.textStyle}>Duration: {`${props.cnt.hour} hour ${props.cnt.minute} minute ${props.cnt.second} second`}</Text>
-            <View style={styles.actionButtonWrapper}>
-                <Button
-                    onPress={props.openURI}
-                    title={props.cnt.takeExam ? 'Take Exam' : 'Request'}
-                    style={props.cnt.takeExam ? styles.actionButton : styles.actionButtonAlt}
-                    textStyle={props.cnt.takeExam ? styles.textStyle : styles.actionButtonText}/>
-            </View>
-        </BoxShadow>
-    </View>
-);
+const cbtPreviewItem = props => {
+    let startPageReaction = props.pending && props.pending.filter(cnt => cnt.id === props.cnt._id && cnt.type === 'cbtRequest')[0];
+    let isCancelRequest = props.page.filter(cnt => cnt.id === props.cnt._id && cnt.cntType === 'setRequest')[0] ? true : false
+    return ( 
+        <View style={styles.container}>
+            <BoxShadow style={styles.wrapper}>
+                <Carousel
+                    renderData={props.cnt.media}
+                    _renderItem={({item:media, index}) => (
+                        <View
+                            style={styles.carousel}>
+                            <MediaContainer
+                                media={media}
+                                onPress={props.preview.bind(this, null, props.cnt.media, index)} >
+                                {media.description ? <Text numberOfLines={1} style={styles.description}>{ media.description }</Text> : null}
+                            </MediaContainer>
+                        </View>
+                    )}
+                    layout="stack"/>
+                <Uridetect
+                    numberOfLines={1}
+                    onPress={props.openURI} 
+                    style={styles.content} 
+                    content={props.cnt.title}/>
+                <Text style={styles.textStyle}>Total: { props.cnt.qchatTotal } Questions</Text>
+                <Text style={styles.textStyle}>Duration: {`${props.cnt.hour} hour ${props.cnt.minute} minute ${props.cnt.second} second`}</Text>
+                <View style={styles.actionButtonWrapper}>
+                    { props.userID !== props.cnt.authorID ?
+                        <Button
+                            onPress={props.cnt.takeExam ? props.takeExam : 
+                                props.cnt.isPending || isCancelRequest ? props.cancelRequest : props.request}
+                            title={props.cnt.takeExam ? 'Take Exam' : 
+                                props.cnt.isPending  || isCancelRequest ? 'Cancel Request' : 'Request'}
+                            style={props.cnt.takeExam ? styles.actionButton : styles.actionButtonAlt}
+                            textStyle={props.cnt.takeExam ? styles.textStyle : styles.actionButtonText}
+                            disabled={startPageReaction && (props.cnt.isPending || !props.cnt.takeExam )}/> : null}
+                </View>
+            </BoxShadow>
+        </View>
+    );
+}
 
 const styles = StyleSheet.create({
     textStyle: {

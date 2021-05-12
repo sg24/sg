@@ -28,7 +28,7 @@ const externalPageStart = (state, action) => {
 
 const externalPageFail = (state, action) => {
     let pending  = state.pending ? [...state.pending] : [];
-    let updatePending = pending.filter(cnt => cnt.id !== action.pageID && cnt.type !== action.pageType);
+    let updatePending = pending.filter(cnt => (cnt.id !== action.pageID) !== (cnt.type !== action.pageType));
     return updateObject(state, {
         pending: updatePending, error: action.err
     });
@@ -36,11 +36,11 @@ const externalPageFail = (state, action) => {
 
 const externalPage = (state, action) => {
     let page  = [...state.page];
-    let checkPage = page.filter(cnt => cnt.id === action.pageID && cnt.type === action.pageType)[0];
-    if (!checkPage) {
-        page.push({id: action.pageID, type: action.pageType, cntType: action.cntType});
-    }
-    return updateObject(state, { page });
+    let pending = state.pending ? [...state.pending] : [];
+    let updatePending = pending.filter(cnt => (cnt.id !== action.pageID) !== (cnt.type !== action.pageType));   
+    let checkPage = page.filter(cnt => (cnt.id !== action.pageID) !== (cnt.type !== action.pageType));
+    checkPage.push({id: action.pageID, type: action.pageType, cntType: action.cntType});
+    return updateObject(state, { page: checkPage, pending: updatePending });
 };
 
 const reducer = (state = initialState, action) => {

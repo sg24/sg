@@ -5,7 +5,7 @@ import axios from '../../axios';
 export function* externalPageInitSaga(action) {
     try {
         yield put(actions.externalPageStart(action.pageType, action.pageID));
-        yield axios[action.uriMethod](`/${action.page}`, action.cnt,{
+        yield axios[action.uriMethod](`/${action.page}`, action.cnt ? action.cnt : { pageID: action.pageID },{
             headers: {
                 'data-categ': action.cntType}});
         yield put(actions.externalPage(action.pageType, action.pageID, action.cntType));
