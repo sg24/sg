@@ -186,6 +186,8 @@ const chatItemBox = props => {
                                     <Text style={styles.textStyle}>shared</Text>
                                 </View>
                             </Button> : null}
+                            {props.cnt.verified ? 
+                            <View style={[props.direction === 'right' ? styles.buttonReplyDirection : styles.buttonReply]}><Ionicons name="checkmark" color="#16cf27" size={20}/></View> : null}
                     </View> : null}
             </View>
         </>

@@ -117,13 +117,20 @@ const QchatSchema = new Schema({
         }
     }],
     mark: [{
-        theoryTotal: {
-            type: Number,
-            default: 0
-        },
+        question: [{
+            _id: {
+                type: ObjectId,
+                required: true
+            },
+            answer: {
+                type: String
+            }
+        }],
         score: {
-            type: Number,
-            default: 0
+            type: Number
+        },
+        questionTotal: {
+            type: Number
         },
         user: {
             authorID: {

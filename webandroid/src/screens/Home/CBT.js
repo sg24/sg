@@ -83,7 +83,7 @@ class CBT extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null, showPagePreview: null, 
+        this.setState({pageCntID: null, showChatBox: null, pageID: null, showSharePicker: null, showPagePreview: null, 
                 showSelectPicker: null, allowedSelectPicker: false});
     }
 
@@ -183,8 +183,8 @@ class CBT extends Component {
         this.props.onPageReaction('cbt', pageID, 'setRequest');
     }
 
-    takeExamHandler = (id) => {
-
+    takeExamHandler = (pageID, content) => {
+        this.props.navigation.navigate('ExamInstruction', {pageID, content})
     }
 
     cancelRequestHandler = (pageID) => {
@@ -207,8 +207,8 @@ class CBT extends Component {
         this.setState({showPagePreview: cnt})
     }
 
-    chatHandler = (pageID) => {
-        this.setState({showChatBox: true, pageID})
+    chatHandler = (pageID, enableComment, enableDelete) => {
+        this.setState({showChatBox: {enableComment, enableDelete}, pageID})
     }
 
     favoriteHandler = (pageID) => {
@@ -242,7 +242,7 @@ class CBT extends Component {
         let wrapperProps = pageBackground ? {source: {uri: this.props.settings.page.backgroundImage}, resizeMode: 'cover'} :{}
 
         let header = (
-            <DefaultHeader
+            this.state.viewMode === 'landscape' ? ( <DefaultHeader
                 onPress={this.props.navigation.goBack}
                 title="CBT"
                 rightSideContent={(
@@ -250,6 +250,7 @@ class CBT extends Component {
                         <Ionicons name="ellipsis-vertical-outline" size={20} />
                     </Button>
                 )}/>
+            ) : null
         );
 
         if (this.state.showSearch) {
@@ -294,7 +295,6 @@ class CBT extends Component {
         )
 
         if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
-            let profile = this.props.pageReaction.length > 0 && this.state.changeProfile ? this.props.pageReaction.filter(id => id === this.state.changeProfile.pageID)[0] : null;
             cnt = (
                 <View style={styles.container}>
                     { header }
@@ -370,12 +370,14 @@ class CBT extends Component {
                             backgroundColor={this.props.settings.backgroundColor}/> : null}
                     { this.state.showChatBox ?
                         <CommentBox
-                            title={this.state.showChatBox.result ? 'Result' :'Comment'}
+                            title={'Result'}
                             chatType="cbtchat"
                             page="cbt"
                             pageID={this.state.pageID}
                             closeChat={this.closeModalHandler}
-                            showReply/> : null}
+                            showReply
+                            enableComment={this.state.showChatBox.enableComment}
+                            enableDelete={this.state.showChatBox.enableDelete}/> : null}
                     { this.state.showSharePicker ? 
                         <SharePicker
                             shareType={this.state.showSharePicker.shareType}

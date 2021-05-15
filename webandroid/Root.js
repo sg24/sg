@@ -31,6 +31,8 @@ import QuestionScreen from './src/screens/Home/Question';
 import FeedScreen from './src/screens/Home/Feed';
 import WriteUpScreen from './src/screens/Home/WriteUp';
 import CBTScreen from './src/screens/Home/CBT';
+import ExamScreen from './src/screens/Home/Exam';
+import ExamInstructionScreen from './src/screens/Home/ExamInstruction';
 import GeneralSettingsScreen from './src/screens/Home/GeneralSettings';
 import LogoutScreen from './src/screens/Home/Logout';
 import HashSearchScreen from './src/screens/Home/HashSearch';
@@ -60,12 +62,14 @@ const authScreens = {
 };
 
 const userScreens = {
-  Home: TopTab,
-  Users: UsersScreen, 
+  HomeWeb: TopTab,
+  UsersWeb: UsersScreen, 
   Question: QuestionScreen,
   Feed: FeedScreen,
   WriteUp: WriteUpScreen,
-  CBT: CBTScreen,
+  CBTWeb: CBTScreen,
+  ExamInstruction: ExamInstructionScreen,
+  Exam: ExamScreen,
   GeneralSettings: GeneralSettingsScreen,
   Logout: LogoutScreen,
   Search: SearchScreen,
@@ -159,7 +163,7 @@ class Base extends Component {
               ...(this.props.isLoggedIn ? userScreens : authScreens),
             }).map(([name, component]) => {
               let header = {}
-              if (name === 'Home' || name === 'Users' || name === 'CBT') {
+              if (name === 'Home' || name === 'HomeWeb' || name === 'UsersWeb' || name === 'CBTWeb') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : HomeHeader
                 header = {
                   header: ({scene, previous, navigation }) => <HeaderBar
@@ -173,9 +177,9 @@ class Base extends Component {
                     inputValue={this.props.filterCnt} />
                 }
                 component = this.state.viewMode === 'landscape'  ?
-                  name === 'Home' ? PostScreen :
-                  name === 'Users' ? UsersScreen : 
-                  name === 'CBT' ? CBTScreen:
+                  name === 'HomeWeb' ? PostScreen :
+                  name === 'UsersWeb' ? UsersScreen : 
+                  name === 'CBTWeb' ? CBTScreen:
                   PostScreen: component;
               }
               if (name === 'Search') {
@@ -224,7 +228,7 @@ class Base extends Component {
                 }
               }
 
-              if (name === 'GeneralSettings') {
+              if (name === 'GeneralSettings' || name === 'ExamInstruction') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
                 header = {
                   header: ({scene, previous, navigation }) => <HeaderBar
@@ -235,12 +239,13 @@ class Base extends Component {
                   modalConv={ConvScreen}
                   modalNotify={NotificatonScreen}
                   filterCnt={this.props.onHeaderFilter}
-                  title={name === 'GeneralSettings' ? 'General Settings' : name} 
+                  title={name === 'GeneralSettings' ? 'General Settings' : 
+                    name === 'ExamInstruction' ? 'Exam Summary / Instruction' : name} 
                   inputValue={this.props.filterCnt}/>
                 }
               }
-              
-              if (name === 'Question' || name === 'Feed' || name === 'WriteUp') {
+
+              if (name === 'Question' || name === 'Feed' || name === 'WriteUp' || name === 'Exam') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
                 header = {
                   header: ({scene, previous, navigation }) => this.state.viewMode === 'landscape' ?  <HeaderBar

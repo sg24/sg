@@ -182,7 +182,7 @@ const cbtContent = props => {
                         <View style={styles.userComment}>
                             { props.cnt.chat.user.map((user, index) => (
                             <Avatar key={index} userImage={user.userImage} iconSize={20} style={[styles.userCommentImage, {left: index !== 0 ? -(index*8) : 'auto'}]}/> ))}
-                            <Text  numberOfLines={1} style={[styles.userCommentText, {marginLeft: props.cnt.chat.user.length > 1 ? -((props.cnt.chat.user.length*8)-15) : 10}]}>{props.cnt.chat.user[0].username} {props.cnt.chat.user.length > 1 ? "and other's" : ''} comment on this</Text>
+                            <Text  numberOfLines={1} style={[styles.userCommentText, {marginLeft: props.cnt.chat.user.length > 1 ? -((props.cnt.chat.user.length*8)-15) : 10}]}>{props.cnt.chat.user[0].username} {props.cnt.chat.user.length > 1 ? "and other's" : ''} Result added</Text>
                         </View>
                     </TouchableNativeFeedback> : null}
                     <View style={styles.det}>
@@ -301,7 +301,8 @@ const styles = StyleSheet.create({
     userComment: {
         flexDirection: 'row',
         alignItems: 'center',
-        width: '100%'
+        width: '100%',
+        marginTop: 10
     },
     userCommentImage: {
         width: 30,
@@ -378,7 +379,7 @@ const styles = StyleSheet.create({
     linkPreview: {
         width: '100%',
         backgroundColor: '#dcdbdc',
-        marginBottom: 10
+        marginTop: 10
     },
     tabBarge: {
         position: 'relative',

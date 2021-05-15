@@ -81,7 +81,7 @@ nextApp.prepare().then(() => {
   app.use('/contest', contestRoute);
   app.use('/cbt', qchatRoute);
   app.use('/cbtchat', cbtchatRoute);
-  app.use('/examtab', examtabRoute);
+  app.use('/exam', examtabRoute);
   app.use('/sitemap.xml', sitemapxmlRoute);
   app.use(function (req, res, next) {
       return res.redirect('/index/user');

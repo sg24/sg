@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, Platform, 
 const button = props => {
     let cnt = (
         <View style={[styles.wrapper, props.disabled ? styles.disabled : null, props.style]}>
-            {props.children ? props.children :
+            {props.children && !props.submitting ? props.children :
             props.submitting ? <ActivityIndicator size="small" color={props.loaderStyle} animating/> : <Text style={[styles.title, props.textStyle]}>{props.title}</Text>}
         </View>
     )

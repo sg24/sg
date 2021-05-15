@@ -132,6 +132,9 @@ const commentItemBox = props => {
             </BoxShadow>
             { !props.disableUserOpt ?
                 <View style={[styles.userInfo, props.direction === 'right' ? styles.userInfoDirection : null]}>
+                    {props.cnt.verified ? 
+                        <View style={[styles.verified, 
+                            props.direction === 'right' ? styles.verifiedDirection : null]}><Ionicons name="checkmark" color="#16cf27" size={20}/></View> : null}
                 {/* { props.showUserImage ? ( */}
                     <View style={[styles.userInfoCnt, 
                             props.direction === 'right' ? styles.userInfoCntDirection : null]}>
@@ -237,6 +240,13 @@ const styles = StyleSheet.create({
         paddingRight: Platform.OS !== 'web' ? 60 : 50,
         paddingLeft: 0
     }, 
+    verified: {
+        marginRight: 10
+    },
+    verifiedDirection: {
+        marginLeft: 0,
+        marginRight: 10
+    },
     userInfoCnt: {
         marginRight: 10
     },

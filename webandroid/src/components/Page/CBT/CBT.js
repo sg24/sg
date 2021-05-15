@@ -22,11 +22,11 @@ const cbt = props => {
             closeModal={props.closeModal}
             userProfile={props.userProfile.bind(this, cnt.authorID)}
             pagePreview={props.pagePreview.bind(this, cnt)}
-            chat={props.chat.bind(this, cnt._id)}
+            chat={props.chat.bind(this, cnt._id, cnt.enableComment, cnt.enableDelete)}
             favorite={props.favorite.bind(this, cnt._id)}
             request={props.request.bind(this, cnt._id)}
             allowedUser={props.allowedUser.bind(this, cnt._id)}
-            takeExam={props.takeExam.bind(this, cnt._id)}
+            takeExam={props.takeExam.bind(this, cnt._id, cnt.content)}
             cancelRequest={props.cancelRequest.bind(this, cnt._id)}
             pageReaction={props.pageReaction}
             share={props.share.bind(this, cnt, 'select')}

@@ -180,7 +180,7 @@ router.post('/', authenticate, (req, res, next) => {
             let chat = {
                 authorID: req.user, username: req.username, userImage: req.userImage,
                 content: cnt.content, media: cnt.media, tempFileID: cnt.tempFileID,
-                shared: cnt.authorID
+                shared: cnt._id ? cnt._id : cnt.authorID, sharedType: cnt.cntType, verified: cnt.verified ? true : false
             }
             return sequence([userchat.findByIdAndUpdate(info._id, {$push: {chat: {...chat,  _id}}}),
                 user.findByIdAndUpdate(reciever, {$pull: {chat: {'authorID': req.user}}}), user.findByIdAndUpdate(reciever, {$push: {chat: {...chat, _id: info._id}}}),

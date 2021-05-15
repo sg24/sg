@@ -168,7 +168,7 @@ class CommentBox extends Component {
         this.setState({showSettings: false});
     }
 
-    showChatOptionHandler = (cnt, direction, e, allowDelete = true) => {
+    showChatOptionHandler = (cnt, direction, e, allowDelete = this.props.enableDelete === false ? false : true) => {
         let copyOpt = cnt.media.length < 1 ? [
             {title: 'Share', icon: {name: 'paper-plane-outline'}, action: 'share'},
             {title: 'Copy Text', icon: {name: 'clipboard-outline'}, action: 'copy'}
@@ -681,7 +681,7 @@ class CommentBox extends Component {
                         </ScrollView>
                         { option }
                     </View>
-                    { commentBox }
+                    { this.props.enableComment === false ? null : commentBox }
                 </Wrapper>
             );
         }
@@ -753,7 +753,7 @@ class CommentBox extends Component {
                                         </ScrollView>
                                         { option }
                                     </View>
-                                    { commentBox }
+                                    { this.props.enableComment === false ? null : commentBox }
                                 </Wrapper> : null}
                             </View>
                         </InnerScreen> : null}

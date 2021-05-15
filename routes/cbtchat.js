@@ -89,8 +89,7 @@ router.post('/', authenticate, (req, res, next) => {
                         content: fields.content, media, tempFileID, _id, created
                     }
                     Promise.all([cbtchat.findByIdAndUpdate(fields.cntID, {$push: {chat: cnt}}),
-                        tempFile.findOneAndUpdate({userID: cnt.authorID, "tempFiles.id": tempFileID}, {$pull: {tempFiles: {id: tempFileID}}}),
-                        qchat.findOneAndUpdate({_id: fields.pageID, 'chat.user.authorID': {$ne: req.user}}, {$push: {'chat.user': {authorID: req.user, username: req.username, userImage: req.userImage}}})]).then(cnt => {
+                        tempFile.findOneAndUpdate({userID: cnt.authorID, "tempFiles.id": tempFileID}, {$pull: {tempFiles: {id: tempFileID}}})]).then(cnt => {
                         let total = cnt[0].chat.length + 1;
                         qchat.findByIdAndUpdate(fields.pageID, {'chat.total': total}).then(result => {
                             res.status(200).send({_id, created, media, pageInfo: {_id: fields.pageID, chat: {total, user: result.chat.user, _id: result.chat._id}}})
@@ -140,8 +139,7 @@ router.post('/', authenticate, (req, res, next) => {
                                 let chatItemIndex = chat.findIndex(cnt => JSON.parse(JSON.stringify(cnt._id)) === fields.chatID);
                                 chat[chatItemIndex] = chatItem;
                                 Promise.all([doc.updateOne({chat}),
-                                    tempFile.findOneAndUpdate({userID: cnt.authorID, "tempFiles.id": tempFileID}, {$pull: {tempFiles: {id: tempFileID}}}),
-                                    qchat.findOneAndUpdate({_id: fields.pageID, 'chat.user.authorID': {$ne: req.user}}, {$push: {'chat.user': {authorID: req.user, username: req.username, userImage: req.userImage}}})]).then(cnt => {
+                                    tempFile.findOneAndUpdate({userID: cnt.authorID, "tempFiles.id": tempFileID}, {$pull: {tempFiles: {id: tempFileID}}})]).then(cnt => {
                                     let total = chat.length;
                                     qchat.findByIdAndUpdate(fields.pageID, {'chat.total': total}).then(result => {
                                         res.status(200).send({_id, created, media, pageInfo: {_id: fields.pageID, chat: {total, user: result.chat.user, _id: result.chat._id}}})

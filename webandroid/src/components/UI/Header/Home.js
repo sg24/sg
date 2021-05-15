@@ -19,7 +19,7 @@ class Home extends Component  {
     }
 
     navigationHandler = (page) => {
-        this.props.onPress(page)
+        this.props.onNavigate(page)
         this.setState({showModal: false});
     }
 

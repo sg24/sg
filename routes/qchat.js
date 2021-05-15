@@ -358,7 +358,7 @@ router.post('/', authenticate, (req, res, next) => {
         })
         return
     }
-
+    
     if (req.header !== null && req.header('data-categ') === 'getOneAndDelete') {
         qchat.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
             if (doc && !doc.chat._id && doc.favorite.length < 1 && doc.share.length < 1) {

@@ -232,7 +232,7 @@ class ChatBox extends Component {
         if (action === 'share') {
             this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
             icon: ['people-outline', 'chatbox-outline', 'chatbubble-ellipses-outline'],
-            cnt: this.state.showChatOption.cnt}})
+            cnt: {...this.state.showChatOption.cnt, cntType: 'users'}}})
         }
         if (action === 'delete') {
             return this.props.onDeleteChat(this.props.chatType, this.props.chatID, this.props.page, this.props.pageID, this.state.showReply ? 'deleteReply' : 'deleteChat', 

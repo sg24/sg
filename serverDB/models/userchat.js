@@ -58,6 +58,13 @@ const UserChatSchema = new Schema({
         shared: {
             type: String
         },
+        sharedType: {
+            type: String
+        },
+        verified: {
+            type: Boolean,
+            default: false
+        },
         tempFileID: String
     }],
 })
