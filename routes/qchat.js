@@ -31,10 +31,6 @@ router.post('/', authenticate, (req, res, next) => {
             } else {
                 res.status(200).send(result);
             }
-            if (result) {
-                let cnt = JSON.parse(JSON.stringify(result));
-                
-            }
         }).catch(err => {
             res.status(500).send(err)
         })
@@ -259,6 +255,35 @@ router.post('/', authenticate, (req, res, next) => {
                         })
                     }
                 }
+            }
+        });
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'getPendingmark') {
+        qchat.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
+            if (doc) {
+                qchat.aggregate([{
+                    $match: {_id: objectID(req.body.pageID)}}, 
+                    {$unwind: "$mark"},
+                    {$skip: req.body.start},
+                    {$limit: req.body.limit},
+                    {"$group": {"_id": "$_id", "mark": {"$push": "$mark"}}}]).then(result => {
+                        return res.status(200).send({select: result[0] ?  result[0].mark : [], loadMore: (doc.request.length - (req.body.start + req.body.limit)) > 0 })
+                }).catch(err => {
+                    res.status(500).send(err)
+                })
+            }
+        });
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'searchPendingmark') {
+        qchat.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
+            if (doc) {
+                let mark = doc.mark.filter(cnt =>  cnt.username.toLowerCase().indexOf(req.body.searchCnt.toLowerCase()) > -1);
+                let updateMark = mark.slice(req.body.start, (req.body.limit + req.body.start));
+                return res.status(200).send({select: updateMark ? updateMark : [], loadMore: (doc.mark.length - (req.body.start + req.body.limit)) > 0 });
             }
         });
         return

@@ -122,9 +122,25 @@ const QchatSchema = new Schema({
                 type: ObjectId,
                 required: true
             },
+            content: {
+                type: String,
+                required: true,
+                trim: true
+            },
             answer: {
+                type: String,
+                trim: true
+            },
+            correctAnswer: {
                 type: String
-            }
+            },
+            media: [{
+                id: ObjectId, 
+                filename: String, 
+                bucket: String,
+                ext: String, 
+                description: String
+            }],
         }],
         score: {
             type: Number
@@ -132,18 +148,16 @@ const QchatSchema = new Schema({
         questionTotal: {
             type: Number
         },
-        user: {
-            authorID: {
-                type: String,
-                required: true
-            },
-            username: {
-                type: String,
-                required: true
-            },
-            userImage: {
-                type: String
-            }
+        authorID: {
+            type: String,
+            required: true
+        },
+        username: {
+            type: String,
+            required: true
+        },
+        userImage: {
+            type: String
         },
         created: { 
             type: Date, 

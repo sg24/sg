@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 let objectID = require('mongoose').mongo.ObjectId;
 
-const { connectStatus, qchat, qcontent, cbtchat } = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
+let notifications = require('./utility/notifications');
+const { connectStatus, qchat, qcontent, cbtchat } = require('../serverDB/serverDB');
 
 router.post('/',authenticate, (req, res,next) => {
     if (req.header !== null && req.header('data-categ') === 'getExam') {
@@ -46,7 +47,7 @@ router.post('/',authenticate, (req, res,next) => {
     }
    
     if (req.header !== null && req.header('data-categ') === 'markExam') {
-        let examInfo = JSON.parse(req.body.pageID);
+        let examInfo = JSON.parse(req.body.cnt);
         let questionTotal = examInfo.questionTotal;
         qchat.findOne({$or: [{_id: examInfo.pageID, 'allowedUser.authorID': {$eq: req.user}}, {_id: examInfo.pageID, participant: {$eq: 'Public'}}]}).then(doc => {
             if (doc) {
@@ -73,7 +74,7 @@ router.post('/',authenticate, (req, res,next) => {
                                         score = score + perMark;
                                     }
                                 } else {
-                                    pending.push({_id: cnt._id, answer: checkAnswer.answer});
+                                    pending.push({_id: cnt._id, content: cnt.content, media: cnt.media, answer: checkAnswer.answer, correctAnswer: cnt.answer});
                                 }
                             }
                         }
@@ -90,8 +91,9 @@ router.post('/',authenticate, (req, res,next) => {
                                         qchat.findOneAndUpdate({_id: examInfo.pageID, 'chat.user.authorID': {$ne: req.user}}, {$push: {'chat.user': {authorID: req.user, username: req.username, userImage: req.userImage}}})]).then(cnt => {
                                         let total = cnt[0].chat.length + 1;
                                         qchat.findByIdAndUpdate(examInfo.pageID, {'chat.total': total}).then(result => {
-                                            return res.status(200).send({pageInfo: {_id: examInfo.pageID, score, mark: (score/100)*questionTotal, showResult: doc.showResult,
-                                                chat: doc.chat._id,  enableDelete: doc.enableDelete, enableComment: doc.enableComment}})
+                                            res.status(200).send({pageInfo: {_id: examInfo.pageID, score, mark: (score/100)*questionTotal, showResult: doc.showResult,
+                                                chat: doc.chat._id,  enableDelete: doc.enableDelete, enableComment: doc.enableComment}});
+                                            return notifications('qchatResult', doc.authorID, {userID: req.user, ID: examInfo.pageID}, false);
                                         })
                                     })
                                 } else {
@@ -101,8 +103,10 @@ router.post('/',authenticate, (req, res,next) => {
                                     newDoc.save().then(result => {
                                         let chat = {total: 1, _id: result._id, user: [{authorID: req.user, username: req.username, userImage: req.userImage}]};
                                         doc.updateOne({chat}).then(() => {
-                                            return res.status(200).send({pageInfo: {_id: examInfo.pageID, score, mark: (score/100)*questionTotal, showResult: doc.showResult,
+                                            res.status(200).send({pageInfo: {_id: examInfo.pageID, score, mark: (score/100)*questionTotal, showResult: doc.showResult,
                                                 chat: doc.chat._id, enableDelete: doc.enableDelete, enableComment: doc.enableComment}})
+                                            notifications('qchatResult', doc.authorID, {userID: req.user, ID: examInfo.pageID}, false);
+                                            return
                                         });
                                     })
                                 }
@@ -112,9 +116,10 @@ router.post('/',authenticate, (req, res,next) => {
                             }
                         } else {
                             let mark = doc.mark;
-                            mark.push({question: pending, score, questionTotal, user: {authorID: req.user, username: req.username, userImage: req.userImage}})
+                            mark.push({question: pending, score, questionTotal, authorID: req.user, username: req.username, userImage: req.userImage})
                             doc.updateOne({mark}).then(() => {
                                 res.status(200).send({pageInfo: {_id: examInfo.pageID, pending: true}});
+                                notifications('qchatMark', doc.authorID, {userID: req.user, ID: examInfo.pageID}, false);
                             })
                         }
                     }
@@ -125,6 +130,66 @@ router.post('/',authenticate, (req, res,next) => {
         });
         return 
     }
+    
+    if (req.header !== null && req.header('data-categ') === 'getMarkinfo') {
+        let pageID = req.body.searchCnt;
+        qchat.findOne({_id: pageID, authorID: req.user}).then(doc => {
+            if (doc) {
+                return res.status(200).send({page: [{_id: pageID, title: doc.title}]})
+            }
+        })
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'markTheoryexam') {
+        let answerInfo = JSON.parse(req.body.cnt);
+        qchat.findOne({_id: answerInfo.pageID, authorID: req.user}).then(doc => {
+            if (doc) {
+                let questionInfo = doc.mark.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === answerInfo.cntID)[0];
+                if (questionInfo) {
+                    let questionTotal = questionInfo.questionTotal
+                    let perScore = 100/questionTotal;
+                    let score = questionInfo.score;
+                    for (let ans of answerInfo.answer) {
+                        if (ans.correct) {
+                           score = score + perScore;
+                        }
+                    }
+                    let updateMarkDoc = doc.mark.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) !== answerInfo.cntID);
+                    let _id = objectID();
+                    let created = Date.now();
+                    let cnt = {
+                        authorID: questionInfo.authorID, username: questionInfo.username, userImage: questionInfo.userImage,
+                        content: `Score: ${score}%   Mark: ${(score/100)*questionTotal} / ${questionTotal}`, verified: true, _id, created
+                    }
+                    if (doc.chat && doc.chat._id) {
+                        Promise.all([cbtchat.findByIdAndUpdate(doc.chat._id, {$push: {chat: cnt}}),
+                            qchat.findOneAndUpdate({_id: answerInfo.pageID, 'chat.user.authorID': {$ne: questionInfo.authorID}}, {$push: {'chat.user': {authorID: questionInfo.authorID, username: questionInfo.username, userImage: questionInfo.userImage}}})]).then(cnt => {
+                            let total = cnt[0].chat.length + 1;
+                            qchat.findByIdAndUpdate(answerInfo.pageID, {'chat.total': total, mark: updateMarkDoc}).then(result => {
+                                res.status(200).send({pageInfo: {_id: answerInfo.pageID, score, mark: (score/100)*questionTotal, showResult: doc.showResult,
+                                    chat: doc.chat._id,  enableDelete: doc.enableDelete, enableComment: doc.enableComment}});
+                                return notifications('qchatResult', questionInfo.authorID, {userID: doc.authorID, ID: answerInfo.pageID}, false);
+                            })
+                        })
+                    } else {
+                        let newDoc = new cbtchat({
+                            chat: [cnt]
+                        });
+                        newDoc.save().then(result => {
+                            let chat = {total: 1, _id: result._id, user: [{authorID: questionInfo.authorID, username: questionInfo.username, userImage: questionInfo.userImage}]};
+                            doc.updateOne({chat, mark: updateMarkDoc}).then(() => {
+                                res.status(200).send({pageInfo: {_id: answerInfo.pageID, score, mark: (score/100)*questionTotal, showResult: doc.showResult,
+                                    chat: doc.chat._id, enableDelete: doc.enableDelete, enableComment: doc.enableComment}})
+                                notifications('qchatResult', questionInfo.authorID, {userID: doc.authorID, ID: answerInfo.pageID}, false);
+                                return
+                            });
+                        })
+                    }
+                }
+            }
+        })
+    }
+   
 });
 
 module.exports = router

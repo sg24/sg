@@ -16,7 +16,7 @@ class CheckBox extends Component {
                     <View style={styles.container}>
                         <View style={[styles.checkWrapper, this.props.circle ? styles.circle : null, this.props.outterStyle]}>
                             <View style={[styles.check, this.props.circle ? styles.checkCircle : null, 
-                                this.props.checked ? styles.checked: null, this.props.innerStyle]}></View>
+                                this.props.checked ? this.props.checkedStyle ? this.props.checkedStyle: styles.checked: null, this.props.innerStyle]}></View>
                         </View>
                         <Text style={[styles.title, this.props.textStyle]}>
                             { this.props.title }

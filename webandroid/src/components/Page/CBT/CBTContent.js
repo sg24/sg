@@ -50,13 +50,20 @@ const cbtContent = props => {
                     <Text style={[styles.textStyle, styles.detText]}>Allowed User</Text>
                 </Button>: null}
                 {(props.cnt.mark > 0) &&  props.userID === props.cnt.authorID ?
-                <Button style={styles.userOptItem} onPress={props.edit}>
-                    <Ionicons name="create-outline" size={20}/>
-                    <Text style={[styles.textStyle, styles.detText]}>Mark Question</Text>
+                <Button style={styles.userOptNotificaion} onPress={props.mark}>
+                    <View style={styles.userOptNotificaionItem}>
+                        <Ionicons name="create-outline" size={20}/>
+                        <Text style={[styles.textStyle, styles.detText]}>Mark Question</Text>
+                    </View>
+                    <TabBarge
+                        onPress={props.mark}
+                        notification={props.cnt.mark} 
+                        style={styles.tabBarge}
+                        textStyle={styles.tabBargeText}/>
                 </Button>: null}
-                { props.cnt.showResult ?
-                <Button style={styles.userOptItem} onPress={props.delete}>
-                    <Ionicons name="pencil-outline" size={20} />
+                { props.cnt.enableComment || props.cnt.showResult ?
+                <Button style={styles.userOptItem} onPress={props.chat}>
+                    <Ionicons name="chatbox-ellipses-outline" size={20} />
                     <Text style={[styles.textStyle, styles.detText]}>Result</Text>
                 </Button> : null}
                 <Button style={styles.userOptItem} onPress={props.delete}>
@@ -118,10 +125,10 @@ const cbtContent = props => {
                         <TouchableNativeFeedback onPress={props.showUserOpt}>
                             <Ionicons name="ellipsis-horizontal-outline" size={20}/>
                         </TouchableNativeFeedback>
-                        {props.cnt.request > 0 ?
+                        {(props.cnt.request + props.cnt.mark) > 0 &&  (props.userID === props.cnt.authorID) ?
                         <TabBarge
                             onPress={props.showUserOpt}
-                            notification={props.cnt.request} 
+                            notification={(props.cnt.request + props.cnt.mark)} 
                             style={{top: -4, right: 0}}
                             textStyle={styles.tabBargeText}/> : null}
                     </View>
@@ -135,8 +142,7 @@ const cbtContent = props => {
                                     style={styles.title} 
                                     content={props.cnt.title}/>
                             </Pressable>
-                            <Text style={[styles.textStyle, styles.contentText]}>Total: 
-                            <Text style={{fontWeight: 'bold', marginLeft: 10}}>{ props.cnt.qchatTotal } Questions</Text></Text>
+                            <Text style={[styles.textStyle, styles.contentText]}>Total: <Text style={{fontWeight: 'bold', marginLeft: 10}}>{ props.cnt.qchatTotal } Questions</Text></Text>
                             <Text style={[styles.textStyle]}>Duration: <Text style={{fontWeight: 'bold', marginLeft: 10}}>{`${props.cnt.hour} hour ${props.cnt.minute} minute ${props.cnt.second} second`}</Text></Text>
                         </View>
                         { props.cnt.media.length > 0  ?
@@ -156,28 +162,12 @@ const cbtContent = props => {
                                     )}/>
                         </View> : null}
                     </View>
-                    {/* <Pressable 
-                        onPress={props.pagePreview}>
-                        <Uridetect
-                            numberOfLines={1}
-                            onPress={props.openURI} 
-                            style={styles.title}
-                            content={props.cnt.title}/>
-                    </Pressable>
-                    <Pressable 
-                        onPress={props.pagePreview}>
-                        <Uridetect
-                            numberOfLines={2}
-                            onPress={props.openURI} 
-                            style={styles.content} 
-                            content={props.cnt.content}/>
-                    </Pressable> */}
                     { previewUri.length > 0 ? 
                         <ScrollView style={styles.linkPreview} horizontal>
                             <LinkPreview 
                                 links={previewUri}/>
                         </ScrollView>: null}
-                    { props.cnt.chat && props.cnt.chat.user.length > 0 ? 
+                    { props.cnt.chat && props.cnt.chat.user.length > 0 && (props.cnt.enableComment || props.cnt.showResult) ? 
                     <TouchableNativeFeedback  onPress={props.chat}>
                         <View style={styles.userComment}>
                             { props.cnt.chat.user.map((user, index) => (
@@ -189,7 +179,7 @@ const cbtContent = props => {
                     {props.userID === props.cnt.authorID ? 
                         <Button 
                             onPress={props.chat}
-                            disabled={!props.cnt.enableComment}
+                            disabled={!props.cnt.enableComment && !props.cnt.showResult}
                             style={{paddingVertical: 0}}>
                             <View style={styles.detContent}>
                                 <Ionicons name="chatbox-ellipses-outline" size={24}/>

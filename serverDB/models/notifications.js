@@ -89,6 +89,12 @@ const NotificationsSchema = new Schema({
     qchatReject: [{
         ...defaultContentSchema
     }],
+    qchatMark: [{
+        ...defaultContentSchema
+    }],
+    qchatResult: [{
+        ...defaultContentSchema
+    }],
 })
 
 const notifications = mongoose.model('notifications', NotificationsSchema);

@@ -16,7 +16,7 @@ import Settings from '../../components/UI/Settings/Settings';
 import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
-import ExamItem from '../../components/Page/Exam/Exam';
+import MarkExamItem from '../../components/Page/MarkExam/MarkExam';
 import Carousel from '../../components/UI/Carousel/Carousel';
 import PagePreview from '../../components/Page/Preview/Preview';
 import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
@@ -29,15 +29,13 @@ import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 import TabBarge from '../../components/UI/TabBarge/TabBarge'
 import BoxShadow from '../../components/UI/BoxShadow/BoxShadow';
 
-class Exam extends Component {
+class MarkExam extends Component {
     constructor(props) {
         super(props);
         this.state = {
             viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
             pageID: this.props.route.params.pageID,
-            duration: '00:00:00',
-            totalDuration: null,
-            durationID: null,
+            mark: this.props.route.params.mark,
             showChatBox: null,
             showSharePicker: null,
             showActionSheet: false,
@@ -53,54 +51,40 @@ class Exam extends Component {
 
     componentDidMount() {
         Dimensions.addEventListener('change', this.updateStyle)
-        if (this.state.pageID) {
+        if (this.state.pageID && this.state.mark) {
             this._unsubscribe = this.props.navigation.addListener('focus', () => {
-                this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'exam', 'getExam', this.state.pageID);
+                if (this.state.pageID && this.state.mark) {
+                    this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'exam', 'getMarkinfo', this.state.pageID);
+                } else {
+                    this.props.navigation.navigate(Platform.OS === 'web' ? 'CBTWeb' :'CBT')
+                }
             });
             this._unsubscribeBackPress = BackHandler.addEventListener("hardwareBackPress", this.backActionHandler);
             this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
                 this.props.onPageReset();
                 this._unsubscribeBackPress.remove();
-                clearInterval(this.state.durationID);
-                this.setState({pageID: null, duration: '00:00:00', showChatBox: null,totalDuration: null,durationID: null,
-                showSharePicker: null,showActionSheet: false, selectedAnswer: []});
+                this.setState({pageID: null, mark: null, showChatBox: null, showSharePicker: null,showActionSheet: false, selectedAnswer: []});
             });
         } else {
             this.props.navigation.navigate(Platform.OS === 'web' ? 'CBTWeb' :'CBT')
         }
     }
 
-    componentDidUpdate() {
-        if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && this.state.totalDuration === null) {
-            let durationID = setInterval(() => {
-                let updateDuration = (this.state.totalDuration ? this.state.totalDuration : 
-                    this.props.fetchCnt && this.props.fetchCnt.length > 0 ? this.props.fetchCnt[0].duration: 0) - 1000;
-                if (updateDuration > 0) {
-                    this.durationUpdateHandler(updateDuration);
-                } else {
-                    this.submitAnswerHandler();
-                }
-            }, 1000);
-            this.setState({totalDuration: this.props.fetchCnt[0].duration, durationID});
-        }
-    }
-
     componentWillUnmount() {
-        if (this.state.pageID) {
+        if (this.state.pageID && this.state.mark) {
             this._unsubscribe();
             this._unsubscribeBackPress.remove();
             this._unsubscribeBlur();
-            clearInterval(this.state.durationID);
         }
         Dimensions.removeEventListener('change', this.updateStyle);
     }
 
     reloadFetchHandler = () => {
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'exam', 'getExam', this.state.pageID);
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'exam', 'getMarkinfo', this.state.pageID);
     }
 
     backActionHandler = () => {
-        if (this.props.fetchCnt && (this.props.fetchCnt[0].score || this.props.fetchCnt[0].score === 0 || this.props.fetchCnt[0].pending || this.props.fetchCnt[0].pending === 0)) {
+        if (this.props.fetchCnt && (this.props.fetchCnt[0].score || this.props.fetchCnt[0].score === 0)) {
             this.navigationHandler(Platform.OS === 'web' ? 'CBTWeb' : 'CBT')
         } else {
             Alert.alert('Are you sure ,you want to cancel this exam', null, [{title: 'Exit'}]);
@@ -116,27 +100,13 @@ class Exam extends Component {
         this.setState({showSharePicker: null, showChatBox: null})
     }
 
-    durationUpdateHandler = (durationMillis) => {
-        let hour  = durationMillis / 3600000 > 0 ? Math.floor(durationMillis/3600000) : null; 
-        let minute = hour ? (durationMillis - (hour * 3600000))/60000 > 0 ?  Math.floor((durationMillis - (hour * 3600000))/60000) : null : 
-        (durationMillis / 60000) > 0 ?  Math.floor(durationMillis / 60000) : null;
-        let second = hour && !minute ?  (durationMillis - (hour * 3600000))/1000 > 0 ?  Math.floor((durationMillis - (hour * 3600000))/1000) : null :
-        (minute && !hour) ? (durationMillis - (minute * 60000) / 6000) > 0 ?  Math.floor((durationMillis - (minute * 60000)) / 1000) : null :
-        hour && minute ? (durationMillis - ((hour * 3600000) + (minute * 60000)))/1000 > 0  ? (durationMillis - ((hour * 3600000) + (minute * 60000)))/1000 : null :
-        !hour && !minute ? durationMillis / 1000 > 0 ? Math.floor(durationMillis / 1000) : null : null;
-        let updateHour = hour ? hour < 10 ? `0${hour}` : hour : '00';
-        let updateMin = minute ? minute < 10 ? `0${minute}` : minute : '00';
-        let updateSec = second ? second < 10 ? `0${second}` : second : '00';
-        this.setState({duration: `${updateHour}:${updateMin}:${updateSec}`, totalDuration: durationMillis});
-    }
-
     showCommentHandler = () => {
         this.setState({showChatBox: true})
     }
 
     showShareHandler = () => {
         let updateCnt = {_id: this.state.pageID, cntType: 'exam', content: 
-            `${this.props.fetchCnt[0].title} , Name: ${this.props.username}, Score: ${this.props.fetchCnt[0].score}%  Mark: ${this.props.fetchCnt[0].mark} / ${ this.props.fetchCnt[0].question.length}`, verified: true};
+            `${this.props.fetchCnt[0].title} , Name: ${this.state.mark.username}, Score: ${this.props.fetchCnt[0].score}%  Mark: ${this.props.fetchCnt[0].mark} / ${ this.state.mark.questionTotal}`, verified: true};
         this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
         icon: ['people-outline', 'chatbox-outline', 'chatbubble-ellipses-outline'],cnt: updateCnt}})
     }
@@ -154,55 +124,30 @@ class Exam extends Component {
         }
     };
 
-    selectAnswerHandler = (val, questionID, examType, option) => {
+    selectAnswerHandler = (val, questionID) => {
         let selectedAnswer = [...this.state.selectedAnswer];
         let checkSelected = selectedAnswer.filter(cnt => cnt._id === questionID)[0];
         if (checkSelected) {
-            if (checkSelected.examType === 'Objective') {
-                if (!val) {
-                    let optionItem = checkSelected.option.filter(opt => opt !== option);
-                    if (optionItem.length < 1) {
-                        selectedAnswer = selectedAnswer.filter(cnt => cnt._id !== questionID);
-                    } else {
-                        checkSelected.option = optionItem;
-                        let checkSelectedIndex = selectedAnswer.findIndex(cnt => cnt._id === questionID);
-                        selectedAnswer[checkSelectedIndex] = checkSelected;
-                    }
-                } else {
-                    let optionItem = checkSelected.option.filter(opt => opt !== option);
-                    optionItem.push(option);
-                    checkSelected.option = optionItem;
-                    let checkSelectedIndex = selectedAnswer.findIndex(cnt => cnt._id === questionID);
-                    selectedAnswer[checkSelectedIndex] = checkSelected;
-                }
-            } else {
-                checkSelected.answer = val;
-                let checkSelectedIndex = selectedAnswer.findIndex(cnt => cnt._id === questionID);
-                selectedAnswer[checkSelectedIndex] = checkSelected;
+            if (checkSelected.correct !== val) {
+                checkSelected.correct = val;
+                let selectedAnswerIndex = selectedAnswer.findIndex(cnt => cnt._id === questionID);
+                selectedAnswer[selectedAnswerIndex] = checkSelected;
             }
         } else {
-            if (examType === 'Objective') { 
-                selectedAnswer.push({_id: questionID, examType, option: [option]});
-            } else {
-                selectedAnswer.push({_id: questionID, examType, answer: val});
-            }
+            selectedAnswer.push({_id: questionID, correct: val})
         }
         this.setState({selectedAnswer})
     }
 
     submitAnswerHandler = () => {
-        clearInterval(this.state.durationID);
-        this.props.onPageReaction('exam', this.state.pageID, 'markExam', {cnt : JSON.stringify({pageID: this.state.pageID, answer: this.state.selectedAnswer, 
-            questionTotal: this.props.fetchCnt[0].question.length})});
-        this.setState({duration: '00:00:00', totalDuration: 0});
+        this.props.onPageReaction('exam', this.state.mark._id, 'markTheoryexam', {cnt: JSON.stringify({pageID: this.state.pageID, answer: this.state.selectedAnswer, 
+            questionTotal: this.state.mark.questionTotal, cntID: this.state.mark._id})});
     }
 
     render () {
         let pageBackground = this.props.settings.page.backgroundImage  && this.props.settings.page.enableBackgroundImage;
         let Wrapper = pageBackground ? ImageBackground : View;
         let wrapperProps = pageBackground ? {source: {uri: this.props.settings.page.backgroundImage}, resizeMode: 'cover'} :{}
-        let startPageReaction = this.props.pageReaction.length > 0 ? 
-            this.props.pageReaction.filter(id => id === this.state.pageID).length > 0 ? true : false : false;
 
         let header = null;
         
@@ -219,7 +164,7 @@ class Exam extends Component {
            </View>
         )
 
-        if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
+        if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && this.state.mark && this.state.mark.question.length > 0) {
             cnt = (
                 <View style={styles.container}>
                     { header }
@@ -228,53 +173,25 @@ class Exam extends Component {
                         style={[styles.container, this.state.viewMode === 'landscape' ? 
                         {backgroundColor: this.props.settings.backgroundColor} : null]}>
                         <View style={styles.exam}>
-                            <View>
-                                <View style={styles.pageInfo}>
-                                    <View style={styles.pageUpdateInfo}>
-                                    {this.carousel && this.carousel._carousel ? <TabBarge
-                                            notification={this.carousel._carousel.currentIndex + 1}
-                                            style={styles.currentPage}
-                                            textStyle={styles.textStyle}/>: null}
-                                        <TabBarge
-                                            notification={this.props.fetchCnt[0].question.length}
-                                            style={styles.totalPage}
-                                            textStyle={styles.totalPageText} />
-                                    </View>
-                                    <Button 
-                                        style={styles.submitButton} 
-                                        disabled={(this.state.totalDuration === 0 && startPageReaction) || this.state.selectedAnswer.length < 1}
-                                        onPress={this.submitAnswerHandler}
-                                        submitting={(this.state.totalDuration === 0) && startPageReaction}
-                                        loaderStyle="#fff">
-                                        <Ionicons name="checkmark-outline" size={16} color="#fff"/>
-                                        <Text style={styles.submitButtonText}>Submit</Text>
-                                    </Button>
-                                    <View style={styles.durationWrapper}>
-                                        <Text style={[styles.duration, this.state.totalDuration < 60000 ? styles.durationElapse : null]}>{ this.state.duration }</Text>
-                                    </View>
-                                </View>
-                            </View>
                             <View style={{flex: 1}}>
                                 <Carousel 
                                     ref={ref=> this.carousel = ref}
                                     wrapperStyle={{backgroundColor: 'transparent'}}
-                                    renderData={this.props.fetchCnt[0].question}
+                                    renderData={this.state.mark.question}
                                     hideSeeker={!(Platform.OS === 'web' && this.state.viewMode === 'landscape')}
                                     _renderItem={({item:cnt, index}) => (
-                                    <ExamItem
+                                    <MarkExamItem
+                                        index={index}
                                         cnt={cnt}
+                                        cntID={this.state.mark._id}
+                                        questionTotal={this.state.mark.question.length}
                                         selectAnswer={this.selectAnswerHandler}
                                         selectedAnswer={this.state.selectedAnswer}
-                                        viewMode={this.state.viewMode} />
+                                        viewMode={this.state.viewMode}
+                                        disableButton={this.state.selectedAnswer.length !== this.state.mark.question.length}
+                                        submitAnswerHandler={this.submitAnswerHandler}
+                                        pageReaction={this.props.pageReaction} />
                                     )}/>
-                                {/* <Button 
-                                    style={styles.submitButton} 
-                                    disabled={this.props.start}>
-                                    <Ionicons name="checkmark-outline" size={16} color="#fff"/>
-                                    <Text style={styles.submitButtonText}>Submit</Text>
-                                </Button> */}
-                                { this.state.totalDuration === 0  ? 
-                                    <AbsoluteFill style={{zIndex: 9999999}}/> : null}
                             </View>
                         </View>
                     </Wrapper>
@@ -310,7 +227,7 @@ class Exam extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
-                    { this.props.fetchCnt[0].score || this.props.fetchCnt[0].score === 0 || this.props.fetchCnt[0].pending || this.props.fetchCnt[0].pending === 0 ? (
+                    { this.props.fetchCnt[0].score || this.props.fetchCnt[0].score === 0 ? (
                         <AbsoluteFill style={styles.absoluteFill}>
                             <DefaultHeader
                                 onPress={() => this.navigationHandler(Platform.OS === 'web' ? 'CBTWeb' : 'CBT')}
@@ -320,17 +237,16 @@ class Exam extends Component {
                                 style={[styles.container, this.state.viewMode === 'landscape' ? 
                                 {backgroundColor: this.props.settings.backgroundColor} : null, {justifyContent: 'center', alignItems: 'center'}]}>
                                     <BoxShadow style={styles.result}>
-                                        { this.props.fetchCnt[0].score || this.props.fetchCnt[0].score === 0 ?
                                         <View>
                                             <Text style={styles.mark}>Score:</Text>
                                             <Text style={styles.score}>{`${this.props.fetchCnt[0].score}%`}</Text>
                                             <View style={{flexDirection: 'row'}}>
                                                 <Text style={[styles.mark, {marginRight: 10}]}>Mark:</Text>
-                                                <Text style={styles.mark}>{`${this.props.fetchCnt[0].mark} / ${ this.props.fetchCnt[0].question.length}`}</Text>
+                                                <Text style={styles.mark}>{`${this.props.fetchCnt[0].mark} / ${ this.state.mark.questionTotal}`}</Text>
                                             </View>
                                                 <View style={{marginTop: 10}}>
                                                     {this.props.fetchCnt[0].showResult ?
-                                                        <Text style={{marginBottom: 10, color: '#777'}}>Your result as being added </Text> : null}
+                                                        <Text style={{marginBottom: 10, color: '#777'}}>Result as being added </Text> : null}
                                                     <View style={styles.resultButton}>
                                                         {this.props.fetchCnt[0].showResult || this.props.fetchCnt[0].enableComment ?
                                                         <Button style={styles.chatButton} onPress={this.showCommentHandler}>
@@ -343,7 +259,7 @@ class Exam extends Component {
                                                         </Button>
                                                     </View>
                                                 </View>
-                                        </View> : <Text style={styles.mark}>Your answers as being submitted for marking</Text>}
+                                        </View>
                                     </BoxShadow>
                             </Wrapper>
                         </AbsoluteFill>) : null}
@@ -412,60 +328,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         flex: 1
     },
-    pageInfo: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 20
-    },
-    currentPage: {
-        position: 'relative',
-        top: 0,
-        right: 0,
-        width: 30,
-        height: 30,
-        borderRadius: 15,
-        backgroundColor: '#437da3'
-    },
-    totalPage: {
-        position: 'relative',
-        top: 0,
-        right: 0,
-        width: 30,
-        height: 30,
-        borderRadius: 15,
-        backgroundColor: '#dcdbdc',
-        marginLeft: 5
-    },
-    totalPageText: {
-        color: '#333',
-        fontSize: 15
-    },
-    pageUpdateInfo: {
-        flexDirection: 'row'
-    },
-    durationWrapper: {
-        backgroundColor: '#e9ebf2',
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        borderRadius: 99999
-    },
-    duration: {
-        fontSize: 16,
-        color: '#333'
-    },
-    durationElapse: {
-        color: '#ff1600'
-    },
-    submitButton: {
-        backgroundColor: '#437da3',
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        borderRadius: 5,
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginRight: 10
-    },
     chatButton: {
         backgroundColor: '#437da3',
         paddingVertical: 5,
@@ -502,7 +364,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        width: '100%'
+        width: '100%',
+        flex: 1
     },
     shareButton: {
         backgroundColor: '#dcdbdc',
@@ -538,10 +401,10 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchPage: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
         onPageReset: () => dispatch(actions.pageReset()),
-        onPageReaction: (page, pageID, reactionType, cnt) => dispatch(actions.pageReactionInit(page, pageID, reactionType,  cnt)),
+        onPageReaction: (page, pageID, reactionType, cnt) => dispatch(actions.pageReactionInit(page, pageID, reactionType, cnt)),
         onPageReactionReset: () => dispatch(actions.pageReactionReset()),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Exam);
+export default connect(mapStateToProps, mapDispatchToProps)(MarkExam);
   

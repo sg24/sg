@@ -572,8 +572,8 @@ class CBT extends Component {
                         info="CBT submitted successfully !"
                         infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                         closeModal={this.resetFormHandler}
-                        button={[{title: 'View', onPress: () => this.navigationHandler('CBT')},
-                        {title: 'Add', onPress: this.examContent.resetFormHandler, style: styles.modalButton}]}/> : null}
+                        button={[{title: 'View', onPress: () => this.navigationHandler(Platform.OS === 'web' ? 'CBTWeb' :'CBT')},
+                        {title: 'Add', onPress: this.examContent ? this.examContent.resetFormHandler : null, style: styles.modalButton}]}/> : null}
             </View>
         )
       return (

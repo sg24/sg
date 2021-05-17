@@ -94,11 +94,12 @@ class Preview extends Component {
                         onPress={this.props.openURI} 
                         style={styles.title} 
                         content={this.props.cnt.title}/>: null}
-                    <Uridetect
-                        onPress={this.props.openURI} 
-                        style={styles.content} 
-                        content={this.props.cnt.content}/>
-                     { previewUri.length > 0 ? 
+                    {this.props.cnt.content && this.props.showContent !== false ?
+                        <Uridetect
+                            onPress={this.props.openURI} 
+                            style={styles.content} 
+                            content={this.props.cnt.content}/> : null}
+                        { previewUri.length > 0 ? 
                         <View style={styles.linkPreview}>
                             <LinkPreview 
                                 links={previewUri}/>

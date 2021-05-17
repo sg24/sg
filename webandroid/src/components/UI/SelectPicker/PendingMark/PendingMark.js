@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text,  StyleSheet } from 'react-native';
 import Ionicons from 'ionicons';
 
 import Button from '../../../UI/Button/Button';
@@ -9,15 +9,9 @@ import LoadMore from '../../../UI/LoadMore/LoadMore';
 import Avatar from '../../Avatar/Avatar';
 
 const privateConv = props => {
-    let picked = props.picked && props.picked.length > 0 ? 
-        props.picked.filter(id => id === props.userDet._id)[0] ? true : false : false;
-
     let userStatus = (
         <View style={[styles.userStatus]}></View>
     );
-    
-    let startSelectReaction = props.selectReaction.length > 0 ? 
-    props.selectReaction.filter(id => id === props.userDet._id).length > 0 ? true : false : false;
 
     if (props.userDet.status) {
         userStatus = (
@@ -25,36 +19,15 @@ const privateConv = props => {
         );
     }
 
-
     return (
         <View style={styles.container}>
             <BoxShadow
                 style={styles.wrapper}>
-                <Pressable
-                    android_ripple={{radius: 10}}
-                    onLongPress={props.pick}
-                    onPress={props.picked && props.picked.length > 0 ? props.pick : null}
-                    style={({ pressed }) => {
-                        let style = {}
-                        if (pressed) {
-                            style.backgroundColor = '#e9ebf2';
-                        }
-                        return {
-                            ...style,
-                            padding: 10,
-                            borderRadius: 10,
-                            flexDirection: 'row',
-                            width: '100%'
-                        };
-                    }}>
+                <View
+                    style={{ padding: 10, borderRadius: 10, flexDirection: 'row', width: '100%'}}>
                     <View>
-                        <Avatar userImage={props.userDet.userImage} iconSize={40} imageSize={60} enableBorder={false} pressable/>
-                        {/* {userStatus} */}
-                        {picked ? (
-                            <View style={styles.pick}>
-                                <Ionicons name="checkmark-outline" color="#16cf27" size={40} />
-                            </View>
-                        ): null}
+                        <Avatar userImage={props.userDet.userImage} iconSize={40} imageSize={60} enableBorder={false} onPress={props.showProfile}/>
+                          {/* {userStatus} */}
                     </View>
                     <View style={styles.det}>
                         <View style={{justifyContent: 'flex-start', alignItems: 'flex-start'}}>
@@ -62,17 +35,13 @@ const privateConv = props => {
                                 numberOfLines={1}  title={props.userDet.username} style={styles.userDet} onPress={props.showProfile}/>
                         </View>
                         <View style={styles.buttonWrapper}>
-                            {!props.disabledRightButton ?
-                            <Button onPress={props.allowUser} style={styles.useroptButton} disabled={startSelectReaction}>
-                                <Text numberOfLines={1} style={styles.allow}>Allow</Text>
-                            </Button> : null}
-                            <Button onPress={props.rejectUser} style={styles.useroptAltButton} disabled={startSelectReaction}>
-                                <Ionicons name="close" size={16}/>
-                                <Text numberOfLines={1} style={styles.remove}>Remove</Text>
+                            <Button onPress={props.mark} style={styles.useroptButton}>
+                                <Ionicons name="checkmark-outline" size={16} color="#fff"/>
+                                <Text numberOfLines={1} style={styles.mark}>Mark</Text>
                             </Button>
                         </View>
                     </View>
-                </Pressable>
+                </View>
             </BoxShadow>
             { props.lastItem && props.enableLoadMore ? (
                 <LoadMore
@@ -123,6 +92,7 @@ const styles = StyleSheet.create({
     },
     userDet: {
         fontSize: 18,
+        color: '#333'
     },
     buttonWrapper: {
         flexDirection: 'row',
@@ -140,37 +110,11 @@ const styles = StyleSheet.create({
         shadowOffset: {
             width: 0,
             height: 0,
-        },
-        marginRight: 10
-    },
-    useroptAltButton: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 10,
-        paddingVertical: 4,
-        borderRadius: 5,
-        backgroundColor: '#dcdbdc',
-        shadowOffset: {
-            width: 0,
-            height: 0,
         }
     },
-    allow: {
-        color: '#fff'
-    },
-    remove: {
+    mark: {
+        color: '#fff',
         marginLeft: 5
-    },
-    pick: {
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0, .65)',
-        borderRadius: 30
     }
 });
 

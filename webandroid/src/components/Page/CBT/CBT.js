@@ -17,6 +17,7 @@ const cbt = props => {
             report={props.report.bind(this, cnt._id)}
             showUserOpt={props.showUserOpt.bind(this, cnt._id)}
             showRequest={props.showRequest.bind(this, cnt._id)}
+            mark={props.mark.bind(this, cnt._id)}
             mediaPreview={props.mediaPreview}
             saveMedia={props.saveMedia}
             closeModal={props.closeModal}

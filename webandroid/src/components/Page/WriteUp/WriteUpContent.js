@@ -142,7 +142,7 @@ const writeupContent = props => {
                             <LinkPreview 
                                 links={previewUri}/>
                         </ScrollView>: null}
-                    { props.cnt.chat && props.cnt.chat.user.length > 0 ? 
+                    { props.cnt.chat && props.cnt.chat.user.length > 0 && props.cnt.enableComment ? 
                     <TouchableNativeFeedback  onPress={props.chat}>
                         <View style={styles.userComment}>
                             { props.cnt.chat.user.map((user, index) => (

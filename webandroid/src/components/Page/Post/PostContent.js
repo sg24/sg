@@ -104,7 +104,7 @@ const postContent = props => {
                         <Uridetect
                             numberOfLines={2}
                             onPress={props.openURI} 
-                            style={styles.content} 
+                            style={props.cnt.content ? styles.content : null} 
                             content={props.cnt.content}/>
                     </Pressable>
                     { previewUri.length > 0 ? 

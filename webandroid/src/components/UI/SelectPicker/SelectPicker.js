@@ -16,6 +16,7 @@ import ErrorInfo from '../ErrorInfo/ErrorInfo';
 import Button from '../Button/Button';
 import NotificationModal from '../NotificationModal/NotificationModal';
 import PrivateConv from './PrivateConv/PrivateConv';
+import PendingMark from './PendingMark/PendingMark';
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 import InfoBox from '../InfoBox/InfoBox';
 import AbsoluteFill from '../AbsoluteFill/AbsoluteFill';
@@ -236,9 +237,24 @@ class SelectPicker extends Component {
                 ));
             }
 
+            if (this.props.selectType === 'pendingMark') {
+                items = this.props.fetchCnt.map((cnt, index) => (
+                    <PendingMark
+                        key={index}
+                        userDet={cnt}
+                        showProfile={() => this.navigationHandler('Profile', cnt.authorID)}
+                        lastItem={index === (this.props.fetchCnt.length - 1)}
+                        loadMore={this.loadMoreHandler}
+                        enableLoadMore={this.props.loadMore}
+                        start={this.props.fetchSelectcntStart}
+                        mark={() => this.props.markExam(cnt, this.props.pageID)}
+                        />
+                ));
+            }
+
             cnt =  (
                 <View style={styles.wrapper}>
-                    <Text style={styles.note}>Press and hold to select</Text>
+                    {this.props.showNote === false ? null : <Text style={styles.note}>Press and hold to select</Text>}
                     <ScrollView style={styles.scroll}>
                         { items }
                     </ScrollView>

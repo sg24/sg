@@ -1,14 +1,13 @@
 import React from 'react';
-import { View, Text, Image, Pressable, ActivityIndicator, StyleSheet } from 'react-native';
-import Constants from 'expo-constants';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 import Ionicons from 'ionicons';
 
 import Button from '../../../UI/Button/Button';
 import BoxShadow from '../../../UI/BoxShadow/BoxShadow';
 import LoadMore from '../../../UI/LoadMore/LoadMore';
+import Avatar from '../../Avatar/Avatar';
 
 const privateConv = props => {
-    let userImg = <Ionicons name="person" size={40} color="#777"/>
     let picked = props.picked && props.picked.length > 0 ? 
         props.picked.filter(id => id === props.userDet._id)[0] ? true : false : false;
 
@@ -21,11 +20,6 @@ const privateConv = props => {
             <View style={[styles.userStatus, styles.userStatusOn]}></View>
         );
     }
-
-    if (props.userDet.userImage) {
-        userImg = <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${props.userDet.userImage}`}} style={styles.userImageWrapper}/>;
-    }
-
 
     return (
         <View style={styles.container}>
@@ -49,10 +43,8 @@ const privateConv = props => {
                         };
                     }}>
                     <View>
-                        <View style={styles.userImageWrapper}>
-                            {userImg}
-                            {userStatus}
-                        </View>
+                        <Avatar userImage={props.userDet.userImage} iconSize={40} imageSize={60} enableBorder={false} pressable/>
+                        {userStatus}
                         {picked ? (
                             <View style={styles.pick}>
                                 <Ionicons name="checkmark-outline" color="#16cf27" size={40} />
@@ -98,15 +90,6 @@ const styles = StyleSheet.create({
             width: 0,
             height: 1,
         }
-    },
-    userImageWrapper: {
-        position: 'relative',
-        width: 60,
-        height: 60,
-        borderRadius: 30,
-        backgroundColor: '#e9ebf2',
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     userStatus: {
         position: 'absolute',

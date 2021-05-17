@@ -43,6 +43,7 @@ class CBT extends Component {
             showSettings: false,
             showPagePreview: null,
             showSelectPicker: null,
+            showSelectMarkPicker: null,
             allowedSelectPicker: null
         }
     }
@@ -60,7 +61,7 @@ class CBT extends Component {
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
             this.props.onPageReset();
             this.setState({ pageID: null, pageCntID: null, showChatBox: null,showSearch: false,search: '',showOption: false,showSettings: false,  showPagePreview: null,
-            showSelectPicker: null, allowedSelectPicker: null})
+            showSelectPicker: null, showSelectMarkPicker: null, allowedSelectPicker: null})
         });
         Dimensions.addEventListener('change', this.updateStyle)
     }
@@ -84,7 +85,7 @@ class CBT extends Component {
 
     closeModalHandler = () => {
         this.setState({pageCntID: null, showChatBox: null, pageID: null, showSharePicker: null, showPagePreview: null, 
-                showSelectPicker: null, allowedSelectPicker: false});
+                showSelectPicker: null, showSelectMarkPicker: null, allowedSelectPicker: false});
     }
 
     openURIHandler = (type, uri) => {
@@ -177,6 +178,14 @@ class CBT extends Component {
 
     allowedUserHandler = (pageID) => {
         this.setState({allowedSelectPicker: {selectType: 'cbtRequest', pageID}})
+    }
+
+    pendingMarkHandler = (pageID) => {
+        this.setState({showSelectMarkPicker: {selectType: 'pendingMark', pageID}})
+    }
+
+    markExamHandler = (mark, pageID) => {
+        this.props.navigation.navigate('MarkExam', {mark, pageID})
     }
 
     requestHandler = (pageID) => {
@@ -318,6 +327,7 @@ class CBT extends Component {
                                 report={this.reportHandler}
                                 showUserOpt={this.showUserOptHandler}
                                 showRequest={this.showRequestHandler}
+                                mark={this.pendingMarkHandler}
                                 mediaPreview={this.mediaPreviewHandler}
                                 saveMedia={this.saveMediaHandler}
                                 chat={this.chatHandler}
@@ -358,7 +368,8 @@ class CBT extends Component {
                             share={this.shareHandler}
                             report={this.reportHandler}
                             openURI={this.openURIHandler}
-                            closePagePreview={this.closeModalHandler} /> : null}
+                            closePagePreview={this.closeModalHandler}
+                            showContent ={false} /> : null}
                    { this.state.showPreview ? 
                         <MediaPreview
                             showOption={false}
@@ -400,6 +411,18 @@ class CBT extends Component {
                             pageSetting="userPage"
                             leftButton={{title: 'Remove', action: 'setRejectuser'}}
                             rightButton={{title: 'Allow', action: 'setAllowuser'}}/> : null}
+                    { this.state.showSelectMarkPicker ? 
+                        <SelectPicker
+                            selectType={this.state.showSelectMarkPicker.selectType}
+                            closeSelectPicker={this.closeModalHandler}
+                            title="Pending"
+                            page="cbt"
+                            pageID={this.state.showSelectMarkPicker.pageID}
+                            cntID="getPendingmark"
+                            searchID="searchPendingmark"
+                            pageSetting="userPage"
+                            markExam={this.markExamHandler}
+                            showNote={false}/> : null}
                     {this.state.allowedSelectPicker ? 
                         <SelectPicker
                             selectType={this.state.allowedSelectPicker.selectType}
