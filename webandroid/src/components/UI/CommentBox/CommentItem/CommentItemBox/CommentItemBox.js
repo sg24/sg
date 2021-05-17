@@ -134,7 +134,7 @@ const commentItemBox = props => {
                 <View style={[styles.userInfo, props.direction === 'right' ? styles.userInfoDirection : null]}>
                     {props.cnt.verified ? 
                         <View style={[styles.verified, 
-                            props.direction === 'right' ? styles.verifiedDirection : null]}><Ionicons name="checkmark" color="#16cf27" size={20}/></View> : null}
+                            props.direction === 'right' ? styles.verifiedDirection : null]}><Ionicons name="checkmark-circle-outline" color="#16cf27" size={20}/></View> : null}
                 {/* { props.showUserImage ? ( */}
                     <View style={[styles.userInfoCnt, 
                             props.direction === 'right' ? styles.userInfoCntDirection : null]}>

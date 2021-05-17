@@ -8,25 +8,16 @@ import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
 import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
-import SearchHeader from '../../components/UI/Header/Search';
-import Option from '../../components/UI/Option/Option';
 import Button from '../../components/UI/Button/Button';
-import Href from '../../components/UI/Href/Href';
-import Settings from '../../components/UI/Settings/Settings';
 import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
 import MarkExamItem from '../../components/Page/MarkExam/MarkExam';
 import Carousel from '../../components/UI/Carousel/Carousel';
-import PagePreview from '../../components/Page/Preview/Preview';
-import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
-import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import CommentBox from '../../components/UI/CommentBox/CommentBox';
 import SharePicker from '../../components/UI/SharePicker/SharePicker';
-import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
-import TabBarge from '../../components/UI/TabBarge/TabBarge'
 import BoxShadow from '../../components/UI/BoxShadow/BoxShadow';
 
 class MarkExam extends Component {
