@@ -136,9 +136,9 @@ class Home extends Component  {
                                         <Icon name="people-outline" size={22} style={activeUri === 'UsersWeb' ? styles.activeUri : styles.color}/>
                                     </View>
                                 </TouchableNativeFeedback>
-                                <TouchableNativeFeedback  onPress={this.props.onNavigate.bind(this, 'Room')} style={styles.navIcon}>
+                                <TouchableNativeFeedback  onPress={this.props.onNavigate.bind(this, 'GroupWeb')} style={styles.navIcon}>
                                     <View style={styles.navIcon}>
-                                        <Icon name="chatbubble-ellipses-outline" size={22} color={styles.color}/>
+                                        <Icon name="chatbubble-ellipses-outline" size={22} style={activeUri === 'GroupWeb' ? styles.activeUri : styles.color}/>
                                     </View>
                                 </TouchableNativeFeedback>
                                 <TouchableNativeFeedback  onPress={this.props.onNavigate.bind(this, 'CBTWeb')} style={styles.navIcon}>

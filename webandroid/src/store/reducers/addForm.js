@@ -29,6 +29,9 @@ const initialState = {
     appErrorSubmitError: null,
     appErrorSubmitted: false,
     appErrorStart: false,
+    groupSubmitError: null,
+    groupSubmitted: false,
+    groupStart: false,
     cntID: null
 };
 
@@ -42,6 +45,7 @@ const addFormReset = (state, action) => {
         chatRoomSubmitError: null, chatRoomSubmitted: false, chatRoomStart: false,
         pageReportSubmitError: null, pageReportSubmitted: false, pageReportStart: false,
         appErrorSubmitError: null, appErrorSubmitted: false, appErrorStart: false,
+        groupSubmitError: null, groupSubmitted: false, groupStart: false,
         cntID: null})
 };
 
@@ -64,6 +68,8 @@ const submitAddFormStart = (state, action) => {
         return updateObject(state, {pageReportSubmitError: null, pageReportStart: true})
     } else if (action.form === 'appError') {
         return updateObject(state, {appErrorSubmitError: null, appErrorStart: true})
+    } else if (action.form === 'group') {
+        return updateObject(state, {groupSubmitError: null, groupStart: true})
     } else {
         return updateObject(state, {resetSubmitError: null, resetStart: true})
     }
@@ -88,6 +94,8 @@ const submitAddFormFail = (state, action) => {
         return updateObject(state, {pageReportSubmitError: {message: action.err}, pageReportStart: false})
     } else if (action.form === 'appError') {
         return updateObject(state, {appErrorSubmitError: {message: action.err}, appErrorStart: false})
+    } else if (action.form === 'group') {
+        return updateObject(state, {groupSubmitError: {message: action.err}, groupStart: false})
     } else {
         return updateObject(state, {resetSubmitError: {message: action.err}, resetStart: false})
     }
@@ -113,6 +121,8 @@ const addformSubmitted = (state, action) => {
         return updateObject(state, {pageReportSubmitted: true, pageReportStart: false, cntID: action.cntID})
     } else if (action.form === 'appError') {
         return updateObject(state, {appErrorSubmitted: true, appErrorStart: false, cntID: action.cntID})
+    } else if (action.form === 'group') {
+        return updateObject(state, {groupSubmitted: true, groupStart: false, cntID: action.cntID})
     } else {
         return updateObject(state, {resetSubmitted: true, resetStart: false})
     }

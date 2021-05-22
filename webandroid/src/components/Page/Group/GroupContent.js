@@ -19,7 +19,7 @@ import Carousel from '../../UI/Carousel/Carousel';
 import MediaContainer from '../../UI/MediaContainer/MediaContainer';
 import TabBarge from '../../UI/TabBarge/TabBarge';
 
-const cbtContent = props => {
+const groupContent = props => {
     let AnimatedIcon = Animatable.createAnimatableComponent(Ionicons);
     let showAdvert = null;
     let userOpt = null;
@@ -35,7 +35,7 @@ const cbtContent = props => {
                 { (props.cnt.request > 0) && props.userID === props.cnt.authorID ?
                 <Button style={styles.userOptNotificaion} onPress={props.showRequest}>
                     <View style={styles.userOptNotificaionItem}>
-                        <Ionicons name="timer-outline" size={20}/>
+                        <Ionicons name="chatbubble-ellipses-outline" size={20}/>
                         <Text style={[styles.textStyle, styles.detText]}>Request</Text>
                     </View>
                     <TabBarge
@@ -44,27 +44,29 @@ const cbtContent = props => {
                         style={styles.tabBarge}
                         textStyle={styles.tabBargeText}/>
                 </Button> : null}
-                {(props.cnt.allowedUser > 0) &&  props.userID === props.cnt.authorID ?
-                <Button style={styles.userOptItem} onPress={props.allowedUser}>
-                    <Ionicons name="person-outline" size={20}/>
-                    <Text style={[styles.textStyle, styles.detText]}>Allowed User</Text>
-                </Button>: null}
-                {(props.cnt.mark > 0) &&  props.userID === props.cnt.authorID ?
+                { (props.cnt.pendingApprove > 0) && props.userID === props.cnt.authorID ?
+                <Button style={styles.userOptNotificaion} onPress={props.showPendingAppove}>
+                    <View style={styles.userOptNotificaionItem}>
+                        <Ionicons name="chatbubble-ellipses-outline" size={20}/>
+                        <Text style={[styles.textStyle, styles.detText]}>Approve</Text>
+                    </View>
+                    <TabBarge
+                        onPress={props.showPendingAppove}
+                        notification={props.cnt.pendingApprove} 
+                        style={styles.tabBarge}
+                        textStyle={styles.tabBargeText}/>
+                </Button> : null}
+                { (props.cnt.mark > 0) && props.userID === props.cnt.authorID ?
                 <Button style={styles.userOptNotificaion} onPress={props.mark}>
                     <View style={styles.userOptNotificaionItem}>
                         <Ionicons name="checkmark-outline" size={20}/>
-                        <Text style={[styles.textStyle, styles.detText]}>Mark Question</Text>
+                        <Text style={[styles.textStyle, styles.detText]}>Mark</Text>
                     </View>
                     <TabBarge
                         onPress={props.mark}
                         notification={props.cnt.mark} 
                         style={styles.tabBarge}
                         textStyle={styles.tabBargeText}/>
-                </Button>: null}
-                { props.cnt.enableComment || props.cnt.showResult ?
-                <Button style={styles.userOptItem} onPress={props.chat}>
-                    <Ionicons name="chatbox-ellipses-outline" size={20} />
-                    <Text style={[styles.textStyle, styles.detText]}>Result</Text>
                 </Button> : null}
                 <Button style={styles.userOptItem} onPress={props.delete}>
                     <Ionicons name="trash-bin-outline" size={20} />
@@ -85,7 +87,7 @@ const cbtContent = props => {
     let startPageReaction = props.pageReaction.length > 0 ? 
         props.pageReaction.filter(id => id === props.cnt._id).length > 0 ? true : false : false;
 
-    let previewUri = checkUri(props.cnt.title);
+    let previewUri = checkUri(props.cnt.content);
 
     if (props.cnt.advert && props.cnt.advert.length > 0) {
         showAdvert = (
@@ -103,6 +105,7 @@ const cbtContent = props => {
                 cnt={props.cnt.friendRequest}/>
         )
     }
+
     return (
         <>
             <View style={styles.container}>
@@ -125,67 +128,48 @@ const cbtContent = props => {
                         <TouchableNativeFeedback onPress={props.showUserOpt}>
                             <Ionicons name="ellipsis-horizontal-outline" size={20}/>
                         </TouchableNativeFeedback>
-                        {(props.cnt.request + props.cnt.mark) > 0 &&  (props.userID === props.cnt.authorID) ?
+                        {(props.cnt.request + props.cnt.pendingApprove + props.cnt.mark) > 0 &&  (props.userID === props.cnt.authorID) ?
                         <TabBarge
                             onPress={props.showUserOpt}
-                            notification={(props.cnt.request + props.cnt.mark)} 
+                            notification={transformNumber(props.cnt.request + props.cnt.pendingApprove + props.cnt.mark)} 
                             style={{top: -4, right: 0}}
                             textStyle={styles.tabBargeText}/> : null}
                     </View>
-                    <View style={styles.contentContainer}>
-                        <View style={[{width: props.cnt.media.length > 0 ? '60%' : '100%'}, styles.contentWrapper]}>
-                            <Pressable 
-                                onPress={props.pagePreview}>
-                                <Uridetect
-                                    numberOfLines={2}
-                                    onPress={props.openURI} 
-                                    style={styles.title} 
-                                    content={props.cnt.title}/>
-                            </Pressable>
-                            <Text style={[styles.textStyle, styles.contentText]}>Total: <Text style={{fontWeight: 'bold', marginLeft: 10}}>{ props.cnt.qchatTotal } Questions</Text></Text>
-                            <Text style={[styles.textStyle]}>Duration: <Text style={{fontWeight: 'bold', marginLeft: 10}}>{`${props.cnt.hour} hour ${props.cnt.minute} minute ${props.cnt.second} second`}</Text></Text>
+                    { props.cnt.media.length > 0  ?
+                    <View style={styles.mediaWrapper}>
+                            <Carousel 
+                                renderData={props.cnt.media}
+                                // hideSeeker
+                                _renderItem={({item:media, index}) => (
+                                    <View
+                                        style={{flex: 1, backgroundColor: '#e9ebf2'}}>
+                                        <MediaContainer
+                                            media={media}
+                                            onPress={props.mediaPreview.bind(this, props.cnt._id, props.cnt.media, index)} >
+                                            {media.description ? <Text numberOfLines={1} style={styles.description}>{ media.description }</Text> : null}
+                                        </MediaContainer>
+                                    </View>
+                                )}/>
+                    </View> : null}
+                    <Pressable 
+                        onPress={props.pagePreview}>
+                        <Uridetect
+                            numberOfLines={1}
+                            onPress={props.openURI} 
+                            style={styles.title}
+                            content={props.cnt.title}/>
+                    </Pressable>
+                    <TouchableNativeFeedback onPress={props.member}>
+                        <View style={styles.memberWrapper}>
+                            <Text style={[styles.memberText, styles.textStyle]}>{ transformNumber(props.cnt.member) } <Text style={{marginLeft: 10}}>Members</Text></Text>
                         </View>
-                        { props.cnt.media.length > 0  ?
-                        <View style={styles.mediaWrapper}>
-                                <Carousel 
-                                    renderData={props.cnt.media}
-                                    hideSeeker
-                                    _renderItem={({item:media, index}) => (
-                                        <View
-                                            style={{flex: 1, backgroundColor: '#e9ebf2'}}>
-                                            <MediaContainer
-                                                media={media}
-                                                onPress={props.mediaPreview.bind(this, null, props.cnt.media, index)} >
-                                                {media.description ? <Text numberOfLines={1} style={styles.description}>{ media.description }</Text> : null}
-                                            </MediaContainer>
-                                        </View>
-                                    )}/>
-                        </View> : null}
-                    </View>
+                    </TouchableNativeFeedback>
                     { previewUri.length > 0 ? 
                         <ScrollView style={styles.linkPreview} horizontal>
                             <LinkPreview 
                                 links={previewUri}/>
                         </ScrollView>: null}
-                    { props.cnt.chat && props.cnt.chat.user.length > 0 && (props.cnt.enableComment || props.cnt.showResult) ? 
-                    <TouchableNativeFeedback  onPress={props.chat}>
-                        <View style={styles.userComment}>
-                            { props.cnt.chat.user.map((user, index) => (
-                            <Avatar key={index} userImage={user.userImage} iconSize={20} style={[styles.userCommentImage, {left: index !== 0 ? -(index*8) : 'auto'}]}/> ))}
-                            <Text  numberOfLines={1} style={[styles.userCommentText, {marginLeft: props.cnt.chat.user.length > 1 ? -((props.cnt.chat.user.length*8)-15) : 10}]}>{props.cnt.chat.user[0].username} {props.cnt.chat.user.length > 1 ? "and other's" : ''} Result added</Text>
-                        </View>
-                    </TouchableNativeFeedback> : null}
                     <View style={styles.det}>
-                    {props.userID === props.cnt.authorID ? 
-                        <Button 
-                            onPress={props.chat}
-                            disabled={!props.cnt.enableComment && !props.cnt.showResult}
-                            style={{paddingVertical: 0}}>
-                            <View style={styles.detContent}>
-                                <Ionicons name="chatbox-ellipses-outline" size={24}/>
-                                <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.cnt.chat ? props.cnt.chat.total : 0) }</Text>
-                            </View>
-                        </Button> : null}
                         <TouchableNativeFeedback onPress={startPageReaction ? null : props.favorite}>
                             <View style={styles.detContent}>
                                 <AnimatedIcon animation={startPageReaction && (props.cnt.cntType !== 'setRequest' && props.cnt.cntType !== 'cancelRequest') ? "pulse" : ''}  duration={500} iterationCount="infinite" 
@@ -193,15 +177,19 @@ const cbtContent = props => {
                                 <Text style={[styles.textStyle, styles.detText]}>{ transformNumber(props.cnt.favorite) }</Text>
                             </View>
                         </TouchableNativeFeedback>
-                        {props.userID !== props.cnt.authorID ?
                         <Button
-                            onPress={props.cnt.takeExam ? props.takeExam : 
-                                props.cnt.isPending ? props.cancelRequest : props.request}
-                            title={props.cnt.takeExam ? 'Take Exam' : 
-                                props.cnt.isPending ? 'Cancel Request' : 'Request'}
-                            style={props.cnt.takeExam ? styles.actionButton : styles.actionButtonAlt}
-                            textStyle={props.cnt.takeExam ? styles.textStyle : styles.actionButtonText}
-                            disabled={startPageReaction && (props.cnt.isPending || !props.cnt.takeExam )}/> : null}
+                            onPress={props.cnt.isMember ? props.enterGroup : 
+                                props.cnt.isPending ? props.cancelRequest : 
+                                props.cnt.isPendingApprove ? props.cancelApprove: 
+                                props.cnt.isPendingMark ? props.cancelMark: props.request}
+                            title={props.cnt.isMember ? 'Chat' : 
+                                props.cnt.isPending ? 'Cancel Request' : 
+                                !props.cnt.isPublic ? 'Request' :
+                                props.cnt.isPendingApprove ? 'Cancel Request' :
+                                props.cnt.isPendingMark ? 'Cancel Request' : 'Join'}
+                            style={props.cnt.isMember? styles.actionButton : styles.actionButtonAlt}
+                            textStyle={props.cnt.isMember ? styles.textStyle : styles.actionButtonText}
+                            disabled={startPageReaction && (props.cnt.isPending || !props.cnt.isMember )}/>
                         <TouchableNativeFeedback onPress={props.share}>
                             <View style={styles.detContent}>
                                 <Ionicons name="paper-plane-outline" size={24}/>
@@ -247,11 +235,8 @@ const styles = StyleSheet.create({
     userDet: {
         width: '100%',
         flexDirection: 'row',
-        // paddingBottom: 10,
         justifyContent: 'space-between',
-        alignItems: 'center',
-        // borderBottomColor: '#dcdbdc',
-        // borderBottomWidth: 1
+        alignItems: 'center'
     },
     userInfo: {
         flexDirection: 'row'
@@ -266,45 +251,17 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
     title: {
-        fontSize: 16
+        fontSize: 15,
+        marginTop: 10
     },
-    
-    contentContainer: {
-        marginTop: 10,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    contentWrapper: {
-        paddingRight: 10
-    },
-    contentText: {
+    content: {
+        fontSize: 16,
         marginVertical: 10
     },
     mediaWrapper: {
-        width: '40%',
-        paddingLeft: 10,
-        height: 150,
-        borderLeftColor: '#dcdbdc',
-        borderLeftWidth: 1
-    },
-    userComment: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        height: 200,
         width: '100%',
         marginTop: 10
-    },
-    userCommentImage: {
-        width: 30,
-        height: 30,
-        borderRadius: 15, 
-        borderColor: '#dcdbdc',
-        borderWidth: 2
-    },
-    userCommentText: {
-        marginLeft: -20,
-        color: '#777',
-        flex: 1
     },
     det: {
         flexDirection: 'row',
@@ -382,7 +339,17 @@ const styles = StyleSheet.create({
     },
     tabBargeText: {
         fontSize: 15
-    }
+    },
+    memberWrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '100%',
+        marginTop: 10
+    },
+    memberText: {
+        color: '#333',
+        fontWeight: 'bold'
+    },
 });
 
-export default cbtContent;
+export default groupContent;

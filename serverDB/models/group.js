@@ -79,92 +79,122 @@ const GroupSchema = new Schema({
         ext: String, 
         description: String
     }],
-    liked: {
-        type: Array,
-        default: [String]
-    },
     question: {
+        type: String
     },
     qchatTotal: {
         type: Number
     },
-    request: {
-        type: Array,
-        default: [String]
-    },
-    member: {
-        type: Array,
-        default: [String]
-    },
-    lastMsg: [{
-        userID: String,
-        msgCnt: {
-            msg: String,
-            created: {
-                type: Date,
-                default: Date.now
-            }
+    request: [{
+        authorID: {
+            type: String,
+            required: true
+        },
+        username: {
+            type: String,
+            required: true,
+            index: 'text'
+        },
+        userImage: {
+            type: String
         }
     }],
-    chat: [{
-        ID: String,
-        userType: String,
-        msg: String,
-        cntType: String,
-        chatID: String,
-        format: String,
-        position: {
-            type: Number,
-            default: 0
-        },
-        created: {
-            type: Date,
-            default: Date.now
-        },
-        block: {
-            type: Array,
-            default: []
-        },
-        delete: {
-            type: Boolean,
-            default: false
-        },
-        edit: {
-            type: Boolean,
-            default: false
-        },
-        reply: [{
-            ID: String,
-            userType: String,
-            msg: String,
-            cntType: String,
-            chatID: String,
-            format: String,
-            mainID: String,
-            position: {
-                type: Number,
-                default: 0
+    member: [{
+        type: ObjectId
+    }],
+    mark: [{
+        question: [{
+            _id: {
+                type: ObjectId,
+                required: true
             },
-            block: {
-                type: Array,
-                default: []
+            content: {
+                type: String,
+                required: true,
+                trim: true
             },
-            delete: {
-                type: Boolean,
-                default: false
+            answer: {
+                type: String,
+                trim: true
             },
-            edit: {
-                type: Boolean,
-                default: false
+            correctAnswer: {
+                type: String
             },
-            created: {
-                type: Date,
-                default: Date.now
-            }}]
+            media: [{
+                id: ObjectId, 
+                filename: String, 
+                bucket: String,
+                ext: String, 
+                description: String
+            }],
+        }],
+        score: {
+            type: Number
+        },
+        questionTotal: {
+            type: Number
+        },
+        authorID: {
+            type: String,
+            required: true
+        },
+        username: {
+            type: String,
+            required: true
+        },
+        userImage: {
+            type: String
+        },
+        created: { 
+            type: Date, 
+            default: Date.now,
+            index: true 
+        }
+    }],
+    pendingApprove: [{
+        _id: ObjectId,
+        score: {
+            type: Number
+        },
+        questionTotal: {
+            type: Number
+        },
+        authorID: {
+            type: String,
+            required: true
+        },
+        username: {
+            type: String,
+            required: true
+        },
+        userImage: {
+            type: String
+        },
+        created: { 
+            type: Date, 
+            default: Date.now,
+            index: true 
+        }
+    }],
+    share: [{
+        type: ObjectId
+    }],
+    favorite: [{
+        type: ObjectId
     }],
     mode: {
         type: String,
         default: 'publish'
+    },
+    block: [{
+        type: ObjectId
+    }],
+    report: [{
+        type: String
+    }],
+    blacklisted: {
+        type: String,
+        default: false
     },
     _isCompleted: {
         type: Boolean,

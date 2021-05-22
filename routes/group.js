@@ -1,20 +1,31 @@
 let express = require('express');
 let router = express.Router();
-let mongoose = require('mongoose');
-const webpush = require('web-push');
-let authenticate = require('../serverDB/middleware/authenticate');
-let filterCnt = require('./utility/filtercnt');
+let objectID = require('mongoose').mongo.ObjectId;
+let fs = require('fs');
+
+let formidable = require('formidable');
+let savetemp = require('./utility/savetemp');
+let sequence = require('./utility/sequence');
 let deleteMedia = require('./utility/deletemedia');
-const { group, qcontent,  connectStatus} = require('../serverDB/serverDB');
+let authenticate = require('../serverDB/middleware/authenticate');
+let formInit = require('./utility/forminit');
+let search = require('./utility/search');
+let notifications = require('./utility/notifications');
+const {group, qcontent, advert, user, connectStatus} = require('../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
-    if (req.header !== null && req.header('data-categ') === 'getonechatRoom') {
+    if (req.header !== null && req.header('data-categ') === 'getonegroup') {
         group.findOne({_id: req.body.cntID, authorID: req.user}).then(result => {
             if (result && result.question) {
-                qcontent.findById(result.question).then(cnt => {
-                    let updateResult = {...JSON.parse(JSON.stringify(result))}
-                    updateResult['cbt'] = cnt ? {question: cnt.question, totalOption: cnt.totalOption} : {};
-                    res.status(200).send(updateResult);
+                qcontent.findById(result.question).then(qcontentDoc => {
+                    let cnt = {...JSON.parse(JSON.stringify(result))}
+                    cnt['cbt'] = qcontentDoc ? {question: qcontentDoc.question, totalOption: qcontentDoc.totalOption} : {};
+                    delete cnt.block;
+                    let updateResult = {...cnt,
+                        share: cnt.share.length, favorite: cnt.favorite.length,
+                        isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                        request: cnt.request.length, mark: cnt.mark.length, pendingApprove: cnt.pendingApprove.length, member: cnt.member.length}
+                        res.status(200).send(updateResult);
                 });
             } else {
                 res.status(200).send(result);
@@ -24,6 +35,431 @@ router.post('/', authenticate, (req, res, next) => {
         })
         return
     }
+
+    if (req.header !== null && req.header('data-categ') === 'getGroup') {
+        group.find({_isCompleted: true, block: {$nin: [req.user]}})
+            .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
+            let updateResult = [];
+            if (result) {
+                for (let cnt of result) {
+                    let updateCnt = JSON.parse(JSON.stringify(cnt));
+                    delete updateCnt.block;
+                    updateResult.push({...updateCnt,
+                    share: cnt.share.length, favorite: cnt.favorite.length,
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                    isMember: cnt.member.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user)[0] ? true : 
+                        JSON.parse(JSON.stringify(cnt.authorID)) === req.user ? true :false,
+                    isPending: cnt.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                    isPendingApprove: cnt.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                    isPendingMark: cnt.mark.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                    isPublic: cnt.roomType === 'Public',
+                    request: cnt.request.length, mark: cnt.mark.length, pendingApprove: cnt.pendingApprove.length, member: cnt.member.length})
+                }
+            }
+            let showAdvert = Math.round(Math.random());
+            if (showAdvert === 0) {
+                advert.find().skip(req.body.start).limit(req.body.limit).then(doc => {
+                    let lastItem = updateResult[updateResult.length - 1];
+                    if (lastItem) {
+                        lastItem.advert = doc
+                        updateResult[updateResult.length - 1] = lastItem
+                    }
+                    res.status(200).send({page: updateResult, loadMore: result.length > 0});
+                })
+            } else if (showAdvert === 1) {
+                user.find({_id: {$in: req.request}}).skip(req.body.start).limit(req.body.limit).then(doc => {
+                    let updateFriend = [];
+                    for (let cnt of doc) {
+                        let isOnline =  (new Date().getTime() - new Date(cnt.visited).getTime()) < 60000;
+                        updateFriend.push({_id: cnt._id, username: cnt.username, userImage: cnt.image, status: isOnline})
+                    }
+                    let lastItem = updateResult[updateResult.length - 1];
+                    if (lastItem) {
+                        lastItem.friendRequest = updateFriend;
+                        updateResult[updateResult.length - 1] = lastItem
+                    }
+                    res.status(200).send({page: updateResult, loadMore: result.length > 0});
+                });
+            } else {
+                res.status(200).send({page: updateResult, loadMore: result.length > 0});
+            }
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'setFavorite') {
+        group.findOneAndUpdate({_id: req.body.pageID, favorite: {$nin: [req.user]}}, {$push: {'favorite': req.user}}).then(doc => {
+            if (doc) {
+                return res.status(200).send({pageInfo: {_id: req.body.pageID, isFavored: true, favorite: doc.favorite.length + 1}});
+            }
+            group.findOneAndUpdate({_id: req.body.pageID, favorite: {$in: [req.user]}}, {$pull: {'favorite': req.user}}).then(result => {
+                return res.status(200).send({pageInfo: {_id: req.body.pageID, isFavored: false, favorite: result.favorite.length - 1}});
+            })
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'setShare') {
+        let reciepent = JSON.parse(req.body.reciepent);
+        group.findOneAndUpdate({_id: req.body.pageID}, {$addToSet: {'share': reciepent}}).then(() => {
+            group.findById(req.body.pageID).then(doc => {
+                if (doc) {
+                    res.status(200).send({pageInfo: {_id: req.body.pageID, share: doc.share.length}});
+                    for (let userID of reciepent) {
+                        notifications('groupShare', userID, {userID: req.user, ID: req.body.pageID}, false);
+                    }
+                    return
+                }
+                return res.sendStatus(200);
+            });
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'setJoin') {
+        group.findOneAndUpdate({_id: req.body.pageID, member: {$nin: [req.user]}, roomType: {$eq: 'Public'}}, {$push: {'member': req.user}}).then(doc => {
+            if (doc) {
+                res.status(200).send({pageInfo: {_id: req.body.pageID, isMember: true, member: doc.member.length + 1}});
+                return notifications('groupJoin', doc.authorID, {userID: req.user, ID: req.body.pageID}, false);
+            }
+            return res.sendStatus(200);
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'setRequest') {
+        group.findOneAndUpdate({_id: req.body.pageID, 'request.authorID': {$ne: req.user}}, {$push: {'request': {authorID: req.user, username: req.username, userImage: req.userImage}}}).then(doc => {
+            if (doc) {
+                res.status(200).send({pageInfo: {_id: req.body.pageID, isPending: true}});
+                return notifications('groupRequest', doc.authorID, {userID: req.user, ID: req.body.pageID}, false);
+            }
+            return res.sendStatus(200);
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'cancelRequest') {
+        group.findOne({_id: req.body.pageID, 'request.authorID': {$eq: req.user}}).then(doc => {
+            if (doc) {
+                let request = doc.request;
+                let updateRequest = request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) !== req.user);
+                doc.updateOne({request: updateRequest}).then(() => {
+                    res.status(200).send({pageInfo: {_id: req.body.pageID, isPending: false}});
+                    notifications('groupRequest', doc.authorID, {userID: req.user, ID: req.body.pageID}, true);
+                });
+            } else {
+                res.sendStatus(200);
+            }
+            return
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'getPendingapprove') {
+        group.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
+            if (doc) {
+                group.aggregate([{
+                    $match: {_id: objectID(req.body.pageID)}}, 
+                    {$unwind: "$pendingApprove"},
+                    {$skip: req.body.start},
+                    {$limit: req.body.limit},
+                    {"$group": {"_id": "$_id", "pendingApprove": {"$push": "$pendingApprove"}}}]).then(result => {
+                        return res.status(200).send({select: result[0] ? result[0].pendingApprove : [], loadMore: (doc.pendingApprove.length - (req.body.start + req.body.limit)) > 0 })
+                }).catch(err => {
+                    res.status(500).send(err)
+                })
+            }
+        });
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'searchPendingapprove') {
+        group.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
+            if (doc) {
+                let pendingApprove = search(doc.pendingApprove, 'username', req.body.searchCnt);
+                let updateApprove = pendingApprove.slice(req.body.start, (req.body.limit + req.body.start));
+                return res.status(200).send({select: updateApprove ? updateApprove : [], loadMore: (doc.pendingApprove.length - (req.body.start + req.body.limit)) > 0 });
+            }
+        });
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'setPendingacceptuser') {
+        group.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
+            if (doc) {
+                let pendingApproveCnt = JSON.parse(req.body.cnt);
+                let reaction = 0;
+                for (let cntItem of pendingApproveCnt) {
+                    let pendingApprove = doc.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === cntItem)[0];
+                    if (pendingApprove) {
+                        let member = doc.member;
+                        let isAllowed = member.filter(userID=> JSON.parse(JSON.stringify(userID)) === pendingApprove.authorID)[0];
+                        if (!isAllowed) {
+                            member.push(pendingApprove.authorID);
+                        }
+                        doc.pendingApprove = doc.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) !== cntItem);
+                        doc.updateOne({pendingApprove: doc.pendingApprove, member}).then(() => {
+                            sequence([notifications('groupPending', req.user, {userID: pendingApprove.authorID, ID: req.body.pageID}, true),
+                                notifications('groupReject', pendingApprove.authorID, {userID: req.user, ID: req.body.pageID}, true),
+                                notifications('groupAccept', pendingApprove.authorID, {userID: req.user, ID: req.body.pageID}, false)
+                            ])
+                            ++reaction;
+                            if (reaction === pendingApproveCnt.length) {
+                                res.status(200).send({pageInfo: {_id: req.body.pageID, pendingApprove: doc.pendingApprove.length, member: member.length, passed: true}});
+                            }
+                        }).catch(err => {
+                            res.status(500).send(err);
+                        })
+                    }
+                }
+            }
+        });
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'setPendingrejectuser') {
+        group.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
+            if (doc) {
+                let pendingApproveCnt = JSON.parse(req.body.cnt);
+                let reaction = 0;
+                for (let cntItem of pendingApproveCnt) {
+                    let pendingApprove = doc.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === cntItem)[0];
+                    if (pendingApprove) {
+                        doc.pendingApprove = doc.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) !== cntItem);
+                        doc.updateOne({pendingApprove: doc.pendingApprove}).then(() => {
+                            sequence([notifications('groupPending', req.user, {userID: pendingApprove.authorID, ID: req.body.pageID}, true),
+                                notifications('groupAccept', pendingApprove.authorID, {userID: req.user, ID: req.body.pageID}, true),
+                                notifications('groupReject', pendingApprove.authorID, {userID: req.user, ID: req.body.pageID}, false)]).catch()
+                                ++reaction;
+                                if (reaction === pendingApproveCnt.length) {
+                                    res.status(200).send({pageInfo: {_id: req.body.pageID, pendingApprove: doc.pendingApprove.length}});
+                                }
+                        }).catch(err => {
+                            res.status(500).send(err);
+                        })
+                    }
+                }
+            }
+        });
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'getRequest') {
+        group.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
+            if (doc) {
+                group.aggregate([{
+                    $match: {_id: objectID(req.body.pageID)}}, 
+                    {$unwind: "$request"},
+                    {$skip: req.body.start},
+                    {$limit: req.body.limit},
+                    {"$group": {"_id": "$_id", "request": {"$push": "$request"}}}]).then(result => {
+                        return res.status(200).send({select: result[0] ? result[0].request : [], loadMore: (doc.request.length - (req.body.start + req.body.limit)) > 0 })
+                }).catch(err => {
+                    res.status(500).send(err)
+                })
+            }
+        });
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'searchRequest') {
+        group.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
+            if (doc) {
+                let request = search(doc.request, 'username', req.body.searchCnt);
+                let updateRequest = request.slice(req.body.start, (req.body.limit + req.body.start));
+                return res.status(200).send({select: updateRequest ? updateRequest : [], loadMore: (doc.request.length - (req.body.start + req.body.limit)) > 0 });
+            }
+        });
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'setAcceptuser') {
+        group.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
+            if (doc) {
+                let requestCnt = JSON.parse(req.body.cnt);
+                let reaction = 0;
+                for (let cntItem of requestCnt) {
+                    let request = doc.request.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === cntItem)[0];
+                    if (request) {
+                        let member = doc.member;
+                        let isAllowed = member.filter(userID=> JSON.parse(JSON.stringify(userID)) === request.authorID)[0];
+                        if (!isAllowed) {
+                            member.push(request.authorID);
+                        }
+                        doc.request = doc.request.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) !== cntItem);
+                        doc.updateOne({request: doc.request, member}).then(() => {
+                            sequence([notifications('groupRequest', req.user, {userID: request.authorID, ID: req.body.pageID}, true),
+                                notifications('groupReject', request.authorID, {userID: req.user, ID: req.body.pageID}, true),
+                                notifications('groupAccept', request.authorID, {userID: req.user, ID: req.body.pageID}, false)
+                            ])
+                            ++reaction;
+                            if (reaction === requestCnt.length) {
+                                res.status(200).send({pageInfo: {_id: req.body.pageID, request: doc.request.length, member: member.length}});
+                            }
+                        }).catch(err => {
+                            res.status(500).send(err);
+                        })
+                    }
+                }
+            }
+        });
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'setRejectuser') {
+        group.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
+            if (doc) {
+                let requestCnt = JSON.parse(req.body.cnt);
+                let reaction = 0;
+                for (let cntItem of requestCnt) {
+                    let request = doc.request.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === cntItem)[0];
+                    if (request) {
+                        doc.request = doc.request.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) !== cntItem);
+                        doc.updateOne({request: doc.request}).then(() => {
+                            sequence([notifications('groupRequest', req.user, {userID: request.authorID, ID: req.body.pageID}, true),
+                                notifications('groupAccept', request.authorID, {userID: req.user, ID: req.body.pageID}, true),
+                                notifications('groupReject', request.authorID, {userID: req.user, ID: req.body.pageID}, false)]).catch()
+                                ++reaction;
+                                if (reaction === requestCnt.length) {
+                                    res.status(200).send({pageInfo: {_id: req.body.pageID, request: doc.request.length}});
+                                }
+                        }).catch(err => {
+                            res.status(500).send(err);
+                        })
+                    }
+                }
+            }
+        });
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'getPendingmark') {
+        group.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
+            if (doc) {
+                group.aggregate([{
+                    $match: {_id: objectID(req.body.pageID)}}, 
+                    {$unwind: "$mark"},
+                    {$skip: req.body.start},
+                    {$limit: req.body.limit},
+                    {"$group": {"_id": "$_id", "mark": {"$push": "$mark"}}}]).then(result => {
+                        return res.status(200).send({select: result[0] ?  result[0].mark : [], loadMore: (doc.request.length - (req.body.start + req.body.limit)) > 0 })
+                }).catch(err => {
+                    res.status(500).send(err)
+                })
+            }
+        });
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'searchPendingmark') {
+        group.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
+            if (doc) {
+                let mark = search(doc.mark, 'username', req.body.searchCnt);
+                let updateMark = mark.slice(req.body.start, (req.body.limit + req.body.start));
+                return res.status(200).send({select: updateMark ? updateMark : [], loadMore: (doc.mark.length - (req.body.start + req.body.limit)) > 0 });
+            }
+        });
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'cancelApprove') {
+        group.findOne({_id: req.body.pageID, 'pendingApprove.authorID': {$eq: req.user}}).then(doc => {
+            if (doc) {
+                let pendingApprove = doc.pendingApprove;
+                let updatePending = pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) !== req.user);
+                doc.updateOne({pendingApprove: updatePending}).then(() => {
+                    res.status(200).send({pageInfo: {_id: req.body.pageID, isPendingApprove: false}});
+                    notifications('groupPending', doc.authorID, {userID: req.user, ID: req.body.pageID}, true);
+                });
+            } else {
+                res.sendStatus(200);
+            }
+            return
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'cancelMark') {
+        group.findOne({_id: req.body.pageID, 'mark.authorID': {$eq: req.user}}).then(doc => {
+            if (doc) {
+                let mark = doc.mark;
+                let updateMark = mark.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) !== req.user);
+                doc.updateOne({mark: updateMark}).then(() => {
+                    res.status(200).send({pageInfo: {_id: req.body.pageID, isPendingMark: false}});
+                    notifications('groupMark', doc.authorID, {userID: req.user, ID: req.body.pageID}, true);
+                });
+            } else {
+                res.sendStatus(200);
+            }
+            return
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+
+    if (req.header && req.header('data-categ') === 'searchGroup') {
+        group.find({_isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt} })
+        .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
+            let updateResult = [];
+            if (result) {
+                for (let cnt of result) {
+                    let updateCnt = JSON.parse(JSON.stringify(cnt));
+                    delete updateCnt.block;
+                    updateResult.push({...updateCnt,
+                    share: cnt.share.length, favorite: cnt.favorite.length,
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                    isMember: cnt.member.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user)[0] ? true : 
+                        JSON.parse(JSON.stringify(cnt.authorID)) === req.user ? true :false,
+                    isPending: cnt.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                    isPendingApprove: cnt.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                    isPendingMark: cnt.mark.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                    isPublic: cnt.roomType === 'Public',
+                    request: cnt.request.length, mark: cnt.mark.length, pendingApprove: cnt.pendingApprove.length, member: cnt.member.length})
+                }
+            }
+            res.status(200).send({page: updateResult, loadMore: result.length > 0});
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'getOneAndDelete') {
+        group.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
+            if (doc && doc.member.length < 1 && doc.favorite.length < 1 && doc.share.length < 1) {
+                return sequence([deleteMedia(doc.media), doc.deleteOne()]).then(() => {
+                    return res.sendStatus(200);
+                })
+            }
+            if (!doc) {
+                group.findByIdAndUpdate({_id: req.body.pageID}, {$push: {'block': req.user}, $pull: {'favorite': req.user}}).then(() => {
+                    return res.sendStatus(200);
+                })
+                return;
+            }
+            return Promise.reject('This group could not be deleted');
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
     // if (req.header !== null && req.header('data-categ') === 'group') {
     //     return fetchGroup({});
     // }

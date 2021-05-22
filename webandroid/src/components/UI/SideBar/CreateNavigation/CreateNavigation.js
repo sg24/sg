@@ -18,7 +18,7 @@ const create = props => {
         {iconName: 'chatbox', uri: 'AddPost', title: 'Post'},
         {iconName: 'megaphone', uri: 'AddAdvert', title: 'Advert'},
         {iconName: 'bulb', uri: 'AddQuestion', title: 'Question'},
-        {iconName: 'chatbubble-ellipses', uri: 'AddChatRoom', title: 'Chat Room'},
+        {iconName: 'chatbubble-ellipses', uri: 'AddGroup', title: 'Group'},
         {iconName: 'timer', uri: 'AddCBT', title: 'CBT'},
         {iconName: 'reader', uri: 'AddWriteUp', title: 'Write Up'},
         {iconName: 'newspaper', uri: 'AddFeed', title: 'Feed'}]

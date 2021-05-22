@@ -24,7 +24,6 @@ router.post('/', authenticate, (req, res, next) => {
                     let updateResult = {...cnt,
                         share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
                         isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
-                        isPending: cnt.request.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
                         request: cnt.request.length, mark: cnt.mark.length, allowedUser: cnt.allowedUser.length}
                     res.status(200).send(updateResult);
                 });
@@ -50,7 +49,7 @@ router.post('/', authenticate, (req, res, next) => {
                     isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
                     takeExam: cnt.participant === 'Public' ? true :
                     cnt.allowedUser.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user)[0] ? true : false,
-                    isPending: cnt.request.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                    isPending: cnt.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
                     request: cnt.request.length, mark: cnt.mark.length, allowedUser: cnt.allowedUser.length})
                 }
             }

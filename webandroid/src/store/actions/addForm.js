@@ -19,7 +19,7 @@ export const submitAddFormInit = (formData, type) => {
     return dispatch => {
         dispatch(submitAddFormStart(type))
         let formContent = new FormData();
-        if (type !== 'cbt' && type !== 'chatRoom') {
+        if (type !== 'cbt' && type !== 'chatRoom' && type !== 'group') {
             let description = uploadFile([], formContent, formData.uploadFile);
             formContent.append('description', JSON.stringify(description));
         }
@@ -71,7 +71,7 @@ export const submitAddFormInit = (formData, type) => {
             formContent.append('duration', formData.duration);
             formContent.append('content', formData.content);
             formContent.append('hashTag', JSON.stringify(formData.hashTag));
-        } else if (type === 'chatRoom') {
+        } else if (type === 'chatRoom' || type === 'group') {
             let description = [];
             for(let media of formData.uploadFile) {
                 let fileID =  media.name.split('.').length > 1 ? `${formData.id}--${uuid()}${media.name}` : `${formData.id}--${uuid()}${media.name}.octet-stream`;

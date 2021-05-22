@@ -27,12 +27,20 @@ class Exam extends Component {
         this.state = {
             viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
             pageID: this.props.route.params.pageID,
+            cntID: this.props.route.params.cntID,
+            navigationURI: this.props.route.params.navigationURI,
+            getMarkID: this.props.route.params.getMarkID,
+            infoFailed: this.props.route.params.infoFailed,
+            infoPassed: this.props.route.params.infoPassed,
+            infoPending: this.props.route.params.infoPending,
+            buttonPassed: this.props.route.params.buttonPassed,
             duration: '00:00:00',
             totalDuration: null,
             durationID: null,
             showChatBox: null,
             showSharePicker: null,
             showActionSheet: false,
+            enableShare:  this.props.route.params.enableShare === false ? false : true,
             selectedAnswer: []
         }
     }
@@ -45,20 +53,24 @@ class Exam extends Component {
 
     componentDidMount() {
         Dimensions.addEventListener('change', this.updateStyle)
-        if (this.state.pageID) {
+        if (this.state.pageID && this.state.navigationURI && this.state.cntID && this.state.getMarkID) {
             this._unsubscribe = this.props.navigation.addListener('focus', () => {
-                this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'exam', 'getExam', this.state.pageID);
+                if (this.state.pageID && this.state.navigationURI && this.state.cntID && this.state.getMarkID) {
+                    this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'exam', this.state.cntID, this.state.pageID);
+                } else {
+                    this.props.navigation.navigate(this.state.navigationURI);
+                }
             });
             this._unsubscribeBackPress = BackHandler.addEventListener("hardwareBackPress", this.backActionHandler);
             this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
                 this.props.onPageReset();
                 this._unsubscribeBackPress.remove();
                 clearInterval(this.state.durationID);
-                this.setState({pageID: null, duration: '00:00:00', showChatBox: null,totalDuration: null,durationID: null,
-                showSharePicker: null,showActionSheet: false, selectedAnswer: []});
+                this.setState({pageID: null,cntID: null,navigationURI: null,getMarkID: null,infoPassed:null,infoFailed:null,infoPending:null,buttonPassed:null,duration: '00:00:00',totalDuration: null,
+                    durationID: null,showChatBox: null,showSharePicker: null,showActionSheet: false,enableShare: true,selectedAnswer: []});
             });
         } else {
-            this.props.navigation.navigate(Platform.OS === 'web' ? 'CBTWeb' :'CBT')
+            this.props.navigation.navigate(this.state.navigationURI);
         }
     }
 
@@ -88,20 +100,21 @@ class Exam extends Component {
     }
 
     reloadFetchHandler = () => {
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'exam', 'getExam', this.state.pageID);
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'exam', this.state.cntID, this.state.pageID);
     }
 
     backActionHandler = () => {
         if (this.props.fetchCnt && (this.props.fetchCnt[0].score || this.props.fetchCnt[0].score === 0 || this.props.fetchCnt[0].pending || this.props.fetchCnt[0].pending === 0)) {
-            this.navigationHandler(Platform.OS === 'web' ? 'CBTWeb' : 'CBT')
+            this.navigationHandler(this.state.navigationURI);
         } else {
-            Alert.alert('Are you sure ,you want to cancel this exam', null, [{title: 'Exit'}]);
+            Alert.alert('Are you sure, you want to cancel this exam', null, [
+                {text: 'OK', onPress: () => this.navigationHandler(this.state.navigationURI), style: styles.button}], {cancelable: true});
         }
         return true
     }
 
-    navigationHandler = (page, cntID) => {
-        this.props.navigation.navigate(page);
+    navigationHandler = (page, cnt = {}) => {
+        this.props.navigation.navigate(page, cnt);
     }
 
     closeModalHandler = () => {
@@ -184,7 +197,7 @@ class Exam extends Component {
 
     submitAnswerHandler = () => {
         clearInterval(this.state.durationID);
-        this.props.onPageReaction('exam', this.state.pageID, 'markExam', {cnt : JSON.stringify({pageID: this.state.pageID, answer: this.state.selectedAnswer, 
+        this.props.onPageReaction('exam', this.state.pageID, this.state.getMarkID, {cnt : JSON.stringify({pageID: this.state.pageID, answer: this.state.selectedAnswer, 
             questionTotal: this.props.fetchCnt[0].question.length})});
         this.setState({duration: '00:00:00', totalDuration: 0});
     }
@@ -305,7 +318,7 @@ class Exam extends Component {
                     { this.props.fetchCnt[0].score || this.props.fetchCnt[0].score === 0 || this.props.fetchCnt[0].pending || this.props.fetchCnt[0].pending === 0 ? (
                         <AbsoluteFill style={styles.absoluteFill}>
                             <DefaultHeader
-                                onPress={() => this.navigationHandler(Platform.OS === 'web' ? 'CBTWeb' : 'CBT')}
+                                onPress={() => this.navigationHandler(this.state.navigationURI)}
                                 title="Result"/>
                              <Wrapper
                                 {...wrapperProps}
@@ -323,16 +336,29 @@ class Exam extends Component {
                                                 <View style={{marginTop: 10}}>
                                                     {this.props.fetchCnt[0].showResult ?
                                                         <Text style={{marginBottom: 10, color: '#777'}}>Your result as being added </Text> : null}
+                                                    {this.props.fetchCnt[0].passed === false ?
+                                                        <Text style={{marginBottom: 10, color: '#ff1600'}}>{ this.state.infoFailed }</Text> : null}
+                                                    {this.props.fetchCnt[0].passed ?
+                                                        <Text style={{marginBottom: 10, color: '#777'}}>{ this.state.infoPassed }</Text> : null}
+                                                    {this.props.fetchCnt[0].pendingApprove ?
+                                                        <Text style={{marginBottom: 10, color: '#777'}}>{ this.state.infoPending }</Text> : null}
                                                     <View style={styles.resultButton}>
                                                         {this.props.fetchCnt[0].showResult || this.props.fetchCnt[0].enableComment ?
                                                         <Button style={styles.chatButton} onPress={this.showCommentHandler}>
                                                             <Ionicons name="chatbox-ellipses-outline" size={16} color="#fff"/>
                                                             <Text style={styles.submitButtonText}>Result</Text>
                                                         </Button> : null}
-                                                        <Button style={styles.shareButton} onPress={this.showShareHandler}>
+                                                        { this.props.fetchCnt[0].passed && this.state.buttonPassed ? this.state.buttonPassed.map((cnt, index) => (
+                                                            <Button key={index} onPress={() => this.navigationHandler(cnt.onPress.URI, cnt.onPress.params)} style={styles.altButton}>
+                                                                {cnt.icon ? <Ionicons name={cnt.icon.name} color={cnt.icon.color ? cnt.icon.color : '#fff'} size={cnt.icon.size ? cnt.icon.size : 18} style={{marginRight: 5}}/> : null }
+                                                                <Text style={[styles.submitButtonText, cnt.style]}>{cnt.title}</Text>
+                                                            </Button>
+                                                        )): null}
+                                                        {this.state.enableShare ? 
+                                                         <Button style={styles.shareButton} onPress={this.showShareHandler}>
                                                             <Ionicons name="paper-plane-outline" size={16} color="#333"/>
                                                             <Text style={styles.shareButtonText}>Share</Text>
-                                                        </Button>
+                                                        </Button> : null}
                                                     </View>
                                                 </View>
                                         </View> : <Text style={styles.mark}>Your answers as being submitted for marking</Text>}
@@ -457,6 +483,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginRight: 10
+    },
+    altButton: {
+        backgroundColor: '#437da3',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 5,
+        flexDirection: 'row',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     chatButton: {
         backgroundColor: '#437da3',

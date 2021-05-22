@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#ff1600',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 0
+        padding: 0,
+        zIndex: 9999
     },
     notification: {
         color: '#fff',

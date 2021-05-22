@@ -5,7 +5,7 @@ import Icon from 'ionicons';
 
 import HomeScreen from '../../../screens/Home/Post';
 import UserScreen from '../../../screens/Home/Users';
-import RoomScreen from '../../../screens/Home/Room';
+import GroupScreen from '../../../screens/Home/Group';
 import CBTScreen from '../../../screens/Home/CBT';
 import QuestionScreen from '../../../screens/Home/Question';
 import TabBarge from '../TabBarge/TabBarge';
@@ -25,7 +25,7 @@ const topTab = props => (
                     if (route.name === 'User') {
                         name = 'people'
                     }
-                    if (route.name === 'Room') {
+                    if (route.name === 'Group') {
                         name = 'chatbubble-ellipses'
                     }
                     if (route.name === 'CBT') {
@@ -68,7 +68,7 @@ const topTab = props => (
         lazyPlaceholder={() => <SplashScreen />}>
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="User" component={UserScreen} />
-        <Tab.Screen name="Room" component={RoomScreen} />
+        <Tab.Screen name="Group" component={GroupScreen} />
         <Tab.Screen name="CBT" component={CBTScreen} />
     </Tab.Navigator>
 )

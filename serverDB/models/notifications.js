@@ -40,6 +40,27 @@ const NotificationsSchema = new Schema({
     createGroup: [{
         ...defaultContentSchema
     }],
+    groupShare: [{
+        ...defaultContentSchema
+    }],
+    groupJoin: [{
+        ...defaultContentSchema
+    }],
+    groupRequest: [{
+        ...defaultContentSchema
+    }],
+    groupAccept: [{
+        ...defaultContentSchema
+    }],
+    groupReject: [{
+        ...defaultContentSchema
+    }],
+    groupPending: [{
+        ...defaultContentSchema
+    }],
+    groupMark: [{
+        ...defaultContentSchema
+    }],
     userChat: [{
         ...defaultContentSchema,
         counter: {

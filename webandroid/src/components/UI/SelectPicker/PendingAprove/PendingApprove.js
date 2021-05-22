@@ -7,8 +7,9 @@ import Href from '../../../UI/Href/Href';
 import BoxShadow from '../../../UI/BoxShadow/BoxShadow';
 import LoadMore from '../../../UI/LoadMore/LoadMore';
 import Avatar from '../../Avatar/Avatar';
+import TabBarge from '../../TabBarge/TabBarge';
 
-const privateConv = props => {
+const pendingApprove = props => {
     let picked = props.picked && props.picked.length > 0 ? 
         props.picked.filter(id => id === props.userDet._id)[0] ? true : false : false;
 
@@ -44,34 +45,46 @@ const privateConv = props => {
                             padding: 10,
                             borderRadius: 10,
                             flexDirection: 'row',
+                            justifyContent: 'space-between',
                             width: '100%'
                         };
                     }}>
-                    <View>
-                        <Avatar userImage={props.userDet.userImage} iconSize={40} imageSize={60} enableBorder={false} pressable/>
-                        {/* {userStatus} */}
-                        {picked ? (
-                            <View style={styles.pick}>
-                                <Ionicons name="checkmark-outline" color="#16cf27" size={40} />
+                    <View style={{flexDirection: 'row'}}>
+                        <View>
+                            <Avatar userImage={props.userDet.userImage} iconSize={40} imageSize={60} enableBorder={false} pressable/>
+                            {/* {userStatus} */}
+                            {picked ? (
+                                <View style={styles.pick}>
+                                    <Ionicons name="checkmark-outline" color="#16cf27" size={40} />
+                                </View>
+                            ): null}
+                        </View>
+                        <View style={styles.det}>
+                            <View style={{justifyContent: 'flex-start', alignItems: 'flex-start'}}>
+                                <Href
+                                    numberOfLines={1}  title={props.userDet.username} style={styles.userDet} onPress={props.showProfile}/>
                             </View>
-                        ): null}
-                    </View>
-                    <View style={styles.det}>
-                        <View style={{justifyContent: 'flex-start', alignItems: 'flex-start'}}>
-                            <Href
-                                numberOfLines={1}  title={props.userDet.username} style={styles.userDet} onPress={props.showProfile}/>
+                            <View style={styles.buttonWrapper}>
+                                {!props.disabledRightButton ?
+                                <Button onPress={props.allowUser} style={styles.useroptButton} disabled={startSelectReaction}>
+                                    <Text numberOfLines={1} style={styles.allow}>{props.rightTitle ? props.rightTitle: 'Allow'}</Text>
+                                </Button> : null}
+                                <Button onPress={props.rejectUser} style={styles.useroptAltButton} disabled={startSelectReaction}>
+                                    <Ionicons name="close" size={16}/>
+                                    <Text numberOfLines={1} style={styles.remove}>Remove</Text>
+                                </Button>
+                            </View>
                         </View>
-                        <View style={styles.buttonWrapper}>
-                            {!props.disabledRightButton ?
-                            <Button onPress={props.allowUser} style={styles.useroptButton} disabled={startSelectReaction}>
-                                <Text numberOfLines={1} style={styles.allow}>{props.rightTitle ? props.rightTitle: 'Allow'}</Text>
-                            </Button> : null}
-                            <Button onPress={props.rejectUser} style={styles.useroptAltButton} disabled={startSelectReaction}>
-                                <Ionicons name="close" size={16}/>
-                                <Text numberOfLines={1} style={styles.remove}>Remove</Text>
-                            </Button>
-                        </View>
+                        <TabBarge
+                            onPress={props.showUserOpt}
+                            notification={`${props.userDet.score}%`}
+                            style={styles.tabBarge}
+                            textStyle={styles.tabBargeText}/>
                     </View>
+                    {/* <View style={styles.info}>
+                        <Text style={[styles.textStyle, styles.contentText]}>Score: <Text style={styles.infoText}>{ props.userDet.score }% </Text></Text>
+                        <Text style={[styles.textStyle, styles.contentText]}>Mark: <Text style={styles.infoText}>{`${(props.userDet.score/100)*props.userDet.questionTotal} / ${props.userDet.questionTotal}`} </Text></Text>
+                    </View> */}
                 </Pressable>
             </BoxShadow>
             { props.lastItem && props.enableLoadMore ? (
@@ -87,6 +100,9 @@ const privateConv = props => {
 
 
 const styles = StyleSheet.create({
+    textStyle: {
+        fontSize: 15
+    },
     container: {
         paddingHorizontal: 10
     },
@@ -171,7 +187,26 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0, .65)',
         borderRadius: 30
+    },
+    info: {
+        paddingLeft: 10,
+        borderLeftColor:'#dcdbdc',
+        borderLeftWidth: 1,
+        justifyContent: 'space-between'
+    },
+    infoText: {
+        fontWeight: 'bold',
+        marginLeft: 10
+    },
+    tabBarge: {
+        top: -5,
+        right: 0,
+        width: 40,
+        backgroundColor: '#dcdbdc'
+    },
+    tabBargeText: {
+        color: '#333'
     }
 });
 
-export default privateConv;
+export default pendingApprove;

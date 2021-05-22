@@ -27,6 +27,16 @@ class MarkExam extends Component {
             viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
             pageID: this.props.route.params.pageID,
             mark: this.props.route.params.mark,
+            cntID: this.props.route.params.cntID,
+            navigationURI: this.props.route.params.navigationURI,
+            getMarkID: this.props.route.params.getMarkID,
+            infoFailed: this.props.route.params.infoFailed,
+            infoPassed: this.props.route.params.infoPassed,
+            infoPending: this.props.route.params.infoPending,
+            buttonPassed: this.props.route.params.buttonPassed,
+            buttonPending: this.props.route.params.buttonPending,
+            enableShare:  this.props.route.params.enableShare === false ? false : true,
+            reaction: null,
             showChatBox: null,
             showSharePicker: null,
             showActionSheet: false,
@@ -42,22 +52,23 @@ class MarkExam extends Component {
 
     componentDidMount() {
         Dimensions.addEventListener('change', this.updateStyle)
-        if (this.state.pageID && this.state.mark) {
+        if (this.state.pageID && this.state.mark && this.state.navigationURI && this.state.cntID && this.state.getMarkID) {
             this._unsubscribe = this.props.navigation.addListener('focus', () => {
-                if (this.state.pageID && this.state.mark) {
-                    this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'exam', 'getMarkinfo', this.state.pageID);
+                if (this.state.pageID && this.state.mark && this.state.navigationURI && this.state.cntID && this.state.getMarkID) {
+                    this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'exam', this.state.cntID, this.state.pageID);
                 } else {
-                    this.props.navigation.navigate(Platform.OS === 'web' ? 'CBTWeb' :'CBT')
+                    this.props.navigation.navigate(this.state.navigationURI);
                 }
             });
             this._unsubscribeBackPress = BackHandler.addEventListener("hardwareBackPress", this.backActionHandler);
             this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
                 this.props.onPageReset();
                 this._unsubscribeBackPress.remove();
-                this.setState({pageID: null, mark: null, showChatBox: null, showSharePicker: null,showActionSheet: false, selectedAnswer: []});
+                this.setState({pageID: null, mark: null, cntID: null, navigationURI: null, getMarkID: null, infoPassed:null, infoFailed:null, infoPending:null, buttonPassed:null,
+                    enableShare: true,reaction: null,showChatBox: null, showSharePicker: null,showActionSheet: false, selectedAnswer: []});
             });
         } else {
-            this.props.navigation.navigate(Platform.OS === 'web' ? 'CBTWeb' :'CBT')
+            this.props.navigation.navigate(this.state.navigationURI);
         }
     }
 
@@ -71,24 +82,28 @@ class MarkExam extends Component {
     }
 
     reloadFetchHandler = () => {
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'exam', 'getMarkinfo', this.state.pageID);
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'exam', this.state.cntID, this.state.pageID);
     }
 
     backActionHandler = () => {
         if (this.props.fetchCnt && (this.props.fetchCnt[0].score || this.props.fetchCnt[0].score === 0)) {
-            this.navigationHandler(Platform.OS === 'web' ? 'CBTWeb' : 'CBT')
+            this.navigationHandler(this.state.navigationURI)
         } else {
-            Alert.alert('Are you sure ,you want to cancel this exam', null, [{title: 'Exit'}]);
+            Alert.alert('Are you sure, you want to stop marking', null, [
+                {text: 'OK', onPress: () => this.navigationHandler(this.state.navigationURI), style: styles.button}], {cancelable: true});
         }
         return true
     }
 
-    navigationHandler = (page, cntID) => {
-        this.props.navigation.navigate(page);
+    navigationHandler = (page, cnt = {}) => {
+        this.props.navigation.navigate(page, cnt);
     }
 
     closeModalHandler = () => {
-        this.setState({showSharePicker: null, showChatBox: null})
+        if (this.state.reaction) {
+            this.props.onPageReactionReset(this.state.reaction.pageID);
+        }
+        this.setState({showSharePicker: null, showChatBox: null, reaction: null})
     }
 
     showCommentHandler = () => {
@@ -131,8 +146,16 @@ class MarkExam extends Component {
     }
 
     submitAnswerHandler = () => {
-        this.props.onPageReaction('exam', this.state.mark._id, 'markTheoryexam', {cnt: JSON.stringify({pageID: this.state.pageID, answer: this.state.selectedAnswer, 
+        this.props.onPageReaction('exam', this.state.mark._id, this.state.getMarkID, {cnt: JSON.stringify({pageID: this.state.pageID, answer: this.state.selectedAnswer, 
             questionTotal: this.state.mark.questionTotal, cntID: this.state.mark._id})});
+    }
+
+    pageReactionHandler = (cnt, confirm = false) => {
+        this.props.onPageReaction(cnt.page, cnt.pageID, cnt.cntType, {pageID: cnt.pageID, cnt: JSON.stringify([this.props.fetchCnt[0].pending])}, 'post', confirm);
+         if (confirm) {
+            return this.setState({reaction: null});
+        }
+        this.setState({reaction: {page: cnt.page, pageID: cnt.pageID, cntType: cnt.cntType, info: cnt.info, confirm}});
     }
 
     render () {
@@ -156,6 +179,7 @@ class MarkExam extends Component {
         )
 
         if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && this.state.mark && this.state.mark.question.length > 0) {
+            let reaction = this.props.pageReaction.length > 0 && this.state.reaction ? this.props.pageReaction.filter(id => id === this.state.reaction.pageID)[0] : null;
             cnt = (
                 <View style={styles.container}>
                     { header }
@@ -218,10 +242,17 @@ class MarkExam extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
+                    { reaction && !reaction.confirm ? 
+                        <NotificationModal
+                            info={this.state.reaction.info}
+                            closeModal={this.closeModalHandler}
+                            button={[{title: 'Ok', onPress: () => this.pageReactionHandler({page: this.state.reaction.page, pageID: this.state.reaction.pageID, cntType: this.state.reaction.cntType}, true), 
+                                style: styles.buttonCancel},
+                            {title: 'Exit', onPress: this.closeModalHandler, style: styles.button}]}/> : null}
                     { this.props.fetchCnt[0].score || this.props.fetchCnt[0].score === 0 ? (
                         <AbsoluteFill style={styles.absoluteFill}>
                             <DefaultHeader
-                                onPress={() => this.navigationHandler(Platform.OS === 'web' ? 'CBTWeb' : 'CBT')}
+                                onPress={() => this.navigationHandler(this.state.navigationURI)}
                                 title="Result"/>
                              <Wrapper
                                 {...wrapperProps}
@@ -238,16 +269,39 @@ class MarkExam extends Component {
                                                 <View style={{marginTop: 10}}>
                                                     {this.props.fetchCnt[0].showResult ?
                                                         <Text style={{marginBottom: 10, color: '#777'}}>Result as being added </Text> : null}
+                                                    {this.props.fetchCnt[0].passed === false ?
+                                                        <Text style={{marginBottom: 10, color: '#ff1600'}}>{ this.state.infoFailed }</Text> : null}
+                                                    {this.props.fetchCnt[0].passed ?
+                                                        <Text style={{marginBottom: 10, color: '#777'}}>{ this.state.infoPassed }</Text> : null}
+                                                    {this.props.fetchCnt[0].pendingApprove === true ?
+                                                        <Text style={{marginBottom: 10, color: '#777'}}>{ this.state.infoPending }</Text> : null}
                                                     <View style={styles.resultButton}>
                                                         {this.props.fetchCnt[0].showResult || this.props.fetchCnt[0].enableComment ?
                                                         <Button style={styles.chatButton} onPress={this.showCommentHandler}>
                                                             <Ionicons name="chatbox-ellipses-outline" size={16} color="#fff"/>
                                                             <Text style={styles.submitButtonText}>Result</Text>
                                                         </Button> : null}
+                                                        { this.props.fetchCnt[0].passed && this.state.buttonPassed ? this.state.buttonPassed.map((cnt, index) => (
+                                                            <Button key={index} onPress={() => this.navigationHandler(cnt.onPress.URI, cnt.onPress.params)} style={styles.reactionButton}>
+                                                                {cnt.icon ? <Ionicons name={cnt.icon.name} color={cnt.icon.color ? cnt.icon.color : '#fff'} size={cnt.icon.size ? cnt.icon.size : 18} style={{marginRight: 5}}/> : null }
+                                                                <Text style={[styles.submitButtonText, cnt.style]}>{cnt.title}</Text>
+                                                            </Button>
+                                                        )): null}
+                                                        { this.props.fetchCnt[0].pendingApprove === true && this.state.buttonPending ? this.state.buttonPending.map((cnt, index) => (
+                                                            <Button 
+                                                                key={index}
+                                                                onPress={() => cnt.pageReaction ? this.pageReactionHandler(cnt.pageReaction) : this.navigationHandler(cnt.onPress.URI, cnt.onPress.params)} 
+                                                                style={cnt.style ? cnt.style : styles.reactionButton}
+                                                                disabled={this.props.pageReaction.length > 0}>
+                                                                {cnt.icon ? <Ionicons name={cnt.icon.name} color={cnt.icon.color ? cnt.icon.color : '#fff'} size={cnt.icon.size ? cnt.icon.size : 18} style={{marginRight: 5}}/> : null }
+                                                                <Text style={[styles.submitButtonText, cnt.textStyle]}>{cnt.title}</Text>
+                                                            </Button>
+                                                        )): null}
+                                                        {this.state.enableShare ? 
                                                         <Button style={styles.shareButton} onPress={this.showShareHandler}>
                                                             <Ionicons name="paper-plane-outline" size={16} color="#333"/>
                                                             <Text style={styles.shareButtonText}>Share</Text>
-                                                        </Button>
+                                                        </Button>: null}
                                                     </View>
                                                 </View>
                                         </View>
@@ -319,6 +373,16 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         flex: 1
     },
+    reactionButton: {
+        backgroundColor: '#437da3',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 5,
+        flexDirection: 'row',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     chatButton: {
         backgroundColor: '#437da3',
         paddingVertical: 5,
@@ -356,7 +420,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
-        flex: 1
     },
     shareButton: {
         backgroundColor: '#dcdbdc',
@@ -392,8 +455,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchPage: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
         onPageReset: () => dispatch(actions.pageReset()),
-        onPageReaction: (page, pageID, reactionType, cnt) => dispatch(actions.pageReactionInit(page, pageID, reactionType, cnt)),
-        onPageReactionReset: () => dispatch(actions.pageReactionReset()),
+        onPageReaction: (page, pageID, reactionType, cnt, uriMethod, confirm) => dispatch(actions.pageReactionInit(page, pageID, reactionType, cnt, uriMethod, confirm)),
+        onPageReactionReset: (pageID) => dispatch(actions.pageReactionReset(pageID)),
     };
 };
 

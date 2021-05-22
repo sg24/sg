@@ -17,6 +17,7 @@ import Button from '../Button/Button';
 import NotificationModal from '../NotificationModal/NotificationModal';
 import PrivateConv from './PrivateConv/PrivateConv';
 import PendingMark from './PendingMark/PendingMark';
+import PendingApprove from './PendingAprove/PendingApprove';
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 import InfoBox from '../InfoBox/InfoBox';
 import AbsoluteFill from '../AbsoluteFill/AbsoluteFill';
@@ -110,8 +111,8 @@ class SelectPicker extends Component {
     }
 
     selectHandler = (cntType, cntID, confirm, info) => {
-        if (this.props.selectType === 'cbtRequest') {
-            this.props.onSelectCnt('cbt', this.props.pageID, cntType, cntID, this.state.picked, 'post', confirm);
+        if (this.props.selectType === 'cbtRequest' || this.props.selectType === 'groupRequest' || this.props.selectType === 'groupPendingapprove') {
+            this.props.onSelectCnt(this.props.page, this.props.pageID, cntType, cntID, this.state.picked, 'post', confirm);
             if (confirm) {
                 return this.setState({select: null});
             }
@@ -132,7 +133,7 @@ class SelectPicker extends Component {
     }
 
     selectReactionHandler = (cntType, cntID, confirm, info) => {
-        this.props.onSelectReaction('cbt', this.props.pageID, cntType, cntID, [cntID], 'post', confirm);
+        this.props.onSelectReaction(this.props.page, this.props.pageID, cntType, cntID, [cntID], 'post', confirm);
         if (confirm) {
             return this.setState({changeReaction: null});
         }
@@ -159,7 +160,7 @@ class SelectPicker extends Component {
                         { this.props.rightButton ? <Button 
                             title={this.props.rightButton.title}
                             style={styles.selectButton}
-                            onPress={() => this.selectHandler(this.props.rightButton.action, cnt._id, false, 'Are you sure you want to allow this users')}
+                            onPress={() => this.selectHandler(this.props.rightButton.action, cnt._id, false, this.props.confirmAllInfo ? this.props.confirmAllInfo : 'Are you sure you want to allow this users')}
                             disabled={this.state.picked.length < 1 || this.props.selectStart}
                             submitting={this.props.selectStart && !this.state.select && this.props.reactionType === this.props.rightButton.action}
                             loaderStyle="#fff" /> : null}
@@ -195,7 +196,7 @@ class SelectPicker extends Component {
                             { this.props.rightButton ? <Button 
                                 title={this.props.rightButton.title}
                                 style={styles.selectButton}
-                                onPress={() => this.selectHandler(this.props.rightButton.action, cnt._id, false, 'Are you sure you want to allow this users')}
+                                onPress={() => this.selectHandler(this.props.rightButton.action, cnt._id, false, this.props.confirmAllInfo ? this.props.confirmAllInfo : 'Are you sure you want to allow this users')}
                                 disabled={this.state.picked.length < 1 || this.props.selectStart}
                                 submitting={this.props.selectStart && !this.state.select && this.props.reactionType === this.props.rightButton.action}
                                 loaderStyle="#fff" /> : null}
@@ -216,18 +217,41 @@ class SelectPicker extends Component {
 
         if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
             let items = null;
-            if (this.props.selectType === 'cbtRequest') {
+            if (this.props.selectType === 'cbtRequest' || this.props.selectType === 'groupRequest') {
                 items = this.props.fetchCnt.map((cnt, index) => (
                     <PrivateConv
                         key={index}
                         userDet={cnt}
                         showProfile={() => this.navigationHandler('Profile', cnt.authorID)}
+                        rightTitle={this.props.rightButton ? this.props.rightButton.title : null}
                         lastItem={index === (this.props.fetchCnt.length - 1)}
                         loadMore={this.loadMoreHandler}
                         enableLoadMore={this.props.loadMore}
                         allowPressable
                         selectReaction={this.props.selectReaction}
-                        allowUser={() => this.selectReactionHandler(this.props.rightButton.action, cnt._id, false, 'Are you sure you want to allow this user')}
+                        allowUser={() => this.selectReactionHandler(this.props.rightButton.action, cnt._id, false, this.props.confirmInfo ? this.props.confirmInfo : 'Are you sure you want to allow this user')}
+                        rejectUser={() => this.selectReactionHandler(this.props.leftButton.action, cnt._id, false, 'Are you sure you want to remove this user')}
+                        start={this.props.fetchSelectcntStart}
+                        pick={() => this.pickHandler(cnt._id)}
+                        picked ={this.state.picked}
+                        disabledRightButton={!this.props.rightButton}
+                        />
+                ));
+            }
+
+            if (this.props.selectType === 'groupPendingapprove') {
+                items = this.props.fetchCnt.map((cnt, index) => (
+                    <PendingApprove
+                        key={index}
+                        userDet={cnt}
+                        showProfile={() => this.navigationHandler('Profile', cnt.authorID)}
+                        rightTitle={this.props.rightButton ? this.props.rightButton.title : null}
+                        lastItem={index === (this.props.fetchCnt.length - 1)}
+                        loadMore={this.loadMoreHandler}
+                        enableLoadMore={this.props.loadMore}
+                        allowPressable
+                        selectReaction={this.props.selectReaction}
+                        allowUser={() => this.selectReactionHandler(this.props.rightButton.action, cnt._id, false, this.props.confirmInfo ? this.props.confirmInfo : 'Are you sure you want to allow this user')}
                         rejectUser={() => this.selectReactionHandler(this.props.leftButton.action, cnt._id, false, 'Are you sure you want to remove this user')}
                         start={this.props.fetchSelectcntStart}
                         pick={() => this.pickHandler(cnt._id)}

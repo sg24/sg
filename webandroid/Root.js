@@ -37,6 +37,7 @@ import ExamInstructionScreen from './src/screens/Home/ExamInstruction';
 import GeneralSettingsScreen from './src/screens/Home/GeneralSettings';
 import LogoutScreen from './src/screens/Home/Logout';
 import HashSearchScreen from './src/screens/Home/HashSearch';
+import GroupScreen from './src/screens/Home/Group';
 import AddPostScreen from './src/screens/AddForm/Post';
 import AddQuestionScreen from './src/screens/AddForm/Question';
 import AddAdvertScreen from './src/screens/AddForm/Advert';
@@ -44,6 +45,7 @@ import AddFeedScreen from './src/screens/AddForm/Feed';
 import AddWriteUpScreen from './src/screens/AddForm/WriteUp';
 import AddCBTScreen from './src/screens/AddForm/CBT/CBT';
 import AddChatRoomScreen from './src/screens/AddForm/ChatRoom/ChatRoom';
+import AddGroupScreen from './src/screens/AddForm/Group';
 import AddPageReportScreen from './src/screens/AddForm/PageReport';
 import AddAppErrorScreen from './src/screens/AddForm/AppErrorReport';
 import EditPostScreen from './src/screens/EditForm/Post';
@@ -51,6 +53,7 @@ import EditQuestionScreen from './src/screens/EditForm/Question';
 import EditFeedScreen from './src/screens/EditForm/Feed';
 import EditWriteUpScreen from './src/screens/EditForm/WriteUp';
 import EditChatRoomScreen from './src/screens/EditForm/ChatRoom';
+import EditGroupScreen from './src/screens/EditForm/Group';
 import EditCBTScreen from './src/screens/EditForm/CBT';
 import EditAdvertScreen from './src/screens/EditForm/Advert';
 
@@ -75,6 +78,7 @@ const userScreens = {
   GeneralSettings: GeneralSettingsScreen,
   Logout: LogoutScreen,
   Search: SearchScreen,
+  GroupWeb: GroupScreen,
   Addnew: AddnewScreen,
   Conversation: ConvScreen,
   Notification: NotificatonScreen,
@@ -85,6 +89,7 @@ const userScreens = {
   AddFeed: AddFeedScreen,
   AddWriteUp: AddWriteUpScreen,
   AddCBT: AddCBTScreen,
+  AddGroup: AddGroupScreen,
   AddChatRoom: AddChatRoomScreen,
   AddReport: AddPageReportScreen,
   AddAppError: AddAppErrorScreen,
@@ -92,6 +97,7 @@ const userScreens = {
   EditQuestion: EditQuestionScreen,
   EditFeed :  EditFeedScreen,
   EditWriteUp: EditWriteUpScreen,
+  EditGroup: EditGroupScreen,
   EditChatRoom: EditChatRoomScreen,
   EditCBT: EditCBTScreen,
   EditAdvert: EditAdvertScreen,
@@ -165,7 +171,7 @@ class Base extends Component {
               ...(this.props.isLoggedIn ? userScreens : authScreens),
             }).map(([name, component]) => {
               let header = {}
-              if (name === 'Home' || name === 'HomeWeb' || name === 'UsersWeb' || name === 'CBTWeb') {
+              if (name === 'Home' || name === 'HomeWeb' || name === 'UsersWeb' || name === 'CBTWeb' || name === 'GroupWeb') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : HomeHeader
                 header = {
                   header: ({scene, previous, navigation }) => <HeaderBar
@@ -182,6 +188,7 @@ class Base extends Component {
                   name === 'HomeWeb' ? PostScreen :
                   name === 'UsersWeb' ? UsersScreen : 
                   name === 'CBTWeb' ? CBTScreen:
+                  name === 'GroupWeb' ? GroupScreen:
                   PostScreen: component;
               }
               if (name === 'Search') {
@@ -272,8 +279,8 @@ class Base extends Component {
                 }
               }
               
-              if (name === 'AddPost' || name === 'AddQuestion' || name === "AddAdvert" || name === "AddFeed"
-              || name === "AddWriteUp" || name === "AddCBT" || name === "AddChatRoom" || name === "AddReport" || name === "AddAppError") {
+              if (name === 'AddPost' || name === 'AddQuestion' || name === "AddAdvert" || name === "AddFeed" || name === "AddWriteUp" 
+              || name === "AddCBT" || name === "AddChatRoom" || name === "AddGroup" || name === "AddReport" || name === "AddAppError") {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader;
                 let title = name.startsWith('Add') ? name === "AddChatRoom" ? "Add Chat Room" :
                   name === "AddAppError" ? "App Error Report" : name.split('Add').join("Add ") : name;
@@ -295,7 +302,7 @@ class Base extends Component {
               }
 
               if (name === 'EditPost' || name === 'EditQuestion' || name === "EditAdvert" || name === "EditFeed"
-              || name === "EditWriteUp" || name === "EditCBT" || name === "EditChatRoom") {
+              || name === "EditWriteUp" || name === "EditCBT" || name === 'EditGroup' || name === "EditChatRoom") {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader;
                 let title = name.startsWith('Edit') ? name === "EditChatRoom" ? "Edit Chat Room" : name.split('Edit').join("Edit ") : name;
                 header = {

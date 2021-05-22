@@ -293,6 +293,114 @@ router.post('/edit/chatRoom', authenticate, (req, res, next) => {
     })
 })
 
+router.post('/add/group', authenticate, (req, res, next) => {
+    formInit(req, formidable).then(form => {
+        let mediaList = form.files && form.files.media ? form.files.media : [];
+        let fields = form.fields
+        let askQuestion = JSON.parse(fields.cbt);
+        savetemp(mediaList, askQuestion ? 'qcontent' : 'group', req.user).then(tempFileID => {
+            uploadToBucket(mediaList, fields.description).then(media => {
+                let groupMedia = []
+                for (let cnt of media){
+                    if (cnt.filename && (cnt.filename.split('--')[0] === fields.id)) {
+                        groupMedia.push(cnt);
+                    }
+                }
+                let questionMedia = [];
+                let updateQuestion = [];
+                for (let question of JSON.parse(fields.question)) {
+                    questionMedia = []
+                    for (let cnt of media){
+                        if (cnt.filename && (cnt.filename.split('--')[0] === question.id)) {
+                            questionMedia.push(cnt);
+                        }
+                    }
+                    delete question.id;
+                    question.media = questionMedia;
+                    updateQuestion.push(question);
+                }
+                Promise.all([askQuestion ? 
+                    submit(qcontent, {question: updateQuestion, totalOption: fields.totalOption, tempFileID}, tempFileID, null) : 
+                        Promise.resolve(null)]).then(id => {
+                    let cnt = {
+                        authorID: req.user, username: req.username, userImage: req.userImage,
+                        content: fields.content, title: fields.title, hashTag: JSON.parse(fields.hashTag),
+                        autoJoin: JSON.parse(fields.autoJoin), enableCbt: JSON.parse(fields.cbt),
+                        enableRule: JSON.parse(fields.rule), roomType: fields.roomType,passMark: fields.passMark,
+                        hour: fields.hour, minute: fields.minute, second: fields.second, 
+                        duration: fields.duration, qchatTotal: fields.questionTotal, media: groupMedia, 
+                        question: id[0], tempFileID
+                    }
+                    submit(group, cnt, tempFileID, 'createGroup').then(id => {
+                        return res.status(201).send(id);
+                    })
+                })
+            })
+        })
+    }).catch(err => {
+        res.status(500).send(err);
+    })
+})
+
+router.post('/edit/group', authenticate, (req, res, next) => {
+    formInit(req, formidable).then(form => {
+        let mediaList = form.files && form.files.media ? form.files.media : [];
+        let fields = form.fields
+        let askQuestion = JSON.parse(fields.cbt);
+        Promise.all([
+            group.findOne({_id: fields.cntID, authorID: req.user}).then(result => result ? Promise.resolve(result.question):Promise.reject('Not Found')),
+            deleteMedia(JSON.parse(fields.removeMedia)), savetemp(mediaList,  askQuestion ? 'qcontent' : 'group', req.user)]).then(tempFileID => {
+            uploadToBucket(mediaList, fields.description).then(media => {
+                let uploadedMedia = JSON.parse(fields.uploadedMedia);
+                let groupMedia = []
+                for (let cnt of media){
+                    if (cnt.filename && (cnt.filename.split('--')[0] === fields.id)) {
+                        groupMedia.push(cnt);
+                    }
+                }
+                groupMedia.unshift(...uploadedMedia);
+                if (tempFileID[1] && tempFileID[1].length > 0) {
+                    groupMedia.push(...tempFileID[1]);
+                }
+                let questionMedia = [];
+                let updateQuestion = [];
+                for (let question of JSON.parse(fields.question)) {
+                    questionMedia = []
+                    for (let cnt of media){
+                        if (cnt.filename && (cnt.filename.split('--')[0] === question.id)) {
+                            questionMedia.push(cnt);
+                        }
+                    }
+                    questionMedia.unshift(...question.uploadedMedia)
+                    delete question.id;
+                    delete question.uploadedMedia;
+                    question.media = questionMedia;
+                    updateQuestion.push(question);
+                }
+                let cnt = {
+                    authorID: req.user, username: req.username, userImage: req.userImage,
+                    content: fields.content, title: fields.title, hashTag: JSON.parse(fields.hashTag),
+                    autoJoin: JSON.parse(fields.autoJoin), enableCbt: JSON.parse(fields.cbt),
+                    enableRule: JSON.parse(fields.rule), roomType: fields.roomType,passMark: fields.passMark,
+                    hour: fields.hour, minute: fields.minute, second: fields.second, edited: Date.now(),
+                    duration: fields.duration, qchatTotal: fields.questionTotal, media: groupMedia,
+                    tempFileID: tempFileID[2]
+                }
+                Promise.all([askQuestion ?
+                    edit(qcontent, {question: updateQuestion, totalOption: fields.totalOption, tempFileID: tempFileID[2]}, 
+                            tempFileID[2], tempFileID[0], null) : Promise.resolve(null), 
+                        edit(group, cnt, tempFileID[2], fields.cntID, 'createGroup')]).then(id => {
+                    return res.status(201).send(id[1]);
+                })
+            })
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+    }).catch(err => {
+        res.status(500).send(err);
+    })
+})
+
 router.post('/add/advert', authenticate, (req, res, next) => {
     formInit(req, formidable).then(form => {
         let mediaList = form.files && form.files.media ? form.files.media : [];
@@ -404,7 +512,8 @@ router.post('/add/pageReport', authenticate, (req, res, next) => {
             fields.page === 'question' ? question : 
             fields.page === 'feed' ? feed : 
             fields.page === 'writeup' ? writeup :
-            fields.page === 'cbt' ? qchat : post;
+            fields.page === 'cbt' ? qchat : 
+            fields.page === 'group' ? group : post;
         model.findById(fields.pageID).then(doc => {
             if (doc && doc.report.length < 20) {
                 doc.updateOne({$push: {'report': fields.content}}).then(() => {
