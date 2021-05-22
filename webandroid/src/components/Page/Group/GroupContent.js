@@ -152,14 +152,14 @@ const groupContent = props => {
                                 )}/>
                     </View> : null}
                     <Pressable 
-                        onPress={props.pagePreview}>
+                        onPress={props.showGroupInfo}>
                         <Uridetect
                             numberOfLines={1}
                             onPress={props.openURI} 
                             style={styles.title}
                             content={props.cnt.title}/>
                     </Pressable>
-                    <TouchableNativeFeedback onPress={props.member}>
+                    <TouchableNativeFeedback onPress={props.showGroupInfo}>
                         <View style={styles.memberWrapper}>
                             <Text style={[styles.memberText, styles.textStyle]}>{ transformNumber(props.cnt.member) } <Text style={{marginLeft: 10}}>Members</Text></Text>
                         </View>

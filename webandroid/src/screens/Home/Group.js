@@ -266,8 +266,8 @@ class Groups extends Component {
         this.props.onPageReaction('group', pageID, 'setFavorite');
     }
 
-    pagePreviewHandler = (cnt) => {
-        this.setState({showPagePreview: cnt})
+    showGroupInfoHandler = (pageID, title) => {
+        this.setState({showGroupInfo: {title}, pageID})
     }
 
     advertChatboxHandler = (pageID) => {
@@ -374,7 +374,7 @@ class Groups extends Component {
                                 openURI={this.openURIHandler}
                                 pageCntID={this.state.pageCntID}
                                 userProfile={this.userProfileHandler}
-                                pagePreview={this.pagePreviewHandler}
+                                showGroupInfo={this.showGroupInfoHandler}
                                 edit={this.editHandler}
                                 delete={this.deletePageHandler}
                                 share={this.shareHandler}
