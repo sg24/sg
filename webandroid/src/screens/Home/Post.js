@@ -164,7 +164,7 @@ class Post extends Component {
     }
 
     reportHandler = (pageID) => {
-        this.props.navigation.navigate('AddReport', {navigationURI: 'Home', cntType: 'pageReport', page: 'post', pageID});
+        this.props.navigation.navigate('AddReport', {navigationURI: this.state.viewMode === 'landscape' ? 'HomeWeb'  :  'Home', cntType: 'pageReport', page: 'post', pageID});
     }
 
     shareHandler = (cnt, shareType) => {

@@ -660,7 +660,7 @@ class Group extends Component {
                         info="Group created successfully !"
                         infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                         closeModal={this.resetFormHandler}
-                        button={[{title: 'View', onPress: () => this.navigationHandler('Group')},
+                        button={[{title: 'View', onPress: () => this.navigationHandler(this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group')},
                         {title: 'Add', onPress: 
                             this.state.formElement.cbt.value ? this.examContent.resetFormHandler :
                                 this.resetFormHandler, style: styles.modalButton}]}/> : null}

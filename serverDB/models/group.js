@@ -200,6 +200,32 @@ const GroupSchema = new Schema({
         type: Boolean,
         default: false
     },
+    settings: {
+        enablePost: {
+            type: Boolean,
+            default: true
+        },
+        enableQuestion: {
+            type: Boolean,
+            default: true
+        },
+        enableWriteUp: {
+            type: Boolean,
+            default: true
+        },
+        enableFeed: {
+            type: Boolean,
+            default: true
+        },
+        enableCBT: {
+            type: Boolean,
+            default: true
+        },
+        enableChatroom: {
+            type: Boolean,
+            default: true
+        }
+    },
     tempFileID: String
 })
 

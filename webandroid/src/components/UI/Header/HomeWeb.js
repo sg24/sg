@@ -138,7 +138,7 @@ class Home extends Component  {
                                 </TouchableNativeFeedback>
                                 <TouchableNativeFeedback  onPress={this.props.onNavigate.bind(this, 'GroupWeb')} style={styles.navIcon}>
                                     <View style={styles.navIcon}>
-                                        <Icon name="chatbubble-ellipses-outline" size={22} style={activeUri === 'GroupWeb' ? styles.activeUri : styles.color}/>
+                                        <Icon name="chatbubble-ellipses-outline" size={22} style={activeUri === 'GroupWeb' || activeUri === 'GroupPreview' ? styles.activeUri : styles.color}/>
                                     </View>
                                 </TouchableNativeFeedback>
                                 <TouchableNativeFeedback  onPress={this.props.onNavigate.bind(this, 'CBTWeb')} style={styles.navIcon}>

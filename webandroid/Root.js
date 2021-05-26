@@ -31,13 +31,14 @@ import QuestionScreen from './src/screens/Home/Question';
 import FeedScreen from './src/screens/Home/Feed';
 import WriteUpScreen from './src/screens/Home/WriteUp';
 import CBTScreen from './src/screens/Home/CBT';
+import GroupScreen from './src/screens/Home/Group';
+import GroupPreviewScreen from './src/screens/Home/GroupPreview';
 import ExamScreen from './src/screens/Home/Exam';
 import MarkExamScreen from './src/screens/Home/MarkExam';
 import ExamInstructionScreen from './src/screens/Home/ExamInstruction';
 import GeneralSettingsScreen from './src/screens/Home/GeneralSettings';
 import LogoutScreen from './src/screens/Home/Logout';
 import HashSearchScreen from './src/screens/Home/HashSearch';
-import GroupScreen from './src/screens/Home/Group';
 import AddPostScreen from './src/screens/AddForm/Post';
 import AddQuestionScreen from './src/screens/AddForm/Question';
 import AddAdvertScreen from './src/screens/AddForm/Advert';
@@ -46,6 +47,7 @@ import AddWriteUpScreen from './src/screens/AddForm/WriteUp';
 import AddCBTScreen from './src/screens/AddForm/CBT/CBT';
 import AddChatRoomScreen from './src/screens/AddForm/ChatRoom/ChatRoom';
 import AddGroupScreen from './src/screens/AddForm/Group';
+import AddGroupPostScreen from './src/screens/AddForm/Group/Post';
 import AddPageReportScreen from './src/screens/AddForm/PageReport';
 import AddAppErrorScreen from './src/screens/AddForm/AppErrorReport';
 import EditPostScreen from './src/screens/EditForm/Post';
@@ -72,13 +74,14 @@ const userScreens = {
   Feed: FeedScreen,
   WriteUp: WriteUpScreen,
   CBTWeb: CBTScreen,
+  GroupWeb: GroupScreen,
+  GroupPreview: GroupPreviewScreen,
   ExamInstruction: ExamInstructionScreen,
   Exam: ExamScreen,
   MarkExam: MarkExamScreen,
   GeneralSettings: GeneralSettingsScreen,
   Logout: LogoutScreen,
   Search: SearchScreen,
-  GroupWeb: GroupScreen,
   Addnew: AddnewScreen,
   Conversation: ConvScreen,
   Notification: NotificatonScreen,
@@ -90,6 +93,7 @@ const userScreens = {
   AddWriteUp: AddWriteUpScreen,
   AddCBT: AddCBTScreen,
   AddGroup: AddGroupScreen,
+  AddGroupPost: AddGroupPostScreen,
   AddChatRoom: AddChatRoomScreen,
   AddReport: AddPageReportScreen,
   AddAppError: AddAppErrorScreen,
@@ -254,7 +258,7 @@ class Base extends Component {
                 }
               }
 
-              if (name === 'Question' || name === 'Feed' || name === 'WriteUp' || name === 'Exam' || name === 'MarkExam') {
+              if (name === 'Question' || name === 'Feed' || name === 'WriteUp' || name === 'GroupPreview' || name === 'Exam' || name === 'MarkExam') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
                 header = {
                   header: ({scene, previous, navigation }) => this.state.viewMode === 'landscape' ?  <HeaderBar
@@ -284,6 +288,27 @@ class Base extends Component {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader;
                 let title = name.startsWith('Add') ? name === "AddChatRoom" ? "Add Chat Room" :
                   name === "AddAppError" ? "App Error Report" : name.split('Add').join("Add ") : name;
+                header = {
+                  header: ({scene, previous, navigation }) => <HeaderBar
+                    title={title}
+                    userImage={this.props.userImage}
+                    username={this.props.username}
+                    onNavigate={(url) => navigation.navigate(url, {userID: this.props.userID})}
+                    onPress={navigation.goBack}
+                    modalSearch={SearchScreen}
+                    modalConv={ConvScreen}
+                    modalNotify={NotificatonScreen}
+                    filterCnt={this.props.onHeaderFilter}
+                    inputValue={this.props.filterCnt}
+                  />,
+                  title
+                }
+              }
+
+              if (name === 'AddGroupPost' || name === 'AddGroupQuestion' || name === "AddGroupFeed" || name === "AddGroupWriteUp" 
+              || name === "AddGroupCBT" || name === "AddGroupChatRoom") {
+                let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader;
+                let title = name.startsWith('AddGroup') ? name === "AddGroupChatRoom" ? "Add Chat Room" : name.split('AddGroup').join("Add ") : name;
                 header = {
                   header: ({scene, previous, navigation }) => <HeaderBar
                     title={title}

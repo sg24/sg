@@ -22,6 +22,7 @@ const cbt = props => {
             saveMedia={props.saveMedia}
             closeModal={props.closeModal}
             userProfile={props.userProfile.bind(this, cnt.authorID)}
+            shareUserProfile={props.userProfile}
             pagePreview={props.pagePreview.bind(this, cnt)}
             chat={props.chat.bind(this, cnt._id, cnt.enableComment, cnt.enableDelete)}
             favorite={props.favorite.bind(this, cnt._id)}

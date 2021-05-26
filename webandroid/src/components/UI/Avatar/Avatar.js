@@ -10,7 +10,7 @@ const avatar = props => {
     let wrapperProps = props.pressable ? {} : { onPress: props.onPress }
     let userImg = (
         <View style={[styles.wrapper, props.style, props.imageSize ? {width: props.imageSize, height: props.imageSize, borderRadius: props.imageSize/2} : null]}>
-            <Ionicons name="person" size={props.iconSize ? props.iconSize : 20} color="#777"/>
+            <Ionicons name={props.iconName ? props.iconName : 'person'} size={props.iconSize ? props.iconSize : 20} color="#777"/>
         </View>
     )
 

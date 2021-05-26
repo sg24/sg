@@ -21,10 +21,11 @@ const group = props => {
             saveMedia={props.saveMedia}
             closeModal={props.closeModal}
             userProfile={props.userProfile.bind(this, cnt.authorID)}
+            shareUserProfile={props.userProfile}
             showGroupInfo={props.showGroupInfo.bind(this, cnt._id, cnt.title)}
             favorite={props.favorite.bind(this, cnt._id)}
             request={props.request.bind(this, cnt._id, cnt, cnt.isPublic, cnt.enableRule, cnt.enableCbt)}
-            enterGroup={props.enterGroup.bind(this, cnt._id)}
+            enterGroup={props.enterGroup.bind(this, cnt._id, cnt.title, cnt.image, cnt.member)}
             cancelRequest={props.cancelRequest.bind(this, cnt._id)}
             showPendingAppove={props.showPendingAppove.bind(this, cnt._id)}
             cancelApprove={props.cancelApprove.bind(this, cnt._id, null, 'cancelApprove', false, 'Cancelling this request will remove the exam you have written !')}

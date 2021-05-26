@@ -5,6 +5,9 @@ const initialState = {
     postSubmitError: null,
     postSubmitted: false,
     postStart: false,
+    grouppostSubmitError: null,
+    grouppostSubmitted: false,
+    grouppostStart: false,
     questionSubmitError: null,
     questionSubmitted: false,
     questionStart: false,
@@ -37,6 +40,7 @@ const initialState = {
 
 const addFormReset = (state, action) => {
     return updateObject(state, { postSubmitError: null, postSubmitted: false,  postStart: false,
+        grouppostSubmitError: null, grouppostSubmitted: false,  grouppostStart: false,
         questionSubmitError: null, questionSubmitted: false,questionStart: false,
         advertSubmitError: null, advertSubmitted: false, advertStart: false,
         feedSubmitError: null, feedSubmitted: false,feedStart: false,
@@ -52,6 +56,8 @@ const addFormReset = (state, action) => {
 const submitAddFormStart = (state, action) => {
     if (action.form === 'post') {
         return updateObject(state, {postSubmitError: null, postStart: true})
+    } else if (action.form === 'grouppost') {
+        return updateObject(state, {grouppostSubmitError: null, grouppostStart: true})
     } else if (action.form === 'question') {
         return updateObject(state, {questionSubmitError: null, questionStart: true})
     } else if (action.form === 'advert') {
@@ -78,6 +84,8 @@ const submitAddFormStart = (state, action) => {
 const submitAddFormFail = (state, action) => {
     if (action.form === 'post') {
         return updateObject(state, {postSubmitError: {message: action.err}, postStart: false})
+    } else if (action.form === 'grouppost') {
+        return updateObject(state, {grouppostSubmitError: {message: action.err}, grouppostStart: false})
     } else if (action.form === 'question') {
         return updateObject(state, {questionSubmitError: {message: action.err}, questionStart: false})
     } else if (action.form === 'advert') {
@@ -105,6 +113,8 @@ const submitAddFormFail = (state, action) => {
 const addformSubmitted = (state, action) => {
     if (action.form === 'post') {
         return updateObject(state, {postSubmitted: true, postStart: false, cntID: action.cntID})
+    } else if (action.form === 'grouppost') {
+        return updateObject(state, {grouppostSubmitted: true, grouppostStart: false, cntID: action.cntID})
     } else if (action.form === 'question') {
         return updateObject(state, {questionSubmitted: true, questionStart: false, cntID: action.cntID})
     } else if (action.form === 'advert') {

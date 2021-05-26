@@ -116,6 +116,7 @@ export const submitAddFormInit = (formData, type) => {
         } else {
             formContent.append('content', formData.content);
             formContent.append('hashTag', JSON.stringify(formData.hashTag));
+            formContent.append('groupID', formData.groupID);
         }
         axios.post(`/add/${type}`, formContent, {
             headers: {

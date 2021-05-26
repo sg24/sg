@@ -15,6 +15,7 @@ const category = require('./models/category');
 const favorite = require('./models/favorites');
 const comment = require('./models/comment');
 const group = require('./models/group');
+const grouppost = require('./models/grouppost');
 const user = require('./models/user');
 const userchat = require('./models/userchat');
 const tempUser = require('./models/tempUser');
@@ -25,6 +26,7 @@ const qchat = require('./models/qchat');
 const cbtchat = require('./models/cbtchat');
 const qcontent = require('./models/qcontent');
 const notifications = require('./models/notifications');
+const share = require('./models/share');
 const page = require('./models/page');
 
 module.exports = {
@@ -41,6 +43,7 @@ module.exports = {
     category,
     user,
     group,
+    grouppost,
     tempUser,
     comment,
     tempFile,
@@ -53,6 +56,7 @@ module.exports = {
     qcontent,
     cbtchat,
     notifications,
+    share,
     page,
     connectStatus
 };

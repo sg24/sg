@@ -6,29 +6,30 @@ import { size } from 'tailwind';
 import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
 
 
-import NoBackground from '../../components/UI/NoBackground/NoBackground';
-import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
-import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
-import FormElement from '../../components/UI/FormElement/FormElement';
-import BoxShadow from '../../components/UI/BoxShadow/BoxShadow';
-import DefaultHeader from '../../components/UI/Header/DefaultHeader';
-import Button from '../../components/UI/Button/Button';
-import { updateObject, checkValidity, checkUri, checkHashtag } from '../../shared/utility';
-import * as actions from '../../store/actions/index';
-import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
-import CameraComponent from '../../components/UI/Camera/Camera';
-import VideoCamera from '../../components/UI/VideoCamera/VideoCamera';
-import AudioRecorder from '../../components/UI/AudioRecorder/AudioRecorder';
-import EmojiPicker from '../../components/UI/EmojiPicker/EmojiPicker';
-import LinkPreview from '../../components/UI/LinkPreview/LinkPreview';
-import UploadPreview from '../../components/UI/UploadPreview/UploadPreview'
-import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
+import NoBackground from '../../../components/UI/NoBackground/NoBackground';
+import Navigation from '../../../components/UI/SideBar/Navigation/Navigation';
+import CreateNavigation from '../../../components/UI/SideBar/CreateNavigation/CreateNavigation';
+import FormElement from '../../../components/UI/FormElement/FormElement';
+import BoxShadow from '../../../components/UI/BoxShadow/BoxShadow';
+import DefaultHeader from '../../../components/UI/Header/DefaultHeader';
+import Button from '../../../components/UI/Button/Button';
+import { updateObject, checkValidity, checkUri, checkHashtag } from '../../../shared/utility';
+import * as actions from '../../../store/actions/index';
+import ActionSheet from '../../../components/UI/ActionSheet/ActionSheet';
+import CameraComponent from '../../../components/UI/Camera/Camera';
+import VideoCamera from '../../../components/UI/VideoCamera/VideoCamera';
+import AudioRecorder from '../../../components/UI/AudioRecorder/AudioRecorder';
+import EmojiPicker from '../../../components/UI/EmojiPicker/EmojiPicker';
+import LinkPreview from '../../../components/UI/LinkPreview/LinkPreview';
+import UploadPreview from '../../../components/UI/UploadPreview/UploadPreview'
+import NotificationModal from '../../../components/UI/NotificationModal/NotificationModal';
 
 class Post extends Component {
     constructor(props) {
         super(props);
         this.state = {
             viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
+            groupID: this.props.route.params.groupID,
             backgroundColor: '#fff',
             formElement: {
                 content: {
@@ -63,18 +64,28 @@ class Post extends Component {
     }
 
     componentDidMount() {
-        this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.props.onAddFormReset();
-        });
-        this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            this.resetFormHandler();
-        });
+        if (this.state.groupID) {
+            this._unsubscribe = this.props.navigation.addListener('focus', () => {
+                if (this.state.groupID) {
+                    this.props.onAddFormReset();
+                } else {
+                    this.props.navigation.goBack()
+                }
+            });
+            this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
+                this.resetFormHandler();
+            });
+        } else {
+            this.props.navigation.goBack()
+        }
         Dimensions.addEventListener('change', this.updateStyle)
     }
 
     componentWillUnmount() {
-        this._unsubscribe();
-        this._unsubscribeBlur();
+        if (this.state.groupID) {
+            this._unsubscribe();
+            this._unsubscribeBlur();
+        }
         Dimensions.removeEventListener('change', this.updateStyle);
     }
 
@@ -101,8 +112,8 @@ class Post extends Component {
         this.setState({selection})
     }
 
-    navigationHandler = (page) => {
-        this.props.navigation.navigate(page);
+    navigationHandler = (page, cnt={}) => {
+        this.props.navigation.navigate(page, cnt);
     }
 
     showEmojiHandler = () => {
@@ -199,7 +210,8 @@ class Post extends Component {
         let cnt = {
             content: this.state.formElement.content.value,
             uploadFile: this.state.uploadFile,
-            hashTag: this.state.inputHashTag
+            hashTag: this.state.inputHashTag,
+            groupID: this.state.groupID
         }
         this.props.onSubmitForm(cnt)
     }
@@ -314,7 +326,7 @@ class Post extends Component {
                         info="Post submitted successfully !"
                         infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                         closeModal={this.resetFormHandler}
-                        button={[{title: 'View', onPress: () => this.navigationHandler(this.state.viewMode === 'landscape' ? 'HomeWeb' : 'Home')},
+                        button={[{title: 'View', onPress: () => this.navigationHandler('GroupPreview', {pageID: this.state.groupID})},
                         {title: 'Add', onPress: this.resetFormHandler, style: styles.modalButton}]}/> : null}
             </View>
         )
@@ -423,16 +435,16 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        submitError: state.addForm.postSubmitError,
-        submitted: state.addForm.postSubmitted,
-        start: state.addForm.postStart,
+        submitError: state.addForm.grouppostSubmitError,
+        submitted: state.addForm.grouppostSubmitted,
+        start: state.addForm.grouppostStart,
         cntID: state.addForm.cntID
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSubmitForm: (formData) => dispatch(actions.submitAddFormInit(formData, 'post')),
+        onSubmitForm: (formData) => dispatch(actions.submitAddFormInit(formData, 'grouppost')),
         onAddFormReset: () => dispatch(actions.addFormReset())
     };
 };

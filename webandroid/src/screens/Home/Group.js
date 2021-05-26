@@ -204,7 +204,7 @@ class Groups extends Component {
     }
 
     startExamHandler = () => {
-        this.props.navigation.navigate('Exam', {pageID: this.state.pageID, navigationURI: Platform.OS !== 'web' ? 'Group' : 'GroupWeb', enableShare: false, cntID: 'getGroupexam', 
+        this.props.navigation.navigate('Exam', {pageID: this.state.pageID, navigationURI: this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group', enableShare: false, cntID: 'getGroupexam', 
         getMarkID: 'markGroupExam', infoPassed: 'You are now a member !', infoFailed: 'Your score is below the pass mark', infoPending: 'Your score have been sent to admin',
         buttonPassed: [{title: 'Chat', icon: {name: 'chatbox-ellipses-outline'}, onPress: { URI: 'GroupPreview',  params: {pageID: this.state.pageID}}}]});
     }
@@ -235,7 +235,7 @@ class Groups extends Component {
     }
 
     reportHandler = (pageID) => {
-        this.props.navigation.navigate('AddReport', {navigationURI: Platform.OS !== 'web' ? 'Group' : 'GroupWeb', cntType: 'pageReport', page: 'group', pageID});
+        this.props.navigation.navigate('AddReport', {navigationURI: this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group', cntType: 'pageReport', page: 'group', pageID});
         this.setState({pageCntID: null});
     }
 

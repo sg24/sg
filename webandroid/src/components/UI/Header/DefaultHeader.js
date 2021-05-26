@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'ionicons';
 
 import BoxShadow from '../BoxShadow/BoxShadow';
@@ -20,6 +20,7 @@ const defaultHeader = props => (
                 </Text>
             </View>
             { props.rightSideContent ? props.rightSideContent : null }
+            { props.children }
         </View>
     </BoxShadow>
 )

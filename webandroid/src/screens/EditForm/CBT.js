@@ -160,7 +160,7 @@ class CBT extends Component {
                 this.setState({resetAll: true});
             });
         } else {
-            this.props.navigation.navigate(Platform.OS === 'web' ? 'CBTWeb' :'CBT')
+            this.props.navigation.navigate(this.state.viewMode === 'landscape' ? 'CBTWeb' : 'CBT')
         }
         Dimensions.addEventListener('change', this.updateStyle);
     }
@@ -634,7 +634,7 @@ class CBT extends Component {
                             info="CBT updated successfully !"
                             infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                             closeModal={this.resetFormHandler}
-                            button={[{title: 'View', onPress: () => this.navigationHandler(Platform.OS === 'web' ? 'CBTWeb' :'CBT')},
+                            button={[{title: 'View', onPress: () => this.navigationHandler(this.state.viewMode === 'landscape' ? 'CBTWeb' : 'CBT')},
                             {title: 'Edit', onPress: this.examContent ? this.examContent.resetFormHandler : null, style: styles.modalButton}]}/> : null}
                 </View>
             )

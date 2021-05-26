@@ -11,6 +11,8 @@ let authenticate = require('../serverDB/middleware/authenticate');
 let formInit = require('./utility/forminit');
 let search = require('./utility/search');
 let notifications = require('./utility/notifications');
+let sharecontent = require('./utility/sharecontent');
+let getshare = require('./utility/getshare');
 const {group, qcontent, advert, user, connectStatus} = require('../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
@@ -37,52 +39,53 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'getGroup') {
-        group.find({_isCompleted: true, block: {$nin: [req.user]}})
-            .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
-            let updateResult = [];
-            if (result) {
-                for (let cnt of result) {
-                    let updateCnt = JSON.parse(JSON.stringify(cnt));
-                    delete updateCnt.block;
-                    updateResult.push({...updateCnt,
-                    share: cnt.share.length, favorite: cnt.favorite.length,
-                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
-                    isMember: cnt.member.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user)[0] ? true : 
-                        JSON.parse(JSON.stringify(cnt.authorID)) === req.user ? true :false,
-                    isPending: cnt.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
-                    isPendingApprove: cnt.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
-                    isPendingMark: cnt.mark.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
-                    isPublic: cnt.roomType === 'Public',
-                    request: cnt.request.length, mark: cnt.mark.length, pendingApprove: cnt.pendingApprove.length, member: cnt.member.length})
+        getshare(req, group, 'group').then(({updateResult, loadMore}) => {
+            group.find({_isCompleted: true, block: {$nin: [req.user]}})
+                .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
+                if (result) {
+                    for (let cnt of result) {
+                        let updateCnt = JSON.parse(JSON.stringify(cnt));
+                        delete updateCnt.block;
+                        updateResult.push({...updateCnt,
+                        share: cnt.share.length, favorite: cnt.favorite.length,
+                        isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                        isMember: cnt.member.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user)[0] ? true : 
+                            JSON.parse(JSON.stringify(cnt.authorID)) === req.user ? true :false,
+                        isPending: cnt.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                        isPendingApprove: cnt.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                        isPendingMark: cnt.mark.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                        isPublic: cnt.roomType === 'Public',
+                        request: cnt.request.length, mark: cnt.mark.length, pendingApprove: cnt.pendingApprove.length, member: cnt.member.length})
+                    }
                 }
-            }
-            let showAdvert = Math.round(Math.random());
-            if (showAdvert === 0) {
-                advert.find().skip(req.body.start).limit(req.body.limit).then(doc => {
-                    let lastItem = updateResult[updateResult.length - 1];
-                    if (lastItem) {
-                        lastItem.advert = doc
-                        updateResult[updateResult.length - 1] = lastItem
-                    }
-                    res.status(200).send({page: updateResult, loadMore: result.length > 0});
-                })
-            } else if (showAdvert === 1) {
-                user.find({_id: {$in: req.request}}).skip(req.body.start).limit(req.body.limit).then(doc => {
-                    let updateFriend = [];
-                    for (let cnt of doc) {
-                        let isOnline =  (new Date().getTime() - new Date(cnt.visited).getTime()) < 60000;
-                        updateFriend.push({_id: cnt._id, username: cnt.username, userImage: cnt.image, status: isOnline})
-                    }
-                    let lastItem = updateResult[updateResult.length - 1];
-                    if (lastItem) {
-                        lastItem.friendRequest = updateFriend;
-                        updateResult[updateResult.length - 1] = lastItem
-                    }
-                    res.status(200).send({page: updateResult, loadMore: result.length > 0});
-                });
-            } else {
-                res.status(200).send({page: updateResult, loadMore: result.length > 0});
-            }
+                let showAdvert = Math.round(Math.random());
+                if (showAdvert === 0) {
+                    advert.find().skip(req.body.start).limit(req.body.limit).then(doc => {
+                        let lastItem = updateResult[updateResult.length - 1];
+                        if (lastItem) {
+                            lastItem.advert = doc
+                            updateResult[updateResult.length - 1] = lastItem
+                        }
+                        res.status(200).send({page: updateResult, loadMore: result.length > 0 || loadMore});
+                    })
+                } else if (showAdvert === 1) {
+                    user.find({_id: {$in: req.request}}).skip(req.body.start).limit(req.body.limit).then(doc => {
+                        let updateFriend = [];
+                        for (let cnt of doc) {
+                            let isOnline =  (new Date().getTime() - new Date(cnt.visited).getTime()) < 60000;
+                            updateFriend.push({_id: cnt._id, username: cnt.username, userImage: cnt.image, status: isOnline})
+                        }
+                        let lastItem = updateResult[updateResult.length - 1];
+                        if (lastItem) {
+                            lastItem.friendRequest = updateFriend;
+                            updateResult[updateResult.length - 1] = lastItem
+                        }
+                        res.status(200).send({page: updateResult, loadMore: result.length > 0 || loadMore});
+                    });
+                } else {
+                    res.status(200).send({page: updateResult, loadMore: result.length > 0 || loadMore});
+                }
+            });
         }).catch(err => {
             res.status(500).send(err)
         })
@@ -109,9 +112,11 @@ router.post('/', authenticate, (req, res, next) => {
             group.findById(req.body.pageID).then(doc => {
                 if (doc) {
                     res.status(200).send({pageInfo: {_id: req.body.pageID, share: doc.share.length}});
-                    for (let userID of reciepent) {
-                        notifications('groupShare', userID, {userID: req.user, ID: req.body.pageID}, false);
-                    }
+                    sharecontent(reciepent, 'group', req.user, req.username, req.userImage, req.body.pageID).then(() => {
+                        for (let userID of reciepent) {
+                            notifications('groupShare', userID, {userID: req.user, ID: req.body.pageID}, false);
+                        }
+                    });
                     return
                 }
                 return res.sendStatus(200);
@@ -414,26 +419,27 @@ router.post('/', authenticate, (req, res, next) => {
 
 
     if (req.header && req.header('data-categ') === 'searchGroup') {
-        group.find({_isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt} })
-        .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
-            let updateResult = [];
-            if (result) {
-                for (let cnt of result) {
-                    let updateCnt = JSON.parse(JSON.stringify(cnt));
-                    delete updateCnt.block;
-                    updateResult.push({...updateCnt,
-                    share: cnt.share.length, favorite: cnt.favorite.length,
-                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
-                    isMember: cnt.member.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user)[0] ? true : 
-                        JSON.parse(JSON.stringify(cnt.authorID)) === req.user ? true :false,
-                    isPending: cnt.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
-                    isPendingApprove: cnt.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
-                    isPendingMark: cnt.mark.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
-                    isPublic: cnt.roomType === 'Public',
-                    request: cnt.request.length, mark: cnt.mark.length, pendingApprove: cnt.pendingApprove.length, member: cnt.member.length})
+        getshare(req, group, 'group', {$text: {$search: req.body.searchCnt}}).then(({updateResult, loadMore}) => {
+            group.find({_isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt} })
+            .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
+                if (result) {
+                    for (let cnt of result) {
+                        let updateCnt = JSON.parse(JSON.stringify(cnt));
+                        delete updateCnt.block;
+                        updateResult.push({...updateCnt,
+                        share: cnt.share.length, favorite: cnt.favorite.length,
+                        isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                        isMember: cnt.member.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user)[0] ? true : 
+                            JSON.parse(JSON.stringify(cnt.authorID)) === req.user ? true :false,
+                        isPending: cnt.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                        isPendingApprove: cnt.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                        isPendingMark: cnt.mark.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                        isPublic: cnt.roomType === 'Public',
+                        request: cnt.request.length, mark: cnt.mark.length, pendingApprove: cnt.pendingApprove.length, member: cnt.member.length})
+                    }
                 }
-            }
-            res.status(200).send({page: updateResult, loadMore: result.length > 0});
+                res.status(200).send({page: updateResult, loadMore: result.length > 0 || loadMore});
+            });
         }).catch(err => {
             res.status(500).send(err)
         })

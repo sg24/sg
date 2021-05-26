@@ -169,7 +169,7 @@ class Group extends Component {
                 this.setState({resetAll: true});
             });
         } else {
-            this.props.navigation.navigate('Group')
+            this.props.navigation.navigate(this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group')
         }
         Dimensions.addEventListener('change', this.updateStyle);
     }
@@ -733,7 +733,7 @@ class Group extends Component {
                             info="Group updated successfully !"
                             infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                             closeModal={this.resetFormHandler}
-                            button={[{title: 'View', onPress: () => this.navigationHandler('Group')},
+                            button={[{title: 'View', onPress: () => this.navigationHandler(this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group')},
                             {title: 'Edit', onPress: 
                                 this.state.formElement.cbt.value ? this.examContent.resetFormHandler :
                                     this.resetFormHandler, style: styles.modalButton}]}/> : null}

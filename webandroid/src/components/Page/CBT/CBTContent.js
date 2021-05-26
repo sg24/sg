@@ -12,6 +12,7 @@ import Button from '../../UI/Button/Button';
 import LinkPreview from '../../UI/LinkPreview/LinkPreview';
 import LoadMore from '../../UI/LoadMore/LoadMore';
 import Avatar from '../../UI/Avatar/Avatar';
+import ShareInfo from '../../UI/ShareInfo/ShareInfo';
 import Advert from '../Advert/Advert';
 import { transformNumber, checkUri } from '../../../shared/utility';
 import FriendRequest from '../FriendRequest/FriendRequest';
@@ -106,6 +107,7 @@ const cbtContent = props => {
     return (
         <>
             <View style={styles.container}>
+                <ShareInfo shareInfo={props.cnt.shareInfo} onPress={props.shareUserProfile}/>
                 <BoxShadow style={styles.wrapper}>
                     <View style={styles.userDet}>
                         <View style={styles.userInfo}>
@@ -230,14 +232,15 @@ const styles = StyleSheet.create({
     },
     container: {
         width: '100%',
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        marginTop: 5
     },
     wrapper: {
         width: '100%',
         backgroundColor: '#fff',
         borderRadius: 5,
         marginBottom: 20,
-        marginTop: 5,
+        // marginTop: 5,
         padding: 10,
         shadowOffset: {
             width: 0,

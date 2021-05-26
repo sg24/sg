@@ -77,7 +77,7 @@ class Post extends Component {
                 this.setState({resetAll: true});
             });
         } else {
-            this.props.navigation.navigate('Home')
+            this.props.navigation.navigate(this.state.viewMode === 'landscape' ? 'HomeWeb' : 'Home')
         }
         Dimensions.addEventListener('change', this.updateStyle)
     }
@@ -374,7 +374,7 @@ class Post extends Component {
                             info="Post updated successfully !"
                             infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                             closeModal={this.resetFormHandler}
-                            button={[{title: 'View', onPress: () => this.navigationHandler('Home')},
+                            button={[{title: 'View', onPress: () => this.navigationHandler(this.state.viewMode === 'landscape' ? 'HomeWeb' : 'Home')},
                             {title: 'Edit', onPress: this.resetFormHandler, style: styles.modalButton}]}/> : null}
                 </View>
             )

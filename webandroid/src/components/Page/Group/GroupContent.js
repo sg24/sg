@@ -17,6 +17,7 @@ import { transformNumber, checkUri } from '../../../shared/utility';
 import FriendRequest from '../FriendRequest/FriendRequest';
 import Carousel from '../../UI/Carousel/Carousel';
 import MediaContainer from '../../UI/MediaContainer/MediaContainer';
+import ShareInfo from '../../UI/ShareInfo/ShareInfo';
 import TabBarge from '../../UI/TabBarge/TabBarge';
 
 const groupContent = props => {
@@ -109,6 +110,7 @@ const groupContent = props => {
     return (
         <>
             <View style={styles.container}>
+                <ShareInfo shareInfo={props.cnt.shareInfo} onPress={props.shareUserProfile}/>
                 <BoxShadow style={styles.wrapper}>
                     <View style={styles.userDet}>
                         <View style={styles.userInfo}>
@@ -161,7 +163,7 @@ const groupContent = props => {
                     </Pressable>
                     <TouchableNativeFeedback onPress={props.showGroupInfo}>
                         <View style={styles.memberWrapper}>
-                            <Text style={[styles.memberText, styles.textStyle]}>{ transformNumber(props.cnt.member) } <Text style={{marginLeft: 10}}>Members</Text></Text>
+                            <Text style={[styles.memberText, styles.textStyle]}>{ transformNumber(props.cnt.member) } <Text style={{marginLeft: 5}}>Members</Text></Text>
                         </View>
                     </TouchableNativeFeedback>
                     { previewUri.length > 0 ? 
@@ -218,14 +220,15 @@ const styles = StyleSheet.create({
     },
     container: {
         width: '100%',
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        marginTop: 5
     },
     wrapper: {
         width: '100%',
         backgroundColor: '#fff',
         borderRadius: 5,
         marginBottom: 20,
-        marginTop: 5,
+        // marginTop: 5,
         padding: 10,
         shadowOffset: {
             width: 0,

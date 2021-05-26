@@ -4,49 +4,56 @@ import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
 import urischeme from 'urischeme';
+import withComponent from 'withcomponent';
+import { useNavigation } from '@react-navigation/native';
+import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
 
-import NoBackground from '../../components/UI/NoBackground/NoBackground';
-import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
-import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
+import FormElement from '../../components/UI/FormElement/FormElement';
+import BoxShadow from '../../components/UI/BoxShadow/BoxShadow';
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
 import Button from '../../components/UI/Button/Button';
 import Href from '../../components/UI/Href/Href';
 import Settings from '../../components/UI/Settings/Settings';
+import { updateObject, checkValidity, checkUri } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
+import CameraComponent from '../../components/UI/Camera/Camera';
+import VideoCamera from '../../components/UI/VideoCamera/VideoCamera';
+import AudioRecorder from '../../components/UI/AudioRecorder/AudioRecorder';
+import EmojiPicker from '../../components/UI/EmojiPicker/EmojiPicker';
+import LinkPreview from '../../components/UI/LinkPreview/LinkPreview';
+import UploadPreview from '../../components/UI/UploadPreview/UploadPreview'
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
-import CBTItem from '../../components/Page/CBT/CBT';
+import PostItem from '../../components/Page/Post/Post';
 import PagePreview from '../../components/Page/Preview/Preview';
 import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import CommentBox from '../../components/UI/CommentBox/CommentBox';
 import SharePicker from '../../components/UI/SharePicker/SharePicker';
-import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
-import Instruction from '../../components/UI/Instruction/Instruction';
 
-class CBT extends Component {
+class Post extends Component {
     constructor(props) {
         super(props);
         this.state = {
             viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
             option: [{title: 'Search', icon: {name: 'search-outline'}, action: 'search'},
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
-            pageID: null,
+            groupID: this.props.groupID,
             pageCntID: null,
-            showChatBox: null,
+            showPreview: null,
+            pageID: null,
+            showChatBox: false,
+            showActionSheet: null,
             showSearch: false,
             search: '',
             showOption: false,
             showSettings: false,
             showPagePreview: null,
-            showSelectPicker: null,
-            showSelectMarkPicker: null,
-            allowedSelectPicker: null,
-            examInstruction: null
+            showAdvertChat: false
         }
     }
 
@@ -57,37 +64,32 @@ class CBT extends Component {
     }
 
     componentDidMount() {
-        this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'cbt', 'getCBT')
-        });
-        this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            this.props.onPageReset();
-            this.setState({ pageID: null, pageCntID: null, showChatBox: null,showSearch: false,search: '',showOption: false,showSettings: false,  showPagePreview: null,
-            showSelectPicker: null, showSelectMarkPicker: null, allowedSelectPicker: null, examInstruction: null})
-        });
+        if (this.state.groupID) {
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'grouppost', 'getPost', this.state.groupID);
+        } else {
+            this.props.navigation.navigate(this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group');
+        }
+        
         Dimensions.addEventListener('change', this.updateStyle)
     }
 
     componentWillUnmount() {
-        this._unsubscribe();
-        this._unsubscribeBlur();
         Dimensions.removeEventListener('change', this.updateStyle);
     }
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBT', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'grouppost', 'searchPost', this.state.search);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'getCBT');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'grouppost', 'getPost', this.state.groupID);
     }
 
-    navigationHandler = (page, cntID) => {
-        this.props.navigation.navigate(page);
+    navigationHandler = (page, cntID={}) => {
+        this.props.navigation.navigate(page, cntID);
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, showChatBox: null, pageID: null, showSharePicker: null, showPagePreview: null, 
-                showSelectPicker: null, showSelectMarkPicker: null, allowedSelectPicker: false, examInstruction: null});
+        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null, showPagePreview: null, showAdvertChat: false});
     }
 
     openURIHandler = (type, uri) => {
@@ -110,13 +112,13 @@ class CBT extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBT', cnt);
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'grouppost', 'searchPost', cnt);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'cbt', 'getCBT');
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'grouppost', 'getPost', this.state.groupID);
     }
 
     checkOptionHandler = () => {
@@ -138,8 +140,7 @@ class CBT extends Component {
     }
 
     editHandler = (id) => {
-        this.props.navigation.navigate('EditCBT', {cntID: id});
-        this.setState({pageCntID: null});
+        this.props.navigation.navigate('EditGroupPost', {cntID: id});
     }
 
     showUserOptHandler = (id) => {
@@ -150,7 +151,7 @@ class CBT extends Component {
     }
 
     deletePageHandler = (id, start) => {
-        this.props.onDeletePage(id, 'cbt', start, 'getOneAndDelete');
+        this.props.onDeletePage(id, 'grouppost', start, 'getOneAndDelete');
         this.setState({pageCntID: null});
     }
 
@@ -159,53 +160,17 @@ class CBT extends Component {
     }
 
     reportHandler = (pageID) => {
-        this.props.navigation.navigate('AddReport', {navigationURI: this.state.viewMode === 'landscape' ? 'CBTWeb' : 'CBT', cntType: 'pageReport', page: 'cbt', pageID});
-        this.setState({pageCntID: null});
+        this.props.navigation.navigate('AddReport', {navigationURI: this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group', cntType: 'pageReport', page: 'grouppost', pageID});
     }
 
     shareHandler = (cnt, shareType) => {
-        let updateCnt = {_id: cnt._id, content: cnt.content, media: cnt.media, tempFileID: cnt.tempFileID, authorID: cnt.authorID};
+        let updateCnt = {_id: cnt._id, groupID: cnt.groupID};
         if (shareType === 'Friends') {
             this.setState({showSharePicker: {cnt: updateCnt, shareType}})
         } else {
             this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
                 icon: ['people-outline', 'chatbox-outline', 'chatbubble-ellipses-outline'],cnt: updateCnt}})
         }
-        this.setState({pageCntID: null});
-    }
-
-    showRequestHandler = (pageID) => {
-        this.setState({showSelectPicker: {selectType: 'cbtRequest', pageID}})
-    }
-
-    allowedUserHandler = (pageID) => {
-        this.setState({allowedSelectPicker: {selectType: 'cbtRequest', pageID}})
-    }
-
-    pendingMarkHandler = (pageID) => {
-        this.setState({showSelectMarkPicker: {selectType: 'pendingMark', pageID}})
-    }
-
-    markExamHandler = (mark, pageID) => {
-        this.props.navigation.navigate('MarkExam', {mark, pageID,  cntID: 'getMarkinfo', 
-        navigationURI: this.state.viewMode === 'landscape' ? 'CBTWeb' : 'CBT', getMarkID: 'markTheoryexam'})
-    }
-
-    requestHandler = (pageID) => {
-        this.props.onPageReaction('cbt', pageID, 'setRequest');
-    }
-
-    takeExamHandler = (pageID, content) => {
-        this.setState({examInstruction: {pageID, content}, pageCntID: pageID});
-    }
-
-    startExamHandler = () => {
-        this.props.navigation.navigate('Exam', {pageID: this.state.pageCntID, 
-            navigationURI: this.state.viewMode === 'landscape' ? 'CBTWeb' : 'CBT', cntID: 'getExam', getMarkID: 'markExam'});
-    }
-
-    cancelRequestHandler = (pageID) => {
-        this.props.onPageReaction('cbt', pageID, 'cancelRequest');
     }
 
     mediaPreviewHandler = (cntID, media, page) => {
@@ -224,12 +189,16 @@ class CBT extends Component {
         this.setState({showPagePreview: cnt})
     }
 
-    chatHandler = (pageID, enableComment, enableDelete) => {
-        this.setState({showChatBox: {enableComment, enableDelete}, pageID})
+    chatHandler = (pageID) => {
+        this.setState({showChatBox: true, pageID})
+    }
+
+    advertChatboxHandler = (pageID) => {
+        this.setState({showAdvertChat: true, pageID})
     }
 
     favoriteHandler = (pageID) => {
-        this.props.onPageReaction('cbt', pageID, 'setFavorite');
+        this.props.onPageReaction('grouppost', pageID, 'setFavorite');
     }
 
     actionSheetHandler = async (index) => {
@@ -248,9 +217,9 @@ class CBT extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'cbt', 'searchCBT', this.state.search);
+                 'grouppost', 'searchPost', this.state.search);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'getCBT');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'grouppost', 'getPost', this.state.groupID);
     }
 
     render() {
@@ -259,14 +228,23 @@ class CBT extends Component {
         let wrapperProps = pageBackground ? {source: {uri: this.props.settings.page.backgroundImage}, resizeMode: 'cover'} :{}
 
         let header = (
-            this.state.viewMode === 'landscape' ? ( <DefaultHeader
-                onPress={this.props.navigation.goBack}
-                title="CBT"
-                rightSideContent={(
-                    <Button style={styles.optionIcon} onPress={this.checkOptionHandler}>
-                        <Ionicons name="ellipsis-vertical-outline" size={20} />
-                    </Button>
-                )}/>
+            this.state.viewMode === 'landscape' ? (
+                <DefaultHeader 
+                    onPress={() => this.props.navigation.goBack()}
+                    disableBackButton
+                    rightSideContent={(
+                        <View style={{flexDirection: 'row'}}>
+                            <Button style={styles.optionIcon} onPress={() => this.navigationHandler('AddGroupPost', {groupID: this.state.groupID})}>
+                                <Ionicons name="pencil-outline" size={20} />
+                                <Text style={styles.optionIconText}>Create Post</Text>
+                            </Button>
+                            <Button style={styles.optionIcon} onPress={() => this.optionHandler('search')}>
+                                <Ionicons name="search-outline" size={20} />
+                                <Text style={styles.optionIconText}>Search</Text>
+                            </Button>
+                        </View>
+                    )}
+                />
             ) : null
         );
 
@@ -315,6 +293,35 @@ class CBT extends Component {
             cnt = (
                 <View style={styles.container}>
                     { header }
+                    {/* <View style={styles.formContainer}>
+                        <BoxShadow style={styles.formWrapper}>
+                            <Button 
+                                style={styles.buttonIcon}> 
+                                <Ionicons name="camera-outline" size={22} />
+                            </Button>
+                            <Button 
+                                style={styles.buttonIcon}> 
+                                <Ionicons name="happy-outline" size={22} />
+                            </Button>
+                            <FormElement
+                                onChangeText={(val) => this.inputChangedHandler(val, 'content')}
+                                autoCorrect
+                                multiline
+                                autoFocus
+                                placeholder={"Write ...."}
+                                value={this.state.formElement.content.value}
+                                formWrapperStyle={styles.formWrapperStyle}
+                                inputWrapperStyle={styles.formWrapperStyle}
+                                style={styles.formElementInput}/>
+                            <Button 
+                                title="Add"
+                                style={styles.addButton}
+                                onPress={this.props.start ? null : this.submitHandler}
+                                textStyle={styles.textStyle}
+                                submitting={this.props.start}
+                                loaderStyle="#fff"/>
+                        </BoxShadow>
+                    </View> */}
                     <Wrapper
                         {...wrapperProps}
                         style={[styles.container, this.state.viewMode === 'landscape' ? 
@@ -322,7 +329,7 @@ class CBT extends Component {
                         <ScrollView 
                             style={styles.scroll}
                             showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }>
-                            <CBTItem
+                            <PostItem 
                                 cnt={this.props.fetchCnt}
                                 userID={this.props.userID}
                                 openURI={this.openURIHandler}
@@ -334,21 +341,16 @@ class CBT extends Component {
                                 share={this.shareHandler}
                                 report={this.reportHandler}
                                 showUserOpt={this.showUserOptHandler}
-                                showRequest={this.showRequestHandler}
-                                mark={this.pendingMarkHandler}
                                 mediaPreview={this.mediaPreviewHandler}
                                 saveMedia={this.saveMediaHandler}
                                 chat={this.chatHandler}
                                 favorite={this.favoriteHandler}
-                                request={this.requestHandler}
-                                allowedUser={this.allowedUserHandler}
-                                takeExam={this.takeExamHandler}
-                                cancelRequest={this.cancelRequestHandler}
                                 pageReaction={this.props.pageReaction}
                                 closeModal={this.closeModalHandler}
                                 enableLoadMore={this.props.loadMore}
                                 start={this.props.fetchCntStart}
-                                loadMore={this.loadMoreHandler}/>
+                                loadMore={this.loadMoreHandler}
+                                advertChatbox={this.advertChatboxHandler} />
                         </ScrollView>
                     </Wrapper>
                     { options }
@@ -366,9 +368,8 @@ class CBT extends Component {
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
                     { this.state.showPagePreview ? 
                         <PagePreview
-                            showOption={false}
                             cnt={this.state.showPagePreview}
-                            title="CBT"
+                            page="grouppost"
                             userID={this.props.userID}
                             openURI={this.openURIHandler}
                             userProfile={this.userProfileHandler}
@@ -376,80 +377,40 @@ class CBT extends Component {
                             share={this.shareHandler}
                             report={this.reportHandler}
                             openURI={this.openURIHandler}
-                            closePagePreview={this.closeModalHandler}
-                            showContent ={false} /> : null}
+                            closePagePreview={this.closeModalHandler} /> : null}
                    { this.state.showPreview ? 
                         <MediaPreview
-                            showOption={false}
+                            showOption={this.state.showPreview.cntID ? true : false}
                             pageID={this.state.showPreview.cntID}
                             media={this.state.showPreview.media}
-                            page="cbt"
+                            page="grouppost"
                             startPage={this.state.showPreview.startPage}
                             closePreview={this.closePreviewHandler}
                             backgroundColor={this.props.settings.backgroundColor}/> : null}
-                    { this.state.showChatBox ?
+                    { this.state.showChatBox ? 
                         <CommentBox
-                            title={'Result'}
-                            chatType="cbtchat"
-                            page="cbt"
+                            title="Comment"
+                            chatType="grouppostchat"
+                            page="grouppost"
                             pageID={this.state.pageID}
                             closeChat={this.closeModalHandler}
-                            showReply
-                            enableComment={this.state.showChatBox.enableComment}
-                            enableDelete={this.state.showChatBox.enableDelete}/> : null}
+                            showReply/> : null}
+                    { this.state.showAdvertChat ? 
+                        <CommentBox
+                            title="Comment"
+                            chatType="advertchat"
+                            page="advert"
+                            pageID={this.state.pageID}
+                            closeChat={this.closeModalHandler}
+                            showReply/> : null}
                     { this.state.showSharePicker ? 
                         <SharePicker
                             shareType={this.state.showSharePicker.shareType}
                             closeSharePicker={this.closeModalHandler}
                             cnt={this.state.showSharePicker.cnt}
-                            shareUpdates={[{shareType: 'cbt', cntID: 'setShare', page: 'cbt', pageID: this.state.showSharePicker.cnt._id}]}
+                            shareUpdates={[{shareType: 'grouppost', cntID: 'setShare', page: 'grouppost', pageID: this.state.showSharePicker.cnt._id}]}
                             shareChat={false}
-                            info="CBT shared successfully !"/> : null}
-                    { this.state.showSelectPicker ? 
-                        <SelectPicker
-                            selectType={this.state.showSelectPicker.selectType}
-                            closeSelectPicker={this.closeModalHandler}
-                            info="Users allowed successfully !"
-                            removeInfo="Users removed successfully !"
-                            title="CBT Request"
-                            page="cbt"
-                            pageID={this.state.showSelectPicker.pageID}
-                            cntID="getRequest"
-                            searchID="searchRequest"
-                            pageSetting="userPage"
-                            leftButton={{title: 'Remove', action: 'setRejectuser'}}
-                            rightButton={{title: 'Allow', action: 'setAllowuser'}}/> : null}
-                    { this.state.showSelectMarkPicker ? 
-                        <SelectPicker
-                            selectType={this.state.showSelectMarkPicker.selectType}
-                            closeSelectPicker={this.closeModalHandler}
-                            title="Pending"
-                            page="cbt"
-                            pageID={this.state.showSelectMarkPicker.pageID}
-                            cntID="getPendingmark"
-                            searchID="searchPendingmark"
-                            pageSetting="userPage"
-                            markExam={this.markExamHandler}
-                            showNote={false}/> : null}
-                    {this.state.allowedSelectPicker ? 
-                        <SelectPicker
-                            selectType={this.state.allowedSelectPicker.selectType}
-                            closeSelectPicker={this.closeModalHandler}
-                            removeInfo="Users removed successfully !"
-                            title="Allowed User"
-                            page="cbt"
-                            pageID={this.state.allowedSelectPicker.pageID}
-                            cntID="getAlloweduser"
-                            searchID="searchAlloweduser"
-                            pageSetting="userPage"
-                            leftButton={{title: 'Remove', action: 'removeAcceptuser'}}/> : null}
-                    {this.state.examInstruction ? 
-                        <Instruction 
-                            title="Exam Instruction"
-                            content={this.state.examInstruction.content}
-                            openURI={this.openURIHandler}
-                            closeInstruction={this.closeModalHandler}
-                            button={[{title: 'Start', icon: {name: 'timer-outline'}, onPress: this.startExamHandler}]}/>: null}
+                            info="Post shared successfully !"/> : null}
                     { this.state.showActionSheet ? 
                         <ActionSheet
                             options={this.state.showActionSheet.option}
@@ -460,7 +421,7 @@ class CBT extends Component {
                         : null}
                     { this.props.deletePage && !this.props.deletePage.start ?  
                         <NotificationModal
-                            info="Are you sure you want to delete this CBT"
+                            info="Are you sure you want to delete this post"
                             closeModal={this.deletePageResetHandler}
                             button={[{title: 'Ok', onPress: () => this.deletePageHandler(this.props.deletePage.pageID, true), style: styles.buttonCancel},
                             {title: 'Exit', onPress: this.deletePageResetHandler, style: styles.button}]}/> : null}
@@ -481,7 +442,7 @@ class CBT extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        det={`'${this.state.search}' does not match any CBT`}
+                        det={`Searched text '${this.state.search}' does not match any post`}
                         name="search"
                         size={40}
                         color="#333"
@@ -496,14 +457,16 @@ class CBT extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        name="timer"
+                        name="chatbox"
                         size={40}
+                        color="#437da3"
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No CBT found !!! </Text>
+                            <Text style={styles.infoTitle}> No post found !!! </Text>
                             <View>
-                                <Href title="create CBT" onPress={() => this.navigationHandler('AddCBT')} style={styles.href}/>
+                                <Text style={{justifyContent: 'center', alignItems: 'center'}}>
+                                    <Href title="create Post" onPress={() => this.navigationHandler('AddGroupPost', {groupID: this.state.groupID})} style={styles.href}/></Text>
                             </View>
                         </View>
                     </InfoBox>
@@ -524,22 +487,7 @@ class CBT extends Component {
             )
         }
 
-      return (
-        <NoBackground
-            sideBar={(
-                <>
-                <Navigation 
-                        color={this.props.settings.color}
-                        backgroundColor={this.props.settings.backgroundColor}/>
-                <CreateNavigation 
-                    color={this.props.settings.color}
-                    backgroundColor={this.props.settings.backgroundColor}/>
-                </>
-            )}
-            content={ cnt }
-            contentFetched={this.props.fetchCnt}>
-        </NoBackground>
-      )
+      return cnt;
     }
 }
 
@@ -570,12 +518,60 @@ const styles = StyleSheet.create({
         width: '100%',
         flex: 1
     },
+    formContainer: {
+        padding: 10,
+        backgroundColor: '#dcdbdc'
+    },
+    formWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderRadius: 5
+    },
+    formWrapperStyle: {
+        flex: 1,
+        borderWidth: 0,
+        paddingLeft: 0,
+        paddingRight: 0,
+        paddingBottom: 0,
+        marginTop: 0,
+    },
+    formElementInput: {
+        flex: 1,
+        textAlignVertical: 'top',
+        paddingTop: 10,
+        paddingBottom: 10,
+        borderRadius: 5,
+        fontSize: 18
+    },
+    buttonIcon: {
+        width: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRightColor: '#dcdbdc',
+        borderRightWidth: 1,
+        borderRadius: 0
+    },
+    addButton: {
+        backgroundColor: '#437da3',
+        color: '#fff',
+        paddingHorizontal: 10,
+        marginRight: 5
+    },
     scroll: {
         width: '100%',
         paddingTop: 10
     },
     optionIcon: {
-        paddingVertical: 0
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        flexDirection: 'row',
+        marginRight: 10,
+        backgroundColor: '#e9ebf2',
+        borderRadius: 99999
+    },
+    optionIconText: {
+        marginLeft: 5
     },
     infoWrapper: {
         flex: 1
@@ -604,12 +600,12 @@ const mapStateToProps = state => {
     return {
         settings: state.settings,
         userID: state.auth.userID,
-        fetchCntErr: state.page.fetchCBTError,
-        fetchCntStart: state.page.fetchCBTStart,
-        fetchCnt: state.page.fetchCBT,
+        fetchCntErr: state.page.fetchGroupPostError,
+        fetchCntStart: state.page.fetchGroupPostStart,
+        fetchCnt: state.page.fetchGroupPost,
         loadMore: state.page.loadMore,
-        deletePageErr: state.page.deleteCBTError,
-        deletePage: state.page.deleteCBT,
+        deletePageErr: state.page.deleteGroupPostError,
+        deletePage: state.page.deleteGroupPost,
         pageReaction: state.page.pageReaction,
         pageReactionErr: state.page.pageReactionError
     };
@@ -628,4 +624,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CBT);
+export default withComponent([{name: 'navigation', component: useNavigation}])(connect(mapStateToProps, mapDispatchToProps)(Post));
