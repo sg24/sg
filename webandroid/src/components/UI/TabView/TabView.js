@@ -10,6 +10,7 @@ const tabView = props => {
     const renderTabBar = tabProps => (
         <TabBar
             {...tabProps}
+            scrollEnabled
             activeColor="#fff"
             tabStyle={{
                 flexDirection: 'row',

@@ -320,7 +320,7 @@ class WriteUp extends Component {
            </View>
         )
 
-        if (!this.props.editFormErr && (this.props.editFormCnt || this.state.loaded)){ 
+        if (!this.props.editFormErr && (this.props.editFormCnt && this.state.loaded)){ 
             cnt = (
                 <View style={styles.formWrapper}>
                     { header }

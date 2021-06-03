@@ -1,17 +1,21 @@
 const { share } = require('../../serverDB/serverDB');
 
-module.exports = getshare = (req, model, field, modelProps={}) => {
+module.exports = getshare = (req, model, field, modelProps={}, groupModel, pickID) => {
     return new Promise ((resolve, reject) => {
         share.findOne({userID: req.user}).then(shareDoc => {
             if (shareDoc && shareDoc[field]) {
                 let shareField = shareDoc[field];
+                if (pickID) {
+                    shareField = shareField.filter(cnt => JSON.parse(JSON.stringify(cnt.ID)) === pickID);
+                }
                 let shareCnt = shareField.slice(0, req.body.limit);
                 let removeShareCnt = shareDoc[field].splice(req.body.limit);
                 let shared = 0;
                 let updateResult = [];
                 if (shareCnt && shareCnt.length > 0) {
                     for (let shareItem of shareCnt) {
-                        model.findOne({_id: shareItem.cntID, ...modelProps}).then(cnt => {
+                        let updateModel = shareItem.groupPage ?  groupModel : model;
+                        updateModel.findOne({_id: shareItem.cntID, ...modelProps}).then(cnt => {
                             if (cnt) {
                                 let updateCnt = JSON.parse(JSON.stringify(cnt));
                                 delete updateCnt.block;

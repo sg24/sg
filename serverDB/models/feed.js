@@ -80,6 +80,30 @@ const FeedSchema = new Schema({
             }
         }]
     },
+    shareInfo: {
+        authorID: {
+            type: String
+        },
+        username: {
+            type: String
+        },
+        userImage: {
+            type: String
+        },
+        pageID: {
+           type: String
+        },
+        pageTitle: {
+            type: String
+        },
+        cntID: {
+            type: String
+        },
+        created: { 
+            type: Date, 
+            default: Date.now
+        }
+    },
     block: [{
         type: ObjectId
     }],

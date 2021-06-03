@@ -34,6 +34,7 @@ import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import CommentBox from '../../components/UI/CommentBox/CommentBox';
 import SharePicker from '../../components/UI/SharePicker/SharePicker';
+import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 
 class Post extends Component {
@@ -53,6 +54,7 @@ class Post extends Component {
             showOption: false,
             showSettings: false,
             showPagePreview: null,
+            showSelectGroupPicker: null,
             showAdvertChat: false
         }
     }
@@ -70,7 +72,7 @@ class Post extends Component {
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
             this.props.onPageReset();
             this.setState({pageCntID: null,showPreview: null,pageID: null,showChatBox: false,showActionSheet: null,
-                showSearch: false,search: '',showOption: false,showSettings: false, showPagePreview: null, showAdvertChat: false})
+                showSearch: false,search: '',showOption: false,showSettings: false, showPagePreview: null, showSelectGroupPicker: null, showAdvertChat: false})
         });
         Dimensions.addEventListener('change', this.updateStyle)
     }
@@ -93,7 +95,8 @@ class Post extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null, showPagePreview: null, showAdvertChat: false});
+        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null, showPagePreview: null, showSelectGroupPicker: null,
+        showAdvertChat: false});
     }
 
     openURIHandler = (type, uri) => {
@@ -168,12 +171,12 @@ class Post extends Component {
     }
 
     shareHandler = (cnt, shareType) => {
-        let updateCnt = {_id: cnt._id, content: cnt.content, media: cnt.media, tempFileID: cnt.tempFileID, authorID: cnt.authorID};
+        let updateCnt = {_id: cnt._id};
         if (shareType === 'Friends') {
             this.setState({showSharePicker: {cnt: updateCnt, shareType}})
         } else {
             this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
-                icon: ['people-outline', 'chatbox-outline', 'chatbubble-ellipses-outline'],cnt: updateCnt}})
+                icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
         }
     }
 
@@ -213,6 +216,7 @@ class Post extends Component {
                 cnt: this.state.showActionSheet.cnt}, showActionSheet: false})
             return
         } else if (index === 1){
+            this.setState({showSelectGroupPicker: {selectType: 'group', pageID: this.state.showActionSheet.cnt._id}, showActionSheet: false})
         } else if (index === 2) {
         } else if (index === 3){
         }
@@ -409,6 +413,22 @@ class Post extends Component {
                             shareUpdates={[{shareType: 'post', cntID: 'setShare', page: 'post', pageID: this.state.showSharePicker.cnt._id}]}
                             shareChat={false}
                             info="Post shared successfully !"/> : null}
+                    { this.state.showSelectGroupPicker ? 
+                        <SelectPicker
+                            selectType={this.state.showSelectGroupPicker.selectType}
+                            closeSelectPicker={this.closeModalHandler}
+                            info="Post Shared successfully !"
+                            confirmAllInfo="Are you sure, you want to share this post"
+                            iconName="paper-plane-outline"
+                            infoBox="Group"
+                            title="Select"
+                            page="group"
+                            pageID={this.state.showSelectGroupPicker.pageID}
+                            cntID="getMembergroup"
+                            searchID="searchMemberGroup"
+                            pageSetting="userPage"
+                            rightButton={{title: 'Share', action: 'setShareGroup'}}
+                            actionpage="post"/> : null}
                     { this.state.showActionSheet ? 
                         <ActionSheet
                             options={this.state.showActionSheet.option}

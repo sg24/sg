@@ -16,14 +16,13 @@ const {group, qcontent, advert, user, connectStatus} = require('../serverDB/serv
 router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'getGroupInfo') {
         let pageID = req.body.searchCnt;
-        group.findOne({$or: [{member: {$in: [req.user]}}, {authorID: req.user}], _id: pageID}).then(doc => {
+        group.findOne({member: {$in: [req.user]}, _id: pageID}).then(doc => {
             if (doc) {
                 let imageMedia = doc.media.filter(cnt => cnt.bucket == 'image');
                 res.status(200).send({page: [{_id: pageID, name: doc.title, member: doc.member.length, settings: doc.settings, authorID: doc.authorID,
                     media: doc.media, defaultImage: imageMedia.length > 0 ? imageMedia[Math.round(Math.random(imageMedia.length-1))].id : null}]})
             }
         }).catch(err => {
-            console.log(err)
             res.status(500).send(err)
         })
         return

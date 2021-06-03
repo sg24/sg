@@ -17,6 +17,10 @@ const defaultContentSchema = {
     cntID: {
         type: ObjectId,
         required: true
+    },
+    groupPage: {
+        type: Boolean,
+        default: false
     }
 };
 

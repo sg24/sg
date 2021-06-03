@@ -326,7 +326,7 @@ class Post extends Component {
                         info="Post submitted successfully !"
                         infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                         closeModal={this.resetFormHandler}
-                        button={[{title: 'View', onPress: () => this.navigationHandler('GroupPreview', {pageID: this.state.groupID})},
+                        button={[{title: 'View', onPress: () => this.navigationHandler('GroupPreview', {pageID: this.state.groupID, page: 'post'})},
                         {title: 'Add', onPress: this.resetFormHandler, style: styles.modalButton}]}/> : null}
             </View>
         )

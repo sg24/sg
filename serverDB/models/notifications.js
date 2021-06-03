@@ -61,7 +61,43 @@ const NotificationsSchema = new Schema({
     groupMark: [{
         ...defaultContentSchema
     }],
-    grouppost: [{
+    groupPost: [{
+        ...defaultContentSchema
+    }],
+    groupPostShare: [{
+        ...defaultContentSchema
+    }],
+    groupQuestion: [{
+        ...defaultContentSchema
+    }],
+    groupQuestionShare: [{
+        ...defaultContentSchema
+    }],
+    groupFeed: [{
+        ...defaultContentSchema
+    }],
+    groupFeedShare: [{
+        ...defaultContentSchema
+    }],
+    groupWriteup: [{
+        ...defaultContentSchema
+    }],
+    groupWriteupShare: [{
+        ...defaultContentSchema
+    }],
+    groupCbt: [{
+        ...defaultContentSchema
+    }],
+    groupCbtShare: [{
+        ...defaultContentSchema
+    }],
+    groupCbtRequest: [{
+        ...defaultContentSchema
+    }],
+    groupCbtAccept: [{
+        ...defaultContentSchema
+    }],
+    groupCbtReject: [{
         ...defaultContentSchema
     }],
     userChat: [{

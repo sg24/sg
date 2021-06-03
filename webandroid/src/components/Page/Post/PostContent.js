@@ -27,7 +27,7 @@ const postContent = props => {
     if (props.cnt._id === props.pageCntID) {
         userOpt = (
             <BoxShadow style={styles.userOpt}>
-                { props.userID === props.cnt.authorID ? 
+                { (props.userID === props.cnt.authorID)  && !props.cnt.shareInfo? 
                 <Button style={styles.userOptItem} onPress={props.edit}>
                     <Ionicons name="create-outline" size={20}/>
                     <Text style={[styles.textStyle, styles.detText]}>Edit</Text>
@@ -72,7 +72,7 @@ const postContent = props => {
     return (
         <>
             <View style={styles.container}>
-                <ShareInfo shareInfo={props.cnt.shareInfo} onPress={props.shareUserProfile}/>
+                <ShareInfo shareInfo={props.cnt.shareInfo} onPress={props.shareUserProfile} page="post"/>
                 <BoxShadow style={styles.wrapper}>
                     <View style={styles.userDet}>
                         <View style={styles.userInfo}>

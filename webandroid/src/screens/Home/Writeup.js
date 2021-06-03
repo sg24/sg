@@ -24,6 +24,7 @@ import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import CommentBox from '../../components/UI/CommentBox/CommentBox';
 import SharePicker from '../../components/UI/SharePicker/SharePicker';
+import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 
 class WriteUp extends Component {
@@ -42,6 +43,7 @@ class WriteUp extends Component {
             search: '',
             showOption: false,
             showSettings: false,
+            showSelectGroupPicker: null,
             showPagePreview: null
         }
     }
@@ -59,7 +61,7 @@ class WriteUp extends Component {
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
             this.props.onPageReset();
             this.setState({pageCntID: null,showPreview: null,pageID: null,showChatBox: false,showActionSheet: null,
-                showSearch: false,search: '',showOption: false,showSettings: false, showPagePreview: null})
+                showSearch: false,search: '',showOption: false,showSettings: false, showSelectGroupPicker: null, showPagePreview: null})
         });
         Dimensions.addEventListener('change', this.updateStyle)
     }
@@ -82,7 +84,7 @@ class WriteUp extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null, showPagePreview: null, showAdvertChat: false});
+        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null, showSelectGroupPicker: null, showPagePreview: null});
     }
 
     openURIHandler = (type, uri) => {
@@ -157,13 +159,14 @@ class WriteUp extends Component {
     }
 
     shareHandler = (cnt, shareType) => {
-        let updateCnt = {_id: cnt._id, content: cnt.content, media: cnt.media, tempFileID: cnt.tempFileID, authorID: cnt.authorID};
+        let updateCnt = {_id: cnt._id};
         if (shareType === 'Friends') {
             this.setState({showSharePicker: {cnt: updateCnt, shareType}})
         } else {
             this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
-                icon: ['people-outline', 'chatbox-outline', 'chatbubble-ellipses-outline'],cnt: updateCnt}})
+                icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
         }
+        this.setState({pageCntID: null});
     }
 
     mediaPreviewHandler = (cntID, media, page) => {
@@ -202,6 +205,7 @@ class WriteUp extends Component {
                 cnt: this.state.showActionSheet.cnt}, showActionSheet: false})
             return
         } else if (index === 1){
+            this.setState({showSelectGroupPicker: {selectType: 'group', pageID: this.state.showActionSheet.cnt._id}, showActionSheet: false})
         } else if (index === 2) {
         } else if (index === 3){
         }
@@ -304,8 +308,7 @@ class WriteUp extends Component {
                                 closeModal={this.closeModalHandler}
                                 enableLoadMore={this.props.loadMore}
                                 start={this.props.fetchCntStart}
-                                loadMore={this.loadMoreHandler}
-                                advertChatbox={this.advertChatboxHandler} />
+                                loadMore={this.loadMoreHandler}/>
                         </ScrollView>
                     </Wrapper>
                     { options }
@@ -360,6 +363,22 @@ class WriteUp extends Component {
                             shareUpdates={[{shareType: 'writeup', cntID: 'setShare', page: 'writeup', pageID: this.state.showSharePicker.cnt._id}]}
                             shareChat={false}
                             info="Write Up shared successfully !"/> : null}
+                    { this.state.showSelectGroupPicker ? 
+                        <SelectPicker
+                            selectType={this.state.showSelectGroupPicker.selectType}
+                            closeSelectPicker={this.closeModalHandler}
+                            info="Write Up shared successfully !"
+                            confirmAllInfo="Are you sure, you want to share this write Up"
+                            iconName="paper-plane-outline"
+                            infoBox="Group"
+                            title="Select"
+                            page="group"
+                            pageID={this.state.showSelectGroupPicker.pageID}
+                            cntID="getMembergroup"
+                            searchID="searchMemberGroup"
+                            pageSetting="userPage"
+                            rightButton={{title: 'Share', action: 'setShareGroup'}}
+                            actionpage="writeup"/> : null}
                     { this.state.showActionSheet ? 
                         <ActionSheet
                             options={this.state.showActionSheet.option}

@@ -11,9 +11,9 @@ import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/Creat
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import ContentLoader, { Rect, Circle } from "react-content-loader/native"
 import Post from '../Group/Post';
-import Question from './Question';
-import Feed from './Feed';
-import WriteUp from './WriteUp';
+import Question from '../Group/Question';
+import Feed from '../Group/Feed';
+import WriteUp from '../Group/WriteUp';
 import CBT from './CBT';
 import Option from '../../components/UI/Option/Option';
 import Button from '../../components/UI/Button/Button';
@@ -33,6 +33,10 @@ class GroupPreview extends Component {
     constructor(props) {
         super(props);
         let  layoutWidth = Dimensions.get('window').width;
+        let index = this.props.route.params.page === 'feed' ? 1 : 
+            this.props.route.params.page === 'cbt' ? 2 :
+            this.props.route.params.page === 'question' ? 3 :
+            this.props.route.params.page === 'writeup' ? 4 : 0;
         this.state = {
             viewMode:   layoutWidth >= size.md? 'landscape' : 'portrait',
             layoutWidth,
@@ -44,7 +48,7 @@ class GroupPreview extends Component {
             showSharePicker: null,
             showActionSheet: null,
             routes: [],
-            index: 0,
+            index,
             loaded: false
         }
     }
@@ -86,13 +90,15 @@ class GroupPreview extends Component {
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}];
             let option = authorOption ? [authorOption, ...defaultOption] : defaultOption;
             let routes = [];
-            let routeList = [{key: 'enablePost', title: 'Post', icon: () => <Ionicons name ="create-outline" />}, {key: 'enableCBT', title: 'CBT'}, {key: 'enableQuestion', title: 'Question'}, 
-                {key: 'enableFeed', title: 'Feed'}, {key: 'enableWriteUp', title: 'Write Up'}, {key: 'enableChatroom' , title: 'Chat Room'}]
+            let routeList = [{key: 'enablePost', title: 'Post'},{key: 'enableFeed', title: 'Feed'}, 
+                {key: 'enableCBT', title: 'CBT'}, {key: 'enableQuestion', title: 'Question'}, 
+                {key: 'enableWriteUp', title: 'Write Up'}, {key: 'enableChatroom' , title: 'Chat Room'}]
             let settings = this.props.fetchCnt[0].settings;
             if (settings) {
-                for (let cnt in settings) {
-                    if (settings[cnt]) {
-                        routes.push(routeList.filter(route => route.key === cnt)[0] ? routeList.filter(route => route.key === cnt)[0] : '')
+                for (let cnt of routeList) {
+                    let routeItem = Object.entries(settings).filter(([key, value]) => (cnt.key === key) && value)[0];
+                    if (routeItem) {
+                        routes.push(routeItem);
                     }
                 }
             }
@@ -289,17 +295,17 @@ class GroupPreview extends Component {
             let renderScene = screenProps => {
                 switch (screenProps.route.key) {
                     case 'enablePost':
-                        return <Post {...screenProps} groupID={this.state.pageID} />;
-                    case 'enableQuestion':
-                        return <Question {...screenProps} {...this.props}/>;
-                    case 'enableWriteUp':
-                        return <WriteUp {...screenProps} {...this.props}/>;
+                        return <Post {...screenProps} groupID={this.state.pageID} focus={this.state.index === 0}/>;
                     case 'enableFeed':
-                        return <Feed {...screenProps}{...this.props} />;
+                        return <Feed {...screenProps} groupID={this.state.pageID} focus={this.state.index === 1}/>;
                     case 'enableCBT':
-                        return <CBT {...screenProps} {...this.props}/>;
+                        return <Post {...screenProps} groupID={this.state.pageID} focus={this.state.index === 2}/>;
+                    case 'enableQuestion':
+                        return <Question {...screenProps} groupID={this.state.pageID} focus={this.state.index === 3}/>;
+                    case 'enableWriteUp':
+                        return <WriteUp {...screenProps} groupID={this.state.pageID} focus={this.state.index === 4}/>;
                     case 'enableChatroom':
-                        return <CBT {...screenProps} {...this.props}/>;
+                        return <Post {...screenProps} groupID={this.state.pageID} />;
                     default:
                         return null;
                 }
@@ -312,6 +318,7 @@ class GroupPreview extends Component {
                         renderScene={renderScene}
                         onIndexChange={this.setIndexHandler}
                         initialLayout={{ width: this.state.layoutWidth }}
+                        lazy
                     />
                     { options }
                     { this.state.showActionSheet ? 
@@ -330,12 +337,6 @@ class GroupPreview extends Component {
                             shareUpdates={[{shareType: 'group', cntID: 'setShare', page: 'group', pageID: this.state.showSharePicker.cnt._id}]}
                             shareChat={false}
                             info="Group shared successfully !"/> : null}
-                    { this.props.pageReactionErr ? 
-                    <NotificationModal
-                        info="Network Error !"
-                        infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
-                        closeModal={this.props.onPageReactionReset}
-                        button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
                 </View>
             )
         }
@@ -433,11 +434,7 @@ const mapStateToProps = state => {
         fetchCntErr: state.page.fetchGroupPreviewError,
         fetchCntStart: state.page.fetchGroupPreviewStart,
         fetchCnt: state.page.fetchGroupPreview,
-        loadMore: state.page.loadMore,
-        deletePageErr: state.page.deleteGroupPreviewError,
-        deletePage: state.page.deleteGroupPreview,
-        pageReaction: state.page.pageReaction,
-        pageReactionErr: state.page.pageReactionError
+        loadMore: state.page.loadMore
     };
 };
 
@@ -445,12 +442,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchPage: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
         onSearchCnt: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
-        onDeletePage: (pageID, page, start, cntType) => dispatch(actions.deletePageInit(pageID, page, start, cntType)),
         onPageReset: () => dispatch(actions.pageReset()),
-        onDeletePageReset: () => dispatch(actions.deletePageReset()),
-        onFetchCntReset: () => dispatch(actions.fetchPageReset()),
-        onPageReaction: (page, pageID, reactionType) => dispatch(actions.pageReactionInit(page, pageID, reactionType)),
-        onPageReactionReset: () => dispatch(actions.pageReactionReset()),
+        onFetchCntReset: () => dispatch(actions.fetchPageReset())
     };
 };
 

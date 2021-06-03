@@ -11,15 +11,24 @@ const initialState = {
     questionSubmitError: null,
     questionSubmitted: false,
     questionStart: false,
+    groupquestionSubmitError: null,
+    groupquestionSubmitted: false,
+    groupquestionStart: false,
     advertSubmitError: null,
     advertSubmitted: false,
     advertStart: false,
     feedSubmitError: null,
     feedSubmitted: false,
     feedStart: false,
+    groupfeedSubmitError: null,
+    groupfeedSubmitted: false,
+    groupfeedStart: false,
     writeupSubmitError: null,
     writeupSubmitted: false,
     writeupStart: false,
+    groupwriteupSubmitError: null,
+    groupwriteupSubmitted: false,
+    groupwriteupStart: false,
     cbtSubmitError: null,
     cbtSubmitted: false,
     cbtStart: false,
@@ -42,9 +51,12 @@ const addFormReset = (state, action) => {
     return updateObject(state, { postSubmitError: null, postSubmitted: false,  postStart: false,
         grouppostSubmitError: null, grouppostSubmitted: false,  grouppostStart: false,
         questionSubmitError: null, questionSubmitted: false,questionStart: false,
+        groupquestionSubmitError: null, groupquestionSubmitted: false,groupquestionStart: false,
         advertSubmitError: null, advertSubmitted: false, advertStart: false,
         feedSubmitError: null, feedSubmitted: false,feedStart: false,
+        groupfeedSubmitError: null, groupfeedSubmitted: false,groupfeedStart: false,
         writeupSubmitError: null, writeupSubmitted: false, writeupStart: false,
+        groupwriteupSubmitError: null, groupwriteupSubmitted: false, groupwriteupStart: false,
         cbtSubmitError: null, cbtSubmitted: false, cbtStart: false,
         chatRoomSubmitError: null, chatRoomSubmitted: false, chatRoomStart: false,
         pageReportSubmitError: null, pageReportSubmitted: false, pageReportStart: false,
@@ -60,12 +72,18 @@ const submitAddFormStart = (state, action) => {
         return updateObject(state, {grouppostSubmitError: null, grouppostStart: true})
     } else if (action.form === 'question') {
         return updateObject(state, {questionSubmitError: null, questionStart: true})
+    } else if (action.form === 'groupquestion') {
+        return updateObject(state, {groupquestionSubmitError: null, groupquestionStart: true})
     } else if (action.form === 'advert') {
         return updateObject(state, {advertSubmitError: null, advertStart: true})
     } else if (action.form === 'feed') {
         return updateObject(state, {feedSubmitError: null, feedStart: true})
+    } else if (action.form === 'groupfeed') {
+        return updateObject(state, {groupfeedSubmitError: null, groupfeedStart: true})
     } else if (action.form === 'writeup') {
         return updateObject(state, {writeupSubmitError: null, writeupStart: true})
+    } else if (action.form === 'groupwriteup') {
+        return updateObject(state, {groupwriteupSubmitError: null, groupwriteupStart: true})
     } else if (action.form === 'cbt') {
         return updateObject(state, {cbtSubmitError: null, cbtStart: true})
     } else if (action.form === 'chatRoom') {
@@ -88,12 +106,18 @@ const submitAddFormFail = (state, action) => {
         return updateObject(state, {grouppostSubmitError: {message: action.err}, grouppostStart: false})
     } else if (action.form === 'question') {
         return updateObject(state, {questionSubmitError: {message: action.err}, questionStart: false})
+    } else if (action.form === 'groupquestion') {
+        return updateObject(state, {groupquestionSubmitError: {message: action.err}, groupquestionStart: false})
     } else if (action.form === 'advert') {
         return updateObject(state, {advertSubmitError: {message: action.err}, advertStart: false})
     } else if (action.form === 'feed') {
         return updateObject(state, {feedSubmitError: {message: action.err}, feedStart: false})
+    } else if (action.form === 'groupfeed') {
+        return updateObject(state, {groupfeedSubmitError: {message: action.err}, groupfeedStart: false})
     } else if (action.form === 'writeup') {
         return updateObject(state, {writeupSubmitError: {message: action.err}, writeupStart: false})
+    } else if (action.form === 'groupwriteup') {
+        return updateObject(state, {groupwriteupSubmitError: {message: action.err}, groupwriteupStart: false})
     } else if (action.form === 'cbt') {
         return updateObject(state, {cbtSubmitError: {message: action.err}, cbtStart: false})
     } else if (action.form === 'chatRoom') {
@@ -117,12 +141,18 @@ const addformSubmitted = (state, action) => {
         return updateObject(state, {grouppostSubmitted: true, grouppostStart: false, cntID: action.cntID})
     } else if (action.form === 'question') {
         return updateObject(state, {questionSubmitted: true, questionStart: false, cntID: action.cntID})
+    } else if (action.form === 'groupquestion') {
+        return updateObject(state, {groupquestionSubmitted: true, groupquestionStart: false, cntID: action.cntID})
     } else if (action.form === 'advert') {
         return updateObject(state, {advertSubmitted: true, advertStart: false, cntID: action.cntID})
     } else if (action.form === 'feed') {
         return updateObject(state, {feedSubmitted: true, feedStart: false, cntID: action.cntID})
+    } else if (action.form === 'groupfeed') {
+        return updateObject(state, {groupfeedSubmitted: true, groupfeedStart: false, cntID: action.cntID})
     } else if (action.form === 'writeup') {
         return updateObject(state, {writeupSubmitted: true, writeupStart: false, cntID: action.cntID})
+    } else if (action.form === 'groupwriteup') {
+        return updateObject(state, {groupwriteupSubmitted: true, writeupStart: false, cntID: action.cntID})
     } else if (action.form === 'cbt') {
         return updateObject(state, {cbtSubmitted: true, cbtStart: false, cntID: action.cntID})
     } else if (action.form === 'chatRoom') {

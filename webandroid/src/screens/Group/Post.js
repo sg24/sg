@@ -6,25 +6,15 @@ import { size } from 'tailwind';
 import urischeme from 'urischeme';
 import withComponent from 'withcomponent';
 import { useNavigation } from '@react-navigation/native';
-import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
 
-import FormElement from '../../components/UI/FormElement/FormElement';
-import BoxShadow from '../../components/UI/BoxShadow/BoxShadow';
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
 import Button from '../../components/UI/Button/Button';
 import Href from '../../components/UI/Href/Href';
 import Settings from '../../components/UI/Settings/Settings';
-import { updateObject, checkValidity, checkUri } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
-import CameraComponent from '../../components/UI/Camera/Camera';
-import VideoCamera from '../../components/UI/VideoCamera/VideoCamera';
-import AudioRecorder from '../../components/UI/AudioRecorder/AudioRecorder';
-import EmojiPicker from '../../components/UI/EmojiPicker/EmojiPicker';
-import LinkPreview from '../../components/UI/LinkPreview/LinkPreview';
-import UploadPreview from '../../components/UI/UploadPreview/UploadPreview'
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
 import PostItem from '../../components/Page/Post/Post';
 import PagePreview from '../../components/Page/Preview/Preview';
@@ -33,6 +23,7 @@ import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import CommentBox from '../../components/UI/CommentBox/CommentBox';
 import SharePicker from '../../components/UI/SharePicker/SharePicker';
+import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 
 class Post extends Component {
@@ -43,6 +34,7 @@ class Post extends Component {
             option: [{title: 'Search', icon: {name: 'search-outline'}, action: 'search'},
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
             groupID: this.props.groupID,
+            isFocused: false,
             pageCntID: null,
             showPreview: null,
             pageID: null,
@@ -53,6 +45,7 @@ class Post extends Component {
             showOption: false,
             showSettings: false,
             showPagePreview: null,
+            showSelectGroupPicker: null,
             showAdvertChat: false
         }
     }
@@ -64,22 +57,35 @@ class Post extends Component {
     }
 
     componentDidMount() {
-        if (this.state.groupID) {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'grouppost', 'getPost', this.state.groupID);
-        } else {
-            this.props.navigation.navigate(this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group');
-        }
-        
+        this.screenFocused();
         Dimensions.addEventListener('change', this.updateStyle)
+    }
+
+    componentDidUpdate() {
+        this.screenFocused();
     }
 
     componentWillUnmount() {
         Dimensions.removeEventListener('change', this.updateStyle);
     }
 
+    screenFocused() {
+        if (this.props.focus && !this.state.isFocused) {
+            if (this.state.groupID) {
+                this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'grouppost', 'getPost', this.state.groupID);
+            } else {
+                this.props.navigation.navigate(this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group');
+            }
+          return this.setState({isFocused: true});
+        }
+        if (!this.props.focus && this.state.isFocused) {
+            this.setState({isFocused: false});
+        }
+    }
+
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'grouppost', 'searchPost', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'grouppost', 'searchPost', JSON.stringify({search: this.state.search, groupID: this.state.groupID}));
         }
         this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'grouppost', 'getPost', this.state.groupID);
     }
@@ -89,7 +95,7 @@ class Post extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null, showPagePreview: null, showAdvertChat: false});
+        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null, showPagePreview: null, showSelectGroupPicker: null, showAdvertChat: false});
     }
 
     openURIHandler = (type, uri) => {
@@ -112,7 +118,7 @@ class Post extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'grouppost', 'searchPost', cnt);
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'grouppost', 'searchPost', JSON.stringify({search: cnt, groupID: this.state.groupID}));
         }
     }
 
@@ -169,7 +175,7 @@ class Post extends Component {
             this.setState({showSharePicker: {cnt: updateCnt, shareType}})
         } else {
             this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
-                icon: ['people-outline', 'chatbox-outline', 'chatbubble-ellipses-outline'],cnt: updateCnt}})
+                icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
         }
     }
 
@@ -209,6 +215,7 @@ class Post extends Component {
                 cnt: this.state.showActionSheet.cnt}, showActionSheet: false})
             return
         } else if (index === 1){
+            this.setState({showSelectGroupPicker: {selectType: 'group', pageID: this.state.showActionSheet.cnt._id}, showActionSheet: false})
         } else if (index === 2) {
         } else if (index === 3){
         }
@@ -217,7 +224,7 @@ class Post extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'grouppost', 'searchPost', this.state.search);
+                 'grouppost', 'searchPost', JSON.stringify({search: this.state.search, groupID: this.state.groupID}));
         }
         this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'grouppost', 'getPost', this.state.groupID);
     }
@@ -228,24 +235,22 @@ class Post extends Component {
         let wrapperProps = pageBackground ? {source: {uri: this.props.settings.page.backgroundImage}, resizeMode: 'cover'} :{}
 
         let header = (
-            this.state.viewMode === 'landscape' ? (
-                <DefaultHeader 
-                    onPress={() => this.props.navigation.goBack()}
-                    disableBackButton
-                    rightSideContent={(
-                        <View style={{flexDirection: 'row'}}>
-                            <Button style={styles.optionIcon} onPress={() => this.navigationHandler('AddGroupPost', {groupID: this.state.groupID})}>
-                                <Ionicons name="pencil-outline" size={20} />
-                                <Text style={styles.optionIconText}>Create Post</Text>
-                            </Button>
-                            <Button style={styles.optionIcon} onPress={() => this.optionHandler('search')}>
-                                <Ionicons name="search-outline" size={20} />
-                                <Text style={styles.optionIconText}>Search</Text>
-                            </Button>
-                        </View>
-                    )}
-                />
-            ) : null
+            <DefaultHeader 
+                onPress={() => this.props.navigation.goBack()}
+                disableBackButton
+                rightSideContent={(
+                    <View style={{flexDirection: 'row'}}>
+                        <Button style={styles.optionIcon} onPress={() => this.navigationHandler('AddGroupPost', {groupID: this.state.groupID})}>
+                            <Ionicons name="pencil-outline" size={20} />
+                            <Text style={styles.optionIconText}>Create Post</Text>
+                        </Button>
+                        <Button style={styles.optionIcon} onPress={() => this.optionHandler('search')}>
+                            <Ionicons name="search-outline" size={20} />
+                            <Text style={styles.optionIconText}>Search</Text>
+                        </Button>
+                    </View>
+                )}
+            />
         );
 
         if (this.state.showSearch) {
@@ -293,35 +298,6 @@ class Post extends Component {
             cnt = (
                 <View style={styles.container}>
                     { header }
-                    {/* <View style={styles.formContainer}>
-                        <BoxShadow style={styles.formWrapper}>
-                            <Button 
-                                style={styles.buttonIcon}> 
-                                <Ionicons name="camera-outline" size={22} />
-                            </Button>
-                            <Button 
-                                style={styles.buttonIcon}> 
-                                <Ionicons name="happy-outline" size={22} />
-                            </Button>
-                            <FormElement
-                                onChangeText={(val) => this.inputChangedHandler(val, 'content')}
-                                autoCorrect
-                                multiline
-                                autoFocus
-                                placeholder={"Write ...."}
-                                value={this.state.formElement.content.value}
-                                formWrapperStyle={styles.formWrapperStyle}
-                                inputWrapperStyle={styles.formWrapperStyle}
-                                style={styles.formElementInput}/>
-                            <Button 
-                                title="Add"
-                                style={styles.addButton}
-                                onPress={this.props.start ? null : this.submitHandler}
-                                textStyle={styles.textStyle}
-                                submitting={this.props.start}
-                                loaderStyle="#fff"/>
-                        </BoxShadow>
-                    </View> */}
                     <Wrapper
                         {...wrapperProps}
                         style={[styles.container, this.state.viewMode === 'landscape' ? 
@@ -411,6 +387,22 @@ class Post extends Component {
                             shareUpdates={[{shareType: 'grouppost', cntID: 'setShare', page: 'grouppost', pageID: this.state.showSharePicker.cnt._id}]}
                             shareChat={false}
                             info="Post shared successfully !"/> : null}
+                    { this.state.showSelectGroupPicker ? 
+                        <SelectPicker
+                            selectType={this.state.showSelectGroupPicker.selectType}
+                            closeSelectPicker={this.closeModalHandler}
+                            info="Post Shared successfully !"
+                            confirmAllInfo="Are you sure, you want to share this post"
+                            infoBox="Group"
+                            iconName="paper-plane-outline"
+                            title="Select"
+                            page="group"
+                            pageID={this.state.showSelectGroupPicker.pageID}
+                            cntID="getMembergroup"
+                            searchID="searchMemberGroup"
+                            pageSetting="userPage"
+                            rightButton={{title: 'Share', action: 'setShareGroup'}}
+                            actionpage="grouppost"/> : null}
                     { this.state.showActionSheet ? 
                         <ActionSheet
                             options={this.state.showActionSheet.option}
@@ -499,9 +491,6 @@ const styles = StyleSheet.create({
         width: '100%',
         flex: 1,
     },
-    landscapeWrapper: {
-        width: '100%'
-    },
     button: {
         backgroundColor: '#437da3',
         color: '#fff'
@@ -518,46 +507,6 @@ const styles = StyleSheet.create({
         width: '100%',
         flex: 1
     },
-    formContainer: {
-        padding: 10,
-        backgroundColor: '#dcdbdc'
-    },
-    formWrapper: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        borderRadius: 5
-    },
-    formWrapperStyle: {
-        flex: 1,
-        borderWidth: 0,
-        paddingLeft: 0,
-        paddingRight: 0,
-        paddingBottom: 0,
-        marginTop: 0,
-    },
-    formElementInput: {
-        flex: 1,
-        textAlignVertical: 'top',
-        paddingTop: 10,
-        paddingBottom: 10,
-        borderRadius: 5,
-        fontSize: 18
-    },
-    buttonIcon: {
-        width: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRightColor: '#dcdbdc',
-        borderRightWidth: 1,
-        borderRadius: 0
-    },
-    addButton: {
-        backgroundColor: '#437da3',
-        color: '#fff',
-        paddingHorizontal: 10,
-        marginRight: 5
-    },
     scroll: {
         width: '100%',
         paddingTop: 10
@@ -566,7 +515,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 10,
         flexDirection: 'row',
-        marginRight: 10,
+        marginLeft: 10,
         backgroundColor: '#e9ebf2',
         borderRadius: 99999
     },

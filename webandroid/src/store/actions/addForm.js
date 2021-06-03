@@ -29,12 +29,13 @@ export const submitAddFormInit = (formData, type) => {
             formContent.append('button', JSON.stringify(formData.button));
             formContent.append('comment', JSON.stringify(formData.comment));
             formContent.append('title', formData.title);
-        } else if (type === 'feed' || type === 'writeup') {
+        } else if (type === 'feed' || type === 'writeup' || type === 'groupfeed' || type === 'groupwriteup') {
             formContent.append('title', formData.title);
             formContent.append('content', formData.content);
             formContent.append('comment', JSON.stringify(formData.comment));
             formContent.append('hashTag', JSON.stringify(formData.hashTag));
-        } else if (type === 'cbt') {
+            formContent.append('groupID', formData.groupID);
+        } else if (type === 'cbt' || type === 'groupcbt') {
             let description = [];
             for(let media of formData.uploadFile) {
                 let fileID =  media.name.split('.').length > 1 ? `${formData.id}--${uuid()}${media.name}` : `${formData.id}--${uuid()}${media.name}.octet-stream`;
@@ -71,6 +72,7 @@ export const submitAddFormInit = (formData, type) => {
             formContent.append('duration', formData.duration);
             formContent.append('content', formData.content);
             formContent.append('hashTag', JSON.stringify(formData.hashTag));
+            formContent.append('groupID', formData.groupID);
         } else if (type === 'chatRoom' || type === 'group') {
             let description = [];
             for(let media of formData.uploadFile) {

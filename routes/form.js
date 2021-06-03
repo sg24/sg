@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs'); 
-const {appError, post, page, question, group, writeup, feed, advert, qchat, qcontent, connectStatus, user} = require('../serverDB/serverDB');
+const {appError, post, page, question, group, grouppost, writeup, groupwriteup,groupfeed, feed, advert, qchat, groupcbt,qcontent, connectStatus, user} = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
 let formInit = require('./utility/forminit');
 let submit = require('./utility/submit');
@@ -328,7 +328,7 @@ router.post('/add/group', authenticate, (req, res, next) => {
                         autoJoin: JSON.parse(fields.autoJoin), enableCbt: JSON.parse(fields.cbt),
                         enableRule: JSON.parse(fields.rule), roomType: fields.roomType,passMark: fields.passMark,
                         hour: fields.hour, minute: fields.minute, second: fields.second, 
-                        duration: fields.duration, qchatTotal: fields.questionTotal, media: groupMedia, 
+                        duration: fields.duration, qchatTotal: fields.questionTotal, media: groupMedia, member: [req.user],
                         question: id[0], tempFileID
                     }
                     submit(group, cnt, tempFileID, 'createGroup').then(id => {
@@ -513,7 +513,11 @@ router.post('/add/pageReport', authenticate, (req, res, next) => {
             fields.page === 'feed' ? feed : 
             fields.page === 'writeup' ? writeup :
             fields.page === 'cbt' ? qchat : 
-            fields.page === 'group' ? group : post;
+            fields.page === 'group' ? group : 
+            fields.page === 'grouppost' ? grouppost : 
+            fields.page === 'groupfeed' ? groupfeed : 
+            fields.page === 'groupwriteup' ? groupwriteup : 
+            fields.page === 'groupcbt' ? groupcbt : post;
         model.findById(fields.pageID).then(doc => {
             if (doc && doc.report.length < 20) {
                 doc.updateOne({$push: {'report': fields.content}}).then(() => {

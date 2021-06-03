@@ -1,31 +1,51 @@
-const { share } = require('../../serverDB/serverDB');
-
-module.exports = sharecontent = (reciepent, field, ID, title, imageMedia, cntID) => {
+module.exports = sharecontent = (model, receiverModel, cntID, reciepent, authorID, username, userImage, pageID, pageTitle, updateField={}) => {
     return new Promise ((resolve, reject) => {
-        for (let userID of reciepent) {
-            share.findOne({userID}).then(doc => {
-                if (doc) {
-                    let cntItem = doc[field].filter(cnt => JSON.parse(JSON.stringify(cnt.cntID)) === JSON.parse(JSON.stringify(cntID)))[0];
-                    if (!cntItem) {
-                        doc[field].push({ID, title, image: imageMedia, cntID});
-                        doc.updateOne({[field]: doc[field]}).then(() => {
-                            resolve();
-                        })
-                    } else {
-                        resolve();
-                    }
-                } else {
-                    let newDoc = new share({
-                        userID,
-                        [field]: [{ID, title, image: imageMedia, cntID}]
-                    });
-                    newDoc.save().then(() => {
-                        resolve()
-                    }).catch((err) => {
-                        reject(err)
-                    })
+        model.findById(cntID).then(doc => {
+            if (doc) {
+                let updateDoc = JSON.parse(JSON.stringify(doc));
+                delete updateDoc.block;
+                delete updateDoc.favorite;
+                delete updateDoc.shareInfo;
+                delete updateDoc.share;
+                delete updateDoc.chat;
+                delete updateDoc.report;
+                delete updateDoc._v;
+                delete updateDoc._id;
+                delete updateDoc.groupID;
+                let updateMedia = [];
+                for (let cnt of updateDoc.media) {
+                    delete cnt.chat;
+                    updateMedia.push(cnt);
                 }
-            })
-        }
+                updateDoc.media = updateMedia;
+                let shareInfo = {
+                    authorID,
+                    username,
+                    userImage,
+                    pageID,
+                    pageTitle,
+                    cntID
+                };
+                updateDoc.shareInfo = shareInfo;
+                let shared = 0;
+                let pageInfo = [];
+                for (let userID of reciepent) {
+                    let newDoc = new receiverModel({
+                        ...updateDoc,
+                        allowed: [userID],
+                        groupID: userID
+                    }); 
+                    newDoc.save().then(doc => {
+                        pageInfo.push({userID, pageID: doc.id})
+                        ++shared;
+                        if (shared === reciepent.length) {
+                            resolve(pageInfo)
+                        }
+                    });
+                }
+            }
+        }).catch(err => {
+            reject(err)
+        })
     })
 }

@@ -18,6 +18,7 @@ import NotificationModal from '../NotificationModal/NotificationModal';
 import PrivateConv from './PrivateConv/PrivateConv';
 import PendingMark from './PendingMark/PendingMark';
 import PendingApprove from './PendingAprove/PendingApprove';
+import Group from './Group/Group';
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 import InfoBox from '../InfoBox/InfoBox';
 import AbsoluteFill from '../AbsoluteFill/AbsoluteFill';
@@ -62,7 +63,11 @@ class SelectPicker extends Component {
 
     navigationHandler = (page, userID) => {
         if (page === 'Profile') {
-            this.props.navigation.navigate(page, {userID})
+            this.props.navigation.push(page, {userID})
+        }
+
+        if (page === 'GroupPreview') {
+            this.props.navigation.push(page, userID)   
         }
 
         if (page === 'User') {
@@ -110,13 +115,15 @@ class SelectPicker extends Component {
         this.setState({picked})
     }
 
-    selectHandler = (cntType, cntID, confirm, info) => {
-        if (this.props.selectType === 'cbtRequest' || this.props.selectType === 'groupRequest' || this.props.selectType === 'groupPendingapprove') {
-            this.props.onSelectCnt(this.props.page, this.props.pageID, cntType, cntID, this.state.picked, 'post', confirm);
+    selectHandler = (cntType, confirm, info) => {
+        if (this.props.selectType === 'cbtRequest' || this.props.selectType === 'groupRequest' || this.props.selectType === 'groupPendingapprove'
+        || this.props.selectType === 'group') {
+            this.props.onSelectCnt(this.props.actionpage ? this.props.actionpage: this.props.page, this.props.pageID, cntType, this.props.cntID, this.state.picked, 'post',
+                confirm, this.props.selectType !== 'group' );
             if (confirm) {
                 return this.setState({select: null});
             }
-            this.setState({select: {cntID, cntType, info, confirm}});
+            this.setState({select: {cntID: this.props.cntID, cntType, info, confirm}});
         }
     }
 
@@ -153,14 +160,14 @@ class SelectPicker extends Component {
                             title={this.props.leftButton.title}
                             style={styles.selectAltButton}
                             textStyle={styles.selectAltText}
-                            onPress={() => this.selectHandler(this.props.leftButton.action, cnt._id, false, 'Are you sure you want to remove this users')}
+                            onPress={() => this.selectHandler(this.props.leftButton.action, false, 'Are you sure you want to remove this users')}
                             disabled={this.state.picked.length < 1 || this.props.selectStart}
                             submitting={this.props.selectStart && !this.state.select && this.props.reactionType === this.props.leftButton.action}
                             loaderStyle="#fff" /> : null}
                         { this.props.rightButton ? <Button 
                             title={this.props.rightButton.title}
                             style={styles.selectButton}
-                            onPress={() => this.selectHandler(this.props.rightButton.action, cnt._id, false, this.props.confirmAllInfo ? this.props.confirmAllInfo : 'Are you sure you want to allow this users')}
+                            onPress={() => this.selectHandler(this.props.rightButton.action, false, this.props.confirmAllInfo ? this.props.confirmAllInfo : 'Are you sure you want to allow this users')}
                             disabled={this.state.picked.length < 1 || this.props.selectStart}
                             submitting={this.props.selectStart && !this.state.select && this.props.reactionType === this.props.rightButton.action}
                             loaderStyle="#fff" /> : null}
@@ -189,14 +196,14 @@ class SelectPicker extends Component {
                                 title={this.props.leftButton.title}
                                 style={styles.selectAltButton}
                                 textStyle={styles.selectAltText}
-                                onPress={() => this.selectHandler(this.props.leftButton.action, cnt._id, false, 'Are you sure you want to remove this users')}
+                                onPress={() => this.selectHandler(this.props.leftButton.action, false, 'Are you sure you want to remove this users')}
                                 disabled={this.state.picked.length < 1 || this.props.selectStart}
                                 submitting={this.props.selectStart && !this.state.select && this.props.reactionType === this.props.leftButton.action}
                                 loaderStyle="#fff" /> : null}
                             { this.props.rightButton ? <Button 
                                 title={this.props.rightButton.title}
                                 style={styles.selectButton}
-                                onPress={() => this.selectHandler(this.props.rightButton.action, cnt._id, false, this.props.confirmAllInfo ? this.props.confirmAllInfo : 'Are you sure you want to allow this users')}
+                                onPress={() => this.selectHandler(this.props.rightButton.action, false, this.props.confirmAllInfo ? this.props.confirmAllInfo : 'Are you sure you want to allow this users')}
                                 disabled={this.state.picked.length < 1 || this.props.selectStart}
                                 submitting={this.props.selectStart && !this.state.select && this.props.reactionType === this.props.rightButton.action}
                                 loaderStyle="#fff" /> : null}
@@ -276,6 +283,22 @@ class SelectPicker extends Component {
                 ));
             }
 
+            if (this.props.selectType === 'group') {
+                items = this.props.fetchCnt.map((cnt, index) => (
+                    <Group
+                        key={index}
+                        groupDet={cnt}
+                        showProfile={() => this.navigationHandler('GroupPreview', {pageID: cnt._id})}
+                        lastItem={index === (this.props.fetchCnt.length - 1)}
+                        loadMore={this.loadMoreHandler}
+                        enableLoadMore={this.props.loadMore}
+                        start={this.props.fetchSelectcntStart}
+                        pick={() => this.pickHandler(cnt._id)}
+                        picked ={this.state.picked}
+                        />
+                ));
+            }
+
             cnt =  (
                 <View style={styles.wrapper}>
                     {this.props.showNote === false ? null : <Text style={styles.note}>Press and hold to select</Text>}
@@ -289,8 +312,8 @@ class SelectPicker extends Component {
         if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length < 1) {
             cnt = (
                 <InfoBox
-                    det={`You currently have no ${this.props.title}!`}
-                    name="timer"
+                    det={`You currently have no ${this.props.infoBox ? this.props.infoBox: this.props.title}!`}
+                    name={this.props.iconName ? this.props.iconName : 'timer'}
                     size={40}
                     color="#333"
                     style={styles.info}
@@ -349,13 +372,13 @@ class SelectPicker extends Component {
                         <NotificationModal
                             info={this.state.select.info}
                             closeModal={this.closeModalHandler}
-                            button={[{title: 'Ok', onPress: () => this.selectHandler(this.state.select.cntType, this.state.select.cntID, true), 
+                            button={[{title: 'Ok', onPress: () => this.selectHandler(this.state.select.cntType, true), 
                                 style: styles.button},
                             {title: 'Exit', onPress: this.closeModalHandler, style: styles.buttonCancel}]}/> : null}
                 { this.props.select ? 
                     <NotificationModal
-                        info={this.props.reactionType === this.props.leftButton.action ? this.props.removeInfo : this.props.info}
-                        infoIcon={{name: 'timer-outline', color: '#16cf27', size: 40}}
+                        info={this.props.reactionType === (this.props.leftButton && this.props.leftButton.action) ? this.props.removeInfo : this.props.info}
+                        infoIcon={{name: this.props.iconName ? this.props.iconName : 'timer-outline', color: '#16cf27', size: 40}}
                         closeModal={this.selectResetHandler}
                         button={[{title: 'Ok', onPress: this.selectResetHandler, style: styles.button}]}/> : null}
                 { reaction && !reaction.confirm ?
@@ -480,7 +503,7 @@ const mapDispatchToProps = dispatch => {
         onSearchCnt: (start, limit, page, pageID, cntID, searchCnt) => dispatch(actions.fetchSelectcntInit(start, limit, page, pageID, cntID, searchCnt)),
         onSelectCntReset: () => dispatch(actions.selectcntReset()),
         onFetchCntReset: () => dispatch(actions.fetchSelectcntReset()),
-        onSelectCnt: (page, pageID, reactionType, cntID, cnt, uriMethod, confirm) => dispatch(actions.selectInit(page, pageID, reactionType, cntID, cnt, uriMethod, confirm)),
+        onSelectCnt: (page, pageID, reactionType, cntID, cnt, uriMethod, confirm, remove) => dispatch(actions.selectInit(page, pageID, reactionType, cntID, cnt, uriMethod, confirm, remove)),
         onSelectReset: () => dispatch(actions.selectReset()),
         onSelectReaction: (page, pageID, reactionType, cntID, cnt, uriMethod, confirm) => dispatch(actions.selectReactionInit(page, pageID, reactionType, cntID, cnt, uriMethod, confirm)),
         onSelectReactionReset: (cntID) => dispatch(actions.selectReactionReset(cntID))

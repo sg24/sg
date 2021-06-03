@@ -39,6 +39,9 @@ const PostSchema = new Schema({
         description: String,
         chat: String
     }],
+    allowed: [{
+        type: ObjectId
+    }],
     share: [{
         type: ObjectId
     }],
@@ -70,6 +73,30 @@ const PostSchema = new Schema({
                 type: String
             }
         }]
+    },
+    shareInfo: {
+        authorID: {
+            type: String
+        },
+        username: {
+            type: String
+        },
+        userImage: {
+            type: String
+        },
+        pageID: {
+           type: String
+        },
+        pageTitle: {
+            type: String
+        },
+        cntID: {
+            type: String
+        },
+        created: { 
+            type: Date, 
+            default: Date.now
+        }
     },
     block: [{
         type: ObjectId

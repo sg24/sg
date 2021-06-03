@@ -16,6 +16,15 @@ const favorite = require('./models/favorites');
 const comment = require('./models/comment');
 const group = require('./models/group');
 const grouppost = require('./models/grouppost');
+const grouppostchat = require('./models/grouppostchat');
+const groupquestion = require('./models/groupquestion');
+const groupquestionchat = require('./models/groupquestionchat');
+const groupfeed = require('./models/groupfeed');
+const groupfeedchat = require('./models/groupfeedchat');
+const groupwriteup = require('./models/groupwriteup');
+const groupwriteupchat = require('./models/groupwriteupchat');
+const groupcbt = require('./models/groupcbt');
+const groupcbtchat = require('./models/groupcbtchat');
 const user = require('./models/user');
 const userchat = require('./models/userchat');
 const tempUser = require('./models/tempUser');
@@ -44,6 +53,15 @@ module.exports = {
     user,
     group,
     grouppost,
+    grouppostchat,
+    groupquestion,
+    groupquestionchat,
+    groupfeed,
+    groupfeedchat,
+    groupwriteup,
+    groupwriteupchat,
+    groupcbt,
+    groupcbtchat,
     tempUser,
     comment,
     tempFile,
