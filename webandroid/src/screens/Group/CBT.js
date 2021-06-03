@@ -35,6 +35,8 @@ class CBT extends Component {
             viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
             option: [{title: 'Search', icon: {name: 'search-outline'}, action: 'search'},
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
+            groupID: this.props.groupID,
+            isFocused: false,
             pageID: null,
             pageCntID: null,
             showChatBox: null,
