@@ -176,7 +176,7 @@ const GroupCbtSchema = new Schema({
         type: Number,
         default: 0
     },
-    groupCBTTotal: {
+    qchatTotal: {
         type: Number,
         required: true
     },

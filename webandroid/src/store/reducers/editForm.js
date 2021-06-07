@@ -52,6 +52,11 @@ const initialState = {
     cbtSubmitError: null,
     cbtSubmitted: false,
     cbtStart: false,
+    fetchGroupCbtError: null,
+    fetchGroupCbt: null,
+    groupcbtSubmitError: null,
+    groupcbtSubmitted: false,
+    groupcbtStart: false,
     fetchChatRoomError: null,
     fetchChatRoom: null,
     chatRoomSubmitError: null,
@@ -77,6 +82,7 @@ const editFormReset = (state, action) => {
         writeupSubmitError: null, writeupSubmitted: false, writeupStart: false, fetchWriteupError: null,fetchWriteup: null,
         groupwriteupSubmitError: null, groupwriteupSubmitted: false, groupwriteupStart: false, fetchGroupWriteupError: null,fetchGroupWriteup: null,
         cbtSubmitError: null, cbtSubmitted: false, cbtStart: false, fetchCbtError: null,fetchCbt: null,
+        groupcbtSubmitError: null, groupcbtSubmitted: false, groupcbtStart: false, fetchGroupCbtError: null,fetchGroupCbt: null,
         chatRoomSubmitError: null, chatRoomSubmitted: false, chatRoomStart: false,fetchChatRoomError: null,fetchChatRoom: null,
         groupSubmitError: null, groupSubmitted: false, groupStart: false,fetchGroupError: null,fetchGroup: null,
         cntID: null})
@@ -103,6 +109,8 @@ const fetchEditFormFail = (state, action) => {
         return updateObject(state, {fetchGroupWriteupError: {message: action.err}});
     } else if (action.form === 'cbt') {
         return updateObject(state, {fetchCbtError: {message: action.err}});
+    } else if (action.form === 'groupcbt') {
+        return updateObject(state, {fetchGroupCbtError: {message: action.err}});
     } else if (action.form === 'chatRoom') {
         return updateObject(state, {fetchChatRoomError: {message: action.err}});
     } else {
@@ -131,6 +139,8 @@ const fetchEditForm = (state, action) => {
         return updateObject(state, {fetchGroupWriteup: action.cnt});
     } else if (action.form === 'cbt') {
         return updateObject(state, {fetchCbt: action.cnt});
+    } else if (action.form === 'groupcbt') {
+        return updateObject(state, {fetchGroupCbt: action.cnt});
     } else if (action.form === 'chatRoom') {
         return updateObject(state, {fetchChatRoom: action.cnt});
     } else if (action.form === 'group') {
@@ -161,6 +171,8 @@ const submitEditFormStart = (state, action) => {
         return updateObject(state, {groupwriteupSubmitError: null, groupwriteupStart: true})
     } else if (action.form === 'cbt') {
         return updateObject(state, {cbtSubmitError: null, cbtStart: true})
+    } else if (action.form === 'groupcbt') {
+        return updateObject(state, {groupcbtSubmitError: null, groupcbtStart: true})
     } else if (action.form === 'chatRoom') {
         return updateObject(state, {chatRoomSubmitError: null, chatRoomStart: true})
     } else if (action.form === 'group') {
@@ -191,6 +203,8 @@ const submitEditFormFail = (state, action) => {
         return updateObject(state, {groupwriteupSubmitError: {message: action.err}, groupwriteupStart: false})
     } else if (action.form === 'cbt') {
         return updateObject(state, {cbtSubmitError: {message: action.err}, cbtStart: false})
+    } else if (action.form === 'groupcbt') {
+        return updateObject(state, {groupcbtSubmitError: {message: action.err}, groupcbtStart: false})
     } else if (action.form === 'chatRoom') {
         return updateObject(state, {chatRoomSubmitError: {message: action.err}, chatRoomStart: false})
     } else if (action.form === 'group') {
@@ -221,6 +235,8 @@ const editformSubmitted = (state, action) => {
         return updateObject(state, {groupwriteupSubmitted: true, groupwriteupStart: false, cntID: action.cntID})
     } else if (action.form === 'cbt') {
         return updateObject(state, {cbtSubmitted: true, cbtStart: false, cntID: action.cntID})
+    } else if (action.form === 'groupcbt') {
+        return updateObject(state, {groupcbtSubmitted: true, groupcbtStart: false, cntID: action.cntID})
     } else if (action.form === 'chatRoom') {
         return updateObject(state, {chatRoomSubmitted: true, chatRoomStart: false, cntID: action.cntID})
     } else if (action.form === 'group') {

@@ -11,8 +11,7 @@ let authenticate = require('../serverDB/middleware/authenticate');
 let formInit = require('./utility/forminit');
 let uploadToBucket = require('./utility/upload');
 let notifications = require('./utility/notifications');
-let sharecontent = require('./utility/sharecontent');
-const {qchat, qcontent, group, groupcbt, question, connectStatus} = require('../serverDB/serverDB');
+const {qchat, qcontent, group, question, connectStatus} = require('../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'getonecbt') {
@@ -38,7 +37,7 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'getCBT') {
-        qchat.find({_isCompleted: true, block: {$nin: [req.user]}})
+        qchat.find({$or: [{groupID: null}, {'share.reciever': req.user}], _isCompleted: true, block: {$nin: [req.user]}})
             .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
             let updateResult = [];
             if (result) {
@@ -51,6 +50,7 @@ router.post('/', authenticate, (req, res, next) => {
                     takeExam: cnt.participant === 'Public' ? true :
                     cnt.allowedUser.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user)[0] ? true : false,
                     isPending: cnt.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                    shareInfo: cnt.groupID ? cnt.share.filter(shareCnt => shareCnt.reciever === req.user)[0] : null,
                     request: cnt.request.length, mark: cnt.mark.length, allowedUser: cnt.allowedUser.length})
                 }
             }
@@ -143,13 +143,7 @@ router.post('/', authenticate, (req, res, next) => {
         qchat.findOneAndUpdate({_id: req.body.pageID}, {$addToSet: {'share': reciepent}}).then(() => {
             qchat.findById(req.body.pageID).then(doc => {
                 if (doc) {
-                    sharecontent(qchat, qchat, req.body.pageID, reciepent, req.user, req.username, req.userImage, 
-                        doc.shareInfo ? doc.shareInfo.pageID : null, doc.shareInfo ? doc.shareInfo.pageTitle : null).then(shareInfo => {
-                        res.status(200).send({pageInfo: {_id: req.body.pageID, share: doc.share.length}});
-                        for (let cnt of shareInfo) {
-                            notifications('qchatShare', cnt.userID, {userID: req.user, ID: cnt.pageID}, false);
-                        }
-                    });
+                    res.status(200).send({pageInfo: {_id: req.body.pageID, share: doc.share.length}});
                     return
                 }
                 return res.sendStatus(200);
@@ -164,26 +158,31 @@ router.post('/', authenticate, (req, res, next) => {
         let reciepent = JSON.parse(req.body.cnt);
         let checkGroup = [];
         let checked = 0;
-        qchat.findOneAndUpdate({_id: req.body.pageID}, {$addToSet: {'share': reciepent}}).then(() => {
-            qchat.findById(req.body.pageID).then(doc => {
-                for (let groupID of reciepent) {
-                    group.findOne({_id: groupID, member: {$in: [req.user]}}).then(groupDoc => {
-                        if (groupDoc) {
-                            ++checked;
-                            checkGroup.push(doc._id);
-                            if (checked === reciepent.length) {
-                                sharecontent(qchat, groupcbt, req.body.pageID, reciepent, req.user, req.username, req.userImage,
-                                    doc.shareInfo ? doc.shareInfo.pageID : null, doc.shareInfo ? doc.shareInfo.pageTitle : null).then(() => {
-                                    res.status(200).send({pageInfo: {_id: req.body.pageID, share: doc.share.length}});
+        for (let groupID of reciepent) {
+            group.findOne({_id: groupID, member: {$in: [req.user]}}).then(checkGroupDoc => {
+                if (checkGroupDoc) {
+                    ++checked;
+                    checkGroup.push(checkGroupDoc._id);
+                    if (checked === reciepent.length) {
+                        qchat.findById(req.body.pageID).then(cbtDoc => {
+                            if (cbtDoc) {
+                                Promise.all([cbtDoc.groupID ? group.findById(cbtDoc.groupID) : Promise.resolve()]).then(groupDoc => {
+                                    let updateReciepent = reciepent.map(reciever => ({authorID: req.user, username: req.username, userImage: req.userImage,
+                                        cntID: req.body.pageID, pageID: groupDoc[0] ? groupDoc[0]._id : null, pageTitle: groupDoc[0] ? groupDoc[0].title: null, reciever}));
+                                        cbtDoc.updateOne({$push: {'share': updateReciepent}}).then(() => {
+                                        qchat.findById(req.body.pageID).then(doc => {
+                                            res.status(200).send({pageInfo: {_id: req.body.pageID, share: doc.share.length}});
+                                        });
+                                    })
                                 })
                             }
-                        }
-                    });
+                        })
+                    }
                 }
-            });
-        }).catch(err => {
-            res.status(500).send(err)
-        })
+            }).catch(err => {
+                res.status(500).send(err)
+            })
+        }
         return
     }
 
@@ -391,7 +390,7 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header && req.header('data-categ') === 'searchCBT') {
-        qchat.find({_isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt}})
+        qchat.find({$or: [{groupID: null}, {'share.reciever': req.user}],_isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt}})
         .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
             let updateResult = [];
             if (result) {
@@ -404,6 +403,7 @@ router.post('/', authenticate, (req, res, next) => {
                     takeExam: cnt.participant === 'Public' ? true :
                         cnt.allowedUser.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user)[0] ? true : false,
                     isPending: cnt.request.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                    shareInfo: cnt.groupID ? cnt.share.filter(shareCnt => shareCnt.reciever === req.user)[0] : null,
                     request: cnt.request.length, mark: cnt.mark.length, allowedUser: cnt.allowedUser.length})
                 }
             }
@@ -418,17 +418,11 @@ router.post('/', authenticate, (req, res, next) => {
         qchat.findOne({_id: req.body.pageID}).then(doc => {
             if (doc && !doc.chat._id && doc.favorite.length < 1 && doc.share.length < 1 && !doc.shareInfo && 
                 (JSON.parse(JSON.stringify(doc.authorID)) === JSON.parse(JSON.stringify(req.user)))) {
-                return sequence([deleteMedia(doc.media), doc.deleteOne()]).then(() => {
+                return sequence([deleteMedia(doc.media), qcontent.deleteOne({_id: doc.question}), doc.deleteOne()]).then(() => {
                     return res.sendStatus(200);
                 })
             }
-            if (doc && !doc.chat._id && doc.favorite.length < 1 && doc.shareInfo && 
-                (JSON.parse(JSON.stringify(doc.shareInfo.authorID)) === JSON.parse(JSON.stringify(req.user)))) {
-                return sequence([doc.deleteOne()]).then(() => {
-                    return res.sendStatus(200);
-                })
-            }
-            if (!doc) {
+            if (doc) {
                 qchat.findByIdAndUpdate({_id: req.body.pageID}, {$push: {'block': req.user}, $pull: {'favorite': req.user}}).then(() => {
                     return res.sendStatus(200);
                 })

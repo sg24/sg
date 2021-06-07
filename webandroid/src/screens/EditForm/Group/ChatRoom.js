@@ -7,27 +7,27 @@ import { size } from 'tailwind';
 import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
 import { v4 as uuid } from 'uuid';
 
-import NoBackground from '../../components/UI/NoBackground/NoBackground';
-import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
-import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
-import FormElement from '../../components/UI/FormElement/FormElement';
-import BoxShadow from '../../components/UI/BoxShadow/BoxShadow';
-import Button from '../../components/UI/Button/Button';
-import * as actions from '../../store/actions/index';
-import DefaultHeader from '../../components/UI/Header/DefaultHeader';
-import { updateObject, checkValidity, checkUri, checkHashtag } from '../../shared/utility';
-import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
-import CameraComponent from '../../components/UI/Camera/Camera';
-import VideoCamera from '../../components/UI/VideoCamera/VideoCamera';
-import AudioRecorder from '../../components/UI/AudioRecorder/AudioRecorder';
-import EmojiPicker from '../../components/UI/EmojiPicker/EmojiPicker';
-import LinkPreview from '../../components/UI/LinkPreview/LinkPreview';
-import UploadPreview from '../../components/UI/UploadPreview/UploadPreview';
-import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
-import InfoBox from '../../components/UI/InfoBox/InfoBox';
-import CheckBox from '../../components/UI/CheckBox/CheckBox';
-import Select from '../../components/UI/Select/Select';
-import ExamContent from './ExamContent/ExamContent';
+import NoBackground from '../../../components/UI/NoBackground/NoBackground';
+import Navigation from '../../../components/UI/SideBar/Navigation/Navigation';
+import CreateNavigation from '../../../components/UI/SideBar/CreateNavigation/CreateNavigation';
+import FormElement from '../../../components/UI/FormElement/FormElement';
+import BoxShadow from '../../../components/UI/BoxShadow/BoxShadow';
+import Button from '../../../components/UI/Button/Button';
+import * as actions from '../../../store/actions/index';
+import DefaultHeader from '../../../components/UI/Header/DefaultHeader';
+import { updateObject, checkValidity, checkUri, checkHashtag } from '../../../shared/utility';
+import ActionSheet from '../../../components/UI/ActionSheet/ActionSheet';
+import CameraComponent from '../../../components/UI/Camera/Camera';
+import VideoCamera from '../../../components/UI/VideoCamera/VideoCamera';
+import AudioRecorder from '../../../components/UI/AudioRecorder/AudioRecorder';
+import EmojiPicker from '../../../components/UI/EmojiPicker/EmojiPicker';
+import LinkPreview from '../../../components/UI/LinkPreview/LinkPreview';
+import UploadPreview from '../../../components/UI/UploadPreview/UploadPreview';
+import NotificationModal from '../../../components/UI/NotificationModal/NotificationModal';
+import InfoBox from '../../../components/UI/InfoBox/InfoBox';
+import CheckBox from '../../../components/UI/CheckBox/CheckBox';
+import Select from '../../../components/UI/Select/Select';
+import ExamContent from '../ExamContent/ExamContent';
 
 class ChatRoom extends Component {
     constructor(props) {

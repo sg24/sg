@@ -12,7 +12,6 @@ let formInit = require('./utility/forminit');
 let uploadToBucket = require('./utility/upload');
 let notifications = require('./utility/notifications');
 let sharecontent = require('./utility/sharecontent');
-let getshare = require('./utility/getshare');
 const {post, group, grouppost, advert, user, share, connectStatus} = require('../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
@@ -177,7 +176,7 @@ router.post('/', authenticate, (req, res, next) => {
                     return res.sendStatus(200);
                 })
             }
-            if (!doc) {
+            if (doc) {
                 post.findByIdAndUpdate({_id: req.body.pageID}, {$push: {'block': req.user}, $pull: {'favorite': req.user}}).then(() => {
                     return res.sendStatus(200);
                 })

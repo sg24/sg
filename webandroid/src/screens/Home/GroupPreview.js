@@ -14,7 +14,7 @@ import Post from '../Group/Post';
 import Question from '../Group/Question';
 import Feed from '../Group/Feed';
 import WriteUp from '../Group/WriteUp';
-import CBT from './CBT';
+import CBT from '../Group/CBT';
 import Option from '../../components/UI/Option/Option';
 import Button from '../../components/UI/Button/Button';
 import Href from '../../components/UI/Href/Href';
@@ -98,7 +98,7 @@ class GroupPreview extends Component {
                 for (let cnt of routeList) {
                     let routeItem = Object.entries(settings).filter(([key, value]) => (cnt.key === key) && value)[0];
                     if (routeItem) {
-                        routes.push(routeItem);
+                        routes.push(cnt);
                     }
                 }
             }
@@ -299,7 +299,7 @@ class GroupPreview extends Component {
                     case 'enableFeed':
                         return <Feed {...screenProps} groupID={this.state.pageID} focus={this.state.index === 1}/>;
                     case 'enableCBT':
-                        return <Post {...screenProps} groupID={this.state.pageID} focus={this.state.index === 2}/>;
+                        return <CBT {...screenProps} groupID={this.state.pageID} focus={this.state.index === 2}/>;
                     case 'enableQuestion':
                         return <Question {...screenProps} groupID={this.state.pageID} focus={this.state.index === 3}/>;
                     case 'enableWriteUp':

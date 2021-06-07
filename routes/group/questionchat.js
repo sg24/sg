@@ -9,7 +9,7 @@ let authenticate = require('../../serverDB/middleware/authenticate');
 let formInit = require('../utility/forminit');
 let uploadToBucket = require('../utility/upload');
 let deleteMedia = require('../utility/deletemedia');
-const {groupquestion, groupquestionchat, tempFile, connectStatus} = require('../../serverDB/serverDB');
+const {question:groupquestion, questionchat:groupquestionchat, tempFile, connectStatus} = require('../../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'getChat') {

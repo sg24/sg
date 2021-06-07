@@ -246,7 +246,7 @@ router.post('/', authenticate, (req, res, next) => {
                 })
             }
 
-            if (!doc) {
+            if (doc) {
                 grouppost.findOneAndUpdate({_id: req.body.pageID}, {$push: {'block': req.user}, $pull: {'favorite': req.user}}).then(() => {
                     return res.sendStatus(200);
                 })

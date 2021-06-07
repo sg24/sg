@@ -5,12 +5,13 @@ let objectID = require('mongoose').mongo.ObjectId;
 const authenticate = require('../serverDB/middleware/authenticate');
 let notifications = require('./utility/notifications');
 let sequence = require('./utility/sequence');
-const { connectStatus, qchat, qcontent, cbtchat, group } = require('../serverDB/serverDB');
+const { connectStatus, qchat, qcontent, cbtchat, group, qchat:groupcbt, cbtchat:groupcbtchat } = require('../serverDB/serverDB');
 
 router.post('/',authenticate, (req, res,next) => {
-    if (req.header !== null && req.header('data-categ') === 'getExam') {
+    if (req.header !== null && (req.header('data-categ') === 'getExam' || req.header('data-categ') === 'getGroupcbtexam')) {
+        let model = req.header('data-categ') === 'getExam' ? qchat : groupcbt;
         let pageID = req.body.searchCnt;
-        qchat.findOne({$or: [{_id: pageID, 'allowedUser.authorID': {$eq: req.user}}, {_id: pageID, participant: {$eq: 'Public'}}]}).then(doc => {
+        model.findOne({$or: [{_id: pageID, 'allowedUser.authorID': {$eq: req.user}}, {_id: pageID, participant: {$eq: 'Public'}}]}).then(doc => {
             if (doc) {
                 qcontent.findById(doc.question).then(result => {
                     if (result) {
@@ -86,10 +87,15 @@ router.post('/',authenticate, (req, res,next) => {
         return 
     }
 
-    if (req.header !== null && req.header('data-categ') === 'markExam') {
+    if (req.header !== null && (req.header('data-categ') === 'markExam' || req.header('data-categ') === 'markGroupcbtexam')) {
+        let isMarkExam = req.header('data-categ') === 'markExam';
         let examInfo = JSON.parse(req.body.cnt);
         let questionTotal = examInfo.questionTotal;
-        qchat.findOne({$or: [{_id: examInfo.pageID, 'allowedUser.authorID': {$eq: req.user}}, {_id: examInfo.pageID, participant: {$eq: 'Public'}}]}).then(doc => {
+        let model = isMarkExam ? qchat : groupcbt;
+        let chatModel = isMarkExam ? cbtchat : groupcbtchat;
+        let notificationResult =  isMarkExam ? 'qchatResult' : 'groupCbtResult';
+        let notificationMark = isMarkExam ? 'qchatMark' : 'groupCbtMark';
+        model.findOne({$or: [{_id: examInfo.pageID, 'allowedUser.authorID': {$eq: req.user}}, {_id: examInfo.pageID, participant: {$eq: 'Public'}}]}).then(doc => {
             if (doc) {
                 qcontent.findById(doc.question).then(result => {
                     if (result) {
@@ -127,17 +133,17 @@ router.post('/',authenticate, (req, res,next) => {
                                     content: `Score: ${score}%   Mark: ${(score/100)*questionTotal} / ${questionTotal}`, verified: true, _id, created
                                 }
                                 if (doc.chat && doc.chat._id) {
-                                    Promise.all([cbtchat.findByIdAndUpdate(doc.chat._id, {$push: {chat: cnt}}),
-                                        qchat.findOneAndUpdate({_id: examInfo.pageID, 'chat.user.authorID': {$ne: req.user}}, {$push: {'chat.user': {authorID: req.user, username: req.username, userImage: req.userImage}}})]).then(cnt => {
+                                    Promise.all([chatModel.findByIdAndUpdate(doc.chat._id, {$push: {chat: cnt}}),
+                                        model.findOneAndUpdate({_id: examInfo.pageID, 'chat.user.authorID': {$ne: req.user}}, {$push: {'chat.user': {authorID: req.user, username: req.username, userImage: req.userImage}}})]).then(cnt => {
                                         let total = cnt[0].chat.length + 1;
-                                        qchat.findByIdAndUpdate(examInfo.pageID, {'chat.total': total}).then(result => {
+                                        model.findByIdAndUpdate(examInfo.pageID, {'chat.total': total}).then(result => {
                                             res.status(200).send({pageInfo: {_id: examInfo.pageID, score, mark: (score/100)*questionTotal, showResult: doc.showResult,
                                                 chat: doc.chat._id,  enableDelete: doc.enableDelete, enableComment: doc.enableComment}});
-                                            return notifications('qchatResult', doc.authorID, {userID: req.user, ID: examInfo.pageID}, false);
+                                            return notifications(notificationResult, doc.authorID, {userID: req.user, ID: examInfo.pageID}, false);
                                         })
                                     })
                                 } else {
-                                    let newDoc = new cbtchat({
+                                    let newDoc = new chatModel({
                                         chat: [cnt]
                                     });
                                     newDoc.save().then(result => {
@@ -145,7 +151,7 @@ router.post('/',authenticate, (req, res,next) => {
                                         doc.updateOne({chat}).then(() => {
                                             res.status(200).send({pageInfo: {_id: examInfo.pageID, score, mark: (score/100)*questionTotal, showResult: doc.showResult,
                                                 chat: doc.chat._id, enableDelete: doc.enableDelete, enableComment: doc.enableComment}})
-                                            notifications('qchatResult', doc.authorID, {userID: req.user, ID: examInfo.pageID}, false);
+                                            notifications(notificationResult, doc.authorID, {userID: req.user, ID: examInfo.pageID}, false);
                                             return
                                         });
                                     })
@@ -159,7 +165,7 @@ router.post('/',authenticate, (req, res,next) => {
                             mark.push({question: pending, score, questionTotal, authorID: req.user, username: req.username, userImage: req.userImage})
                             doc.updateOne({mark}).then(() => {
                                 res.status(200).send({pageInfo: {_id: examInfo.pageID, pending: true}});
-                                notifications('qchatMark', doc.authorID, {userID: req.user, ID: examInfo.pageID}, false);
+                                notifications(notificationMark, doc.authorID, {userID: req.user, ID: examInfo.pageID}, false);
                             })
                         }
                     }
@@ -245,9 +251,10 @@ router.post('/',authenticate, (req, res,next) => {
         return 
     }
 
-    if (req.header !== null && req.header('data-categ') === 'getMarkinfo') {
+    if (req.header !== null && (req.header('data-categ') === 'getMarkinfo' || req.header('data-categ') === 'getMarkGroupcbtinfo')) {
         let pageID = req.body.searchCnt;
-        qchat.findOne({_id: pageID, authorID: req.user}).then(doc => {
+        let model = req.header('data-categ') === 'getMarkinfo' ? qchat : groupcbt;
+        model.findOne({_id: pageID, authorID: req.user}).then(doc => {
             if (doc) {
                 return res.status(200).send({page: [{_id: pageID, title: doc.title}]})
             }
@@ -263,9 +270,13 @@ router.post('/',authenticate, (req, res,next) => {
         })
     }
     
-    if (req.header !== null && req.header('data-categ') === 'markTheoryexam') {
+    if (req.header !== null && (req.header('data-categ') === 'markTheoryexam' || req.header('data-categ') === 'markGroupCBTTheoryexam')) {
         let answerInfo = JSON.parse(req.body.cnt);
-        qchat.findOne({_id: answerInfo.pageID, authorID: req.user}).then(doc => {
+        let isMarkExam = req.header('data-categ') === 'markTheoryexam';
+        let model = isMarkExam ? qchat : groupcbt;
+        let chatModel = isMarkExam ? cbtchat : groupcbtchat;
+        let notificationResult =  isMarkExam ? 'qchatResult' : 'groupCbtResult';
+        model.findOne({_id: answerInfo.pageID, authorID: req.user}).then(doc => {
             if (doc) {
                 let questionInfo = doc.mark.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === answerInfo.cntID)[0];
                 if (questionInfo) {
@@ -285,17 +296,17 @@ router.post('/',authenticate, (req, res,next) => {
                         content: `Score: ${score}%   Mark: ${(score/100)*questionTotal} / ${questionTotal}`, verified: true, _id, created
                     }
                     if (doc.chat && doc.chat._id) {
-                        Promise.all([cbtchat.findByIdAndUpdate(doc.chat._id, {$push: {chat: cnt}}),
-                            qchat.findOneAndUpdate({_id: answerInfo.pageID, 'chat.user.authorID': {$ne: questionInfo.authorID}}, {$push: {'chat.user': {authorID: questionInfo.authorID, username: questionInfo.username, userImage: questionInfo.userImage}}})]).then(cnt => {
+                        Promise.all([chatModel.findByIdAndUpdate(doc.chat._id, {$push: {chat: cnt}}),
+                            model.findOneAndUpdate({_id: answerInfo.pageID, 'chat.user.authorID': {$ne: questionInfo.authorID}}, {$push: {'chat.user': {authorID: questionInfo.authorID, username: questionInfo.username, userImage: questionInfo.userImage}}})]).then(cnt => {
                             let total = cnt[0].chat.length + 1;
-                            qchat.findByIdAndUpdate(answerInfo.pageID, {'chat.total': total, mark: updateMarkDoc}).then(result => {
+                            model.findByIdAndUpdate(answerInfo.pageID, {'chat.total': total, mark: updateMarkDoc}).then(result => {
                                 res.status(200).send({pageInfo: {_id: answerInfo.pageID, score, mark: (score/100)*questionTotal, showResult: doc.showResult,
                                     chat: doc.chat._id,  enableDelete: doc.enableDelete, enableComment: doc.enableComment}});
-                                return notifications('qchatResult', questionInfo.authorID, {userID: doc.authorID, ID: answerInfo.pageID}, false);
+                                return notifications(notificationResult, questionInfo.authorID, {userID: doc.authorID, ID: answerInfo.pageID}, false);
                             })
                         })
                     } else {
-                        let newDoc = new cbtchat({
+                        let newDoc = new chatModel({
                             chat: [cnt]
                         });
                         newDoc.save().then(result => {
@@ -303,7 +314,7 @@ router.post('/',authenticate, (req, res,next) => {
                             doc.updateOne({chat, mark: updateMarkDoc}).then(() => {
                                 res.status(200).send({pageInfo: {_id: answerInfo.pageID, score, mark: (score/100)*questionTotal, showResult: doc.showResult,
                                     chat: doc.chat._id, enableDelete: doc.enableDelete, enableComment: doc.enableComment}})
-                                notifications('qchatResult', questionInfo.authorID, {userID: doc.authorID, ID: answerInfo.pageID}, false);
+                                notifications(notificationResult, questionInfo.authorID, {userID: doc.authorID, ID: answerInfo.pageID}, false);
                                 return
                             });
                         })

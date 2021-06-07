@@ -7,9 +7,6 @@ import urischeme from 'urischeme';
 import withComponent from 'withcomponent';
 import { useNavigation } from '@react-navigation/native';
 
-import NoBackground from '../../components/UI/NoBackground/NoBackground';
-import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
-import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
@@ -453,7 +450,7 @@ class WriteUp extends Component {
                             <Text style={styles.infoTitle}> No write up found !!! </Text>
                             <View>
                                 <Text style={{justifyContent: 'center', alignItems: 'center'}}>
-                                    <Href title="create Write Up" onPress={() => this.navigationHandler('AddGroupWriteUp')} style={styles.href}/>
+                                    <Href title="create Write Up" onPress={() => this.navigationHandler('AddGroupWriteUp', {groupID: this.state.groupID})} style={styles.href}/>
                                 </Text>
                             </View>
                         </View>
@@ -475,22 +472,7 @@ class WriteUp extends Component {
             )
         }
 
-      return (
-        <NoBackground
-            sideBar={(
-                <>
-                <Navigation 
-                        color={this.props.settings.color}
-                        backgroundColor={this.props.settings.backgroundColor}/>
-                <CreateNavigation 
-                    color={this.props.settings.color}
-                    backgroundColor={this.props.settings.backgroundColor}/>
-                </>
-            )}
-            content={ cnt }
-            contentFetched={this.props.fetchCnt}>
-        </NoBackground>
-      )
+        return cnt;
     }
 }
 

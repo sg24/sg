@@ -58,7 +58,7 @@ class Exam extends Component {
                 if (this.state.pageID && this.state.navigationURI && this.state.cntID && this.state.getMarkID) {
                     this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'exam', this.state.cntID, this.state.pageID);
                 } else {
-                    this.props.navigation.navigate(this.state.navigationURI);
+                    this.props.navigation.navigate(this.state.navigationURI || (this.state.viewMode === 'landscape' ? 'CBTWeb' : 'CBT'));
                 }
             });
             this._unsubscribeBackPress = BackHandler.addEventListener("hardwareBackPress", this.backActionHandler);
@@ -70,7 +70,7 @@ class Exam extends Component {
                     durationID: null,showChatBox: null,showSharePicker: null,showActionSheet: false,enableShare: true,selectedAnswer: []});
             });
         } else {
-            this.props.navigation.navigate(this.state.navigationURI);
+            this.props.navigation.navigate(this.state.navigationURI || (this.state.viewMode === 'landscape' ? 'CBTWeb' : 'CBT'));
         }
     }
 

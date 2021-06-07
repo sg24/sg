@@ -39,7 +39,31 @@ const QuestionSchema = new Schema({
         description: String
     }],
     share: [{
-        type: ObjectId
+        authorID: {
+            type: String
+        },
+        username: {
+            type: String
+        },
+        userImage: {
+            type: String
+        },
+        pageID: {
+           type: String
+        },
+        pageTitle: {
+            type: String
+        },
+        cntID: {
+            type: String
+        },
+        reciever: {
+            type: String
+        },
+        created: { 
+            type: Date, 
+            default: Date.now
+        }
     }],
     favorite: [{
         type: ObjectId
@@ -78,29 +102,8 @@ const QuestionSchema = new Schema({
             }
         }]
     },
-    shareInfo: {
-        authorID: {
-            type: String
-        },
-        username: {
-            type: String
-        },
-        userImage: {
-            type: String
-        },
-        pageID: {
-           type: String
-        },
-        pageTitle: {
-            type: String
-        },
-        cntID: {
-            type: String
-        },
-        created: { 
-            type: Date, 
-            default: Date.now
-        }
+    groupID: {
+        type: String
     },
     block: [{
         type: ObjectId

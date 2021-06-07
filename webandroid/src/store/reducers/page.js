@@ -51,6 +51,11 @@ const initialState = {
     fetchCBT: null,
     deleteCBTError: null,
     deleteCBT: null,
+    fetchGroupCBTError: null,
+    fetchGroupCBTStart: false,
+    fetchGroupCBT: null,
+    deleteGroupCBTError: null,
+    deleteGroupCBT: null,
     fetchExamError: null,
     fetchExamStart: false,
     fetchExam: null,
@@ -85,6 +90,7 @@ const pageReset = (state, action) => {
         fetchWriteUpError: null,fetchWriteUpStart: false,fetchWriteUp: null,deleteWriteUpError: null,deleteWriteUp: null,
         fetchGroupWriteUpError: null,fetchGroupWriteUpStart: false,fetchGroupWriteUp: null,deleteGroupWriteUpError: null,deleteGroupWriteUp: null,
         fetchCBTError: null,fetchCBTStart: false,fetchCBT: null,deleteCBTError: null,deleteCBT: null,
+        fetchGroupCBTError: null,fetchGroupCBTStart: false,fetchGroupCBT: null,deleteGroupCBTError: null,deleteGroupCBT: null,
         fetchExamError: null,fetchExamStart: false,fetchExam: null,
         fetchGroupError: null,fetchGroupStart: false,fetchGroup: null,deleteGroupError: null,deleteGroup: null,
         fetchGroupPreviewError: null,fetchGroupPreviewStart: false,fetchGroupPreview: null,
@@ -117,6 +123,8 @@ const fetchPageFail = (state, action) => {
         return updateObject(state, {fetchGroupWriteUpError: {message: action.err}, fetchGroupWriteUpStart: false});
     } else if (action.page === 'cbt') {
         return updateObject(state, {fetchCBTError: {message: action.err}, fetchCBTStart: false});
+    } else if (action.page === 'groupcbt') {
+        return updateObject(state, {fetchGroupCBTError: {message: action.err}, fetchGroupCBTStart: false});
     } else if (action.page === 'exam') {
         return updateObject(state, {fetchExamError: {message: action.err}, fetchExamStart: false});
     } else if (action.page === 'group') {
@@ -155,6 +163,8 @@ const fetchPageStart = (state, action) => {
         return updateObject(state, {fetchGroupWriteUpError: null, fetchGroupWriteUp: action.start === 0 ? null : state.fetchGroupWriteUp, fetchGroupWriteUpStart: true });
     } else if (action.page === 'cbt') {
         return updateObject(state, {fetchCBTError: null, fetchCBT: action.start === 0 ? null : state.fetchCBT, fetchCBTStart: true });
+    } else if (action.page === 'groupcbt') {
+        return updateObject(state, {fetchGroupCBTError: null, fetchGroupCBT: action.start === 0 ? null : state.fetchGroupCBT, fetchGroupCBTStart: true });
     } else if (action.page === 'group') {
         return updateObject(state, {fetchGroupError: null, fetchGroup: action.start === 0 ? null : state.fetchGroup, fetchGroupStart: true });
     } else if (action.page === 'groupPreview') {
@@ -176,7 +186,7 @@ const fetchPageReset = (state, action) => {
         fetchQuestionError: null, fetchQuestionStart: false, fetchGroupQuestionError: null, fetchGroupQuestionStart: false, 
         fetchFeedError: null, fetchFeedStart: false, fetchGroupFeedError: null, fetchGroupFeedStart: false,
         fetchWriteUpError: null, fetchWriteUpStart: false, fetchGroupWriteUpError: null, fetchGroupWriteUpStart: false,
-        fetchCBTError: null, fetchCBTStart: false, 
+        fetchCBTError: null, fetchCBTStart: false, fetchGroupCBTError: null, fetchGroupCBTStart: false, 
         fetchExamError: null, fetchExamStart: false, fetchGroupError: null, fetchGroupStart: false,
         fetchGroupPreviewError: null, fetchGroupPreviewStart: false });
 };
@@ -209,6 +219,8 @@ const fetchPage = (state, action) => {
         return updateObject(state, {fetchGroupWriteUp: updatePage(state.fetchGroupWriteUp, action), page: action.page, loadMore: action.cnt.loadMore, fetchGroupWriteUpStart: false});
     } else if (action.page === 'cbt') {
         return updateObject(state, {fetchCBT: updatePage(state.fetchCBT, action), page: action.page, loadMore: action.cnt.loadMore, fetchCBTStart: false});
+    } else if (action.page === 'groupcbt') {
+        return updateObject(state, {fetchGroupCBT: updatePage(state.fetchGroupCBT, action), page: action.page, loadMore: action.cnt.loadMore, fetchGroupCBTStart: false});
     } else if (action.page === 'exam') {
         return updateObject(state, {fetchExam: updatePage(state.fetchExam, action), page: action.page, loadMore: action.cnt.loadMore, fetchExamStart: false});
     } else if (action.page === 'group') {
@@ -260,6 +272,8 @@ const updatePage = (state, action) => {
         return updateObject(state, {fetchGroupWriteUp: updatePageCnt(state.fetchGroupWriteUp, action)});
     } else if (action.page === 'cbt') {
         return updateObject(state, {fetchCBT: updatePageCnt(state.fetchCBT, action)});
+    } else if (action.page === 'groupcbt') {
+        return updateObject(state, {fetchGroupCBT: updatePageCnt(state.fetchGroupCBT, action)});
     } else if (action.page === 'exam') {
         return updateObject(state, {fetchExam: updatePageCnt(state.fetchExam, action)});
     } else if (action.page === 'group') {
@@ -334,7 +348,8 @@ const deletePageReset = (state, action) => {
         deleteGroupQuestionError: null, deleteGroupQuestion: null,
         deleteFeedError: null, deleteFeed: null, deleteGroupFeedError: null, deleteGroupFeed: null,
         deleteWriteUpError: null, deleteWriteUp: null,deleteGroupWriteUpError: null, deleteGroupWriteUp: null,
-        deleteCBTError: null, deleteCBT: null,  deleteGroupError: null, deleteGroup: null
+        deleteCBTError: null, deleteCBT: null, deleteGroupCBTError: null, deleteGroupCBT: null,
+        deleteGroupError: null, deleteGroup: null
     })
 };
 
@@ -361,6 +376,8 @@ const deletePageStart = (state, action) => {
         return updateObject(state, {deleteGroupWriteUpError: null,  deleteGroupWriteUp: {pageID: action.pageID, page: action.page, start: action.start}});
     } else if (action.page === 'cbt') {
         return updateObject(state, {deleteCBTError: null,  deleteCBT: {pageID: action.pageID, page: action.page, start: action.start}});
+    } else if (action.page === 'groupcbt') {
+        return updateObject(state, {deleteGroupCBTError: null,  deleteGroupCBT: {pageID: action.pageID, page: action.page, start: action.start}});
     } else if (action.page === 'group') {
         return updateObject(state, {deleteGroupError: null,  deleteGroup: {pageID: action.pageID, page: action.page, start: action.start}});
     }  else if (action.page === 'chatRoom') {
@@ -393,6 +410,8 @@ const deletePageFail = (state, action) => {
         return updateObject(state, {deleteGroupWriteUpError: {message: action.err}, deleteGroupWriteUp: null});
     } else if (action.page === 'cbt') {
         return updateObject(state, {deleteCBTError: {message: action.err}, deleteCBT: null});
+    } else if (action.page === 'groupcbt') {
+        return updateObject(state, {deleteGroupCBTError: {message: action.err}, deleteGroupCBT: null});
     } else if (action.page === 'group') {
         return updateObject(state, {deleteGroupError: {message: action.err}, deleteGroup: null});
     } else if (action.page === 'chatRoom') {
@@ -429,6 +448,8 @@ const deletePage = (state, action) => {
         return updateObject(state, {deleteGroupWriteUp: null, fetchGroupWriteUp: updatePage(action.pageID, state.fetchGroupWriteUp)});
     } else if (action.page === 'cbt') {
         return updateObject(state, {deleteCBT: null, fetchCBT: updatePage(action.pageID, state.fetchCBT)});
+    } else if (action.page === 'groupcbt') {
+        return updateObject(state, {deleteGroupCBT: null, fetchGroupCBT: updatePage(action.pageID, state.fetchGroupCBT)});
     } else if (action.page === 'group') {
         return updateObject(state, {deleteGroup: null, fetchGroup: updatePage(action.pageID, state.fetchGroup)});
     } else if (action.page === 'chatRoom') {

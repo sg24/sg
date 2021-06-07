@@ -181,7 +181,31 @@ const QchatSchema = new Schema({
         required: true
     },
     share: [{
-        type: ObjectId
+        authorID: {
+            type: String
+        },
+        username: {
+            type: String
+        },
+        userImage: {
+            type: String
+        },
+        pageID: {
+           type: String
+        },
+        pageTitle: {
+            type: String
+        },
+        cntID: {
+            type: String
+        },
+        reciever: {
+            type: String
+        },
+        created: { 
+            type: Date, 
+            default: Date.now
+        }
     }],
     favorite: [{
         type: ObjectId
@@ -212,29 +236,8 @@ const QchatSchema = new Schema({
             }
         }]
     },
-    shareInfo: {
-        authorID: {
-            type: String
-        },
-        username: {
-            type: String
-        },
-        userImage: {
-            type: String
-        },
-        pageID: {
-           type: String
-        },
-        pageTitle: {
-            type: String
-        },
-        cntID: {
-            type: String
-        },
-        created: { 
-            type: Date, 
-            default: Date.now
-        }
+    groupID: {
+        type: String
     },
     block: [{
         type: ObjectId

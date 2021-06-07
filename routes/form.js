@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs'); 
-const {appError, post, page, question, group, grouppost, writeup, groupwriteup,groupfeed, feed, advert, qchat, groupcbt,qcontent, connectStatus, user} = require('../serverDB/serverDB');
+const {appError, post, page, question, group, grouppost, writeup, groupwriteup,groupfeed, question:groupquestion,feed, advert, qchat, qchat:groupcbt,qcontent, connectStatus, user} = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
 let formInit = require('./utility/forminit');
 let submit = require('./utility/submit');
@@ -517,6 +517,7 @@ router.post('/add/pageReport', authenticate, (req, res, next) => {
             fields.page === 'grouppost' ? grouppost : 
             fields.page === 'groupfeed' ? groupfeed : 
             fields.page === 'groupwriteup' ? groupwriteup : 
+            fields.page === 'groupquestion' ? groupquestion : 
             fields.page === 'groupcbt' ? groupcbt : post;
         model.findById(fields.pageID).then(doc => {
             if (doc && doc.report.length < 20) {

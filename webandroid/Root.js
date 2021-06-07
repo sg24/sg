@@ -45,12 +45,13 @@ import AddAdvertScreen from './src/screens/AddForm/Advert';
 import AddFeedScreen from './src/screens/AddForm/Feed';
 import AddWriteUpScreen from './src/screens/AddForm/WriteUp';
 import AddCBTScreen from './src/screens/AddForm/CBT/CBT';
-import AddChatRoomScreen from './src/screens/AddForm/ChatRoom/ChatRoom';
+import AddChatRoomScreen from './src/screens/AddForm/Group/ChatRoom';
 import AddGroupScreen from './src/screens/AddForm/Group';
 import AddGroupPostScreen from './src/screens/AddForm/Group/Post';
 import AddGroupQuestionScreen from './src/screens/AddForm/Group/Question';
 import AddGroupFeedScreen from './src/screens/AddForm/Group/Feed';
 import AddGroupWriteUpScreen from './src/screens/AddForm/Group/WriteUp';
+import AddGroupCBTScreen from './src/screens/AddForm/Group/CBT';
 import AddPageReportScreen from './src/screens/AddForm/PageReport';
 import AddAppErrorScreen from './src/screens/AddForm/AppErrorReport';
 import EditPostScreen from './src/screens/EditForm/Post';
@@ -58,10 +59,11 @@ import EditGroupPostScreen from './src/screens/EditForm/Group/Post';
 import EditGroupQuestionScreen from './src/screens/EditForm/Group/Question';
 import EditGroupFeedScreen from './src/screens/EditForm/Group/Feed';
 import EditGroupWriteUpScreen from './src/screens/EditForm/Group/WriteUp';
+import EditGroupCBTScreen from './src/screens/EditForm/Group/CBT';
 import EditQuestionScreen from './src/screens/EditForm/Question';
 import EditFeedScreen from './src/screens/EditForm/Feed';
 import EditWriteUpScreen from './src/screens/EditForm/WriteUp';
-import EditChatRoomScreen from './src/screens/EditForm/ChatRoom';
+import EditChatRoomScreen from './src/screens/EditForm/group/ChatRoom';
 import EditGroupScreen from './src/screens/EditForm/Group';
 import EditCBTScreen from './src/screens/EditForm/CBT';
 import EditAdvertScreen from './src/screens/EditForm/Advert';
@@ -104,6 +106,7 @@ const userScreens = {
   AddGroupQuestion: AddGroupQuestionScreen,
   AddGroupFeed: AddGroupFeedScreen,
   AddGroupWriteUp: AddGroupWriteUpScreen,
+  AddGroupCBT: AddGroupCBTScreen,
   AddChatRoom: AddChatRoomScreen,
   AddReport: AddPageReportScreen,
   AddAppError: AddAppErrorScreen,
@@ -116,6 +119,7 @@ const userScreens = {
   EditGroupQuestion: EditGroupQuestionScreen,
   EditGroupFeed: EditGroupFeedScreen,
   EditGroupWriteUp: EditGroupWriteUpScreen,
+  EditGroupCBT: EditGroupCBTScreen,
   EditChatRoom: EditChatRoomScreen,
   EditCBT: EditCBTScreen,
   EditAdvert: EditAdvertScreen,
@@ -299,7 +303,7 @@ class Base extends Component {
               
               if (name === 'AddPost' || name === 'AddQuestion' || name === "AddAdvert" || name === "AddFeed" || name === "AddWriteUp" 
               || name === "AddCBT" || name === "AddChatRoom" || name === "AddGroup" || name === "AddReport" || name === "AddAppError"
-              || name === 'AddGroupPost' || name === 'AddGroupQuestion' || name === 'AddGroupFeed' || name === 'AddGroupWriteUp') {
+              || name === 'AddGroupPost' || name === 'AddGroupQuestion' || name === 'AddGroupFeed' || name === 'AddGroupWriteUp' || name === 'AddGroupCBT') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader;
                 let title = name.startsWith('Add') ? name === "AddChatRoom" ? "Add Chat Room" :
                   name === "AddAppError" ? "App Error Report" : 
@@ -323,7 +327,8 @@ class Base extends Component {
 
               if (name === 'EditPost' || name === 'EditQuestion' || name === "EditAdvert" || name === "EditFeed"
               || name === "EditWriteUp" || name === "EditCBT" || name === 'EditGroup' || name === "EditChatRoom"
-              || name === "EditGroupPost" || name === "EditGroupQuestion" || name === "EditGroupFeed" || name === "EditGroupWriteUp") {
+              || name === "EditGroupPost" || name === "EditGroupQuestion" || name === "EditGroupFeed" || name === "EditGroupWriteUp"
+              || name === "EditGroupCBT") {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader;
                 let title = name.startsWith('Edit') ? name === "EditChatRoom" ? "Edit Chat Room" : 
                   name.startsWith('EditGroup') ? name.split('EditGroup').join("Edit Group ") : name.split('Edit').join("Edit ") : name;

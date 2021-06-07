@@ -204,7 +204,7 @@ router.post('/', authenticate, (req, res, next) => {
         let groupID =  groupInfo.groupID;
         group.findOne({member: {$in: [req.user]}, _id:  groupID}).then(doc => {
             if (doc) {
-                groupwriteup.find({groupID, _isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt}})
+                groupwriteup.find({groupID, _isCompleted: true, block: {$nin: [req.user]}, $text: {$search: groupInfo.search}})
                 .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
                     let updateResult = [];
                     if (result) {
@@ -241,7 +241,7 @@ router.post('/', authenticate, (req, res, next) => {
                 })
             }
 
-            if (!doc) {
+            if (doc) {
                 groupwriteup.findByIdAndUpdate({_id: req.body.pageID}, {$push: {'block': req.user}, $pull: {'favorite': req.user}}).then(() => {
                     return res.sendStatus(200);
                 })

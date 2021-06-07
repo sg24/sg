@@ -72,7 +72,6 @@ class Feed extends Component {
     screenFocused() {
         if (this.props.focus && !this.state.isFocused) {
             if (this.state.groupID) {
-                console.log('feed')
                 this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'groupfeed', 'getFeed', this.state.groupID);
             } else {
                 this.props.navigation.navigate(this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group');

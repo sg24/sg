@@ -4,7 +4,7 @@ let formidable = require('formidable');
 const path = require('path');
 const fs = require('fs'); 
 
-const {appError, grouppost, page, groupquestion, group, groupwriteup, groupfeed, advert, groupcbt, qcontent, connectStatus, user} = require('../../serverDB/serverDB');
+const {appError, grouppost, page, question:groupquestion, group, groupwriteup, groupfeed, advert, qchat:groupcbt, qcontent, connectStatus, user} = require('../../serverDB/serverDB');
 const authenticate = require('../../serverDB/middleware/authenticate');
 let formInit = require('../utility/forminit');
 let submit = require('../utility/submit');
@@ -83,7 +83,7 @@ router.post('/add/groupquestion', authenticate, (req, res, next) => {
                     content: fields.content, hashTag: JSON.parse(fields.hashTag), media, tempFileID,
                     groupID: fields.groupID
                 }
-                submit(groupquestion, cnt, tempFileID, 'groupQuestion').then(id => {
+                submit(groupquestion, cnt, tempFileID, 'groupQuestion', false, doc.member).then(id => {
                     return res.status(201).send(id);
                 })
             })
@@ -134,7 +134,7 @@ router.post('/add/groupfeed', authenticate, (req, res, next) => {
                     enableComment: JSON.parse(fields.comment), media, tempFileID,
                     groupID: fields.groupID
                 }
-                submit(groupfeed, cnt, tempFileID, 'groupFeed').then(id => {
+                submit(groupfeed, cnt, tempFileID, 'groupFeed', false).then(id => {
                     return res.status(201).send(id);
                 })
             })
@@ -187,7 +187,7 @@ router.post('/add/groupwriteup', authenticate, (req, res, next) => {
                     enableComment: JSON.parse(fields.comment), media, tempFileID,
                     groupID: fields.groupID
                 }
-                submit(groupwriteup, cnt, tempFileID, 'groupWriteup').then(id => {
+                submit(groupwriteup, cnt, tempFileID, 'groupWriteup', false).then(id => {
                     return res.status(201).send(id);
                 })
             })
@@ -262,7 +262,7 @@ router.post('/add/groupcbt', authenticate, (req, res, next) => {
                         duration: fields.duration, qchatTotal: fields.questionTotal, media: cbtMedia, 
                         question: id, tempFileID, groupID: fields.groupID
                     }
-                    submit(groupcbt, cnt, tempFileID, 'groupCbt').then(id => {
+                    submit(groupcbt, cnt, tempFileID, 'groupCbt', false).then(id => {
                         return res.status(201).send(id);
                     })
                 })

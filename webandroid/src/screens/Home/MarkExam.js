@@ -57,7 +57,7 @@ class MarkExam extends Component {
                 if (this.state.pageID && this.state.mark && this.state.navigationURI && this.state.cntID && this.state.getMarkID) {
                     this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'exam', this.state.cntID, this.state.pageID);
                 } else {
-                    this.props.navigation.navigate(this.state.navigationURI);
+                    this.props.navigation.navigate(this.state.navigationURI || (this.state.viewMode === 'landscape' ? 'CBTWeb' : 'CBT'));
                 }
             });
             this._unsubscribeBackPress = BackHandler.addEventListener("hardwareBackPress", this.backActionHandler);
@@ -68,7 +68,7 @@ class MarkExam extends Component {
                     enableShare: true,reaction: null,showChatBox: null, showSharePicker: null,showActionSheet: false, selectedAnswer: []});
             });
         } else {
-            this.props.navigation.navigate(this.state.navigationURI);
+            this.props.navigation.navigate(this.state.navigationURI || (this.state.viewMode === 'landscape' ? 'CBTWeb' : 'CBT'));
         }
     }
 

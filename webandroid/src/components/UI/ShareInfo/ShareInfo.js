@@ -27,7 +27,7 @@ const shareInfo = props => {
                             Shared from 
                         </Text>
                         <View style={{flexShrink: 1}}>
-                            <Href numberOfLines={1} style={{fontWeight: 'bold'}} title={ props.shareInfo.pageTitle } onPress={() => navigation.navigate('GroupPreview', {pageID: groupPage, cntID: props.shareInfo.cntID})} />
+                            <Href numberOfLines={1} style={{fontWeight: 'bold'}} title={ props.shareInfo.pageTitle } onPress={() => navigation.push('GroupPreview', {pageID: groupPage, cntID: props.shareInfo.cntID})} />
                         </View>
                         </>
                     ): (

@@ -29,7 +29,7 @@ const writeupContent = props => {
     if (props.cnt._id === props.pageCntID) {
         userOpt = (
             <BoxShadow style={styles.userOpt}>
-                 { (props.userID === props.cnt.authorID)  && !props.cnt.shareInfo?
+                 { (props.userID === props.cnt.authorID)  && !(props.cnt.shareInfo && props.cnt.shareInfo.authorID) ?
                 <Button style={styles.userOptItem} onPress={props.edit}>
                     <Ionicons name="create-outline" size={20}/>
                     <Text style={[styles.textStyle, styles.detText]}>Edit</Text>

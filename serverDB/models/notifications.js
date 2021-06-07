@@ -100,6 +100,12 @@ const NotificationsSchema = new Schema({
     groupCbtReject: [{
         ...defaultContentSchema
     }],
+    groupCbtMark: [{
+        ...defaultContentSchema
+    }],
+    groupCbtResult: [{
+        ...defaultContentSchema
+    }],
     userChat: [{
         ...defaultContentSchema,
         counter: {

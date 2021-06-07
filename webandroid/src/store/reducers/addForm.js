@@ -32,6 +32,9 @@ const initialState = {
     cbtSubmitError: null,
     cbtSubmitted: false,
     cbtStart: false,
+    groupcbtSubmitError: null,
+    groupcbtSubmitted: false,
+    groupcbtStart: false,
     chatRoomSubmitError: null,
     chatRoomSubmitted: false,
     chatRoomStart: false,
@@ -58,6 +61,7 @@ const addFormReset = (state, action) => {
         writeupSubmitError: null, writeupSubmitted: false, writeupStart: false,
         groupwriteupSubmitError: null, groupwriteupSubmitted: false, groupwriteupStart: false,
         cbtSubmitError: null, cbtSubmitted: false, cbtStart: false,
+        groupcbtSubmitError: null, groupcbtSubmitted: false, groupcbtStart: false,
         chatRoomSubmitError: null, chatRoomSubmitted: false, chatRoomStart: false,
         pageReportSubmitError: null, pageReportSubmitted: false, pageReportStart: false,
         appErrorSubmitError: null, appErrorSubmitted: false, appErrorStart: false,
@@ -86,6 +90,8 @@ const submitAddFormStart = (state, action) => {
         return updateObject(state, {groupwriteupSubmitError: null, groupwriteupStart: true})
     } else if (action.form === 'cbt') {
         return updateObject(state, {cbtSubmitError: null, cbtStart: true})
+    } else if (action.form === 'groupcbt') {
+        return updateObject(state, {groupcbtSubmitError: null, groupcbtStart: true})
     } else if (action.form === 'chatRoom') {
         return updateObject(state, {chatRoomSubmitError: null, chatRoomStart: true})
     } else if (action.form === 'pageReport') {
@@ -120,6 +126,8 @@ const submitAddFormFail = (state, action) => {
         return updateObject(state, {groupwriteupSubmitError: {message: action.err}, groupwriteupStart: false})
     } else if (action.form === 'cbt') {
         return updateObject(state, {cbtSubmitError: {message: action.err}, cbtStart: false})
+    } else if (action.form === 'groupcbt') {
+        return updateObject(state, {groupcbtSubmitError: {message: action.err}, groupcbtStart: false})
     } else if (action.form === 'chatRoom') {
         return updateObject(state, {chatRoomSubmitError: {message: action.err}, chatRoomStart: false})
     } else if (action.form === 'pageReport') {
@@ -155,6 +163,8 @@ const addformSubmitted = (state, action) => {
         return updateObject(state, {groupwriteupSubmitted: true, writeupStart: false, cntID: action.cntID})
     } else if (action.form === 'cbt') {
         return updateObject(state, {cbtSubmitted: true, cbtStart: false, cntID: action.cntID})
+    } else if (action.form === 'groupcbt') {
+        return updateObject(state, {groupcbtSubmitted: true, groupcbtStart: false, cntID: action.cntID})
     } else if (action.form === 'chatRoom') {
         return updateObject(state, {chatRoomSubmitted: true, chatRoomStart: false, cntID: action.cntID})
     } else if (action.form === 'pageReport') {

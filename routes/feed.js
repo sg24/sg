@@ -220,7 +220,7 @@ router.post('/', authenticate, (req, res, next) => {
                     return res.sendStatus(200);
                 })
             }
-            if (!doc) {
+            if (doc) {
                 feed.findByIdAndUpdate({_id: req.body.pageID}, {$push: {'block': req.user}, $pull: {'favorite': req.user}}).then(() => {
                     return res.sendStatus(200);
                 })
