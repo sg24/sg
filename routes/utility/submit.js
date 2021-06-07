@@ -2,7 +2,7 @@ let notifications = require('./notifications');
 const webpush = require('web-push');
 const { user, tempFile} = require('../../serverDB/serverDB');
 
-module.exports = submitForm = (model, cnt, tempFileID, field, enabled=true, notificationReciever) => {
+module.exports = submitForm = (model, cnt, tempFileID, field, notificationReciever) => {
     return new Promise ((resolve, reject) => {
         let newDoc = new model({
             ...cnt
@@ -12,7 +12,7 @@ module.exports = submitForm = (model, cnt, tempFileID, field, enabled=true, noti
             resolve(id);
             Promise.all([tempFile.findOneAndUpdate({userID: cnt.authorID, "tempFiles.id": tempFileID}, {$pull: {tempFiles: {id: tempFileID}}}),
             doc.updateOne({_isCompleted: true, tempFileID: null})]).then(() =>  {
-                if (enabled) {
+                if (field) {
                     if (!notificationReciever) {
                         user.findById(cnt.authorID).then(userInfo => {
                             if (userInfo && userInfo.friend && userInfo.friend.length > 0 && field) {
