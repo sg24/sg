@@ -140,14 +140,25 @@ router.post('/', authenticate, (req, res, next) => {
 
     if (req.header !== null && req.header('data-categ') === 'setShare') {
         let reciepent = JSON.parse(req.body.reciepent);
-        qchat.findOneAndUpdate({_id: req.body.pageID}, {$addToSet: {'share': reciepent}}).then(() => {
-            qchat.findById(req.body.pageID).then(doc => {
-                if (doc) {
-                    res.status(200).send({pageInfo: {_id: req.body.pageID, share: doc.share.length}});
-                    return
-                }
-                return res.sendStatus(200);
-            });
+        qchat.findById(req.body.pageID).then(cbtDoc => {
+            if (cbtDoc) {
+                Promise.all([cbtDoc.groupID ? group.findById(cbtDoc.groupID) : Promise.resolve()]).then(groupDoc => {
+                    let updateReciepent = reciepent.map(reciever => ({authorID: req.user, username: req.username, userImage: req.userImage,
+                        cntID: req.body.pageID, pageID: groupDoc[0] ? groupDoc[0]._id : null, pageTitle: groupDoc[0] ? groupDoc[0].title: null, reciever}));
+                    qchat.findOneAndUpdate({_id: req.body.pageID}, {$addToSet: {'share': updateReciepent}}).then(() => {
+                        qchat.findById(req.body.pageID).then(doc => {
+                            if (doc) {
+                                res.status(200).send({pageInfo: {_id: req.body.pageID, share: doc.share.length}});
+                                for (let userID of reciepent) {
+                                    notifications('qchatShare', userID, {userID: req.user, ID: req.body.pageID}, false);
+                                }
+                                return
+                            }
+                            return res.sendStatus(200);
+                        })
+                    });
+                })
+            }
         }).catch(err => {
             res.status(500).send(err)
         })
@@ -416,13 +427,13 @@ router.post('/', authenticate, (req, res, next) => {
     
     if (req.header !== null && req.header('data-categ') === 'getOneAndDelete') {
         qchat.findOne({_id: req.body.pageID}).then(doc => {
-            if (doc && !doc.chat._id && doc.favorite.length < 1 && doc.share.length < 1 && !doc.shareInfo && 
+            if (doc && !doc.chat._id && doc.favorite.length < 1 && doc.share.length < 1 &&
                 (JSON.parse(JSON.stringify(doc.authorID)) === JSON.parse(JSON.stringify(req.user)))) {
                 return sequence([deleteMedia(doc.media), qcontent.deleteOne({_id: doc.question}), doc.deleteOne()]).then(() => {
                     return res.sendStatus(200);
                 })
             }
-            if (doc) {
+            if (doc && (JSON.parse(JSON.stringify(doc.authorID)) !== JSON.parse(JSON.stringify(req.user)))) {
                 qchat.findByIdAndUpdate({_id: req.body.pageID}, {$push: {'block': req.user}, $pull: {'favorite': req.user}}).then(() => {
                     return res.sendStatus(200);
                 })

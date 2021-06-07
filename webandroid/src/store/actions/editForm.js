@@ -56,12 +56,12 @@ export const submitEditFormInit = (formData, type) => {
             formContent.append('button', JSON.stringify(formData.button));
             formContent.append('comment', JSON.stringify(formData.comment));
             formContent.append('title', formData.title);
-        } else if (type === 'feed' || type === 'writeup') {
+        } else if (type === 'feed' || type === 'writeup'|| type === 'groupfeed' || type === 'groupwriteup') {
             formContent.append('title', formData.title);
             formContent.append('content', formData.content);
             formContent.append('comment', JSON.stringify(formData.comment));
             formContent.append('hashTag', JSON.stringify(formData.hashTag));
-        } else if (type === 'cbt') {
+        } else if (type === 'cbt' || type === 'groupcbt') {
             let description = [];
             for(let media of formData.uploadFile) {
                 let fileID =  media.name.split('.').length > 1 ? `${formData.id}--${uuid()}${media.name}` : `${formData.id}--${uuid()}${media.name}.octet-stream`;

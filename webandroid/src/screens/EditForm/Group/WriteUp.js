@@ -594,19 +594,19 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        editFormErr: state.editForm.fetchWriteupError,
-        editFormCnt: state.editForm.fetchWriteup,
-        submitError: state.editForm.writeupSubmitError,
-        submitted: state.editForm.writeupSubmitted,
-        start: state.editForm.writeupStart,
+        editFormErr: state.editForm.fetchGroupWriteupError,
+        editFormCnt: state.editForm.fetchGroupWriteup,
+        submitError: state.editForm.groupwriteupSubmitError,
+        submitted: state.editForm.groupwriteupSubmitted,
+        start: state.editForm.groupwriteupStart,
         cntID: state.editForm.cntID
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchEditForm: (cntID) => dispatch(actions.fetchEditFormInit(cntID, 'writeup')),
-        onSubmitForm: (formData) => dispatch(actions.submitEditFormInit(formData, 'writeup')),
+        onFetchEditForm: (cntID) => dispatch(actions.fetchEditFormInit(cntID, 'groupwriteup')),
+        onSubmitForm: (formData) => dispatch(actions.submitEditFormInit(formData, 'groupwriteup')),
         onEditFormReset: () => dispatch(actions.editFormReset())
     };
 };

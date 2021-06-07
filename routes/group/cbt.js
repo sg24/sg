@@ -446,13 +446,13 @@ router.post('/', authenticate, (req, res, next) => {
     
     if (req.header !== null && req.header('data-categ') === 'getOneAndDelete') {
         groupcbt.findOne({_id: req.body.pageID}).then(doc => {
-            if (doc && !doc.chat._id && doc.favorite.length < 1 && doc.share.length < 1 && !doc.shareInfo && 
+            if (doc && !doc.chat._id && doc.favorite.length < 1 && doc.share.length < 1 &&
                 (JSON.parse(JSON.stringify(doc.authorID)) === JSON.parse(JSON.stringify(req.user)))) {
                 return sequence([deleteMedia(doc.media), qcontent.deleteOne({_id: doc.question}), doc.deleteOne()]).then(() => {
                     return res.sendStatus(200);
                 })
             }
-            if (doc) {
+            if (doc && (JSON.parse(JSON.stringify(doc.authorID)) !== JSON.parse(JSON.stringify(req.user)))) {
                 groupcbt.findByIdAndUpdate({_id: req.body.pageID}, {$push: {'block': req.user}, $pull: {'favorite': req.user}}).then(() => {
                     return res.sendStatus(200);
                 })

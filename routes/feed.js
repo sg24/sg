@@ -208,19 +208,19 @@ router.post('/', authenticate, (req, res, next) => {
 
     if (req.header !== null && req.header('data-categ') === 'getOneAndDelete') {
         feed.findOne({_id: req.body.pageID}).then(doc => {
-            if (doc && !doc.chat._id && doc.favorite.length < 1 && doc.share.length < 1 && !doc.shareInfo && 
+            if (doc && !doc.chat._id && doc.favorite.length < 1 && doc.share.length < 1 && !doc.shareInfo.authorID && 
                 (JSON.parse(JSON.stringify(doc.authorID)) === JSON.parse(JSON.stringify(req.user)))) {
                 return sequence([deleteMedia(doc.media), doc.deleteOne()]).then(() => {
                     return res.sendStatus(200);
                 })
             }
-            if (doc && !doc.chat._id && doc.favorite.length < 1 && doc.shareInfo && 
+            if (doc && !doc.chat._id && doc.favorite.length < 1 && doc.shareInfo.authorID  && 
                 (JSON.parse(JSON.stringify(doc.shareInfo.authorID)) === JSON.parse(JSON.stringify(req.user)))) {
                 return sequence([doc.deleteOne()]).then(() => {
                     return res.sendStatus(200);
                 })
             }
-            if (doc) {
+            if (doc && (JSON.parse(JSON.stringify(doc.authorID)) !== JSON.parse(JSON.stringify(req.user)))) {
                 feed.findByIdAndUpdate({_id: req.body.pageID}, {$push: {'block': req.user}, $pull: {'favorite': req.user}}).then(() => {
                     return res.sendStatus(200);
                 })
