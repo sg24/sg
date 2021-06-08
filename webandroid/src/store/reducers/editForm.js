@@ -59,9 +59,9 @@ const initialState = {
     groupcbtStart: false,
     fetchChatRoomError: null,
     fetchChatRoom: null,
-    chatRoomSubmitError: null,
-    chatRoomSubmitted: false,
-    chatRoomStart: false,
+    chatroomSubmitError: null,
+    chatroomSubmitted: false,
+    chatroomStart: false,
     fetchGroupError: null,
     fetchGroup: null,
     groupSubmitError: null,
@@ -83,9 +83,16 @@ const editFormReset = (state, action) => {
         groupwriteupSubmitError: null, groupwriteupSubmitted: false, groupwriteupStart: false, fetchGroupWriteupError: null,fetchGroupWriteup: null,
         cbtSubmitError: null, cbtSubmitted: false, cbtStart: false, fetchCbtError: null,fetchCbt: null,
         groupcbtSubmitError: null, groupcbtSubmitted: false, groupcbtStart: false, fetchGroupCbtError: null,fetchGroupCbt: null,
-        chatRoomSubmitError: null, chatRoomSubmitted: false, chatRoomStart: false,fetchChatRoomError: null,fetchChatRoom: null,
+        chatroomSubmitError: null, chatroomSubmitted: false, chatroomStart: false,fetchChatRoomError: null,fetchChatRoom: null,
         groupSubmitError: null, groupSubmitted: false, groupStart: false,fetchGroupError: null,fetchGroup: null,
         cntID: null})
+};
+
+const submitFormReset = (state, action) => {
+    return updateObject(state, { 
+        postSubmitError: null,grouppostSubmitError: null, questionSubmitError: null, groupquestionSubmitted: false, advertSubmitError: null, feedSubmitError: null, 
+        groupfeedSubmitError: null,writeupSubmitError: null,groupwriteupSubmitError: null, cbtSubmitError: null, groupcbtSubmitError: null, chatroomSubmitError: null,
+        groupSubmitError: null})
 };
 
 const fetchEditFormFail = (state, action) => {
@@ -111,7 +118,7 @@ const fetchEditFormFail = (state, action) => {
         return updateObject(state, {fetchCbtError: {message: action.err}});
     } else if (action.form === 'groupcbt') {
         return updateObject(state, {fetchGroupCbtError: {message: action.err}});
-    } else if (action.form === 'chatRoom') {
+    } else if (action.form === 'chatroom') {
         return updateObject(state, {fetchChatRoomError: {message: action.err}});
     } else {
         return updateObject(state, {resetSubmitError: {message: action.err}, resetStart: false})
@@ -141,7 +148,7 @@ const fetchEditForm = (state, action) => {
         return updateObject(state, {fetchCbt: action.cnt});
     } else if (action.form === 'groupcbt') {
         return updateObject(state, {fetchGroupCbt: action.cnt});
-    } else if (action.form === 'chatRoom') {
+    } else if (action.form === 'chatroom') {
         return updateObject(state, {fetchChatRoom: action.cnt});
     } else if (action.form === 'group') {
         return updateObject(state, {fetchGroup: action.cnt});
@@ -173,8 +180,8 @@ const submitEditFormStart = (state, action) => {
         return updateObject(state, {cbtSubmitError: null, cbtStart: true})
     } else if (action.form === 'groupcbt') {
         return updateObject(state, {groupcbtSubmitError: null, groupcbtStart: true})
-    } else if (action.form === 'chatRoom') {
-        return updateObject(state, {chatRoomSubmitError: null, chatRoomStart: true})
+    } else if (action.form === 'chatroom') {
+        return updateObject(state, {chatroomSubmitError: null, chatroomStart: true})
     } else if (action.form === 'group') {
         return updateObject(state, {groupSubmitError: null, groupStart: true})
     } else {
@@ -205,8 +212,8 @@ const submitEditFormFail = (state, action) => {
         return updateObject(state, {cbtSubmitError: {message: action.err}, cbtStart: false})
     } else if (action.form === 'groupcbt') {
         return updateObject(state, {groupcbtSubmitError: {message: action.err}, groupcbtStart: false})
-    } else if (action.form === 'chatRoom') {
-        return updateObject(state, {chatRoomSubmitError: {message: action.err}, chatRoomStart: false})
+    } else if (action.form === 'chatroom') {
+        return updateObject(state, {chatroomSubmitError: {message: action.err}, chatroomStart: false})
     } else if (action.form === 'group') {
         return updateObject(state, {groupSubmitError: {message: action.err}, groupStart: false})
     } else {
@@ -237,8 +244,8 @@ const editformSubmitted = (state, action) => {
         return updateObject(state, {cbtSubmitted: true, cbtStart: false, cntID: action.cntID})
     } else if (action.form === 'groupcbt') {
         return updateObject(state, {groupcbtSubmitted: true, groupcbtStart: false, cntID: action.cntID})
-    } else if (action.form === 'chatRoom') {
-        return updateObject(state, {chatRoomSubmitted: true, chatRoomStart: false, cntID: action.cntID})
+    } else if (action.form === 'chatroom') {
+        return updateObject(state, {chatroomSubmitted: true, chatroomStart: false, cntID: action.cntID})
     } else if (action.form === 'group') {
         return updateObject(state, {groupSubmitted: true, groupStart: false, cntID: action.cntID})
     } else {
@@ -260,6 +267,8 @@ const reducer = (state = initialState, action) => {
             return editformSubmitted(state, action);
         case actionTypes.EDITFORM_RESET:
             return editFormReset(state, action);
+        case actionTypes.SUBMIT_EDITFORM_RESET:
+            return submitFormReset(state, action);
         default: return state
     };
 };

@@ -75,6 +75,7 @@ export {
     fetchEditFormFail,
     fetchEditForm,
     submitEditFormInit,
+    submitEditFormReset,
     editFormReset
 } from './editForm';
 

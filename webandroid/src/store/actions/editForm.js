@@ -98,7 +98,7 @@ export const submitEditFormInit = (formData, type) => {
             formContent.append('duration', formData.duration);
             formContent.append('content', formData.content);
             formContent.append('hashTag', JSON.stringify(formData.hashTag));
-        } else if (type === 'chatRoom' || type === 'group') {
+        } else if (type === 'chatroom' || type === 'group') {
             let description = [];
             for(let media of formData.uploadFile) {
                 let fileID =  media.name.split('.').length > 1 ? `${formData.id}--${uuid()}${media.name}` : `${formData.id}--${uuid()}${media.name}.octet-stream`;
@@ -170,6 +170,13 @@ export const editFormSubmitted = (form, cntID) => {
         type: actionTypes.EDITFORM_SUBMITTED,
         form,
         cntID
+    };
+};
+
+
+export const submitEditFormReset  = () => {
+    return {
+        type: actionTypes.SUBMIT_EDITFORM_RESET
     };
 };
 

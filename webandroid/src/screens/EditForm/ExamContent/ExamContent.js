@@ -83,7 +83,7 @@ class  ExamContent extends Component {
     componentDidMount() {
         Dimensions.addEventListener('change', this.updateStyle);
         let question = [];
-        if (this.props.fetchedQuestion) {
+        if (this.props.fetchedQuestion && this.props.fetchedQuestion.length > 0) {
             for (let cnt of this.props.fetchedQuestion) {
                 let allOption = {};
                 let totalOption = 0;
@@ -119,8 +119,9 @@ class  ExamContent extends Component {
 
             let formElement = updateObject(this.state.formElement, {totalOption: totalOptionInput})
             this.setState({contentFetched: true, question, formElement});
+            return
         }
-        this.setState({contentFetched: true});
+        this.setState({contentFetched: true, formIsValid: false});
     }
 
     componentWillUnmount() {

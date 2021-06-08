@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs'); 
-const {appError, post, page, question, group, grouppost, writeup, groupwriteup,groupfeed, question:groupquestion,feed, advert, qchat, qchat:groupcbt,qcontent, connectStatus, user} = require('../serverDB/serverDB');
+const {appError, post, page, question, group, grouppost, writeup, groupwriteup,groupfeed, question:groupquestion,feed, advert, qchat, qchat:groupcbt,qcontent, chatroom, connectStatus, user} = require('../serverDB/serverDB');
 const authenticate = require('../serverDB/middleware/authenticate');
 let formInit = require('./utility/forminit');
 let submit = require('./utility/submit');
@@ -185,17 +185,17 @@ router.post('/edit/writeup', authenticate,(req, res, next) => {
     })
 })
 
-router.post('/add/chatRoom', authenticate, (req, res, next) => {
+router.post('/add/chatroom', authenticate, (req, res, next) => {
     formInit(req, formidable).then(form => {
         let mediaList = form.files && form.files.media ? form.files.media : [];
         let fields = form.fields
         let askQuestion = JSON.parse(fields.cbt);
-        savetemp(mediaList, askQuestion ? 'qcontent' : 'group', req.user).then(tempFileID => {
+        savetemp(mediaList, askQuestion ? 'qcontent' : 'chatroom', req.user).then(tempFileID => {
             uploadToBucket(mediaList, fields.description).then(media => {
-                let groupMedia = []
+                let chatRoomMedia = []
                 for (let cnt of media){
                     if (cnt.filename && (cnt.filename.split('--')[0] === fields.id)) {
-                        groupMedia.push(cnt);
+                        chatRoomMedia.push(cnt);
                     }
                 }
                 let questionMedia = [];
@@ -213,17 +213,17 @@ router.post('/add/chatRoom', authenticate, (req, res, next) => {
                 }
                 Promise.all([askQuestion ? 
                     submit(qcontent, {question: updateQuestion, totalOption: fields.totalOption, tempFileID}, tempFileID, null) : 
-                        Promise.resolve(null)]).then(id => {
+                        Promise.resolve()]).then(id => {
                     let cnt = {
                         authorID: req.user, username: req.username, userImage: req.userImage,
                         content: fields.content, title: fields.title, hashTag: JSON.parse(fields.hashTag),
                         autoJoin: JSON.parse(fields.autoJoin), enableCbt: JSON.parse(fields.cbt),
                         enableRule: JSON.parse(fields.rule), roomType: fields.roomType,passMark: fields.passMark,
-                        hour: fields.hour, minute: fields.minute, second: fields.second, 
-                        duration: fields.duration, qchatTotal: fields.questionTotal, media: groupMedia, 
-                        question: id[0], tempFileID
+                        hour: fields.hour, minute: fields.minute, second: fields.second, member: [req.user],
+                        duration: fields.duration, qchatTotal: fields.questionTotal, media: chatRoomMedia, 
+                        question: id[0], tempFileID, groupID: fields.groupID
                     }
-                    submit(group, cnt, tempFileID, 'createGroup').then(id => {
+                    submit(chatroom, cnt, tempFileID).then(id => {
                         return res.status(201).send(id);
                     })
                 })
@@ -234,25 +234,25 @@ router.post('/add/chatRoom', authenticate, (req, res, next) => {
     })
 })
 
-router.post('/edit/chatRoom', authenticate, (req, res, next) => {
+router.post('/edit/chatroom', authenticate, (req, res, next) => {
     formInit(req, formidable).then(form => {
         let mediaList = form.files && form.files.media ? form.files.media : [];
         let fields = form.fields
         let askQuestion = JSON.parse(fields.cbt);
         Promise.all([
-            group.findOne({_id: fields.cntID, authorID: req.user}).then(result => result ? Promise.resolve(result.question):Promise.reject('Not Found')),
-            deleteMedia(JSON.parse(fields.removeMedia)), savetemp(mediaList,  askQuestion ? 'qcontent' : 'group', req.user)]).then(tempFileID => {
+            chatroom.findOne({_id: fields.cntID, authorID: req.user}).then(result => result ? Promise.resolve(result.question):Promise.reject('Not Found')),
+            deleteMedia(JSON.parse(fields.removeMedia)), savetemp(mediaList,  askQuestion ? 'qcontent' : 'chatRoom', req.user)]).then(tempFileID => {
             uploadToBucket(mediaList, fields.description).then(media => {
                 let uploadedMedia = JSON.parse(fields.uploadedMedia);
-                let groupMedia = []
+                let chatRoomMedia = []
                 for (let cnt of media){
                     if (cnt.filename && (cnt.filename.split('--')[0] === fields.id)) {
-                        groupMedia.push(cnt);
+                        chatRoomMedia.push(cnt);
                     }
                 }
-                groupMedia.unshift(...uploadedMedia);
+                chatRoomMedia.unshift(...uploadedMedia);
                 if (tempFileID[1] && tempFileID[1].length > 0) {
-                    groupMedia.push(...tempFileID[1]);
+                    chatRoomMedia.push(...tempFileID[1]);
                 }
                 let questionMedia = [];
                 let updateQuestion = [];
@@ -275,14 +275,20 @@ router.post('/edit/chatRoom', authenticate, (req, res, next) => {
                     autoJoin: JSON.parse(fields.autoJoin), enableCbt: JSON.parse(fields.cbt),
                     enableRule: JSON.parse(fields.rule), roomType: fields.roomType,passMark: fields.passMark,
                     hour: fields.hour, minute: fields.minute, second: fields.second, edited: Date.now(),
-                    duration: fields.duration, qchatTotal: fields.questionTotal, media: groupMedia,
+                    duration: fields.duration, qchatTotal: fields.questionTotal, media: chatRoomMedia,
                     tempFileID: tempFileID[2]
                 }
-                Promise.all([askQuestion ?
+                Promise.all([askQuestion ? tempFileID[0] ? 
                     edit(qcontent, {question: updateQuestion, totalOption: fields.totalOption, tempFileID: tempFileID[2]}, 
-                            tempFileID[2], tempFileID[0], null) : Promise.resolve(null), 
-                        edit(group, cnt, tempFileID[2], fields.cntID, 'createGroup')]).then(id => {
-                    return res.status(201).send(id[1]);
+                            tempFileID[2], tempFileID[0], null) :
+                        submit(qcontent, {question: updateQuestion, totalOption: fields.totalOption, tempFileID: tempFileID[2]}, tempFileID[2], null).then(id => {
+                            cnt['question']  = id;
+                            Promise.resolve();
+                        })
+                         : Promise.resolve(null)]).then(id => {
+                    edit(chatroom, cnt, tempFileID[2], fields.cntID, 'createGroup').then(id => {
+                        return res.status(201).send(id);  
+                    })
                 })
             })
         }).catch(err => {
@@ -321,7 +327,7 @@ router.post('/add/group', authenticate, (req, res, next) => {
                 }
                 Promise.all([askQuestion ? 
                     submit(qcontent, {question: updateQuestion, totalOption: fields.totalOption, tempFileID}, tempFileID, null) : 
-                        Promise.resolve(null)]).then(id => {
+                        Promise.resolve()]).then(id => {
                     let cnt = {
                         authorID: req.user, username: req.username, userImage: req.userImage,
                         content: fields.content, title: fields.title, hashTag: JSON.parse(fields.hashTag),
@@ -386,11 +392,17 @@ router.post('/edit/group', authenticate, (req, res, next) => {
                     duration: fields.duration, qchatTotal: fields.questionTotal, media: groupMedia,
                     tempFileID: tempFileID[2]
                 }
-                Promise.all([askQuestion ?
+                Promise.all([askQuestion ? tempFileID[0] ? 
                     edit(qcontent, {question: updateQuestion, totalOption: fields.totalOption, tempFileID: tempFileID[2]}, 
-                            tempFileID[2], tempFileID[0], null) : Promise.resolve(null), 
-                        edit(group, cnt, tempFileID[2], fields.cntID, 'createGroup')]).then(id => {
-                    return res.status(201).send(id[1]);
+                            tempFileID[2], tempFileID[0], null) :
+                        submit(qcontent, {question: updateQuestion, totalOption: fields.totalOption, tempFileID: tempFileID[2]}, tempFileID[2], null).then(id => {
+                            cnt['question'] = id;
+                            Promise.resolve();
+                        })
+                         : Promise.resolve(null)]).then(id => {
+                    edit(group, cnt, tempFileID[2], fields.cntID, 'createGroup').then(id => {
+                        return res.status(201).send(id);  
+                    })
                 })
             })
         }).catch(err => {
@@ -513,6 +525,7 @@ router.post('/add/pageReport', authenticate, (req, res, next) => {
             fields.page === 'feed' ? feed : 
             fields.page === 'writeup' ? writeup :
             fields.page === 'cbt' ? qchat : 
+            fields.page === 'chatroom' ? chatroom : 
             fields.page === 'group' ? group : 
             fields.page === 'grouppost' ? grouppost : 
             fields.page === 'groupfeed' ? groupfeed : 

@@ -35,9 +35,9 @@ const initialState = {
     groupcbtSubmitError: null,
     groupcbtSubmitted: false,
     groupcbtStart: false,
-    chatRoomSubmitError: null,
-    chatRoomSubmitted: false,
-    chatRoomStart: false,
+    chatroomSubmitError: null,
+    chatroomSubmitted: false,
+    chatroomStart: false,
     pageReportSubmitError: null,
     pageReportSubmitted: false,
     pageReportStart: false,
@@ -62,7 +62,7 @@ const addFormReset = (state, action) => {
         groupwriteupSubmitError: null, groupwriteupSubmitted: false, groupwriteupStart: false,
         cbtSubmitError: null, cbtSubmitted: false, cbtStart: false,
         groupcbtSubmitError: null, groupcbtSubmitted: false, groupcbtStart: false,
-        chatRoomSubmitError: null, chatRoomSubmitted: false, chatRoomStart: false,
+        chatroomSubmitError: null, chatroomSubmitted: false, chatroomStart: false,
         pageReportSubmitError: null, pageReportSubmitted: false, pageReportStart: false,
         appErrorSubmitError: null, appErrorSubmitted: false, appErrorStart: false,
         groupSubmitError: null, groupSubmitted: false, groupStart: false,
@@ -92,8 +92,8 @@ const submitAddFormStart = (state, action) => {
         return updateObject(state, {cbtSubmitError: null, cbtStart: true})
     } else if (action.form === 'groupcbt') {
         return updateObject(state, {groupcbtSubmitError: null, groupcbtStart: true})
-    } else if (action.form === 'chatRoom') {
-        return updateObject(state, {chatRoomSubmitError: null, chatRoomStart: true})
+    } else if (action.form === 'chatroom') {
+        return updateObject(state, {chatroomSubmitError: null, chatroomStart: true})
     } else if (action.form === 'pageReport') {
         return updateObject(state, {pageReportSubmitError: null, pageReportStart: true})
     } else if (action.form === 'appError') {
@@ -128,8 +128,8 @@ const submitAddFormFail = (state, action) => {
         return updateObject(state, {cbtSubmitError: {message: action.err}, cbtStart: false})
     } else if (action.form === 'groupcbt') {
         return updateObject(state, {groupcbtSubmitError: {message: action.err}, groupcbtStart: false})
-    } else if (action.form === 'chatRoom') {
-        return updateObject(state, {chatRoomSubmitError: {message: action.err}, chatRoomStart: false})
+    } else if (action.form === 'chatroom') {
+        return updateObject(state, {chatroomSubmitError: {message: action.err}, chatroomStart: false})
     } else if (action.form === 'pageReport') {
         return updateObject(state, {pageReportSubmitError: {message: action.err}, pageReportStart: false})
     } else if (action.form === 'appError') {
@@ -165,8 +165,8 @@ const addformSubmitted = (state, action) => {
         return updateObject(state, {cbtSubmitted: true, cbtStart: false, cntID: action.cntID})
     } else if (action.form === 'groupcbt') {
         return updateObject(state, {groupcbtSubmitted: true, groupcbtStart: false, cntID: action.cntID})
-    } else if (action.form === 'chatRoom') {
-        return updateObject(state, {chatRoomSubmitted: true, chatRoomStart: false, cntID: action.cntID})
+    } else if (action.form === 'chatroom') {
+        return updateObject(state, {chatroomSubmitted: true, chatroomStart: false, cntID: action.cntID})
     } else if (action.form === 'pageReport') {
         return updateObject(state, {pageReportSubmitted: true, pageReportStart: false, cntID: action.cntID})
     } else if (action.form === 'appError') {

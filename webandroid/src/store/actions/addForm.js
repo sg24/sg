@@ -73,7 +73,7 @@ export const submitAddFormInit = (formData, type) => {
             formContent.append('content', formData.content);
             formContent.append('hashTag', JSON.stringify(formData.hashTag));
             formContent.append('groupID', formData.groupID);
-        } else if (type === 'chatRoom' || type === 'group') {
+        } else if (type === 'chatroom' || type === 'group') {
             let description = [];
             for(let media of formData.uploadFile) {
                 let fileID =  media.name.split('.').length > 1 ? `${formData.id}--${uuid()}${media.name}` : `${formData.id}--${uuid()}${media.name}.octet-stream`;
@@ -111,6 +111,7 @@ export const submitAddFormInit = (formData, type) => {
             formContent.append('duration', formData.duration);
             formContent.append('content', formData.content);
             formContent.append('hashTag', JSON.stringify(formData.hashTag));
+            formContent.append('groupID', formData.groupID);
         } else if (type === 'pageReport') {
             formContent.append('content', formData.content);
             formContent.append('page', formData.page);

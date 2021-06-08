@@ -197,7 +197,12 @@ class Post extends Component {
     }
 
     chatHandler = (pageID) => {
-        this.setState({showChatBox: true, pageID})
+        this.props.navigation.navigate('CommentBox', {title: "Comment",
+        chatType: "postchat",
+        page: "post",
+        pageID,
+        showReply: true})
+        // this.setState({showChatBox: true, pageID})
     }
 
     advertChatboxHandler = (pageID) => {

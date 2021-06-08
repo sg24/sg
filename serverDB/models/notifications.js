@@ -106,6 +106,24 @@ const NotificationsSchema = new Schema({
     groupCbtResult: [{
         ...defaultContentSchema
     }],
+    chatRoomRequest: [{
+        ...defaultContentSchema
+    }],
+    chatRoomJoin: [{
+        ...defaultContentSchema
+    }],
+    chatRoomAccept: [{
+        ...defaultContentSchema
+    }],
+    chatRoomReject: [{
+        ...defaultContentSchema
+    }],
+    chatRoomPending: [{
+        ...defaultContentSchema
+    }],
+    chatRoomMark: [{
+        ...defaultContentSchema
+    }],
     userChat: [{
         ...defaultContentSchema,
         counter: {

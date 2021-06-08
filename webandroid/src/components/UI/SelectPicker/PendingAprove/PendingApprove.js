@@ -75,12 +75,13 @@ const pendingApprove = props => {
                                 </Button>
                             </View>
                         </View>
-                        <TabBarge
+                        
+                    </View>
+                    <TabBarge
                             onPress={props.showUserOpt}
                             notification={`${props.userDet.score}%`}
                             style={styles.tabBarge}
                             textStyle={styles.tabBargeText}/>
-                    </View>
                     {/* <View style={styles.info}>
                         <Text style={[styles.textStyle, styles.contentText]}>Score: <Text style={styles.infoText}>{ props.userDet.score }% </Text></Text>
                         <Text style={[styles.textStyle, styles.contentText]}>Mark: <Text style={styles.infoText}>{`${(props.userDet.score/100)*props.userDet.questionTotal} / ${props.userDet.questionTotal}`} </Text></Text>

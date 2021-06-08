@@ -368,8 +368,8 @@ class GroupQuestion extends Component {
                         <NotificationModal
                             info="Network Error !"
                             infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
-                            closeModal={this.props.onEditFormReset}
-                            button={[{title: 'Ok', onPress: this.props.onEditFormReset, style: styles.modalButton}]}/> : null}
+                            closeModal={this.props.onSubmitFormReset}
+                            button={[{title: 'Ok', onPress: this.props.onSubmitFormReset, style: styles.modalButton}]}/> : null}
                     { this.props.submitted ? 
                         <NotificationModal
                             info="Question updated successfully !"
@@ -544,7 +544,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchEditForm: (cntID) => dispatch(actions.fetchEditFormInit(cntID, 'groupquestion')),
         onSubmitForm: (formData) => dispatch(actions.submitEditFormInit(formData, 'groupquestion')),
-        onEditFormReset: () => dispatch(actions.editFormReset())
+        onSubmitFormReset: () => dispatch(actions.submitEditFormReset())
     };
 };
 

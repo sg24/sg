@@ -39,6 +39,7 @@ import ExamInstructionScreen from './src/screens/Home/ExamInstruction';
 import GeneralSettingsScreen from './src/screens/Home/GeneralSettings';
 import LogoutScreen from './src/screens/Home/Logout';
 import HashSearchScreen from './src/screens/Home/HashSearch';
+import CommentBoxScreen from './src/screens/Home/CommentBox';
 import AddPostScreen from './src/screens/AddForm/Post';
 import AddQuestionScreen from './src/screens/AddForm/Question';
 import AddAdvertScreen from './src/screens/AddForm/Advert';
@@ -82,6 +83,7 @@ const userScreens = {
   Question: QuestionScreen,
   Feed: FeedScreen,
   WriteUp: WriteUpScreen,
+  CommentBox: CommentBoxScreen,
   CBTWeb: CBTScreen,
   GroupWeb: GroupScreen,
   GroupPreview: GroupPreviewScreen,
@@ -276,7 +278,8 @@ class Base extends Component {
                 }
               }
 
-              if (name === 'Question' || name === 'Feed' || name === 'WriteUp' || name === 'GroupPreview' || name === 'Exam' || name === 'MarkExam') {
+              if (name === 'Question' || name === 'Feed' || name === 'WriteUp' || name === 'GroupPreview' || name === 'CommentBox'
+                || name === 'Exam' || name === 'MarkExam') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
                 header = {
                   header: ({scene, previous, navigation }) => this.state.viewMode === 'landscape' ?  <HeaderBar

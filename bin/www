@@ -57,6 +57,7 @@ nextApp.prepare().then(() => {
   let groupwriteupchatRoute = require('../routes/group/writeupchat');
   let groupcbtRoute = require('../routes/group/cbt');
   let groupcbtchatRoute = require('../routes/group/cbtchat');
+  let chatRoomRoute = require('../routes/group/chatRoom');
   let chatRoute = require('../routes/chat');
   let convRoute = require('../routes/conv');
   let advertRoute = require('../routes/advert');
@@ -82,7 +83,7 @@ nextApp.prepare().then(() => {
   app.use('/share', shareRoute);
   app.use('/media', mediaRoute);
   app.use('/mediachat', mediachatRoute);
-  // app.use('/chatRoom', groupRoute);
+  app.use('/chatroom', chatRoomRoute);
   app.use('/group', groupRoute);
   app.use('/groupPreview', grouppreviewRoute);
   app.use('/grouppost', grouppostRoute);

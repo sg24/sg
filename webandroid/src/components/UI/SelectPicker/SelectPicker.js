@@ -117,7 +117,7 @@ class SelectPicker extends Component {
 
     selectHandler = (cntType, confirm, info) => {
         if (this.props.selectType === 'cbtRequest' || this.props.selectType === 'groupRequest' || this.props.selectType === 'groupPendingapprove'
-        || this.props.selectType === 'group') {
+        || this.props.selectType === 'group' || this.props.selectType === 'chatroomRequest' || this.props.selectType === 'chatroomPendingapprove') {
             this.props.onSelectCnt(this.props.actionpage ? this.props.actionpage: this.props.page, this.props.pageID, cntType, this.props.cntID, this.state.picked, 'post',
                 confirm, this.props.selectType !== 'group' );
             if (confirm) {
@@ -224,7 +224,7 @@ class SelectPicker extends Component {
 
         if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
             let items = null;
-            if (this.props.selectType === 'cbtRequest' || this.props.selectType === 'groupRequest') {
+            if (this.props.selectType === 'cbtRequest' || this.props.selectType === 'groupRequest' || this.props.selectType === 'chatroomRequest') {
                 items = this.props.fetchCnt.map((cnt, index) => (
                     <PrivateConv
                         key={index}
@@ -246,7 +246,7 @@ class SelectPicker extends Component {
                 ));
             }
 
-            if (this.props.selectType === 'groupPendingapprove') {
+            if (this.props.selectType === 'groupPendingapprove'  || this.props.selectType === 'chatroomPendingapprove') {
                 items = this.props.fetchCnt.map((cnt, index) => (
                     <PendingApprove
                         key={index}

@@ -34,6 +34,7 @@ class ChatRoom extends Component {
         this.state = {
             viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
             backgroundColor: '#fff',
+            groupID: this.props.route.params.groupID,
             id: uuid(),
             duration: {
                 hour: {
@@ -156,12 +157,20 @@ class ChatRoom extends Component {
     }
 
     componentDidMount() {
-        this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.props.onAddFormReset();
-        });
-        this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            this.resetFormHandler();
-        });
+        if (this.state.groupID) {
+            this._unsubscribe = this.props.navigation.addListener('focus', () => {
+                if (this.state.groupID) {
+                    this.props.onAddFormReset();
+                } else {
+                    this.props.navigation.goBack()
+                }
+            });
+            this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
+                this.resetFormHandler();
+            });
+        } else {
+            this.props.navigation.goBack()
+        }
         Dimensions.addEventListener('change', this.updateStyle)
     }
 
@@ -184,8 +193,10 @@ class ChatRoom extends Component {
     }
 
     componentWillUnmount() {
-        this._unsubscribe();
-        this._unsubscribeBlur();
+        if (this.state.groupID) {
+            this._unsubscribe();
+            this._unsubscribeBlur();
+        }
         Dimensions.removeEventListener('change', this.updateStyle);
     }
 
@@ -418,13 +429,14 @@ class ChatRoom extends Component {
             rule: this.state.formElement.rule.value,
             cbt: this.state.formElement.cbt.value,
             autoJoin: this.state.formElement.autoJoin.value,
-            passMark: this.state.formElement.passMark.value,
+            passMark: this.state.formElement.passMark.value || 0,
             hour: this.state.duration.hour.value || 0,
             minute: this.state.duration.minute.value || 0,
             second: this.state.duration.second.value || 0,
             duration: this.state.totalDuration,
             uploadFile: this.state.uploadFile,
-            hashTag: [...this.state.formElement.title.inputHashTag, ...this.state.formElement.content.inputHashTag]
+            hashTag: [...this.state.formElement.title.inputHashTag, ...this.state.formElement.content.inputHashTag],
+            groupID: this.state.groupID
         }
         this.props.onSubmitForm(cnt)
     }
@@ -438,7 +450,7 @@ class ChatRoom extends Component {
             rule: this.state.formElement.rule.value,
             cbt: this.state.formElement.cbt.value,
             autoJoin: this.state.formElement.autoJoin.value,
-            passMark: this.state.formElement.passMark.value,
+            passMark: this.state.formElement.passMark.value || 0,
             hour: this.state.duration.hour.value || 0,
             minute: this.state.duration.minute.value || 0,
             second: this.state.duration.second.value || 0,
@@ -660,7 +672,7 @@ class ChatRoom extends Component {
                         info="Chat Room created successfully !"
                         infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                         closeModal={this.resetFormHandler}
-                        button={[{title: 'View', onPress: () => this.navigationHandler('ChatRoom')},
+                        button={[{title: 'View', onPress: () =>  this.navigationHandler('GroupPreview', {pageID: this.state.groupID, page: 'chatroom'})},
                         {title: 'Add', onPress: 
                             this.state.formElement.cbt.value ? this.examContent.resetFormHandler :
                                 this.resetFormHandler, style: styles.modalButton}]}/> : null}
@@ -808,16 +820,16 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        submitError: state.addForm.chatRoomSubmitError,
-        submitted: state.addForm.chatRoomSubmitted,
-        start: state.addForm.chatRoomStart,
+        submitError: state.addForm.chatroomSubmitError,
+        submitted: state.addForm.chatroomSubmitted,
+        start: state.addForm.chatroomStart,
         cntID: state.addForm.cntID
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSubmitForm: (formData) => dispatch(actions.submitAddFormInit(formData, 'chatRoom')),
+        onSubmitForm: (formData) => dispatch(actions.submitAddFormInit(formData, 'chatroom')),
         onAddFormReset: () => dispatch(actions.addFormReset())
     };
 };

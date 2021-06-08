@@ -15,6 +15,7 @@ import Question from '../Group/Question';
 import Feed from '../Group/Feed';
 import WriteUp from '../Group/WriteUp';
 import CBT from '../Group/CBT';
+import ChatRoom from '../Group/ChatRoom';
 import Option from '../../components/UI/Option/Option';
 import Button from '../../components/UI/Button/Button';
 import Href from '../../components/UI/Href/Href';
@@ -36,7 +37,8 @@ class GroupPreview extends Component {
         let index = this.props.route.params.page === 'feed' ? 1 : 
             this.props.route.params.page === 'cbt' ? 2 :
             this.props.route.params.page === 'question' ? 3 :
-            this.props.route.params.page === 'writeup' ? 4 : 0;
+            this.props.route.params.page === 'writeup' ? 4 : 
+            this.props.route.params.page === 'chatroom' ? 5 : 0;
         this.state = {
             viewMode:   layoutWidth >= size.md? 'landscape' : 'portrait',
             layoutWidth,
@@ -305,7 +307,7 @@ class GroupPreview extends Component {
                     case 'enableWriteUp':
                         return <WriteUp {...screenProps} groupID={this.state.pageID} focus={this.state.index === 4}/>;
                     case 'enableChatroom':
-                        return <Post {...screenProps} groupID={this.state.pageID} />;
+                        return <ChatRoom {...screenProps} groupID={this.state.pageID} focus={this.state.index === 5}/>;
                     default:
                         return null;
                 }

@@ -169,7 +169,7 @@ class ChatRoom extends Component {
                 this.setState({resetAll: true});
             });
         } else {
-            this.props.navigation.navigate('ChatRoom')
+            this.props.navigation.navigate(this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group')
         }
         Dimensions.addEventListener('change', this.updateStyle);
     }
@@ -726,14 +726,14 @@ class ChatRoom extends Component {
                         <NotificationModal
                             info="Network Error !"
                             infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
-                            closeModal={this.props.onEditFormReset}
-                            button={[{title: 'Ok', onPress: this.props.onEditFormReset, style: styles.modalButton}]}/> : null}
+                            closeModal={this.props.onSubmitFormReset}
+                            button={[{title: 'Ok', onPress: this.props.onSubmitFormReset, style: styles.modalButton}]}/> : null}
                     { this.props.submitted ? 
                         <NotificationModal
                             info="Chat Room updated successfully !"
                             infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                             closeModal={this.resetFormHandler}
-                            button={[{title: 'View', onPress: () => this.navigationHandler('ChatRoom')},
+                            button={[{title: 'View', onPress: this.props.navigation.goBack},
                             {title: 'Edit', onPress: 
                                 this.state.formElement.cbt.value ? this.examContent.resetFormHandler :
                                     this.resetFormHandler, style: styles.modalButton}]}/> : null}
@@ -931,18 +931,18 @@ const mapStateToProps = state => {
     return {
         editFormErr: state.editForm.fetchChatRoomError,
         editFormCnt: state.editForm.fetchChatRoom,
-        submitError: state.editForm.chatRoomSubmitError,
-        submitted: state.editForm.chatRoomSubmitted,
-        start: state.editForm.chatRoomStart,
+        submitError: state.editForm.chatroomSubmitError,
+        submitted: state.editForm.chatroomSubmitted,
+        start: state.editForm.chatroomStart,
         cntID: state.editForm.cntID
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchEditForm: (cntID) => dispatch(actions.fetchEditFormInit(cntID, 'chatRoom')),
-        onSubmitForm: (formData) => dispatch(actions.submitEditFormInit(formData, 'chatRoom')),
-        onEditFormReset: () => dispatch(actions.editFormReset())
+        onFetchEditForm: (cntID) => dispatch(actions.fetchEditFormInit(cntID, 'chatroom')),
+        onSubmitForm: (formData) => dispatch(actions.submitEditFormInit(formData, 'chatroom')),
+        onSubmitFormReset: () => dispatch(actions.submitEditFormReset())
     };
 };
 

@@ -17,14 +17,13 @@ import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
 import ChatRoomItem from '../../components/Page/ChatRoom/ChatRoom';
-import PagePreview from '../../components/Page/Preview/Preview';
+import CommentBox from '../../components/UI/CommentBox/CommentBox';
 import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
-import CommentBox from '../../components/UI/CommentBox/CommentBox';
-import SharePicker from '../../components/UI/SharePicker/SharePicker';
 import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
+import Instruction from '../../components/UI/Instruction/Instruction';
 
 class ChatRoom extends Component {
     constructor(props) {
@@ -35,17 +34,19 @@ class ChatRoom extends Component {
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
             groupID: this.props.groupID,
             isFocused: false,
-            pageCntID: null,
-            showPreview: null,
             pageID: null,
-            showChatBox: false,
-            showActionSheet: null,
+            pageCntID: null,
             showSearch: false,
             search: '',
             showOption: false,
             showSettings: false,
-            showPagePreview: null,
-            showSelectGroupPicker: null
+            showSelectPicker: null,
+            showPendingSelectPicker: null,
+            showSelectMarkPicker: null,
+            examInstruction: null,
+            pendingExam: null,
+            showAdvertChat: false,
+            showChatRoomRule: null
         }
     }
 
@@ -71,7 +72,7 @@ class ChatRoom extends Component {
     screenFocused() {
         if (this.props.focus && !this.state.isFocused) {
             if (this.state.groupID) {
-                this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'groupquestion', 'getChatRoom', this.state.groupID);
+                this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'chatroom', 'getChatroom', this.state.groupID);
             } else {
                 this.props.navigation.navigate(this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group');
             }
@@ -84,9 +85,9 @@ class ChatRoom extends Component {
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'groupquestion', 'searchChatRoom', JSON.stringify({search: this.state.search, groupID: this.state.groupID}));
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'chatroom', 'searchChatroom', JSON.stringify({search: this.state.search, groupID: this.state.groupID}));
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'groupquestion', 'getChatRoom', this.state.groupID);
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'chatroom', 'getChatroom', this.state.groupID);
     }
 
     navigationHandler = (page, cntID={}) => {
@@ -94,7 +95,10 @@ class ChatRoom extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null, showPagePreview: null, showSelectGroupPicker: null});
+        if (this.state.pendingExam) {
+            this.props.onPageReactionReset(this.state.pendingExam.pageID);
+        }
+        this.setState({pageCntID: null, pageID: null, showSelectPicker: null, showPendingSelectPicker: null, showSelectMarkPicker: null, examInstruction: null, pendingExam: null, showAdvertChat: false, showChatRoomRule: null});
     }
 
     openURIHandler = (type, uri) => {
@@ -117,13 +121,13 @@ class ChatRoom extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'groupquestion', 'searchChatRoom', JSON.stringify({search: cnt, groupID: this.state.groupID}));
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'chatroom', 'searchChatroom', JSON.stringify({search: cnt, groupID: this.state.groupID}));
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'groupquestion', 'getChatRoom', this.state.groupID);
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'chatroom', 'getChatroom', this.state.groupID);
     }
 
     checkOptionHandler = () => {
@@ -145,7 +149,7 @@ class ChatRoom extends Component {
     }
 
     editHandler = (id) => {
-        this.props.navigation.navigate('EditGroupChatRoom', {cntID: id});
+        this.props.navigation.navigate('EditChatRoom', {cntID: id});
     }
 
     showUserOptHandler = (id) => {
@@ -155,8 +159,80 @@ class ChatRoom extends Component {
         this.setState({pageCntID: id});
     }
 
+    showRequestHandler = (pageID) => {
+        this.setState({showSelectPicker: {selectType: 'chatroomRequest', pageID}})
+    }
+
+    showPendingAppoveHandler = (pageID) => {
+        this.setState({showPendingSelectPicker: {selectType: 'chatroomPendingapprove', pageID}})
+    }
+
+    pendingMarkHandler = (pageID) => {
+        this.setState({showSelectMarkPicker: {selectType: 'pendingMark', pageID}})
+    }
+
+    markExamHandler = (mark, pageID) => {
+        this.props.navigation.navigate('MarkExam', {mark, pageID, cntID: 'getMarkChatroominfo', enableShare: false,
+            navigationURI: Platform.OS === 'web' ? 'GroupWeb' :'Group', getMarkID: 'markChatroomTheoryexam',
+            infoPassed: 'User have been added to chat Room !', infoFailed: 'Score is below the pass mark', infoPending: 'User have been added to pending approval page',
+            buttonPassed: [{title: 'Chat', icon: {name: 'chatbox-ellipses-outline'}, onPress: { URI: 'Room',  params: {pageID}}}],
+            buttonPending: [{title: 'Accept', pageReaction: {page: 'exam', pageID, cntType: 'setChatroomacceptuser', info: 'Are you sure you want to accept this user'}},
+            {title: 'Remove', icon: {name: 'close', color: '#333'},
+                pageReaction: {page: 'exam', pageID, cntType: 'setChatroomrejectuser', info: 'Are you sure you want to remove this user'}, 
+                style: styles.removeButton, textStyle: styles.removeButtonText}]});
+    }
+
+    enterChatroomHandler = (pageID) => {
+        this.props.navigation.navigate('Room', {pageID});   
+    }
+
+    requestHandler = (pageID, cnt, isPublic, isEnableRule, isEnableCbt) => {
+        if (isPublic && !isEnableCbt && !isEnableRule) {
+          return  this.joinChatroomHandler(pageID);
+        }
+        if (isEnableRule) {
+            this.setState({showChatRoomRule: {content: cnt.content, 
+                button: isPublic && !isEnableCbt ? {title: 'Join', onPress: () => this.joinChatroomHandler(pageID)} :
+                isEnableCbt ? {title: 'Take Exam', onPress: this.startExamHandler} :    
+                {title: 'Request', onPress: () => this.sendRequestHandler(pageID)}}, pageID});
+            return 
+        }
+        if (!isPublic && !isEnableCbt) {
+            return this.sendRequestHandler(pageID)
+        }
+        if (isEnableCbt) {
+            this.setState({examInstruction: {...cnt, pageID, enableContent: true}, pageID})
+        }
+    }
+
+    joinChatroomHandler = (pageID) => {
+        this.props.onPageReaction('chatroom', pageID, 'setJoin');
+    }
+
+    startExamHandler = () => {
+        this.props.navigation.navigate('Exam', {pageID: this.state.pageID, navigationURI: this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group', enableShare: false, cntID: 'getChatroomexam', 
+        getMarkID: 'markChatroomExam', infoPassed: 'You are now a member !', infoFailed: 'Your score is below the pass mark', infoPending: 'Your score have been sent to admin',
+        buttonPassed: [{title: 'Chat', icon: {name: 'chatbox-ellipses-outline'}, onPress: { URI: 'Room',  params: {pageID: this.state.pageID}}}]});
+    }
+
+    sendRequestHandler = (pageID) => {
+        this.props.onPageReaction('chatroom', pageID, 'setRequest');
+    }
+
+    cancelRequestHandler = (pageID) => {
+        this.props.onPageReaction('chatroom', pageID, 'cancelRequest');
+    }
+
+    cancelExamHandler = (pageID, title, cntType, confirm, info) => {
+        this.props.onPageReaction('chatroom', pageID, cntType, {pageID}, 'post', confirm);
+        if (confirm) {
+            return this.setState({pendingExam: null});
+        }
+        this.setState({pendingExam: {pageID, title, cntType, info, confirm}});
+    }
+
     deletePageHandler = (id, start) => {
-        this.props.onDeletePage(id, 'groupquestion', start, 'getOneAndDelete');
+        this.props.onDeletePage(id, 'chatroom', start, 'getOneAndDelete');
         this.setState({pageCntID: null});
     }
 
@@ -165,17 +241,8 @@ class ChatRoom extends Component {
     }
 
     reportHandler = (pageID) => {
-        this.props.navigation.navigate('AddReport', {navigationURI: this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group', cntType: 'pageReport', page: 'groupquestion', pageID});
-    }
-
-    shareHandler = (cnt, shareType) => {
-        let updateCnt = {_id: cnt._id, groupID: cnt.groupID};
-        if (shareType === 'Friends') {
-            this.setState({showSharePicker: {cnt: updateCnt, shareType}})
-        } else {
-            this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
-                icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
-        }
+        this.props.navigation.navigate('AddReport', {navigationURI: this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group', cntType: 'pageReport', page: 'chatroom', pageID});
+        this.setState({pageCntID: null});
     }
 
     mediaPreviewHandler = (cntID, media, page) => {
@@ -190,42 +257,24 @@ class ChatRoom extends Component {
 
     }
 
-    pagePreviewHandler = (cnt) => {
-        this.setState({showPagePreview: cnt})
+    favoriteHandler = (pageID) => {
+        this.props.onPageReaction('chatroom', pageID, 'setFavorite');
     }
 
-    chatHandler = (pageID) => {
-        this.setState({showChatBox: true, pageID})
+    showChatroomInfoHandler = (pageID, title) => {
+        this.setState({showChatRoomInfo: {title}, pageID})
     }
 
     advertChatboxHandler = (pageID) => {
         this.setState({showAdvertChat: true, pageID})
     }
 
-    favoriteHandler = (pageID) => {
-        this.props.onPageReaction('groupquestion', pageID, 'setFavorite');
-    }
-
-    actionSheetHandler = async (index) => {
-        if (index === -1) {
-            this.setState({showActionSheet: false})
-        } else if (index === 0) {
-            this.setState({showSharePicker: {shareType: this.state.showActionSheet.option[index],
-                cnt: this.state.showActionSheet.cnt}, showActionSheet: false})
-            return
-        } else if (index === 1){
-            this.setState({showSelectGroupPicker: {selectType: 'group', pageID: this.state.showActionSheet.cnt._id}, showActionSheet: false})
-        } else if (index === 2) {
-        } else if (index === 3){
-        }
-    };
-
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'groupquestion', 'searchChatRoom', JSON.stringify({search: this.state.search, groupID: this.state.groupID}));
+                 'chatroom', 'searchChatroom', JSON.stringify({search: this.state.search, groupID: this.state.groupID}));
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'groupquestion', 'getChatRoom', this.state.groupID);
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'chatroom', 'getChatroom', this.state.groupID);
     }
 
     render() {
@@ -239,7 +288,7 @@ class ChatRoom extends Component {
                 disableBackButton
                 rightSideContent={(
                     <View style={{flexDirection: 'row'}}>
-                        <Button style={styles.optionIcon} onPress={() => this.navigationHandler('AddGroupChatRoom', {groupID: this.state.groupID})}>
+                        <Button style={styles.optionIcon} onPress={() => this.navigationHandler('AddChatRoom', {groupID: this.state.groupID})}>
                             <Ionicons name="pencil-outline" size={20} />
                             <Text style={styles.optionIconText}>Create Chat Room</Text>
                         </Button>
@@ -294,6 +343,7 @@ class ChatRoom extends Component {
         )
 
         if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
+            let pendingExam = this.props.pageReaction.length > 0 && this.state.pendingExam ? this.props.pageReaction.filter(id => id === this.state.pendingExam.pageID)[0] : null;
             cnt = (
                 <View style={styles.container}>
                     { header }
@@ -304,27 +354,34 @@ class ChatRoom extends Component {
                         <ScrollView 
                             style={styles.scroll}
                             showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }>
-                            <ChatRoomItem 
+                            <ChatRoomItem
                                 cnt={this.props.fetchCnt}
                                 userID={this.props.userID}
                                 openURI={this.openURIHandler}
                                 pageCntID={this.state.pageCntID}
                                 userProfile={this.userProfileHandler}
-                                pagePreview={this.pagePreviewHandler}
+                                showChatroomInfo={this.showChatroomInfoHandler}
                                 edit={this.editHandler}
                                 delete={this.deletePageHandler}
-                                share={this.shareHandler}
                                 report={this.reportHandler}
                                 showUserOpt={this.showUserOptHandler}
                                 mediaPreview={this.mediaPreviewHandler}
                                 saveMedia={this.saveMediaHandler}
-                                chat={this.chatHandler}
                                 favorite={this.favoriteHandler}
+                                enterChatroom={this.enterChatroomHandler}
+                                showRequest={this.showRequestHandler}
+                                showPendingAppove={this.showPendingAppoveHandler}
+                                mark={this.pendingMarkHandler}
+                                request={this.requestHandler}
+                                cancelRequest={this.cancelRequestHandler}
+                                cancelApprove={this.cancelExamHandler}
+                                cancelMark={this.cancelExamHandler}
                                 pageReaction={this.props.pageReaction}
                                 closeModal={this.closeModalHandler}
                                 enableLoadMore={this.props.loadMore}
                                 start={this.props.fetchCntStart}
-                                loadMore={this.loadMoreHandler} />
+                                loadMore={this.loadMoreHandler}
+                                advertChatbox={this.advertChatboxHandler}/>
                         </ScrollView>
                     </Wrapper>
                     { options }
@@ -340,61 +397,95 @@ class ChatRoom extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
-                    { this.state.showPagePreview ? 
-                        <PagePreview
-                            showOption={false}
-                            cnt={this.state.showPagePreview}
-                            title="Chat Room"
-                            userID={this.props.userID}
-                            openURI={this.openURIHandler}
-                            userProfile={this.userProfileHandler}
-                            edit={this.editHandler}
-                            share={this.shareHandler}
-                            report={this.reportHandler}
-                            openURI={this.openURIHandler}
-                            closePagePreview={this.closeModalHandler} /> : null}
                    { this.state.showPreview ? 
                         <MediaPreview
                             showOption={false}
-                            showOption={this.state.showPreview.cntID ? true : false}
                             pageID={this.state.showPreview.cntID}
                             media={this.state.showPreview.media}
-                            page="groupquestion"
+                            page="chatroom"
                             startPage={this.state.showPreview.startPage}
                             closePreview={this.closePreviewHandler}
                             backgroundColor={this.props.settings.backgroundColor}/> : null}
-                    { this.state.showChatBox ?
+                    { this.state.showAdvertChat ? 
                         <CommentBox
-                            title="Solution"
-                            chatType="groupquestionchat"
-                            page="groupquestion"
+                            title="Comment"
+                            chatType="advertchat"
+                            page="advert"
                             pageID={this.state.pageID}
                             closeChat={this.closeModalHandler}
                             showReply/> : null}
-                    { this.state.showSharePicker ? 
-                        <SharePicker
-                            shareType={this.state.showSharePicker.shareType}
-                            closeSharePicker={this.closeModalHandler}
-                            cnt={this.state.showSharePicker.cnt}
-                            shareUpdates={[{shareType: 'groupquestion', cntID: 'setShare', page: 'groupquestion', pageID: this.state.showSharePicker.cnt._id}]}
-                            shareChat={false}
-                            info="Chat Room shared successfully !"/> : null}
-                    { this.state.showSelectGroupPicker ? 
+                    { this.state.showSelectPicker ? 
                         <SelectPicker
-                            selectType={this.state.showSelectGroupPicker.selectType}
+                            selectType={this.state.showSelectPicker.selectType}
                             closeSelectPicker={this.closeModalHandler}
-                            info="Chat Room Shared successfully !"
-                            confirmAllInfo="Are you sure, you want to share this question"
-                            infoBox="Group"
-                            iconName="paper-plane-outline"
-                            title="Select"
-                            page="group"
-                            pageID={this.state.showSelectGroupPicker.pageID}
-                            cntID="getMembergroup"
-                            searchID="searchMemberGroup"
+                            info="Users accepted successfully !"
+                            removeInfo="Users removed successfully !"
+                            confirmAllInfo="Are you sure you want to accept this users"
+                            confirmInfo="Are you sure you want to accept this user"
+                            title="Chat Room Request"
+                            page="chatroom"
+                            pageID={this.state.showSelectPicker.pageID}
+                            cntID="getRequest"
+                            searchID="searchRequest"
                             pageSetting="userPage"
-                            rightButton={{title: 'Share', action: 'setShareGroup'}}
-                            actionpage="groupquestion"/> : null}
+                            leftButton={{title: 'Remove', action: 'setRejectuser'}}
+                            rightButton={{title: 'Accept', action: 'setAcceptuser'}}/> : null}
+                    { this.state.showPendingSelectPicker ? 
+                        <SelectPicker
+                            selectType={this.state.showPendingSelectPicker.selectType}
+                            closeSelectPicker={this.closeModalHandler}
+                            info="Users accepted successfully !"
+                            removeInfo="Users removed successfully !"
+                            confirmAllInfo="Are you sure you want to accept this users"
+                            confirmInfo="Are you sure you want to accept this user"
+                            title="Pending Approval"
+                            page="chatroom"
+                            pageID={this.state.showPendingSelectPicker.pageID}
+                            cntID="getPendingapprove"
+                            searchID="searchPendingapprove"
+                            pageSetting="userPage"
+                            leftButton={{title: 'Remove', action: 'setPendingrejectuser'}}
+                            rightButton={{title: 'Accept', action: 'setPendingacceptuser'}}/> : null}
+                    { this.state.showSelectMarkPicker ? 
+                        <SelectPicker
+                            selectType={this.state.showSelectMarkPicker.selectType}
+                            closeSelectPicker={this.closeModalHandler}
+                            title="Pending"
+                            page="chatroom"
+                            pageID={this.state.showSelectMarkPicker.pageID}
+                            cntID="getPendingmark"
+                            searchID="searchPendingmark"
+                            pageSetting="userPage"
+                            markExam={this.markExamHandler}
+                            showNote={false}/> : null}
+                    {this.state.showChatRoomRule ? 
+                        <Instruction 
+                            pageID={this.state.pageID}
+                            title="Chat Room Purpose / Rule"
+                            content={this.state.showChatRoomRule.content}
+                            openURI={this.openURIHandler}
+                            closeInstruction={this.closeModalHandler}
+                            button={[this.state.showChatRoomRule.button]}
+                            enablePageReaction
+                            pageReaction={this.props.pageReaction}
+                            pageReactionErr={this.props.pageReactionErr}
+                            pageReactionReset={this.props.onPageReactionReset} />: null}
+                    {this.state.examInstruction ? 
+                        <Instruction 
+                            title="Exam Instruction"
+                            openURI={this.openURIHandler}
+                            content={this.state.examInstruction.enableContent ? "You need to need to take exam to join this Chat Room" : null}
+                            textStyle={styles.note}
+                            closeInstruction={this.closeModalHandler}
+                            button={[{title: 'Start', icon: {name: 'timer-outline'}, onPress: this.startExamHandler}]}>
+                                <View style={styles.instruction}>
+                                    { this.state.examInstruction.autoJoin ? <Text style={[styles.textStyle]}>Pass Mark: <Text style={styles.instructionText}>{ this.state.examInstruction.passMark }%</Text></Text> : null}
+                                    <Text style={[styles.textStyle, styles.contentText]}>Total: <Text style={styles.instructionText}>{ this.state.examInstruction.qchatTotal } Questions</Text></Text>
+                                    <Text style={[styles.textStyle]}>Duration: 
+                                        <Text style={styles.instructionText}>
+                                            {`${this.state.examInstruction.hour} hour ${this.state.examInstruction.minute} minute ${this.state.examInstruction.second} second`}</Text></Text>
+                                </View>
+                        </Instruction>: null}
                     { this.state.showActionSheet ? 
                         <ActionSheet
                             options={this.state.showActionSheet.option}
@@ -405,10 +496,17 @@ class ChatRoom extends Component {
                         : null}
                     { this.props.deletePage && !this.props.deletePage.start ?  
                         <NotificationModal
-                            info="Are you sure you want to delete this question"
+                            info="Are you sure you want to delete this chat Room"
                             closeModal={this.deletePageResetHandler}
                             button={[{title: 'Ok', onPress: () => this.deletePageHandler(this.props.deletePage.pageID, true), style: styles.buttonCancel},
                             {title: 'Exit', onPress: this.deletePageResetHandler, style: styles.button}]}/> : null}
+                    { pendingExam && !pendingExam.confirm ? 
+                        <NotificationModal
+                            info={this.state.pendingExam.info}
+                            closeModal={this.closeModalHandler}
+                            button={[{title: 'Ok', onPress: () => this.cancelExamHandler(this.state.pendingExam.pageID, this.state.pendingExam.title, this.state.pendingExam.cntType, true), 
+                                style: styles.buttonCancel},
+                            {title: 'Exit', onPress: this.closeModalHandler, style: styles.button}]}/> : null}
                     { this.props.deletePage && this.props.deletePage.start ? 
                         <AbsoluteFill style={{zIndex: 9999999}}/> : null}
                     { this.props.fetchCntErr && this.props.fetchCnt ? 
@@ -426,7 +524,7 @@ class ChatRoom extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        det={`Searched text '${this.state.search}' does not match any question`}
+                        det={`'${this.state.search}' does not match any Chat Room`}
                         name="search"
                         size={40}
                         color="#333"
@@ -441,16 +539,14 @@ class ChatRoom extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        name="bulb-outline"
+                        name="chatbubble-ellipses-outline"
                         size={40}
-                        color="#437da3"
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No question found !!! </Text>
+                            <Text style={styles.infoTitle}> No Chat Room found !!! </Text>
                             <View>
-                                <Text style={{justifyContent: 'center', alignItems: 'center'}}>
-                                    <Href title="create Chat Room" onPress={() => this.navigationHandler('AddGroupChatRoom', {groupID: this.state.groupID})} style={styles.href}/></Text>
+                                <Href title="create Chat Room" onPress={() => this.navigationHandler('AddChatRoom', {groupID: this.state.groupID})} style={styles.href}/>
                             </View>
                         </View>
                     </InfoBox>
@@ -471,7 +567,7 @@ class ChatRoom extends Component {
             )
         }
 
-      return cnt;
+        return cnt;
     }
 }
 
@@ -482,6 +578,9 @@ const styles = StyleSheet.create({
     wrapper: {
         width: '100%',
         flex: 1,
+    },
+    landscapeWrapper: {
+        width: '100%'
     },
     button: {
         backgroundColor: '#437da3',
@@ -534,6 +633,32 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'center',
         marginBottom: 10
+    },
+    note: {
+        marginBottom: 10,
+        color: '#777'
+    },
+    instruction: {
+        paddingHorizontal: 10
+    },
+    instructionText: {
+        fontWeight: 'bold',
+        marginLeft: 10
+    },
+    removeButton: {
+        backgroundColor: '#dcdbdc',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 5,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+        marginLeft: 5
+    },
+    removeButtonText: {
+        color: '#333',
+        marginLeft: 5
     }
 });
 
@@ -541,12 +666,12 @@ const mapStateToProps = state => {
     return {
         settings: state.settings,
         userID: state.auth.userID,
-        fetchCntErr: state.page.fetchGroupChatRoomError,
-        fetchCntStart: state.page.fetchGroupChatRoomStart,
-        fetchCnt: state.page.fetchGroupChatRoom,
+        fetchCntErr: state.page.fetchChatRoomError,
+        fetchCntStart: state.page.fetchChatRoomStart,
+        fetchCnt: state.page.fetchChatRoom,
         loadMore: state.page.loadMore,
-        deletePageErr: state.page.deleteGroupChatRoomError,
-        deletePage: state.page.deleteGroupChatRoom,
+        deletePageErr: state.page.deleteChatRoomError,
+        deletePage: state.page.deleteChatRoom,
         pageReaction: state.page.pageReaction,
         pageReactionErr: state.page.pageReactionError
     };
@@ -560,8 +685,8 @@ const mapDispatchToProps = dispatch => {
         onPageReset: () => dispatch(actions.pageReset()),
         onDeletePageReset: () => dispatch(actions.deletePageReset()),
         onFetchCntReset: () => dispatch(actions.fetchPageReset()),
-        onPageReaction: (page, pageID, reactionType) => dispatch(actions.pageReactionInit(page, pageID, reactionType)),
-        onPageReactionReset: () => dispatch(actions.pageReactionReset()),
+        onPageReaction: (page, pageID, reactionType, cnt, uriMethod, confirm) => dispatch(actions.pageReactionInit(page, pageID, reactionType, cnt, uriMethod, confirm)),
+        onPageReactionReset: (pageID) => dispatch(actions.pageReactionReset(pageID)),
     };
 };
 

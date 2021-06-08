@@ -5,7 +5,7 @@ let objectID = require('mongoose').mongo.ObjectId;
 const authenticate = require('../serverDB/middleware/authenticate');
 let notifications = require('./utility/notifications');
 let sequence = require('./utility/sequence');
-const { connectStatus, qchat, qcontent, cbtchat, group, qchat:groupcbt, cbtchat:groupcbtchat } = require('../serverDB/serverDB');
+const { connectStatus, qchat, qcontent, cbtchat, group, qchat:groupcbt, cbtchat:groupcbtchat, chatroom } = require('../serverDB/serverDB');
 
 router.post('/',authenticate, (req, res,next) => {
     if (req.header !== null && (req.header('data-categ') === 'getExam' || req.header('data-categ') === 'getGroupcbtexam')) {
@@ -48,9 +48,11 @@ router.post('/',authenticate, (req, res,next) => {
         return 
     }
    
-    if (req.header !== null && req.header('data-categ') === 'getGroupexam') {
+    if (req.header !== null && (req.header('data-categ') === 'getGroupexam'
+        || req.header('data-categ') === 'getChatroomexam')) {
+        let model = req.header('data-categ') === 'getGroupexam' ? group : chatroom;
         let pageID = req.body.searchCnt;
-        group.findById(pageID).then(doc => {
+        model.findById(pageID).then(doc => {
             if (doc) {
                 qcontent.findById(doc.question).then(result => {
                     if (result) {
@@ -177,10 +179,15 @@ router.post('/',authenticate, (req, res,next) => {
         return 
     }
 
-    if (req.header !== null && req.header('data-categ') === 'markGroupExam') {
+    if (req.header !== null && (req.header('data-categ') === 'markGroupExam' || req.header('data-categ') === 'markChatroomExam')) {
+        let isGroupExam = req.header('data-categ') === 'markGroupExam';
+        let model = isGroupExam ? group : chatroom;
+        let notificationJoin =  isGroupExam ? 'groupJoin' : 'chatRoomJoin';
+        let notificationPending = isGroupExam ? 'groupPending' : 'chatRoomPending';
+        let notificationMark = isGroupExam ? 'groupMark' : 'chatRoomMark';
         let examInfo = JSON.parse(req.body.cnt);
         let questionTotal = examInfo.questionTotal;
-        group.findById(examInfo.pageID).then(doc => {
+        model.findById(examInfo.pageID).then(doc => {
             if (doc) {
                 qcontent.findById(doc.question).then(result => {
                     if (result) {
@@ -217,7 +224,7 @@ router.post('/',authenticate, (req, res,next) => {
                                         doc.member.push(req.user);
                                         doc.updateOne({member: doc.member}).then(() => {
                                             res.status(200).send({pageInfo: {_id: examInfo.pageID, score, mark: (score/100)*questionTotal, passed: true}});
-                                            return notifications('groupJoin', doc.authorID, {userID: req.user, ID: examInfo.pageID}, false);
+                                            return notifications(notificationJoin, doc.authorID, {userID: req.user, ID: examInfo.pageID}, false);
                                         })
                                     }
                                 } else {
@@ -230,7 +237,7 @@ router.post('/',authenticate, (req, res,next) => {
                                     doc.pendingApprove.push({_id, score, questionTotal, authorID: req.user, username: req.username, userImage: req.userImage});
                                     doc.updateOne({pendingApprove: doc.pendingApprove}).then(() => {
                                         res.status(200).send({pageInfo: {_id: examInfo.pageID, score, mark: (score/100)*questionTotal, pendingApprove: true}});
-                                        return notifications('groupPending', doc.authorID, {userID: req.user, ID: examInfo.pageID}, false);
+                                        return notifications(notificationPending, doc.authorID, {userID: req.user, ID: examInfo.pageID}, false);
                                     })
                                 }
                             }
@@ -239,7 +246,7 @@ router.post('/',authenticate, (req, res,next) => {
                             mark.push({question: pending, score, questionTotal, authorID: req.user, username: req.username, userImage: req.userImage})
                             doc.updateOne({mark}).then(() => {
                                 res.status(200).send({pageInfo: {_id: examInfo.pageID, pending: true}});
-                                notifications('groupMark', doc.authorID, {userID: req.user, ID: examInfo.pageID}, false);
+                                notifications(notificationMark, doc.authorID, {userID: req.user, ID: examInfo.pageID}, false);
                             })
                         }
                     }
@@ -261,9 +268,10 @@ router.post('/',authenticate, (req, res,next) => {
         })
     }
 
-    if (req.header !== null && req.header('data-categ') === 'getMarkGroupinfo') {
+    if (req.header !== null && (req.header('data-categ') === 'getMarkGroupinfo' || req.header('data-categ') === 'getMarkChatroominfo')) {
         let pageID = req.body.searchCnt;
-        group.findOne({_id: pageID, authorID: req.user}).then(doc => {
+        let model = req.header('data-categ') === 'getMarkGroupinfo' ? group : chatroom;
+        model.findOne({_id: pageID, authorID: req.user}).then(doc => {
             if (doc) {
                 return res.status(200).send({page: [{_id: pageID}]})
             }
@@ -324,9 +332,16 @@ router.post('/',authenticate, (req, res,next) => {
         })
     }
    
-    if (req.header !== null && req.header('data-categ') === 'markGroupTheoryexam') {
+    if (req.header !== null && (req.header('data-categ') === 'markGroupTheoryexam'
+        || req.header('data-categ') === 'markChatroomTheoryexam')) {
+        let isGroupExam = req.header('data-categ') === 'markGroupTheoryexam';
+        let model = isGroupExam ? group : chatroom;
+        let notificationAccept =  isGroupExam ? 'groupAccept' : 'chatRoomAccept';
+        let notificationReject =  isGroupExam ? 'groupReject' : 'chatRoomReject';
+        let notificationPending = isGroupExam ? 'groupPending' : 'chatRoomPending';
+        let notificationMark = isGroupExam ? 'groupMark' : 'chatRoomMark';
         let answerInfo = JSON.parse(req.body.cnt);
-        group.findOne({_id: answerInfo.pageID, authorID: req.user}).then(doc => {
+        model.findOne({_id: answerInfo.pageID, authorID: req.user}).then(doc => {
             if (doc) {
                 let questionInfo = doc.mark.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === answerInfo.cntID)[0];
                 if (questionInfo) {
@@ -347,15 +362,15 @@ router.post('/',authenticate, (req, res,next) => {
                                 doc.member.push(questionInfo.authorID);
                                 doc.updateOne({member: doc.member, mark: updateMarkDoc}).then(() => {
                                     res.status(200).send({pageInfo: {_id: answerInfo.pageID, score, mark: (score/100)*questionTotal, passed: true}});
-                                    return notifications('groupAccept', questionInfo.authorID, {userID: req.user, ID: answerInfo.pageID}, false);
+                                    return notifications(notificationAccept, questionInfo.authorID, {userID: req.user, ID: answerInfo.pageID}, false);
                                 })
                             }
                         } else {
                             doc.updateOne({mark: updateMarkDoc}).then(() => {
                                res.status(200).send({pageInfo: {_id: answerInfo.pageID, score, mark: (score/100)*questionTotal, passed: false}});
-                               sequence([notifications('groupMark', req.user, {userID: questionInfo.authorID, ID: answerInfo.pageID}, true),
-                                    notifications('groupAccept', questionInfo.authorID, {userID: req.user, ID: answerInfo.pageID}, true),
-                                    notifications('groupReject', questionInfo.authorID, {userID: req.user, ID: answerInfo.pageID}, false)
+                               sequence([notifications(notificationMark, req.user, {userID: questionInfo.authorID, ID: answerInfo.pageID}, true),
+                                    notifications(notificationAccept, questionInfo.authorID, {userID: req.user, ID: answerInfo.pageID}, true),
+                                    notifications(notificationReject, questionInfo.authorID, {userID: req.user, ID: answerInfo.pageID}, false)
                                 ])
                                 return
                             });
@@ -367,7 +382,9 @@ router.post('/',authenticate, (req, res,next) => {
                             doc.pendingApprove.push({_id, score, questionTotal, authorID: questionInfo.authorID, username: questionInfo.username, userImage: questionInfo.userImage});
                             doc.updateOne({pendingApprove: doc.pendingApprove, mark: updateMarkDoc}).then(() => {
                                 res.status(200).send({pageInfo: {_id: answerInfo.pageID, score, mark: (score/100)*questionTotal, pendingApprove: true, pending: _id}});
-                                return notifications('groupPending', doc.authorID, {userID: questionInfo.authorID, ID: answerInfo.pageID}, false);
+                                sequence([notifications(notificationMark, req.user, {userID: questionInfo.authorID, ID: answerInfo.pageID}, true),
+                                    notifications(notificationPending, doc.authorID, {userID: questionInfo.authorID, ID: answerInfo.pageID}, false)]);
+                                return;
                             })
                         }
                     }
@@ -376,8 +393,14 @@ router.post('/',authenticate, (req, res,next) => {
         })
     }
 
-    if (req.header !== null && req.header('data-categ') === 'setGroupacceptuser') {
-        group.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
+    if (req.header !== null && (req.header('data-categ') === 'setGroupacceptuser'
+        || req.header('data-categ') === 'setChatroomacceptuser')) {
+        let isGroupExam = req.header('data-categ') === 'setGroupacceptuser';
+        let model = isGroupExam ? group : chatroom;
+        let notificationAccept =  isGroupExam ? 'groupAccept' : 'chatRoomAccept';
+        let notificationReject =  isGroupExam ? 'groupReject' : 'chatRoomReject';
+        let notificationPending = isGroupExam ? 'groupPending' : 'chatRoomPending';
+        model.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
             if (doc) {
                 let pendingApproveCnt = JSON.parse(req.body.cnt);
                 let reaction = 0;
@@ -391,9 +414,9 @@ router.post('/',authenticate, (req, res,next) => {
                         }
                         doc.pendingApprove = doc.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) !== cntItem);
                         doc.updateOne({pendingApprove: doc.pendingApprove, member}).then(() => {
-                            sequence([notifications('groupPending', req.user, {userID: pendingApprove.authorID, ID: req.body.pageID}, true),
-                                notifications('groupReject', pendingApprove.authorID, {userID: req.user, ID: req.body.pageID}, true),
-                                notifications('groupAccept', pendingApprove.authorID, {userID: req.user, ID: req.body.pageID}, false)
+                            sequence([notifications(notificationPending, req.user, {userID: pendingApprove.authorID, ID: req.body.pageID}, true),
+                                notifications(notificationReject, pendingApprove.authorID, {userID: req.user, ID: req.body.pageID}, true),
+                                notifications(notificationAccept, pendingApprove.authorID, {userID: req.user, ID: req.body.pageID}, false)
                             ])
                             ++reaction;
                             if (reaction === pendingApproveCnt.length) {
@@ -409,8 +432,14 @@ router.post('/',authenticate, (req, res,next) => {
         return
     }
 
-    if (req.header !== null && req.header('data-categ') === 'setGrouprejectuser') {
-        group.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
+    if (req.header !== null && (req.header('data-categ') === 'setGrouprejectuser'
+        || req.header('data-categ') === 'setChatroomrejectuser')) {
+        let isGroupExam = req.header('data-categ') === 'setGrouprejectuser';
+        let model = isGroupExam ? group : chatroom;
+        let notificationAccept =  isGroupExam ? 'groupAccept' : 'chatRoomAccept';
+        let notificationReject =  isGroupExam ? 'groupReject' : 'chatRoomReject';
+        let notificationPending = isGroupExam ? 'groupPending' : 'chatRoomPending';
+        model.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
             if (doc) {
                 let pendingApproveCnt = JSON.parse(req.body.cnt);
                 let reaction = 0;
@@ -419,9 +448,9 @@ router.post('/',authenticate, (req, res,next) => {
                     if (pendingApprove) {
                         doc.pendingApprove = doc.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) !== cntItem);
                         doc.updateOne({pendingApprove: doc.pendingApprove}).then(() => {
-                            sequence([notifications('groupPending', req.user, {userID: pendingApprove.authorID, ID: req.body.pageID}, true),
-                                notifications('groupAccept', pendingApprove.authorID, {userID: req.user, ID: req.body.pageID}, true),
-                                notifications('groupReject', pendingApprove.authorID, {userID: req.user, ID: req.body.pageID}, false)]).catch()
+                            sequence([notifications(notificationPending, req.user, {userID: pendingApprove.authorID, ID: req.body.pageID}, true),
+                                notifications(notificationAccept, pendingApprove.authorID, {userID: req.user, ID: req.body.pageID}, true),
+                                notifications(notificationReject, pendingApprove.authorID, {userID: req.user, ID: req.body.pageID}, false)]).catch()
                                 ++reaction;
                                 if (reaction === pendingApproveCnt.length) {
                                     res.status(200).send({pageInfo: {_id: req.body.pageID, pendingApprove: false}});
