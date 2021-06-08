@@ -176,6 +176,28 @@ const ChatRoomSchema = new Schema({
             index: true 
         }
     }],
+    chat: {
+        _id: {
+            type: String
+        },
+        total: {
+            type: Number,
+            default: 0
+        },
+        user: [{
+            authorID: {
+                type: String,
+                required: true
+            },
+            username: {
+                type: String,
+                required: true
+            },
+            userImage: {
+                type: String
+            }
+        }]
+    },
     groupID: {
         type: ObjectId
     },

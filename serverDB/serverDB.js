@@ -26,6 +26,7 @@ const groupwriteupchat = require('./models/groupwriteupchat');
 const groupcbt = require('./models/groupcbt');
 const groupcbtchat = require('./models/groupcbtchat');
 const chatroom = require('./models/chatroom');
+const roomchat = require('./models/roomchat');
 const user = require('./models/user');
 const userchat = require('./models/userchat');
 const tempUser = require('./models/tempUser');
@@ -64,6 +65,7 @@ module.exports = {
     groupcbt,
     groupcbtchat,
     chatroom,
+    roomchat,
     tempUser,
     comment,
     tempFile,

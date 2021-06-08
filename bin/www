@@ -58,6 +58,7 @@ nextApp.prepare().then(() => {
   let groupcbtRoute = require('../routes/group/cbt');
   let groupcbtchatRoute = require('../routes/group/cbtchat');
   let chatRoomRoute = require('../routes/group/chatRoom');
+  let roomChatRoute = require('../routes/roomChat');
   let chatRoute = require('../routes/chat');
   let convRoute = require('../routes/conv');
   let advertRoute = require('../routes/advert');
@@ -84,6 +85,7 @@ nextApp.prepare().then(() => {
   app.use('/media', mediaRoute);
   app.use('/mediachat', mediachatRoute);
   app.use('/chatroom', chatRoomRoute);
+  app.use('/roomchat', roomChatRoute);
   app.use('/group', groupRoute);
   app.use('/groupPreview', grouppreviewRoute);
   app.use('/grouppost', grouppostRoute);

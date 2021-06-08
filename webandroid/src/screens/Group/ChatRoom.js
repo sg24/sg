@@ -175,7 +175,7 @@ class ChatRoom extends Component {
         this.props.navigation.navigate('MarkExam', {mark, pageID, cntID: 'getMarkChatroominfo', enableShare: false,
             navigationURI: Platform.OS === 'web' ? 'GroupWeb' :'Group', getMarkID: 'markChatroomTheoryexam',
             infoPassed: 'User have been added to chat Room !', infoFailed: 'Score is below the pass mark', infoPending: 'User have been added to pending approval page',
-            buttonPassed: [{title: 'Chat', icon: {name: 'chatbox-ellipses-outline'}, onPress: { URI: 'Room',  params: {pageID}}}],
+            buttonPassed: [{title: 'Chat', icon: {name: 'chatbox-ellipses-outline'}, onPress: { URI: 'CommentBox',  params: {title: 'Room', chatType: 'roomchat', page: 'chatroom', pageID,showReply: true}}}],
             buttonPending: [{title: 'Accept', pageReaction: {page: 'exam', pageID, cntType: 'setChatroomacceptuser', info: 'Are you sure you want to accept this user'}},
             {title: 'Remove', icon: {name: 'close', color: '#333'},
                 pageReaction: {page: 'exam', pageID, cntType: 'setChatroomrejectuser', info: 'Are you sure you want to remove this user'}, 
@@ -183,7 +183,7 @@ class ChatRoom extends Component {
     }
 
     enterChatroomHandler = (pageID) => {
-        this.props.navigation.navigate('Room', {pageID});   
+        this.props.navigation.navigate('CommentBox', {title: 'Room', chatType: 'roomchat', page: 'chatroom', pageID,showReply: true});   
     }
 
     requestHandler = (pageID, cnt, isPublic, isEnableRule, isEnableCbt) => {
@@ -212,7 +212,7 @@ class ChatRoom extends Component {
     startExamHandler = () => {
         this.props.navigation.navigate('Exam', {pageID: this.state.pageID, navigationURI: this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group', enableShare: false, cntID: 'getChatroomexam', 
         getMarkID: 'markChatroomExam', infoPassed: 'You are now a member !', infoFailed: 'Your score is below the pass mark', infoPending: 'Your score have been sent to admin',
-        buttonPassed: [{title: 'Chat', icon: {name: 'chatbox-ellipses-outline'}, onPress: { URI: 'Room',  params: {pageID: this.state.pageID}}}]});
+        buttonPassed: [{title: 'Chat', icon: {name: 'chatbox-ellipses-outline'}, onPress: { URI: 'CommentBox',  params: {title: 'Room', chatType: 'roomchat', page: 'chatroom', pageID: this.state.pageID,showReply: true}}}]});
     }
 
     sendRequestHandler = (pageID) => {
