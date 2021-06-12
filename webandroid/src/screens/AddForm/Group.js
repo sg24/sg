@@ -662,7 +662,7 @@ class Group extends Component {
                         closeModal={this.resetFormHandler}
                         button={[{title: 'View', onPress: () => this.navigationHandler(this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group')},
                         {title: 'Add', onPress: 
-                            this.state.formElement.cbt.value ? this.examContent.resetFormHandler :
+                            this.state.formElement.cbt.value && this.examContent ? this.examContent.resetFormHandler :
                                 this.resetFormHandler, style: styles.modalButton}]}/> : null}
             </View>
         )

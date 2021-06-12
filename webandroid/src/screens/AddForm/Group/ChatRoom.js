@@ -674,7 +674,7 @@ class ChatRoom extends Component {
                         closeModal={this.resetFormHandler}
                         button={[{title: 'View', onPress: () =>  this.navigationHandler('GroupPreview', {pageID: this.state.groupID, page: 'chatroom'})},
                         {title: 'Add', onPress: 
-                            this.state.formElement.cbt.value ? this.examContent.resetFormHandler :
+                            this.state.formElement.cbt.value && this.examContent ? this.examContent.resetFormHandler :
                                 this.resetFormHandler, style: styles.modalButton}]}/> : null}
             </View>
         )
