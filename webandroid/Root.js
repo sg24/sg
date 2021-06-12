@@ -16,7 +16,8 @@ import ForgetPasswordScreen from './src/screens/Auth/ForgetPassword';
 // import SplashScreen from './src/screens/SplashScreen/SplashScreen';
 import HomeHeader  from './src/components/UI/Header/Home';
 import HomeHeaderWeb  from './src/components/UI/Header/HomeWeb';
-import TopTab from './src/components/UI/Navigation/TopTab'
+import TopTab from './src/components/UI/Navigation/TopTab';
+import FavoriteTopTab from './src/components/UI/Navigation/FavoriteTab';
 import SearchScreen from './src/screens/Home/Search';
 import SearchHeader  from './src/components/UI/Header/Search';
 import AddnewScreen from './src/screens/Home/Addnew';
@@ -80,6 +81,7 @@ const authScreens = {
 
 const userScreens = {
   HomeWeb: TopTab,
+  Favorite: FavoriteTopTab,
   UsersWeb: UsersScreen, 
   Question: QuestionScreen,
   Feed: FeedScreen,
@@ -277,6 +279,22 @@ class Base extends Component {
                   title={name === 'GeneralSettings' ? 'General Settings' : 
                     name === 'ExamInstruction' ? 'Exam Summary / Instruction' : name} 
                   inputValue={this.props.filterCnt}/>
+                }
+              }
+
+              if ( name === 'Favorite') {
+                let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
+                header = {
+                  header: ({scene, previous, navigation }) => <HeaderBar
+                    userImage={this.props.userImage}
+                    onNavigate={(url) => navigation.navigate(url, {userID: this.props.userID})}
+                    onPress={navigation.goBack}
+                    modalSearch={SearchScreen}
+                    modalConv={ConvScreen}
+                    modalNotify={NotificatonScreen}
+                    filterCnt={this.props.onHeaderFilter}
+                    title={name}
+                    inputValue={this.props.filterCnt} />
                 }
               }
 

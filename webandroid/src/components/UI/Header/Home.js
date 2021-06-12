@@ -98,7 +98,7 @@ class Home extends Component  {
                             <Icon name="add-outline" size={22} color="#fff"/>
                         </View>
                     </TouchableNativeFeedback>
-                    <TouchableNativeFeedback>
+                    <TouchableNativeFeedback onPress={() => this.navigationHandler('Favorite')}>
                         <View style={styles.navIcon}>
                             <Icon name="heart" size={22} color="#ff1600"/>
                         </View>
