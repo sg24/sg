@@ -421,11 +421,11 @@ class WriteUp extends Component {
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No write up found !!! </Text>
+                            <Text style={styles.infoTitle}> No write up added as favorite !!! </Text>
                             <View>
-                                <Text style={{justifyContent: 'center', alignItems: 'center'}}>
-                                    <Href title="create Write Up" onPress={() => this.navigationHandler('AddWriteUp')} style={styles.href}/>
-                                </Text>
+                                {/* <Text style={{justifyContent: 'center', alignItems: 'center'}}>
+                                    <Href title="Write Up" onPress={() => this.navigationHandler('WriteUp')} style={styles.href}/>
+                                </Text> */}
                             </View>
                         </View>
                     </InfoBox>

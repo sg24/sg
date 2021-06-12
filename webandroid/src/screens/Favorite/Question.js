@@ -415,10 +415,10 @@ class Questions extends Component {
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No Question found !!! </Text>
-                            <View>
-                                <Href title="create Question" onPress={() => this.navigationHandler('AddQuestion')} style={styles.href}/>
-                            </View>
+                            <Text style={styles.infoTitle}> No Question added as favorite  !!! </Text>
+                            {/* <View>
+                                <Href title="Question" onPress={() => this.navigationHandler('Question')} style={styles.href}/>
+                            </View> */}
                         </View>
                     </InfoBox>
                 </View>

@@ -288,7 +288,7 @@ class Base extends Component {
                   header: ({scene, previous, navigation }) => <HeaderBar
                     userImage={this.props.userImage}
                     onNavigate={(url) => navigation.navigate(url, {userID: this.props.userID})}
-                    onPress={navigation.goBack}
+                    onPress={() => navigation.navigate(this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group')}
                     modalSearch={SearchScreen}
                     modalConv={ConvScreen}
                     modalNotify={NotificatonScreen}

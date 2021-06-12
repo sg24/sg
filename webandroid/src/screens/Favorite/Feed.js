@@ -458,11 +458,11 @@ class Feed extends Component {
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No feed found !!! </Text>
+                            <Text style={styles.infoTitle}> No feed added as favorite !!! </Text>
                             <View>
-                                <Text style={{justifyContent: 'center', alignItems: 'center'}}>
-                                    <Href title="create Feed" onPress={() => this.navigationHandler('AddFeed')} style={styles.href}/>
-                                </Text>
+                                {/* <Text style={{justifyContent: 'center', alignItems: 'center'}}>
+                                    <Href title="Feed" onPress={() => this.navigationHandler('Feed')} style={styles.href}/>
+                                </Text> */}
                             </View>
                         </View>
                     </InfoBox>

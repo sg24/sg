@@ -473,14 +473,10 @@ class Post extends Component {
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No post found !!! </Text>
+                            <Text style={styles.infoTitle}> No post added as favorite !!! </Text>
                             <View>
-                                <Text style={{justifyContent: 'center', alignItems: 'center'}}>
-                                    <Href title="Add Friends to see thier posts" onPress={() => this.navigationHandler('User')} style={styles.href}/>
-                                    <Href title=","  style={{paddingHorizontal: 5}}/>
-                                    <Href title="create Post" onPress={() => this.navigationHandler('AddPost')} style={styles.href}/>
-                                    <Href title="OR" style={{paddingHorizontal: 5}}/>
-                                    <Href title="check feed page for public post" onPress={() => this.navigationHandler('Feed')} style={styles.href}/></Text>
+                                {/* <Text style={{justifyContent: 'center', alignItems: 'center'}}>
+                                    <Href title="Post" onPress={() => this.navigationHandler(this.state.viewMode === 'landscape' ? 'HomeWeb':'Home')} style={styles.href}/></Text> */}
                             </View>
                         </View>
                     </InfoBox>

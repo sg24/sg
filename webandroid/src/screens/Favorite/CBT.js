@@ -509,9 +509,9 @@ class CBT extends Component {
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No CBT found !!! </Text>
+                            <Text style={styles.infoTitle}> No CBT added as favorite !!! </Text>
                             <View>
-                                <Href title="create CBT" onPress={() => this.navigationHandler('AddCBT')} style={styles.href}/>
+                                {/* <Href title="CBT" onPress={() => this.navigationHandler(this.state.viewMode === 'landscape' ? 'CBTWeb': 'CBT')} style={styles.href}/> */}
                             </View>
                         </View>
                     </InfoBox>
