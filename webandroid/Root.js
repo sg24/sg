@@ -64,7 +64,7 @@ import EditGroupCBTScreen from './src/screens/EditForm/Group/CBT';
 import EditQuestionScreen from './src/screens/EditForm/Question';
 import EditFeedScreen from './src/screens/EditForm/Feed';
 import EditWriteUpScreen from './src/screens/EditForm/WriteUp';
-import EditChatRoomScreen from './src/screens/EditForm/group/ChatRoom';
+import EditChatRoomScreen from './src/screens/EditForm/Group/ChatRoom';
 import EditGroupScreen from './src/screens/EditForm/Group';
 import EditCBTScreen from './src/screens/EditForm/CBT';
 import EditAdvertScreen from './src/screens/EditForm/Advert';

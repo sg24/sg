@@ -219,9 +219,9 @@ router.post('/',authenticate, (req, res,next) => {
                         if (pending.length < 1) {
                             if (doc.autoJoin) {
                                 if (doc.autoJoin && (score >= doc.passMark)) {
-                                    let checkMember = doc.member.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user)[0];
+                                    let checkMember = doc.member.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user)[0];
                                     if (!checkMember) {
-                                        doc.member.push(req.user);
+                                        doc.member.push({authorID: req.user, username: req.username, userImage: req.userImage});
                                         doc.updateOne({member: doc.member}).then(() => {
                                             res.status(200).send({pageInfo: {_id: examInfo.pageID, score, mark: (score/100)*questionTotal, passed: true}});
                                             return notifications(notificationJoin, doc.authorID, {userID: req.user, ID: examInfo.pageID}, false);
@@ -357,9 +357,9 @@ router.post('/',authenticate, (req, res,next) => {
                     
                     if (doc.autoJoin) {
                         if (doc.autoJoin && (score >= doc.passMark)) {
-                            let checkMember = doc.member.filter(userID => JSON.parse(JSON.stringify(userID)) === questionInfo.authorID)[0];
+                            let checkMember = doc.member.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === questionInfo.authorID)[0];
                             if (!checkMember) {
-                                doc.member.push(questionInfo.authorID);
+                                doc.member.push(questionInfo);
                                 doc.updateOne({member: doc.member, mark: updateMarkDoc}).then(() => {
                                     res.status(200).send({pageInfo: {_id: answerInfo.pageID, score, mark: (score/100)*questionTotal, passed: true}});
                                     return notifications(notificationAccept, questionInfo.authorID, {userID: req.user, ID: answerInfo.pageID}, false);
@@ -408,9 +408,9 @@ router.post('/',authenticate, (req, res,next) => {
                     let pendingApprove = doc.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === cntItem)[0];
                     if (pendingApprove) {
                         let member = doc.member;
-                        let isAllowed = member.filter(userID=> JSON.parse(JSON.stringify(userID)) === pendingApprove.authorID)[0];
+                        let isAllowed = member.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === pendingApprove.authorID)[0];
                         if (!isAllowed) {
-                            member.push(pendingApprove.authorID);
+                            member.push(pendingApprove);
                         }
                         doc.pendingApprove = doc.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) !== cntItem);
                         doc.updateOne({pendingApprove: doc.pendingApprove, member}).then(() => {

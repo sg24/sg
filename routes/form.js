@@ -219,7 +219,8 @@ router.post('/add/chatroom', authenticate, (req, res, next) => {
                         content: fields.content, title: fields.title, hashTag: JSON.parse(fields.hashTag),
                         autoJoin: JSON.parse(fields.autoJoin), enableCbt: JSON.parse(fields.cbt),
                         enableRule: JSON.parse(fields.rule), roomType: fields.roomType,passMark: fields.passMark,
-                        hour: fields.hour, minute: fields.minute, second: fields.second, member: [req.user],
+                        hour: fields.hour, minute: fields.minute, second: fields.second, 
+                        member: [{authorID: req.user, username: req.username, userImage: req.userImage}],
                         duration: fields.duration, qchatTotal: fields.questionTotal, media: chatRoomMedia, 
                         question: id[0], tempFileID, groupID: fields.groupID
                     }
@@ -334,7 +335,8 @@ router.post('/add/group', authenticate, (req, res, next) => {
                         autoJoin: JSON.parse(fields.autoJoin), enableCbt: JSON.parse(fields.cbt),
                         enableRule: JSON.parse(fields.rule), roomType: fields.roomType,passMark: fields.passMark,
                         hour: fields.hour, minute: fields.minute, second: fields.second, 
-                        duration: fields.duration, qchatTotal: fields.questionTotal, media: groupMedia, member: [req.user],
+                        duration: fields.duration, qchatTotal: fields.questionTotal, media: groupMedia, 
+                        member: [{authorID: req.user, username: req.username, userImage: req.userImage}],
                         question: id[0], tempFileID
                     }
                     submit(group, cnt, tempFileID, 'createGroup').then(id => {

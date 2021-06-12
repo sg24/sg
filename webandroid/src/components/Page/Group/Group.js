@@ -22,7 +22,7 @@ const group = props => {
             closeModal={props.closeModal}
             userProfile={props.userProfile.bind(this, cnt.authorID)}
             shareUserProfile={props.userProfile}
-            showGroupInfo={props.showGroupInfo.bind(this, cnt._id, cnt.title)}
+            showGroupInfo={props.showGroupInfo.bind(this, cnt._id, cnt.title, cnt.media)}
             favorite={props.favorite.bind(this, cnt._id)}
             request={props.request.bind(this, cnt._id, cnt, cnt.isPublic, cnt.enableRule, cnt.enableCbt)}
             enterGroup={props.enterGroup.bind(this, cnt._id, cnt.title, cnt.image, cnt.member)}

@@ -100,7 +100,18 @@ const GroupSchema = new Schema({
         }
     }],
     member: [{
-        type: ObjectId
+        authorID: {
+            type: String,
+            required: true
+        },
+        username: {
+            type: String,
+            required: true,
+            index: 'text'
+        },
+        userImage: {
+            type: String
+        }
     }],
     mark: [{
         question: [{

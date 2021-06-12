@@ -6,11 +6,14 @@ import { size } from 'tailwind';
 import urischeme from 'urischeme';
 import withComponent from 'withcomponent';
 import { useNavigation } from '@react-navigation/native';
+import Uridetect from 'uridetect';
+import Constants from 'expo-constants';
 
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
 import Button from '../../components/UI/Button/Button';
+import BoxShadow from '../../components/UI/BoxShadow/BoxShadow';
 import Href from '../../components/UI/Href/Href';
 import Settings from '../../components/UI/Settings/Settings';
 import * as actions from '../../store/actions/index';
@@ -43,6 +46,7 @@ class ChatRoom extends Component {
             showSelectPicker: null,
             showPendingSelectPicker: null,
             showSelectMarkPicker: null,
+            showChatRoomInfo: null,
             examInstruction: null,
             pendingExam: null,
             showAdvertChat: false,
@@ -98,7 +102,7 @@ class ChatRoom extends Component {
         if (this.state.pendingExam) {
             this.props.onPageReactionReset(this.state.pendingExam.pageID);
         }
-        this.setState({pageCntID: null, pageID: null, showSelectPicker: null, showPendingSelectPicker: null, showSelectMarkPicker: null, examInstruction: null, pendingExam: null, showAdvertChat: false, showChatRoomRule: null});
+        this.setState({pageCntID: null, pageID: null, showSelectPicker: null, showPendingSelectPicker: null, showSelectMarkPicker: null, examInstruction: null, pendingExam: null, showAdvertChat: false, showChatRoomRule: null, showChatRoomInfo: null});
     }
 
     openURIHandler = (type, uri) => {
@@ -261,8 +265,9 @@ class ChatRoom extends Component {
         this.props.onPageReaction('chatroom', pageID, 'setFavorite');
     }
 
-    showChatroomInfoHandler = (pageID, title) => {
-        this.setState({showChatRoomInfo: {title}, pageID})
+    showChatroomInfoHandler = (pageID, title, media) => {
+        let mediaInfo = media.filter(cnt => cnt.bucket === 'image')[0];
+        this.setState({showChatRoomInfo: {selectType: 'member',title, media: mediaInfo || {}}, pageID})
     }
 
     advertChatboxHandler = (pageID) => {
@@ -428,6 +433,7 @@ class ChatRoom extends Component {
                             cntID="getRequest"
                             searchID="searchRequest"
                             pageSetting="userPage"
+                            iconName="chatbox-ellipses"
                             leftButton={{title: 'Remove', action: 'setRejectuser'}}
                             rightButton={{title: 'Accept', action: 'setAcceptuser'}}/> : null}
                     { this.state.showPendingSelectPicker ? 
@@ -444,6 +450,7 @@ class ChatRoom extends Component {
                             cntID="getPendingapprove"
                             searchID="searchPendingapprove"
                             pageSetting="userPage"
+                            iconName="chatbox-ellipses"
                             leftButton={{title: 'Remove', action: 'setPendingrejectuser'}}
                             rightButton={{title: 'Accept', action: 'setPendingacceptuser'}}/> : null}
                     { this.state.showSelectMarkPicker ? 
@@ -457,7 +464,34 @@ class ChatRoom extends Component {
                             searchID="searchPendingmark"
                             pageSetting="userPage"
                             markExam={this.markExamHandler}
+                            iconName="chatbox-ellipses"
                             showNote={false}/> : null}
+                    { this.state.showChatRoomInfo ? 
+                        <SelectPicker
+                            selectType={this.state.showChatRoomInfo.selectType}
+                            closeSelectPicker={this.closeModalHandler}
+                            title="Chat Room Information"
+                            page="chatroom"
+                            cntID="getChatroominfo"
+                            pageID={this.state.pageID}
+                            pageSetting="userPage"
+                            showNote={false}
+                            enableSearch={false}>
+                            <View>
+                                <ImageBackground 
+                                    source={{uri: `${Constants.manifest.extra.BASE_URL}media/${this.state.showChatRoomInfo.media.bucket}/${this.state.showChatRoomInfo.media.id}`}} 
+                                    style={styles.roomInfo}
+                                    resizeMode="cover">
+                                    <Uridetect
+                                        onPress={this.openURIHandler} 
+                                        style={styles.roomInfoText} 
+                                        content={this.state.showChatRoomInfo.title}/>
+                                </ImageBackground>
+                                <BoxShadow style={{backgroundColor: '#dcdbdc', padding: 10}}>
+                                    <Text style={styles.textStyle}>Members</Text>
+                                </BoxShadow>
+                            </View>
+                        </SelectPicker> : null}
                     {this.state.showChatRoomRule ? 
                         <Instruction 
                             pageID={this.state.pageID}
@@ -539,7 +573,7 @@ class ChatRoom extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        name="chatbubble-ellipses-outline"
+                        name="chatbox-ellipses-outline"
                         size={40}
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
@@ -644,6 +678,25 @@ const styles = StyleSheet.create({
     instructionText: {
         fontWeight: 'bold',
         marginLeft: 10
+    },
+    roomInfo: {
+        minHeight: 100,
+        backgroundColor: '#e9ebf2',
+        width: '100%', padding: 10,
+        justifyContent: 'flex-end',
+        alignItems: 'center'
+    },
+    roomInfoText: {
+        fontSize: 16,
+        marginVertical: 10,
+        paddingHorizontal: 10,
+        lineHeight: 24,
+        textShadowColor: '#fff',
+        textShadowRadius: 15,
+        textShadowOffset: {
+            width: 1,
+            hieght: 1
+        }
     },
     removeButton: {
         backgroundColor: '#dcdbdc',

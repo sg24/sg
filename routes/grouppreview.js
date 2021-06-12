@@ -16,7 +16,7 @@ const {group, qcontent, advert, user, connectStatus} = require('../serverDB/serv
 router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'getGroupInfo') {
         let pageID = req.body.searchCnt;
-        group.findOne({member: {$in: [req.user]}, _id: pageID}).then(doc => {
+        group.findOne({'member.authorID': {$eq: req.user}, _id: pageID}).then(doc => {
             if (doc) {
                 let imageMedia = doc.media.filter(cnt => cnt.bucket == 'image');
                 res.status(200).send({page: [{_id: pageID, name: doc.title, member: doc.member.length, settings: doc.settings, authorID: doc.authorID,

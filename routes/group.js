@@ -12,7 +12,7 @@ let formInit = require('./utility/forminit');
 let search = require('./utility/search');
 let notifications = require('./utility/notifications');
 let sharecontent = require('./utility/sharecontent');
-const {group, grouppost, qcontent, advert, user, connectStatus} = require('../serverDB/serverDB');
+const {group, grouppost, qchat, question, groupfeed, qcontent, chatroom, advert, user, connectStatus} = require('../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'getonegroup') {
@@ -48,11 +48,11 @@ router.post('/', authenticate, (req, res, next) => {
                     updateResult.push({...updateCnt,
                     share: cnt.share.length, favorite: cnt.favorite.length,
                     isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
-                    isMember: cnt.member.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user)[0] ? true : false,
+                    isMember: cnt.member.filter(cntItem => JSON.parse(JSON.stringify(cntItem.authorID)) === req.user)[0] ? true : false,
                     isPending: cnt.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
                     isPendingApprove: cnt.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
                     isPendingMark: cnt.mark.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
-                    isPublic: cnt.roomType === 'Public',
+                    isPublic: cnt.roomType === 'Public', chat: {user: cnt.member.slice(0, 4)},
                     request: cnt.request.length, mark: cnt.mark.length, pendingApprove: cnt.pendingApprove.length, member: cnt.member.length})
                 }
             }
@@ -90,7 +90,7 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'getMembergroup') {
-        group.find({member: {$in: [req.user]}, _isCompleted: true, block: {$nin: [req.user]}})
+        group.find({'member.authorID': {$eq: req.user}, _isCompleted: true, block: {$nin: [req.user]}})
             .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
             let updateResult = [];
             if (result) {
@@ -100,7 +100,7 @@ router.post('/', authenticate, (req, res, next) => {
                     updateResult.push({...updateCnt,
                     share: cnt.share.length, favorite: cnt.favorite.length,
                     image: cnt.media.filter(media => media.bucket == 'image')[0] ?  cnt.media.filter(media => media.bucket == 'image')[0].id : '',
-                    request: cnt.request.length, mark: cnt.mark.length, pendingApprove: cnt.pendingApprove.length, member: cnt.member.length})
+                    request: cnt.request.length, mark: cnt.mark.length, pendingApprove: cnt.pendingApprove.length, member: cnt.member.length, chat: {user: cnt.member.slice(0, 4)}})
                 }
             }
             res.status(200).send({select: updateResult, loadMore: result.length > 0});
@@ -111,7 +111,7 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'searchMemberGroup') {
-        group.find({member: {$in: [req.user]}, _isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt}})
+        group.find({'member.authorID': {$eq: req.user}, _isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt}})
             .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
             let updateResult = [];
             if (result) {
@@ -121,7 +121,7 @@ router.post('/', authenticate, (req, res, next) => {
                     updateResult.push({...updateCnt,
                     share: cnt.share.length, favorite: cnt.favorite.length,
                     image: cnt.media.filter(media => media.bucket == 'image')[0] ?  cnt.media.filter(media => media.bucket == 'image')[0].id : '',
-                    request: cnt.request.length, mark: cnt.mark.length, pendingApprove: cnt.pendingApprove.length, member: cnt.member.length})
+                    request: cnt.request.length, mark: cnt.mark.length, pendingApprove: cnt.pendingApprove.length, member: cnt.member.length, chat: {user: cnt.member.slice(0, 4)}})
                 }
             }
             res.status(200).send({select: updateResult, loadMore: result.length > 0});
@@ -147,29 +147,30 @@ router.post('/', authenticate, (req, res, next) => {
 
     if (req.header !== null && req.header('data-categ') === 'setShare') {
         let reciepent = JSON.parse(req.body.reciepent);
-        group.findOneAndUpdate({member: {$in: [req.user]}, _id: req.body.pageID}, {$addToSet: {'share': reciepent}}).then(() => {
-            group.findById(req.body.pageID).then(doc => {
-                if (doc) {
-                    res.status(200).send({pageInfo: {_id: req.body.pageID, share: doc.share.length}});
-                    sharecontent(group, group, req.body.pageID, reciepent, req.user, req.username, req.userImage, req.body.pageID, doc.title).then(() => {
-                        for (let userID of reciepent) {
-                            notifications('groupShare', userID, {userID: req.user, ID: req.body.pageID}, false);
-                        }
-                    });
-                    return
-                }
-                return res.sendStatus(200);
-            });
-        }).catch(err => {
-            res.status(500).send(err)
-        })
+        // group.findOneAndUpdate({'member.authorID': {$eq: req.user}, _id: req.body.pageID}, {$addToSet: {'share': reciepent}}).then(() => {
+        //     group.findById(req.body.pageID).then(doc => {
+        //         if (doc) {
+        //             res.status(200).send({pageInfo: {_id: req.body.pageID, share: doc.share.length}});
+        //             sharecontent(group, group, req.body.pageID, reciepent, req.user, req.username, req.userImage, req.body.pageID, doc.title).then(() => {
+        //                 for (let userID of reciepent) {
+        //                     notifications('groupShare', userID, {userID: req.user, ID: req.body.pageID}, false);
+        //                 }
+        //             });
+        //             return
+        //         }
+        //         return res.sendStatus(200);
+        //     });
+        // }).catch(err => {
+        //     res.status(500).send(err)
+        // })
         return
     }
 
     if (req.header !== null && req.header('data-categ') === 'setJoin') {
-        group.findOneAndUpdate({_id: req.body.pageID, member: {$nin: [req.user]}, roomType: {$eq: 'Public'}}, {$push: {'member': req.user}}).then(doc => {
+        group.findOneAndUpdate({_id: req.body.pageID, 'member.authorID': {$ne: req.user}, roomType: {$eq: 'Public'}}, {$push: {'member': {authorID: req.user, username: req.username, userImage: req.userImage}}}).then(doc => {
             if (doc) {
-                res.status(200).send({pageInfo: {_id: req.body.pageID, isMember: true, member: doc.member.length + 1}});
+                doc.member.push({authorID: req.user, username: req.username, userImage: req.userImage});
+                res.status(200).send({pageInfo: {_id: req.body.pageID, isMember: true, member: doc.member.length, chat: {user: doc.member.slice(0, 4)}}});
                 return notifications('groupJoin', doc.authorID, {userID: req.user, ID: req.body.pageID}, false);
             }
             return res.sendStatus(200);
@@ -249,9 +250,9 @@ router.post('/', authenticate, (req, res, next) => {
                     let pendingApprove = doc.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === cntItem)[0];
                     if (pendingApprove) {
                         let member = doc.member;
-                        let isAllowed = member.filter(userID=> JSON.parse(JSON.stringify(userID)) === pendingApprove.authorID)[0];
+                        let isAllowed = member.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === pendingApprove.authorID)[0];
                         if (!isAllowed) {
-                            member.push(pendingApprove.authorID);
+                            member.push(pendingApprove);
                         }
                         doc.pendingApprove = doc.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) !== cntItem);
                         doc.updateOne({pendingApprove: doc.pendingApprove, member}).then(() => {
@@ -261,7 +262,7 @@ router.post('/', authenticate, (req, res, next) => {
                             ])
                             ++reaction;
                             if (reaction === pendingApproveCnt.length) {
-                                res.status(200).send({pageInfo: {_id: req.body.pageID, pendingApprove: doc.pendingApprove.length, member: member.length, passed: true}});
+                                res.status(200).send({pageInfo: {_id: req.body.pageID, pendingApprove: doc.pendingApprove.length, member: member.length, passed: true, chat: {user: member.slice(0, 4)}}});
                             }
                         }).catch(err => {
                             res.status(500).send(err);
@@ -338,9 +339,9 @@ router.post('/', authenticate, (req, res, next) => {
                     let request = doc.request.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) === cntItem)[0];
                     if (request) {
                         let member = doc.member;
-                        let isAllowed = member.filter(userID=> JSON.parse(JSON.stringify(userID)) === request.authorID)[0];
+                        let isAllowed = member.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === request.authorID)[0];
                         if (!isAllowed) {
-                            member.push(request.authorID);
+                            member.push(request);
                         }
                         doc.request = doc.request.filter(cnt => JSON.parse(JSON.stringify(cnt._id)) !== cntItem);
                         doc.updateOne({request: doc.request, member}).then(() => {
@@ -350,7 +351,7 @@ router.post('/', authenticate, (req, res, next) => {
                             ])
                             ++reaction;
                             if (reaction === requestCnt.length) {
-                                res.status(200).send({pageInfo: {_id: req.body.pageID, request: doc.request.length, member: member.length}});
+                                res.status(200).send({pageInfo: {_id: req.body.pageID, request: doc.request.length, member: member.length, chat: {user: member.slice(0, 4)}}});
                             }
                         }).catch(err => {
                             res.status(500).send(err);
@@ -456,6 +457,31 @@ router.post('/', authenticate, (req, res, next) => {
         return
     }
 
+    if (req.header !== null && req.header('data-categ') === 'getGroupinfo') {
+        group.findOne({_id: req.body.pageID,_isCompleted: true, block: {$nin: [req.user]}}).then(result => {
+            let member = 0;
+            let updateResult = [];
+            if (result) {
+                let members = result.member.slice(req.body.start, (req.body.limit + req.body.start));
+                for (let cnt of members) {
+                    user.findById(cnt.authorID).then(doc => {
+                        if (doc) {
+                            ++member;
+                            updateResult.push({authorID: doc._id, username: doc.username, userImage: doc.image, 
+                                isAdmin: doc.authorID === cnt.authorID, status: (new Date().getTime() - new Date(doc.visited).getTime()) < 60000});
+                            if (member === members.length) {
+                                res.status(200).send({select: updateResult, loadMore:  result.member.length > (req.body.limit + req.body.start)});
+                            }
+                        }
+                    })
+                }
+            }
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
 
     if (req.header && req.header('data-categ') === 'searchGroup') {
         group.find({_isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt} })
@@ -468,11 +494,11 @@ router.post('/', authenticate, (req, res, next) => {
                     updateResult.push({...updateCnt,
                     share: cnt.share.length, favorite: cnt.favorite.length,
                     isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
-                    isMember: cnt.member.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user)[0] ? true : false,
+                    isMember: cnt.member.filter(cntItem => JSON.parse(JSON.stringify(cntItem.authorID)) === req.user)[0] ? true : false,
                     isPending: cnt.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
                     isPendingApprove: cnt.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
                     isPendingMark: cnt.mark.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
-                    isPublic: cnt.roomType === 'Public',
+                    isPublic: cnt.roomType === 'Public', chat: {user: cnt.member.slice(0, 4)},
                     request: cnt.request.length, mark: cnt.mark.length, pendingApprove: cnt.pendingApprove.length, member: cnt.member.length})
                 }
             }
@@ -485,10 +511,25 @@ router.post('/', authenticate, (req, res, next) => {
 
     if (req.header !== null && req.header('data-categ') === 'getOneAndDelete') {
         group.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
-            if (doc && doc.member.length < 2 && doc.favorite.length < 1 && doc.share.length < 1) {
-                // return sequence([deleteMedia(doc.media), doc.deleteOne()]).then(() => {
-                //     return res.sendStatus(200);
-                // })
+            if (doc && doc.favorite.length < 1) {
+                sequence([groupfeed.findOne({groupID: req.body.pageID}), question.findOne({groupID: req.body.pageID}),
+                    grouppost.findOne({groupID: req.body.pageID}), chatroom.findOne({groupID: req.body.pageID}),
+                    qchat.findOne({groupID: req.body.pageID})]).then(result => {
+                    let checkDelete = 0;
+                    for (let cnt of result) {
+                        if (!cnt) {
+                            ++checkDelete;
+                            if  (checkDelete === result.length) {
+                                return sequence([deleteMedia(doc.media), doc.question ? qcontent.findByIdAndDelete(doc.question) : Promise.resolve(),
+                                    doc.deleteOne()]).then(() => {
+                                    return res.sendStatus(200);
+                                })
+                            }
+                        } else {
+                            return res.status(500).send('This group could not be deleted');
+                        }
+                    }
+                })
             }
             if (!doc) {
                 group.findByIdAndUpdate({_id: req.body.pageID}, {$push: {'block': req.user}, $pull: {'favorite': req.user}}).then(() => {
@@ -496,7 +537,6 @@ router.post('/', authenticate, (req, res, next) => {
                 })
                 return;
             }
-            return Promise.reject('This group could not be deleted');
         }).catch(err => {
             res.status(500).send(err)
         })

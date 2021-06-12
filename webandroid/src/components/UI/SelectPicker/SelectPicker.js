@@ -19,6 +19,7 @@ import PrivateConv from './PrivateConv/PrivateConv';
 import PendingMark from './PendingMark/PendingMark';
 import PendingApprove from './PendingAprove/PendingApprove';
 import Group from './Group/Group';
+import Member from './Member/Member';
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 import InfoBox from '../InfoBox/InfoBox';
 import AbsoluteFill from '../AbsoluteFill/AbsoluteFill';
@@ -171,9 +172,10 @@ class SelectPicker extends Component {
                             disabled={this.state.picked.length < 1 || this.props.selectStart}
                             submitting={this.props.selectStart && !this.state.select && this.props.reactionType === this.props.rightButton.action}
                             loaderStyle="#fff" /> : null}
-                        <TouchableNativeFeedback onPress={this.showSearchHandler}>
-                            <Ionicons name="search" size={24} />
-                        </TouchableNativeFeedback>
+                        {this.props.enableSearch === false ? null :
+                            <TouchableNativeFeedback onPress={this.showSearchHandler}>
+                                <Ionicons name="search" size={24} />
+                            </TouchableNativeFeedback>}
                     </View>
                 )}
             />
@@ -299,10 +301,25 @@ class SelectPicker extends Component {
                 ));
             }
 
+            if (this.props.selectType === 'member') {
+                items = this.props.fetchCnt.map((cnt, index) => (
+                    <Member
+                        key={index}
+                        userDet={cnt}
+                        showProfile={() => this.navigationHandler('Profile', cnt.authorID)}
+                        lastItem={index === (this.props.fetchCnt.length - 1)}
+                        loadMore={this.loadMoreHandler}
+                        enableLoadMore={this.props.loadMore}
+                        start={this.props.fetchSelectcntStart}
+                        />
+                ));
+            }
+
             cnt =  (
                 <View style={styles.wrapper}>
                     {this.props.showNote === false ? null : <Text style={styles.note}>Press and hold to select</Text>}
                     <ScrollView style={styles.scroll}>
+                        {this.props.children}
                         { items }
                     </ScrollView>
                 </View>

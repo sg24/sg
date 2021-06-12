@@ -38,7 +38,7 @@ router.post('/', authenticate, (req, res, next) => {
 
     if (req.header !== null && req.header('data-categ') === 'getCBT') {
         let groupID = req.body.searchCnt;
-        group.findOne({member: {$in: [req.user]}, _id: groupID}).then(doc => {
+        group.findOne({'member.authorID': {$eq: req.user}, _id: groupID}).then(doc => {
             if (doc) {
                 groupcbt.find({$or: [{groupID}, {'share.reciever': groupID}], _isCompleted: true, block: {$nin: [req.user]}})
                     .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
@@ -132,7 +132,7 @@ router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'setFavorite') {
         groupcbt.findById(req.body.pageID).then(groupcbtDoc => {
             if (groupcbtDoc) {
-                // group.findOne({member: {$in: [req.user]}, _id: groupcbtDoc.groupID}).then(groupDoc => {
+                // group.findOne({'member.authorID': {$eq: req.user}, _id: groupcbtDoc.groupID}).then(groupDoc => {
                 //     if (groupDoc) {
                         groupcbt.findOneAndUpdate({_id: req.body.pageID, favorite: {$nin: [req.user]}}, {$push: {'favorite': req.user}}).then(doc => {
                             if (doc) {
@@ -416,7 +416,7 @@ router.post('/', authenticate, (req, res, next) => {
     if (req.header && req.header('data-categ') === 'searchCBT') {
         let groupInfo = JSON.parse(req.body.searchCnt);
         let groupID =  groupInfo.groupID;
-        group.findOne({member: {$in: [req.user]}, _id:  groupID}).then(doc => {
+        group.findOne({'member.authorID': {$eq: req.user}, _id:  groupID}).then(doc => {
             if (doc) {
                 groupcbt.find({$or: [{groupID}, {'share.reciever': groupID}], _isCompleted: true, block: {$nin: [req.user]}, $text: {$search: groupInfo.search}})
                 .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {

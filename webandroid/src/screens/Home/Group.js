@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
 import urischeme from 'urischeme';
+import Uridetect from 'uridetect';
+import Constants from 'expo-constants';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
@@ -13,13 +15,13 @@ import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
 import Button from '../../components/UI/Button/Button';
 import Href from '../../components/UI/Href/Href';
+import BoxShadow from '../../components/UI/BoxShadow/BoxShadow';
 import Settings from '../../components/UI/Settings/Settings';
 import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
 import Group from '../../components/Page/Group/Group';
 import CommentBox from '../../components/UI/CommentBox/CommentBox';
-import PagePreview from '../../components/Page/Preview/Preview';
 import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
@@ -48,7 +50,8 @@ class Groups extends Component {
             examInstruction: null,
             pendingExam: null,
             showAdvertChat: false,
-            showGroupRule: null
+            showGroupRule: null,
+            showGroupInfo: null
         }
     }
 
@@ -64,7 +67,7 @@ class Groups extends Component {
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
             this.props.onPageReset();
-            this.setState({ pageID: null, pageCntID: null, showSearch: false,search: '',showOption: false,showSettings: false,  
+            this.setState({ pageID: null, pageCntID: null, showSearch: false,search: '',showOption: false,showSettings: false,  showGroupInfo: null,
             showGroupRule: null, showSelectPicker: null,showPendingSelectPicker: null, showSelectMarkPicker: null, examInstruction: null, pendingExam: null, showAdvertChat: false})
         });
         Dimensions.addEventListener('change', this.updateStyle)
@@ -91,7 +94,8 @@ class Groups extends Component {
         if (this.state.pendingExam) {
             this.props.onPageReactionReset(this.state.pendingExam.pageID);
         }
-        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showSelectPicker: null, showPendingSelectPicker: null, showSelectMarkPicker: null, examInstruction: null, pendingExam: null, showAdvertChat: false, showGroupRule: null});
+        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showSelectPicker: null, showPendingSelectPicker: null, showSelectMarkPicker: null, examInstruction: null, pendingExam: null,
+            showAdvertChat: false, showGroupRule: null, showGroupInfo: null});
     }
 
     openURIHandler = (type, uri) => {
@@ -266,8 +270,9 @@ class Groups extends Component {
         this.props.onPageReaction('group', pageID, 'setFavorite');
     }
 
-    showGroupInfoHandler = (pageID, title) => {
-        this.setState({showGroupInfo: {title}, pageID})
+    showGroupInfoHandler = (pageID, title, media) => {
+        let mediaInfo = media.filter(cnt => cnt.bucket === 'image')[0];
+        this.setState({showGroupInfo: {selectType: 'member',title, media: mediaInfo || {}}, pageID})
     }
 
     advertChatboxHandler = (pageID) => {
@@ -451,6 +456,7 @@ class Groups extends Component {
                             cntID="getRequest"
                             searchID="searchRequest"
                             pageSetting="userPage"
+                            iconName="chatbubble-ellipses"
                             leftButton={{title: 'Remove', action: 'setRejectuser'}}
                             rightButton={{title: 'Accept', action: 'setAcceptuser'}}/> : null}
                     { this.state.showPendingSelectPicker ? 
@@ -467,6 +473,7 @@ class Groups extends Component {
                             cntID="getPendingapprove"
                             searchID="searchPendingapprove"
                             pageSetting="userPage"
+                            iconName="chatbubble-ellipses"
                             leftButton={{title: 'Remove', action: 'setPendingrejectuser'}}
                             rightButton={{title: 'Accept', action: 'setPendingacceptuser'}}/> : null}
                     { this.state.showSelectMarkPicker ? 
@@ -479,8 +486,35 @@ class Groups extends Component {
                             cntID="getPendingmark"
                             searchID="searchPendingmark"
                             pageSetting="userPage"
+                            iconName="chatbubble-ellipses"
                             markExam={this.markExamHandler}
                             showNote={false}/> : null}
+                    { this.state.showGroupInfo ? 
+                        <SelectPicker
+                            selectType={this.state.showGroupInfo.selectType}
+                            closeSelectPicker={this.closeModalHandler}
+                            title="Group Information"
+                            page="group"
+                            cntID="getGroupinfo"
+                            pageID={this.state.pageID}
+                            pageSetting="userPage"
+                            showNote={false}
+                            enableSearch={false}>
+                            <View>
+                                <ImageBackground 
+                                    source={{uri: `${Constants.manifest.extra.BASE_URL}media/${this.state.showGroupInfo.media.bucket}/${this.state.showGroupInfo.media.id}`}} 
+                                    style={styles.groupInfo}
+                                    resizeMode="cover">
+                                    <Uridetect
+                                        onPress={this.openURIHandler} 
+                                        style={styles.groupInfoText} 
+                                        content={this.state.showGroupInfo.title}/>
+                                </ImageBackground>
+                                <BoxShadow style={{backgroundColor: '#dcdbdc', padding: 10}}>
+                                    <Text style={styles.textStyle}>Members</Text>
+                                </BoxShadow>
+                            </View>
+                        </SelectPicker> : null}
                     {this.state.showGroupRule ? 
                         <Instruction 
                             pageID={this.state.pageID}
@@ -663,6 +697,25 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'center',
         marginBottom: 10
+    },
+    groupInfo: {
+        minHeight: 100,
+        backgroundColor: '#e9ebf2',
+        width: '100%', padding: 10,
+        justifyContent: 'flex-end',
+        alignItems: 'center'
+    },
+    groupInfoText: {
+        fontSize: 16,
+        marginVertical: 10,
+        paddingHorizontal: 10,
+        lineHeight: 24,
+        textShadowColor: '#fff',
+        textShadowRadius: 15,
+        textShadowOffset: {
+            width: 1,
+            hieght: 1
+        }
     },
     note: {
         marginBottom: 10,

@@ -1,10 +1,10 @@
 import React from 'react';
 
-import ChatroomContent from './ChatroomContent';
+import ChatRoomContent from './ChatRoomContent';
 
 const chatRoom = props => {
     return props.cnt.map((cnt, index) => (
-        <ChatroomContent 
+        <ChatRoomContent 
             key={index}
             cnt={cnt}
             userID={props.userID}
@@ -21,7 +21,7 @@ const chatRoom = props => {
             closeModal={props.closeModal}
             userProfile={props.userProfile.bind(this, cnt.authorID)}
             shareUserProfile={props.userProfile}
-            showChatroomInfo={props.showChatroomInfo.bind(this, cnt._id, cnt.title)}
+            showChatroomInfo={props.showChatroomInfo.bind(this, cnt._id, cnt.title, cnt.media)}
             favorite={props.favorite.bind(this, cnt._id)}
             request={props.request.bind(this, cnt._id, cnt, cnt.isPublic, cnt.enableRule, cnt.enableCbt)}
             enterChatroom={props.enterChatroom.bind(this, cnt._id, cnt.title, cnt.image, cnt.member)}

@@ -34,7 +34,7 @@ router.post('/', authenticate, (req, res, next) => {
 
     if (req.header !== null && req.header('data-categ') === 'getWriteUp') {
         let groupID = req.body.searchCnt;
-        group.findOne({member: {$in: [req.user]}, _id: groupID}).then(doc => {
+        group.findOne({'member.authorID': {$eq: req.user}, _id: groupID}).then(doc => {
             if (doc) {
                 groupwriteup.find({groupID, _isCompleted: true, block: {$nin: [req.user]}})
                     .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
@@ -128,7 +128,7 @@ router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'setFavorite') {
         groupwriteup.findById(req.body.pageID).then(groupwriteupDoc => {
             if (groupwriteupDoc) {
-                group.findOne({member: {$in: [req.user]}, _id: groupwriteupDoc.groupID}).then(groupDoc => {
+                group.findOne({'member.authorID': {$eq: req.user}, _id: groupwriteupDoc.groupID}).then(groupDoc => {
                     if (groupDoc) {
                         groupwriteup.findOneAndUpdate({_id: req.body.pageID, favorite: {$nin: [req.user]}}, {$push: {'favorite': req.user}}).then(doc => {
                             if (doc) {
@@ -150,7 +150,7 @@ router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'setShare') {
         let reciepent = JSON.parse(req.body.reciepent);
         let shareInfo = JSON.parse(req.body.cnt);
-        group.findOne({member: {$in: [req.user]}, _id: shareInfo.groupID}).then(groupDoc => {
+        group.findOne({'member.authorID': {$eq: req.user}, _id: shareInfo.groupID}).then(groupDoc => {
             if (groupDoc) {
                 groupwriteup.findOneAndUpdate({_id: req.body.pageID}, {$addToSet: {'share': reciepent}}).then(() => {
                     groupwriteup.findById(req.body.pageID).then(doc => {
@@ -202,7 +202,7 @@ router.post('/', authenticate, (req, res, next) => {
     if (req.header && req.header('data-categ') === 'searchWriteUp') {
         let groupInfo = JSON.parse(req.body.searchCnt);
         let groupID =  groupInfo.groupID;
-        group.findOne({member: {$in: [req.user]}, _id:  groupID}).then(doc => {
+        group.findOne({'member.authorID': {$eq: req.user}, _id:  groupID}).then(doc => {
             if (doc) {
                 groupwriteup.find({groupID, _isCompleted: true, block: {$nin: [req.user]}, $text: {$search: groupInfo.search}})
                 .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {

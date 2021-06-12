@@ -33,7 +33,7 @@ router.post('/', authenticate, (req, res, next) => {
 
     if (req.header !== null && req.header('data-categ') === 'getQuestion') {
         let groupID = req.body.searchCnt;
-        group.findOne({member: {$in: [req.user]}, _id: groupID}).then(doc => {
+        group.findOne({'member.authorID': {$eq: req.user}, _id: groupID}).then(doc => {
             if (doc) {
                 groupquestion.find({$or: [{groupID}, {'share.reciever': groupID}], _isCompleted: true, block: {$nin: [req.user]}})
                     .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
@@ -128,7 +128,7 @@ router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'setFavorite') {
         groupquestion.findById(req.body.pageID).then(groupquestionDoc => {
             if (groupquestionDoc) {
-                // group.findOne({member: {$in: [req.user]}, _id: groupquestionDoc.groupID}).then(groupDoc => {
+                // group.findOne({'member.authorID': {$eq: req.user}, _id: groupquestionDoc.groupID}).then(groupDoc => {
                 //     if (groupDoc) {
                         groupquestion.findOneAndUpdate({_id: req.body.pageID, favorite: {$nin: [req.user]}}, {$push: {'favorite': req.user}}).then(doc => {
                             if (doc) {
@@ -209,7 +209,7 @@ router.post('/', authenticate, (req, res, next) => {
     if (req.header && req.header('data-categ') === 'searchQuestion') {
         let groupInfo = JSON.parse(req.body.searchCnt);
         let groupID =  groupInfo.groupID;
-        group.findOne({member: {$in: [req.user]}, _id:  groupID}).then(doc => {
+        group.findOne({'member.authorID': {$eq: req.user}, _id:  groupID}).then(doc => {
             if (doc) {
                 groupquestion.find({$or: [{groupID}, {'share.reciever': groupID}], _isCompleted: true, block: {$nin: [req.user]}, $text: {$search: groupInfo.search}})
                 .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
