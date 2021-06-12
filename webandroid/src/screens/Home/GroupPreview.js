@@ -87,7 +87,7 @@ class GroupPreview extends Component {
         if (!this.state.loaded && this.props.fetchCnt && this.props.fetchCnt.length > 0) {
             let authorOption = this.props.userID === this.props.fetchCnt[0].authorID ?
                 {title: 'Edit', icon: {name: 'create-outline'}, action: 'edit'} : null;
-            let defaultOption = [{title: 'Share', icon: {name: 'paper-plane-outline'}, action: 'share'},
+            let defaultOption = [
                 {title: 'Report', icon: {name: 'warning-outline'}, action: 'report'},
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}];
             let option = authorOption ? [authorOption, ...defaultOption] : defaultOption;

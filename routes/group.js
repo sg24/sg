@@ -457,6 +457,29 @@ router.post('/', authenticate, (req, res, next) => {
         return
     }
 
+    if (req.header !== null && req.header('data-categ') === 'getGroupDet') {
+        group.findOne({_id: req.body.searchCnt,_isCompleted: true, block: {$nin: [req.user]}}).then(result => {
+            let updateResult = [];
+            if (result) {
+                let updateCnt = JSON.parse(JSON.stringify(result));
+                delete updateCnt.block;
+                updateResult.push({...updateCnt,
+                share:result.share.length, favorite:result.favorite.length,
+                isFavored:result.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                isMember:result.member.filter(cntItem => JSON.parse(JSON.stringify(cntItem.authorID)) === req.user)[0] ? true : false,
+                isPending:result.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                isPendingApprove:result.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                isPendingMark:result.mark.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                isPublic:result.roomType === 'Public', chat: {user:result.member.slice(0, 4)},
+                request:result.request.length, mark:result.mark.length, pendingApprove:result.pendingApprove.length, member:result.member.length, groupInfo: true})
+                res.status(200).send({page: updateResult, loadMore: false});
+            }
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
     if (req.header !== null && req.header('data-categ') === 'getGroupinfo') {
         group.findOne({_id: req.body.pageID,_isCompleted: true, block: {$nin: [req.user]}}).then(result => {
             let member = 0;

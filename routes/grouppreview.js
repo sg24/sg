@@ -20,7 +20,7 @@ router.post('/', authenticate, (req, res, next) => {
             if (doc) {
                 let imageMedia = doc.media.filter(cnt => cnt.bucket == 'image');
                 res.status(200).send({page: [{_id: pageID, name: doc.title, member: doc.member.length, settings: doc.settings, authorID: doc.authorID,
-                    media: doc.media, defaultImage: imageMedia.length > 0 ? imageMedia[Math.round(Math.random(imageMedia.length-1))].id : null}]})
+                    media: doc.media, defaultImage: imageMedia.length > 0 ? imageMedia[Math.floor(Math.random(imageMedia.length-1))].id : null}]})
             }
         }).catch(err => {
             res.status(500).send(err)

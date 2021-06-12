@@ -37,6 +37,7 @@ import ExamScreen from './src/screens/Home/Exam';
 import MarkExamScreen from './src/screens/Home/MarkExam';
 import ExamInstructionScreen from './src/screens/Home/ExamInstruction';
 import GeneralSettingsScreen from './src/screens/Home/GeneralSettings';
+import RoomInfoScreen from './src/screens/Home/RoomInfo';
 import LogoutScreen from './src/screens/Home/Logout';
 import HashSearchScreen from './src/screens/Home/HashSearch';
 import CommentBoxScreen from './src/screens/Home/CommentBox';
@@ -91,6 +92,7 @@ const userScreens = {
   Exam: ExamScreen,
   MarkExam: MarkExamScreen,
   GeneralSettings: GeneralSettingsScreen,
+  RoomInfo: RoomInfoScreen,
   Logout: LogoutScreen,
   Search: SearchScreen,
   Addnew: AddnewScreen,
@@ -279,7 +281,7 @@ class Base extends Component {
               }
 
               if (name === 'Question' || name === 'Feed' || name === 'WriteUp' || name === 'GroupPreview' || name === 'CommentBox'
-                || name === 'Exam' || name === 'MarkExam') {
+                || name === 'Exam' || name === 'MarkExam' || name === 'RoomInfo') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
                 header = {
                   header: ({scene, previous, navigation }) => this.state.viewMode === 'landscape' ?  <HeaderBar
