@@ -89,6 +89,87 @@ router.post('/', authenticate, (req, res, next) => {
         return
     }
 
+    if (req.header !== null && req.header('data-categ') === 'getGroupFavorite') {
+        group.find({_isCompleted: true, block: {$nin: [req.user]}, favorite: {$in: [req.user]}})
+            .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
+            let updateResult = [];
+            if (result) {
+                for (let cnt of result) {
+                    let updateCnt = JSON.parse(JSON.stringify(cnt));
+                    delete updateCnt.block;
+                    updateResult.push({...updateCnt,
+                    share: cnt.share.length, favorite: cnt.favorite.length,
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                    isMember: cnt.member.filter(cntItem => JSON.parse(JSON.stringify(cntItem.authorID)) === req.user)[0] ? true : false,
+                    isPending: cnt.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                    isPendingApprove: cnt.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                    isPendingMark: cnt.mark.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                    isPublic: cnt.roomType === 'Public', chat: {user: cnt.member.slice(0, 4)},
+                    request: cnt.request.length, mark: cnt.mark.length, pendingApprove: cnt.pendingApprove.length, member: cnt.member.length})
+                }
+            }
+            let showAdvert = Math.round(Math.random());
+            if (showAdvert === 0) {
+                advert.find().skip(req.body.start).limit(req.body.limit).then(doc => {
+                    let lastItem = updateResult[updateResult.length - 1];
+                    if (lastItem) {
+                        lastItem.advert = doc
+                        updateResult[updateResult.length - 1] = lastItem
+                    }
+                    res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
+                })
+            } else if (showAdvert === 1) {
+                user.find({_id: {$in: req.request}}).skip(req.body.start).limit(req.body.limit).then(doc => {
+                    let updateFriend = [];
+                    for (let cnt of doc) {
+                        let isOnline =  (new Date().getTime() - new Date(cnt.visited).getTime()) < 60000;
+                        updateFriend.push({_id: cnt._id, username: cnt.username, userImage: cnt.image, status: isOnline})
+                    }
+                    let lastItem = updateResult[updateResult.length - 1];
+                    if (lastItem) {
+                        lastItem.friendRequest = updateFriend;
+                        updateResult[updateResult.length - 1] = lastItem
+                    }
+                    res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
+                });
+            } else {
+                res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
+            }
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'getByAuthor') {
+        Promise.all([req.body.start === 0 ?  user.findById(req.body.searchCnt) : Promise.resolve()]).then(doc => {
+            group.find({_isCompleted: true, block: {$nin: [req.user]}, authorID: req.body.searchCnt})
+                .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
+                let updateResult = [];
+                if (result) {
+                    for (let cnt of result) {
+                        let updateCnt = JSON.parse(JSON.stringify(cnt));
+                        delete updateCnt.block;
+                        updateResult.push({...updateCnt,
+                        share: cnt.share.length, favorite: cnt.favorite.length, 
+                        userImage: doc[0] ? doc[0].image : cnt.userImage, username: doc[0] ? doc[0].username : cnt.username,
+                        isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                        isMember: cnt.member.filter(cntItem => JSON.parse(JSON.stringify(cntItem.authorID)) === req.user)[0] ? true : false,
+                        isPending: cnt.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                        isPendingApprove: cnt.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                        isPendingMark: cnt.mark.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                        isPublic: cnt.roomType === 'Public', chat: {user: cnt.member.slice(0, 4)},
+                        request: cnt.request.length, mark: cnt.mark.length, pendingApprove: cnt.pendingApprove.length, member: cnt.member.length})
+                    }
+                }
+                res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
+            })
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
     if (req.header !== null && req.header('data-categ') === 'getMembergroup') {
         group.find({'member.authorID': {$eq: req.user}, _isCompleted: true, block: {$nin: [req.user]}})
             .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {

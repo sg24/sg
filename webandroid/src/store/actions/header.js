@@ -35,15 +35,18 @@ export const headerPageClose = () => {
 }
 
 
-export const fetchConvInit = () =>  {
+export const fetchConvInit = (start, limit) =>  {
     return {
-        type: actionTypes.FETCH_CONV_INIT
+        type: actionTypes.FETCH_CONV_INIT,
+        start,
+        limit
     }; 
 }; 
 
-export const fetchConvStart = () => {
+export const fetchConvStart = (start) => {
     return {
-        type: actionTypes.FETCH_CONV_START
+        type: actionTypes.FETCH_CONV_START,
+        start
     };
 };
 
@@ -57,7 +60,8 @@ export const fetchConvFail = (err) => {
 export const fetchConv = (cnt) => {
     return {
         type: actionTypes.FETCH_CONV,
-        cnt
+        cnt,
+        start
     };
 };
 

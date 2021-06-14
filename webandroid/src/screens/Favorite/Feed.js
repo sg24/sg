@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import Ionicons from 'ionicons';
 import { size } from 'tailwind';
 import urischeme from 'urischeme';
+import withComponent from 'withcomponent';
+import { useNavigation } from '@react-navigation/native';
 
-import NoBackground from '../../components/UI/NoBackground/NoBackground';
-import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
-import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
-import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
-import Button from '../../components/UI/Button/Button';
-import Href from '../../components/UI/Href/Href';
 import Settings from '../../components/UI/Settings/Settings';
 import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
@@ -32,6 +27,7 @@ class Feed extends Component {
         super(props);
         this.state = {
             viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
+            isFocused: false,
             option: [{title: 'Search', icon: {name: 'search-outline'}, action: 'search'},
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
             pageCntID: null,
@@ -56,21 +52,26 @@ class Feed extends Component {
     }
 
     componentDidMount() {
-        this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'feed', 'getFeedFavorite')
-        });
-        this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            this.props.onPageReset();
-            this.setState({pageCntID: null,showPreview: null,pageID: null,showChatBox: false,showActionSheet: null,
-                showSearch: false,search: '',showOption: false,showSettings: false, showPagePreview: null, showSelectGroupPicker: null, showAdvertChat: false})
-        });
+        this.screenFocused();
         Dimensions.addEventListener('change', this.updateStyle)
     }
 
+    componentDidUpdate() {
+        this.screenFocused();
+    }
+
     componentWillUnmount() {
-        this._unsubscribe();
-        this._unsubscribeBlur();
         Dimensions.removeEventListener('change', this.updateStyle);
+    }
+
+    screenFocused() {
+        if (this.props.focus && !this.state.isFocused) {
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'feed', 'getFeedFavorite')
+            return this.setState({isFocused: true});
+        }
+        if (!this.props.focus && this.state.isFocused) {
+            this.setState({isFocused: false});
+        }
     }
 
     reloadFetchHandler = () => {
@@ -454,7 +455,6 @@ class Feed extends Component {
                     <InfoBox
                         name="newspaper-outline"
                         size={40}
-                        color="#437da3"
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
@@ -483,22 +483,7 @@ class Feed extends Component {
             )
         }
 
-      return (
-        <NoBackground
-            sideBar={(
-                <>
-                <Navigation 
-                        color={this.props.settings.color}
-                        backgroundColor={this.props.settings.backgroundColor}/>
-                <CreateNavigation 
-                    color={this.props.settings.color}
-                    backgroundColor={this.props.settings.backgroundColor}/>
-                </>
-            )}
-            content={ cnt }
-            contentFetched={this.props.fetchCnt}>
-        </NoBackground>
-      )
+        return cnt;
     }
 }
 
@@ -627,4 +612,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Feed);
+export default withComponent([{name: 'navigation', component: useNavigation}])(connect(mapStateToProps, mapDispatchToProps)(Feed));

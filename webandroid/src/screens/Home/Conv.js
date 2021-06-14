@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'ionicons';
 
@@ -8,6 +8,7 @@ import * as actions from '../../store/actions/index';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import Conv from '../../components/Main/Conv/Conv';
 import ScrollView from '../../components/UI/ScrollView/ScrollView';
+import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 
 class Convs extends Component {
     constructor(props) {
@@ -20,15 +21,14 @@ class Convs extends Component {
     componentDidMount() {
         if (this.props.navigation) {
             this._unsubscribe = this.props.navigation.addListener('focus', () => {
-                console.log(this)
-                this.props.onFetchConv();
+                this.props.onFetchConv(0, this.props.settings.userPage.fetchLimit);
             });
             this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
                 this.props.onCloseHeaderPage();
             });
             Dimensions.addEventListener('change', this.updateStyle)
         } else {
-            this.props.onFetchConv();
+            this.props.onFetchConv(0, this.props.settings.userPage.fetchLimit);
         }
     }
 
@@ -61,7 +61,11 @@ class Convs extends Component {
     }
 
     reloadFetchHandler = () => {
-        this.props.onFetchConv();
+        this.props.onFetchConv(0, this.props.settings.userPage.fetchLimit);
+    }
+
+    loadMoreHandler = () => {
+        this.props.onFetchConv(this.props.conv ? this.props.conv.length : 0, this.props.settings.userPage.fetchLimit);
     }
 
     render() {
@@ -83,13 +87,16 @@ class Convs extends Component {
         }
 
        
-        if (!this.props.convErr && this.props.conv && (this.props.conv.friend.length > 0 || this.props.conv.group.length > 0)){
+        if (!this.props.convErr && this.props.conv && this.props.conv.length > 0){
             cnt = (
                 <ScrollView>
                      <View style={[styles.wrapper, this.state.viewMode === 'landscape' ? styles.landscapeWrapper : null]}>
                         <Conv
                             conv={this.props.conv}
-                            navigate={this.navigationHandler}/>
+                            navigate={this.navigationHandler}
+                            enableLoadMore={this.props.loadMore}
+                            start={this.props.convLoader}
+                            loadMore={this.loadMoreHandler}/>
                      </View>
                 </ScrollView>
             )
@@ -97,20 +104,12 @@ class Convs extends Component {
 
         if (this.props.convErr) {
             cnt = (
-                <>
-                    <InfoBox
-                        det='Network Error!'
-                        name="cloud-offline-outline"
-                        size={40}
-                        color="#ff1600"
-                        style={styles.info}/>
-                    <View style={styles.icon}>
-                        <TouchableOpacity onPress={this.reloadFetchHandler} style={styles.reload}>
-                            <Icon name="reload-outline" size={18} color="#777"/>
-                            <Text style={styles.reloadText}>Reload</Text>
-                        </TouchableOpacity>
-                    </View>
-                </>
+                <View style={{width: '100%', flex: 1}}>
+                    <ErrorInfo 
+                        viewMode={this.state.viewMode}
+                        backgroundColor={this.props.settings.backgroundColor}
+                        reload={this.reloadFetchHandler}/>
+                </View>
             )
         }
 
@@ -154,15 +153,17 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
+        settings: state.settings,
         conv: state.header.conv,
         convErr: state.header.convErr,
         convLoader: state.header.convLoader,
+        loadMore: state.header.loadMore
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchConv: () => dispatch(actions.fetchConvInit()),
+        onFetchConv: (start, limit) => dispatch(actions.fetchConvInit(start, limit)),
         onCloseHeaderPage: () => dispatch(actions.fetchConvStart())
     };
 };

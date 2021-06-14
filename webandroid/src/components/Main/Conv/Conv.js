@@ -5,33 +5,16 @@ import PrivateConv from './PrivateConv/PrivateConv';
 import GroupConv from './GroupConv/GroupConv';
 
 const conv = props => (
-    Object.entries(props.conv).map(([title, res]) =>  (
-        <View style={styles.wrapper} key={title}>
-            <Text style={styles.category}>{title}</Text>
-            {
-                res.map((cnt, index) => {
-                    if (title === 'friend') {
-                        return (
-                            <PrivateConv
-                                key={index}
-                                cnt={cnt}
-                                chat={props.navigate.bind(this, 'chat', cnt.id)}
-                                userProfile={props.navigate.bind(this, 'profile', cnt.id)}
-                                lastItem={(resizeBy.length - 1) === index}
-                                enableLoadMore={props.enableLoadMore}
-                                start={props.start}
-                                loadMore={props.loadMore}/>
-                        )
-                    }
-                    return (
-                        <GroupConv
-                            key={index}
-                            groupDet={cnt}
-                            showGroup={props.navigate.bind(this, 'group', cnt._id)}/>
-                    )
-                })
-            }
-        </View>
+    props.conv.map((cnt, index) =>  (
+        <PrivateConv
+            key={index}
+            cnt={cnt}
+            chat={props.navigate.bind(this, 'chat', cnt.id)}
+            userProfile={props.navigate.bind(this, 'profile', cnt.id)}
+            lastItem={(props.conv.length - 1) === index}
+            enableLoadMore={props.enableLoadMore}
+            start={props.start}
+            loadMore={props.loadMore}/>
     ))
 )
 

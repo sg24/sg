@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
+import Href from '../../components/UI/Href/Href';
 import Settings from '../../components/UI/Settings/Settings';
 import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
@@ -27,9 +28,10 @@ class Questions extends Component {
         super(props);
         this.state = {
             viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
-            isFocused: false,
             option: [{title: 'Search', icon: {name: 'search-outline'}, action: 'search'},
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
+            isFocused: false,
+            profileID: this.props.profileID,
             pageID: null,
             pageCntID: null,
             showChatBox: null,
@@ -52,7 +54,7 @@ class Questions extends Component {
         this.screenFocused();
         Dimensions.addEventListener('change', this.updateStyle)
     }
-    
+
     componentDidUpdate() {
         this.screenFocused();
     }
@@ -63,7 +65,7 @@ class Questions extends Component {
 
     screenFocused() {
         if (this.props.focus && !this.state.isFocused) {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'question', 'getQuestionFavorite')
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'question', 'getByAuthor', this.state.profileID)
             return this.setState({isFocused: true});
         }
         if (!this.props.focus && this.state.isFocused) {
@@ -73,9 +75,9 @@ class Questions extends Component {
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'searchQuestionFavorite', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'searchQuestion', this.state.search);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'getQuestionFavorite');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'getByAuthor', this.state.profileID);
     }
 
     navigationHandler = (page, cntID) => {
@@ -106,13 +108,13 @@ class Questions extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'question', 'searchQuestionFavorite', cnt);
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'question', 'searchQuestion', cnt);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'question', 'getQuestionFavorite');
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'question', 'getByAuthor', this.state.profileID);
     }
 
     checkOptionHandler = () => {
@@ -130,7 +132,7 @@ class Questions extends Component {
     }
 
     userProfileHandler = (authorID) => {
-        this.props.navigation.navigate('Profile', {userID: authorID})
+        this.props.navigation.push('Profile', {userID: authorID})
     }
 
     editHandler = (id) => {
@@ -211,9 +213,9 @@ class Questions extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'question', 'searchQuestionFavorite', this.state.search);
+                 'question', 'searchQuestion', this.state.search);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'getQuestionFavorite');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'getByAuthor', this.state.profileID);
     }
 
     render() {
@@ -277,7 +279,7 @@ class Questions extends Component {
                             style={styles.scroll}
                             showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }>
                             <Question
-                                cnt={this.props.fetchCnt.filter(cnt => cnt.isFavored === true)}
+                                cnt={this.props.fetchCnt}
                                 userID={this.props.userID}
                                 openURI={this.openURIHandler}
                                 pageCntID={this.state.pageCntID}
@@ -417,10 +419,10 @@ class Questions extends Component {
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No Question added as favorite  !!! </Text>
-                            {/* <View>
-                                <Href title="Question" onPress={() => this.navigationHandler('Question')} style={styles.href}/>
-                            </View> */}
+                            <Text style={styles.infoTitle}> No Question found !!! </Text>
+                            <View>
+                                <Href title="create Question" onPress={() => this.navigationHandler('AddQuestion')} style={styles.href}/>
+                            </View>
                         </View>
                     </InfoBox>
                 </View>
@@ -440,7 +442,7 @@ class Questions extends Component {
             )
         }
 
-        return cnt;
+      return cnt;
     }
 }
 
@@ -450,7 +452,7 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         width: '100%',
-        flex: 1,
+        marginTop: 10
     },
     landscapeWrapper: {
         width: '100%'

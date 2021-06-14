@@ -8,28 +8,31 @@ import { useNavigation } from '@react-navigation/native';
 
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
+import Href from '../../components/UI/Href/Href';
 import Settings from '../../components/UI/Settings/Settings';
 import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
-import Question from '../../components/Page/Question/Question';
+import CBTItem from '../../components/Page/CBT/CBT';
 import PagePreview from '../../components/Page/Preview/Preview';
 import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
-import CommentBox from '../../components/UI/QuestionCommentBox/QuestionCommentBox';
+import CommentBox from '../../components/UI/CommentBox/CommentBox';
 import SharePicker from '../../components/UI/SharePicker/SharePicker';
 import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
+import Instruction from '../../components/UI/Instruction/Instruction';
 
-class Questions extends Component {
+class CBT extends Component {
     constructor(props) {
         super(props);
         this.state = {
             viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
-            isFocused: false,
             option: [{title: 'Search', icon: {name: 'search-outline'}, action: 'search'},
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
+            isFocused: false,
+            profileID: this.props.profileID,
             pageID: null,
             pageCntID: null,
             showChatBox: null,
@@ -37,8 +40,12 @@ class Questions extends Component {
             search: '',
             showOption: false,
             showSettings: false,
+            showPagePreview: null,
+            showSelectPicker: null,
+            showSelectMarkPicker: null,
             showSelectGroupPicker: null,
-            showPagePreview: null
+            allowedSelectPicker: null,
+            examInstruction: null
         }
     }
 
@@ -52,7 +59,7 @@ class Questions extends Component {
         this.screenFocused();
         Dimensions.addEventListener('change', this.updateStyle)
     }
-    
+
     componentDidUpdate() {
         this.screenFocused();
     }
@@ -63,7 +70,7 @@ class Questions extends Component {
 
     screenFocused() {
         if (this.props.focus && !this.state.isFocused) {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'question', 'getQuestionFavorite')
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'cbt', 'getByAuthor', this.state.profileID)
             return this.setState({isFocused: true});
         }
         if (!this.props.focus && this.state.isFocused) {
@@ -73,9 +80,9 @@ class Questions extends Component {
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'searchQuestionFavorite', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBT', this.state.search);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'getQuestionFavorite');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'getByAuthor', this.state.profileID);
     }
 
     navigationHandler = (page, cntID) => {
@@ -83,7 +90,8 @@ class Questions extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null, showSelectGroupPicker: null, showPagePreview: null, showAdvertChat: false});
+        this.setState({pageCntID: null, showChatBox: null, pageID: null, showSharePicker: null, showPagePreview: null, 
+                showSelectPicker: null, showSelectMarkPicker: null, showSelectGroupPicker: null, allowedSelectPicker: false, examInstruction: null});
     }
 
     openURIHandler = (type, uri) => {
@@ -106,13 +114,13 @@ class Questions extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'question', 'searchQuestionFavorite', cnt);
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBT', cnt);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'question', 'getQuestionFavorite');
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'cbt', 'getByAuthor', this.state.profileID);
     }
 
     checkOptionHandler = () => {
@@ -130,11 +138,11 @@ class Questions extends Component {
     }
 
     userProfileHandler = (authorID) => {
-        this.props.navigation.navigate('Profile', {userID: authorID})
+        this.props.navigation.push('Profile', {userID: authorID})
     }
 
     editHandler = (id) => {
-        this.props.navigation.navigate('EditQuestion', {cntID: id});
+        this.props.navigation.navigate('EditCBT', {cntID: id});
         this.setState({pageCntID: null});
     }
 
@@ -146,7 +154,7 @@ class Questions extends Component {
     }
 
     deletePageHandler = (id, start) => {
-        this.props.onDeletePage(id, 'question', start, 'getOneAndDelete');
+        this.props.onDeletePage(id, 'cbt', start, 'getOneAndDelete');
         this.setState({pageCntID: null});
     }
 
@@ -155,7 +163,7 @@ class Questions extends Component {
     }
 
     reportHandler = (pageID) => {
-        this.props.navigation.navigate('AddReport', {navigationURI: 'Question', cntType: 'pageReport', page: 'question', pageID});
+        this.props.navigation.navigate('AddReport', {navigationURI: this.state.viewMode === 'landscape' ? 'CBTWeb' : 'CBT', cntType: 'pageReport', page: 'cbt', pageID});
         this.setState({pageCntID: null});
     }
 
@@ -168,6 +176,40 @@ class Questions extends Component {
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
         }
         this.setState({pageCntID: null});
+    }
+
+    showRequestHandler = (pageID) => {
+        this.setState({showSelectPicker: {selectType: 'cbtRequest', pageID}})
+    }
+
+    allowedUserHandler = (pageID) => {
+        this.setState({allowedSelectPicker: {selectType: 'cbtRequest', pageID}})
+    }
+
+    pendingMarkHandler = (pageID) => {
+        this.setState({showSelectMarkPicker: {selectType: 'pendingMark', pageID}})
+    }
+
+    markExamHandler = (mark, pageID) => {
+        this.props.navigation.navigate('MarkExam', {mark, pageID,  cntID: 'getMarkinfo', 
+        navigationURI: this.state.viewMode === 'landscape' ? 'CBTWeb' : 'CBT', getMarkID: 'markTheoryexam'})
+    }
+
+    requestHandler = (pageID) => {
+        this.props.onPageReaction('cbt', pageID, 'setRequest');
+    }
+
+    takeExamHandler = (pageID, content) => {
+        this.setState({examInstruction: {pageID, content}, pageCntID: pageID});
+    }
+
+    startExamHandler = () => {
+        this.props.navigation.navigate('Exam', {pageID: this.state.pageCntID, 
+            navigationURI: this.state.viewMode === 'landscape' ? 'CBTWeb' : 'CBT', cntID: 'getExam', getMarkID: 'markExam'});
+    }
+
+    cancelRequestHandler = (pageID) => {
+        this.props.onPageReaction('cbt', pageID, 'cancelRequest');
     }
 
     mediaPreviewHandler = (cntID, media, page) => {
@@ -186,12 +228,12 @@ class Questions extends Component {
         this.setState({showPagePreview: cnt})
     }
 
-    chatHandler = (pageID) => {
-        this.setState({showChatBox: true, pageID})
+    chatHandler = (pageID, enableComment, enableDelete) => {
+        this.setState({showChatBox: {enableComment, enableDelete}, pageID})
     }
 
     favoriteHandler = (pageID) => {
-        this.props.onPageReaction('question', pageID, 'setFavorite');
+        this.props.onPageReaction('cbt', pageID, 'setFavorite');
     }
 
     actionSheetHandler = async (index) => {
@@ -211,9 +253,9 @@ class Questions extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'question', 'searchQuestionFavorite', this.state.search);
+                 'cbt', 'searchCBT', this.state.search);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'getQuestionFavorite');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'getByAuthor', this.state.profileID);
     }
 
     render() {
@@ -265,7 +307,6 @@ class Questions extends Component {
         )
 
         if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
-            let profile = this.props.pageReaction.length > 0 && this.state.changeProfile ? this.props.pageReaction.filter(id => id === this.state.changeProfile.pageID)[0] : null;
             cnt = (
                 <View style={styles.container}>
                     { header }
@@ -276,8 +317,8 @@ class Questions extends Component {
                         <ScrollView 
                             style={styles.scroll}
                             showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }>
-                            <Question
-                                cnt={this.props.fetchCnt.filter(cnt => cnt.isFavored === true)}
+                            <CBTItem
+                                cnt={this.props.fetchCnt}
                                 userID={this.props.userID}
                                 openURI={this.openURIHandler}
                                 pageCntID={this.state.pageCntID}
@@ -288,10 +329,16 @@ class Questions extends Component {
                                 share={this.shareHandler}
                                 report={this.reportHandler}
                                 showUserOpt={this.showUserOptHandler}
+                                showRequest={this.showRequestHandler}
+                                mark={this.pendingMarkHandler}
                                 mediaPreview={this.mediaPreviewHandler}
                                 saveMedia={this.saveMediaHandler}
                                 chat={this.chatHandler}
                                 favorite={this.favoriteHandler}
+                                request={this.requestHandler}
+                                allowedUser={this.allowedUserHandler}
+                                takeExam={this.takeExamHandler}
+                                cancelRequest={this.cancelRequestHandler}
                                 pageReaction={this.props.pageReaction}
                                 closeModal={this.closeModalHandler}
                                 enableLoadMore={this.props.loadMore}
@@ -316,7 +363,7 @@ class Questions extends Component {
                         <PagePreview
                             showOption={false}
                             cnt={this.state.showPagePreview}
-                            title="Question"
+                            title="CBT"
                             userID={this.props.userID}
                             openURI={this.openURIHandler}
                             userProfile={this.userProfileHandler}
@@ -324,38 +371,67 @@ class Questions extends Component {
                             share={this.shareHandler}
                             report={this.reportHandler}
                             openURI={this.openURIHandler}
-                            closePagePreview={this.closeModalHandler} /> : null}
+                            closePagePreview={this.closeModalHandler}
+                            showContent ={false} /> : null}
                    { this.state.showPreview ? 
                         <MediaPreview
                             showOption={false}
                             pageID={this.state.showPreview.cntID}
                             media={this.state.showPreview.media}
-                            page="question"
+                            page="cbt"
                             startPage={this.state.showPreview.startPage}
                             closePreview={this.closePreviewHandler}
                             backgroundColor={this.props.settings.backgroundColor}/> : null}
                     { this.state.showChatBox ?
                         <CommentBox
-                            title="Solution"
-                            chatType="questionchat"
-                            page="question"
+                            title={'Result'}
+                            chatType="cbtchat"
+                            page="cbt"
                             pageID={this.state.pageID}
                             closeChat={this.closeModalHandler}
-                            showReply/> : null}
+                            showReply
+                            enableComment={this.state.showChatBox.enableComment}
+                            enableDelete={this.state.showChatBox.enableDelete}/> : null}
                     { this.state.showSharePicker ? 
                         <SharePicker
                             shareType={this.state.showSharePicker.shareType}
                             closeSharePicker={this.closeModalHandler}
                             cnt={this.state.showSharePicker.cnt}
-                            shareUpdates={[{shareType: 'question', cntID: 'setShare', page: 'question', pageID: this.state.showSharePicker.cnt._id}]}
+                            shareUpdates={[{shareType: 'cbt', cntID: 'setShare', page: 'cbt', pageID: this.state.showSharePicker.cnt._id}]}
                             shareChat={false}
-                            info="Question shared successfully !"/> : null}
+                            info="CBT shared successfully !"/> : null}
+                    { this.state.showSelectPicker ? 
+                        <SelectPicker
+                            selectType={this.state.showSelectPicker.selectType}
+                            closeSelectPicker={this.closeModalHandler}
+                            info="Users allowed successfully !"
+                            removeInfo="Users removed successfully !"
+                            title="CBT Request"
+                            page="cbt"
+                            pageID={this.state.showSelectPicker.pageID}
+                            cntID="getRequest"
+                            searchID="searchRequest"
+                            pageSetting="userPage"
+                            leftButton={{title: 'Remove', action: 'setRejectuser'}}
+                            rightButton={{title: 'Allow', action: 'setAllowuser'}}/> : null}
+                    { this.state.showSelectMarkPicker ? 
+                        <SelectPicker
+                            selectType={this.state.showSelectMarkPicker.selectType}
+                            closeSelectPicker={this.closeModalHandler}
+                            title="Pending"
+                            page="cbt"
+                            pageID={this.state.showSelectMarkPicker.pageID}
+                            cntID="getPendingmark"
+                            searchID="searchPendingmark"
+                            pageSetting="userPage"
+                            markExam={this.markExamHandler}
+                            showNote={false}/> : null}
                     { this.state.showSelectGroupPicker ? 
                         <SelectPicker
                             selectType={this.state.showSelectGroupPicker.selectType}
                             closeSelectPicker={this.closeModalHandler}
-                            info="Question Shared successfully !"
-                            confirmAllInfo="Are you sure, you want to share this question"
+                            info="CBT Shared successfully !"
+                            confirmAllInfo="Are you sure, you want to share this CBT"
                             iconName="paper-plane-outline"
                             infoBox="Group"
                             title="Select"
@@ -365,7 +441,26 @@ class Questions extends Component {
                             searchID="searchMemberGroup"
                             pageSetting="userPage"
                             rightButton={{title: 'Share', action: 'setShareGroup'}}
-                            actionpage="question"/> : null}
+                            actionpage="cbt"/> : null}
+                    {this.state.allowedSelectPicker ? 
+                        <SelectPicker
+                            selectType={this.state.allowedSelectPicker.selectType}
+                            closeSelectPicker={this.closeModalHandler}
+                            removeInfo="Users removed successfully !"
+                            title="Allowed User"
+                            page="cbt"
+                            pageID={this.state.allowedSelectPicker.pageID}
+                            cntID="getAlloweduser"
+                            searchID="searchAlloweduser"
+                            pageSetting="userPage"
+                            leftButton={{title: 'Remove', action: 'removeAcceptuser'}}/> : null}
+                    {this.state.examInstruction ? 
+                        <Instruction 
+                            title="Exam Instruction"
+                            content={this.state.examInstruction.content}
+                            openURI={this.openURIHandler}
+                            closeInstruction={this.closeModalHandler}
+                            button={[{title: 'Start', icon: {name: 'timer-outline'}, onPress: this.startExamHandler}]}/>: null}
                     { this.state.showActionSheet ? 
                         <ActionSheet
                             options={this.state.showActionSheet.option}
@@ -376,7 +471,7 @@ class Questions extends Component {
                         : null}
                     { this.props.deletePage && !this.props.deletePage.start ?  
                         <NotificationModal
-                            info="Are you sure you want to delete this question"
+                            info="Are you sure you want to delete this CBT"
                             closeModal={this.deletePageResetHandler}
                             button={[{title: 'Ok', onPress: () => this.deletePageHandler(this.props.deletePage.pageID, true), style: styles.buttonCancel},
                             {title: 'Exit', onPress: this.deletePageResetHandler, style: styles.button}]}/> : null}
@@ -397,7 +492,7 @@ class Questions extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        det={`'${this.state.search}' does not match any Question`}
+                        det={`'${this.state.search}' does not match any CBT`}
                         name="search"
                         size={40}
                         color="#333"
@@ -412,15 +507,15 @@ class Questions extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        name="bulb-outline"
+                        name="timer"
                         size={40}
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No Question added as favorite  !!! </Text>
-                            {/* <View>
-                                <Href title="Question" onPress={() => this.navigationHandler('Question')} style={styles.href}/>
-                            </View> */}
+                            <Text style={styles.infoTitle}> No CBT found !!! </Text>
+                            <View>
+                                <Href title="create CBT" onPress={() => this.navigationHandler('AddCBT')} style={styles.href}/>
+                            </View>
                         </View>
                     </InfoBox>
                 </View>
@@ -440,7 +535,7 @@ class Questions extends Component {
             )
         }
 
-        return cnt;
+      return cnt;
     }
 }
 
@@ -450,7 +545,7 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         width: '100%',
-        flex: 1,
+        marginTop: 10
     },
     landscapeWrapper: {
         width: '100%'
@@ -505,12 +600,12 @@ const mapStateToProps = state => {
     return {
         settings: state.settings,
         userID: state.auth.userID,
-        fetchCntErr: state.page.fetchQuestionError,
-        fetchCntStart: state.page.fetchQuestionStart,
-        fetchCnt: state.page.fetchQuestion,
+        fetchCntErr: state.page.fetchCBTError,
+        fetchCntStart: state.page.fetchCBTStart,
+        fetchCnt: state.page.fetchCBT,
         loadMore: state.page.loadMore,
-        deletePageErr: state.page.deleteQuestionError,
-        deletePage: state.page.deleteQuestion,
+        deletePageErr: state.page.deleteCBTError,
+        deletePage: state.page.deleteCBT,
         pageReaction: state.page.pageReaction,
         pageReactionErr: state.page.pageReactionError
     };
@@ -529,4 +624,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default withComponent([{name: 'navigation', component: useNavigation}])(connect(mapStateToProps, mapDispatchToProps)(Questions));
+export default withComponent([{name: 'navigation', component: useNavigation}])(connect(mapStateToProps, mapDispatchToProps)(CBT));

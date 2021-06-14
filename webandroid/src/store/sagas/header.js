@@ -18,13 +18,10 @@ export function* headerFilterInitSaga(action) {
 
 export function* fetchConvInitSaga(action) {
     try {
-        yield put(actions.fetchConvStart());
-        let friend = yield axios.post('/conv', null, {headers: {'data-categ':'friends'}})
-        let group = yield axios.post('/conv', null, {headers: {'data-categ':'allgroup'}})
-        // let response = yield axios.post('/conv', null, {headers: {'data-categ':'allconv'}})
-        // alert(JSON.stringify( response.data[1]))
-        let cnt = {friend: friend.data, group: group.data};
-        yield put(actions.fetchConv(cnt));
+        yield put(actions.fetchConvStart(action.start));
+        let response = yield axios.post('/conv', {start: action.start, limit: action.limit}, {headers: {'data-categ':'friends'}})
+        let cnt = response.data  ? response.data : null;
+        yield put(actions.fetchConv(cnt, action.start));
     } catch(err) {
         yield put(actions.fetchConvFail(err))
     }

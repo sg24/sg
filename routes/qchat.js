@@ -11,7 +11,7 @@ let authenticate = require('../serverDB/middleware/authenticate');
 let formInit = require('./utility/forminit');
 let uploadToBucket = require('./utility/upload');
 let notifications = require('./utility/notifications');
-const {qchat, qcontent, group, question, connectStatus} = require('../serverDB/serverDB');
+const {user, qchat, qcontent, group, question, connectStatus} = require('../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'getonecbt') {
@@ -29,51 +29,6 @@ router.post('/', authenticate, (req, res, next) => {
                 });
             } else {
                 res.status(200).send(result);
-            }
-        }).catch(err => {
-            res.status(500).send(err)
-        })
-        return
-    }
-
-    if (req.header !== null && req.header('data-categ') === 'getCBTFavorite') {
-        qchat.find({$or: [{groupID: null}, {'share.reciever': req.user}], favorite: {$in: [req.user]}, _isCompleted: true, block: {$nin: [req.user]}})
-            .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
-            let updateResult = [];
-            if (result) {
-                for (let cnt of result) {
-                    let updateCnt = JSON.parse(JSON.stringify(cnt));
-                    delete updateCnt.block;
-                    updateResult.push({...updateCnt,
-                    share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
-                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
-                    takeExam: cnt.participant === 'Public' ? true :
-                    cnt.allowedUser.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user)[0] ? true : false,
-                    isPending: cnt.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
-                    shareInfo: cnt.groupID ? cnt.share.filter(shareCnt => shareCnt.reciever === req.user)[0] : null,
-                    request: cnt.request.length, mark: cnt.mark.length, allowedUser: cnt.allowedUser.length})
-                }
-            }
-            let showQuestion = Math.round(Math.random());
-            if (showQuestion === 0) {
-                res.status(200).send({page: updateResult, loadMore: result.length > 0});
-                // question.find({_isCompleted: true, block: {$nin: [req.user]}}).skip(req.body.start).limit(req.body.limit).then(doc => {
-                //     let lastItem = updateResult[updateResult.length - 1];
-                //     if (lastItem) {
-                //         let updateDoc =  []
-                //         for (let cnt of doc) {
-                //             let updateCnt = JSON.parse(JSON.stringify(cnt));
-                //             updateDoc.push({...updateCnt,
-                //                 share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
-                //                 isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
-                //         }
-                //         lastItem.question = updateDoc
-                //         updateResult[updateResult.length - 1] = lastItem
-                //     }
-                //     res.status(200).send({page: updateResult, loadMore: result.length > 0});
-                // })
-            } else {
-                res.status(200).send({page: updateResult, loadMore: result.length > 0});
             }
         }).catch(err => {
             res.status(500).send(err)
@@ -126,8 +81,8 @@ router.post('/', authenticate, (req, res, next) => {
         return
     }
 
-    if (req.header !== null && req.header('data-categ') === 'getByAuthor') {
-        qchat.find({authorID: { $in: [req.user, ...req.friend] }, _isCompleted: true, block: {$nin: [req.user]}})
+    if (req.header !== null && req.header('data-categ') === 'getCBTFavorite') {
+        qchat.find({$or: [{groupID: null}, {'share.reciever': req.user}], favorite: {$in: [req.user]}, _isCompleted: true, block: {$nin: [req.user]}})
             .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
             let updateResult = [];
             if (result) {
@@ -138,31 +93,61 @@ router.post('/', authenticate, (req, res, next) => {
                     share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
                     isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
                     takeExam: cnt.participant === 'Public' ? true :
-                        cnt.allowedUser.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user)[0] ? true : false,
-                    isPending: cnt.request.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                    cnt.allowedUser.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user)[0] ? true : false,
+                    isPending: cnt.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                    shareInfo: cnt.groupID ? cnt.share.filter(shareCnt => shareCnt.reciever === req.user)[0] : null,
                     request: cnt.request.length, mark: cnt.mark.length, allowedUser: cnt.allowedUser.length})
                 }
             }
-            let question = Math.round(Math.random());
-            if (question === 0) {
-                question.find().skip(req.body.start).limit(req.body.limit).then(doc => {
-                    let lastItem = updateResult[updateResult.length - 1];
-                    if (lastItem) {
-                        let updateDoc =  []
-                        for (let cnt of doc) {
-                            let updateCnt = JSON.parse(JSON.stringify(cnt));
-                            updateDoc.push({...updateCnt,
-                                share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
-                                isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
-                        }
-                        lastItem.question = updateDoc
-                        updateResult[updateResult.length - 1] = lastItem
-                    }
-                    res.status(200).send({page: updateResult, loadMore: result.length > 0});
-                })
+            let showQuestion = Math.round(Math.random());
+            if (showQuestion === 0) {
+                res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
+                // question.find({_isCompleted: true, block: {$nin: [req.user]}}).skip(req.body.start).limit(req.body.limit).then(doc => {
+                //     let lastItem = updateResult[updateResult.length - 1];
+                //     if (lastItem) {
+                //         let updateDoc =  []
+                //         for (let cnt of doc) {
+                //             let updateCnt = JSON.parse(JSON.stringify(cnt));
+                //             updateDoc.push({...updateCnt,
+                //                 share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
+                //                 isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
+                //         }
+                //         lastItem.question = updateDoc
+                //         updateResult[updateResult.length - 1] = lastItem
+                //     }
+                //     res.status(200).send({page: updateResult, loadMore: result.length > 0});
+                // })
             } else {
-                res.status(200).send({page: updateResult, loadMore: result.length > 0});
+                res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
             }
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'getByAuthor') {
+        Promise.all([req.body.start === 0 ?  user.findById(req.body.searchCnt) : Promise.resolve()]).then(doc => {
+            qchat.find({groupID: null, authorID: req.body.searchCnt, _isCompleted: true, block: {$nin: [req.user]}})
+                .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
+                let updateResult = [];
+                if (result) {
+                    for (let cnt of result) {
+                        let updateCnt = JSON.parse(JSON.stringify(cnt));
+                        delete updateCnt.block;
+                        updateResult.push({...updateCnt,
+                        userImage: doc[0] ? doc[0].image : cnt.userImage, username: doc[0] ? doc[0].username : cnt.username,
+                        share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
+                        isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                        takeExam: cnt.participant === 'Public' ? true :
+                        cnt.allowedUser.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user)[0] ? true : false,
+                        isPending: cnt.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                        shareInfo: cnt.groupID ? cnt.share.filter(shareCnt => shareCnt.reciever === req.user)[0] : null,
+                        request: cnt.request.length, mark: cnt.mark.length, allowedUser: cnt.allowedUser.length})
+                    }
+                }
+                res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
+            })
         }).catch(err => {
             res.status(500).send(err)
         })

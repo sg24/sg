@@ -6,6 +6,7 @@ const profile = props => (
         cnt={props.profile}
         viewMode={props.viewMode}
         userID={props.userID}
+        profileID={props.profileID}
         addUser={props.changeProfileStart ? null : props.changeProfile.bind(this, props.profile.id, null, 'addUser', true)}
         acceptUser={props.changeProfileStart ? null : props.changeProfile.bind(this, props.profile.id, props.profile.username, 'acceptUser', true)}
         rejUser={props.changeProfileStart ? null : props.changeProfile.bind(this, props.profile.id, props.profile.username, 'rejUser', false, 'Are you sure you want to reject this user !')}
@@ -40,7 +41,13 @@ const profile = props => (
         showImageAccodion={props.showImageAccodion}
         enableImageAccodion={props.enableImageAccodion}
         showNameAccodion={props.showNameAccodion}
-        enableNameAccodion={props.enableNameAccodion}/>
+        enableNameAccodion={props.enableNameAccodion}
+        index={props.index}
+        routes={props.routes}
+        setIndex={props.setIndex}
+        renderScene={props.renderScene}
+        layoutWidth={props.layoutWidth}
+        />
 )
 
 export default profile;

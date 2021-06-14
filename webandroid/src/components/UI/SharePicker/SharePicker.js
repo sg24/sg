@@ -59,11 +59,11 @@ class SharePicker extends Component {
 
     navigationHandler = (page, userID) => {
         if (page === 'Profile') {
-            this.props.navigation.navigate(page, {userID})
+            this.props.navigation.push(page, {userID})
         }
 
         if (page === 'User') {
-            this.props.navigation.navigate(page);
+            this.props.navigation.push(page);
         }
     }
 

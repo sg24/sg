@@ -36,9 +36,11 @@ router.post('/user/profile/:id',authenticate, (req, res,next) => {
                     res.status(200).send(userRes);
                 })
             } else {
-                res.redirect('/user')
+                Promise.reject('Not  found');
                 return
             }
+        }).catch(err => {
+            res.status(500).send(err)
         })
         function updateUser(cnt) {
             return new Promise((resolve, reject) => {
@@ -48,27 +50,16 @@ router.post('/user/profile/:id',authenticate, (req, res,next) => {
                 let filterPendingReq = pendingRequest.filter(id => id ===  req.user);
                 let userBlock = cnt.block || [];
                 let filterBlock = userBlock.filter(id => id === cnt._id.toHexString())
-                let userTeacher = cnt.student || [];
-                let userTeacherFilter = userTeacher.filter(id => id === req.user);
-                let teacher = cnt.teacher || [];
-                let teacherFilter = teacher.filter(id => id === req.user);
                 let id = cnt._id.toHexString();
                 let userDet = {
                     id, 
                     username: cnt.username,
                     image: cnt.image || '',
-                    comment: cnt.comment,
-                    subjectpost: cnt.subjectpost,
-                    subjectque: cnt.subjectque,
-                    subjectpoet: cnt.subjectpoet,
                     friend: cnt.friend,
                     friendtotal: cnt.friend.length,
                     status: cnt.status,
                     about: cnt.about,
-                    offline: cnt.offline,
-                    postpub: cnt.postpub,
-                    quepub: cnt.quepub,
-                    pwtpub: cnt.pwtpub
+                    visited: cnt.visited
                 }
 
                 if (filterReq.length > 0) {
@@ -76,9 +67,6 @@ router.post('/user/profile/:id',authenticate, (req, res,next) => {
                 }
                 if (filterPendingReq.length > 0) {
                     userDet['pending'] = true
-                }
-                if (userTeacherFilter.length > 0 || teacherFilter.length > 0) {
-                    userDet['accept'] = true;
                 }
                 if (id === req.user) {
                     userDet['edit'] = true;

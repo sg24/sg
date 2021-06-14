@@ -9,11 +9,36 @@ import Button from '../../../UI/Button/Button';
 import BoxShadow from '../../../UI/BoxShadow/BoxShadow';
 import FormElement from '../../../UI/FormElement/FormElement';
 import TouchableNativeFeedback from '../../../UI/TouchableNativeFeedback/TouchableNativeFeedback';
+import TabView from '../../../UI/TabView/TabView';
 import ChangeProfile from './ChangeProfile/ChangeProfile';
+import Post from '../../../../screens/ByAuthor/Post';
+import Question from '../../../../screens/ByAuthor/Question';
+import Feed from '../../../../screens/ByAuthor/Feed';
+import WriteUp from '../../../../screens/ByAuthor/WriteUp';
+import CBT from '../../../../screens/ByAuthor/CBT';
+import Group from '../../../../screens/ByAuthor/Group';
 
 const profileContent = props => {
+    let renderScene = screenProps => {
+        switch (screenProps.route.key) {
+            case 'post':
+                return <Post {...screenProps} profileID={props.userID} focus={props.index === 0}/>;
+            case 'feed':
+                return <Feed {...screenProps} profileID={props.userID} focus={props.index === 1}/>;
+            case 'group':
+                return <Group {...screenProps} profileID={props.userID} focus={props.index === 2}/>;
+            case 'CBT':
+                return <CBT {...screenProps} profileID={props.userID} focus={props.index === 3}/>;
+            case 'question':
+                return <Question {...screenProps} profileID={props.userID} focus={props.index === 4}/>;
+            case 'writeUp':
+                return <WriteUp {...screenProps} profileID={props.userID} focus={props.index === 5}/>;
+            default:
+                return null;
+        }
+    }
     let userImg = <Icon name="person" size={60} color="#777"/>
-    let myAccount = props.cnt.id === props.userID
+    let myAccount = props.profileID === props.userID
     if (props.cnt.image) {
         userImg = <Image source={{uri: Constants.manifest.extra.BASE_IMAGE_URL + props.cnt.image}} style={styles.userImageWrapper}/>;
     }
@@ -195,20 +220,13 @@ const profileContent = props => {
                             </Button>
                         </View> : null }
                     </View>
-                    <View style={styles.info}>
-                        <ScrollView 
-                            contentContainerStyle={styles.infoTab}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}>
-                            {props.profileTab.map((tab, index) => (
-                                <TouchableNativeFeedback key={index} onPress={props.selectProfileTab.bind(this, tab)}>
-                                    <View style={[styles.infoTabCnt, props.currentProfileTab === tab ? styles.infoTabCurrent : null]}>
-                                        <Text style={[styles.textStyle, props.currentProfileTab === tab ? styles.infoTabText : null]}>{tab}</Text>
-                                    </View>
-                                </TouchableNativeFeedback>
-                            ))}
-                        </ScrollView>
-                    </View>
+                    <TabView
+                        navigationState={{ index: props.index, routes: props.routes }}
+                        renderScene={renderScene}
+                        onIndexChange={props.setIndex}
+                        initialLayout={{ width: props.layoutWidth }}
+                        lazy
+                    />
                 </ScrollView>
             </View>
             { updateProfile }
@@ -261,20 +279,24 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
     },
     status: {
-        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        alignSelf: 'center'
+        justifyContent: 'center'
     },
     statusIcon: {
-        width: 10,
-        height: 10,
-        borderRadius: 5,
+        width: 14,
+        height: 14,
+        borderRadius: 7,
         backgroundColor: '#ff1600',
-        marginRight: 5
+        marginRight: 10,
+        top: 2,
+        borderColor: '#fff',
+        borderWidth: 1
     },
     statusOnIcon: {
-        backgroundColor: '#16cf27'
+        backgroundColor: '#16cf27',
+        borderColor: '#fff',
+        borderWidth: 1
     },
     statusDet: {
         fontSize: 16,
@@ -400,26 +422,6 @@ const styles = StyleSheet.create({
     },
     acceptText: {
         color: '#16cf27'
-    },
-    info: {
-        backgroundColor: '#dcdbdc',
-    },
-    infoTab: {
-        flexDirection: 'row',
-        backgroundColor: '#437da3',
-        borderTopWidth: 4,
-        borderTopColor: '#437da3'
-    },
-    infoTabCnt: {
-        paddingTop: 6,
-        paddingBottom: 10,
-        paddingHorizontal: 20,
-    },
-    infoTabText: {
-        color: '#333'
-    },
-    infoTabCurrent: {
-        backgroundColor: '#fff'
     }
 });
 

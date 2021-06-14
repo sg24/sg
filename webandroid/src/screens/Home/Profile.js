@@ -20,11 +20,17 @@ import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 class Profile extends Component {
     constructor(props) {
         super(props);
+        let layoutWidth = Dimensions.get('window').width;
         this.state = {
-            viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
+            viewMode: layoutWidth >= size.md ? 'landscape' : 'portrait',
             backgroundColor: '#fff',
             userID: this.props.route.params.userID,
+            index: 0,
+            routes: [{key: 'post', title: 'Post'},{key: 'feed', title: 'Feed'}, 
+            {key: 'group' , title: 'Group'}, {key: 'CBT', title: 'CBT'},
+            {key: 'question', title: 'Question'}, {key: 'writeUp', title: 'Write Up'}],
             edit: false,
+            layoutWidth,
             formElement: {
                 about: {
                     value: '',
@@ -111,8 +117,10 @@ class Profile extends Component {
 
     
     updateStyle = (dims) => {
+        let layoutWidth = dims.window.width;
         this.setState({
-            viewMode: dims.window.width >= size.md ? 'landscape' : 'portriat'
+            viewMode: layoutWidth >= size.md ? 'landscape' : 'portriat',
+            layoutWidth
         })
     }
 
@@ -219,6 +227,10 @@ class Profile extends Component {
         this.setState({showImageAccodion: !this.state.showImageAccodion});
     }
 
+    setIndexHandler = (index) => {
+        this.setState({index});
+    }
+
     render() {
         let header = (
             this.state.viewMode === 'landscape' ? (
@@ -251,6 +263,7 @@ class Profile extends Component {
                         profile={this.props.profile}
                         navigate={this.navigationHandler}
                         userID={this.state.userID}
+                        profileID={this.props.userID}
                         changeProfile={this.changeProfileHandler}
                         changeProfileStart={this.props.changeProfileStart}
                         inputChanged={this.inputChangedHandler}
@@ -281,7 +294,11 @@ class Profile extends Component {
                         enableImageAccodion={this.enableImageAccodion}
                         showNameAccodion={this.state.showNameAccodion}
                         enableNameAccodion={this.enableNameAccodion}
-                        viewMode={this.state.viewMode}/>
+                        viewMode={this.state.viewMode}
+                        index={this.state.index}
+                        setIndex={this.setIndexHandler}
+                        routes={this.state.routes}
+                        layoutWidth={this.state.layoutWidth}/>
                     { this.props.changeProfileErr ? 
                     <NotificationModal
                         info="Network Error !"
@@ -371,6 +388,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
+        userID: state.auth.userID,
         profile: state.profile.profile,
         profileErr: state.profile.profileErr,
         changeProfileErr: state.profile.changeProfileErr,

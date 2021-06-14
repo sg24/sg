@@ -17,7 +17,7 @@ import ForgetPasswordScreen from './src/screens/Auth/ForgetPassword';
 import HomeHeader  from './src/components/UI/Header/Home';
 import HomeHeaderWeb  from './src/components/UI/Header/HomeWeb';
 import TopTab from './src/components/UI/Navigation/TopTab';
-import FavoriteTopTab from './src/components/UI/Navigation/FavoriteTab';
+import FavoriteTopTab from './src/screens/Home/Favorite';
 import SearchScreen from './src/screens/Home/Search';
 import SearchHeader  from './src/components/UI/Header/Search';
 import AddnewScreen from './src/screens/Home/Addnew';
@@ -285,16 +285,16 @@ class Base extends Component {
               if ( name === 'Favorite') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
                 header = {
-                  header: ({scene, previous, navigation }) => <HeaderBar
+                  header: ({scene, previous, navigation }) => this.state.viewMode === 'landscape' ? <HeaderBar
                     userImage={this.props.userImage}
                     onNavigate={(url) => navigation.navigate(url, {userID: this.props.userID})}
-                    onPress={() => navigation.navigate(this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group')}
+                    onPress={() => navigation.navigate(this.state.viewMode === 'landscape' ? 'HomeWeb' : 'Home')}
                     modalSearch={SearchScreen}
                     modalConv={ConvScreen}
                     modalNotify={NotificatonScreen}
                     filterCnt={this.props.onHeaderFilter}
                     title={name}
-                    inputValue={this.props.filterCnt} />
+                    inputValue={this.props.filterCnt} /> : null
                 }
               }
 

@@ -8,6 +8,7 @@ import QuestionScreen from '../../../screens/Favorite/Question';
 import WriteUpScreen from '../../../screens/Favorite/WriteUp';
 import FeedScreen from '../../../screens/Favorite/Feed';
 import CBTScreen from '../../../screens/Favorite/CBT';
+import GroupScreen from '../../../screens/Favorite/Group';
 import SplashScreen from '../../../screens/SplashScreen/SplashScreen';
 
 const Tab = createMaterialTopTabNavigator();
@@ -53,6 +54,7 @@ const topTab = props => (
         lazyPlaceholder={() => <SplashScreen />}>
         <Tab.Screen name="Post" component={PostScreen} />
         <Tab.Screen name="Feed" component={FeedScreen} />
+        <Tab.Screen name="Group" component={GroupScreen} />
         <Tab.Screen name="CBT" component={CBTScreen} />
         <Tab.Screen name="Question" component={QuestionScreen} />
         <Tab.Screen name="Write Up" component={WriteUpScreen} />

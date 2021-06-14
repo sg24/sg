@@ -464,7 +464,6 @@ class Feed extends Component {
                     <InfoBox
                         name="newspaper-outline"
                         size={40}
-                        color="#437da3"
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>

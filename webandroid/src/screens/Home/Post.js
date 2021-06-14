@@ -296,7 +296,7 @@ class Post extends Component {
            </View>
         )
 
-        if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
+        if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && !this.props.tabPage) {
             cnt = (
                 <View style={styles.container}>
                     { header }
@@ -475,7 +475,7 @@ class Post extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
+        if (!this.props.fetchCntErr && !this.props.tabPage && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -637,6 +637,7 @@ const mapStateToProps = state => {
         fetchCntErr: state.page.fetchPostError,
         fetchCntStart: state.page.fetchPostStart,
         fetchCnt: state.page.fetchPost,
+        tabPage: state.page.tabPage,
         loadMore: state.page.loadMore,
         deletePageErr: state.page.deletePostError,
         deletePage: state.page.deletePost,

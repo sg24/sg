@@ -1,31 +1,16 @@
 import React, { Component } from 'react';
 import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import Ionicons from 'ionicons';
 import { size } from 'tailwind';
 import urischeme from 'urischeme';
-import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
+import withComponent from 'withcomponent';
+import { useNavigation } from '@react-navigation/native';
 
-import NoBackground from '../../components/UI/NoBackground/NoBackground';
-import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
-import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
-import FormElement from '../../components/UI/FormElement/FormElement';
-import BoxShadow from '../../components/UI/BoxShadow/BoxShadow';
-import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
-import Button from '../../components/UI/Button/Button';
-import Href from '../../components/UI/Href/Href';
 import Settings from '../../components/UI/Settings/Settings';
-import { updateObject, checkValidity, checkUri } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
-import CameraComponent from '../../components/UI/Camera/Camera';
-import VideoCamera from '../../components/UI/VideoCamera/VideoCamera';
-import AudioRecorder from '../../components/UI/AudioRecorder/AudioRecorder';
-import EmojiPicker from '../../components/UI/EmojiPicker/EmojiPicker';
-import LinkPreview from '../../components/UI/LinkPreview/LinkPreview';
-import UploadPreview from '../../components/UI/UploadPreview/UploadPreview'
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
 import PostItem from '../../components/Page/Post/Post';
 import PagePreview from '../../components/Page/Preview/Preview';
@@ -42,6 +27,7 @@ class Post extends Component {
         super(props);
         this.state = {
             viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
+            isFocused: false,
             option: [{title: 'Search', icon: {name: 'search-outline'}, action: 'search'},
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
             pageCntID: null,
@@ -66,21 +52,26 @@ class Post extends Component {
     }
 
     componentDidMount() {
-        this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getFavorite')
-        });
-        this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            this.props.onPageReset();
-            this.setState({pageCntID: null,showPreview: null,pageID: null,showChatBox: false,showActionSheet: null,
-                showSearch: false,search: '',showOption: false,showSettings: false, showPagePreview: null, showSelectGroupPicker: null, showAdvertChat: false})
-        });
+        this.screenFocused();
         Dimensions.addEventListener('change', this.updateStyle)
+    }
+    
+    componentDidUpdate() {
+        this.screenFocused();
     }
 
     componentWillUnmount() {
-        this._unsubscribe();
-        this._unsubscribeBlur();
         Dimensions.removeEventListener('change', this.updateStyle);
+    }
+
+    screenFocused() {
+        if (this.props.focus && !this.state.isFocused) {
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getFavorite')
+            return this.setState({isFocused: true});
+        }
+        if (!this.props.focus && this.state.isFocused) {
+            this.setState({isFocused: false});
+        }
     }
 
     reloadFetchHandler = () => {
@@ -287,35 +278,6 @@ class Post extends Component {
             cnt = (
                 <View style={styles.container}>
                     { header }
-                    {/* <View style={styles.formContainer}>
-                        <BoxShadow style={styles.formWrapper}>
-                            <Button 
-                                style={styles.buttonIcon}> 
-                                <Ionicons name="camera-outline" size={22} />
-                            </Button>
-                            <Button 
-                                style={styles.buttonIcon}> 
-                                <Ionicons name="happy-outline" size={22} />
-                            </Button>
-                            <FormElement
-                                onChangeText={(val) => this.inputChangedHandler(val, 'content')}
-                                autoCorrect
-                                multiline
-                                autoFocus
-                                placeholder={"Write ...."}
-                                value={this.state.formElement.content.value}
-                                formWrapperStyle={styles.formWrapperStyle}
-                                inputWrapperStyle={styles.formWrapperStyle}
-                                style={styles.formElementInput}/>
-                            <Button 
-                                title="Add"
-                                style={styles.addButton}
-                                onPress={this.props.start ? null : this.submitHandler}
-                                textStyle={styles.textStyle}
-                                submitting={this.props.start}
-                                loaderStyle="#fff"/>
-                        </BoxShadow>
-                    </View> */}
                     <Wrapper
                         {...wrapperProps}
                         style={[styles.container, this.state.viewMode === 'landscape' ? 
@@ -497,22 +459,7 @@ class Post extends Component {
             )
         }
 
-      return (
-        <NoBackground
-            sideBar={(
-                <>
-                <Navigation 
-                        color={this.props.settings.color}
-                        backgroundColor={this.props.settings.backgroundColor}/>
-                <CreateNavigation 
-                    color={this.props.settings.color}
-                    backgroundColor={this.props.settings.backgroundColor}/>
-                </>
-            )}
-            content={ cnt }
-            contentFetched={this.props.fetchCnt}>
-        </NoBackground>
-      )
+    return cnt;
     }
 }
 
@@ -542,46 +489,6 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         flex: 1
-    },
-    formContainer: {
-        padding: 10,
-        backgroundColor: '#dcdbdc'
-    },
-    formWrapper: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        borderRadius: 5
-    },
-    formWrapperStyle: {
-        flex: 1,
-        borderWidth: 0,
-        paddingLeft: 0,
-        paddingRight: 0,
-        paddingBottom: 0,
-        marginTop: 0,
-    },
-    formElementInput: {
-        flex: 1,
-        textAlignVertical: 'top',
-        paddingTop: 10,
-        paddingBottom: 10,
-        borderRadius: 5,
-        fontSize: 18
-    },
-    buttonIcon: {
-        width: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRightColor: '#dcdbdc',
-        borderRightWidth: 1,
-        borderRadius: 0
-    },
-    addButton: {
-        backgroundColor: '#437da3',
-        color: '#fff',
-        paddingHorizontal: 10,
-        marginRight: 5
     },
     scroll: {
         width: '100%',
@@ -641,4 +548,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post);
+export default withComponent([{name: 'navigation', component: useNavigation}])(connect(mapStateToProps, mapDispatchToProps)(Post));

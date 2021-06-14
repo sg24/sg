@@ -427,7 +427,6 @@ class WriteUp extends Component {
                     <InfoBox
                         name="reader-outline"
                         size={40}
-                        color="#437da3"
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>

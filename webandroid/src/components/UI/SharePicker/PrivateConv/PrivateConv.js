@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import Ionicons from 'ionicons';
 
-import Button from '../../../UI/Button/Button';
-import BoxShadow from '../../../UI/BoxShadow/BoxShadow';
-import LoadMore from '../../../UI/LoadMore/LoadMore';
+import Button from '../..//Button/Button';
+import BoxShadow from '../../BoxShadow/BoxShadow';
+import LoadMore from '../../LoadMore/LoadMore';
 import Avatar from '../../Avatar/Avatar';
 
 const privateConv = props => {

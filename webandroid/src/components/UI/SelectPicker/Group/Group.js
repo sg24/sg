@@ -2,10 +2,10 @@ import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import Ionicons from 'ionicons';
 
-import Href from '../../../UI/Href/Href';
+import Href from '../../Href/Href';
 import { transformNumber } from '../../../../shared/utility';
-import BoxShadow from '../../../UI/BoxShadow/BoxShadow';
-import LoadMore from '../../../UI/LoadMore/LoadMore';
+import BoxShadow from '../../BoxShadow/BoxShadow';
+import LoadMore from '../../LoadMore/LoadMore';
 import Avatar from '../../Avatar/Avatar';
 
 const group = props => {

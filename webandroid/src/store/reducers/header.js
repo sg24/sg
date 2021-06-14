@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
 const initialState = {
+    loadMore: false,
     filterCnt: null,
     filterStart: false,
     searchCnt: null,
@@ -31,11 +32,13 @@ const headerPageClose = (state, action) => {
 };
 
 const fetchConvStart = (state, action) => {
-    return updateObject(state, {convErr: null, convLoader: true, conv: null})
+    return updateObject(state, {convErr: null, convLoader: true, conv: action.start === 0 ? null : state.conv})
 };
 
 const fetchConv = (state, action) => {
-    return updateObject(state, {conv: action.cnt, convLoader: false})
+    let updatePageCnt = action.start !== 0 ? [...state.conv] : [];
+    updatePageCnt.push(...action.cnt.conv);
+    return updateObject(state, {conv: updatePageCnt, convLoader: false, loadMore: action.cnt.loadMore})
 };
 
 const fetchConvFail = (state, action) => {
