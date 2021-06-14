@@ -361,7 +361,7 @@ class Groups extends Component {
            </View>
         )
 
-        if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
+        if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && !this.props.tabPage) {
             let pendingExam = this.props.pageReaction.length > 0 && this.state.pendingExam ? this.props.pageReaction.filter(id => id === this.state.pendingExam.pageID)[0] : null;
             cnt = (
                 <View style={styles.container}>
@@ -591,7 +591,7 @@ class Groups extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
+        if (!this.props.fetchCntErr && !this.props.tabPage && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -753,6 +753,7 @@ const mapStateToProps = state => {
         fetchCntStart: state.page.fetchGroupStart,
         fetchCnt: state.page.fetchGroup,
         loadMore: state.page.loadMore,
+        tabPage: state.page.tabPage,
         deletePageErr: state.page.deleteGroupError,
         deletePage: state.page.deleteGroup,
         pageReaction: state.page.pageReaction,

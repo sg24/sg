@@ -277,7 +277,7 @@ class WriteUp extends Component {
            </View>
         )
 
-        if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
+        if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && !this.props.tabPage) {
             cnt = (
                 <View style={styles.container}>
                     { header }
@@ -420,7 +420,7 @@ class WriteUp extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
+        if (!this.props.fetchCntErr && !this.props.tabPage && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -539,6 +539,7 @@ const mapStateToProps = state => {
         fetchCntStart: state.page.fetchWriteUpStart,
         fetchCnt: state.page.fetchWriteUp,
         loadMore: state.page.loadMore,
+        tabPage: state.page.tabPage,
         deletePageErr: state.page.deleteWriteUpError,
         deletePage: state.page.deleteWriteUp,
         pageReaction: state.page.pageReaction,

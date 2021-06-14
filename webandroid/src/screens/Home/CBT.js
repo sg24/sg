@@ -313,7 +313,7 @@ class CBT extends Component {
            </View>
         )
 
-        if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
+        if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && !this.props.tabPage) {
             cnt = (
                 <View style={styles.container}>
                     { header }
@@ -509,7 +509,7 @@ class CBT extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
+        if (!this.props.fetchCntErr && !this.props.tabPage && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -626,6 +626,7 @@ const mapStateToProps = state => {
         fetchCntStart: state.page.fetchCBTStart,
         fetchCnt: state.page.fetchCBT,
         loadMore: state.page.loadMore,
+        tabPage: state.page.tabPage,
         deletePageErr: state.page.deleteCBTError,
         deletePage: state.page.deleteCBT,
         pageReaction: state.page.pageReaction,
