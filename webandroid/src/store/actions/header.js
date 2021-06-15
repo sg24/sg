@@ -57,7 +57,7 @@ export const fetchConvFail = (err) => {
     };
 };
 
-export const fetchConv = (cnt) => {
+export const fetchConv = (cnt, start) => {
     return {
         type: actionTypes.FETCH_CONV,
         cnt,

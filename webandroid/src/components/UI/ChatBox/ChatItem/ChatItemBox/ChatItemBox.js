@@ -155,40 +155,41 @@ const chatItemBox = props => {
                         </View>: null}
                 </BoxShadow>
                 { !props.disableUserOpt ?
-                    <View style={[styles.userInfo, props.direction === 'right' ? styles.userInfoDirection : null, !props.showUserImage ?  styles.userInfoDisableImg : null]}>
-                    {/* { !props.showUserImage ? ( */}
-                        {/* <View style={[styles.userInfoCnt,
-                                props.direction === 'right' ? styles.userInfoCntDirection : null]}>
-                            <Href title={props.cnt.username} numberOfLines={1}  onPress={props.userProfile} style={styles.textStyle}/>
-                        </View> */}
-                        {/* ) : null} */}
-                        <View style={props.direction === 'right' ? styles.detDirection : styles.det}>
-                            { props.cnt.sendChatID && !props.cnt.sent && !props.cnt.fail ?
-                                loader : !props.cnt.fail ? created : null}
-                            { props.cnt.sendChatID && props.cnt.fail ?
-                                <Button onPress={props.sendChatInfo} disabled={deleteChatBox && editChatBox} style={styles.button}>
-                                    <Ionicons name="alert-circle-outline" color="#ff1600" size={20}/>
-                                </Button> : null}
-                        </View>
-                        { props.showReply && props.cnt.reply.length > 0 ?
-                            <Button onPress={props.replyChat} disabled={deleteChatBox && editChatBox}
-                            style={props.direction === 'right' ? styles.buttonReplyDirection : styles.buttonReply}>
-                                <View style={styles.reply}>
-                                    <Ionicons name="arrow-redo-outline" size={20} color="#777" />
-                                    <Text style={styles.textStyle}>View reply</Text>
-                                </View>
+                 <View style={[styles.userInfo, props.direction === 'right' ? styles.userInfoDirection : null, !props.showUserImage ?  styles.userInfoDisableImg : null]}>
+                    {props.cnt.verified ? 
+                        <View style={[styles.verified, 
+                            props.direction === 'right' ? styles.verifiedDirection : null]}><Ionicons name="checkmark-circle-outline" color="#16cf27" size={20}/></View> : null}
+                {/* { props.showUserImage ? ( */}
+                    {/* <View style={[styles.userInfoCnt, 
+                            props.direction === 'right' ? styles.userInfoCntDirection : null]}>
+                        <Href title={props.cnt.username} numberOfLines={1}  onPress={props.userProfile} style={styles.textStyle}/>
+                    </View> */}
+                    {/* ) : null} */}
+                    { props.showReply && props.cnt.reply.length > 0 ? 
+                        <Button onPress={props.replyChat} disabled={deleteChatBox && editChatBox} 
+                        style={props.direction === 'right' ? styles.buttonReplyDirection : styles.buttonReply}>
+                            <View style={styles.reply}>
+                                <Ionicons name="arrow-redo-outline" size={20} color="#777" />
+                                <Text style={styles.textStyle}>View reply</Text>
+                            </View>
+                        </Button> : null}
+                    { !props.showReply && props.cnt.shared ? 
+                        <Button disabled={deleteChatBox && editChatBox} 
+                        style={props.direction === 'right' ? styles.buttonReplyDirection : styles.buttonReply}>
+                            <View style={styles.reply}>
+                                <Ionicons name="paper-plane-outline" size={20} color="#777" />
+                                <Text style={styles.textStyle}>shared</Text>
+                            </View>
+                        </Button> : null}
+                    <View style={styles.det}>
+                        { props.cnt.sendChatID && !props.cnt.sent && !props.cnt.fail ? 
+                            loader : !props.cnt.fail ? created : null}
+                        { props.cnt.sendChatID && props.cnt.fail ? 
+                            <Button onPress={props.sendChatInfo} disabled={deleteChatBox && editChatBox} style={styles.button}>
+                                <Ionicons name="alert-circle-outline" color="#ff1600" size={20}/>
                             </Button> : null}
-                        { !props.showReply && props.cnt.shared ? 
-                            <Button disabled={deleteChatBox && editChatBox} 
-                            style={props.direction === 'right' ? styles.buttonReplyDirection : styles.buttonReply}>
-                                <View style={styles.reply}>
-                                    <Ionicons name="paper-plane-outline" size={20} color="#777" />
-                                    <Text style={styles.textStyle}>shared</Text>
-                                </View>
-                            </Button> : null}
-                            {props.cnt.verified ? 
-                            <View style={[props.direction === 'right' ? styles.buttonReplyDirection : styles.buttonReply]}><Ionicons name="checkmark-circle-outline" color="#16cf27" size={20}/></View> : null}
-                    </View> : null}
+                    </View>
+                </View> : null}
             </View>
         </>
     )
@@ -258,28 +259,32 @@ const styles = StyleSheet.create({
     userInfo: {
         position: 'absolute',
         flexDirection: 'row',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
         width: '100%',
         bottom: -22,
-        paddingLeft: 50,
+        paddingLeft: Platform.OS !== 'web' ? 60 : 50,
         alignItems: 'center'
     },
     userInfoDirection: {
-        flexDirection: 'row-reverse',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
         width: '100%',
-        paddingRight: 50,
-        paddingLeft: 0
-    },
-    userInfoDisableImg: {
         paddingRight: 0,
         paddingLeft: 0
+    }, 
+    userInfoDisableImg: {
+        paddingRight: 10,
+        paddingLeft: 0
+    },
+    verified: {
+        marginRight: 10
+    },
+    verifiedDirection: {
+        marginLeft: 0,
+        marginRight: 10
     },
     userInfoCnt: {
-        marginRight: 0,
-        marginLeft: 10,
+        marginRight: 10
     },
     userInfoCntDirection: {
         marginLeft: 0,
@@ -293,8 +298,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
-        padding: 10,
-        borderRadius: 10
+        padding: 10
     },
     media: {
         flex: 1
@@ -312,8 +316,7 @@ const styles = StyleSheet.create({
     },
     buttonReply: {
         paddingVertical: 0,
-        marginRight: 0,
-        marginLeft: 10
+        marginRight: 10
     },
     buttonReplyDirection: {
         paddingVertical: 0,
@@ -349,14 +352,6 @@ const styles = StyleSheet.create({
         width: '100%',
         marginVertical: 0,
         paddingHorizontal: 10
-    },
-    det: {
-        marginRight: 0,
-        marginLeft: Platform.OS !== 'web' ? 10 : 10
-    },
-    detDirection: {
-        marginLeft: 0,
-        marginRight: Platform.OS !== 'web' ? 10 : 10
     },
     hideUserImage: {
         color: '#fff'

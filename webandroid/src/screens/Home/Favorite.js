@@ -9,6 +9,7 @@ import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
 import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
+import * as actions from '../../store/actions/index';
 import Post from '../Favorite/Post';
 import Question from '../Favorite/Question';
 import Feed from '../Favorite/Feed';
@@ -47,6 +48,7 @@ class Favorite extends Component {
 
     componentDidMount() {
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
+            this.props.onPageReset();
             this.setState({showOption: false,showSettings: false})
         });
         Dimensions.addEventListener('change', this.updateStyle)
@@ -185,4 +187,10 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps)(Favorite);
+const mapDispatchToProps = dispatch => {
+    return {
+        onPageReset: () => dispatch(actions.pageReset())
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Favorite);

@@ -80,6 +80,7 @@ class Profile extends Component {
             });
             this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
                 this.props.onCloseHeaderPage();
+                this.props.onPageReset();
             });
         } else {
             this.props.navigation.navigate('Home')
@@ -415,7 +416,8 @@ const mapDispatchToProps = dispatch => {
         onSubmitAboutReset: () => dispatch(actions.submitAboutReset()),
         onSubmitProfileImage: (image, userID) => dispatch(actions.submitProfileImageInit(image, userID)),
         onProfileImageReset: () => dispatch(actions.submitProfileImageReset()),
-        onSubmitUsername: (username, userID) => dispatch(actions.submitUsernameInit(username, userID))
+        onSubmitUsername: (username, userID) => dispatch(actions.submitUsernameInit(username, userID)),
+        onPageReset: () => dispatch(actions.pageReset())
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

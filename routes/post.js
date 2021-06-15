@@ -100,7 +100,7 @@ router.post('/', authenticate, (req, res, next) => {
                         lastItem.advert = doc
                         updateResult[updateResult.length - 1] = lastItem
                     }
-                    res.status(200).send({page: updateResult, loadMore: result.length > 0});
+                    res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
                 })
             } else if (showAdvert === 1) {
                 user.find({_id: {$in: req.request}}).skip(req.body.start).limit(req.body.limit).then(doc => {

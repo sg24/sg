@@ -20,7 +20,7 @@ export function* fetchConvInitSaga(action) {
     try {
         yield put(actions.fetchConvStart(action.start));
         let response = yield axios.post('/conv', {start: action.start, limit: action.limit}, {headers: {'data-categ':'friends'}})
-        let cnt = response.data  ? response.data : null;
+        let cnt = response.data ? response.data : null;
         yield put(actions.fetchConv(cnt, action.start));
     } catch(err) {
         yield put(actions.fetchConvFail(err))

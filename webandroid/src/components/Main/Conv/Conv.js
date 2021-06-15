@@ -9,8 +9,10 @@ const conv = props => (
         <PrivateConv
             key={index}
             cnt={cnt}
-            chat={props.navigate.bind(this, 'chat', cnt.id)}
-            userProfile={props.navigate.bind(this, 'profile', cnt.id)}
+            userID={props.userID}
+            userProfile={props.userProfile.bind(this, cnt._id)}
+            chat={props.chat.bind(this, cnt)}
+            pageReaction={[]}
             lastItem={(props.conv.length - 1) === index}
             enableLoadMore={props.enableLoadMore}
             start={props.start}

@@ -1,14 +1,15 @@
 let express = require('express');
 let router = express.Router();
 let objectID = require('mongoose').mongo.ObjectId;
-let authenticate = require('../serverDB/middleware/authenticate');
-let filterCnt = require('./utility/filtercnt');
-const { user,  connectStatus} = require('../serverDB/serverDB');
 
+let authenticate = require('../serverDB/middleware/authenticate');
+let sequence = require('./utility/sequence');
+let userstatus = require('./utility/userstatus');
+const {user, notifications: notificationsModel, connectStatus} = require('../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
-    if (req.header('data-categ') &&  req.header('data-categ') === 'friends') {
-        user.findById(req.user).then(doc => {
+    if (req.header !== null && req.header('data-categ') === 'friends') {
+        notificationsModel.findOne({userID: req.user}).then(doc => {
             user.aggregate([{
                 $match: {_id: objectID(req.user)}}, 
                 {$unwind: "$chat"},
@@ -16,7 +17,10 @@ router.post('/', authenticate, (req, res, next) => {
                 {$skip: req.body.start},
                 {$limit: req.body.limit},
                 {"$group": {"_id": "$_id", "chat": {"$push": "$chat"}}}]).then(chat => {
-                    return res.status(200).send({conv: chat[0] ? chat[0].chat.reverse() : [], loadMore: ((doc ? doc.chat.length : 0) - (req.body.start + req.body.limit)) > 0  })
+                    let friendChat = chat[0] ? chat[0].chat.reverse() : [];
+                    userstatus(friendChat, req.user, doc).then(updateChat => {
+                        return res.status(200).send({conv: updateChat, loadMore: (req.chat.length  - (req.body.start + req.body.limit)) > 0  })
+                    })
                 })
         }).catch(err => {
             res.status(500).send(err)

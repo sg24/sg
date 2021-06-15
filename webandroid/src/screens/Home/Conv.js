@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
+import { View, Text,  ImageBackground, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'ionicons';
 
@@ -9,12 +9,14 @@ import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import Conv from '../../components/Main/Conv/Conv';
 import ScrollView from '../../components/UI/ScrollView/ScrollView';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
+import ChatBox from '../../components/UI/ChatBox/ChatBox';
 
 class Convs extends Component {
     constructor(props) {
         super(props);
         this.state = {
             viewMode: Dimensions.get('window').width >= 530 ? 'landscape' : 'portrait',
+            showChatBox: null
         }
     }
 
@@ -25,6 +27,7 @@ class Convs extends Component {
             });
             this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
                 this.props.onCloseHeaderPage();
+                this.setState({showChatBox: null})
             });
             Dimensions.addEventListener('change', this.updateStyle)
         } else {
@@ -48,27 +51,30 @@ class Convs extends Component {
         })
     }
 
-    navigationHandler = (page, id) => {
-        if (page === 'chat') {
-            alert(id)
-        }
-        if (page === 'group') {
-            alert(id)
-        }
-        if (page === 'profile') {
-            alert(id)
-        }
-    }
-
     reloadFetchHandler = () => {
         this.props.onFetchConv(0, this.props.settings.userPage.fetchLimit);
     }
 
+    userProfileHandler = (authorID) => {
+        this.props.navigation.push('Profile', {userID: authorID})
+    }
+
+    closeModalHandler = () => {
+        this.setState({showChatBox: null});
+    }
+    chatHandler = (cnt) => {
+        this.setState({showChatBox: {info: {title: cnt.username, image: cnt.userImage, status: cnt.status, showStatus: true}}, pageID: cnt._id});
+    }
+    
     loadMoreHandler = () => {
         this.props.onFetchConv(this.props.conv ? this.props.conv.length : 0, this.props.settings.userPage.fetchLimit);
     }
 
     render() {
+        let pageBackground = this.props.settings.page.backgroundImage  && this.props.settings.page.enableBackgroundImage;
+        let Wrapper = pageBackground ? ImageBackground : View;
+        let wrapperProps = pageBackground ? {source: {uri: this.props.settings.page.backgroundImage}, resizeMode: 'cover'} :{}
+
         let cnt = (
                 <ActivityIndicator 
                     size="large"
@@ -76,7 +82,7 @@ class Convs extends Component {
                     color="#437da3"/>
             );
 
-        if (!this.props.convErr && this.props.conv && this.props.conv.friend.length === 0 &&  this.props.conv.group.length === 0) {
+        if (!this.props.convErr && this.props.conv && this.props.conv.length === 0) {
             cnt = (
                 <InfoBox
                     det='No content found!'
@@ -89,16 +95,37 @@ class Convs extends Component {
        
         if (!this.props.convErr && this.props.conv && this.props.conv.length > 0){
             cnt = (
-                <ScrollView>
-                     <View style={[styles.wrapper, this.state.viewMode === 'landscape' ? styles.landscapeWrapper : null]}>
-                        <Conv
-                            conv={this.props.conv}
-                            navigate={this.navigationHandler}
-                            enableLoadMore={this.props.loadMore}
-                            start={this.props.convLoader}
-                            loadMore={this.loadMoreHandler}/>
-                     </View>
-                </ScrollView>
+                <View style={styles.container}>
+                    <Wrapper
+                        {...wrapperProps}
+                        style={[styles.container, this.state.viewMode === 'landscape' ? 
+                        {backgroundColor: this.props.settings.backgroundColor} : null]}>
+                        <ScrollView
+                            style={styles.scroll}
+                            showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }>
+                            <Conv
+                                conv={this.props.conv}
+                                userID={this.props.userID}
+                                userProfile={this.userProfileHandler}
+                                closeModal={this.closeModalHandler}
+                                chat={this.chatHandler}
+                                enableLoadMore={this.props.loadMore}
+                                start={this.props.convLoader}
+                                loadMore={this.loadMoreHandler}/>
+                        </ScrollView>
+                     </Wrapper>
+                     { this.state.showChatBox ? 
+                        <ChatBox
+                            title=""
+                            showHeaderImage={true}
+                            chatType="userchat"
+                            page="users"
+                            pageID={this.state.pageID}
+                            closeChat={this.closeModalHandler}
+                            showReply={false}
+                            info={this.state.showChatBox.info}
+                            showProfile={() => this.userProfileHandler(this.state.pageID)}/> : null}
+                </View>
             )
         }
 
@@ -132,8 +159,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    landscapeWrapper: {
-        width: '100%'
+    container: {
+        width: '100%',
+        flex: 1
+    },
+    scroll: {
+        width: '100%',
+        paddingHorizontal: 10,
+        marginTop: 10
     },
     info: {
         fontSize: 18
