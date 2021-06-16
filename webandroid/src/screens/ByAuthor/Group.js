@@ -257,12 +257,8 @@ class Groups extends Component {
         this.setState({pageCntID: null});
     }
 
-    mediaPreviewHandler = (cntID, media, page) => {
-        this.setState({showPreview: { startPage: page, media, cntID}})
-    }
-
-    closePreviewHandler = () => {
-        this.setState({showPreview: null})
+    mediaPreviewHandler = (cntID, media, startPage) => {
+        this.props.navigation.navigate('MediaPreview', {showOption: false, page: 'group', pageID: cntID, media, startPage});
     }
 
     saveMediaHandler = (mediaCnt) => {
@@ -407,15 +403,6 @@ class Groups extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
-                   { this.state.showPreview ? 
-                        <MediaPreview
-                            showOption={false}
-                            pageID={this.state.showPreview.cntID}
-                            media={this.state.showPreview.media}
-                            page="group"
-                            startPage={this.state.showPreview.startPage}
-                            closePreview={this.closePreviewHandler}
-                            backgroundColor={this.props.settings.backgroundColor}/> : null}
                     { this.state.showAdvertChat ? 
                         <CommentBox
                             title="Comment"
@@ -592,9 +579,10 @@ class Groups extends Component {
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
                             <Text style={styles.infoTitle}> No Group found !!! </Text>
-                            <View>
-                                <Href title="create Group" onPress={() => this.navigationHandler('AddGroup')} style={styles.href}/>
-                            </View>
+                            { this.props.userID === this.state.profileID ?
+                                <View>
+                                    <Href title="create Group" onPress={() => this.navigationHandler('AddGroup')} style={styles.href}/>
+                                </View> : null}
                         </View>
                     </InfoBox>
                 </View>

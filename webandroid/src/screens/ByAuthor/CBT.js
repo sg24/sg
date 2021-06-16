@@ -39,7 +39,6 @@ class CBT extends Component {
             search: '',
             showOption: false,
             showSettings: false,
-            showPagePreview: null,
             showSelectPicker: null,
             showSelectMarkPicker: null,
             showSelectGroupPicker: null,
@@ -89,7 +88,7 @@ class CBT extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showPagePreview: null, 
+        this.setState({pageCntID: null, pageID: null, showSharePicker: null,
                 showSelectPicker: null, showSelectMarkPicker: null, showSelectGroupPicker: null, allowedSelectPicker: false, examInstruction: null});
     }
 
@@ -211,12 +210,8 @@ class CBT extends Component {
         this.props.onPageReaction('cbt', pageID, 'cancelRequest');
     }
 
-    mediaPreviewHandler = (cntID, media, page) => {
-        this.setState({showPreview: { startPage: page, media, cntID}})
-    }
-
-    closePreviewHandler = () => {
-        this.setState({showPreview: null})
+    mediaPreviewHandler = (cntID, media, startPage) => {
+        this.props.navigation.navigate('MediaPreview', {showOption: false, page: 'cbt', pageID: cntID, media, startPage});
     }
 
     saveMediaHandler = (mediaCnt) => {
@@ -224,11 +219,12 @@ class CBT extends Component {
     }
 
     pagePreviewHandler = (cnt) => {
-        this.setState({showPagePreview: cnt})
+        this.props.navigation.navigate('PagePreview', {cnt, title: 'CBT', page: 'cbt', showOption: false, navigationURI: 'CBT',
+        navigationURIWeb: 'CBTWeb', editPage: 'EditCBT', showContent: false })
     }
 
     chatHandler = (pageID, enableComment, enableDelete) => {
-        this.props.navigation.navigate('CommentBox', {title: "Result", chatType: "cbtchat", page: "cbt", pageID, 
+        this.props.navigation.navigate('CommentBox', {title: 'Result', chatType: 'cbtchat', page: 'cbt', pageID, 
             showReply: true, enableComment, enableDelete})
     }
 
@@ -359,29 +355,6 @@ class CBT extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
-                    { this.state.showPagePreview ? 
-                        <PagePreview
-                            showOption={false}
-                            cnt={this.state.showPagePreview}
-                            title="CBT"
-                            userID={this.props.userID}
-                            openURI={this.openURIHandler}
-                            userProfile={this.userProfileHandler}
-                            edit={this.editHandler}
-                            share={this.shareHandler}
-                            report={this.reportHandler}
-                            openURI={this.openURIHandler}
-                            closePagePreview={this.closeModalHandler}
-                            showContent ={false} /> : null}
-                   { this.state.showPreview ? 
-                        <MediaPreview
-                            showOption={false}
-                            pageID={this.state.showPreview.cntID}
-                            media={this.state.showPreview.media}
-                            page="cbt"
-                            startPage={this.state.showPreview.startPage}
-                            closePreview={this.closePreviewHandler}
-                            backgroundColor={this.props.settings.backgroundColor}/> : null}
                     { this.state.showSharePicker ? 
                         <SharePicker
                             shareType={this.state.showSharePicker.shareType}
@@ -503,9 +476,12 @@ class CBT extends Component {
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
                             <Text style={styles.infoTitle}> No CBT found !!! </Text>
-                            <View>
-                                <Href title="create CBT" onPress={() => this.navigationHandler('AddCBT')} style={styles.href}/>
-                            </View>
+                            { this.props.userID === this.state.profileID ?
+                                <View>
+                                    <Text style={{justifyContent: 'center', alignItems: 'center'}}>
+                                        <Href title="create CBT" onPress={() => this.navigationHandler('AddCBT')} style={styles.href}/>
+                                    </Text>
+                                </View> : null}
                         </View>
                     </InfoBox>
                 </View>

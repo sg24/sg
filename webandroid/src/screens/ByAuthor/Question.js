@@ -37,8 +37,7 @@ class Questions extends Component {
             search: '',
             showOption: false,
             showSettings: false,
-            showSelectGroupPicker: null,
-            showPagePreview: null
+            showSelectGroupPicker: null
         }
     }
 
@@ -83,7 +82,7 @@ class Questions extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showSelectGroupPicker: null, showPagePreview: null, showAdvertChat: false});
+        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showSelectGroupPicker: null, showAdvertChat: false});
     }
 
     openURIHandler = (type, uri) => {
@@ -170,12 +169,8 @@ class Questions extends Component {
         this.setState({pageCntID: null});
     }
 
-    mediaPreviewHandler = (cntID, media, page) => {
-        this.setState({showPreview: { startPage: page, media, cntID}})
-    }
-
-    closePreviewHandler = () => {
-        this.setState({showPreview: null})
+    mediaPreviewHandler = (cntID, media, startPage) => {
+        this.props.navigation.navigate('MediaPreview', {showOption: false, page: 'question', pageID: cntID, media, startPage});
     }
 
     saveMediaHandler = (mediaCnt) => {
@@ -183,11 +178,12 @@ class Questions extends Component {
     }
 
     pagePreviewHandler = (cnt) => {
-        this.setState({showPagePreview: cnt})
+        this.props.navigation.navigate('PagePreview', {cnt, title: 'Question', page: 'question', navigationURI: 'Question',
+            navigationURIWeb: 'Question', editPage: 'EditQuestion', showOption: false})
     }
 
     chatHandler = (pageID) => {
-        this.props.navigation.navigate('QuestionCommentBox', {title: "Solution", chatType: "questionchat", page: "question", pageID, showReply: true})
+        this.props.navigation.navigate('QuestionSolution', {title: "Solution", chatType: "questionchat", page: "question", pageID, showReply: true})
     }
 
     favoriteHandler = (pageID) => {
@@ -312,28 +308,6 @@ class Questions extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
-                    { this.state.showPagePreview ? 
-                        <PagePreview
-                            showOption={false}
-                            cnt={this.state.showPagePreview}
-                            title="Question"
-                            userID={this.props.userID}
-                            openURI={this.openURIHandler}
-                            userProfile={this.userProfileHandler}
-                            edit={this.editHandler}
-                            share={this.shareHandler}
-                            report={this.reportHandler}
-                            openURI={this.openURIHandler}
-                            closePagePreview={this.closeModalHandler} /> : null}
-                   { this.state.showPreview ? 
-                        <MediaPreview
-                            showOption={false}
-                            pageID={this.state.showPreview.cntID}
-                            media={this.state.showPreview.media}
-                            page="question"
-                            startPage={this.state.showPreview.startPage}
-                            closePreview={this.closePreviewHandler}
-                            backgroundColor={this.props.settings.backgroundColor}/> : null}
                     { this.state.showSharePicker ? 
                         <SharePicker
                             shareType={this.state.showSharePicker.shareType}
@@ -410,9 +384,10 @@ class Questions extends Component {
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
                             <Text style={styles.infoTitle}> No Question found !!! </Text>
-                            <View>
-                                <Href title="create Question" onPress={() => this.navigationHandler('AddQuestion')} style={styles.href}/>
-                            </View>
+                            { this.props.userID === this.state.profileID ?
+                                <View>
+                                    <Href title="create Question" onPress={() => this.navigationHandler('AddQuestion')} style={styles.href}/>
+                                </View> : null}
                         </View>
                     </InfoBox>
                 </View>

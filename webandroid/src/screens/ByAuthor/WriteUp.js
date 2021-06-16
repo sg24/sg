@@ -33,15 +33,13 @@ class WriteUp extends Component {
             isFocused: false,
             profileID: this.props.profileID,
             pageCntID: null,
-            showPreview: null,
             pageID: null,
             showActionSheet: null,
             showSearch: false,
             search: '',
             showOption: false,
             showSettings: false,
-            showSelectGroupPicker: null,
-            showPagePreview: null
+            showSelectGroupPicker: null
         }
     }
 
@@ -86,7 +84,7 @@ class WriteUp extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showSelectGroupPicker: null, showPagePreview: null});
+        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showSelectGroupPicker: null});
     }
 
     openURIHandler = (type, uri) => {
@@ -171,12 +169,8 @@ class WriteUp extends Component {
         this.setState({pageCntID: null});
     }
 
-    mediaPreviewHandler = (cntID, media, page) => {
-        this.setState({showPreview: { startPage: page, media, cntID}})
-    }
-
-    closePreviewHandler = () => {
-        this.setState({showPreview: null})
+    mediaPreviewHandler = (cntID, media, startPage) => {
+        this.props.navigation.navigate('MediaPreview', {showOption: cntID ? true : false, page: 'writeup', pageID: cntID, media, startPage});
     }
 
     saveMediaHandler = (mediaCnt) => {
@@ -184,7 +178,8 @@ class WriteUp extends Component {
     }
 
     pagePreviewHandler = (cnt) => {
-        this.setState({showPagePreview: cnt})
+        this.props.navigation.navigate('PagePreview', {cnt, title: 'Write Up', page: 'writeup', navigationURI: 'WriteUp',
+            navigationURIWeb: 'WriteUp', editPage: 'EditWriteUp', showOption: false})
     }
 
     chatHandler = (pageID) => {
@@ -316,29 +311,6 @@ class WriteUp extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
-                    { this.state.showPagePreview ? 
-                        <PagePreview
-                            cnt={this.state.showPagePreview}
-                            title="Write Up"
-                            page="writeup"
-                            userID={this.props.userID}
-                            openURI={this.openURIHandler}
-                            userProfile={this.userProfileHandler}
-                            edit={this.editHandler}
-                            share={this.shareHandler}
-                            report={this.reportHandler}
-                            openURI={this.openURIHandler}
-                            closePagePreview={this.closeModalHandler}
-                            showOption={false} /> : null}
-                   { this.state.showPreview ? 
-                        <MediaPreview
-                            showOption={this.state.showPreview.cntID ? true : false}
-                            pageID={this.state.showPreview.cntID}
-                            media={this.state.showPreview.media}
-                            page="writeup"
-                            startPage={this.state.showPreview.startPage}
-                            closePreview={this.closePreviewHandler}
-                            backgroundColor={this.props.settings.backgroundColor}/> : null}
                     { this.state.showSharePicker ? 
                         <SharePicker
                             shareType={this.state.showSharePicker.shareType}
@@ -415,11 +387,12 @@ class WriteUp extends Component {
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
                             <Text style={styles.infoTitle}> No write up found !!! </Text>
-                            <View>
-                                <Text style={{justifyContent: 'center', alignItems: 'center'}}>
-                                    <Href title="create Write Up" onPress={() => this.navigationHandler('AddWriteUp')} style={styles.href}/>
-                                </Text>
-                            </View>
+                            { this.props.userID === this.state.profileID ?
+                                <View>
+                                    <Text style={{justifyContent: 'center', alignItems: 'center'}}>
+                                        <Href title="create Write Up" onPress={() => this.navigationHandler('AddWriteUp')} style={styles.href}/>
+                                    </Text>
+                                </View> : null}
                         </View>
                     </InfoBox>
                 </View>

@@ -33,14 +33,12 @@ class Post extends Component {
             isFocused: false,
             profileID: this.props.profileID,
             pageCntID: null,
-            showPreview: null,
             pageID: null,
             showActionSheet: null,
             showSearch: false,
             search: '',
             showOption: false,
             showSettings: false,
-            showPagePreview: null,
             showSelectGroupPicker: null,
             showAdvertChat: false
         }
@@ -87,7 +85,7 @@ class Post extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showPagePreview: null, showSelectGroupPicker: null,
+        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showSelectGroupPicker: null,
         showAdvertChat: false});
     }
 
@@ -172,12 +170,8 @@ class Post extends Component {
         }
     }
 
-    mediaPreviewHandler = (cntID, media, page) => {
-        this.setState({showPreview: { startPage: page, media, cntID}})
-    }
-
-    closePreviewHandler = () => {
-        this.setState({showPreview: null})
+    mediaPreviewHandler = (cntID, media, startPage) => {
+        this.props.navigation.navigate('MediaPreview', {showOption: cntID ? true : false, page: 'post', pageID: cntID, media, startPage});
     }
 
     saveMediaHandler = (mediaCnt) => {
@@ -185,20 +179,21 @@ class Post extends Component {
     }
 
     pagePreviewHandler = (cnt) => {
-        this.setState({showPagePreview: cnt})
+        this.props.navigation.navigate('PagePreview', {cnt, page: 'post', navigationURI: 'Home',
+            navigationURIWeb: 'HomeWeb', editPage: 'EditPost'})
     }
 
     chatHandler = (pageID) => {
-        this.props.navigation.navigate('CommentBox', {title: "Comment",
-        chatType: "postchat",
-        page: "post",
+        this.props.navigation.navigate('CommentBox', {title: 'Comment',
+        chatType: 'postchat',
+        page: 'post',
         pageID,
         showReply: true})
         // this.setState({showChatBox: true, pageID})
     }
 
     advertChatboxHandler = (pageID) => {
-        this.props.navigation.navigate('CommentBox', {title: "Comment", chatType: "advertchat", page: "advert", pageID, showReply: true})
+        this.props.navigation.navigate('CommentBox', {title: 'Comment', chatType: 'advertchat', page: 'advert', pageID, showReply: true})
     }
 
     favoriteHandler = (pageID) => {
@@ -323,27 +318,6 @@ class Post extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
-                    { this.state.showPagePreview ? 
-                        <PagePreview
-                            cnt={this.state.showPagePreview}
-                            page="post"
-                            userID={this.props.userID}
-                            openURI={this.openURIHandler}
-                            userProfile={this.userProfileHandler}
-                            edit={this.editHandler}
-                            share={this.shareHandler}
-                            report={this.reportHandler}
-                            openURI={this.openURIHandler}
-                            closePagePreview={this.closeModalHandler} /> : null}
-                   { this.state.showPreview ? 
-                        <MediaPreview
-                            showOption={this.state.showPreview.cntID ? true : false}
-                            pageID={this.state.showPreview.cntID}
-                            media={this.state.showPreview.media}
-                            page="post"
-                            startPage={this.state.showPreview.startPage}
-                            closePreview={this.closePreviewHandler}
-                            backgroundColor={this.props.settings.backgroundColor}/> : null}
                     { this.state.showAdvertChat ? 
                         <CommentBox
                             title="Comment"
@@ -429,11 +403,12 @@ class Post extends Component {
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
                             <Text style={styles.infoTitle}> You have not Post !!! </Text>
-                            <View>
-                                <Text style={{justifyContent: 'center', alignItems: 'center'}}>
-                                    <Href title="create Post" onPress={() => this.navigationHandler('AddPost')} style={styles.href}/>
-                                </Text>
-                            </View>
+                            { this.props.userID === this.state.profileID ?
+                                <View>
+                                     <Text style={{justifyContent: 'center', alignItems: 'center'}}>
+                                        <Href title="create Post" onPress={() => this.navigationHandler('AddPost')} style={styles.href}/>
+                                    </Text>
+                                </View> : null}
                         </View>
                     </InfoBox>
                 </View>

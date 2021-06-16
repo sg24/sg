@@ -186,7 +186,7 @@ class Questions extends Component {
     }
 
     chatHandler = (pageID) => {
-        this.props.navigation.navigate('QuestionCommentBox', {title: "Solution", chatType: "questionchat", page: "question", pageID, showReply: true})
+        this.props.navigation.navigate('QuestionSolution', {title: "Solution", chatType: "questionchat", page: "question", pageID, showReply: true})
     }
 
     favoriteHandler = (pageID) => {

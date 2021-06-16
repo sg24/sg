@@ -48,6 +48,7 @@ class Room extends Component {
             chatType: this.props.route.params.chatType,
             page: this.props.route.params.page,
             pageID: this.props.route.params.pageID,
+            cntID: this.props.route.params.cntID,
             showChatReply: this.props.route.params.showReply,
             enableComment: this.props.route.params.enableComment,
             enableDelete: this.props.route.params.enableDelete,
@@ -96,7 +97,7 @@ class Room extends Component {
 
     componentDidMount() {
         Dimensions.addEventListener('change', this.updateStyle);
-        this.props.onFetchChat(this.props.fetchChat ? this.props.fetchChat.length : 0, this.props.settings.commentBox.fetchLimit, this.state.chatType, this.props.cntID, this.state.page, this.state.pageID);
+        this.props.onFetchChat(this.props.fetchChat ? this.props.fetchChat.length : 0, this.props.settings.commentBox.fetchLimit, this.state.chatType, this.state.cntID, this.state.page, this.state.pageID);
     }
 
     componentWillUnmount() {
@@ -109,7 +110,7 @@ class Room extends Component {
             this.props.onFetchReply(this.props.fetchReply ? this.props.fetchReply.length : 0, this.props.settings.commentBox.fetchLimit, this.state.chatType, this.props.chatID, this.state.showReply._id);
             return
         }
-        this.props.onFetchChat(this.props.fetchChat ? this.props.fetchChat.length : 0, this.props.settings.commentBox.fetchLimit, this.state.chatType, this.props.cntID, this.state.page, this.state.pageID);
+        this.props.onFetchChat(this.props.fetchChat ? this.props.fetchChat.length : 0, this.props.settings.commentBox.fetchLimit, this.state.chatType, this.state.cntID, this.state.page, this.state.pageID);
     }
 
     inputChangedHandler = (value, inputType) => {
@@ -396,7 +397,7 @@ class Room extends Component {
             this.props.onFetchReply(this.props.fetchReply ? this.props.fetchReply.length : 0, this.props.settings.commentBox.fetchLimit, this.state.chatType, this.props.chatID, this.state.showReply._id);
             return
         }
-        this.props.onFetchChat(this.props.fetchChat ? this.props.fetchChat.length : 0, this.props.settings.commentBox.fetchLimit, this.state.chatType, this.props.cntID, this.state.page, this.state.pageID);
+        this.props.onFetchChat(this.props.fetchChat ? this.props.fetchChat.length : 0, this.props.settings.commentBox.fetchLimit, this.state.chatType, this.state.cntID, this.state.page, this.state.pageID);
     }
 
     submitUploadHandler = () => {

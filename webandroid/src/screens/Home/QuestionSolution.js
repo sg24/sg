@@ -8,7 +8,7 @@ import { v4 as uuid } from 'uuid';
 import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
 import urischeme from 'urischeme';
 
-import ChatItem from '../../components/UI/CommentBox/CommentItem/CommentItem';
+import ChatItem from '../../components/UI/QuestionCommentBox/CommentItem/CommentItem';
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
 import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
@@ -36,7 +36,7 @@ import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import SharePicker from '../../components/UI/SharePicker/SharePicker';
 import Settings from '../../components/UI/Settings/Settings';
 
-class Room extends Component {
+class CommentBox extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -84,7 +84,8 @@ class Room extends Component {
             showPreview: null,
             showReply: null,
             searchHashTag: false,
-            editUploadFile: null
+            editUploadFile: null,
+            changeReaction: null
         }
     }
 
@@ -96,7 +97,7 @@ class Room extends Component {
 
     componentDidMount() {
         Dimensions.addEventListener('change', this.updateStyle);
-        this.props.onFetchChat(this.props.fetchChat ? this.props.fetchChat.length : 0, this.props.settings.commentBox.fetchLimit, this.state.chatType, this.props.cntID, this.state.page, this.state.pageID);
+        this.props.onFetchChat(0, this.props.settings.commentBox.fetchLimit, this.state.chatType, this.props.cntID, this.state.page, this.state.pageID);
     }
 
     componentWillUnmount() {
@@ -140,8 +141,12 @@ class Room extends Component {
     }
 
     closeModalHandler = () => {
+        let reaction = this.state.changeReaction;
+        if (reaction) {
+            this.props.onChatBoxReactionReset(reaction.cntID);
+        }
         this.setState({showOption: false, showChatOption: null, showChatInfo: null,  editChatBox: null, showPreview: null,
-            replyChatBox: null});
+            replyChatBox: null, changeReaction: null});
     }
 
     checkOptionHandler = () => {
@@ -176,7 +181,7 @@ class Room extends Component {
         this.setState({showSettings: false});
     }
 
-    showChatOptionHandler = (cnt, direction, e, allowDelete =this.state.enableDelete === false ? false : true) => {
+    showChatOptionHandler = (cnt, direction, e, allowDelete = true) => {
         let copyOpt = cnt.media.length < 1 ? [
             {title: 'Share', icon: {name: 'paper-plane-outline'}, action: 'share'},
             {title: 'Copy Text', icon: {name: 'clipboard-outline'}, action: 'copy'}
@@ -424,12 +429,21 @@ class Room extends Component {
         }
     }
 
+    chatBoxReactionHandler = (cntID, title, reactionType, confirm, info) => {
+        this.props.onChatBoxReaction(this.state.chatType, cntID, this.state.page, reactionType, 
+            {cntID, chatID: this.props.chatID, pageID: this.state.pageID}, 'chatReaction', 'post', confirm);
+        if (confirm) {
+            return this.setState({changeReaction: null});
+        }
+        this.setState({changeReaction: {cntID, title, reactionType, info, confirm}});
+    }
+
     sendChatHandler = (content) => {
         Keyboard.dismiss();
         if (!this.state.editChatBox && !this.state.replyChatBox && !this.state.showReply) {
             this.props.onSendChat(this.state.chatType, this.props.chatID, this.state.page, this.state.pageID, updateObject(content, {
                 sendChatID: uuid(), sent: false, fail: false, username: this.props.username, userImage: this.props.userImage,
-                authorID: this.props.userID, reply: []}));
+                authorID: this.props.userID, reply: [], correct: 0, wrong: 0}));
             if (this.scroll) {
                 this.scroll.scrollToEnd({animated: true});
             }
@@ -445,7 +459,7 @@ class Room extends Component {
             let cnt = this.state.replyChatBox || this.state.showReply;
             this.props.onReplyChat(this.state.chatType, this.props.chatID, cnt._id, this.state.page, this.state.pageID, updateObject(content, {
                 sendChatID: uuid(), sent: false, fail: false, username: this.props.username, userImage: this.props.userImage,
-                authorID: this.props.userID, reply: [], replyChatID: cnt._id}));
+                authorID: this.props.userID, reply: [], replyChatID: cnt._id, correct: 0, wrong: 0}));
             this.setState({showReply: cnt, replyChatBox: null,
                 formElement: {content: {value: '',validation: {required: true,minLength: 1},valid: false,touched: false}},
                 formIsValid: false});
@@ -475,7 +489,8 @@ class Room extends Component {
 
     render() {
         let checkFetchError = (this.props.fetchChat && this.props.fetchChat.length > 0 && this.props.fetchChatErr) || 
-        (this.props.fetchReply && this.props.fetchReply.length > 0 && this.props.fetchReplyErr)
+        (this.props.fetchReply && this.props.fetchReply.length > 0 && this.props.fetchReplyErr);
+        let chatBoxReaction = this.props.chatBoxReaction.length > 0 && this.state.changeReaction ? this.props.chatBoxReaction.filter(id => id === this.state.changeReaction.cntID)[0] : null;
         let loader = (
             <View style={styles.loaderCnt}>
                 <ActivityIndicator 
@@ -589,6 +604,9 @@ class Room extends Component {
                                 disableUserOpt={true}
                                 openURI={this.openURIHandler}
                                 enableReply
+                                chatBoxReaction={this.props.chatBoxReaction}
+                                changeReaction={this.chatBoxReactionHandler}
+                                hideSolutionInfo
                                 />
                         </ScrollView>
                     </AbsoluteFill>
@@ -653,7 +671,9 @@ class Room extends Component {
                         editChatBox={this.state.editChatBox}
                         preview={this.mediaPreviewHandler}
                         enableReply
-                        openURI={this.openURIHandler}/>
+                        openURI={this.openURIHandler}
+                        chatBoxReaction={this.props.chatBoxReaction}
+                        changeReaction={this.chatBoxReactionHandler}/>
                 </View>
             )
         }
@@ -671,7 +691,7 @@ class Room extends Component {
                             style={styles.scroll}>
                             <ChatItem
                                 cnt={this.props.fetchChat}
-                                showReply={this.state.showChatReply}
+                                showReply={this.props.showReply}
                                 replyChat={this.showReplyHandler}
                                 userID={this.props.userID}
                                 userProfile={this.userProfileHandler}
@@ -685,11 +705,13 @@ class Room extends Component {
                                 enableLoadPrevious={this.props.loadPreviousChat}
                                 fetchChatStart={this.props.fetchChatStart}
                                 searchText={this.state.searchText}
-                                highlighted={this.props.settings.commentBox.highlighted}/>
+                                highlighted={this.props.settings.commentBox.highlighted}
+                                chatBoxReaction={this.props.chatBoxReaction}
+                                changeReaction={this.chatBoxReactionHandler}/>
                         </ScrollView>
                         { option }
                     </View>
-                    {this.state.enableComment === false ? null : commentBox }
+                    { commentBox }
                 </Wrapper>
             );
         }
@@ -742,6 +764,7 @@ class Room extends Component {
                                             <ChatItem
                                                 cnt={this.props.fetchReply}
                                                 showReply={false}
+                                                hideSolutionInfo={this.state.showReply}
                                                 replyChat={this.showReplyHandler}
                                                 userID={this.props.userID}
                                                 userProfile={this.userProfileHandler}
@@ -755,11 +778,14 @@ class Room extends Component {
                                                 enableLoadPrevious={this.props.loadPreviousReply}
                                                 fetchChatStart={this.props.fetchReplyStart}
                                                 searchText={this.state.searchText}
-                                                highlighted={this.props.settings.commentBox.highlighted}/>
+                                                highlighted={this.props.settings.commentBox.highlighted}
+                                                chatBoxReaction={this.props.chatBoxReaction}
+                                                changeReaction={this.chatBoxReactionHandler}
+                                                />
                                         </ScrollView>
                                         { option }
                                     </View>
-                                    {this.state.enableComment === false ? null : commentBox }
+                                    { commentBox }
                                 </Wrapper> : null}
                             </View>
                         </InnerScreen> : null}
@@ -845,12 +871,19 @@ class Room extends Component {
                         closeModal={this.props.onFetchReplyReset} /> : null}
                  { this.props.deleteChat && !this.props.deleteChat.start ?  
                     <NotificationModal
-                        info="Are you sure you want to delete this comment"
+                        info="Are you sure you want to delete this solution"
                         closeModal={this.deleteChatResetHandler}
                         button={[{title: 'Ok', onPress: this.deleteChatHandler, style: styles.buttonCancel},
                         {title: 'Exit', onPress: this.deleteChatResetHandler, style: styles.button}]}/> : null}
                 { this.props.deleteChat && this.props.deleteChat.start ? 
                     <AbsoluteFill style={{zIndex: 9999999}}/> : null}
+                { chatBoxReaction && !chatBoxReaction.confirm ? 
+                    <NotificationModal
+                        info={this.state.changeReaction.info}
+                        closeModal={this.closeModalHandler}
+                        button={[{title: 'Ok', onPress: () => this.chatBoxReactionHandler(this.state.changeReaction.cntID, this.state.changeReaction.title, this.state.changeReaction.reactionType, true), 
+                            style: styles.buttonCancel},
+                        {title: 'Exit', onPress: this.closeModalHandler, style: styles.button}]}/> : null}
             </View>
         )
 
@@ -1021,7 +1054,8 @@ const mapStateToProps = state => {
         userImage: state.chatBox.userImage,
         userID: state.chatBox.userID,
         deleteChat: state.chatBox.deleteChat,
-        deleteChatError: state.chatBox.deleteChatError
+        deleteChatError: state.chatBox.deleteChatError,
+        chatBoxReaction: state.chatBox.chatBoxReaction
     };
 };
 
@@ -1035,8 +1069,10 @@ const mapDispatchToProps = dispatch => {
         onDeleteChatReset: () => dispatch(actions.deleteChatReset()),
         onReplyChat: (chatType, cntID, chatID, page, pageID, formData) =>  dispatch(actions.replyChatInit(chatType, cntID, chatID, page, pageID,formData)),
         onFetchReply: (start, limit, chatType, cntID, chatID) => dispatch(actions.fetchReplyInit(start, limit, chatType, cntID, chatID)),
-        onFetchReplyReset: () => dispatch(actions.fetchReplyReset())
+        onFetchReplyReset: () => dispatch(actions.fetchReplyReset()),
+        onChatBoxReaction: (chatType, cntID, page, reactionType, cnt, cntType, uriMethod, confirm) => dispatch(actions.chatBoxReactionInit(chatType, cntID, page, reactionType, cnt, cntType, uriMethod, confirm)),
+        onChatBoxReactionReset: (cntID) => dispatch(actions.chatBoxReactionReset(cntID)),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Room);
+export default (connect(mapStateToProps, mapDispatchToProps)(CommentBox));
