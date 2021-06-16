@@ -16,7 +16,8 @@ import Question from '../../../../screens/ByAuthor/Question';
 import Feed from '../../../../screens/ByAuthor/Feed';
 import WriteUp from '../../../../screens/ByAuthor/WriteUp';
 import CBT from '../../../../screens/ByAuthor/CBT';
-import Group from '../../../../screens/ByAuthor/Group';
+import Group from '../../../../screens/ByAuthor/Group'
+import Advert from '../../../../screens/ByAuthor/Advert';
 
 const profileContent = props => {
     let renderScene = screenProps => {
@@ -33,6 +34,8 @@ const profileContent = props => {
                 return <Question {...screenProps} profileID={props.userID} focus={props.index === 4}/>;
             case 'writeUp':
                 return <WriteUp {...screenProps} profileID={props.userID} focus={props.index === 5}/>;
+            case 'advert':
+                return <Advert {...screenProps} profileID={props.userID} focus={props.index === 6}/>;
             default:
                 return null;
         }

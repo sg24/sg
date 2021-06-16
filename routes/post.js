@@ -213,7 +213,7 @@ router.post('/', authenticate, (req, res, next) => {
         return
     }
 
-    if (req.header && req.header('data-categ') === 'searchPost') {
+    if (req.header && (req.header('data-categ') === 'searchPost' || req.header('data-categ') === 'searchPostTab')) {
         post.find({$or: [{authorID: { $in: [req.user, ...req.friend] }}, {allowed: { $in: [req.user]}}], _isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt} })
         .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
             let updateResult = [];
@@ -227,7 +227,7 @@ router.post('/', authenticate, (req, res, next) => {
                     isFriend: [req.user, ...req.friend].filter(id => id === JSON.parse(JSON.stringify(cnt.authorID))).length > 0})
                 }
             }
-            res.status(200).send({page: updateResult, loadMore: result.length > 0});
+            res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: req.header('data-categ') === 'searchPostTab'});
         }).catch(err => {
             res.status(500).send(err)
         })

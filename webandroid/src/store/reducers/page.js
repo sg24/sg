@@ -24,8 +24,6 @@ const initialState = {
     fetchGroupQuestionStart: false,
     deleteGroupQuestionError: null,
     deleteGroupQuestion: null,
-    fetchAdvertError: null,
-    fetchAdvert: null,
     fetchFeedError: null,
     fetchFeedStart: false,
     fetchFeed: null,
@@ -72,6 +70,11 @@ const initialState = {
     fetchChatRoom: null,
     deleteChatRoomError: null,
     deleteChatRoom: null,
+    fetchAdvertError: null,
+    fetchAdvertStart: false,
+    fetchAdvert: null,
+    deleteAdvertError: null,
+    deleteAdvert: null,
     fetchUserError: null,
     fetchUserStart: false,
     fetchUser: null,
@@ -88,7 +91,6 @@ const pageReset = (state, action) => {
         fetchFavoritePostError: null,fetchFavoritePost: null, fetchFavoritePostStart: false, deleteFavoritePostError: null, deleteFavoritePost: null,
         fetchQuestionError: null,fetchQuestion: null, fetchQuestionStart: false, deleteQuestionError: null, deleteQuestion: null,
         fetchGroupQuestionError: null,fetchGroupQuestion: null, fetchGroupQuestionStart: false, deleteGroupQuestionError: null, deleteGroupQuestion: null,
-        fetchAdvertError: null,fetchAdvert: null,
         fetchFeedError: null,fetchFeedStart: false,fetchFeed: null,deleteFeedError: null,deleteFeed: null,
         fetchGroupFeedError: null,fetchGroupFeedStart: false,fetchGroupFeed: null,deleteGroupFeedError: null,deleteGroupFeed: null,
         fetchWriteUpError: null,fetchWriteUpStart: false,fetchWriteUp: null,deleteWriteUpError: null,deleteWriteUp: null,
@@ -99,6 +101,7 @@ const pageReset = (state, action) => {
         fetchGroupError: null,fetchGroupStart: false,fetchGroup: null,deleteGroupError: null,deleteGroup: null,
         fetchGroupPreviewError: null,fetchGroupPreviewStart: false,fetchGroupPreview: null,
         fetchChatRoomError: null,fetchChatRoomStart: false,fetchChatRoom: null,deleteChatRoomError: null,deleteChatRoom: null,
+        fetchAdvertError: null,fetchAdvertStart: false,fetchAdvert: null,deleteAdvertError: null,deleteAdvert: null,
         fetchUserError: null,fetchUserStart: false,fetchUser: null,
         pageReaction: [],pageReactionError: false
     })
@@ -116,7 +119,7 @@ const fetchPageFail = (state, action) => {
     } else if (action.page === 'groupquestion') {
         return updateObject(state, {fetchGroupQuestionError: {message: action.err}, fetchGroupQuestionStart: false});
     } else if (action.page === 'advert') {
-        return updateObject(state, {fetchAdvertError: {message: action.err}});
+        return updateObject(state, {fetchAdvertError: {message: action.err}, fetchAdvertStart: false});
     } else if (action.page === 'feed') {
         return updateObject(state, {fetchFeedError: {message: action.err}, fetchFeedStart: false});
     } else if (action.page === 'groupfeed') {
@@ -156,7 +159,7 @@ const fetchPageStart = (state, action) => {
     } else if (action.page === 'groupquestion') {
         return updateObject(state, {fetchGroupQuestionError: null, fetchGroupQuestion: action.start === 0 ? null : state.fetchGroupQuestion, fetchGroupQuestionStart: true });
     } else if (action.page === 'advert') {
-        return updateObject(state, {fetchAdvertError: {message: action.err}});
+        return updateObject(state, {fetchAdvertError: null, fetchAdvert: action.start === 0 ? null : state.fetchAdvert, fetchAdvertStart: true});
     } else if (action.page === 'feed') {
         return updateObject(state, {fetchFeedError: null, fetchFeed: action.start === 0 ? null : state.fetchFeed, fetchFeedStart: true });
     } else if (action.page === 'groupfeed') {
@@ -192,7 +195,8 @@ const fetchPageReset = (state, action) => {
         fetchWriteUpError: null, fetchWriteUpStart: false, fetchGroupWriteUpError: null, fetchGroupWriteUpStart: false,
         fetchCBTError: null, fetchCBTStart: false, fetchGroupCBTError: null, fetchGroupCBTStart: false, 
         fetchExamError: null, fetchExamStart: false, fetchGroupError: null, fetchGroupStart: false,
-        fetchGroupPreviewError: null, fetchGroupPreviewStart: false , fetchChatRoomError: null, fetchChatRoomStart: false});
+        fetchGroupPreviewError: null, fetchGroupPreviewStart: false , fetchChatRoomError: null, fetchChatRoomStart: false,
+        fetchAdvertError: null, fetchAdvertStart: false});
 };
 
 const fetchPage = (state, action) => {
@@ -212,7 +216,7 @@ const fetchPage = (state, action) => {
     } else if (action.page === 'groupquestion') {
         return updateObject(state, {fetchGroupQuestion: updatePage(state.fetchGroupQuestion, action), page: action.page, loadMore: action.cnt.loadMore, fetchGroupQuestionStart: false});
     } else if (action.page === 'advert') {
-        return updateObject(state, {fetchAdvert: action.cnt, page: action.page});
+        return updateObject(state, {fetchAdvert: updatePage(state.fetchAdvert, action), page: action.page, loadMore: action.cnt.loadMore, fetchAdvertStart: false, tabPage: action.cnt.tabPage});
     } else if (action.page === 'feed') {
         return updateObject(state, {fetchFeed: updatePage(state.fetchFeed, action), page: action.page, loadMore: action.cnt.loadMore, fetchFeedStart: false, tabPage: action.cnt.tabPage});
     } else if (action.page === 'groupfeed') {
@@ -265,7 +269,7 @@ const updatePage = (state, action) => {
     } else if (action.page === 'groupquestion') {
         return updateObject(state, {fetchGroupQuestion: updatePageCnt(state.fetchGroupQuestion, action)});
     } else if (action.page === 'advert') {
-        return updateObject(state, {fetchAdvert:  updatePageCnt(state.fetchAdvert, action)});
+        return updateObject(state, {fetchAdvert: updatePageCnt(state.fetchAdvert, action)});
     } else if (action.page === 'feed') {
         return updateObject(state, {fetchFeed: updatePageCnt(state.fetchFeed, action)});
     } else if (action.page === 'groupfeed') {
@@ -353,7 +357,8 @@ const deletePageReset = (state, action) => {
         deleteFeedError: null, deleteFeed: null, deleteGroupFeedError: null, deleteGroupFeed: null,
         deleteWriteUpError: null, deleteWriteUp: null,deleteGroupWriteUpError: null, deleteGroupWriteUp: null,
         deleteCBTError: null, deleteCBT: null, deleteGroupCBTError: null, deleteGroupCBT: null,
-        deleteGroupError: null, deleteGroup: null, deleteChatRoomError: null, deleteChatRoom: null
+        deleteGroupError: null, deleteGroup: null, deleteChatRoomError: null, deleteChatRoom: null,
+        deleteAdvertError: null, deleteAdvert: null
     })
 };
 
@@ -369,7 +374,7 @@ const deletePageStart = (state, action) => {
     } else if (action.page === 'groupquestion') {
         return updateObject(state, {deleteGroupQuestionError: null,  deleteGroupQuestion: {pageID: action.pageID, page: action.page, start: action.start}});
     } else if (action.page === 'advert') {
-        return updateObject(state, {fetchAdvertError: {message: action.err}});
+        return updateObject(state, {deleteAdvertError: null,  deleteAdvert: {pageID: action.pageID, page: action.page, start: action.start}});
     } else if (action.page === 'feed') {
         return updateObject(state, {deleteFeedError: null,  deleteFeed: {pageID: action.pageID, page: action.page, start: action.start}});
     } else if (action.page === 'groupfeed') {
@@ -403,7 +408,7 @@ const deletePageFail = (state, action) => {
     } else if (action.page === 'groupquestion') {
         return updateObject(state, {deleteGroupQuestionError: {message: action.err}, deleteGroupQuestion: null});
     } else if (action.page === 'advert') {
-        return updateObject(state, {fetchAdvertError: {message: action.err}});
+        return updateObject(state, {deleteAdvertError: {message: action.err}, deleteAdvert: null});
     } else if (action.page === 'feed') {
         return updateObject(state, {deleteFeedError: {message: action.err}, deleteFeed: null});
     } else if (action.page === 'groupfeed') {
@@ -441,7 +446,7 @@ const deletePage = (state, action) => {
     } else if (action.page === 'groupquestion') {
         return updateObject(state, {deleteGroupQuestion: null, fetchGroupQuestion: updatePage(action.pageID, state.fetchGroupQuestion)});
     } else if (action.page === 'advert') {
-        return updateObject(state, {fetchAdvert: action.cnt});
+        return updateObject(state, {deleteAdvert: null, fetchAdvert: updatePage(action.pageID, state.fetchAdvert)});
     } else if (action.page === 'feed') {
         return updateObject(state, {deleteFeed: null, fetchFeed: updatePage(action.pageID, state.fetchFeed)});
     } else if (action.page === 'groupfeed') {

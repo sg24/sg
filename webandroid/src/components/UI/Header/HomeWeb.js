@@ -52,12 +52,8 @@ class Home extends Component  {
             let ModalComponent = Platform.OS === 'web' ? WebModal : Modal;
             let cnt = (
                 <>
-                    <Search 
-                        modal
-                        hideModal={this.closeModalHandler}
-                        filterCnt={this.props.filterCnt}
-                        value={this.props.inputValue ? this.props.inputValue : ""}/>
-                    <this.props.modalSearch />
+                    <this.props.modalSearch 
+                        hideModal={this.closeModalHandler}/>
                 </>
             );
             if (this.state.modalType === 'conversation') {
@@ -113,7 +109,7 @@ class Home extends Component  {
                             <TouchableNativeFeedback onPress={this.props.onNavigate.bind(this, 'Home')} style={styles.logo}>
                                 <ImageBackground source={Logo} style={styles.logo} resizeMode="contain"/>
                             </TouchableNativeFeedback>
-                            <TouchableNativeFeedback  onPress={() => this.openModalHandler('search')} style={styles.formWrapper}>
+                            <TouchableNativeFeedback  onPress={this.props.onNavigate.bind(this, 'Search')} style={styles.formWrapper}>
                                 <FormElement
                                     placeholder="Search ... "
                                     formWrapperStyle={styles.formWrapper}

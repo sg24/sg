@@ -209,7 +209,7 @@ router.post('/', authenticate, (req, res, next) => {
         return
     }
 
-    if (req.header && req.header('data-categ') === 'searchFeed') {
+    if (req.header && (req.header('data-categ') === 'searchFeed' || req.header('data-categ') === 'searchFeedTab')) {
         feed.find({_isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt} })
             .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
             let updateResult = [];
@@ -222,7 +222,7 @@ router.post('/', authenticate, (req, res, next) => {
                     isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
                 }
             }
-            res.status(200).send({page: updateResult, loadMore: result.length > 0});
+            res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: req.header('data-categ') === 'searchFeedTab'});
         }).catch(err => {
             res.status(500).send(err)
         })

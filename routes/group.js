@@ -587,7 +587,7 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
 
-    if (req.header && req.header('data-categ') === 'searchGroup') {
+    if (req.header && (req.header('data-categ') === 'searchGroup' || req.header('data-categ') === 'searchGroupTab')) {
         group.find({_isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt} })
         .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
             let updateResult = [];
@@ -606,7 +606,7 @@ router.post('/', authenticate, (req, res, next) => {
                     request: cnt.request.length, mark: cnt.mark.length, pendingApprove: cnt.pendingApprove.length, member: cnt.member.length})
                 }
             }
-            res.status(200).send({page: updateResult, loadMore: result.length > 0});
+            res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: req.header('data-categ') === 'searchGroupTab'});
         }).catch(err => {
             res.status(500).send(err)
         })

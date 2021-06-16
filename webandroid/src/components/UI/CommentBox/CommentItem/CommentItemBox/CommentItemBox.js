@@ -233,9 +233,9 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     userInfoDirection: {
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        justifyContent: 'flex-end',
+        flexDirection: 'row-reverse',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
         width: '100%',
         paddingRight: Platform.OS !== 'web' ? 60 : 50,
         paddingLeft: 0
@@ -251,8 +251,8 @@ const styles = StyleSheet.create({
         marginRight: 10
     },
     userInfoCntDirection: {
-        marginLeft: 0,
-        marginRight: 10
+        marginLeft: 10,
+        marginRight: 0
     },
     reply: {
         flexDirection: 'row',
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     buttonReplyDirection: {
         paddingVertical: 0,
         marginLeft: 10,
-        marginRight: 0
+        marginRight: 10
     },
     fileIcon: {
         width: '100%',

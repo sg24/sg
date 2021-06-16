@@ -4,20 +4,20 @@ import moment from 'moment';
 import ChatItemBox from './CommentItemBox/CommentItemBox';
 
 const commentItem = props => {
-    let direction = startDirection('left', props.cnt);
+    // let direction = startDirection('left', props.cnt);
     let startDate = moment().startOf('date');
     let endDate;
-    function startDirection(direction, chat) {
-        let check = 1;
-        for (let _ of chat) {
-            let cnt  = chat[chat.length - check];
-            ++check;
-            direction = (cnt.authorID !== (chat[chat.length-check] ? chat[chat.length-check].authorID : null)) ? 
-                direction === 'right' ? direction = 'left' : direction = 'right' :
-                direction
-        }
-        return direction
-    }
+    // function startDirection(direction, chat) {
+    //     let check = 1;
+    //     for (let _ of chat) {
+    //         let cnt  = chat[chat.length - check];
+    //         ++check;
+    //         direction = (cnt.authorID !== (chat[chat.length-check] ? chat[chat.length-check].authorID : null)) ? 
+    //             direction === 'right' ? direction = 'left' : direction = 'right' :
+    //             direction
+    //     }
+    //     return direction
+    // }
     function checkDate(created) {
         if (new Date(startDate).getTime() > new Date(created).getTime()) {
             let day = new Date(startDate).getDate() - new Date(created).getDate();
@@ -46,7 +46,7 @@ const commentItem = props => {
             hideSolutionInfo={props.hideSolutionInfo}
             fetchChatStart={props.fetchChatStart}
             replyChat={props.replyChat.bind(this, cnt)}
-            showOption={props.showOption.bind(this, cnt, direction)}
+            showOption={props.showOption.bind(this, cnt, (index%2) === 0 ? 'left' : 'right')}
             sendChatInfo={props.sendChatInfo.bind(this, cnt)}
             deleteChatBox={props.deleteChatBox}
             editChatBox={props.editChatBox}

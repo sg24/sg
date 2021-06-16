@@ -14,7 +14,7 @@ import FormElement from '../../components/UI/FormElement/FormElement';
 import BoxShadow from '../../components/UI/BoxShadow/BoxShadow';
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import Button from '../../components/UI/Button/Button';
-import { updateObject, checkValidity, checkUri } from '../../shared/utility';
+import { updateObject, checkValidity, checkUri, checkHashtag } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
 import CameraComponent from '../../components/UI/Camera/Camera';
@@ -44,7 +44,8 @@ class Advert extends Component {
                     valid: false,
                     touched: false,
                     focus: true,
-                    range: {start: 0, end: 20}
+                    range: {start: 0, end: 20},
+                    inputHashTag: []
                 },
                 description: {
                     value: '',
@@ -55,7 +56,8 @@ class Advert extends Component {
                     valid: false,
                     touched: false,
                     focus: false,
-                    range: {start: 0, end: 30}
+                    range: {start: 0, end: 30},
+                    inputHashTag: []
                 },
                 comment: {
                     value: true,
@@ -114,16 +116,16 @@ class Advert extends Component {
                 uploadFile.push(cnt);
             }
             this.setState({
-                formElement: {title: { value: form.title, validation: { required: true,minLength: 1},valid: true,touched: false,focus: true, range: {start: String(form.title).length, end: 20} },
-                description: { value: form.content, validation: {required: true,minLength: 1 }, valid: true,touched: false, focus: false, range: {start: String(form.content).length, end: 30} }, 
+                formElement: {title: { value: form.title, validation: { required: true,minLength: 1},valid: true,touched: false,focus: true, range: {start: String(form.title).length, end: 20}, inputHashTag: checkHashtag(form.title) },
+                description: { value: form.content, validation: {required: true,minLength: 1 }, valid: true,touched: false, focus: false, range: {start: String(form.content).length, end: 30}, inputHashTag: checkHashtag(form.content) }, 
                 comment: {value: form.enableComment, validation: {},valid: true}}, formIsValid: true, uploadFile,
                 createButtonValid: true,advertButton: form.button, loaded: true,fetchedUploadFile: uploadFile
             });
         }
         if (this.state.resetAll) {
             this.setState({
-                formElement: {title: { value: '', validation: { required: true,minLength: 1},valid: false,touched: false,focus: true, range: {start: 0, end: 20} },
-                description: { value: '', validation: {required: true,minLength: 1 }, valid: false,touched: false, focus: false, range: {start: 0, end: 30} }, 
+                formElement: {title: { value: '', validation: { required: true,minLength: 1},valid: false,touched: false,focus: true, range: {start: 0, end: 20}, inputHashTag: [] },
+                description: { value: '', validation: {required: true,minLength: 1 }, valid: false,touched: false, focus: false, range: {start: 0, end: 30}, inputHashTag: [] }, 
                 comment: {value: true, validation: {},valid: true}}, formIsValid: false,showActionSheet: false,showCamera: false, showVideoCamera: false,showAudioRecorder: false,
                 showEmoji: false, selection: {title: {start: 0, end: 0}, description: {start: 0, end: 0}},uploadFile: [],inputUri: [],showUpload: false,createButtonValid: true,advertButton: [],
                 loaded: false,fetchedUploadFile: [],resetAll: false
@@ -147,11 +149,14 @@ class Advert extends Component {
             let range = inputType !== 'comment' ?  {range: updateObject(this.state.formElement[inputType].range , {
                 start: String(value).length
             })} : {};
+            let hashTag = checkHashtag(value);
+            let allowHashTag = inputType !== 'comment' ? {inputHashTag: hashTag ? hashTag: []} : {};
             let updateFormType = updateObject(this.state.formElement[inputType], {
                 value,
                 valid: checkValidity(value, this.state.formElement[inputType].validation),
                 touched: true,
-                ...range
+                ...range,
+                ...allowHashTag
             });
             let formIsValid = true;
             let updateFormElement = updateObject(this.state.formElement, {[inputType]: updateFormType})
@@ -295,6 +300,7 @@ class Advert extends Component {
             cntID: this.state.cntID,
             title: this.state.formElement.title.value,
             content: this.state.formElement.description.value,
+            hashTag: [...this.state.formElement.title.inputHashTag, ...this.state.formElement.description.inputHashTag],
             uploadFile,
             button: this.state.advertButton,
             comment: this.state.formElement.comment.value,

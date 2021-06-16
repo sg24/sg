@@ -430,7 +430,7 @@ router.post('/', authenticate, (req, res, next) => {
         return
     }
 
-    if (req.header && req.header('data-categ') === 'searchCBT') {
+    if (req.header && (req.header('data-categ') === 'searchCBT' || req.header('data-categ') === 'searchCBTTab')) {
         qchat.find({$or: [{groupID: null}, {'share.reciever': req.user}],_isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt}})
         .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
             let updateResult = [];
@@ -448,7 +448,7 @@ router.post('/', authenticate, (req, res, next) => {
                     request: cnt.request.length, mark: cnt.mark.length, allowedUser: cnt.allowedUser.length})
                 }
             }
-            res.status(200).send({page: updateResult, loadMore: result.length > 0});
+            res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: req.header('data-categ') === 'searchCBTTab'});
         }).catch(err => {
             res.status(500).send(err)
         })

@@ -188,16 +188,11 @@ class Post extends Component {
     }
 
     chatHandler = (pageID) => {
-        this.props.navigation.navigate('CommentBox', {title: "Comment",
-        chatType: "postchat",
-        page: "post",
-        pageID,
-        showReply: true})
-        // this.setState({showChatBox: true, pageID})
+        this.props.navigation.navigate('CommentBox', {title: "Comment", chatType: "postchat", page: "post", pageID, showReply: true})
     }
 
     advertChatboxHandler = (pageID) => {
-        this.setState({showAdvertChat: true, pageID})
+        this.props.navigation.navigate('CommentBox', {title: "Comment", chatType: "advertchat", page: "advert", pageID, showReply: true})
     }
 
     favoriteHandler = (pageID) => {

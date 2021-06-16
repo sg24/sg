@@ -35,15 +35,13 @@ class Feed extends Component {
             pageCntID: null,
             showPreview: null,
             pageID: null,
-            showChatBox: false,
             showActionSheet: null,
             showSearch: false,
             search: '',
             showOption: false,
             showSettings: false,
             showPagePreview: null,
-            showSelectGroupPicker: null,
-            showAdvertChat: false
+            showSelectGroupPicker: null
         }
     }
 
@@ -88,7 +86,7 @@ class Feed extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null, showPagePreview: null, showSelectGroupPicker: null, showAdvertChat: false});
+        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showPagePreview: null, showSelectGroupPicker: null});
     }
 
     openURIHandler = (type, uri) => {
@@ -189,11 +187,11 @@ class Feed extends Component {
     }
 
     chatHandler = (pageID) => {
-        this.setState({showChatBox: true, pageID})
+        this.props.navigation.navigate('CommentBox', {title: "Comment", chatType: "feedchat", page: "feed", pageID, showReply: true})
     }
 
     advertChatboxHandler = (pageID) => {
-        this.setState({showAdvertChat: true, pageID})
+        this.props.navigation.navigate('CommentBox', {title: "Comment", chatType: "advertchat", page: "advert", pageID, showReply: true})
     }
 
     favoriteHandler = (pageID) => {
@@ -369,22 +367,6 @@ class Feed extends Component {
                             startPage={this.state.showPreview.startPage}
                             closePreview={this.closePreviewHandler}
                             backgroundColor={this.props.settings.backgroundColor}/> : null}
-                    { this.state.showChatBox ? 
-                        <CommentBox
-                            title="Comment"
-                            chatType="feedchat"
-                            page="feed"
-                            pageID={this.state.pageID}
-                            closeChat={this.closeModalHandler}
-                            showReply/> : null}
-                    { this.state.showAdvertChat ? 
-                        <CommentBox
-                            title="Comment"
-                            chatType="advertchat"
-                            page="advert"
-                            pageID={this.state.pageID}
-                            closeChat={this.closeModalHandler}
-                            showReply/> : null}
                     { this.state.showSharePicker ? 
                         <SharePicker
                             shareType={this.state.showSharePicker.shareType}

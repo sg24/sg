@@ -15,9 +15,7 @@ let notification = require('./utility/notifications');
 let push = require('./utility/push');
 const global = require('../global/global');
 
-const {category,  post, question, poet, group, contest, qchat, user,  adverts, tempUser, postnotifies, 
-     feed, quenotifies, pwtnotifies, viewnotifies, usernotifies,
-     favorite, connectStatus, chatnotifies, grpchatnotifies} = require('../serverDB/serverDB');
+const {post, question, writeup, group, qchat, user,  advert, feed} = require('../serverDB/serverDB');
 
 router.get('/',function (req, res, next) {
     res.redirect(301,'/index/aroundme');
@@ -50,61 +48,61 @@ router.get('/index/:id', authenticate,function (req, res, next) {
 
 router.post('/header', authenticate, (req, res, next) => {
     if(req.header('data-categ') === 'headerfilter') {
-        checkText(req.body.filterCnt, feed, [], 'feed').then(feedArray => {
-            checkText(req.body.filterCnt, question, feedArray, 'question').then(queArray => {
-                checkText(req.body.filterCnt, poet, queArray, 'poet').then(poetArray => {
-                    checkText(req.body.filterCnt, group, poetArray, 'group').then(advertArray => {
-                        checkText(req.body.filterCnt, adverts, advertArray, 'advert').then(qchatArray => {
-                            checkText(req.body.filterCnt, qchat, qchatArray, 'qchat').then(userArray => {
-                                searchUser(req.body.filterCnt, userArray).then(ptArray => {
-                                    checkText(req.body.filterCnt, post, ptArray, 'post').then(cntArray => {
-                                        res.send(cntArray).status(200);
-                                    })
-                                    return
-                                })
-                            })
-                        })
-                    })
-                });
-            });
-        }).catch(err => {
-            res.status(500).send(err);
-        })
-        return ;
+        // checkText(req.body.filterCnt, feed, [], 'feed').then(feedArray => {
+        //     checkText(req.body.filterCnt, question, feedArray, 'question').then(queArray => {
+        //         checkText(req.body.filterCnt, writeup, queArray, 'writeup').then(writeupArray => {
+        //             checkText(req.body.filterCnt, group, writeupArray, 'group').then(advertArray => {
+        //                 checkText(req.body.filterCnt, advert, advertArray, 'advert').then(qchatArray => {
+        //                     checkText(req.body.filterCnt, qchat, qchatArray, 'qchat').then(userArray => {
+        //                         searchUser(req.body.filterCnt, userArray).then(ptArray => {
+        //                             checkText(req.body.filterCnt, post, ptArray, 'post').then(cntArray => {
+        //                                 res.send(cntArray).status(200);
+        //                             })
+        //                             return
+        //                         })
+        //                     })
+        //                 })
+        //             })
+        //         });
+        //     });
+        // }).catch(err => {
+        //     res.status(500).send(err);
+        // })
+        // return ;
     }
 
     function searchUser(searchCnt, filterRes) {
-      return new Promise((resolve, reject) => {
-        let conditions = {$text: { $search: searchCnt }, block: {$ne: req.user}, _id: {$ne: mongoose.mongo.ObjectId(req.user)}};
-        user.find(conditions).then(result => {
-            user.findById(req.user).then(resultFilter => {
-                for (let cnt of result) {
-                    let userBlock = resultFilter.block || [];
-                    let filterBlock = userBlock.filter(id => id === cnt._id.toHexString())
-                    if (filterBlock.length < 1) {
-                        filterRes.push({url: `/user/profile/${cnt._id}`, grp: 'user', title: cnt.username, image: cnt.image});
-                    } 
-                }
-                resolve(filterRes)
-            }).catch(err => {
-                reject(err)
-            })
-        })  
-      })
+    //   return new Promise((resolve, reject) => {
+    //     let conditions = {$text: { $search: searchCnt }, block: {$ne: req.user}, _id: {$ne: mongoose.mongo.ObjectId(req.user)}};
+    //     user.find(conditions).then(result => {
+    //         user.findById(req.user).then(resultFilter => {
+    //             for (let cnt of result) {
+    //                 let userBlock = resultFilter.block || [];
+    //                 let filterBlock = userBlock.filter(id => id === cnt._id.toHexString())
+    //                 if (filterBlock.length < 1) {
+    //                     filterRes.push({url: `/user/profile/${cnt._id}`, grp: 'user', title: cnt.username, image: cnt.image});
+    //                 } 
+    //             }
+    //             resolve(filterRes)
+    //         }).catch(err => {
+    //             reject(err)
+    //         })
+    //     })  
+    //   })
     }
 
     function checkText(searchCnt, collection, filterRes, grp) {
-        return new Promise((resolve, reject) => {
-            collection.find({$text: { $search: searchCnt },mode: 'publish',_isCompleted: true}).then(result => {
-                for (let filter of result) {
-                    filterRes.push({url: grp === 'group' ? `/group/${filter._id}` :  `/view/${grp}/${filter._id}`,
-                    grp, title: filter.title , created: filter.created})
-                }
-                resolve(filterRes)
-            }).catch(err => {
-                reject(err)
-            })
-        });
+        // return new Promise((resolve, reject) => {
+        //     collection.find({$text: { $search: searchCnt },mode: 'publish',_isCompleted: true}).then(result => {
+        //         for (let filter of result) {
+        //             filterRes.push({url: grp === 'group' ? `/group/${filter._id}` :  `/view/${grp}/${filter._id}`,
+        //             grp, title: filter.title , created: filter.created})
+        //         }
+        //         resolve(filterRes)
+        //     }).catch(err => {
+        //         reject(err)
+        //     })
+        // });
     }
 
     if(req.header('data-categ') === 'notification') {

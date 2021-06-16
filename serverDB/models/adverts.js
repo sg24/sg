@@ -19,6 +19,9 @@ const AdvertsSchema = new Schema({
         type: Date, 
         default: Date.now
     },
+    edited: { 
+        type: Date
+    },
     title: {
         type: String,
         required: true,
@@ -29,8 +32,9 @@ const AdvertsSchema = new Schema({
         required: true,
         trim: true
     },
-    edited: { 
-        type: Date
+    hashTag: {
+        type: Array,
+        default: [String]
     },
     media: [{
         id: ObjectId, 
@@ -48,6 +52,15 @@ const AdvertsSchema = new Schema({
         content: String,
         title: String
     }],
+    view: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    mode: {
+        type: String,
+        default: 'publish'
+    },
     chat: {
         _id: {
             type: String
@@ -70,32 +83,15 @@ const AdvertsSchema = new Schema({
             }
         }]
     },
-    view: {
-        type: Number,
-        required: true,
-        default: 0
-    },
-    comment: {
-        type: Number,
-        required: true,
-        default: 0
-    },
-    favorite: {
-        type: Number,
-        required: true,
-        default: 0
-    },
-    liked: {
-        type: Array,
-        required: true,
-        default: [String]
-    },
-    snapshot: {
-        type: Array
-    },
-    mode: {
+    block: [{
+        type: ObjectId
+    }],
+    report: [{
+        type: String
+    }],
+    blacklisted: {
         type: String,
-        default: 'publish'
+        default: false
     },
     _isCompleted: {
         type: Boolean,

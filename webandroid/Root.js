@@ -219,15 +219,6 @@ class Base extends Component {
                   name === 'GroupWeb' ? GroupScreen:
                   PostScreen: component;
               }
-              if (name === 'Search') {
-                header = {
-                  header: ({scene, previous, navigation }) => <SearchHeader
-                    onPress={() => navigation.goBack()}
-                    onNavigate={(url) => navigation.navigate(url)}
-                    filterCnt={this.props.onHeaderFilter}
-                  />
-                }
-              }
 
               if (name === 'HashSearch') {
                 header = {
@@ -299,7 +290,7 @@ class Base extends Component {
               }
 
               if (name === 'Question' || name === 'Feed' || name === 'WriteUp' || name === 'GroupPreview' || name === 'CommentBox'
-                || name === 'Exam' || name === 'MarkExam' || name === 'RoomInfo') {
+                || name === 'Exam' || name === 'MarkExam' || name === 'RoomInfo' || name === 'Search') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
                 header = {
                   header: ({scene, previous, navigation }) => this.state.viewMode === 'landscape' ?  <HeaderBar

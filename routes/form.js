@@ -424,7 +424,7 @@ router.post('/add/advert', authenticate, (req, res, next) => {
                 let cnt = {
                     authorID: req.user, username: req.username, userImage: req.userImage,
                     content: fields.content, title: fields.title, button: JSON.parse(fields.button),
-                    enableComment: JSON.parse(fields.comment), media, tempFileID
+                    enableComment: JSON.parse(fields.comment), hashTag: JSON.parse(fields.hashTag), media, tempFileID
                 }
                 submit(advert, cnt, tempFileID, 'advert').then(id => {
                     return res.status(201).send(id);
@@ -452,7 +452,7 @@ router.post('/edit/advert', authenticate,(req, res, next) => {
                 let cnt = {
                     authorID: req.user, username: req.username, userImage: req.userImage,edited: Date.now(),
                     content: fields.content, title: fields.title, button: JSON.parse(fields.button),
-                    enableComment: JSON.parse(fields.comment), media: uploadedMedia, tempFileID: tempFileID[2]
+                    enableComment: JSON.parse(fields.comment), hashTag: JSON.parse(fields.hashTag), media: uploadedMedia, tempFileID: tempFileID[2]
                 }
                 edit(advert, cnt, tempFileID[2], fields.cntID, 'advert').then(id => {
                     return res.status(201).send(id);

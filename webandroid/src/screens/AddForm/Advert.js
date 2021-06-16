@@ -13,7 +13,7 @@ import FormElement from '../../components/UI/FormElement/FormElement';
 import BoxShadow from '../../components/UI/BoxShadow/BoxShadow';
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import Button from '../../components/UI/Button/Button';
-import { updateObject, checkValidity, checkUri } from '../../shared/utility';
+import { updateObject, checkValidity, checkUri, checkHashtag } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
 import CameraComponent from '../../components/UI/Camera/Camera';
@@ -42,7 +42,8 @@ class Advert extends Component {
                     valid: false,
                     touched: false,
                     focus: true,
-                    range: {start: 0, end: 20}
+                    range: {start: 0, end: 20},
+                    inputHashTag: []
                 },
                 description: {
                     value: '',
@@ -53,7 +54,8 @@ class Advert extends Component {
                     valid: false,
                     touched: false,
                     focus: false,
-                    range: {start: 0, end: 30}
+                    range: {start: 0, end: 30},
+                    inputHashTag: []
                 },
                 comment: {
                     value: true,
@@ -103,6 +105,8 @@ class Advert extends Component {
     inputChangedHandler = (value, inputType) => {
         if (!this.state.formElement[inputType].range || String(value).length <= this.state.formElement[inputType].range.end) {
             let uri = checkUri(value);
+            let hashTag = checkHashtag(value);
+            let allowHashTag = inputType !== 'comment' ? {inputHashTag: hashTag ? hashTag: []} : {};
             let range = inputType !== 'comment' ?  {range: updateObject(this.state.formElement[inputType].range , {
                 start: String(value).length
             })} : {};
@@ -110,7 +114,8 @@ class Advert extends Component {
                 value,
                 valid: checkValidity(value, this.state.formElement[inputType].validation),
                 touched: true,
-                ...range
+                ...range,
+                ...allowHashTag
             });
             let formIsValid = true;
             let updateFormElement = updateObject(this.state.formElement, {[inputType]: updateFormType})
@@ -249,6 +254,7 @@ class Advert extends Component {
         let cnt = {
             title: this.state.formElement.title.value,
             content: this.state.formElement.description.value,
+            hashTag: [...this.state.formElement.title.inputHashTag, ...this.state.formElement.description.inputHashTag],
             uploadFile: this.state.uploadFile,
             button: this.state.advertButton,
             comment: this.state.formElement.comment.value

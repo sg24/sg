@@ -31,13 +31,13 @@ class Post extends Component {
             option: [{title: 'Search', icon: {name: 'search-outline'}, action: 'search'},
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
             isFocused: false,
-            profileID: this.props.profileID,
+            search: this.props.search,
             pageCntID: null,
             showPreview: null,
             pageID: null,
+            showChatBox: false,
             showActionSheet: null,
             showSearch: false,
-            search: '',
             showOption: false,
             showSettings: false,
             showPagePreview: null,
@@ -54,7 +54,10 @@ class Post extends Component {
 
     componentDidMount() {
         this.screenFocused();
-        Dimensions.addEventListener('change', this.updateStyle)
+        Dimensions.addEventListener('change', this.updateStyle);
+        if (!this.props.navigationState) {
+            // this.props.navigation.navigate(this.state.viewMode === 'landscape' ? 'UsersWeb' : 'Users')
+        }
     }
 
     componentDidUpdate() {
@@ -67,19 +70,23 @@ class Post extends Component {
 
     screenFocused() {
         if (this.props.focus && !this.state.isFocused) {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getPostByAuthor', this.state.profileID)
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'searchPostTab', this.state.search)
             return this.setState({isFocused: true});
         }
         if (!this.props.focus && this.state.isFocused) {
             this.setState({isFocused: false});
         }
+        if (this.props.search !== this.state.search) {
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'searchPostTab', this.props.search)
+            this.setState({search: this.props.search});
+        }
     }
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'searchPost', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'searchPostTab', this.state.search);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'getPostByAuthor', this.state.profileID);
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'searchPostTab', this.state.search);
     }
 
     navigationHandler = (page, cntID) => {
@@ -87,7 +94,7 @@ class Post extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showPagePreview: null, showSelectGroupPicker: null,
+        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null, showPagePreview: null, showSelectGroupPicker: null,
         showAdvertChat: false});
     }
 
@@ -111,13 +118,13 @@ class Post extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'post', 'searchPost', cnt);
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'post', 'searchPostTab', cnt);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getPostByAuthor', this.state.profileID);
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'searchPostTab', this.state.search);
     }
 
     checkOptionHandler = () => {
@@ -198,7 +205,7 @@ class Post extends Component {
     }
 
     advertChatboxHandler = (pageID) => {
-        this.props.navigation.navigate('CommentBox', {title: "Comment", chatType: "advertchat", page: "advert", pageID, showReply: true})
+        this.setState({showAdvertChat: true, pageID})
     }
 
     favoriteHandler = (pageID) => {
@@ -222,9 +229,9 @@ class Post extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'post', 'searchPost', this.state.search);
+                 'post', 'searchPostTab', this.state.search);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'getPostByAuthor', this.state.profileID);
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'searchPostTab', this.state.search);
     }
 
     render() {
@@ -344,6 +351,14 @@ class Post extends Component {
                             startPage={this.state.showPreview.startPage}
                             closePreview={this.closePreviewHandler}
                             backgroundColor={this.props.settings.backgroundColor}/> : null}
+                    { this.state.showChatBox ? 
+                        <CommentBox
+                            title="Comment"
+                            chatType="postchat"
+                            page="post"
+                            pageID={this.state.pageID}
+                            closeChat={this.closeModalHandler}
+                            showReply/> : null}
                     { this.state.showAdvertChat ? 
                         <CommentBox
                             title="Comment"
@@ -402,7 +417,7 @@ class Post extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
+        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -413,29 +428,6 @@ class Post extends Component {
                         color="#333"
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}/>
-                </View>
-            )
-        }
-
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
-            cnt = (
-                <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
-                    { header }
-                    <InfoBox
-                        name="chatbox"
-                        size={40}
-                        color="#437da3"
-                        style={styles.info}
-                        wrapperStyle={styles.infoWrapper}>
-                        <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> You have not Post !!! </Text>
-                            <View>
-                                <Text style={{justifyContent: 'center', alignItems: 'center'}}>
-                                    <Href title="create Post" onPress={() => this.navigationHandler('AddPost')} style={styles.href}/>
-                                </Text>
-                            </View>
-                        </View>
-                    </InfoBox>
                 </View>
             )
         }
@@ -462,8 +454,8 @@ const styles = StyleSheet.create({
         fontSize: 15
     },
     wrapper: {
-        width: '100%',
-        marginTop: 10
+        flex: 1,
+        width: '100%'
     },
     landscapeWrapper: {
         width: '100%'

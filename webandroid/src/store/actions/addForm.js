@@ -29,6 +29,7 @@ export const submitAddFormInit = (formData, type) => {
             formContent.append('button', JSON.stringify(formData.button));
             formContent.append('comment', JSON.stringify(formData.comment));
             formContent.append('title', formData.title);
+            formContent.append('hashTag', JSON.stringify(formData.hashTag));
         } else if (type === 'feed' || type === 'writeup' || type === 'groupfeed' || type === 'groupwriteup') {
             formContent.append('title', formData.title);
             formContent.append('content', formData.content);

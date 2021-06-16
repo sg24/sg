@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text,  ImageBackground, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
+import { View, Text,  ImageBackground, StyleSheet, Dimensions, ActivityIndicator, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'ionicons';
 

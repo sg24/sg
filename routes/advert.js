@@ -3,7 +3,7 @@ let router = express.Router();
 let mongoose = require('mongoose');
 let authenticate = require('../serverDB/middleware/authenticate');
 let filterCnt = require('./utility/filtercnt');
-const { advert , connectStatus} = require('../serverDB/serverDB');
+const { user, advert , connectStatus} = require('../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'getoneadvert') {
@@ -14,6 +14,73 @@ router.post('/', authenticate, (req, res, next) => {
         })
         return
     }
+
+    if (req.header !== null && req.header('data-categ') === 'getByAuthor') {
+        Promise.all([req.body.start === 0 ?  user.findById(req.body.searchCnt) : Promise.resolve()]).then(doc => {
+            advert.find({ _isCompleted: true, block: {$nin: [req.user]}, authorID: req.body.searchCnt})
+                .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
+                let updateResult = [];
+                if (result) {
+                    for (let cnt of result) {
+                        let updateCnt = JSON.parse(JSON.stringify(cnt));
+                        delete updateCnt.block;
+                        updateResult.push({...updateCnt,
+                        userImage: doc[0] ? doc[0].image : cnt.userImage, username: doc[0] ? doc[0].username : cnt.username,
+                       chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)}})
+                    }
+                }
+                res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
+            })
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header && req.header('data-categ') === 'searchAdvert') {
+        advert.find({_isCompleted: true, block: {$nin: [req.user]}, $text: {$search: req.body.searchCnt} })
+            .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
+            let updateResult = [];
+            if (result) {
+                for (let cnt of result) {
+                    let updateCnt = JSON.parse(JSON.stringify(cnt));
+                    delete updateCnt.block;
+                    updateResult.push({...updateCnt,
+                    chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)}})
+                }
+            }
+            res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'getOneAndDelete') {
+        advert.findOne({_id: req.body.pageID}).then(doc => {
+            if (doc && !doc.chat._id && (JSON.parse(JSON.stringify(doc.authorID)) === JSON.parse(JSON.stringify(req.user)))) {
+                return sequence([deleteMedia(doc.media), doc.deleteOne()]).then(() => {
+                    return res.sendStatus(200);
+                })
+            }
+            if (doc && !doc.chat._id && (JSON.parse(JSON.stringify(doc.shareInfo.authorID)) === JSON.parse(JSON.stringify(req.user)))) {
+                return sequence([doc.deleteOne()]).then(() => {
+                    return res.sendStatus(200);
+                })
+            }
+            if (doc && (JSON.parse(JSON.stringify(doc.authorID)) !== JSON.parse(JSON.stringify(req.user)))) {
+                advert.findByIdAndUpdate({_id: req.body.pageID}, {$push: {'block': req.user}}).then(() => {
+                    return res.sendStatus(200);
+                })
+                return;
+            }
+            return Promise.reject('This advert could not be deleted');
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
     // if (req.header !== null && req.header('data-categ') === 'advert') {
     //     return fetchAdvert({mode: 'publish'});
     // }

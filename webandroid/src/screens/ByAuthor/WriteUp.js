@@ -35,7 +35,6 @@ class WriteUp extends Component {
             pageCntID: null,
             showPreview: null,
             pageID: null,
-            showChatBox: false,
             showActionSheet: null,
             showSearch: false,
             search: '',
@@ -87,7 +86,7 @@ class WriteUp extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null, showSelectGroupPicker: null, showPagePreview: null});
+        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showSelectGroupPicker: null, showPagePreview: null});
     }
 
     openURIHandler = (type, uri) => {
@@ -189,11 +188,11 @@ class WriteUp extends Component {
     }
 
     chatHandler = (pageID) => {
-        this.setState({showChatBox: true, pageID})
+        this.props.navigation.navigate('CommentBox', {title: "Comment", chatType: "writeupchat", page: "writeup", pageID, showReply: true})
     }
 
     advertChatboxHandler = (pageID) => {
-        this.setState({showAdvertChat: true, pageID})
+        this.props.navigation.navigate('CommentBox', {title: "Comment", chatType: "advertchat", page: "advert", pageID, showReply: true})
     }
 
     favoriteHandler = (pageID) => {
@@ -340,14 +339,6 @@ class WriteUp extends Component {
                             startPage={this.state.showPreview.startPage}
                             closePreview={this.closePreviewHandler}
                             backgroundColor={this.props.settings.backgroundColor}/> : null}
-                    { this.state.showChatBox ? 
-                        <CommentBox
-                            title="Comment"
-                            chatType="writeupchat"
-                            page="writeup"
-                            pageID={this.state.pageID}
-                            closeChat={this.closeModalHandler}
-                            showReply/> : null}
                     { this.state.showSharePicker ? 
                         <SharePicker
                             shareType={this.state.showSharePicker.shareType}

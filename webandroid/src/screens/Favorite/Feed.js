@@ -187,11 +187,11 @@ class Feed extends Component {
     }
 
     chatHandler = (pageID) => {
-        this.setState({showChatBox: true, pageID})
+        this.props.navigation.navigate('CommentBox', {title: "Comment", chatType: "feedchat", page: "feed", pageID, showReply: true})
     }
 
     advertChatboxHandler = (pageID) => {
-        this.setState({showAdvertChat: true, pageID})
+        this.props.navigation.navigate('CommentBox', {title: "Comment", chatType: "advertchat", page: "advert", pageID, showReply: true})
     }
 
     favoriteHandler = (pageID) => {

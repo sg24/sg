@@ -35,7 +35,6 @@ class CBT extends Component {
             profileID: this.props.profileID,
             pageID: null,
             pageCntID: null,
-            showChatBox: null,
             showSearch: false,
             search: '',
             showOption: false,
@@ -90,7 +89,7 @@ class CBT extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, showChatBox: null, pageID: null, showSharePicker: null, showPagePreview: null, 
+        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showPagePreview: null, 
                 showSelectPicker: null, showSelectMarkPicker: null, showSelectGroupPicker: null, allowedSelectPicker: false, examInstruction: null});
     }
 
@@ -229,7 +228,8 @@ class CBT extends Component {
     }
 
     chatHandler = (pageID, enableComment, enableDelete) => {
-        this.setState({showChatBox: {enableComment, enableDelete}, pageID})
+        this.props.navigation.navigate('CommentBox', {title: "Result", chatType: "cbtchat", page: "cbt", pageID, 
+            showReply: true, enableComment, enableDelete})
     }
 
     favoriteHandler = (pageID) => {
@@ -382,16 +382,6 @@ class CBT extends Component {
                             startPage={this.state.showPreview.startPage}
                             closePreview={this.closePreviewHandler}
                             backgroundColor={this.props.settings.backgroundColor}/> : null}
-                    { this.state.showChatBox ?
-                        <CommentBox
-                            title={'Result'}
-                            chatType="cbtchat"
-                            page="cbt"
-                            pageID={this.state.pageID}
-                            closeChat={this.closeModalHandler}
-                            showReply
-                            enableComment={this.state.showChatBox.enableComment}
-                            enableDelete={this.state.showChatBox.enableDelete}/> : null}
                     { this.state.showSharePicker ? 
                         <SharePicker
                             shareType={this.state.showSharePicker.shareType}

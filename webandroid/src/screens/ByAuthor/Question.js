@@ -18,7 +18,6 @@ import PagePreview from '../../components/Page/Preview/Preview';
 import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
-import CommentBox from '../../components/UI/QuestionCommentBox/QuestionCommentBox';
 import SharePicker from '../../components/UI/SharePicker/SharePicker';
 import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
@@ -34,7 +33,6 @@ class Questions extends Component {
             profileID: this.props.profileID,
             pageID: null,
             pageCntID: null,
-            showChatBox: null,
             showSearch: false,
             search: '',
             showOption: false,
@@ -85,7 +83,7 @@ class Questions extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null, showSelectGroupPicker: null, showPagePreview: null, showAdvertChat: false});
+        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showSelectGroupPicker: null, showPagePreview: null, showAdvertChat: false});
     }
 
     openURIHandler = (type, uri) => {
@@ -189,7 +187,7 @@ class Questions extends Component {
     }
 
     chatHandler = (pageID) => {
-        this.setState({showChatBox: true, pageID})
+        this.props.navigation.navigate('QuestionCommentBox', {title: "Solution", chatType: "questionchat", page: "question", pageID, showReply: true})
     }
 
     favoriteHandler = (pageID) => {
@@ -336,14 +334,6 @@ class Questions extends Component {
                             startPage={this.state.showPreview.startPage}
                             closePreview={this.closePreviewHandler}
                             backgroundColor={this.props.settings.backgroundColor}/> : null}
-                    { this.state.showChatBox ?
-                        <CommentBox
-                            title="Solution"
-                            chatType="questionchat"
-                            page="question"
-                            pageID={this.state.pageID}
-                            closeChat={this.closeModalHandler}
-                            showReply/> : null}
                     { this.state.showSharePicker ? 
                         <SharePicker
                             shareType={this.state.showSharePicker.shareType}
