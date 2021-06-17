@@ -47,7 +47,6 @@ class Groups extends Component {
             showSelectMarkPicker: null,
             examInstruction: null,
             pendingExam: null,
-            showAdvertChat: false,
             showGroupRule: null,
             showGroupInfo: null
         }
@@ -98,7 +97,7 @@ class Groups extends Component {
             this.props.onPageReactionReset(this.state.pendingExam.pageID);
         }
         this.setState({pageCntID: null, pageID: null, showSharePicker: null, showSelectPicker: null, showPendingSelectPicker: null, showSelectMarkPicker: null, examInstruction: null, pendingExam: null,
-            showAdvertChat: false, showGroupRule: null, showGroupInfo: null});
+            showGroupRule: null, showGroupInfo: null});
     }
 
     openURIHandler = (type, uri) => {
@@ -275,7 +274,7 @@ class Groups extends Component {
     }
 
     advertChatboxHandler = (pageID) => {
-        this.setState({showAdvertChat: true, pageID})
+        this.props.navigation.navigate('CommentBox', {title: 'Comment', chatType: 'advertchat', page: 'advert', pageID, showReply: true})
     }
 
     actionSheetHandler = async (index) => {
@@ -403,14 +402,6 @@ class Groups extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
-                    { this.state.showAdvertChat ? 
-                        <CommentBox
-                            title="Comment"
-                            chatType="advertchat"
-                            page="advert"
-                            pageID={this.state.pageID}
-                            closeChat={this.closeModalHandler}
-                            showReply/> : null}
                     { this.state.showSharePicker ? 
                         <SharePicker
                             shareType={this.state.showSharePicker.shareType}

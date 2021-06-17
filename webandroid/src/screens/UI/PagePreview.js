@@ -37,7 +37,8 @@ class Preview extends Component {
             showContent: this.props.route.params.showContent,
             navigationURI: this.props.route.params.navigationURI,
             navigationURIWeb: this.props.route.params.navigationURIWeb,
-            editPage: this.props.route.params.editPage
+            editPage: this.props.route.params.editPage,
+            share: this.props.route.params.share || {}
         };
     
     }
@@ -72,7 +73,10 @@ class Preview extends Component {
         }
 
         if (action === 'share') {
-            this.props.navigation.navigate('Share', this.state.pageCnt, 'Friends')
+            let updateCnt = {_id: this.state.pageCnt._id};
+            this.props.navigation.navigate('SharePicker', {shareType: 'Friends', cnt: updateCnt,
+                shareUpdates: [{shareType: this.state.share.shareType, cntID: 'setShare', page: this.state.page, pageID: updateCnt._id}], shareChat: this.state.share.shareChat,
+                info: this.state.share.info})
         }
 
         if (action === 'report') {
@@ -97,7 +101,6 @@ class Preview extends Component {
         let previewUri = checkUri(this.state.pageCnt.content);
         let cnt =  (
             <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
-                <ScrollView style={styles.scroll}>
                     <DefaultHeader
                         onPress={this.props.navigation.goBack}
                         title={this.state.title ? this.state.title + "'s" : "post's"}
@@ -109,31 +112,32 @@ class Preview extends Component {
                                 <Ionicons name="ellipsis-vertical-outline" size={20} />
                             </Button>
                         )}/>
-                    { this.state.pageCnt.media.length > 0 ? 
-                         <MediaPreview
-                            showOption={this.state.showMediaOption === false ? false : true}
-                            pageID={this.state.pageCnt._id}
-                            media={this.state.pageCnt.media}
-                            page={this.state.page}
-                            hideSeeker
-                            hideHeader
-                            style={styles.mediaPreview}/> : null}
-                    {this.state.pageCnt.title ?
-                        <Uridetect
-                        onPress={this.openURIHandler} 
-                        style={styles.title} 
-                        content={this.state.pageCnt.title}/>: null}
-                    {this.state.pageCnt.content && this.state.showContent !== false ?
-                        <Uridetect
+                     <ScrollView style={styles.scroll}>
+                        { this.state.pageCnt.media.length > 0 ? 
+                            <MediaPreview
+                                showOption={this.state.showMediaOption === false ? false : true}
+                                pageID={this.state.pageCnt._id}
+                                media={this.state.pageCnt.media}
+                                page={this.state.page}
+                                hideSeeker
+                                hideHeader
+                                style={styles.mediaPreview}/> : null}
+                        {this.state.pageCnt.title ?
+                            <Uridetect
                             onPress={this.openURIHandler} 
-                            style={styles.content} 
-                            content={this.state.pageCnt.content}/> : null}
-                        { previewUri.length > 0 ? 
-                        <View style={styles.linkPreview}>
-                            <LinkPreview 
-                                links={previewUri}/>
-                        </View>: null}
-                </ScrollView>
+                            style={styles.title} 
+                            content={this.state.pageCnt.title}/>: null}
+                        {this.state.pageCnt.content && this.state.showContent !== false ?
+                            <Uridetect
+                                onPress={this.openURIHandler} 
+                                style={styles.content} 
+                                content={this.state.pageCnt.content}/> : null}
+                            { previewUri.length > 0 ? 
+                            <View style={styles.linkPreview}>
+                                <LinkPreview 
+                                    links={previewUri}/>
+                            </View>: null}
+                    </ScrollView>
                  { this.state.showOption ? (
                     <Option
                         option={this.state.option}
@@ -156,7 +160,7 @@ class Preview extends Component {
                     </>
                 )}
                 content={ cnt }
-                contentFetched={this.props.fetchChat}>
+                contentFetched={true}>
             </NoBackground>
           )
     }

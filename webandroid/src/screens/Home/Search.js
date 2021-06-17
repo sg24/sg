@@ -35,7 +35,7 @@ class Search extends Component {
             routes: [{key: 'post', title: 'Post'},{key: 'feed', title: 'Feed'}, {key: 'group' , title: 'Group'}, {key: 'CBT', title: 'CBT'},
             {key: 'question', title: 'Question'}, {key: 'writeUp', title: 'Write Up'}, {key: 'advert', title: 'Product'}],
             option: [{title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
-            search: null,
+            search: '',
             showOption: false,
             showSettings: false,
             layoutWidth,
@@ -50,7 +50,7 @@ class Search extends Component {
         })
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
             this.props.onPageReset();
-            this.setState({showOption: false, showSettings: false, layoutWidth: null, searchHistory: null, search: null});
+            this.setState({showOption: false, showSettings: false});
         });
         Dimensions.addEventListener('change', this.updateStyle)
     }
@@ -170,7 +170,7 @@ class Search extends Component {
             )
         }
 
-        if (this.state.search && this.state.search.length > 0) {
+        if (this.state.search && this.state.search.trim().length > 0) {
             let renderScene = screenProps => {
                 switch (screenProps.route.key) {
                     case 'post':

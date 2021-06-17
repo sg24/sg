@@ -33,12 +33,10 @@ class CBT extends Component {
             pageID: null,
             isFocused: false,
             pageCntID: null,
-            showChatBox: null,
             showSearch: false,
             search: '',
             showOption: false,
             showSettings: false,
-            showPagePreview: null,
             showSelectPicker: null,
             showSelectMarkPicker: null,
             showSelectGroupPicker: null,
@@ -88,7 +86,7 @@ class CBT extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, showChatBox: null, pageID: null, showSharePicker: null, showPagePreview: null, 
+        this.setState({pageCntID: null, pageID: null,
                 showSelectPicker: null, showSelectMarkPicker: null, showSelectGroupPicker: null, allowedSelectPicker: false, examInstruction: null});
     }
 
@@ -168,7 +166,9 @@ class CBT extends Component {
     shareHandler = (cnt, shareType) => {
         let updateCnt = {_id: cnt._id};
         if (shareType === 'Friends') {
-            this.setState({showSharePicker: {cnt: updateCnt, shareType}})
+            this.props.navigation.navigate('SharePicker', {shareType, cnt: updateCnt,
+                shareUpdates: [{shareType: 'cbt', cntID: 'setShare', page: 'cbt', pageID: updateCnt._id}], shareChat: false,
+                info: 'CBT shared successfully '})
         } else {
             this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
@@ -210,12 +210,8 @@ class CBT extends Component {
         this.props.onPageReaction('cbt', pageID, 'cancelRequest');
     }
 
-    mediaPreviewHandler = (cntID, media, page) => {
-        this.setState({showPreview: { startPage: page, media, cntID}})
-    }
-
-    closePreviewHandler = () => {
-        this.setState({showPreview: null})
+    mediaPreviewHandler = (cntID, media, startPage) => {
+        this.props.navigation.navigate('MediaPreview', {showOption: false, page: 'cbt', pageID: cntID, media, startPage});
     }
 
     saveMediaHandler = (mediaCnt) => {
@@ -223,11 +219,12 @@ class CBT extends Component {
     }
 
     pagePreviewHandler = (cnt) => {
-        this.setState({showPagePreview: cnt})
+        this.props.navigation.navigate('PagePreview', {cnt, title: 'CBT', page: 'cbt', showOption: false, navigationURI: 'CBT',
+        navigationURIWeb: 'CBTWeb', editPage: 'EditCBT', showContent: false })
     }
 
     chatHandler = (pageID, enableComment, enableDelete) => {
-        this.props.navigation.navigate('CommentBox', {title: "Result", chatType: "cbtchat", page: "cbt", pageID, 
+        this.props.navigation.navigate('CommentBox', {title: 'Result', chatType: 'cbtchat', page: 'cbt', pageID, 
             showReply: true, enableComment, enableDelete})
     }
 
@@ -239,8 +236,9 @@ class CBT extends Component {
         if (index === -1) {
             this.setState({showActionSheet: false})
         } else if (index === 0) {
-            this.setState({showSharePicker: {shareType: this.state.showActionSheet.option[index],
-                cnt: this.state.showActionSheet.cnt}, showActionSheet: false})
+            this.props.navigation.navigate('SharePicker', {shareType: this.state.showActionSheet.option[index], cnt: this.state.showActionSheet.cnt,
+                shareUpdates: [{shareType: 'cbt', cntID: 'setShare', page: 'cbt', pageID: this.state.showActionSheet.cnt._id}], shareChat: false,
+                info: 'CBT shared successfully '})
             return
         } else if (index === 1){
             this.setState({showSelectGroupPicker: {selectType: 'group', pageID: this.state.showActionSheet.cnt._id}, showActionSheet: false})
@@ -358,47 +356,6 @@ class CBT extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
-                    { this.state.showPagePreview ? 
-                        <PagePreview
-                            showOption={false}
-                            cnt={this.state.showPagePreview}
-                            title="CBT"
-                            userID={this.props.userID}
-                            openURI={this.openURIHandler}
-                            userProfile={this.userProfileHandler}
-                            edit={this.editHandler}
-                            share={this.shareHandler}
-                            report={this.reportHandler}
-                            openURI={this.openURIHandler}
-                            closePagePreview={this.closeModalHandler}
-                            showContent ={false} /> : null}
-                   { this.state.showPreview ? 
-                        <MediaPreview
-                            showOption={false}
-                            pageID={this.state.showPreview.cntID}
-                            media={this.state.showPreview.media}
-                            page="cbt"
-                            startPage={this.state.showPreview.startPage}
-                            closePreview={this.closePreviewHandler}
-                            backgroundColor={this.props.settings.backgroundColor}/> : null}
-                    { this.state.showChatBox ?
-                        <CommentBox
-                            title={'Result'}
-                            chatType="cbtchat"
-                            page="cbt"
-                            pageID={this.state.pageID}
-                            closeChat={this.closeModalHandler}
-                            showReply
-                            enableComment={this.state.showChatBox.enableComment}
-                            enableDelete={this.state.showChatBox.enableDelete}/> : null}
-                    { this.state.showSharePicker ? 
-                        <SharePicker
-                            shareType={this.state.showSharePicker.shareType}
-                            closeSharePicker={this.closeModalHandler}
-                            cnt={this.state.showSharePicker.cnt}
-                            shareUpdates={[{shareType: 'cbt', cntID: 'setShare', page: 'cbt', pageID: this.state.showSharePicker.cnt._id}]}
-                            shareChat={false}
-                            info="CBT shared successfully !"/> : null}
                     { this.state.showSelectPicker ? 
                         <SelectPicker
                             selectType={this.state.showSelectPicker.selectType}

@@ -45,6 +45,7 @@ import CommentBoxScreen from './src/screens/Home/CommentBox';
 import QuestionSolutionScreen from './src/screens/Home/QuestionSolution';
 import MediaPreviewScreen from './src/screens/UI/MediaPreview';
 import PagePreviewScreen from './src/screens/UI/PagePreview';
+import SharePickerScreen from './src/screens/UI/SharePicker';
 import AddPostScreen from './src/screens/AddForm/Post';
 import AddQuestionScreen from './src/screens/AddForm/Question';
 import AddAdvertScreen from './src/screens/AddForm/Advert';
@@ -93,6 +94,7 @@ const userScreens = {
   QuestionSolution : QuestionSolutionScreen,
   MediaPreview: MediaPreviewScreen,
   PagePreview: PagePreviewScreen,
+  SharePicker: SharePickerScreen,
   CBTWeb: CBTScreen,
   GroupWeb: GroupScreen,
   GroupPreview: GroupPreviewScreen,
@@ -297,7 +299,7 @@ class Base extends Component {
 
               if (name === 'Question' || name === 'Feed' || name === 'WriteUp' || name === 'GroupPreview' || name === 'CommentBox'
                 || name === 'Exam' || name === 'MarkExam' || name === 'RoomInfo' || name === 'Search' || name === 'QuestionSolution'
-                || name === 'MediaPreview' || name === 'PagePreview') {
+                || name === 'MediaPreview' || name === 'PagePreview' || name === 'SharePicker') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
                 header = {
                   header: ({scene, previous, navigation }) => this.state.viewMode === 'landscape' ?  <HeaderBar

@@ -84,7 +84,7 @@ class WriteUp extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showSelectGroupPicker: null});
+        this.setState({pageCntID: null, pageID: null, showSelectGroupPicker: null});
     }
 
     openURIHandler = (type, uri) => {
@@ -161,7 +161,9 @@ class WriteUp extends Component {
     shareHandler = (cnt, shareType) => {
         let updateCnt = {_id: cnt._id};
         if (shareType === 'Friends') {
-            this.setState({showSharePicker: {cnt: updateCnt, shareType}})
+            this.props.navigation.navigate('SharePicker', {shareType, cnt: updateCnt,
+                shareUpdates: [{shareType: 'writeup', cntID: 'setShare', page: 'writeup', pageID: updateCnt._id}], shareChat: false,
+                info: 'Write Up shared successfully !'})
         } else {
             this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
@@ -179,15 +181,11 @@ class WriteUp extends Component {
 
     pagePreviewHandler = (cnt) => {
         this.props.navigation.navigate('PagePreview', {cnt, title: 'Write Up', page: 'writeup', navigationURI: 'WriteUp',
-            navigationURIWeb: 'WriteUp', editPage: 'EditWriteUp', showOption: false})
+            navigationURIWeb: 'WriteUp', editPage: 'EditWriteUp', showOption: false, share: {shareType: 'writeup', shareChat: false,  info: 'Write Up shared successfully !'}})
     }
 
     chatHandler = (pageID) => {
         this.props.navigation.navigate('CommentBox', {title: "Comment", chatType: "writeupchat", page: "writeup", pageID, showReply: true})
-    }
-
-    advertChatboxHandler = (pageID) => {
-        this.props.navigation.navigate('CommentBox', {title: "Comment", chatType: "advertchat", page: "advert", pageID, showReply: true})
     }
 
     favoriteHandler = (pageID) => {
@@ -198,8 +196,9 @@ class WriteUp extends Component {
         if (index === -1) {
             this.setState({showActionSheet: false})
         } else if (index === 0) {
-            this.setState({showSharePicker: {shareType: this.state.showActionSheet.option[index],
-                cnt: this.state.showActionSheet.cnt}, showActionSheet: false})
+            this.props.navigation.navigate('SharePicker', {shareType: this.state.showActionSheet.option[index], cnt: this.state.showActionSheet.cnt,
+                shareUpdates: [{shareType: 'writeup', cntID: 'setShare', page: 'writeup', pageID: this.state.showActionSheet.cnt._id}], shareChat: false,
+                info: 'Write Up shared successfully !'})
             return
         } else if (index === 1){
             this.setState({showSelectGroupPicker: {selectType: 'group', pageID: this.state.showActionSheet.cnt._id}, showActionSheet: false})
@@ -311,14 +310,6 @@ class WriteUp extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
-                    { this.state.showSharePicker ? 
-                        <SharePicker
-                            shareType={this.state.showSharePicker.shareType}
-                            closeSharePicker={this.closeModalHandler}
-                            cnt={this.state.showSharePicker.cnt}
-                            shareUpdates={[{shareType: 'writeup', cntID: 'setShare', page: 'writeup', pageID: this.state.showSharePicker.cnt._id}]}
-                            shareChat={false}
-                            info="Write Up shared successfully !"/> : null}
                     { this.state.showSelectGroupPicker ? 
                         <SelectPicker
                             selectType={this.state.showSelectGroupPicker.selectType}

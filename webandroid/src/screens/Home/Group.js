@@ -49,7 +49,6 @@ class Groups extends Component {
             showSelectMarkPicker: null,
             examInstruction: null,
             pendingExam: null,
-            showAdvertChat: false,
             showGroupRule: null,
             showGroupInfo: null
         }
@@ -68,7 +67,7 @@ class Groups extends Component {
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
             this.props.onPageReset();
             this.setState({ pageID: null, pageCntID: null, showSearch: false,search: '',showOption: false,showSettings: false,  showGroupInfo: null,
-            showGroupRule: null, showSelectPicker: null,showPendingSelectPicker: null, showSelectMarkPicker: null, examInstruction: null, pendingExam: null, showAdvertChat: false})
+            showGroupRule: null, showSelectPicker: null,showPendingSelectPicker: null, showSelectMarkPicker: null, examInstruction: null, pendingExam: null})
         });
         Dimensions.addEventListener('change', this.updateStyle)
     }
@@ -95,7 +94,7 @@ class Groups extends Component {
             this.props.onPageReactionReset(this.state.pendingExam.pageID);
         }
         this.setState({pageCntID: null, pageID: null, showSharePicker: null, showSelectPicker: null, showPendingSelectPicker: null, showSelectMarkPicker: null, examInstruction: null, pendingExam: null,
-            showAdvertChat: false, showGroupRule: null, showGroupInfo: null});
+            showGroupRule: null, showGroupInfo: null});
     }
 
     openURIHandler = (type, uri) => {
@@ -254,12 +253,8 @@ class Groups extends Component {
         this.setState({pageCntID: null});
     }
 
-    mediaPreviewHandler = (cntID, media, page) => {
-        this.setState({showPreview: { startPage: page, media, cntID}})
-    }
-
-    closePreviewHandler = () => {
-        this.setState({showPreview: null})
+    mediaPreviewHandler = (cntID, media, startPage) => {
+        this.props.navigation.navigate('MediaPreview', {showOption: false, page: 'group', pageID: cntID, media, startPage});
     }
 
     saveMediaHandler = (mediaCnt) => {
@@ -276,7 +271,7 @@ class Groups extends Component {
     }
 
     advertChatboxHandler = (pageID) => {
-        this.setState({showAdvertChat: true, pageID})
+        this.props.navigation.navigate('CommentBox', {title: 'Comment', chatType: 'advertchat', page: 'advert', pageID, showReply: true})
     }
 
     actionSheetHandler = async (index) => {
@@ -417,23 +412,6 @@ class Groups extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
-                   { this.state.showPreview ? 
-                        <MediaPreview
-                            showOption={false}
-                            pageID={this.state.showPreview.cntID}
-                            media={this.state.showPreview.media}
-                            page="group"
-                            startPage={this.state.showPreview.startPage}
-                            closePreview={this.closePreviewHandler}
-                            backgroundColor={this.props.settings.backgroundColor}/> : null}
-                    { this.state.showAdvertChat ? 
-                        <CommentBox
-                            title="Comment"
-                            chatType="advertchat"
-                            page="advert"
-                            pageID={this.state.pageID}
-                            closeChat={this.closeModalHandler}
-                            showReply/> : null}
                     { this.state.showSharePicker ? 
                         <SharePicker
                             shareType={this.state.showSharePicker.shareType}

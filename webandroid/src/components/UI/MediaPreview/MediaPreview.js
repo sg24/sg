@@ -5,6 +5,8 @@ import Carousel from 'react-native-snap-carousel';
 import Ionicons from 'ionicons';
 import Constants from 'expo-constants';
 import * as FileSystem from 'expo-file-system';
+import { useNavigation } from '@react-navigation/native';
+import withComponent from 'withcomponent';
 
 import MediaItem from './MediaItem/MediaItem';
 import { size } from 'tailwind';
@@ -132,7 +134,8 @@ class MediaPreview extends Component {
     }
 
     showChatBoxHandler = (mediaID) => {
-        this.setState({showChatBox: {mediaID}})
+        this.props.navigation.navigate('CommentBox', {title: "Comment", chatType: "mediachat", page: this.props.page, pageID: this.props.pageID, showReply: true,
+            cntID: mediaID})
     }
 
     render() {
@@ -214,15 +217,6 @@ class MediaPreview extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onMediaLikeReset}
                         button={[{title: 'Ok', onPress: this.props.onMediaLikeReset, style: styles.button}]}/> : null}
-                { this.state.showChatBox ? 
-                    <CommentBox
-                        title="Comment"
-                        chatType="mediachat"
-                        pageID={this.props.pageID}
-                        page={this.props.page}
-                        cntID={this.state.showChatBox.mediaID}
-                        closeChat={this.closeModalHandler}
-                        showReply/> : null}
             </>
         )
         if (this.props.hideHeader) {
@@ -318,4 +312,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MediaPreview);
+export default withComponent([{name: 'navigation', component: useNavigation}])(connect(mapStateToProps, mapDispatchToProps)(MediaPreview));

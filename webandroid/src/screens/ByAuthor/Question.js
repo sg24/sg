@@ -82,7 +82,7 @@ class Questions extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showSelectGroupPicker: null, showAdvertChat: false});
+        this.setState({pageCntID: null, pageID: null, showSelectGroupPicker: null, showAdvertChat: false});
     }
 
     openURIHandler = (type, uri) => {
@@ -161,7 +161,9 @@ class Questions extends Component {
     shareHandler = (cnt, shareType) => {
         let updateCnt = {_id: cnt._id};
         if (shareType === 'Friends') {
-            this.setState({showSharePicker: {cnt: updateCnt, shareType}})
+            this.props.navigation.navigate('SharePicker', {shareType, cnt: updateCnt,
+                shareUpdates: [{shareType: 'question', cntID: 'setShare', page: 'question', pageID: updateCnt._id}], shareChat: false,
+                info: 'Question shared successfully !'})
         } else {
             this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
@@ -179,7 +181,7 @@ class Questions extends Component {
 
     pagePreviewHandler = (cnt) => {
         this.props.navigation.navigate('PagePreview', {cnt, title: 'Question', page: 'question', navigationURI: 'Question',
-            navigationURIWeb: 'Question', editPage: 'EditQuestion', showOption: false})
+            navigationURIWeb: 'Question', editPage: 'EditQuestion', showOption: false, share: {shareType: 'question', shareChat: false,  info: 'Question shared successfully !'}})
     }
 
     chatHandler = (pageID) => {
@@ -194,8 +196,9 @@ class Questions extends Component {
         if (index === -1) {
             this.setState({showActionSheet: false})
         } else if (index === 0) {
-            this.setState({showSharePicker: {shareType: this.state.showActionSheet.option[index],
-                cnt: this.state.showActionSheet.cnt}, showActionSheet: false})
+            this.props.navigation.navigate('SharePicker', {shareType: this.state.showActionSheet.option[index], cnt: this.state.showActionSheet.cnt,
+                shareUpdates: [{shareType: 'question', cntID: 'setShare', page: 'question', pageID: this.state.showActionSheet.cnt._id}], shareChat: false,
+                info: 'Question shared successfully !'})
             return
         } else if (index === 1){
             this.setState({showSelectGroupPicker: {selectType: 'group', pageID: this.state.showActionSheet.cnt._id}, showActionSheet: false})
@@ -308,14 +311,6 @@ class Questions extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
-                    { this.state.showSharePicker ? 
-                        <SharePicker
-                            shareType={this.state.showSharePicker.shareType}
-                            closeSharePicker={this.closeModalHandler}
-                            cnt={this.state.showSharePicker.cnt}
-                            shareUpdates={[{shareType: 'question', cntID: 'setShare', page: 'question', pageID: this.state.showSharePicker.cnt._id}]}
-                            shareChat={false}
-                            info="Question shared successfully !"/> : null}
                     { this.state.showSelectGroupPicker ? 
                         <SelectPicker
                             selectType={this.state.showSelectGroupPicker.selectType}

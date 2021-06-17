@@ -36,13 +36,11 @@ class Questions extends Component {
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
             pageID: null,
             pageCntID: null,
-            showChatBox: null,
             showSearch: false,
             search: '',
             showOption: false,
             showSettings: false,
-            showSelectGroupPicker: null,
-            showPagePreview: null
+            showSelectGroupPicker: null
         }
     }
 
@@ -58,7 +56,7 @@ class Questions extends Component {
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
             this.props.onPageReset();
-            this.setState({ pageID: null, pageCntID: null, showChatBox: null,showSearch: false,search: '',showOption: false,showSettings: false, showSelectGroupPicker: null, showPagePreview: null})
+            this.setState({ pageID: null, pageCntID: null, showSearch: false,search: '',showOption: false,showSettings: false, showSelectGroupPicker: null})
         });
         Dimensions.addEventListener('change', this.updateStyle)
     }
@@ -81,7 +79,7 @@ class Questions extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null, showSelectGroupPicker: null, showPagePreview: null, showAdvertChat: false});
+        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showSelectGroupPicker: null});
     }
 
     openURIHandler = (type, uri) => {
@@ -168,12 +166,8 @@ class Questions extends Component {
         this.setState({pageCntID: null});
     }
 
-    mediaPreviewHandler = (cntID, media, page) => {
-        this.setState({showPreview: { startPage: page, media, cntID}})
-    }
-
-    closePreviewHandler = () => {
-        this.setState({showPreview: null})
+    mediaPreviewHandler = (cntID, media, startPage) => {
+        this.props.navigation.navigate('MediaPreview', {showOption: false, page: 'question', pageID: cntID, media, startPage});
     }
 
     saveMediaHandler = (mediaCnt) => {
@@ -181,11 +175,12 @@ class Questions extends Component {
     }
 
     pagePreviewHandler = (cnt) => {
-        this.setState({showPagePreview: cnt})
+        this.props.navigation.navigate('PagePreview', {cnt, title: 'Question', page: 'question', navigationURI: 'Question',
+            navigationURIWeb: 'Question', editPage: 'EditQuestion', showOption: false})
     }
 
     chatHandler = (pageID) => {
-        this.setState({showChatBox: true, pageID})
+        this.props.navigation.navigate('QuestionSolution', {title: "Solution", chatType: "questionchat", page: "question", pageID, showReply: true})
     }
 
     favoriteHandler = (pageID) => {
@@ -319,36 +314,6 @@ class Questions extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
-                    { this.state.showPagePreview ? 
-                        <PagePreview
-                            showOption={false}
-                            cnt={this.state.showPagePreview}
-                            title="Question"
-                            userID={this.props.userID}
-                            openURI={this.openURIHandler}
-                            userProfile={this.userProfileHandler}
-                            edit={this.editHandler}
-                            share={this.shareHandler}
-                            report={this.reportHandler}
-                            openURI={this.openURIHandler}
-                            closePagePreview={this.closeModalHandler} /> : null}
-                   { this.state.showPreview ? 
-                        <MediaPreview
-                            showOption={false}
-                            pageID={this.state.showPreview.cntID}
-                            media={this.state.showPreview.media}
-                            page="question"
-                            startPage={this.state.showPreview.startPage}
-                            closePreview={this.closePreviewHandler}
-                            backgroundColor={this.props.settings.backgroundColor}/> : null}
-                    { this.state.showChatBox ?
-                        <CommentBox
-                            title="Solution"
-                            chatType="questionchat"
-                            page="question"
-                            pageID={this.state.pageID}
-                            closeChat={this.closeModalHandler}
-                            showReply/> : null}
                     { this.state.showSharePicker ? 
                         <SharePicker
                             shareType={this.state.showSharePicker.shareType}

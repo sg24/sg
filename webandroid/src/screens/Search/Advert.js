@@ -30,14 +30,11 @@ class Advert extends Component {
             isFocused: false,
             search: this.props.search,
             pageCntID: null,
-            showPreview: null,
             pageID: null,
-            showChatBox: false,
             showSearch: false,
             search: '',
             showOption: false,
-            showSettings: false,
-            showPagePreview: null
+            showSettings: false
         }
     }
 
@@ -86,7 +83,7 @@ class Advert extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, showChatBox: false, pageID: null, showPagePreview: null});
+        this.setState({pageCntID: null, pageID: null});
     }
 
     openURIHandler = (type, uri) => {
@@ -160,12 +157,8 @@ class Advert extends Component {
         this.props.navigation.navigate('AddReport', {navigationURI: 'Advert', cntType: 'pageReport', page: 'advert', pageID});
     }
 
-    mediaPreviewHandler = (cntID, media, page) => {
-        this.setState({showPreview: { startPage: page, media, cntID}})
-    }
-
-    closePreviewHandler = () => {
-        this.setState({showPreview: null})
+    mediaPreviewHandler = (cntID, media, startPage) => {
+        this.props.navigation.navigate('MediaPreview', {showOption: false, page: 'advert', pageID: cntID, media, startPage});
     }
 
     saveMediaHandler = (mediaCnt) => {
@@ -173,11 +166,12 @@ class Advert extends Component {
     }
 
     pagePreviewHandler = (cnt) => {
-        this.setState({showPagePreview: cnt})
+        this.props.navigation.navigate('PagePreview', {cnt, title: 'Advert', page: 'advert', showOption: false, navigationURI: 'Home',
+        navigationURIWeb: 'HomeWeb', editPage: 'EditAdvert' })
     }
 
     chatHandler = (pageID) => {
-        this.setState({showChatBox: true, pageID})
+        this.props.navigation.navigate('CommentBox', {title: 'Comment', chatType: 'advertchat', page: 'advert', pageID, showReply: true})
     }
 
     favoriteHandler = (pageID) => {
@@ -287,36 +281,6 @@ class Advert extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
-                    { this.state.showPagePreview ? 
-                        <PagePreview
-                            cnt={this.state.showPagePreview}
-                            title="Advert"
-                            page="advert"
-                            userID={this.props.userID}
-                            openURI={this.openURIHandler}
-                            userProfile={this.userProfileHandler}
-                            edit={this.editHandler}
-                            share={this.shareHandler}
-                            report={this.reportHandler}
-                            openURI={this.openURIHandler}
-                            closePagePreview={this.closeModalHandler} /> : null}
-                   { this.state.showPreview ? 
-                        <MediaPreview
-                            showOption={false}
-                            pageID={this.state.showPreview.cntID}
-                            media={this.state.showPreview.media}
-                            page="advert"
-                            startPage={this.state.showPreview.startPage}
-                            closePreview={this.closePreviewHandler}
-                            backgroundColor={this.props.settings.backgroundColor}/> : null}
-                    { this.state.showChatBox ? 
-                        <CommentBox
-                            title="Comment"
-                            chatType="advertchat"
-                            page="advert"
-                            pageID={this.state.pageID}
-                            closeChat={this.closeModalHandler}
-                            showReply/> : null}
                     { this.props.deletePage && !this.props.deletePage.start ?  
                         <NotificationModal
                             info="Are you sure you want to delete this advert"

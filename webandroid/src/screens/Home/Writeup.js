@@ -37,7 +37,6 @@ class WriteUp extends Component {
             pageCntID: null,
             showPreview: null,
             pageID: null,
-            showChatBox: false,
             showActionSheet: null,
             showSearch: false,
             search: '',
@@ -60,8 +59,8 @@ class WriteUp extends Component {
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
             this.props.onPageReset();
-            this.setState({pageCntID: null,showPreview: null,pageID: null,showChatBox: false,showActionSheet: null,
-                showSearch: false,search: '',showOption: false,showSettings: false, showSelectGroupPicker: null, showPagePreview: null})
+            this.setState({pageCntID: null,pageID: null,showActionSheet: null,
+                showSearch: false,search: '',showOption: false,showSettings: false, showSelectGroupPicker: null})
         });
         Dimensions.addEventListener('change', this.updateStyle)
     }
@@ -84,7 +83,7 @@ class WriteUp extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null, showChatBox: false, pageID: null, showSharePicker: null, showSelectGroupPicker: null, showPagePreview: null});
+        this.setState({pageCntID: null, pageID: null, showSharePicker: null, showSelectGroupPicker: null});
     }
 
     openURIHandler = (type, uri) => {
@@ -169,12 +168,8 @@ class WriteUp extends Component {
         this.setState({pageCntID: null});
     }
 
-    mediaPreviewHandler = (cntID, media, page) => {
-        this.setState({showPreview: { startPage: page, media, cntID}})
-    }
-
-    closePreviewHandler = () => {
-        this.setState({showPreview: null})
+    mediaPreviewHandler = (cntID, media, startPage) => {
+        this.props.navigation.navigate('MediaPreview', {showOption: cntID ? true : false, page: 'writeup', pageID: cntID, media, startPage});
     }
 
     saveMediaHandler = (mediaCnt) => {
@@ -182,15 +177,12 @@ class WriteUp extends Component {
     }
 
     pagePreviewHandler = (cnt) => {
-        this.setState({showPagePreview: cnt})
+        this.props.navigation.navigate('PagePreview', {cnt, title: 'Write Up', page: 'writeup', navigationURI: 'WriteUp',
+            navigationURIWeb: 'WriteUp', editPage: 'EditWriteUp', showOption: false})
     }
 
     chatHandler = (pageID) => {
-        this.setState({showChatBox: true, pageID})
-    }
-
-    advertChatboxHandler = (pageID) => {
-        this.setState({showAdvertChat: true, pageID})
+        this.props.navigation.navigate('CommentBox', {title: "Comment", chatType: "writeupchat", page: "writeup", pageID, showReply: true})
     }
 
     favoriteHandler = (pageID) => {
@@ -324,37 +316,6 @@ class WriteUp extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
-                    { this.state.showPagePreview ? 
-                        <PagePreview
-                            cnt={this.state.showPagePreview}
-                            title="Write Up"
-                            page="writeup"
-                            userID={this.props.userID}
-                            openURI={this.openURIHandler}
-                            userProfile={this.userProfileHandler}
-                            edit={this.editHandler}
-                            share={this.shareHandler}
-                            report={this.reportHandler}
-                            openURI={this.openURIHandler}
-                            closePagePreview={this.closeModalHandler}
-                            showOption={false} /> : null}
-                   { this.state.showPreview ? 
-                        <MediaPreview
-                            showOption={this.state.showPreview.cntID ? true : false}
-                            pageID={this.state.showPreview.cntID}
-                            media={this.state.showPreview.media}
-                            page="writeup"
-                            startPage={this.state.showPreview.startPage}
-                            closePreview={this.closePreviewHandler}
-                            backgroundColor={this.props.settings.backgroundColor}/> : null}
-                    { this.state.showChatBox ? 
-                        <CommentBox
-                            title="Comment"
-                            chatType="writeupchat"
-                            page="writeup"
-                            pageID={this.state.pageID}
-                            closeChat={this.closeModalHandler}
-                            showReply/> : null}
                     { this.state.showSharePicker ? 
                         <SharePicker
                             shareType={this.state.showSharePicker.shareType}
