@@ -122,7 +122,7 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'getByAuthor') {
-        Promise.all([req.body.start === 0 ?  user.findById(req.body.searchCnt) : Promise.resolve()]).then(doc => {
+        Promise.all([user.findById(req.body.searchCnt)]).then(doc => {
             question.find({groupID: null, authorID: req.body.searchCnt, _isCompleted: true, block: {$nin: [req.user]}})
                 .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
                 let updateResult = [];
@@ -139,6 +139,27 @@ router.post('/', authenticate, (req, res, next) => {
                 }
                 res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
             })
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'hashSearch') {
+        question.find({groupID: null, hashTag: {$in: [req.body.searchCnt]}, _isCompleted: true, block: {$nin: [req.user]}})
+            .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
+            let updateResult = [];
+            if (result) {
+                for (let cnt of result) {
+                    let updateCnt = JSON.parse(JSON.stringify(cnt));
+                    delete updateCnt.block;
+                    updateResult.push({...updateCnt,
+                    share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
+                    shareInfo: cnt.groupID ? cnt.share.filter(shareCnt => shareCnt.reciever === req.user)[0] : null,
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
+                }
+            }
+            res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
         }).catch(err => {
             res.status(500).send(err)
         })

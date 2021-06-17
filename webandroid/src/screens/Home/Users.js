@@ -160,7 +160,7 @@ class Users extends Component {
                     editable
                     value={this.state.search}
                     disableBackButton
-                    autoFocus={this.state.search.length > 0}
+                    autoFocus={false}
                 />
             )
         );
@@ -194,7 +194,6 @@ class Users extends Component {
 
         let cnt = (
            <View style={styles.wrapper}>
-                { header }
                 <View style={[styles.loaderCnt, this.state.viewMode === 'landscape' ? {backgroundColor: this.props.settings.backgroundColor} : 
                         null]}>
                     <ActivityIndicator 
@@ -202,7 +201,6 @@ class Users extends Component {
                         animating
                         color="#437da3"/>
                 </View>
-                { options }
            </View>
         )
 
@@ -217,7 +215,6 @@ class Users extends Component {
                         <ScrollView 
                             style={styles.scroll}
                             showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }>
-                            { header }
                             <View style={[styles.scroll, styles.scrollContainer]}>
                                 <User
                                     cnt={this.props.fetchCnt}
@@ -234,7 +231,6 @@ class Users extends Component {
                             </View>
                         </ScrollView>
                     </Wrapper>
-                    { options }
                     { this.props.deletePageErr ? 
                     <NotificationModal
                         info="Network Error !"
@@ -278,7 +274,6 @@ class Users extends Component {
         if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
-                    { header }
                     <InfoBox
                         det={`'${this.state.search}' does not match any username`}
                         name="search"
@@ -298,10 +293,17 @@ class Users extends Component {
                         viewMode={this.state.viewMode}
                         backgroundColor={this.props.settings.backgroundColor}
                         reload={this.reloadFetchHandler}/>
-                    { options }
                 </View>
             )
         }
+
+        let allCnt = (
+            <View style={styles.wrapper}>
+                { header }
+                { cnt }
+                { options }
+            </View>
+        )
 
       return (
         <NoBackground
@@ -315,7 +317,7 @@ class Users extends Component {
                     backgroundColor={this.props.settings.backgroundColor}/>
                 </>
             )}
-            content={ cnt }
+            content={ allCnt }
             contentFetched={this.props.fetchCnt}>
         </NoBackground>
       )

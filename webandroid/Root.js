@@ -228,16 +228,6 @@ class Base extends Component {
                   PostScreen: component;
               }
 
-              if (name === 'HashSearch') {
-                header = {
-                  header: ({scene, previous, navigation }) => <SearchHeader
-                    onPress={() => navigation.goBack()}
-                    title={scene.route  && scene.route.params ? scene.route.params.hashTag : '#'}
-                    editable={false}
-                  />
-                }
-              }
-
               if ( name === 'Conversation') {
                 header = {
                   header: ({scene, previous, navigation }) => <DefaultSearchHeader
@@ -299,7 +289,7 @@ class Base extends Component {
 
               if (name === 'Question' || name === 'Feed' || name === 'WriteUp' || name === 'GroupPreview' || name === 'CommentBox'
                 || name === 'Exam' || name === 'MarkExam' || name === 'RoomInfo' || name === 'Search' || name === 'QuestionSolution'
-                || name === 'MediaPreview' || name === 'PagePreview' || name === 'SharePicker') {
+                || name === 'MediaPreview' || name === 'PagePreview' || name === 'SharePicker' || name === 'HashSearch') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
                 header = {
                   header: ({scene, previous, navigation }) => this.state.viewMode === 'landscape' ?  <HeaderBar

@@ -304,7 +304,7 @@ class Advert extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        det={`Searched text '${this.state.search}' does not match any advert`}
+                        det={`Searched text '${this.state.search}' does not match any product`}
                         name="search"
                         size={40}
                         color="#333"

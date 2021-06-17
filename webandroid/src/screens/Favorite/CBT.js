@@ -18,7 +18,6 @@ import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import CommentBox from '../../components/UI/CommentBox/CommentBox';
-import SharePicker from '../../components/UI/SharePicker/SharePicker';
 import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 import Instruction from '../../components/UI/Instruction/Instruction';
@@ -220,7 +219,7 @@ class CBT extends Component {
 
     pagePreviewHandler = (cnt) => {
         this.props.navigation.navigate('PagePreview', {cnt, title: 'CBT', page: 'cbt', showOption: false, navigationURI: 'CBT',
-        navigationURIWeb: 'CBTWeb', editPage: 'EditCBT', showContent: false })
+        navigationURIWeb: 'CBTWeb', editPage: 'EditCBT', showContent: false , share: {shareType: 'cbt', shareChat: false,  info: 'CBT shared successfully !'}})
     }
 
     chatHandler = (pageID, enableComment, enableDelete) => {

@@ -1,94 +1,186 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Dimensions} from 'react-native';
-import { size } from 'tailwind';
-import { makeUseStyles } from "react-native-stylex";
-import { withStyles } from "react-native-stylex/withStyles";
+import { View, Text, StyleSheet, ActivityIndicator, Dimensions } from 'react-native';
+import { connect } from 'react-redux';
+import { tailwind, size } from 'tailwind';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
 import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/CreateNavigation';
+import TabView from '../../components/UI/TabView/TabView';
 import SearchHeader from '../../components/UI/Header/Search';
+import * as actions from '../../store/actions/index';
+import Post from '../HashSearch/Post';
+import Question from '../HashSearch/Question';
+import Feed from '../HashSearch/Feed';
+import WriteUp from '../HashSearch/WriteUp';
+import CBT from '../HashSearch/CBT';
+import Group from '../HashSearch/Group';
+import Advert from '../HashSearch/Advert';
 
-class HastTagSearch extends Component {
+class HashSearch extends Component {
     constructor(props) {
         super(props);
+        let layoutWidth = Dimensions.get('window').width;
         this.state = {
-            backgroundColor: '#fff',
-            color: '#333',
-            viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
-            viewHeight: Dimensions.get('window').height,
-            hastTag: this.props.route.params.hastTag
+            viewMode: layoutWidth >= size.md ? 'landscape' : 'portrait',
+            index: 0,
+            routes: [{key: 'post', title: 'Post'},{key: 'feed', title: 'Feed'}, {key: 'group' , title: 'Group'}, {key: 'CBT', title: 'CBT'},
+            {key: 'question', title: 'Question'}, {key: 'writeUp', title: 'Write Up'}, {key: 'advert', title: 'Product'}],
+            option: [{title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
+            search: this.props.route.params.hashTag,
+            showOption: false,
+            showSettings: false,
+            layoutWidth
         }
     }
 
-    updateStyle = (dims) => {
-        this.setState({
-            viewMode: dims.window.width >= size.md ? 'landscape' : 'portriat',
-            viewHeight: dims.window.height
-        })
-    }
-
-    componentDidMount() {
+    async componentDidMount() {
+        this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
+            this.props.onPageReset();
+            this.setState({showOption: false, showSettings: false});
+        });
         Dimensions.addEventListener('change', this.updateStyle)
     }
 
     componentWillUnmount() {
+        this._unsubscribeBlur();
+        this.props.onPageReset();
         Dimensions.removeEventListener('change', this.updateStyle);
     }
 
-    reloadFetchHandler = () => {
+    updateStyle = (dims) => {
+        let layoutWidth = dims.window.width;
+        this.setState({
+            viewMode: layoutWidth >= size.md ? 'landscape' : 'portriat',
+            layoutWidth
+        })
+    }
+
+    optionHandler = (action) => {
+        if (action === 'search') {
+            this.setState({showSearch: true, showOption: false});
+        }
+
+        if (action === 'settings') {
+            this.setState({showSettings: true, showOption: false});
+        }
+    }
+
+    checkOptionHandler = () => {
+        this.setState((prevState, props) => ({
+            showOption: !prevState.showOption, showActionSheet: null
+        }))
+    }
+
+    closeOptionHandler = () => {
+        this.setState({showOption: false})
+    }
+
+    closeSettingsHandler = () => {
+        this.setState({showSettings: false});
+    }
+
+    setIndexHandler = (index) => {
+        this.setState({index});
     }
 
     render() {
-        let { styles } = this.props;
         let header = (
-            this.state.viewMode === 'landscape' ? (
-                <SearchHeader 
-                    onPress={() => this.props.navigation.goBack()}
-                    title={this.state.hashTag || '#'}
-                    editable={false}
-              />
-            ) : null
+            <SearchHeader
+                onPress={this.props.navigation.goBack}
+                value={this.state.search}
+                editable={false}/>
         );
-        let cnt =  (
+        let cnt = (
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <ActivityIndicator 
+                size="large"
+                animating
+                color="#777"/>
+            </View>
+        );
+
+        if (this.state.search && this.state.search.trim().length > 0) {
+            let renderScene = screenProps => {
+                switch (screenProps.route.key) {
+                    case 'post':
+                        return <Post {...screenProps} focus={this.state.index === 0} search={this.state.search} />;
+                    case 'feed':
+                        return <Feed {...screenProps} focus={this.state.index === 1} search={this.state.search} />;
+                    case 'group':
+                        return <Group {...screenProps} focus={this.state.index === 2} search={this.state.search} />;
+                    case 'CBT':
+                        return <CBT {...screenProps} focus={this.state.index === 3} search={this.state.search} />;
+                    case 'question':
+                        return <Question {...screenProps} focus={this.state.index === 4} search={this.state.search} />;
+                    case 'writeUp':
+                        return <WriteUp {...screenProps} focus={this.state.index === 5} search={this.state.search} />;
+                    case 'advert':
+                        return <Advert {...screenProps} focus={this.state.index === 6} search={this.state.search} />;
+                    default:
+                        return null;
+                }
+            }
+            cnt = (
+                <View style={styles.wrapper}>
+                    <TabView
+                        navigationState={{ index: this.state.index, routes: this.state.routes }}
+                        renderScene={renderScene}
+                        onIndexChange={this.setIndexHandler}
+                        initialLayout={{ width: this.state.layoutWidth }}
+                        lazy
+                    />
+                </View>
+            )
+        }
+
+        let allCnt = (
             <View style={styles.wrapper}>
                 { header }
-                
+                { cnt }
             </View>
         )
 
-        return (
-            <NoBackground
-                sideBar={(
-                    <>
-                    <Navigation 
-                            color={this.state.color}
-                            backgroundColor={this.state.backgroundColor}/>
-                    <CreateNavigation 
-                        color={this.state.color}
-                        backgroundColor={this.state.backgroundColor}/>
-                    </>
-                )}
-                content={ cnt }
-                contentFetched={this.props.fetchCnt}>
-            </NoBackground>
-          )
+      return (
+        <NoBackground
+            sideBar={(
+                <>
+                <Navigation 
+                        color={this.props.settings.color}
+                        backgroundColor={this.props.settings.backgroundColor}/>
+                <CreateNavigation 
+                    color={this.props.settings.color}
+                    backgroundColor={this.props.settings.backgroundColor}/>
+                </>
+            )}
+            content={ allCnt }
+            contentFetched={true}>
+        </NoBackground>
+      )
     }
 }
 
-const useStyles = makeUseStyles(({ palette, utils }) => ({
+const styles = StyleSheet.create({
     textStyle: {
         fontSize: 15
     },
     wrapper: {
         width: '100%',
-        flex: 1,
-    },
-    scroll: {
-        width: '100%',
-        paddingHorizontal: 10,
-        paddingTop: 10
+        flex: 1
     }
-}))
+})
 
-export default withStyles(useStyles)(HastTagSearch);
+const mapStateToProps = state => {
+    return {
+        settings: state.settings,
+        userID: state.auth.userID
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+      onPageReset: () => dispatch(actions.pageReset())
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HashSearch);

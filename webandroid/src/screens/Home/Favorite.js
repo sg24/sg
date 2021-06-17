@@ -48,7 +48,7 @@ class Favorite extends Component {
 
     componentDidMount() {
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            this.props.onPageReset();
+            // this.props.onPageReset();
             this.setState({showOption: false,showSettings: false})
         });
         Dimensions.addEventListener('change', this.updateStyle)

@@ -142,7 +142,7 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'getByAuthor') {
-        Promise.all([req.body.start === 0 ?  user.findById(req.body.searchCnt) : Promise.resolve()]).then(doc => {
+        Promise.all([user.findById(req.body.searchCnt)]).then(doc => {
             group.find({_isCompleted: true, block: {$nin: [req.user]}, authorID: req.body.searchCnt})
                 .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
                 let updateResult = [];
@@ -164,6 +164,32 @@ router.post('/', authenticate, (req, res, next) => {
                 }
                 res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
             })
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'hashSearch') {
+        group.find({_isCompleted: true, block: {$nin: [req.user]}, hashTag: {$in: [req.body.searchCnt]}})
+            .skip(req.body.start).limit(req.body.limit).sort({created: -1, _id: -1}).then(result => {
+            let updateResult = [];
+            if (result) {
+                for (let cnt of result) {
+                    let updateCnt = JSON.parse(JSON.stringify(cnt));
+                    delete updateCnt.block;
+                    updateResult.push({...updateCnt,
+                    share: cnt.share.length, favorite: cnt.favorite.length,
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                    isMember: cnt.member.filter(cntItem => JSON.parse(JSON.stringify(cntItem.authorID)) === req.user)[0] ? true : false,
+                    isPending: cnt.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                    isPendingApprove: cnt.pendingApprove.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                    isPendingMark: cnt.mark.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                    isPublic: cnt.roomType === 'Public', chat: {user: cnt.member.slice(0, 4)},
+                    request: cnt.request.length, mark: cnt.mark.length, pendingApprove: cnt.pendingApprove.length, member: cnt.member.length})
+                }
+            }
+            res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
         }).catch(err => {
             res.status(500).send(err)
         })

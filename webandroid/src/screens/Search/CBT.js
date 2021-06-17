@@ -19,7 +19,6 @@ import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import CommentBox from '../../components/UI/CommentBox/CommentBox';
-import SharePicker from '../../components/UI/SharePicker/SharePicker';
 import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 import Instruction from '../../components/UI/Instruction/Instruction';
@@ -91,7 +90,7 @@ class CBT extends Component {
     }
 
     closeModalHandler = () => {
-        this.setState({pageCntID: null,  pageID: null, showSharePicker: null,
+        this.setState({pageCntID: null,  pageID: null,
                 showSelectPicker: null, showSelectMarkPicker: null, showSelectGroupPicker: null, allowedSelectPicker: false, examInstruction: null});
     }
 
@@ -171,7 +170,9 @@ class CBT extends Component {
     shareHandler = (cnt, shareType) => {
         let updateCnt = {_id: cnt._id};
         if (shareType === 'Friends') {
-            this.setState({showSharePicker: {cnt: updateCnt, shareType}})
+            this.props.navigation.navigate('SharePicker', {shareType, cnt: updateCnt,
+                shareUpdates: [{shareType: 'cbt', cntID: 'setShare', page: 'cbt', pageID: updateCnt._id}], shareChat: false,
+                info: 'CBT shared successfully '})
         } else {
             this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
@@ -223,7 +224,7 @@ class CBT extends Component {
 
     pagePreviewHandler = (cnt) => {
         this.props.navigation.navigate('PagePreview', {cnt, title: 'CBT', page: 'cbt', showOption: false, navigationURI: 'CBT',
-        navigationURIWeb: 'CBTWeb', editPage: 'EditCBT', showContent: false })
+        navigationURIWeb: 'CBTWeb', editPage: 'EditCBT', showContent: false , share: {shareType: 'cbt', shareChat: false,  info: 'CBT shared successfully !'}})
     }
 
     chatHandler = (pageID, enableComment, enableDelete) => {
@@ -239,8 +240,9 @@ class CBT extends Component {
         if (index === -1) {
             this.setState({showActionSheet: false})
         } else if (index === 0) {
-            this.setState({showSharePicker: {shareType: this.state.showActionSheet.option[index],
-                cnt: this.state.showActionSheet.cnt}, showActionSheet: false})
+            this.props.navigation.navigate('SharePicker', {shareType: this.state.showActionSheet.option[index], cnt: this.state.showActionSheet.cnt,
+                shareUpdates: [{shareType: 'cbt', cntID: 'setShare', page: 'cbt', pageID: this.state.showActionSheet.cnt._id}], shareChat: false,
+                info: 'CBT shared successfully '})
             return
         } else if (index === 1){
             this.setState({showSelectGroupPicker: {selectType: 'group', pageID: this.state.showActionSheet.cnt._id}, showActionSheet: false})
@@ -358,14 +360,6 @@ class CBT extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
-                    { this.state.showSharePicker ? 
-                        <SharePicker
-                            shareType={this.state.showSharePicker.shareType}
-                            closeSharePicker={this.closeModalHandler}
-                            cnt={this.state.showSharePicker.cnt}
-                            shareUpdates={[{shareType: 'cbt', cntID: 'setShare', page: 'cbt', pageID: this.state.showSharePicker.cnt._id}]}
-                            shareChat={false}
-                            info="CBT shared successfully !"/> : null}
                     { this.state.showSelectPicker ? 
                         <SelectPicker
                             selectType={this.state.showSelectPicker.selectType}

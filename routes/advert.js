@@ -16,7 +16,7 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'getByAuthor') {
-        Promise.all([req.body.start === 0 ?  user.findById(req.body.searchCnt) : Promise.resolve()]).then(doc => {
+        Promise.all([user.findById(req.body.searchCnt)]).then(doc => {
             advert.find({ _isCompleted: true, block: {$nin: [req.user]}, authorID: req.body.searchCnt})
                 .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
                 let updateResult = [];
@@ -31,6 +31,25 @@ router.post('/', authenticate, (req, res, next) => {
                 }
                 res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
             })
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'hashSearch') {
+            advert.find({ _isCompleted: true, block: {$nin: [req.user]}, hashTag: {$in: [req.body.searchCnt]}})
+                .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
+                let updateResult = [];
+                if (result) {
+                    for (let cnt of result) {
+                        let updateCnt = JSON.parse(JSON.stringify(cnt));
+                        delete updateCnt.block;
+                        updateResult.push({...updateCnt,
+                       chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)}})
+                    }
+                }
+                res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
         }).catch(err => {
             res.status(500).send(err)
         })

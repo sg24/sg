@@ -49,8 +49,8 @@ class Search extends Component {
             this.setState({searchHistory: searchHistory.reverse()})
         })
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            this.props.onPageReset();
-            this.setState({showOption: false, showSettings: false});
+            // this.props.onPageReset();
+            // this.setState({showOption: false, showSettings: false});
         });
         Dimensions.addEventListener('change', this.updateStyle)
     }

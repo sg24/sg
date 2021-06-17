@@ -33,7 +33,6 @@ import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import CommentBox from '../../components/UI/CommentBox/CommentBox';
-import SharePicker from '../../components/UI/SharePicker/SharePicker';
 import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 
@@ -168,7 +167,9 @@ class Post extends Component {
     shareHandler = (cnt, shareType) => {
         let updateCnt = {_id: cnt._id};
         if (shareType === 'Friends') {
-            this.setState({showSharePicker: {cnt: updateCnt, shareType}})
+            this.props.navigation.navigate('SharePicker', {shareType, cnt: updateCnt,
+                shareUpdates: [{shareType: 'post', cntID: 'setShare', page: 'post', pageID: updateCnt._id}], shareChat: false,
+                info: 'Post shared successfully !'})
         } else {
             this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
@@ -185,7 +186,7 @@ class Post extends Component {
 
     pagePreviewHandler = (cnt) => {
         this.props.navigation.navigate('PagePreview', {cnt, page: 'post', navigationURI: 'Home',
-            navigationURIWeb: 'HomeWeb', editPage: 'EditPost'})
+            navigationURIWeb: 'HomeWeb', editPage: 'EditPost', share: {shareType: 'post', shareChat: false,  info: 'Post shared successfully !'}})
     }
 
     chatHandler = (pageID) => {
@@ -204,8 +205,9 @@ class Post extends Component {
         if (index === -1) {
             this.setState({showActionSheet: false})
         } else if (index === 0) {
-            this.setState({showSharePicker: {shareType: this.state.showActionSheet.option[index],
-                cnt: this.state.showActionSheet.cnt}, showActionSheet: false})
+            this.props.navigation.navigate('SharePicker', {shareType: this.state.showActionSheet.option[index], cnt: this.state.showActionSheet.cnt,
+                shareUpdates: [{shareType: 'post', cntID: 'setShare', page: 'post', pageID: this.state.showActionSheet.cnt._id}], shareChat: false,
+                info: 'Post shared successfully !'})
             return
         } else if (index === 1){
             this.setState({showSelectGroupPicker: {selectType: 'group', pageID: this.state.showActionSheet.cnt._id}, showActionSheet: false})
@@ -360,14 +362,6 @@ class Post extends Component {
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
-                    { this.state.showSharePicker ? 
-                        <SharePicker
-                            shareType={this.state.showSharePicker.shareType}
-                            closeSharePicker={this.closeModalHandler}
-                            cnt={this.state.showSharePicker.cnt}
-                            shareUpdates={[{shareType: 'post', cntID: 'setShare', page: 'post', pageID: this.state.showSharePicker.cnt._id}]}
-                            shareChat={false}
-                            info="Post shared successfully !"/> : null}
                     { this.state.showSelectGroupPicker ? 
                         <SelectPicker
                             selectType={this.state.showSelectGroupPicker.selectType}

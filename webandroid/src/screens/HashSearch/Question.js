@@ -8,32 +8,32 @@ import { useNavigation } from '@react-navigation/native';
 
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
+import Href from '../../components/UI/Href/Href';
 import Settings from '../../components/UI/Settings/Settings';
 import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
-import PostItem from '../../components/Page/Post/Post';
+import Question from '../../components/Page/Question/Question';
 import PagePreview from '../../components/Page/Preview/Preview';
 import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
-import CommentBox from '../../components/UI/CommentBox/CommentBox';
+import CommentBox from '../../components/UI/QuestionCommentBox/QuestionCommentBox';
 import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 
-class Post extends Component {
+class Questions extends Component {
     constructor(props) {
         super(props);
         this.state = {
             viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
-            isFocused: false,
             option: [{title: 'Search', icon: {name: 'search-outline'}, action: 'search'},
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
-            pageCntID: null,
+            isFocused: false,
+            search: this.props.search,
             pageID: null,
-            showActionSheet: null,
+            pageCntID: null,
             showSearch: false,
-            search: '',
             showOption: false,
             showSettings: false,
             showSelectGroupPicker: null
@@ -50,7 +50,7 @@ class Post extends Component {
         this.screenFocused();
         Dimensions.addEventListener('change', this.updateStyle)
     }
-    
+
     componentDidUpdate() {
         this.screenFocused();
     }
@@ -61,19 +61,23 @@ class Post extends Component {
 
     screenFocused() {
         if (this.props.focus && !this.state.isFocused) {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getFavorite')
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.state.search)
             return this.setState({isFocused: true});
         }
         if (!this.props.focus && this.state.isFocused) {
             this.setState({isFocused: false});
         }
+        if (this.props.search !== this.state.search) {
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.props.search)
+            this.setState({search: this.props.search});
+        }
     }
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'searchPostFavorite', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.state.search);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'getFavorite');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.state.search);
     }
 
     navigationHandler = (page, cntID) => {
@@ -104,13 +108,13 @@ class Post extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'post', 'searchPostFavorite', cnt);
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', cnt);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getFavorite');
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.state.search);
     }
 
     checkOptionHandler = () => {
@@ -128,11 +132,12 @@ class Post extends Component {
     }
 
     userProfileHandler = (authorID) => {
-        this.props.navigation.navigate('Profile', {userID: authorID})
+        this.props.navigation.push('Profile', {userID: authorID})
     }
 
     editHandler = (id) => {
-        this.props.navigation.navigate('EditPost', {cntID: id});
+        this.props.navigation.navigate('EditQuestion', {cntID: id});
+        this.setState({pageCntID: null});
     }
 
     showUserOptHandler = (id) => {
@@ -143,7 +148,7 @@ class Post extends Component {
     }
 
     deletePageHandler = (id, start) => {
-        this.props.onDeletePage(id, 'post', start, 'getOneAndDelete');
+        this.props.onDeletePage(id, 'question', start, 'getOneAndDelete');
         this.setState({pageCntID: null});
     }
 
@@ -152,23 +157,25 @@ class Post extends Component {
     }
 
     reportHandler = (pageID) => {
-        this.props.navigation.navigate('AddReport', {navigationURI: this.state.viewMode === 'landscape' ? 'HomeWeb'  :  'Home', cntType: 'pageReport', page: 'post', pageID});
+        this.props.navigation.navigate('AddReport', {navigationURI: 'Question', cntType: 'pageReport', page: 'question', pageID});
+        this.setState({pageCntID: null});
     }
 
     shareHandler = (cnt, shareType) => {
         let updateCnt = {_id: cnt._id};
         if (shareType === 'Friends') {
             this.props.navigation.navigate('SharePicker', {shareType, cnt: updateCnt,
-                shareUpdates: [{shareType: 'post', cntID: 'setShare', page: 'post', pageID: updateCnt._id}], shareChat: false,
-                info: 'Post shared successfully !'})
+                shareUpdates: [{shareType: 'question', cntID: 'setShare', page: 'question', pageID: updateCnt._id}], shareChat: false,
+                info: 'Question shared successfully !'})
         } else {
             this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
         }
+        this.setState({pageCntID: null});
     }
 
     mediaPreviewHandler = (cntID, media, startPage) => {
-        this.props.navigation.navigate('MediaPreview', {showOption: cntID ? true : false, page: 'post', pageID: cntID, media, startPage});
+        this.props.navigation.navigate('MediaPreview', {showOption: false, page: 'question', pageID: cntID, media, startPage});
     }
 
     saveMediaHandler = (mediaCnt) => {
@@ -176,20 +183,16 @@ class Post extends Component {
     }
 
     pagePreviewHandler = (cnt) => {
-        this.props.navigation.navigate('PagePreview', {cnt, page: 'post', navigationURI: 'Home',
-            navigationURIWeb: 'HomeWeb', editPage: 'EditPost', share: {shareType: 'post', shareChat: false,  info: 'Post shared successfully !'}})
+        this.props.navigation.navigate('PagePreview', {cnt, title: 'Question', page: 'question', navigationURI: 'Question',
+            navigationURIWeb: 'Question', editPage: 'EditQuestion', showOption: false, share: {shareType: 'question', shareChat: false,  info: 'Question shared successfully !'}})
     }
 
     chatHandler = (pageID) => {
-        this.props.navigation.navigate('CommentBox', {title: 'Comment',chatType: 'postchat',page: 'post',pageID,showReply: true})
-    }
-
-    advertChatboxHandler = (pageID) => {
-        this.props.navigation.navigate('CommentBox', {title: 'Comment', chatType: 'advertchat', page: 'advert', pageID, showReply: true})
+        this.props.navigation.navigate('QuestionSolution', {title: "Solution", chatType: "questionchat", page: "question", pageID, showReply: true})
     }
 
     favoriteHandler = (pageID) => {
-        this.props.onPageReaction('post', pageID, 'setFavorite');
+        this.props.onPageReaction('question', pageID, 'setFavorite');
     }
 
     actionSheetHandler = async (index) => {
@@ -197,8 +200,8 @@ class Post extends Component {
             this.setState({showActionSheet: false})
         } else if (index === 0) {
             this.props.navigation.navigate('SharePicker', {shareType: this.state.showActionSheet.option[index], cnt: this.state.showActionSheet.cnt,
-                shareUpdates: [{shareType: 'post', cntID: 'setShare', page: 'post', pageID: this.state.showActionSheet.cnt._id}], shareChat: false,
-                info: 'Post shared successfully !'})
+                shareUpdates: [{shareType: 'question', cntID: 'setShare', page: 'question', pageID: this.state.showActionSheet.cnt._id}], shareChat: false,
+                info: 'Question shared successfully !'})
             return
         } else if (index === 1){
             this.setState({showSelectGroupPicker: {selectType: 'group', pageID: this.state.showActionSheet.cnt._id}, showActionSheet: false})
@@ -210,9 +213,9 @@ class Post extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'post', 'searchPostFavorite', this.state.search);
+                 'question', 'hashSearch', this.state.search);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'getFavorite');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.state.search);
     }
 
     render() {
@@ -264,6 +267,7 @@ class Post extends Component {
         )
 
         if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
+            let profile = this.props.pageReaction.length > 0 && this.state.changeProfile ? this.props.pageReaction.filter(id => id === this.state.changeProfile.pageID)[0] : null;
             cnt = (
                 <View style={styles.container}>
                     { header }
@@ -274,8 +278,8 @@ class Post extends Component {
                         <ScrollView 
                             style={styles.scroll}
                             showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }>
-                            <PostItem 
-                                cnt={this.props.fetchCnt.filter(cnt => cnt.isFavored === true)}
+                            <Question
+                                cnt={this.props.fetchCnt}
                                 userID={this.props.userID}
                                 openURI={this.openURIHandler}
                                 pageCntID={this.state.pageCntID}
@@ -294,8 +298,7 @@ class Post extends Component {
                                 closeModal={this.closeModalHandler}
                                 enableLoadMore={this.props.loadMore}
                                 start={this.props.fetchCntStart}
-                                loadMore={this.loadMoreHandler}
-                                advertChatbox={this.advertChatboxHandler} />
+                                loadMore={this.loadMoreHandler}/>
                         </ScrollView>
                     </Wrapper>
                     { options }
@@ -315,8 +318,8 @@ class Post extends Component {
                         <SelectPicker
                             selectType={this.state.showSelectGroupPicker.selectType}
                             closeSelectPicker={this.closeModalHandler}
-                            info="Post Shared successfully !"
-                            confirmAllInfo="Are you sure, you want to share this post"
+                            info="Question Shared successfully !"
+                            confirmAllInfo="Are you sure, you want to share this question"
                             iconName="paper-plane-outline"
                             infoBox="Group"
                             title="Select"
@@ -326,7 +329,7 @@ class Post extends Component {
                             searchID="searchMemberGroup"
                             pageSetting="userPage"
                             rightButton={{title: 'Share', action: 'setShareGroup'}}
-                            actionpage="post"/> : null}
+                            actionpage="question"/> : null}
                     { this.state.showActionSheet ? 
                         <ActionSheet
                             options={this.state.showActionSheet.option}
@@ -337,7 +340,7 @@ class Post extends Component {
                         : null}
                     { this.props.deletePage && !this.props.deletePage.start ?  
                         <NotificationModal
-                            info="Are you sure you want to delete this post"
+                            info="Are you sure you want to delete this question"
                             closeModal={this.deletePageResetHandler}
                             button={[{title: 'Ok', onPress: () => this.deletePageHandler(this.props.deletePage.pageID, true), style: styles.buttonCancel},
                             {title: 'Exit', onPress: this.deletePageResetHandler, style: styles.button}]}/> : null}
@@ -353,39 +356,17 @@ class Post extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
+        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        det={`Searched text '${this.state.search}' does not match any post`}
+                        det={`'${this.state.search}' does not match any Question`}
                         name="search"
                         size={40}
                         color="#333"
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}/>
-                </View>
-            )
-        }
-
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
-            cnt = (
-                <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
-                    { header }
-                    <InfoBox
-                        name="chatbox"
-                        size={40}
-                        color="#437da3"
-                        style={styles.info}
-                        wrapperStyle={styles.infoWrapper}>
-                        <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No post added as favorite !!! </Text>
-                            <View>
-                                {/* <Text style={{justifyContent: 'center', alignItems: 'center'}}>
-                                    <Href title="Post" onPress={() => this.navigationHandler(this.state.viewMode === 'landscape' ? 'HomeWeb':'Home')} style={styles.href}/></Text> */}
-                            </View>
-                        </View>
-                    </InfoBox>
                 </View>
             )
         }
@@ -403,7 +384,7 @@ class Post extends Component {
             )
         }
 
-    return cnt;
+      return cnt;
     }
 }
 
@@ -412,8 +393,8 @@ const styles = StyleSheet.create({
         fontSize: 15
     },
     wrapper: {
-        width: '100%',
         flex: 1,
+        width: '100%'
     },
     landscapeWrapper: {
         width: '100%'
@@ -468,12 +449,12 @@ const mapStateToProps = state => {
     return {
         settings: state.settings,
         userID: state.auth.userID,
-        fetchCntErr: state.page.fetchPostError,
-        fetchCntStart: state.page.fetchPostStart,
-        fetchCnt: state.page.fetchPost,
+        fetchCntErr: state.page.fetchQuestionError,
+        fetchCntStart: state.page.fetchQuestionStart,
+        fetchCnt: state.page.fetchQuestion,
         loadMore: state.page.loadMore,
-        deletePageErr: state.page.deletePostError,
-        deletePage: state.page.deletePost,
+        deletePageErr: state.page.deleteQuestionError,
+        deletePage: state.page.deleteQuestion,
         pageReaction: state.page.pageReaction,
         pageReactionErr: state.page.pageReactionError
     };
@@ -492,4 +473,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default withComponent([{name: 'navigation', component: useNavigation}])(connect(mapStateToProps, mapDispatchToProps)(Post));
+export default withComponent([{name: 'navigation', component: useNavigation}])(connect(mapStateToProps, mapDispatchToProps)(Questions));

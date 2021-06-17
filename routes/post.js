@@ -126,7 +126,7 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'getPostByAuthor') {
-        Promise.all([req.body.start === 0 ?  user.findById(req.body.searchCnt) : Promise.resolve()]).then(doc => {
+        Promise.all([user.findById(req.body.searchCnt)]).then(doc => {
             post.find({authorID: req.body.searchCnt, 'shareInfo.authorID': null, _isCompleted: true, block: {$nin: [req.user]}})
                 .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
                 let updateResult = [];
@@ -149,6 +149,27 @@ router.post('/', authenticate, (req, res, next) => {
         return
     }
 
+    if (req.header !== null && req.header('data-categ') === 'hashSearch') {
+        post.find({hashTag: {$in: [req.body.searchCnt]}, 'shareInfo.authorID': null, _isCompleted: true, block: {$nin: [req.user]}})
+            .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
+            let updateResult = [];
+            if (result) {
+                for (let cnt of result) {
+                    let updateCnt = JSON.parse(JSON.stringify(cnt));
+                    delete updateCnt.block;
+                    updateResult.push({...updateCnt,
+                    share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                    isFriend: [req.user, ...req.friend].filter(id => id === JSON.parse(JSON.stringify(cnt.authorID))).length > 0})
+                }
+            }
+            res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
+        }).catch(err => {
+            console.log(err)
+            res.status(500).send(err)
+        })
+        return
+    }
 
     if (req.header !== null && req.header('data-categ') === 'setFavorite') {
         post.findOneAndUpdate({_id: req.body.pageID, favorite: {$nin: [req.user]}}, {$push: {'favorite': req.user}}).then(doc => {

@@ -127,7 +127,7 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'getByAuthor') {
-        Promise.all([req.body.start === 0 ?  user.findById(req.body.searchCnt) : Promise.resolve()]).then(doc => {
+        Promise.all([user.findById(req.body.searchCnt)]).then(doc => {
             qchat.find({groupID: null, authorID: req.body.searchCnt, _isCompleted: true, block: {$nin: [req.user]}})
                 .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
                 let updateResult = [];
@@ -148,6 +148,31 @@ router.post('/', authenticate, (req, res, next) => {
                 }
                 res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
             })
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'hashSearch') {
+        qchat.find({groupID: null, hashTag: {$in: [req.body.searchCnt]}, _isCompleted: true, block: {$nin: [req.user]}})
+            .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
+            let updateResult = [];
+            if (result) {
+                for (let cnt of result) {
+                    let updateCnt = JSON.parse(JSON.stringify(cnt));
+                    delete updateCnt.block;
+                    updateResult.push({...updateCnt,
+                    share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+                    takeExam: cnt.participant === 'Public' ? true :
+                    cnt.allowedUser.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user)[0] ? true : false,
+                    isPending: cnt.request.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user).length > 0,
+                    shareInfo: cnt.groupID ? cnt.share.filter(shareCnt => shareCnt.reciever === req.user)[0] : null,
+                    request: cnt.request.length, mark: cnt.mark.length, allowedUser: cnt.allowedUser.length})
+                }
+            }
+            res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
         }).catch(err => {
             res.status(500).send(err)
         })

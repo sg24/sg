@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
+import Href from '../../components/UI/Href/Href';
 import Settings from '../../components/UI/Settings/Settings';
 import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
@@ -26,14 +27,14 @@ class Post extends Component {
         super(props);
         this.state = {
             viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
-            isFocused: false,
             option: [{title: 'Search', icon: {name: 'search-outline'}, action: 'search'},
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
+            isFocused: false,
+            search: this.props.search,
             pageCntID: null,
             pageID: null,
             showActionSheet: null,
             showSearch: false,
-            search: '',
             showOption: false,
             showSettings: false,
             showSelectGroupPicker: null
@@ -48,9 +49,12 @@ class Post extends Component {
 
     componentDidMount() {
         this.screenFocused();
-        Dimensions.addEventListener('change', this.updateStyle)
+        Dimensions.addEventListener('change', this.updateStyle);
+        if (!this.props.navigationState) {
+            // this.props.navigation.navigate(this.state.viewMode === 'landscape' ? 'UsersWeb' : 'Users')
+        }
     }
-    
+
     componentDidUpdate() {
         this.screenFocused();
     }
@@ -61,19 +65,23 @@ class Post extends Component {
 
     screenFocused() {
         if (this.props.focus && !this.state.isFocused) {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getFavorite')
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'hashSearch', this.state.search)
             return this.setState({isFocused: true});
         }
         if (!this.props.focus && this.state.isFocused) {
             this.setState({isFocused: false});
         }
+        if (this.props.search !== this.state.search) {
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'hashSearch', this.props.search)
+            this.setState({search: this.props.search});
+        }
     }
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'searchPostFavorite', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'hashSearch', this.state.search);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'getFavorite');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'hashSearch', this.state.search);
     }
 
     navigationHandler = (page, cntID) => {
@@ -104,13 +112,13 @@ class Post extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'post', 'searchPostFavorite', cnt);
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'post', 'hashSearch', cnt);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getFavorite');
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'hashSearch', this.state.search);
     }
 
     checkOptionHandler = () => {
@@ -128,7 +136,7 @@ class Post extends Component {
     }
 
     userProfileHandler = (authorID) => {
-        this.props.navigation.navigate('Profile', {userID: authorID})
+        this.props.navigation.push('Profile', {userID: authorID})
     }
 
     editHandler = (id) => {
@@ -180,6 +188,7 @@ class Post extends Component {
             navigationURIWeb: 'HomeWeb', editPage: 'EditPost', share: {shareType: 'post', shareChat: false,  info: 'Post shared successfully !'}})
     }
 
+
     chatHandler = (pageID) => {
         this.props.navigation.navigate('CommentBox', {title: 'Comment',chatType: 'postchat',page: 'post',pageID,showReply: true})
     }
@@ -210,9 +219,9 @@ class Post extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'post', 'searchPostFavorite', this.state.search);
+                 'post', 'hashSearch', this.state.search);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'getFavorite');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'hashSearch', this.state.search);
     }
 
     render() {
@@ -274,8 +283,8 @@ class Post extends Component {
                         <ScrollView 
                             style={styles.scroll}
                             showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }>
-                            <PostItem 
-                                cnt={this.props.fetchCnt.filter(cnt => cnt.isFavored === true)}
+                            <PostItem
+                                cnt={this.props.fetchCnt}
                                 userID={this.props.userID}
                                 openURI={this.openURIHandler}
                                 pageCntID={this.state.pageCntID}
@@ -353,7 +362,7 @@ class Post extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
+        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -364,28 +373,6 @@ class Post extends Component {
                         color="#333"
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}/>
-                </View>
-            )
-        }
-
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
-            cnt = (
-                <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
-                    { header }
-                    <InfoBox
-                        name="chatbox"
-                        size={40}
-                        color="#437da3"
-                        style={styles.info}
-                        wrapperStyle={styles.infoWrapper}>
-                        <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No post added as favorite !!! </Text>
-                            <View>
-                                {/* <Text style={{justifyContent: 'center', alignItems: 'center'}}>
-                                    <Href title="Post" onPress={() => this.navigationHandler(this.state.viewMode === 'landscape' ? 'HomeWeb':'Home')} style={styles.href}/></Text> */}
-                            </View>
-                        </View>
-                    </InfoBox>
                 </View>
             )
         }
@@ -403,7 +390,7 @@ class Post extends Component {
             )
         }
 
-    return cnt;
+      return cnt;
     }
 }
 
@@ -412,8 +399,8 @@ const styles = StyleSheet.create({
         fontSize: 15
     },
     wrapper: {
-        width: '100%',
         flex: 1,
+        width: '100%'
     },
     landscapeWrapper: {
         width: '100%'
