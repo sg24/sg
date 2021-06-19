@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "webandroid",
-    "slug": "webandroid",
+    "name": "Slodge24",
+    "slug": "Slodge24",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
@@ -33,6 +33,10 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "notification": {
+      "icon": "./assets/notification.png",
+      "color": "#ffffff"
     }
   }
 }

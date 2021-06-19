@@ -68,7 +68,8 @@ class Profile extends Component {
             showNameAccodion: false,
             showImageAccodion: true,
             showActionSheet: false,
-            showCamera: false
+            showCamera: false,
+            showTab: true
         }
     }
 
@@ -77,9 +78,11 @@ class Profile extends Component {
         if (this.state.userID) {
             this._unsubscribe = this.props.navigation.addListener('focus', () => {
                 this.props.onFetchProfile(this.state.userID);
+                this.setState({showTab: true});
             });
             this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
                 this.props.onCloseHeaderPage();
+                this.setState({showTab: false});
                 this.props.onPageReset();
             });
         } else {
@@ -296,6 +299,7 @@ class Profile extends Component {
                         showNameAccodion={this.state.showNameAccodion}
                         enableNameAccodion={this.enableNameAccodion}
                         viewMode={this.state.viewMode}
+                        showTab={this.state.showTab}
                         index={this.state.index}
                         setIndex={this.setIndexHandler}
                         routes={this.state.routes}

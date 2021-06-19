@@ -23,19 +23,19 @@ const profileContent = props => {
     let renderScene = screenProps => {
         switch (screenProps.route.key) {
             case 'post':
-                return <Post {...screenProps} profileID={props.userID} focus={props.index === 0}/>;
+                return <Post {...screenProps} profileID={props.userID} focus={(props.index === 0) && props.showTab}/>;
             case 'feed':
-                return <Feed {...screenProps} profileID={props.userID} focus={props.index === 1}/>;
+                return <Feed {...screenProps} profileID={props.userID} focus={(props.index === 1) && props.showTab}/>;
             case 'group':
-                return <Group {...screenProps} profileID={props.userID} focus={props.index === 2}/>;
+                return <Group {...screenProps} profileID={props.userID} focus={(props.index === 2) && props.showTab}/>;
             case 'CBT':
-                return <CBT {...screenProps} profileID={props.userID} focus={props.index === 3}/>;
+                return <CBT {...screenProps} profileID={props.userID} focus={(props.index === 3) && props.showTab}/>;
             case 'question':
-                return <Question {...screenProps} profileID={props.userID} focus={props.index === 4}/>;
+                return <Question {...screenProps} profileID={props.userID} focus={(props.index === 4) && props.showTab}/>;
             case 'writeUp':
-                return <WriteUp {...screenProps} profileID={props.userID} focus={props.index === 5}/>;
+                return <WriteUp {...screenProps} profileID={props.userID} focus={(props.index === 5) && props.showTab}/>;
             case 'advert':
-                return <Advert {...screenProps} profileID={props.userID} focus={props.index === 6}/>;
+                return <Advert {...screenProps} profileID={props.userID} focus={(props.index === 6) && props.showTab}/>;
             default:
                 return null;
         }

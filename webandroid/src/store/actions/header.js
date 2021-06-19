@@ -116,3 +116,31 @@ export const fetchProfile = (profile) =>  {
         profile
     };
 }; 
+
+export const headerPushNotificationInit = (token, platform) =>  {
+    return {
+        type: actionTypes.HEADER_PUSHNOTIFICATION_INIT,
+        token,
+        platform
+    }; 
+}; 
+
+export const headerPushNotificationStart = () => {
+    return {
+        type: actionTypes.HEADER_PUSHNOTIFICATION_START
+    };
+};
+
+export const headerPushNotificationFail = (err) => {
+    return {
+        type: actionTypes.HEADER_PUSHNOTIFICATION_FAIL,
+        err
+    };
+};
+
+export const headerPushNotification = (cnt) => {
+    return {
+        type: actionTypes.HEADER_PUSHNOTIFICATION,
+        cnt
+    };
+};

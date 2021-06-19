@@ -4,7 +4,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { checkAuthInitSaga } from './auth';
 import { submitAuthFormSigninInitSaga, 
     submitAuthFormSignupInitSaga, submitAuthFormForgetPassInitSaga } from './authForm';
-import { headerFilterInitSaga, fetchConvInitSaga, fetchNotifyInitSaga } from './header';
+import { headerFilterInitSaga, fetchConvInitSaga, fetchNotifyInitSaga, headerPushNotificationInitSaga } from './header';
 import { fetchProfileInitSaga, changeProfileInitSaga, submitAboutInitSaga, submitUsernameInitSaga } from './profile';
 import { fetchEditFormInitSaga } from './editForm';
 import { fetchPageInitSaga, deletePageInitSaga, pageReactionInitSaga } from './page';
@@ -33,6 +33,7 @@ export function* watchHeader() {
        takeEvery(actionTypes.HEADER_FILTER_INIT, headerFilterInitSaga),
        takeEvery(actionTypes.FETCH_CONV_INIT, fetchConvInitSaga),
        takeEvery(actionTypes.FETCH_NOTIFY_INIT, fetchNotifyInitSaga),
+       takeEvery(actionTypes.HEADER_PUSHNOTIFICATION_INIT, headerPushNotificationInitSaga),
     ])
 }
 

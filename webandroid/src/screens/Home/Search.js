@@ -39,7 +39,8 @@ class Search extends Component {
             showOption: false,
             showSettings: false,
             layoutWidth,
-            searchHistory: null
+            searchHistory: null,
+            showTab: true
         }
     }
 
@@ -48,16 +49,19 @@ class Search extends Component {
             let searchHistory = res ? JSON.parse(res) : [];
             this.setState({searchHistory: searchHistory.reverse()})
         })
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+             this.setState({showTab: true});
+        });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            // this.props.onPageReset();
-            // this.setState({showOption: false, showSettings: false});
+            this.props.onPageReset();
+            this.setState({showOption: false, showSettings: false, showTab: false});
         });
         Dimensions.addEventListener('change', this.updateStyle)
     }
 
     componentWillUnmount() {
+        this._unsubscribe();
         this._unsubscribeBlur();
-        this.props.onPageReset();
         Dimensions.removeEventListener('change', this.updateStyle);
         if (this.state.search) {
             (async() => {
@@ -149,17 +153,19 @@ class Search extends Component {
                                 return (
                                     <View style={styles.searchWrapper} key={index}>
                                         <TouchableNativeFeedback onPress={() => this.searchHandler(searchHistory.title)} style={styles.searchTouch}>
-                                            <Ionicons name="reload-outline" size={35} color="#777"/>
-                                            <View style={styles.searchCnt}>
-                                                <Text style={styles.textStyle}>
-                                                    {searchHistory.title}
-                                                </Text>
-                                                <Text style={[styles.textStyle, styles.searchDate]}>
-                                                    <Moment element={Text} calendar={calendarStrings}>
-                                                        { searchHistory.date }
-                                                    </Moment>
-                                                </Text>
-                                            </View>
+                                            <>
+                                                <Ionicons name="reload-outline" size={35} color="#777"/>
+                                                <View style={styles.searchCnt}>
+                                                    <Text style={styles.textStyle}>
+                                                        {searchHistory.title}
+                                                    </Text>
+                                                    <Text style={[styles.textStyle, styles.searchDate]}>
+                                                        <Moment element={Text} calendar={calendarStrings}>
+                                                            { searchHistory.date }
+                                                        </Moment>
+                                                    </Text>
+                                                </View>
+                                            </>
                                         </TouchableNativeFeedback>
                                     </View>
                                 )
@@ -174,19 +180,19 @@ class Search extends Component {
             let renderScene = screenProps => {
                 switch (screenProps.route.key) {
                     case 'post':
-                        return <Post {...screenProps} focus={this.state.index === 0} search={this.state.search} />;
+                        return <Post {...screenProps} focus={(this.state.index === 0) && this.state.showTab} search={this.state.search} />;
                     case 'feed':
-                        return <Feed {...screenProps} focus={this.state.index === 1} search={this.state.search} />;
+                        return <Feed {...screenProps} focus={(this.state.index === 1) && this.state.showTab} search={this.state.search} />;
                     case 'group':
-                        return <Group {...screenProps} focus={this.state.index === 2} search={this.state.search} />;
+                        return <Group {...screenProps} focus={(this.state.index === 2) && this.state.showTab} search={this.state.search} />;
                     case 'CBT':
-                        return <CBT {...screenProps} focus={this.state.index === 3} search={this.state.search} />;
+                        return <CBT {...screenProps} focus={(this.state.index === 3) && this.state.showTab} search={this.state.search} />;
                     case 'question':
-                        return <Question {...screenProps} focus={this.state.index === 4} search={this.state.search} />;
+                        return <Question {...screenProps} focus={(this.state.index === 4) && this.state.showTab} search={this.state.search} />;
                     case 'writeUp':
-                        return <WriteUp {...screenProps} focus={this.state.index === 5} search={this.state.search} />;
+                        return <WriteUp {...screenProps} focus={(this.state.index === 5) && this.state.showTab} search={this.state.search} />;
                     case 'advert':
-                        return <Advert {...screenProps} focus={this.state.index === 6} search={this.state.search} />;
+                        return <Advert {...screenProps} focus={(this.state.index === 6) && this.state.showTab} search={this.state.search} />;
                     default:
                         return null;
                 }

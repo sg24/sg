@@ -43,6 +43,7 @@ const profile = props => (
         showNameAccodion={props.showNameAccodion}
         enableNameAccodion={props.enableNameAccodion}
         index={props.index}
+        showTab={props.showTab}
         routes={props.routes}
         setIndex={props.setIndex}
         renderScene={props.renderScene}

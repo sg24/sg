@@ -47,6 +47,36 @@ router.post('/', authenticate,(req, res, next) => {
         })
     }
 
+    if (req.header && req.header('data-categ') === 'getNotification') {
+        Promise.all([notificationsModel.findOne({userID: req.user}), 
+            req.subscription.filter(cnt => cnt.token === req.body.token).length < 1 ? user.findByIdAndUpdate(req.user, {$push: {subscription: {token: req.body.token, platform: req.body.platform}}}) : Promise.resolve()]).then(result => {
+            let notification = result[0] ? JSON.parse(JSON.stringify(result[0])) : {};
+            for (let page in notification) {
+                let pageCnt = [];
+                console.log(page)
+                if (Array.isArray(notification[page])) {
+                    for (let cnt of notification[page]) {
+                        (async () => {
+                            await user.findById(cnt.userID).then(userInfo => {
+                                if (userInfo) {
+                                    pageCnt.push({...cnt, username: userInfo.username, userImage: userInfo.image, status: (new Date().getTime() - new Date(userInfo.visited).getTime()) < 60000});
+                                }
+                            })
+                        })();
+                    }
+                    notification[page] = pageCnt;
+                }
+            }
+            console.log(notification)
+            // user.findByIdAndUpdate(req.user, {}).then(() => {
+                res.status(200).send({notification});
+            // });
+        }).catch(err => {
+            console.log(err)
+            res.status(500).send(err);
+        })
+    }
+
     if (req.header && req.header('data-categ') === 'getFriend') {
         let chat = req.chat;
         sequence([user.find({_id: {$in: [...req.friend]}}).skip(req.body.start).limit(req.body.limit).sort({created: 1, _id: 1}),

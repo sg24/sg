@@ -40,3 +40,17 @@ export function* fetchNotifyInitSaga(action) {
         yield put(actions.fetchNotifyFail(err));
     }
 }
+
+
+export function* headerPushNotificationInitSaga(action) {
+    try {
+        yield put(actions.headerPushNotificationStart());
+        let response = yield axios.post('/users', {token: action.token, platform: action.platform}, {headers: {'data-categ':'getNotification'}});
+        alert(response)
+        yield put(actions.headerPushNotification(response.data))
+        yield AsyncStorage.setItem('notification', JSON.stringify(response.data ? response.data.notification : {}));
+    } catch(err) {
+        alert(err)
+        yield put(actions.headerPushNotificationFail(err));
+    }
+}

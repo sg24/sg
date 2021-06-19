@@ -19,6 +19,7 @@ let authenticate = async (req, res, next) => {
             req.chat = result.chat;
             req.request = result.request;
             req.pendingRequest = result.pendingRequest;
+            req.subscription = result.subscription;
             next();
             // global.userDet = {id: result._id.toHexString(), type: 'user'}
         }).catch((e) => {

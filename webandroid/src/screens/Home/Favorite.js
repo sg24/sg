@@ -34,7 +34,8 @@ class Favorite extends Component {
             option: [{title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
             showOption: false,
             showSettings: false,
-            layoutWidth
+            layoutWidth,
+            showTab: true
         }
     }
 
@@ -47,14 +48,18 @@ class Favorite extends Component {
     }
 
     componentDidMount() {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+             this.setState({showTab: true});
+        });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            // this.props.onPageReset();
-            this.setState({showOption: false,showSettings: false})
+            this.props.onPageReset();
+            this.setState({showOption: false,showSettings: false, showTab: false});
         });
         Dimensions.addEventListener('change', this.updateStyle)
     }
 
     componentWillUnmount() {
+        this._unsubscribe();
         this._unsubscribeBlur();
         Dimensions.removeEventListener('change', this.updateStyle);
     }
@@ -118,17 +123,17 @@ class Favorite extends Component {
         let renderScene = screenProps => {
             switch (screenProps.route.key) {
                 case 'post':
-                    return <Post {...screenProps} focus={this.state.index === 0}/>;
+                    return <Post {...screenProps} focus={(this.state.index === 0) && this.state.showTab}/>;
                 case 'feed':
-                    return <Feed {...screenProps} focus={this.state.index === 1}/>;
+                    return <Feed {...screenProps} focus={(this.state.index === 1) && this.state.showTab}/>;
                 case 'group':
-                    return <Group {...screenProps} focus={this.state.index === 2}/>;
+                    return <Group {...screenProps} focus={(this.state.index === 2) && this.state.showTab}/>;
                 case 'CBT':
-                    return <CBT {...screenProps} focus={this.state.index === 3}/>;
+                    return <CBT {...screenProps} focus={(this.state.index === 3) && this.state.showTab}/>;
                 case 'question':
-                    return <Question {...screenProps} focus={this.state.index === 4}/>;
+                    return <Question {...screenProps} focus={(this.state.index === 4) && this.state.showTab}/>;
                 case 'writeUp':
-                    return <WriteUp {...screenProps} focus={this.state.index === 5}/>;
+                    return <WriteUp {...screenProps} focus={(this.state.index === 5) && this.state.showTab}/>;
                 default:
                     return null;
             }

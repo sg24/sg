@@ -11,7 +11,10 @@ const initialState = {
     convLoader: false,
     convErr: null,
     notify: null,
-    notifyErr: null
+    notifyErr: null,
+    notificationStart: false,
+    notificationErr: null,
+    notification: null
 };
 
 const headerFilterStart = (state, action) => {
@@ -24,6 +27,18 @@ const headerFilterFail= (state, action) => {
 
 const headerFilter = (state, action) => {
     return updateObject(state, {searchCnt: action.searchCnt})
+};
+
+const headerPushNotificationStart = (state, action) => {
+    return updateObject(state, {notificationStart: true, notificationErr: null})
+};
+
+const headerPushNotificationFail= (state, action) => {
+    return updateObject(state, {notificationStart: false, notificationErr:  {message: action.err}})
+};
+
+const headerPushNotification = (state, action) => {
+    return updateObject(state, {notificationStart: false, notification: action.cnt ? action.cnt.notification : null})
 };
 
 const headerPageClose = (state, action) => {
@@ -79,6 +94,12 @@ const reducer = (state = initialState, action) => {
             return fetchNotifyFail(state, action);
         case actionTypes.FETCH_NOTIFY:
             return fetchNotify(state, action);
+        case actionTypes.HEADER_PUSHNOTIFICATION_START:
+            return headerPushNotificationStart(state, action);
+        case actionTypes.HEADER_PUSHNOTIFICATION_FAIL:
+            return headerPushNotificationFail(state, action);
+        case actionTypes.HEADER_PUSHNOTIFICATION:
+            return headerPushNotification(state, action);
         default: return state
     };
 };

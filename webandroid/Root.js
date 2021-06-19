@@ -8,6 +8,10 @@ import { size} from 'tailwind';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
+import BackgroundFetch from 'react-native-background-fetch';
+import NetInfo from '@react-native-community/netinfo';
+import AsyncStorage from '@react-native-community/async-storage';
+import axios from 'axios';
 
 import * as actions from './src/store/actions/index';
 import SignInScreen from './src/screens/Auth/Signin';
@@ -144,12 +148,44 @@ class Base extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait'
+      viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
+      isLoggedIn: false,
+      expoPushToken: ''
     }
   }
   componentDidMount() {
     this.props.onCheckAuth();
+    this.registarBackgroundTask();
+    this.props.onPushNotification('ExponentPushToken[jP4U8kP5i80OQyPKKUi0PI]', Platform.OS)
     Dimensions.addEventListener('change', this.updateHeader);
+  }
+
+  componentDidUpdate() {
+    if (this.props.isLoggedIn && !this.state.isLoggedIn) {
+      Notifications.setNotificationHandler({
+        handleNotification: async () => ({
+          shouldShowAlert: true,
+          shouldPlaySound: false,
+          shouldSetBadge: true
+        }),
+      });
+      this.registerForPushNotificationsAsync().then(token => {
+        this.props.onPushNotification(token, Platform.OS);
+        console.log(token)
+      });
+      this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
+        console.log(response);
+      });
+      this.subscription = Notifications.addPushTokenListener(this.registerForPushNotificationsAsync);
+      this.setState({isLoggedIn: true})
+    }
+  }
+
+  componentWillUnmount() {
+      if (this.subscription && this.responseListener) {
+        this.subscription.remove();
+        this.responseListener.remove()
+      }
   }
 
   updateHeader = (dims) => {
@@ -158,7 +194,59 @@ class Base extends Component {
     })
   }
 
+  registarBackgroundTask = () => {
+    BackgroundFetch.configure({
+      minimumFetchInterval: 15,
+      stopOnTerminate: false,
+      startOnBoot: true
+    }, () => {
+      console.log("[js] Received background-fetch event");
+      NetInfo.fetch().then(state => {
+        if (state.isConnected) {
+          console.log(this.state.expoPushToken);
+          (async () => {
+            let response = await axios.post('/users', {token: this.state.expoPushToken}, {headers: {'data-categ':'getNotification'}});
+            let cnt = response.data ? response.data : {};
+            let notification = cnt.notification;
+            let showedNotification = await AsyncStorage.getItem('notification');
+            await AsyncStorage.setItem('notification', JSON.stringify(notification));
+            if (showedNotification) {
+              showedNotification = JSON.parse(showedNotification);
+              for (let page in showedNotification) {
+                let notifyItem = notification[page];
+                let showedItem = showedNotification[page];
+                if (showedItem && notifyItem && showedItem.length > 0 && notifyItem.length > 0) {
+                  let updatePageItem = notifyItem.filter(pageItem => showedItem.filter(item => item.userID !== pageItem.userID).length > 0)
+                  notification[page] = updatePageItem;
+                }
+              }
+            }
+           for (let page in notification) {
+              for (let pageItem of notification[page]) {
+                Notifications.scheduleNotificationAsync({
+                  content: {
+                    title: `${pageItem.username} created new ${page.toLocaleUpperCase()}`,
+                    body: "",
+                    
+                  },
+                  trigger: {
+                    seconds: 10,
+                    channelId: 'default',
+                  },
+                });
+              }
+           }
+          })();
+        }
+      });
+      BackgroundFetch.finish(BackgroundFetch.FETCH_RESULT_NEW_DATA);
+    }, (error) => {
+      console.log("[js] RNBackgroundFetch failed to start");
+    });
+  }
+
   registerForPushNotificationsAsync = async () => {
+    let token = '';
     if (Constants.isDevice) {
       const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
       let finalStatus = existingStatus;
@@ -170,9 +258,8 @@ class Base extends Component {
         alert('Failed to get push token for push notification!');
         return;
       }
-      const token = (await Notifications.getExpoPushTokenAsync()).data;
-      console.log(token);
-      this.setState({ expoPushToken: token });
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      this.setState({expoPushToken: token});
     } else {
       alert('Must use physical device for Push Notifications');
     }
@@ -185,6 +272,7 @@ class Base extends Component {
         lightColor: '#FF231F7C',
       });
     }
+    return token;
   };
 
   render() {
@@ -385,14 +473,16 @@ const mapStateToProps = state => {
       userImage: state.auth.img,
       username: state.auth.username,
       userID: state.auth.userID,
-      filterCnt: state.header.filterCnt
+      filterCnt: state.header.filterCnt,
+      notification: state.header.notification
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
       onCheckAuth: () => dispatch(actions.checkAuthInit()),
-      onHeaderFilter: (filterCnt) => dispatch(actions.headerFilterInit(filterCnt))
+      onHeaderFilter: (filterCnt) => dispatch(actions.headerFilterInit(filterCnt)),
+      onPushNotification: (token, platform) => dispatch(actions.headerPushNotificationInit(token, platform))
   };
 };
 

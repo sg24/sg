@@ -32,7 +32,11 @@ export {
     fetchNotifyInit,
     fetchNotifyStart,
     fetchNotifyFail,
-    fetchNotify
+    fetchNotify,
+    headerPushNotificationInit,
+    headerPushNotificationStart,
+    headerPushNotificationFail,
+    headerPushNotification
 } from './header'
 
 export {
