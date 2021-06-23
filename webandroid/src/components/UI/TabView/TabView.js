@@ -2,9 +2,10 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TabView, TabBar } from 'react-native-tab-view';
 import Icon from 'ionicons';
+import { connect } from 'react-redux';
 
 import SplashScreen from '../../../screens/SplashScreen/SplashScreen';
-
+import TabBarge from '../TabBarge/TabBarge';
 
 const tabView = props => {
     const renderTabBar = tabProps => (
@@ -36,11 +37,58 @@ const tabView = props => {
                 }
                 return <Icon name={name} color={color} size={20}/>
             }}
-            renderLabel={({ route, focused, color }) => (
-                <Text style={{ color, fontSize: 15 }}>
-                  {route.title}
-                </Text>
-              )}
+            renderLabel={({ route, focused, color }) => {
+                let chatRoomNotification = 0;
+                let cbtNotification = 0;
+                let groupFeedNotification = 0;
+                let groupPostNotification = 0;
+                let groupQuestionNotification = 0;
+                let groupWriteupNotification = 0;
+                if (props.notification) {
+                    let chatRoomPage = ['chatRoomRequest', 'chatRoomJoin', 'chatRoomAccept', 'chatRoomReject', 'chatRoomPending', 'chatRoomMark'];
+                    for (let page of chatRoomPage) {
+                        chatRoomNotification = chatRoomNotification + props.notification[page].length
+                    }
+                    let cbtPage = ['groupCbt', 'groupCbtRequest', 'groupCbtResult', 'groupCbtAccept', 'groupCbtReject', 'groupCbtMark', 'groupCbtShare'];
+                    for (let page of cbtPage) {
+                        cbtNotification = cbtNotification + props.notification[page].length
+                    }
+                    let groupFeedPage = ['groupFeed', 'groupFeedShare'];
+                    for (let page of groupFeedPage) {
+                        groupFeedNotification = groupFeedNotification + props.notification[page].length
+                    }
+                    let groupPostPage = ['groupPost', 'groupPostShare'];
+                    for (let page of groupPostPage) {
+                        groupPostNotification = groupPostNotification + props.notification[page].length
+                    }
+                    let groupQuestionPage = ['groupQuestion', 'groupQuestionShare'];
+                    for (let page of groupQuestionPage) {
+                        groupQuestionNotification = groupQuestionNotification + props.notification[page].length
+                    }
+                    let groupWriteupPage = ['groupWriteup', 'groupWriteupShare'];
+                    for (let page of groupWriteupPage) {
+                        groupWriteupNotification = groupWriteupNotification + props.notification[page].length
+                    }
+                }
+                return (
+                <View>
+                    <Text style={{ color, fontSize: 15 }}>
+                        {route.title}
+                    </Text>
+                    {/* <TabBarge 
+                        style={styles.tabBarge}
+                        notification={
+                            route.key === 'enablePost' ? groupPostNotification :
+                            route.key === 'enableFeed' ? groupFeedNotification :
+                            route.key === 'enableCBT' ? cbtNotification :
+                            route.key === 'enableQuestion' ? groupQuestionNotification :
+                            route.key === 'enableWriteUp' ? groupWriteupNotification :
+                            route.key === 'enableChatroom' ? chatRoomNotification :
+                            props.notification && props.notification[route.key === 'Home' ? 'post' : route.key.toLowerCase()] ?
+                                props.notification[route.key === 'Home' ? 'post' : route.key.toLowerCase()].length : 0}
+                        disableZero/> */}
+                </View>
+              )}}
             style={{
                 paddingHorizontal: 5,
                 backgroundColor: '#437da3',
@@ -64,9 +112,19 @@ const tabView = props => {
 }
 
 const styles = StyleSheet.create({
-    tabView: {
-
+    tabBarge: {
+        right: -10,
+        top: -10,
+        width: 20,
+        height: 20,
+        borderRadius: 10
     }
 })
 
-export default tabView;
+const mapStateToProps = state => {
+    return {
+        notification: state.header.notification
+    };
+};
+
+export default connect(mapStateToProps)(tabView);

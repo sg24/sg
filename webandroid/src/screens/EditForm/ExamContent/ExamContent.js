@@ -110,7 +110,7 @@ class  ExamContent extends Component {
                 cnt.uploadFile = uploadFile;
                 cnt.fetchedUploadFile = cnt.media;
                 delete cnt._id;
-                question.push({id: uuid(), allOption, formIsValid: true, cntFormIsValid: true, cntAnswerIsValid, value: cnt})
+                question.push({id: uuid(), allOption: !cnt.answerOption ? null : allOption, formIsValid: true, cntFormIsValid: true, cntAnswerIsValid, value: cnt})
             }
             let totalOptionInput = updateObject(this.state.formElement.totalOption, {
                 value: this.props.totalOption ? this.props.totalOption : '',

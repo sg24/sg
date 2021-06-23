@@ -170,10 +170,10 @@ const chatRoomContent = props => {
                                 props.cnt.isPendingApprove ? props.cancelApprove: 
                                 props.cnt.isPendingMark ? props.cancelMark: props.request}
                             title={props.cnt.isMember ? 'Chat' : 
-                                props.cnt.isPending ? 'Cancel Request' : 
-                                !props.cnt.isPublic ? 'Request' :
+                                props.cnt.isPending ? 'Cancel Request' :
                                 props.cnt.isPendingApprove ? 'Cancel Request' :
-                                props.cnt.isPendingMark ? 'Cancel Request' : 'Join'}
+                                props.cnt.isPendingMark ? 'Cancel Request' : 
+                                !props.cnt.isPublic ? 'Request' : 'Join'}
                             style={props.cnt.isMember? styles.actionButton : styles.actionButtonAlt}
                             textStyle={props.cnt.isMember ? styles.textStyle : styles.actionButtonText}
                             disabled={startPageReaction && (props.cnt.isPending || !props.cnt.isMember )}/>

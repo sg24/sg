@@ -30,7 +30,46 @@ class Home extends Component  {
             showModal: false,
             backgroundColor: '#fff',
             color: '#333',
-            modalType: null
+            modalType: null,
+            navLink: [{title: 'post', iconName: 'home-outline', uri: 'HomeWeb'},{title: 'Users', iconName: 'people-outline', uri: 'UsersWeb'},
+                {title: 'group', iconName: 'chatbubble-ellipses-outline', uri: 'GroupWeb'}, {title: 'cbt', iconName: 'timer-outline', uri: 'CBTWeb'}],
+            notification: {},
+            userChat: 0,
+            userNotification: 0,
+            totalNotification: 0,
+            groupNotification: 0,
+            cbtNotification: 0
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.props.notification && (JSON.stringify(this.props.notification) !== JSON.stringify(this.state.notification))) {
+            let notification = this.props.notification;
+            let userChat = 0;
+            let totalNotification = 0;
+            let userNotification = 0;
+            let groupNotification = 0;
+            let cbtNotification = 0;
+            for (let cnt in notification) {
+                if (Array.isArray(notification[cnt])) {
+                    if (cnt === 'userChat') {
+                        for (let cntItem of notification[cnt]) {
+                            userChat = cntItem.counter + userChat;
+                        }
+                        userNotification = notification['userRequest'].length + userChat;
+                    }
+                    let groupPage = ['groupRequest', 'groupJoin', 'groupAccept', 'groupReject', 'groupPending', 'groupMark'];
+                    if (groupPage.filter(page => page === cnt)[0]) {
+                        groupNotification = groupNotification + this.props.notification[cnt].length
+                    }
+                    let cbtPage = ['qchat', 'qchatRequest', 'qchatResult', 'qchatAccept', 'qchatReject', 'qchatMark', 'qchatShare'];
+                    if (cbtPage.filter(page => page === cnt)[0]) {
+                        cbtNotification = cbtNotification + props.notification[page].length
+                    }
+                    totalNotification = totalNotification + notification[cnt].length;
+                }
+            }
+            this.setState({notification, userChat, totalNotification, userNotification, groupNotification, cbtNotification});
         }
     }
 
@@ -122,26 +161,24 @@ class Home extends Component  {
                             </TouchableNativeFeedback>
                         </View>
                         <View style={styles.contentNavWrapper}>
-                                <TouchableNativeFeedback  onPress={this.props.onNavigate.bind(this, 'HomeWeb')} style={styles.navIcon}>
-                                    <View style={styles.navIcon}>
-                                        <Icon name="home-outline" size={22} style={activeUri === 'HomeWeb' ? styles.activeUri : styles.color}/>
-                                    </View>
-                                </TouchableNativeFeedback>
-                                <TouchableNativeFeedback  onPress={this.props.onNavigate.bind(this, 'UsersWeb')} style={styles.navIcon}>
-                                    <View style={styles.navIcon}>
-                                        <Icon name="people-outline" size={22} style={activeUri === 'UsersWeb' ? styles.activeUri : styles.color}/>
-                                    </View>
-                                </TouchableNativeFeedback>
-                                <TouchableNativeFeedback  onPress={this.props.onNavigate.bind(this, 'GroupWeb')} style={styles.navIcon}>
-                                    <View style={styles.navIcon}>
-                                        <Icon name="chatbubble-ellipses-outline" size={22} style={activeUri === 'GroupWeb' || activeUri === 'GroupPreview' ? styles.activeUri : styles.color}/>
-                                    </View>
-                                </TouchableNativeFeedback>
-                                <TouchableNativeFeedback  onPress={this.props.onNavigate.bind(this, 'CBTWeb')} style={styles.navIcon}>
-                                    <View style={styles.navIcon}>
-                                        <Icon name="timer-outline" size={22} style={activeUri === 'CBTWeb' ? styles.activeUri : styles.color}/>
-                                    </View>
-                                </TouchableNativeFeedback>
+                                {this.state.navLink.map((cnt, index) => (
+                                     <TouchableNativeFeedback  onPress={this.props.onNavigate.bind(this, cnt.uri)} style={styles.navIcon} key={index}>
+                                        <>
+                                            <View style={styles.navIcon}>
+                                                <Icon name={cnt.iconName} size={22} style={((cnt.uri === 'GroupWeb') && (activeUri === 'GroupPreview')) || activeUri === cnt.uri ? styles.activeUri : styles.color}/>
+                                            </View>
+                                            <TabBarge
+                                                onPress={() => this.navigationHandler(cnt.uri)}
+                                                notification={cnt.uri === 'UsersWeb' ? this.state.userNotification : 
+                                                    cnt.uri === 'GroupWeb' ? this.state.groupNotification : 
+                                                    cnt.uri === 'CBTWeb' ? this.state.cbtNotification :
+                                                    this.state.notification[cnt.title] ? this.state.notification[cnt.title].length : 0}
+                                                style={styles.tabBarge}
+                                                textStyle={styles.tabBargeText}
+                                                disableZero/>
+                                        </>
+                                    </TouchableNativeFeedback>
+                                ))}
                         </View>
                         <View style={styles.profileNavWrapper}>
                             <TouchableNativeFeedback  onPress={() => this.openModalHandler('conversation')} style={styles.navIcon}>
@@ -149,7 +186,8 @@ class Home extends Component  {
                                     <Icon name="chatbubbles-outline" size={22} color={styles.color}/>
                                     <TabBarge 
                                         style={styles.tabBarge}
-                                        notification={3}/>
+                                        notification={this.state.userChat}
+                                        disableZero/>
                                 </View>
                             </TouchableNativeFeedback>
                             <TouchableNativeFeedback onPress={() => this.openModalHandler('notification')} style={styles.navIcon}>
@@ -157,7 +195,8 @@ class Home extends Component  {
                                     <Icon name="notifications-outline" size={22} color={styles.color}/>
                                     <TabBarge
                                         style={styles.tabBarge}
-                                        notification={3}/>
+                                        notification={this.state.totalNotification}
+                                        disableZero/>
                                 </View>
                             </TouchableNativeFeedback>
                             <TouchableNativeFeedback onPress={this.props.onNavigate.bind(this, 'Profile')} style={styles.navIcon}>

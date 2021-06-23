@@ -265,9 +265,9 @@ class Groups extends Component {
         this.props.onPageReaction('group', pageID, 'setFavorite');
     }
 
-    showGroupInfoHandler = (pageID, title, media) => {
+    showGroupInfoHandler = (pageID, title, media, authorID) => {
         let mediaInfo = media.filter(cnt => cnt.bucket === 'image')[0];
-        this.setState({showGroupInfo: {selectType: 'member',title, media: mediaInfo || {}}, pageID})
+        this.setState({showGroupInfo: {selectType: 'member',title, media: mediaInfo || {}, authorID}, pageID})
     }
 
     advertChatboxHandler = (pageID) => {
@@ -475,9 +475,11 @@ class Groups extends Component {
                             page="group"
                             cntID="getGroupinfo"
                             pageID={this.state.pageID}
+                            isAdmin={this.state.showGroupInfo.authorID === this.props.userID}
                             pageSetting="userPage"
                             showNote={false}
-                            enableSearch={false}>
+                            enableSearch={false}
+                            leftButton={{title: 'Remove', action: 'setRemoveuser', show: false}}>
                             <View>
                                 <ImageBackground 
                                     source={{uri: `${Constants.manifest.extra.BASE_URL}media/${this.state.showGroupInfo.media.bucket}/${this.state.showGroupInfo.media.id}`}} 

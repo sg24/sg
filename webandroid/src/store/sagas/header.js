@@ -1,9 +1,9 @@
 import { put } from 'redux-saga/effects';
 import AsyncStorage from '@react-native-community/async-storage';
+import Constants from 'expo-constants';
 
 import axios from '../../axios';
 import * as actions from '../../store/actions/index';
-
 
 export function* headerFilterInitSaga(action) {
     try {
@@ -45,12 +45,13 @@ export function* fetchNotifyInitSaga(action) {
 export function* headerPushNotificationInitSaga(action) {
     try {
         yield put(actions.headerPushNotificationStart());
-        let response = yield axios.post('/users', {token: action.token, platform: action.platform}, {headers: {'data-categ':'getNotification'}});
-        alert(response)
+        let response = yield axios.post('/users', {token: action.token, platform: action.platform, stateHistory: action.stateHistory, limit: action.limit}, {headers: {'data-categ':'getNotification'}});
         yield put(actions.headerPushNotification(response.data))
-        yield AsyncStorage.setItem('notification', JSON.stringify(response.data ? response.data.notification : {}));
+        yield AsyncStorage.removeItem(Constants.manifest.extra.PERSISTENCE_KEY);
+        let cnt = response.data ? response.data : {};
+        let notification = cnt.notification;
+        yield AsyncStorage.setItem('notification', JSON.stringify(notification));
     } catch(err) {
-        alert(err)
         yield put(actions.headerPushNotificationFail(err));
     }
 }

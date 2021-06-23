@@ -497,6 +497,25 @@ router.post('/', authenticate, (req, res, next) => {
         return
     }
 
+    if (req.header !== null && req.header('data-categ') === 'setRemoveuser') {
+        let removeCnt = JSON.parse(req.body.cnt);
+        group.findOne({_id: req.body.pageID, authorID: req.user, 'member._id': {$in: removeCnt}}).then(doc => {
+            if (doc) {
+                for (let cnt of removeCnt) {
+                    let member = doc.member.filter(cntItem => JSON.parse(JSON.stringify(cntItem._id)) !== cnt._id);
+                    doc.updateOne({member}).then(() => {
+                        res.status(200).send({pageInfo: {_id: req.body.pageID, member: member.length, chat: {user: member.slice(0, 4)}}});
+                        sequence([notifications('groupAccept', cnt.authorID, {userID: req.user, ID: req.body.pageID}, true),
+                        notifications('groupUserRemove', cnt.authorID, {userID: req.user, ID: req.body.pageID}, false)]).catch()
+                    })
+                }
+            }
+        }).catch(err => {
+            res.status(500).send(err);
+        })
+        return
+    }
+
     if (req.header !== null && req.header('data-categ') === 'getPendingmark') {
         group.findOne({_id: req.body.pageID, authorID: req.user}).then(doc => {
             if (doc) {
@@ -597,8 +616,8 @@ router.post('/', authenticate, (req, res, next) => {
                     user.findById(cnt.authorID).then(doc => {
                         if (doc) {
                             ++member;
-                            updateResult.push({authorID: doc._id, username: doc.username, userImage: doc.image, 
-                                isAdmin: doc.authorID === cnt.authorID, status: (new Date().getTime() - new Date(doc.visited).getTime()) < 60000});
+                            updateResult.push({_id: cnt, authorID: doc._id, username: doc.username, userImage: doc.image, 
+                                isAdmin: JSON.parse(JSON.stringify(cnt.authorID)) === result.authorID, status: (new Date().getTime() - new Date(doc.visited).getTime()) < 60000});
                             if (member === members.length) {
                                 res.status(200).send({select: updateResult, loadMore:  result.member.length > (req.body.limit + req.body.start)});
                             }

@@ -346,9 +346,11 @@ class Groups extends Component {
                                 page="group"
                                 cntID="getGroupinfo"
                                 pageID={this.state.groupID}
+                                isAdmin={groupInfo.authorID === this.props.userID}
                                 pageSetting="userPage"
                                 showNote={false}
-                                enableSearch={false}>
+                                enableSearch={false}
+                                leftButton={{title: 'Remove', action: 'setRemoveuser', show: false}}>
                             <View>
                                 <ImageBackground 
                                     source={{uri: `${Constants.manifest.extra.BASE_URL}media/${groupInfoMedia.bucket}/${groupInfoMedia.id}`}} 
@@ -476,6 +478,7 @@ class Groups extends Component {
                             page="group"
                             cntID="getGroupinfo"
                             pageID={this.state.pageID}
+                            isAdmin={groupInfo.authorID === this.props.userID}
                             pageSetting="userPage"
                             showNote={false}
                             enableSearch={false}>

@@ -165,7 +165,6 @@ router.post('/', authenticate, (req, res, next) => {
             }
             res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
         }).catch(err => {
-            console.log(err)
             res.status(500).send(err)
         })
         return
@@ -214,7 +213,7 @@ router.post('/', authenticate, (req, res, next) => {
         post.findOneAndUpdate({_id: req.body.pageID}, {$addToSet: {'share': reciepent}}).then(() => {
             post.findById(req.body.pageID).then(doc => {
                 for (let groupID of reciepent) {
-                    group.findOne({_id: groupID, member: {$in: [req.user]}}).then(groupDoc => {
+                    group.findOne({_id: groupID,'member.authorID': req.user}).then(groupDoc => {
                         if (groupDoc) {
                             ++checked;
                             checkGroup.push(doc._id);

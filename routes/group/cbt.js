@@ -183,7 +183,7 @@ router.post('/', authenticate, (req, res, next) => {
         let checkGroup = [];
         let checked = 0;
         for (let groupID of reciepent) {
-            group.findOne({_id: groupID, member: {$in: [req.user]}}).then(checkGroupDoc => {
+            group.findOne({_id: groupID, 'member.authorID': req.user}).then(checkGroupDoc => {
                 if (checkGroupDoc) {
                     ++checked;
                     checkGroup.push(checkGroupDoc._id);

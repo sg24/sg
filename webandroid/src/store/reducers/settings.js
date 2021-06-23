@@ -55,11 +55,12 @@ const initialState = {
     },
     friendProfile: true,
     autoLoading: false,
+    notificationLimit: 2,
     highlightBackgroundColor: [{title: 'Red',  color: '#ff1600'},{title: 'Blue', color: '#437da3'},{title: 'Black', color: '#000'}],
     highlightColor: [{title: 'White',  color: '#fff'},{title: 'Black', color: '#000'}],
     backgroundColor: '#fff',
     color: '#333',
-    version: 2
+    version: 3
 };
 
 const saveSetting = (state, action) => {

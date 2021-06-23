@@ -118,7 +118,8 @@ class SelectPicker extends Component {
 
     selectHandler = (cntType, confirm, info) => {
         if (this.props.selectType === 'cbtRequest' || this.props.selectType === 'groupRequest' || this.props.selectType === 'groupPendingapprove'
-        || this.props.selectType === 'group' || this.props.selectType === 'chatroomRequest' || this.props.selectType === 'chatroomPendingapprove') {
+        || this.props.selectType === 'group' || this.props.selectType === 'chatroomRequest' || this.props.selectType === 'chatroomPendingapprove'
+        || this.props.selectType === 'userRequest') {
             this.props.onSelectCnt(this.props.actionpage ? this.props.actionpage: this.props.page, this.props.pageID, cntType, this.props.cntID, this.state.picked, 'post',
                 confirm, this.props.selectType !== 'group' );
             if (confirm) {
@@ -143,7 +144,11 @@ class SelectPicker extends Component {
     selectReactionHandler = (cntType, cntID, confirm, info) => {
         this.props.onSelectReaction(this.props.page, this.props.pageID, cntType, cntID, [cntID], 'post', confirm);
         if (confirm) {
-            return this.setState({changeReaction: null});
+            let picked = this.state.picked
+            if (this.state.picked.length > 0) {
+                picked = picked.filter(id => id !== cntID);
+            }
+            return this.setState({changeReaction: null, picked});
         }
         this.setState({changeReaction: {cntID, cntType, info, confirm}});
     }
@@ -157,11 +162,11 @@ class SelectPicker extends Component {
                 title={`${this.props.title} ${this.state.picked.length > 0 ? this.state.picked.length : ''}`}
                 rightSideContent={(
                     <View style={styles.headerRightContent}>
-                        { this.props.leftButton ? <Button 
+                        { this.props.leftButton && this.props.leftButton.show !== false ? <Button 
                             title={this.props.leftButton.title}
                             style={styles.selectAltButton}
                             textStyle={styles.selectAltText}
-                            onPress={() => this.selectHandler(this.props.leftButton.action, false, 'Are you sure you want to remove this users')}
+                            onPress={() => this.selectHandler(this.props.leftButton.action, false, this.props.confirmAllRejInfo ? this.props.confirmAllRejInfo : 'Are you sure you want to remove this users')}
                             disabled={this.state.picked.length < 1 || this.props.selectStart}
                             submitting={this.props.selectStart && !this.state.select && this.props.reactionType === this.props.leftButton.action}
                             loaderStyle="#fff" /> : null}
@@ -198,7 +203,7 @@ class SelectPicker extends Component {
                                 title={this.props.leftButton.title}
                                 style={styles.selectAltButton}
                                 textStyle={styles.selectAltText}
-                                onPress={() => this.selectHandler(this.props.leftButton.action, false, 'Are you sure you want to remove this users')}
+                                onPress={() => this.selectHandler(this.props.leftButton.action, false, this.props.confirmAllRejInfo ? this.props.confirmAllRejInfo : 'Are you sure you want to remove this users')}
                                 disabled={this.state.picked.length < 1 || this.props.selectStart}
                                 submitting={this.props.selectStart && !this.state.select && this.props.reactionType === this.props.leftButton.action}
                                 loaderStyle="#fff" /> : null}
@@ -226,20 +231,22 @@ class SelectPicker extends Component {
 
         if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
             let items = null;
-            if (this.props.selectType === 'cbtRequest' || this.props.selectType === 'groupRequest' || this.props.selectType === 'chatroomRequest') {
+            if (this.props.selectType === 'cbtRequest' || this.props.selectType === 'groupRequest' || this.props.selectType === 'chatroomRequest'
+                || this.props.selectType === 'userRequest') {
                 items = this.props.fetchCnt.map((cnt, index) => (
                     <PrivateConv
                         key={index}
                         userDet={cnt}
                         showProfile={() => this.navigationHandler('Profile', cnt.authorID)}
                         rightTitle={this.props.rightButton ? this.props.rightButton.title : null}
+                        leftTitle={this.props.leftButton ? this.props.leftButton.title : null}
                         lastItem={index === (this.props.fetchCnt.length - 1)}
                         loadMore={this.loadMoreHandler}
                         enableLoadMore={this.props.loadMore}
                         allowPressable
                         selectReaction={this.props.selectReaction}
                         allowUser={() => this.selectReactionHandler(this.props.rightButton.action, cnt._id, false, this.props.confirmInfo ? this.props.confirmInfo : 'Are you sure you want to allow this user')}
-                        rejectUser={() => this.selectReactionHandler(this.props.leftButton.action, cnt._id, false, 'Are you sure you want to remove this user')}
+                        rejectUser={() => this.selectReactionHandler(this.props.leftButton.action, cnt._id, false, this.props.confirmRejInfo ? this.props.confirmRejInfo : 'Are you sure you want to remove this user')}
                         start={this.props.fetchSelectcntStart}
                         pick={() => this.pickHandler(cnt._id)}
                         picked ={this.state.picked}
@@ -261,7 +268,7 @@ class SelectPicker extends Component {
                         allowPressable
                         selectReaction={this.props.selectReaction}
                         allowUser={() => this.selectReactionHandler(this.props.rightButton.action, cnt._id, false, this.props.confirmInfo ? this.props.confirmInfo : 'Are you sure you want to allow this user')}
-                        rejectUser={() => this.selectReactionHandler(this.props.leftButton.action, cnt._id, false, 'Are you sure you want to remove this user')}
+                        rejectUser={() => this.selectReactionHandler(this.props.leftButton.action, cnt._id, false, this.props.confirmRejInfo ? this.props.confirmRejInfo : 'Are you sure you want to remove this user')}
                         start={this.props.fetchSelectcntStart}
                         pick={() => this.pickHandler(cnt._id)}
                         picked ={this.state.picked}
@@ -308,9 +315,13 @@ class SelectPicker extends Component {
                         userDet={cnt}
                         showProfile={() => this.navigationHandler('Profile', cnt.authorID)}
                         lastItem={index === (this.props.fetchCnt.length - 1)}
+                        userID={this.props.userID}
+                        isAdmin={this.props.isAdmin}
                         loadMore={this.loadMoreHandler}
                         enableLoadMore={this.props.loadMore}
                         start={this.props.fetchSelectcntStart}
+                        selectReaction={this.props.selectReaction}
+                        removeUser={() => this.selectReactionHandler(this.props.leftButton.action, cnt._id, false,  this.props.confirmRejInfo ? this.props.confirmRejInfo : 'Are you sure you want to remove this user')}
                         />
                 ));
             }

@@ -206,7 +206,7 @@ router.post('/', authenticate, (req, res, next) => {
         writeup.findOneAndUpdate({_id: req.body.pageID}, {$addToSet: {'share': reciepent}}).then(() => {
             writeup.findById(req.body.pageID).then(doc => {
                 for (let groupID of reciepent) {
-                    group.findOne({_id: groupID, member: {$in: [req.user]}}).then(groupDoc => {
+                    group.findOne({_id: groupID, 'member.authorID': req.user}).then(groupDoc => {
                         if (groupDoc) {
                             ++checked;
                             checkGroup.push(doc._id);

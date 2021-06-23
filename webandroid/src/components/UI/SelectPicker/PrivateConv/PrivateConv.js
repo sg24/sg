@@ -68,7 +68,7 @@ const privateConv = props => {
                             </Button> : null}
                             <Button onPress={props.rejectUser} style={styles.useroptAltButton} disabled={startSelectReaction}>
                                 <Ionicons name="close" size={16}/>
-                                <Text numberOfLines={1} style={styles.remove}>Remove</Text>
+                                <Text numberOfLines={1} style={styles.remove}>{props.leftTitle ? props.leftTitle: 'Remove'}</Text>
                             </Button>
                         </View>
                     </View>

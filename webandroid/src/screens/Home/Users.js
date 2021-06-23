@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
+import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
@@ -11,6 +11,7 @@ import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
 import Button from '../../components/UI/Button/Button';
+import TabBarge from '../../components/UI/TabBarge/TabBarge';
 import Settings from '../../components/UI/Settings/Settings';
 import * as actions from '../../store/actions/index';
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
@@ -71,6 +72,10 @@ class Users extends Component {
         if (this.state.changeProfile) {
             this.props.onPageReactionReset(this.state.changeProfile.pageID);
         }
+    }
+
+    navigationHandler = (page, cnt={}) => {
+        this.props.navigation.navigate(page, cnt);
     }
 
     optionHandler = (action) => {
@@ -140,6 +145,26 @@ class Users extends Component {
         let pageBackground = this.props.settings.page.backgroundImage  && this.props.settings.page.enableBackgroundImage;
         let Wrapper = pageBackground ? ImageBackground : View;
         let wrapperProps = pageBackground ? {source: {uri: this.props.settings.page.backgroundImage}, resizeMode: 'cover'} :{}
+        let selectProps = {
+            animation: 'fade',
+            notificationPage: 'userRequest',
+            selectType: 'userRequest',
+            info:'Users accepted successfully !',
+            removeInfo: 'Users rejected successfully !',
+            confirmAllInfo: 'Are you sure you want to accept this users',
+            confirmInfo: 'Are you sure you want to accept this user',
+            confirmAllRejInfo: 'Are you sure you want to reject this users',
+            confirmRejInfo: 'Are you sure you want to reject this user',
+            title: 'User Request',
+            page: 'users',
+            pageID:this.props.userID,
+            cntID: 'getUserRequest',
+            searchID: 'searchUserRequest',
+            pageSetting: 'userPage',
+            iconName: 'people',
+            leftButton:{title: 'Reject', action: 'setRejectuser'},
+            rightButton:{title: 'Accept', action: 'setAcceptuser'}
+        };
 
         let header = (
             this.state.viewMode === 'landscape' ? (
@@ -160,7 +185,7 @@ class Users extends Component {
                     editable
                     value={this.state.search}
                     disableBackButton
-                    autoFocus={false}
+                    autoFocus={this.state.search.length > 0}
                 />
             )
         );
@@ -208,6 +233,18 @@ class Users extends Component {
             let profile = this.props.pageReaction.length > 0 && this.state.changeProfile ? this.props.pageReaction.filter(id => id === this.state.changeProfile.pageID)[0] : null;
             cnt = (
                 <View style={styles.container}>
+                    <View style={{flexDirection: 'row'}}>
+                        <Button style={styles.optionButton} onPress={() => this.navigationHandler('SelectPicker', {props: selectProps})}>
+                            {/* <Ionicons name="pencil-outline" size={20} /> */}
+                            <Text style={styles.optionIconText}>Friend Request</Text>
+                            <TabBarge
+                                onPress={() => this.navigationHandler('SelectPicker', {props: selectProps})}
+                                notification={this.props.notification && this.props.notification['userRequest'] ? this.props.notification['userRequest'].length : 0}
+                                style={styles.tabBarge}
+                                textStyle={styles.tabBargeText}
+                                disableZero/>
+                        </Button>
+                    </View>
                     <Wrapper
                         {...wrapperProps}
                         style={[styles.container, this.state.viewMode === 'landscape' ? 
@@ -289,7 +326,7 @@ class Users extends Component {
             cnt = (
                 <View style={styles.wrapper}>
                     <ErrorInfo 
-                        header={header}
+                        // header={header}
                         viewMode={this.state.viewMode}
                         backgroundColor={this.props.settings.backgroundColor}
                         reload={this.reloadFetchHandler}/>
@@ -367,6 +404,29 @@ const styles = StyleSheet.create({
     info: {
         fontSize: 18,
         marginBottom: 5
+    },
+    optionButton: {
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        flexDirection: 'row',
+        margin: 10,
+        backgroundColor: '#dcdbdc',
+        borderRadius: 99999,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    tabBarge: {
+        position: 'relative',
+        top: 'auto',
+        right: 'auto',
+        width: 24,
+        height: 24,
+        borderRadius: 12,
+        marginRight: 0,
+        marginLeft: 10
+    },
+    tabBargeText: {
+        fontSize: 15
     }
 });
 
@@ -374,6 +434,7 @@ const mapStateToProps = state => {
     return {
         settings: state.settings,
         userID: state.auth.userID,
+        notification: state.header.notification,
         fetchCntErr: state.page.fetchUserError,
         fetchCntStart: state.page.fetchUserStart,
         fetchCnt: state.page.fetchUser,

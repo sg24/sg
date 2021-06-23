@@ -3,13 +3,20 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 
-const tabBarge = props => (
-    <View style={[styles.tabBarge, props.style]}>
-        <TouchableNativeFeedback onPress={props.onPress}>
-            <Text style={[styles.notification, props.textStyle]} numberOfLines={1}>{props.notification}</Text>
-        </TouchableNativeFeedback>
-    </View>
-)
+const tabBarge = props => {
+    let cnt = (
+        <View style={[styles.tabBarge, props.style]}>
+            <TouchableNativeFeedback onPress={props.onPress}>
+                <Text style={[styles.notification, props.textStyle]} numberOfLines={1}>{props.notification}</Text>
+            </TouchableNativeFeedback>
+        </View>
+    );
+
+    if (props.disableZero && (props.notification === 0 || props.notification === '0')) {
+        cnt = null;
+    }
+    return cnt;
+}
 
 const styles = StyleSheet.create({
     tabBarge: {

@@ -512,7 +512,8 @@ const styles = StyleSheet.create({
     absoluteFill: {
         backgroundColor: '#fff',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        zIndex: 999999999
     },
     result: {
         width: 300,

@@ -1,5 +1,5 @@
 let notifications = require('./notifications');
-const webpush = require('web-push');
+const push = require('./push');
 const { user, tempFile} = require('../../serverDB/serverDB');
 
 module.exports = submitForm = (model, cnt, tempFileID, field, notificationReciever) => {
@@ -18,6 +18,7 @@ module.exports = submitForm = (model, cnt, tempFileID, field, notificationReciev
                             if (userInfo && userInfo.friend && userInfo.friend.length > 0 && field) {
                                 for (let recieverID of userInfo.friend) {
                                     notifications(field, recieverID, {userID: cnt.authorID, ID: id}, false);
+                                    push(userInfo.subscription, cnt.title, cnt.content ? String(cnt.content).substr(0, 50) : '', {page: field, pageID: id})
                                 }
                             }
                         })

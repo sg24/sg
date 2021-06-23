@@ -50,6 +50,7 @@ import QuestionSolutionScreen from './src/screens/Home/QuestionSolution';
 import MediaPreviewScreen from './src/screens/UI/MediaPreview';
 import PagePreviewScreen from './src/screens/UI/PagePreview';
 import SharePickerScreen from './src/screens/UI/SharePicker';
+import SelectPickerScreen from './src/screens/UI/SelectPicker';
 import AddPostScreen from './src/screens/AddForm/Post';
 import AddQuestionScreen from './src/screens/AddForm/Question';
 import AddAdvertScreen from './src/screens/AddForm/Advert';
@@ -99,6 +100,7 @@ const userScreens = {
   MediaPreview: MediaPreviewScreen,
   PagePreview: PagePreviewScreen,
   SharePicker: SharePickerScreen,
+  SelectPicker: SelectPickerScreen,
   CBTWeb: CBTScreen,
   GroupWeb: GroupScreen,
   GroupPreview: GroupPreviewScreen,
@@ -150,18 +152,56 @@ class Base extends Component {
     this.state = {
       viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
       isLoggedIn: false,
-      expoPushToken: ''
+      expoPushToken: '',
+      checkNotification: null
     }
   }
   componentDidMount() {
     this.props.onCheckAuth();
-    this.registarBackgroundTask();
-    this.props.onPushNotification('ExponentPushToken[jP4U8kP5i80OQyPKKUi0PI]', Platform.OS)
+    if (Platform.OS !== 'web') {
+      this.registarBackgroundTask();
+    }
+    AsyncStorage.removeItem(Constants.manifest.extra.PERSISTENCE_KEY).then(() => {
+      let checkNotification = setInterval(() => {
+        AsyncStorage.getItem(Constants.manifest.extra.PERSISTENCE_KEY).then(state => {
+          if (state) {
+            state = JSON.parse(state);
+            let stateHistory = [];
+            for (let cnt in state.routes) {
+              if (state.routes[cnt].state && (state.routes[cnt].state.index || state.routes[cnt].state.index === 0)) {
+                let routeName = state.routes[cnt].state.routeNames[state.routes[cnt].state.index];
+                stateHistory.push(routeName);
+              } else {
+                stateHistory.push(state.routes[cnt].params && state.routes[cnt].params.props && state.routes[cnt].params.props.notificationPage ? 
+                  state.routes[cnt].params.props.notificationPage : state.routes[cnt].name);
+              }
+            }
+            this.props.onPushNotification(this.props.settings.notificationLimit || 2, '', Platform.OS, JSON.stringify(stateHistory))
+            // Notifications.scheduleNotificationAsync({
+            //   content: {
+            //     title: 'created',
+            //     body: "body",
+            //     subtitle:'su',
+            //     data: {cnt: 'image'}
+                
+            //   },
+            //   trigger: {
+            //     seconds: 10,
+            //     channelId: 'default',
+            //   },
+            // });
+          } else {
+            this.props.onPushNotification(this.props.settings.notificationLimit || 2, '', Platform.OS)
+          }
+        })
+      }, 1000);
+      this.setState({checkNotification})
+    })
     Dimensions.addEventListener('change', this.updateHeader);
   }
 
   componentDidUpdate() {
-    if (this.props.isLoggedIn && !this.state.isLoggedIn) {
+    if (this.props.isLoggedIn && !this.state.isLoggedIn && Platform.OS !== 'web') {
       Notifications.setNotificationHandler({
         handleNotification: async () => ({
           shouldShowAlert: true,
@@ -170,8 +210,7 @@ class Base extends Component {
         }),
       });
       this.registerForPushNotificationsAsync().then(token => {
-        this.props.onPushNotification(token, Platform.OS);
-        console.log(token)
+        this.props.onPushNotification(this.props.settings.notificationLimit || 2, token, Platform.OS);
       });
       this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
         console.log(response);
@@ -186,6 +225,7 @@ class Base extends Component {
         this.subscription.remove();
         this.responseListener.remove()
       }
+      clearInterval(this.state.checkNotification);
   }
 
   updateHeader = (dims) => {
@@ -205,11 +245,10 @@ class Base extends Component {
         if (state.isConnected) {
           console.log(this.state.expoPushToken);
           (async () => {
-            let response = await axios.post('/users', {token: this.state.expoPushToken}, {headers: {'data-categ':'getNotification'}});
+            let response = await axios.post('/users', {token: this.state.expoPushToken, platform: Platform.OS}, {headers: {'data-categ':'getNotification'}});
             let cnt = response.data ? response.data : {};
             let notification = cnt.notification;
-            let showedNotification = await AsyncStorage.getItem('notification');
-            await AsyncStorage.setItem('notification', JSON.stringify(notification));
+            let showedNotification = await AsyncStorage.getItem(Constants.manifest.extra.NOTIFICATION);
             if (showedNotification) {
               showedNotification = JSON.parse(showedNotification);
               for (let page in showedNotification) {
@@ -221,6 +260,7 @@ class Base extends Component {
                 }
               }
             }
+            await AsyncStorage.setItem(Constants.manifest.extra.NOTIFICATION, JSON.stringify(notification));
            for (let page in notification) {
               for (let pageItem of notification[page]) {
                 Notifications.scheduleNotificationAsync({
@@ -288,7 +328,10 @@ class Base extends Component {
     SplashScreen.hideAsync();
     
     return (
-      <NavigationContainer>
+      <NavigationContainer
+        onStateChange={(state) =>
+          AsyncStorage.setItem(Constants.manifest.extra.PERSISTENCE_KEY, JSON.stringify(state))
+        }>
           <Stack.Navigator
             headerMode="screen">
             {Object.entries({
@@ -306,7 +349,8 @@ class Base extends Component {
                     modalConv={ConvScreen}
                     modalNotify={NotificatonScreen}
                     filterCnt={this.props.onHeaderFilter}
-                    inputValue={this.props.filterCnt} />
+                    inputValue={this.props.filterCnt}
+                    notification={this.props.notification} />
                 }
                 component = this.state.viewMode === 'landscape'  ?
                   name === 'HomeWeb' ? PostScreen :
@@ -338,7 +382,8 @@ class Base extends Component {
                     modalNotify={NotificatonScreen}
                     filterCnt={this.props.onHeaderFilter}
                     title={name}
-                    inputValue={this.props.filterCnt} />
+                    inputValue={this.props.filterCnt}
+                    notification={this.props.notification} />
                 }
               }
 
@@ -355,7 +400,8 @@ class Base extends Component {
                   filterCnt={this.props.onHeaderFilter}
                   title={name === 'GeneralSettings' ? 'General Settings' : 
                     name === 'ExamInstruction' ? 'Exam Summary / Instruction' : name} 
-                  inputValue={this.props.filterCnt}/>
+                  inputValue={this.props.filterCnt}
+                  notification={this.props.notification}/>
                 }
               }
 
@@ -371,13 +417,14 @@ class Base extends Component {
                     modalNotify={NotificatonScreen}
                     filterCnt={this.props.onHeaderFilter}
                     title={name}
-                    inputValue={this.props.filterCnt} /> : null
+                    inputValue={this.props.filterCnt}
+                    notification={this.props.notification} /> : null
                 }
               }
 
               if (name === 'Question' || name === 'Feed' || name === 'WriteUp' || name === 'GroupPreview' || name === 'CommentBox'
                 || name === 'Exam' || name === 'MarkExam' || name === 'RoomInfo' || name === 'Search' || name === 'QuestionSolution'
-                || name === 'MediaPreview' || name === 'PagePreview' || name === 'SharePicker' || name === 'HashSearch') {
+                || name === 'MediaPreview' || name === 'PagePreview' || name === 'SharePicker' || name === 'SelectPicker' || name === 'HashSearch') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
                 header = {
                   header: ({scene, previous, navigation }) => this.state.viewMode === 'landscape' ?  <HeaderBar
@@ -389,7 +436,8 @@ class Base extends Component {
                     modalNotify={NotificatonScreen}
                     filterCnt={this.props.onHeaderFilter}
                     title={name === 'WriteUp' ? 'Write Up' : name}
-                    inputValue={this.props.filterCnt} /> : null
+                    inputValue={this.props.filterCnt}
+                    notification={this.props.notification} /> : null
                 }
               }
 
@@ -421,6 +469,7 @@ class Base extends Component {
                     modalNotify={NotificatonScreen}
                     filterCnt={this.props.onHeaderFilter}
                     inputValue={this.props.filterCnt}
+                    notification={this.props.notification}
                   />,
                   title
                 }
@@ -445,6 +494,7 @@ class Base extends Component {
                     modalNotify={NotificatonScreen}
                     filterCnt={this.props.onHeaderFilter}
                     inputValue={this.props.filterCnt}
+                    notification={this.props.notification}
                   />,
                   title
                 }
@@ -467,6 +517,7 @@ class Base extends Component {
 
 const mapStateToProps = state => {
   return {
+      settings: state.settings,
       isAuthChecked: state.auth.isAuthChecked,
       isLoggedIn: state.auth.isLoggedIn,
       authErr: state.auth.authErr,
@@ -482,7 +533,7 @@ const mapDispatchToProps = dispatch => {
   return {
       onCheckAuth: () => dispatch(actions.checkAuthInit()),
       onHeaderFilter: (filterCnt) => dispatch(actions.headerFilterInit(filterCnt)),
-      onPushNotification: (token, platform) => dispatch(actions.headerPushNotificationInit(token, platform))
+      onPushNotification: (limit, token, platform, stateHistory) => dispatch(actions.headerPushNotificationInit(limit, token, platform, stateHistory))
   };
 };
 

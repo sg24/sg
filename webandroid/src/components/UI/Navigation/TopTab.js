@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import Icon from 'ionicons';
+import { connect } from 'react-redux';
 
 import HomeScreen from '../../../screens/Home/Post';
 import UserScreen from '../../../screens/Home/Users';
@@ -34,12 +35,34 @@ const topTab = props => (
                     return <Icon name={name} color={color} size={20}/>
                 },
                 tabBarLabel: ({color}) => {
+                    let userChat = 0;
+                    let groupNotification = 0;
+                    let cbtNotification = 0;
+                    if (props.notification) {
+                        for (let cnt of props.notification['userChat']) {
+                            userChat = userChat + cnt.counter
+                        }
+                        userChat = userChat + props.notification['userRequest'].length
+                        let groupPage = ['groupRequest', 'groupJoin', 'groupAccept', 'groupReject', 'groupPending', 'groupMark'];
+                        for (let page of groupPage) {
+                            groupNotification = groupNotification + props.notification[page].length
+                        }
+                        let cbtPage = ['qchat', 'qchatRequest', 'qchatResult', 'qchatAccept', 'qchatReject', 'qchatMark', 'qchatShare'];
+                        for (let page of cbtPage) {
+                            cbtNotification = cbtNotification + props.notification[page].length
+                        }
+                    }
                     return (
                         <View>
                             <Text style={[styles.labelStyle, {color}]}>{ route.name  }</Text>
-                            {/* <TabBarge 
+                            <TabBarge 
                                 style={styles.tabBarge}
-                                notification={3}/> */}
+                                notification={
+                                    route.name === 'User' ?  userChat :
+                                    route.name === 'Group' ? groupNotification :
+                                    route.name === 'CBT' ? cbtNotification :
+                                    route.name === 'Home' ?  props.notification && props.notification['post'] ? props.notification['post'].length : 0: 0}
+                                disableZero/>
                         </View>
                     )
                 }
@@ -88,4 +111,10 @@ const styles = StyleSheet.create({
     }
 })
 
-export default topTab;
+const mapStateToProps = state => {
+    return {
+        notification: state.header.notification
+    };
+};
+
+export default connect(mapStateToProps)(topTab);

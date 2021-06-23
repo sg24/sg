@@ -5,8 +5,10 @@ let objectID = require('mongoose').mongo.ObjectId;
 let sequence = require('./utility/sequence');
 let authenticate = require('../serverDB/middleware/authenticate');
 const bcrypt = require('bcryptjs');
+let search = require('./utility/search');
 let notifications = require('./utility/notifications');
-const {user, notifications: notificationsModel, connectStatus} = require('../serverDB/serverDB');
+const {user, notifications: notificationsModel, connectStatus,
+    post, question, qchat, writeup, feed, group, grouppost, groupcbt, groupquestion, groupfeed, groupwriteup} = require('../serverDB/serverDB');
 
 router.get('/', authenticate,(req, res, next) => {
     if (!req.authType) {
@@ -49,30 +51,110 @@ router.post('/', authenticate,(req, res, next) => {
 
     if (req.header && req.header('data-categ') === 'getNotification') {
         Promise.all([notificationsModel.findOne({userID: req.user}), 
-            req.subscription.filter(cnt => cnt.token === req.body.token).length < 1 ? user.findByIdAndUpdate(req.user, {$push: {subscription: {token: req.body.token, platform: req.body.platform}}}) : Promise.resolve()]).then(result => {
+            req.body.token && req.body.token.length > 0 ? req.subscription.filter(cnt => cnt.token === req.body.token).length < 1 : false ? user.findByIdAndUpdate(req.user, {$push: {subscription: {token: req.body.token, platform: req.body.platform}}}) : Promise.resolve()]).then(result => {
             let notification = result[0] ? JSON.parse(JSON.stringify(result[0])) : {};
-            for (let page in notification) {
-                let pageCnt = [];
-                console.log(page)
-                if (Array.isArray(notification[page])) {
-                    for (let cnt of notification[page]) {
-                        (async () => {
-                            await user.findById(cnt.userID).then(userInfo => {
-                                if (userInfo) {
-                                    pageCnt.push({...cnt, username: userInfo.username, userImage: userInfo.image, status: (new Date().getTime() - new Date(userInfo.visited).getTime()) < 60000});
-                                }
-                            })
-                        })();
+            let stateHistory = req.body.stateHistory ? JSON.parse(req.body.stateHistory) : [];
+            notification['groupPostShare'] = [];
+            notification['groupQuestionShare'] = [];
+            notification['groupFeedShare'] = [];
+            notification['groupWriteupShare'] = [];
+            notification['groupCbtShare'] = [];
+            for (let page of stateHistory) {
+                page = page.split('Web')[0].toLowerCase();
+                for (let notificationPage in notification) {
+                    page = page === 'home' ? 'post' : page;
+                    if (notificationPage.toLowerCase() === page) {
+                        console.log(page, req.body.limit)
+                        notification[notificationPage] = [];
                     }
-                    notification[page] = pageCnt;
                 }
             }
-            console.log(notification)
-            // user.findByIdAndUpdate(req.user, {}).then(() => {
-                res.status(200).send({notification});
-            // });
+            delete notification._v;
+            let removeNotification = notification;
+            (async () => {
+                for (let page in notification) {
+                    let pageCnt = [];
+                    if (Array.isArray(notification[page])) {
+                        for (let cnt of notification[page]) {
+                            if (cnt) {
+                                await user.findById(cnt.userID).then(userInfo => {
+                                    if (userInfo) {
+                                        if (Array.isArray(cnt.cntID)) {
+                                            let checkUpdate = 0;
+                                            let pageItem = cnt.cntID.slice(0, req.body.limit);
+                                            cnt.cntID = cnt.cntID.slice(req.body.limit);
+                                            let notificationPageIndex = removeNotification[page].findIndex(cntItem => JSON.parse(JSON.stringify(cntItem._id)) === JSON.parse(JSON.stringify(cnt._id)));
+                                            removeNotification[page][notificationPageIndex] = cnt;
+                                            for (let id of pageItem) {
+                                                let model = (page === 'post') || (page === 'postShare' ) ? post :
+                                                (page === 'question') || (page === 'questionShare' ) ? question :
+                                                (page === 'writeup') || (page === 'writeupShare') ? writeup :
+                                                (page === 'feed') || (page === 'feedShare' ) ? feed :
+                                                (page === 'createGroup') || (page === 'groupShare' ) ? question :
+                                                (page === 'qchat') || (page === 'qchatShare' ) ? question : null;
+                                                if (model) {
+                                                    await model.findById(id).then(doc => {
+                                                        if (doc) {
+                                                            pageCnt.push(JSON.parse(JSON.stringify(doc)))
+                                                        }
+                                                    })
+                                                } else {
+                                                    let title = page === 'groupJoin' ? `${userInfo.username} has joined your group`:
+                                                    page === 'groupRequest' ? `${userInfo.username} has sent you a group request`:
+                                                    page === 'groupAccept' ? `Admin has accepted your group request`:
+                                                    page === 'groupReject' ? `Admin has rejected your group request`:
+                                                    page === 'groupPending' ? `${userInfo.username} has sent you a group request`:
+                                                    page === 'groupMark' ? `${userInfo.username} has sent you a group exam for marking`:
+                                                    page === 'groupUserRemove' ? `Admin has removed you from a group`:
+                                                    page === 'groupCbtRequest' ? `${userInfo.username} has sent you a group CBT request`:
+                                                    page === 'groupCbtAccept' ? `${userInfo.username} has accepted you request to take exam`:
+                                                    page === 'groupCbtReject' ? `${userInfo.username} has remove you request to take exam`:
+                                                    page === 'groupCbtMark' ? `${userInfo.username} has sent you an exam for marking`:
+                                                    page === 'groupCbtResult' ? `Your exam has being marked, check result`:
+                                                    page === 'chatRoomJoin' ? `${userInfo.username} has joined your Chat Room`:
+                                                    page === 'chatRoomRequest' ? `${userInfo.username} has sent you a Chat Room request`:
+                                                    page === 'chatRoomAccept' ? `Admin has accepted your Chat Room request`:
+                                                    page === 'chatRoomReject' ? `Admin has rejected your Chat Room request`:
+                                                    page === 'chatRoomPending' ? `${userInfo.username} has sent you a Chat Room request`:
+                                                    page === 'chatRoomMark' ? `${userInfo.username} has sent you a Chat Room entry exam for marking`:
+                                                    page === 'userChat' ? `${cnt.counter} unread message from  ${userInfo.username}`:
+                                                    page === 'chatRoomRequest' ? `${userInfo.username} has sent you a Chat Room request`:
+                                                    page === 'advert' ? `${userInfo.username} Added new product`:
+                                                    page === 'qchatRequest' ? `${userInfo.username} has sent you a CBT request`:
+                                                    page === 'qchatAccept' ? `${userInfo.username} has accepted you request to take exam`:
+                                                    page === 'qchatReject' ? `${userInfo.username} has remove you request to take exam`:
+                                                    page === 'qchatMark' ? `${userInfo.username} has sent you an exam for marking`:
+                                                    page === 'qchatResult' ? `Your exam has being marked, check result`:
+                                                    pageCnt.push({userID: cnt.userID, username: userInfo.username, userImage: userInfo.image, status: (new Date().getTime() - new Date(userInfo.visited).getTime()) < 60000,
+                                                        title, isPageID: true, _id: id});
+                                                }
+                                            }
+                                        } else {
+                                            let title = page === 'userRequest' ? `${userInfo.username} sent you a friend request`:
+                                            page === 'userAccept' ? `${userInfo.username} accepted your friend request`:
+                                            page === 'userReject' ? `${userInfo.username} rejected your friend request`:
+                                            page === 'userUnfriend' ? `${userInfo.username} unfriend you`:
+                                            page === 'profileImage' ? `${userInfo.username} change is profile picture`:
+                                            `${userInfo.username} change is profile name`;
+                                            pageCnt.push({userID: cnt.userID, username: userInfo.username, userImage: userInfo.image, status: (new Date().getTime() - new Date(userInfo.visited).getTime()) < 60000,
+                                            title, isUserImage: true });
+                                            let updateRemove = removeNotification[page].filter(cntItem => JSON.parse(JSON.stringify(cntItem._id)) !== JSON.parse(JSON.stringify(cnt._id)));
+                                            removeNotification[page] = updateRemove;
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                        notification[page] = pageCnt;
+                    }
+                }
+            })()
+            console.log(removeNotification.post.length);
+            console.log(notification.post.length)
+            Promise.all([stateHistory.length > 0 ? notificationsModel.findOneAndUpdate({userID: req.user}, removeNotification) : Promise.resolve()]).then(() => {
+                return res.status(200).send({notification});
+            });
         }).catch(err => {
-            console.log(err)
             res.status(500).send(err);
         })
     }
@@ -173,6 +255,94 @@ router.post('/', authenticate,(req, res, next) => {
         }).catch(err => {
             res.status(500).send(err);
         })
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'getUserRequest') {
+        let userRequest = req.request;
+        let updateUserRequest = userRequest.slice(req.body.start, (req.body.limit + req.body.start));
+        let userInfo = []
+        Promise.resolve().then(() => {
+            (async() => {
+                for (let userID of updateUserRequest) {
+                    try {
+                        await user.findById(userID).then(doc => {
+                            if (doc) {
+                                userInfo.push({username: doc.username, userImage: doc.image, authorID: doc._id, _id: doc._id})
+                            }
+                        })
+                    } catch(err) {
+                        return res.status(500).send(err);
+                    }
+                }
+                return res.status(200).send({select: userInfo, loadMore: (req.request.length - (req.body.start + req.body.limit)) > 0 })
+            })();
+        })
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'searchUserRequest') {
+        let userInfo = []
+        Promise.resolve().then(() => {
+            (async() => {
+                for (let userID of req.request) {
+                    try {
+                        await user.findById(userID).then(doc => {
+                            if (doc) {
+                                userInfo.push({username: doc.username, userImage: doc.image, authorID: doc._id, _id: doc._id})
+                            }
+                        })
+                    } catch(err) {
+                        return res.status(500).send(err);
+                    }
+                }
+                let userRequest = search(userInfo, 'username', req.body.searchCnt);
+                let updateUserRequest = userRequest.slice(req.body.start, (req.body.limit + req.body.start));
+                res.status(200).send({select: updateUserRequest, loadMore: (userRequest.length - (req.body.start + req.body.limit)) > 0 })
+            })();
+        });
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'setAcceptuser') {
+        let pendingAcceptCnt = JSON.parse(req.body.cnt);
+        Promise.resolve().then(() => {
+            (async() => {
+                for (let userID of pendingAcceptCnt) {
+                    try {
+                        await sequence([
+                            user.findOneAndUpdate({_id: req.user, friend: { $ne : userID }}, {$addToSet: { friend: userID }, $pull: {request: userID}}),
+                            notifications('userRequest', req.user, {userID}, true),
+                            notifications('userAccept', userID, {userID: req.user}, false),
+                            user.findByIdAndUpdate(userID, {$addToSet: { friend: req.user }, $pull: {'pendingRequest': req.user}})
+                        ])
+                    } catch(err) {
+                        return res.status(500).send(err);
+                    }
+                }
+            })();
+            res.sendStatus(200);
+        })
+        return
+    }
+
+    if (req.header !== null && req.header('data-categ') === 'setRejectuser') {
+        let pendingRejectCnt = JSON.parse(req.body.cnt);
+        Promise.resolve().then(() => {
+            (async() => {
+                for (let userID of pendingRejectCnt) {
+                    try {
+                        await sequence([user.findByIdAndUpdate(req.user, {$pull: {request: userID}}),
+                            notifications('userRequest', req.user, {userID}, true),
+                            notifications('userReject', userID, {userID: req.user}, false),
+                            user.findByIdAndUpdate(userID, {$pull: {'pendingRequest': req.user}})
+                        ])
+                    } catch(err) {
+                        return res.status(500).send(err);
+                    }
+                }
+            })();
+            res.sendStatus(200);
+        });
+        return
     }
 
     // if (req.header && req.header('data-categ') && req.header('data-categ').startsWith('request')) {

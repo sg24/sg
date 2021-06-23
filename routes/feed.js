@@ -209,7 +209,7 @@ router.post('/', authenticate, (req, res, next) => {
         feed.findOneAndUpdate({_id: req.body.pageID}, {$addToSet: {'share': reciepent}}).then(() => {
             feed.findById(req.body.pageID).then(doc => {
                 for (let groupID of reciepent) {
-                    group.findOne({_id: groupID, member: {$in: [req.user]}}).then(groupDoc => {
+                    group.findOne({_id: groupID, 'member.authorID': req.user}).then(groupDoc => {
                         if (groupDoc) {
                             ++checked;
                             checkGroup.push(doc._id);

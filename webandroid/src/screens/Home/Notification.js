@@ -14,38 +14,44 @@ class Notification extends Component {
         super(props);
         this.state = {
             viewMode: Dimensions.get('window').width >= 530 ? 'landscape' : 'portrait',
+            notification: {},
+            notificationList: null
         }
     }
 
     componentDidMount() {
-        if (this.props.navigation) {
-            this._unsubscribe = this.props.navigation.addListener('focus', () => {
-                this.props.onFetchNotify();
-            });
-            this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-                this.props.onCloseHeaderPage();
-            });
-            Dimensions.addEventListener('change', this.updateStyle)
-        } else {
-            this.props.onFetchNotify();
-        }
+        Dimensions.addEventListener('change', this.updateStyle)
+        this.setNotification();
+    }
+
+    componentDidUpdate() {
+        this.setNotification();
     }
 
     componentWillUnmount() {
         if (this.props.navigation) {
-            this._unsubscribe();
-            this._unsubscribeBlur();
             Dimensions.removeEventListener('change', this.updateStyle);
-        } else {
-            this.props.onCloseHeaderPage();
         }
-        
     }
 
     updateStyle = (dims) => {
         this.setState({
             viewMode: dims.window.width >= 530 ? 'landscape' : 'portriat'
         })
+    }
+
+    setNotification = () => {
+        if (this.props.notification && (JSON.stringify(this.props.notification) !== JSON.stringify(this.state.notification))) {
+            let notificationItem = [];
+            for (let cnt in notification) {
+                if (Array.isArray(notification[cnt])) {
+                    for (let cntItem of notification[cnt]) {
+                        notificationItem.push(cntItem)
+                    }
+                }
+            }
+            this.setState({notification, userChat, totalNotification});
+        }
     }
 
     navigationHandler = (page, id) => {
@@ -160,15 +166,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        notify: state.header.notify,
-        notifyErr: state.header.notifyErr
+        notification: state.header.notification,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchNotify: () => dispatch(actions.fetchNotifyInit()),
-        onCloseHeaderPage: () => dispatch(actions.fetchNotifyStart())
     };
 };
 

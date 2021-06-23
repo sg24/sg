@@ -117,11 +117,13 @@ export const fetchProfile = (profile) =>  {
     };
 }; 
 
-export const headerPushNotificationInit = (token, platform) =>  {
+export const headerPushNotificationInit = (limit, token, platform, stateHistory) =>  {
     return {
         type: actionTypes.HEADER_PUSHNOTIFICATION_INIT,
+        limit,
         token,
-        platform
+        platform,
+        stateHistory
     }; 
 }; 
 

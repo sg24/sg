@@ -184,7 +184,7 @@ router.post('/', authenticate, (req, res, next) => {
         grouppost.findOneAndUpdate({_id: req.body.pageID}, {$addToSet: {'share': reciepent}}).then(() => {
             grouppost.findById(req.body.pageID).then(doc => {
                 for (let groupID of reciepent) {
-                    group.findOne({_id: groupID, member: {$in: [req.user]}}).then(groupDoc => {
+                    group.findOne({_id: groupID, 'member.authorID': req.user}).then(groupDoc => {
                         if (groupDoc) {
                             ++checked;
                             checkGroup.push(doc._id);
@@ -254,7 +254,6 @@ router.post('/', authenticate, (req, res, next) => {
             }
             return Promise.reject('This group post could not be deleted');
         }).catch(err => {
-            console.log(err)
             res.status(500).send(err)
         })
         return

@@ -11,8 +11,34 @@ import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeF
 
 class Home extends Component  {
     state = {
-        showModal: false
+        showModal: false,
+        navLink: [{title: 'Question', iconName: 'bulb-outline', uri: 'Question', showNotify: true},{title: 'Feed', iconName: 'newspaper-outline', uri: 'Feed', showNotify: true},
+        {title: 'Write Up', iconName: 'reader-outline', uri: 'WriteUp', showNotify: true}, {title: 'App Error', iconName: 'bug-outline', uri: 'AddAppError'},
+        {title: 'Settings', iconName: 'settings-outline', uri: 'GeneralSettings'}, {title: 'Logout', iconName: 'log-out-outline', uri: 'Logout'}],
+        notification: {},
+        userChat: 0,
+        totalNotification: 0
     };
+
+    componentDidUpdate() {
+        if (this.props.notification && (JSON.stringify(this.props.notification) !== JSON.stringify(this.state.notification))) {
+            let notification = this.props.notification;
+            let userChat = 0;
+            let totalNotification = 0;
+            for (let cnt in notification) {
+                if (Array.isArray(notification[cnt])) {
+                    if (cnt === 'userChat') {
+                        for (let cntItem of notification[cnt]) {
+                            userChat = cntItem.counter + userChat;
+                        }
+                    } else {
+                        totalNotification = totalNotification + notification[cnt].length;
+                    }
+                }
+            }
+            this.setState({notification, userChat, totalNotification});
+        }
+    }
 
     modalHandler = () => {
         this.setState({showModal: !this.state.showModal})
@@ -36,48 +62,29 @@ class Home extends Component  {
                     <TouchableWithoutFeedback  onPress={this.modalHandler}>
                         <View style={styles.modal}>
                             <BoxShadow style={styles.navItemWrapper}>
-                                <TouchableNativeFeedback onPress={() => this.navigationHandler('Feed')}>
-                                    <View style={styles.navItem}>
-                                        <Icon name="newspaper-outline" size={20} />
-                                        <Text style={styles.textStyle}>Feed</Text>
-                                    </View>
-                                </TouchableNativeFeedback>
-                                <TouchableNativeFeedback  onPress={() => this.navigationHandler('Question')}>
-                                    <View style={styles.navItem}>
-                                        <Icon name="bulb-outline" size={20} />
-                                        <Text style={styles.textStyle}>Question</Text>
-                                    </View>
-                                </TouchableNativeFeedback>
-                                <TouchableNativeFeedback onPress={() => this.navigationHandler('WriteUp')}>
-                                    <View style={styles.navItem}>
-                                        <Icon name="reader-outline" size={20} />
-                                        <Text style={styles.textStyle}>Write Up</Text>
-                                    </View>
-                                </TouchableNativeFeedback>
+                                {this.state.navLink.map((cnt, index) => (
+                                    <TouchableNativeFeedback  onPress={() => this.navigationHandler(cnt.uri)} key={index}>
+                                        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+                                            paddingHorizontal: 20}}>
+                                            <View style={styles.navItem}>
+                                                <Icon name={cnt.iconName} size={20} />
+                                                <Text style={styles.textStyle}>{cnt.title}</Text>
+                                            </View>
+                                            <TabBarge
+                                                onPress={() => this.navigationHandler(cnt.uri)}
+                                                notification={this.state.notification[cnt.title.toLowerCase()] ? this.state.notification[cnt.title.toLowerCase()].length : 0}
+                                                style={styles.modalTabBarge}
+                                                textStyle={styles.tabBargeText}
+                                                disableZero/>
+                                        </View>
+                                    </TouchableNativeFeedback>
+                                ))}
                                 {/* <TouchableNativeFeedback onPress={() => this.navigationHandler('Contest')}>
                                     <View style={styles.navItem}>
                                         <Icon name="cash-outline" size={20} />
                                         <Text style={styles.textStyle}>Contest</Text>
                                     </View>
                                 </TouchableNativeFeedback> */}
-                                <TouchableNativeFeedback onPress={() => this.navigationHandler('AddAppError')}>
-                                    <View style={styles.navItem}>
-                                        <Icon name="bug-outline" size={20} />
-                                        <Text style={styles.textStyle}>App Error</Text>
-                                    </View>
-                                </TouchableNativeFeedback>
-                                <TouchableNativeFeedback onPress={() => this.navigationHandler('GeneralSettings')}>
-                                    <View style={styles.navItem}>
-                                        <Icon name="settings-outline" size={20} />
-                                        <Text style={styles.textStyle}>Settings</Text>
-                                    </View>
-                                </TouchableNativeFeedback>
-                                <TouchableNativeFeedback onPress={() => this.navigationHandler('Logout')}>
-                                    <View style={styles.navItem}>
-                                        <Icon name="log-out-outline" size={20} />
-                                        <Text style={styles.textStyle}>Logout</Text>
-                                    </View>
-                                </TouchableNativeFeedback>
                             </BoxShadow>
                         </View>
                     </TouchableWithoutFeedback>
@@ -108,7 +115,8 @@ class Home extends Component  {
                             <Icon name="chatbubbles-outline" size={22}/>
                             <TabBarge 
                                 style={styles.tabBarge}
-                                notification={3}/>
+                                notification={this.state.userChat}
+                                disableZero/>
                         </View>
                     </TouchableNativeFeedback>
                     <TouchableNativeFeedback onPress={() => this.navigationHandler('Notification')}>
@@ -116,7 +124,8 @@ class Home extends Component  {
                             <Icon name="notifications-outline" size={22}/>
                             <TabBarge 
                                 style={styles.tabBarge}
-                                notification={3}/>
+                                notification={this.state.totalNotification}
+                                disableZero/>
                         </View>
                     </TouchableNativeFeedback>
                     <TouchableNativeFeedback onPress={this.modalHandler}>
@@ -180,8 +189,8 @@ const styles = StyleSheet.create({
     },
     navItem: {
         flexDirection: 'row',
-        paddingHorizontal: 20,
-        paddingVertical: 10
+        paddingVertical: 10,
+        marginRight: 10
     },
     textStyle: {
         marginLeft: 20
@@ -195,6 +204,18 @@ const styles = StyleSheet.create({
     },
     modal: {
         flex: 1
+    },
+    modalTabBarge: {
+        position: 'relative',
+        top: 'auto',
+        right: 'auto',
+        width: 24,
+        height: 24,
+        borderRadius: 12,
+        marginRight: 0
+    },
+    tabBargeText: {
+        fontSize: 15
     }
 });
 

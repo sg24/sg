@@ -1,16 +1,16 @@
 import React , { Component } from 'react';
-import { View , Text } from 'react-native';
-import { makeUseStyles } from "react-native-stylex";
-import { withStyles } from "react-native-stylex/withStyles";
+import { View , Text, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { tailwind } from 'tailwind';
 import { useNavigation, useNavigationState } from '@react-navigation/native';
 
 import BoxShadow from '../../BoxShadow/BoxShadow';
 import TouchableNativeFeedback from '../../TouchableNativeFeedback/TouchableNativeFeedback';
+import TabBarge from '../../TabBarge/TabBarge';
 
 const navigation = props => {
-    let { styles } = props
+    let notification = props.notification ? props.notification : {};
     const navigation = useNavigation();
     const state = useNavigationState(state => ({routes: state.routes, index: state.index}));
     const activeUri = state.routes[state.index] ? state.routes[state.index].name : '';
@@ -26,18 +26,26 @@ const navigation = props => {
     return (
         <BoxShadow style={[styles.sideBarNav, {backgroundColor: props.backgroundColor}]}>
              { navLink.map((nav, index) => (
-                <TouchableNativeFeedback  onPress={() => navigation.navigate(nav.uri)} key={index}>
-                <View style={[styles.navItem, activeUri === nav.uri ? styles.navActiveItem : null]}>
-                    <Ionicons name={nav.iconName} size={20} color={activeUri === nav.uri ? nav.title === 'Favorite' ? '#ff1600' : '#437da3' : props.color}/>
-                    <Text style={[styles.textStyle, styles.navItemText, {color: activeUri === nav.uri ? '#437da3' : props.color}]}>{ nav.title }</Text>
-                </View>
+            <TouchableNativeFeedback  onPress={() => navigation.navigate(nav.uri)} key={index}>
+                <>
+                    <View style={[styles.navItem, activeUri === nav.uri ? styles.navActiveItem : null]}>
+                        <Ionicons name={nav.iconName} size={20} color={activeUri === nav.uri ? nav.title === 'Favorite' ? '#ff1600' : '#437da3' : props.color}/>
+                        <Text style={[styles.textStyle, styles.navItemText, {color: activeUri === nav.uri ? '#437da3' : props.color}]}>{ nav.title }</Text>
+                    </View>
+                    <TabBarge
+                        onPress={() => navigation.navigate(nav.uri)}
+                        notification={notification[nav.uri.toLowerCase()] ? notification[nav.uri.toLowerCase()].length : 0}
+                        style={styles.tabBarge}
+                        textStyle={styles.tabBargeText}
+                        disableZero/>
+                </>
             </TouchableNativeFeedback>
             ))}
         </BoxShadow>
     );
 }
 
-const useStyles = makeUseStyles(({ palette, utils }) => ({
+const styles = StyleSheet.create({
     textStyle: {
         fontSize: 15
     },
@@ -54,7 +62,25 @@ const useStyles = makeUseStyles(({ palette, utils }) => ({
     },
     sideBarNav: {
         ...tailwind('flex justify-center w-full rounded-md')
+    },
+    tabBarge: {
+        position: 'relative',
+        top: 'auto',
+        right: 'auto',
+        width: 24,
+        height: 24,
+        borderRadius: 12,
+        marginRight: 0
+    },
+    tabBargeText: {
+        fontSize: 15
     }
-}));
+});
 
-export default withStyles(useStyles)(navigation);
+const mapStateToProps = state => {
+    return {
+        notification: state.header.notification
+    };
+};
+
+export default connect(mapStateToProps)(navigation);

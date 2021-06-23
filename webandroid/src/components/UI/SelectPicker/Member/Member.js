@@ -9,6 +9,9 @@ import Avatar from '../../Avatar/Avatar';
 import Href from '../../Href/Href';
 
 const privateConv = props => {
+    let startSelectReaction = props.selectReaction.length > 0 ? 
+    props.selectReaction.filter(id => id === props.userDet._id).length > 0 ? true : false : false;
+
     let userStatus = (
         <View style={[styles.userStatus]}></View>
     );
@@ -35,6 +38,11 @@ const privateConv = props => {
                             <Button onPress={props.showProfile} style={styles.useroptButton}>
                                 <Text numberOfLines={1} style={styles.profile}>Profile</Text>
                             </Button>
+                            {props.isAdmin && (props.userDet.authorID !== props.userID) ? 
+                            <Button onPress={props.removeUser} style={styles.useroptAltButton} disabled={startSelectReaction}>
+                                <Ionicons name="close" size={16} color="#ff1600"/>
+                                <Text numberOfLines={1} style={styles.remove}>Remove</Text>
+                            </Button>: null}
                         </View>
                     </View>
                 </View>
@@ -90,6 +98,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     buttonWrapper: {
+        flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'flex-start'
     },
@@ -115,7 +124,25 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0, .65)',
         borderRadius: 30
-    }
+    },
+    useroptAltButton: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        borderRadius: 5,
+        backgroundColor: '#e9ebf2',
+        marginLeft: 10,
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        }
+    },
+    remove: {
+        marginLeft: 5,
+        color: '#ff1600'
+    },
 });
 
 export default privateConv;

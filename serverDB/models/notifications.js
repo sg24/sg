@@ -61,6 +61,9 @@ const NotificationsSchema = new Schema({
     groupMark: [{
         ...defaultContentSchema
     }],
+    groupUserRemove: [{
+        ...defaultContentSchema
+    }],
     groupPost: [{
         ...defaultContentSchema
     }],
