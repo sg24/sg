@@ -146,3 +146,17 @@ export const headerPushNotification = (cnt) => {
         cnt
     };
 };
+
+export const headerNotificationPage = (page, cnt) => {
+    return {
+        type: actionTypes.HEADER_NOTIFICATIONPAGE,
+        page,
+        cnt
+    };
+};
+
+export const headerNotificationPageReset = () => {
+    return {
+        type: actionTypes.HEADER_NOTIFICATIONPAGE_RESET
+    };
+};

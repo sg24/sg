@@ -7,8 +7,10 @@ import BoxShadow from '../../UI/BoxShadow/BoxShadow';
 import Button from '../../UI/Button/Button';
 import Carousel from '../../UI/Carousel/Carousel';
 import MediaContainer from '../../UI/MediaContainer/MediaContainer';
+import LoadMore from '../../UI/LoadMore/LoadMore';
 
 const advertItem = props => (
+    <>
     <View style={styles.container}>
         <BoxShadow style={styles.wrapper}>
         { props.cnt.enableComment ? 
@@ -51,6 +53,17 @@ const advertItem = props => (
             </View>
         </BoxShadow>
     </View>
+    <View style={{justifyContent: 'center', alignItems: 'center', flex: 1, padding: 10}}>
+    { props.lastItem && props.enableLoadMore ? (
+        <LoadMore
+            style={{justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff'}}
+            title=""
+            icon={{name: 'reload-outline'}}
+            onPress={props.loadMore}
+            start={props.start}/>
+    ) : null}
+    </View>
+    </>
 );
 
 const styles = StyleSheet.create({

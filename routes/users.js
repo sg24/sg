@@ -64,25 +64,26 @@ router.post('/', authenticate,(req, res, next) => {
                 for (let notificationPage in notification) {
                     page = page === 'home' ? 'post' : page;
                     if (notificationPage.toLowerCase() === page) {
-                        console.log(page, req.body.limit)
                         notification[notificationPage] = [];
                     }
                 }
             }
-            delete notification._v;
-            let removeNotification = notification;
+            delete notification.__v;
+            delete notification._id;
+            delete notification.userID;
+            let removeNotification = {...notification};
             (async () => {
                 for (let page in notification) {
                     let pageCnt = [];
                     if (Array.isArray(notification[page])) {
                         for (let cnt of notification[page]) {
                             if (cnt) {
-                                await user.findById(cnt.userID).then(userInfo => {
+                                let userInfo =  await user.findById(cnt.userID);
                                     if (userInfo) {
                                         if (Array.isArray(cnt.cntID)) {
-                                            let checkUpdate = 0;
                                             let pageItem = cnt.cntID.slice(0, req.body.limit);
-                                            cnt.cntID = cnt.cntID.slice(req.body.limit);
+                                            let updateCntID = cnt.cntID.slice(req.body.limit);
+                                            cnt.cntID = updateCntID;
                                             let notificationPageIndex = removeNotification[page].findIndex(cntItem => JSON.parse(JSON.stringify(cntItem._id)) === JSON.parse(JSON.stringify(cnt._id)));
                                             removeNotification[page][notificationPageIndex] = cnt;
                                             for (let id of pageItem) {
@@ -90,12 +91,16 @@ router.post('/', authenticate,(req, res, next) => {
                                                 (page === 'question') || (page === 'questionShare' ) ? question :
                                                 (page === 'writeup') || (page === 'writeupShare') ? writeup :
                                                 (page === 'feed') || (page === 'feedShare' ) ? feed :
-                                                (page === 'createGroup') || (page === 'groupShare' ) ? question :
-                                                (page === 'qchat') || (page === 'qchatShare' ) ? question : null;
+                                                (page === 'createGroup') || (page === 'groupShare' ) ? group :
+                                                (page === 'qchat') || (page === 'qchatShare' ) ? qchat : null;
                                                 if (model) {
                                                     await model.findById(id).then(doc => {
                                                         if (doc) {
-                                                            pageCnt.push(JSON.parse(JSON.stringify(doc)))
+                                                            doc = JSON.parse(JSON.stringify(doc));
+                                                            pageCnt.push({...doc, page: page === 'qchat' ? 'CBT' :
+                                                                page === 'qchatShare' ? 'CBTShare' :
+                                                                page === 'createGroup' ? 'Group Creation' : page,
+                                                              content: page === 'qchatShare' || page === 'qchat' ? null : doc.content})
                                                         }
                                                     })
                                                 } else {
@@ -123,12 +128,12 @@ router.post('/', authenticate,(req, res, next) => {
                                                     page === 'qchatRequest' ? `${userInfo.username} has sent you a CBT request`:
                                                     page === 'qchatAccept' ? `${userInfo.username} has accepted you request to take exam`:
                                                     page === 'qchatReject' ? `${userInfo.username} has remove you request to take exam`:
-                                                    page === 'qchatMark' ? `${userInfo.username} has sent you an exam for marking`:
-                                                    page === 'qchatResult' ? `Your exam has being marked, check result`:
+                                                    page === 'qchatMark' ? `${userInfo.username} has sent you an exam for marking`: `Your exam has being marked, check result`
                                                     pageCnt.push({userID: cnt.userID, username: userInfo.username, userImage: userInfo.image, status: (new Date().getTime() - new Date(userInfo.visited).getTime()) < 60000,
-                                                        title, isPageID: true, _id: id});
+                                                        title, isPageID: true, _id: id, page, counter: cnt.counter});
                                                 }
                                             }
+
                                         } else {
                                             let title = page === 'userRequest' ? `${userInfo.username} sent you a friend request`:
                                             page === 'userAccept' ? `${userInfo.username} accepted your friend request`:
@@ -137,23 +142,20 @@ router.post('/', authenticate,(req, res, next) => {
                                             page === 'profileImage' ? `${userInfo.username} change is profile picture`:
                                             `${userInfo.username} change is profile name`;
                                             pageCnt.push({userID: cnt.userID, username: userInfo.username, userImage: userInfo.image, status: (new Date().getTime() - new Date(userInfo.visited).getTime()) < 60000,
-                                            title, isUserImage: true });
+                                            title, isUserImage: true, page});
                                             let updateRemove = removeNotification[page].filter(cntItem => JSON.parse(JSON.stringify(cntItem._id)) !== JSON.parse(JSON.stringify(cnt._id)));
                                             removeNotification[page] = updateRemove;
                                         }
                                     }
-                                })
                             }
                         }
                         notification[page] = pageCnt;
                     }
                 }
+                Promise.all([notificationsModel.findOneAndUpdate({userID: req.user}, removeNotification)]).then(() => {
+                    return res.status(200).send({notification});
+                });
             })()
-            console.log(removeNotification.post.length);
-            console.log(notification.post.length)
-            Promise.all([stateHistory.length > 0 ? notificationsModel.findOneAndUpdate({userID: req.user}, removeNotification) : Promise.resolve()]).then(() => {
-                return res.status(200).send({notification});
-            });
         }).catch(err => {
             res.status(500).send(err);
         })

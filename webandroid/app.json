@@ -35,7 +35,10 @@
       },
       "useNextNotificationsApi": true,
       "package": "com.slodge24.Slodge24",
-      "versionCode": 1
+      "versionCode": 1,
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-3611317424444370~5103778940"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

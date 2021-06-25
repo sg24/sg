@@ -2,43 +2,47 @@ import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native'
 import Icon from 'ionicons';
 
-import TabBarge from '../../../UI/TabBarge/TabBarge';
+import Avatar from '../../../UI/Avatar/Avatar';
 import Href from '../../../UI/Href/Href';
 
 const notifyItem = props => {
-    let cntMsg = props.notify.title
-    let cnt = props.notify.category === 'post' ? ['newspaper-outline', cntMsg, 'Feed'] : props.notify.category === 'question' ? ['bulb-outline', cntMsg, 'Question'] : 
-        props.notify.category === 'poets' ? ['reader-outline', cntMsg, 'Write Up'] : props.notify.category === 'userReq' ? ['person-outline', 'Friend request', 'Request'] :
-        props.notify.category === 'group' ? ['chatbubble-ellipses-outline', `New message from ${props.notify.title}`, 'Room'] : 
-        props.notify.category === 'grpreq' ? ['people-outline', `New Request from ${props.notify.title}`, 'Room'] : ['person-outline', `New message from ${props.notify.username}`, 'friend'];
-    let imageCnt = (
-        <View style={styles.imageWrapper}>
-            <Icon name={cnt[0]} size={25}/>
-            <Text style={styles.textStyle}>{cnt[2]}</Text>
-        </View>
-    )
-
-    if (props.notify.image) {
-        let uri = Array.isArray(props.notify.image) ? `https://www.slodge24.com/media/image/${props.notify.image[0].id}` :  props.notify.image;
-        imageCnt = (
-            <Image source={{uri}}  style={styles.imageWrapper}/>
-        )
+    let isPage = !props.cnt.isUserImage && !props.cnt.isPageID;
+    let userImage = props.cnt.userImage;
+    let isAllContent = props.cnt.title && props.cnt.content;
+    let iconName = (props.cnt.page === 'post') || (props.cnt.page === 'postShare') ? 'chatbox' : 
+    (props.cnt.page === 'question') || (props.cnt.page === 'questionShare') ? 'bulb-outline' : 
+    (props.cnt.page === 'writeup') || (props.cnt.page === 'writeupShare') ? 'reader-outline' :
+    (props.cnt.page === 'feed') || (props.cnt.page === 'feedShare') ? 'newspaper-outline' : 
+    (props.cnt.page === 'createGroup') || (props.cnt.page === 'groupShare') ? 'chatbubble-ellipses-outline' : 'timer';
+    if (isPage) {
+        for (let cnt of props.cnt.media) {
+            if (cnt.bucket === 'image') {
+                userImage = cnt.id;
+            }
+        }
     }
-
     return (
-        <Href wrapperStyle={[styles.wrapper, props.notify.category === 'chat' ? styles.chat: null]} onPress={props.showCnt}>
-            { imageCnt }
-            <Text  numberOfLines={1} style={[styles.msg, props.notify.category === 'chat' ? styles.chatText: null]}>
-                { cnt[1] }
-            </Text>
-            <TabBarge 
-                notification={props.notify.total ? props.notify.total : props.notify.notifications}
-                style={styles.tabBarge}/>
+        <Href wrapperStyle={[styles.wrapper, isAllContent ? styles.fullNotification : null]} onPress={props.showCnt}>
+            {props.cnt.page && isPage ? <Text style={{position: 'absolute', top: -2, right: 10, color: '#777'}}>{props.cnt.page.split('Share').length > 1 ? props.cnt.page.split('Share').join(' shared') : props.cnt.page }</Text>: null}
+            <Avatar userImage={userImage} iconSize={30} imageSize={50} onPress={props.userProfile} iconName={isPage ? iconName : 'person'}
+                disableRadius={isPage} enableBorder={!isPage}/>
+            <View style={styles.msg}>
+                { props.cnt.title ? <Href style={props.cnt.expiresIn ? styles.read : styles.textStyle} numberOfLines={!props.cnt.content ? 2 : 1 } title={props.cnt.title} onPress={props.showCnt}/> : null}
+                {props.cnt.content ? <Href style={props.cnt.expiresIn ? styles.read : styles.textStyle} numberOfLines={!props.cnt.title ? 2 : 1 } title={props.cnt.content} onPress={props.showCnt}/>: null}
+            </View>
         </Href>
     )
 }
 
 const styles = StyleSheet.create({
+    textStyle: {
+        fontSize: 15,
+        color: '#333'
+    },
+    read: {
+        fontSize: 15,
+        color: '#777'
+    },
     wrapper: {
         width: '100%',
         backgroundColor: '#fff',
@@ -46,31 +50,18 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         paddingHorizontal: 10,
         flexDirection: 'row',
-        paddingVertical: 8,
         alignItems: 'center',
+        paddingVertical: 12,
         marginBottom: 10,
         borderRadius: 5
     },
-    imageWrapper: {
-        width: 50,
-        height: 50,
-        backgroundColor: '#e9ebf2',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginRight: 10,
+    fullNotification: {
+        alignItems: 'stretch'
     },
     msg: {
         flex: 1,
-        fontSize: 16
-    },
-    tabBarge: {
-        position: 'relative',
-        top: 'auto',
-        right: 'auto'
-    },
-    textStyle: {
-        fontSize: 12,
-        color: 'rgba(0,0,0, .65)'
+        justifyContent: 'space-between',
+        marginLeft: 10
     }
 });
 

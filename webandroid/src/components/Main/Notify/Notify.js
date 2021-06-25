@@ -6,11 +6,11 @@ import NotifyItem from './NotifyItem/NotifyItem';
 
 const notify = props => {
     return (
-        props.notify.reverse().map((cnt, index) => (
+        props.notify.map((cnt, index) => (
             <NotifyItem
                 key={index}
-                notify={cnt}
-                showCnt={props.navigate.bind(this, cnt.category, cnt.id)}
+                cnt={cnt}
+                showCnt={props.navigate.bind(this, cnt.page, cnt)}
             />
         ))
     )

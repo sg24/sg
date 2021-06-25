@@ -8,6 +8,7 @@ import { headerFilterInitSaga, fetchConvInitSaga, fetchNotifyInitSaga, headerPus
 import { fetchProfileInitSaga, changeProfileInitSaga, submitAboutInitSaga, submitUsernameInitSaga } from './profile';
 import { fetchEditFormInitSaga } from './editForm';
 import { fetchPageInitSaga, deletePageInitSaga, pageReactionInitSaga } from './page';
+import { fetchSidebarInitSaga } from './sidebar';
 import { fetchMediaInfoInitSaga, mediaReactionInitSaga } from './media';
 import { fetchChatInitSaga, fetchReplyInitSaga, deleteChatInitSaga, chatBoxReactionInitSaga } from './chatBox';
 import { fetchSharecntInitSaga, shareInitSaga } from './share';
@@ -57,6 +58,12 @@ export function* watchPage() {
        takeLatest(actionTypes.FETCH_PAGE_INIT, fetchPageInitSaga),
        takeEvery(actionTypes.DELETE_PAGE_INIT, deletePageInitSaga),
        takeEvery(actionTypes.PAGE_REACTION_INIT, pageReactionInitSaga)
+    ])
+}
+
+export function* watchSidebar() {
+    yield all([
+       takeEvery(actionTypes.FETCH_SIDEBAR_INIT, fetchSidebarInitSaga)
     ])
 }
 

@@ -36,7 +36,9 @@ export {
     headerPushNotificationInit,
     headerPushNotificationStart,
     headerPushNotificationFail,
-    headerPushNotification
+    headerPushNotification,
+    headerNotificationPage,
+    headerNotificationPageReset
 } from './header'
 
 export {
@@ -102,6 +104,15 @@ export {
     pageReaction,
     pageReactionReset
 } from './page';
+
+export {
+    fetchSidebarInit,
+    fetchSidebarStart,
+    fetchSidebarFail,
+    fetchSidebarReset,
+    fetchSidebar,
+    updateSidebar
+} from './sidebarr';
 
 export {
    setMediaInfo,

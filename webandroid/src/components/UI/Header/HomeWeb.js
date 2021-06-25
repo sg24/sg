@@ -64,7 +64,7 @@ class Home extends Component  {
                     }
                     let cbtPage = ['qchat', 'qchatRequest', 'qchatResult', 'qchatAccept', 'qchatReject', 'qchatMark', 'qchatShare'];
                     if (cbtPage.filter(page => page === cnt)[0]) {
-                        cbtNotification = cbtNotification + props.notification[page].length
+                        cbtNotification = cbtNotification + this.props.notification[cnt].length
                     }
                     totalNotification = totalNotification + notification[cnt].length;
                 }
@@ -112,7 +112,8 @@ class Home extends Component  {
                         <DefaultHeader
                             onPress={this.closeModalHandler}
                             title="Notification"/>
-                        <this.props.modalNotify />
+                        <this.props.modalNotify
+                            closeNotification={this.closeModalHandler} />
                     </>
                 )
             }

@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from 'react-redux';
+import Constants from 'expo-constants';
 
 import * as actions from '../../store/actions/index';
 
 class Logout extends Component {
 
     async componentDidMount() {
-        await AsyncStorage.multiRemove(['expiresIn', 'token', 'userID', 'username', 'userImage']);
+        await AsyncStorage.multiRemove(['expiresIn', 'token', 'userID', 'username', 'userImage', Constants.manifest.extra.NOTIFICATION]);
         this.props.loggedOut();
     }
 

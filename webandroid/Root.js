@@ -11,7 +11,7 @@ import * as Permissions from 'expo-permissions';
 import BackgroundFetch from 'react-native-background-fetch';
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-community/async-storage';
-import axios from 'axios';
+import axios from './src/axios';
 
 import * as actions from './src/store/actions/index';
 import SignInScreen from './src/screens/Auth/Signin';
@@ -29,6 +29,7 @@ import DefaultHeader  from './src/components/UI/Header/DefaultHeader';
 import DefaultSearchHeader  from './src/components/UI/Header/DefaultSearchHeader';
 import ConvScreen from './src/screens/Home/Conv';
 import NotificatonScreen from './src/screens/Home/Notification';
+import NotificatonPageScreen from './src/screens/Home/NotificationPage';
 import ProfileScreen from './src/screens/Home/Profile';
 import PostScreen from './src/screens/Home/Post';
 import UsersScreen from './src/screens/Home/Users';
@@ -46,6 +47,7 @@ import RoomInfoScreen from './src/screens/Home/RoomInfo';
 import LogoutScreen from './src/screens/Home/Logout';
 import HashSearchScreen from './src/screens/Home/HashSearch';
 import CommentBoxScreen from './src/screens/Home/CommentBox';
+import ChatBoxScreen from './src/screens/Home/ChatBox';
 import QuestionSolutionScreen from './src/screens/Home/QuestionSolution';
 import MediaPreviewScreen from './src/screens/UI/MediaPreview';
 import PagePreviewScreen from './src/screens/UI/PagePreview';
@@ -88,6 +90,10 @@ const authScreens = {
   ForgetPassword: ForgetPasswordScreen
 };
 
+const notificationPageScreen = {
+  notificationPage: NotificatonPageScreen
+};
+
 const userScreens = {
   HomeWeb: TopTab,
   Favorite: FavoriteTopTab,
@@ -96,6 +102,7 @@ const userScreens = {
   Feed: FeedScreen,
   WriteUp: WriteUpScreen,
   CommentBox: CommentBoxScreen,
+  ChatBox: ChatBoxScreen,
   QuestionSolution : QuestionSolutionScreen,
   MediaPreview: MediaPreviewScreen,
   PagePreview: PagePreviewScreen,
@@ -161,6 +168,7 @@ class Base extends Component {
     if (Platform.OS !== 'web') {
       this.registarBackgroundTask();
     }
+    this.props.onPushNotification(this.props.settings.notificationLimit, '', Platform.OS)
     AsyncStorage.removeItem(Constants.manifest.extra.PERSISTENCE_KEY).then(() => {
       let checkNotification = setInterval(() => {
         AsyncStorage.getItem(Constants.manifest.extra.PERSISTENCE_KEY).then(state => {
@@ -176,22 +184,28 @@ class Base extends Component {
                   state.routes[cnt].params.props.notificationPage : state.routes[cnt].name);
               }
             }
-            this.props.onPushNotification(this.props.settings.notificationLimit || 2, '', Platform.OS, JSON.stringify(stateHistory))
-            // Notifications.scheduleNotificationAsync({
-            //   content: {
-            //     title: 'created',
-            //     body: "body",
-            //     subtitle:'su',
-            //     data: {cnt: 'image'}
-                
-            //   },
-            //   trigger: {
-            //     seconds: 10,
-            //     channelId: 'default',
-            //   },
-            // });
+            AsyncStorage.getItem(Constants.manifest.extra.NOTIFICATION).then(notification => {
+              if (notification) {
+                notification = JSON.parse(notification);
+                for (let page of stateHistory) {
+                    page = page.split('Web')[0].toLowerCase();
+                    for (let notificationPage in notification) {
+                      page = page === 'home' ? 'post' : page;
+                      if (notificationPage.toLowerCase() === page) {
+                          notification[notificationPage] = [];
+                      }
+                    }
+                }
+                AsyncStorage.setItem(Constants.manifest.extra.NOTIFICATION, JSON.stringify(notification)).then(() => {
+                  this.props.onPushNotification(this.props.settings.notificationLimit, '', Platform.OS, JSON.stringify(stateHistory))
+                })
+              } else {
+                this.props.onPushNotification(this.props.settings.notificationLimit, '', Platform.OS, JSON.stringify(stateHistory))
+              }
+            })
+            
           } else {
-            this.props.onPushNotification(this.props.settings.notificationLimit || 2, '', Platform.OS)
+            this.props.onPushNotification(this.props.settings.notificationLimit, '', Platform.OS)
           }
         })
       }, 1000);
@@ -210,10 +224,10 @@ class Base extends Component {
         }),
       });
       this.registerForPushNotificationsAsync().then(token => {
-        this.props.onPushNotification(this.props.settings.notificationLimit || 2, token, Platform.OS);
+        this.props.onPushNotification(this.props.settings.notificationLimit, token, Platform.OS);
       });
       this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
-        console.log(response);
+        this.props.onNavigationPage(response.notification.request.content.data.page, response.notification.request.content.data)
       });
       this.subscription = Notifications.addPushTokenListener(this.registerForPushNotificationsAsync);
       this.setState({isLoggedIn: true})
@@ -245,29 +259,37 @@ class Base extends Component {
         if (state.isConnected) {
           console.log(this.state.expoPushToken);
           (async () => {
-            let response = await axios.post('/users', {token: this.state.expoPushToken, platform: Platform.OS}, {headers: {'data-categ':'getNotification'}});
+            let response = await axios.post('/users', {limit: this.props.settings.notificationLimit, token: this.state.expoPushToken, platform: Platform.OS}, {headers: {'data-categ':'getNotification'}});
             let cnt = response.data ? response.data : {};
             let notification = cnt.notification;
             let showedNotification = await AsyncStorage.getItem(Constants.manifest.extra.NOTIFICATION);
-            if (showedNotification) {
-              showedNotification = JSON.parse(showedNotification);
-              for (let page in showedNotification) {
-                let notifyItem = notification[page];
-                let showedItem = showedNotification[page];
-                if (showedItem && notifyItem && showedItem.length > 0 && notifyItem.length > 0) {
-                  let updatePageItem = notifyItem.filter(pageItem => showedItem.filter(item => item.userID !== pageItem.userID).length > 0)
-                  notification[page] = updatePageItem;
-                }
+            showedNotification = showedNotification ? JSON.parse(showedNotification) : {};
+            for (let page in notification) {
+              if (Array.isArray(notification[page])) {
+                  if (showedNotification[page]) {
+                    showedNotification[page] = showedNotification[page].filter(cntItem => notification[page].filter(notifyItem => notifyItem._id === cntItem._id).length > 0 ? false : true)
+                    showedNotification[page].push(...notification[page])
+                    let updateNotification = [];
+                    for (let cntItem of showedNotification[page]) {
+                        if ((cntItem && cntItem.expiresIn && (cntItem.expiresIn >= (new Date().getTime()))) || (cntItem && !cntItem.expiresIn)) {
+                            updateNotification.push(cntItem);
+                        }
+                    }
+                    showedNotification[page] = updateNotification;
+                  } else {
+                    showedNotification[page] = notification[page];
+                  }
               }
-            }
-            await AsyncStorage.setItem(Constants.manifest.extra.NOTIFICATION, JSON.stringify(notification));
+          }
+          await AsyncStorage.setItem(Constants.manifest.extra.NOTIFICATION, JSON.stringify(showedNotification));
            for (let page in notification) {
               for (let pageItem of notification[page]) {
                 Notifications.scheduleNotificationAsync({
                   content: {
-                    title: `${pageItem.username} created new ${page.toLocaleUpperCase()}`,
-                    body: "",
-                    
+                    title: pageItem.title,
+                    body: pageItem.content,
+                    subtitle: pageItem.page,
+                    data: pageItem
                   },
                   trigger: {
                     seconds: 10,
@@ -335,7 +357,8 @@ class Base extends Component {
           <Stack.Navigator
             headerMode="screen">
             {Object.entries({
-              ...(this.props.isLoggedIn ? userScreens : authScreens),
+              ...(this.props.isLoggedIn ? this.props.notificationPage ? notificationPageScreen :
+                userScreens : authScreens),
             }).map(([name, component]) => {
               let header = {}
               if (name === 'Home' || name === 'HomeWeb' || name === 'UsersWeb' || name === 'CBTWeb' || name === 'GroupWeb') {
@@ -423,7 +446,7 @@ class Base extends Component {
               }
 
               if (name === 'Question' || name === 'Feed' || name === 'WriteUp' || name === 'GroupPreview' || name === 'CommentBox'
-                || name === 'Exam' || name === 'MarkExam' || name === 'RoomInfo' || name === 'Search' || name === 'QuestionSolution'
+                || name === 'Exam' || name === 'MarkExam' || name === 'RoomInfo' || name === 'Search' || name === 'QuestionSolution' || name === 'ChatBox'
                 || name === 'MediaPreview' || name === 'PagePreview' || name === 'SharePicker' || name === 'SelectPicker' || name === 'HashSearch') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader
                 header = {
@@ -525,7 +548,8 @@ const mapStateToProps = state => {
       username: state.auth.username,
       userID: state.auth.userID,
       filterCnt: state.header.filterCnt,
-      notification: state.header.notification
+      notification: state.header.notification,
+      notificationPage: state.header.notificationPage
   };
 };
 
@@ -533,7 +557,8 @@ const mapDispatchToProps = dispatch => {
   return {
       onCheckAuth: () => dispatch(actions.checkAuthInit()),
       onHeaderFilter: (filterCnt) => dispatch(actions.headerFilterInit(filterCnt)),
-      onPushNotification: (limit, token, platform, stateHistory) => dispatch(actions.headerPushNotificationInit(limit, token, platform, stateHistory))
+      onPushNotification: (limit, token, platform, stateHistory) => dispatch(actions.headerPushNotificationInit(limit, token, platform, stateHistory)),
+      onNavigationPage: (page, cnt) => dispatch(actions.headerNotificationPage(page, cnt))
   };
 };
 

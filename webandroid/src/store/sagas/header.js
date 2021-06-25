@@ -46,11 +46,30 @@ export function* headerPushNotificationInitSaga(action) {
     try {
         yield put(actions.headerPushNotificationStart());
         let response = yield axios.post('/users', {token: action.token, platform: action.platform, stateHistory: action.stateHistory, limit: action.limit}, {headers: {'data-categ':'getNotification'}});
-        yield put(actions.headerPushNotification(response.data))
         yield AsyncStorage.removeItem(Constants.manifest.extra.PERSISTENCE_KEY);
-        let cnt = response.data ? response.data : {};
+        let cnt = response.data ? {...response.data} : {};
         let notification = cnt.notification;
-        yield AsyncStorage.setItem('notification', JSON.stringify(notification));
+        let showedNotification = yield AsyncStorage.getItem(Constants.manifest.extra.NOTIFICATION);
+        showedNotification = showedNotification ? JSON.parse(showedNotification) : {};
+        for (let page in notification) {
+            if (Array.isArray(notification[page])) {
+                if (showedNotification[page]) {
+                    showedNotification[page] = showedNotification[page].filter(cntItem => notification[page].filter(notifyItem => notifyItem._id === cntItem._id).length > 0 ? false : true)
+                    showedNotification[page].push(...notification[page])
+                    let updateNotification = [];
+                    for (let cntItem of showedNotification[page]) {
+                        if ((cntItem && cntItem.expiresIn && (cntItem.expiresIn >= (new Date().getTime()))) || (cntItem && !cntItem.expiresIn)) {
+                            updateNotification.push(cntItem);
+                        }
+                    }
+                    showedNotification[page] = updateNotification;
+                } else {
+                    showedNotification[page] = notification[page];
+                }
+            }
+        }
+        yield AsyncStorage.setItem(Constants.manifest.extra.NOTIFICATION, JSON.stringify(showedNotification));
+        yield put(actions.headerPushNotification({...response.data, notification: showedNotification}))
     } catch(err) {
         yield put(actions.headerPushNotificationFail(err));
     }

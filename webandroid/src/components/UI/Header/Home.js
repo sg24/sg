@@ -17,7 +17,8 @@ class Home extends Component  {
         {title: 'Settings', iconName: 'settings-outline', uri: 'GeneralSettings'}, {title: 'Logout', iconName: 'log-out-outline', uri: 'Logout'}],
         notification: {},
         userChat: 0,
-        totalNotification: 0
+        totalNotification: 0,
+        optionNotification: 0
     };
 
     componentDidUpdate() {
@@ -25,6 +26,7 @@ class Home extends Component  {
             let notification = this.props.notification;
             let userChat = 0;
             let totalNotification = 0;
+            let optionNotification = 0;
             for (let cnt in notification) {
                 if (Array.isArray(notification[cnt])) {
                     if (cnt === 'userChat') {
@@ -34,9 +36,12 @@ class Home extends Component  {
                     } else {
                         totalNotification = totalNotification + notification[cnt].length;
                     }
+                    if (cnt === 'writeup' || cnt === 'question' || cnt === 'feed') {
+                        optionNotification = optionNotification + notification[cnt].length;
+                    }  
                 }
             }
-            this.setState({notification, userChat, totalNotification});
+            this.setState({notification, userChat, totalNotification, optionNotification});
         }
     }
 
@@ -72,7 +77,7 @@ class Home extends Component  {
                                             </View>
                                             <TabBarge
                                                 onPress={() => this.navigationHandler(cnt.uri)}
-                                                notification={this.state.notification[cnt.title.toLowerCase()] ? this.state.notification[cnt.title.toLowerCase()].length : 0}
+                                                notification={this.state.notification[cnt.uri.toLowerCase()] ? this.state.notification[cnt.uri.toLowerCase()].length : 0}
                                                 style={styles.modalTabBarge}
                                                 textStyle={styles.tabBargeText}
                                                 disableZero/>
@@ -113,7 +118,8 @@ class Home extends Component  {
                     <TouchableNativeFeedback  onPress={() => this.navigationHandler('Conversation')}>
                         <View style={styles.navIcon}>
                             <Icon name="chatbubbles-outline" size={22}/>
-                            <TabBarge 
+                            <TabBarge
+                                onPress={() => this.navigationHandler('Conversation')}
                                 style={styles.tabBarge}
                                 notification={this.state.userChat}
                                 disableZero/>
@@ -123,6 +129,7 @@ class Home extends Component  {
                         <View style={styles.navIcon}>
                             <Icon name="notifications-outline" size={22}/>
                             <TabBarge 
+                                onPress={() => this.navigationHandler('Notification')}
                                 style={styles.tabBarge}
                                 notification={this.state.totalNotification}
                                 disableZero/>
@@ -131,6 +138,11 @@ class Home extends Component  {
                     <TouchableNativeFeedback onPress={this.modalHandler}>
                         <View style={styles.navIcon}>
                             <Icon name="reorder-three-outline" size={24}/>
+                            <TabBarge
+                                onPress={this.modalHandler}
+                                style={styles.tabBarge}
+                                notification={this.state.optionNotification}
+                                disableZero/>
                         </View>
                     </TouchableNativeFeedback>
                     <TouchableNativeFeedback onPress={() => this.navigationHandler('Profile')}>

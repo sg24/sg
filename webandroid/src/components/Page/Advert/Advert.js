@@ -10,6 +10,10 @@ const advert = props => {
             cnt={cnt}
             openURI={props.openURI}
             preview={props.preview}
+            lastItem={(props.cnt.length - 1) === index}
+            enableLoadMore={props.enableLoadMore}
+            start={props.start}
+            loadMore={props.loadMore}
             advertChatbox={props.advertChatbox.bind(this, cnt._id)} />
     ))
     return  (

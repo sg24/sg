@@ -20,7 +20,7 @@ const shareInfo = props => {
                 <Href title={props.shareInfo.username} numberOfLines={1} 
                     onPress={() => props.onPress(props.shareInfo.authorID)} style={styles.textStyle}/>
                 <View style={styles.info}>
-                    <Ionicons name="paper-plane-outline" color="#777" size={18}/>
+                    <Ionicons name="paper-plane-outline" color="#777" size={16}/>
                     {groupPage ? (
                         <>
                         <Text style={styles.infoText} numberOfLines={1} >

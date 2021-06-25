@@ -1,70 +1,47 @@
 import React, { Component } from 'react';
-import { View, ImageBackground, StyleSheet, Dimensions, ActivityIndicator, Platform } from 'react-native';
+import { View, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'ionicons';
 import { useNavigation } from '@react-navigation/native';
-import withComponent from 'withcomponent';
 import AsyncStorage from '@react-native-community/async-storage';
 import Constants from 'expo-constants';
 
+import NoBackground from '../../components/UI/NoBackground/NoBackground';;
 import * as actions from '../../store/actions/index';
 
-import {
-    AdMobBanner,
-    AdMobInterstitial,
-    PublisherBanner,
-    AdMobRewarded,
-    setTestDeviceIDAsync,
-  } from 'expo-ads-admob';
-
-import NoBackground from '../../components/UI/NoBackground/NoBackground';
-import Notify from '../../components/Main/Notify/Notify';
-import ScrollView from '../../components/UI/ScrollView/ScrollView';
-import InfoBox from '../../components/UI/InfoBox/InfoBox';
-
-class Notification extends Component {
+class NotificationPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             viewMode: Dimensions.get('window').width >= 530 ? 'landscape' : 'portrait',
-            notification: null,
-            notificationItem: [],
-            fetched: false
+            notificationPage: null
         }
     }
 
     componentDidMount() {
         Dimensions.addEventListener('change', this.updateStyle)
-        this.setNotification();
-        this.props.onPushNotification(this.props.settings.notificationLimit, '', Platform.OS);
+        if (this.props.notificationPage) {
+            this.navigationHandler(this.props.notificationPage.page, this.props.notificationPage.cnt);
+            this.setState({notificationPage: this.props.notificationPage});
+        }
     }
 
     componentDidUpdate() {
-        this.setNotification();
+        if (this.props.notificationPage && (JSON.stringify(this.props.notificationPage) !== JSON.stringify(this.state.notificationPage))) {
+            this.navigationHandler(this.props.notificationPage.page, this.props.notificationPage.cnt);
+            this.setState({notificationPage: this.props.notificationPage});
+        }
     }
 
     componentWillUnmount() {
-        if (this.props.navigation) {
-            Dimensions.removeEventListener('change', this.updateStyle);
-        }
+        Dimensions.removeEventListener('change', this.updateStyle);
+        this.props.onNotificationPageReset()
     }
 
     updateStyle = (dims) => {
         this.setState({
             viewMode: dims.window.width >= 530 ? 'landscape' : 'portriat'
         })
-    }
-
-    setNotification = () => {
-        if (this.props.notification && (JSON.stringify(this.props.notification) !== JSON.stringify(this.state.notification))) {
-            let notificationItem = [];
-            for (let cnt in this.props.notification) {
-                if (Array.isArray(this.props.notification[cnt])) {
-                    notificationItem.push(...this.props.notification[cnt])
-                }
-            }
-            this.setState({notification: this.props.notification, notificationItem, fetched: true});
-        }
     }
 
     navigationHandler = (page, cnt) => {
@@ -160,64 +137,22 @@ class Notification extends Component {
         let updatePageCnt = [];
         for (let cntItem of notification[page]) {
             if (cntItem._id === cnt._id) {
-                updatePageCnt.push({...cnt, expiresIn: (new Date().getTime() + (1000*60*60*4))})
+                updatePageCnt.push({...cnt, expiresIn: (new Date().getTime() + (1000))})
             } else {
                 updatePageCnt.push({...cnt})
             }
         }
         notification[page] = updatePageCnt;
         AsyncStorage.setItem(Constants.manifest.extra.NOTIFICATION, JSON.stringify(notification));
-        if (this.state.viewMode === 'landscape') {
-            this.props.closeNotification();
-        }
-    }
-
-    reloadFetchHandler = () => {
-        this.props.onFetchNotify();
     }
 
     render() {
-        let pageBackground = this.props.settings.page.backgroundImage  && this.props.settings.page.enableBackgroundImage;
-        let Wrapper = pageBackground ? ImageBackground : View;
-        let wrapperProps = pageBackground ? {source: {uri: this.props.settings.page.backgroundImage}, resizeMode: 'cover'} :{}
         let cnt = (
             <ActivityIndicator 
                 size="large"
                 animating
                 color="#437da3"/>
         )
-
-        if (this.state.fetched && this.state.notificationItem.length < 1) {
-            cnt = (
-                <InfoBox
-                    det='No Notification found!'
-                    name="notifications-outline"
-                    size={40}
-                    style={styles.textStyle} />
-            );
-        }
-
-       
-        if (this.state.notificationItem.length > 0){
-            console.log(this.bannerError)
-            cnt = (
-                <Wrapper
-                    {...wrapperProps}
-                    style={[styles.wrapper, this.state.viewMode === 'landscape' ? 
-                    {backgroundColor: this.props.settings.backgroundColor} : null]}>
-                    <ScrollView style={styles.scroll}>
-                    <AdMobBanner
-                        bannerSize="fullBanner"
-                        adUnitID="ca-app-pub-3611317424444370/5347321528" // Test ID, Replace with your-admob-unit-id
-                        servePersonalizedAds // true or false
-                        onDidFailToReceiveAdWithError={this.bannerError} />
-                        <Notify
-                            notify={this.state.notificationItem}
-                            navigate={this.navigationHandler}/>
-                    </ScrollView>
-                </Wrapper>
-            )
-        }
 
       return (
         <NoBackground>
@@ -245,15 +180,15 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        notification: state.header.notification,
-        settings: state.settings
+        notificationPage: state.header.notificationPage,
+        settings: state.settings,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onPushNotification: (limit, token, platform, stateHistory) => dispatch(actions.headerPushNotificationInit(limit, token, platform, stateHistory))
+        onNotificationPageReset: () => dispatch(actions.headerNotificationPageReset())
     };
 };
 
-export default  withComponent([{name: 'navigation', component: useNavigation}])(connect(mapStateToProps, mapDispatchToProps)(Notification));
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationPage);

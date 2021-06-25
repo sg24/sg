@@ -9,6 +9,7 @@ import profile from './reducers/profile';
 import addForm from './reducers/addForm';
 import editForm from './reducers/editForm';
 import page from './reducers/page';
+import sidebar from './reducers/sidebar';
 import media from './reducers/media';
 import chatBox from './reducers/chatBox';
 import share from './reducers/share';
@@ -23,6 +24,7 @@ import {
     watchProfile,
     watchEditForm,
     watchPage,
+    watchSidebar,
     watchMedia,
     watchChatBox,
     watchShare,
@@ -39,6 +41,7 @@ const rootReducer = combineReducers({
     addForm,
     editForm,
     page,
+    sidebar,
     media,
     chatBox,
     share,
@@ -58,6 +61,7 @@ sagaMiddleware.run(watchHeader);
 sagaMiddleware.run(watchProfile);
 sagaMiddleware.run(watchEditForm);
 sagaMiddleware.run(watchPage); 
+sagaMiddleware.run(watchSidebar); 
 sagaMiddleware.run(watchMedia);
 sagaMiddleware.run(watchChatBox);
 sagaMiddleware.run(watchShare);

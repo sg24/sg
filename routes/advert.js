@@ -15,6 +15,25 @@ router.post('/', authenticate, (req, res, next) => {
         return
     }
 
+    if (req.header !== null && req.header('data-categ') === 'getAdvert') {
+        advert.find({ _isCompleted: true, block: {$nin: [req.user]}})
+            .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
+            let updateResult = [];
+            if (result) {
+                for (let cnt of result) {
+                    let updateCnt = JSON.parse(JSON.stringify(cnt));
+                    delete updateCnt.block;
+                    updateResult.push({...updateCnt,
+                   chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)}})
+                }
+            }
+            res.status(200).send({page: updateResult, loadMore: result.length > 0});
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
     if (req.header !== null && req.header('data-categ') === 'getByAuthor') {
         Promise.all([user.findById(req.body.searchCnt)]).then(doc => {
             advert.find({ _isCompleted: true, block: {$nin: [req.user]}, authorID: req.body.searchCnt})

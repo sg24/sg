@@ -64,9 +64,8 @@ const styles = StyleSheet.create({
         ...tailwind('flex justify-center w-full rounded-md')
     },
     tabBarge: {
-        position: 'relative',
-        top: 'auto',
-        right: 'auto',
+        top: 5,
+        right: 10,
         width: 24,
         height: 24,
         borderRadius: 12,
