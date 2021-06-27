@@ -32,7 +32,7 @@ const checkMediaType = props => {
             <View style={[styles.wrapper, props.videoWrapperStyle]}>
                 <View style={[styles.wrapper, props.wrapperStyle]}>
                     <View style={[styles.wrapper, props.videoStyle]}>
-                    {/* <Video
+                    <Video
                         source={{ uri: media.uri ? media.uri :  `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}`}}
                         rate={1.0}
                         volume={1.0}
@@ -40,7 +40,7 @@ const checkMediaType = props => {
                         resizeMode="contain"
                         useNativeControls
                         style={styles.mediaWrapper}
-                        /> */}
+                        />
                         { props.disablePreview ? null : (
                             <View style={[styles.optionWrapper, styles.option]}>
                                 <TouchableNativeFeedback onPress={props.onPress}>

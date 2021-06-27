@@ -128,7 +128,7 @@ class MediaPreview extends Component {
                     (async () => await FileSystem.makeDirectoryAsync(fileDir, { intermediates: true }))();
                 }
                 FileSystem.downloadAsync(fileUri, fileDir + `${media.id}.${ext}`).then(({ uri }) => {
-                    alert('Finished downloading to ', uri);
+                    alert(`Finished downloading to ${uri}`);
                 }).catch(error => {
                     alert('download Error, check your internet connection !!!')
                 });
@@ -275,7 +275,6 @@ const styles = StyleSheet.create({
     contentWrapper: {
         flexDirection: 'row',
         paddingVertical: 10,
-        paddingHorizontal: 10,
         flex: 1
     },
     container: {
