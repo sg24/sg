@@ -50,10 +50,10 @@ app.use(function(req, res, next) {
     // if(req.headers['x-forwarded-proto'] && req.headers['x-forwarded-proto'] === "http") {
     //   return res.redirect(301, 'https://www.slodge24.com' + req.url);
     // }
-      let host = req.headers.host;
-      if (!host.match(/^www\..*/i)) {
-        return res.redirect(301, "https://www." + host + req.url);
-      } 
+      // let host = req.headers.host;
+      // if (!host.match(/^www\..*/i)) {
+      //   return res.redirect(301, "https://www." + host + req.url);
+      // } 
     //  var source = req.headers['user-agent'],
     //   ua = useragent.parse(source);
     //   if (ua && ua.isOpera && ua.isMobile && parseInt(ua.source.split('/').pop().split('.')[0]) < 28) {

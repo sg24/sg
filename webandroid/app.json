@@ -12,8 +12,8 @@
     },
     "scheme": "slodge24",
     "extra": {
-      "BASE_URL": "http://192.168.137.1:3000/",
-      "BASE_IMAGE_URL": "http://192.168.137.1:3000/media/image/",
+      "BASE_URL": "slodgeapp-1dbx8v3hv-sg24.vercel.app/",
+      "BASE_IMAGE_URL": "slodgeapp-1dbx8v3hv-sg24.vercel.app/media/image/",
       "PERSISTENCE_KEY": "NAVIGATION_STATE",
       "NOTIFICATION": "NOTIFICATION"
     },
