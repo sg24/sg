@@ -151,23 +151,21 @@ class Search extends Component {
                         <ScrollView style={[styles.searchScroll, this.state.viewMode === 'landscape' ? {backgroundColor: this.props.settings.backgroundColor} : null]} >
                             {this.state.searchHistory.map((searchHistory, index) => {
                                 return (
-                                    <View style={styles.searchWrapper} key={index}>
-                                        <TouchableNativeFeedback onPress={() => this.searchHandler(searchHistory.title)} style={styles.searchTouch}>
-                                            <>
-                                                <Ionicons name="reload-outline" size={35} color="#777"/>
-                                                <View style={styles.searchCnt}>
-                                                    <Text style={styles.textStyle}>
-                                                        {searchHistory.title}
-                                                    </Text>
-                                                    <Text style={[styles.textStyle, styles.searchDate]}>
-                                                        <Moment element={Text} calendar={calendarStrings}>
-                                                            { searchHistory.date }
-                                                        </Moment>
-                                                    </Text>
-                                                </View>
-                                            </>
-                                        </TouchableNativeFeedback>
-                                    </View>
+                                    <TouchableNativeFeedback onPress={() => this.searchHandler(searchHistory.title)}>
+                                        <View style={styles.searchWrapper} key={index}>
+                                            <Ionicons name="reload-outline" size={35} color="#777"/>
+                                            <View style={styles.searchCnt}>
+                                                <Text style={styles.textStyle}>
+                                                    {searchHistory.title}
+                                                </Text>
+                                                <Text style={[styles.textStyle, styles.searchDate]}>
+                                                    <Moment element={Text} calendar={calendarStrings}>
+                                                        { searchHistory.date }
+                                                    </Moment>
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    </TouchableNativeFeedback>
                                 )
                             })}
                         </ScrollView>
@@ -290,11 +288,6 @@ const styles = StyleSheet.create({
         paddingVertical: 4,
         alignItems: 'center',
         ...tailwind('mb-4  w-full ')
-    },
-    searchTouch: {
-        flexDirection: 'row',
-        width: '100%',
-        alignItems: 'center'
     },
     searchCnt: {
         marginLeft: 10
