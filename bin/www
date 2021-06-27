@@ -10,10 +10,10 @@ var http = require('http');
 const global = require('../global/global');
 const socketIO = require('socket.io');
 
-const next = require('next')
-const dev = process.env.NODE_ENV !== 'production'
-const nextApp = next({ dev })
-const handle = nextApp.getRequestHandler()
+// const next = require('next')
+// const dev = process.env.NODE_ENV !== 'production'
+// const nextApp = next({ dev })
+// const handle = nextApp.getRequestHandler()
 
 
 /**
@@ -24,8 +24,8 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 
-nextApp.prepare().then(() => {
-  global.app = nextApp;
+// nextApp.prepare().then(() => {
+  // global.app = nextApp;
 
   let appRoutes = require('../routes/app');
   let usersRoutes = require('../routes/users');
@@ -140,7 +140,7 @@ nextApp.prepare().then(() => {
   }
 
   require('../socket/socket');
-})
+// })
 
 /**
  * Normalize a port into a number, string, or false.

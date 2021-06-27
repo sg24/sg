@@ -81,7 +81,7 @@ class MediaTile extends Component {
                                                     videoStyle={styles.mediaContainer}
                                                     fileIconWrapper={styles.mediaContainer}/>
                                                 <View style={styles.otherMedia}>
-                                                    <Text style={styles.otherMediaText}>+ {this.props.media.length - 2} Other's</Text>
+                                                    <Text style={styles.otherMediaText}>+ {this.props.media.length - 2} </Text>
                                                 </View>
                                             </View>
                                         </TouchableNativeFeedback>
