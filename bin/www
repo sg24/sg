@@ -27,7 +27,96 @@ app.set('port', port);
 // nextApp.prepare().then(() => {
   // global.app = nextApp;
 
+  let appRoutes = require('../routes/app');
+  let usersRoutes = require('../routes/users');
+  let userchatRoutes = require('../routes/userchat');
+  let formRoutes = require('../routes/form');
+  let sitemapxmlRoute = require('../routes/sitemapxml');
+  let feedRoute = require('../routes/feed');
+  let feedchatRoute = require('../routes/feedchat');
+  let questionRoute = require('../routes/question');
+  let questionchatRoute = require('../routes/questionchat');
+  let writeupRoute = require('../routes/writeup');
+  let writeupchatRoute = require('../routes/writeupchat');
+  let favoriteRoute = require('../routes/favorite');
+  let profileRoute = require('../routes/profile');
+  let viewRoute = require('../routes/view');
+  let shareRoute = require('../routes/share');
+  let mediaRoute = require('../routes/media');
+  let mediachatRoute = require('../routes/mediachat');
+  let groupRoute = require('../routes/group');
+  let grouppreviewRoute = require('../routes/grouppreview');
+  let groupformRoute = require('../routes/group/form');
+  let grouppostRoute = require('../routes/group/post');
+  let grouppostchatRoute = require('../routes/group/postchat');
+  let groupquestionRoute = require('../routes/group/question');
+  let groupquestionchatRoute = require('../routes/group/questionchat');
+  let groupfeedRoute = require('../routes/group/feed');
+  let groupfeedchatRoute = require('../routes/group/feedchat');
+  let groupwriteupRoute = require('../routes/group/writeup');
+  let groupwriteupchatRoute = require('../routes/group/writeupchat');
+  let groupcbtRoute = require('../routes/group/cbt');
+  let groupcbtchatRoute = require('../routes/group/cbtchat');
+  let chatRoomRoute = require('../routes/group/chatRoom');
+  let roomChatRoute = require('../routes/roomChat');
+  let chatRoute = require('../routes/chat');
+  let convRoute = require('../routes/conv');
+  let advertRoute = require('../routes/advert');
+  let advertchatRoute = require('../routes/advertchat');
+  let postRoute = require('../routes/post');
+  let postchatRoute = require('../routes/postchat');
+  let contestRoute = require('../routes/contest');
+  let qchatRoute = require('../routes/qchat');
+  let cbtchatRoute = require('../routes/cbtchat');
+  let examtabRoute = require('../routes/examtab');
+  let robotonlyRoute = require('../routes/robot');
 
+  app.use('/', [appRoutes, formRoutes, groupformRoute, profileRoute, viewRoute]);
+  app.use('/users', usersRoutes);
+  app.use('/userchat', userchatRoutes);
+  app.use('/feed', feedRoute);
+  app.use('/feedchat', feedchatRoute);
+  app.use('/question', questionRoute);
+  app.use('/questionchat', questionchatRoute);
+  app.use('/writeup', writeupRoute);
+  app.use('/writeupchat', writeupchatRoute);
+  app.use('/favorite', favoriteRoute);
+  app.use('/share', shareRoute);
+  app.use('/media', mediaRoute);
+  app.use('/mediachat', mediachatRoute);
+  app.use('/chatroom', chatRoomRoute);
+  app.use('/roomchat', roomChatRoute);
+  app.use('/group', groupRoute);
+  app.use('/groupPreview', grouppreviewRoute);
+  app.use('/grouppost', grouppostRoute);
+  app.use('/grouppostchat', grouppostchatRoute);
+  app.use('/groupquestion', groupquestionRoute);
+  app.use('/groupquestionchat', groupquestionchatRoute);
+  app.use('/groupfeed', groupfeedRoute);
+  app.use('/groupfeedchat', groupfeedchatRoute);
+  app.use('/groupwriteup', groupwriteupRoute);
+  app.use('/groupwriteupchat', groupwriteupchatRoute);
+  app.use('/groupcbt', groupcbtRoute);
+  app.use('/groupcbtchat', groupcbtchatRoute);
+  app.use('/robotonly', robotonlyRoute);
+  app.use('/chat', chatRoute);
+  app.use('/conv', convRoute);
+  app.use('/post', postRoute);
+  app.use('/postchat', postchatRoute);
+  app.use('/advert', advertRoute);
+  app.use('/advertchat', advertchatRoute);
+  app.use('/contest', contestRoute);
+  app.use('/cbt', qchatRoute);
+  app.use('/cbtchat', cbtchatRoute);
+  app.use('/exam', examtabRoute);
+  app.use('/sitemap.xml', sitemapxmlRoute);
+  app.use(function (req, res, next) {
+      return res.redirect('/index/user');
+  });
+  
+  app.all('*', (req, res) => {
+    return handle(req, res)
+  })
 
   var server = http.createServer(app);
   global.io = socketIO(server, {

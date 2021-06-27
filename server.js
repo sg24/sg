@@ -114,7 +114,7 @@ app.use(function(req, res, next) {
 // app.use(extendTimeoutMiddleware);
 app.set('trust proxy', true);
 
-app.set('views', path.join(__dirname, 'views'));
+// app.set('views', path.join(__dirname, 'views'));
 // hbs.registerPartials(__dirname + '/views/partials');
 // hbs.registerPartials(__dirname + '/views/partialsviewque');
 // hbs.registerPartials(__dirname + '/views/partialscomty');
@@ -142,8 +142,8 @@ app.set('views', path.join(__dirname, 'views'));
 // hbs.registerPartials(__dirname + '/views/partialsviewpwt');
 // hbs.registerPartials(__dirname + '/views/partialsacc');
 // hbs.registerPartials(__dirname + '/views/partialsforgetpwd');
-hbs.registerPartials(__dirname + '/views/term');
-hbs.registerPartials(__dirname + '/views/policy');
+// hbs.registerPartials(__dirname + '/views/term');
+// hbs.registerPartials(__dirname + '/views/policy');
 // hbs.registerPartials(__dirname + '/views/editpoet');
 // hbs.registerPartials(__dirname + '/views/editpost');
 // hbs.registerPartials(__dirname + '/views/editque');
