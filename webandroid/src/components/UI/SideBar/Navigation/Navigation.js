@@ -34,7 +34,7 @@ const navigation = props => {
                     </View>
                     <TabBarge
                         onPress={() => navigation.navigate(nav.uri)}
-                        notification={notification[nav.uri.toLowerCase()] ? notification[nav.uri.toLowerCase()].length : 0}
+                        notification={notification[nav.uri.toLowerCase()] ? notification[nav.uri.toLowerCase()].filter(cntItem => !cntItem.expiresIn).length : 0}
                         style={styles.tabBarge}
                         textStyle={styles.tabBargeText}
                         disableZero/>

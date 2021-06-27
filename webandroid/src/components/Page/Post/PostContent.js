@@ -18,6 +18,7 @@ import ShareInfo from '../../UI/ShareInfo/ShareInfo';
 import Advert from '../Advert/Advert';
 import { transformNumber, checkUri } from '../../../shared/utility';
 import FriendRequest from '../FriendRequest/FriendRequest';
+import AdMob from '../../UI/AdMob/AdMob';
 
 const postContent = props => {
     let AnimatedIcon = Animatable.createAnimatableComponent(Ionicons);
@@ -69,6 +70,13 @@ const postContent = props => {
                 cnt={props.cnt.friendRequest}/>
         )
     }
+
+    if (props.showAdvert) {
+        showAdvert = (
+            <AdMob />
+        )
+    }
+
     return (
         <>
             <View style={styles.container}>

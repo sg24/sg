@@ -31,13 +31,15 @@ class Home extends Component  {
                 if (Array.isArray(notification[cnt])) {
                     if (cnt === 'userChat') {
                         for (let cntItem of notification[cnt]) {
-                            userChat = cntItem.counter + userChat;
+                            if (!cntItem.expiresIn) {
+                                userChat = cntItem.counter + userChat;
+                            }
                         }
                     } else {
-                        totalNotification = totalNotification + notification[cnt].length;
+                        totalNotification = totalNotification + notification[cnt].filter(cntItem => !cntItem.expiresIn).length;
                     }
                     if (cnt === 'writeup' || cnt === 'question' || cnt === 'feed') {
-                        optionNotification = optionNotification + notification[cnt].length;
+                        optionNotification = optionNotification + notification[cnt].filter(cntItem => !cntItem.expiresIn).length;
                     }  
                 }
             }
@@ -77,7 +79,8 @@ class Home extends Component  {
                                             </View>
                                             <TabBarge
                                                 onPress={() => this.navigationHandler(cnt.uri)}
-                                                notification={this.state.notification[cnt.uri.toLowerCase()] ? this.state.notification[cnt.uri.toLowerCase()].length : 0}
+                                                notification={this.state.notification[cnt.uri.toLowerCase()] ? 
+                                                    this.state.notification[cnt.uri.toLowerCase()].filter(cntItem => !cntItem.expiresIn).length : 0}
                                                 style={styles.modalTabBarge}
                                                 textStyle={styles.tabBargeText}
                                                 disableZero/>

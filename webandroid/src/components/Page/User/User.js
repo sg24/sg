@@ -7,6 +7,7 @@ const user = props => {
         <PrivateConv 
             key={index}
             cnt={cnt}
+            showProfileButton={props.showProfileButton}
             hideMessage={props.hideMessage}
             userID={props.userID}
             userProfile={props.userProfile.bind(this, cnt._id)}

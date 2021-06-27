@@ -20,6 +20,7 @@ import TabBarge from '../../UI/TabBarge/TabBarge';
 import CBTPreview from '../CBTPreview/CBTPreview';
 import ShareInfo from '../../UI/ShareInfo/ShareInfo';
 import Avatar from '../../UI/Avatar/Avatar';
+import AdMob from '../../UI/AdMob/AdMob';
 
 const postContent = props => {
     let AnimatedIcon = Animatable.createAnimatableComponent(Ionicons);
@@ -79,6 +80,12 @@ const postContent = props => {
                 userID={props.userID}
                 openURI={props.openURI}
                 preview={props.mediaPreview}/>
+        )
+    }
+
+    if (props.showAdvert) {
+        showAdvert = (
+            <AdMob />
         )
     }
 

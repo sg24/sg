@@ -26,7 +26,7 @@ class Profile extends Component {
             backgroundColor: '#fff',
             userID: this.props.route.params.userID,
             index: 0,
-            routes: [{key: 'post', title: 'Post'},{key: 'feed', title: 'Feed'},  {key: 'group' , title: 'Group'}, 
+            routes: [{key: 'friend', title: 'Friend'},{key: 'post', title: 'Post'},{key: 'feed', title: 'Feed'},  {key: 'group' , title: 'Group'}, 
             {key: 'CBT', title: 'CBT'}, {key: 'question', title: 'Question'}, {key: 'writeUp', title: 'Write Up'},
             {key: 'advert', title: 'Product'}],
             edit: false,

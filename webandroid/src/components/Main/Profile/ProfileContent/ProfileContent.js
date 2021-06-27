@@ -18,24 +18,27 @@ import WriteUp from '../../../../screens/ByAuthor/WriteUp';
 import CBT from '../../../../screens/ByAuthor/CBT';
 import Group from '../../../../screens/ByAuthor/Group'
 import Advert from '../../../../screens/ByAuthor/Advert';
+import Users from '../../../../screens/ByAuthor/Users';
 
 const profileContent = props => {
     let renderScene = screenProps => {
         switch (screenProps.route.key) {
+            case 'friend':
+                return <Users {...screenProps} profileID={props.userID} focus={(props.index === 0) && props.showTab}/>;
             case 'post':
-                return <Post {...screenProps} profileID={props.userID} focus={(props.index === 0) && props.showTab}/>;
+                return <Post {...screenProps} profileID={props.userID} focus={(props.index === 1) && props.showTab}/>;
             case 'feed':
-                return <Feed {...screenProps} profileID={props.userID} focus={(props.index === 1) && props.showTab}/>;
+                return <Feed {...screenProps} profileID={props.userID} focus={(props.index === 2) && props.showTab}/>;
             case 'group':
-                return <Group {...screenProps} profileID={props.userID} focus={(props.index === 2) && props.showTab}/>;
+                return <Group {...screenProps} profileID={props.userID} focus={(props.index === 3) && props.showTab}/>;
             case 'CBT':
-                return <CBT {...screenProps} profileID={props.userID} focus={(props.index === 3) && props.showTab}/>;
+                return <CBT {...screenProps} profileID={props.userID} focus={(props.index === 4) && props.showTab}/>;
             case 'question':
-                return <Question {...screenProps} profileID={props.userID} focus={(props.index === 4) && props.showTab}/>;
+                return <Question {...screenProps} profileID={props.userID} focus={(props.index === 5) && props.showTab}/>;
             case 'writeUp':
-                return <WriteUp {...screenProps} profileID={props.userID} focus={(props.index === 5) && props.showTab}/>;
+                return <WriteUp {...screenProps} profileID={props.userID} focus={(props.index === 6) && props.showTab}/>;
             case 'advert':
-                return <Advert {...screenProps} profileID={props.userID} focus={(props.index === 6) && props.showTab}/>;
+                return <Advert {...screenProps} profileID={props.userID} focus={(props.index === 7) && props.showTab}/>;
             default:
                 return null;
         }

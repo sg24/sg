@@ -117,10 +117,11 @@ export const fetchProfile = (profile) =>  {
     };
 }; 
 
-export const headerPushNotificationInit = (limit, token, platform, stateHistory) =>  {
+export const headerPushNotificationInit = (limit, settings, token, platform, stateHistory) =>  {
     return {
         type: actionTypes.HEADER_PUSHNOTIFICATION_INIT,
         limit,
+        settings,
         token,
         platform,
         stateHistory
@@ -143,6 +144,13 @@ export const headerPushNotificationFail = (err) => {
 export const headerPushNotification = (cnt) => {
     return {
         type: actionTypes.HEADER_PUSHNOTIFICATION,
+        cnt
+    };
+};
+
+export const headerPushNotificationUpdate = (cnt) => {
+    return {
+        type: actionTypes.HEADER_PUSHNOTIFICATION_UPDATE,
         cnt
     };
 };

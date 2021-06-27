@@ -45,7 +45,7 @@ export function* fetchNotifyInitSaga(action) {
 export function* headerPushNotificationInitSaga(action) {
     try {
         yield put(actions.headerPushNotificationStart());
-        let response = yield axios.post('/users', {token: action.token, platform: action.platform, stateHistory: action.stateHistory, limit: action.limit}, {headers: {'data-categ':'getNotification'}});
+        let response = yield axios.post('/users', {token: action.token, settings: JSON.stringify(action.settings), platform: action.platform, stateHistory: action.stateHistory, limit: action.limit}, {headers: {'data-categ':'getNotification'}});
         yield AsyncStorage.removeItem(Constants.manifest.extra.PERSISTENCE_KEY);
         let cnt = response.data ? {...response.data} : {};
         let notification = cnt.notification;

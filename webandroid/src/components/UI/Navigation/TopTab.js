@@ -40,16 +40,18 @@ const topTab = props => (
                     let cbtNotification = 0;
                     if (props.notification) {
                         for (let cnt of props.notification['userChat']) {
-                            userChat = userChat + cnt.counter
+                            if (!cnt.expiresIn) {
+                                userChat = userChat + cnt.counter
+                            }
                         }
-                        userChat = userChat + props.notification['userRequest'].length
+                        userChat = userChat + props.notification['userRequest'].filter(cntItem => !cntItem.expiresIn).length
                         let groupPage = ['groupRequest', 'groupJoin', 'groupAccept', 'groupReject', 'groupPending', 'groupMark'];
                         for (let page of groupPage) {
-                            groupNotification = groupNotification + props.notification[page].length
+                            groupNotification = groupNotification + props.notification[page].filter(cntItem => !cntItem.expiresIn).length
                         }
                         let cbtPage = ['qchat', 'qchatRequest', 'qchatResult', 'qchatAccept', 'qchatReject', 'qchatMark', 'qchatShare'];
                         for (let page of cbtPage) {
-                            cbtNotification = cbtNotification + props.notification[page].length
+                            cbtNotification = cbtNotification + props.notification[page].filter(cntItem => !cntItem.expiresIn).length
                         }
                     }
                     return (
@@ -61,7 +63,7 @@ const topTab = props => (
                                     route.name === 'User' ?  userChat :
                                     route.name === 'Group' ? groupNotification :
                                     route.name === 'CBT' ? cbtNotification :
-                                    route.name === 'Home' ?  props.notification && props.notification['post'] ? props.notification['post'].length : 0: 0}
+                                    route.name === 'Home' ?  props.notification && props.notification['post'] ? props.notification['post'].filter(cntItem => !cntItem.expiresIn).length : 0: 0}
                                 disableZero/>
                         </View>
                     )

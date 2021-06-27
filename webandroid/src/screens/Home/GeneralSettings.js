@@ -31,7 +31,7 @@ class GeneralSettings extends Component {
             showPageNotification: false,
             showGroupNotification: false,
             showShareNotification: false,
-            pageNotification: [{title: 'Post', page: 'post'}, {title: 'Question', page: 'question'}, {title: 'Feed', page: 'feed'},{title: 'Write up', page: 'writeup'},{title: 'CBT', page: 'cbt'}],
+            pageNotification: [{title: 'Post', page: 'post'}, {title: 'Question', page: 'question'}, {title: 'Feed', page: 'feed'},{title: 'Write up', page: 'writeup'},{title: 'CBT', page: 'cbt'}, {title: 'Advert', page: 'advert'}],
             groupNotification: [{title: 'Chat Room', page: 'chatroom'},{title: 'Post', page: 'post'}, {title: 'Question', page: 'question'}, {title: 'Feed', page: 'feed'},{title: 'Write up', page: 'writeup'},{title: 'CBT', page: 'cbt'}],
             showPage: false
         }

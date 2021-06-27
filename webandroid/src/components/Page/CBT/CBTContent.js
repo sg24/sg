@@ -19,6 +19,7 @@ import FriendRequest from '../FriendRequest/FriendRequest';
 import Carousel from '../../UI/Carousel/Carousel';
 import MediaContainer from '../../UI/MediaContainer/MediaContainer';
 import TabBarge from '../../UI/TabBarge/TabBarge';
+import AdMob from '../../UI/AdMob/AdMob';
 
 const cbtContent = props => {
     let AnimatedIcon = Animatable.createAnimatableComponent(Ionicons);
@@ -104,6 +105,13 @@ const cbtContent = props => {
                 cnt={props.cnt.friendRequest}/>
         )
     }
+
+    if (props.showAdvert) {
+        showAdvert = (
+            <AdMob />
+        )
+    }
+
     return (
         <>
             <View style={styles.container}>

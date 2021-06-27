@@ -54,19 +54,21 @@ class Home extends Component  {
                 if (Array.isArray(notification[cnt])) {
                     if (cnt === 'userChat') {
                         for (let cntItem of notification[cnt]) {
-                            userChat = cntItem.counter + userChat;
+                            if (!cntItem.expiresIn) {
+                                userChat = cntItem.counter + userChat;
+                            }
                         }
-                        userNotification = notification['userRequest'].length + userChat;
+                        userNotification = notification['userRequest'].filter(cntItem => !cntItem.expiresIn).length + userChat;
                     }
                     let groupPage = ['groupRequest', 'groupJoin', 'groupAccept', 'groupReject', 'groupPending', 'groupMark'];
                     if (groupPage.filter(page => page === cnt)[0]) {
-                        groupNotification = groupNotification + this.props.notification[cnt].length
+                        groupNotification = groupNotification + this.props.notification[cnt].filter(cntItem => !cntItem.expiresIn).length
                     }
                     let cbtPage = ['qchat', 'qchatRequest', 'qchatResult', 'qchatAccept', 'qchatReject', 'qchatMark', 'qchatShare'];
                     if (cbtPage.filter(page => page === cnt)[0]) {
-                        cbtNotification = cbtNotification + this.props.notification[cnt].length
+                        cbtNotification = cbtNotification + this.props.notification[cnt].filter(cntItem => !cntItem.expiresIn).length
                     }
-                    totalNotification = totalNotification + notification[cnt].length;
+                    totalNotification = totalNotification + notification[cnt].filter(cntItem => !cntItem.expiresIn).length;
                 }
             }
             this.setState({notification, userChat, totalNotification, userNotification, groupNotification, cbtNotification});
@@ -173,7 +175,7 @@ class Home extends Component  {
                                                 notification={cnt.uri === 'UsersWeb' ? this.state.userNotification : 
                                                     cnt.uri === 'GroupWeb' ? this.state.groupNotification : 
                                                     cnt.uri === 'CBTWeb' ? this.state.cbtNotification :
-                                                    this.state.notification[cnt.title] ? this.state.notification[cnt.title].length : 0}
+                                                    this.state.notification[cnt.title] ? this.state.notification[cnt.title].filter(cntItem => !cntItem.expiresIn).length : 0}
                                                 style={styles.tabBarge}
                                                 textStyle={styles.tabBargeText}
                                                 disableZero/>

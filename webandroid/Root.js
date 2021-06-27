@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
 import { Dimensions, Platform } from 'react-native';
+import * as Linking from 'expo-linking';
 import { size} from 'tailwind';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
@@ -90,10 +91,6 @@ const authScreens = {
   ForgetPassword: ForgetPasswordScreen
 };
 
-const notificationPageScreen = {
-  notificationPage: NotificatonPageScreen
-};
-
 const userScreens = {
   HomeWeb: TopTab,
   Favorite: FavoriteTopTab,
@@ -150,7 +147,8 @@ const userScreens = {
   EditChatRoom: EditChatRoomScreen,
   EditCBT: EditCBTScreen,
   EditAdvert: EditAdvertScreen,
-  HashSearch: HashSearchScreen
+  HashSearch: HashSearchScreen,
+  NotificationPage: NotificatonPageScreen
 };
 
 class Base extends Component {
@@ -168,7 +166,7 @@ class Base extends Component {
     if (Platform.OS !== 'web') {
       this.registarBackgroundTask();
     }
-    this.props.onPushNotification(this.props.settings.notificationLimit, '', Platform.OS)
+    this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS)
     AsyncStorage.removeItem(Constants.manifest.extra.PERSISTENCE_KEY).then(() => {
       let checkNotification = setInterval(() => {
         AsyncStorage.getItem(Constants.manifest.extra.PERSISTENCE_KEY).then(state => {
@@ -197,18 +195,18 @@ class Base extends Component {
                     }
                 }
                 AsyncStorage.setItem(Constants.manifest.extra.NOTIFICATION, JSON.stringify(notification)).then(() => {
-                  this.props.onPushNotification(this.props.settings.notificationLimit, '', Platform.OS, JSON.stringify(stateHistory))
+                  this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS, JSON.stringify(stateHistory))
                 })
               } else {
-                this.props.onPushNotification(this.props.settings.notificationLimit, '', Platform.OS, JSON.stringify(stateHistory))
+                this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS, JSON.stringify(stateHistory))
               }
             })
             
           } else {
-            this.props.onPushNotification(this.props.settings.notificationLimit, '', Platform.OS)
+            this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS)
           }
         })
-      }, 1000);
+      }, 1000*60*2);
       this.setState({checkNotification})
     })
     Dimensions.addEventListener('change', this.updateHeader);
@@ -224,10 +222,7 @@ class Base extends Component {
         }),
       });
       this.registerForPushNotificationsAsync().then(token => {
-        this.props.onPushNotification(this.props.settings.notificationLimit, token, Platform.OS);
-      });
-      this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
-        this.props.onNavigationPage(response.notification.request.content.data.page, response.notification.request.content.data)
+        this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, token, Platform.OS);
       });
       this.subscription = Notifications.addPushTokenListener(this.registerForPushNotificationsAsync);
       this.setState({isLoggedIn: true})
@@ -259,7 +254,7 @@ class Base extends Component {
         if (state.isConnected) {
           console.log(this.state.expoPushToken);
           (async () => {
-            let response = await axios.post('/users', {limit: this.props.settings.notificationLimit, token: this.state.expoPushToken, platform: Platform.OS}, {headers: {'data-categ':'getNotification'}});
+            let response = await axios.post('/users', {settings: JSON.stringify(this.props.settings.notification), limit: this.props.settings.notificationLimit, token: this.state.expoPushToken, platform: Platform.OS}, {headers: {'data-categ':'getNotification'}});
             let cnt = response.data ? response.data : {};
             let notification = cnt.notification;
             let showedNotification = await AsyncStorage.getItem(Constants.manifest.extra.NOTIFICATION);
@@ -348,17 +343,32 @@ class Base extends Component {
     }
 
     SplashScreen.hideAsync();
-    
+    let props = this.props;
     return (
       <NavigationContainer
         onStateChange={(state) =>
           AsyncStorage.setItem(Constants.manifest.extra.PERSISTENCE_KEY, JSON.stringify(state))
-        }>
+        }
+        linking={{
+          config: {
+          },
+          subscribe(listener) {
+            const onReceiveURL = ({ url }) => listener(url);
+            Linking.addEventListener('url', onReceiveURL);
+            const subscription = Notifications.addNotificationResponseReceivedListener(response => {
+              props.onNavigationPage(response.notification.request.content.data.page, response.notification.request.content.data)
+              listener(response.notification.request.content.data.page);
+            });
+            return () => {
+              Linking.removeEventListener('url', onReceiveURL);
+              subscription.remove();
+            };
+          },
+        }}>
           <Stack.Navigator
             headerMode="screen">
             {Object.entries({
-              ...(this.props.isLoggedIn ? this.props.notificationPage ? notificationPageScreen :
-                userScreens : authScreens),
+              ...(this.props.isLoggedIn ? userScreens : authScreens),
             }).map(([name, component]) => {
               let header = {}
               if (name === 'Home' || name === 'HomeWeb' || name === 'UsersWeb' || name === 'CBTWeb' || name === 'GroupWeb') {
@@ -522,7 +532,7 @@ class Base extends Component {
                   title
                 }
               }
-              if (name === 'Logout') {
+              if (name === 'Logout' || name === 'NotificationPage') {
                 header = {
                   header: ({scene, previous, navigation }) => null
                 }
@@ -557,7 +567,7 @@ const mapDispatchToProps = dispatch => {
   return {
       onCheckAuth: () => dispatch(actions.checkAuthInit()),
       onHeaderFilter: (filterCnt) => dispatch(actions.headerFilterInit(filterCnt)),
-      onPushNotification: (limit, token, platform, stateHistory) => dispatch(actions.headerPushNotificationInit(limit, token, platform, stateHistory)),
+      onPushNotification: (limit, settings, token, platform, stateHistory) => dispatch(actions.headerPushNotificationInit(limit, settings, token, platform, stateHistory)),
       onNavigationPage: (page, cnt) => dispatch(actions.headerNotificationPage(page, cnt))
   };
 };

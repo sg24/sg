@@ -42,6 +42,10 @@ const headerPushNotification = (state, action) => {
     return updateObject(state, {notificationStart: false, notification: action.cnt ? action.cnt.notification : null})
 };
 
+const headerPushNotificationUpdate = (state, action) => {
+    return updateObject(state, {notification: action.cnt})
+};
+
 const headerNotificationPage = (state, action) => {
     return updateObject(state, {notificationPage: {page: action.page, cnt: action.cnt}})
 };
@@ -109,6 +113,8 @@ const reducer = (state = initialState, action) => {
             return headerPushNotificationFail(state, action);
         case actionTypes.HEADER_PUSHNOTIFICATION:
             return headerPushNotification(state, action);
+        case actionTypes.HEADER_PUSHNOTIFICATION_UPDATE:
+            return headerPushNotificationUpdate(state, action);
         case actionTypes.HEADER_NOTIFICATIONPAGE:
             return headerNotificationPage(state, action);
         case actionTypes.HEADER_NOTIFICATIONPAGE_RESET:

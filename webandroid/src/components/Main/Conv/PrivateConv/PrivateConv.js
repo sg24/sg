@@ -132,12 +132,17 @@ const privateConv = props => {
                 <View style={styles.det}>
                     <Href numberOfLines={1} style={styles.userDet} title={props.cnt.username} 
                         onPress={!props.allowPressable ? props.userProfile: null}/>
-                    <TouchableNativeFeedback onPress={props.chat} style={Platform.OS === 'web' ? styles.msgWrapper : null}>
-                        <View style={styles.msgWrapper}>
-                            {msg}{msgCreated}
-                        </View>
-                    </TouchableNativeFeedback>
-                  
+                    {!props.showProfileButton ?
+                        <TouchableNativeFeedback onPress={props.chat} style={Platform.OS === 'web' ? styles.msgWrapper : null}>
+                            <View style={styles.msgWrapper}>
+                                {msg}{msgCreated}
+                            </View>
+                        </TouchableNativeFeedback>: 
+                        <View style={{flexDirection: 'row'}}>
+                            <Button onPress={props.userProfile} style={styles.profileButton}>
+                                <Text numberOfLines={1} style={styles.profile}>Profile</Text>
+                            </Button>
+                        </View>}
                 </View>
             </BoxShadow>
             { props.lastItem && props.enableLoadMore ? (
@@ -258,6 +263,18 @@ const styles = StyleSheet.create({
         top: -5,
         right: 0
     },
+    profileButton: {
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        borderRadius: 5,
+        backgroundColor: '#dcdbdc',
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        }
+    }
 });
 
 export default privateConv;

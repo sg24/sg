@@ -28,6 +28,7 @@ const feed = props => {
             share={props.share.bind(this, cnt, 'select')}
             closeModal={props.closeModal}
             lastItem={(props.cnt.length - 1) === index}
+            showAdvert={((index+1)%3 === 0)}
             enableLoadMore={props.enableLoadMore}
             start={props.start}
             loadMore={props.loadMore}

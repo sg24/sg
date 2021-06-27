@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar, View, ScrollView, ActivityIndicator, Dimensions, Platform } from 'react-native';
+import { StatusBar, View, Text, ScrollView, ActivityIndicator, Dimensions, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { makeUseStyles } from "react-native-stylex";
 import { withStyles } from "react-native-stylex/withStyles";
@@ -8,12 +8,16 @@ import { tailwind, size } from 'tailwind';
 import urischeme from 'urischeme';
 import withComponent from 'withcomponent';
 import { useNavigation } from '@react-navigation/native';
-
+import { Html5Entities } from 'html-entities';
+  
 import SafeAreaView from '../SafeArea/SafeArea';
 import Container from '../Container/Container';
 import * as actions from '../../../store/actions/index';
 import Advert from  '../../Page/Advert/Advert';
 import ErrorInfo from '../ErrorInfo/ErrorInfo';
+import Avatar from '../Avatar/Avatar';
+import AdMob from '../AdMob/AdMob';
+import Href from '../Href/Href';
 
 class NoBackground extends Component {
     constructor(props) {
@@ -28,11 +32,22 @@ class NoBackground extends Component {
             viewMode: dims.window.width >= size.md ? 'landscape' : 'portriat'
         })
     }
+
     componentDidMount() {
-        if (!this.props.fetchCnt) {
+        if (!this.props.fetchCnt && (Platform.OS === 'web')) {
             this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'advert', 'getAdvert');
         }
+        if (!this.props.fetchFriend) {
+            this.props.onFetchPage(0, this.props.settings.friendSidebarListLimit, 'users', 'getFriend');
+        }
         Dimensions.addEventListener('change', this.updateStyle)
+    }
+
+    componentDidUpdate() {
+        if (this.props.notificationPage) {
+           this.props.navigation.navigate('NotificationPage', {page: this.props.notificationPage.page, cnt: this.props.notificationPage.cnt});
+           this.props.onNotificationPageReset();
+        }
     }
 
     componentWillUnmount() {
@@ -40,7 +55,11 @@ class NoBackground extends Component {
     }
 
     reloadFetchHandler = () => {
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'advert', 'getAdvert', this.state.profileID);
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'advert', 'getAdvert');
+    }
+
+    reloadFriendFetchHandler = () => {
+        this.props.onFetchPage(this.props.fetchFriend ? this.props.fetchFriend.length : 0, this.props.settings.friendSidebarListLimit, 'users', 'getFriend');
     }
     
     openURIHandler = (type, uri) => {
@@ -54,6 +73,15 @@ class NoBackground extends Component {
         this.props.navigation.push('CommentBox', {title: 'Comment', chatType: 'advertchat', page: 'advert', pageID, showReply: true})
     }
 
+    navigationHandler = (page) => {
+        this.props.navigation.navigate(page)
+    }
+
+    chatHandler = (cnt) => {
+        this.props.navigation.push('ChatBox', {title: '', showHeaderImage: true,  chatType: 'userchat', page: 'users',
+            pageID: cnt._id, showReply: false, info: {title: cnt.username, image: cnt.userImage, status: cnt.status, showStatus: true}});
+    }
+
     mediaPreviewHandler = (cntID, media, startPage) => {
         this.props.navigation.push('MediaPreview', {showOption: false, page: 'advert', pageID: cntID, media, startPage});
     }
@@ -64,6 +92,7 @@ class NoBackground extends Component {
 
     render() {
         const { styles } = this.props;
+        const entities = new Html5Entities();
         let cnt = (
         <View style={[styles.loaderCnt, this.state.viewMode === 'landscape' ? {backgroundColor: this.props.settings.backgroundColor} : null]}>
             <ActivityIndicator 
@@ -72,19 +101,9 @@ class NoBackground extends Component {
                 color="#437da3"/>
         </View>
         )
-        if (Platform.OS !== 'web') {
-            cnt = (
-                <View style={{height: 300}}>
-                    <AdMobBanner
-                        bannerSize="fullBanner"
-                        adUnitID="ca-app-pub-3611317424444370/5347321528" // Test ID, Replace with your-admob-unit-id
-                        servePersonalizedAds // true or false
-                        onDidFailToReceiveAdWithError={this.bannerError} />
-                </View>
-            )
-        }
+        let friend = cnt;
 
-        if ( this.props.fetchCnt && this.props.fetchCnt.length > 0) {
+        if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
             cnt = (
                 <Advert
                     cnt={this.props.fetchCnt}
@@ -97,6 +116,38 @@ class NoBackground extends Component {
             )
         }
 
+        if (Platform.OS !== 'web') {
+            cnt = (
+                <View style={{height: '100%'}}>
+                    <AdMob/>
+                </View>
+            )
+        }
+
+        if (this.props.fetchFriend && this.props.fetchFriend.friend.length > 0) {
+            friend = (
+                <View style={styles.friend}>
+                    <Text style={{color: '#777'}}>Friends</Text>
+                    <ScrollView style={{width: '100%'}} horizontal>
+                        { this.props.fetchFriend.friend.map((user, index) => (
+                        <Avatar key={index} 
+                            userImage={user.userImage} 
+                            iconSize={30}
+                            imageSize={50}
+                            style={[styles.friendImage, {left: index !== 0 ? -(index*8) : 'auto'}]}
+                            onPress={() => this.chatHandler(user)}/> ))}
+                    </ScrollView>
+                    {(this.props.fetchFriend.friendTotal - this.props.fetchFriend.friend.length) ?
+                    <Href title={`+${(this.props.fetchFriend.friendTotal - this.props.fetchFriend.friend.length)} other's`} 
+                        style={styles.friendTotal} 
+                        onPress={() => this.navigationHandler(this.state.viewMode === 'landscape' ? 'UsersWeb' : 'Users')}/>: null}
+                </View>
+            );
+        }
+
+        if (this.props.fetchFriend && this.props.fetchFriend.friend.length < 0) {
+            friend = null;
+        }
 
         if (this.props.fetchCntErr && !this.props.fetchCnt) {
             cnt = (
@@ -106,6 +157,18 @@ class NoBackground extends Component {
                         viewMode={this.state.viewMode}
                         backgroundColor={this.props.settings.backgroundColor}
                         reload={this.reloadFetchHandler}/>
+                </View>
+            )
+        }
+
+        if (this.props.fetchFriendErr && !this.props.fetchFriend) {
+            friend = (
+                <View style={styles.wrapper}>
+                    <ErrorInfo 
+                        header={null}
+                        viewMode={this.state.viewMode}
+                        backgroundColor={this.props.settings.backgroundColor}
+                        reload={this.reloadFriendFetchHandler}/>
                 </View>
             )
         }
@@ -132,8 +195,9 @@ class NoBackground extends Component {
                                         <View style={styles.advert}>
                                             { cnt }
                                         </View>
-                                        <View>
-                                            
+                                        <View style={{marginTop: 10, padding: 10, backgroundColor: this.props.settings.backgroundColor}}>
+                                            { friend }
+                                            {Platform.OS === 'web' ? <Text style={styles.copywrite}>{entities.decode('&copy;')} 2021, S LODGE24</Text> : null}
                                         </View>
                                     </ScrollView>
                                 </View>
@@ -205,6 +269,30 @@ const useStyles = makeUseStyles(({ palette, utils }) => ({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1
+    },
+    friend: {
+        alignItems: 'center',
+        width: '100%'
+    },
+    friendImage: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        borderColor: '#dcdbdc',
+        borderWidth: 2
+    },
+    friendTotal: {
+        color: '#777',
+        marginTop: 10
+    },
+    copywrite: {
+        fontWeight: 'bold',
+        fontSize: 12,
+        paddingTop: 10,
+        marginTop: 10,
+        borderTopColor: '#dcdbdc',
+        borderTopWidth: 1,
+        textAlign: 'center'
     }
 }));
 
@@ -220,13 +308,15 @@ const mapStateToProps = state => {
         fetchFriendErr: state.sidebar.fetchFriendError,
         fetchFriendStart: state.sidebar.fetchFriendStart,
         fetchFriend: state.sidebar.fetchFriend,
-        friendLoadMore: state.sidebar.friendLoadMore
+        friendLoadMore: state.sidebar.friendLoadMore,
+        notificationPage: state.header.notificationPage
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchPage: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchSidebarInit(start, limit, page, cntID, searchCnt))
+        onFetchPage: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchSidebarInit(start, limit, page, cntID, searchCnt)),
+        onNotificationPageReset: () => dispatch(actions.headerNotificationPageReset())
     };
 };
 

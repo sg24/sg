@@ -54,6 +54,7 @@ router.post('/', authenticate,(req, res, next) => {
             req.body.token && req.body.token.length > 0 ? req.subscription.filter(cnt => cnt.token === req.body.token).length < 1 : false ? user.findByIdAndUpdate(req.user, {$push: {subscription: {token: req.body.token, platform: req.body.platform}}}) : Promise.resolve()]).then(result => {
             let notification = result[0] ? JSON.parse(JSON.stringify(result[0])) : {};
             let stateHistory = req.body.stateHistory ? JSON.parse(req.body.stateHistory) : [];
+            let settings = req.body.settings ? JSON.parse(req.body.settings) : {};
             notification['groupPostShare'] = [];
             notification['groupQuestionShare'] = [];
             notification['groupFeedShare'] = [];
@@ -68,6 +69,30 @@ router.post('/', authenticate,(req, res, next) => {
                     }
                 }
             }
+            for (let page in settings) {
+                if (page === 'page' || page === 'share') {
+                    let pageSettings = settings[page === 'share' ? 'share' : 'page'];
+                    for (let cnt in pageSettings) {
+                        if (!pageSettings[cnt]) {
+                            if (page === 'page') {
+                                notification[cnt === 'cbt' ? 'qchat' : cnt] = [];
+                            } else {
+                                notification[cnt === 'cbt' ? 'qchatShare' : `${cnt}Share`] = []
+                            }
+                        }
+                    }
+                }
+                if (page === 'group') {
+                    let pageSettings = settings['group'];
+                    for (let cnt in pageSettings) {
+                        if (!pageSettings[cnt] && cnt === 'chatroom') {
+                            notification['chatRoomAccept'] = [];
+                            notification['chatRoomReject'] = [];
+                        }
+                    }
+                }
+            }
+
             delete notification.__v;
             delete notification._id;
             delete notification.userID;
@@ -86,6 +111,7 @@ router.post('/', authenticate,(req, res, next) => {
                                             cnt.cntID = updateCntID;
                                             let notificationPageIndex = removeNotification[page].findIndex(cntItem => JSON.parse(JSON.stringify(cntItem._id)) === JSON.parse(JSON.stringify(cnt._id)));
                                             removeNotification[page][notificationPageIndex] = cnt;
+                                            removeNotification[page] = removeNotification[page].filter(cntItem => cntItem.cntID.length > 0);
                                             for (let id of pageItem) {
                                                 let model = (page === 'post') || (page === 'postShare' ) ? post :
                                                 (page === 'question') || (page === 'questionShare' ) ? question :
@@ -177,12 +203,38 @@ router.post('/', authenticate,(req, res, next) => {
                 updateFriend.push({_id: cnt._id, chatID: chatInfo ? chatInfo._id : null, username: cnt.username,
                     userImage: cnt.image, status: isOnline, message, notification: updateNotification})
             }
-            res.status(200).send({friend: updateFriend, loadMore: (req.friend.length - (req.body.start + req.body.limit)) > 0});
+            res.status(200).send({page: updateFriend, loadMore: (req.friend.length - (req.body.start + req.body.limit)) > 0, friendTotal: req.friend.length});
         }).catch(err => {
             res.status(500).send(err);
         })
     }
 
+    if (req.header && req.header('data-categ') === 'getFriendById') {
+        user.findById(req.body.searchCnt).then(doc => {
+            if (doc) {
+                let chat = doc.chat;
+                sequence([user.find({_id: {$in: [...doc.friend]}}).skip(req.body.start).limit(req.body.limit).sort({created: 1, _id: 1}),
+                    notificationsModel.findOne({userID: doc._id})]).then(result => {
+                    let updateFriend= [];
+                    for (let cnt of result[0]) {
+                        let isOnline =  (new Date().getTime() - new Date(cnt.visited).getTime()) < 60000;
+                        let chatInfo = chat.filter(info => JSON.parse(JSON.stringify(info.authorID)) === JSON.parse(JSON.stringify(cnt._id)))[0];
+                        let message = chatInfo ? chatInfo.content ? chatInfo.content : 
+                            chatInfo.media && chatInfo.media.length > 0 ? chatInfo.media[chatInfo.media.length -1].filename.split('.')[0] + '.' + chatInfo.media[chatInfo.media.length -1].ext.split('/')[1] : null : null;
+                        let chatNotification = result[1] ? result[1].userChat : [];
+                        let notification = chatNotification.filter(userChat => userChat.userID === JSON.parse(JSON.stringify(cnt._id)))[0];
+                        let updateNotification = notification ? notification.counter : 0;
+                        updateFriend.push({_id: cnt._id, chatID: chatInfo ? chatInfo._id : null, username: cnt.username,
+                            userImage: cnt.image, status: isOnline, message, notification: updateNotification})
+                    }
+                    res.status(200).send({page: updateFriend, loadMore: (doc.friend.length - (req.body.start + req.body.limit)) > 0});
+                }).catch(err => {
+                    res.status(500).send(err);
+                })
+            }
+        });
+    }
+    
     if (req.header && req.header('data-categ') === 'searchFriend') {
         let chat = req.chat;
         sequence([user.find({_id: {$in: [...req.friend]}, $text: {$search: req.body.searchCnt}}).skip(req.body.start).limit(req.body.limit),
@@ -199,7 +251,7 @@ router.post('/', authenticate,(req, res, next) => {
                 updateFriend.push({_id: cnt._id, chatID: chatInfo ? chatInfo._id : null, username: cnt.username,
                     userImage: cnt.image, status: isOnline, message, notification: updateNotification})
             }
-            res.status(200).send({friend: updateFriend, loadMore: (req.friend.length - (req.body.start + req.body.limit)) > 0});
+            res.status(200).send({page: updateFriend, loadMore: (req.friend.length - (req.body.start + req.body.limit)) > 0});
         }).catch(err => {
             res.status(500).send(err);
         })

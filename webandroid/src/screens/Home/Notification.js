@@ -8,15 +8,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Constants from 'expo-constants';
 
 import * as actions from '../../store/actions/index';
-
-import {
-    AdMobBanner,
-    AdMobInterstitial,
-    PublisherBanner,
-    AdMobRewarded,
-    setTestDeviceIDAsync,
-  } from 'expo-ads-admob';
-
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Notify from '../../components/Main/Notify/Notify';
 import ScrollView from '../../components/UI/ScrollView/ScrollView';
@@ -36,7 +27,7 @@ class Notification extends Component {
     componentDidMount() {
         Dimensions.addEventListener('change', this.updateStyle)
         this.setNotification();
-        this.props.onPushNotification(this.props.settings.notificationLimit, '', Platform.OS);
+        this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS);
     }
 
     componentDidUpdate() {
@@ -170,6 +161,7 @@ class Notification extends Component {
         if (this.state.viewMode === 'landscape') {
             this.props.closeNotification();
         }
+        this.props.onUpdateNotification(notification);
     }
 
     reloadFetchHandler = () => {
@@ -199,18 +191,12 @@ class Notification extends Component {
 
        
         if (this.state.notificationItem.length > 0){
-            console.log(this.bannerError)
             cnt = (
                 <Wrapper
                     {...wrapperProps}
                     style={[styles.wrapper, this.state.viewMode === 'landscape' ? 
                     {backgroundColor: this.props.settings.backgroundColor} : null]}>
                     <ScrollView style={styles.scroll}>
-                    <AdMobBanner
-                        bannerSize="fullBanner"
-                        adUnitID="ca-app-pub-3611317424444370/5347321528" // Test ID, Replace with your-admob-unit-id
-                        servePersonalizedAds // true or false
-                        onDidFailToReceiveAdWithError={this.bannerError} />
                         <Notify
                             notify={this.state.notificationItem}
                             navigate={this.navigationHandler}/>
@@ -252,7 +238,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onPushNotification: (limit, token, platform, stateHistory) => dispatch(actions.headerPushNotificationInit(limit, token, platform, stateHistory))
+        onPushNotification: (limit, settings, token, platform, stateHistory) => dispatch(actions.headerPushNotificationInit(limit, settings, token, platform, stateHistory)),
+        onUpdateNotification: (notification) => dispatch(actions.headerPushNotificationUpdate(notification))
     };
 };
 

@@ -35,7 +35,8 @@ const initialState = {
             feed: false,
             question: false,
             cbt: false,
-            writeup: false
+            writeup: false,
+            advert: false
         },
         group: {
             post: true,
@@ -56,11 +57,12 @@ const initialState = {
     friendProfile: true,
     autoLoading: false,
     notificationLimit: 2,
+    friendSidebarListLimit: 10,
     highlightBackgroundColor: [{title: 'Red',  color: '#ff1600'},{title: 'Blue', color: '#437da3'},{title: 'Black', color: '#000'}],
     highlightColor: [{title: 'White',  color: '#fff'},{title: 'Black', color: '#000'}],
     backgroundColor: '#fff',
     color: '#333',
-    version: 3
+    version: 2
 };
 
 const saveSetting = (state, action) => {
