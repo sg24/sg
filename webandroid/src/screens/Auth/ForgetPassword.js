@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, Dimensions, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { tailwind } from 'tailwind';
-import * as WebBrowser from 'expo-web-browser';
+import Constants from 'expo-constants';
+// import * as WebBrowser from 'expo-web-browser';
+import urischeme from 'urischeme';
 import { Html5Entities } from 'html-entities';
 
 import LinearBackground from '../../components/UI/LinearBackground/LinearBackground';
@@ -13,7 +15,7 @@ import Href from '../../components/UI/Href/Href';
 import { updateObject, checkValidity } from '../../shared/utility';
 import ScrollView from '../../components/UI/ScrollView/ScrollView';
 import * as actions from '../../store/actions/index';
-import WebView from '../../components/UI/WebView/WebView';
+// import WebView from '../../components/UI/WebView/WebView';
 import FormModal from '../../components/UI/FormModal/FormModal';
 
 class ForgetPassword extends Component {
@@ -83,10 +85,11 @@ class ForgetPassword extends Component {
     }
 
     openBrowserHandler = (uri) => {
-        if (Platform.OS === 'web') {
-            return WebBrowser.openBrowserAsync(uri)
-        }
-        this.setState({uri})
+        // if (Platform.OS === 'web') {
+        //     return WebBrowser.openBrowserAsync(uri)
+        // }
+        // this.setState({uri})
+        urischeme('URL', uri);
     }
 
     closeWebViewHandler = () => {
@@ -105,14 +108,14 @@ class ForgetPassword extends Component {
 
     render() {
         const entities = new Html5Entities();
-        if (this.state.uri) {
-            return (
-                <WebView
-                    uri={this.state.uri}
-                    onPress={this.closeWebViewHandler}
-                />
-            )
-        }
+        // if (this.state.uri) {
+        //     return (
+        //         <WebView
+        //             uri={this.state.uri}
+        //             onPress={this.closeWebViewHandler}
+        //         />
+        //     )
+        // }
 
         let cnt = (
             <>
@@ -181,12 +184,12 @@ class ForgetPassword extends Component {
                         <Href 
                             title="Privacy policy"
                             style={[styles.href, styles.term]}
-                            onPress={() => this.openBrowserHandler('https://www.slodge24.com/privacy')} />
+                            onPress={() => this.openBrowserHandler(`${Constants.manifest.extra.BASE_URL}privacy`)} />
                         {Platform.OS === 'web' ? <Text style={styles.copywrite}>{entities.decode('&copy;')} 2021, S LODGE24</Text> : null}
                         <Href 
                             title="Terms of service"
                             style={[styles.href, styles.term]} 
-                            onPress={() => this.openBrowserHandler('https://www.slodge24.com/term')}/>
+                            onPress={() => this.openBrowserHandler(`${Constants.manifest.extra.BASE_URL}term`)}/>
                     </View>
                 </View>
            </ScrollView>

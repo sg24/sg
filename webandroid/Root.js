@@ -349,7 +349,7 @@ class Base extends Component {
         onStateChange={(state) =>
           AsyncStorage.setItem(Constants.manifest.extra.PERSISTENCE_KEY, JSON.stringify(state))
         }
-        linking={{
+        linking={Platform.OS !== 'web' ? {
           config: {
           },
           subscribe(listener) {
@@ -364,7 +364,7 @@ class Base extends Component {
               subscription.remove();
             };
           },
-        }}>
+        }: {}}>
           <Stack.Navigator
             headerMode="screen">
             {Object.entries({

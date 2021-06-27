@@ -195,7 +195,7 @@ class NoBackground extends Component {
                                         <View style={styles.advert}>
                                             { cnt }
                                         </View>
-                                        <View style={{marginTop: 10, padding: 10, backgroundColor: this.props.settings.backgroundColor}}>
+                                        <View style={{marginTop: 10, backgroundColor: this.props.settings.backgroundColor}}>
                                             { friend }
                                             {Platform.OS === 'web' ? <Text style={styles.copywrite}>{entities.decode('&copy;')} 2021, S LODGE24</Text> : null}
                                         </View>
@@ -272,7 +272,8 @@ const useStyles = makeUseStyles(({ palette, utils }) => ({
     },
     friend: {
         alignItems: 'center',
-        width: '100%'
+        width: '100%',
+        padding: 10
     },
     friendImage: {
         width: 50,
@@ -288,10 +289,9 @@ const useStyles = makeUseStyles(({ palette, utils }) => ({
     copywrite: {
         fontWeight: 'bold',
         fontSize: 12,
-        paddingTop: 10,
+        padding: 10,
         marginTop: 10,
-        borderTopColor: '#dcdbdc',
-        borderTopWidth: 1,
+        backgroundColor: '#dcdbdc',
         textAlign: 'center'
     }
 }));

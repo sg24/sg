@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, Dimensions, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { tailwind, size } from 'tailwind';
-import * as WebBrowser from 'expo-web-browser';
+// import * as WebBrowser from 'expo-web-browser';
+import Constants from 'expo-constants';
+import urischeme from 'urischeme';
 import { Html5Entities } from 'html-entities';
 
 import LinearBackground from '../../components/UI/LinearBackground/LinearBackground';
@@ -12,7 +14,7 @@ import Button from '../../components/UI/Button/Button';
 import Href from '../../components/UI/Href/Href';
 import { updateObject, checkValidity } from '../../shared/utility';
 import ScrollView from '../../components/UI/ScrollView/ScrollView';
-import WebView from '../../components/UI/WebView/WebView';
+// import WebView from '../../components/UI/WebView/WebView';
 import * as actions from '../../store/actions/index';
 
 class Signup extends Component {
@@ -126,10 +128,11 @@ class Signup extends Component {
 
   
     openBrowserHandler = (uri) => {
-        if (Platform.OS === 'web') {
-            return WebBrowser.openBrowserAsync(uri)
-        }
-        this.setState({uri})
+        // if (Platform.OS === 'web') {
+        //     return WebBrowser.openBrowserAsync(uri)
+        // }
+        // this.setState({uri})
+        urischeme('URL', uri);
     }
 
     closeWebViewHandler = () => {
@@ -151,14 +154,14 @@ class Signup extends Component {
 
     render() {
         const entities = new Html5Entities();
-        if (this.state.uri) {
-            return (
-                <WebView
-                    uri={this.state.uri}
-                    onPress={this.closeWebViewHandler}
-                />
-            )
-        }
+        // if (this.state.uri) {
+        //     return (
+        //         <WebView
+        //             uri={this.state.uri}
+        //             onPress={this.closeWebViewHandler}
+        //         />
+        //     )
+        // }
 
       return (
         <LinearBackground>
@@ -241,12 +244,12 @@ class Signup extends Component {
                         <Href 
                             title="Privacy policy"
                             style={[styles.href, styles.term]}
-                            onPress={() => this.openBrowserHandler('https://www.slodge24.com/privacy')} />
+                            onPress={() => this.openBrowserHandler(`${Constants.manifest.extra.BASE_URL}privacy`)} />
                         {Platform.OS === 'web' ? <Text style={styles.copywrite}>{entities.decode('&copy;')} 2021, S LODGE24</Text> : null}
                         <Href 
                         title="Terms of service"
                         style={[styles.href, styles.term]} 
-                        onPress={() => this.openBrowserHandler('https://www.slodge24.com/term')}/>
+                        onPress={() => this.openBrowserHandler(`${Constants.manifest.extra.BASE_URL}term`)}/>
                     </View>
                 </View>
            </ScrollView>

@@ -3,12 +3,7 @@ import { View, ActivityIndicator, StyleSheet, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import {
     AdMobBanner,
-    AdMobInterstitial,
-    PublisherBanner,
-    AdMobRewarded,
-    isAvailableAsync,
-    getPermissionsAsync,
-    requestPermissionsAsync
+    isAvailableAsync
   } from 'expo-ads-admob';
 
 class AdMob extends Component {
@@ -19,10 +14,10 @@ class AdMob extends Component {
     async componentDidMount() {
         let isAvailable = await isAvailableAsync();
         if (isAvailable && Platform.OS === 'ios') {
-            let { status } = await getPermissionsAsync();
-            if (status !== 'granted') {
-                await requestPermissionsAsync()
-            }
+            // let { status } = await getPermissionsAsync();
+            // if (status !== 'granted') {
+            //     await requestPermissionsAsync()
+            // }
         }
     }
 
