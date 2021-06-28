@@ -58,7 +58,7 @@ app.set('port', port);
   let groupcbtRoute = require('../routes/group/cbt');
   let groupcbtchatRoute = require('../routes/group/cbtchat');
   let chatRoomRoute = require('../routes/group/chatRoom');
-  let roomChatRoute = require('../routes/roomChat');
+  let roomChatRoute = require('../routes/roomchat');
   let chatRoute = require('../routes/chat');
   let convRoute = require('../routes/conv');
   let advertRoute = require('../routes/advert');
