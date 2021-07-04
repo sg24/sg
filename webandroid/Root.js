@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
-import { Dimensions, Platform } from 'react-native';
+import { AppState, Dimensions, Platform } from 'react-native';
 import * as Linking from 'expo-linking';
 import { size} from 'tailwind';
 import Constants from 'expo-constants';
@@ -158,13 +158,15 @@ class Base extends Component {
       viewMode: Dimensions.get('window').width >= size.md ? 'landscape' : 'portrait',
       isLoggedIn: false,
       expoPushToken: '',
-      checkNotification: null
+      checkNotification: null,
+      checkAppState: null
     }
   }
   componentDidMount() {
     this.props.onCheckAuth();
     if (Platform.OS !== 'web') {
       this.registarBackgroundTask();
+      AppState.addEventListener('change', this._handleAppStateChange);
     }
     this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS)
     AsyncStorage.removeItem(Constants.manifest.extra.PERSISTENCE_KEY).then(() => {
@@ -235,6 +237,8 @@ class Base extends Component {
         this.responseListener.remove()
       }
       clearInterval(this.state.checkNotification);
+      clearInterval(this.state.checkAppState);
+      AppState.removeEventListener('change', this._handleAppStateChange);
   }
 
   updateHeader = (dims) => {
@@ -243,6 +247,65 @@ class Base extends Component {
     })
   }
 
+  getNotification = () => {
+    NetInfo.fetch().then(state => {
+      if (state.isConnected) {
+        console.log(this.state.expoPushToken);
+        (async () => {
+          let response = await axios.post('/users', {settings: JSON.stringify(this.props.settings.notification), limit: this.props.settings.notificationLimit, token: this.state.expoPushToken, platform: Platform.OS}, {headers: {'data-categ':'getNotification'}});
+          let cnt = response.data ? response.data : {};
+          let notification = cnt.notification;
+          let showedNotification = await AsyncStorage.getItem(Constants.manifest.extra.NOTIFICATION);
+          showedNotification = showedNotification ? JSON.parse(showedNotification) : {};
+          for (let page in notification) {
+            if (Array.isArray(notification[page])) {
+                if (showedNotification[page]) {
+                  showedNotification[page] = showedNotification[page].filter(cntItem => notification[page].filter(notifyItem => notifyItem._id === cntItem._id).length > 0 ? false : true)
+                  showedNotification[page].push(...notification[page])
+                  let updateNotification = [];
+                  for (let cntItem of showedNotification[page]) {
+                      if ((cntItem && cntItem.expiresIn && (cntItem.expiresIn >= (new Date().getTime()))) || (cntItem && !cntItem.expiresIn)) {
+                          updateNotification.push(cntItem);
+                      }
+                  }
+                  showedNotification[page] = updateNotification;
+                } else {
+                  showedNotification[page] = notification[page];
+                }
+            }
+        }
+        await AsyncStorage.setItem(Constants.manifest.extra.NOTIFICATION, JSON.stringify(showedNotification));
+         for (let page in notification) {
+            for (let pageItem of notification[page]) {
+              Notifications.scheduleNotificationAsync({
+                content: {
+                  title: pageItem.title,
+                  body: pageItem.content,
+                  subtitle: pageItem.page,
+                  data: pageItem
+                },
+                trigger: {
+                  seconds: 10,
+                  channelId: 'default',
+                },
+              });
+            }
+         }
+        })();
+      }
+    });
+  }
+
+  _handleAppStateChange = (nextAppState) => {
+    clearInterval(this.state.checkAppState);
+    if (nextAppState.match(/inactive|background/)) {
+      let checkAppState = setInterval(() => {
+        this.getNotification();
+      }, 1000*60*2);
+      this.setState({checkAppState})
+    }
+  };
+
   registarBackgroundTask = () => {
     BackgroundFetch.configure({
       minimumFetchInterval: 15,
@@ -250,52 +313,7 @@ class Base extends Component {
       startOnBoot: true
     }, () => {
       console.log("[js] Received background-fetch event");
-      NetInfo.fetch().then(state => {
-        if (state.isConnected) {
-          console.log(this.state.expoPushToken);
-          (async () => {
-            let response = await axios.post('/users', {settings: JSON.stringify(this.props.settings.notification), limit: this.props.settings.notificationLimit, token: this.state.expoPushToken, platform: Platform.OS}, {headers: {'data-categ':'getNotification'}});
-            let cnt = response.data ? response.data : {};
-            let notification = cnt.notification;
-            let showedNotification = await AsyncStorage.getItem(Constants.manifest.extra.NOTIFICATION);
-            showedNotification = showedNotification ? JSON.parse(showedNotification) : {};
-            for (let page in notification) {
-              if (Array.isArray(notification[page])) {
-                  if (showedNotification[page]) {
-                    showedNotification[page] = showedNotification[page].filter(cntItem => notification[page].filter(notifyItem => notifyItem._id === cntItem._id).length > 0 ? false : true)
-                    showedNotification[page].push(...notification[page])
-                    let updateNotification = [];
-                    for (let cntItem of showedNotification[page]) {
-                        if ((cntItem && cntItem.expiresIn && (cntItem.expiresIn >= (new Date().getTime()))) || (cntItem && !cntItem.expiresIn)) {
-                            updateNotification.push(cntItem);
-                        }
-                    }
-                    showedNotification[page] = updateNotification;
-                  } else {
-                    showedNotification[page] = notification[page];
-                  }
-              }
-          }
-          await AsyncStorage.setItem(Constants.manifest.extra.NOTIFICATION, JSON.stringify(showedNotification));
-           for (let page in notification) {
-              for (let pageItem of notification[page]) {
-                Notifications.scheduleNotificationAsync({
-                  content: {
-                    title: pageItem.title,
-                    body: pageItem.content,
-                    subtitle: pageItem.page,
-                    data: pageItem
-                  },
-                  trigger: {
-                    seconds: 10,
-                    channelId: 'default',
-                  },
-                });
-              }
-           }
-          })();
-        }
-      });
+      this.getNotification();
       BackgroundFetch.finish(BackgroundFetch.FETCH_RESULT_NEW_DATA);
     }, (error) => {
       console.log("[js] RNBackgroundFetch failed to start");

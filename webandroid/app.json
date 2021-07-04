@@ -12,8 +12,8 @@
     },
     "scheme": "slodge24",
     "extra": {
-      "BASE_URL": "https://slodgeapp.vercel.app/",
-      "BASE_IMAGE_URL": "https://slodgeapp.vercel.app/media/image/",
+      "BASE_URL": "https://slodge24.herokuapp.com/",
+      "BASE_IMAGE_URL": "https://slodge24.herokuapp.com/media/image/",
       "PERSISTENCE_KEY": "NAVIGATION_STATE",
       "NOTIFICATION": "NOTIFICATION"
     },
