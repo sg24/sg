@@ -105,7 +105,7 @@ class Home extends Component  {
                     <Image source={Logo} style={styles.logo}/>
                     <TouchableNativeFeedback  onPress={() => this.navigationHandler('Search')}>
                         <View style={styles.navIcon}>
-                            <Icon name="search" size={22} color="#05578b"/>
+                            <Icon name="search" size={22} color="#437da3"/>
                         </View>
                     </TouchableNativeFeedback>
                     <TouchableNativeFeedback  onPress={() => this.navigationHandler('Addnew')}>
@@ -177,14 +177,14 @@ const styles = StyleSheet.create({
         resizeMode: 'contain'
     },
     navIcon: {
-        backgroundColor: '#e9ebf2',
+        // backgroundColor: '#e9ebf2',
         width: 30,
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 15,
-        borderColor: '#dcdbdc',
-        borderWidth: 1
+        // borderColor: '#dcdbdc',
+        // borderWidth: 1
     },
     profileImage: {
         width: 30,

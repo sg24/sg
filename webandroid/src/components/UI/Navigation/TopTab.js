@@ -72,7 +72,7 @@ const topTab = props => (
         }}
         swipeEnabled={false}
         tabBarOptions={{
-            activeTintColor: '#05578b',
+            activeTintColor: '#437da3',
             inactiveTintColor: '#777',
             showIcon: true,
             tabStyle: {
@@ -86,7 +86,7 @@ const topTab = props => (
                 borderColor: '#e9ebf2'
             },
             indicatorStyle: {
-                backgroundColor: '#05578b'
+                backgroundColor: '#437da3'
             }
         }}
         lazy={true}
