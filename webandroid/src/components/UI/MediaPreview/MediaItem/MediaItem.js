@@ -50,9 +50,10 @@ class MediaItem extends Component {
                     onLayout={this.containerInfoHandler}>
                     { cnt }
                 </View>
+                {this.props.media.description ?
                 <ScrollView style={styles.scroll}>
                     <Text style={styles.content}>{ this.props.media.description }</Text>
-                </ScrollView>
+                </ScrollView>: null}
                 { this.props.showOption ?
                     <View style={styles.det}>
                         <Button 
@@ -107,9 +108,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingTop: 10,
+        paddingHorizontal: 10,
         borderTopColor: '#dcdbdc',
         borderTopWidth: 1,
-        marginTop: 10,
         width: '100%'
     },
     detContent: {
@@ -128,7 +129,8 @@ const styles = StyleSheet.create({
         paddingVertical: 0
     },
     scroll: {
-        maxHeight: 80
+        maxHeight: 80,
+        marginBottom: 10
     }
 });
 

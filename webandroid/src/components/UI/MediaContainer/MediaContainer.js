@@ -53,7 +53,7 @@ class CheckMediaType extends Component {
                     <View style={[styles.wrapper, this.props.wrapperStyle]}>
                         <View style={[styles.wrapper, this.props.style]}>
                             <Image source={{uri: media.uri ? media.uri : `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}`}}  
-                                resizeMode={this.props.resizeMode ? this.props.resizeMode: "center"} style={styles.mediaWrapper}/>
+                                resizeMode={this.props.resizeMode ? this.props.resizeMode: "cover"} style={styles.mediaWrapper}/>
                         </View>
                         { this.props.children }
                     </View>
@@ -70,7 +70,7 @@ class CheckMediaType extends Component {
                     media={media}
                     onPress={this.props.onPress}
                     disablePreview={this.props.disablePreview}
-                    resizeMode={this.props.resizeMode ? this.props.resizeMode: "center"}
+                    resizeMode={this.props.resizeMode ? this.props.resizeMode: "cover"}
                 />
             )
         }  

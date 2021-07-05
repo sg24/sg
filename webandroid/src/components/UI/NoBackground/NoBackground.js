@@ -145,7 +145,7 @@ class NoBackground extends Component {
             );
         }
 
-        if (this.props.fetchFriend && this.props.fetchFriend.friend.length < 0) {
+        if (this.props.fetchFriend && this.props.fetchFriend.friend.length < 1) {
             friend = null;
         }
 

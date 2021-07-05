@@ -105,7 +105,7 @@ class Home extends Component  {
                     <Image source={Logo} style={styles.logo}/>
                     <TouchableNativeFeedback  onPress={() => this.navigationHandler('Search')}>
                         <View style={styles.navIcon}>
-                            <Icon name="search" size={22} color="#437da3"/>
+                            <Icon name="search" size={26} color="#437da3"/>
                         </View>
                     </TouchableNativeFeedback>
                     <TouchableNativeFeedback  onPress={() => this.navigationHandler('Addnew')}>
@@ -115,12 +115,12 @@ class Home extends Component  {
                     </TouchableNativeFeedback>
                     <TouchableNativeFeedback onPress={() => this.navigationHandler('Favorite')}>
                         <View style={styles.navIcon}>
-                            <Icon name="heart" size={22} color="#ff1600"/>
+                            <Icon name="heart" size={26} color="#ff1600"/>
                         </View>
                     </TouchableNativeFeedback>
                     <TouchableNativeFeedback  onPress={() => this.navigationHandler('Conversation')}>
                         <View style={styles.navIcon}>
-                            <Icon name="chatbubbles-outline" size={22}/>
+                            <Icon name="chatbubbles-outline" size={23}/>
                             <TabBarge
                                 onPress={() => this.navigationHandler('Conversation')}
                                 style={styles.tabBarge}
@@ -130,7 +130,7 @@ class Home extends Component  {
                     </TouchableNativeFeedback>
                     <TouchableNativeFeedback onPress={() => this.navigationHandler('Notification')}>
                         <View style={styles.navIcon}>
-                            <Icon name="notifications-outline" size={22}/>
+                            <Icon name="notifications-outline" size={25}/>
                             <TabBarge 
                                 onPress={() => this.navigationHandler('Notification')}
                                 style={styles.tabBarge}
@@ -140,7 +140,7 @@ class Home extends Component  {
                     </TouchableNativeFeedback>
                     <TouchableNativeFeedback onPress={this.modalHandler}>
                         <View style={styles.navIcon}>
-                            <Icon name="reorder-three-outline" size={24}/>
+                            <Icon name="reorder-three-outline" size={30}/>
                             <TabBarge
                                 onPress={this.modalHandler}
                                 style={styles.tabBarge}
@@ -178,11 +178,11 @@ const styles = StyleSheet.create({
     },
     navIcon: {
         // backgroundColor: '#e9ebf2',
-        width: 30,
+        width: 28,
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 15,
+        borderRadius: 14,
         // borderColor: '#dcdbdc',
         // borderWidth: 1
     },

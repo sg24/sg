@@ -39,20 +39,20 @@ const topTab = props => (
                     let groupNotification = 0;
                     let cbtNotification = 0;
                     if (props.notification) {
-                        for (let cnt of props.notification['userChat']) {
-                            if (!cnt.expiresIn) {
-                                userChat = userChat + cnt.counter
-                            }
-                        }
-                        userChat = userChat + props.notification['userRequest'].filter(cntItem => !cntItem.expiresIn).length
-                        let groupPage = ['groupRequest', 'groupJoin', 'groupAccept', 'groupReject', 'groupPending', 'groupMark'];
-                        for (let page of groupPage) {
-                            groupNotification = groupNotification + props.notification[page].filter(cntItem => !cntItem.expiresIn).length
-                        }
-                        let cbtPage = ['qchat', 'qchatRequest', 'qchatResult', 'qchatAccept', 'qchatReject', 'qchatMark', 'qchatShare'];
-                        for (let page of cbtPage) {
-                            cbtNotification = cbtNotification + props.notification[page].filter(cntItem => !cntItem.expiresIn).length
-                        }
+                        // for (let cnt of props.notification['userChat']) {
+                        //     if (!cnt.expiresIn) {
+                        //         userChat = userChat + cnt.counter
+                        //     }
+                        // }
+                        // userChat = userChat + props.notification['userRequest'].filter(cntItem => !cntItem.expiresIn).length
+                        // let groupPage = ['groupRequest', 'groupJoin', 'groupAccept', 'groupReject', 'groupPending', 'groupMark'];
+                        // for (let page of groupPage) {
+                        //     groupNotification = groupNotification + props.notification[page].filter(cntItem => !cntItem.expiresIn).length
+                        // }
+                        // let cbtPage = ['qchat', 'qchatRequest', 'qchatResult', 'qchatAccept', 'qchatReject', 'qchatMark', 'qchatShare'];
+                        // for (let page of cbtPage) {
+                        //     cbtNotification = cbtNotification + props.notification[page].filter(cntItem => !cntItem.expiresIn).length
+                        // }
                     }
                     return (
                         <View>

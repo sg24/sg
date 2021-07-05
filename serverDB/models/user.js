@@ -155,10 +155,7 @@ UserSchema.methods.generateAuthToken = function generateAuthToken(userAgent, dev
         for (let ua in userAgent) {
             if (userAgent[ua]) {
                 if (ua === 'geoIp' && Object.entries(userAgent[ua]).length === 0) {}
-                else {
-                   deviceInfo[ua] = userAgent[ua]
-                }
-                
+                else {}
             }
         }
         User.deviceInfo.push(deviceInfo)
@@ -191,7 +188,7 @@ UserSchema.statics.findByCredentials = function findByCredentials(email, passwor
 
     return User.findOne({email}).then((user) => {
         if (!user) {
-            return Promise.reject('No User found');
+            return Promise.reject('Check your Email and Password');
         };
 
         return new Promise((resolve, reject) => {
@@ -205,9 +202,8 @@ UserSchema.statics.findByCredentials = function findByCredentials(email, passwor
                         if (userAgent[ua]) {
                             if (ua === 'geoIp' && Object.entries(userAgent[ua]).length === 0) {}
                             else {
-                               deviceInfo[ua] = userAgent[ua]
+                                deviceInfo[ua] = userAgent[ua]
                             }
-                            
                         }
                     }
                     user.deviceInfo.push(deviceInfo);
@@ -230,7 +226,7 @@ UserSchema.statics.findByCredentials = function findByCredentials(email, passwor
                     reject('Error');
                   })
                 } else {
-                    reject('Password Incorrect');
+                    reject('Check your Email and Password');
                 }
                 
             });

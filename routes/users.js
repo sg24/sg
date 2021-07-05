@@ -52,7 +52,7 @@ router.post('/', authenticate,(req, res, next) => {
     if (req.header && req.header('data-categ') === 'getNotification') {
         Promise.all([notificationsModel.findOne({userID: req.user}), 
             req.body.token && req.body.token.length > 0 ? req.subscription.filter(cnt => cnt.token === req.body.token).length < 1 : false ? user.findByIdAndUpdate(req.user, {$push: {subscription: {token: req.body.token, platform: req.body.platform}}}) : Promise.resolve()]).then(result => {
-            let notification = result[0] ? JSON.parse(JSON.stringify(result[0])) : {};
+            let notification = result[0] ? JSON.parse(JSON.stringify(result[0])) : null;
             let stateHistory = req.body.stateHistory ? JSON.parse(req.body.stateHistory) : [];
             let settings = req.body.settings ? JSON.parse(req.body.settings) : {};
             notification['groupPostShare'] = [];
@@ -60,128 +60,139 @@ router.post('/', authenticate,(req, res, next) => {
             notification['groupFeedShare'] = [];
             notification['groupWriteupShare'] = [];
             notification['groupCbtShare'] = [];
-            for (let page of stateHistory) {
-                page = page.split('Web')[0].toLowerCase();
-                for (let notificationPage in notification) {
-                    page = page === 'home' ? 'post' : page;
-                    if (notificationPage.toLowerCase() === page) {
-                        notification[notificationPage] = [];
+            const createNotification = () => {
+                return new Promise((resolve, reject) => {
+                    let saveNotification = new notificationsModel({userID: req.user});
+                    saveNotification.save().then(doc => {
+                        notification = {...notification, ...doc};
+                        resolve();
+                    })
+                })
+            }
+            Promise.all([!notification ? createNotification() : Promise.resolve()]).then(() => {
+                for (let page of stateHistory) {
+                    page = page.split('Web')[0].toLowerCase();
+                    for (let notificationPage in notification) {
+                        page = page === 'home' ? 'post' : page;
+                        if (notificationPage.toLowerCase() === page) {
+                            notification[notificationPage] = [];
+                        }
                     }
                 }
-            }
-            for (let page in settings) {
-                if (page === 'page' || page === 'share') {
-                    let pageSettings = settings[page === 'share' ? 'share' : 'page'];
-                    for (let cnt in pageSettings) {
-                        if (!pageSettings[cnt]) {
-                            if (page === 'page') {
-                                notification[cnt === 'cbt' ? 'qchat' : cnt] = [];
-                            } else {
-                                notification[cnt === 'cbt' ? 'qchatShare' : `${cnt}Share`] = []
+                for (let page in settings) {
+                    if (page === 'page' || page === 'share') {
+                        let pageSettings = settings[page === 'share' ? 'share' : 'page'];
+                        for (let cnt in pageSettings) {
+                            if (!pageSettings[cnt]) {
+                                if (page === 'page') {
+                                    notification[cnt === 'cbt' ? 'qchat' : cnt] = [];
+                                } else {
+                                    notification[cnt === 'cbt' ? 'qchatShare' : `${cnt}Share`] = []
+                                }
+                            }
+                        }
+                    }
+                    if (page === 'group') {
+                        let pageSettings = settings['group'];
+                        for (let cnt in pageSettings) {
+                            if (!pageSettings[cnt] && cnt === 'chatroom') {
+                                notification['chatRoomAccept'] = [];
+                                notification['chatRoomReject'] = [];
                             }
                         }
                     }
                 }
-                if (page === 'group') {
-                    let pageSettings = settings['group'];
-                    for (let cnt in pageSettings) {
-                        if (!pageSettings[cnt] && cnt === 'chatroom') {
-                            notification['chatRoomAccept'] = [];
-                            notification['chatRoomReject'] = [];
-                        }
-                    }
-                }
-            }
 
-            delete notification.__v;
-            delete notification._id;
-            delete notification.userID;
-            let removeNotification = {...notification};
-            (async () => {
-                for (let page in notification) {
-                    let pageCnt = [];
-                    if (Array.isArray(notification[page])) {
-                        for (let cnt of notification[page]) {
-                            if (cnt) {
-                                let userInfo =  await user.findById(cnt.userID);
-                                    if (userInfo) {
-                                        if (Array.isArray(cnt.cntID)) {
-                                            let pageItem = cnt.cntID.slice(0, req.body.limit);
-                                            let updateCntID = cnt.cntID.slice(req.body.limit);
-                                            cnt.cntID = updateCntID;
-                                            let notificationPageIndex = removeNotification[page].findIndex(cntItem => JSON.parse(JSON.stringify(cntItem._id)) === JSON.parse(JSON.stringify(cnt._id)));
-                                            removeNotification[page][notificationPageIndex] = cnt;
-                                            removeNotification[page] = removeNotification[page].filter(cntItem => cntItem.cntID.length > 0);
-                                            for (let id of pageItem) {
-                                                let model = (page === 'post') || (page === 'postShare' ) ? post :
-                                                (page === 'question') || (page === 'questionShare' ) ? question :
-                                                (page === 'writeup') || (page === 'writeupShare') ? writeup :
-                                                (page === 'feed') || (page === 'feedShare' ) ? feed :
-                                                (page === 'createGroup') || (page === 'groupShare' ) ? group :
-                                                (page === 'qchat') || (page === 'qchatShare' ) ? qchat : null;
-                                                if (model) {
-                                                    await model.findById(id).then(doc => {
-                                                        if (doc) {
-                                                            doc = JSON.parse(JSON.stringify(doc));
-                                                            pageCnt.push({...doc, page: page === 'qchat' ? 'CBT' :
-                                                                page === 'qchatShare' ? 'CBTShare' :
-                                                                page === 'createGroup' ? 'Group Creation' : page,
-                                                              content: page === 'qchatShare' || page === 'qchat' ? null : doc.content})
-                                                        }
-                                                    })
-                                                } else {
-                                                    let title = page === 'groupJoin' ? `${userInfo.username} has joined your group`:
-                                                    page === 'groupRequest' ? `${userInfo.username} has sent you a group request`:
-                                                    page === 'groupAccept' ? `Admin has accepted your group request`:
-                                                    page === 'groupReject' ? `Admin has rejected your group request`:
-                                                    page === 'groupPending' ? `${userInfo.username} has sent you a group request`:
-                                                    page === 'groupMark' ? `${userInfo.username} has sent you a group exam for marking`:
-                                                    page === 'groupUserRemove' ? `Admin has removed you from a group`:
-                                                    page === 'groupCbtRequest' ? `${userInfo.username} has sent you a group CBT request`:
-                                                    page === 'groupCbtAccept' ? `${userInfo.username} has accepted you request to take exam`:
-                                                    page === 'groupCbtReject' ? `${userInfo.username} has remove you request to take exam`:
-                                                    page === 'groupCbtMark' ? `${userInfo.username} has sent you an exam for marking`:
-                                                    page === 'groupCbtResult' ? `Your exam has being marked, check result`:
-                                                    page === 'chatRoomJoin' ? `${userInfo.username} has joined your Chat Room`:
-                                                    page === 'chatRoomRequest' ? `${userInfo.username} has sent you a Chat Room request`:
-                                                    page === 'chatRoomAccept' ? `Admin has accepted your Chat Room request`:
-                                                    page === 'chatRoomReject' ? `Admin has rejected your Chat Room request`:
-                                                    page === 'chatRoomPending' ? `${userInfo.username} has sent you a Chat Room request`:
-                                                    page === 'chatRoomMark' ? `${userInfo.username} has sent you a Chat Room entry exam for marking`:
-                                                    page === 'userChat' ? `${cnt.counter} unread message from  ${userInfo.username}`:
-                                                    page === 'chatRoomRequest' ? `${userInfo.username} has sent you a Chat Room request`:
-                                                    page === 'advert' ? `${userInfo.username} Added new product`:
-                                                    page === 'qchatRequest' ? `${userInfo.username} has sent you a CBT request`:
-                                                    page === 'qchatAccept' ? `${userInfo.username} has accepted you request to take exam`:
-                                                    page === 'qchatReject' ? `${userInfo.username} has remove you request to take exam`:
-                                                    page === 'qchatMark' ? `${userInfo.username} has sent you an exam for marking`: `Your exam has being marked, check result`
-                                                    pageCnt.push({userID: cnt.userID, username: userInfo.username, userImage: userInfo.image, status: (new Date().getTime() - new Date(userInfo.visited).getTime()) < 60000,
-                                                        title, isPageID: true, _id: id, page, counter: cnt.counter});
+                delete notification.__v;
+                delete notification._id;
+                delete notification.userID;
+                let removeNotification = {...notification};
+                (async () => {
+                    for (let page in notification) {
+                        let pageCnt = [];
+                        if (Array.isArray(notification[page])) {
+                            for (let cnt of notification[page]) {
+                                if (cnt) {
+                                    let userInfo =  await user.findById(cnt.userID);
+                                        if (userInfo) {
+                                            if (Array.isArray(cnt.cntID)) {
+                                                let pageItem = cnt.cntID.slice(0, req.body.limit);
+                                                let updateCntID = cnt.cntID.slice(req.body.limit);
+                                                cnt.cntID = updateCntID;
+                                                let notificationPageIndex = removeNotification[page].findIndex(cntItem => JSON.parse(JSON.stringify(cntItem._id)) === JSON.parse(JSON.stringify(cnt._id)));
+                                                removeNotification[page][notificationPageIndex] = cnt;
+                                                removeNotification[page] = removeNotification[page].filter(cntItem => cntItem.cntID.length > 0);
+                                                for (let id of pageItem) {
+                                                    let model = (page === 'post') || (page === 'postShare' ) ? post :
+                                                    (page === 'question') || (page === 'questionShare' ) ? question :
+                                                    (page === 'writeup') || (page === 'writeupShare') ? writeup :
+                                                    (page === 'feed') || (page === 'feedShare' ) ? feed :
+                                                    (page === 'createGroup') || (page === 'groupShare' ) ? group :
+                                                    (page === 'qchat') || (page === 'qchatShare' ) ? qchat : null;
+                                                    if (model) {
+                                                        await model.findById(id).then(doc => {
+                                                            if (doc) {
+                                                                doc = JSON.parse(JSON.stringify(doc));
+                                                                pageCnt.push({...doc, page: page === 'qchat' ? 'CBT' :
+                                                                    page === 'qchatShare' ? 'CBTShare' :
+                                                                    page === 'createGroup' ? 'Group Creation' : page,
+                                                                content: page === 'qchatShare' || page === 'qchat' ? null : doc.content})
+                                                            }
+                                                        })
+                                                    } else {
+                                                        let title = page === 'groupJoin' ? `${userInfo.username} has joined your group`:
+                                                        page === 'groupRequest' ? `${userInfo.username} has sent you a group request`:
+                                                        page === 'groupAccept' ? `Admin has accepted your group request`:
+                                                        page === 'groupReject' ? `Admin has rejected your group request`:
+                                                        page === 'groupPending' ? `${userInfo.username} has sent you a group request`:
+                                                        page === 'groupMark' ? `${userInfo.username} has sent you a group exam for marking`:
+                                                        page === 'groupUserRemove' ? `Admin has removed you from a group`:
+                                                        page === 'groupCbtRequest' ? `${userInfo.username} has sent you a group CBT request`:
+                                                        page === 'groupCbtAccept' ? `${userInfo.username} has accepted you request to take exam`:
+                                                        page === 'groupCbtReject' ? `${userInfo.username} has remove you request to take exam`:
+                                                        page === 'groupCbtMark' ? `${userInfo.username} has sent you an exam for marking`:
+                                                        page === 'groupCbtResult' ? `Your exam has being marked, check result`:
+                                                        page === 'chatRoomJoin' ? `${userInfo.username} has joined your Chat Room`:
+                                                        page === 'chatRoomRequest' ? `${userInfo.username} has sent you a Chat Room request`:
+                                                        page === 'chatRoomAccept' ? `Admin has accepted your Chat Room request`:
+                                                        page === 'chatRoomReject' ? `Admin has rejected your Chat Room request`:
+                                                        page === 'chatRoomPending' ? `${userInfo.username} has sent you a Chat Room request`:
+                                                        page === 'chatRoomMark' ? `${userInfo.username} has sent you a Chat Room entry exam for marking`:
+                                                        page === 'userChat' ? `${cnt.counter} unread message from  ${userInfo.username}`:
+                                                        page === 'chatRoomRequest' ? `${userInfo.username} has sent you a Chat Room request`:
+                                                        page === 'advert' ? `${userInfo.username} Added new product`:
+                                                        page === 'qchatRequest' ? `${userInfo.username} has sent you a CBT request`:
+                                                        page === 'qchatAccept' ? `${userInfo.username} has accepted you request to take exam`:
+                                                        page === 'qchatReject' ? `${userInfo.username} has remove you request to take exam`:
+                                                        page === 'qchatMark' ? `${userInfo.username} has sent you an exam for marking`: `Your exam has being marked, check result`
+                                                        pageCnt.push({userID: cnt.userID, username: userInfo.username, userImage: userInfo.image, status: (new Date().getTime() - new Date(userInfo.visited).getTime()) < 60000,
+                                                            title, isPageID: true, _id: id, page, counter: cnt.counter});
+                                                    }
                                                 }
-                                            }
 
-                                        } else {
-                                            let title = page === 'userRequest' ? `${userInfo.username} sent you a friend request`:
-                                            page === 'userAccept' ? `${userInfo.username} accepted your friend request`:
-                                            page === 'userReject' ? `${userInfo.username} rejected your friend request`:
-                                            page === 'userUnfriend' ? `${userInfo.username} unfriend you`:
-                                            page === 'profileImage' ? `${userInfo.username} change is profile picture`:
-                                            `${userInfo.username} change is profile name`;
-                                            pageCnt.push({userID: cnt.userID, username: userInfo.username, userImage: userInfo.image, status: (new Date().getTime() - new Date(userInfo.visited).getTime()) < 60000,
-                                            title, isUserImage: true, page});
-                                            let updateRemove = removeNotification[page].filter(cntItem => JSON.parse(JSON.stringify(cntItem._id)) !== JSON.parse(JSON.stringify(cnt._id)));
-                                            removeNotification[page] = updateRemove;
+                                            } else {
+                                                let title = page === 'userRequest' ? `${userInfo.username} sent you a friend request`:
+                                                page === 'userAccept' ? `${userInfo.username} accepted your friend request`:
+                                                page === 'userReject' ? `${userInfo.username} rejected your friend request`:
+                                                page === 'userUnfriend' ? `${userInfo.username} unfriend you`:
+                                                page === 'profileImage' ? `${userInfo.username} change is profile picture`:
+                                                `${userInfo.username} change is profile name`;
+                                                pageCnt.push({userID: cnt.userID, username: userInfo.username, userImage: userInfo.image, status: (new Date().getTime() - new Date(userInfo.visited).getTime()) < 60000,
+                                                title, isUserImage: true, page});
+                                                let updateRemove = removeNotification[page].filter(cntItem => JSON.parse(JSON.stringify(cntItem._id)) !== JSON.parse(JSON.stringify(cnt._id)));
+                                                removeNotification[page] = updateRemove;
+                                            }
                                         }
-                                    }
+                                }
                             }
+                            notification[page] = pageCnt;
                         }
-                        notification[page] = pageCnt;
                     }
-                }
-                Promise.all([notificationsModel.findOneAndUpdate({userID: req.user}, removeNotification)]).then(() => {
-                    return res.status(200).send({notification});
-                });
-            })()
+                    Promise.all([notificationsModel.findOneAndUpdate({userID: req.user}, removeNotification)]).then(() => {
+                        return res.status(200).send({notification});
+                    });
+                })()     
+            })
         }).catch(err => {
             res.status(500).send(err);
         })

@@ -19,7 +19,7 @@ class VideoThumbnail extends Component {
         if (Platform.OS !== 'web') {
             try {
                 const { uri: URI } = await VideoThumbnails.getThumbnailAsync(
-                this.state.videoURI, { time: 15000} );
+                this.state.videoURI, { time: 2000} );
                 this.setState({URI, fetched: true})
             } catch (e) {
                 console.warn(e);
@@ -36,24 +36,26 @@ class VideoThumbnail extends Component {
     
     render() {
         let cnt = (
-            <View style={[styles.wrapper, this.props.videoStyle]}>
-                <ActivityIndicator 
-                    size="large"
-                    animating
-                    color="#437da3"/>
-            </View>
+            <TouchableNativeFeedback onPress={this.props.disablePreview ? this.showPlayerHandler : this.props.onPress}>
+                <View style={[styles.wrapper, this.props.videoStyle]}>
+                    <ActivityIndicator 
+                        size="large"
+                        animating
+                        color="#437da3"/>
+                </View>
+            </TouchableNativeFeedback>
         )
 
         if (this.state.fetched) {
             cnt = (
                 <View style={[styles.wrapper, this.props.style]}>
                     <Image source={{uri: this.state.URI}}
-                        resizeMode={this.props.resizeMode ? this.props.resizeMode: "center"} style={styles.mediaWrapper}/>
-                    <View style={styles.startPlayer}>
-                        <TouchableNativeFeedback onPress={this.props.disablePreview ? this.showPlayerHandler : this.props.onPress}>
-                            <Ionicons name="caret-forward-circle-outline" size={30} />
-                        </TouchableNativeFeedback>
-                    </View>
+                        resizeMode={this.props.resizeMode ? this.props.resizeMode: "cover"} style={styles.mediaWrapper}/>
+                    <TouchableNativeFeedback onPress={this.props.disablePreview ? this.showPlayerHandler : this.props.onPress}>
+                        <View style={styles.startPlayer}>
+                            <Ionicons name="caret-forward-circle-outline" size={60} />
+                        </View>
+                    </TouchableNativeFeedback>
                 </View>
             );
         }
@@ -62,7 +64,7 @@ class VideoThumbnail extends Component {
             cnt = (
                 <View style={[styles.wrapper, this.props.videoStyle]}>
                     <Video
-                        source={this.state.videoURI}
+                        source={{uri: this.state.videoURI}}
                         rate={1.0}
                         volume={1.0}
                         isMuted={false}
