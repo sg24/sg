@@ -61,7 +61,7 @@ router.post('/', authenticate,(req, res, next) => {
                     let saveNotification = new notificationsModel({userID: req.user});
                     saveNotification.save().then(doc => {
                         console.log(doc)
-                        notification = {...notification, ...doc};
+                        notification = JSON.parse(JSON.stringify(doc))
                         resolve();
                     }).catch(err => {
                         console.log(err)
