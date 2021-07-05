@@ -170,7 +170,7 @@ class Post extends Component {
                 shareUpdates: [{shareType: 'post', cntID: 'setShare', page: 'post', pageID: updateCnt._id}], shareChat: false,
                 info: 'Post shared successfully !'})
         } else {
-            this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
+            this.setState({showActionSheet: {option: ['Friends', 'Groups'],
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
         }
     }

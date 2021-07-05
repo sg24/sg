@@ -168,7 +168,7 @@ class Questions extends Component {
                 shareUpdates: [{shareType: 'question', cntID: 'setShare', page: 'question', pageID: updateCnt._id}], shareChat: false,
                 info: 'Question shared successfully !'})
         } else {
-            this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
+            this.setState({showActionSheet: {option: ['Friends', 'Groups'],
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
         }
         this.setState({pageCntID: null});

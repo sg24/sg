@@ -113,7 +113,7 @@ class MarkExam extends Component {
     showShareHandler = () => {
         let updateCnt = {_id: this.state.pageID, cntType: 'exam', content: 
             `${this.props.fetchCnt[0].title} , Name: ${this.state.mark.username}, Score: ${this.props.fetchCnt[0].score}%  Mark: ${this.props.fetchCnt[0].mark} / ${ this.state.mark.questionTotal}`, verified: true};
-        this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
+        this.setState({showActionSheet: {option: ['Friends', 'Groups'],
         icon: ['people-outline', 'chatbox-outline', 'chatbubble-ellipses-outline'],cnt: updateCnt}})
     }
 

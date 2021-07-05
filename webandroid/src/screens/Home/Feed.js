@@ -53,10 +53,11 @@ class Feed extends Component {
 
     componentDidMount() {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            this.props.onPageReset();
             this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'feed', 'getFeed')
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            this.props.onPageReset();
+            // this.props.onPageReset();
             this.setState({pageCntID: null,showPreview: null,pageID: null,showActionSheet: null,
                 showSearch: false,search: '',showOption: false,showSettings: false, showSelectGroupPicker: null,})
         });
@@ -162,7 +163,7 @@ class Feed extends Component {
                 shareUpdates: [{shareType: 'feed', cntID: 'setShare', page: 'feed', pageID: updateCnt._id}], shareChat: false,
                 info: 'Feed shared successfully !'})
         } else {
-            this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
+            this.setState({showActionSheet: {option: ['Friends', 'Groups'],
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
         }
     }

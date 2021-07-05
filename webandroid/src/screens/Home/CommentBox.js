@@ -226,7 +226,7 @@ class Room extends Component {
             Clipboard.setString(this.state.showChatOption.cnt.content);
         }
         if (action === 'share') {
-            this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
+            this.setState({showActionSheet: {option: ['Friends', 'Groups'],
             icon: ['people-outline', 'chatbox-outline', 'chatbubble-ellipses-outline'],
             cnt: this.state.showChatOption.cnt}})
         }

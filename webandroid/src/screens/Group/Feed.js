@@ -174,7 +174,7 @@ class Feed extends Component {
         if (shareType === 'Friends') {
             this.setState({showSharePicker: {cnt: updateCnt, shareType}})
         } else {
-            this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
+            this.setState({showActionSheet: {option: ['Friends', 'Groups'],
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
         }
     }

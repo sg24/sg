@@ -167,7 +167,7 @@ class Feed extends Component {
                 shareUpdates: [{shareType: 'feed', cntID: 'setShare', page: 'feed', pageID: updateCnt._id}], shareChat: false,
                 info: 'Feed shared successfully !'})
         } else {
-            this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
+            this.setState({showActionSheet: {option: ['Friends', 'Groups'],
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
         }
     }

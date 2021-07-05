@@ -162,7 +162,7 @@ class WriteUp extends Component {
                 shareUpdates: [{shareType: 'writeup', cntID: 'setShare', page: 'writeup', pageID: updateCnt._id}], shareChat: false,
                 info: 'Write Up shared successfully !'})
         } else {
-            this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
+            this.setState({showActionSheet: {option: ['Friends', 'Groups'],
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
         }
         this.setState({pageCntID: null});

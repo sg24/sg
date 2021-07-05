@@ -62,10 +62,11 @@ class Post extends Component {
 
     componentDidMount() {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            this.props.onPageReset();
             this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor')
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            this.props.onPageReset();
+            // this.props.onPageReset();
             this.setState({pageCntID: null,pageID: null,showActionSheet: null,
                 showSearch: false,search: '',showOption: false,showSettings: false, showSelectGroupPicker: null})
         });
@@ -171,7 +172,7 @@ class Post extends Component {
                 shareUpdates: [{shareType: 'post', cntID: 'setShare', page: 'post', pageID: updateCnt._id}], shareChat: false,
                 info: 'Post shared successfully !'})
         } else {
-            this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],
+            this.setState({showActionSheet: {option: ['Friends', 'Groups'],
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
         }
     }
