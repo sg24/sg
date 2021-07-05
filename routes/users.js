@@ -55,11 +55,6 @@ router.post('/', authenticate,(req, res, next) => {
             let notification = result[0] ? JSON.parse(JSON.stringify(result[0])) : null;
             let stateHistory = req.body.stateHistory ? JSON.parse(req.body.stateHistory) : [];
             let settings = req.body.settings ? JSON.parse(req.body.settings) : {};
-            notification['groupPostShare'] = [];
-            notification['groupQuestionShare'] = [];
-            notification['groupFeedShare'] = [];
-            notification['groupWriteupShare'] = [];
-            notification['groupCbtShare'] = [];
             const createNotification = () => {
                 return new Promise((resolve, reject) => {
                     console.log('start')
@@ -74,6 +69,11 @@ router.post('/', authenticate,(req, res, next) => {
                 })
             }
             Promise.all([!notification ? createNotification() : Promise.resolve()]).then(() => {
+                notification['groupPostShare'] = [];
+                notification['groupQuestionShare'] = [];
+                notification['groupFeedShare'] = [];
+                notification['groupWriteupShare'] = [];
+                notification['groupCbtShare'] = [];
                 for (let page of stateHistory) {
                     page = page.split('Web')[0].toLowerCase();
                     for (let notificationPage in notification) {

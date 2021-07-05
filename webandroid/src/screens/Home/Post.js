@@ -63,7 +63,7 @@ class Post extends Component {
     componentDidMount() {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             this.props.onPageReset();
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor')
+            this.props.onFetchPage(this.props.fetchCnt && this.props.fetchCnt.length > 0 ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor')
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
             // this.props.onPageReset();
