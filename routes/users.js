@@ -57,14 +57,10 @@ router.post('/', authenticate,(req, res, next) => {
             let settings = req.body.settings ? JSON.parse(req.body.settings) : {};
             const createNotification = () => {
                 return new Promise((resolve, reject) => {
-                    console.log('start')
                     let saveNotification = new notificationsModel({userID: req.user});
                     saveNotification.save().then(doc => {
-                        console.log(doc)
                         notification = JSON.parse(JSON.stringify(doc))
                         resolve();
-                    }).catch(err => {
-                        console.log(err)
                     })
                 })
             }
@@ -198,7 +194,6 @@ router.post('/', authenticate,(req, res, next) => {
                 })()     
             })
         }).catch(err => {
-            console.log(err)
             res.status(500).send(err);
         })
     }
