@@ -233,7 +233,7 @@ class Users extends Component {
             let profile = this.props.pageReaction.length > 0 && this.state.changeProfile ? this.props.pageReaction.filter(id => id === this.state.changeProfile.pageID)[0] : null;
             cnt = (
                 <View style={styles.container}>
-                    <View style={{flexDirection: 'row'}}>
+                    <View style={{flexDirection: 'row', backgroundColor: '#fff'}}>
                         <Button style={styles.optionButton} onPress={() => this.navigationHandler('SelectPicker', {props: selectProps})}>
                             {/* <Ionicons name="pencil-outline" size={20} /> */}
                             <Text style={styles.optionIconText}>Friend Request</Text>

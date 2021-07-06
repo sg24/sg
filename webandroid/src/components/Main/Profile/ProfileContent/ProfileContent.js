@@ -86,7 +86,7 @@ const profileContent = props => {
                     </BoxShadow>
                 </Button>
                 <Button onPress={props.rejUser}>
-                    <BoxShadow style={{...styles.useroptBotton, ...styles.useroptBottonWrapper}}>
+                    <BoxShadow style={StyleSheet.flatten([styles.useroptBotton, styles.useroptBottonWrapper])}>
                         <Icon name="close" size={16} color="#ff1600"/>
                         <Text numberOfLines={1} style={[styles.userOptText, styles.cancelText]}>Reject</Text>
                     </BoxShadow>
@@ -114,7 +114,7 @@ const profileContent = props => {
                     </BoxShadow>
                 </Button>
                 <Button onPress={props.unfriend}>
-                    <BoxShadow style={{...styles.useroptBotton, ...styles.useroptBottonWrapper}}>
+                    <BoxShadow style={StyleSheet.flatten([styles.useroptBotton, styles.useroptBottonWrapper])}>
                         <Icon name="person-remove" size={16} color="#ff1600"/>
                         <Text numberOfLines={1} style={[styles.userOptText, styles.cancelText]}>Unfriend</Text>
                     </BoxShadow>
@@ -198,7 +198,7 @@ const profileContent = props => {
                             error={props.submitAboutErr ? "Network Error" : "About must be longer than 5 characters"}
                             inputWrapperStyle={styles.formInputWrapper}
                             formWrapperStyle={styles.formWrapper}
-                            style={props.edit ? {...styles.inputEdit, ...styles.input} : styles.input }
+                            style={props.edit ? StyleSheet.flatten([styles.inputEdit, styles.input]) : styles.input }
                             inputIcon={!props.edit && myAccount ? "create-outline" : null}
                             inputIconStyle={[styles.edit, styles.inputEdit]}
                             onPress={props.enableEdit}
@@ -355,7 +355,8 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     useroptBottonWrapper: {
-        marginLeft: 20
+        marginLeft: 20,
+        backgroundColor: '#fff'
     },
     userOptText: {
         fontSize: 16,

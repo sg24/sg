@@ -58,7 +58,7 @@ router.post('/user/profile/:id',authenticate, (req, res,next) => {
                     image: cnt.image || '',
                     accept: isFriend,
                     friendtotal: cnt.friend.length,
-                    status: cnt.status,
+                    status: (new Date().getTime() - new Date(cnt.visited).getTime()) < 60000,
                     about: cnt.about,
                     visited: cnt.visited
                 }

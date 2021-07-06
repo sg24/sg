@@ -110,7 +110,7 @@ class Home extends Component  {
                     </TouchableNativeFeedback>
                     <TouchableNativeFeedback  onPress={() => this.navigationHandler('Addnew')}>
                         <View style={[styles.navIcon, styles.addNew]}>
-                            <Icon name="add-outline" size={22} color="#fff"/>
+                            <Icon name="add-outline" size={18} color="#fff"/>
                         </View>
                     </TouchableNativeFeedback>
                     <TouchableNativeFeedback onPress={() => this.navigationHandler('Favorite')}>
@@ -167,22 +167,23 @@ const styles = StyleSheet.create({
         paddingVertical: 6,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
         height: 40,
         paddingHorizontal: 10,
         backgroundColor: '#fff'
     },
     logo: {
-        width: 40,
-        height: '100%',
+        width: 30,
+        height: 30,
         resizeMode: 'contain'
     },
     navIcon: {
         // backgroundColor: '#e9ebf2',
-        width: 28,
-        height: '100%',
+        width: 24,
+        height: 24,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 14,
+        borderRadius: 12,
         // borderColor: '#dcdbdc',
         // borderWidth: 1
     },

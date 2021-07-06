@@ -235,6 +235,11 @@ class Profile extends Component {
         this.setState({index});
     }
 
+    chatHandler = (cnt) => {
+        this.props.navigation.push('ChatBox', {title: '', showHeaderImage: true,  chatType: 'userchat', page: 'users',
+            pageID: cnt.id, showReply: false, info: {title: cnt.username, image: cnt.image, status: cnt.status, showStatus: true}});
+    }
+
     render() {
         let header = (
             this.state.viewMode === 'landscape' ? (
@@ -268,6 +273,7 @@ class Profile extends Component {
                         navigate={this.navigationHandler}
                         userID={this.state.userID}
                         profileID={this.props.userID}
+                        chat={this.chatHandler}
                         changeProfile={this.changeProfileHandler}
                         changeProfileStart={this.props.changeProfileStart}
                         inputChanged={this.inputChangedHandler}

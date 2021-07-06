@@ -12,7 +12,7 @@ const profile = props => (
         rejUser={props.changeProfileStart ? null : props.changeProfile.bind(this, props.profile.id, props.profile.username, 'rejUser', false, 'Are you sure you want to reject this user !')}
         cancelReq={props.changeProfileStart ? null : props.changeProfile.bind(this, props.profile.id, props.profile.username, 'cancelReq', false, 'Are you sure you want to cancel this request !')}
         unfriend={props.changeProfileStart ? null : props.changeProfile.bind(this, props.profile.id, props.profile.username, 'unfriend', false, 'Are you sure you want to remove this user !')}
-        chat={props.chat}
+        chat={props.chat.bind(this, props.profile)}
         start={props.changeProfileStart}
         inputChanged={props.inputChanged}
         formElement={props.formElement}
