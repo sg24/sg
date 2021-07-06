@@ -146,14 +146,16 @@ class Notification extends Component {
             } else {
                 this.props.navigation.push('Profile', {userID: cnt.userID});
             }
-        } 
+        }
         let notification = {...this.state.notification}
         let updatePageCnt = [];
-        for (let cntItem of notification[page]) {
-            if (cntItem._id === cnt._id) {
-                updatePageCnt.push({...cnt, expiresIn: (new Date().getTime() + (1000*60*60*4))})
-            } else {
-                updatePageCnt.push({...cnt})
+        if (Array.isArray(notification[page])){
+            for (let cntItem of notification[page]) {
+                if (cntItem && (cntItem._id === cnt._id)) {
+                    updatePageCnt.push({...cnt, expiresIn: (new Date().getTime() + (1000*60*60*4))})
+                } else {
+                    updatePageCnt.push({...cnt})
+                }
             }
         }
         notification[page] = updatePageCnt;
@@ -190,7 +192,7 @@ class Notification extends Component {
         }
 
        
-        if (this.state.notificationItem.length > 0){
+        if (this.state.notificationItem.length > 0 && this.state.notification){
             cnt = (
                 <Wrapper
                     {...wrapperProps}

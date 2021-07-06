@@ -50,12 +50,11 @@ class Questions extends Component {
     }
 
     componentDidMount() {
-        this.props.onPageReset();
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.props.onFetchPage(this.props.fetchCnt && this.props.fetchCnt.length > 0 ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'getQuestion')
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'question', 'getQuestion')
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            // this.props.onPageReset();
+            this.props.onPageReset();
             this.setState({ pageID: null, pageCntID: null, showSearch: false,search: '',showOption: false,showSettings: false, showSelectGroupPicker: null})
         });
         Dimensions.addEventListener('change', this.updateStyle)

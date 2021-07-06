@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, Text,  ImageBackground, StyleSheet, Dimensions, ActivityIndicator, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'ionicons';
+import { useNavigation } from '@react-navigation/native';
+import withComponent from 'withcomponent';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import * as actions from '../../store/actions/index';
@@ -56,7 +58,7 @@ class Convs extends Component {
     }
 
     userProfileHandler = (authorID) => {
-        this.props.navigation.push('Profile', {userID: authorID})
+        this.props.navigation ? this.props.navigation.push('Profile', {userID: authorID}) : this.props.webNavigation.push('Profile', {userID: authorID})
     }
 
     closeModalHandler = () => {
@@ -201,4 +203,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Convs);
+export default  withComponent([{name: 'webNavigation', component: useNavigation}])(connect(mapStateToProps, mapDispatchToProps)(Convs));

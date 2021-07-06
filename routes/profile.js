@@ -51,11 +51,12 @@ router.post('/user/profile/:id',authenticate, (req, res,next) => {
                 let userBlock = cnt.block || [];
                 let filterBlock = userBlock.filter(id => id === cnt._id.toHexString())
                 let id = cnt._id.toHexString();
+                let isFriend = cnt.friend.filter(id => id === JSON.parse(JSON.stringify(req.user)))[0] ? true : false;
                 let userDet = {
-                    id, 
+                    id,
                     username: cnt.username,
                     image: cnt.image || '',
-                    friend: cnt.friend,
+                    accept: isFriend,
                     friendtotal: cnt.friend.length,
                     status: cnt.status,
                     about: cnt.about,

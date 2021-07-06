@@ -29,12 +29,12 @@ export function* submitAuthFormSigninInitSaga (action) {
         let error = null
         if (err.response) {
             if(err.response.data && err.response.data.keyValue) {
-                error = err.message && typeof err.message !== 'object' ? err.response.data.startsWith('<!') ? 'Network Error' : err.message : err.message;
+                error = err.message && typeof err.message !== 'object' ? err.response.data.startsWith('<') ? 'Network Error' : err.message : err.message;
             } else {
-                error = typeof err.response.data !== 'object' ? err.response.data.startsWith('<!doctype') ? 'Network Error' : err.response.data : 'Connection Error';
+                error = typeof err.response.data !== 'object' ? err.response.data.startsWith('<') ? 'Network Error' : err.response.data : 'Connection Error';
             } 
         } else {
-            error = err.message && typeof err.message !== 'object' ? err.response.data.startsWith('<!') ? 'Network Error' : err.message : err.message;
+            error = err.message && typeof err.message !== 'object' ? err.response.data.startsWith('<') ? 'Network Error' : err.message : err.message;
         }
        yield put(actions.submitAuthFormFail('signin',error))
     }
@@ -65,15 +65,15 @@ export function* submitAuthFormSignupInitSaga (action) {
                     } else if (key === 'username') {
                         error = `${key} already taken`;
                     } else {
-                        error = err.message && typeof err.message !== 'object' ? err.response.data.startsWith('<!') ? 'Network Error' : err.message : err.message;
+                        error = err.message && typeof err.message !== 'object' ? err.response.data.startsWith('<') ? 'Network Error' : err.message : err.message;
                     }
                 }
             } else {
-                error = typeof err.response.data !== 'object' ? err.response.data.startsWith('<!') ? 'Network Error' : err.response.data : 'Connection Error';
+                error = typeof err.response.data !== 'object' ? err.response.data.startsWith('<') ? 'Network Error' : err.response.data : 'Connection Error';
             }
             
           } else {
-              error = err.message && typeof err.message !== 'object' ? err.response.data.startsWith('<!') ? 'Network Error' : err.message : err.message;
+              error = err.message && typeof err.message !== 'object' ? err.response.data.startsWith('<') ? 'Network Error' : err.message : err.message;
           }
        yield put(actions.submitAuthFormFail('signup', error))
     }
@@ -88,12 +88,12 @@ export function* submitAuthFormForgetPassInitSaga (action) {
         let error = null
         if (err.response) {
             if(err.response.data && err.response.data.keyValue) {
-                error = err.message && typeof err.message !== 'object' ? err.response.data.startsWith('<!') ? 'Network Error' : err.message : err.message;
+                error = err.message && typeof err.message !== 'object' ? err.response.data.startsWith('<') ? 'Network Error' : err.message : err.message;
             } else {
-                error = typeof err.response.data !== 'object' ? err.response.data.startsWith('<!doctype') ? 'Network Error' : err.response.data : 'Connection Error';
+                error = typeof err.response.data !== 'object' ? err.response.data.startsWith('<') ? 'Network Error' : err.response.data : 'Connection Error';
             } 
           } else {
-              error = err.message && typeof err.message !== 'object' ? err.response.data.startsWith('<!') ? 'Network Error' : err.message : err.message;
+              error = err.message && typeof err.message !== 'object' ? err.response.data.startsWith('<') ? 'Network Error' : err.message : err.message;
           }
        yield put(actions.submitAuthFormFail('reset', error));
     }

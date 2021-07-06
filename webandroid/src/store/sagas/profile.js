@@ -8,7 +8,7 @@ export function* fetchProfileInitSaga(action) {
         let response = yield axios.post(`/user/profile/${action.userID}`, null,{
             headers: {
                 'data-categ': 'userdet'}});
-        let cnt = response.data  ? response.data : {}
+        let cnt = response.data  ? typeof response.data === 'object' ?  response.data : {} : {}
         yield put(actions.fetchProfile(cnt));
     } catch(err){
         yield put(actions.fetchProfileFail(err));

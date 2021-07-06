@@ -27,7 +27,7 @@ const initialState = {
         enableHighlighted: false
     },
     userPage: {
-        fetchLimit: 20
+        fetchLimit: 5
     },
     notification: {
         page: {
@@ -62,7 +62,7 @@ const initialState = {
     highlightColor: [{title: 'White',  color: '#fff'},{title: 'Black', color: '#000'}],
     backgroundColor: '#fff',
     color: '#333',
-    version: 2
+    version: 1
 };
 
 const saveSetting = (state, action) => {
