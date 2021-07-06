@@ -296,6 +296,7 @@ class Users extends Component {
         if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
+                    { header }
                     <InfoBox
                         det={`'${this.state.search}' does not match any username`}
                         name="search"
@@ -303,6 +304,23 @@ class Users extends Component {
                         color="#333"
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}/>
+                </View>
+            )
+        }
+
+        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
+            cnt = (
+                <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
+                    { header }
+                    <InfoBox
+                        name="person"
+                        size={40}
+                        style={styles.info}
+                        wrapperStyle={styles.infoWrapper}>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.infoTitle}> No friend found !!! </Text>
+                        </View>
+                    </InfoBox>
                 </View>
             )
         }
@@ -374,6 +392,16 @@ const styles = StyleSheet.create({
     info: {
         fontSize: 18,
         marginBottom: 5
+    },
+    infoContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 10
+    },
+    infoTitle: {
+        fontSize: 18,
+        textAlign: 'center',
+        marginBottom: 10
     },
     optionButton: {
         paddingVertical: 5,

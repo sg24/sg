@@ -65,53 +65,53 @@ app.use(function(req, res, next) {
       // }
   next();
 });
-const extendTimeoutMiddleware = (req, res, next) => {
-  const space = ' ';
-  let isFinished = false;
-  let isDataSent = false;
+// const extendTimeoutMiddleware = (req, res, next) => {
+//   const space = ' ';
+//   let isFinished = false;
+//   let isDataSent = false;
 
-  res.once('finish', () => {
-    isFinished = true;
-  });
+//   res.once('finish', () => {
+//     isFinished = true;
+//   });
 
-  res.once('end', () => {
-    isFinished = true;
-  });
+//   res.once('end', () => {
+//     isFinished = true;
+//   });
 
-  res.once('close', () => {
-    isFinished = true;
-  });
+//   res.once('close', () => {
+//     isFinished = true;
+//   });
 
-  res.on('data', (data) => {
-    // Look for something other than our blank space to indicate that real
-    // data is now being sent back to the client.
-    if (data !== space) {
-      isDataSent = true;
-    }
-  });
+//   res.on('data', (data) => {
+//     // Look for something other than our blank space to indicate that real
+//     // data is now being sent back to the client.
+//     if (data !== space) {
+//       isDataSent = true;
+//     }
+//   });
 
-  const waitAndSend = () => {
-    setTimeout(() => {
-      // If the response hasn't finished and hasn't sent any data back....
-      if (!isFinished && !isDataSent) {
-        // Need to write the status code/headers if they haven't been sent yet.
-        if (!res.headersSent) {
-          res.writeHead(202);
-        }
+//   const waitAndSend = () => {
+//     setTimeout(() => {
+//       // If the response hasn't finished and hasn't sent any data back....
+//       if (!isFinished && !isDataSent) {
+//         // Need to write the status code/headers if they haven't been sent yet.
+//         if (!res.headersSent) {
+//           res.writeHead(202);
+//         }
 
-        res.write(space);
+//         res.write(space);
 
-        // Wait another 15 seconds
-        waitAndSend();
-      }
-    }, 15000);
-  };
+//         // Wait another 15 seconds
+//         waitAndSend();
+//       }
+//     }, 15000);
+//   };
 
-  waitAndSend();
-  next();
-};
+//   waitAndSend();
+//   next();
+// };
 
-app.use(extendTimeoutMiddleware);
+// app.use(extendTimeoutMiddleware);
 app.set('trust proxy', true);
 
 app.set('views', path.join(__dirname, 'views'));

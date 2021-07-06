@@ -173,8 +173,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     logo: {
-        width: 30,
-        height: 30,
+        width: 40,
+        height: '100%',
         resizeMode: 'contain'
     },
     navIcon: {
