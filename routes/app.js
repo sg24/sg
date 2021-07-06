@@ -1057,9 +1057,8 @@ router.post('/forget/password', (req, res, next) => {
             };
             mailgun({apiKey, domain}).messages().send(msg,  function (error, body) {
                 if (error) {
-                    tempUser.findByIdAndRemove(result.id).then(() =>{
-                        res.status(401).send(error)
-                    })
+                    console.log(error)
+                    res.status(401).send(error)
                     return
                 }
                 res.sendStatus(201);

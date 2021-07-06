@@ -28,7 +28,7 @@ class CheckMediaType extends Component {
                 (async () => await FileSystem.makeDirectoryAsync(fileDir, { intermediates: true }))();
             }
             FileSystem.downloadAsync(fileUri, fileDir + `${media.id}.${ext}`).then(({ uri }) => {
-                alert(`Finished downloading to ${uri}`);
+                alert(`Finished downloading`);
                 this.setState({fileDownloaded: true})
             }).catch(error => {
                 this.setState({downloadStart: false})
