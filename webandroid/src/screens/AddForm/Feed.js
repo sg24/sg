@@ -84,6 +84,7 @@ class Feed extends Component {
     componentDidMount() {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             this.props.onAddFormReset();
+            this.props.onPageReset();
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
             this.resetFormHandler();
@@ -496,6 +497,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onSubmitForm: (formData) => dispatch(actions.submitAddFormInit(formData, 'feed')),
+        onPageReset: () => dispatch(actions.pageReset()),
         onAddFormReset: () => dispatch(actions.addFormReset())
     };
 };

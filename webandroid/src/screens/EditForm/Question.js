@@ -72,6 +72,7 @@ class Question extends Component {
         if (this.state.cntID) {
             this._unsubscribe = this.props.navigation.addListener('focus', () => {
                 this.props.onFetchEditForm(this.state.cntID);
+                this.props.onPageReset();
             });
             this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
                 this.setState({resetAll: true});
@@ -544,6 +545,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchEditForm: (cntID) => dispatch(actions.fetchEditFormInit(cntID, 'question')),
         onSubmitForm: (formData) => dispatch(actions.submitEditFormInit(formData, 'question')),
+        onPageReset: () => dispatch(actions.pageReset()),
         oonSubmitFormReset: () => dispatch(actions.submitEditFormReset())
     };
 };
