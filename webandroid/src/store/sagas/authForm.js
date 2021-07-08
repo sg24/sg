@@ -34,7 +34,7 @@ export function* submitAuthFormSigninInitSaga (action) {
                 error = typeof err.response.data !== 'object' ? err.response.data.startsWith('<') ? 'Network Error' : err.response.data : 'Connection Error';
             } 
         } else {
-            error = err.message && typeof err.message !== 'object' ? err.response.data.startsWith('<') ? 'Network Error' : err.message : err.message;
+            error = err.message && typeof err.message !== 'object' ? err.message.startsWith('<') ? 'Network Error' : err.message : err.message;
         }
        yield put(actions.submitAuthFormFail('signin',error))
     }
@@ -73,7 +73,7 @@ export function* submitAuthFormSignupInitSaga (action) {
             }
             
           } else {
-              error = err.message && typeof err.message !== 'object' ? err.response.data.startsWith('<') ? 'Network Error' : err.message : err.message;
+              error = err.message && typeof err.message !== 'object' ? err.message.startsWith('<') ? 'Network Error' : err.message : err.message;
           }
        yield put(actions.submitAuthFormFail('signup', error))
     }
@@ -93,7 +93,7 @@ export function* submitAuthFormForgetPassInitSaga (action) {
                 error = typeof err.response.data !== 'object' ? err.response.data.startsWith('<') ? 'Network Error' : err.response.data : 'Connection Error';
             } 
           } else {
-              error = err.message && typeof err.message !== 'object' ? err.response.data.startsWith('<') ? 'Network Error' : err.message : err.message;
+              error = err.message && typeof err.message !== 'object' ? err.message.startsWith('<') ? 'Network Error' : err.message : err.message;
           }
        yield put(actions.submitAuthFormFail('reset', error));
     }

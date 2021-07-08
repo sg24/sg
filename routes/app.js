@@ -1003,7 +1003,7 @@ router.post('/forget/password', (req, res, next) => {
         if (result) {
             let token = jwt.sign({ id: result.id }, process.env.JWT_SECRET, {  expiresIn: 60*60 });
             // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-            let domain = 'sandbox8b8ba810918e410caafd2f80e9bf44d1.mailgun.org';
+            let domain = 'sandboxf7e58139dab64facb72ecd4811c7affc.mailgun.org';
             let apiKey = process.env.MAILGUN_API_KEY;
             const msg = {
               to: req.body.email, 

@@ -305,7 +305,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         textDecorationColor: '#333',
         color: '#333',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginLeft: 0
     },
     error: {
         position: 'relative',
