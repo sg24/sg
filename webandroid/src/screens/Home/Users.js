@@ -233,7 +233,7 @@ class Users extends Component {
         //                 color="#437da3"/>
         //         </View>
         //    </View>
-        <Loader header={header} options={options} page="user"/>
+        <Loader page="user"/>
         )
 
         if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {

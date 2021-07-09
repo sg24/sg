@@ -3,6 +3,7 @@ import { View, Text, TouchableWithoutFeedback , Pressable, Image, StyleSheet , P
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 import * as FileSystem from 'expo-file-system';
+import * as MediaLibrary from 'expo-media-library';
 import FileIcon from 'file-icons';
 
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
@@ -28,8 +29,7 @@ class CheckMediaType extends Component {
                 (async () => await FileSystem.makeDirectoryAsync(fileDir, { intermediates: true }))();
             }
             FileSystem.downloadAsync(fileUri, fileDir + `${media.id}.${ext}`).then(({ uri }) => {
-                alert(`Finished downloading`);
-                this.setState({fileDownloaded: true})
+                this.saveFileAsync(uri);
             }).catch(error => {
                 this.setState({downloadStart: false})
                 alert('download Error, check your internet connection !!!')
@@ -38,6 +38,38 @@ class CheckMediaType extends Component {
             this.setState({downloadStart: false})
             alert('Could not get directory information !!!')
         });
+    }
+
+    saveFileAsync = async (file_uri) => {
+        try {
+          const { status, permissions: getPermission } = await MediaLibrary.getPermissionsAsync();
+          let permissions = getPermission;
+          if (status !== 'granted') {
+            const { status: mediaStatus, permissions: requestPermission } = await MediaLibrary.requestPermissionsAsync();
+            if (mediaStatus !== 'granted') {
+                alert('Permission not granted');
+                return;
+            }
+            permissions = requestPermission;
+          }
+          if (!permissions || (permissions && permissions.mediaLibrary.accessPrivileges !== 'limited')) {
+            const asset = await MediaLibrary.createAssetAsync(file_uri);
+            const album = await MediaLibrary.getAlbumAsync('Slodge24');
+            if (album === null) {
+              await MediaLibrary.createAlbumAsync(album, asset, false);
+              alert(`Finished downloading`);
+              this.setState({fileDownloaded: true})
+            } else {
+              await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
+              alert(`Finished downloading`);
+              this.setState({fileDownloaded: true})
+            }
+            return true;
+          }
+          return false;
+        } catch (error) {
+          console.log('ERR: saveFileAsync', error);
+        }
     }
 
     render() {

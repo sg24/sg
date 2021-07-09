@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
-import { AppState, Dimensions, Platform } from 'react-native';
+import { AppState, Dimensions, Platform, Alert } from 'react-native';
 import * as Linking from 'expo-linking';
 import { size} from 'tailwind';
 import Constants from 'expo-constants';
@@ -13,6 +13,7 @@ import BackgroundFetch from 'react-native-background-fetch';
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from './src/axios';
+import * as Updates from 'expo-updates';
 
 import * as actions from './src/store/actions/index';
 import SignInScreen from './src/screens/Auth/Signin';
@@ -166,6 +167,26 @@ class Base extends Component {
     this.props.onCheckAuth();
     if (Platform.OS !== 'web') {
       this.registarBackgroundTask();
+      Updates.checkForUpdateAsync().then(({isAvailable}) => {
+        if (isAvailable) {
+          Updates.fetchUpdateAsync().then(({isNew}) => {
+            if (isNew) {
+              Alert.alert(
+                "App Updated Successfully",
+                "Press Reload , to reload the application",
+                [
+                  {
+                    text: "Cancel",
+                    style: "cancel"
+                  },
+                  { text: "Reload", onPress: Updates.reloadAsync }
+                ],
+                { cancelable: false }
+              );
+            }
+          })
+        }
+      })
       AppState.addEventListener('change', this._handleAppStateChange);
     }
     this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS)
@@ -208,7 +229,7 @@ class Base extends Component {
             this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS)
           }
         })
-      }, 1000*60*2);
+      }, 1000*60);
       this.setState({checkNotification})
     })
     Dimensions.addEventListener('change', this.updateHeader);
@@ -237,7 +258,6 @@ class Base extends Component {
         this.responseListener.remove()
       }
       clearInterval(this.state.checkNotification);
-      clearInterval(this.state.checkAppState);
       if (Platform.OS !== 'web') {
         AppState.removeEventListener('change', this._handleAppStateChange);
       }
@@ -250,76 +270,79 @@ class Base extends Component {
   }
 
   getNotification = () => {
-    NetInfo.fetch().then(state => {
-      if (state.isConnected) {
-        console.log(this.state.expoPushToken);
-        (async () => {
-          let response = await axios.post('/users', {settings: JSON.stringify(this.props.settings.notification), limit: this.props.settings.notificationLimit, token: this.state.expoPushToken, platform: Platform.OS}, {headers: {'data-categ':'getNotification'}});
-          let cnt = response.data ? response.data : {};
-          let notification = cnt.notification;
-          let showedNotification = await AsyncStorage.getItem(Constants.manifest.extra.NOTIFICATION);
-          showedNotification = showedNotification ? JSON.parse(showedNotification) : {};
-          for (let page in notification) {
-            if (Array.isArray(notification[page])) {
-                if (showedNotification[page]) {
-                  showedNotification[page] = showedNotification[page].filter(cntItem => notification[page].filter(notifyItem => notifyItem._id === cntItem._id).length > 0 ? false : true)
-                  showedNotification[page].push(...notification[page])
-                  let updateNotification = [];
-                  for (let cntItem of showedNotification[page]) {
-                      if ((cntItem && cntItem.expiresIn && (cntItem.expiresIn >= (new Date().getTime()))) || (cntItem && !cntItem.expiresIn)) {
-                          updateNotification.push(cntItem);
-                      }
+    return new Promise((resolve, reject) => {
+      NetInfo.fetch().then(state => {
+        if (state.isConnected) {
+          (async () => {
+            let response = await axios.post('/users', {settings: JSON.stringify(this.props.settings.notification), limit: this.props.settings.notificationLimit, token: this.state.expoPushToken, platform: Platform.OS}, {headers: {'data-categ':'getNotification'}});
+            let cnt = response.data ? response.data : {};
+            let notification = cnt.notification;
+            let showedNotification = await AsyncStorage.getItem(Constants.manifest.extra.NOTIFICATION);
+            showedNotification = showedNotification ? JSON.parse(showedNotification) : {};
+            for (let page in notification) {
+              if (Array.isArray(notification[page])) {
+                  if (showedNotification[page]) {
+                    showedNotification[page] = showedNotification[page].filter(cntItem => notification[page].filter(notifyItem => notifyItem._id === cntItem._id).length > 0 ? false : true)
+                    showedNotification[page].push(...notification[page])
+                    let updateNotification = [];
+                    for (let cntItem of showedNotification[page]) {
+                        if ((cntItem && cntItem.expiresIn && (cntItem.expiresIn >= (new Date().getTime()))) || (cntItem && !cntItem.expiresIn)) {
+                            updateNotification.push(cntItem);
+                        }
+                    }
+                    showedNotification[page] = updateNotification;
+                  } else {
+                    showedNotification[page] = notification[page];
                   }
-                  showedNotification[page] = updateNotification;
-                } else {
-                  showedNotification[page] = notification[page];
-                }
-            }
+              }
+          }
+          await AsyncStorage.setItem(Constants.manifest.extra.NOTIFICATION, JSON.stringify(showedNotification));
+          for (let page in notification) {
+              for (let pageItem of notification[page]) {
+                await Notifications.scheduleNotificationAsync({
+                  content: {
+                    title: pageItem.title,
+                    body: pageItem.content,
+                    subtitle: pageItem.page,
+                    data: pageItem
+                  },
+                  trigger: {
+                    seconds: 10,
+                    channelId: 'default',
+                  },
+                });
+              }
+          }
+          resolve();
+          })();
+        } else {
+          resolve();
         }
-        await AsyncStorage.setItem(Constants.manifest.extra.NOTIFICATION, JSON.stringify(showedNotification));
-         for (let page in notification) {
-            for (let pageItem of notification[page]) {
-              Notifications.scheduleNotificationAsync({
-                content: {
-                  title: pageItem.title,
-                  body: pageItem.content,
-                  subtitle: pageItem.page,
-                  data: pageItem
-                },
-                trigger: {
-                  seconds: 10,
-                  channelId: 'default',
-                },
-              });
-            }
-         }
-        })();
-      }
-    });
+      });
+    })
   }
 
   _handleAppStateChange = (nextAppState) => {
-    clearInterval(this.state.checkAppState);
     if (nextAppState.match(/inactive|background/)) {
-      let checkAppState = setInterval(() => {
-        this.getNotification();
-      }, 1000*60*2);
-      this.setState({checkAppState})
+      this.getNotification();
     }
   };
 
-  registarBackgroundTask = () => {
-    BackgroundFetch.configure({
+  registarBackgroundTask  = async  () => {
+     const onEvent = async (taskId) => {
+      await this.getNotification();
+      BackgroundFetch.finish(taskId);
+    }
+
+    const onTimeout = async (taskId) => {
+      BackgroundFetch.finish(taskId);
+    }
+
+    await BackgroundFetch.configure({
       minimumFetchInterval: 15,
       stopOnTerminate: false,
       startOnBoot: true
-    }, () => {
-      console.log("[js] Received background-fetch event");
-      this.getNotification();
-      BackgroundFetch.finish(BackgroundFetch.FETCH_RESULT_NEW_DATA);
-    }, (error) => {
-      console.log("[js] RNBackgroundFetch failed to start");
-    });
+    }, onEvent, onTimeout);
   }
 
   registerForPushNotificationsAsync = async () => {

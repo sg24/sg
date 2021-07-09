@@ -7,7 +7,7 @@ const formModal  = props => {
     return (
        <View style={styles.wrapper}>
             <View style={styles.msgIcon}>
-                <Icon name="mail" size={30} color="#16cf27"/>
+                <Icon name="mail-unread-outline" size={30} color="#16cf27"/>
             </View>
             <Text style={styles.sentMsg}>Message sent successfully</Text>
             <View style={styles.info}> 

@@ -47,7 +47,7 @@ class PageLoader extends Component {
             loader = (
                 <ContentLoader 
                     speed={2}
-                    foregroundColor="#777"
+                    foregroundColor="#dcdbdc"
                     width="100%"
                     height="100%"
                     backgroundColor="#e9ebf2"
@@ -70,18 +70,19 @@ class PageLoader extends Component {
         <View style={{width: '100%', flex: 1}}>
             { this.props.header }
             { this.props.options }
+            { !showLoader ? loader : 
             <ScrollView
-                style={[styles.wrapper, this.state.width ? 
-                this.state.viewMode === 'landscape' ? {backgroundColor: this.props.settings.backgroundColor, height: this.state.height} : {height: this.state.height} : 
-                this.state.viewMode === 'landscape' ? {backgroundColor: this.props.settings.backgroundColor, height: this.state.height} : null]} 
-                scrollEnabled={false}
-                onLayout={this.containerLayoutHandler}>
-                {this.state.width ? showLoader ? [...Array(24)].map((_, index) => (
-                    <BoxShadow style={styles.container} key={index}>
-                        { loader }
-                    </BoxShadow>
-                )) : loader : null}
-            </ScrollView>
+            style={[styles.wrapper, this.state.width ? 
+            this.state.viewMode === 'landscape' ? {backgroundColor: this.props.settings.backgroundColor, height: this.state.height} : {height: this.state.height} : 
+            this.state.viewMode === 'landscape' ? {backgroundColor: this.props.settings.backgroundColor, height: this.state.height} : null]} 
+            scrollEnabled={false}
+            onLayout={this.containerLayoutHandler}>
+            {this.state.width ? [...Array(24)].map((_, index) => (
+                <BoxShadow style={styles.container} key={index}>
+                    { loader }
+                </BoxShadow>
+            )): null}
+        </ScrollView>}
         </View>
         )
     }
@@ -104,7 +105,8 @@ const styles = StyleSheet.create({
     },
     loaderCnt: {
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        flex: 1
     }
 })
 
