@@ -91,7 +91,7 @@ const authScreens = {
   SignIn: SignInScreen,
   SignUp: SignUpScreen,
   ForgetPassword: ForgetPasswordScreen,
-  ResetPasswordScreen: ResetPasswordScreen
+  ResetPassword: ResetPasswordScreen
 };
 
 const userScreens = {
