@@ -54,7 +54,7 @@ class Feed extends Component {
 
     componentDidMount() {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.props.onFetchPage(this.props.fetchCnt && this.props.fetchCnt.length > 0 ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'feed', 'getFeed')
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'feed', 'getFeed')
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
             this.props.onPageReset();

@@ -1016,7 +1016,7 @@ router.post('/forget/password', (req, res, next) => {
                   <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
                   <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
                     <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
-                      <img src="https://www.slodge24.com/static/media/logo.png" alt="Slodge24" title="slodge24" style="display:block;margin: 30px auto;max-width:100%;border-style:none;height:48px;width:48px" width="48" height="48">
+                      <img src="${process.env.BASE_URI}media/logo.png" alt="Slodge24" title="Slodge24" style="display:block;margin: 30px auto;max-width:100%;border-style:none;height:48px;width:48px" width="48" height="48">
                       <table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;">
                         <tr>
                           <td class="wrapper" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px; background-color: #fff;height: auto; width:100%">
@@ -1032,7 +1032,7 @@ router.post('/forget/password', (req, res, next) => {
                                           <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
                                             <tbody>
                                               <tr>
-                                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="https://www.slodge24.com/forget/reset/${token}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 20px; text-transform: capitalize; border-color: #3498db;">Reset Password</a> </td>
+                                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="${process.env.BASE_URI}forget/reset/${token}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 20px; text-transform: capitalize; border-color: #3498db;">Reset Password</a> </td>
                                               </tr>
                                             </tbody>
                                           </table>
@@ -1040,7 +1040,7 @@ router.post('/forget/password', (req, res, next) => {
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Or copy and paste this link. https://www.slodge24.com/forget/reset/${token}</p>
+                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Or copy and paste this link. ${process.env.BASE_URI}forget/reset/${token}</p>
                                 </td>
                               </tr>
                             </table>
@@ -1172,7 +1172,7 @@ router.post('/signup', (req, res) => {
     //                         <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
             
     //                             <!--  <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">Please click this link  <a href="https://localhost:3000/signup/confirmation/" target="_blank">Confirm Email</a>.</span> -->
-    //                             <img src="https://slodge24.com/static/media/logo.png" alt="Slodge24" title="slodge24" style="display:block;margin: 30px auto;max-width:100%;border-style:none;height:48px;width:48px" width="48" height="48">
+    //                             <img src="https://slodge24.com/media/logo.png" alt="Slodge24" title="slodge24" style="display:block;margin: 30px auto;max-width:100%;border-style:none;height:48px;width:48px" width="48" height="48">
 
     //                             <table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;">
     //                             <tr>
