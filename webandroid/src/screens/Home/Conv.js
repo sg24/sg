@@ -12,6 +12,7 @@ import Conv from '../../components/Main/Conv/Conv';
 import ScrollView from '../../components/UI/ScrollView/ScrollView';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import ChatBox from '../../components/UI/ChatBox/ChatBox';
+import Loader from '../../components/UI/Loader/Loader';
 
 class Convs extends Component {
     constructor(props) {
@@ -72,16 +73,22 @@ class Convs extends Component {
         this.props.onFetchConv(this.props.conv ? this.props.conv.length : 0, this.props.settings.userPage.fetchLimit);
     }
 
+    isCloseToBottomHandler = ({layoutMeasurement, contentOffset, contentSize}) => {
+        const paddingToBottom = 20;
+        return (layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom) && this.props.settings.autoLoading;
+    }
+
     render() {
         let pageBackground = this.props.settings.page.backgroundImage  && this.props.settings.page.enableBackgroundImage;
         let Wrapper = pageBackground ? ImageBackground : View;
         let wrapperProps = pageBackground ? {source: {uri: this.props.settings.page.backgroundImage}, resizeMode: 'cover'} :{}
 
         let cnt = (
-                <ActivityIndicator 
-                    size="large"
-                    animating
-                    color="#437da3"/>
+                // <ActivityIndicator 
+                //     size="large"
+                //     animating
+                //     color="#437da3"/>
+                <Loader page="chatbox" />
             );
 
         if (!this.props.convErr && this.props.conv && this.props.conv.length === 0) {
@@ -104,7 +111,12 @@ class Convs extends Component {
                         {backgroundColor: this.props.settings.backgroundColor} : null]}>
                         <ScrollView
                             style={styles.scroll}
-                            showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }>
+                            showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }
+                            onScroll={({nativeEvent}) => {
+                                if (this.isCloseToBottomHandler(nativeEvent)) {
+                                    this.loadMoreHandler();
+                                }
+                            }}>
                             <Conv
                                 conv={this.props.conv}
                                 userID={this.props.userID}

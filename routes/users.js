@@ -116,12 +116,14 @@ router.post('/', authenticate,(req, res, next) => {
                                     let userInfo =  await user.findById(cnt.userID);
                                         if (userInfo) {
                                             if (Array.isArray(cnt.cntID)) {
-                                                let pageItem = cnt.cntID.slice(0, req.body.limit);
-                                                let updateCntID = cnt.cntID.slice(req.body.limit);
+                                                let pageItem = page !== 'userChat' ? cnt.cntID.slice(0, req.body.limit) : cnt.cntID;
+                                                let updateCntID =  page !== 'userChat' ? cnt.cntID.slice(req.body.limit) : cnt.cntID;
                                                 cnt.cntID = updateCntID;
-                                                let notificationPageIndex = removeNotification[page].findIndex(cntItem => JSON.parse(JSON.stringify(cntItem._id)) === JSON.parse(JSON.stringify(cnt._id)));
-                                                removeNotification[page][notificationPageIndex] = cnt;
-                                                removeNotification[page] = removeNotification[page].filter(cntItem => cntItem.cntID.length > 0);
+                                                if (page !== 'userChat') {
+                                                    let notificationPageIndex = removeNotification[page].findIndex(cntItem => JSON.parse(JSON.stringify(cntItem._id)) === JSON.parse(JSON.stringify(cnt._id)));
+                                                    removeNotification[page][notificationPageIndex] = cnt;
+                                                    removeNotification[page] = removeNotification[page].filter(cntItem => cntItem.cntID.length > 0);
+                                                }
                                                 for (let id of pageItem) {
                                                     let model = (page === 'post') || (page === 'postShare' ) ? post :
                                                     (page === 'question') || (page === 'questionShare' ) ? question :

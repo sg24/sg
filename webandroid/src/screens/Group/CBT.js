@@ -26,6 +26,7 @@ import SharePicker from '../../components/UI/SharePicker/SharePicker';
 import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 import Instruction from '../../components/UI/Instruction/Instruction';
+import Loader from '../../components/UI/Loader/Loader';
 
 class CBT extends Component {
     constructor(props) {
@@ -265,6 +266,11 @@ class CBT extends Component {
         this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'groupcbt', 'getCBT', this.state.groupID);
     }
 
+    isCloseToBottomHandler = ({layoutMeasurement, contentOffset, contentSize}) => {
+        const paddingToBottom = 20;
+        return (layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom) && this.props.settings.autoLoading;
+    }
+
     render() {
         let pageBackground = this.props.settings.page.backgroundImage  && this.props.settings.page.enableBackgroundImage;
         let Wrapper = pageBackground ? ImageBackground : View;
@@ -317,17 +323,18 @@ class CBT extends Component {
         );
 
         let cnt = (
-           <View style={styles.wrapper}>
-                { header }
-                <View style={[styles.loaderCnt, this.state.viewMode === 'landscape' ? {backgroundColor: this.props.settings.backgroundColor} : 
-                        null]}>
-                    <ActivityIndicator 
-                        size="large"
-                        animating
-                        color="#437da3"/>
-                </View>
-                { options }
-           </View>
+        //    <View style={styles.wrapper}>
+        //         { header }
+        //         <View style={[styles.loaderCnt, this.state.viewMode === 'landscape' ? {backgroundColor: this.props.settings.backgroundColor} : 
+        //                 null]}>
+        //             <ActivityIndicator 
+        //                 size="large"
+        //                 animating
+        //                 color="#437da3"/>
+        //         </View>
+        //         { options }
+        //    </View>
+        <Loader header={header} options={options} page="cbt" />
         )
 
         if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
@@ -340,7 +347,12 @@ class CBT extends Component {
                         {backgroundColor: this.props.settings.backgroundColor} : null]}>
                         <ScrollView 
                             style={styles.scroll}
-                            showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }>
+                            showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }
+                            onScroll={({nativeEvent}) => {
+                                if (this.isCloseToBottomHandler(nativeEvent)) {
+                                    this.loadMoreHandler();
+                                }
+                            }}>
                             <CBTItem
                                 cnt={this.props.fetchCnt}
                                 userID={this.props.userID}

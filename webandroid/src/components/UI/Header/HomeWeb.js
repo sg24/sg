@@ -76,6 +76,11 @@ class Home extends Component  {
     }
 
     openModalHandler = (modalType) => {
+        if (modalType === 'search') {
+            this.props.onNavigate('Search')
+            this.setState({showModal: false});
+            return
+        }
         this.setState({showModal: true, modalType});
     }
 
@@ -91,12 +96,8 @@ class Home extends Component  {
 
         if (this.state.showModal) {
             let ModalComponent = Platform.OS === 'web' ? WebModal : Modal;
-            let cnt = (
-                <>
-                    <this.props.modalSearch 
-                        hideModal={this.closeModalHandler}/>
-                </>
-            );
+            let cnt = null;
+
             if (this.state.modalType === 'conversation') {
                 cnt = (
                     <>
@@ -186,7 +187,7 @@ class Home extends Component  {
                         <View style={styles.profileNavWrapper}>
                             <TouchableNativeFeedback  onPress={() => this.openModalHandler('conversation')} style={styles.navIcon}>
                                 <View style={styles.navIcon}>
-                                    <Icon name="chatbubbles-outline" size={22} color={styles.color}/>
+                                    <Icon name="chatbubbles-outline" size={22} style={this.state.showModal && (this.state.modalType === 'conversation') ? styles.activeUri : styles.color}/>
                                     <TabBarge 
                                         style={styles.tabBarge}
                                         notification={this.state.userChat}
@@ -195,7 +196,7 @@ class Home extends Component  {
                             </TouchableNativeFeedback>
                             <TouchableNativeFeedback onPress={() => this.openModalHandler('notification')} style={styles.navIcon}>
                                 <View style={styles.navIcon}>
-                                    <Icon name="notifications-outline" size={22} color={styles.color}/>
+                                    <Icon name="notifications-outline" size={22} style={this.state.showModal && (this.state.modalType === 'notification') ? styles.activeUri : styles.color}/>
                                     <TabBarge
                                         style={styles.tabBarge}
                                         notification={this.state.totalNotification}
@@ -205,7 +206,7 @@ class Home extends Component  {
                             <TouchableNativeFeedback onPress={this.props.onNavigate.bind(this, 'Profile')} style={styles.navIcon}>
                                 <View style={[styles.navIcon]}>
                                     {this.props.userImage ? <Image style={styles.profileImage} resizeMode="cover" source={this.props.userImage}/> 
-                                    : <Icon name="person-outline" size={22} color={styles.color}/>}
+                                    : <Icon name="person-outline" size={22} style={activeUri === 'Profile' ? styles.activeUri : styles.color}/>}
                                 </View>
                             </TouchableNativeFeedback>
                         </View>

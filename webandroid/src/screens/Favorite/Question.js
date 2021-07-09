@@ -19,6 +19,7 @@ import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
+import Loader from '../../components/UI/Loader/Loader';
 
 class Questions extends Component {
     constructor(props) {
@@ -212,6 +213,11 @@ class Questions extends Component {
         this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'getQuestionFavorite');
     }
 
+    isCloseToBottomHandler = ({layoutMeasurement, contentOffset, contentSize}) => {
+        const paddingToBottom = 20;
+        return (layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom) && this.props.settings.autoLoading;
+    }
+
     render() {
         let pageBackground = this.props.settings.page.backgroundImage  && this.props.settings.page.enableBackgroundImage;
         let Wrapper = pageBackground ? ImageBackground : View;
@@ -247,17 +253,18 @@ class Questions extends Component {
         );
 
         let cnt = (
-           <View style={styles.wrapper}>
-                { header }
-                <View style={[styles.loaderCnt, this.state.viewMode === 'landscape' ? {backgroundColor: this.props.settings.backgroundColor} : 
-                        null]}>
-                    <ActivityIndicator 
-                        size="large"
-                        animating
-                        color="#437da3"/>
-                </View>
-                { options }
-           </View>
+        //    <View style={styles.wrapper}>
+        //         { header }
+        //         <View style={[styles.loaderCnt, this.state.viewMode === 'landscape' ? {backgroundColor: this.props.settings.backgroundColor} : 
+        //                 null]}>
+        //             <ActivityIndicator 
+        //                 size="large"
+        //                 animating
+        //                 color="#437da3"/>
+        //         </View>
+        //         { options }
+        //    </View>
+        <Loader header={header} options={options} page="question" />
         )
 
         if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
@@ -271,7 +278,12 @@ class Questions extends Component {
                         {backgroundColor: this.props.settings.backgroundColor} : null]}>
                         <ScrollView 
                             style={styles.scroll}
-                            showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }>
+                            showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }
+                            onScroll={({nativeEvent}) => {
+                                if (this.isCloseToBottomHandler(nativeEvent)) {
+                                    this.loadMoreHandler();
+                                }
+                            }}>
                             <Question
                                 cnt={this.props.fetchCnt.filter(cnt => cnt.isFavored === true)}
                                 userID={this.props.userID}

@@ -238,7 +238,9 @@ class Base extends Component {
       }
       clearInterval(this.state.checkNotification);
       clearInterval(this.state.checkAppState);
-      AppState.removeEventListener('change', this._handleAppStateChange);
+      if (Platform.OS !== 'web') {
+        AppState.removeEventListener('change', this._handleAppStateChange);
+      }
   }
 
   updateHeader = (dims) => {

@@ -68,7 +68,7 @@ class Users extends Component {
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'searchUser', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', this.state.search);
         }
         this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'getFriendById');
     }
@@ -97,16 +97,16 @@ class Users extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            return this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'users', 'searchUser', cnt);
+            return this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', cnt);
         }
         if (!this.state.showSearch) {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getUser');
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', this.state.profileID);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getUser');
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', this.state.profileID);
     }
 
     checkOptionHandler = () => {
@@ -142,9 +142,9 @@ class Users extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'users', 'searchUser', this.state.search);
+                 'users', 'getFriendById', this.state.search);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'getUser');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', this.state.profileID);
     }
 
     render() {
