@@ -21,6 +21,13 @@ export const submitAuthFormForgetPassInit = (formData) => {
     };
 };
 
+export const submitAuthFormResetPassInit = (formData) => {
+    return {
+        type: actionTypes.SUBMIT_AUTHFORMRESETPASS_INIT,
+        formData
+    };
+};
+
 export const submitAuthFormFail = (form,  err) => {
     return {
         type: actionTypes.SUBMIT_AUTHFORM_FAIL,

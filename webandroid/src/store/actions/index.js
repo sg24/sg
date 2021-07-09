@@ -13,6 +13,7 @@ export {
     submitAuthFormSignInInit,
     submitAuthFormSignUpInit,
     submitAuthFormForgetPassInit,
+    submitAuthFormResetPassInit,
     submitAuthFormFail,
     submitAuthFormStart,
     authFormSubmitted,

@@ -19,6 +19,7 @@ import * as actions from './src/store/actions/index';
 import SignInScreen from './src/screens/Auth/Signin';
 import SignUpScreen from './src/screens/Auth/Signup';
 import ForgetPasswordScreen from './src/screens/Auth/ForgetPassword';
+import ResetPasswordScreen from './src/screens/Auth/ResetPassword';
 // import SplashScreen from './src/screens/SplashScreen/SplashScreen';
 import HomeHeader  from './src/components/UI/Header/Home';
 import HomeHeaderWeb  from './src/components/UI/Header/HomeWeb';
@@ -89,7 +90,8 @@ const Stack = createStackNavigator();
 const authScreens = {
   SignIn: SignInScreen,
   SignUp: SignUpScreen,
-  ForgetPassword: ForgetPasswordScreen
+  ForgetPassword: ForgetPasswordScreen,
+  ResetPasswordScreen: ResetPasswordScreen
 };
 
 const userScreens = {

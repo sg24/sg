@@ -98,3 +98,23 @@ export function* submitAuthFormForgetPassInitSaga (action) {
        yield put(actions.submitAuthFormFail('reset', error));
     }
 } 
+
+export function* submitAuthFormResetPassInitSaga (action) {
+    yield put(actions.submitAuthFormStart('resetpass'));
+    try {
+        yield axios.post('/reset/password', action.formData);
+        yield put(actions.authFormSubmitted('resetpass'))
+    } catch(err) { 
+        let error = null
+        if (err.response) {
+            if(err.response.data && err.response.data.keyValue) {
+                error = err.message && typeof err.message !== 'object' ? err.response.data.startsWith('<') ? 'Network Error' : err.message : err.message;
+            } else {
+                error = typeof err.response.data !== 'object' ? err.response.data.startsWith('<') ? 'Network Error' : err.response.data : 'Connection Error';
+            } 
+          } else {
+              error = err.message && typeof err.message !== 'object' ? err.message.startsWith('<') ? 'Network Error' : err.message : err.message;
+          }
+       yield put(actions.submitAuthFormFail('resetpass', error));
+    }
+}

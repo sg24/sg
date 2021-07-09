@@ -1032,7 +1032,7 @@ router.post('/forget/password', (req, res, next) => {
                                           <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
                                             <tbody>
                                               <tr>
-                                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="${process.env.BASE_URL}forget/reset/${token}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 20px; text-transform: capitalize; border-color: #3498db;">Reset Password</a> </td>
+                                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="${process.env.BASE_URL}reset/password?token=${token}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 20px; text-transform: capitalize; border-color: #3498db;">Reset Password</a> </td>
                                               </tr>
                                             </tbody>
                                           </table>
@@ -1040,7 +1040,7 @@ router.post('/forget/password', (req, res, next) => {
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Or copy and paste this link. ${process.env.BASE_URL}forget/reset/${token}</p>
+                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Or copy and paste this link. ${process.env.BASE_URL}reset/password?token=${token}</p>
                                 </td>
                               </tr>
                             </table>
@@ -1079,7 +1079,7 @@ router.post('/forget/password', (req, res, next) => {
     })
 });
 
-router.get('/forget/reset/:token', (req, res, next) => {
+router.get('/reset/password/:token', (req, res, next) => {
     if (req.params) {
         jwt.verify(req.params.token, process.env.JWT_SECRET, function(err, token) {
             if(!err) {
@@ -1095,26 +1095,15 @@ router.get('/forget/reset/:token', (req, res, next) => {
     res.redirect('/forget/password');
 });
 
-router.post('/forget/reset', (req, res, next) => {
-    let resetToken = req.signedCookies.resettoken;
+router.post('/reset/password', (req, res, next) => {
+    let resetToken = req.body.token
     if (resetToken ) {
         jwt.verify(resetToken, process.env.JWT_SECRET, function(err, token) {
             if(!err) {
                 bcrypt.genSalt(10, (err, salt) => {
                     bcrypt.hash(req.body.password, salt, (err, hash) => {
-                        let access = 'authentication';
-                        let newToken = jwt.sign({_id: token.id, access}, process.env.JWT_SECRET, { expiresIn: 3600 * 24* 7}).toString();
-                        let tokens = [{access, token: newToken}];
-                      user.findByIdAndUpdate(token.id, {password: hash, tokens}).then(result =>{
-                        let decoded = null;
-                        decoded = jwt.verify(newToken, process.env.JWT_SECRET);
-                        if (decoded) {
-                            res.cookie('token', newToken, { signed: true, httpOnly: true , maxAge: 604800000});
-                            res.cookie('expiresIn', decoded.exp, {maxAge: 604800000});
-                            res.cookie('pushMsg', result.pushMsg[0].publickey, {maxAge: 604800000});
-                            res.cookie('id', result._id.toHexString(), {maxAge: 604800000});
-                            res.sendStatus(200);
-                        }
+                      user.findByIdAndUpdate(token.id, {password: hash}).then(() =>{
+                        res.sendStatus(200);
                       }).catch(err =>{
                           res.status(500).send({msg: 'Internal Server Error', expire: false})
                       })
@@ -1126,7 +1115,7 @@ router.post('/forget/reset', (req, res, next) => {
             }
         })
     } else {
-        res.redirect('/forget/password')
+        res.status(500).send({msg: 'Password reset link has expired', expire: true});   
     }
 });
 
@@ -1190,7 +1179,7 @@ router.post('/signup', (req, res) => {
     //                                                 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
     //                                                 <tbody>
     //                                                     <tr>
-    //                                                     <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="https://slodge24.com/signup/confirmation/${token}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 20px; text-transform: capitalize; border-color: #3498db;">Confirm Email</a> </td>
+    //                                                     <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="https://slodge24.com/signup/confirmation?token=${token}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 20px; text-transform: capitalize; border-color: #3498db;">Confirm Email</a> </td>
     //                                                     </tr>
     //                                                 </tbody>
     //                                                 </table>
@@ -1198,7 +1187,7 @@ router.post('/signup', (req, res) => {
     //                                             </tr>
     //                                         </tbody>
     //                                         </table>
-    //                                         <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Or copy and paste this link. https://slodge24.com/signup/confirmation/${token}</p>
+    //                                         <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Or copy and paste this link. https://slodge24.com/signup/confirmation?token=${token}</p>
     //                                     </td>
     //                                     </tr>
     //                                 </table>

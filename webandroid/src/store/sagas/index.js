@@ -3,7 +3,7 @@ import { takeEvery, all, takeLatest } from 'redux-saga/effects';
 import * as actionTypes from '../actions/actionTypes';
 import { checkAuthInitSaga } from './auth';
 import { submitAuthFormSigninInitSaga, 
-    submitAuthFormSignupInitSaga, submitAuthFormForgetPassInitSaga } from './authForm';
+    submitAuthFormSignupInitSaga, submitAuthFormForgetPassInitSaga, submitAuthFormResetPassInitSaga } from './authForm';
 import { headerFilterInitSaga, fetchConvInitSaga, fetchNotifyInitSaga, headerPushNotificationInitSaga } from './header';
 import { fetchProfileInitSaga, changeProfileInitSaga, submitAboutInitSaga, submitUsernameInitSaga } from './profile';
 import { fetchEditFormInitSaga } from './editForm';
@@ -25,7 +25,8 @@ export function* watchAuthForm() {
     yield all([
        takeEvery(actionTypes.SUBMIT_AUTHFORMSIGNIN_INIT, submitAuthFormSigninInitSaga),
        takeEvery(actionTypes.SUBMIT_AUTHFORMSIGNUP_INIT, submitAuthFormSignupInitSaga),
-       takeEvery(actionTypes.SUBMIT_AUTHFORMFORGETPASS_INIT, submitAuthFormForgetPassInitSaga)
+       takeEvery(actionTypes.SUBMIT_AUTHFORMFORGETPASS_INIT, submitAuthFormForgetPassInitSaga),
+       takeEvery(actionTypes.SUBMIT_AUTHFORMRESETPASS_INIT, submitAuthFormResetPassInitSaga)
     ])
 }
 

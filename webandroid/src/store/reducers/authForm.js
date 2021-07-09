@@ -5,18 +5,21 @@ const initialState = {
     signinSubmitError: null,
     signupSubmitError: null,
     resetSubmitError: null,
+    resetpassSubmitError: null,
     signinSubmitted: false,
     signupSubmitted: false,
     resetSubmitted: false,
+    resetpassSubmitted: false,
     signinStart: false,
     signupStart: false,
-    resetStart: false
+    resetStart: false,
+    resetpassStart: false
 };
 
 const authFormReset = (state, action) => {
-    return updateObject(state, {resetSubmitted: false, signupSubmitted: false,signinSubmitted: false,
-        signinSubmitError: null, signupSubmitError: null, resetSubmitError: null, 
-        signinStart: false, signupStart: false, resetStart: false})
+    return updateObject(state, {resetSubmitted: false, resetpassSubmitted: false, signupSubmitted: false,signinSubmitted: false,
+        signinSubmitError: null, signupSubmitError: null, resetSubmitError: null, resetpassSubmitError: null, 
+        signinStart: false, signupStart: false, resetStart: false, resetpassStart: false})
 };
 
 const submitAuthFormStart = (state, action) => {
@@ -24,6 +27,8 @@ const submitAuthFormStart = (state, action) => {
         return updateObject(state, {signinSubmitError: null, signinStart: true})
     }else if (action.form === 'signup') {
         return updateObject(state, {signupSubmitError: null, signupStart: true})
+    } else if (action.form === 'resetpass') {
+        return updateObject(state, {resetpassSubmitError: null, resetpassStart: true})
     } else {
         return updateObject(state, {resetSubmitError: null, resetStart: true})
     }
@@ -34,6 +39,8 @@ const submitAuthFormFail = (state, action) => {
         return updateObject(state, {signinSubmitError: {message: action.err}, signinStart: false})
     }else if (action.form === 'signup') {
         return updateObject(state, {signupSubmitError: {message: action.err}, signupStart: false})
+    } else if (action.form === 'resetpass') { 
+        return updateObject(state, {resetpassSubmitError: {message: action.err}, resetpassStart: false})
     } else {
         return updateObject(state, {resetSubmitError: {message: action.err}, resetStart: false})
     }
@@ -45,6 +52,8 @@ const authformSubmitted = (state, action) => {
         return updateObject(state, {signinSubmitted: true, signinStart: false})
     }else if (action.form === 'signup') {
         return updateObject(state, {signupSubmitted: true, signupStart: false})
+    }else if (action.form === 'resetpass') {
+        return updateObject(state, {resetpassSubmitted: true, resetpassStart: false})
     } else {
         return updateObject(state, {resetSubmitted: true, resetStart: false})
     }
