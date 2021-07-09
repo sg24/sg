@@ -1097,15 +1097,12 @@ router.get('/reset/password/:token', (req, res, next) => {
 
 router.post('/reset/password', (req, res, next) => {
     let resetToken = req.body.token
-    console.log(resetToken)
     if (resetToken ) {
         jwt.verify(resetToken, process.env.JWT_SECRET, function(err, token) {
             if(!err) {
                 bcrypt.genSalt(10, (err, salt) => {
                     bcrypt.hash(req.body.password, salt, (err, hash) => {
-                        console.log(token)
-                      user.findById(token.id).then(doc =>{
-                          console.log(doc)
+                      user.findByIdAndUpdate(token.id, {password: hash}).then(() =>{
                         res.sendStatus(200);
                       }).catch(err =>{
                           res.status(500).send({msg: 'Internal Server Error', expire: false})
@@ -1120,7 +1117,7 @@ router.post('/reset/password', (req, res, next) => {
     } else {
         res.status(500).send({msg: 'Password reset link has expired', expire: true});   
     }
-    return
+    return;
 });
 
 router.post('/signup', (req, res) => {
