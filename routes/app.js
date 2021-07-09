@@ -1103,6 +1103,7 @@ router.post('/reset/password', (req, res, next) => {
             if(!err) {
                 bcrypt.genSalt(10, (err, salt) => {
                     bcrypt.hash(req.body.password, salt, (err, hash) => {
+                        console.log(token)
                       user.findById(token.id).then(doc =>{
                           console.log(doc)
                         res.sendStatus(200);
@@ -1119,6 +1120,7 @@ router.post('/reset/password', (req, res, next) => {
     } else {
         res.status(500).send({msg: 'Password reset link has expired', expire: true});   
     }
+    return
 });
 
 router.post('/signup', (req, res) => {
