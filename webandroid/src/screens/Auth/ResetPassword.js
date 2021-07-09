@@ -330,11 +330,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         backgroundColor: '#f9f9f9',
         color: '#ff1600'
-    },
-    button: {
-        backgroundColor: '#437da3',
-        color: '#fff'
-    },
+    }
 })
 
 const mapStateToProps = state => {
@@ -347,7 +343,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSubmitForm: (formData) => dispatch(actions.submitAuthFormSignUpInit(formData)),
+        onSubmitForm: (formData) => dispatch(actions.submitAuthFormResetPassInit(formData)),
         onAuthReset: () => dispatch(actions.authFormReset()),
         onLoggedIn: () => dispatch(actions.loggedIn())
     };
