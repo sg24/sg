@@ -24,7 +24,7 @@ class Profile extends Component {
         this.state = {
             viewMode: layoutWidth >= size.md ? 'landscape' : 'portrait',
             backgroundColor: '#fff',
-            userID: this.props.route.params.userID,
+            userID: this.props.route.params ? this.props.route.params.userID : null,
             index: 0,
             routes: [{key: 'friend', title: 'Friend'},{key: 'post', title: 'Post'},{key: 'feed', title: 'Feed'},  {key: 'group' , title: 'Group'}, 
             {key: 'CBT', title: 'CBT'}, {key: 'question', title: 'Question'}, {key: 'writeUp', title: 'Write Up'},

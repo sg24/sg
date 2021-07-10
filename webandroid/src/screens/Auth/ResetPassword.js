@@ -23,7 +23,7 @@ class ResetPassword extends Component {
         super(props);
         this.state = {
             viewMode: Dimensions.get('window').width >= 530 ? 'landscape' : 'portrait',
-            token: this.props.route.params.token,
+            token: this.props.route.params ? this.props.route.params.token : null,
             formElement: {
                 password: {
                     value: '',
@@ -152,18 +152,12 @@ class ResetPassword extends Component {
         //     )
         // }
 
-        if (this.props.submitted) {
-            cnt = (
-                <NotificationModal
-                    info="Password updated succesfully !"
-                    // infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
-                    closeModal={this.navigationHandler}
-                    button={[{title: 'Ok', onPress: this.navigationHandler, style: styles.button}]}/>
-            )
-        }
-
       return (
         <LinearBackground>
+            { this.props.submitted ? <NotificationModal
+                    info="Password updated succesfully !"
+                    closeModal={this.navigationHandler}
+                    button={[{title: 'Ok', onPress: this.navigationHandler, style: styles.modalButton}]}/> : null}
             <ScrollView>
                 <View style={[styles.formWrapper, this.state.viewMode === 'landscape' ? styles.formWrapperLandscape : null]}>
                     <View
@@ -330,6 +324,10 @@ const styles = StyleSheet.create({
         fontSize: 15,
         backgroundColor: '#f9f9f9',
         color: '#ff1600'
+    },
+    modalButton: {
+        backgroundColor: '#437da3',
+        color: '#fff'
     }
 })
 

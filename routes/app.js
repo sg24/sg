@@ -1105,7 +1105,7 @@ router.post('/reset/password', (req, res, next) => {
                       user.findByIdAndUpdate(token.id, {password: hash}).then(() =>{
                         res.sendStatus(200);
                       }).catch(err =>{
-                          res.status(500).send({msg: 'Internal Server Error', expire: false})
+                          res.status(500).send({msg: 'User Not Found', expire: false})
                       })
                     });
                 });
