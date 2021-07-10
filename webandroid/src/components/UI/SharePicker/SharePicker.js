@@ -213,7 +213,9 @@ class SharePicker extends Component {
                     <View style={styles.infoButtonWrapper}>
                         <Button 
                             title="Add Friend" 
-                            onPress={() => this.navigationHandler('User')} 
+                            onPress={() => this.state.viewMode === 'landscape' ?
+                            this.navigationHandler('UsersWeb') :
+                            this.props.navigation.navigate('HomeWeb', { screen: 'User' })} 
                             style={styles.infoButton}/>
                     </View>
                 </InfoBox>

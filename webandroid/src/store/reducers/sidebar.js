@@ -33,6 +33,12 @@ const fetchSidebarReset = (state, action) => {
     return updateObject(state, {fetchAdvertError: null, fetchAdvertStart: false, fetchFriendError: null, fetchFriendStart: false});
 };
 
+const sidebarReset = (state, action) => {
+    return updateObject(state, {
+        fetchAdvertError: null,fetchAdvertStart: false,fetchAdvert: null,fetchFriendError: null,fetchFriendStart: false,fetchFriend: null,advertLoadMore: false,friendLoadMore: false,tabPage: false
+    });
+};
+
 const fetchSidebar = (state, action) => {
     function updatePage(page, action) {
         let updatePageCnt = page && action.start !== 0 ? [...page] : [];
@@ -81,6 +87,8 @@ const reducer = (state = initialState, action) => {
             return fetchSidebar(state, action);
         case actionTypes.UPDATE_SIDEBAR:
             return updateSidebar(state, action);
+        case actionTypes.SIDEBAR_RESET:
+            return sidebarReset(state, action);
         default: return state
     };
 };

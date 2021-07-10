@@ -10,6 +10,7 @@ class Logout extends Component {
     async componentDidMount() {
         await AsyncStorage.multiRemove(['expiresIn', 'token', 'userID', 'username', 'userImage', Constants.manifest.extra.NOTIFICATION]);
         this.props.loggedOut();
+        this.props.onResetSideBar();
     }
 
     render() {
@@ -19,7 +20,8 @@ class Logout extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        loggedOut: () => dispatch(actions.loggedOut())
+        loggedOut: () => dispatch(actions.loggedOut()),
+        onResetSideBar: () => dispatch(actions.sidebarReset())
     };
 };
 

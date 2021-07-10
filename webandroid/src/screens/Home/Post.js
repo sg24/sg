@@ -444,12 +444,14 @@ class Post extends Component {
                         <View style={styles.infoContainer}>
                             <Text style={styles.infoTitle}> No post found !!! </Text>
                             <View>
-                                <Text style={{justifyContent: 'center', alignItems: 'center'}}>
-                                    <Href title="Add Friends to see thier posts" onPress={() => this.navigationHandler('User')} style={styles.href}/>
-                                    <Href title=","  style={{paddingHorizontal: 5}}/>
-                                    <Href title="create Post" onPress={() => this.navigationHandler('AddPost')} style={styles.href}/>
-                                    <Href title="OR" style={{paddingHorizontal: 5}}/>
-                                    <Href title="check feed page for public post" onPress={() => this.navigationHandler('Feed')} style={styles.href}/></Text>
+                                <View style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
+                                    <Href title="Add Friends to see thier posts" onPress={() => this.state.viewMode === 'landscape' ?
+                                        this.navigationHandler('UsersWeb') :
+                                        this.props.navigation.navigate('HomeWeb', { screen: 'User' })} style={styles.href}/>
+                                <Href title=","  style={{paddingHorizontal: 5}}/>
+                                <Href title="create Post" onPress={() => this.navigationHandler('AddPost')} style={styles.href}/></View>
+                                <Href title="OR" style={{textAlign: 'center', width: '100%'}}/>    
+                                <Href title="check feed page for public post" onPress={() => this.navigationHandler('Feed')} style={styles.href}/>
                             </View>
                         </View>
                     </InfoBox>
@@ -577,7 +579,8 @@ const styles = StyleSheet.create({
     },
     href: {
         textDecorationLine: 'underline',
-        fontSize: 16
+        fontSize: 16,
+        textAlign: 'center'
     },
     infoTitle: {
         fontSize: 18,

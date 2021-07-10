@@ -113,7 +113,8 @@ export {
     fetchSidebarFail,
     fetchSidebarReset,
     fetchSidebar,
-    updateSidebar
+    updateSidebar,
+    sidebarReset
 } from './sidebar';
 
 export {

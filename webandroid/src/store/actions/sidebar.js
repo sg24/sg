@@ -49,3 +49,9 @@ export const updateSidebar = (pageInfo, page) =>  {
         page
     };
 };
+
+export const sidebarReset = () =>  {
+    return {
+        type: actionTypes.SIDEBAR_RESET
+    };
+};
