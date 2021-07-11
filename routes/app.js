@@ -1129,7 +1129,7 @@ router.post('/signup', (req, res) => {
     let newUser = new user({
         username: req.body.formData.username,
         password: req.body.formData.password,
-        email: req.body.formData.email
+        email: req.body.formData.email.toLowerCase()
     });
 
     user.findOne({email: req.body.formData.email}).then(result => {
@@ -1254,7 +1254,7 @@ router.get('/signup/confirmation/:id', (req, res, next) => {
 })
 
 router.post('/login', (req, res,next) => {
-    user.findByCredentials(req.body.formData.email, req.body.formData.password, req.useragent, req.body.deviceID).then(result => {
+    user.findByCredentials(req.body.formData.email.toLowerCase(), req.body.formData.password, req.useragent, req.body.deviceID).then(result => {
         let decoded = null;
         decoded = jwt.verify(result.token, process.env.JWT_SECRET);
         if (decoded) {
