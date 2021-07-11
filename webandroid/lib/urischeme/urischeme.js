@@ -1,5 +1,5 @@
 import { Linking } from 'react-native';
-import { InAppBrowser } from 'react-native-inappbrowser-reborn'
+import * as WebBrowser from 'expo-web-browser';
 
 const uriScheme = (type, content) => {
     let scheme = {
@@ -19,27 +19,7 @@ const uriScheme = (type, content) => {
                 Linking.openURL(scheme[key])
             } else {
                 (async () => {
-                    try {
-                      const url = scheme[key];
-                      if (await InAppBrowser.isAvailable()) {
-                        const result = await InAppBrowser.open(url, {
-                          preferredBarTintColor: '#453AA4',
-                          // Android Properties
-                          showTitle: true,
-                          toolbarColor: '#6200EE',
-                          secondaryToolbarColor: 'black',
-                          navigationBarColor: 'black',
-                          navigationBarDividerColor: 'white',
-                          enableUrlBarHiding: true,
-                          enableDefaultShare: true,
-                          forceCloseOnRedirection: false
-                        })
-                      } else {
-                        Linking.openURL(url)
-                      }
-                    } catch (error) {
-                      Linking.openURL(scheme[key])
-                    }
+                  await WebBrowser.openBrowserAsync(scheme[key]);
                 })();
             }
             

@@ -85,6 +85,17 @@ import EditGroupScreen from './src/screens/EditForm/Group';
 import EditCBTScreen from './src/screens/EditForm/CBT';
 import EditAdvertScreen from './src/screens/EditForm/Advert';
 
+const globalErrorHandler = (err, isFatal) => {
+  if (isFatal) {
+    let formContent = new FormData();
+    formContent.append('content', err);
+    axios.post(`/add/appError`, formContent, {headers: { "Content-Type": "multipart/form-data"}}).then(() => {
+      alert('Error information sent');
+    })
+  }
+};
+ErrorUtils.setGlobalHandler(globalErrorHandler);
+
 const Stack = createStackNavigator();
 
 const authScreens = {
@@ -168,88 +179,97 @@ class Base extends Component {
   componentDidMount() {
     this.props.onCheckAuth();
     if (Platform.OS !== 'web') {
-      this.registarBackgroundTask();
-      Updates.checkForUpdateAsync().then(({isAvailable}) => {
-        if (isAvailable) {
-          Updates.fetchUpdateAsync().then(({isNew}) => {
-            if (isNew) {
-              Alert.alert(
-                "App Updated Successfully",
-                "Press Reload , to reload the application",
-                [
-                  {
-                    text: "Cancel",
-                    style: "cancel"
-                  },
-                  { text: "Reload", onPress: Updates.reloadAsync }
-                ],
-                { cancelable: false }
-              );
-            }
-          })
+      Linking.addEventListener('url', this._onReceiveURL);
+      Linking.getInitialURL().then(uri => {
+        let { path, queryParams } = Linking.parse(uri);
+        if (path === 'ResetPassword') {
+          AsyncStorage.setItem(Constants.manifest.extra.REDIRECT_URI, JSON.stringify({uri: path, params: queryParams}))
         }
       })
-      AppState.addEventListener('change', this._handleAppStateChange);
     }
-    this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS)
-    AsyncStorage.removeItem(Constants.manifest.extra.PERSISTENCE_KEY).then(() => {
-      let checkNotification = setInterval(() => {
-        AsyncStorage.getItem(Constants.manifest.extra.PERSISTENCE_KEY).then(state => {
-          if (state) {
-            state = JSON.parse(state);
-            let stateHistory = [];
-            for (let cnt in state.routes) {
-              if (state.routes[cnt].state && (state.routes[cnt].state.index || state.routes[cnt].state.index === 0)) {
-                let routeName = state.routes[cnt].state.routeNames[state.routes[cnt].state.index];
-                stateHistory.push(routeName);
-              } else {
-                stateHistory.push(state.routes[cnt].params && state.routes[cnt].params.props && state.routes[cnt].params.props.notificationPage ? 
-                  state.routes[cnt].params.props.notificationPage : state.routes[cnt].name);
-              }
-            }
-            AsyncStorage.getItem(Constants.manifest.extra.NOTIFICATION).then(notification => {
-              if (notification) {
-                notification = JSON.parse(notification);
-                for (let page of stateHistory) {
-                    page = page.split('Web')[0].toLowerCase();
-                    for (let notificationPage in notification) {
-                      page = page === 'home' ? 'post' : page;
-                      if (notificationPage.toLowerCase() === page) {
-                          notification[notificationPage] = [];
-                      }
-                    }
-                }
-                AsyncStorage.setItem(Constants.manifest.extra.NOTIFICATION, JSON.stringify(notification)).then(() => {
-                  this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS, JSON.stringify(stateHistory))
-                })
-              } else {
-                this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS, JSON.stringify(stateHistory))
-              }
-            })
-            
-          } else {
-            this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS)
-          }
-        })
-      }, 1000*60);
-      this.setState({checkNotification})
-    })
     Dimensions.addEventListener('change', this.updateHeader);
   }
 
   componentDidUpdate() {
-    if (this.props.isLoggedIn && !this.state.isLoggedIn && Platform.OS !== 'web') {
-      Notifications.setNotificationHandler({
-        handleNotification: async () => ({
-          shouldShowAlert: true,
-          shouldPlaySound: false,
-          shouldSetBadge: true
-        }),
-      });
-      this.registerForPushNotificationsAsync().then(token => {
-        this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, token, Platform.OS);
-      });
-      this.subscription = Notifications.addPushTokenListener(this.registerForPushNotificationsAsync);
+    if (this.props.isLoggedIn && !this.state.isLoggedIn) {
+      this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS)
+      AsyncStorage.removeItem(Constants.manifest.extra.PERSISTENCE_KEY).then(() => {
+        let checkNotification = setInterval(() => {
+          AsyncStorage.getItem(Constants.manifest.extra.PERSISTENCE_KEY).then(state => {
+            if (state) {
+              state = JSON.parse(state);
+              let stateHistory = [];
+              for (let cnt in state.routes) {
+                if (state.routes[cnt].state && (state.routes[cnt].state.index || state.routes[cnt].state.index === 0)) {
+                  let routeName = state.routes[cnt].state.routeNames[state.routes[cnt].state.index];
+                  stateHistory.push(routeName);
+                } else {
+                  stateHistory.push(state.routes[cnt].params && state.routes[cnt].params.props && state.routes[cnt].params.props.notificationPage ? 
+                    state.routes[cnt].params.props.notificationPage : state.routes[cnt].name);
+                }
+              }
+              AsyncStorage.getItem(Constants.manifest.extra.NOTIFICATION).then(notification => {
+                if (notification) {
+                  notification = JSON.parse(notification);
+                  for (let page of stateHistory) {
+                      page = page.split('Web')[0].toLowerCase();
+                      for (let notificationPage in notification) {
+                        page = page === 'home' ? 'post' : page;
+                        if (notificationPage.toLowerCase() === page) {
+                            notification[notificationPage] = [];
+                        }
+                      }
+                  }
+                  AsyncStorage.setItem(Constants.manifest.extra.NOTIFICATION, JSON.stringify(notification)).then(() => {
+                    this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS, JSON.stringify(stateHistory))
+                  })
+                } else {
+                  this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS, JSON.stringify(stateHistory))
+                }
+              })
+              
+            } else {
+              this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS)
+            }
+          })
+        }, 1000*60);
+        this.setState({checkNotification})
+      })
+      if (Platform.OS !== 'web') {
+        this.registarBackgroundTask();
+        AppState.addEventListener('change', this._handleAppStateChange);
+        Notifications.setNotificationHandler({
+          handleNotification: async () => ({
+            shouldShowAlert: true,
+            shouldPlaySound: false,
+            shouldSetBadge: true
+          }),
+        });
+        this.registerForPushNotificationsAsync().then(token => {
+          this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, token, Platform.OS);
+        });
+        this.subscription = Notifications.addPushTokenListener(this.registerForPushNotificationsAsync);
+        Updates.checkForUpdateAsync().then(({isAvailable}) => {
+          if (isAvailable) {
+            Updates.fetchUpdateAsync().then(({isNew}) => {
+              if (isNew) {
+                Alert.alert(
+                  "App Updated Successfully",
+                  "Press Reload ,to reload the application",
+                  [
+                    {
+                      text: "Cancel",
+                      style: "cancel"
+                    },
+                    { text: "Reload", onPress: Updates.reloadAsync }
+                  ],
+                  { cancelable: false }
+                );
+              }
+            })
+          }
+        })
+      }
       this.setState({isLoggedIn: true})
     }
   }
@@ -261,8 +281,18 @@ class Base extends Component {
       }
       clearInterval(this.state.checkNotification);
       if (Platform.OS !== 'web') {
-        AppState.removeEventListener('change', this._handleAppStateChange);
+        if (this.state.isLoggedIn) {
+          AppState.removeEventListener('change', this._handleAppStateChange);
+        }
+        Linking.removeEventListener('url', this._onReceiveURL);
       }
+  }
+
+  _onReceiveURL = ({url}) => {
+    let { path, queryParams } = Linking.parse(url);
+    if (path === 'ResetPassword') {
+      AsyncStorage.setItem(Constants.manifest.extra.REDIRECT_URI, JSON.stringify({uri: path, params: queryParams}))
+    }
   }
 
   updateHeader = (dims) => {

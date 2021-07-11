@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Linking } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { getLinkPreview } from 'link-preview-js';
 import ContentLoader, { Rect, Circle, Path } from "react-content-loader/native"
 import * as VideoThumbnails from 'expo-video-thumbnails';
 import FileIcon from 'file-icons';
+import urischeme from 'urischeme';
 
 import TouchableNativeFeedback from  '../../TouchableNativeFeedback/TouchableNativeFeedback'
 
@@ -62,7 +63,7 @@ class LinkItem extends Component {
     }
 
     openLinkHandler = () => {
-        Linking.openURL(this.props.uri);
+        urischeme('URL', this.props.uri);
     }
 
     generateThumbnail = async () => {

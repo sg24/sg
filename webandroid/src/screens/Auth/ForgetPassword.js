@@ -6,6 +6,7 @@ import Constants from 'expo-constants';
 // import * as WebBrowser from 'expo-web-browser';
 import urischeme from 'urischeme';
 import { Html5Entities } from 'html-entities';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import LinearBackground from '../../components/UI/LinearBackground/LinearBackground';
 import logo from '../../assets/logocircle.png';
@@ -45,6 +46,23 @@ class ForgetPassword extends Component {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             this.props.onAuthReset();
         });
+        AsyncStorage.getItem(Constants.manifest.extra.REDIRECT_URI).then(url => {
+            if (url) {
+                let redirectUri = JSON.parse(url);
+                this.props.navigation.push(redirectUri.uri, redirectUri.params);
+                AsyncStorage.removeItem(Constants.manifest.extra.REDIRECT_URI);
+            }
+        });
+    }
+
+    componentDidUpdate() {
+        AsyncStorage.getItem(Constants.manifest.extra.REDIRECT_URI).then(url => {
+            if (url) {
+                let redirectUri = JSON.parse(url);
+                this.props.navigation.push(redirectUri.uri, redirectUri.params);
+                AsyncStorage.removeItem(Constants.manifest.extra.REDIRECT_URI);
+            }
+        })
     }
 
     componentWillUnmount() {
