@@ -1132,7 +1132,7 @@ router.post('/signup', (req, res) => {
         email: req.body.formData.email.toLowerCase()
     });
 
-    user.findOne({email: req.body.formData.email}).then(result => {
+    user.findOne({email: req.body.formData.email.toLowerCase()}).then(result => {
         if (result) {res.status(422).send('Email Already taken'); return}
             newUser.generateAuthToken(req.useragent, req.body.browserID).then(result => {
                 let decoded = null;
