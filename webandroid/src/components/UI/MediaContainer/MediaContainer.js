@@ -21,7 +21,7 @@ class CheckMediaType extends Component {
         }
         let media = this.props.media;
         let ext = media.ext.split('/')[1];
-        const fileDir = FileSystem.documentDirectory + 's lodge24/' + `${media.bucket}/`;
+        const fileDir = FileSystem.documentDirectory + 'Slodge24/' + `${media.bucket}/`;
         const fileUri = `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}.${ext}`;
         this.setState({downloadStart: true});
         FileSystem.getInfoAsync(fileDir).then(dirInfo => {

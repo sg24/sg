@@ -999,14 +999,14 @@ router.get('/ads.txt', (req, res, next) => {
 });
 
 router.post('/forget/password', (req, res, next) => {
-    user.findOne({email: req.body.email}).then(result => {
+    user.findOne({email: req.body.email.toLowerCase()}).then(result => {
         if (result) {
             let token = jwt.sign({ id: result.id }, process.env.JWT_SECRET, {  expiresIn: 60*60 });
             // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
             let domain = 'sandboxf7e58139dab64facb72ecd4811c7affc.mailgun.org';
             let apiKey = process.env.MAILGUN_API_KEY;
             const msg = {
-              to: req.body.email, 
+              to: req.body.email.toLowerCase(), 
               from: 'Reset password <noreply@slodge24.com>',
               subject: 'S lodge24',
               html: `
@@ -1124,7 +1124,7 @@ router.post('/signup', (req, res) => {
     // let newUser = new tempUser({
     //     username: req.body.username,
     //     password: req.body.password,
-    //     email: req.body.email
+    //     email: req.body.email.toLowerCase()
     // });
     let newUser = new user({
         username: req.body.formData.username,
@@ -1150,7 +1150,7 @@ router.post('/signup', (req, res) => {
     //                 let token = jwt.sign({ id: result.id }, process.env.JWT_SECRET, {  expiresIn: 60*60 });
     //                 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     //                 const msg = {
-    //                     to: req.body.email, 
+    //                     to: req.body.email.toLowerCase(), 
     //                     from: 'Slodge24 <noreply@slodge24.com>',
     //                     subject: 'Slodge24 | Knowledge sharing platform',
     //                     html: `
