@@ -1,8 +1,9 @@
 const { tempFile } = require('../../serverDB/serverDB');
-const uuid = require('uuid');
+const uuid = require('uuid').v4;
 let uploadMedia = require('./uploadmedia');
 let uploadImage = require('./uploadimage');
 // let checkFile = require('./checkfile');
+const ffmpeg = require('ffmpeg');
 const fs = require('fs');
 const imagemin = require('imagemin');
 const imageminJpegtran = require('imagemin-jpegtran');
@@ -43,7 +44,34 @@ let upload = (files, descriptions) => {
                 }
               })
             })
-          } else {
+          } else if (type === 'video') {
+            try {
+              let process = new ffmpeg(`tmp/${file.path.split("\\")[1]}`)
+              process.then(function (video) {
+                video.setVideoSize('50%').save(`tmp/${uuid()}-${file.path.split("\\")[1]}`, function (error, filePath) {
+                  if (!error) {
+                    fs.unlink(file.path, function(err) {
+                      if (!err) {
+                        file.path = filePath;
+                        uploadMedia(file).then(info => {
+                        media = getDescription(file, info, descriptions, media);
+                        ++uploaded;
+                        if (uploaded === files.length) {
+                          resolve(media)
+                        }
+                      })
+                      }
+                    })
+                  }
+                });
+              }, function (err) {
+                console.log('Error: ' + err);
+              });
+            } catch (e) {
+              console.log(e.code);
+              console.log(e.msg);
+            }
+          }else {
             await uploadMedia(file).then(info => {
               media = getDescription(file, info, descriptions, media);
               ++uploaded;

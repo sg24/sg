@@ -111,7 +111,7 @@ const extendTimeoutMiddleware = (req, res, next) => {
   next();
 };
 
-app.use(extendTimeoutMiddleware);
+// app.use(extendTimeoutMiddleware);
 app.set('trust proxy', true);
 
 app.set('views', path.join(__dirname, 'views'));

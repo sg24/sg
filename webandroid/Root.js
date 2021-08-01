@@ -175,7 +175,8 @@ class Base extends Component {
       isLoggedIn: false,
       expoPushToken: '',
       checkNotification: null,
-      checkAppState: null
+      checkAppState: null,
+      notificationDuration: 1000*60
     }
   }
   componentDidMount() {
@@ -234,7 +235,7 @@ class Base extends Component {
               this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS)
             }
           })
-        }, 1000*60);
+        }, this.state.notificationDuration);
         this.setState({checkNotification})
       })
       if (Platform.OS !== 'web') {
@@ -247,10 +248,10 @@ class Base extends Component {
             shouldSetBadge: true
           }),
         });
-        this.registerForPushNotificationsAsync().then(token => {
-          this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, token, Platform.OS);
-        });
-        this.subscription = Notifications.addPushTokenListener(this.registerForPushNotificationsAsync);
+        // this.registerForPushNotificationsAsync().then(token => {
+        //   this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, token, Platform.OS);
+        // });
+        // this.subscription = Notifications.addPushTokenListener(this.registerForPushNotificationsAsync);
         Updates.checkForUpdateAsync().then(({isAvailable}) => {
           if (isAvailable) {
             Updates.fetchUpdateAsync().then(({isNew}) => {

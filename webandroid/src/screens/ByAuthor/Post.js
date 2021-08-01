@@ -381,7 +381,7 @@ class Post extends Component {
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> You have not Post !!! </Text>
+                            <Text style={styles.infoTitle}> No Post Found !!! </Text>
                             { this.props.userID === this.state.profileID ?
                                 <View>
                                      <Text style={{justifyContent: 'center', alignItems: 'center'}}>
