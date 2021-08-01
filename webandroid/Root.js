@@ -85,16 +85,18 @@ import EditGroupScreen from './src/screens/EditForm/Group';
 import EditCBTScreen from './src/screens/EditForm/CBT';
 import EditAdvertScreen from './src/screens/EditForm/Advert';
 
-const globalErrorHandler = (err, isFatal) => {
+if (Platform.OS !== 'web') {
+  const globalErrorHandler = (err, isFatal) => {
   if (isFatal) {
     let formContent = new FormData();
     formContent.append('content', err);
     axios.post(`/add/appError`, formContent, {headers: { "Content-Type": "multipart/form-data"}}).then(() => {
-      alert('Error information sent');
-    })
-  }
-};
-ErrorUtils.setGlobalHandler(globalErrorHandler);
+        alert('Error information sent');
+      })
+    }
+  };
+  ErrorUtils.setGlobalHandler(globalErrorHandler);
+}
 
 const Stack = createStackNavigator();
 

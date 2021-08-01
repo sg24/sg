@@ -11,6 +11,7 @@ const tabView = props => {
     const renderTabBar = tabProps => (
         <TabBar
             {...tabProps}
+            {...props}
             scrollEnabled
             activeColor="#fff"
             tabStyle={{

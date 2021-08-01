@@ -13,7 +13,7 @@ export function* checkAuthInitSaga(action) {
        let settings = yield AsyncStorage.getItem('settings');
        if (expiresIn && (new Date(expiresIn*1000).getTime() >= new Date().getTime()) && token) {
             try {
-                let response = yield axios.post('/header', {}, {headers: {'data-categ':'userimg'}, timeout: 8000});
+                let response = yield axios.post('/header', {}, {headers: {'data-categ':'userimg'}, timeout: 500});
                 if (response.data.url) {
                     yield AsyncStorage.setItem('username', response.data.name);
                     yield AsyncStorage.setItem('userImage', Constants.manifest.extra.BASE_IMAGE_URL + response.data.url);
