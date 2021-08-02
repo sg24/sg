@@ -30,23 +30,17 @@ let upload = (files, descriptions) => {
         for (let file of files) {
           let type = file.type.split('/')[0];
           if ( type === 'image') {
-            await imagemin([`${file.path}`], {destination: 'tmp/imagemin/',plugins: [imageminJpegtran(),
+            await imagemin([`${file.path}`], {destination: 'tmp/',plugins: [imageminJpegtran(),
                 imageminPngquant({
                   quality: [0.6, 0.8]
                 })
               ]
             }).then(filesRes => {
-              console.log(filesRes[0].destinationPath)
-              fs.unlink(file.path, function(err) {
-                if (!err) {
-                  file.path = filesRes[0].destinationPath;
-                  uploadMedia(file).then(info => {
-                  media = getDescription(file, info, descriptions, media);
-                  ++uploaded;
-                  if (uploaded === files.length) {
-                    resolve(media)
-                  }
-                })
+             uploadMedia(file).then(info => {
+                media = getDescription(file, info, descriptions, media);
+                ++uploaded;
+                if (uploaded === files.length) {
+                  resolve(media)
                 }
               })
             })
