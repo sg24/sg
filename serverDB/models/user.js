@@ -87,7 +87,9 @@ var UserSchema = new mongoose.Schema({
     //     type: String
     // },
     visited: {
-        type: Date
+        type: Date,
+        default: Date.now,
+        index: true
     },
     about: {
         type: String
