@@ -46,7 +46,8 @@ let upload = (files, descriptions) => {
             })
           } else if (type === 'video') {
             try {
-              let process = new ffmpeg(`tmp/${file.path.split("\\")[1]}`)
+              console.log(`./${file.path}`)
+              let process = new ffmpeg(`./${file.path}`)
               process.then(function (video) {
                 video.setVideoSize('50%').save(`tmp/${uuid()}-${file.path.split("\\")[1]}`, function (error, filePath) {
                   if (!error) {
