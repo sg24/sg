@@ -30,6 +30,7 @@ let upload = (files, descriptions) => {
         for (let file of files) {
           let type = file.type.split('/')[0];
           if ( type === 'image') {
+            console.log(`tmp/${file.path.split("\\")[1]}`)
             await imagemin([`tmp/${file.path.split("\\")[1]}`], {destination: 'tmp/',plugins: [imageminJpegtran(),
                 imageminPngquant({
                   quality: [0.6, 0.8]
@@ -49,7 +50,7 @@ let upload = (files, descriptions) => {
               console.log(`./${file.path}`)
               let process = new ffmpeg(`./${file.path}`)
               process.then(function (video) {
-                video.setVideoSize('50%').save(`tmp/${uuid()}-${file.path.split("\\")[1]}`, function (error, filePath) {
+                video.setVideoSize('50%').save(`tmp/${uuid()}-${file.path}`, function (error, filePath) {
                   if (!error) {
                     fs.unlink(file.path, function(err) {
                       if (!err) {
