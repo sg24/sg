@@ -235,6 +235,9 @@ class Base extends Component {
               this.props.onPushNotification(this.props.settings.notificationLimit, this.props.settings.notification, '', Platform.OS)
             }
           })
+          if (this.state.notificationDuration !== 120000) {
+            this.setState({notificationDuration: 120000})
+          }
         }, this.state.notificationDuration);
         this.setState({checkNotification})
       })
