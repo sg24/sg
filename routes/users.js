@@ -272,7 +272,7 @@ router.post('/', authenticate,(req, res, next) => {
 
     if (req.header && req.header('data-categ') === 'getUser') {
         let chat = req.chat;
-        sequence([user.find({_id: {$ne: req.user}}).skip(req.body.start).limit(req.body.limit).sort({visited: 1}),
+        sequence([user.find({_id: {$ne: req.user}}).skip(req.body.start).limit(req.body.limit).sort({visited: -1}),
             notificationsModel.findOne({userID: req.user})]).then(result => {
             let updateFriend= [];
             for (let cnt of result[0]) {
