@@ -230,7 +230,9 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     buttonAdd: {
-        color: '#fff'
+        color: '#fff',
+        fontSize: 15,
+        paddingHorizontal: 10
     },
     bottonText: {
         marginLeft: 5,
