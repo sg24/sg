@@ -37,7 +37,7 @@ let upload = (files, descriptions) => {
                 })
               ]
             }).then(filesRes => {
-              console.log(JSON.stringify(fileRes))
+              console.log(JSON.stringify(filesRes[0].data.destinationPath))
               console.log(JSON.stringify(file))
              uploadMedia(file).then(info => {
                 media = getDescription(file, info, descriptions, media);
