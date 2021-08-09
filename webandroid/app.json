@@ -19,8 +19,7 @@
       "REDIRECT_URI": "REDIRECT_URI"
     },
     "updates": {
-      "enabled": false,
-      "fallbackToCacheTimeout": 0
+      "enabled": false
     },
     "assetBundlePatterns": [
       "**/*"
