@@ -28,58 +28,68 @@ let upload = (files, descriptions) => {
 
     (async () => {
         for (let file of files) {
-          let type = file.type.split('/')[0];
-          if ( type === 'image') {
-            await imagemin([`${file.path}`], {destination: 'tmp/',plugins: [imageminJpegtran(),
-                imageminPngquant({
-                  quality: [0.6, 0.8]
-                })
-              ]
-            }).then(filesRes => {
-             uploadMedia(file).then(info => {
-                media = getDescription(file, info, descriptions, media);
-                ++uploaded;
-                if (uploaded === files.length) {
-                  resolve(media)
-                }
-              })
-            })
-          } else if (type === 'video') {
-            try {
-              let process = new ffmpeg(`./${file.path}`)
-              process.then(function (video) {
-                video.setVideoSize('50%').save(`tmp/${uuid()}-${file.path}`, function (error, filePath) {
-                  if (!error) {
-                    fs.unlink(file.path, function(err) {
-                      if (!err) {
-                        file.path = filePath;
-                        uploadMedia(file).then(info => {
-                        media = getDescription(file, info, descriptions, media);
-                        ++uploaded;
-                        if (uploaded === files.length) {
-                          resolve(media)
-                        }
-                      })
-                      }
-                    })
-                  }
-                });
-              }, function (err) {
-                console.log('Error: ' + err);
-              });
-            } catch (e) {
-              console.log(e.code);
-              console.log(e.msg);
+          uploadMedia(file).then(info => {
+            media = getDescription(file, info, descriptions, media);
+            ++uploaded;
+            if (uploaded === files.length) {
+              resolve(media)
             }
-          }else {
-            await uploadMedia(file).then(info => {
-              media = getDescription(file, info, descriptions, media);
-              ++uploaded;
-              if (uploaded === files.length) {
-                resolve(media)
-              }
-            })
-          }
+          }).catch(err => {
+            return reject(err);
+          })
+          
+          // let type = file.type.split('/')[0];
+          // if ( type === 'image') {
+          //   await imagemin([`${file.path}`], {destination: 'tmp/',plugins: [imageminJpegtran(),
+          //       imageminPngquant({
+          //         quality: [0.6, 0.8]
+          //       })
+          //     ]
+          //   }).then(filesRes => {
+          //    uploadMedia(file).then(info => {
+          //       media = getDescription(file, info, descriptions, media);
+          //       ++uploaded;
+          //       if (uploaded === files.length) {
+          //         resolve(media)
+          //       }
+          //     })
+          //   })
+          // } else if (type === 'video') {
+          //   try {
+          //     let process = new ffmpeg(`./${file.path}`)
+          //     process.then(function (video) {
+          //       video.setVideoSize('50%').save(`tmp/${uuid()}-${file.path}`, function (error, filePath) {
+          //         if (!error) {
+          //           fs.unlink(file.path, function(err) {
+          //             if (!err) {
+          //               file.path = filePath;
+          //               uploadMedia(file).then(info => {
+          //               media = getDescription(file, info, descriptions, media);
+          //               ++uploaded;
+          //               if (uploaded === files.length) {
+          //                 resolve(media)
+          //               }
+          //             })
+          //             }
+          //           })
+          //         }
+          //       });
+          //     }, function (err) {
+          //       console.log('Error: ' + err);
+          //     });
+          //   } catch (e) {
+          //     console.log(e.code);
+          //     console.log(e.msg);
+          //   }
+          // }else {
+          //   await uploadMedia(file).then(info => {
+          //     media = getDescription(file, info, descriptions, media);
+          //     ++uploaded;
+          //     if (uploaded === files.length) {
+          //       resolve(media)
+          //     }
+          //   })
+          // }
           // if (type === 'video') {
           //   let imageName = `${file.name.split('.')[0]}.png`
           //   snap(file, imageName, docInfo).then((media) => {
@@ -120,14 +130,14 @@ function getDescription(file, info, descriptions, media) {
     for (let desc of descriptions) {
       if (info.filename === desc.id) {
         isUpdated = true;
-        media.push({id: info._id, filename: info.filename, bucket: file.type.split('/')[0], ext: `${file.type.split('/')[0]}/${info.filename.split('.')[1]}`, description: desc.content})
+        media.push({id: info._id, filename: info.filename, bucket: info.resource_type, ext: `${info.resource_type}/${info.format}`, description: desc.content})
       }
     }
     if (!isUpdated) {
-      media.push({id: info._id, filename: info.filename, bucket: file.type.split('/')[0], ext: `${file.type.split('/')[0]}/${info.filename.split('.')[1]}`, description: ''})
+      media.push({id: info._id, filename: info.filename, bucket: info.resource_type, ext: `${info.resource_type}/${info.format}`, description: ''})
     }
   } else {
-    media.push({id: info._id, filename: info.filename, bucket: file.type.split('/')[0], ext: `${file.type.split('/')[0]}/${info.filename.split('.')[1]}`, description: ''})
+    media.push({id: info._id, filename: info.filename, bucket: info.resource_type, ext: `${info.resource_type}/${info.format}`, description: ''})
   }
   return media
 }

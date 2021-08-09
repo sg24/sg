@@ -150,7 +150,7 @@ class MediaPreview extends Component {
             const asset = await MediaLibrary.createAssetAsync(file_uri);
             const album = await MediaLibrary.getAlbumAsync('Slodge24');
             if (album === null) {
-              await MediaLibrary.createAlbumAsync(album, asset, false);
+              await MediaLibrary.createAlbumAsync('Slodge24', asset, false);
               alert(`Finished downloading`);
             } else {
               await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);

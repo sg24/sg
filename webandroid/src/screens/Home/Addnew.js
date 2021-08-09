@@ -28,7 +28,7 @@ class Addnew extends Component {
     }
 
     navigationHandler = (page) => {
-        this.props.navigation.push(page)
+        this.props.navigation.navigate(page);
     }
 
     render() {

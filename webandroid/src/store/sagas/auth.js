@@ -7,10 +7,12 @@ import axios from '../../axios';
 
 export function* checkAuthInitSaga(action) {
     try {
-       let expiresIn = yield AsyncStorage.getItem('expiresIn');
-       let userID = yield AsyncStorage.getItem('userID');
-       let token =  yield AsyncStorage.getItem('token');
-       let settings = yield AsyncStorage.getItem('settings');
+        let userInfo = yield AsyncStorage.multiGet(['expiresIn', 'userID', 'token', 'settings']);
+        let expiresIn = userInfo[0][1];
+        let userID = userInfo[1][1];
+        let token =  userInfo[2][1];
+        let settings = userInfo[3][1];
+
        if (expiresIn && (new Date(expiresIn*1000).getTime() >= new Date().getTime()) && token) {
             try {
                 let response = yield axios.post('/header', {}, {headers: {'data-categ':'userimg'}, timeout: 500});
