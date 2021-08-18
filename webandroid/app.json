@@ -19,7 +19,8 @@
       "REDIRECT_URI": "REDIRECT_URI"
     },
     "updates": {
-      "enabled": false
+      "checkAutomatically": "ON_ERROR_RECOVERY",
+      "fallbackToCacheTimeout": 100
     },
     "assetBundlePatterns": [
       "**/*"

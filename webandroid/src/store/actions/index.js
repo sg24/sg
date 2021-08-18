@@ -5,7 +5,8 @@ export {
     checkUserImg,
     checkUserName,
     loggedIn,
-    loggedOut
+    loggedOut,
+    profileInfoInit
 } from './auth'
 
 

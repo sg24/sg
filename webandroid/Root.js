@@ -241,6 +241,7 @@ class Base extends Component {
         }, this.state.notificationDuration);
         this.setState({checkNotification})
       })
+      this.props.onProfileInfo();
       if (Platform.OS !== 'web') {
         this.registarBackgroundTask();
         AppState.addEventListener('change', this._handleAppStateChange);
@@ -649,7 +650,8 @@ const mapDispatchToProps = dispatch => {
       onCheckAuth: () => dispatch(actions.checkAuthInit()),
       onHeaderFilter: (filterCnt) => dispatch(actions.headerFilterInit(filterCnt)),
       onPushNotification: (limit, settings, token, platform, stateHistory) => dispatch(actions.headerPushNotificationInit(limit, settings, token, platform, stateHistory)),
-      onNavigationPage: (page, cnt) => dispatch(actions.headerNotificationPage(page, cnt))
+      onNavigationPage: (page, cnt) => dispatch(actions.headerNotificationPage(page, cnt)),
+      onProfileInfo: () => dispatch(actions.profileInfoInit())
   };
 };
 

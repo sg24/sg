@@ -1,7 +1,7 @@
 import { takeEvery, all, takeLatest } from 'redux-saga/effects';
 
 import * as actionTypes from '../actions/actionTypes';
-import { checkAuthInitSaga } from './auth';
+import { checkAuthInitSaga, profileInfoInitSaga } from './auth';
 import { submitAuthFormSigninInitSaga, 
     submitAuthFormSignupInitSaga, submitAuthFormForgetPassInitSaga, submitAuthFormResetPassInitSaga } from './authForm';
 import { headerFilterInitSaga, fetchConvInitSaga, fetchNotifyInitSaga, headerPushNotificationInitSaga } from './header';
@@ -17,7 +17,8 @@ import { externalPageInitSaga } from './externalPage';
 
 export function* watchAuth() {
     yield all([
-        takeEvery(actionTypes.CHECK_AUTH_INIT, checkAuthInitSaga)
+        takeEvery(actionTypes.CHECK_AUTH_INIT, checkAuthInitSaga),
+        takeEvery(actionTypes.PROFILE_INFO_INIT, profileInfoInitSaga)
     ])
 } 
 

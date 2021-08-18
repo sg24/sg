@@ -46,3 +46,9 @@ export const loggedOut = () => {
         type: actionTypes.LOGGED_OUT
     };
 };
+
+export const profileInfoInit = () => {
+    return {
+        type: actionTypes.PROFILE_INFO_INIT
+    };
+}
