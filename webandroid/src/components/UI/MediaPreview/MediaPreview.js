@@ -122,7 +122,7 @@ class MediaPreview extends Component {
                 if (!dirInfo.exists) {
                     (async () => await FileSystem.makeDirectoryAsync(fileDir, { intermediates: true }))();
                 }
-                FileSystem.downloadAsync(fileUri, fileDir + `${media.id}.${ext}`).then(({ uri }) => {
+                FileSystem.downloadAsync(fileUri, fileDir + (media.filename || `${media.id}.${ext}`)).then(({ uri }) => {
                     this.saveFileAsync(uri);
                 }).catch(error => {
                     alert('download Error, check your internet connection !!!')

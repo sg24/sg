@@ -15,7 +15,7 @@ import Href from '../../components/UI/Href/Href';
 import { updateObject, checkValidity } from '../../shared/utility';
 import ScrollView from '../../components/UI/ScrollView/ScrollView';
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
-// import WebView from '../../components/UI/WebView/WebView';
+import WebView from '../../components/UI/WebView/WebView';
 import * as actions from '../../store/actions/index';
 
 class ResetPassword extends Component {
@@ -121,8 +121,8 @@ class ResetPassword extends Component {
         // if (Platform.OS === 'web') {
         //     return WebBrowser.openBrowserAsync(uri)
         // }
-        // this.setState({uri})
-        urischeme('URL', uri);
+        this.setState({uri})
+        // urischeme('URL', uri);
     }
 
     closeWebViewHandler = () => {
@@ -143,14 +143,14 @@ class ResetPassword extends Component {
 
     render() {
         const entities = new Html5Entities();
-        // if (this.state.uri) {
-        //     return (
-        //         <WebView
-        //             uri={this.state.uri}
-        //             onPress={this.closeWebViewHandler}
-        //         />
-        //     )
-        // }
+        if (this.state.uri) {
+            return (
+                <WebView
+                    uri={this.state.uri}
+                    onPress={this.closeWebViewHandler}
+                />
+            )
+        }
 
       return (
         <LinearBackground>

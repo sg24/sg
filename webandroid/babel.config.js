@@ -17,7 +17,8 @@ module.exports = function(api) {
              "urischeme": "./lib/urischeme/urischeme",
              "uridetect": "./lib/uridetect/uridetect",
              "withcomponent": "./lib/withcomponent/withcomponent",
-             "withclass": "./lib/withclass/withclass"
+             "withclass": "./lib/withclass/withclass",
+             "editor": "./lib/FormEditor/FormEditor"
            }
         }
        ]

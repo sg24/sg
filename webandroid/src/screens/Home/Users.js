@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
+import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform  } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
@@ -142,11 +142,6 @@ class Users extends Component {
         this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'getUser');
     }
 
-    isCloseToBottomHandler = ({layoutMeasurement, contentOffset, contentSize}) => {
-        const paddingToBottom = 20;
-        return (layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom) && this.props.settings.autoLoading;
-    }
-
     render() {
         let pageBackground = this.props.settings.page.backgroundImage  && this.props.settings.page.enableBackgroundImage;
         let Wrapper = pageBackground ? ImageBackground : View;
@@ -256,14 +251,8 @@ class Users extends Component {
                         {...wrapperProps}
                         style={[styles.container, this.state.viewMode === 'landscape' ? 
                         {backgroundColor: this.props.settings.backgroundColor} : null]}>
-                        <ScrollView 
-                            style={styles.scroll}
-                            showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }
-                            onScroll={({nativeEvent}) => {
-                                if (this.isCloseToBottomHandler(nativeEvent)) {
-                                    this.loadMoreHandler();
-                                }
-                            }}>
+                        <View 
+                            style={styles.scroll}>
                             <View style={[styles.scroll, styles.scrollContainer]}>
                                 <User
                                     cnt={this.props.fetchCnt}
@@ -276,9 +265,10 @@ class Users extends Component {
                                     pageReaction={this.props.pageReaction}
                                     enableLoadMore={this.props.loadMore}
                                     start={this.props.fetchCntStart}
-                                    loadMore={this.loadMoreHandler} />
+                                    loadMore={this.loadMoreHandler}
+                                    loadMoreHandler={this.loadMoreHandler} />
                             </View>
-                        </ScrollView>
+                        </View>
                     </Wrapper>
                     { this.props.deletePageErr ? 
                     <NotificationModal

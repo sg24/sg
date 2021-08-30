@@ -19,8 +19,11 @@ class UriDetect extends Component {
             Touchable = TouchableOpacity
         }
         let content = this.props.content ? this.props.content : '';
-        let words = content.split(/\s/);
-        content = words.map((word, index) => {
+        let words = content.split(/\r\n|\r|\n/);
+        let updateWords = words.join("br")
+        words = updateWords.split(/\s/)
+        content = words.map((rawWord, index) => {
+            let word = rawWord.split('br').join('\n');
             let seperator = index < (words.length - 1) ? ' ' : '';
             let searchStyle = this.props.searchText && this.props.searchText.length > 0 && word.match(this.props.searchText) ?
                 {backgroundColor: this.props.highlighted ? this.props.highlighted.backgroundColor : '#437da3', 
@@ -28,7 +31,7 @@ class UriDetect extends Component {
             if (word.match(LINK_DETECTION_REGEX)) {
                 return <Touchable key={index} onPress={() => this.verifyURIHandler(word)}><Text style={[styles.href, searchStyle, this.props.textStyle]}>{ word + seperator }</Text></Touchable>;
             } else if (word.match(HASH_DETECTION_REGEX)) {
-            return <Touchable key={index} onPress={() => this.props.onPress('hashTag', word)}><Text style={[styles.hashTag, searchStyle, this.props.textStyle]}>{ word + seperator}</Text></Touchable>;
+                return <Touchable key={index} onPress={() => this.props.onPress('hashTag', word)}><Text style={[styles.hashTag, searchStyle, this.props.textStyle]}>{ word + seperator}</Text></Touchable>;
             } else if (this.props.searchText && this.props.searchText.length > 0 && word.match(this.props.searchText)) {
                 return <Text key={index} style={[searchStyle, this.props.textStyle]}>{ word + seperator}</Text>
             } else {

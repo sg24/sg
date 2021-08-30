@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
+import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
@@ -216,11 +216,6 @@ class Feed extends Component {
         this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'feed', 'getFeed');
     }
 
-    isCloseToBottomHandler = ({layoutMeasurement, contentOffset, contentSize}) => {
-        const paddingToBottom = 20;
-        return (layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom) && this.props.settings.autoLoading;
-    }
-
     render() {
         let pageBackground = this.props.settings.page.backgroundImage  && this.props.settings.page.enableBackgroundImage;
         let Wrapper = pageBackground ? ImageBackground : View;
@@ -317,14 +312,8 @@ class Feed extends Component {
                         {...wrapperProps}
                         style={[styles.container, this.state.viewMode === 'landscape' ? 
                         {backgroundColor: this.props.settings.backgroundColor} : null]}>
-                        <ScrollView 
-                            style={styles.scroll}
-                            showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }
-                            onScroll={({nativeEvent}) => {
-                            if (this.isCloseToBottomHandler(nativeEvent)) {
-                                this.loadMoreHandler();
-                            }
-                            }}>
+                        <View 
+                            style={styles.scroll}>
                             <FeedItem 
                                 cnt={this.props.fetchCnt}
                                 userID={this.props.userID}
@@ -346,8 +335,9 @@ class Feed extends Component {
                                 enableLoadMore={this.props.loadMore}
                                 start={this.props.fetchCntStart}
                                 loadMore={this.loadMoreHandler}
-                                advertChatbox={this.advertChatboxHandler} />
-                        </ScrollView>
+                                advertChatbox={this.advertChatboxHandler}
+                                loadMoreHandler={this.loadMoreHandler} />
+                        </View>
                     </Wrapper>
                     { options }
                     { this.props.deletePageErr ? 

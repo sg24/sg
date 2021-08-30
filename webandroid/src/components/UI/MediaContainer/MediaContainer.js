@@ -28,7 +28,7 @@ class CheckMediaType extends Component {
             if (!dirInfo.exists) {
                 (async () => await FileSystem.makeDirectoryAsync(fileDir, { intermediates: true }))();
             }
-            FileSystem.downloadAsync(fileUri, fileDir + `${media.id}.${ext}`).then(({ uri }) => {
+            FileSystem.downloadAsync(fileUri, fileDir + (media.filename || `${media.id}.${ext}`)).then(({ uri }) => {
                 this.saveFileAsync(uri);
             }).catch(error => {
                 this.setState({downloadStart: false})
@@ -78,8 +78,7 @@ class CheckMediaType extends Component {
         if (this.props.enablePressable) {
             Wrapper = Pressable;
         }
-
-        if (media.bucket === 'image' || (media.type && media.type.split('/')[0] === 'image')) {
+        if ((media.bucket === 'image' || (media.type && media.type.split('/')[0] === 'image')) && (!media.ext || media.ext.match(/\/(gif|jpe?g|tiff?|png|webp|bmp)$/i))) {
             return  (
                 <Wrapper  style={[styles.wrapper]} onPress={this.props.disablePreview ? null : this.props.onPress} onLongPress={this.props.onLongPress}>
                     <View style={[styles.wrapper, this.props.wrapperStyle]}>

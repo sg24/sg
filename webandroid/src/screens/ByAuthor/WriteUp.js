@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
+import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { size } from 'tailwind';
 import urischeme from 'urischeme';
@@ -270,9 +270,8 @@ class WriteUp extends Component {
                         {...wrapperProps}
                         style={[styles.container, this.state.viewMode === 'landscape' ? 
                         {backgroundColor: this.props.settings.backgroundColor} : null]}>
-                        <ScrollView 
-                            style={styles.scroll}
-                            showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }>
+                        <View 
+                            style={styles.scroll}>
                             <WriteUpItem 
                                 cnt={this.props.fetchCnt}
                                 userID={this.props.userID}
@@ -294,7 +293,7 @@ class WriteUp extends Component {
                                 enableLoadMore={this.props.loadMore}
                                 start={this.props.fetchCntStart}
                                 loadMore={this.loadMoreHandler}/>
-                        </ScrollView>
+                        </View>
                     </Wrapper>
                     { options }
                     { this.props.deletePageErr ? 

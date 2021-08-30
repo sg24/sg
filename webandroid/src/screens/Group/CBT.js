@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
+import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
@@ -266,11 +266,6 @@ class CBT extends Component {
         this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'groupcbt', 'getCBT', this.state.groupID);
     }
 
-    isCloseToBottomHandler = ({layoutMeasurement, contentOffset, contentSize}) => {
-        const paddingToBottom = 20;
-        return (layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom) && this.props.settings.autoLoading;
-    }
-
     render() {
         let pageBackground = this.props.settings.page.backgroundImage  && this.props.settings.page.enableBackgroundImage;
         let Wrapper = pageBackground ? ImageBackground : View;
@@ -345,14 +340,8 @@ class CBT extends Component {
                         {...wrapperProps}
                         style={[styles.container, this.state.viewMode === 'landscape' ? 
                         {backgroundColor: this.props.settings.backgroundColor} : null]}>
-                        <ScrollView 
-                            style={styles.scroll}
-                            showsVerticalScrollIndicator={Platform.OS === 'web' && this.state.viewMode === 'landscape' }
-                            onScroll={({nativeEvent}) => {
-                                if (this.isCloseToBottomHandler(nativeEvent)) {
-                                    this.loadMoreHandler();
-                                }
-                            }}>
+                        <View 
+                            style={styles.scroll}>
                             <CBTItem
                                 cnt={this.props.fetchCnt}
                                 userID={this.props.userID}
@@ -379,8 +368,9 @@ class CBT extends Component {
                                 closeModal={this.closeModalHandler}
                                 enableLoadMore={this.props.loadMore}
                                 start={this.props.fetchCntStart}
-                                loadMore={this.loadMoreHandler}/>
-                        </ScrollView>
+                                loadMore={this.loadMoreHandler}
+                                loadMoreHandler={this.loadMoreHandler}/>
+                        </View>
                     </Wrapper>
                     { options }
                     { this.props.deletePageErr ? 

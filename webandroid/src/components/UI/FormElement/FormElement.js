@@ -1,38 +1,45 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Platform } from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Platform, StyleSheet } from 'react-native';
 import Ionicons from 'ionicons';
-import { makeUseStyles } from "react-native-stylex";
-import {withStyles} from "react-native-stylex/withStyles";
 
-const formElement = props => {
-    const {styles} = props
-    return (
-        <View style={[styles.wrapper, props.formWrapperStyle]}>
-            {props.labelTitle ? <Text style={[styles.labelTitle, props.labelStyle]}>{props.labelTitle}</Text> : null}
-            <View style={[styles.InputWrapper, props.inputWrapperStyle]}>
-                <TextInput 
-                    autoCapitalize="none"
-                    underlineColorAndroid="transparent"
-                    {...props}
-                    style={[styles.input, props.style]} />
-                {props.inputIcon || props.range ? (
-                    <View style={[styles.inputIcon, props.inputIconStyle]}>
-                        { props.inputIcon ? 
-                            <TouchableOpacity onPress={props.onPress}>
-                                <Ionicons name={props.inputIcon} size={props.inputIconSize ? props.inputIconSize : 14}/>
-                            </TouchableOpacity> : 
-                            <Text>{ props.range }</Text>}
-                    </View>
-                ): null}
+import Editor from 'editor';
+
+class FormElement extends Component {
+    render() {
+        return (
+            <View style={[styles.wrapper, this.props.formWrapperStyle]}>
+                {this.props.labelTitle ? <Text style={[styles.labelTitle, this.props.labelStyle]}>{this.props.labelTitle}</Text> : null}
+                <View style={[styles.InputWrapper, this.props.inputWrapperStyle]}>
+                    { this.props.fullEditor ? <Editor
+                        ref={(ref) => this._editor = ref}
+                        autoCapitalize="none"
+                        {...this.props}
+                        style={[styles.input, this.props.style]} />:
+                        <TextInput 
+                        autoCapitalize="none"
+                        underlineColorAndroid="transparent"
+                        {...this.props}
+                        style={[styles.input, this.props.style]} />
+                    }
+                    {this.props.inputIcon || this.props.range ? (
+                        <View style={[styles.inputIcon, this.props.inputIconStyle]}>
+                            { this.props.inputIcon ? 
+                                <TouchableOpacity onPress={this.props.onPress}>
+                                    <Ionicons name={this.props.inputIcon} size={this.props.inputIconSize ? this.props.inputIconSize : 14}/>
+                                </TouchableOpacity> : 
+                                <Text>{ this.props.range }</Text>}
+                        </View>
+                    ): null}
+                </View>
+                { this.props.valid ?
+                    <Text style={styles.error}>{this.props.error}</Text> : null
+                }
             </View>
-            { props.valid ?
-                <Text style={styles.error}>{props.error}</Text> : null
-            }
-        </View>
-    )
+        )
+    }
 }
 
-const useStyles = makeUseStyles(({ palette, utils }) => ({
+const styles = StyleSheet.create({
     wrapper: {
         paddingTop: 0,
         paddingLeft: 10,
@@ -92,6 +99,6 @@ const useStyles = makeUseStyles(({ palette, utils }) => ({
         backgroundColor: '#f9f9f9',
         color: '#ff1600'
     }
-}))
+})
 
-export default withStyles(useStyles)(formElement);
+export default FormElement;

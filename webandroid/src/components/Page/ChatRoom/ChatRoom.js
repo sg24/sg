@@ -1,42 +1,72 @@
-import React from 'react';
+import React, { Component } from 'react';
+import {  FlatList } from 'react-native';
+import { connect } from 'react-redux';
 
 import ChatRoomContent from './ChatRoomContent';
 
-const chatRoom = props => {
-    return props.cnt.map((cnt, index) => (
-        <ChatRoomContent 
-            key={index}
-            cnt={cnt}
-            userID={props.userID}
-            openURI={props.openURI}
-            pageCntID={props.pageCntID}
-            edit={props.edit.bind(this, cnt._id)}
-            delete={props.delete.bind(this, cnt._id, false)}
-            report={props.report.bind(this, cnt._id)}
-            showUserOpt={props.showUserOpt.bind(this, cnt._id)}
-            showRequest={props.showRequest.bind(this, cnt._id)}
-            mark={props.mark.bind(this, cnt._id)}
-            mediaPreview={props.mediaPreview}
-            saveMedia={props.saveMedia}
-            closeModal={props.closeModal}
-            userProfile={props.userProfile.bind(this, cnt.authorID)}
-            shareUserProfile={props.userProfile}
-            showChatroomInfo={props.showChatroomInfo.bind(this, cnt._id, cnt.title, cnt.media)}
-            favorite={props.favorite.bind(this, cnt._id)}
-            request={props.request.bind(this, cnt._id, cnt, cnt.isPublic, cnt.enableRule, cnt.enableCbt)}
-            enterChatroom={props.enterChatroom.bind(this, cnt._id, cnt.title, cnt.image, cnt.member)}
-            cancelRequest={props.cancelRequest.bind(this, cnt._id)}
-            showPendingAppove={props.showPendingAppove.bind(this, cnt._id)}
-            cancelApprove={props.cancelApprove.bind(this, cnt._id, null, 'cancelApprove', false, 'Cancelling this request will remove the exam you have written !')}
-            cancelMark={props.cancelMark.bind(this, cnt._id, null, 'cancelMark', false, 'Cancelling this request will remove the exam you have written !')}
-            pageReaction={props.pageReaction}
-            closeModal={props.closeModal}
-            lastItem={(props.cnt.length - 1) === index}
-            enableLoadMore={props.enableLoadMore}
-            start={props.start}
-            loadMore={props.loadMore}
-            advertChatbox={props.advertChatbox}/>
-    ));
+class ChatRoom extends Component {
+    isCloseToBottomHandler = ({layoutMeasurement, contentOffset, contentSize}) => {
+        const paddingToBottom = 30;
+        return (layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom) && this.props.settings.autoLoading;
+    }
+
+    _renderItem = ({item:cnt, index}) => {
+        return (
+            <ChatRoomContent 
+                key={index}
+                cnt={cnt}
+                userID={this.props.userID}
+                openURI={this.props.openURI}
+                pageCntID={this.props.pageCntID}
+                edit={this.props.edit.bind(this, cnt._id)}
+                delete={this.props.delete.bind(this, cnt._id, false)}
+                report={this.props.report.bind(this, cnt._id)}
+                showUserOpt={this.props.showUserOpt.bind(this, cnt._id)}
+                showRequest={this.props.showRequest.bind(this, cnt._id)}
+                mark={this.props.mark.bind(this, cnt._id)}
+                mediaPreview={this.props.mediaPreview}
+                saveMedia={this.props.saveMedia}
+                closeModal={this.props.closeModal}
+                userProfile={this.props.userProfile.bind(this, cnt.authorID)}
+                shareUserProfile={this.props.userProfile}
+                showChatroomInfo={this.props.showChatroomInfo.bind(this, cnt._id, cnt.title, cnt.media)}
+                favorite={this.props.favorite.bind(this, cnt._id)}
+                request={this.props.request.bind(this, cnt._id, cnt, cnt.isPublic, cnt.enableRule, cnt.enableCbt)}
+                enterChatroom={this.props.enterChatroom.bind(this, cnt._id, cnt.title, cnt.image, cnt.member)}
+                cancelRequest={this.props.cancelRequest.bind(this, cnt._id)}
+                showPendingAppove={this.props.showPendingAppove.bind(this, cnt._id)}
+                cancelApprove={this.props.cancelApprove.bind(this, cnt._id, null, 'cancelApprove', false, 'Cancelling this request will remove the exam you have written !')}
+                cancelMark={this.props.cancelMark.bind(this, cnt._id, null, 'cancelMark', false, 'Cancelling this request will remove the exam you have written !')}
+                pageReaction={this.props.pageReaction}
+                closeModal={this.props.closeModal}
+                lastItem={(this.props.cnt.length - 1) === index}
+                enableLoadMore={this.props.enableLoadMore}
+                start={this.props.start}
+                loadMore={this.props.loadMore}
+                advertChatbox={this.props.advertChatbox}/>
+        )
+    }
+
+    render() {
+        return (
+                <FlatList 
+                    data={this.props.cnt}
+                    renderItem={this._renderItem}
+                    keyExtractor={(item, index) => item+index}
+                    onScroll={({nativeEvent}) => {
+                        if (this.isCloseToBottomHandler(nativeEvent)) {
+                            this.props.loadMoreHandler();
+                        }
+                    }}
+                />
+        )
+    }
 }
 
-export default chatRoom;
+const mapStateToProps = state => {
+    return {
+        settings: state.settings
+    };
+};
+
+export default connect(mapStateToProps)(ChatRoom);

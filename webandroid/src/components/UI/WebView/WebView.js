@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, BackHandler } from 'react-native';
 import { WebView } from 'react-native-webview';
+import { connect } from 'react-redux';
 
 import Header from '../Header/Search';
 import Ionicons from 'ionicons';
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback'
+import NoBackground from '../NoBackground/NoBackground';
+import Navigation from '../SideBar/Navigation/Navigation';
+import CreateNavigation from '../SideBar/CreateNavigation/CreateNavigation';
 
-class webBrowser extends Component {
+class WebBrowser extends Component {
     state = {
         loadingProgress: 0,
         uri: this.props.uri
@@ -39,7 +43,7 @@ class webBrowser extends Component {
     }
 
     render() {
-        return (
+        let cnt =  (
             <View style={styles.wrapper}>
                 <Header 
                     value={this.state.uri}
@@ -78,6 +82,22 @@ class webBrowser extends Component {
                 />
             </View>
         )
+        return (
+            <NoBackground
+                sideBar={(
+                    <>
+                    <Navigation 
+                            color={this.props.settings.color}
+                            backgroundColor={this.props.settings.backgroundColor}/>
+                    <CreateNavigation 
+                        color={this.props.settings.color}
+                        backgroundColor={this.props.settings.backgroundColor}/>
+                    </>
+                )}
+                content={ cnt }
+                contentFetched>
+            </NoBackground>
+          )
     }
 }
 
@@ -102,4 +122,10 @@ const styles = StyleSheet.create({
     }
 });
 
-export default webBrowser;
+const mapStateToProps = state => {
+    return {
+        settings: state.settings
+    };
+};
+
+export default connect(mapStateToProps)(WebBrowser);
