@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  FlatList } from 'react-native';
+import {  FlatList, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
 import FeedContent from './FeedContent';
@@ -44,8 +44,8 @@ class Feed extends Component {
     }
 
     render() {
-        return (
-                <FlatList 
+        let cnt = (
+            <FlatList 
                     data={this.props.cnt}
                     renderItem={this._renderItem}
                     keyExtractor={(item, index) => item+index}
@@ -55,7 +55,16 @@ class Feed extends Component {
                         }
                     }}
                 />
-        )
+        );
+
+        if (this.props.enableScrollView) {
+            cnt = (
+                <ScrollView>
+                    {this.props.cnt.map((cnt, index) => this._renderItem({item: cnt, index}))}
+                </ScrollView>
+            )
+        }
+        return cnt;
     }
 }
 

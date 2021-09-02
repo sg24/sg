@@ -248,7 +248,8 @@ class Users extends Component {
                                     pageReaction={this.props.pageReaction}
                                     enableLoadMore={this.props.loadMore}
                                     start={this.props.fetchCntStart}
-                                    loadMore={this.loadMoreHandler} />
+                                    loadMore={this.loadMoreHandler}
+                                    enableScrollView />
                             </View>
                         </View>
                     </Wrapper>

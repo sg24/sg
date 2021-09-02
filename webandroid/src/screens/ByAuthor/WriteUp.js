@@ -292,7 +292,8 @@ class WriteUp extends Component {
                                 closeModal={this.closeModalHandler}
                                 enableLoadMore={this.props.loadMore}
                                 start={this.props.fetchCntStart}
-                                loadMore={this.loadMoreHandler}/>
+                                loadMore={this.loadMoreHandler}
+                                enableScrollView/>
                         </View>
                     </Wrapper>
                     { options }

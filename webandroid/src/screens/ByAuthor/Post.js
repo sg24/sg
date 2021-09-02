@@ -296,7 +296,8 @@ class Post extends Component {
                                 enableLoadMore={this.props.loadMore}
                                 start={this.props.fetchCntStart}
                                 loadMore={this.loadMoreHandler}
-                                advertChatbox={this.advertChatboxHandler} />
+                                advertChatbox={this.advertChatboxHandler}
+                                enableScrollView />
                         </View>
                     </Wrapper>
                     { options }
