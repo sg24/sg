@@ -1,8 +1,9 @@
 import * as actionTypes from './actionTypes';
 
-export const checkAuthInit = () => {
+export const checkAuthInit = (isRTL) => {
     return {
-        type: actionTypes.CHECK_AUTH_INIT
+        type: actionTypes.CHECK_AUTH_INIT,
+        isRTL
     };
 };
 

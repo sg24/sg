@@ -14,6 +14,7 @@ import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from './src/axios';
 import * as Updates from 'expo-updates';
+import * as Localization from 'expo-localization';
 
 import * as actions from './src/store/actions/index';
 import SignInScreen from './src/screens/Auth/Signin';
@@ -180,7 +181,7 @@ class Base extends Component {
     }
   }
   componentDidMount() {
-    this.props.onCheckAuth();
+    this.props.onCheckAuth(Localization.isRTL);
     if (Platform.OS !== 'web') {
       Linking.addEventListener('url', this._onReceiveURL);
       Linking.getInitialURL().then(uri => {
@@ -647,7 +648,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-      onCheckAuth: () => dispatch(actions.checkAuthInit()),
+      onCheckAuth: (isRTL) => dispatch(actions.checkAuthInit(isRTL)),
       onHeaderFilter: (filterCnt) => dispatch(actions.headerFilterInit(filterCnt)),
       onPushNotification: (limit, settings, token, platform, stateHistory) => dispatch(actions.headerPushNotificationInit(limit, settings, token, platform, stateHistory)),
       onNavigationPage: (page, cnt) => dispatch(actions.headerNotificationPage(page, cnt)),

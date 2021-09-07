@@ -18,7 +18,8 @@ module.exports = function(api) {
              "uridetect": "./lib/uridetect/uridetect",
              "withcomponent": "./lib/withcomponent/withcomponent",
              "withclass": "./lib/withclass/withclass",
-             "editor": "./lib/FormEditor/FormEditor"
+             "editor": "./lib/FormEditor/FormEditor",
+             "text": "./lib/Text/Text"
            }
         }
        ]

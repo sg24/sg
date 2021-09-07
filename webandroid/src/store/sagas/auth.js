@@ -20,7 +20,10 @@ export function* checkAuthInitSaga(action) {
         }
 
         if (settings) {
-            yield put(actions.saveSettings(JSON.parse(settings)));
+            let savedSettings = JSON.parse(settings);
+            yield put(actions.saveSettings({...savedSettings, isRTL: action.isRTL}));
+        } else {
+            yield put(actions.saveSettings({isRTL: action.isRTL}));
         }
     } catch(err) {
         yield put(actions.checkAuthFail(err))

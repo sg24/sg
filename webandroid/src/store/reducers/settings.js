@@ -62,16 +62,20 @@ const initialState = {
     highlightColor: [{title: 'White',  color: '#fff'},{title: 'Black', color: '#000'}],
     backgroundColor: '#fff',
     color: '#333',
+    isRTL: false,
     version: 1
 };
 
 const saveSetting = (state, action) => {
-    let settings = action.settings;
-    if (action.settings.version !== state.version) {
-        let updateSettings = state;
-        AsyncStorage.setItem('settings', JSON.stringify(updateSettings));
-        settings = updateSettings;
+    let settings = {...state, ...action.settings};
+    if (state.version !== settings.version) {
+        for (let option in state) {
+            if (JSON.stringify(state[option]) !== JSON.stringify(settings[option])) {
+                settings[option] = state[option];
+            }
+        }
     }
+    AsyncStorage.setItem('settings', JSON.stringify(settings));
     return updateObject(state, settings)
 };
 

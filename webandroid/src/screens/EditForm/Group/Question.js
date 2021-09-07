@@ -97,6 +97,7 @@ class GroupQuestion extends Component {
             });
         }
         if (this.state.resetAll) {
+            this._textEditor?._editor?.setText('');
             this.setState({
                 formElement: {content: { value: '',validation: {required: true,minLength: 1 }, valid: false,touched: false } },
                 formIsValid: false,showActionSheet: false, showCamera: false,showVideoCamera: false,showAudioRecorder: false,
@@ -284,6 +285,8 @@ class GroupQuestion extends Component {
                     { header }
                     <View style={styles.formElementWrapper}>
                         <FormElement
+                            ref={(ref) => this._textEditor = ref}
+                            fullEditor
                             onChangeText={(val) => this.inputChangedHandler(val, 'content')}
                             autoCorrect
                             multiline
@@ -509,12 +512,13 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         paddingLeft: 0,
         paddingRight: 0,
-        paddingBottom: 0
+        paddingBottom: 0,
+        marginTop: 0
     },
     formElementInput: {
         flex: 1,
         textAlignVertical: 'top',
-        fontSize: 18
+        fontSize: 16
     },
     explorer: {
         position: 'absolute',

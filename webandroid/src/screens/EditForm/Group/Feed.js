@@ -117,6 +117,7 @@ class Feed extends Component {
             });
         }
         if (this.state.resetAll) {
+            this._textEditor?._editor?.setText('');
             this.setState({
                 formElement: { title: { value: '',validation: {required: true, minLength: 1},valid: false,touched: false, focus: true, inputHashTag: []},
                 content: { value: '',validation: {required: true, minLength: 1 },  valid: false, touched: false,focus: false, inputHashTag: []},
@@ -339,6 +340,8 @@ class Feed extends Component {
                                     onFocus={() => this.inputFocusHandler('title')}
                                     style={styles.formElementInput}/>
                                 <FormElement
+                                    ref={(ref) => this._textEditor = ref}
+                                    fullEditor
                                     labelTitle="Content"
                                     onChangeText={(val) => this.inputChangedHandler(val, 'content')}
                                     error="Content must not be empty"
@@ -349,7 +352,7 @@ class Feed extends Component {
                                     valid={!this.state.formElement.content.valid && this.state.formElement.content.touched}
                                     onSelectionChange={(e) => this.inputChangePositionHandler(e, 'content')}
                                     onFocus={() => this.inputFocusHandler('content')}
-                                    style={styles.formElementInput}/>
+                                    style={styles.formElementEditor}/>
                                 <CheckBox 
                                     title="Enable Comment"
                                     checked={this.state.formElement.comment.value}
@@ -577,7 +580,11 @@ const styles = StyleSheet.create({
     formElementInput: {
         flex: 1,
         textAlignVertical: 'top',
-        fontSize: 18
+        fontSize: 16
+    },
+    formElementEditor: {
+        fontSize: 16,
+        height: 150
     },
     explorer: {
         position: 'absolute',
