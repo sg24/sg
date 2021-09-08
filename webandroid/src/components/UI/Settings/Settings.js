@@ -1,16 +1,16 @@
 import React, { Component} from 'react';
-import { View, Text, Image, ScrollView, StyleSheet, Platform } from 'react-native';
+import { View, Image, ScrollView, StyleSheet, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { explorer } from 'picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as FileSystem from 'expo-file-system';
+import Text from 'text';
 
 import InnerScreen from '../InnerScreen/InnerScreen';
 import DefaultHeader from '../Header/DefaultHeader';
 import Accodion from '../Accodion/Accodion';
 import * as actions from '../../../store/actions/index';
-import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 import Button from '../Button/Button';
 import CheckBox from '../CheckBox/CheckBox';
 

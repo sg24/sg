@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, Platform } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, Platform } from 'react-native';
 import Icon from 'ionicons';
 import { Camera } from 'expo-camera';
 import permission from 'permission';
+import Text, { translator } from 'text';
 
 import InnerScreen from '../InnerScreen/InnerScreen';
 import Button from '../Button/Button';
@@ -22,9 +23,9 @@ class CameraComponent extends Component {
 
     async componentDidMount() {
         if (Platform.OS === 'web') {
-            alert('Video recording in not supported on web browser, Please use the slodge24 APK');
+            alert(translator('Video recording in not supported on web browser, Please use the', 'slodge24 APK'));
             this.setState({error: true, start: true,
-                errorMsg: 'Video recording in not supported on web browser, Please use the slodge24 APK'})
+                errorMsg: translator('Video recording in not supported on web browser, Please use the', 'slodge24 APK')})
         } else {
             try {
                 await permission.camera();

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text,  StyleSheet,  ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
+import { View, StyleSheet,  ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 import { size, tailwind } from 'tailwind';
 import { v4 as uuid } from 'uuid';
 import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
 import Carousel from 'react-native-snap-carousel';
+import Text from 'text';
 
 import Exam from './Exam/Exam';
 import FormElement from '../../../components/UI/FormElement/FormElement';
@@ -581,7 +582,7 @@ class  ExamContent extends Component {
                             disableDescription/>: null}
                 { this.props.submitError ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onAddFormReset}
                         button={[{title: 'Ok', onPress: this.props.onAddFormReset, style: styles.modalButton}]}/> : null}

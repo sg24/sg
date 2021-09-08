@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ActivityIndicator, ScrollView, Dimensions} from 'react-native';
+import { View, ActivityIndicator, ScrollView, Dimensions} from 'react-native';
 import { connect } from 'react-redux';
 import { size } from 'tailwind';
 import { makeUseStyles } from "react-native-stylex";
@@ -7,6 +7,7 @@ import { withStyles } from "react-native-stylex/withStyles";
 import { useNavigation } from '@react-navigation/native';
 import withComponent from 'withcomponent';
 import Ionicons from 'ionicons';
+import Text, { translator } from 'text';
 
 import InnerScreen from '../InnerScreen/InnerScreen';
 import SearchHeader from '../Header/Search';
@@ -340,7 +341,7 @@ class SelectPicker extends Component {
         if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length < 1) {
             cnt = (
                 <InfoBox
-                    det={`You currently have no ${this.props.infoBox ? this.props.infoBox: this.props.title}!`}
+                    det={`${translator('You currently have no')} ${this.props.infoBox ? this.props.infoBox: this.props.title}`}
                     name={this.props.iconName ? this.props.iconName : 'timer'}
                     size={40}
                     color="#333"
@@ -352,7 +353,7 @@ class SelectPicker extends Component {
         if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
             cnt = (
                 <InfoBox
-                    det={`'${this.state.search}' entered does not match any name`}
+                    det={`${this.state.search} ${translator('entered does not match any name')}`}
                     name="search"
                     size={40}
                     color="#333"
@@ -383,7 +384,7 @@ class SelectPicker extends Component {
                 </View>
                 { this.props.fetchCntErr && this.props.fetchCnt ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onFetchCntReset}
                         button={[{title: 'Ok', onPress: this.props.onFetchCntReset, style: styles.button}]}/> : null}
@@ -392,7 +393,7 @@ class SelectPicker extends Component {
                 ) : null}
                 { this.props.selectErr ?
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onSelectReset}
                         button={[{title: 'Ok', onPress: this.props.onSelectReset, style: styles.button}]}/> : null}
@@ -418,7 +419,7 @@ class SelectPicker extends Component {
                             {title: 'Exit', onPress: this.closeModalHandler, style: styles.buttonCancel}]}/> : null}
                 { this.props.selectReactionErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onSelectReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onSelectReactionReset, style: styles.button}]}/> : null}

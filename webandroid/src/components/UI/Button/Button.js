@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, Platform, TouchableNativeFeedback } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, ActivityIndicator, Platform, TouchableNativeFeedback } from 'react-native';
+import Text from 'text';
 const button = props => {
     let cnt = (
         <View style={[styles.wrapper, props.disabled ? styles.disabled : null, props.style]}>

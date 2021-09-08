@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View,  StyleSheet } from 'react-native';
 import { TabView, TabBar } from 'react-native-tab-view';
 import Icon from 'ionicons';
 import { connect } from 'react-redux';
+import Text from 'text';
 
 import SplashScreen from '../../../screens/SplashScreen/SplashScreen';
-import TabBarge from '../TabBarge/TabBarge';
 
 const tabView = props => {
     const renderTabBar = tabProps => (

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ActivityIndicator, ScrollView, Dimensions} from 'react-native';
+import { View, ActivityIndicator, ScrollView, Dimensions} from 'react-native';
 import { connect } from 'react-redux';
 import { size } from 'tailwind';
 import { makeUseStyles } from "react-native-stylex";
@@ -7,6 +7,7 @@ import { withStyles } from "react-native-stylex/withStyles";
 import { useNavigation } from '@react-navigation/native';
 import withComponent from 'withcomponent';
 import Ionicons from 'ionicons';
+import Text, { translator } from 'text';
 
 import InnerScreen from '../InnerScreen/InnerScreen';
 import SearchHeader from '../Header/Search';
@@ -118,7 +119,7 @@ class SharePicker extends Component {
         let header = (
             <DefaultHeader 
                 onPress={this.props.closeSharePicker}
-                title={`Select ${this.state.picked.length > 0 ? this.state.picked.length : ''}`}
+                title={`${translator('Select')} ${this.state.picked.length > 0 ? this.state.picked.length : ''}`}
                 rightSideContent={(
                     <View style={styles.headerRightContent}>
                         <Button 
@@ -140,14 +141,14 @@ class SharePicker extends Component {
             header =  (
                 <SearchHeader 
                     onPress={this.closeSearchHandler}
-                    title="Enter Name ...."
+                    title="Enter Name"
                     filterCnt={this.searchUserHandler}
                     editable
                     rightSideContent={(
                         <View style={styles.headerRightContent}>
                            { this.state.picked.length > 0 ?
                             <View style={styles.picked}>
-                                <Text style={styles.pickedText} numberOfLines={1}> { this.state.picked.length } </Text>
+                                <Text style={styles.pickedText} numberOfLines={1}>{ this.state.picked.length }</Text>
                             </View> : null}
                             <Button
                                 title="Share"
@@ -204,7 +205,7 @@ class SharePicker extends Component {
         if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length < 1) {
             cnt = (
                 <InfoBox
-                    det='You currently have no friend!'
+                    det='You currently have no friend'
                     name="person"
                     size={40}
                     color="#333"
@@ -256,19 +257,19 @@ class SharePicker extends Component {
                 </View>
                 { this.props.fetchCntErr && this.props.fetchCnt ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onFetchCntReset}
                         button={[{title: 'Ok', onPress: this.props.onFetchCntReset, style: styles.button}]}/> : null}
                 { this.props.shareErr ?
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onShareReset}
                         button={[{title: 'Ok', onPress: this.props.onShareReset, style: styles.button}]}/> : null}
                 { this.props.share ? 
                     <NotificationModal
-                        info={this.props.info || "Message shared successfully !"}
+                        info={this.props.info || "Message shared successfully"}
                         infoIcon={{name: 'paper-plane-outline', color: '#16cf27', size: 40}}
                         closeModal={this.shareResetHandler}
                         button={[{title: 'Ok', onPress: this.shareResetHandler, style: styles.button}]}/> : null}

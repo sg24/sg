@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, ActivityIndicator, TouchableOpacity, Keyboard, StyleSheet, Dimensions, Platform } from 'react-native';
+import { View, ActivityIndicator, TouchableOpacity, Keyboard, StyleSheet, Dimensions, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
 import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
-
+import Text from 'text';
 
 import NoBackground from '../../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../../components/UI/SideBar/Navigation/Navigation';
@@ -291,7 +291,7 @@ class GroupQuestion extends Component {
                             autoCorrect
                             multiline
                             autoFocus
-                            placeholder={"Ask Question ...."}
+                            placeholder={"Ask Question"}
                             editable={this.state.editable}
                             value={this.state.formElement.content.value}
                             formWrapperStyle={styles.formWrapperStyle}
@@ -369,13 +369,13 @@ class GroupQuestion extends Component {
                                 closePreview={this.closePreviewHandler}/>: null}
                     { this.props.submitError ? 
                         <NotificationModal
-                            info="Network Error !"
+                            info="Network Error"
                             infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                             closeModal={this.props.onSubmitFormReset}
                             button={[{title: 'Ok', onPress: this.props.onSubmitFormReset, style: styles.modalButton}]}/> : null}
                     { this.props.submitted ? 
                         <NotificationModal
-                            info="Question updated successfully !"
+                            info="Question updated successfully"
                             infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                             closeModal={this.resetFormHandler}
                             button={[{title: 'View', onPress: this.props.navigation.goBack},
@@ -390,7 +390,7 @@ class GroupQuestion extends Component {
                     { header }
                     <View style={styles.loaderCnt}>
                         <InfoBox
-                            det='Network Error!'
+                            det='Network Error'
                             name="cloud-offline-outline"
                             size={40}
                             color="#ff1600"

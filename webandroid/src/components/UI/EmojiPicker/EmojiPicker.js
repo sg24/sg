@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, Platform } from 'react-native';
+import { View, StyleSheet, ScrollView, Platform } from 'react-native';
 import Icon from 'ionicons';
 import EmojiSelector, { Categories } from "react-native-emoji-selector";
+import Text from 'text';
 
 import InnerScreen from '../InnerScreen/InnerScreen';
 import Button from '../Button/Button';

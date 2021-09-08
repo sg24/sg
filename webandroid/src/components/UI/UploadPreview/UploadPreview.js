@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, Platform, Dimensions } from 'react-native';
+import { View, Image, StyleSheet, ScrollView, Platform, Dimensions } from 'react-native';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
 import { Video } from 'expo-av'
 import {v4 as uuid } from 'uuid';
 import FileIcon from 'file-icons';
+import Text from 'text';
 
 import InnerScreen from '../InnerScreen/InnerScreen';
 import DefaultHeader from '../Header/DefaultHeader';

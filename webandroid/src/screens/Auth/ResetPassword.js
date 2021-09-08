@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Dimensions, Platform, Alert } from 'react-native';
+import { View, Image, StyleSheet, Dimensions, Platform } from 'react-native';
 import { connect } from 'react-redux';
-import { tailwind, size } from 'tailwind';
+import { tailwind } from 'tailwind';
 // import * as WebBrowser from 'expo-web-browser';
 import Constants from 'expo-constants';
-import urischeme from 'urischeme';
+// import urischeme from 'urischeme';
 import { Html5Entities } from 'html-entities';
+import Text, { translator } from 'text';
 
 import LinearBackground from '../../components/UI/LinearBackground/LinearBackground';
 import logo from '../../assets/logocircle.png';
@@ -155,7 +156,7 @@ class ResetPassword extends Component {
       return (
         <LinearBackground>
             { this.props.submitted ? <NotificationModal
-                    info="Password updated succesfully !"
+                    info="Password updated succesfully"
                     closeModal={this.navigationHandler}
                     button={[{title: 'Ok', onPress: this.navigationHandler, style: styles.modalButton}]}/> : null}
             <ScrollView>
@@ -165,7 +166,7 @@ class ResetPassword extends Component {
                         <Image source={logo} style={styles.image}/>
                     </View>
                     <View style={styles.formElementTitle}>
-                        <Text style={styles.formElementTitleContent}>Welcome to S lodge24</Text>
+                        <Text style={styles.formElementTitleContent} keyword="S lodge24">Welcome to</Text>
                     </View>
                     { this.props.submitError ?
                         <Text style={styles.error}>{this.props.submitError.message}</Text> : null
@@ -206,7 +207,7 @@ class ResetPassword extends Component {
                             title="Privacy policy"
                             style={[styles.href, styles.term]}
                             onPress={() => this.openBrowserHandler(`${Constants.manifest.extra.BASE_URL}privacy`)} />
-                        {Platform.OS === 'web' ? <Text style={styles.copywrite}>{entities.decode('&copy;')} 2021, S LODGE24</Text> : null}
+                        {Platform.OS === 'web' ? <Text style={styles.copywrite} keyword=", S LODGE24">{entities.decode('&copy;')}{translator('2021')}</Text> : null}
                         <Href 
                         title="Terms of service"
                         style={[styles.href, styles.term]} 

@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Ionicons from 'ionicons';
+import Text from 'text';
 
 import Button from '../../Button/Button';
 import BoxShadow from '../../BoxShadow/BoxShadow';

@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import Ionicons from 'ionicons';
+import Text from 'text';
 
 import InnerScreen from '../InnerScreen/InnerScreen';
 import Button from '../Button/Button';

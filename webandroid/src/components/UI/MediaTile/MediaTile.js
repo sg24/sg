@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text , StyleSheet,  Dimensions, Platform } from 'react-native';
+import { View, StyleSheet,  Dimensions, Platform } from 'react-native';
 import { size } from 'tailwind';
+import Text from 'text';
+
 import MediaContainer from '../MediaContainer/MediaContainer';
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 

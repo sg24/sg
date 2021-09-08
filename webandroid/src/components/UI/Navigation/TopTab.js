@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import Icon from 'ionicons';
 import { connect } from 'react-redux';
+import Text from 'text';
 
 import HomeScreen from '../../../screens/Home/Post';
 import UserScreen from '../../../screens/Home/Users';
@@ -75,9 +76,11 @@ const topTab = props => (
             activeTintColor: '#437da3',
             inactiveTintColor: '#777',
             showIcon: true,
+            scrollEnabled: true,
             tabStyle: {
                 flexDirection: 'row',
-                paddingHorizontal: 10
+                paddingHorizontal: 10,
+                width: 'auto'
             },
             style: {
                 paddingHorizontal: 5,

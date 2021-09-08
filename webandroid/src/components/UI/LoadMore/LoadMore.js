@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import Ionicons from 'ionicons';
+import Text from 'text';
 
 import Button from '../Button/Button';
 
@@ -10,7 +11,7 @@ const loadMore= props => (
             { !props.start ? (
                 <View style={styles.loadMore}>
                     {props.icon ? <Ionicons name={props.icon.name} size={18} /> : null}
-                    <Text style={styles.loadMoreText}>{ props.title } </Text>
+                    <Text style={styles.loadMoreText}>{ props.title }</Text>
                 </View>
             ):  (
                 <ActivityIndicator

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, BackHandler } from 'react-native';
+import { View, StyleSheet, BackHandler } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { connect } from 'react-redux';
+import Text from 'text';
 
 import Header from '../Header/Search';
 import Ionicons from 'ionicons';

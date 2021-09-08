@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Linking } from 'react-native';
+import { View, StyleSheet, Linking } from 'react-native';
 import { tailwind } from 'tailwind';
 import {v4 as uuid } from 'uuid';
 import Icon from 'ionicons';
+import Text from 'text';
 
 import Button from '../Button/Button';
 import ButtonItem from './ButtonItem/ButtonItem';

@@ -1,7 +1,8 @@
 import React , { Component } from 'react';
-import { View, Text, Image, StyleSheet, TouchableWithoutFeedback, Platform } from 'react-native';
+import { View, Image, StyleSheet, TouchableWithoutFeedback, Platform } from 'react-native';
 import Icon from 'ionicons';
 import WebModal from 'modal-enhanced-react-native-web';
+import Text from 'text';
 
 import Logo from '../../../assets/logocircle.png';
 import TabBarge from '../TabBarge/TabBarge';

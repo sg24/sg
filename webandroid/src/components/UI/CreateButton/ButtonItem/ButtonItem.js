@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Platform, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, Platform, TouchableWithoutFeedback } from 'react-native';
 import Ionicons from 'ionicons';
+import Text from 'text';
 
 import TouchableNativeFeedback from '../../TouchableNativeFeedback/TouchableNativeFeedback';
 import FormElement from '../../FormElement/FormElement';

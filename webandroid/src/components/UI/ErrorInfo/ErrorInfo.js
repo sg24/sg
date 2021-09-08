@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text,StyleSheet} from 'react-native';
+import { View, StyleSheet} from 'react-native';
 import Ionicons from 'ionicons';
+import Text from 'text';
 
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 import InfoBox from '../InfoBox/InfoBox';
@@ -11,7 +12,7 @@ const errorInfo = props => (
         <View style={[styles.loaderCnt, props.viewMode === 'landscape' ? {backgroundColor: '#fff'} : 
             null]}>
             <InfoBox
-                det='Network Error!'
+                det='Network Error'
                 name="cloud-offline-outline"
                 size={40}
                 color="#ff1600"

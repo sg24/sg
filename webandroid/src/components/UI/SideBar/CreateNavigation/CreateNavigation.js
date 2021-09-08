@@ -1,10 +1,11 @@
 import React  from 'react';
-import { View , Text } from 'react-native';
+import { View } from 'react-native';
 import { makeUseStyles } from "react-native-stylex";
 import { withStyles } from "react-native-stylex/withStyles";
 import Ionicons from 'ionicons';
 import { tailwind } from 'tailwind';
 import { useNavigation, useNavigationState } from '@react-navigation/native';
+import Text from 'text';
 
 import BoxShadow from '../../BoxShadow/BoxShadow';
 import TouchableNativeFeedback from '../../TouchableNativeFeedback/TouchableNativeFeedback'

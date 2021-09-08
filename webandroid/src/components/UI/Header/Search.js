@@ -18,7 +18,7 @@ const search = props => (
                     </TouchableNativeFeedback>
                 )}
                 <FormElement
-                    placeholder={props.title ? props.title : "Search ... "}
+                    placeholder={props.title ? props.title : "Search"}
                     autoCapitalize="none"
                     formWrapperStyle={props.disableBackButton ? styles.disableBackButton : styles.formWrapper}
                     inputWrapperStyle={styles.inputWrapper}

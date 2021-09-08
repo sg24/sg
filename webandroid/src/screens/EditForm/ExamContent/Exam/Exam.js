@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, Keyboard, StyleSheet, Dimensions, Platform } from 'react-native';
+import { View, Keyboard, StyleSheet, Dimensions, Platform } from 'react-native';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
+import Text from 'text';
 
 import FormElement from '../../../../components/UI/FormElement/FormElement';
 import TouchableNativeFeedback from '../../../../components/UI/TouchableNativeFeedback/TouchableNativeFeedback';

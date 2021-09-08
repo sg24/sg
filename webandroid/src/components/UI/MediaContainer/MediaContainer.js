@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback , Pressable, Image, StyleSheet , Platform} from 'react-native';
+import { View, TouchableWithoutFeedback , Pressable, Image, StyleSheet , Platform} from 'react-native';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import FileIcon from 'file-icons';
+import Text, { translator } from 'text';
 
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 import VideoThumbnail from '../VideoThumbnail/VideoThumbnail';
@@ -17,7 +18,7 @@ class CheckMediaType extends Component {
 
     saveHandler = async () => {
         if (Platform.OS === 'web') {
-            alert('feature not supported on web browser, Please use the S lodge24 APK')
+            alert(translator('feature not supported on web browser, Please use the', 'S lodge24 APK'))
         }
         let media = this.props.media;
         let ext = media.ext.split('/')[1];
@@ -32,11 +33,11 @@ class CheckMediaType extends Component {
                 this.saveFileAsync(uri);
             }).catch(error => {
                 this.setState({downloadStart: false})
-                alert('download Error, check your internet connection !!!')
+                alert(translator('download Error, check your internet connection'))
             });
         }).catch((err) => {
             this.setState({downloadStart: false})
-            alert('Could not get directory information !!!')
+            alert(translator('Could not get directory information'))
         });
     }
 
@@ -47,7 +48,7 @@ class CheckMediaType extends Component {
           if (status !== 'granted') {
             const { status: mediaStatus, permissions: requestPermission } = await MediaLibrary.requestPermissionsAsync();
             if (mediaStatus !== 'granted') {
-                alert('Permission not granted');
+                alert(translator('Permission not granted'));
                 return;
             }
             permissions = requestPermission;
@@ -57,11 +58,11 @@ class CheckMediaType extends Component {
             const album = await MediaLibrary.getAlbumAsync('Slodge24');
             if (album === null) {
               await MediaLibrary.createAlbumAsync('Slodge24', asset, false);
-              alert(`Finished downloading`);
+              alert(translator(`Finished downloading`));
               this.setState({fileDownloaded: true})
             } else {
               await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
-              alert(`Finished downloading`);
+              alert(translator(`Finished downloading`));
               this.setState({fileDownloaded: true})
             }
             return true;

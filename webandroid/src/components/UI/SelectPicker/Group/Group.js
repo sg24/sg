@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Pressable, StyleSheet } from 'react-native';
 import Ionicons from 'ionicons';
+import Text from 'text';
 
 import Href from '../../Href/Href';
 import { transformNumber } from '../../../../shared/utility';
@@ -59,7 +60,8 @@ const group = props => {
                                 <Href numberOfLines={1}  title={props.groupDet.title} style={styles.userDet} onPress={props.showProfile}/>
                             </View>
                             <View style={styles.memberWrapper}>
-                                <Text style={[styles.memberText, styles.textStyle]}>{ transformNumber(props.groupDet.member) } <Text style={{marginLeft: 5}}>Members</Text></Text>
+                                <Text style={[styles.memberText, styles.textStyle]}>{ transformNumber(props.groupDet.member) } </Text>
+                                <Text style={[styles.memberText, styles.textStyle, {marginLeft: 5}]}>Members</Text>
                             </View>
                         </View>
                     </View>

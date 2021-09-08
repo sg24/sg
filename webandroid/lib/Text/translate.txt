@@ -1,0 +1,240 @@
+Sign In
+Retrive
+Pausing an audio recording is unsupported on your android device
+Audio could not be started, Please use the s lodg24 android app version
+Camera preview could not been started
+View reply
+shared
+Are you sure you want to delete this chat
+ok
+exit
+Are you sure you want to delete this chat
+Edit
+Send
+Search
+Settings
+Share
+Copy Text
+Delete
+Reply
+Friends
+Groups
+Chat Room
+Message not sent, check your internet connnection
+Resend
+Load more to scroll to chat
+Take Picture
+Video Record
+Audio Record
+File Explorer
+Reply
+Write
+Camera
+Video Recorder
+Audio Recorder
+choose
+Emoji Selector
+commentBox
+Search
+Reply
+Load Previous
+Type
+Type must not be empty
+Phone  Number
+URL / Phone Number
+URL
+Buy Now
+E-mail
+Title must not be empty
+URL must start with http or https
+Emoji Selected
+Clear
+Done
+Reload
+Network Error
+Message sent successfully
+Add New
+Question
+Write Up
+Feed
+App Error
+Logout
+post
+group
+Users
+cbt
+Notification
+Conversation
+home
+Could not get link preview
+Preview
+Comment
+feature not supported on web browser, Please use the
+download Error, check your internet connection
+Could not get directory information
+Permission not granted
+Finished downloading
+user
+Correct
+Wrong
+Are you sure you want to delete this solution
+Members
+Remove
+Profile
+Load More
+Allow
+Mark
+entered does not match any name
+Press and hold to select
+Upload Image
+Background
+Enable Background Image
+Change Background Image
+Highlighted
+Background Color
+Text Color
+Shared from
+Shared
+Enter Name
+You currently have no friend
+Add Friend
+Name entered does not match any friends name
+Message shared successfully
+Advert
+Create
+Favorite
+Upload  file to  preview
+Description
+Upload Preview
+Video recording in not supported on web browser, Please use the 
+Public
+Private
+Duration must not be zero
+Add CBT
+Number must not be greater than
+Title
+Exam Summary / Instruction
+Exam Summary / Instruction must not be empty
+Hour
+Minute
+Second
+Hrs
+Min
+sec
+Select Participant
+Enable Comment
+Enable Chat Deletion
+Add Participant Result To Chat
+Next
+View
+Add
+CBT submitted successfully
+Question must not be empty
+Question Type
+select Question Type
+Note: Select correct answer
+Answer ( Note: Question will be submitted for marking)
+Answer must not be empty
+Objective
+Theory
+A
+B
+C
+D
+E
+Page Specified does not exist
+Use only number
+Set Question
+1
+2
+3
+4
+5
+6
+7
+8
+9
+0
+Page
+Go
+Options
+Submit
+Are you sure you want to delete all Questions
+Are you sure you want to delete this question
+Use only number
+Pass mark must not be zero
+Add Chat Room
+Name must not be empty
+Name
+Add Purpose / Rules
+Purpose / Rules
+Ask Question
+Accept user at pass mark
+Pass Mark
+Pass mark in percent(%)
+Select Type
+%
+Chat Room created successfully
+Network Error
+Add Feed
+Content
+Content must not be empty
+Feed submitted successfully
+Add Post
+Post submitted successfully
+Add Question
+Ask
+Question submitted successfully
+Add Write Up
+Publish
+Write Up submitted successfully
+Add Advert
+Description must not be empty
+Create Advert Button
+Advert submitted successfully
+App Error Report
+Report
+App Error Report submitted successfully
+Add Group
+Group created successfully
+Report submitted successfully
+Email
+Enter valid Email
+Email must not be empty
+Welcome to
+Create New Account
+Sign Up
+Already have an account
+Sign In
+Privacy policy
+Terms of service
+Password updated succesfully
+Password
+Password must not be empty
+Confirm Password
+Reset
+Password does not match
+Please, enter valid password
+Username
+Username must be longer than 5 characters
+Forgot password
+2021
+2022
+2023
+2024
+2025
+Edit Write Up
+Write Up updated successfully
+Edit Question
+Question updated successfully
+Post updated successfully
+Edit Group
+Group updated successfully
+Feed updated successfully
+Edit Feed
+Edit CBT
+CBT updated successfully
+Edit Advert
+Advert updated successfully
+Edit Chat Room
+Chat Room updated successfully

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import Ionicons from 'ionicons';
 import ImageZoom from 'react-native-image-pan-zoom'
+import Text from 'text';
 
 import MediaContainer from '../../MediaContainer/MediaContainer';
 import Button from '../../Button/Button';

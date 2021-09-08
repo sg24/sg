@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, Keyboard, StyleSheet, Dimensions, Platform, ScrollView } from 'react-native';
+import { View, Keyboard, StyleSheet, Dimensions, Platform, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
 import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
-
+import Text from 'text';
 
 import NoBackground from '../../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../../components/UI/SideBar/Navigation/Navigation';
@@ -382,13 +382,13 @@ class WriteUp extends Component {
                             closePreview={this.closePreviewHandler}/>: null}
                  { this.props.submitError ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onAddFormReset}
                         button={[{title: 'Ok', onPress: this.props.onAddFormReset, style: styles.modalButton}]}/> : null}
                 { this.props.submitted ? 
                     <NotificationModal
-                        info="Write Up submitted successfully !"
+                        info="Write Up submitted successfully"
                         infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                         closeModal={this.resetFormHandler}
                         button={[{title: 'View',  onPress: () => this.navigationHandler('GroupPreview', {pageID: this.state.groupID, page: 'writeup'})},

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, ImageBackground, ActivityIndicator, StyleSheet, Keyboard, Dimensions, Platform, ScrollView } from 'react-native';
+import { View, Image, ImageBackground, ActivityIndicator, StyleSheet, Keyboard, Dimensions, Platform, ScrollView } from 'react-native';
 import Clipboard from 'expo-clipboard';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
@@ -9,6 +9,7 @@ import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
 import urischeme from 'urischeme';
 import { useNavigation } from '@react-navigation/native';
 import withComponent from 'withcomponent';
+import Text from 'text';
 
 import ChatItem from './ChatItem/ChatItem';
 import { size } from 'tailwind';
@@ -314,7 +315,7 @@ class ChatBox extends Component {
             }
         }
         this.scroll.scrollTo({y:0});
-        alert('Load more to scroll to chat')
+        alert(translator('Load more to scroll to chat'))
     }
 
     chatBoxPositionHandler = (layout, chatBoxID, scrollID) => {
@@ -407,7 +408,7 @@ class ChatBox extends Component {
                 uploadFile.push(...file)
                 this.setState({uploadFile, showActionSheet: false})
             }).catch(e => {
-                alert(e)
+                alert(translator(e))
                 this.setState({showActionSheet: false})
             })
         }
@@ -607,7 +608,7 @@ class ChatBox extends Component {
             header =  (
                 <SearchHeader 
                     onPress={this.closeSearchHandler}
-                    title="Search  ...."
+                    title="Search"
                     filterCnt={this.searchCommentHandler}
                     editable
                 />
@@ -678,7 +679,7 @@ class ChatBox extends Component {
                     onChangeText={(val) => this.inputChangedHandler(val, 'content')}
                     autoCorrect
                     multiline
-                    placeholder={this.state.showReply || this.state.replyChatBox ? "Reply ..." : "Write ...."}
+                    placeholder={this.state.showReply || this.state.replyChatBox ? "Reply" : "Write"}
                     value={this.state.formElement.content.value}
                     formWrapperStyle={styles.formWrapperStyle}
                     inputWrapperStyle={styles.formWrapperStyle}
@@ -898,17 +899,17 @@ class ChatBox extends Component {
                         backgroundColor={this.state.backgroundColor}/> : null}
                  { this.props.deleteChatError || checkFetchError ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onDeleteChatReset} /> : null}
                 { checkFetchError && this.props.fetchChatErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onFetchChatReset} /> : null}
                 { checkFetchError && this.props.fetchReplyErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onFetchReplyReset} /> : null}
                  { this.props.deleteChat && !this.props.deleteChat.start ?  

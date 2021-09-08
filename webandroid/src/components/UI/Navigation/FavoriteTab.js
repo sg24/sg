@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import Icon from 'ionicons';
+import Text from 'text';
 
 import PostScreen from '../../../screens/Favorite/Post';
 import QuestionScreen from '../../../screens/Favorite/Question';

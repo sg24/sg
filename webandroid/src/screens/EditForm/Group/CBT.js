@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, ActivityIndicator, TouchableOpacity, Keyboard, StyleSheet, Dimensions, Platform, ScrollView } from 'react-native';
+import { View,  ActivityIndicator, TouchableOpacity, Keyboard, StyleSheet, Dimensions, Platform, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
 import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
 import { v4 as uuid } from 'uuid';
+import Text, { translator } from 'text';
 
 import NoBackground from '../../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../../components/UI/SideBar/Navigation/Navigation';
@@ -278,7 +279,7 @@ class CBT extends Component {
         }
 
         if (value > maxNumber) {
-            durationError =  `Number must not be greater than ${maxNumber}`;
+            durationError =  `${translator('Number must not be greater than')} ${maxNumber}`;
         }
 
         this.setState({duration: updateDuration, durationError, totalDuration,  durationIsValid : totalDuration !== 0});
@@ -514,7 +515,7 @@ class CBT extends Component {
                                             inputWrapperStyle={styles.formElementDuration}
                                             keyboardType="numeric"/>
                                         <View style={styles.durationPreview}> 
-                                            <Text> {this.durationFormatHandler(this.state.totalDuration, 'Hrs :', 'Min :', 'Sec')} </Text>
+                                            <Text>{this.durationFormatHandler(this.state.totalDuration, `${translator('Hrs')} :`, `${translator('Min')} :`, `${translator('Sec')}`)}</Text>
                                         </View>
                                     </View>
                                     {this.state.durationError ? <Text style={styles.error}> { this.state.durationError } </Text> : null}
@@ -625,13 +626,13 @@ class CBT extends Component {
                             submitted={this.props.submitted}/> : null}
                     { this.props.submitError ? 
                         <NotificationModal
-                            info="Network Error !"
+                            info="Network Error"
                             infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                             closeModal={this.props.onSubmitFormReset}
                             button={[{title: 'Ok', onPress: this.props.onSubmitFormReset, style: styles.modalButton}]}/> : null}
                     { this.props.submitted ? 
                         <NotificationModal
-                            info="CBT updated successfully !"
+                            info="CBT updated successfully"
                             infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                             closeModal={this.resetFormHandler}
                             button={[{title: 'View', onPress: this.props.navigation.goBack},
@@ -646,7 +647,7 @@ class CBT extends Component {
                     { header }
                     <View style={styles.loaderCnt}>
                         <InfoBox
-                            det='Network Error!'
+                            det='Network Error'
                             name="cloud-offline-outline"
                             size={40}
                             color="#ff1600"

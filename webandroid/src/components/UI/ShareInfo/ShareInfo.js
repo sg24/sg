@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Ionicons from 'ionicons';
 import Moment from 'react-moment';
 import { useNavigation } from '@react-navigation/native';
+import Text, { TextWrapper } from 'text';
 
 import Avatar from '../Avatar/Avatar';
 import Href from '../Href/Href';
@@ -31,7 +32,11 @@ const shareInfo = props => {
                         </View>
                         </>
                     ): (
-                    <Text style={styles.infoText} numberOfLines={1}>Shared <Moment element={Text} date={props.shareInfo.created} fromNow  /></Text>)}
+                    <View style={styles.infoTextWrapper}>
+                        <Text style={styles.infoText} numberOfLines={1}>Shared </Text>
+                        <Moment element={TextWrapper} date={props.shareInfo.created} fromNow style={styles.infoText} />
+                    </View>
+                    )}
                 </View>
             </View>
         </View>
@@ -62,8 +67,11 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     infoText: {
-        marginHorizontal: 5,
         color: '#777'
+    },
+    infoTextWrapper: {
+        marginHorizontal: 5,
+        flexDirection: 'row'
     }
 });
 

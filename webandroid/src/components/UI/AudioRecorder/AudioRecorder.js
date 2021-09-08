@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, Platform } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, Platform } from 'react-native';
 import Icon from 'ionicons';
 import { Audio } from 'expo-av';
 import * as Animatable from 'react-native-animatable';
 import permission from 'permission';
+import Text from 'text';
 
 import InnerScreen from '../InnerScreen/InnerScreen';
 import Button from '../Button/Button';

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Platform, StyleSheet } from 'react-native';
+import { View, TextInput, TouchableOpacity, Platform, StyleSheet } from 'react-native';
 import Ionicons from 'ionicons';
+import Text, { translator } from 'text';
 
 import Editor from 'editor';
 
@@ -14,11 +15,13 @@ class FormElement extends Component {
                         ref={(ref) => this._editor = ref}
                         autoCapitalize="none"
                         {...this.props}
+                        placeholder={translator(this.props.placeholder)}
                         style={[styles.input, this.props.style]} />:
                         <TextInput 
                         autoCapitalize="none"
                         underlineColorAndroid="transparent"
                         {...this.props}
+                        placeholder={translator(this.props.placeholder)}
                         style={[styles.input, this.props.style]} />
                     }
                     {this.props.inputIcon || this.props.range ? (

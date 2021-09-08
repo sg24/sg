@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'ionicons';
 import Uridetect from 'uridetect';
+import Text from 'text';
 
 import InnerScreen from '../InnerScreen/InnerScreen';
 import DefaultHeader from '../Header/DefaultHeader';
@@ -63,7 +64,7 @@ class Instruction extends  Component {
                     </ScrollView>
                     { this.props.pageReactionErr ? 
                         <NotificationModal
-                            info="Network Error !"
+                            info="Network Error"
                             infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                             closeModal={this.props.pageReactionReset}
                             button={[{title: 'Ok', onPress: this.props.pageReactionReset, style: styles.pageReactionbutton}]}/> : null}

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, Keyboard, StyleSheet, Dimensions, Platform } from 'react-native';
+import { View, Keyboard, StyleSheet, Dimensions, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
 import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
-
+import Text from 'text';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
@@ -232,7 +232,7 @@ class Question extends Component {
                         autoCorrect
                         multiline
                         autoFocus
-                        placeholder={"Ask Question ...."}
+                        placeholder={"Ask Question"}
                         editable={this.state.editable}
                         value={this.state.formElement.content.value}
                         formWrapperStyle={styles.formWrapperStyle}
@@ -310,13 +310,13 @@ class Question extends Component {
                             closePreview={this.closePreviewHandler}/>: null}
                  { this.props.submitError ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onAddFormReset}
                         button={[{title: 'Ok', onPress: this.props.onAddFormReset, style: styles.modalButton}]}/> : null}
                 { this.props.submitted ? 
                     <NotificationModal
-                        info="Question submitted successfully !"
+                        info="Question submitted successfully"
                         infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                         closeModal={this.resetFormHandler}
                         button={[{title: 'View', onPress: () => this.navigationHandler('Question')},

@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Icon from 'ionicons';
+import Text from 'text';
 
 import InnerScreen from '../InnerScreen/InnerScreen';
 import Button from '../Button/Button';

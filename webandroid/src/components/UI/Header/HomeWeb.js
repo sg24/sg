@@ -1,5 +1,5 @@
 import React , { Component } from 'react';
-import { View, Text, Image, Dimensions, ImageBackground, TouchableWithoutFeedback,  Modal, Platform } from 'react-native';
+import { View, Image, Dimensions, ImageBackground, TouchableWithoutFeedback,  Modal, Platform } from 'react-native';
 import Icon from 'ionicons';
 import { makeUseStyles } from "react-native-stylex";
 import { withStyles } from "react-native-stylex/withStyles";
@@ -154,7 +154,7 @@ class Home extends Component  {
                             </TouchableNativeFeedback>
                             <TouchableNativeFeedback  onPress={this.props.onNavigate.bind(this, 'Search')} style={styles.formWrapper}>
                                 <FormElement
-                                    placeholder="Search ... "
+                                    placeholder="Search"
                                     formWrapperStyle={styles.formWrapper}
                                     inputWrapperStyle={styles.formWrapper}
                                     style={styles.input}

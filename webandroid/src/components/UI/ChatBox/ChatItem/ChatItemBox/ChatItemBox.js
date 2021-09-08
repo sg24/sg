@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, Image, Pressable, ActivityIndicator, StyleSheet, Platform} from 'react-native';
+import { View, Image, Pressable, ActivityIndicator, StyleSheet, Platform} from 'react-native';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 import Moment from 'react-moment';
 import Uridetect from 'uridetect';
+import Text, { TextWrapper, translator } from 'text';
 
 import { calendarStrings, checkUri } from '../../../../../shared/utility';
 import Button from '../../../Button/Button';
@@ -18,7 +19,7 @@ import ReplyChatItem from './ReplyChatItem';
 
 const chatItemBox = props => {
     let created = (
-        <Moment element={Text} date={props.cnt.created} style={styles.textStyle} format="h:mm a"  />
+        <Moment element={TextWrapper} date={props.cnt.created} style={styles.textStyle} format="h:mm a"  />
     );
     let deleteChatBox = props.deleteChatBox && (
         (props.deleteChatBox._id ? props.deleteChatBox._id === props.cnt._id : false) || 
@@ -70,7 +71,7 @@ const chatItemBox = props => {
             { props.showDuration && !props.disableUserOpt && !props.enableReply ? (
                     <View style={{width: '100%', justifyContent: 'center', alignItems: 'center', paddingVertical: 5}}>
                         {/* <View style={{height: 1, backgroundColor: '#dcdbdc', position: 'absolute', top: '50%', width: '100%'}}></View> */}
-                        <Moment element={Text} calendar={calendarStrings} style={{fontStyle: 'italic', color: '#777', backgroundColor: '#fff', paddingHorizontal: 10}}>{props.cnt.created}</Moment>
+                        <Moment element={TextWrapper} calendar={calendarStrings} style={{fontStyle: 'italic', color: '#777', backgroundColor: '#fff', paddingHorizontal: 10}}>{props.cnt.created}</Moment>
                     </View>
                 ): null}
             <View onLayout={(e) => props.chatBoxPosition(e.nativeEvent.layout, props.cnt._id, props.cnt.scrollID, props.index)} style={{height: 0, width: props.width}}></View>

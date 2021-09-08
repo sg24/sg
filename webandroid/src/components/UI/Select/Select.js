@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import Icon from 'ionicons';
+import Text from 'text';
 
 import Button from '../Button/Button';
-import BoxShadow from '../BoxShadow/BoxShadow';
 
 class Select extends Component {
     state = {

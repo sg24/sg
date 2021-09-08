@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text,  StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Ionicons from 'ionicons';
+import Text from 'text';
 
 import Button from '../../Button/Button';
 import Href from '../../Href/Href';

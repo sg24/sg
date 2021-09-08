@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text , StyleSheet, ScrollView, Dimensions, Platform } from 'react-native';
+import { View, StyleSheet, ScrollView, Dimensions, Platform } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 
 import LinkItem from './LinkItem/LinkItem';

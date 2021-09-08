@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, Keyboard, StyleSheet, Dimensions} from 'react-native';
+import { View, Keyboard, StyleSheet, Dimensions} from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
+import Text from 'text';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
@@ -151,7 +152,7 @@ class Report extends Component {
                         autoCorrect
                         multiline
                         autoFocus
-                        placeholder={"Write ...."}
+                        placeholder={"Write"}
                         value={this.state.formElement.content.value}
                         formWrapperStyle={styles.formWrapperStyle}
                         inputWrapperStyle={styles.formWrapperStyle}
@@ -185,13 +186,13 @@ class Report extends Component {
                             emoji={this.emojiSelectHandler}/>: null}
                  { this.props.submitError ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onAddFormReset}
                         button={[{title: 'Ok', onPress: this.props.onAddFormReset, style: styles.modalButton}]}/> : null}
                 { this.props.submitted ? 
                     <NotificationModal
-                        info="Report submitted successfully !"
+                        info="Report submitted successfully"
                         infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                         closeModal={this.resetFormHandler}
                         button={[{title: 'close', onPress: () => this.navigationHandler(this.state.reportDet.navigationURI), style: styles.modalButton}]}/> : null}

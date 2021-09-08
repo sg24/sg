@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar, View, Text, ScrollView, ActivityIndicator, Dimensions, Platform } from 'react-native';
+import { StatusBar, View, ScrollView, ActivityIndicator, Dimensions, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { makeUseStyles } from "react-native-stylex";
 import { withStyles } from "react-native-stylex/withStyles";
@@ -9,6 +9,7 @@ import urischeme from 'urischeme';
 import withComponent from 'withcomponent';
 import { useNavigation } from '@react-navigation/native';
 import { Html5Entities } from 'html-entities';
+import Text from 'text';
   
 import SafeAreaView from '../SafeArea/SafeArea';
 import Container from '../Container/Container';
@@ -197,7 +198,7 @@ class NoBackground extends Component {
                                         </View>
                                         <View style={{marginTop: 10, backgroundColor: this.props.settings.backgroundColor}}>
                                             { friend }
-                                            {Platform.OS === 'web' ? <Text style={styles.copywrite}>{entities.decode('&copy;')} 2021, S LODGE24</Text> : null}
+                                            {Platform.OS === 'web' ? <Text style={styles.copywrite} keyword=", S LODGE24">{entities.decode('&copy;')} 2021</Text> : null}
                                         </View>
                                     </ScrollView>
                                 </View>
