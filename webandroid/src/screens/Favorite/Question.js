@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform } from 'react-native';
+import { View, ImageBackground, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { size } from 'tailwind';
 import urischeme from 'urischeme';
 import withComponent from 'withcomponent';
 import { useNavigation } from '@react-navigation/native';
+import Text, { translator } from 'text';
 
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
@@ -13,8 +14,6 @@ import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
 import Question from '../../components/Page/Question/Question';
-import PagePreview from '../../components/Page/Preview/Preview';
-import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
@@ -161,7 +160,7 @@ class Questions extends Component {
         if (shareType === 'Friends') {
             this.props.navigation.navigate('SharePicker', {shareType, cnt: updateCnt,
                 shareUpdates: [{shareType: 'question', cntID: 'setShare', page: 'question', pageID: updateCnt._id}], shareChat: false,
-                info: 'Question shared successfully !'})
+                info: 'Question shared successfully '})
         } else {
             this.setState({showActionSheet: {option: ['Friends', 'Groups'],
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
@@ -179,7 +178,7 @@ class Questions extends Component {
 
     pagePreviewHandler = (cnt) => {
         this.props.navigation.navigate('PagePreview', {cnt, title: 'Question', page: 'question', navigationURI: 'Question',
-            navigationURIWeb: 'Question', editPage: 'EditQuestion', showOption: false, share: {shareType: 'question', shareChat: false,  info: 'Question shared successfully !'}})
+            navigationURIWeb: 'Question', editPage: 'EditQuestion', showOption: false, share: {shareType: 'question', shareChat: false,  info: 'Question shared successfully '}})
     }
 
     chatHandler = (pageID) => {
@@ -196,7 +195,7 @@ class Questions extends Component {
         } else if (index === 0) {
              this.props.navigation.navigate('SharePicker', {shareType: this.state.showActionSheet.option[index], cnt: this.state.showActionSheet.cnt,
                 shareUpdates: [{shareType: 'question', cntID: 'setShare', page: 'question', pageID: this.state.showActionSheet.cnt._id}], shareChat: false,
-                info: 'Question shared successfully !'})
+                info: 'Question shared successfully '})
             return
         } else if (index === 1){
             this.setState({showSelectGroupPicker: {selectType: 'group', pageID: this.state.showActionSheet.cnt._id}, showActionSheet: false})
@@ -224,7 +223,7 @@ class Questions extends Component {
             header =  (
                 <SearchHeader 
                     onPress={this.closeSearchHandler}
-                    title="Search ...."
+                    title="Search"
                     filterCnt={this.searchPageHandler}
                     value={this.state.search}
                     editable
@@ -300,13 +299,13 @@ class Questions extends Component {
                     { options }
                     { this.props.deletePageErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error "
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onDeletePageReset}
                         button={[{title: 'Ok', onPress: this.props.onDeletePageReset, style: styles.button}]}/> : null}
                     { this.props.pageReactionErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
@@ -314,7 +313,7 @@ class Questions extends Component {
                         <SelectPicker
                             selectType={this.state.showSelectGroupPicker.selectType}
                             closeSelectPicker={this.closeModalHandler}
-                            info="Question Shared successfully !"
+                            info="Question Shared successfully"
                             confirmAllInfo="Are you sure, you want to share this question"
                             iconName="paper-plane-outline"
                             infoBox="Group"
@@ -344,7 +343,7 @@ class Questions extends Component {
                         <AbsoluteFill style={{zIndex: 9999999}}/> : null}
                     { this.props.fetchCntErr && this.props.fetchCnt ? 
                         <NotificationModal
-                            info="Network Error !"
+                            info="Network Error"
                             infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                             closeModal={this.props.onFetchCntReset}
                             button={[{title: 'Ok', onPress: this.props.onFetchCntReset, style: styles.button}]}/> : null}
@@ -357,7 +356,7 @@ class Questions extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        det={`'${this.state.search}' does not match any Question`}
+                        det={`'${this.state.search}' ${translator('does not match any Question')}`}
                         name="search"
                         size={40}
                         color="#333"
@@ -377,7 +376,7 @@ class Questions extends Component {
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No Question added as favorite  !!! </Text>
+                            <Text style={styles.infoTitle}> No Question added as favorite </Text>
                             {/* <View>
                                 <Href title="Question" onPress={() => this.navigationHandler('Question')} style={styles.href}/>
                             </View> */}

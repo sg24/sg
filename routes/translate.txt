@@ -231,6 +231,7 @@ Reset
 Password does not match
 Please, enter valid password
 Username
+Are you sure you want to cancel this request
 Username must be longer than 5 characters
 Forgot password
 2021

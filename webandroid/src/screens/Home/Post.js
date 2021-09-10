@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform } from 'react-native';
+import { View, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
 import urischeme from 'urischeme';
 import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
+import Text, { translator } from 'text';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
@@ -170,7 +171,7 @@ class Post extends Component {
         if (shareType === 'Friends') {
             this.props.navigation.navigate('SharePicker', {shareType, cnt: updateCnt,
                 shareUpdates: [{shareType: 'post', cntID: 'setShare', page: 'post', pageID: updateCnt._id}], shareChat: false,
-                info: 'Post shared successfully !'})
+                info: 'Post shared successfully'})
         } else {
             this.setState({showActionSheet: {option: ['Friends', 'Groups'],
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
@@ -187,7 +188,7 @@ class Post extends Component {
 
     pagePreviewHandler = (cnt) => {
         this.props.navigation.navigate('PagePreview', {cnt, page: 'post', navigationURI: 'Home',
-            navigationURIWeb: 'HomeWeb', editPage: 'EditPost', share: {shareType: 'post', shareChat: false,  info: 'Post shared successfully !'}})
+            navigationURIWeb: 'HomeWeb', editPage: 'EditPost', share: {shareType: 'post', shareChat: false,  info: 'Post shared successfully'}})
     }
 
     chatHandler = (pageID) => {
@@ -208,7 +209,7 @@ class Post extends Component {
         } else if (index === 0) {
             this.props.navigation.navigate('SharePicker', {shareType: this.state.showActionSheet.option[index], cnt: this.state.showActionSheet.cnt,
                 shareUpdates: [{shareType: 'post', cntID: 'setShare', page: 'post', pageID: this.state.showActionSheet.cnt._id}], shareChat: false,
-                info: 'Post shared successfully !'})
+                info: 'Post shared successfully'})
             return
         } else if (index === 1){
             this.setState({showSelectGroupPicker: {selectType: 'group', pageID: this.state.showActionSheet.cnt._id}, showActionSheet: false})
@@ -249,7 +250,7 @@ class Post extends Component {
             header =  (
                 <SearchHeader 
                     onPress={this.closeSearchHandler}
-                    title="Search ...."
+                    title="Search"
                     filterCnt={this.searchPageHandler}
                     value={this.state.search}
                     editable
@@ -354,13 +355,13 @@ class Post extends Component {
                     { options }
                     { this.props.deletePageErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onDeletePageReset}
                         button={[{title: 'Ok', onPress: this.props.onDeletePageReset, style: styles.button}]}/> : null}
                     { this.props.pageReactionErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
@@ -368,7 +369,7 @@ class Post extends Component {
                         <SelectPicker
                             selectType={this.state.showSelectGroupPicker.selectType}
                             closeSelectPicker={this.closeModalHandler}
-                            info="Post Shared successfully !"
+                            info="Post Shared successfully"
                             confirmAllInfo="Are you sure, you want to share this post"
                             iconName="paper-plane-outline"
                             infoBox="Group"
@@ -398,7 +399,7 @@ class Post extends Component {
                         <AbsoluteFill style={{zIndex: 9999999}}/> : null}
                     { this.props.fetchCntErr && this.props.fetchCnt ? 
                         <NotificationModal
-                            info="Network Error !"
+                            info="Network Error"
                             infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                             closeModal={this.props.onFetchCntReset}
                             button={[{title: 'Ok', onPress: this.props.onFetchCntReset, style: styles.button}]}/> : null}
@@ -411,7 +412,7 @@ class Post extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        det={`Searched text '${this.state.search}' does not match any post`}
+                        det={`${translator('Searched text')} '${this.state.search}' ${translator('does not match any post')}`}
                         name="search"
                         size={40}
                         color="#333"
@@ -432,7 +433,7 @@ class Post extends Component {
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No post found !!! </Text>
+                            <Text style={styles.infoTitle}> No post found</Text>
                             <View>
                                 <View style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
                                     <Href title="Add Friends to see thier posts" onPress={() => this.state.viewMode === 'landscape' ?

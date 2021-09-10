@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet, Image, Platform } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import Ionicons from 'ionicons';
 import Uridetect from 'uridetect';
+import Text from 'text';
 
 import BoxShadow from '../../UI/BoxShadow/BoxShadow';
 import Button from '../../UI/Button/Button';

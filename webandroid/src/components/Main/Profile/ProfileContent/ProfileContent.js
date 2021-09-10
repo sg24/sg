@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, Image, ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
+import { View, Image, ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import Icon from 'ionicons';
 import Moment from 'react-moment';
 import ShadowView from 'react-native-simple-shadow-view';
 import Constants from 'expo-constants';
+import Text, { TextWrapper } from 'text'
 
 import Button from '../../../UI/Button/Button';
 import BoxShadow from '../../../UI/BoxShadow/BoxShadow';
@@ -52,7 +53,7 @@ const profileContent = props => {
         <>
             <View style={[styles.statusIcon]}></View>
             <Text numberOfLines={1} style={styles.statusDet}>
-                <Moment element={Text} date={props.cnt.visited} fromNow />
+                <Moment element={TextWrapper} date={props.cnt.visited} fromNow />
             </Text>
         </>
     )
@@ -189,7 +190,7 @@ const profileContent = props => {
                             autoCorrect
                             multiline
                             numberOfLines={props.edit ? 4 : 1}
-                            placeholder={!props.cnt.about && props.edit ? "Short description ...." : null}
+                            placeholder={!props.cnt.about && props.edit ? "Short description" : null}
                             editable={props.edit && !props.submittingAbout}
                             value={props.edit && props.formElement.about.touched  ? props.formElement.about.value : props.cnt.about}
                             style={props.aboutField}

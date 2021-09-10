@@ -1,7 +1,6 @@
 import React, { Component} from 'react';
-import { View, Text, Image, ScrollView, StyleSheet, Dimensions, Platform } from 'react-native';
+import { View,  ScrollView, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
-import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 import Uridetect from 'uridetect';
 import { size } from 'tailwind';
@@ -103,7 +102,7 @@ class Preview extends Component {
             <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     <DefaultHeader
                         onPress={this.props.navigation.goBack}
-                        title={this.state.title ? this.state.title + "'s" : "post's"}
+                        title={this.state.title ? this.state.title + "" : "post"}
                         leftSideContent={(
                             <Avatar userImage={this.state.pageCnt.userImage} iconSize={20} imageSize={30} onPress={() => this.userProfileHandler(this.state.pageCnt.authorID)}/>
                         )}

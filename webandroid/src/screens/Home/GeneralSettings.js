@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Dimensions, Platform, ScrollView } from 'react-native';
+import { View, Image, StyleSheet, Dimensions, Platform, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
 import { explorer } from 'picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as FileSystem from 'expo-file-system';
+import Text from 'text';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
@@ -219,7 +220,7 @@ class GeneralSettings extends Component {
                                                 <Button style={styles.uploadButtonWrapper} onPress={() => this.changeImageHandler(page)}>
                                                     <View style={styles.uploadButton}>
                                                         <Ionicons name="cloud-upload-outline" size={30} color="#fff"/>
-                                                        <Text style={styles.uploadButtonText}>Upload Image </Text>
+                                                        <Text style={styles.uploadButtonText}>Upload Image</Text>
                                                     </View>
                                                 </Button>
                                             </View>

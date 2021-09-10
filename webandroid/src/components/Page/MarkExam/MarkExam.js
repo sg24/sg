@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, Platform, StyleSheet, ScrollView } from 'react-native';
+import { View, Platform, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'ionicons';
+import Text from 'text'
 
 import BoxShadow from '../../UI/BoxShadow/BoxShadow';
 import MediaContainer from '../../UI/MediaContainer/MediaContainer';

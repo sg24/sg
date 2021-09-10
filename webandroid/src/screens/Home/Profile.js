@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Dimensions , Platform} from 'react-native';
+import { View, StyleSheet, ActivityIndicator, TouchableOpacity, Dimensions , Platform} from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
@@ -312,7 +312,7 @@ class Profile extends Component {
                         layoutWidth={this.state.layoutWidth}/>
                     { this.props.changeProfileErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onCloseModal}
                         button={[{title: 'Ok', onPress: this.props.onCloseModal, style: styles.button}]}/> : null}

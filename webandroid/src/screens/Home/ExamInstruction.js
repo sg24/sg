@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, Platform, ScrollView } from 'react-native';
+import { View, StyleSheet, Dimensions, Platform, ScrollView } from 'react-native';
 import Ionicons from 'ionicons';
 import { connect } from 'react-redux';
 import { size } from 'tailwind';
+import Text from 'text';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';

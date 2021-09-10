@@ -1,9 +1,10 @@
 import React, { Component} from 'react';
-import { View, Text, Image, ScrollView, StyleSheet, Platform } from 'react-native';
+import { View, Image, ScrollView, StyleSheet, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 import Uridetect from 'uridetect';
+import { translator } from 'text'
 
 import InnerScreen from '../../UI/InnerScreen/InnerScreen';
 import Option from '../../UI/Option/Option';
@@ -69,7 +70,7 @@ class Preview extends Component {
                     {...wrapperProps}>
                     <DefaultHeader
                         onPress={this.props.closePagePreview}
-                        title={this.props.title ? this.props.title + "'s" : "post's"}
+                        title={this.props.title ? this.props.title + "" : translator("post")}
                         leftSideContent={(
                             <TouchableNativeFeedback onPress={() => this.props.userProfile(this.props.cnt.authorID)}>
                                 <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${this.props.cnt.userImage}`}}  style={styles.userImage}/>

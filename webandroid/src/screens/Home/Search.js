@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, Dimensions, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, Dimensions, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 // import MaterialIcons from 'materialIcons';
 import AsyncStorage from '@react-native-community/async-storage';
 import Moment from 'react-moment';
 import { tailwind, size } from 'tailwind';
+import Text, { TextWrapper } from 'text';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
@@ -159,7 +160,7 @@ class Search extends Component {
                                                     {searchHistory.title}
                                                 </Text>
                                                 <Text style={[styles.textStyle, styles.searchDate]}>
-                                                    <Moment element={Text} calendar={calendarStrings}>
+                                                    <Moment element={TextWrapper} calendar={calendarStrings}>
                                                         { searchHistory.date }
                                                     </Moment>
                                                 </Text>

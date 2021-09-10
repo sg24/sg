@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform } from 'react-native';
+import { View, ImageBackground, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { size } from 'tailwind';
 import urischeme from 'urischeme';
 import withComponent from 'withcomponent';
 import { useNavigation } from '@react-navigation/native';
+import { translator } from 'text';
 
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
-import Href from '../../components/UI/Href/Href';
 import Settings from '../../components/UI/Settings/Settings';
 import * as actions from '../../store/actions/index';
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
 import AdvertItem from '../../components/Page/AdvertItem/AdvertItem';
-import PagePreview from '../../components/Page/Preview/Preview';
-import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
-import CommentBox from '../../components/UI/CommentBox/CommentBox';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 import Loader from '../../components/UI/Loader/Loader';
 
@@ -198,7 +195,7 @@ class Advert extends Component {
             header =  (
                 <SearchHeader 
                     onPress={this.closeSearchHandler}
-                    title="Search ...."
+                    title="Search"
                     filterCnt={this.searchPageHandler}
                     value={this.state.search}
                     editable
@@ -273,13 +270,13 @@ class Advert extends Component {
                     { options }
                     { this.props.deletePageErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onDeletePageReset}
                         button={[{title: 'Ok', onPress: this.props.onDeletePageReset, style: styles.button}]}/> : null}
                     { this.props.pageReactionErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
@@ -293,7 +290,7 @@ class Advert extends Component {
                         <AbsoluteFill style={{zIndex: 9999999}}/> : null}
                     { this.props.fetchCntErr && this.props.fetchCnt ? 
                         <NotificationModal
-                            info="Network Error !"
+                            info="Network Error"
                             infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                             closeModal={this.props.onFetchCntReset}
                             button={[{title: 'Ok', onPress: this.props.onFetchCntReset, style: styles.button}]}/> : null}
@@ -306,7 +303,7 @@ class Advert extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        det={`Searched text '${this.state.search}' does not match any product`}
+                        det={`${translator('Searched text')} '${this.state.search}' ${translator('does not match any product')}`}
                         name="search"
                         size={40}
                         color="#333"

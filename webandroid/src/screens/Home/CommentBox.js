@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, ImageBackground, ActivityIndicator, StyleSheet, Keyboard, Dimensions, Platform, ScrollView } from 'react-native';
+import { View, Image, ImageBackground, ActivityIndicator, StyleSheet, Keyboard, Dimensions, Platform, ScrollView } from 'react-native';
 import Clipboard from 'expo-clipboard';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
@@ -7,6 +7,7 @@ import Constants from 'expo-constants';
 import { v4 as uuid } from 'uuid';
 import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
 import urischeme from 'urischeme';
+import Text from 'text';
 
 import ChatItem from '../../components/UI/CommentBox/CommentItem/CommentItem';
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
@@ -566,7 +567,7 @@ class Room extends Component {
             header =  (
                 <SearchHeader 
                     onPress={this.closeSearchHandler}
-                    title="Search  ...."
+                    title="Search"
                     filterCnt={this.searchCommentHandler}
                     editable
                 />
@@ -848,17 +849,17 @@ class Room extends Component {
                         backgroundColor={this.state.backgroundColor}/> : null}
                  { this.props.deleteChatError || checkFetchError ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onDeleteChatReset} /> : null}
                 { checkFetchError && this.props.fetchChatErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onFetchChatReset} /> : null}
                 { checkFetchError && this.props.fetchReplyErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onFetchReplyReset} /> : null}
                  { this.props.deleteChat && !this.props.deleteChat.start ?  

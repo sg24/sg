@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform } from 'react-native';
+import { View, ImageBackground, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
 import urischeme from 'urischeme';
 import withComponent from 'withcomponent';
 import { useNavigation } from '@react-navigation/native';
+import Text, { translator } from 'text';
 
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import SearchHeader from '../../components/UI/Header/Search';
@@ -257,7 +258,7 @@ class Question extends Component {
             header =  (
                 <SearchHeader 
                     onPress={this.closeSearchHandler}
-                    title="Search ...."
+                    title="Search"
                     filterCnt={this.searchPageHandler}
                     value={this.state.search}
                     editable
@@ -332,13 +333,13 @@ class Question extends Component {
                     { options }
                     { this.props.deletePageErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onDeletePageReset}
                         button={[{title: 'Ok', onPress: this.props.onDeletePageReset, style: styles.button}]}/> : null}
                     { this.props.pageReactionErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
@@ -380,12 +381,12 @@ class Question extends Component {
                             cnt={this.state.showSharePicker.cnt}
                             shareUpdates={[{shareType: 'groupquestion', cntID: 'setShare', page: 'groupquestion', pageID: this.state.showSharePicker.cnt._id}]}
                             shareChat={false}
-                            info="Question shared successfully !"/> : null}
+                            info="Question shared successfully"/> : null}
                     { this.state.showSelectGroupPicker ? 
                         <SelectPicker
                             selectType={this.state.showSelectGroupPicker.selectType}
                             closeSelectPicker={this.closeModalHandler}
-                            info="Question Shared successfully !"
+                            info="Question Shared successfully"
                             confirmAllInfo="Are you sure, you want to share this question"
                             infoBox="Group"
                             iconName="paper-plane-outline"
@@ -415,7 +416,7 @@ class Question extends Component {
                         <AbsoluteFill style={{zIndex: 9999999}}/> : null}
                     { this.props.fetchCntErr && this.props.fetchCnt ? 
                         <NotificationModal
-                            info="Network Error !"
+                            info="Network Error"
                             infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                             closeModal={this.props.onFetchCntReset}
                             button={[{title: 'Ok', onPress: this.props.onFetchCntReset, style: styles.button}]}/> : null}
@@ -428,7 +429,7 @@ class Question extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        det={`Searched text '${this.state.search}' does not match any question`}
+                        det={`${translator('Searched text')} '${this.state.search}' ${translator('does not match any question')}`}
                         name="search"
                         size={40}
                         color="#333"
@@ -449,7 +450,7 @@ class Question extends Component {
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No question found !!! </Text>
+                            <Text style={styles.infoTitle}> No question found </Text>
                             <View>
                                 <Text style={{justifyContent: 'center', alignItems: 'center'}}>
                                     <Href title="create Question" onPress={() => this.navigationHandler('AddGroupQuestion', {groupID: this.state.groupID})} style={styles.href}/></Text>

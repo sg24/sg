@@ -15,13 +15,13 @@ class FormElement extends Component {
                         ref={(ref) => this._editor = ref}
                         autoCapitalize="none"
                         {...this.props}
-                        placeholder={translator(this.props.placeholder)}
+                        placeholder={translator(this.props.placeholder || '')}
                         style={[styles.input, this.props.style]} />:
                         <TextInput 
                         autoCapitalize="none"
                         underlineColorAndroid="transparent"
                         {...this.props}
-                        placeholder={translator(this.props.placeholder)}
+                        placeholder={translator(this.props.placeholder || '')}
                         style={[styles.input, this.props.style]} />
                     }
                     {this.props.inputIcon || this.props.range ? (

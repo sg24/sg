@@ -2,7 +2,7 @@ import dictionary from './translations';
 
 const translation = (locale, sentence = '', keyword = null, positionRight = true, fullLocale = false, core) => {
     let updateLocale = fullLocale ? locale : locale.split('-')[0];
-    let updateSentence = sentence ? sentence.trim().toLowerCase() : '';
+    let updateSentence = sentence ? String(sentence).trim().toLowerCase() : sentence;
     let languageDictionary = dictionary[updateLocale];
     if (!languageDictionary) {
         return keyword ? positionRight ? `${sentence} ${keyword}` : `${keyword} ${sentence}` : sentence;

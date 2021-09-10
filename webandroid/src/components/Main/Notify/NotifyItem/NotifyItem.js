@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native'
-import Icon from 'ionicons';
+import { View,  StyleSheet } from 'react-native'
+import Text from 'text'
 
 import Avatar from '../../../UI/Avatar/Avatar';
 import Href from '../../../UI/Href/Href';

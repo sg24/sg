@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet, Image, Platform } from 'react-native';
-import Ionicons from 'ionicons';
+import { View, StyleSheet } from 'react-native';
 import Uridetect from 'uridetect';
+import Text, { translator } from 'text';
 
 import BoxShadow from '../../UI/BoxShadow/BoxShadow';
 import Button from '../../UI/Button/Button';
@@ -32,8 +32,8 @@ const cbtPreviewItem = props => {
                     onPress={props.openURI} 
                     style={styles.content} 
                     content={props.cnt.title}/>
-                <Text style={styles.textStyle}>Total: { props.cnt.qchatTotal } Questions</Text>
-                <Text style={styles.textStyle}>Duration: {`${props.cnt.hour} hour ${props.cnt.minute} minute ${props.cnt.second} second`}</Text>
+                <Text style={styles.textStyle}>{translator('Total')}: { props.cnt.qchatTotal } {translator('Questions')}</Text>
+                <Text style={styles.textStyle}>{translator('Duration')}: {`${props.cnt.hour} ${translator('hour')} ${props.cnt.minute} ${translator('minute')} ${props.cnt.second} ${translator('second')}`}</Text>
                 <View style={styles.actionButtonWrapper}>
                     { props.userID !== props.cnt.authorID ?
                         <Button

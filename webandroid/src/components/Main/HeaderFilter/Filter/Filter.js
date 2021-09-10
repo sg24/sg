@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'ionicons';
 import Moment from 'react-moment';
+import Text, { TextWrapper } from 'text'
 
 import { calendarStrings } from '../../../../shared/utility';
 
@@ -12,7 +13,7 @@ const headerFilter = props => {
                 <Icon name="search" size={16} style={styles.icon}/>
                 <Text style={styles.content} numberOfLines={1}>{props.filterRes.title}</Text>
                 <Text style={styles.contentCreated} numberOfLines={1}>
-                {props.filterRes.created  ? <Moment element={Text} calendar={calendarStrings}>
+                {props.filterRes.created  ? <Moment element={TextWrapper} calendar={calendarStrings}>
                     { props.filterRes.created }
                 </Moment>: null }
                 </Text>

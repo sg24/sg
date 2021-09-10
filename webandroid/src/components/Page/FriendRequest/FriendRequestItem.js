@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Platform } from 'react-native';
+import { View, StyleSheet, Image, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
+import Text from 'text'
 
 import BoxShadow from '../../UI/BoxShadow/BoxShadow';
 import TouchableNativeFeedback from '../../UI/TouchableNativeFeedback/TouchableNativeFeedback';

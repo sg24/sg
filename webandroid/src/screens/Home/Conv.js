@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text,  ImageBackground, StyleSheet, Dimensions, ActivityIndicator, Platform } from 'react-native';
+import { View, ImageBackground, StyleSheet, Dimensions, Platform } from 'react-native';
 import { connect } from 'react-redux';
-import Icon from 'ionicons';
 import { useNavigation } from '@react-navigation/native';
 import withComponent from 'withcomponent';
 
@@ -94,7 +93,7 @@ class Convs extends Component {
         if (!this.props.convErr && this.props.conv && this.props.conv.length === 0) {
             cnt = (
                 <InfoBox
-                    det='No content found!'
+                    det='No content found'
                     name="chatbubbles-outline"
                     size={40}
                     style={styles.textStyle} />

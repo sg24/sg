@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform } from 'react-native';
+import { View, ImageBackground, StyleSheet, Dimensions, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { size } from 'tailwind';
 import urischeme from 'urischeme';
@@ -7,6 +7,7 @@ import Uridetect from 'uridetect';
 import Constants from 'expo-constants';
 import withComponent from 'withcomponent';
 import { useNavigation } from '@react-navigation/native';
+import { translator } from 'text';
 
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
@@ -178,7 +179,7 @@ class Groups extends Component {
     markExamHandler = (mark, pageID) => {
         this.props.navigation.navigate('MarkExam', {mark, pageID, cntID: 'getMarkGroupinfo', enableShare: false,
             navigationURI: Platform.OS === 'web' ? 'GroupWeb' :'Group', getMarkID: 'markGroupTheoryexam',
-            infoPassed: 'User have been added to group !', infoFailed: 'Score is below the pass mark', infoPending: 'User have been added to pending approval page',
+            infoPassed: 'User have been added to group', infoFailed: 'Score is below the pass mark', infoPending: 'User have been added to pending approval page',
             buttonPassed: [{title: 'Chat', icon: {name: 'chatbox-ellipses-outline'}, onPress: { URI: 'GroupPreview',  params: {pageID}}}],
             buttonPending: [{title: 'Accept', pageReaction: {page: 'exam', pageID, cntType: 'setGroupacceptuser', info: 'Are you sure you want to accept this user'}},
             {title: 'Remove', icon: {name: 'close', color: '#333'},
@@ -215,7 +216,7 @@ class Groups extends Component {
 
     startExamHandler = () => {
         this.props.navigation.navigate('Exam', {pageID: this.state.pageID, navigationURI: this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group', enableShare: false, cntID: 'getGroupexam', 
-        getMarkID: 'markGroupExam', infoPassed: 'You are now a member !', infoFailed: 'Your score is below the pass mark', infoPending: 'Your score have been sent to admin',
+        getMarkID: 'markGroupExam', infoPassed: 'You are now a member', infoFailed: 'Your score is below the pass mark', infoPending: 'Your score have been sent to admin',
         buttonPassed: [{title: 'Chat', icon: {name: 'chatbox-ellipses-outline'}, onPress: { URI: 'GroupPreview',  params: {pageID: this.state.pageID}}}]});
     }
 
@@ -313,7 +314,7 @@ class Groups extends Component {
             header =  (
                 <SearchHeader 
                     onPress={this.closeSearchHandler}
-                    title="Search ...."
+                    title="Search"
                     filterCnt={this.searchPageHandler}
                     value={this.state.search}
                     editable
@@ -397,13 +398,13 @@ class Groups extends Component {
                     { options }
                     { this.props.deletePageErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onDeletePageReset}
                         button={[{title: 'Ok', onPress: this.props.onDeletePageReset, style: styles.button}]}/> : null}
                     { this.props.pageReactionErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
@@ -414,13 +415,13 @@ class Groups extends Component {
                             cnt={this.state.showSharePicker.cnt}
                             shareUpdates={[{shareType: 'group', cntID: 'setShare', page: 'group', pageID: this.state.showSharePicker.cnt._id}]}
                             shareChat={false}
-                            info="Group shared successfully !"/> : null}
+                            info="Group shared successfully"/> : null}
                     { this.state.showSelectPicker ? 
                         <SelectPicker
                             selectType={this.state.showSelectPicker.selectType}
                             closeSelectPicker={this.closeModalHandler}
-                            info="Users accepted successfully !"
-                            removeInfo="Users removed successfully !"
+                            info="Users accepted successfully"
+                            removeInfo="Users removed successfully"
                             confirmAllInfo="Are you sure you want to accept this users"
                             confirmInfo="Are you sure you want to accept this user"
                             title="Group Request"
@@ -436,8 +437,8 @@ class Groups extends Component {
                         <SelectPicker
                             selectType={this.state.showPendingSelectPicker.selectType}
                             closeSelectPicker={this.closeModalHandler}
-                            info="Users accepted successfully !"
-                            removeInfo="Users removed successfully !"
+                            info="Users accepted successfully"
+                            removeInfo="Users removed successfully"
                             confirmAllInfo="Are you sure you want to accept this users"
                             confirmInfo="Are you sure you want to accept this user"
                             title="Pending Approval"
@@ -509,11 +510,11 @@ class Groups extends Component {
                             closeInstruction={this.closeModalHandler}
                             button={[{title: 'Start', icon: {name: 'timer-outline'}, onPress: this.startExamHandler}]}>
                                 <View style={styles.instruction}>
-                                    { this.state.examInstruction.autoJoin ? <Text style={[styles.textStyle]}>Pass Mark: <Text style={styles.instructionText}>{ this.state.examInstruction.passMark }%</Text></Text> : null}
-                                    <Text style={[styles.textStyle, styles.contentText]}>Total: <Text style={styles.instructionText}>{ this.state.examInstruction.qchatTotal } Questions</Text></Text>
-                                    <Text style={[styles.textStyle]}>Duration: 
+                                { this.state.examInstruction.autoJoin ? <Text style={[styles.textStyle]}>{translator('Pass Mark')}: <Text style={styles.instructionText}>{ this.state.examInstruction.passMark }{translator('%')}</Text></Text> : null}
+                                <Text style={[styles.textStyle, styles.contentText]}>{translator('Total')}: <Text style={styles.instructionText}>{ this.state.examInstruction.qchatTotal } {translator('Questions')}</Text></Text>
+                                    <Text style={[styles.textStyle]}>{translator('Duration')}: 
                                         <Text style={styles.instructionText}>
-                                            {`${this.state.examInstruction.hour} hour ${this.state.examInstruction.minute} minute ${this.state.examInstruction.second} second`}</Text></Text>
+                                            {`${this.state.examInstruction.hour} ${translator('hour')} ${this.state.examInstruction.minute} ${translator('minute')} ${this.state.examInstruction.second} ${translator('second')}`}</Text></Text>
                                 </View>
                         </Instruction>: null}
                     { this.state.showActionSheet ? 
@@ -541,7 +542,7 @@ class Groups extends Component {
                         <AbsoluteFill style={{zIndex: 9999999}}/> : null}
                     { this.props.fetchCntErr && this.props.fetchCnt ? 
                         <NotificationModal
-                            info="Network Error !"
+                            info="Network Error"
                             infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                             closeModal={this.props.onFetchCntReset}
                             button={[{title: 'Ok', onPress: this.props.onFetchCntReset, style: styles.button}]}/> : null}
@@ -554,7 +555,7 @@ class Groups extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        det={`'${this.state.search}' does not match any Group`}
+                        det={`'${this.state.search}' ${translator('does not match any Group')}`}
                         name="search"
                         size={40}
                         color="#333"

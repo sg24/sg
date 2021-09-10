@@ -22,9 +22,9 @@ class User extends Component {
                 chat={this.props.chat.bind(this, cnt)}
                 addUser={this.props.changeProfile.bind(this, cnt._id, null, 'addUser', true)}
                 acceptUser={this.props.changeProfile.bind(this, cnt._id, cnt.username, 'acceptUser', true)}
-                rejUser={this.props.changeProfile.bind(this, cnt._id, cnt.username, 'rejUser', false, 'Are you sure you want to reject this user !')}
-                cancelReq={this.props.changeProfile.bind(this, cnt._id, cnt.username, 'cancelReq', false, 'Are you sure you want to cancel this request !')}
-                unfriend={this.props.changeProfile.bind(this, cnt._id, cnt.username, 'unfriend', false, 'Are you sure you want to remove this user !')}
+                rejUser={this.props.changeProfile.bind(this, cnt._id, cnt.username, 'rejUser', false, 'Are you sure you want to reject this user')}
+                cancelReq={this.props.changeProfile.bind(this, cnt._id, cnt.username, 'cancelReq', false, 'Are you sure you want to cancel this request')}
+                unfriend={this.props.changeProfile.bind(this, cnt._id, cnt.username, 'unfriend', false, 'Are you sure you want to remove this user')}
                 pageReaction={this.props.pageReaction}
                 closeModal={this.props.closeModal}
                 lastItem={(this.props.cnt.length - 1) === index}

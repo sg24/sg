@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet, ScrollView } from 'react-native';
+import { View, Pressable, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'ionicons';
 import Moment from 'react-moment';
 import * as Animatable from 'react-native-animatable';
 import Uridetect from 'uridetect';
+import Text, { TextWrapper } from 'text'
 
 import BoxShadow from '../../UI/BoxShadow/BoxShadow';
 import TouchableNativeFeedback from '../../UI/TouchableNativeFeedback/TouchableNativeFeedback';
@@ -105,8 +106,8 @@ const postContent = props => {
                                         <Text style={{color: '#777', marginRight: 5}} >
                                             Edit
                                         </Text> 
-                                        <Moment element={Text} date={props.cnt.edited} fromNow /></View>) : 
-                                        <Moment element={Text} date={props.cnt.created} fromNow  />}
+                                        <Moment element={TextWrapper} date={props.cnt.edited} fromNow /></View>) : 
+                                        <Moment element={TextWrapper} date={props.cnt.created} fromNow  />}
                             </View>
                         </View>
                         <TouchableNativeFeedback onPress={props.showUserOpt}>

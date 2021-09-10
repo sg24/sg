@@ -12,12 +12,15 @@ class TranslatedText extends Component {
                 }
             }
         }
+        if (!Array.isArray(this.props.children) && typeof this.props.children === 'object') {
+            return (<Text {...this.props}>{this.props.children}</Text>)
+        }
         let sentence = Array.isArray(this.props.children) ? this.props.children.join('') : this.props.children;
         return (
             <Text {...this.props}>{translate(sentence, this.props.keyword, this.props.positionRight, this.props.core, this.props.fullLocale)}</Text>
         )
     }
 }
-export const translator = (sentence, keyword, positionRight, core, fullLocale) => translate(sentence, keyword, positionRight, core, fullLocale)
+export const translator = (sentence, keyword, positionRight, core, fullLocale) => translate(Array.isArray(sentence) ? sentence.join('') : sentence, keyword, positionRight, core, fullLocale)
 export const TextWrapper  = Text;
 export default TranslatedText;

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView, BackHandler, Alert } from 'react-native';
+import { View, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView, BackHandler, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { size } from 'tailwind';
 import Ionicons from 'ionicons';
+import Text, { translator } from 'text';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
@@ -300,7 +301,7 @@ class Exam extends Component {
                             cnt={this.state.showSharePicker.cnt}
                             shareUpdates={[]}
                             shareChat
-                            info="Result shared successfully !"/> : null}
+                            info="Result shared successfully"/> : null}
                      { this.state.showActionSheet ? 
                         <ActionSheet
                             options={this.state.showActionSheet.option}
@@ -311,7 +312,7 @@ class Exam extends Component {
                         : null}
                     { this.props.pageReactionErr ?
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
@@ -327,15 +328,15 @@ class Exam extends Component {
                                     <BoxShadow style={styles.result}>
                                         { this.props.fetchCnt[0].score || this.props.fetchCnt[0].score === 0 ?
                                         <View>
-                                            <Text style={styles.mark}>Score:</Text>
-                                            <Text style={styles.score}>{`${this.props.fetchCnt[0].score}%`}</Text>
+                                            <Text style={styles.mark}>{translator('Score')}:</Text>
+                                            <Text style={styles.score}>{`${this.props.fetchCnt[0].score}${translator('%')}`}</Text>
                                             <View style={{flexDirection: 'row'}}>
-                                                <Text style={[styles.mark, {marginRight: 10}]}>Mark:</Text>
+                                                <Text style={[styles.mark, {marginRight: 10}]}>{translator('Mark')}:</Text>
                                                 <Text style={styles.mark}>{`${this.props.fetchCnt[0].mark} / ${ this.props.fetchCnt[0].question.length}`}</Text>
                                             </View>
                                                 <View style={{marginTop: 10}}>
                                                     {this.props.fetchCnt[0].showResult ?
-                                                        <Text style={{marginBottom: 10, color: '#777'}}>Your result as being added </Text> : null}
+                                                        <Text style={{marginBottom: 10, color: '#777'}}>Your result as being added</Text> : null}
                                                     {this.props.fetchCnt[0].passed === false ?
                                                         <Text style={{marginBottom: 10, color: '#ff1600'}}>{ this.state.infoFailed }</Text> : null}
                                                     {this.props.fetchCnt[0].passed ?

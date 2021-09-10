@@ -1,0 +1,378 @@
+sign in
+retrive
+pausing an audio recording is unsupported on your android device
+audio could not be started, please use the s lodg24 android app version
+camera preview could not been started
+view reply
+shared
+are you sure you want to delete this chat
+ok
+exit
+edit
+send
+settings
+share
+copy text
+delete
+reply
+friends
+friend
+groups
+chat room
+message not sent, check your internet connnection
+resend
+load more to scroll to chat
+take picture
+video record
+audio record
+file explorer
+write
+camera
+video recorder
+audio recorder
+choose
+emoji selector
+commentbox
+search
+load previous
+type
+type must not be empty
+phone  number
+url / phone number
+url
+buy now
+e-mail
+title must not be empty
+url must start with http or https
+emoji selected
+clear
+done
+reload
+network error
+message sent successfully
+add new
+question
+write up
+feed
+app error
+logout
+post
+group
+users
+cbt
+notification
+conversation
+home
+could not get link preview
+preview
+comment
+feature not supported on web browser, please use the
+download error, check your internet connection
+could not get directory information
+permission not granted
+finished downloading
+user
+share with friends
+correct
+wrong
+are you sure you want to delete this solution
+remove
+profile
+load more
+write answer
+allow
+comment on this
+mark
+answer must not be empty
+entered does not match any name
+press and hold to select
+upload image
+background
+enable background image
+change background image
+highlighted
+background color
+text color
+shared from
+enter name
+you currently have no friend
+add friend
+name entered does not match any friends name
+message shared successfully
+advert
+create
+favorite
+upload  file to  preview
+description
+upload preview
+video recording in not supported on web browser, please use the
+public
+private
+and other's
+duration must not be zero
+add cbt
+number must not be greater than
+title
+exam summary / instruction
+exam summary / instruction must not be empty
+hour
+minute
+second
+hrs
+min
+sec
+select participant
+enable comment
+enable chat deletion
+add participant result to chat
+next
+view
+reject
+add
+cbt submitted successfully
+question must not be empty
+question type
+select question type
+note: select correct answer
+answer ( note: question will be submitted for marking)
+objective
+theory
+a
+b
+c
+d
+e
+page specified does not exist
+use only number
+set question
+1
+2
+3
+4
+5
+6
+7
+8
+9
+0
+page
+online
+go
+options
+answer's added
+short description
+about must be longer than 5 characters
+@
+unfriend
+offline
+submit
+are you sure you want to delete all questions
+are you sure you want to delete this question
+pass mark must not be zero
+add chat room
+name must not be empty
+name
+add purpose / rules
+purpose / rules
+ask question
+accept
+accept user at pass mark
+pass mark
+pass mark in percent(%)
+select type
+%
+chat room created successfully
+add feed
+content
+content must not be empty
+feed submitted successfully
+add post
+post submitted successfully
+add question
+ask
+question submitted successfully
+add write up
+publish
+write up submitted successfully
+add advert
+description must not be empty
+create advert button
+advert submitted successfully
+app error report
+report
+is a member
+app error report submitted successfully
+add group
+group created successfully
+report submitted successfully
+email
+enter valid email
+email must not be empty
+welcome to
+create new account
+sign up
+already have an account
+privacy policy
+terms of service
+password updated succesfully
+password
+password must not be empty
+confirm password
+reset
+password does not match
+please, enter valid password
+username
+are you sure you want to cancel this request
+username must be longer than 5 characters
+forgot password
+2021
+2022
+2023
+2024
+2025
+edit write up
+write up updated successfully
+edit question
+question updated successfully
+post updated successfully
+edit group
+group updated successfully
+feed updated successfully
+edit feed
+edit cbt
+cbt updated successfully
+edit advert
+advert updated successfully
+edit chat room
+chat room updated successfully
+no advert found
+are you sure you want to delete this advert
+does not match any product
+searched text
+users allowed successfully
+users removed successfully
+cbt request
+request
+mark question
+pending
+cbt shared successfully
+are you sure, you want to share this cbt
+select
+allowed user
+exam instruction
+start
+save
+no cbt found
+are you sure you want to delete this cbt
+does not match any cbt
+create cbt
+no cbt added as favorite
+feed shared successfully
+are you sure, you want to share this feed
+are you sure you want to delete this feed
+does not match any feed
+no feed found
+create feed
+no feed added as favorite
+group shared successfully
+users accepted successfully
+are you sure you want to accept this users
+are you sure you want to accept this user
+group request
+are you sure you want to delete this chat room
+no chat room found
+create chat room
+pending approval
+chat room information
+chat room purpose / rule
+you need to need to take exam to join this chat room
+no group added as favorite
+group information
+group purpose / rule
+you need to need to take exam to join this group
+duration
+members
+questions
+product
+total
+join
+search history
+no question added as favorite
+are you sure you want to delete this group
+does not match any group
+no group found
+post shared successfully
+are you sure, you want to share this post
+are you sure you want to delete this post
+does not match any post
+no post found
+create post
+no post added as favorite
+create group
+solution
+question shared successfully
+are you sure, you want to share this question
+does not match any question
+no question found
+create question
+cancelling this request will remove the exam you have written
+user have been added to group
+user have been added to pending approval page
+score is below the pass mark
+are you sure you want to remove this user
+cancel request
+chat
+approve
+take exam
+friend request
+you are now a member
+your score is below the pass mark
+your score have been sent to admin
+users rejected successfully
+are you sure you want to reject this users
+are you sure you want to reject this user
+user request
+no notification found
+does not match any username
+write up shared successfully
+are you sure, you want to share this write up
+are you sure you want to delete this write up
+does not match any write up
+no write up found
+create write up
+no write up added as favorite
+result
+user have been added to chat room
+room
+answer
+answer you provided
+chat room request
+are you sure you want to delete this comment
+no content found
+result shared successfully
+your result as being added
+your answers as being submitted for marking
+score
+result added
+chat box
+general settings
+enable auto loading
+enable notification for
+group notification
+share notification
+are you sure, you want to stop marking
+result as being added
+add friends to see thier posts
+check feed page for public post
+or
+upload
+profile image updated
+change profile
+update
+change image
+change name
+new username
+username updated
+old username
+does not match old username
+enter previous username

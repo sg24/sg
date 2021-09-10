@@ -7,6 +7,7 @@ import Constants from 'expo-constants';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import { size } from 'tailwind';
+import { translator } from 'text';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
@@ -118,7 +119,7 @@ class MediaPreview extends Component {
     optionHandler = (action) => {
         if (action === 'save') {
             if (Platform.OS === 'web') {
-                alert('feature not supported on web browser, Please use the s lodge24 APK')
+                alert(translator('feature not supported on web browser, Please use the', 's lodge24 APK'))
             }
             let media = this.props.fetchInfo[this._carousel.currentIndex];
             let ext = media.ext.split('/')[1];
@@ -131,10 +132,10 @@ class MediaPreview extends Component {
                 FileSystem.downloadAsync(fileUri, fileDir + (media.filename || `${media.id}.${ext}`)).then(({ uri }) => {
                     this.saveFileAsync(uri);
                 }).catch(error => {
-                    alert('download Error, check your internet connection !!!')
+                    alert(translator('download Error, check your internet connection'))
                 });
             }).catch((err) => {
-                alert('Could not get directory information !!!')
+                alert(translator('Could not get directory information'))
             });
         }
         this.setState({showOption: false});
@@ -147,7 +148,7 @@ class MediaPreview extends Component {
           if (status !== 'granted') {
             const { status: mediaStatus, permissions: requestPermission } = await MediaLibrary.requestPermissionsAsync();
             if (mediaStatus !== 'granted') {
-                alert('Permission not granted');
+                alert(translator('Permission not granted'));
                 return;
             }
             permissions = requestPermission;
@@ -157,10 +158,10 @@ class MediaPreview extends Component {
             const album = await MediaLibrary.getAlbumAsync('Slodge24');
             if (album === null) {
               await MediaLibrary.createAlbumAsync('Slodge24', asset, false);
-              alert(`Finished downloading`);
+              alert(translator(`Finished downloading`));
             } else {
               await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
-              alert(`Finished downloading`);
+              alert(translator(`Finished downloading`));
             }
             return true;
           }
@@ -250,7 +251,7 @@ class MediaPreview extends Component {
                 ) : null}
                  { this.props.mediaReactionErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onMediaLikeReset}
                         button={[{title: 'Ok', onPress: this.props.onMediaLikeReset, style: styles.button}]}/> : null}

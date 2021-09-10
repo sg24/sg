@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet, ScrollView } from 'react-native';
+import { View, Pressable, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'ionicons';
 import Moment from 'react-moment';
 import * as Animatable from 'react-native-animatable';
 import Uridetect from 'uridetect';
+import Text, { translator ,TextWrapper } from 'text'
 
 import BoxShadow from '../../UI/BoxShadow/BoxShadow';
 import TouchableNativeFeedback from '../../UI/TouchableNativeFeedback/TouchableNativeFeedback';
@@ -98,8 +99,8 @@ const writeupContent = props => {
                                     <Text style={{color: '#777', marginRight: 5}} >
                                         Edit
                                     </Text> 
-                                    <Moment element={Text} date={props.cnt.edited} fromNow /></View>) : 
-                                    <Moment element={Text} date={props.cnt.created} fromNow  />}
+                                    <Moment element={TextWrapper} date={props.cnt.edited} fromNow /></View>) : 
+                                    <Moment element={TextWrapper} date={props.cnt.created} fromNow  />}
                             </View>
                         </View>
                         <TouchableNativeFeedback onPress={props.showUserOpt}>
@@ -149,7 +150,7 @@ const writeupContent = props => {
                         <View style={styles.userComment}>
                             { props.cnt.chat.user.map((user, index) => (
                             <Avatar key={index} userImage={user.userImage} iconSize={20} style={[styles.userCommentImage, {left: index !== 0 ? -(index*8) : 'auto'}]}/> ))}
-                            <Text  numberOfLines={1} style={[styles.userCommentText, {marginLeft: props.cnt.chat.user.length > 1 ? -((props.cnt.chat.user.length*8)-15) : 10}]}>{props.cnt.chat.user[0].username} {props.cnt.chat.user.length > 1 ? "and other's" : ''} comment on this</Text>
+                            <Text  numberOfLines={1} style={[styles.userCommentText, {marginLeft: props.cnt.chat.user.length > 1 ? -((props.cnt.chat.user.length*8)-15) : 10}]}>{props.cnt.chat.user[0].username} {props.cnt.chat.user.length > 1 ? translator( "and other's") : ''} {translator('comment on this')}</Text>
                         </View>
                     </TouchableNativeFeedback> : null}
                     <View style={styles.det}>

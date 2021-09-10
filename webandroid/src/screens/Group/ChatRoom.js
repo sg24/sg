@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform } from 'react-native';
+import { View, ImageBackground, StyleSheet, Dimensions, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
@@ -8,6 +8,7 @@ import withComponent from 'withcomponent';
 import { useNavigation } from '@react-navigation/native';
 import Uridetect from 'uridetect';
 import Constants from 'expo-constants';
+import Text, { translator } from 'text';
 
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import SearchHeader from '../../components/UI/Header/Search';
@@ -179,7 +180,7 @@ class ChatRoom extends Component {
     markExamHandler = (mark, pageID) => {
         this.props.navigation.navigate('MarkExam', {mark, pageID, cntID: 'getMarkChatroominfo', enableShare: false,
             navigationURI: Platform.OS === 'web' ? 'GroupWeb' :'Group', getMarkID: 'markChatroomTheoryexam',
-            infoPassed: 'User have been added to chat Room !', infoFailed: 'Score is below the pass mark', infoPending: 'User have been added to pending approval page',
+            infoPassed: 'User have been added to chat Room ', infoFailed: 'Score is below the pass mark', infoPending: 'User have been added to pending approval page',
             buttonPassed: [{title: 'Chat', icon: {name: 'chatbox-ellipses-outline'}, onPress: { URI: 'CommentBox',  params: {title: 'Room', chatType: 'roomchat', page: 'chatroom', pageID,showReply: true}}}],
             buttonPending: [{title: 'Accept', pageReaction: {page: 'exam', pageID, cntType: 'setChatroomacceptuser', info: 'Are you sure you want to accept this user'}},
             {title: 'Remove', icon: {name: 'close', color: '#333'},
@@ -216,7 +217,7 @@ class ChatRoom extends Component {
 
     startExamHandler = () => {
         this.props.navigation.navigate('Exam', {pageID: this.state.pageID, navigationURI: this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group', enableShare: false, cntID: 'getChatroomexam', 
-        getMarkID: 'markChatroomExam', infoPassed: 'You are now a member !', infoFailed: 'Your score is below the pass mark', infoPending: 'Your score have been sent to admin',
+        getMarkID: 'markChatroomExam', infoPassed: 'You are now a member', infoFailed: 'Your score is below the pass mark', infoPending: 'Your score have been sent to admin',
         buttonPassed: [{title: 'Chat', icon: {name: 'chatbox-ellipses-outline'}, onPress: { URI: 'CommentBox',  params: {title: 'Room', chatType: 'roomchat', page: 'chatroom', pageID: this.state.pageID,showReply: true}}}]});
     }
 
@@ -311,7 +312,7 @@ class ChatRoom extends Component {
             header =  (
                 <SearchHeader 
                     onPress={this.closeSearchHandler}
-                    title="Search ...."
+                    title="Search"
                     filterCnt={this.searchPageHandler}
                     value={this.state.search}
                     editable
@@ -394,13 +395,13 @@ class ChatRoom extends Component {
                     { options }
                     { this.props.deletePageErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onDeletePageReset}
                         button={[{title: 'Ok', onPress: this.props.onDeletePageReset, style: styles.button}]}/> : null}
                     { this.props.pageReactionErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
@@ -425,8 +426,8 @@ class ChatRoom extends Component {
                         <SelectPicker
                             selectType={this.state.showSelectPicker.selectType}
                             closeSelectPicker={this.closeModalHandler}
-                            info="Users accepted successfully !"
-                            removeInfo="Users removed successfully !"
+                            info="Users accepted successfully"
+                            removeInfo="Users removed successfully"
                             confirmAllInfo="Are you sure you want to accept this users"
                             confirmInfo="Are you sure you want to accept this user"
                             title="Chat Room Request"
@@ -442,8 +443,8 @@ class ChatRoom extends Component {
                         <SelectPicker
                             selectType={this.state.showPendingSelectPicker.selectType}
                             closeSelectPicker={this.closeModalHandler}
-                            info="Users accepted successfully !"
-                            removeInfo="Users removed successfully !"
+                            info="Users accepted successfully"
+                            removeInfo="Users removed successfully"
                             confirmAllInfo="Are you sure you want to accept this users"
                             confirmInfo="Are you sure you want to accept this user"
                             title="Pending Approval"
@@ -515,11 +516,11 @@ class ChatRoom extends Component {
                             closeInstruction={this.closeModalHandler}
                             button={[{title: 'Start', icon: {name: 'timer-outline'}, onPress: this.startExamHandler}]}>
                                 <View style={styles.instruction}>
-                                    { this.state.examInstruction.autoJoin ? <Text style={[styles.textStyle]}>Pass Mark: <Text style={styles.instructionText}>{ this.state.examInstruction.passMark }%</Text></Text> : null}
-                                    <Text style={[styles.textStyle, styles.contentText]}>Total: <Text style={styles.instructionText}>{ this.state.examInstruction.qchatTotal } Questions</Text></Text>
-                                    <Text style={[styles.textStyle]}>Duration: 
+                                    { this.state.examInstruction.autoJoin ? <Text style={[styles.textStyle]}>{translator('Pass Mark')}: <Text style={styles.instructionText}>{ this.state.examInstruction.passMark }{translator('%')}</Text></Text> : null}
+                                    <Text style={[styles.textStyle, styles.contentText]}>{translator('Total')}: <Text style={styles.instructionText}>{ this.state.examInstruction.qchatTotal } {translator('Questions')}</Text></Text>
+                                    <Text style={[styles.textStyle]}>{translator('Duration')}: 
                                         <Text style={styles.instructionText}>
-                                            {`${this.state.examInstruction.hour} hour ${this.state.examInstruction.minute} minute ${this.state.examInstruction.second} second`}</Text></Text>
+                                            {`${this.state.examInstruction.hour} ${translator('hour')} ${this.state.examInstruction.minute} ${translator('minute')} ${this.state.examInstruction.second} ${translator('second')}`}</Text></Text>
                                 </View>
                         </Instruction>: null}
                     { this.state.showActionSheet ? 
@@ -547,7 +548,7 @@ class ChatRoom extends Component {
                         <AbsoluteFill style={{zIndex: 9999999}}/> : null}
                     { this.props.fetchCntErr && this.props.fetchCnt ? 
                         <NotificationModal
-                            info="Network Error !"
+                            info="Network Error"
                             infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                             closeModal={this.props.onFetchCntReset}
                             button={[{title: 'Ok', onPress: this.props.onFetchCntReset, style: styles.button}]}/> : null}
@@ -560,7 +561,7 @@ class ChatRoom extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        det={`'${this.state.search}' does not match any Chat Room`}
+                        det={`'${this.state.search}' ${translator('does not match any Chat Room')}`}
                         name="search"
                         size={40}
                         color="#333"
@@ -580,7 +581,7 @@ class ChatRoom extends Component {
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No Chat Room found !!! </Text>
+                            <Text style={styles.infoTitle}> No Chat Room found </Text>
                             <View>
                                 <Href title="create Chat Room" onPress={() => this.navigationHandler('AddChatRoom', {groupID: this.state.groupID})} style={styles.href}/>
                             </View>

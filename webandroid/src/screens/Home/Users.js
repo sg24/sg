@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform  } from 'react-native';
+import { View, ImageBackground, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
+import Text, { translator } from 'text';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
@@ -150,8 +151,8 @@ class Users extends Component {
             animation: 'fade',
             notificationPage: 'userRequest',
             selectType: 'userRequest',
-            info:'Users accepted successfully !',
-            removeInfo: 'Users rejected successfully !',
+            info:'Users accepted successfully',
+            removeInfo: 'Users rejected successfully',
             confirmAllInfo: 'Are you sure you want to accept this users',
             confirmInfo: 'Are you sure you want to accept this user',
             confirmAllRejInfo: 'Are you sure you want to reject this users',
@@ -181,7 +182,7 @@ class Users extends Component {
                 />
             ) : (
                 <SearchHeader
-                    title="Enter Name ...."
+                    title="Enter Name"
                     filterCnt={this.searchPageHandler}
                     editable
                     value={this.state.search}
@@ -195,7 +196,7 @@ class Users extends Component {
             header =  (
                 <SearchHeader 
                     onPress={this.closeSearchHandler}
-                    title="Search ...."
+                    title="Search"
                     filterCnt={this.searchPageHandler}
                     value={this.state.search}
                     editable
@@ -272,13 +273,13 @@ class Users extends Component {
                     </Wrapper>
                     { this.props.deletePageErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onDeletePageReset}
                         button={[{title: 'Ok', onPress: this.props.onDeletePageReset, style: styles.button}]}/> : null}
                     { this.props.pageReactionErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
@@ -302,7 +303,7 @@ class Users extends Component {
                             {title: 'Exit', onPress: this.closeModalHandler, style: styles.button}]}/> : null}
                     { this.props.fetchCntErr && this.props.fetchCnt ? 
                         <NotificationModal
-                            info="Network Error !"
+                            info="Network Error"
                             infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                             closeModal={this.props.onFetchCntReset}
                             button={[{title: 'Ok', onPress: this.props.onFetchCntReset, style: styles.button}]}/> : null}
@@ -314,7 +315,7 @@ class Users extends Component {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     <InfoBox
-                        det={`'${this.state.search}' does not match any username`}
+                        det={`'${this.state.search}' ${translator('does not match any username')}`}
                         name="search"
                         size={40}
                         color="#333"

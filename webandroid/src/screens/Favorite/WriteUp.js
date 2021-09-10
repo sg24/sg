@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform } from 'react-native';
+import { View, ImageBackground, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { size } from 'tailwind';
 import urischeme from 'urischeme';
 import withComponent from 'withcomponent';
 import { useNavigation } from '@react-navigation/native';
+import Text, { translator } from 'text';
 
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';;
@@ -13,8 +14,6 @@ import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
 import WriteUpItem from '../../components/Page/WriteUp/WriteUp';
-import PagePreview from '../../components/Page/Preview/Preview';
-import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import CommentBox from '../../components/UI/CommentBox/CommentBox';
@@ -161,7 +160,7 @@ class WriteUp extends Component {
         if (shareType === 'Friends') {
             this.props.navigation.navigate('SharePicker', {shareType, cnt: updateCnt,
                 shareUpdates: [{shareType: 'writeup', cntID: 'setShare', page: 'writeup', pageID: updateCnt._id}], shareChat: false,
-                info: 'Write Up shared successfully !'})
+                info: 'Write Up shared successfully'})
         } else {
             this.setState({showActionSheet: {option: ['Friends', 'Groups'],
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
@@ -179,7 +178,7 @@ class WriteUp extends Component {
 
     pagePreviewHandler = (cnt) => {
         this.props.navigation.navigate('PagePreview', {cnt, title: 'Write Up', page: 'writeup', navigationURI: 'WriteUp',
-            navigationURIWeb: 'WriteUp', editPage: 'EditWriteUp', showOption: false, share: {shareType: 'writeup', shareChat: false,  info: 'Write Up shared successfully !'}})
+            navigationURIWeb: 'WriteUp', editPage: 'EditWriteUp', showOption: false, share: {shareType: 'writeup', shareChat: false,  info: 'Write Up shared successfully'}})
     }
 
     chatHandler = (pageID) => {
@@ -196,7 +195,7 @@ class WriteUp extends Component {
         } else if (index === 0) {
             this.props.navigation.navigate('SharePicker', {shareType: this.state.showActionSheet.option[index], cnt: this.state.showActionSheet.cnt,
                 shareUpdates: [{shareType: 'writeup', cntID: 'setShare', page: 'writeup', pageID: this.state.showActionSheet.cnt._id}], shareChat: false,
-                info: 'Write Up shared successfully !'})
+                info: 'Write Up shared successfully '})
             return
         } else if (index === 1){
             this.setState({showSelectGroupPicker: {selectType: 'group', pageID: this.state.showActionSheet.cnt._id}, showActionSheet: false})
@@ -224,7 +223,7 @@ class WriteUp extends Component {
             header =  (
                 <SearchHeader 
                     onPress={this.closeSearchHandler}
-                    title="Search ...."
+                    title="Search"
                     filterCnt={this.searchPageHandler}
                     value={this.state.search}
                     editable
@@ -299,13 +298,13 @@ class WriteUp extends Component {
                     { options }
                     { this.props.deletePageErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onDeletePageReset}
                         button={[{title: 'Ok', onPress: this.props.onDeletePageReset, style: styles.button}]}/> : null}
                     { this.props.pageReactionErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
@@ -313,7 +312,7 @@ class WriteUp extends Component {
                         <SelectPicker
                             selectType={this.state.showSelectGroupPicker.selectType}
                             closeSelectPicker={this.closeModalHandler}
-                            info="Write Up shared successfully !"
+                            info="Write Up shared successfully"
                             confirmAllInfo="Are you sure, you want to share this write Up"
                             iconName="paper-plane-outline"
                             infoBox="Group"
@@ -343,7 +342,7 @@ class WriteUp extends Component {
                         <AbsoluteFill style={{zIndex: 9999999}}/> : null}
                     { this.props.fetchCntErr && this.props.fetchCnt ? 
                         <NotificationModal
-                            info="Network Error !"
+                            info="Network Error"
                             infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                             closeModal={this.props.onFetchCntReset}
                             button={[{title: 'Ok', onPress: this.props.onFetchCntReset, style: styles.button}]}/> : null}
@@ -356,7 +355,7 @@ class WriteUp extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        det={`Searched text '${this.state.search}' does not match any write up`}
+                        det={`${translator('Searched text')} '${this.state.search}' ${translator('does not match any write up')}`}
                         name="search"
                         size={40}
                         color="#333"
@@ -376,7 +375,7 @@ class WriteUp extends Component {
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No write up added as favorite !!! </Text>
+                            <Text style={styles.infoTitle}> No write up added as favorite </Text>
                             <View>
                                 {/* <Text style={{justifyContent: 'center', alignItems: 'center'}}>
                                     <Href title="Write Up" onPress={() => this.navigationHandler('WriteUp')} style={styles.href}/>

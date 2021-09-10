@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView, BackHandler, Alert } from 'react-native';
+import { View, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView, BackHandler, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { size } from 'tailwind';
 import Ionicons from 'ionicons';
+import Text, { translator } from 'text';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
@@ -89,7 +90,7 @@ class MarkExam extends Component {
         if (this.props.fetchCnt && (this.props.fetchCnt[0].score || this.props.fetchCnt[0].score === 0)) {
             this.navigationHandler(this.state.navigationURI)
         } else {
-            Alert.alert('Are you sure, you want to stop marking', null, [
+            Alert.alert(translator('Are you sure, you want to stop marking'), null, [
                 {text: 'OK', onPress: () => this.navigationHandler(this.state.navigationURI), style: styles.button}], {cancelable: true});
         }
         return true
@@ -112,7 +113,7 @@ class MarkExam extends Component {
 
     showShareHandler = () => {
         let updateCnt = {_id: this.state.pageID, cntType: 'exam', content: 
-            `${this.props.fetchCnt[0].title} , Name: ${this.state.mark.username}, Score: ${this.props.fetchCnt[0].score}%  Mark: ${this.props.fetchCnt[0].mark} / ${ this.state.mark.questionTotal}`, verified: true};
+            `${this.props.fetchCnt[0].title} , ${translator('Name')}: ${this.state.mark.username}, ${translator('Scores')}: ${this.props.fetchCnt[0].score}${translator('%')}  ${translator('Mark')}: ${this.props.fetchCnt[0].mark} / ${ this.state.mark.questionTotal}`, verified: true};
         this.setState({showActionSheet: {option: ['Friends', 'Groups'],
         icon: ['people-outline', 'chatbox-outline', 'chatbubble-ellipses-outline'],cnt: updateCnt}})
     }
@@ -227,7 +228,7 @@ class MarkExam extends Component {
                             cnt={this.state.showSharePicker.cnt}
                             shareUpdates={[]}
                             shareChat
-                            info="Result shared successfully !"/> : null}
+                            info="Result shared successfully"/> : null}
                      { this.state.showActionSheet ? 
                         <ActionSheet
                             options={this.state.showActionSheet.option}
@@ -238,7 +239,7 @@ class MarkExam extends Component {
                         : null}
                     { this.props.pageReactionErr ?
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
@@ -260,15 +261,15 @@ class MarkExam extends Component {
                                 {backgroundColor: this.props.settings.backgroundColor} : null, {justifyContent: 'center', alignItems: 'center'}]}>
                                     <BoxShadow style={styles.result}>
                                         <View>
-                                            <Text style={styles.mark}>Score:</Text>
-                                            <Text style={styles.score}>{`${this.props.fetchCnt[0].score}%`}</Text>
+                                            <Text style={styles.mark}>{translator('Score')}:</Text>
+                                            <Text style={styles.score}>{`${this.props.fetchCnt[0].score}${translator('%')}`}</Text>
                                             <View style={{flexDirection: 'row'}}>
-                                                <Text style={[styles.mark, {marginRight: 10}]}>Mark:</Text>
+                                                <Text style={[styles.mark, {marginRight: 10}]}>{translator('Mark')}:</Text>
                                                 <Text style={styles.mark}>{`${this.props.fetchCnt[0].mark} / ${ this.state.mark.questionTotal}`}</Text>
                                             </View>
                                                 <View style={{marginTop: 10}}>
                                                     {this.props.fetchCnt[0].showResult ?
-                                                        <Text style={{marginBottom: 10, color: '#777'}}>Result as being added </Text> : null}
+                                                        <Text style={{marginBottom: 10, color: '#777'}}>{ translator('Result as being added')}</Text> : null}
                                                     {this.props.fetchCnt[0].passed === false ?
                                                         <Text style={{marginBottom: 10, color: '#ff1600'}}>{ this.state.infoFailed }</Text> : null}
                                                     {this.props.fetchCnt[0].passed ?
@@ -279,7 +280,7 @@ class MarkExam extends Component {
                                                         {this.props.fetchCnt[0].showResult || this.props.fetchCnt[0].enableComment ?
                                                         <Button style={styles.chatButton} onPress={this.showCommentHandler}>
                                                             <Ionicons name="chatbox-ellipses-outline" size={16} color="#fff"/>
-                                                            <Text style={styles.submitButtonText}>Result</Text>
+                                                            <Text style={styles.submitButtonText}>{translator('Result')}</Text>
                                                         </Button> : null}
                                                         { this.props.fetchCnt[0].passed && this.state.buttonPassed ? this.state.buttonPassed.map((cnt, index) => (
                                                             <Button key={index} onPress={() => this.navigationHandler(cnt.onPress.URI, cnt.onPress.params)} style={styles.reactionButton}>
@@ -300,7 +301,7 @@ class MarkExam extends Component {
                                                         {this.state.enableShare ? 
                                                         <Button style={styles.shareButton} onPress={this.showShareHandler}>
                                                             <Ionicons name="paper-plane-outline" size={16} color="#333"/>
-                                                            <Text style={styles.shareButtonText}>Share</Text>
+                                                            <Text style={styles.shareButtonText}>{translator('Share')}</Text>
                                                         </Button>: null}
                                                     </View>
                                                 </View>

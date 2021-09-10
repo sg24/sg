@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, ActivityIndicator, ScrollView, Dimensions, StyleSheet} from 'react-native';
+import { View, ActivityIndicator, ScrollView, Dimensions, StyleSheet} from 'react-native';
 import { connect } from 'react-redux';
 import { size } from 'tailwind';
 import Ionicons from 'ionicons';
+import Text from 'text';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
@@ -142,7 +143,7 @@ class SharePicker extends Component {
             header =  (
                 <SearchHeader 
                     onPress={this.closeSearchHandler}
-                    title="Enter Name ...."
+                    title="Enter Name"
                     filterCnt={this.searchUserHandler}
                     editable
                     rightSideContent={(
@@ -206,7 +207,7 @@ class SharePicker extends Component {
         if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length < 1) {
             cnt = (
                 <InfoBox
-                    det='You currently have no friend!'
+                    det='You currently have no friend'
                     name="person"
                     size={40}
                     color="#333"
@@ -251,13 +252,13 @@ class SharePicker extends Component {
                 </View>
                 { this.props.fetchCntErr && this.props.fetchCnt ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onFetchCntReset}
                         button={[{title: 'Ok', onPress: this.props.onFetchCntReset, style: styles.button}]}/> : null}
                 { this.props.shareErr ?
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onShareReset}
                         button={[{title: 'Ok', onPress: this.props.onShareReset, style: styles.button}]}/> : null}

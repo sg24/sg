@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, ActivityIndicator, StyleSheet, Platform} from 'react-native';
+import { View, Image, ScrollView, ActivityIndicator, StyleSheet, Platform} from 'react-native';
 import Icon from 'ionicons';
+import Text, { translator } from 'text'
 
 import InnerScreen from '../../../../UI/InnerScreen/InnerScreen';
 import TouchableNativeFeedback from '../../../../UI/TouchableNativeFeedback/TouchableNativeFeedback'
@@ -15,7 +16,7 @@ const changeProfile = props => {
         <TouchableNativeFeedback onPress={props.enableChangeImage}>
             <View style={styles.modalUpload}>
                 <Icon name="cloud-upload-outline" size={30} color="#437da3"/>
-                <Text style={styles.modalUploadText}>Upload Image </Text>
+                <Text style={styles.modalUploadText}>Upload Image</Text>
             </View>
         </TouchableNativeFeedback>
     );
@@ -90,7 +91,7 @@ const changeProfile = props => {
                                     labelTitle="Old Username"
                                     onChangeText={(val) => props.inputChanged(val, 'username')}
                                     autoCorrect={false}
-                                    placeholder={`Enter Previous username '${props.cnt.username}'`}
+                                    placeholder={`${translator('Enter Previous username')} '${props.cnt.username}'`}
                                     autoCompleteType="username"
                                     value={props.formElement.username.value}
                                     valid={(props.formElement.username.value !== props.cnt.username) && props.formElement.username.touched}

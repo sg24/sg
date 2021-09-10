@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, Platform, StyleSheet, ScrollView } from 'react-native';
-import Ionicons from 'ionicons';
+import { View, Platform, StyleSheet, ScrollView } from 'react-native';
+import Text from 'text';
 
 import BoxShadow from '../../UI/BoxShadow/BoxShadow';
 import MediaContainer from '../../UI/MediaContainer/MediaContainer';
@@ -48,7 +48,7 @@ const exam = props => {
                                 </View>
                             ) : 
                                 <FormElement
-                                    placeholder="Write Answer ..."
+                                    placeholder="Write Answer "
                                     onChangeText={(val) => props.selectAnswer(val, props.cnt._id, props.cnt.examType)}
                                     error="Answer must not be empty"
                                     autoCorrect

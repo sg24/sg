@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
+import { View, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
 import urischeme from 'urischeme';
+import { translator } from 'text';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import Navigation from '../../components/UI/SideBar/Navigation/Navigation';
@@ -252,7 +253,7 @@ class GroupPreview extends Component {
                                 iconSize={20} iconName="chatbubble-ellipses" imageSize={36} enableBorder={false} />
                             <View>
                                 <Href style={styles.leftSideContentText} title={this.props.fetchCnt[0].name} numberOfLines={1}/>
-                                <Href style={styles.leftSideContentMember} title={`${this.props.fetchCnt[0].member} Members`} numberOfLines={1}/>
+                                <Href style={styles.leftSideContentMember} title={`${this.props.fetchCnt[0].member} ${translator('Members')}`} numberOfLines={1}/>
                             </View>
                         </View>
                     )}
@@ -338,7 +339,7 @@ class GroupPreview extends Component {
                             cnt={this.state.showSharePicker.cnt}
                             shareUpdates={[{shareType: 'group', cntID: 'setShare', page: 'group', pageID: this.state.showSharePicker.cnt._id}]}
                             shareChat={false}
-                            info="Group shared successfully !"/> : null}
+                            info="Group shared successfully"/> : null}
                 </View>
             )
         }

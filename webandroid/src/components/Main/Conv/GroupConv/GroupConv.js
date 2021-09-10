@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import Icon from 'ionicons';
 import Moment from 'react-moment';
+import Text, { translator, TextWrapper } from 'text'
 
 import TabBarge from '../../../UI/TabBarge/TabBarge';
 import Href from '../../../UI/Href/Href';
@@ -35,7 +36,7 @@ const groupConv = props => {
                 <Href onPress={props.showGroup} numberOfLines={1} wrapperStyle={styles.msgWrapper}>
                     <Text numberOfLines={1} style={styles.lastChat}>{trim(props.groupDet.lastChat)}</Text>
                     <Text numberOfLines={1} style={styles.msgCreated}>
-                        @ <Moment element={Text} date={props.groupDet.created} fromNow />
+                        {translator('@')} <Moment element={TextWrapper} date={props.groupDet.created} fromNow />
                     </Text>
                 </Href> : null}
                 <View style={styles.msgWrapper}>

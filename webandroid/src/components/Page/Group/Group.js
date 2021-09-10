@@ -36,8 +36,8 @@ class Group extends Component {
                 enterGroup={this.props.enterGroup.bind(this, cnt._id, cnt.title, cnt.image, cnt.member)}
                 cancelRequest={this.props.cancelRequest.bind(this, cnt._id)}
                 showPendingAppove={this.props.showPendingAppove.bind(this, cnt._id)}
-                cancelApprove={this.props.cancelApprove.bind(this, cnt._id, null, 'cancelApprove', false, 'Cancelling this request will remove the exam you have written !')}
-                cancelMark={this.props.cancelMark.bind(this, cnt._id, null, 'cancelMark', false, 'Cancelling this request will remove the exam you have written !')}
+                cancelApprove={this.props.cancelApprove.bind(this, cnt._id, null, 'cancelApprove', false, 'Cancelling this request will remove the exam you have written')}
+                cancelMark={this.props.cancelMark.bind(this, cnt._id, null, 'cancelMark', false, 'Cancelling this request will remove the exam you have written')}
                 pageReaction={this.props.pageReaction}
                 share={this.props.share.bind(this, cnt, 'select')}
                 closeModal={this.props.closeModal}

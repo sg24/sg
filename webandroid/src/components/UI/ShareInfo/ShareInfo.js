@@ -24,7 +24,7 @@ const shareInfo = props => {
                     <Ionicons name="paper-plane-outline" color="#777" size={16}/>
                     {groupPage ? (
                         <>
-                        <Text style={styles.infoText} numberOfLines={1} >
+                        <Text style={[styles.infoText, { paddingHorizontal: 5}]} numberOfLines={1} >
                             Shared from 
                         </Text>
                         <View style={{flexShrink: 1}}>

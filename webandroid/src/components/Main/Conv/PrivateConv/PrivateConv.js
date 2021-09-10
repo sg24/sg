@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, Platform } from 'react-native';
+import { View, Image, StyleSheet, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 import Moment from 'react-moment';
+import Text, { translator, TextWrapper } from 'text'
 
 import TabBarge from '../../../UI/TabBarge/TabBarge';
 import TouchableNativeFeedback from '../../../UI/TouchableNativeFeedback/TouchableNativeFeedback';
@@ -66,7 +67,7 @@ const privateConv = props => {
     if (props.cnt.chat && props.cnt.created && !props.hideMessage) { 
         msgCreated = (
             <View>
-                <Text numberOfLines={1} style={styles.msgCreated} >@ <Moment element={Text} date={props.cnt.created} fromNow /></Text>
+                <Text numberOfLines={1} style={styles.msgCreated} >{translator('@')} <Moment element={TextWrapper} date={props.cnt.created} fromNow /></Text>
                 { notification && !props.hideMessage ? notification : null }
             </View>
         )

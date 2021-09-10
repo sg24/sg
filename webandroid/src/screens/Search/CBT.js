@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, StyleSheet, ActivityIndicator, Dimensions, Platform } from 'react-native';
+import { View, ImageBackground, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { size } from 'tailwind';
 import urischeme from 'urischeme';
 import withComponent from 'withcomponent';
 import { useNavigation } from '@react-navigation/native';
+import { translator } from 'text';
 
 import SearchHeader from '../../components/UI/Header/Search';
 import Option from '../../components/UI/Option/Option';
@@ -225,7 +226,7 @@ class CBT extends Component {
 
     pagePreviewHandler = (cnt) => {
         this.props.navigation.navigate('PagePreview', {cnt, title: 'CBT', page: 'cbt', showOption: false, navigationURI: 'CBT',
-        navigationURIWeb: 'CBTWeb', editPage: 'EditCBT', showContent: false , share: {shareType: 'cbt', shareChat: false,  info: 'CBT shared successfully !'}})
+        navigationURIWeb: 'CBTWeb', editPage: 'EditCBT', showContent: false , share: {shareType: 'cbt', shareChat: false,  info: 'CBT shared successfully'}})
     }
 
     chatHandler = (pageID, enableComment, enableDelete) => {
@@ -271,7 +272,7 @@ class CBT extends Component {
             header =  (
                 <SearchHeader 
                     onPress={this.closeSearchHandler}
-                    title="Search ...."
+                    title="Search"
                     filterCnt={this.searchPageHandler}
                     value={this.state.search}
                     editable
@@ -352,13 +353,13 @@ class CBT extends Component {
                     { options }
                     { this.props.deletePageErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onDeletePageReset}
                         button={[{title: 'Ok', onPress: this.props.onDeletePageReset, style: styles.button}]}/> : null}
                     { this.props.pageReactionErr ? 
                     <NotificationModal
-                        info="Network Error !"
+                        info="Network Error"
                         infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                         closeModal={this.props.onPageReactionReset}
                         button={[{title: 'Ok', onPress: this.props.onPageReactionReset, style: styles.button}]}/> : null}
@@ -366,8 +367,8 @@ class CBT extends Component {
                         <SelectPicker
                             selectType={this.state.showSelectPicker.selectType}
                             closeSelectPicker={this.closeModalHandler}
-                            info="Users allowed successfully !"
-                            removeInfo="Users removed successfully !"
+                            info="Users allowed successfully"
+                            removeInfo="Users removed successfully"
                             title="CBT Request"
                             page="cbt"
                             pageID={this.state.showSelectPicker.pageID}
@@ -392,7 +393,7 @@ class CBT extends Component {
                         <SelectPicker
                             selectType={this.state.showSelectGroupPicker.selectType}
                             closeSelectPicker={this.closeModalHandler}
-                            info="CBT Shared successfully !"
+                            info="CBT Shared successfully"
                             confirmAllInfo="Are you sure, you want to share this CBT"
                             iconName="paper-plane-outline"
                             infoBox="Group"
@@ -408,7 +409,7 @@ class CBT extends Component {
                         <SelectPicker
                             selectType={this.state.allowedSelectPicker.selectType}
                             closeSelectPicker={this.closeModalHandler}
-                            removeInfo="Users removed successfully !"
+                            removeInfo="Users removed successfully"
                             title="Allowed User"
                             page="cbt"
                             pageID={this.state.allowedSelectPicker.pageID}
@@ -441,7 +442,7 @@ class CBT extends Component {
                         <AbsoluteFill style={{zIndex: 9999999}}/> : null}
                     { this.props.fetchCntErr && this.props.fetchCnt ? 
                         <NotificationModal
-                            info="Network Error !"
+                            info="Network Error"
                             infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
                             closeModal={this.props.onFetchCntReset}
                             button={[{title: 'Ok', onPress: this.props.onFetchCntReset, style: styles.button}]}/> : null}
@@ -454,7 +455,7 @@ class CBT extends Component {
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
                     <InfoBox
-                        det={`'${this.state.search}' does not match any CBT`}
+                        det={`'${this.state.search}' ${translator('does not match any CBT')}`}
                         name="search"
                         size={40}
                         color="#333"
