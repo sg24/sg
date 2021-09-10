@@ -628,7 +628,8 @@ router.patch('/', authenticate,(req, res, next) => {
             user.findOneAndUpdate({_id: req.user, friend: { $ne : id }}, {$addToSet: { friend: id }, $pull: {request: id}}),
             notifications('userRequest', req.user, {userID: id}, true),
             notifications('userAccept', id, {userID: req.user}, false),
-            user.findByIdAndUpdate(id, {$addToSet: { friend: req.user }, $pull: {'pendingRequest': req.user}})
+            user.findByIdAndUpdate(id, {$addToSet: { friend: req.user }, $pull: {'pendingRequest': req.user}}),
+            user.findOneAndUpdate({_id: req.user, request: { $in : id }}, {$pull: {request: id}})
         ]).then(() => {
             res.sendStatus(200)
         }).catch(err =>{
@@ -666,6 +667,7 @@ router.patch('/', authenticate,(req, res, next) => {
     if (req.header && req.header('data-categ') === 'unfriend') {
         sequence([
             user.findOneAndUpdate({_id: req.user, friend: { $in : [id] }}, {$pull: { friend: id }}),
+            user.findOneAndUpdate({_id: id, friend: { $in : [req.user] }}, {$pull: { friend: req.user }}),
             notifications('userUnfriend', id, {userID: req.user}, false)]).then(() => {
             res.sendStatus(200);
         }).catch(err => {

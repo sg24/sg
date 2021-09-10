@@ -160,7 +160,8 @@ const privateConv = props => {
 
 const styles = StyleSheet.create({
     wrapper: {
-        width: '100%'
+        width: '100%',
+        paddingHorizontal: 2
     },
     container: {
         width: '100%',

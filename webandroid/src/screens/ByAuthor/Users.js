@@ -223,7 +223,8 @@ class Users extends Component {
                             <Text style={styles.optionIconText}>Friend Request</Text>
                             <TabBarge
                                 onPress={() => this.navigationHandler('SelectPicker', {props: selectProps})}
-                                notification={this.props.notification && this.props.notification['userRequest'] ? this.props.notification['userRequest'].length : 0}
+                                notification={this.props.notification && this.props.notification['userRequest'] && (this.props.userID === this.state.profileID) ?
+                                    this.props.notification['userRequest'].length : 0}
                                 style={styles.tabBarge}
                                 textStyle={styles.tabBargeText}
                                 disableZero/>

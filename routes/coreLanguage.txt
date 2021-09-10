@@ -225,11 +225,6 @@ username
 are you sure you want to cancel this request
 username must be longer than 5 characters
 forgot password
-2021
-2022
-2023
-2024
-2025
 edit write up
 write up updated successfully
 edit question

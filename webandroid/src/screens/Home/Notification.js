@@ -125,7 +125,7 @@ class Notification extends Component {
         }
         if (page === 'qchatRequest' || page === 'qchatAccept' || page === 'qchatReject' || page === 'qchatMark') {
             if (page === 'qchatAccept' || page === 'qchatReject' || page === 'qchatMark') {
-                this.props.navigation.push(this.state.viewMode === 'landscape' ? 'CBTWeb' : 'CBT', {cntID: cnt._id});
+                this.props.navigation.push(this.state.viewMode === 'landscape' ? 'CBTWeb' : 'HomeWeb', {cntID: cnt._id, screen: 'CBT'});
             }
             if (page === 'qchatRequest') {
                 let selectProps = { animation: 'fade', notificationPage: 'qchatRequest', selectType: 'cbtRequest',info: 'Users allowed successfully', removeInfo: 'Users removed successfully',

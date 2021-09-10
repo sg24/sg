@@ -309,9 +309,9 @@ class Group extends Component {
         return duration;
     }
 
-    navigationHandler = async (page) => {
+    navigationHandler = async (page, cntID = {}) => {
         await AsyncStorage.removeItem('CBT');
-        this.props.navigation.navigate(page);
+        this.props.navigation.navigate(page, cntID);
     }
 
     showEmojiHandler = () => {
@@ -661,7 +661,8 @@ class Group extends Component {
                         info="Group created successfully"
                         infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                         closeModal={this.resetFormHandler}
-                        button={[{title: 'View', onPress: () => this.navigationHandler(this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group')},
+                        button={[{title: 'View', onPress: () => this.navigationHandler(this.state.viewMode === 'landscape' ? 'GroupWeb' : 'HomeWeb', 
+                        this.state.viewMode === 'landscape' ? {} : {screen: 'Group'})},
                         {title: 'Add', onPress: 
                             this.state.formElement.cbt.value && this.examContent ? this.examContent.resetFormHandler :
                                 this.resetFormHandler, style: styles.modalButton}]}/> : null}

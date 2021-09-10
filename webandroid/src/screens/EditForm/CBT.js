@@ -300,8 +300,8 @@ class CBT extends Component {
         return duration;
     }
 
-    navigationHandler = async (page) => {
-        this.props.navigation.navigate(page);
+    navigationHandler = async (page, cntID = {}) => {
+        this.props.navigation.navigate(page, cntID);
     }
 
     showEmojiHandler = () => {
@@ -635,7 +635,8 @@ class CBT extends Component {
                             info="CBT updated successfully"
                             infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                             closeModal={this.resetFormHandler}
-                            button={[{title: 'View', onPress: () => this.navigationHandler(this.state.viewMode === 'landscape' ? 'CBTWeb' : 'CBT')},
+                            button={[{title: 'View', onPress: () => this.navigationHandler(this.state.viewMode === 'landscape' ? 'CBTWeb' : 'HomeWeb', 
+                            this.state.viewMode === 'landscape' ? {} : {screen: 'CBT'})},
                             {title: 'Edit', onPress: this.examContent ? this.examContent.resetFormHandler : null, style: styles.modalButton}]}/> : null}
                 </View>
             )

@@ -8,6 +8,8 @@ import { useNavigation } from '@react-navigation/native';
 import withComponent from 'withcomponent';
 import Ionicons from 'ionicons';
 import Text, { translator } from 'text';
+import AsyncStorage from '@react-native-community/async-storage';
+import Constants from 'expo-constants';
 
 import InnerScreen from '../InnerScreen/InnerScreen';
 import SearchHeader from '../Header/Search';
@@ -339,6 +341,13 @@ class SelectPicker extends Component {
         }
 
         if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length < 1) {
+            if (this.props.selectType === 'userRequest' && this.props.notification && this.props.notification.userRequest 
+                && this.props.notification.userRequest.length > 0) {
+                let notification = {...this.props.notification}
+                notification['userRequest'] = [];
+                AsyncStorage.setItem(Constants.manifest.extra.NOTIFICATION, JSON.stringify(notification));
+                this.props.onUpdateNotification(notification);
+            }
             cnt = (
                 <InfoBox
                     det={`${translator('You currently have no')} ${this.props.infoBox ? this.props.infoBox: this.props.title}`}
@@ -513,6 +522,7 @@ const mapStateToProps = state => {
     return {
         settings: state.settings,
         userID: state.auth.userID,
+        notification: state.header.notification,
         fetchSelectcntStart: state.select.fetchSelectcntStart,
         fetchCntErr: state.select.fetchSelectcntError,
         fetchCnt: state.select.fetchSelectcnt,
@@ -535,7 +545,8 @@ const mapDispatchToProps = dispatch => {
         onSelectCnt: (page, pageID, reactionType, cntID, cnt, uriMethod, confirm, remove) => dispatch(actions.selectInit(page, pageID, reactionType, cntID, cnt, uriMethod, confirm, remove)),
         onSelectReset: () => dispatch(actions.selectReset()),
         onSelectReaction: (page, pageID, reactionType, cntID, cnt, uriMethod, confirm) => dispatch(actions.selectReactionInit(page, pageID, reactionType, cntID, cnt, uriMethod, confirm)),
-        onSelectReactionReset: (cntID) => dispatch(actions.selectReactionReset(cntID))
+        onSelectReactionReset: (cntID) => dispatch(actions.selectReactionReset(cntID)),
+        onUpdateNotification: (notification) => dispatch(actions.headerPushNotificationUpdate(notification))
     };
 };
 

@@ -262,9 +262,9 @@ class CBT extends Component {
         return duration;
     }
 
-    navigationHandler = async (page) => {
+    navigationHandler = async (page, cntID={}) => {
         await AsyncStorage.removeItem('CBT');
-        this.props.navigation.navigate(page);
+        this.props.navigation.navigate(page, cntID);
     }
 
     showEmojiHandler = () => {
@@ -573,7 +573,8 @@ class CBT extends Component {
                         info="CBT submitted successfully"
                         infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                         closeModal={this.resetFormHandler}
-                        button={[{title: 'View', onPress: () => this.navigationHandler(this.state.viewMode === 'landscape' ? 'CBTWeb' :'CBT')},
+                        button={[{title: 'View', onPress: () => this.navigationHandler(this.state.viewMode === 'landscape' ? 'CBTWeb' :'HomeWeb', 
+                        this.state.viewMode === 'landscape' ? {} : {screen: 'CBT'})},
                         {title: 'Add', onPress: this.examContent ? this.examContent.resetFormHandler : null, style: styles.modalButton}]}/> : null}
             </View>
         )

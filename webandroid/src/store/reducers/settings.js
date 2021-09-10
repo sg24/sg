@@ -55,7 +55,7 @@ const initialState = {
         }
     },
     friendProfile: true,
-    autoLoading: true,
+    autoLoading: false,
     notificationLimit: 2,
     friendSidebarListLimit: 10,
     highlightBackgroundColor: [{title: 'Red',  color: '#ff1600'},{title: 'Blue', color: '#437da3'},{title: 'Black', color: '#000'}],
@@ -63,7 +63,7 @@ const initialState = {
     backgroundColor: '#fff',
     color: '#333',
     isRTL: false,
-    version: 1
+    version: 4
 };
 
 const saveSetting = (state, action) => {
