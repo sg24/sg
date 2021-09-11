@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions,TouchableOpacity} from 'react-native';
+import { View, StyleSheet, Dimensions,TouchableOpacity} from 'react-native';
 import Icon from 'ionicons';
+import Text from 'text';
 
 import NoBackground from '../../components/UI/NoBackground/NoBackground';
 import ScrollView from '../../components/UI/ScrollView/ScrollView';

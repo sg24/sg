@@ -284,11 +284,12 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 3
     },
     button: {
-        width: 70,
+        width: 'auto',
         backgroundColor: '#ff1600',
         justifyContent: 'center',
-        alignItems: 'center'
-    }, 
+        alignItems: 'center',
+        paddingHorizontal: 10
+    },
     options: {
         padding: 0,
         marginTop: 20,

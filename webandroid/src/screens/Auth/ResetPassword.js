@@ -287,10 +287,11 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 3
     },
     button: {
-        width: 70,
+        width: 'auto',
         backgroundColor: '#437da3',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingHorizontal: 10
     }, 
     options: {
         padding: 0,

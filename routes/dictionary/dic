@@ -1,5 +1,5 @@
 sign in
-retrive
+retrieve
 pausing an audio recording is unsupported on your android device
 audio could not be started, please use the s lodg24 android app version
 camera preview could not been started
@@ -19,7 +19,7 @@ friends
 friend
 groups
 chat room
-message not sent, check your internet connnection
+message not sent, check your internet connection
 resend
 load more to scroll to chat
 take picture
@@ -41,7 +41,7 @@ phone  number
 url / phone number
 url
 buy now
-e-mail
+email
 title must not be empty
 url must start with http or https
 emoji selected
@@ -59,7 +59,7 @@ logout
 post
 group
 users
-cbt
+computer exam
 notification
 conversation
 home
@@ -110,7 +110,7 @@ public
 private
 and other's
 duration must not be zero
-add cbt
+add computer exam
 number must not be greater than
 title
 exam summary / instruction
@@ -129,7 +129,7 @@ next
 view
 reject
 add
-cbt submitted successfully
+computer exam submitted successfully
 question must not be empty
 question type
 select question type
@@ -162,7 +162,7 @@ options
 answer's added
 short description
 about must be longer than 5 characters
-@
+at
 unfriend
 offline
 submit
@@ -225,6 +225,11 @@ username
 are you sure you want to cancel this request
 username must be longer than 5 characters
 forgot password
+2021
+2022
+2023
+2024
+2025
 edit write up
 write up updated successfully
 edit question
@@ -234,8 +239,8 @@ edit group
 group updated successfully
 feed updated successfully
 edit feed
-edit cbt
-cbt updated successfully
+edit computer exam
+computer exam updated successfully
 edit advert
 advert updated successfully
 edit chat room
@@ -246,22 +251,22 @@ does not match any product
 searched text
 users allowed successfully
 users removed successfully
-cbt request
+computer exam request
 request
 mark question
 pending
-cbt shared successfully
-are you sure, you want to share this cbt
+computer exam shared successfully
+are you sure, you want to share this computer exam
 select
 allowed user
 exam instruction
 start
 save
-no cbt found
-are you sure you want to delete this cbt
-does not match any cbt
-create cbt
-no cbt added as favorite
+no computer exam found
+are you sure you want to delete this computer exam
+does not match any computer exam
+create computer exam
+no computer exam added as favorite
 feed shared successfully
 are you sure, you want to share this feed
 are you sure you want to delete this feed
@@ -371,3 +376,13 @@ username updated
 old username
 does not match old username
 enter previous username
+connection error
+change default language to  english language
+press reload ,to reload the application
+app updated successfully
+
+
+
+
+
+

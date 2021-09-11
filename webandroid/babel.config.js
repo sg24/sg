@@ -19,7 +19,8 @@ module.exports = function(api) {
              "withcomponent": "./lib/withcomponent/withcomponent",
              "withclass": "./lib/withclass/withclass",
              "editor": "./lib/FormEditor/FormEditor",
-             "text": "./lib/Text/Text"
+             "text": "./lib/Text/Text",
+             "locale-moment": "./lib/Moment/Moment"
            }
         }
        ]

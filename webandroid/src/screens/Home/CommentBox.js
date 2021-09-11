@@ -243,7 +243,7 @@ class Room extends Component {
 
     sendChatInfoHandler = (cnt, e) => {
         this.setState({showChatInfo: {
-            info: 'Message not sent, check your internet connnection',
+            info: 'Message not sent, check your internet connection',
             option: [{title: 'Resend', icon: {name: 'arrow-redo-outline'}, action: 'resend'},
             {title: 'Edit', icon: {name: 'pencil-outline'}, action: 'edit'},
             {title: 'Delete', icon: {name: 'trash-bin-outline'}, action: 'delete'}], cnt},

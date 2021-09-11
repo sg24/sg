@@ -91,7 +91,7 @@ class MarkExam extends Component {
             this.navigationHandler(this.state.navigationURI)
         } else {
             Alert.alert(translator('Are you sure, you want to stop marking'), null, [
-                {text: 'OK', onPress: () => this.navigationHandler(this.state.navigationURI), style: styles.button}], {cancelable: true});
+                {text: translator('OK'), onPress: () => this.navigationHandler(this.state.navigationURI), style: styles.button}], {cancelable: true});
         }
         return true
     }

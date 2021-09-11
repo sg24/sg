@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Pressable, StyleSheet, Image, ScrollView } from 'react-native';
 import Ionicons from 'ionicons';
-import Moment from 'react-moment';
+import Moment from 'locale-moment';
 import * as Animatable from 'react-native-animatable';
 import Uridetect from 'uridetect';
 import Text, { TextWrapper, translator } from 'text'

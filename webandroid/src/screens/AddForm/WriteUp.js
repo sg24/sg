@@ -440,10 +440,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     button: {
-        width: 70,
         backgroundColor: '#437da3',
         justifyContent: 'center',
         alignItems: 'center',
+        paddingHorizontal: 10
     },
     modalButton: {
         backgroundColor: '#437da3',
