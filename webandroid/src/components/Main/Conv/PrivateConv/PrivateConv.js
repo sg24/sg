@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, StyleSheet, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
-import Moment from 'react-moment';
+import Moment from 'locale-moment';
 import Text, { translator, TextWrapper } from 'text'
 
 import TabBarge from '../../../UI/TabBarge/TabBarge';

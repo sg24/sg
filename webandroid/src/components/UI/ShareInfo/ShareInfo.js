@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Ionicons from 'ionicons';
-import Moment from 'react-moment';
+import Moment from 'locale-moment';
 import { useNavigation } from '@react-navigation/native';
 import Text, { TextWrapper } from 'text';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, Pressable, ActivityIndicator, StyleSheet, Platform} from 'react-native';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
-import Moment from 'react-moment';
+import Moment from 'locale-moment';
 import Uridetect from 'uridetect';
 import Text, { TextWrapper } from 'text';
 

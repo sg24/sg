@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import Icon from 'ionicons';
-import Moment from 'react-moment';
+import Moment from 'locale-moment';
 import Text, { translator, TextWrapper } from 'text'
 
 import TabBarge from '../../../UI/TabBarge/TabBarge';

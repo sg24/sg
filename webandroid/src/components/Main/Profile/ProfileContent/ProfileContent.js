@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Image, ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import Icon from 'ionicons';
-import Moment from 'react-moment';
+import Moment from 'locale-moment';
 import ShadowView from 'react-native-simple-shadow-view';
 import Constants from 'expo-constants';
 import Text, { TextWrapper } from 'text'

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Pressable, ActivityIndicator, StyleSheet, Platform} from 'react-native';
 import Ionicons from 'ionicons';
-import Moment from 'react-moment';
+import Moment from 'locale-moment';
 import Uridetect from 'uridetect';
 import Text, { TextWrapper } from 'text';
 

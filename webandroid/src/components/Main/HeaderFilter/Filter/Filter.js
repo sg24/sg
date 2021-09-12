@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'ionicons';
-import Moment from 'react-moment';
+import Moment from 'locale-moment';
 import Text, { TextWrapper } from 'text'
 
 import { calendarStrings } from '../../../../shared/utility';
