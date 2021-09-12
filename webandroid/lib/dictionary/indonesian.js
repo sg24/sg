@@ -379,6 +379,8 @@ const translator = {
 "enter previous username" : "masukkan nama pengguna sebelumnya",
 "connection error" : "galat koneksi",
 "press reload ,to reload the application": "tekan muat ulang ,untuk memuat ulang aplikasi",
-"app updated successfully": "aplikasi dimutakhirkan sukses"
+"app updated successfully": "aplikasi dimutakhirkan sukses",
+"permission": "Ijin",
+"allow members to create": "Ijinkan anggota untuk membuat"
 }; 
 export default translator

@@ -63,10 +63,15 @@ const initialState = {
     backgroundColor: '#fff',
     color: '#333',
     isRTL: false,
-    version: 4
+    version: 3,
+    config: {
+        updateError: null, 
+        updateStart: false
+    }
 };
 
 const saveSetting = (state, action) => {
+    delete state.config;
     let settings = {...state, ...action.settings};
     if (state.version !== settings.version) {
         for (let option in state) {
@@ -76,13 +81,31 @@ const saveSetting = (state, action) => {
         }
     }
     AsyncStorage.setItem('settings', JSON.stringify(settings));
-    return updateObject(state, settings)
+    return updateObject(state, {...settings, config: { updateError: null, updateStart: false}})
+};
+
+const updateSettingsStart = (state, action) => {
+    return updateObject(state, {config: {updateError: null, updateStart: true}})
+};
+
+const updateSettingsFail= (state, action) => {
+    return updateObject(state, {config: {updateError: action.err, updateStart: false}})
+};
+
+const updateSettingsReset = (state, action) => {
+    return updateObject(state, {config: {updateError: null, updateStart: false}})
 };
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.SAVE_SETTINGS:
             return saveSetting(state, action);
+        case actionTypes.UPDATE_SETTINGS_START:
+            return updateSettingsStart(state, action);
+        case actionTypes.UPDATE_SETTINGS_FAIL:
+            return updateSettingsFail(state, action);
+        case actionTypes.UPDATE_SETTINGS_RESET:
+            return updateSettingsReset(state, action);
         default: return state
     }
 };

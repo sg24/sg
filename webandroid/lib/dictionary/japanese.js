@@ -379,6 +379,8 @@ const translator = {
 "enter previous username" : "前のユーザー名を入力します",
 "connection error" : "接続エラー",
 "press reload ,to reload the application": "アプリケーションをリロードするには、reloadを押します",
-"app updated successfully": "アプリケーションが正常に更新されました"
+"app updated successfully": "アプリケーションが正常に更新されました",
+"permission": "許可",
+"allow members to create": "メンバーの作成を許可する"
 }; 
 export default translator

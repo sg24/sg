@@ -14,6 +14,7 @@ import { fetchChatInitSaga, fetchReplyInitSaga, deleteChatInitSaga, chatBoxReact
 import { fetchSharecntInitSaga, shareInitSaga } from './share';
 import { fetchSelectcntInitSaga, selectInitSaga, selectReactionInitSaga } from './select';
 import { externalPageInitSaga } from './externalPage';
+import { updateSettingsInitSaga } from './settings';
 
 export function* watchAuth() {
     yield all([
@@ -103,5 +104,11 @@ export function* watchSelect() {
        takeLatest(actionTypes.FETCH_SELECTCNT_INIT, fetchSelectcntInitSaga),
        takeEvery(actionTypes.SELECT_INIT, selectInitSaga),
        takeEvery(actionTypes.SELECT_REACTION_INIT, selectReactionInitSaga)
+    ])
+}
+
+export function* watchSettings() {
+    yield all([
+       takeLatest(actionTypes.UPDATE_SETTINGS_INIT, updateSettingsInitSaga)
     ])
 }

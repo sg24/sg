@@ -379,6 +379,8 @@ const translator = {
 "enter previous username" : "vorige gebruikersnaam invoeren",
 "connection error" : "verbindingsfout",
 "press reload ,to reload the application": "druk op herladen om de toepassing opnieuw te laden",
-"app updated successfully": "toepassing succesvol bijgewerkt"
+"app updated successfully": "toepassing succesvol bijgewerkt",
+"permission": "Toestemming",
+"allow members to create": "Leden toestaan om te maken"
 }; 
 export default translator

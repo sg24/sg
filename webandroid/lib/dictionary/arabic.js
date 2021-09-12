@@ -379,6 +379,8 @@ const translator = {
 "enter previous username" : "أدخل اسم المستخدم السابق",
 "connection error" : "خطأ في الاتصال",
 "press reload ,to reload the application": "اضغط على تحديث ، لإعادة تحميل التطبيق",
-"app updated successfully": "تم تحديث التطبيق بنجاح"
+"app updated successfully": "تم تحديث التطبيق بنجاح",
+"permission": "إذن",
+"allow members to create": "السماح للأعضاء بإنشاء"
 }; 
 export default translator

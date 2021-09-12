@@ -242,10 +242,11 @@ class Post extends Component {
                 disableBackButton
                 rightSideContent={(
                     <View style={{flexDirection: 'row'}}>
+                        {this.props.enable ? 
                         <Button style={styles.optionIcon} onPress={() => this.navigationHandler('AddGroupPost', {groupID: this.state.groupID})}>
                             <Ionicons name="pencil-outline" size={20} />
                             <Text style={styles.optionIconText}>Create Post</Text>
-                        </Button>
+                        </Button> : null}
                         <Button style={styles.optionIcon} onPress={() => this.optionHandler('search')}>
                             <Ionicons name="search-outline" size={20} />
                             <Text style={styles.optionIconText}>Search</Text>
@@ -459,10 +460,11 @@ class Post extends Component {
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
                             <Text style={styles.infoTitle}> No post found </Text>
+                            {this.props.enable ? 
                             <View>
                                 <Text style={{justifyContent: 'center', alignItems: 'center'}}>
                                     <Href title="create Post" onPress={() => this.navigationHandler('AddGroupPost', {groupID: this.state.groupID})} style={styles.href}/></Text>
-                            </View>
+                            </View>: null }
                         </View>
                     </InfoBox>
                 </View>

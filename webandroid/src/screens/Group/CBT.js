@@ -278,10 +278,11 @@ class CBT extends Component {
                 disableBackButton
                 rightSideContent={(
                     <View style={{flexDirection: 'row'}}>
-                        <Button style={styles.optionIcon} onPress={() => this.navigationHandler('AddGroupCBT', {groupID: this.state.groupID})}>
-                            <Ionicons name="pencil-outline" size={20} />
-                            <Text style={styles.optionIconText}>Create CBT</Text>
-                        </Button>
+                        {this.props.enable ? 
+                            <Button style={styles.optionIcon} onPress={() => this.navigationHandler('AddGroupCBT', {groupID: this.state.groupID})}>
+                                <Ionicons name="pencil-outline" size={20} />
+                                <Text style={styles.optionIconText}>Create CBT</Text>
+                            </Button>: null}
                         <Button style={styles.optionIcon} onPress={() => this.optionHandler('search')}>
                             <Ionicons name="search-outline" size={20} />
                             <Text style={styles.optionIconText}>Search</Text>
@@ -540,9 +541,10 @@ class CBT extends Component {
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
                             <Text style={styles.infoTitle}> No CBT found </Text>
+                            {this.props.enable ? 
                             <View>
                                 <Href title="create CBT" onPress={() => this.navigationHandler('AddGroupCBT', {groupID: this.state.groupID})} style={styles.href}/>
-                            </View>
+                            </View>: null}
                         </View>
                     </InfoBox>
                 </View>

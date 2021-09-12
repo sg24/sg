@@ -379,6 +379,8 @@ const translator = {
 "enter previous username" : "نام کاربری قبلی را وارد کنید",
 "connection error" : "خطای اتصال",
 "press reload ,to reload the application": "بازنگری را فشار دهید ، به بارگذاری مجدد نرم افزار",
-"app updated successfully": "برنامه با موفقیت به روز شد"
+"app updated successfully": "برنامه با موفقیت به روز شد",
+"permission": "اجازه",
+"allow members to create": "اجازه دادن به اعضا برای ایجاد"
 }; 
 export default translator

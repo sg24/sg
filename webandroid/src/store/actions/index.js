@@ -197,7 +197,11 @@ export {
  } from './select';
 
  export {
-    saveSettings
+    saveSettings,
+    updateSettingsInit,
+    updateSettingsStart,
+    updateSettingsReset,
+    updateSettingsFail
  } from './settings';
 
  export {

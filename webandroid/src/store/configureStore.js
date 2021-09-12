@@ -29,7 +29,8 @@ import {
     watchChatBox,
     watchShare,
     watchSelect,
-    watchExternalPage
+    watchExternalPage,
+    watchSettings
 } from './sagas/index';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -67,6 +68,7 @@ sagaMiddleware.run(watchChatBox);
 sagaMiddleware.run(watchShare);
 sagaMiddleware.run(watchSelect);
 sagaMiddleware.run(watchExternalPage);
+sagaMiddleware.run(watchSettings);
 
 const configureStore = () => {
     return store;

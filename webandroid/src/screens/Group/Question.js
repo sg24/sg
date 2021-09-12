@@ -241,10 +241,11 @@ class Question extends Component {
                 disableBackButton
                 rightSideContent={(
                     <View style={{flexDirection: 'row'}}>
-                        <Button style={styles.optionIcon} onPress={() => this.navigationHandler('AddGroupQuestion', {groupID: this.state.groupID})}>
-                            <Ionicons name="pencil-outline" size={20} />
-                            <Text style={styles.optionIconText}>Create Question</Text>
-                        </Button>
+                        {this.props.enable ? 
+                           <Button style={styles.optionIcon} onPress={() => this.navigationHandler('AddGroupQuestion', {groupID: this.state.groupID})}>
+                                <Ionicons name="pencil-outline" size={20} />
+                                <Text style={styles.optionIconText}>Create Question</Text>
+                            </Button>: null}
                         <Button style={styles.optionIcon} onPress={() => this.optionHandler('search')}>
                             <Ionicons name="search-outline" size={20} />
                             <Text style={styles.optionIconText}>Search</Text>
@@ -451,10 +452,11 @@ class Question extends Component {
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
                             <Text style={styles.infoTitle}> No question found </Text>
-                            <View>
-                                <Text style={{justifyContent: 'center', alignItems: 'center'}}>
-                                    <Href title="create Question" onPress={() => this.navigationHandler('AddGroupQuestion', {groupID: this.state.groupID})} style={styles.href}/></Text>
-                            </View>
+                            {this.props.enable ? 
+                                <View>
+                                    <Text style={{justifyContent: 'center', alignItems: 'center'}}>
+                                        <Href title="create Question" onPress={() => this.navigationHandler('AddGroupQuestion', {groupID: this.state.groupID})} style={styles.href}/></Text>
+                                </View>: null}
                         </View>
                     </InfoBox>
                 </View>

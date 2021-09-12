@@ -379,6 +379,9 @@ const translator = {
 "enter previous username" : "输入以前的用户名",
 "connection error" : "连接错误",
 "press reload ,to reload the application": "按重新加载，以重新加载应用程序",
-"app updated successfully": "应用程序更新成功"
+"app updated successfully": "应用程序更新成功",
+"permission": "权限",
+"allow members to create": "允许成员创建"
+
 }; 
 export default translator

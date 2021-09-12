@@ -295,10 +295,11 @@ class ChatRoom extends Component {
                 disableBackButton
                 rightSideContent={(
                     <View style={{flexDirection: 'row'}}>
-                        <Button style={styles.optionIcon} onPress={() => this.navigationHandler('AddChatRoom', {groupID: this.state.groupID})}>
-                            <Ionicons name="pencil-outline" size={20} />
-                            <Text style={styles.optionIconText}>Create Chat Room</Text>
-                        </Button>
+                        {this.props.enable ? 
+                            <Button style={styles.optionIcon} onPress={() => this.navigationHandler('AddChatRoom', {groupID: this.state.groupID})}>
+                                <Ionicons name="pencil-outline" size={20} />
+                                <Text style={styles.optionIconText}>Create Chat Room</Text>
+                            </Button>: null}
                         <Button style={styles.optionIcon} onPress={() => this.optionHandler('search')}>
                             <Ionicons name="search-outline" size={20} />
                             <Text style={styles.optionIconText}>Search</Text>
@@ -582,9 +583,10 @@ class ChatRoom extends Component {
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
                             <Text style={styles.infoTitle}> No Chat Room found </Text>
+                            {this.props.enable ? 
                             <View>
                                 <Href title="create Chat Room" onPress={() => this.navigationHandler('AddChatRoom', {groupID: this.state.groupID})} style={styles.href}/>
-                            </View>
+                            </View>: null}
                         </View>
                     </InfoBox>
                 </View>

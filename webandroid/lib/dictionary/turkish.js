@@ -379,6 +379,8 @@ const translator = {
 "enter previous username" : "önceki kullanıcı adını girin",
 "connection error" : "bağlantı hatası",
 "press reload ,to reload the application": "uygulamayı yeniden yüklemek için yeniden yükle düğmesine basın",
-"app updated successfully": "uygulama başarıyla güncellendi"
+"app updated successfully": "uygulama başarıyla güncellendi",
+"permission": "İzin",
+"allow members to create": "Üyelerin oluşturmasına izin ver"
 }; 
 export default translator

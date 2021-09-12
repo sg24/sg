@@ -99,7 +99,7 @@ class GroupPreview extends Component {
             let settings = this.props.fetchCnt[0].settings;
             if (settings) {
                 for (let cnt of routeList) {
-                    let routeItem = Object.entries(settings).filter(([key, value]) => (cnt.key === key) && value)[0];
+                    let routeItem = Object.entries(settings).filter(([key, value]) => (cnt.key === key))[0];
                     if (routeItem) {
                         routes.push(cnt);
                     }
@@ -264,7 +264,7 @@ class GroupPreview extends Component {
                     )}/>
             );
         }
-
+        
         let options = (
             <>
                 { this.state.showOption ? (
@@ -276,6 +276,10 @@ class GroupPreview extends Component {
                 { this.state.showSettings ?
                     <Settings 
                         page="page"
+                        pageID={this.state.pageID}
+                        groupSettings={this.props.fetchCnt && this.props.fetchCnt.length > 0 && (this.props.userID === this.props.fetchCnt[0].authorID) ? this.props.fetchCnt[0].settings : null}
+                        groupPages={[{title: 'enablePost', page: 'Post'}, {title: 'enableQuestion', page: 'Question'}, {title: 'enableWriteUp', page: 'Write Up'},
+                        {title: 'enableFeed', page: 'Feed'}, {title: 'enableCBT', page: 'CBT'}, {title: 'enableChatroom', page: 'Chat Room'}]}
                         closeSettings={this.closeSettingsHandler}/> : null}
             </>
         );
@@ -298,17 +302,23 @@ class GroupPreview extends Component {
             let renderScene = screenProps => {
                 switch (screenProps.route.key) {
                     case 'enablePost':
-                        return <Post {...screenProps} groupID={this.state.pageID} focus={this.state.index === 0}/>;
+                        return <Post {...screenProps} groupID={this.state.pageID} 
+                            enable={this.props.fetchCnt[0].settings.enablePost || (this.props.userID === this.props.fetchCnt[0].authorID)} focus={this.state.index === 0}/>;
                     case 'enableFeed':
-                        return <Feed {...screenProps} groupID={this.state.pageID} focus={this.state.index === 1}/>;
+                        return <Feed {...screenProps} groupID={this.state.pageID} 
+                            enable={this.props.fetchCnt[0].settings.enableFeed || (this.props.userID === this.props.fetchCnt[0].authorID)}  focus={this.state.index === 1}/>;
                     case 'enableCBT':
-                        return <CBT {...screenProps} groupID={this.state.pageID} focus={this.state.index === 2}/>;
+                        return <CBT {...screenProps} groupID={this.state.pageID} 
+                            enable={this.props.fetchCnt[0].settings.enableCBT || (this.props.userID === this.props.fetchCnt[0].authorID)}focus={this.state.index === 2}/>;
                     case 'enableQuestion':
-                        return <Question {...screenProps} groupID={this.state.pageID} focus={this.state.index === 3}/>;
+                        return <Question {...screenProps} groupID={this.state.pageID} 
+                        enable={this.props.fetchCnt[0].settings.enableQuestion || (this.props.userID === this.props.fetchCnt[0].authorID)} focus={this.state.index === 3}/>;
                     case 'enableWriteUp':
-                        return <WriteUp {...screenProps} groupID={this.state.pageID} focus={this.state.index === 4}/>;
+                        return <WriteUp {...screenProps} groupID={this.state.pageID} 
+                        enable={this.props.fetchCnt[0].settings.enableWriteUp || (this.props.userID === this.props.fetchCnt[0].authorID)} focus={this.state.index === 4}/>;
                     case 'enableChatroom':
-                        return <ChatRoom {...screenProps} groupID={this.state.pageID} focus={this.state.index === 5}/>;
+                        return <ChatRoom {...screenProps} groupID={this.state.pageID} 
+                        enable={this.props.fetchCnt[0].settings.enableChatroom || (this.props.userID === this.props.fetchCnt[0].authorID)} focus={this.state.index === 5}/>;
                     default:
                         return null;
                 }

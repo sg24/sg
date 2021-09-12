@@ -28,6 +28,20 @@ router.post('/', authenticate, (req, res, next) => {
         return
     }
 
+    if (req.header !== null && req.header('data-categ') === 'updateGroupInfo') {
+        let pageID = req.body.pageID;
+        group.findOne({authorID: req.user, _id: pageID}).then(doc => {
+            if (doc) {
+                doc.updateOne({settings: req.body.cnt}).then(() => {
+                    res.sendStatus(200);
+                })
+            }
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
 });
 
 module.exports = router

@@ -380,3 +380,5 @@ connection error
 change default language to  english language
 App Updated Successfully
 Press Reload ,to reload the application
+Permission
+Allow members to create

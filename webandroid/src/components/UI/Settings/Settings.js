@@ -13,6 +13,8 @@ import Accodion from '../Accodion/Accodion';
 import * as actions from '../../../store/actions/index';
 import Button from '../Button/Button';
 import CheckBox from '../CheckBox/CheckBox';
+import NotificationModal from '../NotificationModal/NotificationModal';
+import AbsoluteFill from '../AbsoluteFill/AbsoluteFill';
 
 class ChatBoxSettings extends Component {
     state = {
@@ -20,8 +22,13 @@ class ChatBoxSettings extends Component {
         changeBackgroundImage: false,
         highlighted: false,
         highlightedBackground: true,
-        highlightedText: false
+        highlightedText: false,
+        allowMembers: false
     };
+
+    componentDidMount() {
+        this.props.onUpdateReset();
+    }
 
     accordionHandler = (page) => {
         this.setState((prevState, props) => ({
@@ -29,7 +36,16 @@ class ChatBoxSettings extends Component {
         }))
     }
 
-    settingsChangedHandler = async (value, type, nestedType) => {
+    settingsChangedHandler = async (value, type, nestedType, sendSettings) => {
+        if (sendSettings) {
+            for (let cnt in sendSettings) {
+                if (cnt === type) {
+                    sendSettings[cnt] = value;
+                }
+            }
+            this.props.onUpdateSettings('grouppreview', this.props.pageID, 'updateGroupInfo', sendSettings);
+            return;
+        }
         let updateSettings = this.props.settings;
         if (nestedType) {
             updateSettings[this.props.page][type][nestedType] = value;
@@ -171,7 +187,34 @@ class ChatBoxSettings extends Component {
                                     ))}
                             </Accodion>
                         </Accodion> : null }
+                        { this.props.groupSettings ? (
+                            <Accodion 
+                                title="Permission"
+                                icon={{name: 'chevron-down-outline',size: 15}}
+                                visible={this.state.allowMembers}
+                                onPress={() => this.accordionHandler('allowMembers')}
+                                style={styles.accodion}
+                                titleStyle={styles.textStyle}>
+                                <Text style={styles.info}>Allow members to create</Text>
+                                {Object.entries(this.props.groupSettings).map((cnt, index) => (
+                                    <CheckBox
+                                        key={index}
+                                        title={this.props.groupPages.filter(groupPage => groupPage.title === cnt[0])[0]?.page}
+                                        checked={cnt[1]}
+                                        onCheck={(val) => this.settingsChangedHandler(val, cnt[0], null, this.props.groupSettings)}
+                                        formWrapperStyle={{paddingBottom: 10, paddingHorizontal: 10}}/>
+                                ))}
+                            </Accodion>
+                        ) : null}
                 </ScrollView>
+                { this.props.groupSettings && this.props.start ? 
+                    <AbsoluteFill style={{zIndex: 9999999}}/> : null}
+                { this.props.updateErr && this.props.groupSettings ? 
+                    <NotificationModal
+                        info="Network Error"
+                        infoIcon={{name: 'cloud-offline-outline', color: '#ff1600', size: 40}}
+                        closeModal={this.props.onUpdateReset}
+                        button={[{title: 'Ok', onPress: this.props.onUpdateReset, style: styles.button}]}/> : null}
             </InnerScreen>
         );
     }
@@ -218,19 +261,33 @@ const styles = StyleSheet.create({
     accodion: {
         backgroundColor: 'transparent',
         paddingHorizontal: 10
+    },
+    button: {
+        backgroundColor: '#437da3',
+        color: '#fff'
+    },
+    info: {
+        fontSize: 14,
+        color: '#777',
+        paddingHorizontal: 10,
+        marginTop: 10
     }
 });
 
 
 const mapStateToProps = state => {
     return {
-        settings: state.settings
+        settings: state.settings,
+        start: state.settings.config.updateStart,
+        updateErr: state.settings.config.updateError
     };
   };
   
   const mapDispatchToProps = dispatch => {
     return {
-        onSaveSettings: (settings) => dispatch(actions.saveSettings(settings))
+        onSaveSettings: (settings) => dispatch(actions.saveSettings(settings)),
+        onUpdateSettings: (page, pageID, cntID, cnt) => dispatch(actions.updateSettingsInit(page, pageID, cntID, cnt)),
+        onUpdateReset: () => dispatch(actions.updateSettingsReset())
     };
   };
 
