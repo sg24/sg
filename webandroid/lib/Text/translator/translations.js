@@ -9,20 +9,20 @@
 import bengali from '../../dictionary/bengali'
 // import bosnian from '../../dictionary/bosnian'
 // import bulgarian from '../../dictionary/bulgarian'
-// import catalan from '../../dictionary/catalan'
+import catalan from '../../dictionary/catalan'
 // import cebuano from '../../dictionary/cebuano'
 // import chichewa from '../../dictionary/chichewa'
 import chinese from '../../dictionary/chinese'
 // import corsican from '../../dictionary/corsican'
 // import croatian from '../../dictionary/croatian'
 // import czech from '../../dictionary/czech'
-// import danish from '../../dictionary/danish'
+import danish from '../../dictionary/danish'
 import dutch from '../../dictionary/dutch'
 // import english from '../../dictionary/english'
-// import esperanto from '../../dictionary/esperanto'
-// import estonian from '../../dictionary/estonian'
+import esperanto from '../../dictionary/esperanto'
+import estonian from '../../dictionary/estonian'
 // import filipino from '../../dictionary/filipino'
-// import finnish from '../../dictionary/finnish'
+import finnish from '../../dictionary/finnish'
 import french from '../../dictionary/french'
 // import frisian from '../../dictionary/frisian'
 // import galician from '../../dictionary/galician'
@@ -39,10 +39,10 @@ import hindi from '../../dictionary/hindi'
 // import icelandic from '../../dictionary/icelandic'
 // import igbo from '../../dictionary/igbo'
 import indonesian from '../../dictionary/indonesian'
-// import irish from '../../dictionary/irish'
-// import italian from '../../dictionary/italian'
+import irish from '../../dictionary/irish'
+import italian from '../../dictionary/italian'
 import japanese from '../../dictionary/japanese'
-// import javanese from '../../dictionary/javanese'
+import javanese from '../../dictionary/javanese'
 // import kannada from '../../dictionary/kannada'
 // import kazakh from '../../dictionary/kazakh'
 // import khmer from '../../dictionary/khmer'
@@ -58,7 +58,7 @@ import korean from '../../dictionary/korean'
 // import macedonian from '../../dictionary/macedonian'
 // import malagasy from '../../dictionary/malagasy'
 // import malayalam from '../../dictionary/malayalam'
-// import malaysian from '../../dictionary/malaysian'
+import malaysian from '../../dictionary/malaysian'
 // import maltese from '../../dictionary/maltese'
 // import maori from '../../dictionary/maori'
 // import marathi from '../../dictionary/marathi'
@@ -71,7 +71,7 @@ import korean from '../../dictionary/korean'
 // import portuguese from '../../dictionary/portuguese'
 import punjabi from '../../dictionary/punjabi'
 // import romanian from '../../dictionary/romanian'
-// import russian from '../../dictionary/russian'
+import russian from '../../dictionary/russian'
 // import samoan from '../../dictionary/samoan'
 // import scots from '../../dictionary/scots'
 // import serbian from '../../dictionary/serbian'
@@ -82,20 +82,20 @@ import punjabi from '../../dictionary/punjabi'
 // import slovak from '../../dictionary/slovak'
 // import slovenian from '../../dictionary/slovenian'
 // import somali from '../../dictionary/somali'
-// import spanish from '../../dictionary/spanish'
+import spanish from '../../dictionary/spanish'
 // import sundanese from '../../dictionary/sundanese'
 // import swahili from '../../dictionary/swahili'
-// import swedish from '../../dictionary/swedish'
+import swedish from '../../dictionary/swedish'
 // import tajik from '../../dictionary/tajik'
 // import tamil from '../../dictionary/tamil'
 // import tatar from '../../dictionary/tatar'
 // import telugu from '../../dictionary/telugu'
-// import thai from '../../dictionary/thai'
+import thai from '../../dictionary/thai'
 import turkish from '../../dictionary/turkish'
 // import ukrainian from '../../dictionary/ukrainian'
 // import urdu from '../../dictionary/urdu'
 // import uzbek from '../../dictionary/uzbek'
-// import vietnamese from '../../dictionary/vietnamese'
+import vietnamese from '../../dictionary/vietnamese'
 // import welsh from '../../dictionary/welsh'
 // import xhosa from '../../dictionary/xhosa'
 // import yiddish from '../../dictionary/yiddish'
@@ -114,20 +114,20 @@ const translator = {
 bn : bengali,
 // bs : bosnian,
 // bg : bulgarian,
-// ca : catalan,
+ca : catalan,
 // ceb : cebuano,
 // ny : chichewa,
 zh : chinese,
 // co : corsican,
 // hr : croatian,
 // cs : czech,
-// da : danish,
+da : danish,
 nl : dutch,
 // en : english,
-// eo : esperanto,
-// et : estonian,
+eo : esperanto,
+et : estonian,
 // fil : filipino,
-// fi : finnish,
+fi : finnish,
 fr : french,
 // fy : frisian,
 // gl : galician,
@@ -144,10 +144,10 @@ hi : hindi,
 // is : icelandic,
 // ig : igbo,
 id : indonesian,
-// ga : irish,
-// it : italian,
+ga : irish,
+it : italian,
 ja : japanese,
-// jv : javanese,
+jv : javanese,
 // kn : kannada,
 // kk : kazakh,
 // km : khmer,
@@ -163,7 +163,7 @@ ko : korean,
 // mk : macedonian,
 // mg : malagasy,
 // ml : malayalam,
-// ms : malaysian,
+ms : malaysian,
 // mt : maltese,
 // mi : maori,
 // mr : marathi,
@@ -176,7 +176,7 @@ ko : korean,
 // pt : portuguese,
 pa : punjabi,
 // ro : romanian,
-// ru : russian,
+ru : russian,
 // sm : samoan,
 // gd : scots,
 // sr : serbian,
@@ -187,20 +187,20 @@ pa : punjabi,
 // sk : slovak,
 // sl : slovenian,
 // so : somali,
-// es : spanish,
+es : spanish,
 // su : sundanese,
 // sw : swahili,
-// sv : swedish,
+sv : swedish,
 // tg : tajik,
 // ta : tamil,
 // tt : tatar,
 // te : telugu,
-// th : thai,
+th : thai,
 tr : turkish,
 // uk : ukrainian,
 // ur : urdu,
 // uz : uzbek,
-// vi : vietnamese,
+vi : vietnamese,
 // cy : welsh,
 // xh : xhosa,
 // yi : yiddish,

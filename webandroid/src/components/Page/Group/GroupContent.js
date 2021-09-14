@@ -178,17 +178,17 @@ const groupContent = props => {
                             style={props.cnt.isMember? styles.actionButton : styles.actionButtonAlt}
                             textStyle={props.cnt.isMember ? styles.textStyle : styles.actionButtonText}
                             disabled={startPageReaction && (props.cnt.isPending || !props.cnt.isMember )}/>
-                        <View style={styles.detContentOption}>
-                            <TouchableNativeFeedback onPress={props.showUserOpt}>
+                        <Button style={styles.detContentOption} onPress={props.showUserOpt}>
+                            <View>
                                 <Ionicons name="ellipsis-horizontal-outline" size={20}/>
-                            </TouchableNativeFeedback>
+                            </View>
                             {(props.cnt.request + props.cnt.pendingApprove + props.cnt.mark) > 0 &&  (props.userID === props.cnt.authorID) ?
                             <TabBarge
                                 onPress={props.showUserOpt}
                                 notification={transformNumber(props.cnt.request + props.cnt.pendingApprove + props.cnt.mark)} 
                                 style={{top: -4, right: 0}}
                                 textStyle={styles.tabBargeText}/> : null}
-                        </View>
+                        </Button>
                     </View>
                     { userOpt }
                 </BoxShadow>
@@ -282,7 +282,9 @@ const styles = StyleSheet.create({
     },
     detContentOption: {
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingVertical: 0,
+        paddingLeft: 10
     },
     detText: {
         marginLeft: 10
