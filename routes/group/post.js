@@ -33,20 +33,16 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'getoneandcheck') {
-        console.log(req.body.groupID)
         let groupID = req.body.groupID;
         group.findOne({'member.authorID': {$eq: req.user}, _id: groupID}).then(doc => {
-            console.log(doc)
             if (doc) {
-                grouppost.findOne({_id: req.body.pageID, authorID: req.user}).then(result => {
-                    console.log(result)
+                grouppost.findOne({_id: req.body.pageID, groupID, _isCompleted: true, block: {$nin: [req.user]}}).then(result => {
                     if (result) {
                         let cnt = JSON.parse(JSON.stringify(result));
                         delete cnt.block;
                         let updateResult = {...cnt,
                             share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
                             isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0}
-                        console.log(updateResult)
                         res.status(200).send(updateResult);
                     }
                 })

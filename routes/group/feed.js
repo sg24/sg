@@ -36,7 +36,7 @@ router.post('/', authenticate, (req, res, next) => {
         let groupID = req.body.groupID;
         group.findOne({'member.authorID': {$eq: req.user}, _id: groupID}).then(doc => {
             if (doc) {
-                groupfeed.findOne({_id: req.body.pageID, authorID: req.user}).then(result => {
+                groupfeed.findOne({_id: req.body.pageID, groupID, _isCompleted: true, block: {$nin: [req.user]}}).then(result => {
                     if (result) {
                         let cnt = JSON.parse(JSON.stringify(result));
                         delete cnt.block;
