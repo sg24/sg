@@ -85,7 +85,7 @@ class CheckMediaType extends Component {
                     <View style={[styles.wrapper, this.props.wrapperStyle]}>
                         <View style={[styles.wrapper, this.props.style]}>
                             <Image source={{uri: media.uri ? media.uri : `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}`}}  
-                                resizeMode={this.props.resizeMode ? this.props.resizeMode: "cover"} style={styles.mediaWrapper}/>
+                                resizeMode={this.props.resizeMode ? this.props.resizeMode: "contain"} style={styles.mediaWrapper}/>
                         </View>
                         { this.props.children }
                     </View>

@@ -350,6 +350,8 @@ class Post extends Component {
                         <PagePreview
                             cnt={this.state.showPagePreview}
                             page="grouppost"
+                            pageID={this.state.showPagePreview._id}
+                            groupID={this.state.groupID}
                             userID={this.props.userID}
                             openURI={this.openURIHandler}
                             userProfile={this.userProfileHandler}

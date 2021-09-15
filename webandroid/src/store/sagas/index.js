@@ -14,6 +14,7 @@ import { fetchChatInitSaga, fetchReplyInitSaga, deleteChatInitSaga, chatBoxReact
 import { fetchSharecntInitSaga, shareInitSaga } from './share';
 import { fetchSelectcntInitSaga, selectInitSaga, selectReactionInitSaga } from './select';
 import { externalPageInitSaga } from './externalPage';
+import { previewPageInitSaga } from './previewPage';
 import { updateSettingsInitSaga } from './settings';
 
 export function* watchAuth() {
@@ -110,5 +111,11 @@ export function* watchSelect() {
 export function* watchSettings() {
     yield all([
        takeLatest(actionTypes.UPDATE_SETTINGS_INIT, updateSettingsInitSaga)
+    ])
+}
+
+export function* watchPreviewPage() {
+    yield all([
+       takeLatest(actionTypes.PREVIEW_PAGE_INIT, previewPageInitSaga)
     ])
 }

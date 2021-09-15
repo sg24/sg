@@ -12,6 +12,7 @@ let formInit = require('./utility/forminit');
 let uploadToBucket = require('./utility/upload');
 let notifications = require('./utility/notifications');
 let sharecontent = require('./utility/sharecontent');
+let subString = require('./utility/substring');
 const {user, writeup, group, groupwriteup, qchat, connectStatus} = require('../serverDB/serverDB');
 
 
@@ -32,6 +33,22 @@ router.post('/', authenticate, (req, res, next) => {
         return
     }
 
+    if (req.header !== null && req.header('data-categ') === 'getoneandcheck') {
+        writeup.findOne({_id: req.body.pageID, _isCompleted: true, block: {$nin: [req.user]}}).then(result => {
+            if (result) {
+                let cnt = JSON.parse(JSON.stringify(result));
+                delete cnt.block;
+                let updateResult = {...cnt,
+                    share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0}
+                res.status(200).send(updateResult);
+            }
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
     if (req.header !== null && req.header('data-categ') === 'getWriteUp') {
         writeup.find({_isCompleted: true, block: {$nin: [req.user]}})
             .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
@@ -40,36 +57,36 @@ router.post('/', authenticate, (req, res, next) => {
                 for (let cnt of result) {
                     let updateCnt = JSON.parse(JSON.stringify(cnt));
                     delete updateCnt.block;
-                    updateResult.push({...updateCnt,
+                    updateResult.push({...updateCnt,...subString(cnt.content),
                     share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
                     isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
                 }
             }
             let cbt = Math.round(Math.random());
-            if (cbt === 0) {
-                qchat.find({_isCompleted: true, block: {$nin: [req.user]}, authorID: {$ne: req.user}}).skip(req.body.start).limit(req.body.limit).then(doc => {
-                    let lastItem = updateResult[updateResult.length - 1];
-                    if (lastItem && doc) {
-                        let updateDoc = [];
-                        for (let cnt of doc) {
-                            let updateCnt = JSON.parse(JSON.stringify(cnt));
-                            delete updateCnt.block;
-                            updateDoc.push({...updateCnt,
-                            share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
-                            isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
-                            takeExam: cnt.participant === 'Public' ? true :
-                            cnt.allowedUser.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user)[0] ? true : false,
-                            isPending: cnt.request.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
-                            request: cnt.request.length, mark: cnt.mark.length, allowedUser: cnt.allowedUser.length})
-                        }
-                        lastItem.cbt= updateDoc
-                        updateResult[updateResult.length - 1] = lastItem
-                    }
-                    res.status(200).send({page: updateResult, loadMore: result.length > 0});
-                })
-            } else {
+            // if (cbt === 0) {
+            //     qchat.find({_isCompleted: true, block: {$nin: [req.user]}, authorID: {$ne: req.user}}).skip(req.body.start).limit(req.body.limit).then(doc => {
+            //         let lastItem = updateResult[updateResult.length - 1];
+            //         if (lastItem && doc) {
+            //             let updateDoc = [];
+            //             for (let cnt of doc) {
+            //                 let updateCnt = JSON.parse(JSON.stringify(cnt));
+            //                 delete updateCnt.block;
+            //                 updateDoc.push({...updateCnt,
+            //                 share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
+            //                 isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+            //                 takeExam: cnt.participant === 'Public' ? true :
+            //                 cnt.allowedUser.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user)[0] ? true : false,
+            //                 isPending: cnt.request.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+            //                 request: cnt.request.length, mark: cnt.mark.length, allowedUser: cnt.allowedUser.length})
+            //             }
+            //             lastItem.cbt= updateDoc
+            //             updateResult[updateResult.length - 1] = lastItem
+            //         }
+            //         res.status(200).send({page: updateResult, loadMore: result.length > 0});
+            //     })
+            // } else {
                 res.status(200).send({page: updateResult, loadMore: result.length > 0});
-            }
+            // }
         }).catch(err => {
             res.status(500).send(err)
         })
@@ -84,36 +101,36 @@ router.post('/', authenticate, (req, res, next) => {
                 for (let cnt of result) {
                     let updateCnt = JSON.parse(JSON.stringify(cnt));
                     delete updateCnt.block;
-                    updateResult.push({...updateCnt,
+                    updateResult.push({...updateCnt,...subString(cnt.content),
                     share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
                     isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
                 }
             }
             let cbt = Math.round(Math.random());
-            if (cbt === 0) {
-                qchat.find({_isCompleted: true, block: {$nin: [req.user]}, authorID: {$ne: req.user}}).skip(req.body.start).limit(req.body.limit).then(doc => {
-                    let lastItem = updateResult[updateResult.length - 1];
-                    if (lastItem && doc) {
-                        let updateDoc = [];
-                        for (let cnt of doc) {
-                            let updateCnt = JSON.parse(JSON.stringify(cnt));
-                            delete updateCnt.block;
-                            updateDoc.push({...updateCnt,
-                            share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
-                            isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
-                            takeExam: cnt.participant === 'Public' ? true :
-                            cnt.allowedUser.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user)[0] ? true : false,
-                            isPending: cnt.request.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
-                            request: cnt.request.length, mark: cnt.mark.length, allowedUser: cnt.allowedUser.length})
-                        }
-                        lastItem.cbt= updateDoc
-                        updateResult[updateResult.length - 1] = lastItem
-                    }
-                    res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
-                })
-            } else {
+            // if (cbt === 0) {
+            //     qchat.find({_isCompleted: true, block: {$nin: [req.user]}, authorID: {$ne: req.user}}).skip(req.body.start).limit(req.body.limit).then(doc => {
+            //         let lastItem = updateResult[updateResult.length - 1];
+            //         if (lastItem && doc) {
+            //             let updateDoc = [];
+            //             for (let cnt of doc) {
+            //                 let updateCnt = JSON.parse(JSON.stringify(cnt));
+            //                 delete updateCnt.block;
+            //                 updateDoc.push({...updateCnt,
+            //                 share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
+            //                 isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+            //                 takeExam: cnt.participant === 'Public' ? true :
+            //                 cnt.allowedUser.filter(cnt => JSON.parse(JSON.stringify(cnt.authorID)) === req.user)[0] ? true : false,
+            //                 isPending: cnt.request.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0,
+            //                 request: cnt.request.length, mark: cnt.mark.length, allowedUser: cnt.allowedUser.length})
+            //             }
+            //             lastItem.cbt= updateDoc
+            //             updateResult[updateResult.length - 1] = lastItem
+            //         }
+            //         res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
+            //     })
+            // } else {
                 res.status(200).send({page: updateResult, loadMore: result.length > 0, tabPage: true});
-            }
+            // }
         }).catch(err => {
             res.status(500).send(err)
         })
@@ -129,7 +146,7 @@ router.post('/', authenticate, (req, res, next) => {
                     for (let cnt of result) {
                         let updateCnt = JSON.parse(JSON.stringify(cnt));
                         delete updateCnt.block;
-                        updateResult.push({...updateCnt,
+                        updateResult.push({...updateCnt,...subString(cnt.content),
                         userImage: doc[0] ? doc[0].image : cnt.userImage, username: doc[0] ? doc[0].username : cnt.username,
                         share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
                         isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
@@ -151,7 +168,7 @@ router.post('/', authenticate, (req, res, next) => {
                 for (let cnt of result) {
                     let updateCnt = JSON.parse(JSON.stringify(cnt));
                     delete updateCnt.block;
-                    updateResult.push({...updateCnt,
+                    updateResult.push({...updateCnt,...subString(cnt.content),
                     share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
                     isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
                 }
@@ -234,7 +251,7 @@ router.post('/', authenticate, (req, res, next) => {
                 for (let cnt of result) {
                     let updateCnt = JSON.parse(JSON.stringify(cnt));
                     delete updateCnt.block;
-                    updateResult.push({...updateCnt,
+                    updateResult.push({...updateCnt,...subString(cnt.content),
                     share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
                     isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0});
                 }

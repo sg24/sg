@@ -349,6 +349,9 @@ class Question extends Component {
                             showOption={false}
                             cnt={this.state.showPagePreview}
                             title="Question"
+                            page="groupqustion"
+                            pageID={this.state.showPagePreview._id}
+                            groupID={this.state.groupID}
                             userID={this.props.userID}
                             openURI={this.openURIHandler}
                             userProfile={this.userProfileHandler}

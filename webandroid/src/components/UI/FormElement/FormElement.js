@@ -21,6 +21,7 @@ class FormElement extends Component {
                         autoCapitalize="none"
                         underlineColorAndroid="transparent"
                         {...this.props}
+                        value={this.props.value && this.props.value.length > 1000 ? this.props.value.substr(0, 1000) : this.props.value }
                         placeholder={translator(this.props.placeholder || '')}
                         style={[styles.input, this.props.style]} />
                     }

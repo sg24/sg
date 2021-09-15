@@ -211,3 +211,11 @@ export {
     externalPage,
     externalPageReset
  } from './externalPage';
+
+ export {
+    previewPageInit,
+    previewPageStart,
+    previewPageFail,
+    previewPage,
+    previewPageReset
+ } from './previewPage';

@@ -12,10 +12,12 @@ import Option from '../../components/UI/Option/Option';
 import DefaultHeader from '../../components/UI/Header/DefaultHeader';
 import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import { checkUri } from '../../shared/utility';
-import TouchableNativeFeedback from '../../components/UI/TouchableNativeFeedback/TouchableNativeFeedback';
+import * as actions from '../../store/actions/index';
 import Button from '../../components/UI/Button/Button';
 import Avatar from '../../components/UI/Avatar/Avatar';
 import LinkPreview from '../../components/UI/LinkPreview/LinkPreview';
+import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
+import Loader from '../../components/UI/Loader/Loader';
 
 class Preview extends Component {
     constructor(props) {
@@ -43,11 +45,22 @@ class Preview extends Component {
     }
 
     componentDidMount() {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            this.props.onFetchPreviewReset();
+            this.props.onFetchPreview(this.state.page, this.state.pageCnt._id, 'getoneandcheck');
+        });
+        this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
+            this.props.onFetchPreviewReset();
+        });
         Dimensions.addEventListener('change', this.updateStyle);
     }
 
     componentWillUnmount() {
         Dimensions.removeEventListener('change', this.updateStyle);
+    }
+
+    reloadFetchHandler = () => {
+        this.props.onFetchPreview(this.state.page, this.state.pageCnt._id, 'getoneandcheck');
     }
 
     updateStyle = (dims) => {
@@ -97,54 +110,83 @@ class Preview extends Component {
     }
 
     render () {
-        let previewUri = checkUri(this.state.pageCnt.content);
-        let cnt =  (
-            <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
-                    <DefaultHeader
-                        onPress={this.props.navigation.goBack}
-                        title={this.state.title ? this.state.title + "" : "post"}
-                        leftSideContent={(
-                            <Avatar userImage={this.state.pageCnt.userImage} iconSize={20} imageSize={30} onPress={() => this.userProfileHandler(this.state.pageCnt.authorID)}/>
-                        )}
-                        rightSideContent={(
-                            <Button style={styles.optionIcon} onPress={this.checkOptionHandler}>
-                                <Ionicons name="ellipsis-vertical-outline" size={20} />
-                            </Button>
-                        )}/>
-                     <ScrollView style={styles.scroll}>
-                        { this.state.pageCnt.media.length > 0 ? 
+        let header = (
+            <DefaultHeader
+                onPress={this.props.navigation.goBack}
+                title={this.state.title ? this.state.title + "" : "post"}
+                leftSideContent={(
+                    <Avatar userImage={this.state.pageCnt.userImage} iconSize={20} imageSize={30} onPress={() => this.userProfileHandler(this.state.pageCnt.authorID)}/>
+                )}
+                rightSideContent={(
+                    <Button style={styles.optionIcon} onPress={this.checkOptionHandler}>
+                        <Ionicons name="ellipsis-vertical-outline" size={20} />
+                    </Button>
+                )}/>
+        )
+        
+        let options =  null;
+
+        if (this.state.showOption) {
+            options = (
+                <Option
+                option={this.state.option}
+                closeOption={this.closeOptionHandler}
+                onPress={this.optionHandler} />
+            )
+        }
+      
+        let cnt = (
+            <Loader header={header} options={options} page="preview" />
+        )
+
+        if (this.props.fetchCnt) {
+            let previewUri = checkUri(this.props.fetchCnt.content);
+            cnt =  (
+                <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
+                    { header }
+                    <ScrollView style={styles.scroll}>
+                        { this.props.fetchCnt.media.length > 0 ? 
                             <MediaPreview
                                 showOption={this.state.showMediaOption === false ? false : true}
-                                pageID={this.state.pageCnt._id}
-                                media={this.state.pageCnt.media}
+                                pageID={this.props.fetchCnt._id}
+                                media={this.props.fetchCnt.media}
                                 page={this.state.page}
                                 hideSeeker
                                 hideHeader
                                 style={styles.mediaPreview}/> : null}
-                        {this.state.pageCnt.title ?
+                        {this.props.fetchCnt.title ?
                             <Uridetect
                             onPress={this.openURIHandler} 
                             style={styles.title} 
-                            content={this.state.pageCnt.title}/>: null}
-                        {this.state.pageCnt.content && this.state.showContent !== false ?
+                            content={this.props.fetchCnt.title}/>: null}
+                        {this.props.fetchCnt.content && this.state.showContent !== false ?
                             <Uridetect
                                 onPress={this.openURIHandler} 
                                 style={styles.content} 
-                                content={this.state.pageCnt.content}/> : null}
+                                content={this.props.fetchCnt.content}/> : null}
                             { previewUri.length > 0 ? 
                             <View style={styles.linkPreview}>
                                 <LinkPreview 
                                     links={previewUri}/>
                             </View>: null}
                     </ScrollView>
-                 { this.state.showOption ? (
-                    <Option
-                        option={this.state.option}
-                        closeOption={this.closeOptionHandler}
-                        onPress={this.optionHandler}/>
-                ) : null}
-            </View>
-        );
+                    { options }
+                </View>
+            );
+        }
+
+        if (this.props.fetchCntErr) {
+            cnt = (
+                <View style={styles.wrapper}>
+                    <ErrorInfo 
+                        header={header}
+                        viewMode={this.state.viewMode}
+                        backgroundColor={this.props.settings.backgroundColor}
+                        reload={this.reloadFetchHandler}/>
+                    { options }
+                </View>
+            )
+        }
 
         return (
             <NoBackground
@@ -214,12 +256,16 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     return {
         settings: state.settings,
-        userID: state.auth.userID
+        userID: state.auth.userID,
+        fetchCntErr: state.previewPage.error,
+        fetchCnt: state.previewPage.page
     };
   };
   
   const mapDispatchToProps = dispatch => {
     return {
+        onFetchPreview: (page, pageID, cntType, groupID) => dispatch(actions.previewPageInit(page, pageID, cntType, groupID)),
+        onFetchPreviewReset: () => dispatch(actions.previewPageReset())
     };
   };
 

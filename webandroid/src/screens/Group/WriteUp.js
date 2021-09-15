@@ -349,6 +349,8 @@ class WriteUp extends Component {
                             cnt={this.state.showPagePreview}
                             title="Write Up"
                             page="groupwriteup"
+                            pageID={this.state.showPagePreview._id}
+                            groupID={this.state.groupID}
                             userID={this.props.userID}
                             openURI={this.openURIHandler}
                             userProfile={this.userProfileHandler}

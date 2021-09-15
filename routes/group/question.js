@@ -11,6 +11,7 @@ let authenticate = require('../../serverDB/middleware/authenticate');
 let formInit = require('../utility/forminit');
 let uploadToBucket = require('../utility/upload');
 let notifications = require('../utility/notifications');
+let subString = require('../utility/substring');
 const {question, group, question:groupquestion, qchat, connectStatus} = require('../../serverDB/serverDB');
 
 
@@ -31,6 +32,30 @@ router.post('/', authenticate, (req, res, next) => {
         return
     }
 
+    if (req.header !== null && req.header('data-categ') === 'getoneandcheck') {
+        let groupID = req.body.groupID;
+        group.findOne({'member.authorID': {$eq: req.user}, _id: groupID}).then(doc => {
+            if (doc) {
+                groupquestion.findOne({_id: req.body.pageID, authorID: req.user}).then(result => {
+                    if (result) {
+                        let cnt = JSON.parse(JSON.stringify(result));
+                        delete cnt.block;
+                        let updateResult = {...cnt,
+                            share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
+                            shareInfo: cnt.groupID !== groupID ? cnt.share.filter(shareCnt => shareCnt.reciever === groupID)[0] : null,
+                            isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0}
+                        res.status(200).send(updateResult);
+                    }
+                }).catch(err => {
+                    res.status(500).send(err)
+                })
+            }
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
     if (req.header !== null && req.header('data-categ') === 'getQuestion') {
         let groupID = req.body.searchCnt;
         group.findOne({'member.authorID': {$eq: req.user}, _id: groupID}).then(doc => {
@@ -42,7 +67,7 @@ router.post('/', authenticate, (req, res, next) => {
                         for (let cnt of result) {
                             let updateCnt = JSON.parse(JSON.stringify(cnt));
                             delete updateCnt.block;
-                            updateResult.push({...updateCnt,
+                            updateResult.push({...updateCnt,...subString(cnt.content),
                             share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
                             shareInfo: cnt.groupID !== groupID ? cnt.share.filter(shareCnt => shareCnt.reciever === groupID)[0] : null,
                             isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
@@ -89,7 +114,7 @@ router.post('/', authenticate, (req, res, next) => {
                 for (let cnt of result) {
                     let updateCnt = JSON.parse(JSON.stringify(cnt));
                     delete updateCnt.block;
-                    updateResult.push({...updateCnt,
+                    updateResult.push({...updateCnt,...subString(cnt.content),
                     share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
                     isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
                 }
@@ -218,7 +243,7 @@ router.post('/', authenticate, (req, res, next) => {
                         for (let cnt of result) {
                             let updateCnt = JSON.parse(JSON.stringify(cnt));
                             delete updateCnt.block;
-                            updateResult.push({...updateCnt,
+                            updateResult.push({...updateCnt,...subString(cnt.content),
                             share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
                             shareInfo: cnt.groupID !== groupID ? cnt.share.filter(shareCnt => shareCnt.reciever === groupID)[0] : null,
                             isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0});

@@ -12,6 +12,7 @@ let formInit = require('./utility/forminit');
 let uploadToBucket = require('./utility/upload');
 let notifications = require('./utility/notifications');
 let sharecontent = require('./utility/sharecontent');
+let subString = require('./utility/substring');
 const {feed, group, groupfeed, advert, user, connectStatus} = require('../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
@@ -31,6 +32,22 @@ router.post('/', authenticate, (req, res, next) => {
         return
     }
 
+    if (req.header !== null && req.header('data-categ') === 'getoneandcheck') {
+        feed.findOne({_id: req.body.pageID, _isCompleted: true, block: {$nin: [req.user]}}).then(result => {
+            if (result) {
+                let cnt = JSON.parse(JSON.stringify(result));
+                delete cnt.block;
+                let updateResult = {...cnt,
+                    share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
+                    isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0};
+                res.status(200).send(updateResult);
+            }
+        }).catch(err => {
+            res.status(500).send(err)
+        })
+        return
+    }
+
     if (req.header !== null && req.header('data-categ') === 'getFeed') {
         feed.find({ _isCompleted: true, block: {$nin: [req.user]}})
             .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
@@ -40,6 +57,7 @@ router.post('/', authenticate, (req, res, next) => {
                     let updateCnt = JSON.parse(JSON.stringify(cnt));
                     delete updateCnt.block;
                     updateResult.push({...updateCnt,
+                    ...subString(cnt.content),
                     share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
                     isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
                 }
@@ -86,6 +104,7 @@ router.post('/', authenticate, (req, res, next) => {
                     let updateCnt = JSON.parse(JSON.stringify(cnt));
                     delete updateCnt.block;
                     updateResult.push({...updateCnt,
+                    ...subString(cnt.content),
                     share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
                     isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
                 }
@@ -133,6 +152,7 @@ router.post('/', authenticate, (req, res, next) => {
                         let updateCnt = JSON.parse(JSON.stringify(cnt));
                         delete updateCnt.block;
                         updateResult.push({...updateCnt,
+                        ...subString(cnt.content),
                         userImage: doc[0] ? doc[0].image : cnt.userImage, username: doc[0] ? doc[0].username : cnt.username,
                         share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
                         isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
@@ -155,6 +175,7 @@ router.post('/', authenticate, (req, res, next) => {
                     let updateCnt = JSON.parse(JSON.stringify(cnt));
                     delete updateCnt.block;
                     updateResult.push({...updateCnt,
+                    ...subString(cnt.content),
                     share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
                     isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
                 }
@@ -238,6 +259,7 @@ router.post('/', authenticate, (req, res, next) => {
                     let updateCnt = JSON.parse(JSON.stringify(cnt));
                     delete updateCnt.block;
                     updateResult.push({...updateCnt,
+                    ...subString(cnt.content),
                     share: cnt.share.length, favorite: cnt.favorite.length, chat: {...cnt.chat, user: cnt.chat.user.slice(0, 4)},
                     isFavored: cnt.favorite.filter(userID => JSON.parse(JSON.stringify(userID)) === req.user).length > 0})
                 }

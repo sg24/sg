@@ -16,6 +16,7 @@ import share from './reducers/share';
 import select from './reducers/select';
 import settings from './reducers/settings';
 import externalPage from './reducers/externalPage';
+import previewPage from './reducers/previewPage';
 
 import { 
     watchAuth,
@@ -30,6 +31,7 @@ import {
     watchShare,
     watchSelect,
     watchExternalPage,
+    watchPreviewPage,
     watchSettings
 } from './sagas/index';
 
@@ -48,7 +50,8 @@ const rootReducer = combineReducers({
     share,
     select,
     settings,
-    externalPage
+    externalPage,
+    previewPage
 });
 
 let composeEnhancers = compose;
@@ -69,6 +72,7 @@ sagaMiddleware.run(watchShare);
 sagaMiddleware.run(watchSelect);
 sagaMiddleware.run(watchExternalPage);
 sagaMiddleware.run(watchSettings);
+sagaMiddleware.run(watchPreviewPage);
 
 const configureStore = () => {
     return store;
