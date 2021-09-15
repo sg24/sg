@@ -21,6 +21,7 @@ import FriendRequest from '../FriendRequest/FriendRequest';
 import Carousel from '../../UI/Carousel/Carousel';
 import CBTPreview from '../CBTPreview/CBTPreview';
 import MediaContainer from '../../UI/MediaContainer/MediaContainer';
+import AdMob from '../../UI/AdMob/AdMob';
 
 const writeupContent = props => {
     let AnimatedIcon = Animatable.createAnimatableComponent(Ionicons);
@@ -80,6 +81,12 @@ const writeupContent = props => {
                 userID={props.userID}
                 openURI={props.openURI}
                 preview={props.mediaPreview}/>
+        )
+    }
+
+    if (props.showAdvert) {
+        showAdvert = (
+            <AdMob />
         )
     }
 
