@@ -35,8 +35,10 @@ router.post('/', authenticate, (req, res, next) => {
     if (req.header !== null && req.header('data-categ') === 'getoneandcheck') {
         let groupID = req.body.groupID;
         group.findOne({'member.authorID': {$eq: req.user}, _id: groupID}).then(doc => {
+            console.log(doc)
             if (doc) {
                 grouppost.findOne({_id: req.body.pageID, authorID: req.user}).then(result => {
+                    console.log(result)
                     if (result) {
                         let cnt = JSON.parse(JSON.stringify(result));
                         delete cnt.block;

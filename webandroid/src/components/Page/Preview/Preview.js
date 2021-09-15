@@ -18,6 +18,7 @@ import Button from '../../UI/Button/Button';
 import LinkPreview from '../../UI/LinkPreview/LinkPreview';
 import ErrorInfo from '../../UI/ErrorInfo/ErrorInfo';
 import Loader from '../../UI/Loader/Loader';
+import Avatar from '../../UI/Avatar/Avatar';
 
 class Preview extends Component {
     constructor(props) {
@@ -82,9 +83,8 @@ class Preview extends Component {
                 onPress={this.props.closePagePreview}
                 title={this.props.title ? translator(this.props.title) + "" : translator("post")}
                 leftSideContent={(
-                    <TouchableNativeFeedback onPress={() => this.props.userProfile(this.props.cnt.authorID)}>
-                        <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${this.props.cnt.userImage}`}}  style={styles.userImage}/>
-                    </TouchableNativeFeedback>
+                    <Avatar userImage={this.props.cnt.userImage} iconSize={15} imageSize={30} 
+                        onPress={() => this.props.userProfile(this.props.cnt.authorID)}/>
                 )}
                 rightSideContent={(
                     <Button style={styles.optionIcon} onPress={this.checkOptionHandler}>
