@@ -334,10 +334,17 @@ router.post('/', authenticate,(req, res, next) => {
                     try {
                         await user.findById(userID).then(doc => {
                             if (doc) {
-                                console.log(req.user)
-                                console.log(doc.pendingRequest)
-                                console.log(doc.friend)
-                                userInfo.push({username: doc.username, userImage: doc.image, authorID: doc._id, _id: doc._id})
+                                let checkFriend = req.friend.filter(id => JSON.parse(JSON.stringify(id)) === userID)[0];
+                                if (checkFriend) {
+                                    await sequence([
+                                        user.findOneAndUpdate({_id: req.user}, {$pull: {request: userID}}),
+                                        notifications('userRequest', req.user, {userID}, true),
+                                        notifications('userAccept', userID, {userID: req.user}, false),
+                                        user.findByIdAndUpdate(userID, {$addToSet: { friend: req.user }, $pull: {'pendingRequest': req.user}})
+                                    ])
+                                } else {
+                                    userInfo.push({username: doc.username, userImage: doc.image, authorID: doc._id, _id: doc._id})
+                                }
                             }
                         })
                     } catch(err) {
@@ -379,7 +386,7 @@ router.post('/', authenticate,(req, res, next) => {
                 for (let userID of pendingAcceptCnt) {
                     try {
                         await sequence([
-                            user.findOneAndUpdate({_id: req.user, friend: { $ne : userID }}, {$addToSet: { friend: userID }, $pull: {request: userID}}),
+                            user.findOneAndUpdate({_id: req.user}, {$addToSet: { friend: userID }, $pull: {request: userID}}),
                             notifications('userRequest', req.user, {userID}, true),
                             notifications('userAccept', userID, {userID: req.user}, false),
                             user.findByIdAndUpdate(userID, {$addToSet: { friend: req.user }, $pull: {'pendingRequest': req.user}})
@@ -400,10 +407,10 @@ router.post('/', authenticate,(req, res, next) => {
             (async() => {
                 for (let userID of pendingRejectCnt) {
                     try {
-                        await sequence([user.findByIdAndUpdate(req.user, {$pull: {request: userID}}),
+                        await sequence([user.findByIdAndUpdate(req.user, {$pull: {request: userID}, $pull: {friend: userID}}),
                             notifications('userRequest', req.user, {userID}, true),
                             notifications('userReject', userID, {userID: req.user}, false),
-                            user.findByIdAndUpdate(userID, {$pull: {'pendingRequest': req.user}})
+                            user.findByIdAndUpdate(userID, {$pull: {'pendingRequest': req.user}, $pull: {friend: userID}})
                         ])
                     } catch(err) {
                         return res.status(500).send(err);
