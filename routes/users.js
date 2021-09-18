@@ -336,6 +336,7 @@ router.post('/', authenticate,(req, res, next) => {
                     try {
                         await user.findById(userID).then(doc => {
                             if (doc) {
+                                console.log(doc.email)
                                 console.log('user', doc.pendingRequest, doc.friend)
                                 userInfo.push({username: doc.username, userImage: doc.image, authorID: doc._id, _id: doc._id})
                             }
