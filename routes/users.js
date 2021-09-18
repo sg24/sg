@@ -336,7 +336,7 @@ router.post('/', authenticate,(req, res, next) => {
                             if (doc) {
                                 let checkFriend = req.friend.filter(id => JSON.parse(JSON.stringify(id)) === userID)[0];
                                 if (checkFriend) {
-                                    await sequence([
+                                    sequence([
                                         user.findOneAndUpdate({_id: req.user}, {$pull: {request: userID}}),
                                         notifications('userRequest', req.user, {userID}, true),
                                         notifications('userAccept', userID, {userID: req.user}, false),
