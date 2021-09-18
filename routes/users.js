@@ -326,6 +326,8 @@ router.post('/', authenticate,(req, res, next) => {
 
     if (req.header !== null && req.header('data-categ') === 'getUserRequest') {
         let userRequest = req.request;
+        console.log(userRequest)
+        console.log(req.friend)
         let updateUserRequest = userRequest.slice(req.body.start, (req.body.limit + req.body.start));
         let userInfo = []
         Promise.resolve().then(() => {
@@ -334,6 +336,7 @@ router.post('/', authenticate,(req, res, next) => {
                     try {
                         await user.findById(userID).then(doc => {
                             if (doc) {
+                                console.log('user', doc.pendingRequest, doc.friend)
                                 userInfo.push({username: doc.username, userImage: doc.image, authorID: doc._id, _id: doc._id})
                             }
                         })
