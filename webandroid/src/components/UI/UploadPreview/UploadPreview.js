@@ -26,6 +26,7 @@ class FileExplorer extends Component {
                 let id =  cnt.id ? cnt.id : uuid();
                 cnt['id'] = id;
                 cnt['description'] = cnt.description ? cnt.description :  ''
+                cnt['autoFocus'] = false;
                 validator.value = cnt.description ?  cnt.description : ''
                 allValidator[id] = {...validator};
                 uploadFiles.push({...cnt})
@@ -54,9 +55,15 @@ class FileExplorer extends Component {
 
     inputChangedHandler = (value, inputType) => {
         let updateFormType = updateObject(this.state.formElement[inputType], {
-            value
+            value,
+            autoFocus: true
         });
-        let updateFormElement = updateObject(this.state.formElement, {[inputType]: updateFormType})
+        let updateAutoFocus = {};
+        for (let cnt in this.state.formElement) {
+            this.state.formElement[cnt].autoFocus = false;
+            updateAutoFocus[cnt] = this.state.formElement[cnt];
+        }
+        let updateFormElement = updateObject(updateAutoFocus , {[inputType]: updateFormType})
         let uploadFiles = [...this.state.uploadFiles];
         let filterUploadedFiles = uploadFiles.filter(cnt => cnt.id === inputType)[0];
         let updateIndex = uploadFiles.findIndex(cnt => cnt.id === inputType);
@@ -123,6 +130,7 @@ class FileExplorer extends Component {
                                 <FormElement
                                     onChangeText={(val) => this.inputChangedHandler(val, file.id)}
                                     autoCorrect
+                                    autoFocus={this.state.formElement[file.id].autoFocus}
                                     labelTitle="Description"
                                     multiline
                                     value={this.state.formElement[file.id].value}

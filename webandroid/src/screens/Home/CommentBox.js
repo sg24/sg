@@ -637,7 +637,7 @@ class Room extends Component {
                     onChangeText={(val) => this.inputChangedHandler(val, 'content')}
                     autoCorrect
                     multiline
-                    placeholder={this.state.showReply || this.state.replyChatBox ? "Reply ..." : "Write ...."}
+                    placeholder={this.state.showReply || this.state.replyChatBox ? "Reply" : "Write"}
                     value={this.state.formElement.content.value}
                     formWrapperStyle={styles.formWrapperStyle}
                     inputWrapperStyle={styles.formWrapperStyle}

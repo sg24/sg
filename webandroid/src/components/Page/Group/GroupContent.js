@@ -17,12 +17,19 @@ import FriendRequest from '../FriendRequest/FriendRequest';
 import Carousel from '../../UI/Carousel/Carousel';
 import MediaContainer from '../../UI/MediaContainer/MediaContainer';
 import TabBarge from '../../UI/TabBarge/TabBarge';
+import AdMob from '../../UI/AdMob/AdMob';
 
 const groupContent = props => {
     let AnimatedIcon = Animatable.createAnimatableComponent(Ionicons);
     let showAdvert = null;
     let userOpt = null;
     
+    if (props.showAdvert) {
+        showAdvert = (
+            <AdMob />
+        )
+    }
+
     if (props.cnt._id === props.pageCntID) {
         userOpt = (
             <BoxShadow style={styles.userOpt}>

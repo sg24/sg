@@ -220,7 +220,8 @@ class MediaPreview extends Component {
                                 sliderWidth={this.state.containerWidth}
                                 itemWidth={this.state.containerWidth}
                                 enableSnap
-                                enableMomentum />
+                                enableMomentum 
+                                scrollEnabled={false}/>
                         </View> : loader }
                     </View>
                     { this.props.fetchInfo.length > 1  && !this.props.hideSeeker ? seekRight : null}

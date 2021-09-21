@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import Ionicons from 'ionicons';
-import ImageZoom from 'react-native-image-pan-zoom'
+import { ReactNativeZoomableView } from '@dudigital/react-native-zoomable-view';
 import Text from 'text';
 
 import MediaContainer from '../../MediaContainer/MediaContainer';
@@ -32,16 +32,24 @@ class MediaItem extends Component {
 
         if (this.state.containerInfo) {
             cnt = (
-                <ImageZoom cropWidth={this.state.containerInfo.width}
-                    cropHeight={this.state.containerInfo.height}
-                    imageWidth={this.state.containerInfo.width}
-                    imageHeight={this.state.containerInfo.height}>
+                <View style={styles.zoomWrapper}>
+                    <ReactNativeZoomableView
+                        zoomEnabled={true}
+                        maxZoom={2}
+                        minZoom={0.5}
+                        zoomStep={0.25}
+                        initialZoom={1}
+                        bindToBorders={true}
+                        style={styles.zoomableView}
+                        captureEvent
+                    >
                     <MediaContainer
-                    media={this.props.media}
-                    disablePreview
-                    fileIconStyle={styles.fileIcon}
-                    videoStyle={styles.videoWrapper} />
-                </ImageZoom>
+                        media={this.props.media}
+                        disablePreview
+                        fileIconStyle={styles.fileIcon}
+                        videoStyle={styles.videoWrapper} />
+                </ReactNativeZoomableView>
+            </View>
             )
         }
         return (
@@ -132,7 +140,14 @@ const styles = StyleSheet.create({
     scroll: {
         maxHeight: 80,
         marginBottom: 10
-    }
+    },
+    zoomWrapper: {
+        flex: 1,
+        overflow: 'hidden',
+    },
+    zoomableView: {
+        padding: 10
+    },
 });
 
 

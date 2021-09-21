@@ -41,6 +41,7 @@ class Group extends Component {
                 pageReaction={this.props.pageReaction}
                 share={this.props.share.bind(this, cnt, 'select')}
                 closeModal={this.props.closeModal}
+                showAdvert={((index+1)%3 === 0)}
                 lastItem={(this.props.cnt.length - 1) === index}
                 enableLoadMore={this.props.enableLoadMore}
                 start={this.props.start}
