@@ -5,6 +5,28 @@ import { connect } from 'react-redux';
 import CBTContent from './CBTContent';
 
 class CBT extends Component {
+    state = {
+        pageCntID: null,
+        closeModal: null,
+        pageReaction: null,
+        enableLoadMore: false,
+        start: false,
+        loadMore: false,
+        tabLoadMore: false
+    };
+
+    shouldComponentUpdate(props) {
+        if (props.pageCntID !== this.state.pageCntID || props.closeModal !== this.state.closeModal ||
+            props.pageReaction !== this.state.pageReaction || props.enableLoadMore !== this.state.enableLoadMore || 
+            props.start !== this.state.start || props.loadMore !== this.state.loadMore || props.tabLoadMore !== this.state.tabLoadMore) {
+                this.setState({pageCntID: props.pageCntID, closeModal: props.closeModal,
+                    pageReaction: props.pageReaction, enableLoadMore: props.enableLoadMore,
+                    start: props.start, loadMore: props.loadMore, tabLoadMore: props.tabLoadMore});
+            return true;
+        }
+        return false
+    }
+
     isCloseToBottomHandler = ({layoutMeasurement, contentOffset, contentSize}) => {
         const paddingToBottom = 30;
         return (layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom) && this.props.settings.autoLoading;
@@ -58,6 +80,8 @@ class CBT extends Component {
                     keyExtractor={(item, index) => item+index}
                     showsVerticalScrollIndicator={(Platform.OS === 'web') && (this.props.viewMode === 'landscape')}
                     style={styles.scroll}
+                    removeClippedSubviews
+                    updateCellsBatchingPeriod={200}
                     onScroll={({nativeEvent}) => {
                         if (this.isCloseToBottomHandler(nativeEvent) && !this.props.start) {
                             this.props.loadMoreHandler();

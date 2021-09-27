@@ -5,6 +5,25 @@ import { connect } from 'react-redux';
 import PrivateConv from '../../Main/Conv/PrivateConv/PrivateConv';
 
 class User extends Component {
+    state = {
+        hideMessage: false,
+        closeModal: null,
+        pageReaction: null,
+        enableLoadMore: false,
+        start: false,
+        loadMore: false
+    };
+
+    shouldComponentUpdate(props) {
+        if (props.hideMessage !== this.state.hideMessage || props.closeModal !== this.state.closeModal || props.enableLoadMore !== this.state.enableLoadMore || 
+            props.start !== this.state.start || props.loadMore !== this.state.loadMore || props.pageReaction !== this.state.pageReaction) {
+                this.setState({hideMessage: props.hideMessage, closeModal: props.closeModal, enableLoadMore: props.enableLoadMore,
+                    start: props.start, loadMore: props.loadMore, pageReaction: props.pageReaction});
+            return true;
+        }
+        return false
+    }
+
     isCloseToBottomHandler = ({layoutMeasurement, contentOffset, contentSize}) => {
         const paddingToBottom = 30;
         return (layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom) && this.props.settings.autoLoading;
@@ -42,6 +61,8 @@ class User extends Component {
                     keyExtractor={(item, index) => item+index}
                     showsVerticalScrollIndicator={(Platform.OS === 'web') && (this.props.viewMode === 'landscape')}
                     style={styles.scroll}
+                    removeClippedSubviews
+                    updateCellsBatchingPeriod={200}
                     onScroll={({nativeEvent}) => {
                         if (this.isCloseToBottomHandler(nativeEvent) && !this.props.start) {
                             this.props.loadMoreHandler();

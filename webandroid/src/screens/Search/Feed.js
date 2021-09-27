@@ -155,6 +155,9 @@ class Feed extends Component {
 
     deletePageHandler = (id, start) => {
         this.props.onDeletePage(id, 'feed', start, 'getOneAndDelete');
+        if (this.props.fetchCnt.length < 2) {
+            this.loadMoreHandler();
+        }
         this.setState({pageCntID: null});
     }
 

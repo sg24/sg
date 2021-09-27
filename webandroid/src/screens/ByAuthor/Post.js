@@ -153,6 +153,9 @@ class Post extends Component {
 
     deletePageHandler = (id, start) => {
         this.props.onDeletePage(id, 'post', start, 'getOneAndDelete');
+        if (this.props.fetchCnt.length < 2) {
+            this.loadMoreHandler();
+        }
         this.setState({pageCntID: null});
     }
 
