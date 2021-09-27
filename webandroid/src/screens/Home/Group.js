@@ -32,6 +32,8 @@ import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 import Instruction from '../../components/UI/Instruction/Instruction';
 import Loader from '../../components/UI/Loader/Loader';
 
+const TABPAGE = 'group'
+
 class Groups extends Component {
     constructor(props) {
         super(props);
@@ -40,6 +42,7 @@ class Groups extends Component {
             option: [{title: 'Search', icon: {name: 'search-outline'}, action: 'search'},
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
             pageID: null,
+            tabPage: TABPAGE,
             pageCntID: null,
             showSearch: false,
             search: '',
@@ -63,28 +66,38 @@ class Groups extends Component {
     }
 
     componentDidMount() {
-        this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'group', 'getGroup')
+        // this._unsubscribe = this.props.navigation.addListener('tabPress', () => {
+        //     if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && !this.state.showSearch) {
+        //         this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'group', 'getGroup', null, this.state.tabPage, this.props.fetchCnt[0]._id);
+        //         return;
+        //     }
+        // });
+        this._unsubscribeFocus = this.props.navigation.addListener('focus', () => {
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'group', 'getGroup', null, this.state.tabPage);
+            // if (!this.props.fetchCnt || (this.props.fetchCnt && this.props.fetchCnt.length < 1)) {
+            //     this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'group', 'getGroup', null, this.state.tabPage);
+            // }
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            this.props.onPageReset();
-            this.setState({ pageID: null, pageCntID: null, showSearch: false,search: '',showOption: false,showSettings: false,  showGroupInfo: null,
+            this.props.onPageReset('group')
+            this.setState({ pageID: null, pageCntID: null, showSearch: false,search: '',showOption: false,showSettings: false, show: false,  showGroupInfo: null,
             showGroupRule: null, showSelectPicker: null,showPendingSelectPicker: null, showSelectMarkPicker: null, examInstruction: null, pendingExam: null})
         });
         Dimensions.addEventListener('change', this.updateStyle)
     }
 
     componentWillUnmount() {
-        this._unsubscribe();
+        // this._unsubscribe();
+        this._unsubscribeFocus();
         this._unsubscribeBlur();
         Dimensions.removeEventListener('change', this.updateStyle);
     }
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'group', 'searchGroup', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'group', 'searchGroup', this.state.search, this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'group', 'getGroup');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'group', 'getGroup', null, this.state.tabPage);
     }
 
     navigationHandler = (page, cntID) => {
@@ -119,13 +132,13 @@ class Groups extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'group', 'searchGroup', cnt);
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'group', 'searchGroup', cnt, this.state.tabPage);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'group', 'getGroup');
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'group', 'getGroup', null, this.state.tabPage);
     }
 
     checkOptionHandler = () => {
@@ -292,9 +305,9 @@ class Groups extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'group', 'searchGroup', this.state.search);
+                 'group', 'searchGroup', this.state.search, this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'group', 'getGroup');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'group', 'getGroup', null, this.state.tabPage);
     }
 
     render() {
@@ -359,7 +372,7 @@ class Groups extends Component {
             <Loader header={header} options={options} page="group" />
         )
 
-        if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && !this.props.tabPage) {
+        if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
             let pendingExam = this.props.pageReaction.length > 0 && this.state.pendingExam ? this.props.pageReaction.filter(id => id === this.state.pendingExam.pageID)[0] : null;
             cnt = (
                 <View style={styles.container}>
@@ -373,6 +386,7 @@ class Groups extends Component {
                             <Group
                                 cnt={this.props.fetchCnt}
                                 userID={this.props.userID}
+                                viewMode={this.state.viewMode}
                                 openURI={this.openURIHandler}
                                 pageCntID={this.state.pageCntID}
                                 userProfile={this.userProfileHandler}
@@ -399,7 +413,8 @@ class Groups extends Component {
                                 start={this.props.fetchCntStart}
                                 loadMore={this.loadMoreHandler}
                                 advertChatbox={this.advertChatboxHandler}
-                                loadMoreHandler={this.loadMoreHandler}/>
+                                loadMoreHandler={this.loadMoreHandler}
+                                tabLoadMore={this.props.tabLoadMore}/>
                         </View>
                     </Wrapper>
                     { options }
@@ -559,7 +574,7 @@ class Groups extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
+        if (!this.props.fetchCntErr && (this.props.tabPage === this.state.tabPage) && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -574,7 +589,7 @@ class Groups extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && !this.props.tabPage && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
+        if (!this.props.fetchCntErr && (this.props.tabPage === this.state.tabPage) && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -655,7 +670,7 @@ const styles = StyleSheet.create({
     },
     scroll: {
         width: '100%',
-        paddingTop: 10
+        flex: 1
     },
     optionIcon: {
         paddingVertical: 0
@@ -734,9 +749,10 @@ const mapStateToProps = state => {
         userID: state.auth.userID,
         fetchCntErr: state.page.fetchGroupError,
         fetchCntStart: state.page.fetchGroupStart,
-        fetchCnt: state.page.fetchGroup,
-        loadMore: state.page.loadMore,
+        fetchCnt: state.page.fetchGroup ? state.page.fetchGroup.filter(cnt => cnt.tabPage === TABPAGE) : null,
         tabPage: state.page.tabPage,
+        tabLoadMore: state.page.tabLoadMore,
+        loadMore: state.page.loadMore,
         deletePageErr: state.page.deleteGroupError,
         deletePage: state.page.deleteGroup,
         pageReaction: state.page.pageReaction,
@@ -746,10 +762,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchPage: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
-        onSearchCnt: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
+        onFetchPage: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
+        onSearchCnt: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
         onDeletePage: (pageID, page, start, cntType) => dispatch(actions.deletePageInit(pageID, page, start, cntType)),
-        onPageReset: () => dispatch(actions.pageReset()),
+        onPageReset: (page) => dispatch(actions.pageReset(page)),
         onDeletePageReset: () => dispatch(actions.deletePageReset()),
         onFetchCntReset: () => dispatch(actions.fetchPageReset()),
         onPageReaction: (page, pageID, reactionType, cnt, uriMethod, confirm) => dispatch(actions.pageReactionInit(page, pageID, reactionType, cnt, uriMethod, confirm)),

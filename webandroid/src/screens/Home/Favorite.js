@@ -51,7 +51,7 @@ class Favorite extends Component {
              this.setState({showTab: true});
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            this.props.onPageReset();
+            this.props.onPageReset('FAVORITE');
             this.setState({showOption: false,showSettings: false, showTab: false});
         });
         Dimensions.addEventListener('change', this.updateStyle)
@@ -193,7 +193,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onPageReset: () => dispatch(actions.pageReset())
+        onPageReset: (page) => dispatch(actions.pageReset(page))
     };
 };
 

@@ -80,31 +80,43 @@ const initialState = {
     fetchUser: null,
     pageReaction: [],
     pageReactionError: false,
-    tabPage: false
+    tabPage: null,
+    tabLoadMore: false
 };
 
 const pageReset = (state, action) => {
-    return updateObject(state, {
-        page: null,
-        fetchPostError: null,fetchPost: null, fetchPostStart: false, deletePostError: null, deletePost: null,
-        fetchGroupPostError: null,fetchGroupPost: null, fetchGroupPostStart: false, deleteGroupPostError: null, deleteGroupPost: null,
-        fetchFavoritePostError: null,fetchFavoritePost: null, fetchFavoritePostStart: false, deleteFavoritePostError: null, deleteFavoritePost: null,
-        fetchQuestionError: null,fetchQuestion: null, fetchQuestionStart: false, deleteQuestionError: null, deleteQuestion: null,
-        fetchGroupQuestionError: null,fetchGroupQuestion: null, fetchGroupQuestionStart: false, deleteGroupQuestionError: null, deleteGroupQuestion: null,
-        fetchFeedError: null,fetchFeedStart: false,fetchFeed: null,deleteFeedError: null,deleteFeed: null,
-        fetchGroupFeedError: null,fetchGroupFeedStart: false,fetchGroupFeed: null,deleteGroupFeedError: null,deleteGroupFeed: null,
-        fetchWriteUpError: null,fetchWriteUpStart: false,fetchWriteUp: null,deleteWriteUpError: null,deleteWriteUp: null,
-        fetchGroupWriteUpError: null,fetchGroupWriteUpStart: false,fetchGroupWriteUp: null,deleteGroupWriteUpError: null,deleteGroupWriteUp: null,
-        fetchCBTError: null,fetchCBTStart: false,fetchCBT: null,deleteCBTError: null,deleteCBT: null,
-        fetchGroupCBTError: null,fetchGroupCBTStart: false,fetchGroupCBT: null,deleteGroupCBTError: null,deleteGroupCBT: null,
-        fetchExamError: null,fetchExamStart: false,fetchExam: null,
-        fetchGroupError: null,fetchGroupStart: false,fetchGroup: null,deleteGroupError: null,deleteGroup: null,
-        fetchGroupPreviewError: null,fetchGroupPreviewStart: false,fetchGroupPreview: null,
-        fetchChatRoomError: null,fetchChatRoomStart: false,fetchChatRoom: null,deleteChatRoomError: null,deleteChatRoom: null,
-        fetchAdvertError: null,fetchAdvertStart: false,fetchAdvert: null,deleteAdvertError: null,deleteAdvert: null,
-        fetchUserError: null,fetchUserStart: false,fetchUser: null,
-        pageReaction: [],pageReactionError: false
-    })
+    let updatePage = (page) => {
+        let fetchPost = state.fetchPost?.filter(cnt => cnt.tabPage !== page);
+        let fetchQuestion = state.fetchQuestion?.filter(cnt => cnt.tabPage !== page);
+        let fetchFeed = state.fetchFeed?.filter(cnt => cnt.tabPage !== page);
+        let fetchWriteUp = state.fetchWriteUp?.filter(cnt => cnt.tabPage !== page);
+        let fetchAdvert = state.fetchAdvert?.filter(cnt => cnt.tabPage !== page);
+        let fetchCBT = state.fetchCBT?.filter(cnt => cnt.tabPage !== page);
+        let fetchChatRoom = state.fetchChatRoom?.filter(cnt => cnt.tabPage !== page)
+        return {fetchPost, fetchQuestion, fetchFeed, fetchWriteUp, fetchAdvert, fetchCBT, fetchChatRoom, tabPage: null}
+    }
+    if (action.page === 'post') {
+        return updateObject(state, {fetchPost: null, tabPage: null});
+    } else if (action.page === 'question') {
+        return updateObject(state, {fetchQuestion: null, tabPage: null});
+    } else if (action.page === 'advert') {
+        return updateObject(state, {fetchAdvert: null, tabPage: null});
+    } else if (action.page === 'feed') {
+        return updateObject(state, {fetchFeed: null, tabPage: null});
+    }else if (action.page === 'writeup') {
+        return updateObject(state, {fetchWriteUp: null, tabPage: null});
+    } else if (action.page === 'cbt') {
+        return updateObject(state, {fetchCBT: null, tabPage: null});
+    } else if (action.page === 'group') {
+        return updateObject(state, {fetchGroup: null, tabPage: null});
+    } else if (action.page === 'GROUPPREVIEW') {
+        return updateObject(state, {fetchGroupPreview: null, fetchGroupWriteUp: null, fetchGroupCBT: null, fetchGroupFeed:  null,
+            fetchGroupQuestion: null, fetchGroupPost: null, fetchChatRoom: null, tabPage: null});
+    } else if (action.page === 'users') {
+        return updateObject(state, {fetchUser: null, tabPage: null});
+    } else {
+        return updateObject(state, updatePage(action.page));
+    }
 };
 
 const fetchPageFail = (state, action) => {
@@ -149,39 +161,39 @@ const fetchPageFail = (state, action) => {
 
 const fetchPageStart = (state, action) => {
     if (action.page === 'post') {
-        return updateObject(state, {fetchPostError: null, fetchPost: action.start === 0 ? null : state.fetchPost, fetchPostStart: true});
+        return updateObject(state, {fetchPostError: null, fetchPost: (action.start === 0) && !action.tabLoadMore ? null : state.fetchPost, fetchPostStart: true, tabLoadMore: action.tabLoadMore});
     } else if (action.page === 'grouppost') {
-        return updateObject(state, {fetchGroupPostError: null, fetchGroupPost: action.start === 0 ? null : state.fetchGroupPost, fetchGroupPostStart: true });
+        return updateObject(state, {fetchGroupPostError: null, fetchGroupPost: (action.start === 0) && !action.tabLoadMore ? null : state.fetchGroupPost, fetchGroupPostStart: true, tabLoadMore: action.tabLoadMore});
     } else if (action.page === 'favoritepost') {
-        return updateObject(state, {fetchFavoritePostError: null, fetchFavoritePost: action.start === 0 ? null : state.fetchFavoritePost, fetchFavoritePostStart: true });
+        return updateObject(state, {fetchFavoritePostError: null, fetchFavoritePost: (action.start === 0) && !action.tabLoadMore ? null : state.fetchFavoritePost, fetchFavoritePostStart: true, tabLoadMore: action.tabLoadMore});
     } else if (action.page === 'question') {
-        return updateObject(state, {fetchQuestionError: null, fetchQuestion: action.start === 0 ? null : state.fetchQuestion, fetchQuestionStart: true });
+        return updateObject(state, {fetchQuestionError: null, fetchQuestion: (action.start === 0) && !action.tabLoadMore ? null : state.fetchQuestion, fetchQuestionStart: true, tabLoadMore: action.tabLoadMore});
     } else if (action.page === 'groupquestion') {
-        return updateObject(state, {fetchGroupQuestionError: null, fetchGroupQuestion: action.start === 0 ? null : state.fetchGroupQuestion, fetchGroupQuestionStart: true });
+        return updateObject(state, {fetchGroupQuestionError: null, fetchGroupQuestion: (action.start === 0) && !action.tabLoadMore ? null : state.fetchGroupQuestion, fetchGroupQuestionStart: true, tabLoadMore: action.tabLoadMore});
     } else if (action.page === 'advert') {
-        return updateObject(state, {fetchAdvertError: null, fetchAdvert: action.start === 0 ? null : state.fetchAdvert, fetchAdvertStart: true});
+        return updateObject(state, {fetchAdvertError: null, fetchAdvert: (action.start === 0) && !action.tabLoadMore ? null : state.fetchAdvert, fetchAdvertStart: true, tabLoadMore: action.tabLoadMore});
     } else if (action.page === 'feed') {
-        return updateObject(state, {fetchFeedError: null, fetchFeed: action.start === 0 ? null : state.fetchFeed, fetchFeedStart: true });
+        return updateObject(state, {fetchFeedError: null, fetchFeed: (action.start === 0) && !action.tabLoadMore ? null : state.fetchFeed, fetchFeedStart: true, tabLoadMore: action.tabLoadMore});
     } else if (action.page === 'groupfeed') {
-        return updateObject(state, {fetchGroupFeedError: null, fetchGroupFeed: action.start === 0 ? null : state.fetchGroupFeed, fetchGroupFeedStart: true });
+        return updateObject(state, {fetchGroupFeedError: null, fetchGroupFeed: (action.start === 0) && !action.tabLoadMore ? null : state.fetchGroupFeed, fetchGroupFeedStart: true, tabLoadMore: action.tabLoadMore});
     } else if (action.page === 'writeup') {
-        return updateObject(state, {fetchWriteUpError: null, fetchWriteUp: action.start === 0 ? null : state.fetchWriteUp, fetchWriteUpStart: true });
+        return updateObject(state, {fetchWriteUpError: null, fetchWriteUp: (action.start === 0) && !action.tabLoadMore ? null : state.fetchWriteUp, fetchWriteUpStart: true, tabLoadMore: action.tabLoadMore});
     } else if (action.page === 'groupwriteup') {
-        return updateObject(state, {fetchGroupWriteUpError: null, fetchGroupWriteUp: action.start === 0 ? null : state.fetchGroupWriteUp, fetchGroupWriteUpStart: true });
+        return updateObject(state, {fetchGroupWriteUpError: null, fetchGroupWriteUp: (action.start === 0) && !action.tabLoadMore ? null : state.fetchGroupWriteUp, fetchGroupWriteUpStart: true, tabLoadMore: action.tabLoadMore});
     } else if (action.page === 'cbt') {
-        return updateObject(state, {fetchCBTError: null, fetchCBT: action.start === 0 ? null : state.fetchCBT, fetchCBTStart: true });
+        return updateObject(state, {fetchCBTError: null, fetchCBT: (action.start === 0) && !action.tabLoadMore ? null : state.fetchCBT, fetchCBTStart: true, tabLoadMore: action.tabLoadMore});
     } else if (action.page === 'groupcbt') {
-        return updateObject(state, {fetchGroupCBTError: null, fetchGroupCBT: action.start === 0 ? null : state.fetchGroupCBT, fetchGroupCBTStart: true });
+        return updateObject(state, {fetchGroupCBTError: null, fetchGroupCBT: (action.start === 0) && !action.tabLoadMore ? null : state.fetchGroupCBT, fetchGroupCBTStart: true, tabLoadMore: action.tabLoadMore});
     } else if (action.page === 'group') {
-        return updateObject(state, {fetchGroupError: null, fetchGroup: action.start === 0 ? null : state.fetchGroup, fetchGroupStart: true });
+        return updateObject(state, {fetchGroupError: null, fetchGroup: (action.start === 0) && !action.tabLoadMore ? null : state.fetchGroup, fetchGroupStart: true, tabLoadMore: action.tabLoadMore});
     } else if (action.page === 'groupPreview') {
         return updateObject(state, {fetchGroupPreviewError: null, fetchGroupPreview: action.start === 0 ? null : state.fetchGroupPreview, fetchGroupPreviewStart: true });
     } else if (action.page === 'exam') {
         return updateObject(state, {fetchExamError: null, fetchExam: action.start === 0 ? null : state.fetchExam, fetchExamStart: true });
     } else if (action.page === 'chatroom') {
-        return updateObject(state, {fetchChatRoomError: null, fetchChatRoom: action.start === 0 ? null : state.fetchChatRoom, fetchChatRoomStart: true });
+        return updateObject(state, {fetchChatRoomError: null, fetchChatRoom: (action.start === 0) && !action.tabLoadMore ? null : state.fetchChatRoom, fetchChatRoomStart: true , tabLoadMore: action.tabLoadMore});
     } else if (action.page === 'users') {
-        return updateObject(state, {fetchUserError: null, fetchUser: action.start === 0 ? null : state.fetchUser, fetchUserStart: true });
+        return updateObject(state, {fetchUserError: null, fetchUser: (action.start === 0) && !action.tabLoadMore ? null : state.fetchUser, fetchUserStart: true , tabLoadMore: action.tabLoadMore});
     } else {
         return updateObject(state, {resetSubmitError: {message: action.err}, resetStart: false})
     }
@@ -196,49 +208,54 @@ const fetchPageReset = (state, action) => {
         fetchCBTError: null, fetchCBTStart: false, fetchGroupCBTError: null, fetchGroupCBTStart: false, 
         fetchExamError: null, fetchExamStart: false, fetchGroupError: null, fetchGroupStart: false,
         fetchGroupPreviewError: null, fetchGroupPreviewStart: false , fetchChatRoomError: null, fetchChatRoomStart: false,
-        fetchAdvertError: null, fetchAdvertStart: false});
+        fetchAdvertError: null, fetchAdvertStart: false, tabLoadMore: false});
 };
 
 const fetchPage = (state, action) => {
     function updatePage(page, action) {
-        let updatePageCnt = page && action.start !== 0 ? [...page] : [];
-        updatePageCnt.push(...action.cnt.page);
-        return updatePageCnt;
+        let updatePageCnt = page && (action.start !== 0 || action.tabLoadMore)? [...page] : [];
+        if (action.tabLoadMore) {
+            updatePageCnt.unshift(...action.cnt.page);
+        } else {
+            updatePageCnt.push(...action.cnt.page);
+        }
+        let addTabPage = updatePageCnt.map(cnt => {cnt.tabPage = action.tabPage; return cnt});
+        return addTabPage;
     }
     if (action.page === 'post') {
-        return updateObject(state, {fetchPost: updatePage(state.fetchPost, action), page: action.page, loadMore: action.cnt.loadMore, fetchPostStart: false, tabPage: action.cnt.tabPage});
+        return updateObject(state, {fetchPost: updatePage(state.fetchPost, action), page: action.page, loadMore: action.cnt.loadMore, fetchPostStart: false, tabLoadMore: false, tabPage: action.tabPage});
     } else if (action.page === 'grouppost') {
-        return updateObject(state, {fetchGroupPost: updatePage(state.fetchGroupPost, action), page: action.page, loadMore: action.cnt.loadMore, fetchGroupPostStart: false});
+        return updateObject(state, {fetchGroupPost: updatePage(state.fetchGroupPost, action), page: action.page, loadMore: action.cnt.loadMore, fetchGroupPostStart: false, tabLoadMore: false, tabPage: action.tabPage});
     } else if (action.page === 'favoritepost') {
-        return updateObject(state, {fetchFavoritePost: updatePage(state.fetchFavoritePost, action), page: action.page, loadMore: action.cnt.loadMore, fetchFavoritePostStart: false});
+        return updateObject(state, {fetchFavoritePost: updatePage(state.fetchFavoritePost, action), page: action.page, loadMore: action.cnt.loadMore, fetchFavoritePostStart: false, tabLoadMore: false, tabPage: action.tabPage});
     } else if (action.page === 'question') {
-        return updateObject(state, {fetchQuestion: updatePage(state.fetchQuestion, action), page: action.page, loadMore: action.cnt.loadMore, fetchQuestionStart: false, tabPage: action.cnt.tabPage});
+        return updateObject(state, {fetchQuestion: updatePage(state.fetchQuestion, action), page: action.page, loadMore: action.cnt.loadMore, fetchQuestionStart: false, tabLoadMore: false, tabPage: action.tabPage});
     } else if (action.page === 'groupquestion') {
-        return updateObject(state, {fetchGroupQuestion: updatePage(state.fetchGroupQuestion, action), page: action.page, loadMore: action.cnt.loadMore, fetchGroupQuestionStart: false});
+        return updateObject(state, {fetchGroupQuestion: updatePage(state.fetchGroupQuestion, action), page: action.page, loadMore: action.cnt.loadMore, fetchGroupQuestionStart: false, tabLoadMore: false, tabPage: action.tabPage});
     } else if (action.page === 'advert') {
-        return updateObject(state, {fetchAdvert: updatePage(state.fetchAdvert, action), page: action.page, loadMore: action.cnt.loadMore, fetchAdvertStart: false, tabPage: action.cnt.tabPage});
+        return updateObject(state, {fetchAdvert: updatePage(state.fetchAdvert, action), page: action.page, loadMore: action.cnt.loadMore, fetchAdvertStart: false, tabLoadMore: false, tabPage: action.tabPage});
     } else if (action.page === 'feed') {
-        return updateObject(state, {fetchFeed: updatePage(state.fetchFeed, action), page: action.page, loadMore: action.cnt.loadMore, fetchFeedStart: false, tabPage: action.cnt.tabPage});
+        return updateObject(state, {fetchFeed: updatePage(state.fetchFeed, action), page: action.page, loadMore: action.cnt.loadMore, fetchFeedStart: false, tabLoadMore: false, tabPage: action.tabPage});
     } else if (action.page === 'groupfeed') {
-        return updateObject(state, {fetchGroupFeed: updatePage(state.fetchGroupFeed, action), page: action.page, loadMore: action.cnt.loadMore, fetchGroupFeedStart: false});
+        return updateObject(state, {fetchGroupFeed: updatePage(state.fetchGroupFeed, action), page: action.page, loadMore: action.cnt.loadMore, fetchGroupFeedStart: false, tabLoadMore: false, tabPage: action.tabPage});
     } else if (action.page === 'writeup') {
-        return updateObject(state, {fetchWriteUp: updatePage(state.fetchWriteUp, action), page: action.page, loadMore: action.cnt.loadMore, fetchWriteUpStart: false, tabPage: action.cnt.tabPage});
+        return updateObject(state, {fetchWriteUp: updatePage(state.fetchWriteUp, action), page: action.page, loadMore: action.cnt.loadMore, fetchWriteUpStart: false, tabLoadMore: false, tabPage: action.tabPage});
     } else if (action.page === 'groupwriteup') {
-        return updateObject(state, {fetchGroupWriteUp: updatePage(state.fetchGroupWriteUp, action), page: action.page, loadMore: action.cnt.loadMore, fetchGroupWriteUpStart: false});
+        return updateObject(state, {fetchGroupWriteUp: updatePage(state.fetchGroupWriteUp, action), page: action.page, loadMore: action.cnt.loadMore, fetchGroupWriteUpStart: false, tabLoadMore: false, tabPage: action.tabPage});
     } else if (action.page === 'cbt') {
-        return updateObject(state, {fetchCBT: updatePage(state.fetchCBT, action), page: action.page, loadMore: action.cnt.loadMore, fetchCBTStart: false, tabPage: action.cnt.tabPage});
+        return updateObject(state, {fetchCBT: updatePage(state.fetchCBT, action), page: action.page, loadMore: action.cnt.loadMore, fetchCBTStart: false, tabLoadMore: false, tabPage: action.tabPage});
     } else if (action.page === 'groupcbt') {
-        return updateObject(state, {fetchGroupCBT: updatePage(state.fetchGroupCBT, action), page: action.page, loadMore: action.cnt.loadMore, fetchGroupCBTStart: false});
+        return updateObject(state, {fetchGroupCBT: updatePage(state.fetchGroupCBT, action), page: action.page, loadMore: action.cnt.loadMore, fetchGroupCBTStart: false, tabLoadMore: false, tabPage: action.tabPage});
     } else if (action.page === 'exam') {
         return updateObject(state, {fetchExam: updatePage(state.fetchExam, action), page: action.page, loadMore: action.cnt.loadMore, fetchExamStart: false});
     } else if (action.page === 'group') {
-        return updateObject(state, {fetchGroup: updatePage(state.fetchGroup, action), page: action.page, loadMore: action.cnt.loadMore, fetchGroupStart: false, tabPage: action.cnt.tabPage});
+        return updateObject(state, {fetchGroup: updatePage(state.fetchGroup, action), page: action.page, loadMore: action.cnt.loadMore, fetchGroupStart: false, tabLoadMore: false, tabPage: action.tabPage});
     } else if (action.page === 'groupPreview') {
         return updateObject(state, {fetchGroupPreview: updatePage(state.fetchGroupPreview, action), page: action.page, loadMore: action.cnt.loadMore, fetchGroupPreviewStart: false});
     } else if (action.page === 'chatroom') {
-        return updateObject(state, {fetchChatRoom: updatePage(state.fetchChatRoom, action), page: action.page, loadMore: action.cnt.loadMore, fetchChatRoomStart: false});
+        return updateObject(state, {fetchChatRoom: updatePage(state.fetchChatRoom, action), page: action.page, loadMore: action.cnt.loadMore, fetchChatRoomStart: false, tabLoadMore: false, tabPage: action.tabPage});
     } else if (action.page === 'users') {
-        return updateObject(state, {fetchUser: updatePage(state.fetchUser, action), page: action.page, loadMore: action.cnt.loadMore, fetchUserStart: false});
+        return updateObject(state, {fetchUser: updatePage(state.fetchUser, action), page: action.page, loadMore: action.cnt.loadMore, fetchUserStart: false, tabLoadMore: false, tabPage: action.tabPage});
     } else {
         return updateObject(state, {resetSubmitted: true, resetStart: false})
     }

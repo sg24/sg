@@ -18,15 +18,13 @@ import * as actions from '../../store/actions/index';
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
 import NotificationModal from '../../components/UI/NotificationModal/NotificationModal';
 import QuestionItem from '../../components/Page/Question/Question';
-import PagePreview from '../../components/Page/Preview/Preview';
-import MediaPreview from '../../components/UI/MediaPreview/MediaPreview';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
 import InfoBox from '../../components/UI/InfoBox/InfoBox';
-import CommentBox from '../../components/UI/QuestionCommentBox/QuestionCommentBox';
-import SharePicker from '../../components/UI/SharePicker/SharePicker';
 import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 import Loader from '../../components/UI/Loader/Loader';
+
+const TABPAGE = 'GROUPPREVIEW';
 
 class Question extends Component {
     constructor(props) {
@@ -37,12 +35,14 @@ class Question extends Component {
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
             groupID: this.props.groupID,
             isFocused: false,
+            isPressed: false,
             pageCntID: null,
             showPreview: null,
             pageID: null,
             showChatBox: false,
             showActionSheet: null,
             showSearch: false,
+            tabPage: TABPAGE,
             search: '',
             showOption: false,
             showSettings: false,
@@ -73,11 +73,23 @@ class Question extends Component {
     screenFocused() {
         if (this.props.focus && !this.state.isFocused) {
             if (this.state.groupID) {
-                this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'groupquestion', 'getQuestion', this.state.groupID);
+                // if (!this.props.fetchCnt || (this.props.fetchCnt && this.props.fetchCnt.length < 1)) {
+                //     this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'groupquestion', 'getQuestion', this.state.groupID, this.state.tabPage);
+                // }
+                this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'groupquestion', 'getQuestion', this.state.groupID, this.state.tabPage);
             } else {
                 this.props.navigation.navigate(this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group');
             }
             return this.setState({isFocused: true});
+        }
+        if (this.props.tabPress && !this.state.isPressed) {
+            if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && !this.state.showSearch) {
+                this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'groupquestion', 'getQuestion', this.state.groupID, this.state.tabPage, this.props.fetchCnt[0]._id);
+            }
+            return this.setState({isPressed: true});
+        }
+        if (!this.props.tabPress && this.state.isPressed) {
+            this.setState({isPressed: false});
         }
         if (!this.props.focus && this.state.isFocused) {
             this.setState({isFocused: false});
@@ -86,9 +98,9 @@ class Question extends Component {
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'groupquestion', 'searchQuestion', JSON.stringify({search: this.state.search, groupID: this.state.groupID}));
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'groupquestion', 'searchQuestion', JSON.stringify({search: this.state.search, groupID: this.state.groupID}), this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'groupquestion', 'getQuestion', this.state.groupID);
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'groupquestion', 'getQuestion', this.state.groupID, this.state.tabPage);
     }
 
     navigationHandler = (page, cntID={}) => {
@@ -119,13 +131,13 @@ class Question extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'groupquestion', 'searchQuestion', JSON.stringify({search: cnt, groupID: this.state.groupID}));
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'groupquestion', 'searchQuestion', JSON.stringify({search: cnt, groupID: this.state.groupID}), this.state.tabPage);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'groupquestion', 'getQuestion', this.state.groupID);
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'groupquestion', 'getQuestion', this.state.groupID, this.state.tabPage);
     }
 
     checkOptionHandler = () => {
@@ -174,14 +186,18 @@ class Question extends Component {
         let updateCnt = {_id: cnt._id, groupID: cnt.groupID};
         if (shareType === 'Friends') {
             this.setState({showSharePicker: {cnt: updateCnt, shareType}})
+            // this.props.navigation.navigate('SharePicker', {shareType, cnt: updateCnt,
+            //     shareUpdates: [{shareType: 'groupquestion', cntID: 'setShare', page: 'groupquestion', pageID: updateCnt._id}], shareChat: false,
+            //     info: 'Question shared successfully'})
         } else {
             this.setState({showActionSheet: {option: ['Friends', 'Groups'],
                 icon: ['people-outline', 'chatbubble-ellipses-outline', 'chatbox-outline'],cnt: updateCnt}})
         }
     }
 
-    mediaPreviewHandler = (cntID, media, page) => {
-        this.setState({showPreview: { startPage: page, media, cntID}})
+    mediaPreviewHandler = (cntID, media, startPage) => {
+        this.setState({showPreview: { startPage, media, cntID}})
+        // this.props.navigation.navigate('MediaPreview', {showOption: cntID ? true : false, page: 'groupquestion', pageID: cntID, media, startPage});
     }
 
     closePreviewHandler = () => {
@@ -194,14 +210,22 @@ class Question extends Component {
 
     pagePreviewHandler = (cnt) => {
         this.setState({showPagePreview: cnt})
+        // let navigationURI = this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group';
+        // this.props.navigation.navigate('PagePreview', {cnt, title: 'Question', page: 'groupqustion', groupID: this.state.groupID, navigationURI,
+        //     navigationURIWeb: navigationURI, editPage: 'EditGroupQuestion',showOption: false,
+        //     share: {shareType: 'groupquestion', page: 'groupquestion', pageID: cnt._id, shareChat: false,  info: 'Question shared successfully'}})
     }
 
     chatHandler = (pageID) => {
         this.setState({showChatBox: true, pageID})
+        // this.props.navigation.navigate('QuestionSolution', {title: 'Solution', chatType: 'groupquestionchat', page: 'groupquestion', pageID, 
+        //     showReply: true})
     }
 
     advertChatboxHandler = (pageID) => {
         this.setState({showAdvertChat: true, pageID})
+        // this.props.navigation.navigate('CommentBox', {title: 'Comment', chatType: 'advertchat', page: 'advert', pageID, 
+        //     showReply: true})
     }
 
     favoriteHandler = (pageID) => {
@@ -214,6 +238,9 @@ class Question extends Component {
         } else if (index === 0) {
             this.setState({showSharePicker: {shareType: this.state.showActionSheet.option[index],
                 cnt: this.state.showActionSheet.cnt}, showActionSheet: false})
+            // this.props.navigation.navigate('SharePicker', {shareType: this.state.showActionSheet.option[index], cnt: this.state.showActionSheet.cnt,
+            //     shareUpdates: [{shareType: 'groupquestion', cntID: 'setShare', page: 'groupquestion', pageID: this.state.showActionSheet.cnt._id}], shareChat: false,
+            //     info: 'Question shared successfully'})
             return
         } else if (index === 1){
             this.setState({showSelectGroupPicker: {selectType: 'group', pageID: this.state.showActionSheet.cnt._id}, showActionSheet: false})
@@ -225,9 +252,9 @@ class Question extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'groupquestion', 'searchQuestion', JSON.stringify({search: this.state.search, groupID: this.state.groupID}));
+                 'groupquestion', 'searchQuestion', JSON.stringify({search: this.state.search, groupID: this.state.groupID}), this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'groupquestion', 'getQuestion', this.state.groupID);
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'groupquestion', 'getQuestion', this.state.groupID, this.state.tabPage);
     }
 
     render() {
@@ -310,6 +337,7 @@ class Question extends Component {
                             <QuestionItem 
                                 cnt={this.props.fetchCnt}
                                 userID={this.props.userID}
+                                viewMode={this.state.viewMode}
                                 openURI={this.openURIHandler}
                                 pageCntID={this.state.pageCntID}
                                 userProfile={this.userProfileHandler}
@@ -328,7 +356,8 @@ class Question extends Component {
                                 enableLoadMore={this.props.loadMore}
                                 start={this.props.fetchCntStart}
                                 loadMore={this.loadMoreHandler}
-                                loadMoreHandler={this.loadMoreHandler} />
+                                loadMoreHandler={this.loadMoreHandler} 
+                                tabLoadMore={this.props.tabLoadMore} />
                         </View>
                     </Wrapper>
                     { options }
@@ -428,7 +457,7 @@ class Question extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
+        if (!this.props.fetchCntErr && (this.props.tabPage === this.state.tabPage) && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -443,7 +472,7 @@ class Question extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
+        if (!this.props.fetchCntErr && (this.props.tabPage === this.state.tabPage) && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -509,7 +538,7 @@ const styles = StyleSheet.create({
     },
     scroll: {
         width: '100%',
-        paddingTop: 10
+        flex: 1
     },
     optionIcon: {
         paddingVertical: 5,
@@ -551,7 +580,9 @@ const mapStateToProps = state => {
         userID: state.auth.userID,
         fetchCntErr: state.page.fetchGroupQuestionError,
         fetchCntStart: state.page.fetchGroupQuestionStart,
-        fetchCnt: state.page.fetchGroupQuestion,
+        fetchCnt: state.page.fetchGroupQuestion ? state.page.fetchGroupQuestion.filter(cnt => cnt.tabPage === TABPAGE) : null,
+        tabLoadMore: state.page.tabLoadMore,
+        tabPage: state.page.tabPage,
         loadMore: state.page.loadMore,
         deletePageErr: state.page.deleteGroupQuestionError,
         deletePage: state.page.deleteGroupQuestion,
@@ -562,8 +593,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchPage: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
-        onSearchCnt: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
+        onFetchPage: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
+        onSearchCnt: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
         onDeletePage: (pageID, page, start, cntType) => dispatch(actions.deletePageInit(pageID, page, start, cntType)),
         onPageReset: () => dispatch(actions.pageReset()),
         onDeletePageReset: () => dispatch(actions.deletePageReset()),

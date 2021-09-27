@@ -109,8 +109,8 @@ class WriteUp extends Component {
     }
 
     inputChangedHandler = (value, inputType) => {
-        let uri = checkUri(value);
-        let hashTag = checkHashtag(value);
+        let uri = value.length < 1001 ? checkUri(value) : null;
+        let hashTag = value.length < 1001 ? checkHashtag(value) : null;
         let allowHashTag = inputType !== 'comment' ? {inputHashTag: hashTag ? hashTag: []} : {};
         let updateFormType = updateObject(this.state.formElement[inputType], {
             value,

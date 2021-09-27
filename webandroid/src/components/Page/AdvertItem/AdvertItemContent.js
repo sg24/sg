@@ -66,8 +66,21 @@ const advertItemContent = props => {
                 cnt={props.cnt.friendRequest}/>
         )
     }
+
+    if (props.showAdvert) {
+        showAdvert = (
+            <AdMob />
+        )
+    }
+    
     return (
         <>
+            {props.tabLoadMore && props.firstItem ? (
+                <LoadMore
+                    title=""
+                    icon={{name: 'reload-outline'}}
+                    start/>
+            ): null}
             <View style={styles.container}>
                 <BoxShadow style={styles.wrapper}>
                     <View style={styles.userDet}>

@@ -83,7 +83,7 @@ class Profile extends Component {
             this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
                 this.props.onCloseHeaderPage();
                 this.setState({showTab: false});
-                this.props.onPageReset();
+                this.props.onPageReset('BYAUTHOR');
             });
         } else {
             this.props.navigation.navigate('Home')
@@ -309,7 +309,8 @@ class Profile extends Component {
                         index={this.state.index}
                         setIndex={this.setIndexHandler}
                         routes={this.state.routes}
-                        layoutWidth={this.state.layoutWidth}/>
+                        layoutWidth={this.state.layoutWidth}
+                        onTabPress={this.tabPressHandler}/>
                     { this.props.changeProfileErr ? 
                     <NotificationModal
                         info="Network Error"
@@ -427,7 +428,7 @@ const mapDispatchToProps = dispatch => {
         onSubmitProfileImage: (image, userID) => dispatch(actions.submitProfileImageInit(image, userID)),
         onProfileImageReset: () => dispatch(actions.submitProfileImageReset()),
         onSubmitUsername: (username, userID) => dispatch(actions.submitUsernameInit(username, userID)),
-        onPageReset: () => dispatch(actions.pageReset())
+        onPageReset: (page) => dispatch(actions.pageReset(page))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

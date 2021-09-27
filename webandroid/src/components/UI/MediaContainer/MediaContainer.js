@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { View, TouchableWithoutFeedback , Pressable, Image, StyleSheet , Platform} from 'react-native';
+import { View, TouchableWithoutFeedback , Pressable, StyleSheet , Platform, Image as WebImage} from 'react-native';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import FileIcon from 'file-icons';
 import Text, { translator } from 'text';
+import axios from 'axios';
+import Image from 'expo-cached-image';
+import { v4 as uuid } from 'uuid';
 
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 import VideoThumbnail from '../VideoThumbnail/VideoThumbnail';
@@ -17,11 +20,27 @@ class CheckMediaType extends Component {
     }
 
     saveHandler = async () => {
-        if (Platform.OS === 'web') {
-            alert(translator('feature not supported on web browser, Please use the', 'S lodge24 APK'))
-        }
         let media = this.props.media;
         let ext = media.ext.split('/')[1];
+        const webfileUri = `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}.${ext}`;
+        if (Platform.OS === 'web') {
+            axios({
+                url: webfileUri, //your url
+                method: 'GET',
+                responseType: 'blob', // important
+            }).then((response) => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `${media.filename}.${ext}`); //or any other extension
+                document.body.appendChild(link);
+                link.click();
+                this.setState({fileDownloaded: true})
+            });
+            return
+            // alert(translator('feature not supported on web browser, Please use the', 'S lodge24 APK'))
+        }
+       
         const fileDir = FileSystem.documentDirectory + 'Slodge24/' + `${media.bucket}/`;
         const fileUri = `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}.${ext}`;
         this.setState({downloadStart: true});
@@ -80,12 +99,14 @@ class CheckMediaType extends Component {
             Wrapper = Pressable;
         }
         if ((media.bucket === 'image' || (media.type && media.type.split('/')[0] === 'image')) && (!media.ext || media.ext.match(/\/(gif|jpe?g|tiff?|png|webp|bmp)$/i))) {
+            let ImageWrapper = Platform.OS === 'web' ? WebImage : Image;
             return  (
                 <Wrapper  style={[styles.wrapper]} onPress={this.props.disablePreview ? null : this.props.onPress} onLongPress={this.props.onLongPress}>
                     <View style={[styles.wrapper, this.props.wrapperStyle]}>
                         <View style={[styles.wrapper, this.props.style]}>
-                            <Image source={{uri: media.uri ? media.uri : `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}`}}  
-                                resizeMode={this.props.resizeMode ? this.props.resizeMode: "contain"} style={styles.mediaWrapper}/>
+                            <ImageWrapper source={{uri: media.uri ? media.uri : `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}`}}  
+                                resizeMode={this.props.resizeMode ? this.props.resizeMode: "contain"} style={styles.mediaWrapper}
+                                cacheKey={`${uuid()}-thumb`}/>
                         </View>
                         { this.props.children }
                     </View>

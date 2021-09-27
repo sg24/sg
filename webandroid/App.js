@@ -7,13 +7,14 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
-// import { enableScreens } from 'react-native-screens';
+import { PersistGate } from 'redux-persist/integration/react'
+import { enableScreens } from 'react-native-screens';
 
 import Root from './Root';
 import configureStore from './src/store/configureStore';
 import { ThemeProvider } from "react-native-stylex";
 
-// enableScreens();
+enableScreens();
 
 const theme = {
   palette: {
@@ -32,12 +33,14 @@ const theme = {
 const store = configureStore();
 SplashScreen.preventAutoHideAsync()
 const app = () => (
-    <Provider store={store}>
-        <SafeAreaProvider>
-              <ThemeProvider value={theme}>
-                <Root />
-            </ThemeProvider>
-        </SafeAreaProvider>
+    <Provider store={store.store}>
+        <PersistGate loading={null} persistor={store.persistor}>
+          <SafeAreaProvider>
+                <ThemeProvider value={theme}>
+                  <Root />
+              </ThemeProvider>
+          </SafeAreaProvider>
+        </PersistGate>
     </Provider>
 )
 

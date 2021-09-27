@@ -20,6 +20,8 @@ import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 import Loader from '../../components/UI/Loader/Loader';
 
+const TABPAGE = 'HASHSEARCH';
+
 class Questions extends Component {
     constructor(props) {
         super(props);
@@ -29,6 +31,7 @@ class Questions extends Component {
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
             isFocused: false,
             search: this.props.search,
+            tabPage: TABPAGE,
             pageID: null,
             pageCntID: null,
             showSearch: false,
@@ -59,23 +62,26 @@ class Questions extends Component {
 
     screenFocused() {
         if (this.props.focus && !this.state.isFocused) {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.state.search)
+            // if (!this.props.fetchCnt || (this.props.fetchCnt && this.props.fetchCnt.length < 1)) {
+            //     this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.state.search, this.state.tabPage)
+            // }
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.state.search, this.state.tabPage)
             return this.setState({isFocused: true});
         }
         if (!this.props.focus && this.state.isFocused) {
             this.setState({isFocused: false});
         }
         if (this.props.search !== this.state.search) {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.props.search)
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.props.search, this.state.tabPage)
             this.setState({search: this.props.search});
         }
     }
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.state.search, this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.state.search);
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.state.search, this.state.tabPage);
     }
 
     navigationHandler = (page, cntID) => {
@@ -106,13 +112,13 @@ class Questions extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', cnt);
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', cnt, this.state.tabPage);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.state.search);
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.state.search, this.state.tabPage);
     }
 
     checkOptionHandler = () => {
@@ -211,9 +217,9 @@ class Questions extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'question', 'hashSearch', this.state.search);
+                 'question', 'hashSearch', this.state.search, this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.state.search);
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'question', 'hashSearch', this.state.search, this.state.tabPage);
     }
 
     render() {
@@ -279,6 +285,7 @@ class Questions extends Component {
                             <Question
                                 cnt={this.props.fetchCnt}
                                 userID={this.props.userID}
+                                viewMode={this.state.viewMode}
                                 openURI={this.openURIHandler}
                                 pageCntID={this.state.pageCntID}
                                 userProfile={this.userProfileHandler}
@@ -355,7 +362,7 @@ class Questions extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1) {
+        if (!this.props.fetchCntErr && (this.props.tabPage === this.state.tabPage) && this.props.fetchCnt && this.props.fetchCnt.length < 1) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -416,7 +423,7 @@ const styles = StyleSheet.create({
     },
     scroll: {
         width: '100%',
-        paddingTop: 10
+        flex: 1
     },
     optionIcon: {
         paddingVertical: 0
@@ -450,7 +457,8 @@ const mapStateToProps = state => {
         userID: state.auth.userID,
         fetchCntErr: state.page.fetchQuestionError,
         fetchCntStart: state.page.fetchQuestionStart,
-        fetchCnt: state.page.fetchQuestion,
+        fetchCnt: state.page.fetchQuestion ? state.page.fetchQuestion.filter(cnt => cnt.tabPage === TABPAGE) : null,
+        tabPage: state.page.tabPage,
         loadMore: state.page.loadMore,
         deletePageErr: state.page.deleteQuestionError,
         deletePage: state.page.deleteQuestion,
@@ -461,8 +469,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchPage: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
-        onSearchCnt: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
+        onFetchPage: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
+        onSearchCnt: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
         onDeletePage: (pageID, page, start, cntType) => dispatch(actions.deletePageInit(pageID, page, start, cntType)),
         onPageReset: () => dispatch(actions.pageReset()),
         onDeletePageReset: () => dispatch(actions.deletePageReset()),

@@ -30,6 +30,8 @@ import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 import Instruction from '../../components/UI/Instruction/Instruction';
 import Loader from '../../components/UI/Loader/Loader';
 
+const TABPAGE = 'GROUPPREVIEW';
+
 class ChatRoom extends Component {
     constructor(props) {
         super(props);
@@ -40,8 +42,10 @@ class ChatRoom extends Component {
             groupID: this.props.groupID,
             isFocused: false,
             pageID: null,
+            tabPage: TABPAGE,
             pageCntID: null,
             showSearch: false,
+            isPressed: false,
             search: '',
             showOption: false,
             showSettings: false,
@@ -78,11 +82,23 @@ class ChatRoom extends Component {
     screenFocused() {
         if (this.props.focus && !this.state.isFocused) {
             if (this.state.groupID) {
-                this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'chatroom', 'getChatroom', this.state.groupID);
+                // if (!this.props.fetchCnt || (this.props.fetchCnt && this.props.fetchCnt.length < 1)) {
+                //     this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'chatroom', 'getChatroom', this.state.groupID, this.state.tabPage);
+                // }
+                this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'chatroom', 'getChatroom', this.state.groupID, this.state.tabPage);
             } else {
                 this.props.navigation.navigate(this.state.viewMode === 'landscape' ? 'GroupWeb' : 'Group');
             }
             return this.setState({isFocused: true});
+        }
+        if (this.props.tabPress && !this.state.isPressed) {
+            if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && !this.state.showSearch) {
+                this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'chatroom', 'getChatroom', this.state.groupID, this.state.tabPage, this.props.fetchCnt[0]._id);
+            }
+            return this.setState({isPressed: true});
+        }
+        if (!this.props.tabPress && this.state.isPressed) {
+            this.setState({isPressed: false});
         }
         if (!this.props.focus && this.state.isFocused) {
             this.setState({isFocused: false});
@@ -91,9 +107,9 @@ class ChatRoom extends Component {
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'chatroom', 'searchChatroom', JSON.stringify({search: this.state.search, groupID: this.state.groupID}));
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'chatroom', 'searchChatroom', JSON.stringify({search: this.state.search, groupID: this.state.groupID}), this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'chatroom', 'getChatroom', this.state.groupID);
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'chatroom', 'getChatroom', this.state.groupID, this.state.tabPage);
     }
 
     navigationHandler = (page, cntID={}) => {
@@ -127,13 +143,13 @@ class ChatRoom extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'chatroom', 'searchChatroom', JSON.stringify({search: cnt, groupID: this.state.groupID}));
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'chatroom', 'searchChatroom', JSON.stringify({search: cnt, groupID: this.state.groupID}), this.state.tabPage);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'chatroom', 'getChatroom', this.state.groupID);
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'chatroom', 'getChatroom', this.state.groupID, this.state.tabPage);
     }
 
     checkOptionHandler = () => {
@@ -251,8 +267,9 @@ class ChatRoom extends Component {
         this.setState({pageCntID: null});
     }
 
-    mediaPreviewHandler = (cntID, media, page) => {
-        this.setState({showPreview: { startPage: page, media, cntID}})
+    mediaPreviewHandler = (cntID, media, startPage) => {
+        this.setState({showPreview: { startPage, media, cntID}})
+        // this.props.navigation.navigate('MediaPreview', {showOption: false, page: 'chatroom', pageID: cntID, media, startPage});
     }
 
     closePreviewHandler = () => {
@@ -274,14 +291,16 @@ class ChatRoom extends Component {
 
     advertChatboxHandler = (pageID) => {
         this.setState({showAdvertChat: true, pageID})
+        // this.props.navigation.navigate('CommentBox', {title: 'Comment', chatType: 'advertchat', page: 'advert', pageID, 
+        //     showReply: true})
     }
 
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'chatroom', 'searchChatroom', JSON.stringify({search: this.state.search, groupID: this.state.groupID}));
+                 'chatroom', 'searchChatroom', JSON.stringify({search: this.state.search, groupID: this.state.groupID}), this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'chatroom', 'getChatroom', this.state.groupID);
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'chatroom', 'getChatroom', this.state.groupID, this.state.tabPage);
     }
 
     render() {
@@ -365,6 +384,7 @@ class ChatRoom extends Component {
                             <ChatRoomItem
                                 cnt={this.props.fetchCnt}
                                 userID={this.props.userID}
+                                viewMode={this.state.viewMode}
                                 openURI={this.openURIHandler}
                                 pageCntID={this.state.pageCntID}
                                 userProfile={this.userProfileHandler}
@@ -390,7 +410,8 @@ class ChatRoom extends Component {
                                 start={this.props.fetchCntStart}
                                 loadMore={this.loadMoreHandler}
                                 advertChatbox={this.advertChatboxHandler}
-                                loadMoreHandler={this.loadMoreHandler}/>
+                                loadMoreHandler={this.loadMoreHandler}
+                                tabLoadMore={this.props.tabLoadMore}/>
                         </View>
                     </Wrapper>
                     { options }
@@ -557,7 +578,7 @@ class ChatRoom extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
+        if (!this.props.fetchCntErr && (this.props.tabPage === this.state.tabPage) && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -572,7 +593,7 @@ class ChatRoom extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
+        if (!this.props.fetchCntErr  && (this.props.tabPage === this.state.tabPage) && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -639,7 +660,7 @@ const styles = StyleSheet.create({
     },
     scroll: {
         width: '100%',
-        paddingTop: 10
+        flex: 1
     },
     optionIcon: {
         paddingVertical: 5,
@@ -726,7 +747,9 @@ const mapStateToProps = state => {
         userID: state.auth.userID,
         fetchCntErr: state.page.fetchChatRoomError,
         fetchCntStart: state.page.fetchChatRoomStart,
-        fetchCnt: state.page.fetchChatRoom,
+        fetchCnt: state.page.fetchChatRoom ? state.page.fetchChatRoom.filter(cnt => cnt.tabPage === TABPAGE) : null,
+        tabLoadMore: state.page.tabLoadMore,
+        tabPage: state.page.tabPage,
         loadMore: state.page.loadMore,
         deletePageErr: state.page.deleteChatRoomError,
         deletePage: state.page.deleteChatRoom,
@@ -737,8 +760,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchPage: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
-        onSearchCnt: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
+        onFetchPage: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
+        onSearchCnt: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
         onDeletePage: (pageID, page, start, cntType) => dispatch(actions.deletePageInit(pageID, page, start, cntType)),
         onPageReset: () => dispatch(actions.pageReset()),
         onDeletePageReset: () => dispatch(actions.deletePageReset()),

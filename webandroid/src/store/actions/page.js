@@ -1,21 +1,25 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchPageInit = (start, limit, page, cntID, searchCnt) => {
+export const fetchPageInit = (start, limit, page, cntID, searchCnt, tabPage, pageID) => {
     return {
         type: actionTypes.FETCH_PAGE_INIT,
         start,
         limit,
         page,
         cntID,
-        searchCnt
+        searchCnt,
+        tabPage,
+        pageID
     };
 };
 
-export const fetchPageStart = (start, page) =>  {
+export const fetchPageStart = (start, page, tabPage, tabLoadMore) =>  {
     return {
         type: actionTypes.FETCH_PAGE_START,
         start,
-        page
+        page,
+        tabPage,
+        tabLoadMore
     };
 };
 
@@ -27,12 +31,14 @@ export const fetchPageFail = (page, err) => {
     };
 };
 
-export const fetchPage = (page, start, cnt) =>  {
+export const fetchPage = (page, start, cnt, tabPage, tabLoadMore) =>  {
     return {
         type: actionTypes.FETCH_PAGE,
         page,
         start,
-        cnt
+        cnt,
+        tabPage,
+        tabLoadMore
     };
 };
 
@@ -42,9 +48,10 @@ export const fetchPageReset = () =>  {
     };
 };
 
-export const pageReset = () =>  {
+export const pageReset = (page) =>  {
     return {
-        type: actionTypes.PAGE_RESET
+        type: actionTypes.PAGE_RESET,
+        page
     };
 };
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {  FlatList, ScrollView } from 'react-native';
+import {  FlatList, ScrollView, Platform, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import QuestionContent from './QuestionContent';
@@ -38,7 +38,9 @@ class Question extends Component {
                 showAdvert={((index+1)%3 === 0)}
                 enableLoadMore={this.props.enableLoadMore}
                 start={this.props.start}
-                loadMore={this.props.loadMore}/>
+                loadMore={this.props.loadMore}
+                tabLoadMore={this.props.tabLoadMore}
+                firstItem={index === 0}/>
         )
     }
 
@@ -48,8 +50,10 @@ class Question extends Component {
                     data={this.props.cnt}
                     renderItem={this._renderItem}
                     keyExtractor={(item, index) => item+index}
+                    showsVerticalScrollIndicator={(Platform.OS === 'web') && (this.props.viewMode === 'landscape')}
+                    style={styles.scroll}
                     onScroll={({nativeEvent}) => {
-                        if (this.isCloseToBottomHandler(nativeEvent)) {
+                        if (this.isCloseToBottomHandler(nativeEvent) && !this.props.start) {
                             this.props.loadMoreHandler();
                         }
                     }}
@@ -58,7 +62,9 @@ class Question extends Component {
 
         if (this.props.enableScrollView) {
             cnt = (
-                <ScrollView>
+                <ScrollView
+                    style={styles.scroll}
+                    showsVerticalScrollIndicator={(Platform.OS === 'web') && (this.props.viewMode === 'landscape')}>
                     {this.props.cnt.map((cnt, index) => this._renderItem({item: cnt, index}))}
                 </ScrollView>
             )
@@ -67,6 +73,12 @@ class Question extends Component {
     }
 
 }
+
+const styles = StyleSheet.create({
+    scroll: {
+        paddingTop: 10
+    }
+})
 
 const mapStateToProps = state => {
     return {

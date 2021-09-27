@@ -1,6 +1,8 @@
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import  createSagaMiddleware from 'redux-saga';
+import { persistStore, persistReducer } from 'redux-persist'
+import FSStorage, { CacheDir } from 'redux-persist-expo-fs-storage';
 
 import auth from './reducers/auth';
 import authForm from './reducers/authForm';
@@ -58,7 +60,14 @@ let composeEnhancers = compose;
 if(__DEV__) {
     composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE_ || compose;
 }
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk, sagaMiddleware)))
+const persistConfig = {
+    key: 'root',
+    keyPrefix: '', // the redux-persist default is `persist:` which doesn't work with some file systems
+    storage: FSStorage(CacheDir, 'Slodge24'),
+};
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(thunk, sagaMiddleware)))
+const persistor = persistStore(store);
 sagaMiddleware.run(watchAuth);
 sagaMiddleware.run(watchAuthForm);
 sagaMiddleware.run(watchHeader);
@@ -75,7 +84,7 @@ sagaMiddleware.run(watchSettings);
 sagaMiddleware.run(watchPreviewPage);
 
 const configureStore = () => {
-    return store;
+    return {store, persistor};
 };
 
 

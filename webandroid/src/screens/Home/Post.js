@@ -38,6 +38,8 @@ import SelectPicker from '../../components/UI/SelectPicker/SelectPicker';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 import Loader from '../../components/UI/Loader/Loader';
 
+const TABPAGE = 'post'
+
 class Post extends Component {
     constructor(props) {
         super(props);
@@ -47,6 +49,7 @@ class Post extends Component {
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
             pageCntID: null,
             pageID: null,
+            tabPage: TABPAGE,
             showActionSheet: null,
             showSearch: false,
             search: '',
@@ -63,11 +66,20 @@ class Post extends Component {
     }
 
     componentDidMount() {
-        this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor')
+        // this._unsubscribe = this.props.navigation.addListener('tabPress', () => {
+        //     if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && !this.state.showSearch) {
+        //         this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor', null, this.state.tabPage, this.props.fetchCnt[0]._id);
+        //         return;
+        //     }
+        // });
+        this._unsubscribeFocus = this.props.navigation.addListener('focus', () => {
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor', null, this.state.tabPage);
+            // if (!this.props.fetchCnt || (this.props.fetchCnt && this.props.fetchCnt.length < 1)) {
+            //     this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor', null, this.state.tabPage);
+            // }
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            this.props.onPageReset();
+            this.props.onPageReset('post');
             this.setState({pageCntID: null,pageID: null,showActionSheet: null,
                 showSearch: false,search: '',showOption: false,showSettings: false, showSelectGroupPicker: null})
         });
@@ -75,16 +87,17 @@ class Post extends Component {
     }
 
     componentWillUnmount() {
-        this._unsubscribe();
+        // this._unsubscribe();
+        this._unsubscribeFocus();
         this._unsubscribeBlur();
         Dimensions.removeEventListener('change', this.updateStyle);
     }
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'searchPost', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'searchPost', this.state.search, this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor', null, this.state.tabPage);
     }
 
     navigationHandler = (page, cntID) => {
@@ -115,13 +128,13 @@ class Post extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'post', 'searchPost', cnt);
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'post', 'searchPost', cnt, this.state.tabPage);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor');
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor', null, this.state.tabPage);
     }
 
     checkOptionHandler = () => {
@@ -156,6 +169,9 @@ class Post extends Component {
     deletePageHandler = (id, start) => {
         this.props.onDeletePage(id, 'post', start, 'getOneAndDelete');
         this.setState({pageCntID: null});
+        if (this.props.fetchCnt.length < 2) {
+            this.loadMoreHandler();
+        }
     }
 
     deletePageResetHandler = () => {
@@ -221,9 +237,9 @@ class Post extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'post', 'searchPost', this.state.search);
+                 'post', 'searchPost', this.state.search, this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor', null, this.state.tabPage);
     }
 
     render() {
@@ -288,7 +304,7 @@ class Post extends Component {
             <Loader header={header} options={options} page="post"/>
         )
         
-        if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && !this.props.tabPage) {
+        if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
             cnt = (
                 <View style={styles.container}>
                     { header }
@@ -330,6 +346,7 @@ class Post extends Component {
                             <PostItem 
                                 cnt={this.props.fetchCnt}
                                 userID={this.props.userID}
+                                viewMode={this.state.viewMode}
                                 openURI={this.openURIHandler}
                                 pageCntID={this.state.pageCntID}
                                 userProfile={this.userProfileHandler}
@@ -349,7 +366,8 @@ class Post extends Component {
                                 start={this.props.fetchCntStart}
                                 loadMore={this.loadMoreHandler}
                                 advertChatbox={this.advertChatboxHandler}
-                                loadMoreHandler={this.loadMoreHandler} />
+                                loadMoreHandler={this.loadMoreHandler}
+                                tabLoadMore={this.props.tabLoadMore} />
                         </View>
                     </Wrapper>
                     { options }
@@ -407,7 +425,7 @@ class Post extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
+        if (!this.props.fetchCntErr && (this.props.tabPage === this.state.tabPage) && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -422,7 +440,7 @@ class Post extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && !this.props.tabPage && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
+        if (!this.props.fetchCntErr && (this.props.tabPage === this.state.tabPage) && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -551,7 +569,7 @@ const styles = StyleSheet.create({
     },
     scroll: {
         width: '100%',
-        paddingTop: 10
+        flex: 1
     },
     optionIcon: {
         paddingVertical: 0
@@ -586,8 +604,9 @@ const mapStateToProps = state => {
         userID: state.auth.userID,
         fetchCntErr: state.page.fetchPostError,
         fetchCntStart: state.page.fetchPostStart,
-        fetchCnt: state.page.fetchPost,
+        fetchCnt: state.page.fetchPost ? state.page.fetchPost.filter(cnt => cnt.tabPage === TABPAGE) : null,
         tabPage: state.page.tabPage,
+        tabLoadMore: state.page.tabLoadMore,
         loadMore: state.page.loadMore,
         deletePageErr: state.page.deletePostError,
         deletePage: state.page.deletePost,
@@ -598,10 +617,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchPage: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
-        onSearchCnt: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
+        onFetchPage: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
+        onSearchCnt: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
         onDeletePage: (pageID, page, start, cntType) => dispatch(actions.deletePageInit(pageID, page, start, cntType)),
-        onPageReset: () => dispatch(actions.pageReset()),
+        onPageReset: (page) => dispatch(actions.pageReset(page)),
         onDeletePageReset: () => dispatch(actions.deletePageReset()),
         onFetchCntReset: () => dispatch(actions.fetchPageReset()),
         onPageReaction: (page, pageID, reactionType) => dispatch(actions.pageReactionInit(page, pageID, reactionType)),

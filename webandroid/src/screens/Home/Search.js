@@ -54,7 +54,7 @@ class Search extends Component {
              this.setState({showTab: true});
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            this.props.onPageReset();
+            this.props.onPageReset('SEARCH');
             this.setState({showOption: false, showSettings: false, showTab: false});
         });
         Dimensions.addEventListener('change', this.updateStyle)
@@ -315,7 +315,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
       onCloseHeaderPage: () => dispatch(actions.headerFilterStart()),
-      onPageReset: () => dispatch(actions.pageReset())
+      onPageReset: (page) => dispatch(actions.pageReset(page))
     };
 };
 

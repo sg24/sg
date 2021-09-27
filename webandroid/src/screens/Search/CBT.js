@@ -25,6 +25,8 @@ import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 import Instruction from '../../components/UI/Instruction/Instruction';
 import Loader from '../../components/UI/Loader/Loader';
 
+const TABPAGE = 'SEARCH';
+
 class CBT extends Component {
     constructor(props) {
         super(props);
@@ -39,6 +41,7 @@ class CBT extends Component {
             showSearch: false,
             showOption: false,
             showSettings: false,
+            tabPage: TABPAGE,
             showSelectPicker: null,
             showSelectMarkPicker: null,
             showSelectGroupPicker: null,
@@ -68,23 +71,26 @@ class CBT extends Component {
 
     screenFocused() {
         if (this.props.focus && !this.state.isFocused) {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBTTab', this.state.search)
+            // if (!this.props.fetchCnt || (this.props.fetchCnt && this.props.fetchCnt.length < 1)) {
+            //     this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBTTab', this.state.search, this.state.tabPage)
+            // }
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBTTab', this.state.search, this.state.tabPage)
             return this.setState({isFocused: true});
         }
         if (!this.props.focus && this.state.isFocused) {
             this.setState({isFocused: false});
         }
         if (this.props.search !== this.state.search) {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBTTab', this.props.search)
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBTTab', this.props.search, this.state.tabPage)
             this.setState({search: this.props.search});
         }
     }
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBTTab', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBTTab', this.state.search, this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBTTab', this.state.search);
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBTTab', this.state.search, this.state.tabPage);
     }
 
     navigationHandler = (page, cntID) => {
@@ -116,13 +122,13 @@ class CBT extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBTTab', cnt);
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBTTab', cnt, this.state.tabPage);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBTTab', this.state.search);
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBTTab', this.state.search, this.state.tabPage);
     }
 
     checkOptionHandler = () => {
@@ -256,9 +262,9 @@ class CBT extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'cbt', 'searchCBTTab', this.state.search);
+                 'cbt', 'searchCBTTab', this.state.search, this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBTTab', this.state.search);
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBTTab', this.state.search, this.state.tabPage);
     }
 
     render() {
@@ -323,6 +329,7 @@ class CBT extends Component {
                             <CBTItem
                                 cnt={this.props.fetchCnt}
                                 userID={this.props.userID}
+                                viewMode={this.state.viewMode}
                                 openURI={this.openURIHandler}
                                 pageCntID={this.state.pageCntID}
                                 userProfile={this.userProfileHandler}
@@ -450,7 +457,7 @@ class CBT extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1) {
+        if (!this.props.fetchCntErr && (this.props.tabPage === this.state.tabPage) && this.props.fetchCnt && this.props.fetchCnt.length < 1) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -511,7 +518,7 @@ const styles = StyleSheet.create({
     },
     scroll: {
         width: '100%',
-        paddingTop: 10
+        flex: 1
     },
     optionIcon: {
         paddingVertical: 0
@@ -545,7 +552,8 @@ const mapStateToProps = state => {
         userID: state.auth.userID,
         fetchCntErr: state.page.fetchCBTError,
         fetchCntStart: state.page.fetchCBTStart,
-        fetchCnt: state.page.fetchCBT,
+        fetchCnt: state.page.fetchCBT ? state.page.fetchCBT.filter(cnt => cnt.tabPage === TABPAGE) : null,
+        tabPage: state.page.tabPage,
         loadMore: state.page.loadMore,
         deletePageErr: state.page.deleteCBTError,
         deletePage: state.page.deleteCBT,
@@ -556,8 +564,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchPage: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
-        onSearchCnt: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
+        onFetchPage: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
+        onSearchCnt: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
         onDeletePage: (pageID, page, start, cntType) => dispatch(actions.deletePageInit(pageID, page, start, cntType)),
         onPageReset: () => dispatch(actions.pageReset()),
         onDeletePageReset: () => dispatch(actions.deletePageReset()),

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, ImageBackground, ActivityIndicator, StyleSheet, Keyboard, Dimensions, Platform, ScrollView } from 'react-native';
-import Clipboard from 'expo-clipboard';
+import * as Clipboard from 'expo-clipboard';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import Constants from 'expo-constants';
@@ -196,6 +196,13 @@ class ChatBox extends Component {
     showChatOptionHandler = (cnt, direction, e, isText) => {
         let updateCnt = {...cnt};
         delete updateCnt.replyChatID
+        if (cnt.media.length > 0) {
+            for (let media of cnt.media) {
+                if (media.description) {
+                    isText = true;
+                }
+            }
+        }
         let copyOpt = cnt.media.length < 1 || isText === true ? [
             {title: 'Share', icon: {name: 'paper-plane-outline'}, action: 'share'},
             {title: 'Copy Text', icon: {name: 'clipboard-outline'}, action: 'copy'}
@@ -228,7 +235,17 @@ class ChatBox extends Component {
 
     chatOptionHandler = async (action) => {
         if (action === 'copy') {
-            Clipboard.setString(this.state.showChatOption.cnt.content);
+            let content = []
+            if (this.state.showChatOption.cnt.media.length > 0) {
+                for (let cnt of this.state.showChatOption.cnt.media) {
+                    if (cnt.description) {
+                        content.push(cnt.description);
+                    }
+                }
+                Clipboard.setString(content.join(''));
+            } else {
+                Clipboard.setString(this.state.showChatOption.cnt.content);
+            }
         }
         if (action === 'share') {
             this.setState({showActionSheet: {option: ['Friends', 'Groups', 'Chat Room'],

@@ -110,6 +110,12 @@ const groupContent = props => {
 
     return (
         <>
+            {props.tabLoadMore && props.firstItem ? (
+                <LoadMore
+                    title=""
+                    icon={{name: 'reload-outline'}}
+                    start/>
+            ): null}
             <View style={styles.container}>
                 <BoxShadow style={styles.wrapper}>
                     <View style={styles.contentContainer}>

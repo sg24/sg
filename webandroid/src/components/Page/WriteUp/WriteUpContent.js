@@ -92,6 +92,12 @@ const writeupContent = props => {
 
     return (
         <>
+            {props.tabLoadMore && props.firstItem ? (
+                <LoadMore
+                    title=""
+                    icon={{name: 'reload-outline'}}
+                    start/>
+                ): null}
             <View style={styles.container}>
                 <ShareInfo shareInfo={props.cnt.shareInfo} onPress={props.shareUserProfile} page="writeup"/>
                 <BoxShadow style={styles.wrapper}>

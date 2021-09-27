@@ -11,7 +11,7 @@ class FormElement extends Component {
             <View style={[styles.wrapper, this.props.formWrapperStyle]}>
                 {this.props.labelTitle ? <Text style={[styles.labelTitle, this.props.labelStyle]}>{this.props.labelTitle}</Text> : null}
                 <View style={[styles.InputWrapper, this.props.inputWrapperStyle]}>
-                    { this.props.fullEditor ? <Editor
+                    { this.props.fullEditor && (Platform.OS !== 'web') ? <Editor
                         ref={(ref) => this._editor = ref}
                         autoCapitalize="none"
                         {...this.props}
@@ -21,7 +21,7 @@ class FormElement extends Component {
                         autoCapitalize="none"
                         underlineColorAndroid="transparent"
                         {...this.props}
-                        value={this.props.value && this.props.value.length > 1000 ? this.props.value.substr(0, 1000) : this.props.value }
+                        value={this.props.value && this.props.value.length > 1000 &&  (Platform.OS !== 'web') ? this.props.value : this.props.value }
                         placeholder={translator(this.props.placeholder || '')}
                         style={[styles.input, this.props.style]} />
                     }

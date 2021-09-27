@@ -75,7 +75,7 @@ class GroupPreview extends Component {
                 }
             });
             this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-                this.props.onPageReset();
+                this.props.onPageReset('GROUPPREVIEW');
                 this.setState({pageCntID: null, showOption: false,showSettings: false, showSharePicker: null,
                     showActionSheet: null, loaded: false})
             });
@@ -455,7 +455,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchPage: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
         onSearchCnt: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
-        onPageReset: () => dispatch(actions.pageReset()),
+        onPageReset: (page) => dispatch(actions.pageReset(page)),
         onFetchCntReset: () => dispatch(actions.fetchPageReset())
     };
 };

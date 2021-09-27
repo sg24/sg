@@ -20,7 +20,7 @@ import { transformNumber, checkUri } from '../../../shared/utility';
 import FriendRequest from '../FriendRequest/FriendRequest';
 import AdMob from '../../UI/AdMob/AdMob';
 
-const postContent = props => {
+const postContent =  (props) => {
     let AnimatedIcon = Animatable.createAnimatableComponent(Ionicons);
     let showAdvert = null;
     let userOpt = null;
@@ -79,6 +79,12 @@ const postContent = props => {
 
     return (
         <>
+            {props.tabLoadMore && props.firstItem ? (
+                <LoadMore
+                    title=""
+                    icon={{name: 'reload-outline'}}
+                    start/>
+            ): null}
             <View style={styles.container}>
                 <ShareInfo shareInfo={props.cnt.shareInfo} onPress={props.shareUserProfile} page="post"/>
                 <BoxShadow style={styles.wrapper}>

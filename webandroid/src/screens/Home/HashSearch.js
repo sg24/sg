@@ -36,7 +36,7 @@ class HashSearch extends Component {
 
     async componentDidMount() {
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            this.props.onPageReset();
+            this.props.onPageReset('HASHSEARCH');
             this.setState({showOption: false, showSettings: false});
         });
         Dimensions.addEventListener('change', this.updateStyle)
@@ -179,7 +179,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-      onPageReset: () => dispatch(actions.pageReset())
+      onPageReset: (page) => dispatch(actions.pageReset(page))
     };
 };
 

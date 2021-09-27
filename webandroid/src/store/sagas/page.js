@@ -4,13 +4,13 @@ import axios from '../../axios';
 
 export function* fetchPageInitSaga(action) {
     try {
-        yield put(actions.fetchPageStart(action.start, action.page));
+        yield put(actions.fetchPageStart(action.start, action.page, action.tabPage, action.pageID ? true : false));
         let response = yield axios.post(`/${action.page}`, { 
-            start: action.start, limit: action.limit, searchCnt: action.searchCnt },{
+            start: action.start, limit: action.limit, searchCnt: action.searchCnt, pageID: action.pageID },{
             headers: {
                 'data-categ': action.cntID}});
         let cnt = response.data  ? response.data : null;
-        yield put(actions.fetchPage(action.page, action.start, cnt));
+        yield put(actions.fetchPage(action.page, action.start, cnt, action.tabPage, action.pageID ? true : false));
     } catch(err){
         yield put(actions.fetchPageFail(action.page, err));
     }

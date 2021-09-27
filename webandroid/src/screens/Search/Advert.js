@@ -18,6 +18,8 @@ import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 import Loader from '../../components/UI/Loader/Loader';
 
+const TABPAGE = 'SEARCH';
+
 class Advert extends Component {
     constructor(props) {
         super(props);
@@ -28,6 +30,7 @@ class Advert extends Component {
             isFocused: false,
             search: this.props.search,
             pageCntID: null,
+            tabPage: TABPAGE,
             pageID: null,
             showSearch: false,
             search: '',
@@ -57,23 +60,26 @@ class Advert extends Component {
 
     screenFocused() {
         if (this.props.focus && !this.state.isFocused) {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'advert', 'searchAdvert', this.state.search)
+            // if (!this.props.fetchCnt || (this.props.fetchCnt && this.props.fetchCnt.length < 1)) {
+            //     this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'advert', 'searchAdvert', this.state.search, this.state.tabPage)
+            // }
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'advert', 'searchAdvert', this.state.search, this.state.tabPage)
             return this.setState({isFocused: true});
         }
         if (!this.props.focus && this.state.isFocused) {
             this.setState({isFocused: false});
         }
         if (this.props.search !== this.state.search) {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'advert', 'searchAdvert', this.props.search)
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'advert', 'searchAdvert', this.props.search, this.state.tabPage)
             this.setState({search: this.props.search});
         }
     }
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'advert', 'searchAdvert', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'advert', 'searchAdvert', this.state.search, this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'advert', 'searchAdvert', this.state.search);
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'advert', 'searchAdvert', this.state.search, this.state.tabPage);
     }
 
     navigationHandler = (page, cntID) => {
@@ -104,13 +110,13 @@ class Advert extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'advert', 'searchAdvert', cnt);
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'advert', 'searchAdvert', cnt, this.state.tabPage);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'advert', 'searchAdvert', this.state.search);
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'advert', 'searchAdvert', this.state.search, this.state.tabPage);
     }
 
     checkOptionHandler = () => {
@@ -179,9 +185,9 @@ class Advert extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'advert', 'searchAdvert', this.state.search);
+                 'advert', 'searchAdvert', this.state.search, this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'advert', 'searchAdvert', this.state.search);
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'advert', 'searchAdvert', this.state.search, this.state.tabPage);
     }
 
     render() {
@@ -245,6 +251,7 @@ class Advert extends Component {
                             style={styles.scroll}>
                             <AdvertItem 
                                 cnt={this.props.fetchCnt}
+                                viewMode={this.state.viewMode}
                                 userID={this.props.userID}
                                 openURI={this.openURIHandler}
                                 pageCntID={this.state.pageCntID}
@@ -298,7 +305,7 @@ class Advert extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1) {
+        if (!this.props.fetchCntErr && (this.props.tabPage === this.state.tabPage) && this.props.fetchCnt && this.props.fetchCnt.length < 1) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -359,7 +366,7 @@ const styles = StyleSheet.create({
     },
     scroll: {
         width: '100%',
-        paddingTop: 10
+        flex: 1
     },
     optionIcon: {
         paddingVertical: 0
@@ -393,7 +400,8 @@ const mapStateToProps = state => {
         userID: state.auth.userID,
         fetchCntErr: state.page.fetchAdvertError,
         fetchCntStart: state.page.fetchAdvertStart,
-        fetchCnt: state.page.fetchAdvert,
+        fetchCnt: state.page.fetchAdvert ? state.page.fetchAdvert.filter(cnt => cnt.tabPage === TABPAGE) : null,
+        tabPage: state.page.tabPage,
         loadMore: state.page.loadMore,
         deletePageErr: state.page.deleteAdvertError,
         deletePage: state.page.deleteAdvert,
@@ -404,8 +412,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchPage: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
-        onSearchCnt: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
+        onFetchPage: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
+        onSearchCnt: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
         onDeletePage: (pageID, page, start, cntType) => dispatch(actions.deletePageInit(pageID, page, start, cntType)),
         onPageReset: () => dispatch(actions.pageReset()),
         onDeletePageReset: () => dispatch(actions.deletePageReset()),

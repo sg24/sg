@@ -40,14 +40,14 @@
       "versionCode": 4,
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-3611317424444370~5103778940"
-      }
+      },
+      "enableDangerousExperimentalLeanBuilds": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "notification": {
-      "icon": "./assets/notification.png",
-      "color": "#ffffff"
+      "icon": "./assets/notification.png"
     }
   }
 }

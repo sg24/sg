@@ -22,6 +22,8 @@ import ChatBox from '../../components/UI/ChatBox/ChatBox';
 import User from '../../components/Page/User/User';
 import Loader from '../../components/UI/Loader/Loader';
 
+const TABPAGE = 'user';
+
 class Users extends Component {
     constructor(props) {
         super(props);
@@ -30,6 +32,7 @@ class Users extends Component {
             option: [{title: 'Search', icon: {name: 'search-outline'}, action: 'search'},
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
             pageID: null,
+            tabPage: TABPAGE,
             showChatBox: null,
             showSearch: false,
             search: '',
@@ -46,27 +49,34 @@ class Users extends Component {
     }
 
     componentDidMount() {
-        this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getUser')
+        // this._unsubscribe = this.props.navigation.addListener('tabPress', () => {
+        //     if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && !this.state.showSearch) {
+        //         // this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getUser', null, this.state.tabPage, this.props.fetchCnt[0]._id);
+        //         return;
+        //     }
+        // });
+        this._unsubscribeFocus = this.props.navigation.addListener('focus', () => {
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getUser', null, this.state.tabPage);
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            this.props.onPageReset();
-            this.setState({ pageID: null,showChatBox: null,showSearch: false,search: '',showOption: false,showSettings: false,changeProfile: null})
+            this.props.onPageReset('users');
+            this.setState({ pageID: null,showChatBox: null,showSearch: false,search: '',showOption: false,showSettings: false, changeProfile: null})
         });
         Dimensions.addEventListener('change', this.updateStyle)
     }
 
     componentWillUnmount() {
-        this._unsubscribe();
+        // this._unsubscribe();
+        this._unsubscribeFocus();
         this._unsubscribeBlur();
         Dimensions.removeEventListener('change', this.updateStyle);
     }
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'searchUser', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'searchUser', this.state.search, this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'getUser');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'getUser', null, this.state.tabPage);
     }
 
     closeModalHandler = () => {
@@ -93,16 +103,16 @@ class Users extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            return this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'users', 'searchUser', cnt);
+            return this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'users', 'searchUser', cnt, this.state.tabPage);
         }
         if (!this.state.showSearch) {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getUser');
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getUser', null, this.state.tabPage);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getUser');
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getUser', null, this.state.tabPage);
     }
 
     checkOptionHandler = () => {
@@ -138,9 +148,9 @@ class Users extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'users', 'searchUser', this.state.search);
+                 'users', 'searchUser', this.state.search, this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'getUser');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'getUser', null, this.state.tabPage);
     }
 
     render() {
@@ -259,6 +269,7 @@ class Users extends Component {
                                     cnt={this.props.fetchCnt}
                                     hideMessage={true}
                                     userID={this.props.userID}
+                                    viewMode={this.state.viewMode}
                                     userProfile={this.userProfileHandler}
                                     closeModal={this.closeModalHandler}
                                     chat={this.chatHandler}
@@ -393,10 +404,12 @@ const styles = StyleSheet.create({
     },
     scroll: {
         width: '100%',
+        flex: 1
     },
     scrollContainer: {
         paddingHorizontal: 10,
-        paddingTop: 10
+        paddingTop: 10,
+        flex: 1
     },
     optionIcon: {
         paddingVertical: 0
@@ -451,7 +464,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onFetchPage: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
         onSearchCnt: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
-        onPageReset: () => dispatch(actions.pageReset()),
+        onPageReset: (page) => dispatch(actions.pageReset(page)),
         onFetchCntReset: () => dispatch(actions.fetchPageReset()),
         onPageReaction: (page, pageID, reactionType, cnt, uriMethod, confirm) => dispatch(actions.pageReactionInit(page, pageID, reactionType, cnt, uriMethod, confirm)),
         onPageReactionReset: (pageID) => dispatch(actions.pageReactionReset(pageID))

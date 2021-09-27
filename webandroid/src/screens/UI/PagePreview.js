@@ -35,6 +35,7 @@ class Preview extends Component {
             title: this.props.route.params.title,
             showMediaOption: this.props.route.params.showOption,
             page: this.props.route.params.page,
+            groupID: this.props.route.params.groupID,
             showContent: this.props.route.params.showContent,
             navigationURI: this.props.route.params.navigationURI,
             navigationURIWeb: this.props.route.params.navigationURIWeb,
@@ -47,7 +48,7 @@ class Preview extends Component {
     componentDidMount() {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             this.props.onFetchPreviewReset();
-            this.props.onFetchPreview(this.state.page, this.state.pageCnt._id, 'getoneandcheck');
+            this.props.onFetchPreview(this.state.page, this.state.pageCnt._id, 'getoneandcheck', this.state.groupID);
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
             this.props.onFetchPreviewReset();
@@ -60,7 +61,7 @@ class Preview extends Component {
     }
 
     reloadFetchHandler = () => {
-        this.props.onFetchPreview(this.state.page, this.state.pageCnt._id, 'getoneandcheck');
+        this.props.onFetchPreview(this.state.page, this.state.pageCnt._id, 'getoneandcheck', this.state.groupID);
     }
 
     updateStyle = (dims) => {

@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform, Image as WebImage } from 'react-native';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
+import Image from 'expo-cached-image';
+import { v4 as uuid } from 'uuid';
 
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 
@@ -15,10 +17,12 @@ const avatar = props => {
     )
 
     if (props.userImage) {
-        userImg = <Image source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${props.userImage}`}} 
+        let ImageWrapper = Platform.OS === 'web' ? WebImage : Image;
+        userImg = <ImageWrapper source={{uri: `${Constants.manifest.extra.BASE_IMAGE_URL}${props.userImage}`}} 
         style={[styles.wrapper, 
             props.style, props.imageSize ? {width: props.imageSize, height: props.imageSize, borderRadius: props.disableRadius === true ? 0 : props.imageSize/2} : null,
-            props.enableBorder === false ? null : styles.borderWrapper]}/>;
+            props.enableBorder === false ? null : styles.borderWrapper]}
+        cacheKey={`${uuid()}-thumb`}/>;
     }
     return (
         <Wrapper {...wrapperProps}>

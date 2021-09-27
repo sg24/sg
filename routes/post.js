@@ -13,6 +13,7 @@ let uploadToBucket = require('./utility/upload');
 let notifications = require('./utility/notifications');
 let sharecontent = require('./utility/sharecontent');
 let subString = require('./utility/substring');
+let checkPageID = require('./utility/checkPageID');
 const {post, group, grouppost, advert, user, share, connectStatus} = require('../serverDB/serverDB');
 
 router.post('/', authenticate, (req, res, next) => {
@@ -50,7 +51,7 @@ router.post('/', authenticate, (req, res, next) => {
     }
 
     if (req.header !== null && req.header('data-categ') === 'getByAuthor') {
-        post.find({$or: [{authorID: { $in: [req.user, ...req.friend] }}, {allowed: { $in: [req.user]}}], _isCompleted: true, block: {$nin: [req.user]}})
+        post.find(checkPageID({$or: [{authorID: { $in: [req.user, ...req.friend] }}, {allowed: { $in: [req.user]}}], _isCompleted: true, block: {$nin: [req.user]}}, req.body.pageID))
             .skip(req.body.start).limit(req.body.limit).sort({_id: -1}).then(result => {
             let updateResult = [];
             if (result) {

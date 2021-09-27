@@ -18,6 +18,8 @@ import InfoBox from '../../components/UI/InfoBox/InfoBox';
 import ChatBox from '../../components/UI/ChatBox/ChatBox';
 import User from '../../components/Page/User/User';
 
+const TABPAGE = 'BYAUTHOR';
+
 class Users extends Component {
     constructor(props) {
         super(props);
@@ -30,6 +32,7 @@ class Users extends Component {
             pageID: null,
             showChatBox: null,
             showSearch: false,
+            tabPage: TABPAGE,
             search: '',
             showOption: false,
             showSettings: false,
@@ -52,7 +55,10 @@ class Users extends Component {
 
     screenFocused() {
         if (this.props.focus && !this.state.isFocused) {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', this.state.profileID)
+            // if (!this.props.fetchCnt || (this.props.fetchCnt && this.props.fetchCnt.length < 1)) {
+            //     this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', this.state.profileID, this.state.tabPage)
+            // }
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', this.state.profileID, this.state.tabPage)
             return this.setState({isFocused: true});
         }
         if (!this.props.focus && this.state.isFocused) {
@@ -68,9 +74,9 @@ class Users extends Component {
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', this.state.search, this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'getFriendById');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', this.state.profileID, this.state.tabPage);
     }
 
     closeModalHandler = () => {
@@ -97,16 +103,16 @@ class Users extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            return this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', cnt);
+            return this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', cnt, this.state.tabPage);
         }
         if (!this.state.showSearch) {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', this.state.profileID);
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', this.state.profileID, this.state.tabPage);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', this.state.profileID);
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', this.state.profileID, this.state.tabPage);
     }
 
     checkOptionHandler = () => {
@@ -142,9 +148,9 @@ class Users extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'users', 'getFriendById', this.state.search);
+                 'users', 'getFriendById', this.state.search, this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', this.state.profileID);
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'users', 'getFriendById', this.state.profileID, this.state.tabPage);
     }
 
     render() {
@@ -239,6 +245,7 @@ class Users extends Component {
                             <View style={[styles.scroll, styles.scrollContainer]}>
                                 <User
                                     cnt={this.props.fetchCnt}
+                                    viewMode={this.state.viewMode}
                                     hideMessage={true}
                                     showProfileButton
                                     userID={this.props.userID}
@@ -294,7 +301,7 @@ class Users extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
+        if (!this.props.fetchCntErr && (this.props.tabPage === this.state.tabPage) && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -309,7 +316,7 @@ class Users extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
+        if (!this.props.fetchCntErr&& (this.props.tabPage === this.state.tabPage)  && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -319,7 +326,7 @@ class Users extends Component {
                         style={styles.info}
                         wrapperStyle={styles.infoWrapper}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}> No friend found !!! </Text>
+                            <Text style={styles.infoTitle}> No friend found </Text>
                         </View>
                     </InfoBox>
                 </View>
@@ -379,10 +386,11 @@ const styles = StyleSheet.create({
     },
     scroll: {
         width: '100%',
+        flex: 1
     },
     scrollContainer: {
         paddingHorizontal: 10,
-        paddingTop: 10
+        flex: 1
     },
     optionIcon: {
         paddingVertical: 0
@@ -436,7 +444,8 @@ const mapStateToProps = state => {
         notification: state.header.notification,
         fetchCntErr: state.page.fetchUserError,
         fetchCntStart: state.page.fetchUserStart,
-        fetchCnt: state.page.fetchUser,
+        fetchCnt: state.page.fetchUser ? state.page.fetchUser.filter(cnt => cnt.tabPage === TABPAGE) : null,
+        tabPage: state.page.tabPage,
         loadMore: state.page.loadMore,
         pageReaction: state.page.pageReaction,
         pageReactionErr: state.page.pageReactionError
@@ -445,8 +454,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchPage: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
-        onSearchCnt: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
+        onFetchPage: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
+        onSearchCnt: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
         onPageReset: () => dispatch(actions.pageReset()),
         onFetchCntReset: () => dispatch(actions.fetchPageReset()),
         onPageReaction: (page, pageID, reactionType, cnt, uriMethod, confirm) => dispatch(actions.pageReactionInit(page, pageID, reactionType, cnt, uriMethod, confirm)),

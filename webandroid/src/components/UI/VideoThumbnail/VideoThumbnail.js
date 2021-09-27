@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { View, Image, ActivityIndicator, StyleSheet, Platform } from 'react-native';
+import { View, ActivityIndicator, StyleSheet, Platform, Image as WebImage } from 'react-native';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 import { Video } from 'expo-av'
 import * as VideoThumbnails from 'expo-video-thumbnails';
+import Image from 'expo-cached-image';
+import { v4 as uuid } from 'uuid';
 
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 
@@ -47,10 +49,12 @@ class VideoThumbnail extends Component {
         )
 
         if (this.state.fetched) {
+            let ImageWrapper = Platform.OS === 'web' ? WebImage : Image;
             cnt = (
                 <View style={[styles.wrapper, this.props.style]}>
-                    <Image source={{uri: this.state.URI}}
-                        resizeMode={this.props.resizeMode ? this.props.resizeMode: "cover"} style={styles.mediaWrapper}/>
+                    <ImageWrapper source={{uri: this.state.URI}}
+                        resizeMode={this.props.resizeMode ? this.props.resizeMode: "cover"} style={styles.mediaWrapper}
+                        cacheKey={`${uuid()}-thumb`}/>
                     <TouchableNativeFeedback onPress={this.props.disablePreview ? this.showPlayerHandler : this.props.onPress}>
                         <View style={styles.startPlayer}>
                             <Ionicons name="caret-forward-circle-outline" size={60} />

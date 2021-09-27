@@ -29,6 +29,8 @@ import AbsoluteFill from '../../components/UI/AbsoluteFill/AbsoluteFill';
 import Instruction from '../../components/UI/Instruction/Instruction';
 import Loader from '../../components/UI/Loader/Loader';
 
+const TABPAGE = 'cbt';
+
 class CBT extends Component {
     constructor(props) {
         super(props);
@@ -37,6 +39,7 @@ class CBT extends Component {
             option: [{title: 'Search', icon: {name: 'search-outline'}, action: 'search'},
                 {title: 'Settings', icon: {name: 'settings-outline'}, action: 'settings'}],
             pageID: null,
+            tabPage: TABPAGE,
             pageCntID: null,
             showSearch: false,
             search: '',
@@ -46,7 +49,8 @@ class CBT extends Component {
             showSelectMarkPicker: null,
             showSelectGroupPicker: null,
             allowedSelectPicker: null,
-            examInstruction: null
+            examInstruction: null,
+            show: true
         }
     }
 
@@ -57,28 +61,38 @@ class CBT extends Component {
     }
 
     componentDidMount() {
-        this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'cbt', 'getCBT')
+        // this._unsubscribe = this.props.navigation.addListener('tabPress', () => {
+        //     if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && !this.state.showSearch) {
+        //         this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'cbt', 'getCBT', null, this.state.tabPage, this.props.fetchCnt[0]._id);
+        //         return;
+        //     }
+        // });
+        this._unsubscribeFocus = this.props.navigation.addListener('focus', () => {
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'cbt', 'getCBT', null, this.state.tabPage);
+            // if (!this.props.fetchCnt || (this.props.fetchCnt && this.props.fetchCnt.length < 1)) {
+            //     this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'cbt', 'getCBT', null, this.state.tabPage);
+            // }
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            this.props.onPageReset();
-            this.setState({ pageID: null, pageCntID: null, showSearch: false,search: '',showOption: false,showSettings: false,
+            this.props.onPageReset('cbt');
+            this.setState({ pageID: null, pageCntID: null, showSearch: false,search: '',showOption: false,showSettings: false, show: false,
             showSelectPicker: null, showSelectMarkPicker: null, showSelectGroupPicker: null, allowedSelectPicker: null, examInstruction: null})
         });
         Dimensions.addEventListener('change', this.updateStyle)
     }
 
     componentWillUnmount() {
-        this._unsubscribe();
+        // this._unsubscribe();
+        this._unsubscribeFocus();
         this._unsubscribeBlur();
         Dimensions.removeEventListener('change', this.updateStyle);
     }
 
     reloadFetchHandler = () => {
         if (this.state.search.trim().length > 0) {
-            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBT', this.state.search);
+            return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBT', this.state.search, this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'getCBT');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'getCBT', null, this.state.tabPage);
     }
 
     navigationHandler = (page, cntID) => {
@@ -110,13 +124,13 @@ class CBT extends Component {
     searchPageHandler = (cnt) => {
         this.setState({search: cnt});
         if (cnt && cnt.length > 0) {
-            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBT', cnt);
+            this.props.onSearchCnt(0, this.props.settings.page.fetchLimit, 'cbt', 'searchCBT', cnt, this.state.tabPage);
         }
     }
 
     closeSearchHandler = () => {
         this.setState({showSearch: false, search: ''});
-        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'cbt', 'getCBT');
+        this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'cbt', 'getCBT', null, this.state.tabPage);
     }
 
     checkOptionHandler = () => {
@@ -250,9 +264,9 @@ class CBT extends Component {
     loadMoreHandler = () => {
         if (this.state.search.trim().length > 0) {
             return this.props.onSearchCnt(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit,
-                 'cbt', 'searchCBT', this.state.search);
+                 'cbt', 'searchCBT', this.state.search, this.state.tabPage);
         }
-        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'getCBT');
+        this.props.onFetchPage(this.props.fetchCnt ? this.props.fetchCnt.length : 0, this.props.settings.page.fetchLimit, 'cbt', 'getCBT', null, this.state.tabPage);
     }
 
     render() {
@@ -314,7 +328,7 @@ class CBT extends Component {
         <Loader header={header} options={options} page="cbt" />
         )
 
-        if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && !this.props.tabPage) {
+        if (this.props.fetchCnt && this.props.fetchCnt.length > 0) {
             cnt = (
                 <View style={styles.container}>
                     { header }
@@ -327,6 +341,7 @@ class CBT extends Component {
                             <CBTItem
                                 cnt={this.props.fetchCnt}
                                 userID={this.props.userID}
+                                viewMode={this.state.viewMode}
                                 openURI={this.openURIHandler}
                                 pageCntID={this.state.pageCntID}
                                 userProfile={this.userProfileHandler}
@@ -351,7 +366,8 @@ class CBT extends Component {
                                 enableLoadMore={this.props.loadMore}
                                 start={this.props.fetchCntStart}
                                 loadMore={this.loadMoreHandler}
-                                loadMoreHandler={this.loadMoreHandler}/>
+                                loadMoreHandler={this.loadMoreHandler}
+                                tabLoadMore={this.props.tabLoadMore}/>
                         </View>
                     </Wrapper>
                     { options }
@@ -454,7 +470,7 @@ class CBT extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
+        if (!this.props.fetchCntErr && (this.props.tabPage === this.state.tabPage) && this.props.fetchCnt && this.props.fetchCnt.length < 1 && this.state.search.length > 1) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -469,7 +485,7 @@ class CBT extends Component {
             )
         }
 
-        if (!this.props.fetchCntErr && !this.props.tabPage && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
+        if (!this.props.fetchCntErr && (this.props.tabPage === this.state.tabPage) && this.props.fetchCnt && this.props.fetchCnt.length < 1 && !this.state.showSearch) {
             cnt = (
                 <View style={[styles.wrapper, {backgroundColor: this.props.settings.backgroundColor}]}>
                     { header }
@@ -550,7 +566,7 @@ const styles = StyleSheet.create({
     },
     scroll: {
         width: '100%',
-        paddingTop: 10
+        flex: 1
     },
     optionIcon: {
         paddingVertical: 0
@@ -584,7 +600,8 @@ const mapStateToProps = state => {
         userID: state.auth.userID,
         fetchCntErr: state.page.fetchCBTError,
         fetchCntStart: state.page.fetchCBTStart,
-        fetchCnt: state.page.fetchCBT,
+        fetchCnt: state.page.fetchCBT ? state.page.fetchCBT.filter(cnt => cnt.tabPage === TABPAGE) : null,
+        tabLoadMore: state.page.tabLoadMore,
         loadMore: state.page.loadMore,
         tabPage: state.page.tabPage,
         deletePageErr: state.page.deleteCBTError,
@@ -596,8 +613,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchPage: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
-        onSearchCnt: (start, limit, page, cntID, searchCnt) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt)),
+        onFetchPage: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
+        onSearchCnt: (start, limit, page, cntID, searchCnt, tabPage, pageID) => dispatch(actions.fetchPageInit(start, limit, page, cntID, searchCnt, tabPage, pageID)),
         onDeletePage: (pageID, page, start, cntType) => dispatch(actions.deletePageInit(pageID, page, start, cntType)),
         onPageReset: () => dispatch(actions.pageReset()),
         onDeletePageReset: () => dispatch(actions.deletePageReset()),
