@@ -76,7 +76,7 @@ class ChatRoom extends Component {
                     renderItem={this._renderItem}
                     keyExtractor={(item, index) => item+index}
                     removeClippedSubviews
-                    updateCellsBatchingPeriod={200}
+                    updateCellsBatchingPeriod={500}
                     onScroll={({nativeEvent}) => {
                         if (this.isCloseToBottomHandler(nativeEvent)) {
                             this.props.loadMoreHandler();

@@ -83,7 +83,7 @@ class Group extends Component {
                     showsVerticalScrollIndicator={(Platform.OS === 'web') && (this.props.viewMode === 'landscape')}
                     style={styles.scroll}
                     removeClippedSubviews
-                    updateCellsBatchingPeriod={200}
+                    updateCellsBatchingPeriod={500}
                     onScroll={({nativeEvent}) => {
                         if (this.isCloseToBottomHandler(nativeEvent) && !this.props.start) {
                             this.props.loadMoreHandler();
