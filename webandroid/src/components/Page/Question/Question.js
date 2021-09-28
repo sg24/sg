@@ -75,7 +75,7 @@ class Question extends Component {
                     showsVerticalScrollIndicator={(Platform.OS === 'web') && (this.props.viewMode === 'landscape')}
                     style={styles.scroll}
                     removeClippedSubviews
-                    updateCellsBatchingPeriod={500}
+                    updateCellsBatchingPeriod={200}
                     onScroll={({nativeEvent}) => {
                         if (this.isCloseToBottomHandler(nativeEvent) && !this.props.start) {
                             this.props.loadMoreHandler();

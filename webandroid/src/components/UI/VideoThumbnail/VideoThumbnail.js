@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator, StyleSheet, Platform, Image as WebImage } from 'react-native';
+import { View, ActivityIndicator, StyleSheet, Platform, Image} from 'react-native';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 import { Video } from 'expo-av'
 import * as VideoThumbnails from 'expo-video-thumbnails';
-import Image from 'expo-cached-image';
 import { v4 as uuid } from 'uuid';
 
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
@@ -49,7 +48,7 @@ class VideoThumbnail extends Component {
         )
 
         if (this.state.fetched) {
-            let ImageWrapper = Platform.OS === 'web' ? WebImage : Image;
+            let ImageWrapper = Image;
             cnt = (
                 <View style={[styles.wrapper, this.props.style]}>
                     <ImageWrapper source={{uri: this.state.URI}}

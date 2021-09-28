@@ -66,20 +66,20 @@ class Post extends Component {
     }
 
     componentDidMount() {
-        this._unsubscribe = this.props.navigation.addListener('tabPress', () => {
-            if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && !this.state.showSearch) {
-                this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor', null, this.state.tabPage, this.props.fetchCnt[0]._id);
-                return;
-            }
-        });
+        // this._unsubscribe = this.props.navigation.addListener('tabPress', () => {
+        //     if (this.props.fetchCnt && this.props.fetchCnt.length > 0 && !this.state.showSearch) {
+        //         this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor', null, this.state.tabPage, this.props.fetchCnt[0]._id);
+        //         return;
+        //     }
+        // });
         this._unsubscribeFocus = this.props.navigation.addListener('focus', () => {
-            // this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor', null, this.state.tabPage);
-            if (!this.props.fetchCnt || (this.props.fetchCnt && this.props.fetchCnt.length < 1)) {
-                this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor', null, this.state.tabPage);
-            }
+            this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor', null, this.state.tabPage);
+            // if (!this.props.fetchCnt || (this.props.fetchCnt && this.props.fetchCnt.length < 1)) {
+            //     this.props.onFetchPage(0, this.props.settings.page.fetchLimit, 'post', 'getByAuthor', null, this.state.tabPage);
+            // }
         });
         this._unsubscribeBlur = this.props.navigation.addListener('blur', () => {
-            // this.props.onPageReset('post');
+            this.props.onPageReset('post');
             this.setState({pageCntID: null,pageID: null,showActionSheet: null,
                 showSearch: false,search: '',showOption: false,showSettings: false, showSelectGroupPicker: null})
         });
