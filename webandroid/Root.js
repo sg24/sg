@@ -9,12 +9,13 @@ import { size} from 'tailwind';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
-import BackgroundFetch from 'react-native-background-fetch';
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from './src/axios';
 import * as Updates from 'expo-updates';
 import * as Localization from 'expo-localization';
+import * as BackgroundFetch from 'expo-background-fetch';
+import * as TaskManager from 'expo-task-manager';
 
 import * as actions from './src/store/actions/index';
 import SignInScreen from './src/screens/Auth/Signin';
@@ -167,6 +168,64 @@ const userScreens = {
   HashSearch: HashSearchScreen,
   NotificationPage: NotificatonPageScreen
 };
+
+const BACKGROUND_FETCH_TASK = 'background-fetch';
+
+TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
+  let state = await NetInfo.fetch();
+  if (state.isConnected) {
+      let settings = await AsyncStorage.getItem('settings');
+      let updateSettings = settings ? JSON.parse(settings) : {};
+      let response = await axios.post('/users', {settings: JSON.stringify(updateSettings.notification), limit: updateSettings.notificationLimit || 2, token: '', platform: Platform.OS}, {headers: {'data-categ':'getNotification'}});
+      let cnt = response.data ? response.data : {};
+      let notification = cnt.notification;
+      let showedNotification = await AsyncStorage.getItem(Constants.manifest.extra.NOTIFICATION);
+      showedNotification = showedNotification ? JSON.parse(showedNotification) : {};
+      for (let page in notification) {
+        if (Array.isArray(notification[page])) {
+            if (showedNotification[page]) {
+              showedNotification[page] = showedNotification[page].filter(cntItem => notification[page].filter(notifyItem => notifyItem._id === cntItem._id).length > 0 ? false : true)
+              showedNotification[page].push(...notification[page])
+              let updateNotification = [];
+              for (let cntItem of showedNotification[page]) {
+                  if ((cntItem && cntItem.expiresIn && (cntItem.expiresIn >= (new Date().getTime()))) || (cntItem && !cntItem.expiresIn)) {
+                      updateNotification.push(cntItem);
+                  }
+              }
+              showedNotification[page] = updateNotification;
+            } else {
+              showedNotification[page] = notification[page];
+            }
+        }
+    }
+    await AsyncStorage.setItem(Constants.manifest.extra.NOTIFICATION, JSON.stringify(showedNotification));
+    for (let page in notification) {
+        for (let pageItem of notification[page]) {
+          await Notifications.scheduleNotificationAsync({
+            content: {
+              title: pageItem.title,
+              body: pageItem.content,
+              subtitle: pageItem.page,
+              data: pageItem
+            },
+            trigger: {
+              seconds: 10,
+              channelId: 'default',
+            },
+          });
+        }
+    }
+  } 
+  return BackgroundFetch.Result.NewData;
+});
+
+async function registerBackgroundFetchAsync() {
+  return BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
+    minimumInterval: 60 * 2, // 15 minutes
+    stopOnTerminate: false, // android only,
+    startOnBoot: true, // android only
+  });
+}
 
 class Base extends Component {
   constructor(props) {
@@ -369,20 +428,10 @@ class Base extends Component {
   };
 
   registarBackgroundTask  = async  () => {
-     const onEvent = async (taskId) => {
-      await this.getNotification();
-      BackgroundFetch.finish(taskId);
+    const isRegistered = await TaskManager.isTaskRegisteredAsync(BACKGROUND_FETCH_TASK);
+    if (!isRegistered) {
+      await registerBackgroundFetchAsync();
     }
-
-    const onTimeout = async (taskId) => {
-      BackgroundFetch.finish(taskId);
-    }
-
-    await BackgroundFetch.configure({
-      minimumFetchInterval: 15,
-      stopOnTerminate: false,
-      startOnBoot: true
-    }, onEvent, onTimeout);
   }
 
   registerForPushNotificationsAsync = async () => {
