@@ -8,7 +8,6 @@ import FileIcon from 'file-icons';
 import Text, { translator } from 'text';
 import axios from 'axios';
 import Image from 'expo-cached-image';
-import { v4 as uuid } from 'uuid';
 
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 import VideoThumbnail from '../VideoThumbnail/VideoThumbnail';
@@ -106,7 +105,7 @@ class CheckMediaType extends Component {
                         <View style={[styles.wrapper, this.props.style]}>
                             <ImageWrapper source={{uri: media.uri ? media.uri : `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}`}}  
                                 resizeMode={this.props.resizeMode ? this.props.resizeMode: "contain"} style={styles.mediaWrapper}
-                                cacheKey={`${uuid()}-thumb`}/>
+                                cacheKey={`${media.id}-thumb`}/>
                         </View>
                         { this.props.children }
                     </View>

@@ -281,4 +281,20 @@ const styles = StyleSheet.create({
     }
 });
 
-export default privateConv;
+const areEqual = (prevProps, nextProps) => {
+    if (nextProps.cnt.chat !== prevProps.cnt.chat || nextProps.cnt.pending !== prevProps.cnt.pending ||
+        nextProps.cnt.request !== prevProps.cnt.request ||
+        (nextProps.start && nextProps.lastItem && nextProps.enableLoadMore) || 
+        (prevProps.start && prevProps.lastItem && prevProps.enableLoadMore)) {
+        return false;
+    }
+    let nextPropsReact =  nextProps.pageReaction.length > 0 ?
+        nextProps.pageReaction.filter(id => id === nextProps.cnt._id).length > 0 ? true : false : false;
+    let prevPropsReact = prevProps.pageReaction.length > 0 ?
+        prevProps.pageReaction.filter(id => id === prevProps.cnt._id).length > 0 ? true : false : false;
+    if (nextPropsReact || prevPropsReact) {
+        return false;
+    }
+    return true;
+}
+export default React.memo(privateConv, areEqual);

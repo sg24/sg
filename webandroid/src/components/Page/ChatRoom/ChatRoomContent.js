@@ -358,4 +358,20 @@ const styles = StyleSheet.create({
     },
 });
 
-export default chatRoomContent;
+const areEqual = (prevProps, nextProps) => {
+    if (nextProps.cnt._id === nextProps.pageCntID || prevProps.cnt._id === prevProps.pageCntID ||
+        (nextProps.tabLoadMore && nextProps.firstItem) || (prevProps.tabLoadMore && prevProps.firstItem) ||
+        (nextProps.start && nextProps.lastItem && nextProps.enableLoadMore) || 
+        (prevProps.start && prevProps.lastItem && prevProps.enableLoadMore)) {
+        return false;
+    }
+    let nextPropsReact =  nextProps.pageReaction.length > 0 ?
+        nextProps.pageReaction.filter(id => id === nextProps.cnt._id).length > 0 ? true : false : false;
+    let prevPropsReact = prevProps.pageReaction.length > 0 ?
+        prevProps.pageReaction.filter(id => id === prevProps.cnt._id).length > 0 ? true : false : false;
+    if (nextPropsReact || prevPropsReact) {
+        return false;
+    }
+    return true;
+}
+export default React.memo(chatRoomContent, areEqual);

@@ -5,20 +5,10 @@ import { connect } from 'react-redux';
 import FeedContent from './FeedContent';
 
 class Feed extends Component {
-    state = {
-        pageCntID: null,
-        closeModal: null,
-        pageReaction: null,
-        enableLoadMore: false,
-        start: false,
-        loadMore: false,
-        tabLoadMore: false
-    };
-
     shouldComponentUpdate(props) {
-        if (props.pageCntID !== this.state.pageCntID || props.closeModal !== this.state.closeModal ||
-            props.pageReaction !== this.state.pageReaction || props.enableLoadMore !== this.state.enableLoadMore || 
-            props.start !== this.state.start || props.loadMore !== this.state.loadMore || props.tabLoadMore !== this.state.tabLoadMore) {
+        if (props.pageCntID !== this.props.pageCntID || props.closeModal !== this.props.closeModal ||
+            props.pageReaction !== this.props.pageReaction || props.enableLoadMore !== this.props.enableLoadMore || 
+            props.start !== this.props.start || props.loadMore !== this.props.loadMore || props.tabLoadMore !== this.props.tabLoadMore) {
                 this.setState({pageCntID: props.pageCntID, closeModal: props.closeModal,
                     pageReaction: props.pageReaction, enableLoadMore: props.enableLoadMore,
                     start: props.start, loadMore: props.loadMore, tabLoadMore: props.tabLoadMore});

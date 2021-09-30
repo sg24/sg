@@ -3,7 +3,6 @@ import { View, StyleSheet, Platform, Image as WebImage } from 'react-native';
 import Constants from 'expo-constants';
 import Ionicons from 'ionicons';
 import Image from 'expo-cached-image';
-import { v4 as uuid } from 'uuid';
 
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 
@@ -22,7 +21,7 @@ const avatar = props => {
         style={[styles.wrapper, 
             props.style, props.imageSize ? {width: props.imageSize, height: props.imageSize, borderRadius: props.disableRadius === true ? 0 : props.imageSize/2} : null,
             props.enableBorder === false ? null : styles.borderWrapper]}
-        cacheKey={`${uuid()}-thumb`}/>;
+        cacheKey={`${props.userImage}-thumb`}/>;
     }
     return (
         <Wrapper {...wrapperProps}>
