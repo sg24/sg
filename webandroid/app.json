@@ -41,7 +41,6 @@
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-3611317424444370~5103778940"
       },
-      "enableDangerousExperimentalLeanBuilds": true,
       "jsEngine": "hermes"
     },
     "web": {

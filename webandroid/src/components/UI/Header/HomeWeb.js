@@ -6,7 +6,7 @@ import { withStyles } from "react-native-stylex/withStyles";
 import { minWidth } from 'react-native-stylex/media-query';
 import { tailwind, size } from 'tailwind';
 import WebModal from 'modal-enhanced-react-native-web';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigationState } from '@react-navigation/native';
 import withComponent from 'withcomponent';
 
@@ -20,7 +20,7 @@ import Search from './Search';
 import DefaultSearch from './DefaultSearchHeader';
 import DefaultHeader from './DefaultHeader';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 
 class Home extends Component  {

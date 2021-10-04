@@ -18,11 +18,14 @@ class VideoThumbnail extends Component {
 
     async componentDidMount() {
         if (Platform.OS !== 'web') {
+            let media = this.props.media
+            const fileDir = FileSystem.documentDirectory + 'Slodge24/image/';
+            const fileUri = fileDir + `${media.id}.thumb`;
+            let fileList = [];
             try {
-                let media = this.props.media
-                const fileDir = FileSystem.documentDirectory + 'Slodge24/image/';
-                const fileUri = fileDir + `${media.id}.thumb`;
-                let fileList = await FileSystem.readDirectoryAsync(fileDir);
+                fileList = await FileSystem.readDirectoryAsync(fileDir) ? [] : null;
+            }catch (e) { }
+            try {
                 for(let cachedFile of fileList) {
                     if (cachedFile === `${media.id}.thumb`) {
                         this.setState({URI: fileUri, fetched: true})

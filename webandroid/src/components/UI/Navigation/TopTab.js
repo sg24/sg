@@ -19,6 +19,25 @@ const topTab = props => (
     <Tab.Navigator 
         screenOptions={({route}) => {
             return {
+                swipeEnabled: false,
+                tabBarActiveTintColor: "#437da3",
+                tabBarInactiveTintColor: "#777",
+                tabBarShowIcon: true,
+                tabBarScrollEnabled: true,
+                tabBarItemStyle: {
+                    flexDirection: 'row',
+                    paddingHorizontal: 10,
+                    width: 'auto'
+                },
+                tabBarStyle: {
+                    paddingHorizontal: 10,
+                    backgroundColor: '#fff',
+                    borderTopWidth: 1,
+                    borderColor: '#e9ebf2'
+                },
+                tabBarIndicatorStyle: {
+                    backgroundColor: 'transparent'
+                },
                 tabBarIcon: ({ color }) => {
                     let name = route.name;
                     if (route.name === 'Home') {
@@ -68,30 +87,11 @@ const topTab = props => (
                                 disableZero/>
                         </View>
                     )
-                }
+                },
+                lazy: true,
+                lazyPlaceholder: () => <SplashScreen />
             }
-        }}
-        swipeEnabled={false}
-        tabBarActiveTintColor="#437da3"
-        tabBarInactiveTintColor="#777"
-        tabBarShowIcon
-        tabBarScrollEnabled
-        tabBarItemStyle={{
-            flexDirection: 'row',
-            paddingHorizontal: 10,
-            width: 'auto'
-        }}
-        tabBarStyle={{
-            paddingHorizontal: 5,
-            backgroundColor: '#fff',
-            borderTopWidth: 1,
-            borderColor: '#e9ebf2'
-        }}
-        tabBarIndicatorStyle={{
-            backgroundColor: '#437da3'
-        }}
-        lazy={true}
-        lazyPlaceholder={() => <SplashScreen />}>
+        }}>
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="User" component={UserScreen} />
         <Tab.Screen name="Group" component={GroupScreen} />

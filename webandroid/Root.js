@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as SplashScreen from 'expo-splash-screen';
 import { AppState, Dimensions, Platform, Alert } from 'react-native';
 import * as Linking from 'expo-linking';
@@ -10,7 +10,7 @@ import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import NetInfo from '@react-native-community/netinfo';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from './src/axios';
 import * as Updates from 'expo-updates';
 import * as Localization from 'expo-localization';
@@ -100,7 +100,7 @@ if (Platform.OS !== 'web') {
   ErrorUtils.setGlobalHandler(globalErrorHandler);
 }
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const authScreens = {
   SignIn: SignInScreen,
@@ -176,7 +176,10 @@ TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
   if (state.isConnected) {
       let settings = await AsyncStorage.getItem('settings');
       let updateSettings = settings ? JSON.parse(settings) : {};
-      let response = await axios.post('/users', {settings: JSON.stringify(updateSettings.notification), limit: updateSettings.notificationLimit || 2, token: '', platform: Platform.OS}, {headers: {'data-categ':'getNotification'}});
+      let response = {};
+      try {
+        response = await axios.post('/users', {settings: JSON.stringify(updateSettings.notification), limit: updateSettings.notificationLimit || 2, token: '', platform: Platform.OS}, {headers: {'data-categ':'getNotification'}});
+      } catch(e) {}
       let cnt = response.data ? response.data : {};
       let notification = cnt.notification;
       let showedNotification = await AsyncStorage.getItem(Constants.manifest.extra.NOTIFICATION);
