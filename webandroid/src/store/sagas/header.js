@@ -1,5 +1,5 @@
 import { put } from 'redux-saga/effects';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 
 import axios from '../../axios';

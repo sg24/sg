@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import withComponent from 'withcomponent';
 import Ionicons from 'ionicons';
 import Text, { translator } from 'text';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 
 import InnerScreen from '../InnerScreen/InnerScreen';

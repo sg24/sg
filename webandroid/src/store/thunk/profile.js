@@ -1,7 +1,7 @@
 import * as actions from '../actions/index';
 import { Platform } from 'react-native';
 import Constants from 'expo-constants';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from '../../axios';
 

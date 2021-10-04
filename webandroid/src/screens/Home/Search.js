@@ -3,7 +3,7 @@ import { View, StyleSheet, ActivityIndicator, Dimensions, TouchableOpacity } fro
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 // import MaterialIcons from 'materialIcons';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Moment from 'react-moment';
 import { tailwind, size } from 'tailwind';
 import Text, { TextWrapper } from 'text';

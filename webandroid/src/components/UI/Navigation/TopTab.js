@@ -72,25 +72,23 @@ const topTab = props => (
             }
         }}
         swipeEnabled={false}
-        tabBarOptions={{
-            activeTintColor: '#437da3',
-            inactiveTintColor: '#777',
-            showIcon: true,
-            scrollEnabled: true,
-            tabStyle: {
-                flexDirection: 'row',
-                paddingHorizontal: 10,
-                width: 'auto'
-            },
-            style: {
-                paddingHorizontal: 5,
-                backgroundColor: '#fff',
-                borderTopWidth: 1,
-                borderColor: '#e9ebf2'
-            },
-            indicatorStyle: {
-                backgroundColor: '#437da3'
-            }
+        tabBarActiveTintColor="#437da3"
+        tabBarInactiveTintColor="#777"
+        tabBarShowIcon
+        tabBarScrollEnabled
+        tabBarItemStyle={{
+            flexDirection: 'row',
+            paddingHorizontal: 10,
+            width: 'auto'
+        }}
+        tabBarStyle={{
+            paddingHorizontal: 5,
+            backgroundColor: '#fff',
+            borderTopWidth: 1,
+            borderColor: '#e9ebf2'
+        }}
+        tabBarIndicatorStyle={{
+            backgroundColor: '#437da3'
         }}
         lazy={true}
         lazyPlaceholder={() => <SplashScreen />}>

@@ -3,7 +3,7 @@ import { View, ImageBackground, StyleSheet, Dimensions, ActivityIndicator, Platf
 import { connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import withComponent from 'withcomponent';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 
 import * as actions from '../../store/actions/index';

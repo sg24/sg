@@ -6,7 +6,7 @@ import { tailwind } from 'tailwind';
 import Constants from 'expo-constants';
 import { Html5Entities } from 'html-entities';
 // import urischeme from 'urischeme';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Text, { translator } from 'text';
 
 import LinearBackground from '../../components/UI/LinearBackground/LinearBackground';

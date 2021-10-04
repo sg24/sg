@@ -3,7 +3,7 @@ import { View, StyleSheet,  ActivityIndicator, Dimensions, Platform, ScrollView 
 import Ionicons from 'ionicons';
 import { size, tailwind } from 'tailwind';
 import { v4 as uuid } from 'uuid';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { camera, explorer, takePicture, stopAudioRecorder} from 'picker';
 import Carousel from 'react-native-snap-carousel';
 import Text from 'text';

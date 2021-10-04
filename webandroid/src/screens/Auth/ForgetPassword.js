@@ -6,7 +6,7 @@ import Constants from 'expo-constants';
 // import * as WebBrowser from 'expo-web-browser';
 // import urischeme from 'urischeme';
 import { Html5Entities } from 'html-entities';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Text, { translator } from 'text';
 
 import LinearBackground from '../../components/UI/LinearBackground/LinearBackground';

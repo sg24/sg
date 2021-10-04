@@ -3,7 +3,7 @@ import { View, Image, ScrollView, StyleSheet, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { explorer } from 'picker';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
 import Text from 'text';
 

@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 
 import * as actions from '../actions/index';
 import axios from '../../axios';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function* submitAuthFormSigninInitSaga (action) {
     yield put(actions.submitAuthFormStart('signin'));

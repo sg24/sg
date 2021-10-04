@@ -1,7 +1,7 @@
 import { put } from 'redux-saga/effects';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 
 export function* fetchChatInitSaga(action) {
