@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from '@@react-navigation/native-stack';
 import * as SplashScreen from 'expo-splash-screen';
 import { AppState, Dimensions, Platform, Alert } from 'react-native';
 import * as Linking from 'expo-linking';

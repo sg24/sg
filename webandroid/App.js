@@ -14,7 +14,7 @@ import Root from './Root';
 import configureStore from './src/store/configureStore';
 import { ThemeProvider } from "react-native-stylex";
 
-enableScreens();
+enableScreens(true);
 
 const theme = {
   palette: {
