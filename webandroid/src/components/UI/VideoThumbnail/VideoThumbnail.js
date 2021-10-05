@@ -20,14 +20,14 @@ class VideoThumbnail extends Component {
         if (Platform.OS !== 'web') {
             let media = this.props.media
             const fileDir = FileSystem.documentDirectory + 'Slodge24/image/';
-            const fileUri = fileDir + `${media.id}.thumb`;
+            const fileUri = fileDir + `${media.id}`;
             let fileList = [];
             try {
-                fileList = await FileSystem.readDirectoryAsync(fileDir) ? [] : null;
+                fileList = await FileSystem.readDirectoryAsync(fileDir);
             }catch (e) { }
             try {
                 for(let cachedFile of fileList) {
-                    if (cachedFile === `${media.id}.thumb`) {
+                    if (cachedFile === `${media.id}`) {
                         this.setState({URI: fileUri, fetched: true})
                     }
                 }
@@ -38,9 +38,9 @@ class VideoThumbnail extends Component {
                         if (!dirInfo.exists) {
                             (async () => await FileSystem.makeDirectoryAsync(fileDir, { intermediates: true }))();
                         }
-                        FileSystem.moveAsync(URI, fileUri).then(() => {
+                        FileSystem.moveAsync({from: URI, to: fileUri}).then(() => {
                             this.setState({URI: fileUri, fetched: true})
-                        }).catch(()=> {
+                        }).catch((e)=> {
                             this.setState({URI, fetched: true});
                         });
                     }).catch((err) => {
