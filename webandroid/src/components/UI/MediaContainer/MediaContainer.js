@@ -133,7 +133,7 @@ class CheckMediaType extends Component {
                 onPress={this.props.disablePreview ? null : this.props.onPress} onLongPress={this.props.onLongPress}>
                 <View style={[styles.wrapper, this.props.wrapperStyle]}>
                     <View style={[styles.wrapper, this.props.fileIconWrapper, styles.fileIconWrapper]}>
-                        <FileIcon ext={media.ext ? media.ext.split('/').pop() : (media.name ? String(media.name).split('.').pop()  : '')} wrapper={this.props.fileIconStyle ? this.props.fileIconStyle : styles.fileIcon}/>
+                        <FileIcon ext={(media.name || media.filename ? String(media.name || media.filename).split('.').pop()  : '')} wrapper={this.props.fileIconStyle ? this.props.fileIconStyle : styles.fileIcon}/>
                         <Text style={styles.fileName}>{media.filename}</Text>
                         { this.props.disablePreview ? null : (
                             <View style={[styles.optionWrapper, styles.option]}>
