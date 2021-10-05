@@ -171,7 +171,7 @@ export const stopAudioRecorder = (recording) => {
 
 export const explorer = (options) => {
     return new Promise((resolve, reject) => {
-        DocumentPicker.getDocumentAsync(options).then((res) => {
+        DocumentPicker.getDocumentAsync({...options, copyToCacheDirectory: false}).then((res) => {
             let files  = [];
             let fileNum = 0;
             if (Platform.OS === 'web') {
@@ -211,7 +211,7 @@ export const explorer = (options) => {
                     let data = await fetchedAudio.blob();
                     data = data ? data : {}
                     let ext = data.type ? data.type : 'application/octet-stream';
-                    return resolve([{uri: res.uri, name: res.name, type: ext}])
+                    return resolve([{uri: res.uri, name: res.name, type: ext === 'text/plain' ? 'text/txt' : ext}])
                 })()
             }
         }).catch(e => {
