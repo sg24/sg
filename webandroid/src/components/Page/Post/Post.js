@@ -8,7 +8,8 @@ class Post extends Component {
     shouldComponentUpdate(props) {
         if (props.pageCntID !== this.props.pageCntID || props.closeModal !== this.props.closeModal ||
             props.pageReaction !== this.props.pageReaction || props.enableLoadMore !== this.props.enableLoadMore || 
-            props.start !== this.props.start || props.loadMore !== this.props.loadMore || props.tabLoadMore !== this.props.tabLoadMore) {
+            props.start !== this.props.start || props.loadMore !== this.props.loadMore || props.tabLoadMore !== this.props.tabLoadMore ||
+            props.cnt.length !== this.props.cnt.length) {
             return true;
         }
         return false
@@ -24,6 +25,7 @@ class Post extends Component {
             <PostContent 
                 key={index}
                 cnt={cnt}
+                cntLength={this.props.cnt.length}
                 userID={this.props.userID}
                 openURI={this.props.openURI}
                 pageCntID={this.props.pageCntID}

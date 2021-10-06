@@ -8,7 +8,8 @@ class CBT extends Component {
     shouldComponentUpdate(props) {
         if (props.pageCntID !== this.props.pageCntID || props.closeModal !== this.props.closeModal ||
             props.pageReaction !== this.props.pageReaction || props.enableLoadMore !== this.props.enableLoadMore || 
-            props.start !== this.props.start || props.loadMore !== this.props.loadMore || props.tabLoadMore !== this.props.tabLoadMore) {
+            props.start !== this.props.start || props.loadMore !== this.props.loadMore || props.tabLoadMore !== this.props.tabLoadMore ||
+            props.cnt.length !== this.props.cnt.length) {
                 this.setState({pageCntID: props.pageCntID, closeModal: props.closeModal,
                     pageReaction: props.pageReaction, enableLoadMore: props.enableLoadMore,
                     start: props.start, loadMore: props.loadMore, tabLoadMore: props.tabLoadMore});
@@ -27,6 +28,7 @@ class CBT extends Component {
             <CBTContent 
                 key={index}
                 cnt={cnt}
+                cntLength={this.props.cnt.length}
                 userID={this.props.userID}
                 openURI={this.props.openURI}
                 pageCntID={this.props.pageCntID}

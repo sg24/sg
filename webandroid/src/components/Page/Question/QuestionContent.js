@@ -322,7 +322,8 @@ const areEqual = (prevProps, nextProps) => {
     if (nextProps.cnt._id === nextProps.pageCntID || prevProps.cnt._id === prevProps.pageCntID ||
         (nextProps.tabLoadMore && nextProps.firstItem) || (prevProps.tabLoadMore && prevProps.firstItem) ||
         (nextProps.start && nextProps.lastItem && nextProps.enableLoadMore) || 
-        (prevProps.start && prevProps.lastItem && prevProps.enableLoadMore)) {
+        (prevProps.start && prevProps.lastItem && prevProps.enableLoadMore) ||
+        prevProps.cntLength !== nextProps.cntLength) {
         return false;
     }
     let nextPropsReact =  nextProps.pageReaction.length > 0 ?
