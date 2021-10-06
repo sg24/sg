@@ -75,16 +75,16 @@ const writeupContent = props => {
     }
 
     if (props.cnt.cbt && props.cnt.cbt.length > 0) {
-        showAdvert = (
-            <CBTPreview 
-                cnt={props.cnt.cbt}
-                userID={props.userID}
-                openURI={props.openURI}
-                preview={props.mediaPreview}/>
-        )
+        // showAdvert = (
+        //     <CBTPreview 
+        //         cnt={props.cnt.cbt}
+        //         userID={props.userID}
+        //         openURI={props.openURI}
+        //         preview={props.mediaPreview}/>
+        // )
     }
 
-    if (props.showAdvert) {
+    if (props.showAdvert || (props.cnt.cbt && props.cnt.cbt.length > 0)) {
         showAdvert = (
             <AdMob />
         )
