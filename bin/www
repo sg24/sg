@@ -70,6 +70,7 @@ app.set('port', port);
   let cbtchatRoute = require('../routes/cbtchat');
   let examtabRoute = require('../routes/examtab');
   let robotonlyRoute = require('../routes/robot');
+  let redirectRoute = require('../routes/redirect');
 
   app.use('/', [appRoutes, formRoutes, groupformRoute, profileRoute, viewRoute]);
   app.use('/users', usersRoutes);
@@ -109,6 +110,7 @@ app.set('port', port);
   app.use('/cbt', qchatRoute);
   app.use('/cbtchat', cbtchatRoute);
   app.use('/exam', examtabRoute);
+  app.use('/redirect', redirectRoute);
   app.use('/sitemap.xml', sitemapxmlRoute);
   app.use(function (req, res, next) {
       return res.redirect('/index/user');

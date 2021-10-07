@@ -1046,7 +1046,7 @@ router.post('/forget/password', (req, res, next) => {
                                           <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
                                             <tbody>
                                               <tr>
-                                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="${process.env.BASE_URL_SCHEME}ResetPassword?token=${token}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 20px; text-transform: capitalize; border-color: #3498db;">Reset Password</a> </td>
+                                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="${process.env.BASE_URL}/redirect/${process.env.BASE_URL_SCHEME}ResetPassword?token=${token}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 20px; text-transform: capitalize; border-color: #3498db;">Reset Password</a> </td>
                                               </tr>
                                             </tbody>
                                           </table>
@@ -1054,7 +1054,7 @@ router.post('/forget/password', (req, res, next) => {
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Or copy and paste this link. ${process.env.BASE_URL_SCHEME}ResetPassword?token=${token}</p>
+                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Or copy and paste this link. ${process.env.BASE_URL}/redirect/${process.env.BASE_URL_SCHEME}ResetPassword?token=${token}</p>
                                 </td>
                               </tr>
                             </table>
@@ -1070,13 +1070,10 @@ router.post('/forget/password', (req, res, next) => {
                 `
             };
             (async () => {
-                console.log('prepared')
                 try {
-                    let info = await transporter.sendMail(msg);
-                    console.log(info)
+                    await transporter.sendMail(msg);
                     res.sendStatus(201);
                 } catch(e) {
-                    console.log(e)
                     res.status(401).send(e)
                 }
             })();
