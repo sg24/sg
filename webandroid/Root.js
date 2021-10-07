@@ -249,10 +249,10 @@ class Base extends Component {
       Linking.getInitialURL().then(uri => {
         if (uri) {
           let { path, queryParams } = Linking.parse(uri);
-          alert(JSON.stringify(uri))
-          // if (path === 'resetpassword') {
+          if (queryParams && queryParams.token) {
+             alert(JSON.stringify({path, queryParams}))
             AsyncStorage.setItem(Constants.manifest.extra.REDIRECT_URI, JSON.stringify({uri: path, params: queryParams}))
-          // }
+          }
         }
       })
     }
@@ -363,10 +363,10 @@ class Base extends Component {
 
   _onReceiveURL = ({url}) => {
     let { path, queryParams } = Linking.parse(url);
-    alert(JSON.stringify(url))
-    // if (path === 'ResetPassword') {
+    if (queryParams && queryParams.token) {
+      alert(JSON.stringify({path, queryParams}))
       AsyncStorage.setItem(Constants.manifest.extra.REDIRECT_URI, JSON.stringify({uri: path, params: queryParams}))
-    // }
+    }
   }
 
   updateHeader = (dims) => {

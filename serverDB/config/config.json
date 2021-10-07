@@ -19,6 +19,6 @@
         "CLOUDINARY_API_KEY": "386621791887937",
         "CLOUDINARY_API_SECRET": "Puulr04epZQi76Bz2mlJFwmOFLY",
         "BASE_URL": "https://slodge24.herokuapp.com",
-        "BASE_URL_SCHEME": "exp://exp.host/@community/with-webbrowser-redirect/"
+        "BASE_URL_SCHEME": "exp://192.168.8.100:19000/"
     }
 }

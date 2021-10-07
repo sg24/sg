@@ -74,7 +74,7 @@ class Signup extends Component {
         AsyncStorage.getItem(Constants.manifest.extra.REDIRECT_URI).then(url => {
             if (url) {
                 let redirectUri = JSON.parse(url);
-                this.props.navigation.push(redirectUri.uri, redirectUri.params);
+                this.props.navigation.push('ResetPassword', redirectUri.params);
                 AsyncStorage.removeItem(Constants.manifest.extra.REDIRECT_URI);
             }
         });
@@ -85,7 +85,7 @@ class Signup extends Component {
         AsyncStorage.getItem(Constants.manifest.extra.REDIRECT_URI).then(url => {
             if (url) {
                 let redirectUri = JSON.parse(url);
-                this.props.navigation.push(redirectUri.uri, redirectUri.params);
+                this.props.navigation.push('ResetPassword', redirectUri.params);
                 AsyncStorage.removeItem(Constants.manifest.extra.REDIRECT_URI);
             }
         })
@@ -163,7 +163,7 @@ class Signup extends Component {
         if (this.state.formIsValid && this.state.confirmPassword.valid) {
             let newCnt = {
                 username: this.state.formElement.username.value,
-                email: this.state.formElement.email.value,
+                email: this.state.formElement.email.value.toLowerCase().trim(),
                 password: this.state.formElement.password.value
             }
             this.props.onSubmitForm(newCnt)
