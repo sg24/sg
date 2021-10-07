@@ -2,7 +2,7 @@
   "expo": {
     "name": "Slodge24",
     "slug": "Slodge24",
-    "version": "5.5.0",
+    "version": "7.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
     "splash": {
@@ -28,7 +28,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.slodge24.Slodge24",
-      "buildNumber": "5"
+      "buildNumber": "7"
     },
     "android": {
       "adaptiveIcon": {
@@ -37,7 +37,7 @@
       },
       "useNextNotificationsApi": true,
       "package": "com.slodge24.Slodge24",
-      "versionCode": 5,
+      "versionCode": 7,
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-3611317424444370~5103778940"
       }

@@ -1070,10 +1070,13 @@ router.post('/forget/password', (req, res, next) => {
                 `
             };
             (async () => {
+                console.log('prepared')
                 try {
                     let info = await transporter.sendMail(msg);
+                    console.log(info)
                     res.sendStatus(201);
                 } catch(e) {
+                    console.log(e)
                     res.status(401).send(e)
                 }
             })();
