@@ -1,14 +1,15 @@
 let express = require('express');
 let router = express.Router();
 
-router.get('/:uri', (req, res, next) => {
-    let redirectURI = req.params.uri;
+router.get('*/**', (req, res, next) => {
+    let redirectURI = req.uri;
     if (!redirectURI) {
         res.sendStatus(404);
         return
     }
-    console.log(redirectURI)
-    res.redirect(302, redirectURI)
+    let updateURL = redirectURI.split('/').slice(1).join('');
+    console.log(updateURL)
+    res.redirect(302, updateURL);
     return
 })
 
