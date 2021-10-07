@@ -50,7 +50,7 @@ class ForgetPassword extends Component {
         AsyncStorage.getItem(Constants.manifest.extra.REDIRECT_URI).then(url => {
             if (url) {
                 let redirectUri = JSON.parse(url);
-                this.props.navigation.push(redirectUri.uri, redirectUri.params);
+                this.props.navigation.push('ResetPassword', redirectUri.params);
                 AsyncStorage.removeItem(Constants.manifest.extra.REDIRECT_URI);
             }
         });
@@ -60,7 +60,7 @@ class ForgetPassword extends Component {
         AsyncStorage.getItem(Constants.manifest.extra.REDIRECT_URI).then(url => {
             if (url) {
                 let redirectUri = JSON.parse(url);
-                this.props.navigation.push(redirectUri.uri, redirectUri.params);
+                this.props.navigation.push('ResetPassword', redirectUri.params);
                 AsyncStorage.removeItem(Constants.manifest.extra.REDIRECT_URI);
             }
         })
@@ -118,7 +118,7 @@ class ForgetPassword extends Component {
     submitHandler = () => {
         if (this.state.formIsValid) {
              let newCnt = {
-                 email: this.state.formElement.email.value
+                 email: this.state.formElement.email.value.toLowerCase().trim()
              }
              this.props.onSubmitForm(newCnt)
          return

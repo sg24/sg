@@ -14,6 +14,7 @@ let userFilter = require('./utility/userfilter');
 let notification = require('./utility/notifications');
 let push = require('./utility/push');
 const global = require('../global/global');
+const nodemailer = require("nodemailer");
 
 const {post, question, writeup, group, qchat, user,  advert, feed} = require('../serverDB/serverDB');
 
@@ -1003,11 +1004,24 @@ router.post('/forget/password', (req, res, next) => {
         if (result) {
             let token = jwt.sign({ id: result.id }, process.env.JWT_SECRET, {  expiresIn: 60*60 });
             // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-            let domain = 'sandboxf7e58139dab64facb72ecd4811c7affc.mailgun.org';
-            let apiKey = process.env.MAILGUN_API_KEY;
+            // let domain = 'sandboxf7e58139dab64facb72ecd4811c7affc.mailgun.org';
+            // let apiKey = process.env.MAILGUN_API_KEY;
+            let transporter = nodemailer.createTransport({
+                service: "Outlook365",
+                host: "smtp.office365.com",
+                port: "587",
+                tls: {
+                    ciphers: "SSLv3",
+                    rejectUnauthorized: false,
+                },
+                auth: {
+                    user: "noreplyslodge24@gmail.com",
+                    pass: "Oladokun",
+                },
+              });
             const msg = {
               to: req.body.email.toLowerCase(), 
-              from: 'Reset password <noreply@slodge24.com>',
+              from: 'Reset password <noreplyslodge24@gmail.com>',
               subject: 'S lodge24',
               html: `
               <div class="" style="background-color: #f6f6f6; color: #333;font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
@@ -1032,7 +1046,7 @@ router.post('/forget/password', (req, res, next) => {
                                           <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
                                             <tbody>
                                               <tr>
-                                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="${process.env.BASE_URL}ResetPassword?token=${token}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 20px; text-transform: capitalize; border-color: #3498db;">Reset Password</a> </td>
+                                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="${process.env.BASE_URL_SCHEME}ResetPassword?token=${token}" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 20px; text-transform: capitalize; border-color: #3498db;">Reset Password</a> </td>
                                               </tr>
                                             </tbody>
                                           </table>
@@ -1040,7 +1054,7 @@ router.post('/forget/password', (req, res, next) => {
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Or copy and paste this link. ${process.env.BASE_URL}ResetPassword?token=${token}</p>
+                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Or copy and paste this link. ${process.env.BASE_URL_SCHEME}ResetPassword?token=${token}</p>
                                 </td>
                               </tr>
                             </table>
@@ -1055,14 +1069,22 @@ router.post('/forget/password', (req, res, next) => {
             </div>
                 `
             };
-            mailgun({apiKey, domain}).messages().send(msg,  function (error, body) {
-                if (error) {
-                    console.log(error)
-                    res.status(401).send(error)
-                    return
+            (async () => {
+                try {
+                    let info = await transporter.sendMail(msg);
+                    res.sendStatus(201);
+                } catch(e) {
+                    res.status(401).send(e)
                 }
-                res.sendStatus(201);
-            })
+            })();
+            // mailgun({apiKey, domain}).messages().send(msg,  function (error, body) {
+            //     if (error) {
+            //         console.log(error)
+                   
+            //         return
+            //     }
+                
+            // })
             // sgMail.send(msg).then(() => {
             //     res.sendStatus(201);
             // }).catch(err =>{

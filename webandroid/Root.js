@@ -247,9 +247,12 @@ class Base extends Component {
     if (Platform.OS !== 'web') {
       Linking.addEventListener('url', this._onReceiveURL);
       Linking.getInitialURL().then(uri => {
-        let { path, queryParams } = Linking.parse(uri);
-        if (path === 'ResetPassword') {
-          AsyncStorage.setItem(Constants.manifest.extra.REDIRECT_URI, JSON.stringify({uri: path, params: queryParams}))
+        if (uri) {
+          let { path, queryParams } = Linking.parse(uri);
+          alert(JSON.stringify(uri))
+          // if (path === 'resetpassword') {
+            AsyncStorage.setItem(Constants.manifest.extra.REDIRECT_URI, JSON.stringify({uri: path, params: queryParams}))
+          // }
         }
       })
     }
@@ -360,9 +363,10 @@ class Base extends Component {
 
   _onReceiveURL = ({url}) => {
     let { path, queryParams } = Linking.parse(url);
-    if (path === 'ResetPassword') {
+    alert(JSON.stringify(url))
+    // if (path === 'ResetPassword') {
       AsyncStorage.setItem(Constants.manifest.extra.REDIRECT_URI, JSON.stringify({uri: path, params: queryParams}))
-    }
+    // }
   }
 
   updateHeader = (dims) => {
