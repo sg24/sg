@@ -1,14 +1,13 @@
 let express = require('express');
 let router = express.Router();
 
-router.get('*/**', (req, res, next) => {
-    let redirectURI = req.uri;
-    if (!redirectURI) {
+router.get('*', (req, res, next) => {
+    let redirectURI = req.query;
+    if (!redirectURI || typeof redirectURI !== 'object') {
         res.sendStatus(404);
         return
     }
-    let updateURL = redirectURI.split('/').slice(1).join('');
-    console.log(updateURL)
+    let updateURL = Object.entries(redirectURI)[0].join('=');
     res.redirect(302, updateURL);
     return
 })
