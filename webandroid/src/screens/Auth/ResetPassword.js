@@ -69,6 +69,7 @@ class ResetPassword extends Component {
         if (this.state.token) {
             this._unsubscribe();
         }
+        this.props.onResetPasswordClose();
         Dimensions.removeEventListener('change', this.updateStyle);
     }
 
@@ -84,6 +85,7 @@ class ResetPassword extends Component {
 
     navigationHandler = () => {
         this.props.navigation.navigate('SignIn')
+        this.props.onResetPasswordClose();
     }
 
     inputChangedHandler = (value, inputType) => {
@@ -345,7 +347,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onSubmitForm: (formData) => dispatch(actions.submitAuthFormResetPassInit(formData)),
         onAuthReset: () => dispatch(actions.authFormReset()),
-        onLoggedIn: () => dispatch(actions.loggedIn())
+        onLoggedIn: () => dispatch(actions.loggedIn()),
+        onResetPasswordClose: () => dispatch(actions.resetPasswordClose())
     };
 };
 

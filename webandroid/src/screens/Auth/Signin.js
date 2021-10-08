@@ -6,7 +6,6 @@ import { tailwind } from 'tailwind';
 import Constants from 'expo-constants';
 import { Html5Entities } from 'html-entities';
 // import urischeme from 'urischeme';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Text, { translator } from 'text';
 
 import LinearBackground from '../../components/UI/LinearBackground/LinearBackground';
@@ -62,24 +61,16 @@ class Signin extends Component {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             this.props.onAuthReset();
         });
-        AsyncStorage.getItem(Constants.manifest.extra.REDIRECT_URI).then(url => {
-            if (url) {
-                let redirectUri = JSON.parse(url);
-                this.props.navigation.push('ResetPassword', redirectUri.params);
-                AsyncStorage.removeItem(Constants.manifest.extra.REDIRECT_URI);
-            }
-        });
+        if (this.props.resetPassword) {
+            this.props.navigation.push('ResetPassword', this.props.resetPassword?.params);
+        }
         Dimensions.addEventListener('change', this.updateStyle)
     }
 
     componentDidUpdate() {
-        AsyncStorage.getItem(Constants.manifest.extra.REDIRECT_URI).then(url => {
-            if (url) {
-                let redirectUri = JSON.parse(url);
-                this.props.navigation.push('ResetPassword', redirectUri.params);
-                AsyncStorage.removeItem(Constants.manifest.extra.REDIRECT_URI);
-            }
-        })
+        if (this.props.resetPassword) {
+            this.props.navigation.push('ResetPassword', this.props.resetPassword?.params);
+        }
     }
 
     componentWillUnmount() {
@@ -343,7 +334,8 @@ const mapStateToProps = state => {
     return {
         submitError: state.authForm.signinSubmitError,
         submitted: state.authForm.signinSubmitted,
-        start: state.authForm.signinStart
+        start: state.authForm.signinStart,
+        resetPassword: state.authForm.resetPassword
     };
 };
 

@@ -56,3 +56,15 @@ export const authFormReset = () => {
     };
 };
 
+export const resetPasswordStart = (cnt) => {
+    return {
+        type: actionTypes.RESET_PASSWORD_START,
+        cnt
+    };
+};
+
+export const resetPasswordClose = () => {
+    return {
+        type: actionTypes.RESET_PASSWORD_CLOSE
+    };
+};

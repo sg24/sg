@@ -18,7 +18,9 @@ export {
     submitAuthFormFail,
     submitAuthFormStart,
     authFormSubmitted,
-    authFormReset
+    authFormReset,
+    resetPasswordStart,
+    resetPasswordClose
 } from './authForm';
 
 export {

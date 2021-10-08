@@ -13,7 +13,8 @@ const initialState = {
     signinStart: false,
     signupStart: false,
     resetStart: false,
-    resetpassStart: false
+    resetpassStart: false,
+    resetPassword: null
 };
 
 const authFormReset = (state, action) => {
@@ -59,6 +60,14 @@ const authformSubmitted = (state, action) => {
     }
 };
 
+const resetPasswordStart = (state, action) => {
+    return updateObject(state, {resetPassword: action.cnt})
+};
+
+const resetPasswordClose = (state, action) => {
+    return updateObject(state, {resetPassword: null})
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SUBMIT_AUTHFORM_START:
@@ -69,6 +78,10 @@ const reducer = (state = initialState, action) => {
             return authformSubmitted(state, action);
         case actionTypes.AUTHFORM_RESET:
             return authFormReset(state, action);
+        case actionTypes.RESET_PASSWORD_START:
+            return resetPasswordStart(state, action);
+        case actionTypes.RESET_PASSWORD_CLOSE:
+            return resetPasswordClose(state, action);
         default: return state
     };
 };

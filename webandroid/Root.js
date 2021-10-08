@@ -250,8 +250,7 @@ class Base extends Component {
         if (uri) {
           let { path, queryParams } = Linking.parse(uri);
           if (queryParams && queryParams.token) {
-             alert(JSON.stringify({path, queryParams}))
-            AsyncStorage.setItem(Constants.manifest.extra.REDIRECT_URI, JSON.stringify({uri: path, params: queryParams}))
+            this.props.onResetPassword({uri: path, params: queryParams})
           }
         }
       })
@@ -364,8 +363,7 @@ class Base extends Component {
   _onReceiveURL = ({url}) => {
     let { path, queryParams } = Linking.parse(url);
     if (queryParams && queryParams.token) {
-      alert(JSON.stringify({path, queryParams}))
-      AsyncStorage.setItem(Constants.manifest.extra.REDIRECT_URI, JSON.stringify({uri: path, params: queryParams}))
+      this.props.onResetPassword({uri: path, params: queryParams})
     }
   }
 
@@ -708,7 +706,8 @@ const mapDispatchToProps = dispatch => {
       onHeaderFilter: (filterCnt) => dispatch(actions.headerFilterInit(filterCnt)),
       onPushNotification: (limit, settings, token, platform, stateHistory) => dispatch(actions.headerPushNotificationInit(limit, settings, token, platform, stateHistory)),
       onNavigationPage: (page, cnt) => dispatch(actions.headerNotificationPage(page, cnt)),
-      onProfileInfo: () => dispatch(actions.profileInfoInit())
+      onProfileInfo: () => dispatch(actions.profileInfoInit()),
+      onResetPassword: (cnt) => dispatch(actions.resetPasswordStart(cnt)),
   };
 };
 
