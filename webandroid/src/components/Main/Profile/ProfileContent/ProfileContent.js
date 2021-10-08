@@ -10,40 +10,9 @@ import Button from '../../../UI/Button/Button';
 import BoxShadow from '../../../UI/BoxShadow/BoxShadow';
 import FormElement from '../../../UI/FormElement/FormElement';
 import TouchableNativeFeedback from '../../../UI/TouchableNativeFeedback/TouchableNativeFeedback';
-import TabView from '../../../UI/TabView/TabView';
 import ChangeProfile from './ChangeProfile/ChangeProfile';
-import Post from '../../../../screens/ByAuthor/Post';
-import Question from '../../../../screens/ByAuthor/Question';
-import Feed from '../../../../screens/ByAuthor/Feed';
-import WriteUp from '../../../../screens/ByAuthor/WriteUp';
-import CBT from '../../../../screens/ByAuthor/CBT';
-import Group from '../../../../screens/ByAuthor/Group'
-import Advert from '../../../../screens/ByAuthor/Advert';
-import Users from '../../../../screens/ByAuthor/Users';
 
 const profileContent = props => {
-    let renderScene = screenProps => {
-        switch (screenProps.route.key) {
-            case 'friend':
-                return <Users {...screenProps} profileID={props.userID} focus={(props.index === 0) && props.showTab}/>;
-            case 'post':
-                return <Post {...screenProps} profileID={props.userID} focus={(props.index === 1) && props.showTab}/>;
-            case 'feed':
-                return <Feed {...screenProps} profileID={props.userID} focus={(props.index === 2) && props.showTab}/>;
-            case 'group':
-                return <Group {...screenProps} profileID={props.userID} focus={(props.index === 3) && props.showTab}/>;
-            case 'CBT':
-                return <CBT {...screenProps} profileID={props.userID} focus={(props.index === 4) && props.showTab}/>;
-            case 'question':
-                return <Question {...screenProps} profileID={props.userID} focus={(props.index === 5) && props.showTab}/>;
-            case 'writeUp':
-                return <WriteUp {...screenProps} profileID={props.userID} focus={(props.index === 6) && props.showTab}/>;
-            case 'advert':
-                return <Advert {...screenProps} profileID={props.userID} focus={(props.index === 7) && props.showTab}/>;
-            default:
-                return null;
-        }
-    }
     let userImg = <Icon name="person" size={60} color="#777"/>
     let myAccount = props.profileID === props.userID
     if (props.cnt.image) {
@@ -227,13 +196,6 @@ const profileContent = props => {
                             </Button>
                         </View> : null }
                     </View>
-                    <TabView
-                        navigationState={{ index: props.index, routes: props.routes }}
-                        renderScene={renderScene}
-                        onIndexChange={props.setIndex}
-                        initialLayout={{ width: props.layoutWidth }}
-                        lazy
-                    />
                 </ScrollView>
             </View>
             { updateProfile }
@@ -245,7 +207,7 @@ const styles = StyleSheet.create({
     wrapper: {
         width: '100%',
         backgroundColor: '#fff',
-        flex: 1,
+        // flex: 1,
         paddingVertical: 10
     },
     userDet: {

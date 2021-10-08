@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ActivityIndicator, TouchableOpacity, Dimensions , Platform} from 'react-native';
+import { View, StyleSheet, ActivityIndicator, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import Ionicons from 'ionicons';
 import { size } from 'tailwind';
@@ -16,6 +16,15 @@ import CreateNavigation from '../../components/UI/SideBar/CreateNavigation/Creat
 import ActionSheet from '../../components/UI/ActionSheet/ActionSheet';
 import CameraComponent from '../../components/UI/Camera/Camera';
 import ErrorInfo from '../../components/UI/ErrorInfo/ErrorInfo';
+import TabView from '../../components/UI/TabView/TabView';
+import Post from '../../screens/ByAuthor/Post';
+import Question from '../../screens/ByAuthor/Question';
+import Feed from '../../screens/ByAuthor/Feed';
+import WriteUp from '../../screens/ByAuthor/WriteUp';
+import CBT from '../../screens/ByAuthor/CBT';
+import Group from '../../screens/ByAuthor/Group'
+import Advert from '../../screens/ByAuthor/Advert';
+import Users from '../../screens/ByAuthor/Users';
 
 class Profile extends Component {
     constructor(props) {
@@ -262,6 +271,29 @@ class Profile extends Component {
            </View>
         )
 
+        let renderScene = screenProps => {
+            switch (screenProps.route.key) {
+                case 'friend':
+                    return <Users {...screenProps} profileID={this.props.userID} focus={(this.state.index === 0) && this.state.showTab}/>;
+                case 'post':
+                    return <Post {...screenProps} profileID={this.props.userID} focus={(this.state.index === 1) && this.state.showTab}/>;
+                case 'feed':
+                    return <Feed {...screenProps} profileID={this.props.userID} focus={(this.state.index === 2) && this.state.showTab}/>;
+                case 'group':
+                    return <Group {...screenProps} profileID={this.props.userID} focus={(this.state.index === 3) && this.state.showTab}/>;
+                case 'CBT':
+                    return <CBT {...screenProps} profileID={this.props.userID} focus={(this.state.index === 4) && this.state.showTab}/>;
+                case 'question':
+                    return <Question {...screenProps} profileID={this.props.userID} focus={(this.state.index === 5) && this.state.showTab}/>;
+                case 'writeUp':
+                    return <WriteUp {...screenProps} profileID={this.props.userID} focus={(this.state.index === 6) && this.state.showTab}/>;
+                case 'advert':
+                    return <Advert {...screenProps} profileID={this.props.userID} focus={(this.state.index === 7) && this.state.showTab}/>;
+                default:
+                    return null;
+            }
+        }
+
        
         if (!this.props.profileErr && this.props.profile){
             let profile = this.props.changeProfileStart;
@@ -311,6 +343,15 @@ class Profile extends Component {
                         routes={this.state.routes}
                         layoutWidth={this.state.layoutWidth}
                         onTabPress={this.tabPressHandler}/>
+                    <TabView
+                        navigationState={{ index: this.state.index, routes: this.state.routes }}
+                        renderScene={renderScene}
+                        onIndexChange={this.setIndexHandler}
+                        initialLayout={{ width: this.state.layoutWidth}}
+                        lazy
+                        style={{height: this.state.layoutHeight}}
+                    />
+
                     { this.props.changeProfileErr ? 
                     <NotificationModal
                         info="Network Error"
