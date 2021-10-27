@@ -19,7 +19,8 @@ const nodemailer = require("nodemailer");
 const {post, question, writeup, group, qchat, user,  advert, feed} = require('../serverDB/serverDB');
 
 router.get('/',function (req, res, next) {
-    res.redirect(301,'/index/aroundme');
+    res.render('index');
+    // res.redirect(301,'/index/aroundme');
     // if ((req.useragent && req.useragent.isBot) ||
     // req.useragent.source === 'facebookexternalhit/1.1' ||
     // req.useragent.source === 'Facebot' ||

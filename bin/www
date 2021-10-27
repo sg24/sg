@@ -113,7 +113,7 @@ app.set('port', port);
   app.use('/redirect', redirectRoute);
   app.use('/sitemap.xml', sitemapxmlRoute);
   app.use(function (req, res, next) {
-      return res.redirect('/index/user');
+      return res.redirect('/');
   });
   
   app.all('*', (req, res) => {
