@@ -1,34 +1,26 @@
 import React from 'react';
-import moment from 'moment';
 
 import ChatItemBox from './CommentItemBox/CommentItemBox';
 
 const commentItem = props => {
     // let direction = startDirection('left', props.cnt);
-    let startDate = moment().startOf('date');
-    let endDate;
-    // function startDirection(direction, chat) {
-    //     let check = 1;
-    //     for (let _ of chat) {
-    //         let cnt  = chat[chat.length - check];
-    //         ++check;
-    //         direction = (cnt.authorID !== (chat[chat.length-check] ? chat[chat.length-check].authorID : null)) ? 
-    //             direction === 'right' ? direction = 'left' : direction = 'right' :
-    //             direction
-    //     }
-    //     return direction
-    // }
+    let startDate = new Date();
+    startDate.setHours(0,0,0,0);
+    let endDate = startDate;
+
     function checkDate(created) {
-        if (new Date(startDate).getTime() > new Date(created).getTime()) {
-            let day = new Date(startDate).getDate() - new Date(created).getDate();
-            endDate =  new Date(new Date(startDate).getTime() - (day * 3600 * 24 * 1000 - (3600 * 24 * 1000)));
-            startDate = new Date(new Date(startDate).getTime() - (day * 3600 * 24 * 1000));
+        let createdStartDate = new Date(created);
+        createdStartDate.setHours(0,0,0,0);
+        if (startDate.getTime() > createdStartDate.getTime()) {
+            endDate = new Date(created);
+            endDate.setHours(23,59,59,999);
+            startDate = createdStartDate;
             return true;
         }
 
-        if (new Date(endDate).getTime() < new Date(created).getTime()) {
-            let day =  new Date(created).getDate() - new Date(endDate).getDate();
-            endDate = new Date(new Date(endDate).getTime() + (day * 3600 * 24 * 1000 + (3600 * 24 * 1000)));
+        if (endDate.getTime() < new Date(created).getTime()) {
+            endDate = new Date(created);
+            endDate.setHours(23,59,59,999);
             return true;
         }
         return false;
