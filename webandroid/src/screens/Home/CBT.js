@@ -278,15 +278,15 @@ class CBT extends Component {
         let wrapperProps = pageBackground ? {source: {uri: this.props.settings.page.backgroundImage}, resizeMode: 'cover'} :{}
 
         let header = (
-            this.state.viewMode === 'landscape' ? ( <DefaultHeader
-                onPress={this.props.navigation.goBack}
+            <DefaultHeader 
+                onPress={() => this.props.navigation.goBack()}
                 title="CBT"
                 rightSideContent={(
                     <Button style={styles.optionIcon} onPress={this.checkOptionHandler}>
                         <Ionicons name="ellipsis-vertical-outline" size={20} />
                     </Button>
-                )}/>
-            ) : null
+                )}
+            />
         );
 
         if (this.state.showSearch) {

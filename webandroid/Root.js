@@ -114,7 +114,7 @@ const userScreens = {
   Favorite: FavoriteTopTab,
   UsersWeb: UsersScreen, 
   Question: QuestionScreen,
-  Feed: FeedScreen,
+  FeedWeb: FeedScreen,
   WriteUp: WriteUpScreen,
   CommentBox: CommentBoxScreen,
   ChatBox: ChatBoxScreen,
@@ -123,7 +123,7 @@ const userScreens = {
   PagePreview: PagePreviewScreen,
   SharePicker: SharePickerScreen,
   SelectPicker: SelectPickerScreen,
-  CBTWeb: CBTScreen,
+  CBT: CBTScreen,
   GroupWeb: GroupScreen,
   GroupPreview: GroupPreviewScreen,
   ExamInstruction: ExamInstructionScreen,
@@ -508,7 +508,7 @@ class Base extends Component {
               ...(this.props.isLoggedIn ? userScreens : authScreens),
             }).map(([name, component]) => {
               let header = {}
-              if (name === 'Home' || name === 'HomeWeb' || name === 'UsersWeb' || name === 'CBTWeb' || name === 'GroupWeb') {
+              if (name === 'Home' || name === 'HomeWeb' || name === 'UsersWeb' || name === 'FeedWeb' || name === 'GroupWeb') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : HomeHeader
                 header = {
                   header: ({scene, previous, navigation }) => <HeaderBar
@@ -525,7 +525,7 @@ class Base extends Component {
                 component = this.state.viewMode === 'landscape'  ?
                   name === 'HomeWeb' ? PostScreen :
                   name === 'UsersWeb' ? UsersScreen : 
-                  name === 'CBTWeb' ? CBTScreen:
+                  name === 'FeedWeb' ? FeedScreen:
                   name === 'GroupWeb' ? GroupScreen:
                   PostScreen: component;
               }
@@ -592,7 +592,7 @@ class Base extends Component {
                 }
               }
 
-              if (name === 'Question' || name === 'Feed' || name === 'WriteUp' || name === 'GroupPreview' || name === 'CommentBox'
+              if (name === 'Question' || name === 'CBT' || name === 'WriteUp' || name === 'GroupPreview' || name === 'CommentBox'
                 || name === 'Exam' || name === 'MarkExam' || name === 'RoomInfo' || name === 'Search' || name === 'QuestionSolution' || name === 'ChatBox'
                 || name === 'MediaPreview' || name === 'PagePreview' || name === 'SharePicker' || name === 'SelectPicker' || name === 'HashSearch') {
                 let HeaderBar = this.state.viewMode === 'landscape' ? HomeHeaderWeb : DefaultHeader

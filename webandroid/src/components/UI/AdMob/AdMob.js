@@ -12,13 +12,13 @@ class AdMob extends Component {
     }
 
     async componentDidMount() {
-        let isAvailable = await isAvailableAsync();
-        if (isAvailable && Platform.OS === 'ios') {
+        // let isAvailable = await isAvailableAsync();
+        // if (isAvailable && Platform.OS === 'ios') {
             // let { status } = await getPermissionsAsync();
             // if (status !== 'granted') {
             //     await requestPermissionsAsync()
             // }
-        }
+        // }
     }
 
     adReceivedHandler = () => {
@@ -27,26 +27,26 @@ class AdMob extends Component {
 
     render() {
         let cnt = null;
-        if (Platform.OS !== 'web') {
-            cnt = (
-                <View style={!this.state.fetched ? styles.container : [styles.container, {height: 'auto'}]}>
-                    {!this.state.fetched ? (
-                            <View style={{position: 'absolute', top: 120}}>
-                                <ActivityIndicator 
-                                    size="large"
-                                    animating
-                                    color="#437da3"/>
-                            </View>
-                        ):  null}
-                    <AdMobBanner
-                        bannerSize="mediumRectangle"
-                        adUnitID="ca-app-pub-3611317424444370/7555759807"
-                        servePersonalizedAds
-                        onAdViewDidReceiveAd={this.adReceivedHandler} />
+        // if (Platform.OS !== 'web') {
+        //     cnt = (
+        //         <View style={!this.state.fetched ? styles.container : [styles.container, {height: 'auto'}]}>
+        //             {!this.state.fetched ? (
+        //                     <View style={{position: 'absolute', top: 120}}>
+        //                         <ActivityIndicator 
+        //                             size="large"
+        //                             animating
+        //                             color="#437da3"/>
+        //                     </View>
+        //                 ):  null}
+        //             <AdMobBanner
+        //                 bannerSize="mediumRectangle"
+        //                 adUnitID="ca-app-pub-3611317424444370/7555759807"
+        //                 servePersonalizedAds
+        //                 onAdViewDidReceiveAd={this.adReceivedHandler} />
                         
-                </View>
-            );
-        }
+        //         </View>
+        //     );
+        // }
         return cnt;
     }
 }

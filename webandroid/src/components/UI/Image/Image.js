@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { View, TouchableWithoutFeedback , Pressable, StyleSheet , Platform, Image as WebImage} from 'react-native';
 import Constants from 'expo-constants';
-import Ionicons from 'ionicons';
-import * as FileSystem from 'expo-file-system';
+// import Ionicons from 'ionicons';
+// import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import FileIcon from 'file-icons';
 import Text, { translator } from 'text';
 import axios from 'axios';
 import Image from 'expo-cached-image';
-import { v4 as uuid } from 'uuid';
+// import { v4 as uuid } from 'uuid';
 
 import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeFeedback';
 import VideoThumbnail from '../VideoThumbnail/VideoThumbnail';
@@ -27,20 +27,20 @@ class  CheckMedia extends Component {
 
     componentDidMount() {
         if (this.state.id && this.state.bucket) {
-            const fileDir = FileSystem.documentDirectory + 'Slodge24/' + `${this.state.bucket}/`;
-            const fileUri = this.state.uri;
-            FileSystem.getInfoAsync(fileDir).then(dirInfo => {
-                if (!dirInfo.exists) {
-                    (async () => await FileSystem.makeDirectoryAsync(fileDir, { intermediates: true }))();
-                }
-                FileSystem.createDownloadResumable(fileUri, fileDir + `${this.state.id}.${this.state.ext}`).downloadAsync().then(({ uri }) => {
-                    this.saveFileAsync(uri);
-                }).catch(error => {
-                    this.setState({downloadErr: true});
-                });
-            }).catch((err) => {
-                this.setState({allowImage: false})
-            });
+            // const fileDir = FileSystem.documentDirectory + 'Slodge24/' + `${this.state.bucket}/`;
+            // const fileUri = this.state.uri;
+            // FileSystem.getInfoAsync(fileDir).then(dirInfo => {
+            //     if (!dirInfo.exists) {
+            //         (async () => await FileSystem.makeDirectoryAsync(fileDir, { intermediates: true }))();
+            //     }
+            //     FileSystem.createDownloadResumable(fileUri, fileDir + `${this.state.id}.${this.state.ext}`).downloadAsync().then(({ uri }) => {
+            //         this.saveFileAsync(uri);
+            //     }).catch(error => {
+            //         this.setState({downloadErr: true});
+            //     });
+            // }).catch((err) => {
+            //     this.setState({allowImage: false})
+            // });
         }
 
     }
@@ -91,7 +91,7 @@ class  CheckMedia extends Component {
                         <View style={[styles.wrapper, this.props.style]}>
                             <ImageWrapper source={{uri: media.uri ? media.uri : `${Constants.manifest.extra.BASE_URL}media/${media.bucket}/${media.id}`}}  
                                 resizeMode={this.props.resizeMode ? this.props.resizeMode: "contain"} style={styles.mediaWrapper}
-                                cacheKey={`${uuid()}-thumb`}/>
+                                cacheKey={`${media.id}-thumb`}/>
                         </View>
                         { this.props.children }
                     </View>
@@ -123,9 +123,9 @@ class  CheckMedia extends Component {
                         <Text style={styles.fileName}>{media.filename}</Text>
                         { this.props.disablePreview ? null : (
                             <View style={[styles.optionWrapper, styles.option]}>
-                                <TouchableNativeFeedback onPress={this.state.fileDownloaded || this.state.downloadStart ? null : this.saveHandler}>
+                                {/* <TouchableNativeFeedback onPress={this.state.downloadStart ? null : this.saveHandler}>
                                     <Ionicons name="download-outline" size={20} color={this.state.fileDownloaded ? '#437da3' : this.state.downloadStart ? '#777' : '#333'}/>
-                                </TouchableNativeFeedback>
+                                </TouchableNativeFeedback> */}
                             </View>
                         )}
                     </View>

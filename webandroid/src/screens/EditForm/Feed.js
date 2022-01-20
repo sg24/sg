@@ -440,7 +440,7 @@ class Feed extends Component {
                             info="Feed updated successfully"
                             infoIcon={{name: 'cloud-upload-outline', color: '#16cf27', size: 40}}
                             closeModal={this.resetFormHandler}
-                            button={[{title: 'View', onPress: () => this.navigationHandler('Feed')},
+                            button={[{title: 'View', onPress: () => this.navigationHandler('FeedWeb')},
                             {title: 'Edit', onPress: this.resetFormHandler, style: styles.modalButton}]}/> : null}
                 </View>
             )

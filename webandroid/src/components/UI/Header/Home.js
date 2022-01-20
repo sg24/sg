@@ -13,7 +13,7 @@ import TouchableNativeFeedback from '../TouchableNativeFeedback/TouchableNativeF
 class Home extends Component  {
     state = {
         showModal: false,
-        navLink: [{title: 'Question', iconName: 'bulb-outline', uri: 'Question', showNotify: true},{title: 'Feed', iconName: 'newspaper-outline', uri: 'Feed', showNotify: true},
+        navLink: [{title: 'Question', iconName: 'bulb-outline', uri: 'Question', showNotify: true},{title: 'CBT', iconName: 'timer-outline', uri: 'CBT', showNotify: true},
         {title: 'Write Up', iconName: 'reader-outline', uri: 'WriteUp', showNotify: true}, {title: 'App Error', iconName: 'bug-outline', uri: 'AddAppError'},
         {title: 'Settings', iconName: 'settings-outline', uri: 'GeneralSettings'}, {title: 'Logout', iconName: 'log-out-outline', uri: 'Logout'}],
         notification: {},
@@ -39,9 +39,10 @@ class Home extends Component  {
                     } else {
                         totalNotification = totalNotification + notification[cnt].filter(cntItem => !cntItem.expiresIn).length;
                     }
-                    if (cnt === 'writeup' || cnt === 'question' || cnt === 'feed') {
+                    let cbtPage = ['qchat', 'qchatRequest', 'qchatResult', 'qchatAccept', 'qchatReject', 'qchatMark', 'qchatShare'];
+                    if (cnt === 'writeup' || cnt === 'question' || cbtPage.filter(cntItem => cntItem == cnt)[0]) {
                         optionNotification = optionNotification + notification[cnt].filter(cntItem => !cntItem.expiresIn).length;
-                    }  
+                    }
                 }
             }
             this.setState({notification, userChat, totalNotification, optionNotification});

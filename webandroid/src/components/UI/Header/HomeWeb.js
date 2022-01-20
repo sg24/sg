@@ -31,14 +31,14 @@ class Home extends Component  {
             backgroundColor: '#fff',
             color: '#333',
             modalType: null,
-            navLink: [{title: 'post', iconName: 'home-outline', uri: 'HomeWeb'},{title: 'Users', iconName: 'people-outline', uri: 'UsersWeb'},
-                {title: 'group', iconName: 'chatbubble-ellipses-outline', uri: 'GroupWeb'}, {title: 'cbt', iconName: 'timer-outline', uri: 'CBTWeb'}],
+            navLink: [{title: 'post', iconName: 'home-outline', uri: 'HomeWeb'}, {title: 'Feed', iconName: 'newspaper-outline', uri: 'FeedWeb'},
+                {title: 'Users', iconName: 'people-outline', uri: 'UsersWeb'},{title: 'group', iconName: 'chatbubble-ellipses-outline', uri: 'GroupWeb'}],
             notification: {},
             userChat: 0,
             userNotification: 0,
             totalNotification: 0,
             groupNotification: 0,
-            cbtNotification: 0
+            feedNotification: 0
         }
     }
 
@@ -49,7 +49,7 @@ class Home extends Component  {
             let totalNotification = 0;
             let userNotification = 0;
             let groupNotification = 0;
-            let cbtNotification = 0;
+            let feedNotification = 0;
             for (let cnt in notification) {
                 if (Array.isArray(notification[cnt])) {
                     if (cnt === 'userChat') {
@@ -64,14 +64,13 @@ class Home extends Component  {
                     if (groupPage.filter(page => page === cnt)[0]) {
                         groupNotification = groupNotification + this.props.notification[cnt].filter(cntItem => !cntItem.expiresIn).length
                     }
-                    let cbtPage = ['qchat', 'qchatRequest', 'qchatResult', 'qchatAccept', 'qchatReject', 'qchatMark', 'qchatShare'];
-                    if (cbtPage.filter(page => page === cnt)[0]) {
-                        cbtNotification = cbtNotification + this.props.notification[cnt].filter(cntItem => !cntItem.expiresIn).length
+                    if (cnt === 'feed') {
+                        feedNotification = feedNotification + this.props.notification[cnt].filter(cntItem => !cntItem.expiresIn).length
                     }
                     totalNotification = totalNotification + notification[cnt].filter(cntItem => !cntItem.expiresIn).length;
                 }
             }
-            this.setState({notification, userChat, totalNotification, userNotification, groupNotification, cbtNotification});
+            this.setState({notification, userChat, totalNotification, userNotification, groupNotification, feedNotification});
         }
     }
 
@@ -175,7 +174,7 @@ class Home extends Component  {
                                                 onPress={() => this.navigationHandler(cnt.uri)}
                                                 notification={cnt.uri === 'UsersWeb' ? this.state.userNotification : 
                                                     cnt.uri === 'GroupWeb' ? this.state.groupNotification : 
-                                                    cnt.uri === 'CBTWeb' ? this.state.cbtNotification :
+                                                    cnt.uri === 'FeedWeb' ? this.state.feedNotification :
                                                     this.state.notification[cnt.title] ? this.state.notification[cnt.title].filter(cntItem => !cntItem.expiresIn).length : 0}
                                                 style={styles.tabBarge}
                                                 textStyle={styles.tabBargeText}

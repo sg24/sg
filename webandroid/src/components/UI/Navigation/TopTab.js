@@ -6,10 +6,9 @@ import { connect } from 'react-redux';
 import Text from 'text';
 
 import HomeScreen from '../../../screens/Home/Post';
+import FeedScreen from '../../../screens/Home/Feed';
 import UserScreen from '../../../screens/Home/Users';
 import GroupScreen from '../../../screens/Home/Group';
-import CBTScreen from '../../../screens/Home/CBT';
-import QuestionScreen from '../../../screens/Home/Question';
 import TabBarge from '../TabBarge/TabBarge';
 import SplashScreen from '../../../screens/SplashScreen/SplashScreen';
 
@@ -41,23 +40,23 @@ const topTab = props => (
                 tabBarIcon: ({ color }) => {
                     let name = route.name;
                     if (route.name === 'Home') {
-                        name = 'home';
+                        name = 'home-outline';
                     }
                     if (route.name === 'User') {
-                        name = 'people'
+                        name = 'people-outline'
                     }
                     if (route.name === 'Group') {
-                        name = 'chatbubble-ellipses'
+                        name = 'chatbubble-ellipses-outline'
                     }
-                    if (route.name === 'CBT') {
-                        name = 'timer'
+                    if (route.name === 'Feed') {
+                        name = 'newspaper-outline'
                     }
                     return <Icon name={name} color={color} size={20}/>
                 },
                 tabBarLabel: ({color}) => {
                     let userChat = 0;
                     let groupNotification = 0;
-                    let cbtNotification = 0;
+                    let feedNotification = 0;
                     if (props.notification) {
                         for (let cnt of props.notification['userChat']) {
                             if (!cnt.expiresIn) {
@@ -69,10 +68,7 @@ const topTab = props => (
                         for (let page of groupPage) {
                             groupNotification = groupNotification + props.notification[page].filter(cntItem => !cntItem.expiresIn).length
                         }
-                        let cbtPage = ['qchat', 'qchatRequest', 'qchatResult', 'qchatAccept', 'qchatReject', 'qchatMark', 'qchatShare'];
-                        for (let page of cbtPage) {
-                            cbtNotification = cbtNotification + props.notification[page].filter(cntItem => !cntItem.expiresIn).length
-                        }
+                        feedNotification = feedNotification + props.notification['feed'].filter(cntItem => !cntItem.expiresIn).length
                     }
                     return (
                         <View>
@@ -82,7 +78,7 @@ const topTab = props => (
                                 notification={
                                     route.name === 'User' ?  userChat :
                                     route.name === 'Group' ? groupNotification :
-                                    route.name === 'CBT' ? cbtNotification :
+                                    route.name === 'Feed' ? feedNotification :
                                     route.name === 'Home' ?  props.notification && props.notification['post'] ? props.notification['post'].filter(cntItem => !cntItem.expiresIn).length : 0: 0}
                                 disableZero/>
                         </View>
@@ -93,9 +89,9 @@ const topTab = props => (
             }
         }}>
         <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Feed" component={FeedScreen} />
         <Tab.Screen name="User" component={UserScreen} />
         <Tab.Screen name="Group" component={GroupScreen} />
-        <Tab.Screen name="CBT" component={CBTScreen} />
     </Tab.Navigator>
 )
 

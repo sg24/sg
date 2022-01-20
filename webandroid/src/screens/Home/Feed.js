@@ -239,15 +239,15 @@ class Feed extends Component {
         let wrapperProps = pageBackground ? {source: {uri: this.props.settings.page.backgroundImage}, resizeMode: 'cover'} :{}
 
         let header = (
-                <DefaultHeader 
-                    onPress={() => this.props.navigation.goBack()}
-                    title="Feed"
-                    rightSideContent={(
-                        <Button style={styles.optionIcon} onPress={this.checkOptionHandler}>
-                            <Ionicons name="ellipsis-vertical-outline" size={20} />
-                        </Button>
-                    )}
-                />
+            this.state.viewMode === 'landscape' ? ( <DefaultHeader
+                onPress={this.props.navigation.goBack}
+                title="Feed"
+                rightSideContent={(
+                    <Button style={styles.optionIcon} onPress={this.checkOptionHandler}>
+                        <Ionicons name="ellipsis-vertical-outline" size={20} />
+                    </Button>
+                )}/>
+            ) : null
         );
 
         if (this.state.showSearch) {

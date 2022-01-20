@@ -460,7 +460,7 @@ class Post extends Component {
                                 <Href title=","  style={{paddingHorizontal: 5}}/>
                                 <Href title="create Post" onPress={() => this.navigationHandler('AddPost')} style={styles.href}/></View>
                                 <Href title="OR" style={{textAlign: 'center', width: '100%'}}/>    
-                                <Href title="check feed page for public post" onPress={() => this.navigationHandler('Feed')} style={styles.href}/>
+                                <Href title="check feed page for public post" onPress={() => this.navigationHandler('FeedWeb')} style={styles.href}/>
                             </View>
                         </View>
                     </InfoBox>
