@@ -16,7 +16,7 @@ const advertItem = props => (
         <BoxShadow style={styles.wrapper}>
         { props.cnt.enableComment ? 
                 <Button style={styles.chatBox} onPress={props.advertChatbox}> 
-                    <Ionicons name="chatbox-ellipses-outline" size={20} />
+                    <Ionicons name="chatbox-ellipses-outline" size={16} />
                 </Button>: null}
              <Uridetect
                 numberOfLines={1}
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: 30,
         height: 30,
-        borderRadius: 20
+        borderRadius: 15
     }
 });
 
