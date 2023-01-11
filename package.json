@@ -25,7 +25,7 @@
     "imagemin-jpegtran": "^7.0.0",
     "imagemin-pngquant": "^9.0.2",
     "items-promise": "^1.0.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mailgun-js": "^0.22.0",
     "mongoose": "^5.6.10",
     "nodemailer": "^6.6.5",
